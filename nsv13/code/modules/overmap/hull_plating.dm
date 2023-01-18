@@ -161,6 +161,9 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 
 /obj/structure/overmap/slowprocess()
 	. = ..()
+	if(locked_gas_cloud)
+		if(overmap_dist(src, locked_gas_cloud) > GAS_HARVESTING_RANGE)
+			drop_cloud_lock(locked_gas_cloud)
 	if(istype(src, /obj/structure/overmap/asteroid)) //Shouldn't be repairing over time
 		return
 	if(mass > MASS_TINY) //Prevents fighters regenerating

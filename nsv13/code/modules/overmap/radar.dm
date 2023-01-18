@@ -264,9 +264,16 @@ Called by add_sensor_profile_penalty if remove_in is used.
 				return
 			zoom_factor = clamp(params["zoom"] / 100, zoom_factor_min, zoom_factor_max)
 		if("hail")
-			var/obj/structure/overmap/target = locate(params["target"])
-			if(!target) //Anomalies don't count.
+			var/ambiguous_target = locate(params["target"]) //MINER-WIP: When lockon PR is merged, replace this with a targetting-mode interaction.
+			if(istype(ambiguous_target, /obj/effect/overmap_anomaly/gas_cloud))
+				if(usr != linked.pilot)
+					to_chat(usr, "<span class='warning'>Only pilots of a ship can engage or disengage gas harvesting locks.</span>")
+					return
+				linked.toggle_cloud_lock(ambiguous_target, src)
 				return
+			if(!isovermap(ambiguous_target))
+				return
+			var/obj/structure/overmap/target = ambiguous_target
 			if(world.time < next_hail)
 				return
 			if(target == linked)
@@ -278,6 +285,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 					target.try_deliver( usr, console )
 				else
 					target.try_hail(usr, linked)
+			return
 		if("radar_pulse")
 			send_radar_pulse()
 		if("sensor_mode")
@@ -346,7 +354,10 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	var/ship_count = 0
 	for(var/obj/effect/overmap_anomaly/OA in linked?.current_system?.system_contents)
 		if(OA && istype(OA) && OA.z == linked?.z)
-			blips.Add(list(list("x" = OA.x, "y" = OA.y, "colour" = "#eb9534", "name" = "[(OA.scanned) ? OA.name : "anomaly"]", opacity=showAnomalies*0.01, alignment = "uncharted")))
+			var/anomaly_color = "#eb9534"
+			if(linked && istype(OA, /obj/effect/overmap_anomaly/gas_cloud) && linked.locked_gas_cloud == OA)
+				anomaly_color = "#1882b3"
+			blips.Add(list(list("x" = OA.x, "y" = OA.y, "colour" = anomaly_color, "name" = "[(OA.scanned) ? OA.name : "anomaly"]", opacity=showAnomalies*0.01, alignment = "uncharted")))
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Iterate through overmaps in the world! - Needs to go through global overmaps since it may be on a ship's z level or in hyperspace.
 		var/sensor_visible = (OM != linked && OM.faction != linked.faction) ? ((overmap_dist(linked, OM) > max(sensor_range * 2, OM.sensor_profile)) ? 0 : OM.is_sensor_visible(linked)) : SENSOR_VISIBILITY_FULL //You can always see your own ship, or allied, cloaked ships.
 		if(OM.z == linked.z && sensor_visible >= SENSOR_VISIBILITY_FAINT)

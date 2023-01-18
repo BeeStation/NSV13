@@ -5,3 +5,5 @@
 #define MASS_LARGE 7 //20-40 Players - Medium Capital Ships
 #define MASS_TITAN 150 //40+ Players - Large Capital Ships
 #define MASS_IMMOBILE 200 //Things that should not be moving. See: stations
+
+#define GAS_HARVESTING_RANGE 8

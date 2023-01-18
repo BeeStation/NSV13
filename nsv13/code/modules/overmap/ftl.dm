@@ -95,6 +95,8 @@
 /datum/star_system/proc/remove_ship(obj/structure/overmap/OM, turf/new_location)
 	var/list/other_player_ships = list()
 
+	if(OM.locked_gas_cloud)
+		OM.drop_cloud_lock(OM.locked_gas_cloud)
 	for(var/atom/X in system_contents)
 		if(istype(X, /obj/structure/overmap))
 			var/obj/structure/overmap/ship = X

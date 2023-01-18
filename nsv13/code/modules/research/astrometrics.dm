@@ -77,16 +77,22 @@ Clean override of the navigation computer to provide scan functionality.
 	data["scan_goal"] = scan_goal
 	var/list/resourcing
 	var/list/value_zone = list()
-	var/list/system_resources = selected_system?.gas_resources
+	var/list/gas_clouds = list()
+	for(var/obj/effect/overmap_anomaly/gas_cloud/gas_cloud in selected_system.system_contents)
+		if(QDELETED(gas_cloud) || gas_cloud.decaying)
+			continue
+		gas_clouds += gas_cloud
+	
 	/*
-		system_resources["/datum/gas/oxygen"]
-		system_resources["/datum/gas/nitrogen"]
-		system_resources["/datum/gas/plasma"]
-		system_resources["/datum/gas/carbon_dioxide"]
-		system_resources["/datum/gas/nitrous_oxide"]
+		for each cloud:
+		gas_resources["/datum/gas/oxygen"]
+		gas_resources["/datum/gas/nitrogen"]
+		gas_resources["/datum/gas/plasma"]
+		gas_resources["/datum/gas/carbon_dioxide"]
+		gas_resources["/datum/gas/nitrous_oxide"]
 
 	*/
-	if(!system_resources)
+	if(!gas_clouds)
 		resourcing = list(
 			"Oxygen" = 0,
 			"Nitrogen" = 0,
@@ -96,11 +102,15 @@ Clean override of the navigation computer to provide scan functionality.
 		)
 	else
 		resourcing = list()
-		resourcing["Oxygen"] = system_resources["/datum/gas/oxygen"]
-		resourcing["Nitrogen"] = system_resources["/datum/gas/nitrogen"]
-		resourcing["Plasma"] = system_resources["/datum/gas/plasma"]
-		resourcing["Carbon_Dioxide"] = system_resources["/datum/gas/carbon_dioxide"]
-		resourcing["Nitrous_Oxide"] = system_resources["/datum/gas/nitrous_oxide"]
+		resourcing["Oxygen"] = 0
+		resourcing["Nitrogen"] = 0
+		resourcing["Plasma"] = 0
+		resourcing["Carbon_Dioxide"] = 0
+		resourcing["Nitrous_Oxide"] = 0
+		for(var/obj/effect/overmap_anomaly/gas_cloud/cloud as anything in gas_clouds)
+			var/list/accessed_resources = cloud.gas_resources
+			for(var/x as anything in accessed_resources)
+				resourcing["[x]"] += accessed_resources["[x]"]
 	
 	for(var/gastype in resourcing)
 		var/count = resourcing["[gastype]"]

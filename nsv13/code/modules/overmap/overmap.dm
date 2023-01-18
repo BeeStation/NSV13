@@ -137,6 +137,8 @@
 	var/obj/weapon_overlay/last_fired //Last weapon overlay that fired, so we can rotate guns independently
 	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 
+	var/obj/effect/overmap_anomaly/gas_cloud/locked_gas_cloud
+
 	var/static/ai_resupply_time = 1.5 MINUTES
 	var/ai_resupply_scheduled = FALSE
 	var/torpedoes = 0 //If this starts at above 0, then the ship can use torpedoes when AI controlled
@@ -501,13 +503,21 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(npc_combat_dice)
 		QDEL_NULL(npc_combat_dice)
 
+	//MINER-WIP: Rework this to create new gas clouds!!
 	if(current_system && gas_salvage_rating > 0) //Killing enemy ships allows you to resupply some gas! Alternatively you coould... ah, well, thats for you to find out, eager codediver!
-		var/list/system_gasses = current_system.gas_resources
-		system_gasses["/datum/gas/plasma"] += round((rand(5, 15) / 10) * 100 * gas_salvage_rating)
-		system_gasses["/datum/gas/oxygen"] += round((rand(5, 15) / 10) * 500 * gas_salvage_rating)
-		system_gasses["/datum/gas/nitrogen"] += round((rand(5, 15) / 10) * 500 * gas_salvage_rating)
-		system_gasses["/datum/gas/carbon_dioxide"] += round((rand(5, 15) / 10) * 100 * gas_salvage_rating)
-		system_gasses["/datum/gas/nitrous_oxide"] += round((rand(5, 15) / 10) * 100 * gas_salvage_rating)
+		var/list/new_gasses = list()
+		new_gasses["/datum/gas/plasma"] += round((rand(5, 15) / 10) * 100 * gas_salvage_rating)
+		new_gasses["/datum/gas/oxygen"] += round((rand(5, 15) / 10) * 500 * gas_salvage_rating)
+		new_gasses["/datum/gas/nitrogen"] += round((rand(5, 15) / 10) * 500 * gas_salvage_rating)
+		new_gasses["/datum/gas/carbon_dioxide"] += round((rand(5, 15) / 10) * 100 * gas_salvage_rating)
+		new_gasses["/datum/gas/nitrous_oxide"] += round((rand(5, 15) / 10) * 100 * gas_salvage_rating)
+
+		var/obj/effect/overmap_anomaly/gas_cloud/new_gas_cloud
+		if(z > 0)
+			new_gas_cloud = SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/gas_cloud/shipbreaking, current_system, override_x = x, override_y = y)
+		else
+			new_gas_cloud = SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/gas_cloud/shipbreaking, current_system)
+		new_gas_cloud.add_resources(new_gasses)
 
 	if(deletion_teleports_occupants)
 		var/turf/T = get_turf(src) // Drop them outside if we're parked, forceMove protection will kick in if we're on the overmap

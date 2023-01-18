@@ -267,16 +267,18 @@ Returns a faction datum by its name (case insensitive!)
 	ships[OM]["current_system"] = system
 	return system
 
-/datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE)//Select Ship to Spawn and Location via Z-Trait
+/datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE, override_x, override_y)//Select Ship to Spawn and Location via Z-Trait
 	target_sys.system_contents += OM
 	if(target_sys.occupying_z)
 		var/turf/destination = null
-		if(center)
+		if(override_x && override_y)
+			destination = get_turf(locate(override_x, override_y, target_sys.occupying_z))
+		else if(center)
 			destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), target_sys.occupying_z)) //Plop them bang in the center of the system as requested. This is usually saved for wormholes.
 		else
 			destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), target_sys.occupying_z)) //Spawn them somewhere in the system. I don't really care where.
 		var/obj/structure/overmap/enemy = new OM(destination)
-		target_sys.add_ship(enemy)
+		target_sys.add_ship(enemy, destination)
 	else
 		target_sys.enemy_queue += OM
 
@@ -313,13 +315,14 @@ Returns a faction datum by its name (case insensitive!)
 
 //Specific case for anomalies. They need to be spawned in for research to scan them.
 
-/datum/controller/subsystem/star_system/proc/spawn_anomaly(anomaly_type, datum/star_system/target_sys, center=FALSE)
-	RETURN_TYPE(/obj/structure/overmap)
+/datum/controller/subsystem/star_system/proc/spawn_anomaly(anomaly_type, datum/star_system/target_sys, center=FALSE, override_x, override_y)
 	if(target_sys.occupying_z)
-		spawn_ship(anomaly_type, target_sys, center)
+		spawn_ship(anomaly_type, target_sys, center, override_x, override_y)
 		return
 	var/turf/destination = null
-	if(center)
+	if(override_x && override_y)
+		destination = get_turf(locate(override_x, override_y, 1))
+	else if(center)
 		destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), 1))
 	else
 		destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), 1))
@@ -424,8 +427,8 @@ Returns a faction datum by its name (case insensitive!)
 	var/already_announced_combat = FALSE
 	var/startup_proc = null
 
-	///Gas miners have access X amount of Y gasses in this system (gas_resource[gas_type] = moles)
-	var/list/gas_resources = list()	
+	///The system's "gas cloud", which is where a ship gets to actually access the system's gas supply
+	var/obj/effect/overmap_anomaly/gas_cloud/system/linked_cloud
 	///Set this to true if you already manually setup the gasses for this system and don't want randomgen to null that
 	var/preset_gasses = FALSE	
 	///Inbetween random and preset gasses, systems may have special traits that modify gasses in system.
@@ -539,7 +542,7 @@ Returns a faction datum by its name (case insensitive!)
 /datum/star_system/proc/get_info()
 	var/list/anomalies = list()
 	for(var/obj/effect/overmap_anomaly/OA in system_contents)
-		if(istype(OA))
+		if(istype(OA) && !OA.starmap_hidden)
 			var/list/anomaly_info = list()
 			anomaly_info["name"] = OA.name
 			anomaly_info["desc"] = OA.desc
@@ -556,9 +559,16 @@ Returns a faction datum by its name (case insensitive!)
 	icon_state = "rit-elec-aoe"
 	bound_width = 64
 	bound_height = 64
+	///Research points for scanning this anomaly.
 	var/research_points = 25000 //Glitches in spacetime are *really* interesting okay?
+	///Is this already scanned?
 	var/scanned = FALSE
-	var/specialist_research_type = null //Special techweb node unlocking.
+	///Special techweb node unlocking.
+	var/specialist_research_type = null
+	///Invisible on the starmap anomaly readout?
+	var/starmap_hidden = FALSE
+	///Can this be scanned by probes?
+	var/probe_scannable = TRUE
 
 /obj/effect/overmap_anomaly/Initialize(mapload)
 	. = ..()
@@ -569,7 +579,8 @@ Returns a faction datum by its name (case insensitive!)
 
 /obj/effect/overmap_anomaly/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
-
+	if(!probe_scannable)
+		return
 	if(istype(AM, /obj/item/projectile/bullet/torpedo/probe))
 		SSresearch.science_tech.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, research_points*1.5) //more points for scanning up close.
 		if(specialist_research_type)
@@ -778,7 +789,7 @@ Returns a faction datum by its name (case insensitive!)
 	var/plasma = 0
 	var/carbon_dioxide = 0
 	var/n2o = 0
-
+	var/list/gas_resources = list()
 	//Adds gas depending on system flags present. Hi Yandev, because most of these can be true at once in theory.
 	if(CHECK_BITFIELD(resource_flags, STARSYSTEM_BARREN))
 		gas_resources["/datum/gas/oxygen"] = oxygen
@@ -856,6 +867,11 @@ Returns a faction datum by its name (case insensitive!)
 	gas_resources["/datum/gas/plasma"] = plasma
 	gas_resources["/datum/gas/carbon_dioxide"] = carbon_dioxide
 	gas_resources["/datum/gas/nitrous_oxide"] = n2o
+
+	linked_cloud = SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/gas_cloud/system)
+	linked_cloud.link_system(src)
+	linked_cloud.add_resources(gas_resources)
+
 
 #undef GAS_LOW_MIN
 #undef GAS_LOW_MAX

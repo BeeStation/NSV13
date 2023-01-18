@@ -1,5 +1,5 @@
 /*
- * File for system miners. As opposed to being infinite, these get their gasses from accessing a star system's gas resources.
+ * File for system miners. As opposed to being infinite, these get their gasses from accessing a star system's gas resources, via proximity to gas clouds.
  * systems outside the commonly traversed areas generally are the main source for these, as they are usually pretty mined out otherwise.
 */
 
@@ -24,17 +24,19 @@
     . = ..()
     attached_overmap = get_overmap()
 
+//MINER-WIP: Modify access to resources to access the ship's targetted gas cloud instead! (Or pause if noneddddd)
+
 /obj/machinery/atmospherics/miner/system/check_operation()
     if(!attached_overmap)
         broken_message = "<span class='boldwarning'>DEVICE INSTALLED IN INVALID OPERATING ENVIRONMENT</span>"
         set_broken(TRUE)
         return FALSE
-    var/datum/star_system/sys = attached_overmap.current_system
-    if(!sys)
+    var/obj/effect/overmap_anomaly/gas_cloud/gas_cloud = attached_overmap.locked_gas_cloud
+    if(!gas_cloud)
         broken_message = "<span class='boldnotice'>Location has currently no access to any resourcing options.</span>"
         set_broken(TRUE)
         return FALSE
-    if(!sys.gas_resources[spawn_id] || sys.gas_resources[spawn_id] <= 0)
+    if(!gas_cloud.gas_resources[spawn_id] || gas_cloud.gas_resources[spawn_id] <= 0)
         broken_message = "<span class='boldnotice'>No more accessible gas of configured type detected.</span>"
         set_broken(TRUE)
         return FALSE
@@ -46,7 +48,7 @@
     if(!isopenturf(O))
         return FALSE
     var/datum/gas_mixture/merger = new
-    var/list/minables = attached_overmap.current_system.gas_resources
+    var/list/minables = attached_overmap.locked_gas_cloud.gas_resources
     var/available = minables["[spawn_id]"]
     var/extracting = min(available, spawn_mol)
     minables["[spawn_id]"] -= extracting
@@ -59,12 +61,12 @@
     . = ..()
     if(!spawn_id)
         return
-    if(!attached_overmap || !attached_overmap.current_system)
+    if(!attached_overmap || !attached_overmap.locked_gas_cloud)
         return
     var/gas_amount = 0
-    if(attached_overmap.current_system.gas_resources["[spawn_id]"])
-        gas_amount = attached_overmap.current_system.gas_resources["[spawn_id]"]
-    . += "Remaining supply in this system: <b>[gas_amount]</b> moles."
+    if(attached_overmap.locked_gas_cloud.gas_resources["[spawn_id]"])
+        gas_amount = attached_overmap.locked_gas_cloud.gas_resources["[spawn_id]"]
+    . += "Remaining supply in this gas cloud: <b>[gas_amount]</b> moles."
 
 /obj/machinery/atmospherics/miner/system/n2o
 	name = "\improper N2O Gas Collector"
