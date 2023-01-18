@@ -1,9 +1,6 @@
 /client/var/last_ambience = null
 
 /area
-	var/obj/structure/overmap/overmap_fallback = null //Used for dropships. Allows you to define an overmap to "fallback" to if get_overmap() fails to find a space level with a linked overmap.
-
-/area
 	ambient_buzz = 'nsv13/sound/ambience/shipambience.ogg' //If you want an ambient sound to play on loop while theyre in a specific area, set this. Defaults to the classic "engine rumble"
 
 /area/space
@@ -733,12 +730,6 @@
 	name = "Rocinante security"
 	icon_state = "security"
 	ambience_index = AMBIENCE_DANGER
-
-
-
-/area/Exited(atom/movable/M)
-	SEND_SIGNAL(src, COMSIG_AREA_EXITED, M)
-	SEND_SIGNAL(M, COMSIG_EXIT_AREA, src) //The atom that exits the area
 
 /area/engine/engineering/reactor_core
 	name = "Nuclear Reactor Core"

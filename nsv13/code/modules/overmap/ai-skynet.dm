@@ -618,7 +618,7 @@ Adding tasks is easy! Just define a datum for it.
 	if(!ship_name)
 		return
 	var/player_string = ""
-	if(player_name) // No sender means AI ship
+	if(player_name && player_name != ship_name) // No sender means AI ship, or a ghost ship if the player and ship name are the same
 		player_string = " (Sent by [player_name])"
 
 	if(outbound)
@@ -896,7 +896,7 @@ Adding tasks is easy! Just define a datum for it.
 	allow_difficulty_scaling = FALSE
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/fistofsol)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
-	taunts = list("That's it... Just you and me now, no support, no distractions... no war. Whoever wins is the best crew.")
+	taunts = list("What a pleasure that we should meet again. I hope you won't disappoint!")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
 /datum/fleet/hostile/alicorn_boss
@@ -1089,7 +1089,7 @@ Adding tasks is easy! Just define a datum for it.
 	applied_size = CLAMP(applied_size, FLEET_DIFFICULTY_EASY, INFINITY)
 	faction = SSstar_system.faction_by_id(faction_id)
 	reward *= applied_size //Bigger fleet = larger reward
-	if(istype(SSticker.mode, /datum/game_mode/pvp)) //Disables notoriety during Galactic Conquest. 
+	if(istype(SSticker.mode, /datum/game_mode/pvp)) //Disables notoriety during Galactic Conquest.
 		threat_elevation_allowed = FALSE
 	if(SSovermap_mode && threat_elevation_allowed)
 		applied_size += round(SSovermap_mode.threat_elevation / TE_POINTS_PER_FLEET_SIZE)	//Threat level modifies danger
@@ -1626,7 +1626,7 @@ Seek a ship thich we'll station ourselves around
 
 	var/reloading_torpedoes = FALSE
 	var/reloading_missiles = FALSE
-	var/static/list/warcrime_blacklist = typecacheof(list(/obj/structure/overmap/small_craft/escapepod, /obj/structure/overmap/asteroid))//Ok. I'm not THAT mean...yet. (Hello karmic, it's me karmic 2)
+	var/static/list/warcrime_blacklist = typecacheof(list(/obj/structure/overmap/small_craft/escapepod, /obj/structure/overmap/asteroid, /obj/structure/overmap/trader/independent))//Ok. I'm not THAT mean...yet. (Hello karmic, it's me karmic 2) Hello Karmic this is Bokkie being extremely lazy (TODO: make the unaligned faction excluded from targeting)
 
 	//Fleet organisation
 	var/shots_left = 15 //Number of arbitrary shots an AI can fire with its heavy weapons before it has to resupply with a supply ship.
@@ -1782,8 +1782,8 @@ Seek a ship thich we'll station ourselves around
 
 	var/dx = their_center.x - my_center.x
 	var/dy = their_center.y - my_center.y
-	var/tvx = target.velocity.x
-	var/tvy = target.velocity.y
+	var/tvx = target.velocity.a
+	var/tvy = target.velocity.e
 	var/projectilespeed = 32 / P.speed
 
 	var/a = tvx * tvx + tvy * tvy - (projectilespeed * projectilespeed)
@@ -1804,8 +1804,8 @@ Seek a ship thich we'll station ourselves around
 		else
 			return their_center
 
-	var/targetx = their_center.x + target.velocity.x * time
-	var/targety = their_center.y + target.velocity.y * time
+	var/targetx = their_center.x + target.velocity.a * time
+	var/targety = their_center.y + target.velocity.e * time
 	var/turf/newtarget = locate(targetx, targety, target.z)
 
 	return newtarget
@@ -2004,10 +2004,10 @@ Seek a ship thich we'll station ourselves around
 				blocked = OM
 				break
 		if(blocked) //Time to do some evasive. Determine the object's direction to evade in the opposite direction.
-			if(blocked.velocity.x > 0)
+			if(blocked.velocity.a > 0)
 				move_mode = EAST //The ship should still drift forward / backwards, but in this case let's not accelerate into an asteroid shall we...
 				inertial_dampeners = FALSE
-			if(blocked.velocity.x <= 0)
+			if(blocked.velocity.a <= 0)
 				move_mode = WEST
 				inertial_dampeners = FALSE
 			return

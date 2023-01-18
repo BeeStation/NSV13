@@ -18,6 +18,7 @@
 	projectilesound = 'sound/weapons/pierce.ogg'
 	ranged_cooldown_time = 30
 	pixel_x = -16
+	base_pixel_x = -16
 	layer = LARGE_MOB_LAYER
 	speed = 10
 	stat_attack = UNCONSCIOUS
@@ -60,7 +61,7 @@
 	layer = ABOVE_ALL_MOB_LAYER
 	duration = 3
 
-/obj/effect/temp_visual/leaper_projectile_impact/Initialize()
+/obj/effect/temp_visual/leaper_projectile_impact/Initialize(mapload)
 	. = ..()
 	new /obj/effect/decal/cleanable/leaper_sludge(get_turf(src))
 
@@ -78,7 +79,7 @@
 	max_integrity = 10
 	density = FALSE
 
-/obj/structure/leaper_bubble/Initialize()
+/obj/structure/leaper_bubble/Initialize(mapload)
 	. = ..()
 	float(on = TRUE)
 	QDEL_IN(src, 100)
@@ -112,6 +113,7 @@
 	name = "Leaper venom"
 	description = "A toxin spat out by leapers that, while harmless in small doses, quickly creates a toxic reaction if too much is in the body."
 	color = "#801E28" // rgb: 128, 30, 40
+	chem_flags = CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	toxpwr = 0
 	taste_description = "french cuisine"
 	taste_mult = 1.3
@@ -128,10 +130,12 @@
 	icon_state = "lily_pad"
 	layer = BELOW_MOB_LAYER
 	pixel_x = -32
+	base_pixel_x = -32
 	pixel_y = -32
+	base_pixel_y = -32
 	duration = 30
 
-/mob/living/simple_animal/hostile/jungle/leaper/Initialize()
+/mob/living/simple_animal/hostile/jungle/leaper/Initialize(mapload)
 	. = ..()
 	remove_verb(/mob/living/verb/pulled)
 

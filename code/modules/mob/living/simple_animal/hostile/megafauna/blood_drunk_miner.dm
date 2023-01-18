@@ -39,13 +39,16 @@ Difficulty: Medium
 	ranged = TRUE
 	ranged_cooldown_time = 16
 	pixel_x = -16
+	base_pixel_x = -16
 	crusher_loot = list(/obj/structure/closet/crate/necropolis/bdm, /obj/item/crusher_trophy/miner_eye)
 	loot = list(/obj/structure/closet/crate/necropolis/bdm)
 	wander = FALSE
 	del_on_death = TRUE
 	blood_volume = BLOOD_VOLUME_NORMAL
 	gps_name = "Drunk Signal"
-	medal_type = BOSS_MEDAL_MINER
+	achievement_type = /datum/award/achievement/boss/blood_miner_kill
+	crusher_achievement_type = /datum/award/achievement/boss/blood_miner_crusher
+	score_achievement_type = /datum/award/score/blood_miner_score
 	var/obj/item/melee/transforming/cleaving_saw/miner/miner_saw
 	var/time_until_next_transform = 0
 	var/dashing = FALSE
@@ -59,7 +62,7 @@ Difficulty: Medium
 							   /datum/action/innate/megafauna_attack/kinetic_accelerator,
 							   /datum/action/innate/megafauna_attack/transform_weapon)
 
-/mob/living/simple_animal/hostile/megafauna/blood_drunk_miner/Initialize()
+/mob/living/simple_animal/hostile/megafauna/blood_drunk_miner/Initialize(mapload)
 	. = ..()
 	miner_saw = new(src)
 

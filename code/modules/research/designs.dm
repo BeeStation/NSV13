@@ -80,10 +80,10 @@ other types of metals and chemistry for reagents).
 	var/list/blueprints = list()
 	var/max_blueprints = 1
 
-/obj/item/disk/design_disk/Initialize()
+/obj/item/disk/design_disk/Initialize(mapload)
 	. = ..()
-	pixel_x = rand(-5, 5)
-	pixel_y = rand(-5, 5)
+	pixel_x = base_pixel_x + rand(-5, 5)
+	pixel_y = base_pixel_y + rand(-5, 5)
 	for(var/i in 1 to max_blueprints)
 		blueprints += null
 

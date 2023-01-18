@@ -77,14 +77,6 @@
 	else
 		return ..()
 
-/obj/item/camera/siliconcam/robot_camera/verb/borgprinting()
-	set category ="Robot Commands"
-	set name = "Print Image"
-	set src in usr
-	if(usr.stat == DEAD)
-		return
-	borgprint(usr)
-
 /obj/item/camera/siliconcam/robot_camera/proc/borgprint(mob/user)
 	var/mob/living/silicon/robot/C = loc
 	if(!istype(C) || C.toner < 20)
@@ -95,8 +87,8 @@
 		to_chat(user, "<span class='warning'>Invalid Image.</span>")
 		return
 	var/obj/item/photo/p = new /obj/item/photo(C.loc, selection)
-	p.pixel_x = rand(-10, 10)
-	p.pixel_y = rand(-10, 10)
+	p.pixel_x = p.base_pixel_x + rand(-10, 10)
+	p.pixel_y = p.base_pixel_y + rand(-10, 10)
 	C.toner -= printcost	 //All fun allowed.
 	visible_message("[C.name] spits out a photograph from a narrow slot on its chassis.")
 	to_chat(usr, "<span class='notice'>You print a photograph.</span>")

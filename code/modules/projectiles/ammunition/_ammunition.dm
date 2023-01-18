@@ -26,12 +26,12 @@
 	name = "spent bullet casing"
 	BB = null
 
-/obj/item/ammo_casing/Initialize()
+/obj/item/ammo_casing/Initialize(mapload)
 	. = ..()
 	if(projectile_type)
 		BB = new projectile_type(src)
-	pixel_x = rand(-10, 10)
-	pixel_y = rand(-10, 10)
+	pixel_x = base_pixel_x + rand(-10, 10)
+	pixel_y = base_pixel_y + rand(-10, 10)
 	setDir(pick(GLOB.alldirs))
 	update_icon()
 

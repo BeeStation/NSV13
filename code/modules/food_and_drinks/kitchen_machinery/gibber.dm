@@ -16,7 +16,7 @@
 	var/ignore_clothing = FALSE
 
 
-/obj/machinery/gibber/Initialize()
+/obj/machinery/gibber/Initialize(mapload)
 	. = ..()
 	add_overlay("grjam")
 
@@ -42,7 +42,7 @@
 	cut_overlays()
 	if (dirty)
 		add_overlay("grbloody")
-	if(stat & (NOPOWER|BROKEN))
+	if(machine_stat & (NOPOWER|BROKEN))
 		return
 	if (!occupant)
 		add_overlay("grjam")
@@ -64,7 +64,7 @@
 	. = ..()
 	if(.)
 		return
-	if(stat & (NOPOWER|BROKEN))
+	if(machine_stat & (NOPOWER|BROKEN))
 		return
 	if(operating)
 		to_chat(user, "<span class='danger'>It's locked and running.</span>")
@@ -219,7 +219,7 @@
 			if (!gibturf.density && (src in view(gibturf)))
 				new gibtype(gibturf,i,diseases)
 
-	pixel_x = initial(pixel_x) //return to its spot after shaking
+	pixel_x = base_pixel_x //return to its spot after shaking
 	operating = FALSE
 	update_icon()
 

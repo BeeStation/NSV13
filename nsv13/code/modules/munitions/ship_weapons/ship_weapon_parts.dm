@@ -30,7 +30,7 @@
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
 
-/obj/item/ship_weapon/parts/loading_tray/Initialize()
+/obj/item/ship_weapon/parts/loading_tray/Initialize(mapload)
 	..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
@@ -45,7 +45,7 @@
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
 
-/obj/item/ship_weapon/parts/railgun_rail/Initialize()
+/obj/item/ship_weapon/parts/railgun_rail/Initialize(mapload)
 	..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
@@ -60,6 +60,18 @@
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
 
-/obj/item/ship_weapon/parts/mac_barrel/Initialize()
+/obj/item/ship_weapon/parts/mac_barrel/Initialize(mapload)
 	..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
+
+/obj/item/ship_weapon/parts/broadside_casing
+	name = "broadside shell casing"
+	desc = "An empty casing for the Broadside Cannon. Load it into the Shell Packer!"
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "broadside_casing"
+
+/obj/item/ship_weapon/parts/broadside_load
+	name = "broadside shell load"
+	desc = "A loose load meant for a Broadside shell. Load it into the Shell Packer!"
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "broadside_load"

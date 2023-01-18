@@ -4,6 +4,7 @@
 	icon = 'nsv13/icons/obj/items_and_weapons.dmi'
 	icon_state = "stunsword"
 	item_state = "stunsword"
+	worn_icon = 'icons/mob/belt.dmi'
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/melee_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/melee_righthand.dmi'
 	flags_1 = CONDUCT_1
@@ -25,7 +26,7 @@
 	var/serial_number = 1 //Fluff. Gives it a "rare" collector's feel
 	var/max_serial_number = 20
 
-/obj/item/melee/classic_baton/telescopic/stunsword/Initialize()
+/obj/item/melee/classic_baton/telescopic/stunsword/Initialize(mapload)
 	. = ..()
 	serial_number = rand(1,max_serial_number)
 

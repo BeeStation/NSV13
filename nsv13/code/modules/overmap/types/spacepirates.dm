@@ -21,7 +21,7 @@
 	combat_dice_type = /datum/combat_dice/frigate
 	gas_salvage_rating = 0.2
 
-/obj/structure/overmap/spacepirate/ai/Initialize()
+/obj/structure/overmap/spacepirate/ai/Initialize(mapload)
 	. = ..()
 	name = "[name] ([rand(0,999)])" //pirate names go here
 

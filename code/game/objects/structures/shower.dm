@@ -24,17 +24,17 @@
 
 /obj/structure/showerframe/attackby(obj/item/I, mob/living/user, params)
 	if(istype(I, /obj/item/stack/sheet/plastic))
-		balloon_alert(user, "You start constructing the shower")
+		balloon_alert(user, "You start constructing a shower...")
 		if(do_after(user, 4 SECONDS, target = src))
 			I.use(1)
-			balloon_alert(user, "Shower created")
+			balloon_alert(user, "You create a shower.")
 			var/obj/machinery/shower/new_shower = new /obj/machinery/shower(loc)
 			new_shower.setDir(dir)
 			qdel(src)
 			return
 	return ..()
 
-/obj/structure/showerframe/Initialize()
+/obj/structure/showerframe/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/simple_rotation, ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS, null, CALLBACK(src, .proc/can_be_rotated))
 
@@ -43,12 +43,12 @@
 		to_chat(user, "<span class='warning'>It is fastened to the floor!</span>")
 	return !anchored
 
-/obj/machinery/shower/Initialize()
+/obj/machinery/shower/Initialize(mapload)
 	. = ..()
 	create_reagents(reaction_volume)
 	reagents.add_reagent(reagent_id, reaction_volume)
 
-	soundloop = new(list(src), FALSE)
+	soundloop = new(src, FALSE)
 
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = .proc/on_entered,
@@ -163,6 +163,8 @@
 	SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_WEAK)
 	L.wash_cream()
 	L.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
+	//NSV13 - you can't shower with clothes on. This is handled later.
+	//SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/nice_shower)
 	if(iscarbon(L))
 		var/mob/living/carbon/M = L
 		. = TRUE
@@ -173,32 +175,33 @@
 		if(M.back && wash_obj(M.back))
 			M.update_inv_back(0)
 
-		var/list/obscured = M.check_obscured_slots()
+		var/obscured = M.check_obscured_slots()
 
 		if(M.head && wash_obj(M.head))
 			M.update_inv_head()
 
-		if(M.glasses && !(ITEM_SLOT_EYES in obscured) && wash_obj(M.glasses))
+		if(M.glasses && !(obscured & ITEM_SLOT_EYES) && wash_obj(M.glasses))
 			M.update_inv_glasses()
 
-		if(M.wear_mask && !(ITEM_SLOT_MASK in obscured) && wash_obj(M.wear_mask))
+		if(M.wear_mask && !(obscured & ITEM_SLOT_MASK) && wash_obj(M.wear_mask))
 			M.update_inv_wear_mask()
 
-		if(M.ears && !(HIDEEARS in obscured) && wash_obj(M.ears))
+		if(M.ears && !(obscured & ITEM_SLOT_EARS) && wash_obj(M.ears))
 			M.update_inv_ears()
 
-		if(M.wear_neck && !(ITEM_SLOT_NECK in obscured) && wash_obj(M.wear_neck))
+		if(M.wear_neck && !(obscured & ITEM_SLOT_NECK) && wash_obj(M.wear_neck))
 			M.update_inv_neck()
 
-		if(M.shoes && !(HIDESHOES in obscured) && wash_obj(M.shoes))
+		if(M.shoes && !(obscured & ITEM_SLOT_FEET) && wash_obj(M.shoes))
 			M.update_inv_shoes()
 
 		var/washgloves = FALSE
-		if(M.gloves && !(HIDEGLOVES in obscured))
+		if(M.gloves && !(obscured & ITEM_SLOT_GLOVES))
 			washgloves = TRUE
 
 		if(ishuman(M))
 			var/mob/living/carbon/human/H = M
+			// NSV13 - kept hygiene
 			if(check_clothes(L))
 				if(H.hygiene <= 75)
 					to_chat(H, "<span class='warning'>You have to remove your clothes to get clean!</span>")
@@ -207,7 +210,7 @@
 				if (iscatperson(H)) //NSV felinids hate showers (all this really does is turn the +3 from neat into a +1, and doesn't give the +4 from a nice shower)
 					SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/hate_shower)
 				else
-					SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/nice_shower) //End of NSV code
+					SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/nice_shower)
 
 			if(H.wear_suit && wash_obj(H.wear_suit))
 				H.update_inv_wear_suit()
@@ -225,10 +228,10 @@
 				H.update_inv_belt()
 		else
 			SEND_SIGNAL(M, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
-			SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/nice_shower)
+			SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/nice_shower) //NSV13 - handled mood separately due to clothes
 	else
 		SEND_SIGNAL(L, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_STRENGTH_BLOOD)
-		SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/nice_shower)
+		SEND_SIGNAL(L, COMSIG_ADD_MOOD_EVENT, "shower", /datum/mood_event/nice_shower) //NSV13 - handled mood separately due to clothes
 
 /obj/machinery/shower/proc/contamination_cleanse(atom/thing)
 	var/datum/component/radioactive/healthy_green_glow = thing.GetComponent(/datum/component/radioactive)
@@ -265,6 +268,7 @@
 		L.adjustFireLoss(5)
 		to_chat(L, "<span class='danger'>[src] is searing!</span>")
 
+// NSV13 - kept hygiene
 /obj/machinery/shower/proc/check_clothes(mob/living/carbon/human/H)
 	if(H.wear_suit && (H.wear_suit.clothing_flags & SHOWEROKAY))
 		// Do not check underclothing if the over-suit is suitable.

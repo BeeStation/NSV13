@@ -1,7 +1,7 @@
 /obj/item/origami
 	name = "origami"
 	desc = "Paper folded to resemble... something."
-	icon = 'icons/obj/bureaucracy.dmi'
+	icon = 'nsv13/icons/obj/bureaucracy.dmi'
 	icon_state = "scrap"
 	throw_range = 1
 	throw_speed = 1
@@ -13,8 +13,8 @@
 
 /obj/item/origami/Initialize(mapload, obj/item/paper/newPaper)
 	. = ..()
-	pixel_y = rand(-8, 8)
-	pixel_x = rand(-9, 9)
+	pixel_y = base_pixel_y + rand(-8, 8)
+	pixel_x = base_pixel_x + rand(-9, 9)
 	if(newPaper)
 		internalPaper = newPaper
 		flags_1 = newPaper.flags_1

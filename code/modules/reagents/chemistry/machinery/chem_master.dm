@@ -22,7 +22,7 @@
 	var/useramount = 30 // Last used amount
 	var/list/pillStyles = null
 
-/obj/machinery/chem_master/Initialize()
+/obj/machinery/chem_master/Initialize(mapload)
 	create_reagents(100)
 
 	//Calculate the span tags and ids fo all the available pill icons
@@ -82,7 +82,7 @@
 
 /obj/machinery/chem_master/update_icon()
 	cut_overlays()
-	if (stat & BROKEN)
+	if (machine_stat & BROKEN)
 		add_overlay("waitlight")
 	if(beaker)
 		icon_state = "mixer1"
@@ -309,6 +309,7 @@
 							/datum/component/storage)
 						if(STRB)
 							drop_threshold = STRB.max_items - bottle.contents.len
+							target_loc = bottle
 					for(var/i = 0; i < amount; i++)
 						if(i < drop_threshold)
 							P = new/obj/item/reagent_containers/pill(target_loc)
@@ -392,23 +393,23 @@
 
 /obj/machinery/chem_master/adjust_item_drop_location(atom/movable/AM) // Special version for chemmasters and condimasters
 	if (AM == beaker)
-		AM.pixel_x = -8
-		AM.pixel_y = 8
+		AM.pixel_x = AM.base_pixel_x - 8
+		AM.pixel_y = AM.base_pixel_y + 8
 		return null
 	else if (AM == bottle)
 		if (length(bottle.contents))
-			AM.pixel_x = -13
+			AM.pixel_x = AM.base_pixel_x - 13
 		else
-			AM.pixel_x = -7
-		AM.pixel_y = -8
+			AM.pixel_x = AM.base_pixel_x - 7
+		AM.pixel_y = AM.base_pixel_y - 8
 		return null
 	else
 		var/md5 = rustg_hash_string(RUSTG_HASH_MD5, AM.name)
 		for (var/i in 1 to 32)
 			. += hex2num(md5[i])
 		. = . % 9
-		AM.pixel_x = ((.%3)*6)
-		AM.pixel_y = -8 + (round( . / 3)*8)
+		AM.pixel_x = AM.base_pixel_x + ((.%3)*6)
+		AM.pixel_y = AM.base_pixel_y - 8 + (round( . / 3)*8)
 
 /obj/machinery/chem_master/condimaster
 	name = "CondiMaster 3000"

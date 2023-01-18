@@ -32,13 +32,12 @@
 
 /obj/item/card/id/prisoner
 
-/obj/item/ship_weapon/ammunition/torpedo/can_be_pulled(mob/user)
-	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
-	return FALSE
-
 /obj/item/ship_weapon/ammunition/torpedo/examine(mob/user)
 	. = ..()
 	. += "<span class='warning'>It's far too cumbersome to carry, and dragging it around might set it off!</span>"
+
+/obj/item/ship_weapon/ammunition/torpedo/attack_hand(mob/user)
+	return FALSE
 
 //High damage torp. Use this when youve exhausted their flak.
 /obj/item/ship_weapon/ammunition/torpedo/hull_shredder
@@ -64,6 +63,23 @@
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/hellfire/player_version
 	volatile_type = /datum/component/volatile/helltorp
 	volatility = 4
+
+/obj/item/ship_weapon/ammunition/torpedo/plushtide
+	name = "\improper NTP-00 'FREN' 600mm emotional support torpedo"
+	icon_state = "plush"
+	desc = "A simple torpedo with a frankly concerning amount of plushies crammed into it. For when what your enemy needs really is just a hug."
+	projectile_type = /obj/item/projectile/guided_munition/torpedo/plushtide
+	volatility = 0
+
+/obj/item/ship_weapon/ammunition/torpedo/plushtide/attack_hand(mob/user)
+	if(!isliving(user))
+		return
+	var/mob/living/living_user = user
+	if(living_user.a_intent != INTENT_HELP)
+		return
+	living_user.visible_message("<span class='notice'>[living_user] hugs [src].</span>","<span class='notice'>You hug [src].</span>")
+	playsound(src, pick('sound/items/toysqueak1.ogg', 'sound/items/toysqueak2.ogg', 'sound/items/toysqueak3.ogg'), 30, 1, -1)
+	SEND_SIGNAL(living_user, COMSIG_ADD_MOOD_EVENT, "torphug", /datum/mood_event/torphug)
 
 /obj/item/ship_weapon/ammunition/torpedo/proto_disruption
 	name = "\improper NTP-I1x 'EMP' 400mm Disruption Torpedo"
@@ -175,7 +191,7 @@
 /obj/item/projectile/guided_munition/torpedo/post/proc/foo()
 	new /mob/living/carbon/human(src)
 	for(var/obj/structure/overmap/OM in orange(5, src))
-		var/angle = Get_Angle(src, OM)
+		var/angle = get_angle(src, OM)
 		setup_collider()
 		fire(angle)
 

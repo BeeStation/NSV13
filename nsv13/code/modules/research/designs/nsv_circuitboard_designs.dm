@@ -28,6 +28,16 @@
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING|DEPARTMENTAL_FLAG_MUNITIONS
 
+//Broadside Packer Table
+/datum/design/board/broadside_packer
+	name = "Machine Design (Broadside Shell Packer)"
+	desc = "Allows for the construction of a broadside shell packer."
+	id = "broadside_packer"
+	build_path = /obj/item/circuitboard/machine/broadside_shell_packer
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200)
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
 //FTL Navigation Console
 /datum/design/board/navigation
 	name = "Computer Design (FTL Navigation console)"
@@ -85,3 +95,4 @@
 	build_path = /obj/item/circuitboard/computer/astrometrics
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE
+

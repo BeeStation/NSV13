@@ -80,7 +80,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 				continue
 			affecting += L
 	for(var/mob/L in affecting)
-		if(L.client && L.client.prefs.toggles & SOUND_SHIP_AMBIENCE && L.client?.last_ambience != ambient_buzz)
+		if(L.client && L.client.prefs.toggles & PREFTOGGLE_SOUND_SHIP_AMBIENCE && L.client?.last_ambience != ambient_buzz)
 			L.client.buzz_playing = ambient_buzz
 			SEND_SOUND(L, sound(ambient_buzz, repeat = 1, wait = 0, volume = 100, channel = CHANNEL_BUZZ))
 			L.client.last_ambience = ambient_buzz
@@ -232,7 +232,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	for(var/obj/item/fuel_rod/FR in fuel_rods)
 		FR.depletion = 100
 
-/obj/machinery/atmospherics/components/trinary/nuclear_reactor/Initialize()
+/obj/machinery/atmospherics/components/trinary/nuclear_reactor/Initialize(mapload)
 	. = ..()
 	icon_state = "reactor_off"
 	gas_absorption_effectiveness = rand(5, 6)/10 //All reactors are slightly different. This will result in you having to figure out what the balance is for K.
@@ -549,7 +549,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	temperature = 0
 	update_icon()
 
-/obj/item/fuel_rod/Initialize()
+/obj/item/fuel_rod/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 	AddComponent(/datum/component/radioactive, 350 , src)
@@ -728,7 +728,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 
 /obj/machinery/computer/reactor/pump/attack_hand(mob/living/user)
 	. = ..()
-	if(!is_operational())
+	if(!is_operational)
 		return FALSE
 	playsound(loc, pick('nsv13/sound/effects/rbmk/switch.ogg','nsv13/sound/effects/rbmk/switch2.ogg','nsv13/sound/effects/rbmk/switch3.ogg'), 100, FALSE)
 	visible_message("<span class='notice'>[src]'s switch flips [on ? "off" : "on"].</span>")
@@ -797,6 +797,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	extended_desc = "This program connects to specially calibrated sensors to provide information on the status of nuclear reactors."
 	requires_ntnet = TRUE
 	transfer_access = ACCESS_CONSTRUCTION
+	category = PROGRAM_CATEGORY_ENGI
 	network_destination = "rbmk monitoring system"
 	size = 2
 	tgui_id = "NtosRbmkStats"

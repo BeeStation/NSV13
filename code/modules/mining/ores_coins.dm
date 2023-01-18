@@ -314,10 +314,10 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 				explosion(src,0,1,3,adminlog = notify_admins)
 		qdel(src)
 
-/obj/item/stack/ore/Initialize()
+/obj/item/stack/ore/Initialize(mapload, new_amount, merge = TRUE, mob/user = null)
 	. = ..()
-	pixel_x = rand(0,16)-8
-	pixel_y = rand(0,8)-8
+	pixel_x = base_pixel_x +  rand(0,16) - 8
+	pixel_y = base_pixel_y + rand(0,8) - 8
 
 /obj/item/stack/ore/ex_act(severity, target)
 	if (!severity || severity >= 2)
@@ -367,10 +367,10 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	else
 		user.visible_message("<span class='suicide'>\the [src] lands on [coinflip]! [user] keeps on living!</span>")
 
-/obj/item/coin/Initialize()
+/obj/item/coin/Initialize(mapload)
 	. = ..()
-	pixel_x = rand(0,16)-8
-	pixel_y = rand(0,8)-8
+	pixel_x = base_pixel_x + rand(0,16) - 8
+	pixel_y = base_pixel_y + rand(0,8) - 8
 
 /obj/item/coin/examine(mob/user)
 	. = ..()

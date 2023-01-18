@@ -82,10 +82,6 @@ While using this makes the system rely on OnFire, it still gives options for tim
 	elite_owner.chosen_attack = chosen_attack_num
 	to_chat(elite_owner, chosen_message)
 
-/mob/living/simple_animal/hostile/asteroid/elite/updatehealth()
-	. = ..()
-	update_health_hud()
-
 /mob/living/simple_animal/hostile/asteroid/elite/update_health_hud()
 	if(hud_used)
 		var/severity = 0
@@ -123,6 +119,7 @@ While using this makes the system rely on OnFire, it still gives options for tim
 	icon = 'icons/obj/lavaland/tumor.dmi'
 	icon_state = "tumor"
 	pixel_x = -16
+	base_pixel_x = -16
 	light_color = LIGHT_COLOR_RED
 	light_range = 3
 	anchored = TRUE

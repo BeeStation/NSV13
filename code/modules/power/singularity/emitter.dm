@@ -58,7 +58,7 @@
 	state = EMITTER_WELDED
 	use_power = FALSE
 
-/obj/machinery/power/emitter/Initialize()
+/obj/machinery/power/emitter/Initialize(mapload)
 	. = ..()
 	RefreshParts()
 	wires = new /datum/wires/emitter(src)
@@ -88,6 +88,8 @@
 	for(var/obj/item/stock_parts/manipulator/M in component_parts)
 		power_usage -= 50 * M.rating
 	active_power_usage = power_usage
+	if(anchored && state == EMITTER_UNWRENCHED)
+		state = EMITTER_WRENCHED
 
 /obj/machinery/power/emitter/examine(mob/user)
 	. = ..()
@@ -111,6 +113,7 @@
 		log_game("Emitter deleted at [AREACOORD(T)]")
 		investigate_log("<font color='red'>deleted</font> at [AREACOORD(T)]", INVESTIGATE_ENGINES)
 	QDEL_NULL(sparks)
+	QDEL_NULL(wires)
 	return ..()
 
 /obj/machinery/power/emitter/update_icon()
@@ -162,7 +165,7 @@
 		step(src, get_dir(M, src))
 
 /obj/machinery/power/emitter/process(delta_time)
-	if(stat & (BROKEN))
+	if(machine_stat & (BROKEN))
 		return
 	if(state != EMITTER_WELDED || (!powernet && active_power_usage))
 		active = FALSE
@@ -376,8 +379,8 @@
 		if(istype(I, /obj/item/turret_control))
 			qdel(I)
 	if(istype(buckled_mob))
-		buckled_mob.pixel_x = 0
-		buckled_mob.pixel_y = 0
+		buckled_mob.pixel_x = buckled_mob.base_pixel_x
+		buckled_mob.pixel_y = buckled_mob.base_pixel_y
 		if(buckled_mob.client)
 			buckled_mob.client.view_size.resetToDefault()
 	auto.Remove(buckled_mob)
@@ -454,7 +457,7 @@
 	resistance_flags = FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	var/delay = 0
 
-/obj/item/turret_control/Initialize()
+/obj/item/turret_control/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
 

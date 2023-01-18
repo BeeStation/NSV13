@@ -61,7 +61,7 @@
 
 //AI Versions
 
-/obj/structure/overmap/syndicate/ai/Initialize()
+/obj/structure/overmap/syndicate/ai/Initialize(mapload)
 	. = ..()
 	name = "[name] ([rand(0,999)])"
 	
@@ -432,7 +432,7 @@
 	possible_interior_maps = list()
 	gas_salvage_rating = 2
 
-/obj/structure/overmap/syndicate/ai/submarine/Initialize()
+/obj/structure/overmap/syndicate/ai/submarine/Initialize(mapload)
 	. = ..()
 	handle_cloak(TRUE)
 
@@ -467,7 +467,7 @@
 	combat_dice_type = /datum/combat_dice/cruiser
 	gas_salvage_rating = 4
 
-/obj/structure/overmap/syndicate/ai/kadesh/Initialize()
+/obj/structure/overmap/syndicate/ai/kadesh/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/interdiction)
 
@@ -550,7 +550,7 @@
 	flak_battery_amount = 3
 	gas_salvage_rating = 12
 
-/obj/structure/overmap/hostile/ai/alicorn/Initialize()
+/obj/structure/overmap/hostile/ai/alicorn/Initialize(mapload)
 	. = ..()
 	handle_cloak(TRUE)
 

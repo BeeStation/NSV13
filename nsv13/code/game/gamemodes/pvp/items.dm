@@ -70,7 +70,7 @@
 /obj/effect/landmark/start/nukeop/syndi_crew
 	name = "Syndicate crew"
 
-/obj/effect/landmark/start/nukeop/syndi_crew/Initialize()
+/obj/effect/landmark/start/nukeop/syndi_crew/Initialize(mapload)
 	..()
 	GLOB.syndi_crew_spawns += loc
 	return INITIALIZE_HINT_QDEL
@@ -78,7 +78,7 @@
 /obj/effect/landmark/start/nukeop/syndi_crew_leader
 	name = "Syndicate captain"
 
-/obj/effect/landmark/start/nukeop/syndi_crew_leader/Initialize()
+/obj/effect/landmark/start/nukeop/syndi_crew_leader/Initialize(mapload)
 	..()
 	GLOB.syndi_crew_leader_spawns += loc
 	return INITIALIZE_HINT_QDEL
@@ -98,8 +98,8 @@
 	layer = 4
 	var/faction_type = FACTION_ID_SYNDICATE
 	var/alignment = "syndicate"
-	var/points_per_capture = 50 //How many points does capturing one system net you? Since it's 1000 points to win, this will take a loooot of captures to outright win as syndies.
-	var/time_left = 300 //5 min
+	var/points_per_capture = 100 //How many points does capturing one system net you? Since it's 1000 points to win, this will take a bunch of captures to outright win.
+	var/time_left = 150 //2.5 min
 	var/active = FALSE
 	var/next_activation = 0
 	var/activation_delay = 7 MINUTES //How long until we can activate it again?
@@ -135,7 +135,7 @@
 	ours.send_fleet(override=capturing, force=TRUE)
 	ours.gain_influence(points_per_capture)
 
-/obj/machinery/conquest_beacon/Initialize()
+/obj/machinery/conquest_beacon/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
@@ -196,8 +196,8 @@
 	req_one_access = list(ACCESS_CAPTAIN)
 	faction_type = FACTION_ID_NT
 	alignment = "nanotrasen"
-	activation_delay = 13 MINUTES
-	time_left = 120
+	activation_delay = 3 MINUTES
+	time_left = 60 //NT can capture faster because they don't get a fleet to support
 
 /obj/machinery/conquest_beacon/nanotrasen/capture_system()
 	set_active(FALSE, TRUE)
@@ -289,7 +289,7 @@
 	req_one_access_txt = "150"
 	var/list/loadouts = list()
 
-/obj/item/ship_loadout_selector/Initialize()
+/obj/item/ship_loadout_selector/Initialize(mapload)
 	. = ..()
 	for(var/theType in typecacheof(/datum/ship_loadout))
 		loadouts += new theType
@@ -338,7 +338,7 @@
 /obj/effect/landmark/trader_drop_point
 	name = "Trader sending target"
 
-/obj/effect/landmark/trader_drop_point/Initialize()
+/obj/effect/landmark/trader_drop_point/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
@@ -433,7 +433,7 @@
 
 /obj/machinery/camera/syndicate/autoname
 	var/number = 0
-/obj/machinery/camera/syndicate/autoname/Initialize()
+/obj/machinery/camera/syndicate/autoname/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
@@ -456,7 +456,7 @@
 	syndie = 1
 	freqlock = 1
 
-/obj/item/radio/intercom/syndicate/Initialize()
+/obj/item/radio/intercom/syndicate/Initialize(mapload)
 	. = ..()
 	set_frequency(FREQ_SYNDICATE)
 

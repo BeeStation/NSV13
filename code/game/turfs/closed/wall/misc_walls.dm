@@ -9,7 +9,7 @@
 	sheet_amount = 1
 	girder_type = /obj/structure/girder/cult
 
-/turf/closed/wall/mineral/cult/Initialize()
+/turf/closed/wall/mineral/cult/Initialize(mapload)
 	new /obj/effect/temp_visual/cult/turf(src)
 	. = ..()
 
@@ -54,11 +54,17 @@
 	bullet_sizzle = TRUE
 
 /turf/closed/wall/rust
-	name = "rusted wall"
-	desc = "A rusted metal wall."
-	icon = 'icons/turf/walls/rusty_wall.dmi'
-	icon_state = "wall" //NSV13 this was broken
-	hardness = 45
+	//SDMM supports colors, this is simply for easier mapping
+	//and should be removed on initialize
+	color = COLOR_ORANGE
+
+/turf/closed/wall/rust/Initialize(mapload)
+	. = ..()
+	color = null
+
+/turf/closed/wall/rust/ComponentInitialize()
+	. = ..()
+	AddElement(/datum/element/rust)
 
 /turf/closed/wall/rust/rust_heretic_act()
 	if(prob(70))
@@ -66,11 +72,17 @@
 	ScrapeAway()
 
 /turf/closed/wall/r_wall/rust
-	name = "rusted reinforced wall"
-	desc = "A huge chunk of rusted reinforced metal."
-	icon = 'icons/turf/walls/rusty_reinforced_wall.dmi'
-	icon_state = "r_wall" //NSV13 this was broken
-	hardness = 15
+	//SDMM supports colors, this is simply for easier mapping
+	//and should be removed on initialize
+	color = COLOR_ORANGE
+
+/turf/closed/wall/r_wall/rust/Initialize(mapload)
+	. = ..()
+	color = null
+
+/turf/closed/wall/r_wall/rust/ComponentInitialize()
+	. = ..()
+	AddElement(/datum/element/rust)
 
 /turf/closed/wall/r_wall/rust/rust_heretic_act()
 	if(prob(50))

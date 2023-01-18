@@ -64,7 +64,7 @@
 		next_firetime = world.time + fire_delay
 	if(!requires_physical_guns)
 		if(special_fire_proc)
-			CallAsync(source=holder, proctype=special_fire_proc, arguments=list(target=target, ai_aim=ai_aim, burst=burst_size)) //WARNING: The default behaviour of this proc will ALWAYS supply the target method with the parameter "target". Override this proc if your thing doesnt have a target parameter!
+			call_async(source=holder, proctype=special_fire_proc, arguments=list(target=target, ai_aim=ai_aim, burst=burst_size)) //WARNING: The default behaviour of this proc will ALWAYS supply the target method with the parameter "target". Override this proc if your thing doesnt have a target parameter!
 		else
 			weapon_sound()
 			if(ai_aim && prob(miss_chance)) // Apply bad aim here so the whole burst goes the same way
@@ -113,7 +113,7 @@
 	var/list/leftovers = list() //Assuming we can't find a fully loaded gun to fire our full burst, assemble a list of semi-loaded guns and fire all of them instead.
 	var/remaining = burst_size
 	for(var/obj/machinery/ship_weapon/SW in weapons["loaded"])
-		if(SW.can_fire()) //Ok great, looks like this weapon can do all the shooting for us. Use it!
+		if(SW.can_fire(target)) //Ok great, looks like this weapon can do all the shooting for us. Use it!
 			SW.fire(target)
 			next_firetime = world.time + fire_delay
 			return TRUE

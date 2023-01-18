@@ -21,6 +21,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	// Faction
 	RADIO_KEY_SYNDICATE = RADIO_CHANNEL_SYNDICATE,
+	RADIO_KEY_UPLINK = RADIO_CHANNEL_UPLINK,
 	RADIO_KEY_CENTCOM = RADIO_CHANNEL_CENTCOM,
 	RADIO_KEY_PIRATE = RADIO_CHANNEL_PIRATE, //NSV13 - pirate radio
 
@@ -79,9 +80,9 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	return new_msg
 
-/mob/living/say(message, bubble_type, var/list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null)
-	var/static/list/crit_allowed_modes = list(WHISPER_MODE = TRUE, MODE_CHANGELING = TRUE, MODE_ALIEN = TRUE)
-	var/static/list/unconscious_allowed_modes = list(MODE_CHANGELING = TRUE, MODE_ALIEN = TRUE)
+/mob/living/say(message, bubble_type, var/list/spans = list(), sanitize = TRUE, datum/language/language, ignore_spam = FALSE, forced)
+	var/static/list/crit_allowed_modes = list(WHISPER_MODE = TRUE, MODE_ALIEN = TRUE)
+	var/static/list/unconscious_allowed_modes = list(MODE_ALIEN = TRUE)
 
 	var/ic_blocked = FALSE
 	if(client && !forced && CHAT_FILTER_CHECK(message))
@@ -103,6 +104,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	message = get_message_mods(message, message_mods)
 	var/datum/saymode/saymode = SSradio.saymodes[message_mods[RADIO_KEY]]
 	var/in_critical = InCritical()
+	message = check_for_custom_say_emote(message, message_mods) //NSV13
 
 	if(!message)
 		return
@@ -111,7 +113,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		say_dead(original_message)
 		return
 
-	if(check_emote(original_message, forced) || !can_speak_basic(original_message, ignore_spam, forced))
+	if(is_muted(original_message, ignore_spam, forced) || check_emote(original_message, forced))
 		return
 
 	if(in_critical) //There are cheaper ways to do this, but they're less flexible, and this isn't ran all that often
@@ -144,29 +146,35 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 
 	var/succumbed = FALSE
 
-	var/fullcrit = InFullCritical()
-	if((in_critical && !fullcrit) || message_mods[WHISPER_MODE] == MODE_WHISPER)
-		if(saymode || message_mods[RADIO_EXTENSION]) //no radio while in crit
-			saymode = null
-			message_mods -= RADIO_EXTENSION
-		message_range = 1
-		message_mods[WHISPER_MODE] = MODE_WHISPER
-		src.log_talk(message, LOG_WHISPER)
-		if(fullcrit)
-			var/health_diff = round(-HEALTH_THRESHOLD_DEAD + health)
-			// If we cut our message short, abruptly end it with a-..
-			var/message_len = length_char(message)
-			message = copytext_char(message, 1, health_diff) + "[message_len > health_diff ? "-.." : "..."]"
-			message = Ellipsis(message, 10, 1)
-			last_words = message
-			message_mods[WHISPER_MODE] = MODE_WHISPER_CRIT
-			succumbed = TRUE
-	else
-		src.log_talk(message, LOG_SAY, forced_by=forced)
+	//NSV13 - Custom say emotes - Start
+	if(message_mods[MODE_CUSTOM_SAY_EMOTE])
+		log_message(message_mods[MODE_CUSTOM_SAY_EMOTE], LOG_RADIO_EMOTE)
+
+	if(!message_mods[MODE_CUSTOM_SAY_ERASE_INPUT])
+		var/fullcrit = InFullCritical()
+		if((in_critical && !fullcrit) || message_mods[WHISPER_MODE] == MODE_WHISPER)
+			if(saymode || message_mods[RADIO_EXTENSION]) //no radio while in crit
+				saymode = null
+				message_mods -= RADIO_EXTENSION
+			message_range = 1
+			message_mods[WHISPER_MODE] = MODE_WHISPER
+			log_talk(message, LOG_WHISPER, custom_say_emote = message_mods[MODE_CUSTOM_SAY_EMOTE])
+			if(fullcrit)
+				var/health_diff = round(-HEALTH_THRESHOLD_DEAD + health)
+				// If we cut our message short, abruptly end it with a-..
+				var/message_len = length_char(message)
+				message = copytext_char(message, 1, health_diff) + "[message_len > health_diff ? "-.." : "..."]"
+				message = Ellipsis(message, 10, 1)
+				last_words = message
+				message_mods[WHISPER_MODE] = MODE_WHISPER_CRIT
+				succumbed = TRUE
+		else
+			log_talk(message, LOG_SAY, forced_by = forced, custom_say_emote = message_mods[MODE_CUSTOM_SAY_EMOTE])
+	//NSV13 - Custom say emotes - End
 
 	message = treat_message(message) // unfortunately we still need this
 	var/sigreturn = SEND_SIGNAL(src, COMSIG_MOB_SAY, args)
-	if (sigreturn & COMPONENT_UPPERCASE_SPEECH)
+	if(sigreturn & COMPONENT_UPPERCASE_SPEECH)
 		message = uppertext(message)
 	if(!message)
 		return
@@ -202,7 +210,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	//No screams in space, unless you're next to someone.
 	var/turf/T = get_turf(src)
 	var/datum/gas_mixture/environment = T.return_air()
-	var/pressure = (environment)? environment.return_pressure() : 0
+	var/pressure = environment ? environment.return_pressure() : 0
 	if(pressure < SOUND_MINIMUM_PRESSURE)
 		message_range = 1
 
@@ -223,6 +231,13 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		return
 	var/deaf_message
 	var/deaf_type
+	var/avoid_highlight
+	if(istype(speaker, /atom/movable/virtualspeaker))
+		var/atom/movable/virtualspeaker/virt = speaker
+		avoid_highlight = src == virt.source
+	else
+		avoid_highlight = src == speaker
+
 	if(speaker != src)
 		if(!radio_freq) //These checks have to be seperate, else people talking on the radio will make "You can't hear yourself!" appear when hearing people over the radio while deaf.
 			deaf_message = "<span class='name'>[speaker]</span> [speaker.verb_say] something but you cannot hear [speaker.p_them()]."
@@ -232,13 +247,13 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		deaf_type = 2 // Since you should be able to hear yourself without looking
 
 	// Create map text prior to modifying message for goonchat
-	if(client?.prefs.chat_on_map && stat != UNCONSCIOUS && (client.prefs.see_chat_non_mob || ismob(speaker)) && can_hear())
+	if((client?.prefs.toggles & PREFTOGGLE_RUNECHAT_GLOBAL) && stat != UNCONSCIOUS && ((client.prefs.toggles & PREFTOGGLE_RUNECHAT_NONMOBS) || ismob(speaker)) && can_hear())
 		create_chat_message(speaker, message_language, raw_message, spans)
 
 	// Recompose message for AI hrefs, language incomprehension.
 	message = compose_message(speaker, message_language, raw_message, radio_freq, spans, message_mods)
 
-	show_message(message, MSG_AUDIBLE, deaf_message, deaf_type)
+	show_message(message, MSG_AUDIBLE, deaf_message, deaf_type, avoid_highlight)
 	return message
 
 /mob/living/send_speech(message, message_range = 6, obj/source = src, bubble_type = bubble_icon, list/spans, datum/language/message_language=null, list/message_mods = list())
@@ -246,7 +261,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	var/eavesdrop_range = 0
 	if(message_mods[WHISPER_MODE]) //If we're whispering
 		eavesdrop_range = EAVESDROP_EXTRA_RANGE
-	var/list/listening = get_hearers_in_view(message_range+eavesdrop_range, source)
+	var/list/listening = get_hearers_in_view(message_range+eavesdrop_range, source, SEE_INVISIBLE_MAXIMUM)
 	var/list/the_dead = list()
 	for(var/mob/M as() in GLOB.player_list)
 		if(!M)				//yogs
@@ -254,11 +269,14 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		if(M.stat != DEAD) //not dead, not important
 			continue
 		if(!M.client || !client) //client is so that ghosts don't have to listen to mice
+			listening -= M // remove (added by SEE_INVISIBLE_MAXIMUM)
 			continue
 		if(get_dist(M, src) > 7 || M.get_virtual_z_level() != get_virtual_z_level()) //they're out of range of normal hearing
 			if(eavesdrop_range && !(M.client.prefs.chat_toggles & CHAT_GHOSTWHISPER)) //they're whispering and we have hearing whispers at any range off
+				listening -= M // remove (added by SEE_INVISIBLE_MAXIMUM)
 				continue
 			if(!(M.client.prefs.chat_toggles & CHAT_GHOSTEARS)) //they're talking normally and we have hearing at any range off
+				listening -= M // remove (added by SEE_INVISIBLE_MAXIMUM)
 				continue
 		listening |= M
 		the_dead[M] = TRUE
@@ -286,7 +304,12 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 					show_overhead_message_to += M
 			AM.Hear(rendered, src, message_language, message, , spans, message_mods)
 	if(length(show_overhead_message_to))
-		create_chat_message(src, message_language, show_overhead_message_to, message, spans)
+		//NSV13 - Custom Say Emotes - Start
+		if(message_mods[MODE_CUSTOM_SAY_ERASE_INPUT])
+			create_chat_message(src, message_language, show_overhead_message_to, message_mods[MODE_CUSTOM_SAY_EMOTE], spans)
+		else
+			create_chat_message(src, message_language, show_overhead_message_to, message, spans)
+		//NSV13 - Custom Say Emotes - End
 	if(length(show_overhead_message_to_eavesdrop))
 		create_chat_message(src, message_language, show_overhead_message_to_eavesdrop, eavesdropping, spans)
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_LIVING_SAY_SPECIAL, src, message)
@@ -294,7 +317,7 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	//speech bubble
 	var/list/speech_bubble_recipients = list()
 	for(var/mob/M in listening)
-		if(M.client && !M.client.prefs.chat_on_map)
+		if(M.client && !(M.client.prefs.toggles & PREFTOGGLE_RUNECHAT_GLOBAL))
 			speech_bubble_recipients.Add(M.client)
 	var/image/I = image('icons/mob/talk.dmi', src, "[bubble_type][say_test(message)]", FLY_LAYER)
 	I.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
@@ -318,18 +341,18 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	return FALSE
 
 /mob/living/can_speak(message) //For use outside of Say()
-	if(can_speak_basic(message) && can_speak_vocal(message))
+	if(!is_muted(message) && can_speak_vocal(message))
 		return TRUE
 
-/mob/living/proc/can_speak_basic(message, ignore_spam = FALSE, forced = FALSE) //Check BEFORE handling of xeno and ling channels
+/mob/living/proc/is_muted(message, ignore_spam = FALSE, forced = FALSE) //Check BEFORE handling of xeno and ling channels
 	if(client)
 		if(client.prefs.muted & MUTE_IC)
 			to_chat(src, "<span class='danger'>You cannot speak in IC (muted).</span>")
-			return FALSE
-		if(!ignore_spam && !forced && client.handle_spam_prevention(message,MUTE_IC))
-			return FALSE
+			return TRUE
+		if(!ignore_spam && !forced && client.handle_spam_prevention(message, MUTE_IC))
+			return TRUE
 
-	return TRUE
+	return FALSE
 
 /mob/living/proc/can_speak_vocal(message) //Check AFTER handling of xeno and ling channels
 	if(HAS_TRAIT(src, TRAIT_MUTE))
@@ -363,13 +386,14 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	if(clockslurring)
 		message = clockslur(message)
 
-	// check for and apply punctuation
+	return treat_message_min(message)
+
+/mob/proc/treat_message_min(message)
 	var/end = copytext(message, length(message))
-	if(!(end in list("!", ".", "?", ":", "\"", "-")))
+	if(!(end in list("!", ".", "?", ":", "\"", "-", "~")))
 		message += "."
 
 	message = capitalize(message)
-
 	return message
 
 /mob/living/proc/radio(message, list/message_mods = list(), list/spans, language)

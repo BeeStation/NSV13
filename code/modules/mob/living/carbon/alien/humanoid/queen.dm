@@ -5,6 +5,7 @@
 	ventcrawler = VENTCRAWLER_NONE //pull over that ass too fat
 	unique_name = 0
 	pixel_x = -16
+	base_pixel_x = -16
 	bubble_icon = "alienroyal"
 	mob_size = MOB_SIZE_LARGE
 	layer = LARGE_MOB_LAYER //above most mobs, but below speechbubbles
@@ -12,9 +13,10 @@
 	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/slab/xeno = 20, /obj/item/stack/sheet/animalhide/xeno = 3)
 
 	var/alt_inhands_file = 'icons/mob/alienqueen.dmi'
+	var/game_end_timer
 
 /mob/living/carbon/alien/humanoid/royal/can_inject()
-	return 0
+	return FALSE
 
 /mob/living/carbon/alien/humanoid/royal/queen/proc/maidify()
 	name = "alien queen maid"
@@ -40,9 +42,9 @@
 	icon_state = "alienq"
 	var/datum/action/small_sprite/smallsprite = new/datum/action/small_sprite/queen()
 
-/mob/living/carbon/alien/humanoid/royal/queen/Initialize()
-	SSshuttle.registerHostileEnvironment(src) //aliens delay shuttle
-	addtimer(CALLBACK(src, .proc/game_end), 30 MINUTES) //time until shuttle is freed/called
+/mob/living/carbon/alien/humanoid/royal/queen/Initialize(mapload)
+	RegisterSignal(src, COMSIG_MOVABLE_Z_CHANGED, .proc/check_hostile)
+	check_hostile() //still need to call this
 	//there should only be one queen
 	for(var/mob/living/carbon/alien/humanoid/royal/queen/Q in GLOB.carbon_list)
 		if(Q == src)
@@ -68,21 +70,39 @@
 	internal_organs += new /obj/item/organ/alien/eggsac
 	..()
 
+/mob/living/carbon/alien/humanoid/royal/queen/proc/check_hostile()
+	SIGNAL_HANDLER
+	if(is_station_level(src.z)) //we don't want the hostile environment if the xenos aren't actually on station
+		SSshuttle.registerHostileEnvironment(src) //aliens delay shuttle
+		if(game_end_timer)	//clear the timer if it exists
+			deltimer(game_end_timer)
+		game_end_timer = addtimer(CALLBACK(src, .proc/game_end), 30 MINUTES, TIMER_STOPPABLE) //time until shuttle is freed/called
+		return
+	if(src in SSshuttle.hostileEnvironments)
+		SSshuttle.clearHostileEnvironment(src) //left the z level, no longer matters
+
 /mob/living/carbon/alien/humanoid/royal/queen/proc/game_end()
 	var/turf/T = get_turf(src)
 	if(stat != DEAD && is_station_level(T.z))
 		SSshuttle.clearHostileEnvironment(src)
 		if(EMERGENCY_IDLE_OR_RECALLED)
 			priority_announce("Xenomorph infestation detected: crisis shuttle protocols activated - jamming recall signals across all frequencies.", SSstation.announcer.get_rand_alert_sound())
-			play_soundtrack_music(/datum/soundtrack_song/bee/mind_crawler, only_station = TRUE)
 			SSshuttle.emergency.request(null, set_coefficient=0.5)
 			SSshuttle.emergencyNoRecall = TRUE
+			UnregisterSignal(src, COMSIG_MOVABLE_Z_CHANGED) // we don't care anymore
 
 /mob/living/carbon/alien/humanoid/royal/queen/death() //dead queen doesnt stop shuttle
+	UnregisterSignal(src, COMSIG_MOVABLE_Z_CHANGED)
 	SSshuttle.clearHostileEnvironment(src)
 	..()
 
+/mob/living/carbon/alien/humanoid/royal/queen/revive(full_heal = 0, admin_revive = 0)
+	if(..())
+		RegisterSignal(src, COMSIG_MOVABLE_Z_CHANGED, .proc/check_hostile)
+		check_hostile()
+
 /mob/living/carbon/alien/humanoid/royal/queen/Destroy()
+	UnregisterSignal(src, COMSIG_MOVABLE_Z_CHANGED)
 	SSshuttle.clearHostileEnvironment(src)
 	..()
 
@@ -114,11 +134,9 @@
 
 	action_icon_state = "alien_queen_promote"
 
-
-
 /obj/effect/proc_holder/alien/royal/queen/promote/fire(mob/living/carbon/alien/user)
 	var/obj/item/queenpromote/prom
-	if(get_alien_type(/mob/living/carbon/alien/humanoid/royal/praetorian/))
+	if(get_alien_type_in_hive(/mob/living/carbon/alien/humanoid/royal/praetorian/))
 		to_chat(user, "<span class='noticealien'>You already have a Praetorian!</span>")
 		return 0
 	else
@@ -142,7 +160,7 @@
 	item_flags = ABSTRACT | DROPDEL
 	icon = 'icons/mob/alien.dmi'
 
-/obj/item/queenpromote/Initialize()
+/obj/item/queenpromote/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, ABSTRACT_ITEM_TRAIT)
 
@@ -150,7 +168,7 @@
 	if(!isalienadult(M) || isalienroyal(M))
 		to_chat(user, "<span class='noticealien'>You may only use this with your adult, non-royal children!</span>")
 		return
-	if(get_alien_type(/mob/living/carbon/alien/humanoid/royal/praetorian/))
+	if(get_alien_type_in_hive(/mob/living/carbon/alien/humanoid/royal/praetorian/))
 		to_chat(user, "<span class='noticealien'>You already have a Praetorian!</span>")
 		return
 

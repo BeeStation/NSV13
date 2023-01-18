@@ -35,8 +35,8 @@ Consuming extracts:
 			last_produced = world.time
 			for(var/i in 1 to cookies)
 				var/obj/item/S = spawncookie()
-				S.pixel_x = rand(-5, 5)
-				S.pixel_y = rand(-5, 5)
+				S.pixel_x = base_pixel_x + rand(-5, 5)
+				S.pixel_y = base_pixel_y + rand(-5, 5)
 		return
 	..()
 
@@ -293,7 +293,7 @@ Consuming extracts:
 	taste = "vanilla and " //Randomly selected color dye.
 	var/colour = "#FFFFFF"
 
-/obj/item/slime_cookie/pyrite/Initialize()
+/obj/item/slime_cookie/pyrite/Initialize(mapload)
 	. = ..()
 	var/tastemessage = "paint remover"
 	switch(rand(1,7))

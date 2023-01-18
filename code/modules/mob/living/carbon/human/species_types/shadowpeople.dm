@@ -4,7 +4,7 @@
 /datum/species/shadow
 	// Humans cursed to stay in the darkness, lest their life forces drain. They regain health in shadow and die in light.
 	name = "???"
-	id = "shadow"
+	id = SPECIES_SHADOWPERSON
 	sexes = 0
 	meat = /obj/item/reagent_containers/food/snacks/meat/slab/human/mutant/shadow
 	species_traits = list(NOBLOOD,NOEYESPRITES,NOFLASH)
@@ -14,6 +14,13 @@
 	mutanteyes = /obj/item/organ/eyes/night_vision
 	species_language_holder = /datum/language_holder/shadowpeople
 
+	species_chest = /obj/item/bodypart/chest/shadow
+	species_head = /obj/item/bodypart/head/shadow
+	species_l_arm = /obj/item/bodypart/l_arm/shadow
+	species_r_arm = /obj/item/bodypart/r_arm/shadow
+	species_l_leg = /obj/item/bodypart/l_leg/shadow
+	species_r_leg = /obj/item/bodypart/r_leg/shadow
+
 
 /datum/species/shadow/spec_life(mob/living/carbon/human/H)
 	var/turf/T = H.loc
@@ -21,9 +28,9 @@
 		var/light_amount = T.get_lumcount()
 
 		if(light_amount > SHADOW_SPECIES_LIGHT_THRESHOLD) //if there's enough light, start dying
-			H.take_overall_damage(1,1, 0, BODYPART_ORGANIC)
+			H.take_overall_damage(1,1, 0, BODYTYPE_ORGANIC)
 		else if (light_amount < SHADOW_SPECIES_LIGHT_THRESHOLD) //heal in the dark
-			H.heal_overall_damage(1,1, 0, BODYPART_ORGANIC)
+			H.heal_overall_damage(1,1, 0, BODYTYPE_ORGANIC)
 
 /datum/species/shadow/check_roundstart_eligible()
 	if(SSevents.holidays && SSevents.holidays[HALLOWEEN])
@@ -33,7 +40,6 @@
 /datum/species/shadow/nightmare
 	name = "Nightmare"
 	id = "nightmare"
-	limbs_id = "shadow"
 	burnmod = 1.5
 	no_equip = list(ITEM_SLOT_MASK, ITEM_SLOT_OCLOTHING, ITEM_SLOT_GLOVES, ITEM_SLOT_FEET, ITEM_SLOT_ICLOTHING, ITEM_SLOT_SUITSTORE)
 	species_traits = list(NOBLOOD,NO_UNDERWEAR,NO_DNA_COPY,NOTRANSSTING,NOEYESPRITES,NOFLASH)
@@ -161,8 +167,6 @@
 	icon_state = "arm_blade"
 	item_state = "arm_blade"
 	force = 25
-	block_upgrade_walk = 1
-	block_level = 1
 	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
 	armour_penetration = 35
 	lefthand_file = 'icons/mob/inhands/antag/changeling_lefthand.dmi'
@@ -171,9 +175,10 @@
 	w_class = WEIGHT_CLASS_HUGE
 	sharpness = IS_SHARP
 
-/obj/item/light_eater/Initialize()
+/obj/item/light_eater/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NODROP, HAND_REPLACEMENT_TRAIT)
+	ADD_TRAIT(src, TRAIT_DOOR_PRYER, INNATE_TRAIT)
 	AddComponent(/datum/component/butchering, 80, 70)
 
 /obj/item/light_eater/afterattack(atom/movable/AM, mob/user, proximity)
@@ -204,15 +209,19 @@
 
 /mob/living/silicon/robot/lighteater_act(obj/item/light_eater/light_eater)
 	..()
-	if(!lamp_cooldown)
-		update_headlamp(TRUE, INFINITY)
-		to_chat(src, "<span class='danger'>Your headlamp is fried! You'll need a human to help replace it.</span>")
+	if(lamp_enabled)
+		smash_headlamp()
 
 /obj/structure/bonfire/lighteater_act(obj/item/light_eater/light_eater)
 	if(burning)
 		extinguish()
 		playsound(src, 'sound/items/cig_snuff.ogg', 50, 1)
 	..()
+
+/obj/structure/glowshroom/lighteater_act(obj/item/light_eater/light_eater)
+	..()
+	if (light_power > 0)
+		acid_act()
 
 /obj/item/lighteater_act(obj/item/light_eater/light_eater)
 	..()
@@ -225,7 +234,7 @@
 
 
 /obj/item/pda/lighteater_act(obj/item/light_eater/light_eater)
-	if(light_range && light_power && light_on)
+	if(light_range && light_power > 0 && light_on)
 		//Eject the ID card
 		if(id)
 			id.forceMove(get_turf(src))
@@ -233,6 +242,15 @@
 			update_icon()
 			playsound(src, 'sound/machines/terminal_eject.ogg', 50, TRUE)
 	..()
+
+/turf/open/floor/light/lighteater_act(obj/item/light_eater/light_eater)
+	. = ..()
+	if(!light_range || !light_power || !light_on)
+		return
+	if(light_eater)
+		visible_message("<span class='danger'>The light bulb of [src] is disintegrated by [light_eater]!</span>")
+	break_tile()
+	playsound(src, 'sound/items/welder.ogg', 50, 1)
 
 #undef HEART_SPECIAL_SHADOWIFY
 #undef HEART_RESPAWN_THRESHHOLD

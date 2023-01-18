@@ -94,7 +94,7 @@
 		return
 	hitch(load)
 
-/obj/vehicle/sealed/car/realistic/fighter_tug/Initialize()
+/obj/vehicle/sealed/car/realistic/fighter_tug/Initialize(mapload)
 	. = ..()
 	set_light(5)
 
@@ -153,18 +153,18 @@
 		if(dir & NORTH) //PILOTS. REMEMBER TO FACE THE RIGHT WAY WHEN YOU LAUNCH, OR YOU WILL HAVE A TERRIBLE TIME.
 			target.desired_angle += 0
 			target.angle = target.desired_angle
-			target.velocity.y = 20
+			target.velocity.e = 20
 		if(dir & SOUTH)
 			target.desired_angle += 180
 			target.angle = target.desired_angle
-			target.velocity.y = -20
+			target.velocity.e = -20
 		if(dir & EAST)
 			target.desired_angle += 90
 			target.angle = target.desired_angle
-			target.velocity.x = 20
+			target.velocity.a = 20
 		if(dir & WEST)
 			target.desired_angle -= 90
-			target.velocity.x = -20
+			target.velocity.a = -20
 		target.angle = target.desired_angle
 		var/obj/structure/overmap/our_overmap = get_overmap()
 		if(our_overmap)

@@ -6,6 +6,7 @@
 	They are used with the client/screen list and the screen_loc var.
 	For more information, see the byond documentation on the screen_loc and screen vars.
 */
+
 /atom/movable/screen
 	name = ""
 	icon = 'icons/mob/screen_gen.dmi'
@@ -160,6 +161,7 @@
 			icon_state = icon_full
 		else
 			icon_state = icon_empty
+	return ..()
 
 /atom/movable/screen/inventory/proc/add_overlays()
 	var/mob/user = hud?.mymob
@@ -175,7 +177,7 @@
 	var/image/item_overlay = image(holding)
 	item_overlay.alpha = 92
 
-	if(!user.can_equip(holding, slot_id, TRUE))
+	if(!user.can_equip(holding, slot_id, TRUE, bypass_equip_delay_self = TRUE))
 		item_overlay.color = "#FF0000"
 	else
 		item_overlay.color = "#00ff00"
@@ -269,7 +271,7 @@
 	usr.a_intent_change(INTENT_HOTKEY_RIGHT)
 
 /atom/movable/screen/act_intent/segmented/Click(location, control, params)
-	if(usr.client.prefs.toggles & INTENT_STYLE)
+	if(usr.client.prefs.toggles & PREFTOGGLE_INTENT_STYLE)
 		var/_x = text2num(params2list(params)["icon-x"])
 		var/_y = text2num(params2list(params)["icon-y"])
 
@@ -369,6 +371,7 @@
 			icon_state = "walking"
 		if(MOVE_INTENT_RUN)
 			icon_state = "running"
+	return ..()
 
 /atom/movable/screen/mov_intent/proc/toggle(mob/user)
 	if(isobserver(user))
@@ -390,6 +393,7 @@
 		icon_state = "pull"
 	else
 		icon_state = "pull0"
+	return ..()
 
 /atom/movable/screen/resist
 	name = "resist"
@@ -424,6 +428,7 @@
 		icon_state = "act_rest"
 	else
 		icon_state = "act_rest0"
+	return ..()
 
 /atom/movable/screen/storage
 	name = "storage"
@@ -618,6 +623,10 @@
 	icon = 'icons/mob/screen_cyborg.dmi'
 	screen_loc = ui_borg_health
 
+/atom/movable/screen/healths/minebot
+	icon = 'icons/mob/screen_cyborg.dmi'
+	screen_loc = ui_health
+
 /atom/movable/screen/healths/blob
 	name = "blob health"
 	icon_state = "block"
@@ -704,8 +713,12 @@
 	plane = SPLASHSCREEN_PLANE
 	var/client/holder
 
-/atom/movable/screen/splash/New(client/C, visible, use_previous_title) //TODO: Make this use INITIALIZE_IMMEDIATE, except its not easy
+INITIALIZE_IMMEDIATE(/atom/movable/screen/splash)
+
+/atom/movable/screen/splash/Initialize(mapload, client/C, visible, use_previous_title)
 	. = ..()
+	if(!istype(C))
+		return
 
 	holder = C
 
@@ -717,8 +730,7 @@
 			icon = SStitle.icon
 	else
 		if(!SStitle.previous_icon)
-			qdel(src)
-			return
+			return INITIALIZE_HINT_QDEL
 		icon = SStitle.previous_icon
 
 	holder.screen += src
