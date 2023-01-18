@@ -354,6 +354,8 @@
 	var/datum/star_system/target_system = SSstar_system.find_system(overmap_firer)
 	var/list/targets = target_system.system_contents
 	for(var/obj/structure/overmap/ship in targets)
+		if(QDELETED(ship))
+			continue
 		if(overmap_firer.warcrime_blacklist[ship.type])
 			continue
 		if(ship.faction == faction)
