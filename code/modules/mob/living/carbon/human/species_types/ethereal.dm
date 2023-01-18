@@ -42,7 +42,7 @@
 	var/drain_time = 0 //used to keep ethereals from spam draining power sources
 	inert_mutation = OVERLOAD
 	var/obj/effect/dummy/lighting_obj/ethereal_light
-
+	ass_image = "slime" //NSV13
 
 /datum/species/ethereal/Destroy(force)
 	if(ethereal_light)

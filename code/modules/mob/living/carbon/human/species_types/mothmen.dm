@@ -25,6 +25,8 @@
 	species_l_leg = /obj/item/bodypart/l_leg/moth
 	species_r_leg = /obj/item/bodypart/r_leg/moth
 
+	ass_image = "drask" //NSV13
+
 /datum/species/moth/random_name(gender, unique, lastname, attempts)
 	. = "[pick(GLOB.moth_first)]"
 

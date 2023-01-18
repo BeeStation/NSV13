@@ -322,7 +322,7 @@
  * Additionally checks that the mob has their clothes off.
  */
 /obj/machinery/photocopier/proc/make_ass_copy()
-	if(!check_ass())
+	if(!check_ass() || !toner_cartridge)
 		return
 	if(ishuman(ass) && (ass.get_item_by_slot(ITEM_SLOT_ICLOTHING) || ass.get_item_by_slot(ITEM_SLOT_OCLOTHING)))
 		to_chat(usr, "<span class='notice'>You feel kind of silly, copying [ass == usr ? "your" : ass][ass == usr ? "" : "\'s"] ass with [ass == usr ? "your" : "[ass.p_their()]"] clothes on.</span>" )
@@ -333,15 +333,13 @@
 		var/mob/living/carbon/human/H = ass
 		var/datum/species/spec = H.dna.species
 		if(spec.ass_image)
-			temp_img = icon(spec.ass_image)
-		else
-			temp_img = icon(ass.gender == FEMALE ? 'icons/ass/assfemale.png' : 'icons/ass/assmale.png')
-	else if(isalienadult(ass) || istype(ass, /mob/living/simple_animal/hostile/alien)) //Xenos have their own asses, thanks to Pybro.
-		temp_img = icon('icons/ass/assalien.png')
+			temp_img = icon('nsv13/icons/obj/butts.dmi', spec.ass_image)
+	else if(isalienadult(ass))
+		temp_img = icon('nsv13/icons/obj/butts.dmi', "xeno")
 	else if(issilicon(ass))
-		temp_img = icon('icons/ass/assmachine.png')
-	else if(isdrone(ass)) //Drones are hot
-		temp_img = icon('icons/ass/assdrone.png')
+		temp_img = icon('nsv13/icons/obj/butts.dmi', "machine")
+	else if(isdrone(ass))
+		temp_img = icon('nsv13/icons/obj/butts.dmi', "drone")
 
 	var/obj/item/photo/copied_ass = new /obj/item/photo(loc)
 	var/datum/picture/toEmbed = new(name = "[ass]'s Ass", desc = "You see [ass]'s ass on the photo.", image = temp_img)
@@ -546,4 +544,4 @@
 #undef DOCUMENT_TONER_USE
 #undef ASS_TONER_USE
 #undef MAX_COPIES_AT_ONCE
- 
+

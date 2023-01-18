@@ -22,7 +22,7 @@
 	inert_mutation = FIREBREATH
 	deathsound = 'sound/voice/lizard/deathsound.ogg'
 	species_language_holder = /datum/language_holder/lizard
-	ass_image = 'icons/ass/asslizard.png' //NSV13
+	ass_image = "unathi" //NSV13
 	digitigrade_customization = DIGITIGRADE_OPTIONAL
 
 	species_chest = /obj/item/bodypart/chest/lizard

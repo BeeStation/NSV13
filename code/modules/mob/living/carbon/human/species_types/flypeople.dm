@@ -23,6 +23,8 @@
 	species_l_leg = /obj/item/bodypart/l_leg/fly
 	species_r_leg = /obj/item/bodypart/r_leg/fly
 
+	ass_image = "nymph" //NSV13
+
 /datum/species/fly/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H)
 	if(chem.type == /datum/reagent/toxin/pestkiller)
 		H.adjustToxLoss(3)
