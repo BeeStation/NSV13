@@ -37,5 +37,5 @@
 
 #define HOLOMAP_LEGEND_WIDTH 64
 
-#define HOLOMAP_CENTER_X round((HOLOMAP_ICON_SIZE / 2) - (world.maxx / 2))
-#define HOLOMAP_CENTER_Y round((HOLOMAP_ICON_SIZE / 2) - (world.maxy / 2))
+#define HOLOMAP_CENTER_X round((HOLOMAP_ICON_SIZE - world.maxx) / 2)
+#define HOLOMAP_CENTER_Y round((HOLOMAP_ICON_SIZE - world.maxy) / 2)
