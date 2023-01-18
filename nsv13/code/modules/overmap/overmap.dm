@@ -904,7 +904,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		M.Knockdown(2 SECONDS)
 
 /obj/structure/overmap/proc/can_change_safeties()
-	return (SSmapping.level_trait(loc.z, ZTRAIT_OVERMAP))
+	// Safeties can be toggled on the overmap or on small dockable maps like ruins and asteroids
+	return (SSmapping.level_trait(loc.z, ZTRAIT_OVERMAP) || SSmapping.level_trait(loc.z, ZTRAIT_RESERVED))
 
 /obj/structure/overmap/proc/can_brake()
 	return TRUE //See fighters.dm

@@ -1,7 +1,7 @@
 // Raptor Plasma Cutter
 /obj/item/fighter_component/primary/plasmacutter
 	name = "217-A Heavy Plasma Cutter"
-	desc = "A modified plasma cutter for mounting on Raptor utility vessels."
+	desc = "A modified plasma cutter for mounting on Raptor-class utility vessels."
 	icon_state = "mecha_plasmacutter"
 	item_state = "plasmacutter"
 	accepted_ammo = null
@@ -14,7 +14,6 @@
 	lefthand_file = 'icons/mob/inhands/weapons/guns_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
 	slot = HARDPOINT_SLOT_UTILITY_PRIMARY
-	is_safe = TRUE // it's a plasma cutter, you want to be able to fire this on asteroids.
 	var/projectile = /obj/item/projectile/plasma/adv/mech
 	var/charge_to_fire = 2500
 
