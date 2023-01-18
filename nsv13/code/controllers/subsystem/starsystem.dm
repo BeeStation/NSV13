@@ -868,7 +868,7 @@ Returns a faction datum by its name (case insensitive!)
 	gas_resources["/datum/gas/carbon_dioxide"] = carbon_dioxide
 	gas_resources["/datum/gas/nitrous_oxide"] = n2o
 
-	linked_cloud = SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/gas_cloud/system)
+	linked_cloud = SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/gas_cloud/system, src)
 	linked_cloud.link_system(src)
 	linked_cloud.add_resources(gas_resources)
 
