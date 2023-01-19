@@ -226,6 +226,22 @@
 	pipe_flags = PIPING_ONE_PER_TURF
 	active_power_usage = 200
 	var/obj/machinery/ship_weapon/plasma_caster/linked_gun
+	var/naughty = FALSE
+	var/heretical_gases = list(
+		GAS_CO2,
+		GAS_BZ,
+		GAS_O2,
+		GAS_N2,
+		GAS_H2O,
+		GAS_HYPERNOB,
+		GAS_NITROUS,
+		GAS_TRITIUM,
+		GAS_NITRYL,
+		GAS_STIMULUM,
+		GAS_PLUOXIUM,
+		GAS_CONSTRICTED_PLASMA,
+		GAS_NUCLEIUM,
+	)
 
 /obj/machinery/atmospherics/components/unary/plasma_loader/on_construction()
 	var/obj/item/circuitboard/machine/thermomachine/board = circuit
@@ -264,13 +280,28 @@
 		return
 
 	var/datum/gas_mixture/air1 = airs[1]
+	var/datum/gas_mixture/environment = loc.return_air()
+
 	if(air1.get_moles(GAS_PLASMA) > 5 && linked_gun.plasma_mole_amount < linked_gun.plasma_fire_moles)
 		air1.adjust_moles(GAS_PLASMA, -5)
 		linked_gun.plasma_mole_amount += 5
-	if(air1.get_moles(!GAS_PLASMA))
-		unsafe_pressure_release()
-		say("Non-Phoron gas detected! Venting gas!")
+	for(var/gas in heretical_gases)
+		if(air1.get_moles(gas))
+			var/air1_pressure = air1.return_pressure()
+
+			var/transfer_moles = air1_pressure*environment.return_volume()/(air1.return_temperature() * R_IDEAL_GAS_EQUATION)
+			loc.assume_air_moles(air1, transfer_moles)
+			air_update_turf(1)
+
+			//WORKS FOR ME
+			//WHY IS THIS HERE
+			naughty = TRUE //Someone tried to do something naughty~
+
+	if(naughty)
+		say("Non-Phoron gas detected! Venting gas!") //BURN THEM ALL
 		on = !on
+		update_icon()
+		naughty = FALSE
 	update_parents()
 
 /obj/item/circuitboard/machine/plasma_loader
