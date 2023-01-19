@@ -3,7 +3,7 @@
 #define FTL_STATE_READY 3
 #define FTL_STATE_JUMPING 4
 
-/datum/star_system/proc/add_ship(obj/structure/overmap/OM, turf/target_turf)
+/datum/star_system/proc/add_ship(obj/structure/overmap/OM, turf/target_turf, pinpoint_accurate = FALSE)
 	if(!system_contents.Find(OM))
 		system_contents += OM	//Lets be safe while I cast some black magic.
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
@@ -36,7 +36,11 @@
 	if(!destination)
 		message_admins("WARNING: The [name] system has no exit point for ships! Something has caused this Z-level to despawn erroneously, please contact Kmc immediately!.")
 		return
-	var/turf/exit = get_turf(pick(orange(15, destination)))
+	var/turf/exit
+	if(!pinpoint_accurate)
+		exit = get_turf(pick(orange(15, destination)))
+	else
+		exit = destination
 	OM.forceMove(exit)
 	if(istype(OM, /obj/structure/overmap))
 		OM.current_system = src //Debugging purposes only

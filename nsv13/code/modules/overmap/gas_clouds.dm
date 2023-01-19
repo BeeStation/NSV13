@@ -6,6 +6,17 @@
     starmap_hidden = TRUE
     probe_scannable = FALSE
     research_points = 0 //lets be safe
+    icon = 'icons/effects/96x96.dmi'
+    icon_state = "smoke2"
+    pixel_x = -32
+    pixel_y = -32
+    bound_height = 32
+    bound_width = 32
+    opacity = 1 //Might be an idea to have these be bigger if they hold more gas? Cool concept, since they block LOS.
+    alpha = 0
+    layer = FLY_LAYER
+    ///If this cloud is not visible for some reason. Otherwise, animates towards 255 alpha after spawn.
+    var/not_visible = FALSE
     ///What riches does this cloud hold?
     var/gas_resources = list()
     ///How long does this cloud exist after creation? In ticks; -1 to disable decay except if gas depleted.
@@ -22,6 +33,8 @@
     gas_resources["/datum/gas/nitrous_oxide"] = 0
     if(decay_time != -1)
         addtimer(CALLBACK(src, .proc/decay_cloud), decay_time)
+    if(!not_visible)
+        animate(src, alpha = 255, time = 20)
 
 //Checks for if a gas cloud is empty and deletes it if yes. Permanent gas clouds should override this.
 /obj/effect/overmap_anomaly/gas_cloud/proc/empty_check()
@@ -36,7 +49,7 @@
         return
     decaying = TRUE
     SEND_SIGNAL(src, COMSIG_CLOUD_DECAYING, src)
-    animate(src, alpha = 0, time = 20)
+    animate(src, alpha = 0, time = 20, flags = ANIMATION_END_NOW)
     QDEL_IN(src, 22)
 
 ///Adds resources to a gas cloud. Should be done after creation, but can also be used after creation. If there are no resources after such a call, the cloud self-deletes (usually).
@@ -44,7 +57,7 @@
     //cursed byond variable stuff
     for(var/x as anything in incoming_resources)
         gas_resources["[x]"] += incoming_resources["[x]"]
-
+    recalc_color()
     empty_check()
 
 ///Proc for admins or lazy coders to mess with clouds. Two args, first string for the gas name (aka the part in the datum/gas/[HERE]), then amount. Tis all.
@@ -59,8 +72,42 @@
             amount = gas_resources["/datum/gas/[name]"] //:)
     
     gas_resources["/datum/gas/[name]"] += amount
+    recalc_color()
     if(removing_resources)
         empty_check()
+
+/**
+ * Removes a gas with the post /datum/gas/.. name of name and amount moles. No effect if that name isn't in the list, doesn't drain below 0 remaining.
+ * * Returns: Amount drained.
+**/
+/obj/effect/overmap_anomaly/gas_cloud/proc/remove_resource(var/name, var/amount)
+    if(!gas_resources["/datum/gas/[name]"])
+        return 0
+    if(amount <= 0)
+        return 0
+    . = min(amount, gas_resources["/datum/gas/[name]"])
+    gas_resources["/datum/gas/[name]"] -= .
+    recalc_color()
+    empty_check()
+
+///Changes the cloud's color to be similarish to the primary gas in it. So mostly purple for plasma and just smoke for most others.
+/obj/effect/overmap_anomaly/gas_cloud/proc/recalc_color()
+    var/biggest = 0
+    var/name
+    remove_atom_colour(FIXED_COLOUR_PRIORITY)
+    for(var/x as anything in gas_resources)
+        if(gas_resources["[x]"] > biggest) //byond assoc list ops my beloved.
+            biggest = gas_resources["[x]"]
+            name = x
+
+    if(biggest <= 0)
+        return
+    switch(name) //Primary gas determines color.. which is kinda semipointless I realize since most minable gasses are, well, colorless. Oh well plasma isn't!
+        if("/datum/gas/plasma")
+            add_atom_colour("#7113be", FIXED_COLOUR_PRIORITY)
+        if("/datum/gas/nitrous_oxide")
+            add_atom_colour("#d7f1f1", FIXED_COLOUR_PRIORITY)
+
 
 //Special gas cloud type that is linked to a starsystem and contains its system resources. Goes invisible if the system is depleted, appears again if there's somehow new resources.
 //This should NEVER be destroyed except by the system itself QDELing!!
@@ -68,7 +115,8 @@
     name = "UNLINKED gas harvesting point"
     desc = "This system harvesting point wasn't linked for some reason. Report it on Github or yell at the badmin who did this."
     decay_time = -1 //for clarity
-    alpha = 0 //It's just a specific point in space you have to fly close to because the holy ship computer deemed it a nice spot.
+    not_visible = TRUE //It's just a specific point in space you have to fly close to because the holy ship computer deemed it a nice spot.
+    opacity = 0
     ///Which system is this linked to?
     var/datum/star_system/linked_system
 
@@ -84,7 +132,7 @@
         CRASH("No system passed to gas cloud linkage proc.")
     linked_system = link_to
     name = "[linked_system.name] gas harvesting point"
-    name = "Optimal resourcing point for [linked_system.name]. Proximity required for gas harvesting."
+    name = "[linked_system.name] resourcing point"
 
 /obj/effect/overmap_anomaly/gas_cloud/shipbreaking
     name = "gas cloud"

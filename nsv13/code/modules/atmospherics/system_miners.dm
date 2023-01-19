@@ -64,7 +64,8 @@
     var/gas_amount = 0
     if(attached_overmap.locked_gas_cloud.gas_resources["[spawn_id]"])
         gas_amount = attached_overmap.locked_gas_cloud.gas_resources["[spawn_id]"]
-    . += "Remaining supply in this gas cloud: <b>[gas_amount]</b> moles."
+    var/datum/gas/gas_prototype = spawn_id
+    . += "Remaining [initial(gas_prototype.name)] supply within currently targeted source: <b>[gas_amount]</b> moles."
 
 /obj/machinery/atmospherics/miner/system/n2o
 	name = "\improper N2O Gas Collector"

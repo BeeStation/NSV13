@@ -271,14 +271,16 @@ Returns a faction datum by its name (case insensitive!)
 	target_sys.system_contents += OM
 	if(target_sys.occupying_z)
 		var/turf/destination = null
+		var/accurate = FALSE
 		if(override_x && override_y)
 			destination = get_turf(locate(override_x, override_y, target_sys.occupying_z))
+			accurate = TRUE
 		else if(center)
 			destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), target_sys.occupying_z)) //Plop them bang in the center of the system as requested. This is usually saved for wormholes.
 		else
 			destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), target_sys.occupying_z)) //Spawn them somewhere in the system. I don't really care where.
 		var/obj/structure/overmap/enemy = new OM(destination)
-		target_sys.add_ship(enemy, destination)
+		target_sys.add_ship(enemy, destination, accurate)
 	else
 		target_sys.enemy_queue += OM
 
@@ -318,15 +320,17 @@ Returns a faction datum by its name (case insensitive!)
 /datum/controller/subsystem/star_system/proc/spawn_anomaly(anomaly_type, datum/star_system/target_sys, center=FALSE, override_x, override_y)
 	var/turf/destination = null
 	var/relevant_z = target_sys.occupying_z ? target_sys.occupying_z : 1
+	var/accurate = FALSE
 	if(override_x && override_y)
 		destination = get_turf(locate(override_x, override_y, relevant_z))
+		accurate = TRUE //We want to be on a specific turf.
 	else if(center)
 		destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), relevant_z))
 	else
 		destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), relevant_z))
 	if(target_sys.occupying_z)
 		var/obj/effect/overmap_anomaly/anomaly = new anomaly_type(destination)
-		target_sys.add_ship(anomaly, destination)
+		target_sys.add_ship(anomaly, destination, accurate)
 		return anomaly
 	var/obj/effect/overmap_anomaly/anomaly = new anomaly_type(destination)
 	target_sys.contents_positions[anomaly] = list("x" = anomaly.x, "y" = anomaly.y) //Cache the ship's position so we can regenerate it later.
