@@ -136,7 +136,7 @@
 		makedarkpurpleslime()
 	atmos_spawn_air("plasma=[plasma_mole_amount];TEMP=293")
 	alignment -= rand(1,30)
-	field_integrity -= (20,50)
+	field_integrity -= rand(20,50)
 	plasma_mole_amount = 0
 
 /obj/machinery/ship_weapon/plasma_caster/after_fire()
@@ -267,7 +267,10 @@
 	if(air1.get_moles(GAS_PLASMA) > 5 && linked_gun.plasma_mole_amount < linked_gun.plasma_fire_moles)
 		air1.adjust_moles(GAS_PLASMA, -5)
 		linked_gun.plasma_mole_amount += 5
-
+	if(air1.get_moles(!GAS_PLASMA))
+		unsafe_pressure_release()
+		say("Non-Phoron gas detected! Venting gas!")
+		on = !on
 	update_parents()
 
 /obj/item/circuitboard/machine/plasma_loader
