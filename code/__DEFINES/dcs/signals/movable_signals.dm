@@ -47,3 +47,9 @@
 #define COMSIG_STORAGE_ENTERED "storage_entered"
 ///from base of atom/movable/on_exit_storage(): (datum/component/storage/concrete/master_storage)
 #define COMSIG_STORAGE_EXITED "storage_exited"
+
+///NSV13 - Modsuits - Start
+/// from base of atom/movable/Process_Spacemove(): (movement_dir)
+#define COMSIG_MOVABLE_SPACEMOVE "spacemove"
+	#define COMSIG_MOVABLE_STOP_SPACEMOVE (1<<0)
+///NSV13 - Modsuits - Stop

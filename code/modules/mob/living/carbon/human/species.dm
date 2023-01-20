@@ -955,7 +955,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				return FALSE
 			if(num_legs < 2)
 				return FALSE
-			if((bodytype & BODYTYPE_DIGITIGRADE) && !(I.supports_variations & DIGITIGRADE_VARIATION))
+			if((bodytype & BODYTYPE_DIGITIGRADE) && !(I.supports_variations & DIGITIGRADE_VARIATION) && !(I.item_flags & IGNORE_DIGITIGRADE)) //NSV13 - Modsuits
 				if(!disable_warning)
 					to_chat(H, "<span class='warning'>The footwear around here isn't compatible with your feet!</span>")
 				return FALSE

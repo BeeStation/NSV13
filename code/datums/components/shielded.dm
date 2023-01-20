@@ -19,6 +19,12 @@
 	var/shield_icon = "shield-old"
 	/// Do we still shield if we're being held in-hand? If FALSE, it needs to be equipped to a slot to work
 	var/shield_inhand = FALSE
+	//NSV13 - Modsuits - Start
+	/// The item we use for recharging
+	var/recharge_path
+	/// How many charges we recover on each charge increment
+	var/charge_recovery = 1
+	//NSV13 - Modsuits - End
 	/// The cooldown tracking when we were last hit
 	COOLDOWN_DECLARE(recently_hit_cd)
 	/// The cooldown tracking when we last replenished a charge
@@ -26,19 +32,27 @@
 	/// A callback for the sparks/message that play when a charge is used, see [/datum/component/shielded/proc/default_run_hit_callback]
 	var/datum/callback/on_hit_effects
 
-/datum/component/shielded/Initialize(max_charges = 3, recharge_start_delay = 20 SECONDS, charge_increment_delay = 1 SECONDS, shield_icon_file = 'icons/effects/effects.dmi', shield_icon = "shield-old", shield_inhand = FALSE, run_hit_callback)
+/datum/component/shielded/Initialize(max_charges = 3, recharge_start_delay = 20 SECONDS, charge_increment_delay = 1 SECONDS, recharge_path = null, starting_charges = null, charge_recovery = 1, shield_icon_file = 'icons/effects/effects.dmi', shield_icon = "shield-old", shield_inhand = FALSE, run_hit_callback) //NSV13 - Modsuits
 	if(!isitem(parent) || max_charges <= 0)
 		return COMPONENT_INCOMPATIBLE
 
 	src.max_charges = max_charges
 	src.recharge_start_delay = recharge_start_delay
 	src.charge_increment_delay = charge_increment_delay
+	src.recharge_path = recharge_path //NSV13 - Modsuits
+	src.charge_recovery = charge_recovery //NSV13 - Modsuits
 	src.shield_icon_file = shield_icon_file
 	src.shield_icon = shield_icon
 	src.shield_inhand = shield_inhand
 	src.on_hit_effects = run_hit_callback || CALLBACK(src, .proc/default_run_hit_callback)
 
-	current_charges = max_charges
+	//NSV13 - Modsuits - Start
+	if(isnull(starting_charges))
+		current_charges = max_charges
+	else
+		current_charges = starting_charges
+	//NSV13 - Modsuits - End
+
 	if(recharge_start_delay)
 		START_PROCESSING(SSdcs, src)
 
@@ -56,9 +70,22 @@
 	RegisterSignal(parent, COMSIG_ITEM_DROPPED, .proc/lost_wearer)
 	RegisterSignal(parent, COMSIG_ITEM_HIT_REACT, .proc/on_hit_react)
 	RegisterSignal(parent, COMSIG_PARENT_ATTACKBY, .proc/check_recharge_item)
+	//NSV13 - Modsuits - Start
+	var/atom/shield = parent
+	if(ismob(shield.loc))
+		var/mob/holder = shield.loc
+		if(holder.is_holding(parent) && !shield_inhand)
+			return
+		set_wearer(holder)
+	//NSV13 - Modsuits - Stop
 
 /datum/component/shielded/UnregisterFromParent()
 	UnregisterSignal(parent, list(COMSIG_ITEM_EQUIPPED, COMSIG_ITEM_DROPPED, COMSIG_ITEM_HIT_REACT, COMSIG_PARENT_ATTACKBY))
+	//NSV13 - Modsuits - Start
+	var/atom/shield = parent
+	if(shield.loc == wearer)
+		lost_wearer(src, wearer)
+	//NSV13 - Modsuits - Stop
 
 // Handle recharging, if we want to
 /datum/component/shielded/process(delta_time)
@@ -88,11 +115,9 @@
 		lost_wearer(source, user)
 		return
 
-	wearer = user
-	RegisterSignal(wearer, COMSIG_ATOM_UPDATE_OVERLAYS, .proc/on_update_overlays)
-	RegisterSignal(wearer, COMSIG_PARENT_QDELETING, .proc/lost_wearer)
-	if(current_charges)
-		wearer.update_icon()
+	//NSV13 - Modsuit - Start
+	set_wearer(source, user)
+	//NSV13 - Modsuit - Stop
 
 /// Either we've been dropped or our wearer has been QDEL'd. Either way, they're no longer our problem
 /datum/component/shielded/proc/lost_wearer(datum/source, mob/user)
@@ -102,6 +127,16 @@
 		UnregisterSignal(wearer, list(COMSIG_ATOM_UPDATE_OVERLAYS, COMSIG_PARENT_QDELETING))
 		wearer.update_icon()
 		wearer = null
+
+//NSV13 - Modsuit - Start
+/datum/component/shielded/proc/set_wearer(mob/user)
+	wearer = user
+	RegisterSignal(wearer, COMSIG_ATOM_UPDATE_OVERLAYS, .proc/on_update_overlays)
+	RegisterSignal(wearer, COMSIG_PARENT_QDELETING, .proc/lost_wearer)
+	if(current_charges)
+		wearer.update_appearance(UPDATE_ICON)
+//NSV13 - Modsuit - Stop
+
 
 /// Used to draw the shield overlay on the wearer
 /datum/component/shielded/proc/on_update_overlays(atom/parent_atom, list/overlays)
@@ -126,8 +161,10 @@
 	INVOKE_ASYNC(src, .proc/actually_run_hit_callback, owner, attack_text, current_charges)
 
 	if(!recharge_start_delay) // if recharge_start_delay is 0, we don't recharge
+		/* NSV13 - Modsuits - Removal
 		if(!current_charges) // obviously if someone ever adds a manual way to replenish charges, change this
 			qdel(src)
+		*/
 		return
 
 	if(!current_charges)
@@ -148,13 +185,20 @@
 /datum/component/shielded/proc/check_recharge_item(datum/source, obj/item/item, mob/living/user)
 	SIGNAL_HANDLER
 
-	if(istype(item, /obj/item/wizard_armour_charge))
+	if(istype(item, recharge_path)) //NSV13
 		. = COMPONENT_NO_AFTERATTACK
+		/* NSV13 - Modsuits - Start
 		var/obj/item/wizard_armour_charge/recharge_rune = item
 		if(!istype(parent, /obj/item/clothing/suit/space/hardsuit/shielded/wizard))
 			to_chat(user, "<span class='warning'>The rune can only be used on battlemage armour!</span>")
 			return
-
-		current_charges += recharge_rune.restored_charges
+		*/
+		adjust_charge(charge_recovery)
 		to_chat(user, "<span class='notice'>You charge \the [parent]. It can now absorb [current_charges] hits.</span>")
-		qdel(recharge_rune)
+		qdel(item)
+
+/datum/component/shielded/proc/adjust_charge(change)
+	current_charges = clamp(current_charges + change, 0, max_charges)
+	if(wearer)
+		wearer.update_appearance(UPDATE_ICON)
+//NSV13 - Modsuits - End

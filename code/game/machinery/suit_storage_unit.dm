@@ -15,6 +15,7 @@
 	var/obj/item/clothing/suit/space/suit = null
 	var/obj/item/clothing/head/helmet/space/helmet = null
 	var/obj/item/clothing/mask/mask = null
+	var/obj/item/mod/control/mod = null //NSV13 - Modsuits
 	var/obj/item/storage = null
 	// if you add more storage slots, update cook() to clear their radiation too.
 
@@ -24,6 +25,10 @@
 	var/helmet_type = null
 	/// What type of breathmask the unit starts with when spawned.
 	var/mask_type = null
+	//NSV13 - Modsuits - Start
+	/// What type of MOD the unit starts with when spawned.
+	var/mod_type = null
+	//NSV13 - Modsuits - End
 	/// What type of additional item the unit starts with when spawned.
 	var/storage_type = null
 
@@ -53,6 +58,12 @@
 	var/breakout_time = 300
 	/// How fast it charges cells in a suit
 	var/charge_rate = 250
+
+//NSV13 - Modsuits - Start
+/obj/machinery/suit_storage_unit/Initialize()
+	. = ..()
+	interaction_flags_machine |= INTERACT_MACHINE_OFFLINE
+//NSV13 - Modsuits - Stop
 
 /obj/machinery/suit_storage_unit/standard_unit
 	suit_type = /obj/item/clothing/suit/space/eva
@@ -151,12 +162,17 @@
 		helmet = new helmet_type(src)
 	if(mask_type)
 		mask = new mask_type(src)
+	//NSV13 - Modsuits - Start
+	if(mod_type)
+		mod = new mod_type(src)
+	//NSV13 - Modsuits - End
 	if(storage_type)
 		storage = new storage_type(src)
 	update_icon()
 
 /obj/machinery/suit_storage_unit/Destroy()
 	QDEL_NULL(wires)
+	QDEL_NULL(mod) //NSV13 - Modsuits
 	dump_contents()
 	return ..()
 
@@ -175,7 +191,7 @@
 			add_overlay("broken")
 		else
 			add_overlay("open")
-			if(suit)
+			if(suit || mod) //NSV13 - Modsuits
 				add_overlay("suit")
 			if(helmet)
 				add_overlay("helm")
@@ -196,6 +212,7 @@
 	helmet = null
 	suit = null
 	mask = null
+	mod = null //NSV13 - Modsuits
 	storage = null
 	occupant = null
 
@@ -217,6 +234,107 @@
 		dump_contents()
 		new /obj/item/stack/sheet/iron (loc, 2)
 	qdel(src)
+
+//NSV13 - Modsuits - Start
+/obj/machinery/suit_storage_unit/interact(mob/living/user)
+	var/static/list/items
+
+	if (!items)
+		items = list(
+			"suit" = create_silhouette_of(/obj/item/clothing/suit/space/eva),
+			"helmet" = create_silhouette_of(/obj/item/clothing/head/helmet/space/eva),
+			"mask" = create_silhouette_of(/obj/item/clothing/mask/breath),
+			"mod" = create_silhouette_of(/obj/item/mod),
+			"storage" = create_silhouette_of(/obj/item/tank/internals/oxygen),
+		)
+
+	. = ..()
+	if (.)
+		return
+
+	if (!check_interactable(user))
+		return
+
+	var/list/choices = list()
+
+	if (locked)
+		choices["unlock"] = icon('icons/mob/radial.dmi', "radial_unlock")
+	else if (state_open)
+		choices["close"] = icon('icons/mob/radial.dmi', "radial_close")
+
+		for (var/item_key in items)
+			var/item = vars[item_key]
+			if (item)
+				choices[item_key] = item
+			else
+				// If the item doesn't exist, put a silhouette in its place
+				choices[item_key] = items[item_key]
+	else
+		choices["open"] = icon('icons/mob/radial.dmi', "radial_open")
+		choices["disinfect"] = icon('icons/mob/radial.dmi', "radial_disinfect")
+		choices["lock"] = icon('icons/mob/radial.dmi', "radial_lock")
+
+	var/choice = show_radial_menu(
+		user,
+		src,
+		choices,
+		custom_check = CALLBACK(src, .proc/check_interactable, user),
+	)
+
+	if (!choice)
+		return
+
+	switch (choice)
+		if ("open")
+			if (!state_open)
+				open_machine(drop = FALSE)
+				if (occupant)
+					dump_contents()
+		if ("close")
+			if (state_open)
+				close_machine()
+		if ("disinfect")
+			if (occupant && safeties)
+				return
+			else if (!helmet && !mask && !suit && !storage && !occupant)
+				return
+			else
+				if (occupant)
+					var/mob/living/mob_occupant = occupant
+					to_chat(mob_occupant, "<span class='userdanger'>[src]'s confines grow warm, then hot, then scorching. You're being burned [!mob_occupant.stat ? "alive" : "away"]!</span>")
+				cook()
+		if ("lock", "unlock")
+			if (!state_open)
+				locked = !locked
+		else
+			var/obj/item/item_to_dispense = vars[choice]
+			if (item_to_dispense)
+				vars[choice] = null
+				try_put_in_hand(item_to_dispense, user)
+
+	interact(user)
+
+/obj/machinery/suit_storage_unit/proc/check_interactable(mob/user)
+	if (state_open && !powered())
+		return FALSE
+
+	if (!state_open && !can_interact(user))
+		return FALSE
+
+	if (panel_open)
+		return FALSE
+
+	if (uv)
+		return FALSE
+
+	return TRUE
+
+/obj/machinery/suit_storage_unit/proc/create_silhouette_of(atom/item)
+	var/image/image = image(initial(item.icon), initial(item.icon_state))
+	image.alpha = 128
+	image.color = COLOR_RED
+	return image
+//NSV13 - Modsuits - Stop
 
 /obj/machinery/suit_storage_unit/MouseDrop_T(atom/A, mob/living/user)
 	if(!istype(user) || user.stat || !Adjacent(user) || !Adjacent(A) || !isliving(A))
@@ -311,6 +429,11 @@
 		if(mask)
 			things_to_clear += mask
 			things_to_clear += mask.GetAllContents()
+		//NSV13 - Modsuits - Start
+		if(mod)
+			things_to_clear += mod
+			things_to_clear += mod.get_all_contents()
+		//NSV13 - Modsuits - Stop
 		if(storage)
 			things_to_clear += storage
 			things_to_clear += storage.GetAllContents()
@@ -399,6 +522,15 @@
 			if(!user.transferItemToLoc(I, src))
 				return
 			mask = I
+		//NSV13 - Modsuits - Start
+		else if(istype(I, /obj/item/mod/control))
+			if(mod)
+				to_chat(user, span_warning("The unit already contains a MOD!"))
+				return
+			if(!user.transferItemToLoc(I, src))
+				return
+			mod = I
+		//NSV13 - Modsuits - Stop
 		else
 			if(storage)
 				to_chat(user, "<span class='warning'>The auxiliary storage compartment is full!</span>")
@@ -443,7 +575,7 @@
 		visible_message("<span class='notice'>[usr] pries open \the [src].</span>", "<span class='notice'>You pry open \the [src].</span>")
 		open_machine()
 
-
+/* NSV13 - Removal
 /obj/machinery/suit_storage_unit/ui_state(mob/user)
 	return GLOB.notcontained_state
 
@@ -525,3 +657,4 @@
 
 	if(.)
 		update_icon()
+*/

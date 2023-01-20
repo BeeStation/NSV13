@@ -1234,3 +1234,9 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
  */
 /obj/item/proc/compile_monkey_icon()
 	return
+
+//NSV13 - Modsuits - Start
+/// Special stuff you want to do when an outfit equips this item.
+/obj/item/proc/on_outfit_equip(mob/living/carbon/human/outfit_wearer, visuals_only, item_slot)
+	return
+//NSV13 - Modsuits - End

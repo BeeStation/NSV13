@@ -636,6 +636,10 @@
 //Mobs should return 1 if they should be able to move of their own volition, see client/Move() in mob_movement.dm
 //movement_dir == 0 when stopping or any dir when trying to move
 /atom/movable/proc/Process_Spacemove(movement_dir = 0)
+	//NSV13 - Modsuits - Start
+	if(SEND_SIGNAL(src, COMSIG_MOVABLE_SPACEMOVE, movement_dir) & COMSIG_MOVABLE_STOP_SPACEMOVE)
+		return TRUE
+	//NSV13 - Modsuits - End
 	if(has_gravity(src))
 		return 1
 

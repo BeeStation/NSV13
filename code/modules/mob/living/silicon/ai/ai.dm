@@ -39,7 +39,9 @@
 	var/alarms = list("Motion"=list(), "Fire"=list(), "Atmosphere"=list(), "Power"=list(), "Camera"=list(), "Burglar"=list())
 	var/datum/weakref/alerts_popup = null
 	var/icon/holo_icon //Default is assigned when AI is created.
-	var/obj/mecha/controlled_mech //For controlled_mech a mech, to determine whether to relaymove or use the AI eye.
+	//NSV13 - Modsuits - Start
+	var/obj/controlled_equipment //A piece of equipment, to determine whether to relaymove or use the AI eye.
+	//NSV13 - Modsuits - End
 	var/radio_enabled = TRUE //Determins if a carded AI can speak with its built in radio or not.
 	radiomod = ";" //AIs will, by default, state their laws on the internal radio.
 	var/obj/item/multitool/aiMulti
@@ -533,7 +535,7 @@
 			log_game("Warning: possible href exploit by [key_name(usr)] - attempted control of a mecha without can_dominate_mechs or a control beacon in the mech.")
 			return
 
-		if(controlled_mech)
+		if(controlled_equipment) //NSV13 - Modsuits
 			to_chat(src, "<span class='warning'>You are already loaded into an onboard computer!</span>")
 			return
 		if(!GLOB.cameranet.checkCameraVis(M))

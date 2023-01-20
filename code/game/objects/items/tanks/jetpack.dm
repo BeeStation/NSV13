@@ -23,6 +23,22 @@
 	QDEL_NULL(ion_trail)
 	return ..()
 
+//NSV13 - Modsuits - Start
+/obj/item/tank/jetpack/item_action_slot_check(slot, mob/user)
+	if(slot == ITEM_SLOT_BACK)
+		return TRUE
+
+/obj/item/tank/jetpack/equipped(mob/user, slot)
+	. = ..()
+	if(on && slot != ITEM_SLOT_BACK)
+		turn_off(user)
+
+/obj/item/tank/jetpack/dropped(mob/user)
+	. = ..()
+	if(on)
+		turn_off(user)
+//NSV13 - Modsuits - End
+
 /obj/item/tank/jetpack/populate_gas()
 	if(gas_type)
 		air_contents.set_moles(gas_type, ((6 * ONE_ATMOSPHERE) * volume / (R_IDEAL_GAS_EQUATION * T20C)))
@@ -58,6 +74,7 @@
 	icon_state = "[initial(icon_state)]-on"
 	ion_trail.start()
 	RegisterSignal(user, COMSIG_MOVABLE_MOVED, .proc/move_react)
+	RegisterSignal(user, COMSIG_MOVABLE_SPACEMOVE, .proc/spacemove_react) //NSV13
 	if(full_speed)
 		user.add_movespeed_modifier(MOVESPEED_ID_JETPACK, priority=100, multiplicative_slowdown=-2, movetypes=FLOATING, conflict=MOVE_CONFLICT_JETPACK)
 
@@ -67,12 +84,21 @@
 	icon_state = initial(icon_state)
 	ion_trail.stop()
 	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
+	UnregisterSignal(user, COMSIG_MOVABLE_SPACEMOVE) //NSV13
 	user.remove_movespeed_modifier(MOVESPEED_ID_JETPACK)
 
 /obj/item/tank/jetpack/proc/move_react(mob/user)
 	SIGNAL_HANDLER
 
 	allow_thrust(0.01, user)
+
+//NSV13 - Modsuits - Start
+/obj/item/tank/jetpack/proc/spacemove_react(mob/user, movement_dir)
+	SIGNAL_HANDLER
+
+	if(on && (movement_dir || stabilizers))
+		return COMSIG_MOVABLE_STOP_SPACEMOVE
+//NSV13 - Modsuits - End
 
 /obj/item/tank/jetpack/proc/allow_thrust(num, mob/living/user)
 	if(!on)

@@ -10,3 +10,9 @@
 
 //Heretics stuff
 #define COMSIG_HUMAN_VOID_MASK_ACT "void_mask_act"
+
+///NSV13 - Modsuits - Start
+//from /mob/living/carbon/human/proc/check_shields(): (atom/hit_by, damage, attack_text, attack_type, armour_penetration)
+#define COMSIG_HUMAN_CHECK_SHIELDS "human_check_shields"
+	#define SHIELD_BLOCK (1<<0)
+///NSV13 - Modsuits - Stop

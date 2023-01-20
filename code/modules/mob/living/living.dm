@@ -52,6 +52,10 @@
 	return ..()
 
 /mob/living/proc/ZImpactDamage(turf/T, levels)
+	//NSV13 - Modsuits - Start
+	if(SEND_SIGNAL(src, COMSIG_LIVING_Z_IMPACT, levels, T) & NO_Z_IMPACT_DAMAGE)
+		return
+	//NSV13 - Modsuits - End
 	visible_message("<span class='danger'>[src] falls [levels] level[levels > 1 ? "s" : ""] into [T] with a sickening noise!</span>")
 	adjustBruteLoss((levels * 5) ** 1.5)
 	Knockdown(levels * 50)
@@ -99,6 +103,7 @@
 
 //Called when we bump onto a mob
 /mob/living/proc/MobBump(mob/M)
+	SEND_SIGNAL(src, COMSIG_LIVING_MOB_BUMP, M) //NSV13 - Modsuits
 	//Even if we don't push/swap places, we "touched" them, so spread fire
 	spreadFire(M)
 
@@ -712,7 +717,7 @@
 		return pick("trails_1", "trails_2")
 
 /mob/living/experience_pressure_difference(pressure_difference, direction, pressure_resistance_prob_delta = 0)
-	if(buckled)
+	if(buckled || mob_negates_gravity()) //NSV13
 		return
 	if(client && client.move_delay >= world.time + world.tick_lag*2)
 		pressure_resistance_prob_delta -= 30

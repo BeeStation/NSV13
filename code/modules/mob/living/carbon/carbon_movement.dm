@@ -11,6 +11,7 @@
 		log_combat(src, (O ? O : get_turf(src)), "slipped on the", null, ((lube & SLIDE) ? "(LUBE)" : null))
 	return loc.handle_slip(src, knockdown_amount, O, lube, paralyze, force_drop)
 
+/* NSV13 - Modsuits - Removal
 /mob/living/carbon/Process_Spacemove(movement_dir = 0)
 	if(..())
 		return 1
@@ -25,6 +26,7 @@
 	var/obj/item/tank/jetpack/J = get_jetpack()
 	if(istype(J) && (movement_dir || J.stabilizers) && J.allow_thrust(0.01, src))
 		return 1
+*/
 
 /mob/living/carbon/Move(NewLoc, direct)
 	. = ..()

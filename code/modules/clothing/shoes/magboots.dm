@@ -11,6 +11,18 @@
 	equip_delay_other = 70
 	resistance_flags = FIRE_PROOF
 
+//NSV13 - Modsuits - Start
+/obj/item/clothing/shoes/magboots/equipped(mob/user, slot)
+	. = ..()
+	if(slot == ITEM_SLOT_FEET)
+		update_gravity_trait(user)
+	else
+		REMOVE_TRAIT(user, TRAIT_NEGATES_GRAVITY, type)
+
+/obj/item/clothing/shoes/magboots/dropped(mob/user)
+	. = ..()
+	REMOVE_TRAIT(user, TRAIT_NEGATES_GRAVITY, type)
+//NSV13 - Modsuits - Stop
 
 /obj/item/clothing/shoes/magboots/verb/toggle()
 	set name = "Toggle Magboots"
@@ -31,19 +43,29 @@
 	magpulse = !magpulse
 	icon_state = "[magboot_state][magpulse]"
 	to_chat(user, "<span class='notice'>You [magpulse ? "enable" : "disable"] the mag-pulse traction system.</span>")
+	update_gravitY_trait(user) //NSV13
 	user.update_inv_shoes()	//so our mob-overlays update
 	user.update_gravity(user.has_gravity())
 	for(var/X in actions)
 		var/datum/action/A = X
 		A.UpdateButtonIcon()
 
+/* NSV13 - Modsuits - Removal
 /obj/item/clothing/shoes/magboots/negates_gravity()
 	return isspaceturf(get_turf(src)) ? FALSE : magpulse //We don't mimick gravity on space turfs
-
+*/
 /obj/item/clothing/shoes/magboots/examine(mob/user)
 	. = ..()
 	. += "Its mag-pulse traction system appears to be [magpulse ? "enabled" : "disabled"]."
 
+//NSV13 - Modsuits - Start
+///Adds/removes the gravity negation trait from the wearer depending on if the magpulse system is turned on.
+/obj/item/clothing/shoes/magboots/proc/update_gravity_trait(mob/user)
+	if(magpulse)
+		ADD_TRAIT(user, TRAIT_NEGATES_GRAVITY, type)
+	else
+		REMOVE_TRAIT(user, TRAIT_NEGATES_GRAVITY, type)
+//NSV13 - Modsuits - End
 
 /obj/item/clothing/shoes/magboots/advance
 	desc = "Advanced magnetic boots that have a lighter magnetic pull, placing less burden on the wearer."

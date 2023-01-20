@@ -123,6 +123,10 @@ GLOBAL_LIST_EMPTY(radial_menus)
 		else
 			py_shift = 32
 			restrict_to_dir(NORTH) //I was going to parse screen loc here but that's more effort than it's worth.
+	//NSV13 - Modsuits - Start
+	else if(hudfix_method && AM.loc)
+		anchor = get_atom_on_turf(anchor)
+	//NSV13 - Modsuits - Stop
 
 //Sets defaults
 //These assume 45 deg min_angle
