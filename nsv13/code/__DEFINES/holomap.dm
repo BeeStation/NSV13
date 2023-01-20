@@ -6,10 +6,6 @@
 #define HOLOMAP_ICON_SIZE 480
 #define ui_holomap "CENTER-7,CENTER-7" // Screen location of the holomap "hud"
 
-#define HOLOMAP_EXTRA_STATIONMAP "stationmapformatted"
-#define HOLOMAP_EXTRA_STATIONMAPAREAS "stationareas"
-#define HOLOMAP_EXTRA_STATIONMAPSMALL "stationmapsmall"
-
 // Holomap colors
 #define HOLOMAP_OBSTACLE "#FFFFFFDD"	// Color of walls and barriers
 #define HOLOMAP_SOFT_OBSTACLE "#ffffff54"	// Color of weak, climbable, or see-through barriers that aren't fulltile windows.
