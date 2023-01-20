@@ -46,10 +46,7 @@
     if(!isopenturf(O))
         return FALSE
     var/datum/gas_mixture/merger = new
-    var/list/minables = attached_overmap.locked_gas_cloud.gas_resources
-    var/available = minables["[spawn_id]"]
-    var/extracting = min(available, spawn_mol)
-    minables["[spawn_id]"] -= extracting
+    var/extracting = attached_overmap.locked_gas_cloud.remove_resource(spawn_id, spawn_mol)
     merger.set_moles(spawn_id, extracting)
     merger.set_temperature(spawn_temp)
     O.assume_air(merger)

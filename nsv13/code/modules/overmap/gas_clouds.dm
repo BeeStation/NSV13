@@ -12,7 +12,7 @@
     pixel_y = -32
     bound_height = 32
     bound_width = 32
-    opacity = 1 //Might be an idea to have these be bigger if they hold more gas? Cool concept, since they block LOS.
+    opacity = 1 //MINER-WIP: Might be an idea to have these be bigger if they hold more gas? Cool concept, since they block LOS.
     alpha = 0
     layer = FLY_LAYER
     ///If this cloud is not visible for some reason. Otherwise, animates towards 255 alpha after spawn.
@@ -77,16 +77,16 @@
         empty_check()
 
 /**
- * Removes a gas with the post /datum/gas/.. name of name and amount moles. No effect if that name isn't in the list, doesn't drain below 0 remaining.
+ * Removes a gas with the typepath of path and amount amount. No effect if that name isn't in the list, doesn't drain below 0 remaining.
  * * Returns: Amount drained.
 **/
-/obj/effect/overmap_anomaly/gas_cloud/proc/remove_resource(var/name, var/amount)
-    if(!gas_resources["/datum/gas/[name]"])
+/obj/effect/overmap_anomaly/gas_cloud/proc/remove_resource(var/path, var/amount)
+    if(!gas_resources["[path]"])
         return 0
     if(amount <= 0)
         return 0
-    . = min(amount, gas_resources["/datum/gas/[name]"])
-    gas_resources["/datum/gas/[name]"] -= .
+    . = min(amount, gas_resources["[path]"])
+    gas_resources["[path]"] -= .
     recalc_color()
     empty_check()
 
