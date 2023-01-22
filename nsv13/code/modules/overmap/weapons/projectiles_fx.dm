@@ -568,7 +568,6 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 80 // Doesn't scale with power input, but fires fairly quickly especially when upgraded
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "pdphaser"
-	light_color = LIGHT_COLOR_PUCE
 
 /obj/item/projectile/beam/laser/point_defense
 	name = "laser pointer"
