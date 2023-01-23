@@ -10,13 +10,24 @@
 	name = "MOD control unit"
 	desc = "The control unit of a Modular Outerwear Device, a powered, back-mounted suit that protects against various environments."
 	icon_state = "control"
-	inhand_icon_state = "mod_control"
+	item_state = "mod_control"
+	lefthand_file = 'nsv13/icons/mob/inhands/items_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/items_righthand.dmi'
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
 	strip_delay = 10 SECONDS
 	slowdown = 2
-	armor = list(MELEE = 0, BULLET = 0, LASER = 0, ENERGY = 0, BOMB = 0, BIO = 100, FIRE = 25, ACID = 25, WOUND = 10)
-	actions_types = list(/datum/action/item_action/mod/deploy, /datum/action/item_action/mod/activate, /datum/action/item_action/mod/module, /datum/action/item_action/mod/panel)
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 100, "rad" = 0, "fire" = 25, "acid" = 25)
+	actions_types = list(
+		/datum/action/item_action/mod/deploy,
+		/datum/action/item_action/mod/activate,
+		/datum/action/item_action/mod/panel,
+		/datum/action/item_action/mod/module,
+		/datum/action/item_action/mod/deploy/ai,
+		/datum/action/item_action/mod/activate/ai,
+		/datum/action/item_action/mod/panel/ai,
+		/datum/action/item_action/mod/module/ai,
+	)
 	resistance_flags = NONE
 	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
@@ -165,6 +176,41 @@
 	QDEL_NULL(cell)
 	return ..()
 
+/obj/item/mod/control/obj_destruction(damage_flag)
+	for(var/obj/item/mod/module/module as anything in modules)
+		for(var/obj/item/item in module)
+			item.forceMove(drop_location())
+	if(ai)
+		ai.controlled_equipment = null
+		ai.remote_control = null
+		for(var/datum/action/action as anything in actions)
+			if(action.owner == ai)
+				action.Remove(ai)
+		new /obj/item/mod/ai_minicard(drop_location(), ai)
+	return ..()
+
+/obj/item/mod/control/examine(mob/user)
+	. = ..()
+	if(active)
+		. += span_notice("Cell power: [cell ? "[round(cell.percent(), 1)]%" : "No cell"].")
+		. += span_notice("Selected module: [selected_module || "None"].")
+	if(!open && !active)
+		. += span_notice("You could put it on your <b>back</b> to turn it on.")
+		. += span_notice("You could open the cover with a <b>screwdriver</b>.")
+	else if(open)
+		. += span_notice("You could close the cover with a <b>screwdriver</b>.")
+		. += span_notice("You could use <b>modules</b> on it to install them.")
+		. += span_notice("You could remove modules with a <b>crowbar</b>.")
+		. += span_notice("You could update the access with an <b>ID</b>.")
+		if(cell)
+			. += span_notice("You could remove the cell with an <b>empty hand</b>.")
+		else
+			. += span_notice("You could use a <b>cell</b> on it to install one.")
+		if(ai)
+			. += span_notice("You could remove [ai] with an <b>intellicard</b>")
+		else
+			. += span_notice("You could install an AI with an <b>intellicard</b>.")
+
 /obj/item/mod/control/process(delta_time)
 	if(seconds_electrified > MACHINE_NOT_ELECTRIFIED)
 		seconds_electrified--
@@ -248,13 +294,13 @@
 		balloon_alert(user, "deactivate suit first!")
 		playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 		return FALSE
-	balloon_alert(user, "[open ? "closing" : "opening"] panel...")
+	balloon_alert(user, "[open ? "closing" : "opening"] cover...")
 	screwdriver.play_tool_sound(src, 100)
 	if(screwdriver.use_tool(src, user, 1 SECONDS))
 		if(active || activating)
 			balloon_alert(user, "deactivate suit first!")
 		screwdriver.play_tool_sound(src, 100)
-		balloon_alert(user, "panel [open ? "closed" : "opened"]")
+		balloon_alert(user, "cover [open ? "closed" : "opened"]")
 		open = !open
 	else
 		balloon_alert(user, "interrupted!")
@@ -263,7 +309,7 @@
 /obj/item/mod/control/crowbar_act(mob/living/user, obj/item/crowbar)
 	. = ..()
 	if(!open)
-		balloon_alert(user, "open the panel first!")
+		balloon_alert(user, "open the cover first!")
 		playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 		return FALSE
 	if(!allowed(user))
@@ -290,14 +336,14 @@
 /obj/item/mod/control/attackby(obj/item/attacking_item, mob/living/user, params)
 	if(istype(attacking_item, /obj/item/mod/module))
 		if(!open)
-			balloon_alert(user, "open the panel first!")
+			balloon_alert(user, "open the cover first!")
 			playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 			return FALSE
 		install(attacking_item, user)
 		return TRUE
 	else if(istype(attacking_item, /obj/item/stock_parts/cell))
 		if(!open)
-			balloon_alert(user, "open the panel first!")
+			balloon_alert(user, "open the cover first!")
 			playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 			return FALSE
 		if(cell)
@@ -342,13 +388,15 @@
 
 /obj/item/mod/control/emp_act(severity)
 	. = ..()
-	to_chat(wearer, span_notice("[severity > 1 ? "Light" : "Strong"] electromagnetic pulse detected!"))
-	if(!active || !wearer || . & EMP_PROTECT_CONTENTS)
+	if(!active || !wearer)
 		return
-	selected_module = null
-	wearer.apply_damage(10 / severity, BURN, spread_damage=TRUE)
+	to_chat(wearer, span_notice("[severity > 1 ? "Light" : "Strong"] electromagnetic pulse detected!"))
+	if(. & EMP_PROTECT_CONTENTS)
+		return
+	selected_module.on_deactivation()
+	wearer.apply_damage(10 / severity, BURN)
 	to_chat(wearer, span_danger("You feel [src] heat up from the EMP, burning you slightly."))
-	if (wearer.stat < UNCONSCIOUS && prob(10))
+	if(wearer.stat < UNCONSCIOUS && prob(10))
 		wearer.emote("scream")
 
 /obj/item/mod/control/on_outfit_equip(mob/living/carbon/human/outfit_wearer, visuals_only, item_slot)

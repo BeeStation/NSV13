@@ -77,7 +77,7 @@
 /obj/item/mod/paint
 	name = "MOD paint kit"
 	desc = "This kit will repaint your MODsuit to something unique."
-	icon = 'icons/obj/mod.dmi'
+	icon = 'nsv13/icons/obj/mod.dmi'
 	icon_state = "paintkit"
 
 #define START_STEP "start"

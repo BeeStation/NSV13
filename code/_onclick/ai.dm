@@ -59,8 +59,9 @@
 		CtrlShiftClickOn(A)
 		return
 	if(modifiers["middle"])
-		if(controlled_mech) //Are we piloting a mech? Placed here so the modifiers are not overridden.
-			controlled_mech.click_action(A, src, params) //Override AI normal click behavior.
+		if(controlled_equipment) //Are we piloting a mech? Placed here so the modifiers are not overridden. //NSV13 - Modsuits
+			var/obj/mecha/M = controlled_equipment //NSV13 - Modsuits
+			M.click_action(A, src, params) //Override AI normal click behavior. //NSV13 - Modsuits
 		return
 	if(modifiers["shift"])
 		ShiftClickOn(A)

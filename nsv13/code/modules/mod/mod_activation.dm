@@ -122,23 +122,23 @@
 		module.on_deactivation()
 	activating = TRUE
 	to_chat(wearer, span_notice("MODsuit [active ? "shutting down" : "starting up"]."))
-	if(do_after(wearer, MOD_ACTIVATION_STEP_TIME, wearer, MOD_ACTIVATION_STEP_FLAGS))
+	if(do_after(wearer, MOD_ACTIVATION_STEP_TIME, target = wearer))
 		to_chat(wearer, span_notice("[boots] [active ? "relax their grip on your legs" : "seal around your feet"]."))
 		playsound(src, 'sound/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 		seal_part(boots, seal = !active)
-	if(do_after(wearer, MOD_ACTIVATION_STEP_TIME, wearer, MOD_ACTIVATION_STEP_FLAGS))
+	if(do_after(wearer, MOD_ACTIVATION_STEP_TIME, target = wearer))
 		to_chat(wearer, span_notice("[gauntlets] [active ? "become loose around your fingers" : "tighten around your fingers and wrists"]."))
 		playsound(src, 'sound/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 		seal_part(gauntlets, seal = !active)
-	if(do_after(wearer, MOD_ACTIVATION_STEP_TIME, wearer, MOD_ACTIVATION_STEP_FLAGS))
+	if(do_after(wearer, MOD_ACTIVATION_STEP_TIME, target = wearer))
 		to_chat(wearer, span_notice("[chestplate] [active ? "releases your chest" : "cinches tightly against your chest"]."))
 		playsound(src, 'sound/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 		seal_part(chestplate,seal =  !active)
-	if(do_after(wearer, MOD_ACTIVATION_STEP_TIME, wearer, MOD_ACTIVATION_STEP_FLAGS))
+	if(do_after(wearer, MOD_ACTIVATION_STEP_TIME, target = wearer))
 		to_chat(wearer, span_notice("[helmet] hisses [active ? "open" : "closed"]."))
 		playsound(src, 'sound/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 		seal_part(helmet, seal = !active)
-	if(do_after(wearer, MOD_ACTIVATION_STEP_TIME, wearer, MOD_ACTIVATION_STEP_FLAGS))
+	if(do_after(wearer, MOD_ACTIVATION_STEP_TIME, target = wearer))
 		to_chat(wearer, span_notice("Systems [active ? "shut down. Parts unsealed. Goodbye" : "started up. Parts sealed. Welcome"], [wearer]."))
 		if(ai)
 			to_chat(ai, span_notice("<b>SYSTEMS [active ? "DEACTIVATED. GOODBYE" : "ACTIVATED. WELCOME"]: \"[ai]\"</b>"))
@@ -167,16 +167,20 @@
 		part.cold_protection = NONE
 	if(part == boots)
 		boots.icon_state = "[skin]-boots[seal ? "-sealed" : ""]"
+		boots.worn_icon_state = "[skin]-boots[seal ? "-sealed" : ""]"
 		wearer.update_inv_shoes()
 	if(part == gauntlets)
 		gauntlets.icon_state = "[skin]-gauntlets[seal ? "-sealed" : ""]"
+		gauntlets.worn_icon_state = "[skin]-gauntlets[seal ? "-sealed" : ""]"
 		wearer.update_inv_gloves()
 	if(part == chestplate)
 		chestplate.icon_state = "[skin]-chestplate[seal ? "-sealed" : ""]"
+		chestplate.worn_icon_state = "[skin]-chestplate[seal ? "-sealed" : ""]"
 		wearer.update_inv_wear_suit()
 		wearer.update_inv_w_uniform()
 	if(part == helmet)
 		helmet.icon_state = "[skin]-helmet[seal ? "-sealed" : ""]"
+		helmet.worn_icon_state = "[skin]-helmet[seal ? "-sealed" : ""]"
 		if(seal)
 			helmet.alternate_worn_layer = null
 		else

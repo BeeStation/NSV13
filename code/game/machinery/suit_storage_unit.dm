@@ -310,7 +310,7 @@
 			var/obj/item/item_to_dispense = vars[choice]
 			if (item_to_dispense)
 				vars[choice] = null
-				try_put_in_hand(item_to_dispense, user)
+				user.put_in_hand(item_to_dispense, user)
 
 	interact(user)
 
@@ -432,7 +432,7 @@
 		//NSV13 - Modsuits - Start
 		if(mod)
 			things_to_clear += mod
-			things_to_clear += mod.get_all_contents()
+			things_to_clear += mod.GetAllContents()
 		//NSV13 - Modsuits - Stop
 		if(storage)
 			things_to_clear += storage

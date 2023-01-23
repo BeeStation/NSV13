@@ -224,6 +224,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_BEEFRIEND 		"beefriend"
 #define TRAIT_MEDICAL_HUD		"med_hud"
 #define TRAIT_SECURITY_HUD		"sec_hud"
+#define TRAIT_DIAGNOSTIC_HUD	"diag_hud" //NSV13
 #define TRAIT_MEDIBOTCOMINGTHROUGH "medbot" //Is a medbot healing you
 #define TRAIT_PASSTABLE			"passtable"
 #define TRAIT_ONEWAYROAD	"one-way road"
@@ -402,3 +403,21 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_SUIT_SENSORS "suit_sensors"
 ///Mob is tracked by nanites, and on glob suit sensors list
 #define TRAIT_NANITE_SENSORS "nanite_sensors"
+
+///NSV13 - Traits - Introduced in Modsuits PR
+
+/// Prevents plasmamen from self-igniting
+#define TRAIT_NOSELFIGNITION "no_selfignition"
+/// Like antimagic, but doesn't block the user from casting
+#define TRAIT_ANTIMAGIC_NO_SELFBLOCK "anti_magic_no_selfblock"
+/// Gives us turf vision through walls and slight night vision
+#define TRAIT_MESON_VISION "meson_vision"
+/// Gives us Night vision
+#define TRAIT_TRUE_NIGHT_VISION "true_night_vision"
+/// Negates our gravity, letting us move normally on floors in 0-g
+#define TRAIT_NEGATES_GRAVITY "negates_gravity"
+/// Lets us scan reagents
+#define TRAIT_REAGENT_SCANNER "reagent_scanner"
+
+/// Trait applied by MODsuits.
+#define MOD_TRAIT "mod"

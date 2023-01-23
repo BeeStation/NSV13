@@ -1,6 +1,6 @@
 /*
 
-	Contents: 
+	Contents:
 
 		Hard hat
 		Orange hard hat
@@ -110,7 +110,7 @@
 	item_state = "hardhat0_atmos"
 	hat_type = "atmos"
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL | BLOCK_GAS_SMOKE_EFFECT | SNUG_FIT
-	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	min_cold_protection_temperature = FIRE_HELM_MIN_TEMP_PROTECT
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	cold_protection = HEAD
@@ -126,9 +126,9 @@
 	flash_protect = 2
 	tint = 2
 	flags_inv = HIDEEYES | HIDEFACE
-	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | HIDESNOUT
 	visor_vars_to_toggle = VISOR_FLASHPROTECT | VISOR_TINT
-	visor_flags_inv = HIDEEYES | HIDEFACE
+	visor_flags_inv = HIDEEYES | HIDEFACE | HIDESNOUT
 	visor_flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 
 /obj/item/clothing/head/hardhat/weldhat/Initialize(mapload)

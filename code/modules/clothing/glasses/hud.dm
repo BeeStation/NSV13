@@ -161,6 +161,7 @@
 	desc = "A heads-up display capable of analyzing the integrity and status of robotics and exosuits."
 	icon_state = "diagnostichud"
 	hud_type = DATA_HUD_DIAGNOSTIC_BASIC
+	hud_trait = TRAIT_DIAGNOSTIC_HUD //NSV13 - Modsuit
 	glass_colour_type = /datum/client_colour/glass_colour/lightorange
 
 /obj/item/clothing/glasses/hud/diagnostic/night
