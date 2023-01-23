@@ -51,7 +51,7 @@ export const NtosMessenger = (props, context) => {
   if (viewing_messages) {
     return (
       <NtosWindow width={400} height={600}>
-        <NtosWindow.Content>
+        <NtosWindow.Content scrollable>
           <Stack vertical>
             <Section fill>
               <Button
@@ -91,28 +91,13 @@ export const NtosMessenger = (props, context) => {
                   )}
                 </Section>
                 <Section fill mt={message.outgoing ? -0.9 : -1} mb={2}>
-                  {
-                    message.contents.split(":").map((part, index, arr) => {
-                      if (message.emojis
-                          && Object.keys(emoji_names).includes(part)) {
-                        return (<span
-                          key={part}
-                          class={`chat16x16 emoji-${part}`} />);
-                      } else {
-                        // re-add colons from split()
-                        // if the next element in the array is not valid emoji
-                        return <span key={part}>{part}{arr.length - 1 !== index && (index + 1 >= arr.length || !message.emojis || !Object.keys(emoji_names).includes(arr[index + 1])) ? ":" : ""}</span>;
-                      }
-                    })
-                  }
-                  {!!message.photo && (
-                    <Box
-                      width={`${message.photo_width}px`}
-                      height={`${message.photo_height}px`}
-                      as="img"
-                      src={message.photo}
-                    />
-                  )}
+                  <MessageContent
+                    contents={message.contents}
+                    photo={message.photo}
+                    photo_width={message.photo_width}
+                    photo_height={message.photo_height}
+                    emojis={message.emojis}
+                    emoji_names={emoji_names} />
                 </Section>
               </>
             ))}
@@ -123,12 +108,12 @@ export const NtosMessenger = (props, context) => {
   }
   return (
     <NtosWindow width={400} height={600}>
-      <NtosWindow.Content>
+      <NtosWindow.Content scrollable>
         <Stack vertical>
           <Section fill textAlign="center">
             <Box bold>
               <Icon name="address-card" mr={1} />
-              SpaceMessenger V8.5.2
+              SpaceMessenger V8.5.3
             </Box>
             <Box italic opacity={0.3}>
               Bringing you spy-proof communications since 2467.
@@ -235,5 +220,46 @@ export const NtosMessenger = (props, context) => {
         )}
       </NtosWindow.Content>
     </NtosWindow>
+  );
+};
+
+export const MessageContent = (props) => {
+  const {
+    contents,
+    photo,
+    photo_width,
+    photo_height,
+    emojis,
+    emoji_names,
+  } = props;
+  return (
+    <>
+      {
+        contents.split(":").map((part, index, arr) => {
+          if (emojis
+                          && Object.keys(emoji_names).includes(part)) {
+            return (<span
+              key={part}
+              class={`chat16x16 emoji-${part}`} />);
+          } else {
+            // re-add colons from split()
+            // if the next element in the array is not valid emoji
+            return <span key={part}>{part}{arr.length - 1 !== index && (index + 1 >= arr.length || !emojis || !Object.keys(emoji_names).includes(arr[index + 1])) ? ":" : ""}</span>;
+          }
+        })
+      }
+      {!!photo && (
+        <>
+          <br />
+          <Box
+            mt={1}
+            width={`${photo_width}px`}
+            height={`${photo_height}px`}
+            as="img"
+            src={photo}
+          />
+        </>
+      )}
+    </>
   );
 };
