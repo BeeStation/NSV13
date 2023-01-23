@@ -436,6 +436,7 @@ Returns a faction datum by its name (case insensitive!)
 			return
 		if("STARTUP_PROC_TYPE_BRASIL_LITE")
 			addtimer(CALLBACK(src, .proc/generate_litelands), 5 SECONDS)
+			return
 	message_admins("WARNING: Invalid startup_proc declared for [name]! Review your defines (~L438, starsystem.dm), please.")
 	return 1
 
