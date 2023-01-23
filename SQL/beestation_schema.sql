@@ -116,6 +116,7 @@ CREATE TABLE IF NOT EXISTS `SS13_characters` (
 	`equipped_gear` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
 	`preferred_squad` VARCHAR(32) NOT NULL COLLATE 'utf8mb4_general_ci',
 	`preferred_pilot_role` VARCHAR(32) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`flavor_text` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
 	PRIMARY KEY (`slot`, `ckey`) USING BTREE
 ) COLLATE='utf8mb4_general_ci' ENGINE=InnoDB;
 
@@ -456,7 +457,7 @@ CREATE TABLE IF NOT EXISTS `SS13_schema_revision` (
   `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`major`,`minor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-INSERT INTO `SS13_schema_revision` (`major`, `minor`) VALUES (6, 0);
+INSERT INTO `SS13_schema_revision` (`major`, `minor`) VALUES (6, 1);
 
 
 
