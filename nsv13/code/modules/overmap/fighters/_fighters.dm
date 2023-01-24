@@ -1208,6 +1208,10 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	var/rpm = 0
 	var/flooded = FALSE
 
+/obj/item/fighter_component/engine/flooded //made just so I can put it in pilot-specific mail
+	desc = "A mighty engine capable of propelling small spacecraft to high speeds. Something doesn't seem right, though..."
+	flooded = TRUE
+
 /obj/item/fighter_component/engine/screwdriver_act(mob/living/user, obj/item/I)
 	. = ..()
 	if(!flooded)

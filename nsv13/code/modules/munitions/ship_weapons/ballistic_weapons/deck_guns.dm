@@ -8,9 +8,9 @@
 	pixel_x = -43
 	pixel_y = -64
 	bound_width = 96
-	bound_height = 128
+	bound_height = 96
 	bound_x = -32
-	bound_y = -64
+	bound_y = -32
 	semi_auto = TRUE
 	max_ammo = 1
 	obj_integrity = 500
@@ -587,6 +587,9 @@
 	var/armed = FALSE //Do it do the big boom?
 	var/speed = 0.5 //Needs powder to increase speed.
 
+/obj/item/ship_weapon/ammunition/naval_artillery/armed //This is literally just for mail.
+	armed = TRUE
+
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "cannon ball"
 	desc = "The QM blew the cargo budget on corgis, the clown stole all our ammo, we've got half a tank of plasma and are halfway to Dolos. Hit it."
@@ -759,7 +762,7 @@
 	dir = EAST
 	pixel_x = -30
 	pixel_y = -42
-	bound_width = 128
+	bound_width = 96
 	bound_height = 96
 	bound_x = -32
 	bound_y = -32
@@ -768,9 +771,9 @@
 	dir = WEST
 	pixel_x = -63
 	pixel_y = -42
-	bound_width = 128
+	bound_width = 96
 	bound_height = 96
-	bound_x = -64
+	bound_x = -32
 	bound_y = -32
 
 //MEGADETH TURRET
@@ -791,7 +794,7 @@
 	dir = EAST
 	pixel_x = -30
 	pixel_y = -42
-	bound_width = 128
+	bound_width = 96
 	bound_height = 96
 	bound_x = -32
 	bound_y = -32
@@ -800,9 +803,9 @@
 	dir = WEST
 	pixel_x = -63
 	pixel_y = -42
-	bound_width = 128
+	bound_width = 96
 	bound_height = 96
-	bound_x = -64
+	bound_x = -32
 	bound_y = -32
 
 /obj/machinery/ship_weapon/deck_turret/Initialize(mapload)
@@ -851,27 +854,27 @@
 			pixel_x = -43
 			pixel_y = -32
 			bound_width = 96
-			bound_height = 128
+			bound_height = 96
 			bound_x = -32
 			bound_y = -32
 		if(SOUTH)
 			pixel_x = -43
 			pixel_y = -64
 			bound_width = 96
-			bound_height = 128
+			bound_height = 96
 			bound_x = -32
-			bound_y = -64
+			bound_y = -32
 		if(EAST)
 			pixel_x = -30
 			pixel_y = -42
-			bound_width = 128
+			bound_width = 96
 			bound_height = 96
 			bound_x = -32
 			bound_y = -32
 		if(WEST)
 			pixel_x = -63
 			pixel_y = -42
-			bound_width = 128
+			bound_width = 96
 			bound_height = 96
-			bound_x = -64
+			bound_x = -32
 			bound_y = -32
