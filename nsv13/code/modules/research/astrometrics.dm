@@ -75,6 +75,90 @@ Clean override of the navigation computer to provide scan functionality.
 	data["can_cancel"] = (scan_target) ? TRUE : FALSE
 	data["scan_progress"] = scan_progress
 	data["scan_goal"] = scan_goal
+	var/list/resourcing
+	var/list/value_zone = list()
+	var/list/gas_clouds = list()
+	for(var/obj/effect/overmap_anomaly/gas_cloud/gas_cloud in selected_system.system_contents)
+		if(QDELETED(gas_cloud) || gas_cloud.decaying)
+			continue
+		gas_clouds += gas_cloud
+	
+	/*
+		for each cloud:
+		gas_resources["/datum/gas/oxygen"]
+		gas_resources["/datum/gas/nitrogen"]
+		gas_resources["/datum/gas/plasma"]
+		gas_resources["/datum/gas/carbon_dioxide"]
+		gas_resources["/datum/gas/nitrous_oxide"]
+
+	*/
+	if(!gas_clouds)
+		resourcing = list(
+			"Oxygen" = 0,
+			"Nitrogen" = 0,
+			"Plasma" = 0,
+			"Carbon_Dioxide" = 0,
+			"Nitrous_Oxide" = 0,
+		)
+	else
+		resourcing = list()
+		resourcing["Oxygen"] = 0
+		resourcing["Nitrogen"] = 0
+		resourcing["Plasma"] = 0
+		resourcing["Carbon_Dioxide"] = 0
+		resourcing["Nitrous_Oxide"] = 0
+		for(var/obj/effect/overmap_anomaly/gas_cloud/cloud as anything in gas_clouds)
+			var/list/accessed_resources = cloud.gas_resources
+			for(var/x as anything in accessed_resources)
+				resourcing["[x]"] += accessed_resources["[x]"]
+	
+	for(var/gastype in resourcing)
+		var/count = resourcing["[gastype]"]
+		var/list/gas_viability = list()
+		var/min_bound
+		var/max_bound
+		var/color
+		var/class
+		switch(count)
+			if(150000 to INFINITY)
+				min_bound = 100000
+				max_bound = 1000000
+				color = "blue"
+				class = "V"
+			if(15000 to 100000)
+				min_bound = 10000
+				max_bound = 100000
+				color = "green"
+				class = "IV"
+			if(1500 to 10000)
+				min_bound = 1000
+				max_bound = 10000
+				color = "yellow"
+				class = "III"
+			if(150 to 1000)
+				min_bound = 100
+				max_bound = 1000
+				color = "orange"
+				class = "II"
+			else
+				min_bound = 0
+				max_bound = 100
+				color = "red"
+				class = "I"
+		gas_viability["min_bound"] = min_bound
+		gas_viability["max_bound"] = max_bound
+		gas_viability["color"] = color
+		gas_viability["class"] = class
+		value_zone["[gastype]"] = gas_viability
+
+	data["gas_resources"] = resourcing
+	data["gas_viability"] = value_zone
+	if(selected_system && linked?.current_system == selected_system)
+		data["in_system"] = TRUE
+	else
+		data["in_system"] = FALSE
+
+	
 	return data
 
 /obj/machinery/computer/ship/navigation/astrometrics/is_in_range(datum/star_system/current_system, datum/star_system/system)

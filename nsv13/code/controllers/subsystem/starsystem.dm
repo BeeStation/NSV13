@@ -268,16 +268,20 @@ Returns a faction datum by its name (case insensitive!)
 	ships[OM]["current_system"] = system
 	return system
 
-/datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE)//Select Ship to Spawn and Location via Z-Trait
+/datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE, override_x, override_y)//Select Ship to Spawn and Location via Z-Trait
 	target_sys.system_contents += OM
 	if(target_sys.occupying_z)
 		var/turf/destination = null
-		if(center)
+		var/accurate = FALSE
+		if(override_x && override_y)
+			destination = get_turf(locate(override_x, override_y, target_sys.occupying_z))
+			accurate = TRUE
+		else if(center)
 			destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), target_sys.occupying_z)) //Plop them bang in the center of the system as requested. This is usually saved for wormholes.
 		else
 			destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), target_sys.occupying_z)) //Spawn them somewhere in the system. I don't really care where.
 		var/obj/structure/overmap/enemy = new OM(destination)
-		target_sys.add_ship(enemy)
+		target_sys.add_ship(enemy, destination, accurate)
 	else
 		target_sys.enemy_queue += OM
 
@@ -314,16 +318,21 @@ Returns a faction datum by its name (case insensitive!)
 
 //Specific case for anomalies. They need to be spawned in for research to scan them.
 
-/datum/controller/subsystem/star_system/proc/spawn_anomaly(anomaly_type, datum/star_system/target_sys, center=FALSE)
-	RETURN_TYPE(/obj/structure/overmap)
-	if(target_sys.occupying_z)
-		spawn_ship(anomaly_type, target_sys, center)
-		return
+/datum/controller/subsystem/star_system/proc/spawn_anomaly(anomaly_type, datum/star_system/target_sys, center=FALSE, override_x, override_y)
 	var/turf/destination = null
-	if(center)
-		destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), 1))
+	var/relevant_z = target_sys.occupying_z ? target_sys.occupying_z : 1
+	var/accurate = FALSE
+	if(override_x && override_y)
+		destination = get_turf(locate(override_x, override_y, relevant_z))
+		accurate = TRUE //We want to be on a specific turf.
+	else if(center)
+		destination = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), relevant_z))
 	else
-		destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), 1))
+		destination = get_turf(locate(rand(50, world.maxx), rand(50, world.maxy), relevant_z))
+	if(target_sys.occupying_z)
+		var/obj/effect/overmap_anomaly/anomaly = new anomaly_type(destination)
+		target_sys.add_ship(anomaly, destination, accurate)
+		return anomaly
 	var/obj/effect/overmap_anomaly/anomaly = new anomaly_type(destination)
 	target_sys.contents_positions[anomaly] = list("x" = anomaly.x, "y" = anomaly.y) //Cache the ship's position so we can regenerate it later.
 	target_sys.system_contents += anomaly
@@ -425,6 +434,13 @@ Returns a faction datum by its name (case insensitive!)
 	var/already_announced_combat = FALSE
 	var/startup_proc = null
 
+	///The system's "gas cloud", which is where a ship gets to actually access the system's gas supply
+	var/obj/effect/overmap_anomaly/gas_cloud/system/linked_cloud
+	///Set this to true if you already manually setup the gasses for this system and don't want randomgen to null that
+	var/preset_gasses = FALSE	
+	///Inbetween random and preset gasses, systems may have special traits that modify gasses in system.
+	var/resource_flags = NONE	
+
 /datum/star_system/proc/dist(datum/star_system/other)
 	var/dx = other.x - x
 	var/dy = other.y - y
@@ -441,7 +457,7 @@ Returns a faction datum by its name (case insensitive!)
 	message_admins("WARNING: Invalid startup_proc declared for [name]! Review your defines (~L438, starsystem.dm), please.")
 	return 1
 
-/datum/star_system/New(name, desc, threat_level, alignment, owner, hidden, system_type, system_traits, is_capital, adjacency_list, wormhole_connections, fleet_type, x, y, parallax_property, visitable, sector, is_hypergate, preset_trader, audio_cues, startup_proc)
+/datum/star_system/New(name, desc, threat_level, alignment, owner, hidden, system_type, system_traits, is_capital, adjacency_list, wormhole_connections, fleet_type, x, y, parallax_property, visitable, sector, is_hypergate, preset_trader, audio_cues, startup_proc, resource_flags)
 	. = ..()
 	//Load props first.
 	if(name)
@@ -487,6 +503,8 @@ Returns a faction datum by its name (case insensitive!)
 	if(startup_proc)
 		src.startup_proc = startup_proc
 		parse_startup_proc()
+	if(resource_flags)
+		src.resource_flags = resource_flags
 
 	//Then set up.
 	if(src.fleet_type)
@@ -532,7 +550,7 @@ Returns a faction datum by its name (case insensitive!)
 /datum/star_system/proc/get_info()
 	var/list/anomalies = list()
 	for(var/obj/effect/overmap_anomaly/OA in system_contents)
-		if(istype(OA))
+		if(istype(OA) && !OA.starmap_hidden)
 			var/list/anomaly_info = list()
 			anomaly_info["name"] = OA.name
 			anomaly_info["desc"] = OA.desc
@@ -549,9 +567,16 @@ Returns a faction datum by its name (case insensitive!)
 	icon_state = "rit-elec-aoe"
 	bound_width = 64
 	bound_height = 64
+	///Research points for scanning this anomaly.
 	var/research_points = 25000 //Glitches in spacetime are *really* interesting okay?
+	///Is this already scanned?
 	var/scanned = FALSE
-	var/specialist_research_type = null //Special techweb node unlocking.
+	///Special techweb node unlocking.
+	var/specialist_research_type = null
+	///Invisible on the starmap anomaly readout?
+	var/starmap_hidden = FALSE
+	///Can this be scanned by probes?
+	var/probe_scannable = TRUE
 
 /obj/effect/overmap_anomaly/Initialize(mapload)
 	. = ..()
@@ -562,7 +587,8 @@ Returns a faction datum by its name (case insensitive!)
 
 /obj/effect/overmap_anomaly/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
-
+	if(!probe_scannable)
+		return
 	if(istype(AM, /obj/item/projectile/bullet/torpedo/probe))
 		SSresearch.science_tech.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, research_points*1.5) //more points for scanning up close.
 		if(specialist_research_type)
@@ -748,6 +774,124 @@ Returns a faction datum by its name (case insensitive!)
 	if(!anomaly_type)
 		anomaly_type = pick(subtypesof(/obj/effect/overmap_anomaly/safe))
 	SSstar_system.spawn_anomaly(anomaly_type, src)
+	if(!preset_gasses)
+		setup_gas_resources()
+	
+//In moles
+#define GAS_LOW_MIN 100
+#define GAS_LOW_MAX 400
+
+#define GAS_MEDIUM_MIN 1000
+#define GAS_MEDIUM_MAX 5000
+
+#define GAS_HIGH_MIN 10000
+#define GAS_HIGH_MAX 35000
+
+#define GAS_VERY_HIGH_MIN 1000000
+#define GAS_VERY_HIGH_MAX 50000000
+
+/datum/star_system/proc/setup_gas_resources()
+	//In moles
+	var/oxygen = 0
+	var/nitrogen = 0
+	var/plasma = 0
+	var/carbon_dioxide = 0
+	var/n2o = 0
+	var/list/gas_resources = list()
+	//Adds gas depending on system flags present. Hi Yandev, because most of these can be true at once in theory.
+	if(CHECK_BITFIELD(resource_flags, STARSYSTEM_BARREN))
+		gas_resources["/datum/gas/oxygen"] = oxygen
+		gas_resources["/datum/gas/nitrogen"] = nitrogen
+		gas_resources["/datum/gas/plasma"] = plasma
+		gas_resources["/datum/gas/carbon_dioxide"] = carbon_dioxide
+		gas_resources["/datum/gas/nitrous_oxide"] = n2o
+		return //This system for some reason is entirely barren of all easily accessible gaseous resources. I sure wonder why.
+
+	if(CHECK_BITFIELD(resource_flags, STARSYSTEM_HABITABLE))
+		oxygen += rand(GAS_HIGH_MIN, GAS_HIGH_MAX)
+		nitrogen += rand(GAS_HIGH_MIN, GAS_HIGH_MAX)
+		carbon_dioxide += rand(GAS_MEDIUM_MAX, GAS_HIGH_MAX)
+
+	if(CHECK_BITFIELD(resource_flags, STARSYSTEM_PLASMA_GIANT))
+		plasma += rand(GAS_VERY_HIGH_MIN, GAS_VERY_HIGH_MAX)	//Rejoice, atmos tech who likes plasma burns.
+		nitrogen += rand(GAS_HIGH_MAX, GAS_VERY_HIGH_MIN)
+
+	if(CHECK_BITFIELD(resource_flags, STARSYSTEM_GAS_GIANT))
+		oxygen += rand(GAS_VERY_HIGH_MIN, GAS_VERY_HIGH_MAX)
+		nitrogen += rand(GAS_VERY_HIGH_MIN, GAS_VERY_HIGH_MAX)
+		n2o += rand(GAS_MEDIUM_MIN, GAS_MEDIUM_MAX)
+
+	if(CHECK_BITFIELD(resource_flags, STARSYSTEM_SHIP_GRAVEYARD))
+		oxygen += rand(GAS_MEDIUM_MIN, GAS_MEDIUM_MAX)
+		nitrogen += rand(GAS_MEDIUM_MIN, GAS_MEDIUM_MAX)
+		carbon_dioxide += rand(GAS_LOW_MAX, GAS_MEDIUM_MAX)
+		n2o += rand(GAS_LOW_MAX, GAS_MEDIUM_MAX)
+		plasma += rand(GAS_MEDIUM_MIN, GAS_MEDIUM_MAX)
+
+	if(CHECK_BITFIELD(resource_flags, STARSYSTEM_VOLCANIC_ASH))
+		oxygen += rand(GAS_HIGH_MIN, GAS_HIGH_MAX)
+		carbon_dioxide += rand(GAS_MEDIUM_MAX, GAS_HIGH_MAX)
+		if(prob(25))
+			nitrogen += rand(GAS_MEDIUM_MIN, GAS_HIGH_MAX)
+
+	if(CHECK_BITFIELD(resource_flags, STARSYSTEM_NITROGEN))
+		nitrogen += rand(GAS_HIGH_MIN, GAS_HIGH_MAX)
+
+	if(CHECK_BITFIELD(resource_flags, STARSYSTEM_RESUPPLY))
+		nitrogen += rand(GAS_LOW_MAX, GAS_HIGH_MIN)
+		oxygen += rand(GAS_LOW_MIN, GAS_HIGH_MAX)
+		plasma += rand(GAS_LOW_MIN, GAS_MEDIUM_MIN)
+		carbon_dioxide += rand(GAS_LOW_MAX, GAS_MEDIUM_MIN)
+		n2o += rand(GAS_LOW_MAX, GAS_MEDIUM_MIN)
+
+	//Some gasses depending on system type if applicable.
+	//Graveyard flag should be true for any with the ship graveyard type which is handled seperately.
+	switch(system_type["tag"])
+		if("icefield", "ice_planet")
+			if(prob(50))
+				oxygen += rand(GAS_MEDIUM_MIN, GAS_MEDIUM_MAX)
+			else
+				oxygen += rand(GAS_LOW_MIN, GAS_LOW_MAX)
+		if("nebula")
+			oxygen += rand(GAS_LOW_MIN, GAS_MEDIUM_MAX)
+			nitrogen += rand(GAS_LOW_MIN, GAS_MEDIUM_MAX)
+			if(prob(10))
+				plasma += rand(GAS_LOW_MIN, GAS_LOW_MAX)
+		if("gas")
+			if(prob(25))
+				oxygen += rand(GAS_MEDIUM_MIN, GAS_MEDIUM_MAX)
+			else
+				oxygen += rand(GAS_LOW_MIN, GAS_LOW_MAX)
+			if(prob(25))
+				nitrogen += rand(GAS_MEDIUM_MIN, GAS_MEDIUM_MAX)
+			else
+				nitrogen += rand(GAS_LOW_MIN, GAS_LOW_MAX)
+		if("hazardous", "radioactive")
+			if(prob(5))
+				plasma += rand(GAS_LOW_MIN, GAS_MEDIUM_MIN)
+
+	gas_resources["/datum/gas/oxygen"] = oxygen
+	gas_resources["/datum/gas/nitrogen"] = nitrogen
+	gas_resources["/datum/gas/plasma"] = plasma
+	gas_resources["/datum/gas/carbon_dioxide"] = carbon_dioxide
+	gas_resources["/datum/gas/nitrous_oxide"] = n2o
+
+	linked_cloud = SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/gas_cloud/system, src)
+	linked_cloud.link_system(src)
+	linked_cloud.add_resources(gas_resources)
+
+
+#undef GAS_LOW_MIN
+#undef GAS_LOW_MAX
+
+#undef GAS_MEDIUM_MIN
+#undef GAS_MEDIUM_MAX
+
+#undef GAS_HIGH_MIN
+#undef GAS_HIGH_MAX
+
+#undef GAS_VERY_HIGH_MIN
+#undef GAS_VERY_HIGH_MAX
 
 /datum/star_system/proc/generate_anomaly()
 	if(prob(15)) //Low chance of spawning a wormhole twixt us and another system.
@@ -858,6 +1002,7 @@ Returns a faction datum by its name (case insensitive!)
 	)
 	adjacency_list = list("Alpha Centauri", "Outpost 45", "Ross 154")
 	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_WORMHOLE
+	resource_flags = STARSYSTEM_HABITABLE|STARSYSTEM_GAS_GIANT|STARSYSTEM_RESUPPLY
 
 /datum/star_system/ross
 	name = "Ross 154" //Hi mate my name's ross how's it going
@@ -895,6 +1040,7 @@ Returns a faction datum by its name (case insensitive!)
 	threat_level = THREAT_LEVEL_NONE
 	adjacency_list = list("Alpha Centauri", "Wolf 359", "Sol")
 	preset_trader = /datum/trader/minsky
+	resource_flags = STARSYSTEM_RESUPPLY
 
 /datum/star_system/wolf359
 	name = "Wolf 359"
@@ -916,6 +1062,7 @@ Returns a faction datum by its name (case insensitive!)
 	fleet_type = /datum/fleet/nanotrasen/border
 	adjacency_list = list("Wolf 359", "Feliciana", "Outpost 45")
 	is_hypergate = TRUE
+	resource_flags = STARSYSTEM_RESUPPLY
 
 /datum/star_system/outpost
 	name = "Outpost 45"
@@ -964,6 +1111,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	alignment = "nanotrasen"
 	adjacency_list = list("Corvi", "Ariel", "Ida")
 	preset_trader = /datum/trader/czanekcorp
+	resource_flags = STARSYSTEM_RESUPPLY
 
 /datum/star_system/sector2/ariel
 	name = "Ariel"
@@ -988,6 +1136,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	adjacency_list = list("Ariel", "Argo", "The Badlands", "Ida", "Sion")
 	preset_trader = /datum/trader/armsdealer
 	desc = "The last bastion of civilisation before the endless uncharted wastes beyond."
+	resource_flags = STARSYSTEM_HABITABLE|STARSYSTEM_RESUPPLY
 
 /datum/star_system/sector2/sion
 	name = "Sion"
@@ -1021,6 +1170,7 @@ Welcome to the neutral zone! Non corporate sanctioned traders with better gear a
 	threat_level = THREAT_LEVEL_UNSAFE
 	alignment = "unaligned"
 	adjacency_list = list("Sion", "Muir", "Beylix")
+	resource_flags = STARSYSTEM_PLASMA_GIANT	//Fixed but unsafe resupply point if you are reaaally low on plasma. You might find other places in deep space though. Maybe this is why the cluster was settled in the first place?
 
 /datum/star_system/sector2/tortuga
 	name = "Tortuga"
@@ -1092,38 +1242,59 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 		message_admins("Error setting up Badlands - No Rubicon found!") //This should never happen unless admins do bad things.
 		return
 
+	var/static/list/sys_tag_to_label = list(
+			"radioactive" = "Radioactive",
+			"blackhole" = "Blackhole",
+			"quasar" = "Quasar",
+			"accretiondisk" = "Accretion disk",
+			"nebula" = "Nebula",
+			"supernova" = "Supernova",
+			"debris" = "Asteroid Field",
+	)
 	for(var/I=0;I<amount,I++){
 		var/datum/star_system/random/randy = new /datum/star_system/random()
-		randy.system_type = pick(
-			list(
-				tag = "radioactive",
-				label = "Radioactive",
-			), 0.5;
-			list(
-				tag = "blackhole",
-				label = "Blackhole",
-			),
-			list(
-				tag = "quasar",
-				label = "Quasar",
-			), 0.75;
-			list(
-				tag = "accretiondisk",
-				label = "Accretion disk",
-			),
-			list(
-				tag = "nebula",
-				label = "Nebula",
-			),
-			list(
-				tag = "supernova",
-				label = "Supernova",
-			),
-			list(
-				tag = "debris",
-				label = "Asteroid field",
-			),
+		var/list/randy_sys_options = list(
+			"radioactive" = 5,
+			"blackhole" = 1,
+			"quasar" = 10,
+			"accretiondisk" = 10,
+ 			"nebula" = 10,
+			"supernova" = 10,
+			"debris" = 10,
 		)
+		var/list/randy_systype = list()
+		var/randy_systag = pickweight(randy_sys_options)
+		var/randy_syslabel = sys_tag_to_label["[randy_systag]"]
+		randy_systype["tag"] = randy_systag
+		randy_systype["label"] = randy_syslabel
+		randy.system_type = randy_systype
+
+		//Setup resourcing.
+		if(prob(1))
+			randy.resource_flags |= STARSYSTEM_BARREN //For some reason, nothing to harvest at all.
+			if(prob(1))
+				randy.resource_flags |= STARSYSTEM_PLASMA_GIANT	//Plasma giant detected, but no plasma here?
+		else
+			var/has_stuff = FALSE
+			if(prob(5))
+				randy.resource_flags |= STARSYSTEM_GAS_GIANT
+				has_stuff = TRUE
+			else if(prob(1))
+				randy.resource_flags |= STARSYSTEM_PLASMA_GIANT
+				has_stuff = TRUE
+			if(prob(5))
+				randy.resource_flags |= STARSYSTEM_HABITABLE
+				has_stuff = TRUE
+			if(prob(20))
+				randy.resource_flags |= STARSYSTEM_VOLCANIC_ASH
+				has_stuff = TRUE
+			if(prob(20))
+				randy.resource_flags |= STARSYSTEM_NITROGEN
+				has_stuff = TRUE
+			if(!has_stuff && prob(5)) //I wonder what happened here..
+				randy.resource_flags |= STARSYSTEM_SHIP_GRAVEYARD
+				randy.system_type["tag"] = "graveyard" //Force tag change, do not change as what it is shows on astrometrics.
+
 		randy.apply_system_effects()
 		randy.name = (randy.system_type[tag] != "nebula") ? "S-[rand(0,10000)]" : "N-[rand(0,10000)]"
 		var/randy_valid = FALSE
@@ -1516,6 +1687,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	fleet_type = /datum/fleet/border
 	x = 120
 	y = 70
+	resource_flags = STARSYSTEM_PLASMA_GIANT
 
 /datum/star_system/sector4/deimos
 	name = "Deimos"
@@ -1537,6 +1709,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	hidden = FALSE
 	desc = "A place where giants fell. You feel nothing save for an odd sense of unease and an eerie silence."
 	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_WORMHOLE
+	resource_flags = STARSYSTEM_SHIP_GRAVEYARD
 
 /datum/star_system/sector4/abassi
 	name = "Abassi"
@@ -1552,6 +1725,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = TRUE
 	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_WORMHOLE
+	resource_flags = STARSYSTEM_HABITABLE | STARSYSTEM_RESUPPLY
 
 /datum/star_system/sector4/laststand
 	name = "Oasis Fidei" //oasis of faith
@@ -1567,6 +1741,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	hidden = TRUE //In time, not now.
 	fleet_type = /datum/fleet/remnant
 	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_WORMHOLE
+	resource_flags = STARSYSTEM_HABITABLE | STARSYSTEM_RESUPPLY
 
 /datum/star_system/romulus
 	name = "Romulus"

@@ -17,6 +17,7 @@
 	icon = 'nsv13/icons/overmap/default.dmi'
 	icon_state = "default"
 	faction = "nanotrasen"
+	gas_salvage_rating = 1
 
 /obj/structure/overmap/nanotrasen/light_cruiser
 	name = "raptor class light frigate"
@@ -31,6 +32,7 @@
 	max_integrity = 300
 	integrity_failure = 300
 	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
+	gas_salvage_rating = 2
 
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser
@@ -45,6 +47,8 @@
 	bound_height = 96
 	bound_width = 96
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
+	gas_salvage_rating = 2
+
 
 /obj/structure/overmap/nanotrasen/missile_cruiser //This has nothing to do with missiles
 	name = "caracal class missile frigate"
@@ -60,6 +64,7 @@
 	integrity_failure = 500
 	//collision_positions = list(new /datum/vector2d(-13,71), new /datum/vector2d(-25,52), new /datum/vector2d(-24,-25), new /datum/vector2d(-11,-66), new /datum/vector2d(4,-69), new /datum/vector2d(15,-28), new /datum/vector2d(15,38), new /datum/vector2d(6,61))
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
+	gas_salvage_rating = 2
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser
 	name = "corvid class tactical cruiser"
@@ -76,6 +81,7 @@
 	bound_height = 96
 	bound_width = 96
 	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_heavy" = 30)
+	gas_salvage_rating = 3
 
 /obj/structure/overmap/nanotrasen/battleship
 	name = "jupiter class battlestar"
@@ -91,6 +97,7 @@
 	max_integrity = 1000
 	integrity_failure = 1000
 	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 50)
+	gas_salvage_rating = 5
 
 /obj/structure/overmap/nanotrasen/carrier
 	name = "enterprise class carrier"
@@ -106,6 +113,7 @@
 	max_integrity = 700
 	integrity_failure = 700
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 10)
+	gas_salvage_rating = 4
 
 /obj/structure/overmap/nanotrasen/battlecruiser
 	name = "corvid class tactical cruiser"
@@ -122,6 +130,7 @@
 	bound_height = 96
 	bound_width = 96
 	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 50)
+	gas_salvage_rating = 3
 
 //Instanced Versions
 
@@ -140,6 +149,7 @@
 	bound_height = 320
 	bound_width = 320
 	role = INSTANCED_MIDROUND_SHIP
+	gas_salvage_rating = 4
 
 /obj/structure/overmap/nanotrasen/gunstar/apply_weapons()
 	. = ..()
@@ -339,6 +349,7 @@
 	bound_width = 32 //Change this on a per ship basis
 	bound_height = 32
 	combat_dice_type = /datum/combat_dice/fighter
+	gas_salvage_rating = 0
 
 /obj/structure/overmap/nanotrasen/ai/fighter/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
