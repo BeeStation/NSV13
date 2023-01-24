@@ -56,6 +56,12 @@
 			return TRUE
 	return ..()
 
+// Torp removal
+/obj/machinery/ship_weapon/vls/Exited(atom/movable/gone, direction)
+	. = ..()
+	if(ammo?.Find(gone))
+		ammo -= gone
+
 /obj/machinery/ship_weapon/torpedo_launcher/spawn_frame(disassembled)
 	var/obj/structure/ship_weapon/torpedo_launcher_assembly/M = new /obj/structure/ship_weapon/torpedo_launcher_assembly(loc)
 

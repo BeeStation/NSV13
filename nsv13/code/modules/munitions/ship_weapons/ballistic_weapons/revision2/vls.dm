@@ -70,6 +70,12 @@
 			playsound(src, load_sound, 100, 1)
 		state = 2
 
+// Handles removal of stuff
+/obj/machinery/ship_weapon/vls/Exited(atom/movable/gone, direction)
+	. = ..()
+	if(ammo?.Find(gone))
+		ammo -= gone
+
 /obj/machinery/ship_weapon/vls/PostInitialize()
 	..()
 	if(maintainable)
