@@ -73,8 +73,11 @@
 // Handles removal of stuff
 /obj/machinery/ship_weapon/vls/Exited(atom/movable/gone, direction)
 	. = ..()
-	if(ammo?.Find(gone))
-		ammo -= gone
+	if(!ammo?.Find(gone)) // Remove our ammo
+		return
+	ammo -= gone
+	if(!length(ammo)) // Set notloaded if applicable
+		state = STATE_NOTLOADED
 
 /obj/machinery/ship_weapon/vls/PostInitialize()
 	..()
