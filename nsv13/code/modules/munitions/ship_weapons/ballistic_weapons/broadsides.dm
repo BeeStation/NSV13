@@ -92,6 +92,7 @@
 		. += "The maintenance panel is <b>unscrewed</b> and the machinery could be <i>pried out</i>. You could flip the cannon by rotating the <u>bolts</u>. You can disengage the shell locks <b>electronically</b>."
 	else
 		. += "The maintenance panel is <b>closed</b> and could be <i>screwed open</i>."
+	. += "<span class ='notice'>It has [get_ammo()]/[max_ammo] shells loaded.</span>"
 
 /obj/machinery/ship_weapon/broadside/screwdriver_act(mob/user, obj/item/tool)
 	return default_deconstruction_screwdriver(user, "broadside_open", "broadside", tool)

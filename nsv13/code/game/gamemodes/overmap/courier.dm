@@ -1,5 +1,6 @@
 /datum/overmap_gamemode/courier
 	name = "Courier"
+	config_tag = "courier"
 	desc = "Cargo assignment, bring supplies to stations"
 	brief = "You have been assigned cargo duty for the Delphic Expanse. Deliver the supplies outlined in the briefing to their destinations, then return back to Outpost 45."
 	starting_system = "Argo"

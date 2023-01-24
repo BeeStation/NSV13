@@ -22,7 +22,9 @@
 	///The amount of reagent dispensable before requiring a refill from a compressed matter cartridge.
 	var/volume_left = 0
 	///The maximum amount of precursor in a synthesizer.
-	var/max_volume = 1000
+	var/max_volume = 2000 //NSV13
+	///Dirty slowdowns for not maintaining this
+	var/slowdown_count = 0	//NSV13
 	///straight up copied from chem dispenser. Being a subtype would be extremely tedious and making it global would restrict potential subtypes using different dispensable_reagents
 	var/list/dispensable_reagents = list(
 		/datum/reagent/aluminium,
@@ -66,7 +68,12 @@
 	if(reagents.total_volume >= amount*delta_time*0.5) //otherwise we get leftovers, and we need this to be precise
 		return
 	if(volume_left < amount) //Empty
-		return
+		if(slowdown_count >= 4) //NSV13 - But what if we allow slow ticking of unmaintained devices?
+			reagents.add_reagent(reagent_id, amount*delta_time*0.5)
+			slowdown_count = 0
+		else
+			slowdown_count ++
+			return
 	reagents.add_reagent(reagent_id, amount*delta_time*0.5)
 	volume_left = max(volume_left - amount*delta_time*0.5, 0)
 
@@ -78,7 +85,7 @@
 		to_chat(user, "<span class='warning'>The [R.name] doesn't have any reagent left!</span>")
 		return ..()
 	var/added_volume = -volume_left //For the difference calculation
-	volume_left = min(volume_left+R.ammoamt*10, src.max_volume) //400 per cartridge
+	volume_left = min(volume_left+R.ammoamt*20, src.max_volume) //400 per cartridge - x2 NSV13
 	added_volume = added_volume+volume_left
 	R.ammoamt -= added_volume/10
 	if(R.ammoamt <= 0) //Emptied
