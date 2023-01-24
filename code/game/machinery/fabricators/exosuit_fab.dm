@@ -31,8 +31,10 @@
 		"Cybernetics",
 		"Implants",
 		"Control Interfaces",
-		"Misc"
-	)
+		"MOD Construction",
+		"MOD Modules",
+		"Misc",
+	) //NSV13 - Added Mod Construction and Modules, unsure how to hide them though
 
 	stored_research_type = /datum/techweb/specialized/autounlocking/exofab
 

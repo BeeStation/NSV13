@@ -128,6 +128,8 @@
 	max_charges = 15
 	recharge_start_delay = 0 SECONDS
 	charge_recovery = 8
+	shield_icon_file = 'nsv13/icons/effects/magic.dmi'
+	shield_icon = "mageshield"
 	recharge_path = /obj/item/wizard_armour_charge
 
 //Magic Nullifier
