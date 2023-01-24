@@ -595,15 +595,6 @@
 /obj/item/ship_weapon/ammunition/naval_artillery/armed //This is literally just for mail.
 	armed = TRUE
 
-/obj/item/ship_weapon/ammunition/naval_artillery/attack_hand(mob/user)
-	return FALSE
-
-/obj/item/ship_weapon/ammunition/torpedo/attack_hand(mob/user)
-	return FALSE
-
-/obj/item/ship_weapon/ammunition/missile/attack_hand(mob/user)
-	return FALSE
-
 // Handles shell powder load damage modifiers
 /obj/item/ship_weapon/ammunition/naval_artillery/proc/handle_shell_modifiers(obj/item/projectile/proj)
 	return
