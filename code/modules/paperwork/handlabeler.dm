@@ -90,6 +90,11 @@
 		qdel(I)
 		labels_left = initial(labels_left)	//Yes, it's capped at its initial value
 
+//NSV13 - Modsuits - Start
+/obj/item/hand_labeler/attackby_storage_insert(datum/component/storage, atom/storage_holder, mob/user)
+	return !mode
+//NSV13 - Modsuits - End
+
 /obj/item/hand_labeler/borg
 	name = "cyborg-hand labeler"
 

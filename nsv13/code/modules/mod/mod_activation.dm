@@ -1,5 +1,5 @@
 #define MOD_ACTIVATION_STEP_TIME 2 SECONDS
-#define MOD_ACTIVATION_STEP_FLAGS INTERACT_ATOM_IGNORE_INCAPACITATED
+#define MOD_ACTIVATION_STEP_FLAGS IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_HELD_ITEM|IGNORE_INCAPACITATED
 
 /// Creates a radial menu from which the user chooses parts of the suit to deploy/retract. Repeats until all parts are extended or retracted.
 /obj/item/mod/control/proc/choose_deploy(mob/user)
@@ -51,7 +51,7 @@
 		ADD_TRAIT(piece, TRAIT_NODROP, MOD_TRAIT)
 		if(!user)
 			return TRUE
-		wearer.visible_message(span_notice("[wearer]'s [piece] deploy[piece.p_s()] with a mechanical hiss."),
+		wearer.visible_message(span_notice("[wearer]'s [piece.name] deploy[piece.p_s()] with a mechanical hiss."),
 			span_notice("[piece] deploy[piece.p_s()] with a mechanical hiss."),
 			span_hear("You hear a mechanical hiss."))
 		playsound(src, 'sound/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
@@ -59,7 +59,7 @@
 	else if(piece.loc != src)
 		if(!user)
 			return FALSE
-		balloon_alert(user, "[piece] already deployed!")
+		balloon_alert(user, "[piece.name] already deployed!")
 		playsound(src, 'sound/machines/scanbuzz.ogg', 25, TRUE, SILENCED_SOUND_EXTRARANGE)
 	else
 		if(!user)
@@ -79,7 +79,7 @@
 		boots.show_overslot()
 	if(!user)
 		return
-	wearer.visible_message(span_notice("[wearer]'s [piece] retract[piece.p_s()] back into [src] with a mechanical hiss."),
+	wearer.visible_message(span_notice("[wearer]'s [piece.name] retract[piece.p_s()] back into [src] with a mechanical hiss."),
 		span_notice("[piece] retract[piece.p_s()] back into [src] with a mechanical hiss."),
 		span_hear("You hear a mechanical hiss."))
 	playsound(src, 'sound/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
@@ -122,23 +122,23 @@
 		module.on_deactivation()
 	activating = TRUE
 	to_chat(wearer, span_notice("MODsuit [active ? "shutting down" : "starting up"]."))
-	if(do_after(wearer, MOD_ACTIVATION_STEP_TIME, target = wearer))
+	if(mod_do_after(wearer, MOD_ACTIVATION_STEP_TIME, wearer, MOD_ACTIVATION_STEP_FLAGS))
 		to_chat(wearer, span_notice("[boots] [active ? "relax their grip on your legs" : "seal around your feet"]."))
 		playsound(src, 'sound/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 		seal_part(boots, seal = !active)
-	if(do_after(wearer, MOD_ACTIVATION_STEP_TIME, target = wearer))
+	if(mod_do_after(wearer, MOD_ACTIVATION_STEP_TIME, wearer, MOD_ACTIVATION_STEP_FLAGS))
 		to_chat(wearer, span_notice("[gauntlets] [active ? "become loose around your fingers" : "tighten around your fingers and wrists"]."))
 		playsound(src, 'sound/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 		seal_part(gauntlets, seal = !active)
-	if(do_after(wearer, MOD_ACTIVATION_STEP_TIME, target = wearer))
+	if(mod_do_after(wearer, MOD_ACTIVATION_STEP_TIME, wearer, MOD_ACTIVATION_STEP_FLAGS))
 		to_chat(wearer, span_notice("[chestplate] [active ? "releases your chest" : "cinches tightly against your chest"]."))
 		playsound(src, 'sound/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 		seal_part(chestplate,seal =  !active)
-	if(do_after(wearer, MOD_ACTIVATION_STEP_TIME, target = wearer))
+	if(mod_do_after(wearer, MOD_ACTIVATION_STEP_TIME, wearer, MOD_ACTIVATION_STEP_FLAGS))
 		to_chat(wearer, span_notice("[helmet] hisses [active ? "open" : "closed"]."))
 		playsound(src, 'sound/mecha/mechmove03.ogg', 25, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 		seal_part(helmet, seal = !active)
-	if(do_after(wearer, MOD_ACTIVATION_STEP_TIME, target = wearer))
+	if(mod_do_after(wearer, MOD_ACTIVATION_STEP_TIME, wearer, MOD_ACTIVATION_STEP_FLAGS))
 		to_chat(wearer, span_notice("Systems [active ? "shut down. Parts unsealed. Goodbye" : "started up. Parts sealed. Welcome"], [wearer]."))
 		if(ai)
 			to_chat(ai, span_notice("<b>SYSTEMS [active ? "DEACTIVATED. GOODBYE" : "ACTIVATED. WELCOME"]: \"[ai]\"</b>"))

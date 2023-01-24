@@ -919,6 +919,10 @@
 	if(!istype(C))
 		to_chat(user, "<span class='warning'>The potion can only be used on items or vehicles!</span>")
 		return
+	//NSV13 - Modsuits - Start
+	if(SEND_SIGNAL(C, COMSIG_SPEED_POTION_APPLIED, src, user) & SPEED_POTION_SUCCESSFUL)
+		return
+	//NSV13 - Modsuits - End
 	if(isitem(C))
 		var/obj/item/I = C
 		if(I.slowdown != initial(I.slowdown) || I.obj_flags & IMMUTABLE_SLOW)
@@ -941,6 +945,15 @@
 	C.add_atom_colour("#FF0000", FIXED_COLOUR_PRIORITY)
 	qdel(src)
 	return FALSE
+
+//NSV13 - Modsuits - Start
+/obj/item/slimepotion/speed/attackby_storage_insert(datum/component/storage, atom/storage_holder, mob/user)
+	. = ..()
+	if(!isitem(storage_holder))
+		return
+	var/obj/item/storage_item = storage_holder
+	return storage_item.slowdown <= 0
+//NSV13 - Modsuits - Stop
 
 /obj/item/slimepotion/fireproof
 	name = "slime chill potion"
