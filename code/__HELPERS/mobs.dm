@@ -99,9 +99,10 @@
 		"ipc_screen" = pick(GLOB.ipc_screens_list),
 		"ipc_antenna" = pick(GLOB.ipc_antennas_list),
 		"ipc_chassis" = pick(GLOB.ipc_chassis_list),
-		"insect_type" = pick(GLOB.insect_type_list)
+		"insect_type" = pick(GLOB.insect_type_list),
+		"flavour_text" = ""
 		)
-	)
+	) //NSV13 - ADD FLAVOR TEXT
 
 /proc/random_hair_style(gender)
 	switch(gender)

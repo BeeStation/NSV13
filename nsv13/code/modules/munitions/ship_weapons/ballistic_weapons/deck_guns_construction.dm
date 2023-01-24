@@ -24,15 +24,15 @@
 	pixel_x = -43
 	pixel_y = -64
 	bound_width = 96
-	bound_height = 128
+	bound_height = 96
 	bound_x = -32
-	bound_y = -64
+	bound_y = -32
 
 	var/state = BS_MOUNT_UNBOLTED
 	var/max_barrels = 1
 	var/igniters_added = 0
 	var/barrels_added = 0
-	
+
 	var/num_sheets_frame = 20
 	var/num_sheets_casing = 2
 	var/num_cables = 4
@@ -180,7 +180,7 @@
 				qdel(src)
 				return TRUE
 	return ..()
-	
+
 /obj/structure/ship_weapon/artillery_frame/attack_robot(mob/user)
 	. = ..()
 	attack_hand(user)
@@ -382,7 +382,7 @@
 	barrels = 3
 	build_path = null
 
-	
+
 /obj/structure/ship_weapon/artillery_frame/setDir()
 	. = ..()
 	switch(dir)
@@ -390,29 +390,29 @@
 			pixel_x = -43
 			pixel_y = -32
 			bound_width = 96
-			bound_height = 128
+			bound_height = 96
 			bound_x = -32
 			bound_y = -32
 		if(SOUTH)
 			pixel_x = -43
 			pixel_y = -64
 			bound_width = 96
-			bound_height = 128
+			bound_height = 96
 			bound_x = -32
-			bound_y = -64
+			bound_y = -32
 		if(EAST)
 			pixel_x = -30
 			pixel_y = -42
-			bound_width = 128
+			bound_width = 96
 			bound_height = 96
 			bound_x = -32
 			bound_y = -32
 		if(WEST)
 			pixel_x = -63
 			pixel_y = -42
-			bound_width = 128
+			bound_width = 96
 			bound_height = 96
-			bound_x = -64
+			bound_x = -32
 			bound_y = -32
 
 //because I'm too lazy to make a proper proc
