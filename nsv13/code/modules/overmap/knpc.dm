@@ -7,7 +7,9 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/ai_trait = AI_AGGRESSIVE
 	var/static/list/ai_goals = null
 	var/datum/ai_goal/human/current_goal = null
-	var/view_range = 12 //How good is this mob's "eyes"?
+	var/view_range = 8 //How good is this mob's "eyes"?
+	var/guess_range = 12 //How far away will we assume they're still there after seeing them?
+	var/list/last_aggressors = list()
 	var/next_backup_call = 0 //Delay for calling for backup to avoid spam.
 	var/list/path = list()
 	var/turf/dest = null
@@ -280,7 +282,9 @@ GLOBAL_LIST_EMPTY(knpcs)
 /datum/ai_goal/proc/get_aggressors(datum/component/knpc/HA)
 	. = list()
 	var/mob/living/carbon/human/ai_boarder/H = HA.parent
-	for(var/mob/living/M in oview(HA.view_range, HA.parent))
+	var/list/detected_objects = oview(HA.view_range, HA.parent)
+	var/list/guessed_objects = oview(HA.guess_range, HA.parent)
+	for(var/mob/living/M in guessed_objects)
 		//Invis is a no go. Non-human, -cyborg or -hostile mobs are ignored.
 		if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || (!ishuman(M) && !iscyborg(M) && !ishostile(M)))
 			continue
@@ -290,6 +294,8 @@ GLOBAL_LIST_EMPTY(knpcs)
 		else if(M.stat == DEAD)
 			continue
 		if(H.faction_check_mob(M))
+			continue
+		if(!(M in detected_objects) && !(M in HA.last_aggressors))
 			continue
 		. += M
 	//Check for nearby mechas....
@@ -412,6 +418,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	if(!..())
 		return 0
 	var/list/enemies = get_aggressors(HA)
+	HA.last_aggressors = enemies
 	//We have people to fight
 	if(length(enemies) >= 1)
 		return score
