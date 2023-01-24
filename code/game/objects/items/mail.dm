@@ -12,6 +12,7 @@
 	throwforce = 0
 	throw_range = 1
 	throw_speed = 1
+	/* NSV13 - START- Moving these comments around because they annoy me by merely existing in the wrong places
 	/// Destination tagging for the mail sorter.
 	mouse_drag_pointer = MOUSE_ACTIVE_POINTER
 	/// Weak reference to who this mail is for and who can open it.
@@ -20,7 +21,16 @@
 	var/datum/weakref/recipient_ref
 	/// Goodies which can be given to anyone. The base weight for cash is 56. For there to be a 50/50 chance of getting a department item, they need 56 weight as well.
 	var/goodie_count = 1
+	*/
 
+	mouse_drag_pointer = MOUSE_ACTIVE_POINTER
+	/// Destination tagging for the mail sorter.
+	var/sort_tag = 0
+	/// Weak reference to who this mail is for and who can open it.
+	var/datum/weakref/recipient_ref
+	/// How many goodies this mail contains.
+	var/goodie_count = 1
+	/// Goodies which can be given to anyone. The base weight for cash is 56. For there to be a 50/50 chance of getting a department item, they need 56 weight as well. //NSV13 - Changes to the comments - END
 	var/static/list/generic_goodies = list(
 		/obj/item/stack/spacecash/c10										= 22, //the lamest chance to get item, what do you expect really?
 		/obj/item/reagent_containers/food/drinks/soda_cans/pwr_game			= 10,
@@ -32,7 +42,14 @@
 		/obj/item/stack/spacecash/c100 										= 25,
 		/obj/item/stack/spacecash/c200 										= 15,
 		/obj/item/stack/spacecash/c500 										= 5,
-		/obj/item/stack/spacecash/c1000 									= 1
+		/obj/item/stack/spacecash/c1000 									= 1,
+
+		//NSV13
+		/obj/item/toy/snowball												= 15,
+		/obj/item/choice_beacon/music										= 5,
+		/obj/item/toy/plush/moth/random										= 5,
+		/obj/structure/musician/piano/unanchored							= 2,
+		/mob/living/simple_animal/cow										= 1,
 	)
 
 	//if the goodie is dangerous for the station, in this list it goes
@@ -51,7 +68,11 @@
 			/obj/item/melee/classic_baton/police/telescopic,
 			/obj/item/reagent_containers/glass/bottle/random_virus/minor,
 			/obj/item/reagent_containers/glass/bottle/random_virus,
-			/obj/item/gun/ballistic/revolver/nagant
+			/obj/item/gun/ballistic/revolver/nagant,
+
+			//NSV13
+			/obj/item/vibro_weapon,
+			/obj/item/storage/pill_bottle/floorpill,
 		)
 
 	/// Overlays (pure fluff), Does the letter have the postmark overlay?
@@ -207,7 +228,7 @@
 	return TRUE
 
 // Alternate setup, just complete garbage inside and anyone can open
-/obj/item/mail/proc/junk_mail()
+/obj/item/mail/proc/junk_mail(datum/mind/recipient) //NSV13 - Junk Mail For Crew!
 
 	var/obj/junk = /obj/item/paper/fluff/junkmail_generic
 	var/special_name = FALSE
@@ -220,8 +241,8 @@
 						/obj/item/paper/fluff/junkmail_redpill,
 						/obj/item/paper/fluff/nice_argument
 						))
-
-	var/static/list/junk_names = list(
+	//NSV13 - Changes Start - Changes to Junk Mail Spawning
+	var/list/junk_names = list(
 		/obj/item/paper/pamphlet/gateway = "[initial(name)] for [pick(GLOB.adjectives)] adventurers",
 		/obj/item/paper/pamphlet/violent_video_games = "[initial(name)] for the truth about the arcade centcom doesn't want to hear",
 		/obj/item/paper/fluff/junkmail_redpill = "[initial(name)] for those feeling [pick(GLOB.adjectives)] working at Nanotrasen",
@@ -230,17 +251,23 @@
 
 	//better spam mail names instead of being "IMPORTANT MAIL", courtesy of Monkestation
 	color = "#[pick(random_short_color())]"
-	switch(rand(1,10))
-
-		if(1,2)
-			name = special_name ? junk_names[junk] : "[initial(name)] for [pick(GLOB.alive_mob_list)]" //LETTER FOR IAN / BUBBLEGUM / MONKEY(420)
-		if(3,4)
-			name = special_name ? junk_names[junk] : "[initial(name)] for [pick(GLOB.player_list)]" //Letter for ANYONE, even that wizard rampaging through the station.
-		if(5)
-			name = special_name ? junk_names[junk] : "DO NOT OPEN"
-		else
-			name = special_name ? junk_names[junk] : "[pick("important","critical","crucial","serious","vital")] [initial(name)]"
-
+	if(recipient)
+		name = "[initial(name)] for [recipient.name] ([recipient.assigned_role])"
+		recipient_ref = WEAKREF(recipient)
+	else
+		switch(rand(1,10))
+			if(1,2,3)
+				var/list/candidates = list()
+				for(var/mob/living/simple_animal/M in GLOB.alive_mob_list)
+					var/turf/T = get_turf(M)
+					if(is_station_level(T.z)) // Ignore anything not on the main ship
+						candidates += M
+				name = special_name ? junk_names[junk] : "[initial(name)] for [pick(candidates)]"
+			if(4,5)
+				name = special_name ? junk_names[junk] : "DO NOT OPEN"
+			else
+				name = special_name ? junk_names[junk] : "[pick("important","critical","crucial","serious","vital")] [initial(name)]"
+	//NSV13 - Changes Stop - Changes to Junk Mail Spawning
 	junk = new junk(src)
 	return TRUE
 
@@ -291,7 +318,11 @@
 		else
 			new_mail = new /obj/item/mail/envelope(src)
 		if(recipient)
-			new_mail.initialize_for_recipient(recipient)
+			switch(rand(1,10)) //NSV13 - increasing odds of getting actual mail over spam. Apparently 50/50 feels like a ton of spam
+				if(1,2,3)
+					new_mail.junk_mail(recipient) //NSV13 - Changes to Junk Mail Spawning
+				else
+					new_mail.initialize_for_recipient(recipient)
 		else
 			new_mail.junk_mail()
 
