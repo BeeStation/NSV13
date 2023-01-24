@@ -227,10 +227,9 @@
 
 /datum/techweb_node/mod_advanced
 	id = "mod_advanced"
-	hidden = TRUE
 	display_name = "Advanced Modular Suits"
 	description = "More advanced modules, to improve modular suits."
-	prereq_ids = list("mod")
+	prereq_ids = list("robotics", "mod")
 	design_ids = list(
 		"mod_visor_diaghud",
 		"mod_stealth",
@@ -246,7 +245,6 @@
 
 /datum/techweb_node/mod_engineering
 	id = "mod_engineering"
-	hidden = TRUE
 	display_name = "Engineering Modular Suits"
 	description = "Engineering suits, for powered engineers."
 	prereq_ids = list("mod_advanced", "engineering")
@@ -261,7 +259,6 @@
 
 /datum/techweb_node/mod_advanced_engineering
 	id = "mod_advanced_engineering"
-	hidden = TRUE
 	display_name = "Advanced Engineering Modular Suits"
 	description = "Advanced Engineering suits, for advanced powered engineers."
 	prereq_ids = list("mod_engineering", "adv_engi")
@@ -275,7 +272,6 @@
 
 /datum/techweb_node/mod_medical
 	id = "mod_medical"
-	hidden = TRUE
 	display_name = "Medical Modular Suits"
 	description = "Medical suits for quick rescue purposes."
 	prereq_ids = list("mod_advanced", "biotech")
@@ -292,7 +288,6 @@
 
 /datum/techweb_node/mod_security
 	id = "mod_security"
-	hidden = TRUE
 	display_name = "Security Modular Suits"
 	description = "Security suits for space crime handling."
 	prereq_ids = list("mod_advanced", "sec_basic")
@@ -307,7 +302,6 @@
 
 /datum/techweb_node/mod_entertainment
 	id = "mod_entertainment"
-	hidden = TRUE
 	display_name = "Entertainment Modular Suits"
 	description = "Powered suits for protection against low-humor environments."
 	prereq_ids = list("mod_advanced", "clown")
