@@ -362,7 +362,6 @@
 	req_access = list(ACCESS_ENGINE_EQUIP)
 	flags_1 = PREVENT_CONTENTS_EXPLOSION_1
 	var/tier = 1
-	var/faction = "nanotrasen" //For ship tracking. The tracking feature of the FTL compy is entirely so that antagonists can hunt the NT ships down
 	var/jump_speed_factor = 3.5 //How quickly do we jump? Larger is faster.
 	var/ftl_state = FTL_STATE_IDLE //Mr Gaeta, spool up the FTLs.
 	var/obj/item/radio/radio //For engineering alerts.

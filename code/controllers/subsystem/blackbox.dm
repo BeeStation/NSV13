@@ -160,11 +160,11 @@ SUBSYSTEM_DEF(blackbox)
 			record_feedback("tally", "radio_usage", 1, "exploration")
 		if(FREQ_CENTCOM)
 			record_feedback("tally", "radio_usage", 1, "centcom")
-		if(FREQ_NANOTRASEN_ATC) //NSV13 - Nanotrasen Overmap comms
+		if(FREQ_OVERMAP_NANOTRASEN) //NSV13 - Nanotrasen Overmap comms
 			record_feedback("tally", "radio_usage", 1, "nanotrasen air traffic control")
-		if(FREQ_SYNDICATE_ATC) //NSV13 - Syndicate Overmap comms
+		if(FREQ_OVERMAP_SYNDICATE) //NSV13 - Syndicate Overmap comms
 			record_feedback("tally", "radio_usage", 1, "syndicate air traffic control")
-		if(FREQ_PIRATE_ATC) //NSV13 - Pirate Overmap comms
+		if(FREQ_OVERMAP_PIRATE) //NSV13 - Pirate Overmap comms
 			record_feedback("tally", "radio_usage", 1, "pirate air traffic control")
 		if(FREQ_MUNITIONS) //NSV13 - Munitions Department chat
 			record_feedback("tally", "radio_usage", 1, "munitions")

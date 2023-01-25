@@ -34,7 +34,8 @@
 	LAZYADD(operators,user)
 	CreateEye(user) //Your body stays there but your mind stays with me - 6 (Battlestar galactica)
 	user.overmap_ship = src
-	dradis?.attack_hand(user)
+	if(!istype(src, /obj/structure/overmap/small_craft)) //We handle this differently now
+		dradis?.attack_hand(user)
 	user.click_intercept = src
 	if(position & (OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER))
 		user.add_verb(overmap_verbs) //Add the ship panel verbs

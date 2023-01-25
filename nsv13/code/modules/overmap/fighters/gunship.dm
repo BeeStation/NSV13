@@ -26,7 +26,7 @@
 /obj/machinery/computer/ship/helm/console/gunship/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "FighterControls")
+		ui = new(user, src, "TransportControls")
 		ui.open()
 		ui.set_autoupdate(TRUE) // Fuel gauge, ammo, etc
 

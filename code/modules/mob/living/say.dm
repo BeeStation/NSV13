@@ -1,5 +1,5 @@
 GLOBAL_LIST_INIT(department_radio_prefixes, list(":", "."))
-//Nsv13 - atc chat & munitions & space pirate
+//Nsv13 - munitions & space pirate
 GLOBAL_LIST_INIT(department_radio_keys, list(
 	// Location
 	MODE_KEY_R_HAND = MODE_R_HAND,
@@ -17,11 +17,6 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 //	RADIO_KEY_EXPLORATION = RADIO_CHANNEL_EXPLORATION, NSV13- we need Q
 	RADIO_KEY_SERVICE = RADIO_CHANNEL_SERVICE,
 	RADIO_KEY_MUNITIONS = RADIO_CHANNEL_MUNITIONS, //NSV13 - Munitions radio
-
-	// Overmap
-	RADIO_KEY_NANOTRASEN_ATC = RADIO_CHANNEL_NANOTRASEN_ATC, //NSV13 - Nanotrasen Overmap Comms
-	RADIO_KEY_SYNDICATE_ATC = RADIO_CHANNEL_SYNDICATE_ATC, //NSV13 - Syndicate Overmap Comms
-	RADIO_KEY_PIRATE_ATC = RADIO_CHANNEL_PIRATE_ATC, //NSV13 - Pirate Overmap Comms
 
 	// Faction
 	RADIO_KEY_SYNDICATE = RADIO_CHANNEL_SYNDICATE,
@@ -51,9 +46,6 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 	"м" = RADIO_CHANNEL_SERVICE,
 //	"ю" = RADIO_CHANNEL_EXPLORATION, //NSV13 - stole the exploration channel
 	"ц" = RADIO_CHANNEL_MUNITIONS, //NSV13 - Munitions radio
-	"й" = RADIO_KEY_NANOTRASEN_ATC, //NSV13 - ATC radio
-	"й" = RADIO_KEY_SYNDICATE_ATC, //NSV13 - ATC radio
-	"й" = RADIO_KEY_PIRATE_ATC, //NSV13 - ATC radio
 
 	// Faction
 	"е" = RADIO_CHANNEL_SYNDICATE,

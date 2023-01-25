@@ -2,6 +2,8 @@
 Woe betide ye who tread here.
 
 Been a mess since 2018, we'll fix it someday (probably)
+
+2023 here. I made it worse. Not sorry!
 */
 
 /obj/structure/overmap/small_craft
@@ -46,12 +48,18 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/list/components = list() //What does this fighter start off with? Use this to set what engine tiers and whatever it gets.
 	var/maintenance_mode = FALSE //Munitions level IDs can change this.
 	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
+	var/obj/item/radio/intercom/fighter/comms = null
 	var/obj/machinery/computer/ship/navigation/starmap = null
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
 	var/escape_pod_type = /obj/structure/overmap/small_craft/escapepod
 	var/mutable_appearance/canopy
 	var/random_name = TRUE
-	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/change_name, .verb/countermeasure)
+	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/cycle_firemode, .verb/show_control_panel, .verb/change_name, .verb/countermeasure)
+	//Our percentile ticks for start sequence
+	var/avionics_booting = FALSE
+	var/avionics_calibration = 0 //Dradis, Radios etc
+	var/tactical_booting = FALSE
+	var/tactical_calibration = 0 //Weapons, Integrity Check etc
 
 /obj/structure/overmap/small_craft/Destroy()
 	var/mob/last_pilot = pilot // Old pilot gets first shot
@@ -138,7 +146,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 	data["apu"] = APU.active
 	var/obj/item/fighter_component/engine/engine = loadout.get_slot(HARDPOINT_SLOT_ENGINE)
-	data["ignition"] = engine ? engine.active() : FALSE
+	data["ignition"] = engine ? engine.igniter : FALSE
+	data["engine_status"] = engine ? engine.active() : FALSE
 	data["rpm"] = engine? engine.rpm : 0
 
 	var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
@@ -180,6 +189,88 @@ Been a mess since 2018, we'll fix it someday (probably)
 		hardpoints_info[++hardpoints_info.len] = hardpoint_info
 	data["hardpoints"] = hardpoints_info
 	data["occupants_info"] = occupants_info
+
+	data["avionics_booting"] = avionics_booting
+	data["avionics_calibration"] = avionics_calibration
+	data["tactical_booting"] = tactical_booting
+	data["tactical_calibration"] = tactical_calibration
+	data["comm_freq"] = comms.frequency
+	data["comm_state"] = comms.on
+	data["faction"] = faction
+
+	//DRADIS data - Stolen straight from radar.dm
+	var/list/blips = list()
+	var/ship_count = 0
+	for(var/obj/effect/overmap_anomaly/OA in current_system?.system_contents)
+		if(OA && istype(OA) && OA.z == z)
+			blips.Add(list(list("x" = OA.x, "y" = OA.y, "colour" = "#eb9534", "name" = "[(OA.scanned) ? OA.name : "anomaly"]", opacity=dradis?.showAnomalies*0.01, alignment = "uncharted")))
+	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+		var/sensor_visible = (OM != src && OM.faction != faction) ? ((overmap_dist(src, OM) > max(dradis?.sensor_range * 2, OM.sensor_profile)) ? 0 : OM.is_sensor_visible(src)) : SENSOR_VISIBILITY_FULL
+		if(OM.z == z && sensor_visible >= SENSOR_VISIBILITY_FAINT)
+			var/inRange = (overmap_dist(src, OM) <= max(dradis?.sensor_range,OM.sensor_profile)) || OM.faction == faction
+			var/thecolour = "#FFFFFF"
+			var/filterType = dradis?.showEnemies
+			if(istype(OM, /obj/structure/overmap/asteroid))
+				if(!dradis?.show_asteroids)
+					continue
+				var/obj/structure/overmap/asteroid/AS = OM
+				if(AS.required_tier > dradis?.mining_sensor_tier)
+					continue
+				thecolour = "#80523c"
+				switch(AS.required_tier)
+					if(2)
+						thecolour = "#ffcc00"
+					if(3)
+						thecolour = "#cc66ff"
+				filterType = dradis?.showAsteroids
+			else
+				if(OM == src)
+					thecolour = "#00FFFF"
+					filterType = 100
+				else if(OM.faction == faction)
+					thecolour = "#32CD32"
+					filterType = dradis?.showFriendlies
+				else
+					thecolour = "#FF0000"
+					filterType = dradis?.showEnemies
+					ship_count ++
+			var/thename = (inRange) ? OM.name : "UNKNOWN"
+			var/thefaction = ((OM.faction == "nanotrasen" || OM.faction == "syndicate") && inRange) ? OM.faction : "unaligned"
+			thecolour = (inRange) ? thecolour : "#a66300"
+			filterType = (inRange) ? filterType : 100
+			if(sensor_visible <= SENSOR_VISIBILITY_FAINT)
+				filterType = sensor_visible
+			else
+				filterType *= 0.01
+			filterType = CLAMP(filterType, 0, 1)
+			blips[++blips.len] = list("x" = OM.x, "y" = OM.y, "colour" = thecolour, "name"=thename, opacity=filterType ,alignment = thefaction, "id"="\ref[OM]")
+	if(ship_count > dradis?.last_ship_count)
+		var/delta = ship_count - dradis?.last_ship_count
+		dradis?.last_ship_count = ship_count
+		visible_message("<span class='warning'>[icon2html(src, viewers(src))] [delta <= 1 ? "DRADIS contact" : "Multiple DRADIS contacts"]</span>")
+		playsound(src, 'nsv13/sound/effects/ship/contact.ogg', 100, FALSE)
+
+	data["dradis_online"] = dradis?.on
+	data["zoom_factor"] = dradis?.zoom_factor
+	data["zoom_factor_min"] = dradis?.zoom_factor_min
+	data["zoom_factor_max"] = dradis?.zoom_factor_max
+	data["focus_x"] = x
+	data["focus_y"] = y
+	data["ships"] = blips
+	data["showFriendlies"] = dradis?.showFriendlies
+	data["showEnemies"] = dradis?.showEnemies
+	data["showAsteroids"] = dradis?.showAsteroids
+	data["showAnomalies"] = dradis?.showAnomalies
+	data["sensor_range"] = dradis?.sensor_range
+	data["width_mod"] = dradis?.sensor_range / SENSOR_RANGE_DEFAULT
+	data["sensor_mode"] = (dradis?.sensor_mode == SENSOR_MODE_PASSIVE) ? "Passive Radar" : "Active Radar"
+	data["pulse_delay"] = "[dradis?.radar_delay / 10]"
+	if(dradis?.can_radar_pulse())
+		data["can_radar_pulse"] = TRUE
+		if(dradis?.sensor_mode == SENSOR_MODE_RADAR && !isobserver(user))
+			dradis?.send_radar_pulse()
+	else
+		data["can_radar_pulse"] = FALSE
 	return data
 
 /obj/structure/overmap/small_craft/ui_act(action, params, datum/tgui/ui)
@@ -345,6 +436,38 @@ Been a mess since 2018, we'll fix it someday (probably)
 		if("toggle_maintenance")
 			maintenance_mode = !maintenance_mode
 			return
+		if("boot_avionics")
+			var/obj/item/fighter_component/apu/APU = loadout.get_slot(HARDPOINT_SLOT_APU)
+			if(APU.active || engines_active())
+				if(avionics_calibration >= 100)
+					to_chat(usr, "<span class='notice'>Error: Unable to comply - Avionics already calibrated!</span>")
+					return
+				if(!avionics_booting)
+					avionics_booting = TRUE
+					to_chat(usr, "<span class='notice'>Avionics boot sequence engaged. <BR>\
+								Calibrating Radio Systems... <BR>\
+								Aligning DRADIS... <BR>\
+								CAUTION: Excessive movement will slow alignment process.</span>")
+					return
+				else
+					to_chat(usr, "<span class='warning'>Avionics boot sequence already in progress!</span>")
+					return
+		if("boot_tactical")
+			var/obj/item/fighter_component/apu/APU = loadout.get_slot(HARDPOINT_SLOT_APU)
+			if(APU.active || engines_active())
+				if(tactical_calibration >= 100)
+					to_chat(usr, "<span class='notice'>Error: Unable to comply - Tactical already calibrated!</span>")
+					return
+				if(!tactical_booting)
+					tactical_booting = TRUE
+					to_chat(usr, "<span class='notice'>Tactical systems boot sequence engaged. <BR>\
+								Calibrating Weapons... <BR>\
+								Analysing Hull Integrity... <BR>\
+								CAUTION: Excessive movement will slow alignment process.</span>")
+					return
+				else
+					to_chat(usr, "<span class='warning'>Tactical boot sequence already in progress!</span>")
+					return
 
 	relay('nsv13/sound/effects/fighters/switch.ogg')
 
@@ -361,6 +484,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 	if(dradis_type)
 		dradis = new dradis_type(src) //Fighters need a way to find their way home.
 		dradis.linked = src
+		if(interior_mode == NO_INTERIOR)
+			dradis.on = FALSE //Reserved for starting sequence
+	if(interior_mode == NO_INTERIOR) //IE is just a fighter
+		comms = new /obj/item/radio/intercom/fighter(src)
 	set_light(4)
 	obj_integrity = max_integrity
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/handle_moved) //Used to smoothly transition from ship to overmap
@@ -602,6 +729,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/obj/item/fighter_component/engine/E = loadout.get_slot(HARDPOINT_SLOT_ENGINE)
 	E.rpm = ENGINE_RPM_SPUN
 	E.try_start()
+	avionics_calibration = 100
+	tactical_calibration = 100
 	toggle_canopy()
 	forceMove(locate(250, y, z))
 	//check_overmap_elegibility(TRUE)
@@ -1162,21 +1291,25 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	if(APU?.fuel_line && igniter) //Use this to generate the base load, but care not to overspeed
 		apu_spin(500*tier)
 
-	if(rpm > 3000)
+	if(rpm >= 3000)
 		var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 		B.give(500  *tier)
 
 	if(rpm > ENGINE_RPM_SPUN)
-		playsound(loc, 'nsv13/sound/effects/computer/beep3.ogg', 100, TRUE)
 		if(prob(50))
-			loc.visible_message("<span class='warning'>[src]'s engine overspeed warning beeps")
+			playsound(loc, 'nsv13/sound/effects/computer/beep3.ogg', 100, TRUE)
+			F.relay('nsv13/sound/effects/fighters/cockpit.ogg', "<span class='warning'>[src]'s engine overspeed warning beeps</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
+			loc.visible_message("<span class='warning'>[src]'s engine overspeed warning beeps!</span>")
 		if(prob(5))
 			playsound(loc, 'nsv13/sound/effects/ship/rcs.ogg', 100, TRUE)
-			loc.visible_message("<span class='userdanger'>[src] violently fizzles out!.</span>")
 			F.set_master_caution(TRUE)
 			rpm = 0
 			flooded = TRUE
 			active = FALSE
+			igniter = FALSE
+			APU?.fuel_line = FALSE
+			APU?.active = FALSE
+			F.relay('nsv13/sound/effects/fighters/cockpit.ogg', "<span class='userdanger'>[src] violently fizzles out!</span>", loop=TRUE, channel = CHANNEL_SHIP_ALERT)
 
 	if(!active())
 		if(APU?.fuel_line)
@@ -1193,7 +1326,10 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 		loc.visible_message("<span class='warning'>[src] sputters uselessly.</span>")
 		return
 	rpm += amount
-	rpm = CLAMP(rpm, 0, ENGINE_RPM_SPUN)
+	if(igniter)
+		rpm = CLAMP(rpm, 0, (ENGINE_RPM_SPUN * 1.5))
+	else
+		rpm = CLAMP(rpm, 0, ENGINE_RPM_SPUN)
 
 /obj/item/fighter_component/engine/proc/try_start()
 	var/obj/structure/overmap/small_craft/F = loc
@@ -1343,7 +1479,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	F.use_fuel(2, TRUE) //APUs take fuel to run.
 	if(engine.active())
 		return
-	engine.apu_spin(500*tier)
+
 
 
 /obj/item/fighter_component/countermeasure_dispenser
@@ -1603,6 +1739,20 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		use_fuel()
 		loadout.process()
 
+	var/obj/item/fighter_component/battery/B = loadout.get_slot(HARDPOINT_SLOT_BATTERY)
+	if(B.active)
+		if(avionics_booting)
+			start_sequence_avionics()
+		if(tactical_booting)
+			start_sequence_tactical()
+
+	else
+		avionics_booting = FALSE
+		avionics_calibration = 0
+		tactical_booting = FALSE
+		tactical_calibration = 0
+		dradis?.on = FALSE
+
 	var/obj/item/fighter_component/canopy/C = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
 
 	// Leak air if the canopy is missing or broken
@@ -1644,4 +1794,59 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/structure/overmap/small_craft/proc/toggle_canopy()
 	canopy_open = !canopy_open
 	playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
+
+/obj/structure/overmap/small_craft/proc/start_sequence_avionics()
+	if(!velocity.x && !velocity.y) //Update me to matricies
+		avionics_calibration += 3
+	else //Align statically you fools!
+		avionics_calibration += 0.5
+	if(avionics_calibration > 25 && comms.on == FALSE)
+		comms.on = TRUE //Turn on the intercomm
+		switch(faction) //Set to the correct faction
+			if("nanotrasen")
+				comms.set_frequency(FREQ_OVERMAP_NANOTRASEN)
+			if("syndicate")
+				comms.set_frequency(FREQ_OVERMAP_SYNDICATE)
+			if("pirate")
+				comms.set_frequency(FREQ_OVERMAP_PIRATE)
+		if(pilot)
+			to_chat(pilot, "<span class='notice'>Radio Systems... Online. <BR>\
+						IFF Registered As [faction]. <BR>\
+						Interlink Positive on [(comms.frequency / 10)]. <BR>\
+						Use :i to speak over ship radio.</span>")
+			if(gunner && gunner != pilot)
+				to_chat(gunner, "<span class='notice'>Radio Systems... Online. <BR>\
+							IFF Registered As [faction]. <BR>\
+							Interlink Positive on [(comms.frequency / 10)]. <BR>\
+							Use :i to speak over ship radio.</span>")
+
+	if(avionics_calibration >= 100)
+		avionics_calibration = 100
+		avionics_booting = FALSE
+		dradis.on = TRUE
+		if(pilot)
+			to_chat(pilot, "<span class='notice'>DRADIS... Online. <BR>\
+						Avionics Calibration Complete.</span>")
+			if(gunner && gunner != pilot)
+				to_chat(gunner, "<span class='notice'>DRADIS... Online. <BR>\
+						Avionics Calibration Complete.</span>")
+
+
+/obj/structure/overmap/small_craft/proc/start_sequence_tactical()
+	tactical_calibration += 2
+	if(tactical_calibration >= 100)
+		tactical_calibration = 100
+		tactical_booting = FALSE
+		if(pilot)
+			to_chat(pilot, "<span class='notice'>Weapon Systems... Online. <BR>\
+						Tactical Calibration Complete.</span>")
+			if(gunner && gunner != pilot)
+				to_chat(gunner, "<span class='notice'>Weapon Systems... Online. <BR>\
+						Tactical Calibration Complete.</span>")
+
+	if(tactical_calibration == 50) //Make sure this matches an interval
+		if(pilot)
+			to_chat(pilot, "<span class='notice'>Damage Control Systems... Online.")
+			if(gunner && gunner != pilot)
+				to_chat(gunner, "<span class='notice'>Damage Control Systems... Online.")
 

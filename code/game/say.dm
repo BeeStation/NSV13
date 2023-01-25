@@ -18,9 +18,9 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	"[FREQ_SYNDICATE]" = "syndradio",
 	"[FREQ_CENTCOM]" = "centcomradio",
 	"[FREQ_CTF_RED]" = "redteamradio",
-	"[FREQ_NANOTRASEN_ATC]" = "nanoatcradio",
-	"[FREQ_SYNDICATE_ATC]" = "syndatcradio",
-	"[FREQ_PIRATE_ATC]" = "piraatcradio",
+	"[FREQ_OVERMAP_NANOTRASEN]" = "nanoatcradio",
+	"[FREQ_OVERMAP_SYNDICATE]" = "syndatcradio",
+	"[FREQ_OVERMAP_PIRATE]" = "piraatcradio",
 	"[FREQ_PIRATE]" = "pirateradio",
 	"[FREQ_MUNITIONS]" = "muniradio",
 	"[FREQ_CTF_BLUE]" = "blueteamradio"

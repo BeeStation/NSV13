@@ -12,6 +12,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	var/can_sound = TRUE //Warning sound placeholder
 	var/sound_cooldown = 10 SECONDS //For big warnings like enemies firing on you, that we don't want repeating over and over
 	var/list/ui_users = list()
+	var/faction = "nanotrasen" //Defaulting to nanotrasen
 
 /obj/machinery/computer/ship/Initialize(mapload)
 	. = ..()

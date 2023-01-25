@@ -8,6 +8,10 @@
 	name = "circuit board (tactical computer)"
 	build_path = /obj/machinery/computer/ship/tactical
 
+/obj/item/circuitboard/computer/ship/battle_management
+	name = "circuit board (battle management)"
+	build_path = /obj/machinery/computer/ship/battle_management
+
 //Dradis
 /obj/item/circuitboard/computer/ship/dradis
 	name = "circuit board (dradis computer)"
