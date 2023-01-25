@@ -60,8 +60,15 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	mode_cache = typecacheof(/datum/overmap_gamemode, TRUE)
 
+	var/list/probabilities = config.Get(/datum/config_entry/keyed_list/omode_probability)
+	var/list/min_pop = config.Get(/datum/config_entry/keyed_list/omode_min_pop)
+	var/list/max_pop = config.Get(/datum/config_entry/keyed_list/omode_max_pop)
+
 	for(var/D in subtypesof(/datum/overmap_gamemode))
 		var/datum/overmap_gamemode/N = new D()
+		N.selection_weight = probabilities[N.config_tag]
+		N.required_players = min_pop[N.config_tag]
+		N.max_players = max_pop[N.config_tag]
 		mode_cache[D] = N
 
 	var/list/mode_pool = mode_cache
@@ -307,6 +314,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/overmap_gamemode
 	var/name = null											//Name of the gamemode type
+	var/config_tag = null									//Tag for config file weight
 	var/desc = null											//Description of the gamemode for ADMINS
 	var/brief = null										//Description of the gamemode for PLAYERS
 	var/selection_weight = 0								//Used to determine the chance of this gamemode being selected

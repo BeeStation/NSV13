@@ -204,6 +204,15 @@
 					/obj/item/ship_weapon/parts/missile/warhead/decoy)
 	crate_name = "Decoy missile warheads"
 
+/datum/supply_pack/munitions/freight_warheads
+	name = "Torpedo warheads (freight)"
+	desc = "A pack of 3 freight torpedo warheads for delivering cargo to trade stations."
+	cost = 350
+	contains = list(/obj/item/ship_weapon/parts/missile/warhead/freight,
+					/obj/item/ship_weapon/parts/missile/warhead/freight,
+					/obj/item/ship_weapon/parts/missile/warhead/freight)
+	crate_type = /obj/structure/closet/crate/wooden
+
 /datum/supply_pack/munitions/pilot_outfitting
 	name = "Pilot Outfitting Crate"
 	desc = "A full set of of gear for a new pilot"
