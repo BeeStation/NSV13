@@ -42,6 +42,9 @@
 	damage = 0
 	can_home = FALSE
 
+/obj/item/projectile/guided_munition/missile/dud/homing
+	can_home = TRUE
+
 /obj/item/ship_weapon/ammunition/missile/georgio
 	name = "\improper Georgio"
 
