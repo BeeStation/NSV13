@@ -84,6 +84,11 @@
 	icon_state = "mun_headset"
 	keyslot = new /obj/item/encryptionkey/munitions_tech
 
+/obj/item/radio/headset/munitions/munitions_tech/alt
+	name = "munitions technician bowmans headset"
+	desc = "Use :w to access the department frequency. Use :u to access the supply frequency"
+	icon_state = "mun_headset_alt"
+
 /obj/item/radio/headset/munitions/munitions_security_alt
 	name = "munitions-security bowman headset"
 	desc = "The headset used by your local munitions mall cop, but with ear protection! Now you won't go deaf!"
