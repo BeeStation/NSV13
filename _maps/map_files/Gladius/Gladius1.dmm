@@ -15381,10 +15381,19 @@
 /turf/open/floor/plating,
 /area/science/mixing)
 "hle" = (
-/obj/machinery/computer/ship/munitions_computer/east,
-/obj/structure/lattice/catwalk/over/ship,
-/obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/noslip/dark,
+/obj/item/ship_weapon/ammunition/torpedo{
+	pixel_y = 12
+	},
+/obj/item/ship_weapon/ammunition/torpedo{
+	pixel_y = 2
+	},
+/obj/item/ship_weapon/ammunition/torpedo{
+	pixel_y = -6
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/turf/open/floor/monotile/steel,
 /area/nsv/weapons/starboard)
 "hlp" = (
 /obj/structure/lattice/catwalk/over/ship/dark,
@@ -18596,9 +18605,9 @@
 	icon_state = "2-4"
 	},
 /obj/machinery/navbeacon{
-	name = "UpstairsRecToMuni";
+	codes_txt = "patrol;next_patrol=munitions";
 	location = "UpRec";
-	codes_txt = "patrol;next_patrol=munitions"
+	name = "UpstairsRecToMuni"
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/central)
@@ -22566,9 +22575,9 @@
 	},
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 8;
+	name = "security";
 	sortType = 7;
-	sortTypes = list(7,8,29,30);
-	name = "security"
+	sortTypes = list(7,8,29,30)
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
@@ -27130,8 +27139,8 @@
 	},
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 4;
-	sortType = 15;
-	name = "xo"
+	name = "xo";
+	sortType = 15
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/fore)
@@ -29839,9 +29848,9 @@
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/sorting/mail{
+	name = "science";
 	sortType = 12;
-	sortTypes = list(12,24,28);
-	name = "science"
+	sortTypes = list(12,24,28)
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/fore)
@@ -30931,8 +30940,8 @@
 	},
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 4;
-	sortType = 13;
-	name = "rd"
+	name = "rd";
+	sortType = 13
 	},
 /turf/open/floor/monotile/steel,
 /area/science/research)
@@ -31386,7 +31395,6 @@
 /turf/open/floor/plating/airless,
 /area/nsv/hanger)
 "oLe" = (
-/obj/machinery/computer/ship/munitions_computer/east,
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -32136,8 +32144,8 @@
 /obj/effect/turf_decal/tile/neutral,
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 1;
-	sortType = 31;
-	name = "hangar"
+	name = "hangar";
+	sortType = 31
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
@@ -35393,10 +35401,13 @@
 	pixel_y = 12
 	},
 /obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = 2
+	pixel_y = 3
 	},
 /obj/item/ship_weapon/ammunition/torpedo{
 	pixel_y = -6
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/starboard)
@@ -38014,9 +38025,9 @@
 	dir = 8
 	},
 /obj/machinery/navbeacon{
-	name = "UpToDown";
+	codes_txt = "patrol;next_patrol=DownRec";
 	location = "upstairsdown";
-	codes_txt = "patrol;next_patrol=DownRec"
+	name = "UpToDown"
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/frame1/central)
@@ -40088,9 +40099,9 @@
 	},
 /obj/structure/disposalpipe/sorting/mail{
 	dir = 4;
+	name = "medical";
 	sortType = 9;
-	sortTypes = list(9,10,11,23);
-	name = "medical"
+	sortTypes = list(9,10,11,23)
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/aft)
@@ -47161,18 +47172,6 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/ordnance)
-"wia" = (
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = 12
-	},
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = 3
-	},
-/obj/item/ship_weapon/ammunition/torpedo{
-	pixel_y = -6
-	},
-/turf/open/floor/monotile/steel,
-/area/nsv/weapons/starboard)
 "wib" = (
 /obj/structure/hull_plate,
 /obj/machinery/camera{
@@ -50679,8 +50678,8 @@
 	},
 /obj/structure/disposalpipe/sorting/mail{
 	dir = 4;
-	sortType = 14;
-	name = "roboticist"
+	name = "roboticist";
+	sortType = 14
 	},
 /turf/open/floor/monotile/steel,
 /area/science/research)
@@ -83388,9 +83387,9 @@ ybF
 vyp
 nmT
 fla
-hle
+rfc
 fla
-cFj
+raH
 fla
 oLe
 nmT
@@ -83644,11 +83643,11 @@ wut
 ybF
 ycp
 nmT
-raH
+cFj
 kqz
-raH
+cFj
 kqz
-raH
+cFj
 puU
 nmT
 dHz
@@ -83902,9 +83901,9 @@ nlj
 vev
 nmT
 wEE
-qAl
+ybF
 raH
-wia
+ybF
 raH
 xxd
 nmT
@@ -84159,9 +84158,9 @@ fKI
 nmT
 nmT
 rfc
-dOB
+hle
 raH
-dOB
+qAl
 raH
 iTT
 nmT
