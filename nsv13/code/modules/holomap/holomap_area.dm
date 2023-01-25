@@ -28,7 +28,7 @@
 	holomap_color = HOLOMAP_AREACOLOR_COMMAND
 
 /area/maintenance/department/bridge
-	holomap_color = HOLOMAP_AREACOLOR_COMMAND
+	holomap_color = HOLOMAP_AREACOLOR_MAINTENANCE
 
 // Security //
 /area/security
@@ -38,31 +38,31 @@
 	holomap_color = HOLOMAP_AREACOLOR_SECURITY
 
 /area/maintenance/department/security
-	holomap_color = HOLOMAP_AREACOLOR_SECURITY
+	holomap_color = HOLOMAP_AREACOLOR_MAINTENANCE
 
 // Science //
 /area/science
 	holomap_color = HOLOMAP_AREACOLOR_SCIENCE
 
 /area/maintenance/department/science
-	holomap_color = HOLOMAP_AREACOLOR_SCIENCE
+	holomap_color = HOLOMAP_AREACOLOR_MAINTENANCE
 
 // Medical //
 /area/medical
 	holomap_color = HOLOMAP_AREACOLOR_MEDICAL
 
 /area/maintenance/department/medical
-	holomap_color = HOLOMAP_AREACOLOR_MEDICAL
+	holomap_color = HOLOMAP_AREACOLOR_MAINTENANCE
 
 // Engineering //
 /area/engineering
 	holomap_color = HOLOMAP_AREACOLOR_ENGINEERING
 
 /area/maintenance/department/engine
-	holomap_color = HOLOMAP_AREACOLOR_ENGINEERING
+	holomap_color = HOLOMAP_AREACOLOR_MAINTENANCE
 
 /area/maintenance/department/electrical
-	holomap_color = HOLOMAP_AREACOLOR_ENGINEERING
+	holomap_color = HOLOMAP_AREACOLOR_MAINTENANCE
 
 /area/tcommsat
 	holomap_color = HOLOMAP_AREACOLOR_ENGINEERING
@@ -123,17 +123,17 @@
 	holomap_color = HOLOMAP_AREACOLOR_SERVICE
 
 /area/maintenance/department/crew_quarters
-	holomap_color = HOLOMAP_AREACOLOR_SERVICE
+	holomap_color = HOLOMAP_AREACOLOR_MAINTENANCE
 
 /area/maintenance/department/chapel
-	holomap_color = HOLOMAP_AREACOLOR_SERVICE
+	holomap_color = HOLOMAP_AREACOLOR_MAINTENANCE
 
 // Cargo //
 /area/cargo
 	holomap_color = HOLOMAP_AREACOLOR_CARGO
 
 /area/maintenance/department/cargo
-	holomap_color = HOLOMAP_AREACOLOR_CARGO
+	holomap_color = HOLOMAP_AREACOLOR_MAINTENANCE
 
 /area/quartermaster
 	holomap_color = HOLOMAP_AREACOLOR_CARGO
