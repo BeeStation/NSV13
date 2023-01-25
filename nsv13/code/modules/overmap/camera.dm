@@ -30,12 +30,8 @@
 			to_chat(gunner, "<span class='warning'>[user] has kicked you off the ship controls!</span>")
 			stop_piloting(gunner)
 		gunner = user
-	user.set_focus(src)
-	LAZYADD(operators,user)
-	CreateEye(user) //Your body stays there but your mind stays with me - 6 (Battlestar galactica)
-	user.overmap_ship = src
+	observe_ship(user)
 	dradis?.attack_hand(user)
-	user.click_intercept = src
 	if(position & (OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER))
 		user.add_verb(overmap_verbs) //Add the ship panel verbs
 	if(mass < MASS_MEDIUM)
@@ -44,6 +40,15 @@
 	user.client.rescale_view(user.client.overmap_zoomout, 0, ((40*2)+1)-15)
 	return TRUE
 
+// Handles actually "observing" the ship.
+/obj/structure/overmap/proc/observe_ship(mob/living/carbon/user)
+	if(user.overmap_ship == src || LAZYFIND(operators, user))
+		return FALSE
+	user.set_focus(src)
+	LAZYADD(operators,user)
+	CreateEye(user)
+	user.overmap_ship = src
+	user.click_intercept = src
 
 /obj/structure/overmap/proc/stop_piloting(mob/living/M)
 	LAZYREMOVE(operators,M)
