@@ -9,7 +9,7 @@
 		#include "map_files\debug\runtimestation.dmm"
 
 		//Atlas
-		#include "map_files\Atlas\Atlas.dmm"
+		#include "map_files\Atlas\Atlas1.dmm"
 		#include "map_files\Atlas\Atlas2.dmm"
 
 		//Aetherwhisp
