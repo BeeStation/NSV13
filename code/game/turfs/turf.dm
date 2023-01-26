@@ -301,11 +301,16 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 	return zPassOut(A, DOWN, target) && target.zPassIn(A, DOWN, src)
 
 /turf/proc/zFall(atom/movable/A, levels = 1, force = FALSE, old_loc = null)
-	var/turf/target = get_step_multiz(src, DOWN)
+	//NSV13 - MODsuits - START
+	var/direction = DOWN
+	if(A.has_gravity() == NEGATIVE_GRAVITY)
+		direction = UP
+	var/turf/target = get_step_multiz(src, direction)
 	if(!target || (!isobj(A) && !ismob(A)))
 		return FALSE
-	if(!force && (!can_zFall(A, levels, target) || !A.can_zFall(src, levels, target, DOWN)))
+	if(!force && (!can_zFall(A, levels, target) || !A.can_zFall(src, levels, target, direction)))
 		return FALSE
+	//NSV13 - MODsuits - END
 	. = TRUE
 	if(!A.zfalling)
 		A.zfalling = TRUE

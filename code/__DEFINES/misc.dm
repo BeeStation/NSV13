@@ -408,6 +408,27 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 #define AMBIENT_OCCLUSION filter(type="drop_shadow", x=0, y=-2, size=4, color="#04080FAA")
 #define GAUSSIAN_BLUR(filter_size) filter(type="blur", size=filter_size)
 
+//NSV13 - Modsuits - Start
+///range of values where you suffer from negative gravity
+#define NEGATIVE_GRAVITY_RANGE -INFINITY to NEGATIVE_GRAVITY
+///range of values where you have no gravity
+#define WEIGHTLESS_RANGE NEGATIVE_GRAVITY + 0.01 to 0
+///range of values where you have normal gravity
+#define STANDRARD_GRAVITY_RANGE 0.01 to STANDARD_GRAVITY
+///range of values where you have heavy gravity
+#define HIGH_GRAVITY_RANGE STANDARD_GRAVITY + 0.01 to GRAVITY_DAMAGE_TRESHOLD - 0.01
+///range of values where you suffer from crushing gravity
+#define CRUSHING_GRAVITY_RANGE GRAVITY_DAMAGE_TRESHOLD to INFINITY
+
+/**
+ * The point where gravity is negative enough to pull you upwards.
+ * That means walking checks for a ceiling instead of a floor, and you can fall "upwards"
+ *
+ * This should only be possible on multi-z maps because it works like shit on maps that aren't.
+ */
+#define NEGATIVE_GRAVITY -1
+//NSV13 - Modsuits - Stop
+
 #define STANDARD_GRAVITY 1 //! Anything above this is high gravity, anything below no grav
 #define GRAVITY_DAMAGE_TRESHOLD 3 //! Starting with this value gravity will start to damage mobs
 

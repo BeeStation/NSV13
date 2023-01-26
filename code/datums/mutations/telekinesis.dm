@@ -18,3 +18,16 @@
 
 /datum/mutation/telekinesis/on_ranged_attack(atom/target)
 	target.attack_tk(owner)
+
+//NSV13 - MODsuit Kinesis Module - Start
+/datum/mutation/telekinesis/mod
+	name = "Kinesis"
+	desc = "A modification that allows the wearer of a MODsuit to interact with objects through thought with the kinesis module."
+	locked = TRUE
+	text_gain_indication = null
+	limb_req = null
+	instability = 0
+
+/datum/mutation/telekinesis/mod/get_visual_indicator()
+	return
+//NSV13 - MODsuit Kinesis Module - Stop

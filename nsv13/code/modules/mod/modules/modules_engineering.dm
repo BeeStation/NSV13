@@ -1,7 +1,6 @@
 //Engineering modules for MODsuits
 
-//Welding Protection
-
+///Welding Protection - Makes the helmet protect from flashes and welding.
 /obj/item/mod/module/welding
 	name = "MOD welding protection module"
 	desc = "A module installed into the visor of the suit, this projects a \
@@ -18,8 +17,7 @@
 /obj/item/mod/module/welding/on_suit_deactivation()
 	mod.helmet.flash_protect = initial(mod.helmet.flash_protect)
 
-//T-Ray Scan
-
+///T-Ray Scan - Scans the terrain for undertile objects.
 /obj/item/mod/module/t_ray
 	name = "MOD t-ray scan module"
 	desc = "A module installed into the visor of the suit, allowing the user to use a pulse of terahertz radiation \
@@ -34,10 +32,9 @@
 	var/range = 2
 
 /obj/item/mod/module/t_ray/on_active_process(delta_time)
-	t_ray_scan(mod.wearer, 8, range)
+	t_ray_scan(mod.wearer, 0.8 SECONDS, range)
 
-//Magnetic Stability
-
+///Magnetic Stability - Gives the user a slowdown but makes them negate gravity and be immune to slips.
 /obj/item/mod/module/magboot
 	name = "MOD magnetic stability module"
 	desc = "These are powerful electromagnets fitted into the suit's boots, allowing users both \
@@ -48,8 +45,9 @@
 	module_type = MODULE_TOGGLE
 	complexity = 2
 	active_power_cost = DEFAULT_CELL_DRAIN * 0.5
-	incompatible_modules = list(/obj/item/mod/module/magboot)
+	incompatible_modules = list(/obj/item/mod/module/magboot, /obj/item/mod/module/atrocinator)
 	cooldown_time = 0.5 SECONDS
+	/// Slowdown added onto the suit.
 	var/slowdown_active = 0.5
 
 /obj/item/mod/module/magboot/on_activation()
@@ -78,8 +76,7 @@
 	complexity = 0
 	slowdown_active = 0
 
-//Emergency Tether
-
+///Emergency Tether - Shoots a grappling hook projectile in 0g that throws the user towards it.
 /obj/item/mod/module/tether
 	name = "MOD emergency tether module"
 	desc = "A custom-built grappling-hook powered by a winch capable of hauling the user. \
@@ -106,6 +103,7 @@
 	var/obj/item/projectile/tether = new /obj/item/projectile/tether(mod.wearer.loc)
 	tether.preparePixelProjectile(target, mod.wearer)
 	tether.firer = mod.wearer
+	playsound(src, 'sound/weapons/batonextend.ogg', 25, TRUE)
 	INVOKE_ASYNC(tether, /obj/item/projectile.proc/fire)
 	drain_power(use_power_cost)
 
@@ -120,6 +118,7 @@
 	hitsound = 'sound/weapons/batonextend.ogg'
 	hitsound_wall = 'sound/weapons/batonextend.ogg'
 	suppressed = SUPPRESSED_VERY
+	hit_threshhold = LATTICE_LAYER
 	var/line
 
 /obj/item/projectile/tether/fire(setAngle)
@@ -136,8 +135,7 @@
 	QDEL_NULL(line)
 	return ..()
 
-//Radiation Protection
-
+///Radiation Protection - Protects the user from radiation, gives them a geiger counter and rad info in the panel.
 /obj/item/mod/module/rad_protection
 	name = "MOD radiation protection module"
 	desc = "A module utilizing polymers and reflective shielding to protect the user against ionizing radiation; \
@@ -152,6 +150,7 @@
 	var/radiation_count = 0
 	var/grace = RAD_GEIGER_GRACE_PERIOD
 	var/datum/looping_sound/geiger/soundloop
+	/// Radiation threat level being perceived.
 	var/perceived_threat_level
 
 /obj/item/mod/module/rad_protection/Initialize(mapload)
@@ -173,8 +172,9 @@
 
 /obj/item/mod/module/rad_protection/add_ui_data()
 	. = ..()
-	.["usertoxins"] = mod.wearer ? mod.wearer.getToxLoss() : 0
 	.["userradiated"] = mod.wearer.radiation
+	.["usertoxins"] = mod.wearer ? mod.wearer.getToxLoss() : 0
+	.["usermaxtoxins"] = mod.wearer ? mod.wearer.getMaxHealth() : 0
 	.["threatlevel"] = radiation_count
 
 /obj/item/mod/module/rad_protection/rad_act(amount)
@@ -205,8 +205,7 @@
 	perceived_threat_level = get_perceived_radiation_danger(pulse_information, insulation_to_target)
 	addtimer(VARSET_CALLBACK(src, perceived_threat_level, null), TIME_WITHOUT_RADIATION_BEFORE_RESET, TIMER_UNIQUE | TIMER_OVERRIDE)
 
-//Constructor
-
+///Constructor - Lets you build quicker and create RCD holograms.
 /obj/item/mod/module/constructor
 	name = "MOD constructor module"
 	desc = "This module entirely occupies the wearer's forearm, notably causing conflict with \
@@ -234,3 +233,44 @@
 	rcd_scan(src, fade_time = 10 SECONDS)
 	drain_power(use_power_cost)
 */
+
+///Kinesis - Gives you a special form of telekinesis.
+/obj/item/mod/module/kinesis //TODO POST-MERGE MAKE NOT SUCK ASS, MAKE BALLER AS FUCK
+	name = "MOD kinesis module"
+	desc = "A modular plug-in to the forearm, this module was presumed lost for many years, \
+		despite the suits it used to be mounted on still seeing some circulation. \
+		This piece of technology allows the user to generate precise anti-gravity fields, \
+		letting them move objects as small as a titanium rod to as large as industrial machinery. \
+		Oddly enough, it doesn't seem to work on living creatures."
+	icon_state = "kinesis"
+//	module_type = MODULE_ACTIVE
+	module_type = MODULE_TOGGLE
+//	complexity = 3
+	complexity = 0
+	active_power_cost = DEFAULT_CELL_DRAIN*0.75
+//	use_power_cost = DEFAULT_CELL_DRAIN*3
+	removable = FALSE
+	incompatible_modules = list(/obj/item/mod/module/kinesis)
+	cooldown_time = 0.5 SECONDS
+	overlay_state_inactive = "module_kinesis"
+	overlay_state_active = "module_kinesis_on"
+	/// Whether the user had TK previously or not.
+	var/has_tk = FALSE
+
+/obj/item/mod/module/kinesis/on_activation()
+	. = ..()
+	if(!.)
+		return
+	if(mod.wearer.dna.check_mutation(TK))
+		has_tk = TRUE
+		return
+	mod.wearer.dna.add_mutation(TK_MOD)
+
+/obj/item/mod/module/kinesis/on_deactivation()
+	. = ..()
+	if(!.)
+		return
+	if(has_tk)
+		has_tk = FALSE
+		return
+	mod.wearer.dna.remove_mutation(TK_MOD)

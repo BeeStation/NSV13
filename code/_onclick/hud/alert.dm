@@ -255,6 +255,13 @@ magboots would let you walk around normally on the floor. Barring those, you can
 or shoot a gun to move around via Newton's 3rd Law of Motion."
 	icon_state = "weightless"
 
+//NSV13 - MODsuits - START
+/atom/movable/screen/alert/negative
+	name = "Negative Gravity"
+	desc = "You're getting pulled upwards. While you won't have to worry about falling down anymore, you may accidentally fall upwards!"
+	icon_state = "negative"
+//NSV13 - MODsuits - END
+
 /atom/movable/screen/alert/highgravity
 	name = "High Gravity"
 	desc = "You're getting crushed by high gravity, picking up items and movement will be slowed."

@@ -205,6 +205,11 @@
 	..()
 	addtimer(CALLBACK(src, .proc/update_colour, list(1,0,0,0.8,0.2,0, 0.8,0,0.2,0.1,0,0), 10, SINE_EASING|EASE_OUT), 1)
 
+//NSV13 - MODsuit - Rave Module - Start
+/datum/client_colour/rave
+	priority = PRIORITY_LOW
+//NSV13 - MODsuit - Rave Module - Stop
+
 #undef PRIORITY_ABSOLUTE
 #undef PRIORITY_HIGH
 #undef PRIORITY_NORMAL
