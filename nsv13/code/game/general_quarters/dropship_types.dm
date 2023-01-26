@@ -48,11 +48,20 @@ Credit to TGMC for the interior sprites for all these!
 						/obj/item/fighter_component/countermeasure_dispenser)
 	interior_mode = INTERIOR_DYNAMIC
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/countermeasure)
+	var/linked_virtual_z // The virtual Z of our transport bird. Same as the area we're in, unless we're in space
 
 /obj/structure/overmap/small_craft/transport/Initialize(mapload, list/build_components)
 	return ..()
 
+/obj/structure/overmap/small_craft/transport/Destroy()
+	for(var/area/dropship/A in linked_areas)
+		A.linked_dropship = null
+	return ..()
+
 /obj/structure/overmap/small_craft/transport/post_load_interior()
+	linked_virtual_z = get_new_virtual_z()
+	for(var/area/dropship/A in linked_areas)
+		A.linked_dropship = src
 	var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
 	if(ftl)
 		if(length(linked_areas) == 1)
@@ -62,6 +71,18 @@ Credit to TGMC for the interior sprites for all these!
 			starmap = new(src)
 			starmap.use_power = 0
 			starmap.linked = src
+
+// Z override for transports. This returns the Z our aircraft is on, unless it's the overmap, in which case it returns our aircraft's unique Z.
+/obj/structure/overmap/small_craft/transport/get_virtual_z_level()
+	var/turf/T = get_turf(src)
+	if(!T)
+		return 0
+	var/area/A = T.loc
+	if(!A)
+		return 0
+	if(SSmapping.level_trait(A.z, ZTRAIT_OVERMAP))
+		return linked_virtual_z
+	return A.get_virtual_z(T)
 
 /datum/map_template/dropship
     name = "Marine Dropship"
@@ -185,3 +206,4 @@ Credit to TGMC for the interior sprites for all these!
 /datum/map_template/dropship/sabre/syndicate
     name = "SU-437 Sabre Interior (Syndicate)"
     mappath = "_maps/templates/boarding/sabre_interior_syndicate.dmm"
+
