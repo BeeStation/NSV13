@@ -179,15 +179,15 @@
 /obj/item/mod/module/mouthhole/on_install()
 	former_flags = mod.helmet.flags_cover
 	former_visor_flags = mod.helmet.visor_flags_cover
-	if(!(former_flags & HEADCOVERSMOUTH))
+	if(former_flags & HEADCOVERSMOUTH)
 		mod.helmet.flags_cover &= ~HEADCOVERSMOUTH
-	if(!(former_visor_flags & HEADCOVERSMOUTH))
+	if(former_visor_flags & HEADCOVERSMOUTH)
 		mod.helmet.visor_flags_cover &= ~HEADCOVERSMOUTH
 
 /obj/item/mod/module/mouthhole/on_uninstall()
-	if(!(former_flags & HEADCOVERSMOUTH))
+	if(former_flags & HEADCOVERSMOUTH)
 		mod.helmet.flags_cover |= HEADCOVERSMOUTH
-	if(!(former_visor_flags & HEADCOVERSMOUTH))
+	if(former_visor_flags & HEADCOVERSMOUTH)
 		mod.helmet.visor_flags_cover |= HEADCOVERSMOUTH
 
 ///EMP Shield - Protects the suit from EMPs.
@@ -553,11 +553,13 @@
 
 /obj/item/mod/module/dna_lock/on_install()
 	RegisterSignal(mod, COMSIG_MOD_ACTIVATE, .proc/on_mod_activation)
+	RegisterSignal(mod, COMSIG_MOD_MODULE_REMOVAL, .proc/on_mod_removal)
 	RegisterSignal(mod, COMSIG_ATOM_EMP_ACT, .proc/on_emp)
 	RegisterSignal(mod, COMSIG_ATOM_EMAG_ACT, .proc/on_emag)
 
 /obj/item/mod/module/dna_lock/on_uninstall()
 	UnregisterSignal(mod, COMSIG_MOD_ACTIVATE)
+	UnregisterSignal(mod, COMSIG_MOD_MODULE_REMOVAL)
 	UnregisterSignal(mod, COMSIG_ATOM_EMP_ACT)
 	UnregisterSignal(mod, COMSIG_ATOM_EMAG_ACT)
 
@@ -579,6 +581,15 @@
 	. = ..()
 	on_emag(src, user, emag_card)
 
+/obj/item/mod/module/dna_lock/proc/dna_check(mob/user)
+	if(!iscarbon(user))
+		return FALSE
+	var/mob/living/carbon/carbon_user = user
+	if(!dna || (carbon_user.has_dna() && carbon_user.dna.unique_enzymes == dna))
+		return TRUE
+	balloon_alert(user, "dna locked!")
+	return FALSE
+
 /obj/item/mod/module/dna_lock/proc/on_emp(datum/source, severity)
 	SIGNAL_HANDLER
 
@@ -589,13 +600,17 @@
 
 	dna = null
 
-/obj/item/mod/module/dna_lock/proc/on_mod_activation(datum/source)
+/obj/item/mod/module/dna_lock/proc/on_mod_activation(datum/source, mob/user)
 	SIGNAL_HANDLER
 
-	if(!dna || (mod.wearer.has_dna() && mod.wearer.dna.unique_enzymes == dna))
-		return
-	balloon_alert(mod.wearer, "dna locked!")
-	return MOD_CANCEL_ACTIVATE
+	if(!dna_check(user))
+		return MOD_CANCEL_ACTIVATE
+
+/obj/item/mod/module/dna_lock/proc/on_mod_removal(datum/source, mob/user)
+	SIGNAL_HANDLER
+
+	if(!dna_check(user))
+		return MOD_CANCEL_REMOVAL
 
 ///Plasma Stabilizer - Prevents plasmamen from igniting in the suit
 /obj/item/mod/module/plasma_stabilizer

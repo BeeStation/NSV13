@@ -69,13 +69,13 @@
 	incompatible_modules = list(/obj/item/mod/module/waddle)
 
 /obj/item/mod/module/waddle/on_suit_activation()
-	mod.AddComponent(/datum/component/squeak, list('sound/effects/clownstep1.ogg'=1,'sound/effects/clownstep2.ogg'=1), 50, falloff_exponent = 20) //die off quick please
+	mod.boots.AddComponent(/datum/component/squeak, list('sound/effects/clownstep1.ogg'=1,'sound/effects/clownstep2.ogg'=1), 50, falloff_exponent = 20) //die off quick please
 	mod.wearer.AddComponent(/datum/component/waddling)
 	if(mod.wearer.mind && mod.wearer.mind.assigned_role == JOB_NAME_CLOWN)
 		SEND_SIGNAL(mod.wearer, COMSIG_ADD_MOOD_EVENT, "clownshoes", /datum/mood_event/clownshoes)
 
 /obj/item/mod/module/waddle/on_suit_deactivation()
-	qdel(mod.GetComponent(/datum/component/squeak))
+	qdel(mod.boots.GetComponent(/datum/component/squeak))
 	qdel(mod.GetComponent(/datum/component/waddling))
 	if(mod.wearer.mind && mod.wearer.mind.assigned_role == JOB_NAME_CLOWN)
 		SEND_SIGNAL(mod.wearer, COMSIG_CLEAR_MOOD_EVENT, "clownshoes")
