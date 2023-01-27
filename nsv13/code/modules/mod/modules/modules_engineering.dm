@@ -110,7 +110,7 @@
 /obj/item/projectile/tether
 	name = "tether"
 	icon_state = "tether_projectile"
-	icon = 'nsv13/icons/obj/mod.dmi'
+	icon = 'nsv13/icons/obj/clothing/modsuit/mod_modules.dmi'
 	pass_flags = PASSTABLE
 	damage = 0
 	nodamage = TRUE
@@ -123,7 +123,7 @@
 
 /obj/item/projectile/tether/fire(setAngle)
 	if(firer)
-		line = firer.Beam(src, "line", 'nsv13/icons/obj/mod.dmi')
+		line = firer.Beam(src, "line", 'nsv13/icons/obj/clothing/modsuit/mod_modules.dmi')
 	..()
 
 /obj/item/projectile/tether/on_hit(atom/target)
