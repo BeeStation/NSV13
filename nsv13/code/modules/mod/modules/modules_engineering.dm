@@ -26,7 +26,7 @@
 	icon_state = "tray"
 	module_type = MODULE_TOGGLE
 	complexity = 1
-	active_power_cost = DEFAULT_CELL_DRAIN * 0.2
+	active_power_cost = DEFAULT_CHARGE_DRAIN * 0.2
 	incompatible_modules = list(/obj/item/mod/module/t_ray)
 	cooldown_time = 0.5 SECONDS
 	var/range = 2
@@ -44,7 +44,7 @@
 	icon_state = "magnet"
 	module_type = MODULE_TOGGLE
 	complexity = 2
-	active_power_cost = DEFAULT_CELL_DRAIN * 0.5
+	active_power_cost = DEFAULT_CHARGE_DRAIN * 0.5
 	incompatible_modules = list(/obj/item/mod/module/magboot, /obj/item/mod/module/atrocinator)
 	cooldown_time = 0.5 SECONDS
 	/// Slowdown added onto the suit.
@@ -85,7 +85,7 @@
 	icon_state = "tether"
 	module_type = MODULE_ACTIVE
 	complexity = 3
-	use_power_cost = DEFAULT_CELL_DRAIN
+	use_power_cost = DEFAULT_CHARGE_DRAIN
 	incompatible_modules = list(/obj/item/mod/module/tether)
 	cooldown_time = 1.5 SECONDS
 
@@ -143,7 +143,7 @@
 		giving a voice to an otherwise silent killer."
 	icon_state = "radshield"
 	complexity = 2
-	idle_power_cost = DEFAULT_CELL_DRAIN * 0.3
+	idle_power_cost = DEFAULT_CHARGE_DRAIN * 0.3
 	incompatible_modules = list(/obj/item/mod/module/rad_protection)
 	tgui_id = "rad_counter"
 	var/current_tick_amount = 0
@@ -215,8 +215,8 @@
 	icon_state = "constructor"
 	module_type = MODULE_USABLE
 	complexity = 2
-	idle_power_cost = DEFAULT_CELL_DRAIN * 0.2
-	use_power_cost = DEFAULT_CELL_DRAIN * 2
+	idle_power_cost = DEFAULT_CHARGE_DRAIN * 0.2
+	use_power_cost = DEFAULT_CHARGE_DRAIN * 2
 	incompatible_modules = list(/obj/item/mod/module/constructor, /obj/item/mod/module/quick_carry)
 	cooldown_time = 11 SECONDS
 
@@ -247,8 +247,8 @@
 	module_type = MODULE_TOGGLE
 //	complexity = 3
 	complexity = 0
-	active_power_cost = DEFAULT_CELL_DRAIN*0.75
-//	use_power_cost = DEFAULT_CELL_DRAIN*3
+	active_power_cost = DEFAULT_CHARGE_DRAIN*0.75
+//	use_power_cost = DEFAULT_CHARGE_DRAIN*3
 	removable = FALSE
 	incompatible_modules = list(/obj/item/mod/module/kinesis)
 	cooldown_time = 0.5 SECONDS

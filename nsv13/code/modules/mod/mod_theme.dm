@@ -23,6 +23,8 @@
 	var/armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 100, "rad" = 0, "fire" = 25, "acid" = 25)
 	/// Resistance flags shared across the MOD pieces.
 	var/resistance_flags = NONE
+	/// Atom flags shared across the MOD pieces.
+	var/atom_flags = NONE
 	/// Max heat protection shared across the MOD pieces.
 	var/max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
 	/// Max cold protection shared across the MOD pieces.
@@ -34,7 +36,7 @@
 	/// How much modules can the MOD carry without malfunctioning.
 	var/complexity_max = DEFAULT_MAX_COMPLEXITY
 	/// How much battery power the MOD uses by just being on
-	var/cell_drain = DEFAULT_CELL_DRAIN
+	var/charge_drain = DEFAULT_CHARGE_DRAIN
 	/// Slowdown of the MOD when not active.
 	var/slowdown_inactive = 1.25
 	/// Slowdown of the MOD when active.
@@ -228,14 +230,14 @@
 		mining teams have since heavily tweaked the suit themselves. Aftermarket armor plating has been added, \
 		giving way to incredible protection against corrosives and thermal protection good enough for volcanic environments. \
 		The systems have been upgraded as well, giving space for further modification down the line. \
-		However, all of this has proven to be straining on the cell and the actuators of the suit, \
+		However, all of this has proven to be straining on the power and the actuators of the suit, \
 		making it demand more power in exchange."
 	default_skin = "mining"
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 50, "bio" = 100, "rad" = 0, "fire" = 100, "acid" = 75)
 	resistance_flags = FIRE_PROOF
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	complexity_max = DEFAULT_MAX_COMPLEXITY + 5
-	cell_drain = DEFAULT_CELL_DRAIN * 2
+	charge_drain = DEFAULT_CHARGE_DRAIN * 2
 	skins = list(
 		"mining" = list(
 			HELMET_LAYER = null,
@@ -273,7 +275,7 @@
 		and weak against fingers tapping the glass."
 	default_skin = "medical"
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 10, "bio" = 100, "rad" = 0, "fire" = 60, "acid" = 75)
-	cell_drain = DEFAULT_CELL_DRAIN * 1.5
+	charge_drain = DEFAULT_CHARGE_DRAIN * 1.5
 	slowdown_inactive = 1
 	slowdown_active = 0.5
 	skins = list(
@@ -338,7 +340,7 @@
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 10, "bio" = 100, "rad" = 0, "fire" = 100, "acid" = 100)
 	resistance_flags = FIRE_PROOF|ACID_PROOF
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
-	cell_drain = DEFAULT_CELL_DRAIN * 1.5
+	charge_drain = DEFAULT_CHARGE_DRAIN * 1.5
 	slowdown_inactive = 0.75
 	slowdown_active = 0.25
 	inbuilt_modules = list(/obj/item/mod/module/quick_carry/advanced)
@@ -382,6 +384,7 @@
 	default_skin = "research"
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 100, "bio" = 100, "rad" = 0, "fire" = 100, "acid" = 100)
 	resistance_flags = FIRE_PROOF|ACID_PROOF
+	atom_flags = PREVENT_CONTENTS_EXPLOSION_1
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	complexity_max = DEFAULT_MAX_COMPLEXITY + 5
 	slowdown_inactive = 1.75
@@ -424,7 +427,7 @@
 		However, the systems used in these suits are more than a few years out of date, \
 		leading to an overall lower capacity for modules."
 	default_skin = "security"
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 10, "bio" = 100, "rad" = 0, "fire" = 75, "acid" = 75)
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 25, "bio" = 100, "rad" = 0, "fire" = 75, "acid" = 75)
 	siemens_coefficient = 0
 	complexity_max = DEFAULT_MAX_COMPLEXITY - 5
 	slowdown_inactive = 1
@@ -466,7 +469,7 @@
 		Heatsinks line the sides of the suit, and greater technology has been used in insulating it against \
 		both corrosive environments and sudden impacts to the user's joints."
 	default_skin = "safeguard"
-	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 25, "bio" = 100, "rad" = 0, "fire" = 100, "acid" = 95)
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 40, "bio" = 100, "rad" = 0, "fire" = 100, "acid" = 95)
 	resistance_flags = FIRE_PROOF
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
@@ -513,6 +516,7 @@
 	default_skin = "magnate"
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 50, "bio" = 100, "rad" = 0, "fire" = 100, "acid" = 100)
 	resistance_flags = FIRE_PROOF|ACID_PROOF
+	atom_flags = PREVENT_CONTENTS_EXPLOSION_1
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
 	complexity_max = DEFAULT_MAX_COMPLEXITY + 5
@@ -555,7 +559,7 @@
 		All you know is that this suit is mysteriously power-efficient, and far too colorful for the Mime to steal."
 	default_skin = "cosmohonk"
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 10, "bio" = 100, "rad" = 0, "fire" = 60, "acid" = 30)
-	cell_drain = DEFAULT_CELL_DRAIN * 0.25
+	charge_drain = DEFAULT_CHARGE_DRAIN * 0.25
 	slowdown_inactive = 1.75
 	slowdown_active = 1.25
 	skins = list(
@@ -590,12 +594,13 @@
 	extended_desc = "An advanced combat suit adorned in a sinister crimson red color scheme, produced and manufactured \
 		for special mercenary operations. The build is a streamlined layering consisting of shaped Plasteel, \
 		and composite ceramic, while the under suit is lined with a lightweight Kevlar and durathread hybrid weave \
-		to provide ample protection to the user where the plating doesn't, with an illegal onboard cell powered \
+		to provide ample protection to the user where the plating doesn't, with an illegal onboard electric powered \
 		ablative shield module to provide resistance against conventional energy firearms. \
 		A small tag hangs off of it reading; 'Property of the Gorlex Marauders, with assistance from Cybersun Industries. \
 		All rights reserved, tampering with suit will void warranty."
 	default_skin = "syndicate"
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 35, "bio" = 100, "rad" = 0, "fire" = 50, "acid" = 90)
+	atom_flags = PREVENT_CONTENTS_EXPLOSION_1
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
 	slowdown_inactive = 1
@@ -662,6 +667,7 @@
 	default_skin = "elite"
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 55, "bio" = 100, "rad" = 0, "fire" = 100, "acid" = 100)
 	resistance_flags = FIRE_PROOF|ACID_PROOF
+	atom_flags = PREVENT_CONTENTS_EXPLOSION_1
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
 	slowdown_inactive = 0.75
@@ -700,9 +706,9 @@
 	extended_desc = "The Wizard Federation's relatively low-tech MODsuit. This armor employs not \
 		plasteel or carbon fibre, but space dragon scales for its protection. Recruits are expected to \
 		gather these themselves, but the effort is well worth it, the suit being well-armored against threats \
-		both mundane and mystic. Rather than wholly relying on the suit's cell, which would surely perish \
+		both mundane and mystic. Rather than wholly relying on a cell, which would surely perish \
 		under the load, several naturally-occurring bluespace gemstones have been utilized as \
-		supplementary means of power. The hood and platform boots are of unknown usage, but it's speculated that \
+		default means of power. The hood and platform boots are of unknown usage, but it's speculated that \
 		wizards trend towards the dramatic."
 	default_skin = "enchanted"
 	armor = list("melee" = 40, "bullet" = 40, "laser" = 40, "energy" = 50, "bomb" = 35, "bio" = 100, "rad" = 50, "fire" = 100, "acid" = 100)
@@ -755,7 +761,7 @@
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 50, "bio" = 100, "rad" = 0, "fire" = 100, "acid" = 75)
 	resistance_flags = FIRE_PROOF
 	complexity_max = DEFAULT_MAX_COMPLEXITY + 5
-	cell_drain = DEFAULT_CELL_DRAIN * 2
+	charge_drain = DEFAULT_CHARGE_DRAIN * 2
 	slowdown_inactive = 2
 	slowdown_active = 1.5
 	ui_theme = "hackerman"
@@ -795,6 +801,7 @@
 		While wearing it you feel an extreme deference to darkness. "
 	default_skin = "responsory"
 	armor = list("melee" = 35, "bullet" = 30, "laser" = 30, "energy" = 40, "bomb" = 50, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 90)
+	atom_flags = PREVENT_CONTENTS_EXPLOSION_1
 	resistance_flags = FIRE_PROOF
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
@@ -860,6 +867,7 @@
 	default_skin = "apocryphal"
 	armor = list("melee" = 80, "bullet" = 80, "laser" = 50, "energy" = 60, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100)
 	resistance_flags = FIRE_PROOF|ACID_PROOF
+	atom_flags = PREVENT_CONTENTS_EXPLOSION_1
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
 	complexity_max = DEFAULT_MAX_COMPLEXITY + 10
@@ -900,6 +908,7 @@
 	default_skin = "corporate"
 	armor = list("melee" = 35, "bullet" = 40, "laser" = 40, "energy" = 50, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100)
 	resistance_flags = FIRE_PROOF|ACID_PROOF
+	atom_flags = PREVENT_CONTENTS_EXPLOSION_1
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	siemens_coefficient = 0
 	slowdown_inactive = 0.5
@@ -940,6 +949,7 @@
 	default_skin = "debug"
 	armor = list("melee" = 50, "bullet" = 50, "laser" = 50, "energy" = 50, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100)
 	resistance_flags = FIRE_PROOF|ACID_PROOF
+	atom_flags = PREVENT_CONTENTS_EXPLOSION_1
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
 	complexity_max = 50
 	slowdown_inactive = 0.5
@@ -980,9 +990,10 @@
 	default_skin = "debug"
 	armor = list("melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100)
 	resistance_flags = INDESTRUCTIBLE|LAVA_PROOF|FIRE_PROOF|UNACIDABLE|ACID_PROOF
+	atom_flags = PREVENT_CONTENTS_EXPLOSION_1
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 	complexity_max = 1000
-	cell_drain = DEFAULT_CELL_DRAIN * 0
+	charge_drain = DEFAULT_CHARGE_DRAIN * 0
 	slowdown_inactive = 0
 	slowdown_active = 0
 	skins = list(

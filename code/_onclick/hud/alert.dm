@@ -260,6 +260,12 @@ or shoot a gun to move around via Newton's 3rd Law of Motion."
 	name = "Negative Gravity"
 	desc = "You're getting pulled upwards. While you won't have to worry about falling down anymore, you may accidentally fall upwards!"
 	icon_state = "negative"
+
+//MODsuit unique
+/atom/movable/screen/alert/nocore
+	name = "Missing Core"
+	desc = "Unit has no core. No modules available until a core is reinstalled. Robotics may provide assistance."
+	icon_state = "no_cell"
 //NSV13 - MODsuits - END
 
 /atom/movable/screen/alert/highgravity

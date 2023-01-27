@@ -112,7 +112,11 @@
 
 /datum/action/item_action/mod/pinned_module
 	desc = "Activate the module."
+	/// Overrides the icon applications.
+	var/override = FALSE
+	/// Module we are linked to.
 	var/obj/item/mod/module/module
+	/// Mob we are pinned to.
 	var/mob/pinner
 
 /datum/action/item_action/mod/pinned_module/New(Target, obj/item/mod/module/linked_module, mob/user)
@@ -121,11 +125,13 @@
 	..()
 	module = linked_module
 	name = "Activate [capitalize(linked_module.name)]"
+	desc = "Quickly activate [linked_module]."
 	icon_icon = linked_module.icon
 	button_icon_state = linked_module.icon_state
 	pinner = user
-	RegisterSignal(mod, COMSIG_MOD_MODULE_SELECTED, .proc/on_module_select)
-	RegisterSignal(mod, COMSIG_MOD_ACTIVATE, .proc/on_mod_activation)
+	RegisterSignal(linked_module, COMSIG_MODULE_ACTIVATED, .proc/on_module_activate)
+	RegisterSignal(linked_module, COMSIG_MODULE_DEACTIVATED, .proc/on_module_deactivate)
+	RegisterSignal(linked_module, COMSIG_MODULE_USED, .proc/on_module_use)
 
 /datum/action/item_action/mod/pinned_module/Grant(mob/user)
 	if(user != pinner)
@@ -136,25 +142,35 @@
 	. = ..()
 	if(!.)
 		return
+	if(!mod.active)
+		mod.balloon_alert(usr, "suit not on!")
 	module.on_select()
 
 /datum/action/item_action/mod/pinned_module/ApplyIcon(atom/movable/screen/movable/action_button/current_button, force)
 	. = ..(current_button, force = TRUE)
+	if(override)
+		return
 	if(module == mod.selected_module)
 		current_button.add_overlay(image(icon = 'nsv13/icons/mob/actions/actions_mod.dmi', icon_state = "module_selected", layer = FLOAT_LAYER-0.1))
 	else if(module.active)
 		current_button.add_overlay(image(icon = 'nsv13/icons/mob/actions/actions_mod.dmi', icon_state = "module_active", layer = FLOAT_LAYER-0.1))
+	if(!COOLDOWN_FINISHED(module, cooldown_timer))
+		var/image/cooldown_image = image(icon = 'nsv13/icons/mob/actions/actions_mod.dmi', icon_state = "module_cooldown")
+		current_button.add_overlay(cooldown_image)
+		addtimer(CALLBACK(current_button, /image.proc/cut_overlay, cooldown_image), COOLDOWN_TIMELEFT(module, cooldown_timer))
 
 /// When the module is selected, we update the icon.
-/datum/action/item_action/mod/pinned_module/proc/on_module_select(datum/source, obj/item/mod/module/selected_module)
+/datum/action/item_action/mod/pinned_module/proc/on_module_activate(datum/source)
 	SIGNAL_HANDLER
 
-	if(selected_module != mod.selected_module && selected_module != module)
-		return
 	UpdateButtonIcon()
 
-/// When the suit is being activated, we update the icon.
-/datum/action/item_action/mod/pinned_module/proc/on_mod_activation(datum/source, mob/user)
+/datum/action/item_action/mod/pinned_module/proc/on_module_deactivate(datum/source)
+	SIGNAL_HANDLER
+
+	UpdateButtonIcon()
+
+/datum/action/item_action/mod/pinned_module/proc/on_module_use(datum/source)
 	SIGNAL_HANDLER
 
 	UpdateButtonIcon()

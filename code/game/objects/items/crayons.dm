@@ -721,6 +721,11 @@
 
 	. = ..()
 
+//NSV13 - MODsuits - Start
+/obj/item/toy/crayon/spraycan/attackby_storage_insert(datum/component/storage, atom/storage_holder, mob/user)
+	return is_capped
+//NSV13 - MODsuits - End
+
 /obj/item/toy/crayon/spraycan/update_icon()
 	icon_state = is_capped ? icon_capped : icon_uncapped
 	if(use_overlays)
