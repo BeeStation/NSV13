@@ -10,7 +10,7 @@
 	safety = TRUE
 
 	bound_width = 128
-	bound_height = 32
+	bound_height = 64
 	ammo_type = /obj/item/ship_weapon/ammunition/plasma_core
 	circuit = /obj/item/circuitboard/machine/plasma_caster
 
