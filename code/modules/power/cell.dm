@@ -82,17 +82,19 @@
 /obj/item/stock_parts/cell/proc/percent()		// return % charge of cell
 	return 100*charge/maxcharge
 
+//NSV13 - MODsuits - Start
 // use power from a cell
-/obj/item/stock_parts/cell/use(amount)
+/obj/item/stock_parts/cell/use(amount, force)
 	if(rigged && amount > 0)
 		explode()
 		return 0
-	if(charge < amount)
+	if(!force && charge < amount)
 		return 0
-	charge = (charge - amount)
+	charge = max(charge - amount, 0)
 	if(!istype(loc, /obj/machinery/power/apc))
 		SSblackbox.record_feedback("tally", "cell_used", 1, type)
 	return 1
+//NSV13 - MODsuits - Stop
 
 // recharge the cell
 /obj/item/stock_parts/cell/proc/give(amount)
@@ -217,6 +219,12 @@
 
 /obj/item/stock_parts/cell/get_part_rating()
 	return rating * maxcharge
+
+//NSV13 - MODsuits - Start
+/obj/item/stock_parts/cell/attackby_storage_insert(datum/component/storage, atom/storage_holder, mob/user)
+	var/obj/item/mod/control/mod = storage_holder
+	return !(istype(mod) && mod.open)
+//NSV13 - MODsuits - Stop
 
 /* Cell variants*/
 /obj/item/stock_parts/cell/empty/Initialize(mapload)
