@@ -57,8 +57,6 @@
 #define ACIDOOZE    /datum/mutation/acidooze
 #define MEDIEVAL    /datum/mutation/medieval
 
-#define TK_MOD    	/datum/mutation/telekinesis/mod
-
 #define UI_CHANGED "ui changed"
 #define UE_CHANGED "ue changed"
 

@@ -81,6 +81,11 @@
 /datum/effect_system/trail_follow/proc/set_dir(obj/effect/particle_effect/ion_trails/I)
 	I.setDir(holder.dir)
 
+//NSV13 - MODsuits - Start
+/datum/effect_system/trail_follow/ion/grav_allowed
+	nograv_required = FALSE
+//NSV13 - MODsuits - Stop
+
 //Reagent-based explosion effect
 
 /datum/effect_system/reagents_explosion
