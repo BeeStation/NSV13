@@ -293,3 +293,11 @@
 		/obj/item/mod/module/magboot/advanced,
 		/obj/item/mod/module/jetpack,
 		)
+
+/obj/item/mod/control/pre_equipped/syndicate_empty
+	theme = /datum/mod_theme/syndicate
+/obj/item/mod/control/pre_equipped/syndicate_empty/elite
+	theme = /datum/mod_theme/elite
+
+/obj/item/mod/control/pre_equipped/syndicate_empty/honkerative
+	applied_skin = "honkerative"
