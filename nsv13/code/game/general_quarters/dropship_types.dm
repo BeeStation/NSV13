@@ -48,7 +48,7 @@ Credit to TGMC for the interior sprites for all these!
 						/obj/item/fighter_component/countermeasure_dispenser)
 	interior_mode = INTERIOR_DYNAMIC
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/countermeasure)
-	var/linked_virtual_z // The virtual Z of our transport bird. Same as the area we're in, unless we're in space
+	var/linked_virtual_z // The virtual Z of our transport bird.
 
 /obj/structure/overmap/small_craft/transport/Initialize(mapload, list/build_components)
 	return ..()
@@ -72,17 +72,9 @@ Credit to TGMC for the interior sprites for all these!
 			starmap.use_power = 0
 			starmap.linked = src
 
-// Z override for transports. This returns the Z our aircraft is on, unless it's the overmap, in which case it returns our aircraft's unique Z.
+// Z override for transports. This returns our aircraft's unique Z.
 /obj/structure/overmap/small_craft/transport/get_virtual_z_level()
-	var/turf/T = get_turf(src)
-	if(!T)
-		return 0
-	var/area/A = T.loc
-	if(!A)
-		return 0
-	if(SSmapping.level_trait(A.z, ZTRAIT_OVERMAP))
-		return linked_virtual_z
-	return A.get_virtual_z(T)
+	return linked_virtual_z != null ? linked_virtual_z : 0;
 
 /datum/map_template/dropship
     name = "Marine Dropship"
