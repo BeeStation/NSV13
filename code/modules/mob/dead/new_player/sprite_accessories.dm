@@ -2066,7 +2066,6 @@
 /datum/sprite_accessory/moth_wings/punished
 	name = "Burnt Off"
 	icon_state = "burnt_off"
-	locked = TRUE
 
 /datum/sprite_accessory/moth_wings/firewatch
 	name = "Firewatch"
@@ -2173,7 +2172,6 @@
 /datum/sprite_accessory/moth_antennae/punished
 	name = "Burnt Off"
 	icon_state = "burnt_off"
-	locked = TRUE
 
 /datum/sprite_accessory/moth_antennae/firewatch
 	name = "Firewatch"
@@ -2230,7 +2228,6 @@
 /datum/sprite_accessory/moth_markings/burnt_off
 	name = "Burnt Off"
 	icon_state = "burnt_off"
-	locked = TRUE
 
 /datum/sprite_accessory/moth_markings/firewatch
 	name = "Firewatch"
