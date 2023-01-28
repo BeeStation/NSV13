@@ -948,7 +948,7 @@ GLOBAL_LIST_EMPTY(PDAs)
 
 	watching_mob = user
 	holomap_visible = TRUE
-	to_chat(user, "<span class='warning'>A hologram of the station appears before your eyes.</span>")
+	to_chat(user, "<span class='warning'>A hologram of the ship appears before your eyes.</span>")
 	return TRUE
 
 /obj/item/pda/proc/deactivate_holomap(var/mob/user)
