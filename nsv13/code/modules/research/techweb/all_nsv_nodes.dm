@@ -209,13 +209,13 @@
 	display_name = "Basic Modular Suits"
 	description = "Specialized back mounted power suits with various different modules."
 	design_ids = list(
-		"mod_armor_standard",
 		"mod_boots",
 		"mod_chestplate",
 		"mod_gauntlets",
 		"mod_helmet",
 		"mod_paint_kit",
 		"mod_shell",
+		"mod_armor_standard",
 		"mod_storage",
 		"mod_welding",
 		"mod_mouthhole",
@@ -239,7 +239,6 @@
 		"mod_clamp",
 		"mod_drill",
 		"mod_orebag",
-		"mod_pathfinder",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 
@@ -323,4 +322,15 @@
 		"mod_antigrav",
 		"mod_teleporter",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 3000)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+/* Disabled for NOW
+/datum/techweb_node/mod_anomaly_engi
+	id = "mod_anomaly_engi"
+	display_name = "Engineering Anomalock Modular Suits"
+	description = "Advanced modules for modular suits, using anomaly cores to become even better engineers."
+	prereq_ids = list("mod_advanced_engineering", "mod_anomaly")
+	design_ids = list(
+		"mod_kinesis",
+	)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000)
+*/
