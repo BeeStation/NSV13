@@ -184,6 +184,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				else
 					dispGender = "Other"
 				dat += "<b>Gender:</b> <a href='?_src_=prefs;preference=gender'>[dispGender]</a><BR>"
+				if(active_character.gender == PLURAL || active_character.gender == NEUTER)
+					dat += "<b>Body Type:</b> <a href='?_src_=prefs;preference=body_type'>[active_character.body_type == MALE ? "Male" : "Female"]</a><BR>"
 			//NSV13 - Gender Neutrality - Stop
 			dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[active_character.age]</a><BR>"
 
@@ -1795,16 +1797,22 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(unlock_content)
 						toggles ^= PREFTOGGLE_MEMBER_PUBLIC
 				if("gender")
-					//NSV13 - Gender Neutrality - Start
-					var/pickedGender = input(user, "Choose your gender.", "Character Preference", active_character.gender) as null|anything in active_character.friendlyGenders
-					if(pickedGender && active_character.friendlyGenders[pickedGender != active_character.gender])
-						active_character.gender = active_character.friendlyGenders[pickedGender]
+				//NSV13 - Gender Neutrality - Start
+					var/list/friendlyGenders = list("Male" = "male", "Female" = "female", "Other" = "plural")
+					var/pickedGender = input(user, "Choose your gender.", "Character Preference", active_character.gender) as null|anything in friendlyGenders
+					if(pickedGender && friendlyGenders[pickedGender] != active_character.gender)
+						active_character.gender = friendlyGenders[pickedGender]
 						active_character.underwear = random_underwear(active_character.gender)
 						active_character.undershirt = random_undershirt(active_character.gender)
 						active_character.socks = random_socks()
 						active_character.facial_hair_style = random_facial_hair_style(active_character.gender)
 						active_character.hair_style = random_hair_style(active_character.gender)
-					//NSV13 - Gender Neutrality - Stop
+				if("body_type")
+					if(active_character.body_type == MALE)
+						active_character.body_type = FEMALE
+					else
+						active_character.body_type = MALE
+				//NSV13 - Gender Neutrality - Stop
 				if("hotkeys")
 					toggles2 ^= PREFTOGGLE_2_HOTKEYS
 					if(toggles2 & PREFTOGGLE_2_HOTKEYS)

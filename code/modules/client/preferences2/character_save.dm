@@ -72,7 +72,8 @@
 	//NSV13 - Added Flavor Text
 	var/flavor_text = ""
 	//NSV13 - Gender Neutrality
-	var/list/friendlyGenders = list("Male" = "male", "Female" = "female", "Other" = "plural")
+	/// Agendered spessmen can choose whether to have a male or female bodytype
+	var/body_type
 
 /datum/character_save/New()
 	real_name = get_default_name()
@@ -160,10 +161,14 @@
 	//NSV13 flavor text
 	SAFE_READ_QUERY(34, flavor_text)
 
+	//NSV13 - Gender Neutrality
+	SAFE_READ_QUERY(35, body_type)
+
 	//Sanitize. Please dont put query reads below this point. Please.
 
 	real_name = reject_bad_name(real_name, pref_species.allow_numbers_in_name)
 	gender = sanitize_gender(gender)
+	body_type = sanitize_gender(body_type, FALSE, FALSE, gender) //NSV13 - Gender Neutrality
 	real_name ||= pref_species.random_name(gender, TRUE)
 
 	for(var/custom_name_id in GLOB.preferences_custom_names)
@@ -274,6 +279,12 @@
 		pref_species = new spath
 	features = random_features()
 	age = rand(AGE_MIN,AGE_MAX)
+	//NSV13 - Gender Neutrality - Start
+	if(gender in list(MALE, FEMALE))
+		body_type = gender
+	else
+		body_type = pick(MALE, FEMALE)
+	//NSV13 - Gender Neutrality - Stop
 
 /datum/character_save/proc/update_preview_icon(client/parent)
 	if(!parent)
@@ -314,7 +325,7 @@
 	if(IS_GUEST_KEY(C.ckey))
 		return
 
-	// Get ready for a disgusting query //NSV13 adds squads, pilot role and flavor text prefs
+	// Get ready for a disgusting query //NSV13 adds squads, pilot role, flavor text prefs and Gender Stuff
 	var/datum/DBQuery/insert_query = SSdbcore.NewQuery({"
 		REPLACE INTO [format_table_name("characters")] (
 			slot,
@@ -351,7 +362,8 @@
 			equipped_gear,
 			preferred_squad,
 			preferred_pilot_role,
-			flavor_text
+			flavor_text,
+			body_type
 		) VALUES (
 			:slot,
 			:ckey,
@@ -387,7 +399,8 @@
 			:equipped_gear,
 			:preferred_squad,
 			:preferred_pilot_role,
-			:flavor_text
+			:flavor_text,
+			:body_type
 		)
 	"}, list(
 		// Now for the above but in a fucking monsterous list
@@ -425,7 +438,8 @@
 		"equipped_gear" = json_encode(equipped_gear),
 		"preferred_squad" = preferred_squad,
 		"preferred_pilot_role" = preferred_pilot_role,
-		"flavor_text" = flavor_text
+		"flavor_text" = flavor_text,
+		"body_type" = body_type
 	))
 
 	if(!insert_query.warn_execute())
@@ -459,6 +473,12 @@
 
 	character.gender = gender
 	character.age = age
+	//NSV13 - Gender Neutrality - Start
+	if(gender == MALE || gender == FEMALE)
+		character.body_type = gender
+	else
+		character.body_type = body_type
+	//NSV13 - Gender Neutrality - Stop
 
 	character.eye_color = eye_color
 	var/obj/item/organ/eyes/organ_eyes = character.getorgan(/obj/item/organ/eyes)
