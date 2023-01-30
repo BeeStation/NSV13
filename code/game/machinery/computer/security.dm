@@ -766,7 +766,7 @@ What a mess.*/
 								return
 							active1.fields["fingerprint"] = t1
 					//NSV13 - Gender Neutrality - Start
-					if("sex")
+					if("gender")
 						if(istype(active1, /datum/data/record))
 							if(active1.fields["gender"] == "Male")
 								active1.fields["gender"] = "Female"
