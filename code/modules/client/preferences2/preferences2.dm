@@ -215,8 +215,7 @@
 			equipped_gear,
 			preferred_squad,
 			preferred_pilot_role,
-			flavor_text,
-			body_type
+			flavor_text
 		FROM [format_table_name("characters")] WHERE
 			ckey=:ckey
 	"}, list("ckey" = parent.ckey))

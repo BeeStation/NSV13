@@ -87,11 +87,6 @@
 		if(!mob_gender)
 			mob_gender = pick(MALE, FEMALE)
 		M.gender = mob_gender
-		//NSV13 - Gender Neutrality - Start
-		if(ishuman(M))
-			var/mob/living/carbon/human/hoomie = M
-			hoomie.body_type = mob_gender
-		//NSV13 - Gender Neutrality - End
 	if(faction)
 		M.faction = list(faction)
 	if(disease)

@@ -353,7 +353,7 @@
 
 		var/datum/species/S = H.dna.species
 		species_flags_list = H.dna.species.species_traits //Literally only exists for a single use of NOBLOOD, but, no reason to remove it i guess...?
-		limb_gender = (H.body_type == MALE) ? "m" : "f" //NSV13 - Gender Neutrality
+		limb_gender = (H.gender == MALE) ? "m" : "f"
 		if(S.use_skintones)
 			skin_tone = H.skin_tone
 		else

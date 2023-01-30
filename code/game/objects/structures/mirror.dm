@@ -196,10 +196,7 @@
 				if(alert(H, "Become a Witch?", "Confirmation", "Yes", "No") == "Yes")
 					if(!user.canUseTopic(src, BE_CLOSE, FALSE, NO_TK))
 						return
-					//NSV13 - Gender Neutrality - Start
-					H.gender = FEMALE
-					H.body_type = FEMALE
-					//NSV13 - Gender Neutrality - Stop
+					H.gender = "female"
 					to_chat(H, "<span class='notice'>Man, you feel like a woman!</span>")
 				else
 					return
@@ -208,10 +205,7 @@
 				if(alert(H, "Become a Warlock?", "Confirmation", "Yes", "No") == "Yes")
 					if(!user.canUseTopic(src, BE_CLOSE, FALSE, NO_TK))
 						return
-					//NSV13 - Gender Neutrality - Start
-					H.gender = MALE
-					H.body_type = MALE
-					//NSV13 - Gender Neutrality - End
+					H.gender = "male"
 					to_chat(H, "<span class='notice'>Whoa man, you feel like a man!</span>")
 				else
 					return

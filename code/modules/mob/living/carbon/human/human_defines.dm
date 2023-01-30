@@ -57,6 +57,3 @@
 	var/lastpuke = 0
 	var/last_fire_update
 	var/account_id
-	//NSV13
-	/// For agendered spessmen, which body type to use
-	var/body_type = MALE

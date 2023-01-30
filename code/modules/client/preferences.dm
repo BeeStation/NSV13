@@ -184,8 +184,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				else
 					dispGender = "Other"
 				dat += "<b>Gender:</b> <a href='?_src_=prefs;preference=gender'>[dispGender]</a><BR>"
-				if(active_character.gender == PLURAL || active_character.gender == NEUTER)
-					dat += "<b>Body Type:</b> <a href='?_src_=prefs;preference=body_type'>[active_character.body_type == MALE ? "Male" : "Female"]</a><BR>"
 			//NSV13 - Gender Neutrality - Stop
 			dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[active_character.age]</a><BR>"
 
@@ -1407,14 +1405,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					if(new_hair)
 						active_character.hair_color = sanitize_hexcolor(new_hair)
 				if("hair_style")
-					var/new_hair_style
-					if(active_character.gender == MALE)
-						new_hair_style = input(user, "Choose your character's hair style:", "Character Preference")  as null|anything in GLOB.hair_styles_male_list
 					//NSV13 - Gender Neutrality - Start
-					else if(active_character.gender == FEMALE)
-						new_hair_style = input(user, "Choose your character's hair style:", "Character Preference")  as null|anything in GLOB.hair_styles_female_list
-					else
-						new_hair_style = input(user, "Choose your character's hair style:", "Character Preference")  as null|anything in GLOB.hair_styles_list
+					var/new_hair_style = input(user, "Choose your character's hair style:", "Character Preference")  as null|anything in GLOB.hair_styles_list
 					//NSV13 - Gender Neutrality - Stop
 					if(new_hair_style)
 						active_character.hair_style = new_hair_style
@@ -1431,23 +1423,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						active_character.gradient_color = sanitize_hexcolor(new_hair_gradient)
 
 				if("next_hair_style")
-					if(active_character.gender == MALE)
-						active_character.hair_style = next_list_item(active_character.hair_style, GLOB.hair_styles_male_list)
 					//NSV13 - Gender Neutrality - Start
-					else if(active_character.gender == FEMALE)
-						active_character.hair_style = next_list_item(active_character.hair_style, GLOB.hair_styles_female_list)
-					else
-						active_character.hair_style = next_list_item(active_character.hair_style, GLOB.hair_styles_list)
+					active_character.hair_style = next_list_item(active_character.hair_style, GLOB.hair_styles_list)
 					//NSV13 - Gender Neutrality - Stop
 
 				if("previous_hair_style")
-					if(active_character.gender == MALE)
-						active_character.hair_style = previous_list_item(active_character.hair_style, GLOB.hair_styles_male_list)
 					//NSV13 - Gender Neutrality - Start
-					else if(active_character.gender == FEMALE)
-						active_character.hair_style = previous_list_item(active_character.hair_style, GLOB.hair_styles_female_list)
-					else
-						active_character.hair_style = previous_list_item(active_character.hair_style, GLOB.hair_styles_list)
+					active_character.hair_style = previous_list_item(active_character.hair_style, GLOB.hair_styles_list)
 					//NSV13 - Gender Neutrality - Stop
 
 				if("next_gradient_style")
@@ -1462,47 +1444,25 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						active_character.facial_hair_color = sanitize_hexcolor(new_facial)
 
 				if("facial_hair_style")
-					var/new_facial_hair_style
-					if(active_character.gender == MALE)
-						new_facial_hair_style = input(user, "Choose your character's facial-hair style:", "Character Preference")  as null|anything in GLOB.facial_hair_styles_male_list
 					//NSV13 - Gender Neutrality - Start
-					else if(active_character.gender == FEMALE)
-						new_facial_hair_style = input(user, "Choose your character's facial-hair style:", "Character Preference")  as null|anything in GLOB.facial_hair_styles_female_list
-					else
-						new_facial_hair_style = input(user, "Choose your character's facial-hair style:", "Character Preference")  as null|anything in GLOB.facial_hair_styles_list
+					var/new_facial_hair_style = input(user, "Choose your character's facial-hair style:", "Character Preference")  as null|anything in GLOB.facial_hair_styles_list
 					//NSV13 - Gender Neutrality - Stop
 					if(new_facial_hair_style)
 						active_character.facial_hair_style = new_facial_hair_style
 
 				if("next_facehair_style")
-					if (active_character.gender == MALE)
-						active_character.facial_hair_style = next_list_item(active_character.facial_hair_style, GLOB.facial_hair_styles_male_list)
 					//NSV13 - Gender Neutrality - Start
-					else if(active_character.gender == FEMALE)
-						active_character.facial_hair_style = next_list_item(active_character.facial_hair_style, GLOB.facial_hair_styles_female_list)
-					else
-						active_character.facial_hair_style = next_list_item(active_character.facial_hair_style, GLOB.facial_hair_styles_list)
+					active_character.facial_hair_style = next_list_item(active_character.facial_hair_style, GLOB.facial_hair_styles_list)
 					//NSV13 - Gender Neutrality - Stop
 
 				if("previous_facehair_style")
-					if (active_character.gender == MALE)
-						active_character.facial_hair_style = previous_list_item(active_character.facial_hair_style, GLOB.facial_hair_styles_male_list)
 					//NSV13 - Gender Neutrality - Start
-					else if(active_character.gender == FEMALE)
-						active_character.facial_hair_style = previous_list_item(active_character.facial_hair_style, GLOB.facial_hair_styles_female_list)
-					else
-						active_character.facial_hair_style = previous_list_item(active_character.facial_hair_style, GLOB.facial_hair_styles_list)
+					active_character.facial_hair_style = previous_list_item(active_character.facial_hair_style, GLOB.facial_hair_styles_list)
 					//NSV13 - Gender Neutrality - Stop
 
 				if("underwear")
-					var/new_underwear
-					if(active_character.gender == MALE)
-						new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in GLOB.underwear_m
-					else if(active_character.gender == FEMALE) //NSV13 - Gender Neutrality
-						new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in GLOB.underwear_f
 					//NSV13 - Gender Neutrality - Start
-					else
-						new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in GLOB.underwear_list
+					var/new_underwear = input(user, "Choose your character's underwear:", "Character Preference")  as null|anything in GLOB.underwear_list
 					//NSV13 - Gender Neutrality - Stop
 					if(new_underwear)
 						active_character.underwear = new_underwear
@@ -1513,14 +1473,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						active_character.underwear_color = sanitize_hexcolor(new_underwear_color)
 
 				if("undershirt")
-					var/new_undershirt
-					if(active_character.gender == MALE)
-						new_undershirt = input(user, "Choose your character's undershirt:", "Character Preference") as null|anything in GLOB.undershirt_m
-					else if(active_character.gender == FEMALE) //NSV13 - Gender Neutrality
-						new_undershirt = input(user, "Choose your character's undershirt:", "Character Preference") as null|anything in GLOB.undershirt_f
 					//NSV13 - Gender Neutrality - Start
-					else
-						new_undershirt = input(user, "Choose your character's undershirt:", "Character Preference") as null|anything in GLOB.undershirt_list
+					var/new_undershirt = input(user, "Choose your character's undershirt:", "Character Preference") as null|anything in GLOB.undershirt_list
 					//NSV13 - Gender Neutrality - Stop
 					if(new_undershirt)
 						active_character.undershirt = new_undershirt
@@ -1807,11 +1761,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						active_character.socks = random_socks()
 						active_character.facial_hair_style = random_facial_hair_style(active_character.gender)
 						active_character.hair_style = random_hair_style(active_character.gender)
-				if("body_type")
-					if(active_character.body_type == MALE)
-						active_character.body_type = FEMALE
-					else
-						active_character.body_type = MALE
 				//NSV13 - Gender Neutrality - Stop
 				if("hotkeys")
 					toggles2 ^= PREFTOGGLE_2_HOTKEYS

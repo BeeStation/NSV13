@@ -71,9 +71,6 @@
 	var/preferred_pilot_role = PILOT_COMBAT
 	//NSV13 - Added Flavor Text
 	var/flavor_text = ""
-	//NSV13 - Gender Neutrality
-	/// Agendered spessmen can choose whether to have a male or female bodytype
-	var/body_type
 
 /datum/character_save/New()
 	real_name = get_default_name()
@@ -161,14 +158,10 @@
 	//NSV13 flavor text
 	SAFE_READ_QUERY(34, flavor_text)
 
-	//NSV13 - Gender Neutrality
-	SAFE_READ_QUERY(35, body_type)
-
 	//Sanitize. Please dont put query reads below this point. Please.
 
 	real_name = reject_bad_name(real_name, pref_species.allow_numbers_in_name)
 	gender = sanitize_gender(gender)
-	body_type = sanitize_gender(body_type, FALSE, FALSE, gender) //NSV13 - Gender Neutrality
 	real_name ||= pref_species.random_name(gender, TRUE)
 
 	for(var/custom_name_id in GLOB.preferences_custom_names)
@@ -190,22 +183,11 @@
 	be_random_name	= sanitize_integer(be_random_name, 0, 1, initial(be_random_name))
 	be_random_body	= sanitize_integer(be_random_body, 0, 1, initial(be_random_body))
 
-	if(gender == MALE)
-		hair_style = sanitize_inlist(hair_style, GLOB.hair_styles_male_list)
-		facial_hair_style = sanitize_inlist(facial_hair_style, GLOB.facial_hair_styles_male_list)
-		underwear = sanitize_inlist(underwear, GLOB.underwear_m)
-		undershirt = sanitize_inlist(undershirt, GLOB.undershirt_m)
 	//NSV13 - Gender Neutrality - Start
-	else if(gender == FEMALE)
-		hair_style = sanitize_inlist(hair_style, GLOB.hair_styles_female_list)
-		facial_hair_style = sanitize_inlist(facial_hair_style, GLOB.facial_hair_styles_female_list)
-		underwear = sanitize_inlist(underwear, GLOB.underwear_f)
-		undershirt = sanitize_inlist(undershirt, GLOB.undershirt_f)
-	else
-		hair_style = sanitize_inlist(hair_style, GLOB.hair_styles_list)
-		facial_hair_style = sanitize_inlist(facial_hair_style, GLOB.facial_hair_styles_list)
-		underwear = sanitize_inlist(underwear, GLOB.underwear_list)
-		undershirt = sanitize_inlist(undershirt, GLOB.undershirt_list)
+	hair_style = sanitize_inlist(hair_style, GLOB.hair_styles_list)
+	facial_hair_style = sanitize_inlist(facial_hair_style, GLOB.facial_hair_styles_list)
+	underwear = sanitize_inlist(underwear, GLOB.underwear_list)
+	undershirt = sanitize_inlist(undershirt, GLOB.undershirt_list)
 	//NSV13 - Gender Neutrality - Stop
 	socks = sanitize_inlist(socks, GLOB.socks_list)
 	age = sanitize_integer(age, AGE_MIN, AGE_MAX, initial(age))
@@ -279,12 +261,6 @@
 		pref_species = new spath
 	features = random_features()
 	age = rand(AGE_MIN,AGE_MAX)
-	//NSV13 - Gender Neutrality - Start
-	if(gender in list(MALE, FEMALE))
-		body_type = gender
-	else
-		body_type = pick(MALE, FEMALE)
-	//NSV13 - Gender Neutrality - Stop
 
 /datum/character_save/proc/update_preview_icon(client/parent)
 	if(!parent)
@@ -362,8 +338,7 @@
 			equipped_gear,
 			preferred_squad,
 			preferred_pilot_role,
-			flavor_text,
-			body_type
+			flavor_text
 		) VALUES (
 			:slot,
 			:ckey,
@@ -399,8 +374,7 @@
 			:equipped_gear,
 			:preferred_squad,
 			:preferred_pilot_role,
-			:flavor_text,
-			:body_type
+			:flavor_text
 		)
 	"}, list(
 		// Now for the above but in a fucking monsterous list
@@ -438,8 +412,7 @@
 		"equipped_gear" = json_encode(equipped_gear),
 		"preferred_squad" = preferred_squad,
 		"preferred_pilot_role" = preferred_pilot_role,
-		"flavor_text" = flavor_text,
-		"body_type" = body_type
+		"flavor_text" = flavor_text
 	))
 
 	if(!insert_query.warn_execute())
@@ -473,12 +446,6 @@
 
 	character.gender = gender
 	character.age = age
-	//NSV13 - Gender Neutrality - Start
-	if(gender == MALE || gender == FEMALE)
-		character.body_type = gender
-	else
-		character.body_type = body_type
-	//NSV13 - Gender Neutrality - Stop
 
 	character.eye_color = eye_color
 	var/obj/item/organ/eyes/organ_eyes = character.getorgan(/obj/item/organ/eyes)

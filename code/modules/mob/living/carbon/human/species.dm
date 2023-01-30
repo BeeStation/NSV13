@@ -759,7 +759,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(!bodyparts_to_add)
 		return
 
-	var/g = (H.body_type == FEMALE) ? "f" : "m" //NSV13 - Gender Neutrality
+	var/g = (H.gender == FEMALE) ? "f" : "m"
 
 	for(var/layer in relevent_layers)
 		var/layertext = mutant_bodyparts_layertext(layer)
