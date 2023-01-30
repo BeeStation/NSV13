@@ -309,7 +309,7 @@
 	if(IS_GUEST_KEY(C.ckey))
 		return
 
-	// Get ready for a disgusting query //NSV13 adds squads, pilot role, flavor text prefs and Gender Stuff
+	// Get ready for a disgusting query //NSV13 adds squads, pilot role and flavor text prefs
 	var/datum/DBQuery/insert_query = SSdbcore.NewQuery({"
 		REPLACE INTO [format_table_name("characters")] (
 			slot,
