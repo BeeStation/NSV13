@@ -414,11 +414,11 @@
 	//NSV13 - Gender Neutrality - Start
 	switch(deconstruct_block(getblock(dna.uni_identity, DNA_GENDER_BLOCK), 3))
 		if(G_MALE)
-			gender = MALE
+			set_gender(MALE, TRUE)
 		if(G_FEMALE)
-			gender = FEMALE
+			set_gender(FEMALE, TRUE)
 		else
-			gender = PLURAL
+			set_gender(PLURAL, TRUE)
 	//NSV13 - Gender Neutrality - Stop
 
 /mob/living/carbon/human/updateappearance(icon_update=1, mutcolor_update=0, mutations_overlay_update=0)

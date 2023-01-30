@@ -184,6 +184,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				else
 					dispGender = "Other"
 				dat += "<b>Gender:</b> <a href='?_src_=prefs;preference=gender'>[dispGender]</a><BR>"
+				dat += "<b>Body Model:</b><a style='display:block;width:100px' href='?_src_=prefs;preference=body_model'>[active_character.features["body_model"] == MALE ? "Masculine" : "Feminine"]</a><BR>"
 			//NSV13 - Gender Neutrality - Stop
 			dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[active_character.age]</a><BR>"
 
@@ -1755,12 +1756,19 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/list/friendlyGenders = list("Male" = "male", "Female" = "female", "Other" = "plural")
 					var/pickedGender = input(user, "Choose your gender.", "Character Preference", active_character.gender) as null|anything in friendlyGenders
 					if(pickedGender && friendlyGenders[pickedGender] != active_character.gender)
+						switch(friendlyGenders[pickedGender])
+							if("plural")
+								active_character.features["body_model"] = pick(MALE, FEMALE)
+							else
+								active_character.features["body_model"] = friendlyGenders[pickedGender]
 						active_character.gender = friendlyGenders[pickedGender]
 						active_character.underwear = random_underwear(active_character.gender)
 						active_character.undershirt = random_undershirt(active_character.gender)
 						active_character.socks = random_socks()
 						active_character.facial_hair_style = random_facial_hair_style(active_character.gender)
 						active_character.hair_style = random_hair_style(active_character.gender)
+				if("body_model")
+					active_character.features["body_model"] = active_character.features["body_model"] == MALE ? FEMALE : MALE
 				//NSV13 - Gender Neutrality - Stop
 				if("hotkeys")
 					toggles2 ^= PREFTOGGLE_2_HOTKEYS

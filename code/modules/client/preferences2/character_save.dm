@@ -55,8 +55,9 @@
 						"ipc_screen" = "Blue",
 						"ipc_antenna" = "None",
 						"ipc_chassis" = "Morpheus Cyberkinetics(Greyscale)",
-						"insect_type" = "Common Fly"
-					)
+						"insect_type" = "Common Fly",
+						"body_model" = MALE
+					) //NSV13 - Gender Neutrality
 	var/list/custom_names = list()
 	var/preferred_ai_core_display = "Blue"
 	var/preferred_security_department = SEC_DEPT_RANDOM
@@ -188,6 +189,7 @@
 	facial_hair_style = sanitize_inlist(facial_hair_style, GLOB.facial_hair_styles_list)
 	underwear = sanitize_inlist(underwear, GLOB.underwear_list)
 	undershirt = sanitize_inlist(undershirt, GLOB.undershirt_list)
+	features["body_model"] = sanitize_gender(features["body_model"], FALSE, FALSE, gender == FEMALE ? FEMALE : MALE)
 	//NSV13 - Gender Neutrality - Stop
 	socks = sanitize_inlist(socks, GLOB.socks_list)
 	age = sanitize_integer(age, AGE_MIN, AGE_MAX, initial(age))
@@ -260,6 +262,12 @@
 		var/datum/species/spath = GLOB.species_list[pick(GLOB.roundstart_races)]
 		pref_species = new spath
 	features = random_features()
+	//NSV13 - Gender Neutrality - Start
+	if(gender == MALE || gender != FEMALE)
+		features["body_model"] = gender
+	else if(gender == PLURAL)
+		features["body_model"] = pick(MALE,FEMALE)
+	//NSV13 - Gender Neutrality - Stop
 	age = rand(AGE_MIN,AGE_MAX)
 
 /datum/character_save/proc/update_preview_icon(client/parent)
