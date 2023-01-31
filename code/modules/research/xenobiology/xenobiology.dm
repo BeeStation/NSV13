@@ -360,9 +360,7 @@
 				to_chat(user, "<span class='warning'>You can't swap your gender!</span>")
 				return 5 SECONDS
 
-			//NSV13 - Gender Neutrality - Start
 			user.set_gender(user.gender == MALE ? FEMALE : MALE, forced = TRUE) //You are doing this to yourself.
-			//NSV13 - Gender Neutrality - Stop
 			return 10 SECONDS
 
 		if(SLIME_ACTIVATE_MAJOR)
@@ -993,11 +991,9 @@
 
 	to_chat(user, "<span class='notice'>You feed [L] the gender change potion!</span>")
 
-	//NSV13 - Gender Neutrality - Start
 	if(!L.set_gender(L.gender == MALE ? FEMALE : MALE))
 		return
 	qdel(src)
-	//NSV13 - Gender Neutrality - Stop
 
 /obj/item/slimepotion/slime/renaming
 	name = "renaming potion"

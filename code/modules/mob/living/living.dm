@@ -206,7 +206,7 @@
 	if(len)
 		for(var/obj/item/I in held_items)
 			if(!holding.len)
-				holding += "[p_they(TRUE)] [p_are()] holding \a [I]" //NSV13 - Gender Neutrality
+				holding += "[p_they(TRUE)] [p_are()] holding \a [I]"
 			else if(held_items.Find(I) == len)
 				holding += ", and \a [I]."
 			else
@@ -1385,7 +1385,6 @@
 		eminence.selected_mob = src
 		to_chat(eminence, "<span class='brass'>You select [src].</span>")
 
-//NSV13 - Gender Neutrality
 /mob/living/proc/set_gender(ngender = NEUTER, silent = FALSE, update_icon = TRUE, forced = FALSE)
 	if(forced || (!ckey))
 		gender = ngender

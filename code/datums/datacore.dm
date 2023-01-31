@@ -254,7 +254,6 @@
 		G.fields["fingerprint"]	= rustg_hash_string(RUSTG_HASH_MD5, H.dna.uni_identity)
 		G.fields["p_stat"]		= "Active"
 		G.fields["m_stat"]		= "Stable"
-		//NSV13 - Gender Neutrality - Start
 		G.fields["gender"]		= H.gender
 		if(H.gender == "male")
 			G.fields["gender"]  = "Male"
@@ -262,7 +261,6 @@
 			G.fields["gender"]  = "Female"
 		else
 			G.fields["gender"]  = "Other"
-		//NSV13 - Gender Neutrality - Stop
 		G.fields["photo_front"]	= photo_front
 		G.fields["photo_side"]	= photo_side
 		general += G
@@ -300,7 +298,6 @@
 		L.fields["name"]		= H.real_name
 		L.fields["rank"] 		= H.mind.assigned_role
 		L.fields["age"]			= H.age
-		//NSV13 - Gender Neutrality - Start
 		G.fields["gender"]		= H.gender
 		if(H.gender == "male")
 			G.fields["gender"]  = "Male"
@@ -308,7 +305,6 @@
 			G.fields["gender"]  = "Female"
 		else
 			G.fields["gender"]  = "Other"
-		//NSV13 - Gender Neutrality - Stop
 		L.fields["blood_type"]	= H.dna.blood_type
 		L.fields["b_dna"]		= H.dna.unique_enzymes
 		L.fields["identity"]	= H.dna.uni_identity

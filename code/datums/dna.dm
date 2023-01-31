@@ -103,7 +103,6 @@
 	. = ""
 	var/list/L = new /list(DNA_UNI_IDENTITY_BLOCKS)
 
-	//NSV13 - Gender Neutrality - Start
 	switch(holder.gender)
 		if(MALE)
 			L[DNA_GENDER_BLOCK] = construct_block(G_MALE, 3)
@@ -111,7 +110,6 @@
 			L[DNA_GENDER_BLOCK] = construct_block(G_FEMALE, 3)
 		else
 			L[DNA_GENDER_BLOCK] = construct_block(G_PLURAL, 3)
-	//NSV13 - Gender Neutrality - Stop
 	if(ishuman(holder))
 		var/mob/living/carbon/human/H = holder
 		if(!GLOB.hair_styles_list.len)
@@ -201,7 +199,6 @@
 		if(DNA_EYE_COLOR_BLOCK)
 			setblock(uni_identity, blocknumber, sanitize_hexcolor(H.eye_color))
 		if(DNA_GENDER_BLOCK)
-			//NSV13 - Gender Neutrality - Start
 			switch(H.gender)
 				if(MALE)
 					setblock(uni_identity, blocknumber, construct_block(G_MALE, 3))
@@ -209,7 +206,6 @@
 					setblock(uni_identity, blocknumber, construct_block(G_FEMALE, 3))
 				else
 					setblock(uni_identity, blocknumber, construct_block(G_PLURAL, 3))
-			//NSV13 - Gender Neutrality - Stop
 		if(DNA_FACIAL_HAIR_STYLE_BLOCK)
 			setblock(uni_identity, blocknumber, construct_block(GLOB.facial_hair_styles_list.Find(H.facial_hair_style), GLOB.facial_hair_styles_list.len))
 		if(DNA_HAIR_STYLE_BLOCK)
@@ -411,7 +407,6 @@
 /mob/living/carbon/proc/updateappearance(icon_update=1, mutcolor_update=0, mutations_overlay_update=0)
 	if(!has_dna())
 		return
-	//NSV13 - Gender Neutrality - Start
 	switch(deconstruct_block(getblock(dna.uni_identity, DNA_GENDER_BLOCK), 3))
 		if(G_MALE)
 			set_gender(MALE, TRUE)
@@ -419,7 +414,6 @@
 			set_gender(FEMALE, TRUE)
 		else
 			set_gender(PLURAL, TRUE)
-	//NSV13 - Gender Neutrality - Stop
 
 /mob/living/carbon/human/updateappearance(icon_update=1, mutcolor_update=0, mutations_overlay_update=0)
 	..()

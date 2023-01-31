@@ -41,7 +41,7 @@
 
 //more specialised stuff
 /// Return `gender` if it is a valid gender, otherwise `default`. No I did not mean to offend you. -qwerty
-/proc/sanitize_gender(gender,neuter=0,plural=1, default="male") //NSV13 - Gender Neutral
+/proc/sanitize_gender(gender,neuter=0,plural=1, default="male")
 	switch(gender)
 		if(MALE, FEMALE)
 			return gender
