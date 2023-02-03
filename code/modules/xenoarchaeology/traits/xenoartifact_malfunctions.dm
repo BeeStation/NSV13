@@ -173,7 +173,7 @@
 	T.alpha = 255
 	T.pixel_y = initial(T.pixel_y)
 	T.pixel_x = initial(T.pixel_x)
-	T.color = COLOR_BLUE
+	T.color = pick(COLOR_RED, COLOR_GREEN, COLOR_BLUE, COLOR_PURPLE, COLOR_ORANGE, COLOR_YELLOW, COLOR_CYAN, COLOR_PINK) //NSV13 - Yes
 	//Handle limit and hardel
 	clones += T
 	RegisterSignal(T, COMSIG_PARENT_QDELETING, .proc/handle_death)
