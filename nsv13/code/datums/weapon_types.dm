@@ -165,7 +165,7 @@
 	return TRUE
 
 /datum/ship_weapon/phaser_pd // Gauss laser
-	name = "Point-Defense Phaser"
+	name = "Point-Defense Phasers"
 	default_projectile_type = /obj/item/projectile/beam/laser/phaser/pd
 	burst_size = 4
 	burst_fire_delay = 0.25 SECONDS
@@ -174,7 +174,7 @@
 	weapon_class = WEAPON_CLASS_LIGHT
 	select_alert = "<span class='notice'>Light phaser banks standing by...</span>"
 	failure_alert = "<span class='warning'>Unable to comply. Capacitor banks recharging.</span>"
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/burst_phaser.ogg', 'nsv13/sound/effects/ship/burst_phaser2.ogg')
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/burst_phaser.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg'
 	miss_chance = 20
 	ai_fire_delay = 3 SECONDS
