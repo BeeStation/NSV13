@@ -364,7 +364,7 @@
 			silicon_flavor_text,
 			general_record,
 			security_record,
-			medical_record,
+			medical_record
 		) VALUES (
 			:slot,
 			:ckey,
