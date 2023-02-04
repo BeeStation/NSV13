@@ -361,7 +361,7 @@
 			preferred_squad,
 			preferred_pilot_role,
 			flavor_text,
-			silicon_flavor_text
+			silicon_flavor_text,
 			general_record,
 			security_record,
 			medical_record,
