@@ -107,8 +107,8 @@ Returns a faction datum by its name (case insensitive!)
 	//Read the file in...
 	//If we can't find starmap.json, load in the default instead. This should usually be for local servers
 	if(!fexists(_source_path))
-		_source_path = "config/starmap/starmap_default.json"
 		log_game("Unable to find [_source_path]. Loading default instead. This is normal for local servers")
+		_source_path = "config/starmap/starmap_default.json"
 	try
 		_systems += json_decode(rustg_file_read(file(_source_path)))
 	catch(var/exception/ex)
