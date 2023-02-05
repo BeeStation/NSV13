@@ -483,7 +483,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	explosion(get_turf(src), 0, 5, 10, 20, TRUE, TRUE)
 	empulse(get_turf(src), 25, 15)
 	fail_meltdown_objective()
-	SSblackbox.record_feedback("nested tally", "engine_failures", 1, list(SSmapping.config.map_name, "agcnr"))
+	SSblackbox.record_feedback("tally", "engine_failures", 1, "agcnr")
 
 //Failure condition 2: Blowout. Achieved by reactor going over-pressured. This is a round-ender because it requires more fuckery to achieve.
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/blowout()

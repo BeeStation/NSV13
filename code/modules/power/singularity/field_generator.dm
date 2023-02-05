@@ -342,7 +342,7 @@ field_generator power level display
 			message_admins("A [a.name] exists and a containment field has failed at [ADMIN_VERBOSEJMP(T)].")
 			investigate_log("has <font color='red'>failed</font> whilst a [a.name] exists at [AREACOORD(T)].", INVESTIGATE_ENGINES)
 			notify_ghosts("IT'S LOOSE", source = src, action = NOTIFY_ORBIT, flashwindow = FALSE, ghost_sound = 'sound/machines/warning-buzzer.ogg', header = "IT'S LOOSE", notify_volume = 75)
-			SSblackbox.record_feedback("nested tally", "engine_failures", 1, list(SSmapping.config.map_name, a.name)) //NSV13 - engine failure tracking
+			SSblackbox.record_feedback("tally", "engine_failures", 1, a.name) //NSV13 - engine failure tracking
 
 /obj/machinery/field/generator/proc/block_singularity_if_active()
 	SIGNAL_HANDLER

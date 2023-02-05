@@ -1166,7 +1166,7 @@ Control Rods
 		sleep(10)
 		icon_state = "broken"
 		reactor_end_times = FALSE //We don't need this anymore
-		SSblackbox.record_feedback("nested tally", "engine_failures", 1, list(SSmapping.config.map_name, "stormdrive"))
+		SSblackbox.record_feedback("tally", "engine_failures", 1, "stormdrive")
 	else
 		warning_state = WARNING_STATE_NONE
 		reactor_end_times = FALSE
