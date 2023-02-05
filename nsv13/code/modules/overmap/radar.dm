@@ -373,7 +373,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Iterate through overmaps in the world! - Needs to go through global overmaps since it may be on a ship's z level or in hyperspace.
 		var/sensor_visible = (OM != linked && OM.faction != linked.faction) ? ((overmap_dist(linked, OM) > max(sensor_range * 2, OM.sensor_profile)) ? 0 : OM.is_sensor_visible(linked)) : SENSOR_VISIBILITY_FULL //You can always see your own ship, or allied, cloaked ships.
 		if(OM.z == linked.z && (sensor_visible >= SENSOR_VISIBILITY_FAINT || linked.target_painted[OM]))
-			var/inRange = (overmap_dist(linked, OM) <= max(sensor_range,OM.sensor_profile)) || OM.faction == linked.faction	//Allies broadcast encrypted IFF so we can see them anywhere, and we can always see enemies recieved over datalink
+			var/inRange = (overmap_dist(linked, OM) <= max(sensor_range,OM.sensor_profile)) || OM.faction == linked.faction || linked.target_painted[OM]	//Allies broadcast encrypted IFF so we can see them anywhere, and we can always see enemies recieved over datalink
 			var/thecolour = "#FFFFFF"
 			var/filterType = showEnemies
 			if(istype(OM, /obj/structure/overmap/asteroid))
@@ -404,7 +404,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			var/thefaction = ((OM.faction == "nanotrasen" || OM.faction == "syndicate") && inRange) ? OM.faction : "unaligned" //You runnin with the blues or reds? Obfuscate faction too :)
 			thecolour = (inRange) ? thecolour : "#a66300"
 			filterType = (inRange) ? filterType : 100 //Can't hide things that you don't have sensor resolution on, this is to stop you being able to say, turn off enemy vision, see a target outside of scanner range go dark, and then go HMM.
-			if(sensor_visible <= SENSOR_VISIBILITY_FAINT) //For "transparent" / Somewhat hidden ships, show a reduced sensor ping.
+			if(sensor_visible <= SENSOR_VISIBILITY_FAINT && !linked.target_painted[OM]) //For "transparent" / Somewhat hidden ships, show a reduced sensor ping.
 				filterType = sensor_visible //Sensor_visible already returns a CSS compliant opacity figure.
 			else
 				filterType *= 0.01 //Scale the number down to be an opacity figure for CSS
