@@ -45,6 +45,7 @@
 	bound_height = 96
 	bound_width = 96
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
+
 /obj/structure/overmap/nanotrasen/missile_cruiser //This has nothing to do with missiles
 	name = "caracal class missile frigate"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
@@ -174,13 +175,16 @@
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
-/obj/structure/overmap/nanotrasen/patrol_cruiser/starter //NOT IN CYCLE
+/obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to the Snake
 	role = MAIN_OVERMAP
 	max_integrity = 1000
 	integrity_failure = 1000
+	bound_width = 64
+	bound_height = 64
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+	broadside = TRUE
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter //Currently assigned to Hammerhead
 	icon = 'nsv13/icons/overmap/new/nanotrasen/heavy_cruiser.dmi'
@@ -192,13 +196,14 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 20)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+	broadside = TRUE
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter/apply_weapons()
 	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
-	weapon_types[FIRE_MODE_HYBRID_RAIL] = new /datum/ship_weapon/hybrid_railgun(src)
+	weapon_types[FIRE_MODE_BROADSIDE] = new /datum/ship_weapon/broadside(src)
 
 /obj/structure/overmap/nanotrasen/carrier/starter //NOT CURRENTLY ASSIGNED
 	role = MAIN_OVERMAP

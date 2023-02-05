@@ -51,6 +51,7 @@
 	var/maintainable = TRUE //Does the weapon require maintenance?
 	var/bang = TRUE //Is firing loud?
 	var/bang_range = 8
+	var/broadside = FALSE //Does the weapon only fire to the sides?
 	var/auto_load = FALSE //Does the weapon feed and chamber the round once we load it?
 	var/semi_auto = FALSE //Does the weapon re-chamber for us after firing?
 
@@ -434,9 +435,9 @@
 
 /**
  * Checks if the weapon is able to fire the given number of shots.
- * Need to have a round in the chamber, not already be shooting, not be in maintenance, not be malfunctioning, and have enough shots in our ammo pool.
+ * Need to have a round in the chamber, not already be shooting, not be in maintenance, not be malfunctioning, and have enough shots in our ammo pool. Also checks if the direction of a broadside gun is correct.
  */
-/obj/machinery/ship_weapon/proc/can_fire(shots = weapon_type.burst_size)
+/obj/machinery/ship_weapon/proc/can_fire(atom/target, shots = weapon_type.burst_size)
 	if((state < STATE_CHAMBERED) || !chambered) //Do we have a round ready to fire
 		return FALSE
 	if (maint_state > MSTATE_UNSCREWED) //Are we in maintenance?
@@ -449,6 +450,8 @@
 		return FALSE
 	if(length(ammo) < shots) //Do we have enough ammo?
 		return FALSE
+	if(broadside && target)
+		return dir == angle2dir_ship(overmap_angle(linked, target) - linked.angle) ? TRUE : FALSE
 	else
 		return TRUE
 
@@ -466,7 +469,7 @@
 
 	// Energy weapons fire behavior
 	if(istype(src, /obj/machinery/ship_weapon/energy)) // Now 100% more modular!
-		if(can_fire(shots))
+		if(can_fire(target, shots))
 			if(manual)
 				linked.last_fired = overlay
 			for(var/i = 0, i < shots, i++)
@@ -481,7 +484,7 @@
 		return FALSE
 
 	// Default weapons fire behavior
-	if(can_fire(shots))
+	if(can_fire(target, shots))
 		if(manual)
 			linked.last_fired = overlay
 
@@ -500,7 +503,7 @@
 				state = STATE_FED
 			else
 				state = STATE_NOTLOADED
-			//Semi-automatic, chamber the next one
+
 			if(semi_auto)
 				chamber(rapidfire = TRUE)
 			sleep(0.75)

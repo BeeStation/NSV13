@@ -355,7 +355,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /obj/structure/overmap/small_craft/combat/light
 	name = "Su-818 Rapier"
-	desc = "An Su-818 Rapier space superiorty fighter craft. Designed for high maneuvreability and maximum combat effectivness against other similar weight classes."
+	desc = "An Su-818 Rapier space superiorty fighter craft. Designed for high maneuvreability and maximum combat effectiveness against other similar weight classes."
 	icon = 'nsv13/icons/overmap/nanotrasen/fighter.dmi'
 	armor = list("melee" = 60, "bullet" = 60, "laser" = 60, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 10, "overmap_medium" = 5, "overmap_heavy" = 90)
 	sprite_size = 32
@@ -1207,6 +1207,10 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	active = FALSE
 	var/rpm = 0
 	var/flooded = FALSE
+
+/obj/item/fighter_component/engine/flooded //made just so I can put it in pilot-specific mail
+	desc = "A mighty engine capable of propelling small spacecraft to high speeds. Something doesn't seem right, though..."
+	flooded = TRUE
 
 /obj/item/fighter_component/engine/screwdriver_act(mob/living/user, obj/item/I)
 	. = ..()
