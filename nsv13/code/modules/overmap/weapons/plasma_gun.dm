@@ -1,7 +1,7 @@
 /obj/machinery/ship_weapon/plasma_caster
 	name = "\improper Magnetic Phoron 'Vintergatan' Acceleration Caster"
-	icon = 'nsv13/icons/obj/railgun.dmi' //Temp Sprite
-	icon_state = "OBC" //Temp Sprite
+	icon = 'nsv13/icons/obj/plasma_gun.dmi' //Temp Sprite
+	icon_state = "plasma_gun" //Temp Sprite
 	desc = "Retrieve the lamp, Torch, for the Dominion, and the Light!"
 	anchored = TRUE
 	max_integrity = 1200 //Try to give it a chance to survive a plasmaflood
@@ -26,7 +26,7 @@
 
 	load_delay = 20
 	unload_delay = 20
-	fire_animation_length = 10 SECONDS //Maybe? We'll see how I feel about a long firing animations.
+	fire_animation_length = 1 SECONDS //Maybe? We'll see how I feel about a long firing animations.
 
 	feed_delay = 0
 	chamber_delay_rapid = 0
@@ -103,6 +103,7 @@
 	if(maintainable && malfunction) //Do we need maintenance?
 		return FALSE
 	if(plasma_mole_amount < plasma_fire_moles) //Is there enough Plasma Gas to fire?
+		say("DANGER! Not enough phoron to safely dischard core! Please ensure enough gas is present before firing!")
 		return FALSE
 	if(loader.on)
 		say("DANGER! Phoron Gas Regulator back pressure surge avoided! Ensure the regulator is off before operating!")
