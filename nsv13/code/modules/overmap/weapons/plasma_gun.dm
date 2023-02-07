@@ -20,13 +20,18 @@
 	semi_auto = FALSE
 	maintainable = TRUE
 	max_ammo = 1
-	feeding_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav' //TEMP, CHANGE LATER
-	fed_sound = null //TEMP, CHANGE LATER
-	chamber_sound = null //TEMP, CHANGE LATER
+
+	feeding_sound = 'nsv13/sound/effects/ship/plasma_gun_load.ogg' //TEMP, CHANGE LATER
+	load_sound = 'nsv13/sound/effects/ship/plasma_gun_feeding.ogg'
+	unload_sound = 'nsv13/sound/effects/ship/plasma_gun_unload.ogg'
+	chamber_sound = 'nsv13/sound/effects/ship/plasma_gun_chambering.ogg'
+	firing_sound = null
+	malfunction_sound = 'nsv13/sound/effects/ship/plasma_gun_malfunction.ogg'
+	fed_sound = null
 
 	load_delay = 20
 	unload_delay = 20
-	fire_animation_length = 1 SECONDS //Maybe? We'll see how I feel about a long firing animations.
+	fire_animation_length = 2.5 SECONDS //Maybe? We'll see how I feel about a long firing animations.
 
 	feed_delay = 0
 	chamber_delay_rapid = 0
@@ -126,6 +131,23 @@
 	else
 		return TRUE
 
+/obj/machinery/ship_weapon/plasma_caster/local_fire()
+	. = ..()
+	sleep(4 SECONDS)
+	for(var/mob/living/M in get_hearers_in_view(7, src)) //burn out eyes in view
+		if(M.stat != DEAD && M.get_eye_protection() < 1) //checks for eye protec
+			M.flash_act(10)
+			to_chat(M, "<span class='warning'>Your eyes burn from the brilliance of the Lämp!</span>")
+
+/obj/machinery/ship_weapon/plasma_caster/do_animation()
+	set waitfor = FALSE
+	sleep(2 SECONDS)
+	flick("[initial(icon_state)]_firing",src)
+	sleep(fire_animation_length)
+	flick("[initial(icon_state)]_unloading",src)
+	sleep(fire_animation_length)
+	icon_state = initial(icon_state)
+
 /obj/machinery/ship_weapon/plasma_caster/animate_projectile(atom/target)
 	return linked.fire_projectile(weapon_type.default_projectile_type, target, homing = TRUE, speed = 2, lateral=weapon_type.lateral)
 
@@ -136,12 +158,12 @@
 	if(prob(10))
 		makedarkpurpleslime()
 	atmos_spawn_air("plasma=[plasma_mole_amount];TEMP=293")
-	alignment -= rand(1,30)
+	alignment -= rand(30,90)
 	field_integrity -= rand(20,50)
 	plasma_mole_amount = 0
 
 /obj/machinery/ship_weapon/plasma_caster/after_fire()
-	alignment -= rand(5,60)
+	alignment -= rand(30,60)
 	plasma_mole_amount -= 250
 	field_integrity -= 20
 	..()
@@ -210,24 +232,26 @@
 				unload()
 		if("chamber")
 			chamber()
+
 		if("toggle_safety")
 			toggle_safety()
+
 	return
 
 /obj/machinery/atmospherics/components/unary/plasma_loader
 	name = "phoron gas regulator"
 	desc = "The gas regulator that pumps gaseous phoron into the Plasma Caster"
-	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi' //Temp Sprite
-	icon_state = "constrictor" //Temp Sprite
+	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
+	icon_state = "plasma_condenser"
 	pixel_y = 5 //So it lines up with layer 3 piping
 	layer = OBJ_LAYER
-	density = FALSE //Change to True when done testing
+	density = TRUE //Change to True when done testing
 	dir = WEST
 	initialize_directions = WEST
 	pipe_flags = PIPING_ONE_PER_TURF
 	active_power_usage = 200
 	var/obj/machinery/ship_weapon/plasma_caster/linked_gun
-	var/naughty = FALSE
+	var/non_phoron = FALSE
 	var/heretical_gases = list(
 		GAS_CO2,
 		GAS_BZ,
@@ -263,11 +287,11 @@
 /obj/machinery/atmospherics/components/unary/plasma_loader/update_icon()
 	cut_overlays()
 	if(panel_open)
-		icon_state = "constrictor_screw"
+		icon_state = "plasma_condenser_screw"
 	else if(on)
-		icon_state = "constrictor_active"
+		icon_state = "plasma_condenser_active"
 	else
-		icon_state = "constrictor"
+		icon_state = "plasma_condenser"
 
 /obj/machinery/atmospherics/components/unary/plasma_loader/ComponentInitialize()
 	. = ..()
@@ -296,13 +320,13 @@
 
 			//WORKS FOR ME
 			//WHY IS THIS HERE
-			naughty = TRUE //Someone tried to do something naughty~
+			non_phoron = TRUE //Stop putting suggestive variables in my code BOBBANZ1!
 
-	if(naughty)
+	if(non_phoron)
 		say("Non-Phoron gas detected! Venting gas!") //BURN THEM ALL
 		on = !on
 		update_icon()
-		naughty = FALSE
+		non_phoron = FALSE
 	update_parents()
 
 /obj/item/circuitboard/machine/plasma_loader
@@ -338,8 +362,8 @@
 	default_projectile_type = /obj/item/projectile/bullet/plasma_caster
 	select_alert = "<span class='notice'>Charging magnetic accelerator...</span>"
 	failure_alert = "<span class='warning'>Magnetic Accelerator not ready!</span>"
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/broadside.ogg') //Make custom sound, thgwop
-	overmap_select_sound = 'nsv13/sound/effects/ship/mac_load_unjam.ogg' //Make custom sound, charging maybe?
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/plasma_gun_fire.ogg')
+	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg' //Make custom sound, charging maybe?
 	weapon_class = WEAPON_CLASS_HEAVY
 	ai_fire_delay = 180 SECONDS
 	allowed_roles = OVERMAP_USER_ROLE_GUNNER
@@ -397,8 +421,9 @@
 	var/datum/star_system/target_system = SSstar_system.find_system(overmap_firer)
 	var/list/targets = target_system.system_contents
 	for(var/obj/structure/overmap/ship in targets)
-		if(QDELETED(ship))
-			continue
+		if(QDELETED(ship)) //It destroys itself when its target is destroyed. The code should be fast enough to only recognize its target as a QDeleted obj
+			qdel(src)
+			return
 		if(overmap_firer.warcrime_blacklist[ship.type])
 			continue
 		if(ship.faction == faction)

@@ -4,18 +4,6 @@ import { Button, Section, ProgressBar, Table } from '../components';
 import { Window } from '../layouts';
 import { toFixed } from 'common/math';
 
-// OWO WHATS THIS? //
-// OWO NOTICES YOUR PLASMA GUN //
-// OWO POUNCES ON YOUR PLASMA GUN //
-// OWO LICKS YOUR PLASMA GUN //
-
-// UwU WHATS THIS? A PLASMA GUN? //
-// UwU NOTICES YOUR PLASMA GUN //
-// UwU POUNCES ON YOU //
-// UwU YIFFS YOU //
-// UwU LICKS YOU //
-// UwU LICKS YOUR PLASMA GUN //
-
 
 // Forgot to change the Plasma Load to Ammo but I did that now //
 // I also removed the old bar //
@@ -83,7 +71,7 @@ export const PlasmaGun = (props, context) => {
             color={data.loaded ? "red" : ""}
             width="100"
             selected={data.loaded}
-            content="Condense Plasma Mass"
+            content="Condense Phoron Mass"
             onClick={() => act('toggle_load')}
           />
           <Button
