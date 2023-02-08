@@ -39,7 +39,7 @@
 /obj/machinery/computer/laser_pd/attack_hand(mob/user)
 	. = ..()
 	if(machine_stat & (BROKEN|NOPOWER))
-		to_chat(user, "<span class='warning'>[src] doesn't seem to be working.</span>")\
+		to_chat(user, "<span class='warning'>[src] doesn't seem to be working.</span>")
 		return
 	if(!turret)
 		to_chat(user, "<span class='warning'>[src] is not linked to a laser turret! You can link it with a multitool.</span>")
