@@ -1,5 +1,5 @@
 /obj/machinery/ship_weapon/plasma_caster
-	name = "\improper Magnetic Phoron 'Vintergatan' Acceleration Caster"
+	name = "\improper Magnetic Phoron Acceleration Caster"
 	icon = 'nsv13/icons/obj/plasma_gun.dmi' //This sprite cost me $150
 	icon_state = "plasma_gun"
 	desc = "Retrieve the lamp, Torch, for the Dominion, and the Light!"
@@ -44,6 +44,8 @@
 	var/alignment = 100 //Stealing this from hybrid railguns
 	var/field_integrity = 100 //Degrades over time when safety's off, don't let it reach zero
 	var/next_warning = 0 //Helps keep warning spam away
+	var/cooldown = 0 //Trying to add a timer so the weapon can't be spammed
+
 	processing_flags = START_PROCESSING_ON_INIT
 
 /obj/machinery/ship_weapon/plasma_caster/toggle_safety()
@@ -54,6 +56,8 @@
 		end_processing()
 
 /obj/machinery/ship_weapon/plasma_caster/process(delta_time)
+	if(cooldown > 0)
+		cooldown = max(cooldown - delta_time, 0)
 	if(!safety)
 		field_integrity = max(field_integrity - delta_time, 0)
 	else
@@ -105,6 +109,9 @@
 		return FALSE
 	if(state >= STATE_FIRING)
 		return FALSE
+	if(cooldown > 0)
+		say("DANGER! Splines unreticulated, spline reticulization process may take up to [cooldown] seconds to complete.")
+		return FALSE
 	if(maintainable && malfunction) //Do we need maintenance?
 		return FALSE
 	if(plasma_mole_amount < plasma_fire_moles) //Is there enough Plasma Gas to fire?
@@ -116,15 +123,15 @@
 	if(alignment < 90)
 		if(prob(10))
 			misfire()
-		return FALSE
+			return FALSE
 	if(alignment < 75)
 		if(prob(25))
 			misfire()
-		return FALSE
+			return FALSE
 	if(alignment < 50)
 		if(prob(50))
 			misfire()
-		return FALSE
+			return FALSE
 	if(alignment < 25)
 		misfire()
 		return FALSE
@@ -132,8 +139,6 @@
 		return TRUE
 
 /obj/machinery/ship_weapon/plasma_caster/local_fire()
-	. = ..()
-	sleep(4 SECONDS)
 	for(var/mob/living/M in get_hearers_in_view(7, src)) //burn out eyes in view
 		if(M.stat != DEAD && M.get_eye_protection() < 1) //checks for eye protec
 			M.flash_act(10)
@@ -178,6 +183,7 @@
 	alignment -= rand(30,60)
 	plasma_mole_amount -= 250
 	field_integrity -= 20
+	cooldown = 180
 	..()
 
 /obj/machinery/ship_weapon/plasma_caster/default_deconstruction_crowbar(obj/item/I, ignore_panel)
@@ -364,7 +370,7 @@
 /datum/ship_weapon/plasma_caster
 	name = "MPAC"
 	burst_size = 1
-	fire_delay = 180 SECONDS //Fire once every three minutes
+	fire_delay = 5 SECONDS //Everyone's right, weapon code is jank...
 	range = 25000 //It will continue to
 	default_projectile_type = /obj/item/projectile/bullet/plasma_caster
 	select_alert = "<span class='notice'>Charging magnetic accelerator...</span>"
