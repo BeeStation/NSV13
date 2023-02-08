@@ -162,6 +162,17 @@
 	field_integrity -= rand(20,50)
 	plasma_mole_amount = 0
 
+/obj/machinery/ship_weapon/plasma_caster/overmap_fire(atom/target)
+
+	if(weapon_type?.overmap_firing_sounds)
+		overmap_sound()
+
+	if(overlay)
+		overlay.do_animation()
+	sleep(4 SECONDS)
+	if( weapon_type )
+		animate_projectile(target)
+
 /obj/machinery/ship_weapon/plasma_caster/after_fire()
 	alignment -= rand(30,60)
 	plasma_mole_amount -= 250
