@@ -422,6 +422,7 @@
 	var/list/targets = target_system.system_contents
 	for(var/obj/structure/overmap/ship in targets)
 		if(QDELETED(ship)) //It destroys itself when its target is destroyed. The code should be fast enough to only recognize its target as a QDeleted obj
+			new /obj/effect/particle_effect/phoron_explosion(loc)
 			qdel(src)
 			return
 		if(overmap_firer.warcrime_blacklist[ship.type])
@@ -453,3 +454,20 @@
 		S.Evolve()
 		S.flavor_text = FLAVOR_TEXT_EVIL
 		S.set_playable()
+
+/obj/effect/particle_effect/phoron_explosion
+	name = "phoron explosion"
+	icon = 'nsv13/icons/overmap/effects.dmi'
+	icon_state = "phoron_explosion"
+	opacity = 1
+	anchored = TRUE
+
+/obj/effect/particle_effect/phoron_explosion/Initialize(mapload)
+	..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/effect/particle_effect/phoron_explosion/LateInitialize()
+	QDEL_IN(src, 1.5 SECONDS)
+
+/obj/effect/particle_effect/phoron_explosion/Destroy()
+	return ..()
