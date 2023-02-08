@@ -155,12 +155,13 @@
 	say("WARNING! Phoron containment field failure, ejecting gas!")
 	if(prob(25))
 		do_sparks(4, FALSE, src)
-	if(prob(10))
+	if(plasma_mole_amount > 0 && prob(10))
 		makedarkpurpleslime()
 	atmos_spawn_air("plasma=[plasma_mole_amount];TEMP=293")
 	alignment -= rand(30,90)
 	field_integrity -= rand(20,50)
 	plasma_mole_amount = 0
+	playsound(src, malfunction_sound, 100, 1)
 
 /obj/machinery/ship_weapon/plasma_caster/overmap_fire(atom/target)
 
