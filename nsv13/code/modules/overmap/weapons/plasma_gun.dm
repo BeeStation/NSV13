@@ -433,11 +433,13 @@
 	var/datum/star_system/target_system = SSstar_system.find_system(overmap_firer)
 	var/list/targets = target_system.system_contents
 	for(var/obj/structure/overmap/ship in targets)
-		if(QDELETED(ship)) //It destroys itself when its target is destroyed. The code should be fast enough to only recognize its target as a QDeleted obj
+		if(QDELETED(ship)) //It destroys itself when its target is destroyed, as long as another ship isn't closer than it's current target
 			new /obj/effect/particle_effect/phoron_explosion(loc)
 			qdel(src)
 			return
-		if(overmap_firer.warcrime_blacklist[ship.type])
+		if(overmap_firer.warcrime_blacklist[ship.type]) //Doesn't target asteroids, same faction, essentials, ships on diff Z Levels, or fighters
+			continue
+		if(ship.mass == MASS_TINY)
 			continue
 		if(ship.faction == faction)
 			continue
