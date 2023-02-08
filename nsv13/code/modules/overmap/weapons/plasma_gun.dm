@@ -1,10 +1,10 @@
 /obj/machinery/ship_weapon/plasma_caster
 	name = "\improper Magnetic Phoron 'Vintergatan' Acceleration Caster"
-	icon = 'nsv13/icons/obj/plasma_gun.dmi' //Temp Sprite
-	icon_state = "plasma_gun" //Temp Sprite
+	icon = 'nsv13/icons/obj/plasma_gun.dmi' //This sprite cost me $150
+	icon_state = "plasma_gun"
 	desc = "Retrieve the lamp, Torch, for the Dominion, and the Light!"
 	anchored = TRUE
-	max_integrity = 1200 //Try to give it a chance to survive a plasmaflood
+	max_integrity = 1200 //It has no chance to survive a self-induced plasmafire
 
 	density = TRUE
 	safety = TRUE
@@ -21,7 +21,7 @@
 	maintainable = TRUE
 	max_ammo = 1
 
-	feeding_sound = 'nsv13/sound/effects/ship/plasma_gun_load.ogg' //TEMP, CHANGE LATER
+	feeding_sound = 'nsv13/sound/effects/ship/plasma_gun_load.ogg'
 	load_sound = 'nsv13/sound/effects/ship/plasma_gun_feeding.ogg'
 	unload_sound = 'nsv13/sound/effects/ship/plasma_gun_unload.ogg'
 	chamber_sound = 'nsv13/sound/effects/ship/plasma_gun_chambering.ogg'
@@ -31,7 +31,7 @@
 
 	load_delay = 20
 	unload_delay = 20
-	fire_animation_length = 2.5 SECONDS //Maybe? We'll see how I feel about a long firing animations.
+	fire_animation_length = 2.5 SECONDS
 
 	feed_delay = 0
 	chamber_delay_rapid = 0
@@ -39,7 +39,7 @@
 	bang = FALSE
 
 	var/obj/machinery/atmospherics/components/unary/plasma_loader/loader
-	var/plasma_fire_moles = 250 //TEMPORARY PROBABLY
+	var/plasma_fire_moles = 250
 	var/plasma_mole_amount = 0 //How much plasma gas is in the gun
 	var/alignment = 100 //Stealing this from hybrid railguns
 	var/field_integrity = 100 //Degrades over time when safety's off, don't let it reach zero
@@ -186,7 +186,7 @@
 
 	var/mob/living/Jim = usr
 	to_chat(usr, "<span class='danger'>Burning Plasma starts to vent from the gun which chars your body!</span>")
-	Jim.adjustFireLoss(rand(300, 1000)) // OwO no Deconning ever
+	Jim.adjustFireLoss(rand(300, 1000)) // Don't try to deconstruct it
 	return
 
 /obj/machinery/ship_weapon/plasma_caster/multitool_act(mob/living/user, obj/item/I)
@@ -205,9 +205,6 @@
 				alignment = 100
 				break
 
-/**
- * Unload magazine or just-loaded rounds.
- */
 /obj/machinery/ship_weapon/plasma_caster/attack_hand(mob/user)
 	ui_interact(user)
 	return
@@ -257,7 +254,7 @@
 	icon_state = "plasma_condenser"
 	pixel_y = 5 //So it lines up with layer 3 piping
 	layer = OBJ_LAYER
-	density = TRUE //Change to True when done testing
+	density = TRUE
 	dir = WEST
 	initialize_directions = WEST
 	pipe_flags = PIPING_ONE_PER_TURF
@@ -330,8 +327,6 @@
 			loc.assume_air_moles(air1, transfer_moles)
 			air_update_turf(1)
 
-			//WORKS FOR ME
-			//WHY IS THIS HERE
 			non_phoron = TRUE //Stop putting suggestive variables in my code BOBBANZ1!
 
 	if(non_phoron)
@@ -369,13 +364,13 @@
 /datum/ship_weapon/plasma_caster
 	name = "MPAC"
 	burst_size = 1
-	fire_delay = 1 SECONDS //Change to 180 SECONDS when done testing
-	range = 25000 //Make this last for an obscene amount of time
+	fire_delay = 180 SECONDS //Fire once every three minutes
+	range = 25000 //It will continue to
 	default_projectile_type = /obj/item/projectile/bullet/plasma_caster
 	select_alert = "<span class='notice'>Charging magnetic accelerator...</span>"
 	failure_alert = "<span class='warning'>Magnetic Accelerator not ready!</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/plasma_gun_fire.ogg')
-	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg' //Make custom sound, charging maybe?
+	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg'
 	weapon_class = WEAPON_CLASS_HEAVY
 	ai_fire_delay = 180 SECONDS
 	allowed_roles = OVERMAP_USER_ROLE_GUNNER
