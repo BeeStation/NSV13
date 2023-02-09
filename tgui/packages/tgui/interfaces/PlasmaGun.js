@@ -21,7 +21,7 @@ export const PlasmaGun = (props, context) => {
             <Table.Cell collapsing>
               <Section title="Splines:">
                 <ProgressBar
-                  value={(200 - data.cooldown) * .005}
+                  value={(100 - data.cooldown) * .01}
                   ranges={{
                     good: [0.5, Infinity],
                     average: [0.15, 0.5],

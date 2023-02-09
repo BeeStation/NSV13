@@ -49,7 +49,7 @@
 	var/alignment = 100 //Stealing this from hybrid railguns
 	var/field_integrity = 100 //Degrades over time when safety's off, don't let it reach zero
 	var/next_warning = 0 //Helps keep warning spam away
-	var/cooldown = 0 //Trying to add a timer so the weapon can't be spammed
+	var/cooldown = 0 //A janky timer that keeps the weapon from being optimized too hard, it takes around 1.5 minutes between shots
 
 	processing_flags = START_PROCESSING_ON_INIT
 
@@ -182,7 +182,7 @@
 
 /obj/machinery/ship_weapon/plasma_caster/local_fire()
 	for(var/mob/living/M in get_hearers_in_view(7, src)) //burn out eyes in view
-		if(M.stat != DEAD && M.get_eye_protection() < 1) //checks for eye protec
+		if(M.stat != DEAD && M.get_eye_protection() < 2) //checks for eye protec
 			M.flash_act(10)
 			to_chat(M, "<span class='warning'>Your eyes burn from the brilliance of the Lämp!</span>")
 
@@ -225,7 +225,7 @@
 	alignment -= rand(30,60)
 	plasma_mole_amount -= 250
 	field_integrity -= 20
-	cooldown = 200
+	cooldown = 100
 	light_power = 2
 	..()
 
@@ -378,8 +378,6 @@
 	set_homing_target(target_lock)
 	RegisterSignal(homing_target, COMSIG_PARENT_QDELETING, .proc/find_target)
 
-//For FIRE proc, make animation play FIRST, prob with sleep proc
-
 /obj/machinery/ship_weapon/plasma_caster/proc/makedarkpurpleslime()
 	if(plasma_mole_amount > 0)
 		var/turf/open/T = get_turf(src)
@@ -418,7 +416,8 @@
 				-Ensure eyes are dark before firing<br>
 				-Splines must be reticulate before firing<br>
 				-Alignments must be highs at all time<br>
-				-Do not off the fields too long</p>
+				-Do not off the fields too long<br>
+				-Do not try to open with corvidbar</p>
 
 				<p><b>Safety Moth Says: Malfires causes big fires!</b><br>
 				<b>Ensure safe use of deterrents!&nbsp;</b></p>
