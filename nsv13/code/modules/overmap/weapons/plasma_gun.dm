@@ -33,9 +33,9 @@
 	unload_delay = 20
 	fire_animation_length = 2.5 SECONDS
 
-	feed_delay = 0
+	feed_delay = 8.3
 	chamber_delay_rapid = 0
-	chamber_delay = 0
+	chamber_delay = 5
 	bang = FALSE
 
 	light_system = STATIC_LIGHT
@@ -133,7 +133,7 @@
 				say("WARNING! 25% Integrity! Containment Failure Imminent!")
 				cut_overlays()
 				add_overlay("integ_25")
-		if(0)
+		if(-INFINITY to 0)
 			misfire()
 			safety = TRUE
 			field_integrity = 100
@@ -191,8 +191,6 @@
 	sleep(2 SECONDS)
 	flick("[initial(icon_state)]_firing",src)
 	sleep(fire_animation_length)
-	flick("[initial(icon_state)]_unloading",src)
-	sleep(fire_animation_length)
 	icon_state = initial(icon_state)
 
 /obj/machinery/ship_weapon/plasma_caster/animate_projectile(atom/target)
@@ -206,9 +204,13 @@
 		makedarkpurpleslime()
 	atmos_spawn_air("plasma=[plasma_mole_amount];TEMP=293")
 	alignment -= rand(30,90)
+	if(alignment < 0)
+		alignment = 0
 	field_integrity -= rand(20,50)
 	plasma_mole_amount = 0
 	playsound(src, malfunction_sound, 100, 1)
+	unchamber()
+	unload()
 
 /obj/machinery/ship_weapon/plasma_caster/overmap_fire(atom/target)
 
@@ -223,20 +225,31 @@
 
 /obj/machinery/ship_weapon/plasma_caster/after_fire()
 	alignment -= rand(30,60)
-	plasma_mole_amount -= 250
+	if(alignment < 0)
+		alignment = 0
+	plasma_mole_amount = 0
 	field_integrity -= 20
 	cooldown = 100
 	light_power = 2
 	..()
 
 /obj/machinery/ship_weapon/plasma_caster/default_deconstruction_crowbar(obj/item/I, ignore_panel)
-	if(plasma_mole_amount > 0)
-		misfire()
-
 	var/mob/living/fool = usr
-	visible_message("<span class='danger'>Burning energy and phoron starts to vent from the gun which chars [usr]!</span>")
-	fool.adjustFireLoss(rand(50, 120)) // Don't try to deconstruct it
-	return
+	var/confirm = alert("You feel an electric tingle as you bring your crowbar close, there's an odd heat the closer you get.\
+						 Are you sure this is a good idea?", "Deconstruct Phoron Caster", "Yes", "No")
+	if(confirm == "Yes")
+		visible_message("<span class='danger'>Burning energy and phoron starts to vent from the gun which chars [usr]!</span>")
+		field_integrity -= rand(30,50)
+		alignment -= rand(50,80)
+		if(alignment < 0)
+			alignment = 0
+		fool.adjustFireLoss(rand(50, 120)) // Don't try to deconstruct it
+		fool.IgniteMob()
+		playsound(usr.loc, 'sound/magic/lightningbolt.ogg', 100, 1, extrarange = 30)
+		return
+	else
+		visible_message("<span class 'notice'>[usr] wisely lowers their crowbar.")
+		return
 
 /obj/machinery/ship_weapon/plasma_caster/multitool_act(mob/living/user, obj/item/I)
 	. = TRUE
