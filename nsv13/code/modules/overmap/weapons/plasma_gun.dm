@@ -148,6 +148,7 @@
 			safety = TRUE
 			field_integrity = 100
 			next_warning = 0
+			update_overlay()
 			return PROCESS_KILL
 
 /obj/machinery/ship_weapon/plasma_caster/Initialize(mapload)
@@ -219,6 +220,8 @@
 	field_integrity -= rand(20,50)
 	plasma_mole_amount = 0
 	playsound(src, malfunction_sound, 100, 1)
+	tesla_zap(src, 8, TESLA_MINI_POWER, TESLA_ENERGY_MINI_BALL_FLAGS)
+	playsound(src,'sound/machines/defib_zap.ogg', 100, 1)
 	unchamber()
 	unload()
 
