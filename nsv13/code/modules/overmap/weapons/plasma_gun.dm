@@ -53,6 +53,11 @@
 
 	processing_flags = START_PROCESSING_ON_INIT
 
+/obj/machinery/ship_weapon/plasma_caster/update_overlay()
+	. = ..()
+	if(maint_state == MSTATE_CLOSED)
+		add_overlay("on")
+
 /obj/machinery/ship_weapon/plasma_caster/toggle_safety()
 	. = ..()
 	if(!safety)
