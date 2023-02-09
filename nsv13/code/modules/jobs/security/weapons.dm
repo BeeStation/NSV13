@@ -90,9 +90,12 @@
 	desc = "A small 9mm handgun used by high ranking Nanotrasen officers, it's been customized with a nice wooden handle painted with a small emblem and blue stripes."
 	icon_state = "commandglock"
 
-/obj/item/gun/ballistic/automatic/pistol/glock/command/hos
+/obj/item/gun/ballistic/automatic/pistol/glock/security/hos
 	name = "Winona"
 	desc = "A handgun that's never let its owner down before. It's got a pleasant wooden grip with plenty of detailing etched into it. A nice, all round weapon to defend yourself with."
+	icon_state = "commandglock"
+	full_auto = TRUE
+	requires_wielding = FALSE
 
 /datum/design/rubbershot
 	name = "9mm rubber Glock round"
