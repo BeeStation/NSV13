@@ -390,3 +390,37 @@
 		S.flavor_text = FLAVOR_TEXT_EVIL
 		S.set_playable()
 
+/obj/item/book/manual/plasma_caster
+	name = "Vintergatan Manual"
+	desc = "The book is laden with actual gold trim and embelishments, a single sheet of paper is sandwiched between the cover and the first page with the translation."
+	icon = 'nsv13/icons/obj/library.dmi'
+	icon_state = "plasma_gun"
+	author = "Fleet Presider Izatha Radiata, translated by Intern Andy Smith"
+	title = "Vintergatan"
+	dat = {"<html>
+				<h1>Vintergatan</h1>
+				<p>Hello and many thank yous for the use of the Serendipity Ship!<br>
+				This deterrent is meant to ward off the hostile,<br>
+				but it can be many trouble to use so super careful!<br>
+				Misuse can be burning and blinding.<p>
+
+				<h4>Step by Step</h4>
+
+				<p>-Insert phoron core<br>
+				-Condense of the mass<br>
+				-Rub magnets<br>
+				-Disengage container fielding<br>
+				-Utilize ship console and fire<br></p>
+
+				<h4>Warnings</h4>
+
+				<p>-Turns the off of gas compressing before firing<br>
+				-Ensure eyes are dark before firing<br>
+				-Splines must be reticulate before firing<br>
+				-Alignments must be highs at all time<br>
+				-Do not off the fields too long</p>
+
+				<p><b>Safety Moth Says: Malfires causes big fires!</b><br>
+				<b>Ensure safe use of deterrents!&nbsp;</b></p>
+				</html>
+				"}
