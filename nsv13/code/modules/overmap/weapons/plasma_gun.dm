@@ -58,6 +58,11 @@
 	if(maint_state == MSTATE_CLOSED)
 		add_overlay("on")
 
+/obj/machinery/ship_weapon/plasma_caster/screwdriver_act()
+	. = ..()
+	if(!safety)
+		toggle_safety()
+
 /obj/machinery/ship_weapon/plasma_caster/toggle_safety()
 	. = ..()
 	if(!safety)
