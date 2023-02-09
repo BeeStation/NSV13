@@ -56,6 +56,10 @@
 		end_processing()
 
 /obj/machinery/ship_weapon/plasma_caster/process(delta_time)
+	if(state == STATE_FIRING)
+		cut_overlays()
+		add_overlay("firing")
+		sleep(8 SECONDS)
 	if(cooldown > 0)
 		cooldown = max(cooldown - delta_time, 0)
 	if(!safety)
@@ -67,31 +71,47 @@
 			if(next_warning == 1)
 				next_warning --
 				say("Local phoron containment field fully stabilized.")
+				cut_overlays()
+				add_overlay("on")
 		if(76 to 99)
 			if(next_warning == 0)
 				next_warning ++
 				say("Localized phoron containment field disengaged, preparing to fire.")
+				cut_overlays()
+				add_overlay("integ_100")
 			else if(next_warning == 2)
 				next_warning --
 				say("Phoron containment field stabilized to ideal levels.")
+				cut_overlays()
+				add_overlay("integ_100")
 		if(51 to 75)
 			if(next_warning == 1)
 				next_warning ++
 				say("Phoron containment field at 75%, stability decreasing.")
+				cut_overlays()
+				add_overlay("integ_75")
 			else if(next_warning == 3)
 				say("Integrity at 50%, continuing stabilization process...")
 				next_warning --
+				cut_overlays()
+				add_overlay("integ_75")
 		if(26 to 50)
 			if(next_warning == 2)
 				next_warning ++
 				say("WARNING! Containment field 50% and falling.")
+				cut_overlays()
+				add_overlay("integ_50")
 			else if(next_warning == 4)
 				next_warning --
 				say("Restored field integrity above critical levels.")
+				cut_overlays()
+				add_overlay("integ_50")
 		if(1 to 25)
 			if(next_warning == 3)
 				next_warning ++
 				say("WARNING! 25% Integrity! Containment Failure Imminent!")
+				cut_overlays()
+				add_overlay("integ_25")
 		if(0)
 			misfire()
 			safety = TRUE
@@ -101,6 +121,7 @@
 
 /obj/machinery/ship_weapon/plasma_caster/Initialize(mapload)
 	. = ..()
+	add_overlay("on")
 	loader = locate(/obj/machinery/atmospherics/components/unary/plasma_loader) in orange(1, src)
 	loader.linked_gun = src
 
@@ -158,9 +179,9 @@
 
 /obj/machinery/ship_weapon/plasma_caster/proc/misfire()
 	say("WARNING! Phoron containment field failure, ejecting gas!")
-	if(prob(25))
+	if(prob(15))
 		do_sparks(4, FALSE, src)
-	if(plasma_mole_amount > 0 && prob(10))
+	if(plasma_mole_amount > 0 && prob(5))
 		makedarkpurpleslime()
 	atmos_spawn_air("plasma=[plasma_mole_amount];TEMP=293")
 	alignment -= rand(30,90)
