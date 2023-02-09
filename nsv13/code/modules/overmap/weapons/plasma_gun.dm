@@ -38,6 +38,11 @@
 	chamber_delay = 0
 	bang = FALSE
 
+	light_system = STATIC_LIGHT
+	light_range = 4
+	light_power = 2
+	light_on = TRUE
+
 	var/obj/machinery/atmospherics/components/unary/plasma_loader/loader
 	var/plasma_fire_moles = 250
 	var/plasma_mole_amount = 0 //How much plasma gas is in the gun
@@ -55,11 +60,27 @@
 	else if(field_integrity == 100)
 		end_processing()
 
+/obj/machinery/ship_weapon/plasma_caster/power_change()
+	..()
+	if(machine_stat & NOPOWER)
+		set_light(FALSE)
+		cut_overlays()
+	else
+		set_light(TRUE)
+		add_overlay("on")
+	update_appearance()
+	return
+
 /obj/machinery/ship_weapon/plasma_caster/process(delta_time)
+	if(!powered())
+		unchamber()
+		unload()
+		return PROCESS_KILL
 	if(state == STATE_FIRING)
 		cut_overlays()
 		add_overlay("firing")
-		sleep(8 SECONDS)
+		light_power = max(light_power + delta_time)
+
 	if(cooldown > 0)
 		cooldown = max(cooldown - delta_time, 0)
 	if(!safety)
@@ -121,7 +142,7 @@
 
 /obj/machinery/ship_weapon/plasma_caster/Initialize(mapload)
 	. = ..()
-	add_overlay("on")
+	power_change()
 	loader = locate(/obj/machinery/atmospherics/components/unary/plasma_loader) in orange(1, src)
 	loader.linked_gun = src
 
@@ -205,6 +226,7 @@
 	plasma_mole_amount -= 250
 	field_integrity -= 20
 	cooldown = 180
+	light_power = 2
 	..()
 
 /obj/machinery/ship_weapon/plasma_caster/default_deconstruction_crowbar(obj/item/I, ignore_panel)
