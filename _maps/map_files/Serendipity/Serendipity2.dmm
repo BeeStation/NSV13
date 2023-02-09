@@ -197,13 +197,10 @@
 	name = "Munitions Breakroom";
 	req_one_access_txt = "69"
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plasteel/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "be" = (
-/obj/structure/lattice/catwalk/over/ship,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -753,10 +750,12 @@
 /turf/open/floor/plasteel/white,
 /area/quartermaster/meeting_room)
 "dT" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 10
-	},
 /obj/structure/disposalpipe/segment,
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/obj/machinery/atmospherics/pipe/multiz/layer2,
+/obj/machinery/atmospherics/pipe/multiz/layer4,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "dV" = (
@@ -2149,15 +2148,14 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
 "jC" = (
-/obj/structure/lattice/catwalk/over/ship,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 10
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 10
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
@@ -2564,6 +2562,12 @@
 /area/comms)
 "lH" = (
 /obj/machinery/vending/cigarette,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "lJ" = (
@@ -3367,6 +3371,10 @@
 	pixel_x = 25;
 	req_one_access_txt = "69"
 	},
+/obj/machinery/conveyor_switch{
+	id = "serendipity_torp";
+	name = "Torpedo Conveyer"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "pU" = (
@@ -4037,7 +4045,6 @@
 /turf/open/floor/wood,
 /area/quartermaster/qm)
 "sZ" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -4049,6 +4056,8 @@
 	name = "Munitions Breakroom";
 	req_one_access_txt = "69"
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/plasteel/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "ta" = (
@@ -4076,8 +4085,13 @@
 /area/nsv/weapons)
 "te" = (
 /obj/machinery/airalarm/directional/west,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/light/floor,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 8
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "tj" = (
@@ -4439,6 +4453,12 @@
 /area/quartermaster/qm)
 "uP" = (
 /obj/machinery/vending/coffee,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "uR" = (
@@ -5583,11 +5603,10 @@
 	},
 /area/engine/engine_room)
 "Ah" = (
-/obj/machinery/conveyor_switch{
-	id = "serendipity_torp";
-	name = "Torpedo Conveyer"
-	},
 /obj/item/radio/intercom/directional/south,
+/obj/structure/stairs{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "Ai" = (
@@ -6023,6 +6042,7 @@
 /area/engine/atmos)
 "Cy" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "CF" = (
@@ -6549,12 +6569,16 @@
 	},
 /area/engine/engine_room)
 "Fp" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/structure/cable{
-	icon_state = "2-8"
-	},
 /obj/structure/disposalpipe/segment,
 /obj/effect/landmark/start/pilot,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "1-16"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "Fr" = (
@@ -10653,10 +10677,10 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/engine_room)
 "Xn" = (
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
 /obj/machinery/newscaster/directional/south,
+/obj/structure/stairs{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "Xo" = (
@@ -10975,15 +10999,11 @@
 /turf/open/floor/engine,
 /area/engine/engine_room)
 "YY" = (
-/obj/structure/lattice/catwalk/over/ship,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
 /obj/structure/cable{
-	icon_state = "1-2"
+	icon_state = "1-4"
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
@@ -11047,7 +11067,6 @@
 /turf/open/floor/monotile/steel,
 /area/engine/armour_pump)
 "Zp" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -11056,6 +11075,12 @@
 	dir = 9
 	},
 /obj/machinery/light/floor,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 9
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "Zq" = (

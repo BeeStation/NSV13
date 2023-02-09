@@ -161,6 +161,7 @@
 	integrity_failure = 1250
 	armor = list("overmap_light" = 50, "overmap_medium" = 40, "overmap_heavy" = 50)
 	boardable = TRUE
+	plasma_caster = TRUE
 
 /obj/structure/overmap/nanotrasen/serendipity/event
 	obj_integrity = 10000000
@@ -182,7 +183,6 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
-	plasma_caster = TRUE
 
 /obj/structure/overmap/nanotrasen/missile_cruiser/starter/shrike //TEMP UNTIL WE DIVERSIFY TYPES MORE
 	icon_state = "shrike"
@@ -276,6 +276,7 @@
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
+	weapon_types[FIRE_MODE_PHORON] = new /datum/ship_weapon/plasma_caster(src)
 
 //AI Versions
 

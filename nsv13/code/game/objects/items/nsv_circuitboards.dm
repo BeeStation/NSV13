@@ -326,3 +326,29 @@
 /obj/item/circuitboard/computer/iff
 	name = "IFF Console (circuit)"
 	build_path = /obj/machinery/computer/iff_console
+
+
+//Plasma Caster and Loader
+
+/obj/item/circuitboard/machine/plasma_loader
+	name = "Phoron Gas Regulator (Machine Board)"
+	build_path = /obj/machinery/atmospherics/components/unary/plasma_loader
+	var/pipe_layer = PIPING_LAYER_DEFAULT
+	req_components = list(
+		/obj/item/stock_parts/capacitor = 1,
+		/obj/item/stock_parts/manipulator = 1)
+/obj/item/circuitboard/machine/plasma_caster
+	name = "circuit board (plasma caster)"
+	desc = "My faithful...stand firm!"
+	req_components = list(
+		/obj/item/stack/sheet/mineral/titanium = 50,
+		/obj/item/stack/sheet/iron = 100,
+		/obj/item/stack/sheet/mineral/uranium = 20,
+		/obj/item/stock_parts/manipulator = 10,
+		/obj/item/stock_parts/capacitor = 10,
+		/obj/item/stock_parts/matter_bin = 10,
+		/obj/item/assembly/igniter = 1,
+		/obj/item/ship_weapon/parts/firing_electronics = 1
+	)
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+	build_path = /obj/machinery/ship_weapon/plasma_caster

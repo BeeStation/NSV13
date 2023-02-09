@@ -19,6 +19,22 @@ export const PlasmaGun = (props, context) => {
         <Section>
           <Table.Row>
             <Table.Cell collapsing>
+              <Section title="Splines:">
+                <ProgressBar
+                  value={(200 - data.cooldown) * .005}
+                  ranges={{
+                    good: [0.5, Infinity],
+                    average: [0.15, 0.5],
+                    bad: [-Infinity, 0.15],
+                  }}
+                />
+              </Section>
+            </Table.Cell>
+          </Table.Row>
+        </Section>
+        <Section>
+          <Table.Row>
+            <Table.Cell collapsing>
               <Section title="Plasma Capacitor Charge:">
                 <ProgressBar
                   value={(data.plasma_moles/data.plasma_moles_max * 100)* 0.01}

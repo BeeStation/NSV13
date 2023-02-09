@@ -2,7 +2,7 @@
 	name = "\improper Magnetic Phoron Acceleration Caster"
 	icon = 'nsv13/icons/obj/plasma_gun.dmi' //This sprite cost me $150
 	icon_state = "plasma_gun"
-	desc = "Retrieve the lamp, Torch, for the Dominion, and the Light!"
+	desc = "An MPAC, a strong deterrent used by the Dominion as a method of staving off attackers. It requires a lot of maintenance."
 	anchored = TRUE
 	max_integrity = 1200 //It has no chance to survive a self-induced plasmafire
 
@@ -225,7 +225,7 @@
 	alignment -= rand(30,60)
 	plasma_mole_amount -= 250
 	field_integrity -= 20
-	cooldown = 180
+	cooldown = 200
 	light_power = 2
 	..()
 
@@ -233,9 +233,9 @@
 	if(plasma_mole_amount > 0)
 		misfire()
 
-	var/mob/living/Jim = usr
-	to_chat(usr, "<span class='danger'>Burning Plasma starts to vent from the gun which chars your body!</span>")
-	Jim.adjustFireLoss(rand(300, 1000)) // Don't try to deconstruct it
+	var/mob/living/fool = usr
+	visible_message("<span class='danger'>Burning energy and phoron starts to vent from the gun which chars [usr]!</span>")
+	fool.adjustFireLoss(rand(50, 120)) // Don't try to deconstruct it
 	return
 
 /obj/machinery/ship_weapon/plasma_caster/multitool_act(mob/living/user, obj/item/I)
@@ -277,6 +277,7 @@
 	data["chambered"] = (state > STATE_FED) ? TRUE : FALSE
 	data["ammo"] = ammo?.len || 0
 	data["max_ammo"] = max_ammo
+	data["cooldown"] = cooldown
 	return data
 
 /obj/machinery/ship_weapon/plasma_caster/ui_act(action, params)
@@ -296,120 +297,6 @@
 
 	return
 
-/obj/machinery/atmospherics/components/unary/plasma_loader
-	name = "phoron gas regulator"
-	desc = "The gas regulator that pumps gaseous phoron into the Plasma Caster"
-	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
-	icon_state = "plasma_condenser"
-	pixel_y = 5 //So it lines up with layer 3 piping
-	layer = OBJ_LAYER
-	density = TRUE
-	dir = WEST
-	initialize_directions = WEST
-	pipe_flags = PIPING_ONE_PER_TURF
-	active_power_usage = 200
-	var/obj/machinery/ship_weapon/plasma_caster/linked_gun
-	var/non_phoron = FALSE
-	var/heretical_gases = list(
-		GAS_CO2,
-		GAS_BZ,
-		GAS_O2,
-		GAS_N2,
-		GAS_H2O,
-		GAS_HYPERNOB,
-		GAS_NITROUS,
-		GAS_TRITIUM,
-		GAS_NITRYL,
-		GAS_STIMULUM,
-		GAS_PLUOXIUM,
-		GAS_CONSTRICTED_PLASMA,
-		GAS_NUCLEIUM,
-	)
-
-/obj/machinery/atmospherics/components/unary/plasma_loader/on_construction()
-	var/obj/item/circuitboard/machine/thermomachine/board = circuit
-	if(board)
-		piping_layer = board.pipe_layer
-	..(dir, piping_layer)
-
-/obj/machinery/atmospherics/components/unary/plasma_loader/attack_hand(mob/user)
-	. = ..()
-	if(panel_open)
-		to_chat(user, "<span class='notice'>You must turn close the panel on [src] before turning it on.</span>")
-		return
-	to_chat(user, "<span class='notice'>You press [src]'s power button.</span>")
-	on = !on
-	update_icon()
-
-//TEMPORARY
-/obj/machinery/atmospherics/components/unary/plasma_loader/update_icon()
-	cut_overlays()
-	if(panel_open)
-		icon_state = "plasma_condenser_screw"
-	else if(on)
-		icon_state = "plasma_condenser_active"
-	else
-		icon_state = "plasma_condenser"
-
-/obj/machinery/atmospherics/components/unary/plasma_loader/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/simple_rotation,ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS )
-
-/obj/machinery/atmospherics/components/unary/plasma_loader/process_atmos()
-	..()
-	if(!on)
-		return
-	if(!linked_gun)
-		return
-
-	var/datum/gas_mixture/air1 = airs[1]
-	var/datum/gas_mixture/environment = loc.return_air()
-
-	if(air1.get_moles(GAS_PLASMA) > 5 && linked_gun.plasma_mole_amount < linked_gun.plasma_fire_moles)
-		air1.adjust_moles(GAS_PLASMA, -5)
-		linked_gun.plasma_mole_amount += 5
-	for(var/gas in heretical_gases)
-		if(air1.get_moles(gas))
-			var/air1_pressure = air1.return_pressure()
-
-			var/transfer_moles = air1_pressure*environment.return_volume()/(air1.return_temperature() * R_IDEAL_GAS_EQUATION)
-			loc.assume_air_moles(air1, transfer_moles)
-			air_update_turf(1)
-
-			non_phoron = TRUE //Stop putting suggestive variables in my code BOBBANZ1!
-
-	if(non_phoron)
-		say("Non-Phoron gas detected! Venting gas!") //BURN THEM ALL
-		on = !on
-		update_icon()
-		non_phoron = FALSE
-	update_parents()
-
-/obj/item/circuitboard/machine/plasma_loader
-	name = "Phoron Gas Regulator (Machine Board)"
-	build_path = /obj/machinery/atmospherics/components/unary/plasma_loader
-	var/pipe_layer = PIPING_LAYER_DEFAULT
-	req_components = list(
-		/obj/item/stock_parts/capacitor = 1,
-		/obj/item/stock_parts/manipulator = 1)
-
-
-/obj/item/circuitboard/machine/plasma_caster
-	name = "circuit board (plasma caster)"
-	desc = "My faithful...stand firm!"
-	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 50,
-		/obj/item/stack/sheet/iron = 100,
-		/obj/item/stack/sheet/mineral/uranium = 20,
-		/obj/item/stock_parts/manipulator = 10,
-		/obj/item/stock_parts/capacitor = 10,
-		/obj/item/stock_parts/matter_bin = 10,
-		/obj/item/assembly/igniter = 1,
-		/obj/item/ship_weapon/parts/firing_electronics = 1
-	)
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
-	build_path = /obj/machinery/ship_weapon/plasma_caster
-
 /datum/ship_weapon/plasma_caster
 	name = "MPAC"
 	burst_size = 1
@@ -427,27 +314,17 @@
 
 /obj/item/ship_weapon/ammunition/plasma_core
 	name = "\improper Condensed Phoron Core"
-	desc = "A heavy, condensed ball of plasma coated in a thick shell to prevent accidents."
+	desc = "A heavy, condensed ball of phoron coated in a thick shell to prevent accidents."
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "plasma_core"
 	projectile_type = /obj/item/projectile/bullet/plasma_caster
 
-/datum/design/plasma_core
-	name = "Condensed Phoron Core"
-	desc = "Allows you to synthesize condensed phoron cores for the MPAC"
-	id = "plasma_core"
-	build_type = PROTOLATHE
-	materials = list(/datum/material/plasma=40000, /datum/material/iron=10000)
-	build_path = /obj/item/ship_weapon/ammunition/plasma_core
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
-
 /obj/item/projectile/bullet/plasma_caster
 	name = "plasma ball"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
-	icon_state = "plasma_ball" //Really bad test sprite, animate and globulate later
+	icon_state = "plasma_ball" //No longer bad test sprite, animated and globulated
 	homing = TRUE
-	range = 25000 //Maybe this will make it go far
+	range = 25000 //Relentlessly tracks original target until the target is destroyed
 	homing_turn_speed = 180
 	damage = 150
 	obj_integrity = 500
@@ -466,7 +343,7 @@
 		return
 	RegisterSignal(homing_target, COMSIG_PARENT_QDELETING, .proc/find_target)
 
-/obj/item/projectile/bullet/plasma_caster/proc/find_target()
+/obj/item/projectile/bullet/plasma_caster/proc/find_target() //Tracking Proc when the weapon initially fires
 	SIGNAL_HANDLER
 	if(homing_target)
 		UnregisterSignal(homing_target, COMSIG_PARENT_QDELETING)
@@ -513,19 +390,3 @@
 		S.flavor_text = FLAVOR_TEXT_EVIL
 		S.set_playable()
 
-/obj/effect/particle_effect/phoron_explosion
-	name = "phoron explosion"
-	icon = 'nsv13/icons/overmap/effects.dmi'
-	icon_state = "phoron_explosion"
-	opacity = 1
-	anchored = TRUE
-
-/obj/effect/particle_effect/phoron_explosion/Initialize(mapload)
-	..()
-	return INITIALIZE_HINT_LATELOAD
-
-/obj/effect/particle_effect/phoron_explosion/LateInitialize()
-	QDEL_IN(src, 1.5 SECONDS)
-
-/obj/effect/particle_effect/phoron_explosion/Destroy()
-	return ..()
