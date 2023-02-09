@@ -302,6 +302,12 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plasteel/tiled/light,
 /area/crew_quarters/heads/cmo)
+"aW" = (
+/obj/structure/sign/directions/plaque/munitions{
+	pixel_x = -32
+	},
+/turf/open/floor/plasteel/tiled/light,
+/area/nsv/weapons/starboard)
 "aX" = (
 /obj/machinery/atmospherics/components/unary/portables_connector{
 	dir = 8
@@ -332,9 +338,6 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/bridge/meeting_room/council)
 "bb" = (
-/obj/machinery/atmospherics/pipe/simple/purple{
-	dir = 5
-	},
 /obj/effect/turf_decal/tile/yellow{
 	dir = 8
 	},
@@ -342,6 +345,9 @@
 	dir = 1
 	},
 /obj/machinery/firealarm/directional/west,
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 5
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons/starboard)
 "bd" = (
@@ -2752,9 +2758,6 @@
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons/starboard)
 "iT" = (
-/obj/machinery/computer/ship/fighter_launcher{
-	dir = 1
-	},
 /obj/effect/turf_decal/tile/yellow{
 	dir = 4
 	},
@@ -12994,10 +12997,10 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/bridge/cic)
 "QO" = (
-/obj/machinery/computer/ship/dradis{
+/obj/effect/turf_decal/tile/yellow{
 	dir = 1
 	},
-/obj/effect/turf_decal/tile/yellow{
+/obj/machinery/computer/ship/fighter_launcher{
 	dir = 1
 	},
 /turf/open/floor/plasteel/tiled/light,
@@ -13992,6 +13995,17 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"TY" = (
+/obj/structure/disposalpipe/segment,
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/airlock/highsecurity/ship{
+	name = "Weapons Bay";
+	req_one_access_txt = "19,69"
+	},
+/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/turf/open/floor/plasteel/dark,
+/area/nsv/weapons/starboard)
 "Ua" = (
 /obj/structure/disposalpipe/sorting/mail{
 	dir = 1;
@@ -14060,9 +14074,6 @@
 /turf/open/floor/engine/light,
 /area/science/robotics)
 "Uo" = (
-/obj/machinery/atmospherics/pipe/simple/purple{
-	dir = 6
-	},
 /obj/machinery/light/floor,
 /obj/effect/turf_decal/tile/yellow{
 	dir = 1
@@ -14076,6 +14087,9 @@
 /obj/machinery/computer/ship/viewscreen{
 	pixel_x = -32;
 	pixel_y = -6
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible{
+	dir = 6
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons/starboard)
@@ -54955,8 +54969,8 @@ IO
 vc
 OS
 iT
-Et
-Et
+aW
+TY
 Uo
 bb
 Cc
