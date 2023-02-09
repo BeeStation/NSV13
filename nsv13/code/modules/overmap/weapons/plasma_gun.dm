@@ -423,6 +423,17 @@
 				-Disengage container fielding<br>
 				-Utilize ship console and fire<br></p>
 
+				<h4>Maintaining</h4>
+				<p>-Drive the screws counterspin wise<br>
+				-Bolt the unwrench
+				-Switch alignments with manytool
+				-Rewrench the unbolted
+				-Screws the rightspin
+				-Alignment will regain
+
+				-Leave field on to replenish integrity
+				-Splines autoriticulate with time</pr>
+
 				<h4>Warnings</h4>
 
 				<p>-Turns the off of gas compressing before firing<br>
@@ -430,9 +441,11 @@
 				-Splines must be reticulate before firing<br>
 				-Alignments must be highs at all time<br>
 				-Do not off the fields too long<br>
-				-Do not try to open with corvidbar</p>
+				-Do not try to open with corvidbar<br>
+				-Will not magnetize to tiny metal vessels<br>
+				-Compressor will eject non-plasma</pr>
 
 				<p><b>Safety Moth Says: Malfires causes big fires!</b><br>
-				<b>Ensure safe use of deterrents!&nbsp;</b></p>
+				<b>Ensure safe use of deterrents!</b></p>
 				</html>
 				"}
