@@ -341,7 +341,8 @@
 	homing_turn_speed = 180
 	damage = 150
 	obj_integrity = 500
-	flag = "overmap_heavy"
+	max_integrity = 500
+	flag = "overmap_medium"
 	speed = 8
 	projectile_piercing = ALL
 
