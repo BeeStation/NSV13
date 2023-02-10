@@ -779,10 +779,13 @@
 	SSticker.mode_result = "undefined"
 	if(station_was_nuked)
 		SSticker.news_report = STATION_DESTROYED_NUKE
+		SSticker.mode_result = "crew loss - ship destroyed by nuke" //NSV13 - added more result tracking
 	if(EMERGENCY_ESCAPED_OR_ENDGAMED)
 		SSticker.news_report = STATION_EVACUATED
+		SSticker.mode_result = "crew halfwin - ship evacuated" //NSV13 - added more result tracking
 		if(SSshuttle.emergency.is_hijacked())
 			SSticker.news_report = SHUTTLE_HIJACK
+			SSticker.mode_result = "crew loss - escape shuttle hijacked" //NSV13 - added more result tracking
 
 
 /datum/game_mode/proc/generate_credit_text()

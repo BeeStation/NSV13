@@ -487,6 +487,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		Cinematic(CINEMATIC_NSV_SHIP_KABOOM,world)
 		SSticker.mode.check_finished(TRUE)
 		SSticker.news_report = SHIP_DESTROYED
+		SSticker.mode_result = "crew loss - ship destroyed"
 		SSticker.force_ending = 1
 	SEND_SIGNAL(src,COMSIG_SHIP_KILLED)
 	QDEL_LIST(current_tracers)
