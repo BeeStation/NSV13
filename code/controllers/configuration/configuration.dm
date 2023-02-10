@@ -489,6 +489,13 @@
 /datum/controller/configuration/ui_static_data(mob/user)
 	var/static/list/base64_cache = list()
 
+	// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA - Corvid
+	var/datum/DBQuery/query = SSdbcore.NewQuery("SELECT map_name, SUM(started) AS started, SUM(failed) AS failed FROM " + \
+		"(SELECT [format_table_name("round")].id, [format_table_name("round")].map_name, feedback.started, feedback.failed FROM [format_table_name("round")] " + \
+		"INNER JOIN (SELECT round_id, JSON_VALUE(JSON, '$.data.started') AS started, JSON_VALUE(JSON, '$.data.failed') AS failed " + \
+		"FROM [format_table_name("feedback")] WHERE key_name='engine_stats') AS feedback ON feedback.round_id=[format_table_name("round")].id) AS stats GROUP BY map_name")
+	SSdbcore.QuerySelect(query)
+
 	var/list/all_map_info = list()
 
 	for(var/key in maplist)
@@ -496,6 +503,11 @@
 
 		var/obj/structure/overmap/typedef = map_data.ship_type
 
+		var/stability = "No data"
+		for(var/list/row in query.rows)
+			if((row[1] == map_data.map_name) && (row[2] != 0))
+				// (starts - failures) * 100 / starts
+				stability = (row[2] - row[3]) * 100 / row[2]
 		var/base64
 		if(!base64)
 			if(base64_cache[map_data.ship_type])
@@ -514,18 +526,11 @@
 			"weaknesses" = map_data.weaknesses,
 			"weapons" = map_data.weapons,
 			"durability" = initial(typedef.max_integrity),
-			"engine" = map_data.engine_type
+			"engine" = map_data.engine_type,
+			"engineStability" = stability
 		)
 
 		all_map_info[key] = map_info
-
-	// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA - Corvid
-	var/datum/DBQuery/query = SSdbcore.NewQuery("SELECT map_name, SUM(started) AS started, SUM(failed) AS failed FROM " + \
-		"(SELECT [format_table_name("round")].id, [format_table_name("round")].map_name, feedback.started, feedback.failed FROM [format_table_name("round")] " + \
-		"INNER JOIN (SELECT round_id, JSON_VALUE(JSON, '$.data.started') AS started, JSON_VALUE(JSON, '$.data.failed') AS failed " + \
-		"FROM [format_table_name("feedback")] WHERE key_name='engine_stats') AS feedback ON feedback.round_id=[format_table_name("round")].id) AS stats GROUP BY map_name")
-	SSdbcore.QuerySelect(query)
-	while(query.NextRow(async = FALSE))
 
 	var/list/data = list("mapInfo" = all_map_info)
 	return data
