@@ -19,17 +19,15 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/stealing_id = FALSE
 	var/next_internals_attempt = 0
 	var/static/list/climbable = typecacheof(list(/obj/structure/table, /obj/structure/railing)) // climbable structures
-	///If pathfinding fails, it is püt in timeout for a while to avoid spamming the server with pathfinding calls.
-	var/pathfind_timeout = 0
-	///Consecutive pathfind fails add additional delay stacks to further counteract the effects of knpcs in unreachable locations.
-	var/timeout_stacks = 0
+	var/pathfind_timeout = 0 //If pathfinding fails, it is püt in timeout for a while to avoid spamming the server with pathfinding calls.
+	var/timeout_stacks = 0 //Consecutive pathfind fails add additional delay stacks to further counteract the effects of knpcs in unreachable locations.
 
 /mob/living/carbon/human/ai_boarder
 	faction = list("Neutral")
 	var/move_delay = 4 //How quickly do the boys travel?
 	var/action_delay = 6 //How long we delay between actions
 	var/knpc_traits = KNPC_IS_DODGER | KNPC_IS_MERCIFUL | KNPC_IS_AREA_SPECIFIC
-	var/difficulty_override = FALSE
+	var/difficulty_override = FALSE //Whether to ignore overmap difficulty or not
 	var/list/outfit = list (
 		/datum/outfit/job/assistant
 	)
@@ -140,7 +138,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 		return FALSE
 	if(length(path) > 1)
 		var/turf/next_turf = get_step_towards(H, path[1])
-		var/turf/this_turf = get_turf(H)	
+		var/turf/this_turf = get_turf(H)
 		//Walk when you see a wet floor
 		if(next_turf.GetComponent(/datum/component/wet_floor))
 			H.m_intent = MOVE_INTENT_WALK
@@ -192,7 +190,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 /datum/component/knpc/proc/increment_path()
 	path.Cut(1, 2)
 
-//Allows the AI humans to kite around
+///Allows the AI humans to kite around
 /datum/component/knpc/proc/kite(atom/movable/target)
 	if(world.time < next_move)
 		return
@@ -213,7 +211,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 		H.Move(get_step(H,chosen_dir))
 		H.face_atom(target) //Looks better if they keep looking at you when dodging
 
-//Allows the AI actor to be revived by a medic, and get straight back into the fight!
+///Allows the AI actor to be revived by a medic, and get straight back into the fight!
 /datum/component/knpc/proc/restart()
 	START_PROCESSING(SSfastprocess, src)
 
@@ -229,10 +227,10 @@ GLOBAL_LIST_EMPTY(knpcs)
 	if(chosen)
 		chosen.assume(src)
 
-//Handles actioning on the goal every tick.
+///Handles actioning on the goal every tick.
 /datum/component/knpc/process()
 	var/mob/living/carbon/human/ai_boarder/H = parent
-	if(H.stat == DEAD) //Dead.
+	if(H.stat == DEAD)
 		return PROCESS_KILL
 	if(!H.can_resist())
 		if(H.incapacitated()) //In crit or something....
@@ -256,9 +254,12 @@ GLOBAL_LIST_EMPTY(knpcs)
 	score = 0
 	required_ai_flags = null //Set this if you want this task to only be achievable by certain types of ship.
 
-//Method to get the score of a certain action. This can change the "base" score if the score of a specific action goes up, to encourage skynet to go for that one instead.
-//@param OM - If you want this score to be affected by the stats of an overmap.
+/**
+Method to get the score of a certain action. This can change the "base" score if the score
+of a specific action goes up, to encourage skynet to go for that one instead.
 
+@param OM - If you want this score to be affected by the stats of an overmap.
+*/
 /datum/ai_goal/check_score(datum/component/knpc/HA)
 	if(!istype(HA)) // why is this here >:(
 		return ..()
@@ -269,7 +270,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 		return 0
 	return score //Children sometimes NEED this true value to run their own checks. We also cancel here if the mob has been overtaken by someone.
 
-//Delete the AI's last orders, tell the AI ship what to do.
+///Delete the AI's last orders, tell the AI ship what to do.
 /datum/ai_goal/human/assume(datum/component/knpc/HA)
 	if(istype(HA, /obj/structure/overmap))
 		return ..()
@@ -309,7 +310,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 		if(OM.pilot && !H.faction_check_mob(OM.pilot))
 			. += OM.pilot
 
-//What happens when this action is selected? You'll override this and check_score mostly.
+///What happens when this action is selected? You'll override this and check_score mostly.
 /datum/ai_goal/human/action(datum/component/knpc/HA)
 	if(istype(HA, /obj/structure/overmap))
 		return ..()
@@ -320,14 +321,12 @@ GLOBAL_LIST_EMPTY(knpcs)
 /datum/ai_goal/human/proc/can_action(datum/component/knpc/HA)
 	var/mob/living/carbon/human/H = HA.parent
 	return (!H.incapacitated() && !H.client) //An admin overtook this mob or something, ignore.
-/*
 
+/**
 Goal #1, get a weapon!
 If we don't have a weapon, we really ought to grab one...
 This is to account for sec Ju-Jitsuing boarding commandos.
-
 */
-
 /datum/ai_goal/human/acquire_weapon
 	name = "Acquire Weapon" //Please keep these human readable for debugging!
 	score = AI_SCORE_PRIORITY //Fighting takes priority
@@ -341,7 +340,8 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	//We already have a gun
 	if(G && istype(G))
 		return 0
-	if(locate(/obj/item/gun) in oview(HA.view_range, H))
+	var/obj/item/gun/G_New = locate(/obj/item/gun) in oview(HA.view_range, H)
+	if(G_New && gun_suitable(H, G_New))
 		return AI_SCORE_CRITICAL //There is a gun really obviously in the open....
 	return score
 
@@ -375,12 +375,13 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		var/dist = get_dist(O, H)
 		if(istype(O, /obj/structure/closet) && dist <= best_distance)
 			var/obj/structure/closet/C = O
-			target_item = locate(/obj/item/gun) in C.contents
-			if(target_item && C.allowed(H))
+			var/obj/item/gun/G = locate(/obj/item/gun) in C.contents
+			if(G && C.allowed(H) && gun_suitable(H, G))
+				target_item = G
 				best_distance = dist
 		if(istype(O, /obj/item/gun) && dist <= best_distance)
 			var/obj/item/gun/G = O
-			if(G.can_shoot())
+			if(G && gun_suitable(H, G))
 				target_item = O
 				best_distance = dist
 	if(target_item)
@@ -402,11 +403,15 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 			if(H.put_in_hands(target_item))
 				H.visible_message("<span class='warning'>[H] grabs [target_item]!</span>")
 
+///Checks that G exists, has ammo and that H can fire it. Returns G if yes, FALSE otherwise.
+/datum/ai_goal/human/acquire_weapon/proc/gun_suitable(mob/living/carbon/human/H, obj/item/gun/G)
+	return G.can_shoot() && G.can_trigger_gun(H)
+
 
 /datum/ai_goal/human/engage_targets
 	name = "Engage targets"
 	score = AI_SCORE_SUPERPRIORITY //If we find a target, we want to engage!
-	required_ai_flags = null //Set this if you want this task to only be achievable by certain types of ship.
+	required_ai_flags = null
 
 /datum/ai_goal/human/engage_targets/check_score(datum/component/knpc/HA)
 	if(!..())
@@ -483,7 +488,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		if(!G.can_shoot())
 			//We need to reload first....
 			reload(HA, G)
-		//Fire! If theyre in a ship, we don't want to scrap them directly.
+		//Fire! If they're in a ship, we don't want to scrap them directly.
 		if(!CheckFriendlyFire(H, target))
 			//Okay, we have a line of sight, shoot!
 			if(B && !(B.semi_auto) && !G.chambered)
