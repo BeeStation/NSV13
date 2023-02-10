@@ -44,7 +44,7 @@
 	light_on = TRUE
 
 	var/obj/machinery/atmospherics/components/unary/plasma_loader/loader
-	var/plasma_fire_moles = 250
+	var/plasma_fire_moles = 500
 	var/plasma_mole_amount = 0 //How much plasma gas is in the gun
 	var/alignment = 100 //Stealing this from hybrid railguns
 	var/field_integrity = 100 //Degrades over time when safety's off, don't let it reach zero
@@ -457,7 +457,8 @@
 				-Do not off the fields too long<br>
 				-Do not try to open with corvidbar<br>
 				-Will not magnetize to tiny metal vessels<br>
-				-Compressor will eject non-plasma</pr>
+				-Compressor will eject non-plasma<br>
+				-Some time weapon will stop, toggle safety to stop stopping</pr>
 
 				<p><b>Safety Moth Says: Malfires causes big fires!</b><br>
 				<b>Ensure safe use of deterrents!</b></p>
