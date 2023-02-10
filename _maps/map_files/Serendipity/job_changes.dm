@@ -29,6 +29,12 @@ MAP_REMOVE_JOB(air_traffic_controller)
     cant_discount = TRUE
     surplus = 0
 
+/datum/supply_pack/engineering/plasma_canister/New() //Plasma gun needs plasma gas
+	.=..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	hidden = FALSE
+
 //All other shuttles will shatter the Serendipity!
 
 /datum/map_template/shuttle/New()
