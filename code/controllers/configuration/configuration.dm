@@ -495,7 +495,7 @@
 		var/datum/map_config/map_data = maplist[key]
 
 		var/obj/structure/overmap/typedef = map_data.ship_type
-		
+
 		var/base64
 		if(!base64)
 			if(base64_cache[map_data.ship_type])
@@ -518,6 +518,14 @@
 		)
 
 		all_map_info[key] = map_info
+
+	// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA - Corvid
+	var/datum/DBQuery/query = SSdbcore.NewQuery("SELECT map_name, SUM(started) AS started, SUM(failed) AS failed FROM " + \
+		"(SELECT [format_table_name("round")].id, [format_table_name("round")].map_name, feedback.started, feedback.failed FROM [format_table_name("round")] " + \
+		"INNER JOIN (SELECT round_id, JSON_VALUE(JSON, '$.data.started') AS started, JSON_VALUE(JSON, '$.data.failed') AS failed " + \
+		"FROM [format_table_name("feedback")] WHERE key_name='engine_stats') AS feedback ON feedback.round_id=[format_table_name("round")].id) AS stats GROUP BY map_name")
+	SSdbcore.QuerySelect(query)
+	while(query.NextRow(async = FALSE))
 
 	var/list/data = list("mapInfo" = all_map_info)
 	return data
