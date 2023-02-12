@@ -490,11 +490,17 @@
 	var/static/list/base64_cache = list()
 
 	// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA - Corvid
-	var/datum/DBQuery/query = SSdbcore.NewQuery("SELECT map_name, SUM(started) AS started, SUM(failed) AS failed FROM " + \
+	var/datum/DBQuery/stability_query = SSdbcore.NewQuery("SELECT map_name, SUM(started) AS started, SUM(failed) AS failed FROM " + \
 		"(SELECT [format_table_name("round")].id, [format_table_name("round")].map_name, feedback.started, feedback.failed FROM [format_table_name("round")] " + \
 		"INNER JOIN (SELECT round_id, JSON_VALUE(JSON, '$.data.started') AS started, JSON_VALUE(JSON, '$.data.failed') AS failed " + \
 		"FROM [format_table_name("feedback")] WHERE key_name='engine_stats') AS feedback ON feedback.round_id=[format_table_name("round")].id) AS stats GROUP BY map_name")
-	SSdbcore.QuerySelect(query)
+
+	var/datum/DBQuery/endings_query = SSdbcore.NewQuery("SELECT map_name, feedback.ending FROM ss13_round INNER JOIN (" + \
+		"SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data') AS CHAR) AS ending FROM ss13_feedback WHERE key_name='nsv_endings') AS feedback " + \
+		" ON ss13_round.id=feedback.round_id")
+
+	SSdbcore.QuerySelect(stability_query)
+	SSdbcore.QuerySelect(endings_query)
 
 	var/list/all_map_info = list()
 
@@ -504,10 +510,29 @@
 		var/obj/structure/overmap/typedef = map_data.ship_type
 
 		var/stability = "No data"
-		for(var/list/row in query.rows)
-			if((row[1] == map_data.map_name) && (row[2] != 0))
+		while(stability_query.NextRow())
+			if((stability_query.item[1] == map_data.map_name) && (stability_query.item[2]))
 				// (starts - failures) * 100 / starts
-				stability = (row[2] - row[3]) * 100 / row[2]
+				stability = (stability_query.item[2] - stability_query.item[3]) * 100 / stability_query.item[2]
+		stability_query.next_row_to_take = 1
+
+		var/successes = 0
+		var/evacs = 0
+		var/losses = 0
+		while(endings_query.NextRow())
+			if(endings_query.item[1] == map_data.map_name)
+				message_admins(endings_query.item[2])
+				if(endings_query.item[2] == "\"succeeded\"")
+					successes += 1
+				else if(endings_query.item[2] == "\"evacuated\"")
+					evacs += 1
+				else if(endings_query.item[2] == "\"destroyed\"")
+					losses += 1
+		var/result_rates = "No data"
+		var/total_results = successes + evacs + losses
+		if(total_results > 0)
+			result_rates = "[successes*100/total_results] / [evacs*100/total_results] / [losses*100/total_results]"
+		endings_query.next_row_to_take = 1
 		var/base64
 		if(!base64)
 			if(base64_cache[map_data.ship_type])
@@ -527,8 +552,10 @@
 			"weapons" = map_data.weapons,
 			"durability" = initial(typedef.max_integrity),
 			"engine" = map_data.engine_type,
-			"engineStability" = stability
+			"engineStability" = stability,
+			"successRate" = result_rates
 		)
+		message_admins("[map_data.map_name]: [stability], [result_rates]")
 
 		all_map_info[key] = map_info
 

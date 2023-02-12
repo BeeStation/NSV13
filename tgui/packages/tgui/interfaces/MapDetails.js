@@ -120,7 +120,7 @@ export const MapDetails = (props, context) => {
                         What&apos;s on the map
                       </Table.Cell>
                       <Table.Cell>
-                        Mission completion rate: {selectedChoiceData.completionRate}<br />
+                        Ships returned / evacuated / destroyed: {selectedChoiceData.successRate}<br />
                         Engine stability: {selectedChoiceData.engineStability}
                       </Table.Cell>
                     </Table.Row>
