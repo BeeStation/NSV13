@@ -648,7 +648,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 // Handles the passing of said targets.
 /obj/structure/overmap/proc/datalink_transmit(obj/structure/overmap/target)
-	if(!can_use_datalink() || target.faction != faction || !target_lock)
+	if(!can_use_datalink() || target == src || target.faction != faction || !target_lock)
 		return FALSE
 	if(target.ai_controlled || !target.gunner)
 		return FALSE
@@ -657,14 +657,20 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		to_chat(target.gunner, "<span class='notice'>Targeting data for [target] recieved from [src] via datalink.</span>")
 		to_chat(gunner, "<span class='notice'>Targeting paramaters relayed.</span>")
 
-// if we lose our datalink signal, dump the lock
+// Called when we lose a target's datalink signal.
 /obj/structure/overmap/proc/check_datalink(obj/structure/overmap/data_link_origin, obj/structure/overmap/target)
 	SIGNAL_HANDLER
 	if(target_painted[target] == data_link_origin)
 		if(overmap_dist(src, target) > max(dradis?.sensor_range * 2, target.sensor_profile))
+			// We can't see the target, get rid of the lock
+			UnregisterSignal(data_link_origin, COMSIG_LOCK_LOST)
 			dump_lock(target)
 			return
-	UnregisterSignal(data_link_origin, COMSIG_LOCK_LOST)
+
+		// We can see the target, so un-datalink
+		UnregisterSignal(data_link_origin, COMSIG_LOCK_LOST)
+		target_painted[target] = FALSE
+		target_last_tracked[target] = world.time
 
 /obj/structure/overmap/proc/update_gunner_cam(atom/target)
 	if(!gunner)

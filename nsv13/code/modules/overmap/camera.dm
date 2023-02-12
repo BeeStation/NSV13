@@ -132,6 +132,9 @@
 
 /mob/camera/ai_eye/remote/overmap_observer/Destroy()
 	UnregisterSignal(origin, COMSIG_MOVABLE_MOVED)
+	if(ship_target)
+		UnregisterSignal(ship_target, COMSIG_MOVABLE_MOVED)
+		ship_target = null
 	return ..()
 
 /datum/action/innate/camera_off/overmap
