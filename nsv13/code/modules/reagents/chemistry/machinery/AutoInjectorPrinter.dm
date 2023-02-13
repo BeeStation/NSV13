@@ -1,6 +1,6 @@
 /obj/machinery/autoinject_printer
-	name = "medipen printer"
-	desc = "A machine that takes in reagents and prints them into instant inject medipens."
+	name = "autoinjector printer"
+	desc = "A machine that takes in reagents and prints them into instant injectors."
 	density = TRUE
 	layer = BELOW_OBJ_LAYER
 	icon = 'nsv13/icons/obj/hypospray.dmi'
