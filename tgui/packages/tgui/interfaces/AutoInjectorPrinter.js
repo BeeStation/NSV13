@@ -2,7 +2,7 @@ import { useBackend, useSharedState } from '../backend';
 import { AnimatedNumber, Box, Button, ColorBox, LabeledList, NumberInput, Section, Table } from '../components';
 import { Window } from '../layouts';
 
-export const MediPenPrinter = (props, context) => {
+export const AutoInjectorPrinter = (props, context) => {
   return (
     <Window
       width={465}
@@ -197,9 +197,9 @@ const PackagingControls = (props, context) => {
     <LabeledList>
       {!condi && (
         <PackagingControlsItem
-          label="medipens"
+          label="injectors"
           amount={medipenAmount}
-          amountUnit="medipens"
+          amountUnit="injectors"
           sideNote="max 10u"
           onChangeAmount={(e, value) => setmedipenAmount(value)}
           onCreate={() => act('create', {

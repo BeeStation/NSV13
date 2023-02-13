@@ -99,7 +99,7 @@
 /obj/machinery/autoinject_printer/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "MediPenPrinter")
+		ui = new(user, src, "AutoInjectorPrinter")
 		ui.open()
 
 /obj/machinery/autoinject_printer/ui_data(mob/user)
