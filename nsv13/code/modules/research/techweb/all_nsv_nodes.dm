@@ -323,6 +323,18 @@
 		"mod_teleporter",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+
+/datum/techweb_node/mod_experimental
+	id = "mod_experimental"
+	display_name = "Experimental Modular Suits"
+	description = "Applications of experimentality when creating MODsuits has created these..."
+	prereq_ids = list("mod")
+	design_ids = list(
+		"mod_disposal",
+	)
+	//hidden = TRUE
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+
 /* Disabled for NOW
 /datum/techweb_node/mod_anomaly_engi
 	id = "mod_anomaly_engi"

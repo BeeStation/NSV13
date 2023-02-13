@@ -345,6 +345,12 @@
 	materials = list(/datum/material/plasma = 1000, /datum/material/glass = 1000)
 	build_path = /obj/item/mod/module/plasma_stabilizer
 
+/datum/design/module/disposal
+	name = "MOD Module: Disposal Connector"
+	id = "mod_disposal"
+	materials = list(/datum/material/iron = 2500, /datum/material/titanium = 1000)
+	build_path = /obj/item/mod/module/disposal_connector
+
 /datum/design/module/mod_antigrav
 	name = "MOD Module: Anti-Gravity"
 	id = "mod_antigrav"

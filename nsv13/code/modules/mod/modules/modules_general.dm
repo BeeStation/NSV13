@@ -115,7 +115,7 @@
 	if(full_speed)
 		mod.wearer.add_movespeed_modifier(MOVESPEED_ID_JETPACK, priority=100, multiplicative_slowdown=-2, movetypes=FLOATING, conflict=MOVE_CONFLICT_JETPACK)
 
-/obj/item/mod/module/jetpack/on_deactivation(mob/user)
+/obj/item/mod/module/jetpack/on_deactivation(display_message = TRUE)
 	. = ..()
 	if(!.)
 		return
@@ -256,7 +256,7 @@
 	set_light_on(active)
 	active_power_cost = base_power * light_range
 
-/obj/item/mod/module/flashlight/on_deactivation()
+/obj/item/mod/module/flashlight/on_deactivation(display_message = TRUE)
 	. = ..()
 	if(!.)
 		return
