@@ -25,7 +25,7 @@ GLOBAL_LIST_EMPTY(PDAs)
 	item_flags = NOBLUDGEON
 	w_class = WEIGHT_CLASS_TINY
 	slot_flags = ITEM_SLOT_ID | ITEM_SLOT_BELT
-	actions_types = list(/datum/action/item_action/toggle_light, /datum/action/item_action/toggle_holomap)
+	actions_types = list(/datum/action/item_action/toggle_light)
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 100, "stamina" = 0)
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	light_system = MOVABLE_LIGHT
@@ -91,20 +91,6 @@ GLOBAL_LIST_EMPTY(PDAs)
 
 	var/underline_flag = TRUE //flag for underline
 
-	///NSV1-Actually this file doesn't even exist on Beestation, SO THIS IS OUR FILE NOW!
-	/// The various images and icons for the map are stored in here, as well as the actual big map itself.
-	var/datum/station_holomap/holomap_datum
-
-	/// The mob that is currently watching the holomap.
-	var/mob/watching_mob
-
-	// zLevel which the pda is showing a map for.
-	var/current_z_level
-
-	var/holomap_visible = FALSE // Whether the holomap is visible or not.
-	/// This set to FALSE when the station map is initialized on a zLevel that has its own icon formatted for use by station holomaps.
-	var/bogus = TRUE
-
 /obj/item/pda/suicide_act(mob/living/carbon/user)
 	var/deathMessage = msg_input(user)
 	if (!deathMessage)
@@ -137,6 +123,8 @@ GLOBAL_LIST_EMPTY(PDAs)
 		inserted_item = new inserted_item(src)
 	else
 		inserted_item =	new /obj/item/pen(src)
+
+	AddComponent(/datum/component/holomap) //NSV13
 	update_icon()
 
 /obj/item/pda/equipped(mob/user, slot)
@@ -896,68 +884,6 @@ GLOBAL_LIST_EMPTY(PDAs)
 	for(var/X in actions)
 		var/datum/action/A = X
 		A.UpdateButtonIcon()
-
-//NSV13 - PDA Holomap
-/obj/item/pda/proc/toggle_holomap(mob/user)
-	if(issilicon(user) || !user.canUseTopic(src, BE_CLOSE))
-		return
-	if(shorted)
-		to_chat(user, "<span class='notice'>[src]'s holomap is not turning on!</span>")
-		return
-	if(holomap_visible)
-		deactivate_holomap(user)
-	else
-		activate_holomap(user)
-	update_icon()
-	for(var/X in actions)
-		var/datum/action/A = X
-		A.UpdateButtonIcon()
-
-/obj/item/pda/proc/handle_overlays()
-	// Each entry in this list contains the text for the legend, and the icon and icon_state use. Null or non-existent icon_state ignore hiding logic.
-	// If an entry contains an icon,
-	var/list/legend = list() + GLOB.holomap_default_legend
-
-	var/list/z_transitions = SSholomaps.holomap_z_transitions["[current_z_level]"]
-	if(length(z_transitions))
-		legend += z_transitions
-
-	return legend
-
-/obj/item/pda/proc/activate_holomap(var/mob/user)
-	current_z_level = user.z
-	holomap_datum = new()
-	bogus = FALSE
-	var/turf/current_turf = get_turf(src)
-	if(!("[HOLOMAP_EXTRA_STATIONMAP]_[current_z_level]" in SSholomaps.extra_holomaps))
-		bogus = TRUE
-		holomap_datum.initialize_holomap_bogus()
-		return
-
-	holomap_datum.initialize_holomap(current_turf.x, current_turf.y, current_z_level, reinit_base_map = TRUE, extra_overlays = handle_overlays())
-
-	holomap_datum.update_map(handle_overlays())
-
-	var/datum/hud/human/user_hud = user.hud_used
-	holomap_datum.base_map.loc = user_hud.holomap  // Put the image on the holomap hud
-
-	user.hud_used.holomap.used_station_map = src
-	user.hud_used.holomap.mouse_opacity = MOUSE_OPACITY_ICON
-	user.client.screen |= user.hud_used.holomap
-	user.client.images |= holomap_datum.base_map
-
-	watching_mob = user
-	holomap_visible = TRUE
-	to_chat(user, "<span class='warning'>A hologram of the ship appears before your eyes.</span>")
-	return TRUE
-
-/obj/item/pda/proc/deactivate_holomap(var/mob/user)
-	holomap_visible = FALSE
-	if(watching_mob?.client)
-		watching_mob.client?.screen -= watching_mob.hud_used.holomap
-		watching_mob.client?.images -= holomap_datum.base_map
-		watching_mob.hud_used.holomap.used_station_map = null
-		watching_mob = null
 
 /obj/item/pda/proc/remove_pen(mob/user)
 
