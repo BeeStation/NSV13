@@ -177,7 +177,7 @@
 	var/torpedo_type = /obj/item/projectile/guided_munition/torpedo
 	var/next_maneuvre = 0 //When can we pull off a fancy trick like boost or kinetic turn?
 	var/flak_battery_amount = 0
-
+	var/broadside = FALSE //Whether the ship is allowed to have broadside cannons or not
 	var/role = NORMAL_OVERMAP
 
 	var/list/missions = list()
@@ -284,11 +284,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
 	pixel_collision_size_x = I.Width()
 	pixel_collision_size_y = I.Height()
-	offset = new /datum/vector2d()
-	last_offset = new /datum/vector2d()
-	position = new /datum/vector2d(x*32,y*32)
-	velocity = new /datum/vector2d(0, 0)
-	overlap = new /datum/vector2d(0, 0)
+	offset = new /matrix/vector()
+	last_offset = new /matrix/vector()
+	position = new /matrix/vector(x*32,y*32)
+	velocity = new /matrix/vector(0, 0)
+	overlap = new /matrix/vector(0, 0)
 	if(collision_positions.len)
 		physics2d = AddComponent(/datum/component/physics2d)
 		physics2d.setup(collision_positions, angle)
@@ -450,6 +450,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(ai_controlled)
 		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	if(broadside)
+		weapon_types[FIRE_MODE_BROADSIDE] = new/datum/ship_weapon/broadside(src)
 
 /obj/item/projectile/Destroy()
 	if(physics2d)
@@ -526,9 +528,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/proc/InterceptClickOn(mob/user, params, atom/target)
 	if(user.incapacitated() || !isliving(user))
-		return FALSE
-	if(istype(target, /obj/machinery/button/door) || istype(target, /obj/machinery/turbolift_button))
-		target.attack_hand(user)
 		return FALSE
 	if(weapon_safety && !can_friendly_fire())
 		return FALSE

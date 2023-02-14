@@ -265,3 +265,10 @@ Any-Mode: (hotkey doesn't need to be on)
 		src << link("https://affectedarc07.github.io/SS13WebMap/NSV13/[SSmapping.config.map_link]")
 	else
 		to_chat(src, "<span class='danger'>The current map is either invalid or unavailable. Open an issue on the github. </span>")
+
+//NSV13 - alias to "map"
+/client/verb/nsv13_map()
+	set name = "Map"
+	set desc = "View the current map in the webviewer"
+	set hidden = 1
+	map()

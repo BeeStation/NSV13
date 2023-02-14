@@ -8,9 +8,9 @@
 	pixel_x = -43
 	pixel_y = -64
 	bound_width = 96
-	bound_height = 128
+	bound_height = 96
 	bound_x = -32
-	bound_y = -64
+	bound_y = -32
 	semi_auto = TRUE
 	max_ammo = 1
 	obj_integrity = 500
@@ -587,14 +587,8 @@
 	var/armed = FALSE //Do it do the big boom?
 	var/speed = 0.5 //Needs powder to increase speed.
 
-/obj/item/ship_weapon/ammunition/naval_artillery/attack_hand(mob/user)
-	return FALSE
-
-/obj/item/ship_weapon/ammunition/torpedo/attack_hand(mob/user)
-	return FALSE
-
-/obj/item/ship_weapon/ammunition/missile/attack_hand(mob/user)
-	return FALSE
+/obj/item/ship_weapon/ammunition/naval_artillery/armed //This is literally just for mail.
+	armed = TRUE
 
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "cannon ball"
@@ -647,9 +641,8 @@
 	. = ..()
 	. += "[(armed) ? "<span class='userdanger'>The shell is currently armed and ready to fire. </span>" : "<span class ='notice'>The shell must be armed before firing. </span>"]"
 
-/obj/item/ship_weapon/ammunition/missile/CtrlClick(mob/user)
-	. = ..()
-	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
+/obj/item/ship_weapon/ammunition/naval_artillery/attack_hand(mob/user)
+	return FALSE
 
 /obj/machinery/deck_turret/payload_gate
 	name = "payload loading gate"
@@ -769,7 +762,7 @@
 	dir = EAST
 	pixel_x = -30
 	pixel_y = -42
-	bound_width = 128
+	bound_width = 96
 	bound_height = 96
 	bound_x = -32
 	bound_y = -32
@@ -778,9 +771,9 @@
 	dir = WEST
 	pixel_x = -63
 	pixel_y = -42
-	bound_width = 128
+	bound_width = 96
 	bound_height = 96
-	bound_x = -64
+	bound_x = -32
 	bound_y = -32
 
 //MEGADETH TURRET
@@ -801,7 +794,7 @@
 	dir = EAST
 	pixel_x = -30
 	pixel_y = -42
-	bound_width = 128
+	bound_width = 96
 	bound_height = 96
 	bound_x = -32
 	bound_y = -32
@@ -810,9 +803,9 @@
 	dir = WEST
 	pixel_x = -63
 	pixel_y = -42
-	bound_width = 128
+	bound_width = 96
 	bound_height = 96
-	bound_x = -64
+	bound_x = -32
 	bound_y = -32
 
 /obj/machinery/ship_weapon/deck_turret/Initialize(mapload)
@@ -861,27 +854,27 @@
 			pixel_x = -43
 			pixel_y = -32
 			bound_width = 96
-			bound_height = 128
+			bound_height = 96
 			bound_x = -32
 			bound_y = -32
 		if(SOUTH)
 			pixel_x = -43
 			pixel_y = -64
 			bound_width = 96
-			bound_height = 128
+			bound_height = 96
 			bound_x = -32
-			bound_y = -64
+			bound_y = -32
 		if(EAST)
 			pixel_x = -30
 			pixel_y = -42
-			bound_width = 128
+			bound_width = 96
 			bound_height = 96
 			bound_x = -32
 			bound_y = -32
 		if(WEST)
 			pixel_x = -63
 			pixel_y = -42
-			bound_width = 128
+			bound_width = 96
 			bound_height = 96
-			bound_x = -64
+			bound_x = -32
 			bound_y = -32

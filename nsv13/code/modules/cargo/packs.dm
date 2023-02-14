@@ -204,6 +204,15 @@
 					/obj/item/ship_weapon/parts/missile/warhead/decoy)
 	crate_name = "Decoy missile warheads"
 
+/datum/supply_pack/munitions/freight_warheads
+	name = "Torpedo warheads (freight)"
+	desc = "A pack of 3 freight torpedo warheads for delivering cargo to trade stations."
+	cost = 350
+	contains = list(/obj/item/ship_weapon/parts/missile/warhead/freight,
+					/obj/item/ship_weapon/parts/missile/warhead/freight,
+					/obj/item/ship_weapon/parts/missile/warhead/freight)
+	crate_type = /obj/structure/closet/crate/wooden
+
 /datum/supply_pack/munitions/pilot_outfitting
 	name = "Pilot Outfitting Crate"
 	desc = "A full set of of gear for a new pilot"
@@ -351,6 +360,65 @@
 					/obj/item/ammo_box/magazine/nsv/heavy_cannon,
 					/obj/item/ammo_box/magazine/nsv/heavy_cannon)
 	crate_name = "Heavy cannon ammunition crate"
+
+/datum/supply_pack/munitions/broadside_casings
+	name = "Empty Broadside Casings"
+	desc = "15 empty casings for broadside shells."
+	cost = 1000
+	contains = list(/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing)
+	crate_name = "Empty broadside casings crate"
+
+/datum/supply_pack/munitions/broadside_loads
+	name = "Broadside Loads"
+	desc = "15 loads for broadside shells."
+	cost = 1000
+	contains = list(/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load)
+	crate_name = "Broadside loads crate"
+
+/datum/supply_pack/munitions/broadside_pack
+	name = "Broadside Pack"
+	desc = "Enough casings, loads, and powder for one full load of an SNBC."
+	cost = 1000
+	contains = list(/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_load,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/ship_weapon/parts/broadside_casing,
+					/obj/item/powder_bag)
+	crate_name = "Broadside Full Load Crate"
 
 /datum/supply_pack/security/armory/peacekeeper_rifles
 	name = "M2A45 pulse rifles (x3)"
