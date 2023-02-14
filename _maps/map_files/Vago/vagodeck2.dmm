@@ -8,6 +8,10 @@
 "ak" = (
 /turf/closed/wall/r_wall,
 /area/crew_quarters/heads/hor)
+"am" = (
+/obj/structure/inflatable,
+/turf/open/floor/plating,
+/area/engine/storage)
 "ao" = (
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/nsv/ftlroom)
@@ -72,6 +76,14 @@
 /obj/machinery/hydroponics/constructable,
 /turf/open/floor/plating,
 /area/hydroponics)
+"aD" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "aE" = (
 /obj/structure/table,
 /obj/item/radio/intercom,
@@ -272,6 +284,13 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/ftlroom)
+"bw" = (
+/obj/machinery/airalarm{
+	dir = 4;
+	pixel_x = -23
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "bB" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
@@ -292,7 +311,6 @@
 	},
 /obj/machinery/door/airlock/ship/maintenance{
 	dir = 8;
-	icon_state = "closed";
 	name = "Maintenance";
 	req_one_access_txt = "12"
 	},
@@ -333,6 +351,12 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
+"bF" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "bG" = (
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -340,6 +364,10 @@
 /obj/machinery/advanced_airlock_controller/directional/east,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/airlock/forward/port)
+"bK" = (
+/obj/machinery/light/floor,
+/turf/open/floor/plating,
+/area/engine/storage)
 "bL" = (
 /obj/machinery/door/airlock/ship/engineering{
 	name = "FTL Control";
@@ -416,8 +444,6 @@
 /area/maintenance/nsv/deck2/port)
 "bW" = (
 /obj/machinery/door/airlock/ship{
-	dir = 2;
-	icon_state = "closed";
 	name = "Hydroponics";
 	req_one_access_txt = "35"
 	},
@@ -960,6 +986,19 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame1/port)
+"dP" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "dQ" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -1271,27 +1310,17 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 1
 	},
-/obj{
-	name = "---Merge conflict marker---"
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/obj/structure/shuttle/engine/large{
-	dir = 8;
-	icon_state = "large_engine"
-	},
-/turf/open/floor/plating/airless,
-/area/maintenance/ship_exterior)
+/area/engine/gravity_generator)
 "eF" = (
 /turf/closed/wall/r_wall/ship,
 /area/nsv/weapons)
-"eJ" = (
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 4
-	},
-/turf/closed/wall/r_wall/ship,
-/area/engine/storage)
 "eM" = (
-/turf/closed/wall/steel,
-/area/crew_quarters/heads/chief)
+/obj/structure/sign/poster/random,
+/turf/closed/wall/r_wall/ship,
+/area/engine/break_room)
 "eN" = (
 /obj/structure/foamedmetal,
 /turf/open/floor/plating,
@@ -1311,6 +1340,15 @@
 /obj/structure/sign/warning/radiation,
 /turf/closed/wall/r_wall/ship,
 /area/engine/break_room)
+"eR" = (
+/obj/structure/window/reinforced{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/engine/gravity_generator)
 "eT" = (
 /obj/structure/ladder,
 /obj/machinery/door/firedoor,
@@ -1386,8 +1424,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/door/airlock/ship/public{
-	dir = 2;
-	icon_state = "closed";
 	id_tag = "Cabin2";
 	name = "Standard quarters"
 	},
@@ -1395,8 +1431,6 @@
 /area/crew_quarters/dorms)
 "fj" = (
 /obj/machinery/door/airlock/ship/public{
-	dir = 2;
-	icon_state = "closed";
 	id_tag = "Cabin2";
 	name = "Luxury quarters"
 	},
@@ -1510,6 +1544,9 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/plating,
 /area/engine/break_room)
+"fz" = (
+/turf/closed/wall/r_wall/ship,
+/area/engine/gravity_generator)
 "fA" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -1831,10 +1868,15 @@
 /obj/structure/munitions_trolley,
 /turf/open/floor/plating,
 /area/nsv/weapons)
+"go" = (
+/obj/machinery/armour_plating_nanorepair_pump/forward_port{
+	apnw_id = "pleaseSendHelp";
+	armour_allocation = 25
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "gp" = (
 /obj/machinery/door/airlock/ship{
-	dir = 2;
-	icon_state = "closed";
 	name = "Robotics";
 	req_one_access_txt = "47, 55"
 	},
@@ -1958,8 +2000,7 @@
 /area/hallway/nsv/deck2/frame4/central)
 "gD" = (
 /obj/machinery/computer/ship/navigation/astrometrics{
-	dir = 4;
-	icon_state = "computer"
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/science/lab)
@@ -2288,6 +2329,12 @@
 	icon_state = "panelscorched"
 	},
 /area/nsv/weapons)
+"hu" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 4
+	},
+/turf/open/floor/plating/airless,
+/area/engine/gravity_generator)
 "hw" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 8
@@ -2314,6 +2361,14 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons)
+"hz" = (
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "hA" = (
 /turf/closed/wall/steel,
 /area/hallway/nsv/deck2/frame2/starboard)
@@ -2546,6 +2601,14 @@
 	},
 /turf/open/floor/plating,
 /area/science/robotics)
+"iC" = (
+/obj/machinery/airalarm{
+	dir = 4;
+	pixel_x = -23
+	},
+/obj/structure/closet/secure_closet/engineering_electrical,
+/turf/open/floor/plating,
+/area/engine/break_room)
 "iD" = (
 /obj/machinery/computer/mech_bay_power_console{
 	dir = 8
@@ -2780,9 +2843,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/machinery/computer/lore_terminal{
-	pixel_y = 26
-	},
+/obj/machinery/computer/lore_terminal,
 /turf/open/floor/plating,
 /area/engine/engine_room)
 "jk" = (
@@ -2848,6 +2909,17 @@
 	},
 /turf/open/floor/plating,
 /area/science/robotics)
+"ju" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 4
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "jv" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 9
@@ -2933,8 +3005,7 @@
 	pixel_y = -27
 	},
 /obj/machinery/cryopod{
-	dir = 8;
-	icon_state = "cryopod-open"
+	dir = 8
 	},
 /turf/open/floor/plating/foam,
 /area/crew_quarters/dorms)
@@ -3042,7 +3113,6 @@
 "jY" = (
 /obj/machinery/door/airlock/ship/engineering{
 	dir = 8;
-	icon_state = "closed";
 	name = "Reactor core";
 	req_one_access_txt = "10"
 	},
@@ -3080,8 +3150,6 @@
 /area/science/lab)
 "ke" = (
 /obj/machinery/door/airlock/ship{
-	dir = 2;
-	icon_state = "closed";
 	name = "Robotics";
 	req_one_access_txt = "47, 55"
 	},
@@ -3098,7 +3166,6 @@
 "kn" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	dir = 8;
-	icon_state = "closed";
 	name = "Maintenance";
 	req_one_access_txt = "12"
 	},
@@ -3121,8 +3188,6 @@
 /area/storage/primary)
 "kq" = (
 /obj/machinery/door/airlock/ship{
-	dir = 2;
-	icon_state = "closed";
 	name = "Science";
 	req_one_access_txt = "47"
 	},
@@ -3194,8 +3259,7 @@
 /area/engine/engine_room)
 "ky" = (
 /obj/structure/particle_accelerator/particle_emitter/left{
-	dir = 8;
-	icon_state = "emitter_left"
+	dir = 8
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -3259,20 +3323,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 4
 	},
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/obj/machinery/airalarm/directional/west,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating{
-	icon_state = "plating_rust"
-	},
+/turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "kI" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -3321,7 +3372,6 @@
 "kN" = (
 /obj/machinery/door/airlock/ship/engineering{
 	dir = 8;
-	icon_state = "closed";
 	name = "Reactor core";
 	req_one_access_txt = "10"
 	},
@@ -3367,7 +3417,6 @@
 /area/engine/engine_room)
 "kS" = (
 /obj/machinery/door/poddoor/ship{
-	dir = 2;
 	id = "robo";
 	name = "Robotics loading door"
 	},
@@ -3377,8 +3426,7 @@
 /area/science/robotics)
 "kT" = (
 /obj/structure/particle_accelerator/particle_emitter/center{
-	dir = 8;
-	icon_state = "emitter_center"
+	dir = 8
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -3717,8 +3765,7 @@
 /area/hallway/nsv/deck2/frame1/central)
 "lK" = (
 /obj/structure/particle_accelerator/particle_emitter/right{
-	dir = 8;
-	icon_state = "emitter_right"
+	dir = 8
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -4032,22 +4079,19 @@
 /area/hallway/nsv/deck2/frame3/central)
 "mp" = (
 /obj/structure/particle_accelerator/power_box{
-	dir = 8;
-	icon_state = "power_box"
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/engine/engine_room)
 "mq" = (
 /obj/structure/particle_accelerator/fuel_chamber{
-	dir = 8;
-	icon_state = "fuel_chamber"
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/engine/engine_room)
 "mr" = (
 /obj/structure/particle_accelerator/end_cap{
-	dir = 8;
-	icon_state = "end_cap"
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/engine/engine_room)
@@ -4184,6 +4228,16 @@
 "mF" = (
 /turf/closed/wall/steel,
 /area/lawoffice)
+"mG" = (
+/obj/structure/disposalpipe/segment,
+/obj/item/radio/intercom{
+	pixel_x = 27
+	},
+/obj/machinery/vending/wardrobe/engi_wardrobe,
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/storage)
 "mH" = (
 /obj/machinery/light/broken{
 	dir = 8
@@ -4245,6 +4299,14 @@
 	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame1/central)
+"mN" = (
+/obj/item/radio/intercom{
+	pixel_x = -32
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "mP" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -4255,11 +4317,10 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 1
 	},
-/obj{
-	name = "---Merge conflict marker---"
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/turf/open/space/basic,
-/area/nsv/engine/engine_room/auxiliary)
+/area/engine/gravity_generator)
 "mR" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/plating,
@@ -4270,7 +4331,6 @@
 "mT" = (
 /obj/machinery/door/airlock/ship/engineering{
 	dir = 8;
-	icon_state = "closed";
 	name = "Reactor core";
 	req_one_access_txt = "10"
 	},
@@ -4377,8 +4437,6 @@
 /area/hallway/nsv/deck2/frame4/central)
 "nh" = (
 /obj/machinery/door/airlock/ship/public{
-	dir = 2;
-	icon_state = "closed";
 	name = "Bar";
 	req_access_txt = "25"
 	},
@@ -4403,7 +4461,6 @@
 "nj" = (
 /obj/machinery/door/airlock/ship/command{
 	dir = 8;
-	icon_state = "closed";
 	name = "Chief Medical Officer";
 	req_one_access_txt = "40"
 	},
@@ -4891,7 +4948,6 @@
 "oc" = (
 /obj/machinery/door/airlock/ship/engineering{
 	dir = 8;
-	icon_state = "closed";
 	name = "Reactor core";
 	req_one_access_txt = "10"
 	},
@@ -5561,7 +5617,6 @@
 	},
 /obj/machinery/door/airlock/ship/maintenance{
 	dir = 8;
-	icon_state = "closed";
 	name = "Maintenance";
 	req_one_access_txt = "12"
 	},
@@ -5570,6 +5625,15 @@
 	},
 /turf/open/floor/plating,
 /area/lawoffice)
+"ps" = (
+/obj/machinery/power/apc/auto_name/north,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "pt" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /obj/machinery/airalarm{
@@ -5675,6 +5739,12 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons)
+"pI" = (
+/obj/machinery/camera/autoname,
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "pJ" = (
 /obj/structure/ladder,
 /turf/open/floor/plating,
@@ -6109,13 +6179,11 @@
 /turf/open/floor/plating,
 /area/engine/storage)
 "rb" = (
-/obj/machinery/light{
+/obj/machinery/light/broken{
 	dir = 4
 	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/engine/storage)
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "re" = (
 /obj/structure/disposalpipe/trunk,
 /obj/machinery/disposal/bin,
@@ -6265,6 +6333,12 @@
 	},
 /turf/open/floor/plating,
 /area/medical/medbay)
+"rv" = (
+/obj/machinery/computer/card/minor/ce{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "rw" = (
 /obj/machinery/door/airlock/ship/engineering{
 	dir = 4;
@@ -6426,9 +6500,7 @@
 /obj/machinery/atmospherics/pipe/manifold/orange/visible{
 	dir = 1
 	},
-/turf/open/floor/plating{
-	icon_state = "platingdmg2"
-	},
+/turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "rS" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
@@ -6525,7 +6597,6 @@
 /area/medical/medbay)
 "rZ" = (
 /obj/machinery/door/airlock/ship/medical{
-	dir = 2;
 	id_tag = "virology_airlock_interior";
 	name = "Virology";
 	req_one_access_txt = "39"
@@ -6549,7 +6620,6 @@
 /area/medical/virology)
 "sa" = (
 /obj/machinery/door/airlock/ship/medical{
-	dir = 2;
 	name = "Surgery";
 	req_one_access_txt = "45"
 	},
@@ -6598,7 +6668,6 @@
 /area/medical/medbay)
 "sg" = (
 /obj/machinery/door/airlock/ship/medical{
-	dir = 2;
 	name = "Medical Storage";
 	req_one_access_txt = "5"
 	},
@@ -6862,6 +6931,17 @@
 	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame1/starboard)
+"sQ" = (
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "sR" = (
 /turf/closed/wall/r_wall/ship,
 /area/engine/storage)
@@ -7099,9 +7179,7 @@
 	dir = 6
 	},
 /obj/machinery/computer/ship/viewscreen,
-/turf/open/floor/plating{
-	icon_state = "platingdmg2"
-	},
+/turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "tp" = (
 /obj/effect/turf_decal/tile/blue,
@@ -7161,6 +7239,13 @@
 /obj/machinery/stasis,
 /turf/open/floor/plating,
 /area/medical/medbay)
+"tx" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/engine/break_room)
 "ty" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
@@ -7276,8 +7361,6 @@
 /area/medical/genetics/cloning)
 "tX" = (
 /obj/machinery/door/airlock/ship{
-	dir = 2;
-	icon_state = "closed";
 	name = "Custodial Closet";
 	req_one_access_txt = "26"
 	},
@@ -7357,8 +7440,7 @@
 /area/hallway/nsv/deck2/frame1/starboard)
 "ug" = (
 /obj/machinery/door/airlock/ship/external{
-	name = "Escape Airlock";
-	req_one_access_txt = "0"
+	name = "Escape Airlock"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden,
@@ -7400,6 +7482,15 @@
 	},
 /turf/open/floor/plating,
 /area/janitor)
+"ux" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "uy" = (
 /obj/structure/closet/crate/freezer/blood,
 /obj/machinery/iv_drip,
@@ -7586,6 +7677,12 @@
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame1/starboard)
 "uY" = (
+/obj/structure/table,
+/obj/item/stack/cable_coil{
+	pixel_x = 3;
+	pixel_y = -7
+	},
+/obj/item/stack/rods/fifty,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
@@ -7735,17 +7832,12 @@
 	},
 /turf/closed/wall/steel,
 /area/crew_quarters/dorms)
-"vA" = (
-/obj{
-	name = "---Merge conflict marker---"
+"vB" = (
+/obj/machinery/computer/atmos_alert{
+	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 5
-	},
-/obj/machinery/power/smes/engineering,
-/obj/structure/cable,
 /turf/open/floor/plating,
-/area/nsv/engine/engine_room/auxiliary)
+/area/crew_quarters/heads/chief)
 "vE" = (
 /obj/structure/sign/nanotrasen,
 /turf/closed/wall/r_wall/ship,
@@ -7755,7 +7847,6 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
@@ -7775,12 +7866,6 @@
 /obj/effect/landmark/start/cyborg,
 /turf/open/floor/plating,
 /area/science/robotics)
-"vL" = (
-/obj/machinery/vending/tool,
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/engine/break_room)
 "vN" = (
 /obj/machinery/light{
 	dir = 4
@@ -7820,15 +7905,12 @@
 	icon_state = "panelscorched"
 	},
 /area/maintenance/nsv/deck2/airlock/aft/starboard)
-"wb" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/cable{
-	icon_state = "2-4"
+"vZ" = (
+/obj/machinery/camera/autoname{
+	dir = 1
 	},
 /turf/open/floor/plating,
-/area/nsv/engine/engine_room/auxiliary)
+/area/engine/storage)
 "wd" = (
 /obj/structure/disposalpipe/segment{
 	dir = 6
@@ -8194,6 +8276,16 @@
 /obj/structure/foamedmetal,
 /turf/open/floor/plating/foam,
 /area/maintenance/disposal)
+"wN" = (
+/obj/machinery/requests_console{
+	announcementConsole = 1;
+	department = "Chief Engineer's Desk";
+	departmentType = 4;
+	name = "Chief Engineer RC";
+	pixel_y = 32
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "wO" = (
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
@@ -8268,7 +8360,6 @@
 	},
 /obj/machinery/door/airlock/ship/maintenance{
 	dir = 8;
-	icon_state = "closed";
 	name = "Maintenance";
 	req_one_access_txt = "12"
 	},
@@ -8322,8 +8413,7 @@
 /area/janitor)
 "xc" = (
 /obj/structure/bodycontainer/morgue{
-	dir = 1;
-	icon_state = "morgue1"
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical/morgue)
@@ -8372,6 +8462,17 @@
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/airlock/forward/starboard)
+"xm" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/storage)
 "xo" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
@@ -8476,13 +8577,16 @@
 /turf/open/floor/plating,
 /area/crew_quarters/dorms)
 "xR" = (
-/obj/machinery/computer/card/minor/ce{
+/obj/machinery/computer/rdconsole/production{
+	dir = 1
+	},
+/obj/machinery/camera/autoname{
 	dir = 1
 	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
-/area/crew_quarters/heads/chief)
+/area/engine/break_room)
 "xT" = (
 /obj/structure/sign/directions/evac{
 	dir = 4
@@ -8532,7 +8636,6 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/structure/closet/secure_closet/engineering_welding,
 /turf/open/floor/plating,
 /area/engine/break_room)
 "yd" = (
@@ -8613,6 +8716,13 @@
 	icon_state = "platingdmg1"
 	},
 /area/hallway/nsv/deck2/frame2/starboard)
+"yv" = (
+/obj/machinery/armour_plating_nanorepair_pump/aft_starboard{
+	apnw_id = "pleaseSendHelp";
+	armour_allocation = 25
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "yw" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -8620,11 +8730,10 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 5
 	},
-/obj{
-	name = "---Merge conflict marker---"
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/turf/open/space/basic,
-/area/space)
+/area/engine/gravity_generator)
 "yx" = (
 /obj/machinery/atmospherics/components/binary/dp_vent_pump,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -8635,6 +8744,24 @@
 /obj/machinery/gibber,
 /turf/open/floor/plating,
 /area/crew_quarters/kitchen)
+"yC" = (
+/obj/machinery/airalarm{
+	dir = 4;
+	pixel_x = -23
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
+"yD" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 9
+	},
+/obj/machinery/vending/cigarette,
+/turf/open/floor/plating,
+/area/engine/storage)
 "yG" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/structure/cable{
@@ -8678,21 +8805,10 @@
 	icon_state = "panelscorched"
 	},
 /area/maintenance/nsv/deck2/starboard)
-"yM" = (
-/obj/structure/table/wood,
-/obj/item/reagent_containers/pill/patch/silver_sulf,
-/obj/item/folder/yellow,
-/obj/item/stamp/chief_engineer,
-/obj/item/paper_bin{
-	pixel_x = -3;
-	pixel_y = 7
-	},
-/obj/item/pen,
-/obj/item/clothing/mask/cigarette/cigar,
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/crew_quarters/heads/chief)
+"yL" = (
+/obj/structure/closet/secure_closet/engineering_welding,
+/turf/open/floor/plating,
+/area/engine/break_room)
 "yN" = (
 /obj/structure/lattice,
 /obj/machinery/atmospherics/pipe/simple/cyan/visible/layer2{
@@ -8730,6 +8846,15 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons)
+"yY" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "yZ" = (
 /turf/closed/wall/steel,
 /area/maintenance/nsv/deck2/port)
@@ -8776,11 +8901,9 @@
 "zs" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/structure/cable{
 	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
-	dir = 4
 	},
 /turf/open/floor/plating,
 /area/engine/break_room)
@@ -8791,9 +8914,27 @@
 /obj/structure/foamedmetal,
 /turf/open/floor/plating,
 /area/maintenance/ship_exterior)
+"zv" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "zw" = (
 /turf/open/floor/plating/airless,
 /area/maintenance/nsv/deck2/starboard)
+"zx" = (
+/turf/closed/wall/steel,
+/area/engine/gravity_generator)
 "zy" = (
 /obj/structure/sign/directions/evac,
 /obj/structure/sign/directions/medical{
@@ -8873,16 +9014,14 @@
 /obj/item/radio/intercom{
 	pixel_x = 27
 	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/engine/storage)
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "zR" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
 	},
-/turf/closed/wall/steel,
-/area/space)
+/turf/closed/wall/r_wall/ship,
+/area/engine/gravity_generator)
 "zS" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 9
@@ -8899,6 +9038,15 @@
 	},
 /area/hallway/nsv/deck2/frame4/central)
 "zT" = (
+/obj/structure/disposalpipe/segment{
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 1
+	},
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
@@ -8924,6 +9072,14 @@
 	icon_state = "platingdmg2"
 	},
 /area/crew_quarters/bar)
+"Ae" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "Ah" = (
 /obj/structure/lattice,
 /obj/machinery/atmospherics/pipe/heat_exchanging/junction/layer4{
@@ -9011,14 +9167,6 @@
 /obj/structure/inflatable,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame3/port)
-"Az" = (
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/crew_quarters/heads/chief)
 "AA" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating{
@@ -9040,8 +9188,7 @@
 /area/maintenance/nsv/deck2/frame3/port)
 "AF" = (
 /obj/structure/hull_plate/end{
-	dir = 8;
-	icon_state = "tgmc_outerhull_dir"
+	dir = 8
 	},
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
@@ -9062,17 +9209,12 @@
 /turf/closed/wall/steel,
 /area/nsv/weapons)
 "AM" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/engine/storage)
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "AN" = (
 /obj/machinery/power/generator,
 /obj/structure/cable,
@@ -9081,11 +9223,10 @@
 "AO" = (
 /obj/machinery/airalarm/directional/west,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
-/obj{
-	name = "---Merge conflict marker---"
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/turf/open/space/basic,
-/area/space)
+/area/engine/gravity_generator)
 "AP" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -9120,31 +9261,24 @@
 	},
 /turf/open/floor/plating/foam,
 /area/hallway/nsv/deck2/frame2/central)
-"Bc" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
-	dir = 1
-	},
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
+"Ba" = (
+/obj/structure/closet/secure_closet/engineering_electrical,
 /turf/open/floor/plating,
 /area/engine/break_room)
+"Bb" = (
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "Bd" = (
 /turf/open/space/basic,
 /area/maintenance/ship_exterior)
 "Be" = (
 /obj/structure/hull_plate/end{
-	dir = 1;
-	icon_state = "tgmc_outerhull_dir"
+	dir = 1
 	},
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
@@ -9181,20 +9315,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/meter,
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/meter,
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
-/turf/open/floor/plating{
-	icon_state = "platingdmg2"
-	},
+/turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "Bn" = (
 /obj/structure/bed,
@@ -9209,26 +9330,23 @@
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "Bq" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 1
+	},
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 6
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 6
-	},
 /turf/open/floor/plating,
 /area/engine/storage)
-"Bu" = (
-/obj/machinery/gravity_generator/main/station,
-/turf/open/floor/plating{
-	icon_state = "plating_rust"
-	},
-/area/nsv/engine/engine_room/auxiliary)
 "Bw" = (
 /obj/structure/closet/crate/wooden/toy,
 /obj/machinery/airalarm{
@@ -9237,12 +9355,10 @@
 /turf/open/floor/plating,
 /area/crew_quarters/dorms)
 "Bz" = (
-/obj/item/clothing/gloves/color/yellow,
-/obj/machinery/airalarm/directional/east,
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/engine/storage)
+/obj/structure/closet/secure_closet/engineering_chief,
+/obj/item/clothing/glasses/meson,
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "BA" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -9263,6 +9379,11 @@
 /obj/item/cigbutt,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"BE" = (
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "BG" = (
 /obj/structure/sign/directions/evac{
 	dir = 8
@@ -9352,6 +9473,9 @@
 	icon_state = "plating_rust"
 	},
 /area/nsv/engine/engine_room/auxiliary)
+"BS" = (
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "BT" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
@@ -9436,6 +9560,10 @@
 "Ct" = (
 /turf/closed/wall/ship,
 /area/medical/medbay)
+"Cu" = (
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plasteel/dark,
+/area/crew_quarters/heads/chief)
 "Cw" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -9577,10 +9705,6 @@
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/obj/machinery/telecomms/relay/preset/station,
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "Dh" = (
@@ -9637,7 +9761,17 @@
 /turf/open/floor/plating,
 /area/engine/break_room)
 "Do" = (
-/obj/machinery/rnd/production/protolathe/department/engineering,
+/obj/structure/table,
+/obj/item/book/manual/wiki/engineering_guide{
+	pixel_x = -4
+	},
+/obj/item/book/manual/wiki/engineering_construction{
+	pixel_y = 3
+	},
+/obj/item/book/manual/wiki/engineering_hacking{
+	pixel_x = 4;
+	pixel_y = 5
+	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
@@ -9715,6 +9849,12 @@
 /obj/machinery/advanced_airlock_controller/directional/west,
 /turf/open/floor/plating,
 /area/hallway/secondary/exit/departure_lounge)
+"DL" = (
+/obj/structure/rack,
+/obj/item/storage/belt/utility/full/engi,
+/obj/item/clothing/glasses/meson/engine,
+/turf/open/floor/plating,
+/area/engine/break_room)
 "DM" = (
 /obj/machinery/light/broken,
 /turf/open/floor/plating/foam,
@@ -9778,14 +9918,6 @@
 	},
 /turf/open/floor/plating/airless,
 /area/maintenance/nsv/deck2/starboard)
-"Ee" = (
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/engine/break_room)
 "Ef" = (
 /obj/machinery/atmospherics/components/trinary/filter/flipped/critical{
 	dir = 4
@@ -9841,11 +9973,10 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
-/obj{
-	name = "---Merge conflict marker---"
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/turf/open/space/basic,
-/area/space)
+/area/engine/gravity_generator)
 "Et" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 8
@@ -9879,11 +10010,10 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden{
 	dir = 1
 	},
-/obj{
-	name = "---Merge conflict marker---"
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/turf/open/space/basic,
-/area/space)
+/area/engine/gravity_generator)
 "EB" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
@@ -9896,9 +10026,7 @@
 /area/hallway/nsv/deck2/frame2/starboard)
 "EF" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible,
-/turf/open/floor/plating{
-	icon_state = "platingdmg2"
-	},
+/turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "EG" = (
 /obj/machinery/space_heater,
@@ -10034,11 +10162,10 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
-/obj{
-	name = "---Merge conflict marker---"
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/turf/open/space/basic,
-/area/space)
+/area/engine/gravity_generator)
 "Fk" = (
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
@@ -10062,6 +10189,14 @@
 /obj/structure/hull_plate,
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
+"Fs" = (
+/obj/machinery/suit_storage_unit/ce,
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
+"Ft" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
+/turf/open/floor/plating,
+/area/engine/storage)
 "Fx" = (
 /obj/effect/gibspawner/human,
 /turf/open/floor/plating,
@@ -10083,11 +10218,19 @@
 /area/hallway/nsv/deck2/frame2/central)
 "FH" = (
 /obj/structure/hull_plate/end{
-	dir = 6;
-	icon_state = "tgmc_outerhull_dir"
+	dir = 6
 	},
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
+"FJ" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "FK" = (
 /turf/open/floor/plating/foam,
 /area/hallway/nsv/deck2/frame2/port)
@@ -10102,19 +10245,6 @@
 	icon_state = "platingdmg2"
 	},
 /area/hallway/nsv/deck2/frame1/starboard)
-"FN" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/obj/machinery/atmospherics/components/trinary/filter/atmos/plasma/flipped{
-	dir = 1
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating,
-/area/nsv/engine/engine_room/auxiliary)
 "FO" = (
 /obj/structure/lattice,
 /obj/machinery/atmospherics/pipe/simple/orange/hidden{
@@ -10197,21 +10327,6 @@
 	},
 /turf/open/floor/plating/foam,
 /area/storage/tech)
-"Gm" = (
-/obj/machinery/door/airlock/ship/command{
-	dir = 2;
-	name = "Chief Engineer's Office";
-	req_one_access_txt = "56"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/crew_quarters/heads/chief)
 "Gn" = (
 /obj/machinery/missile_builder/screwdriver{
 	dir = 8
@@ -10309,7 +10424,6 @@
 "GM" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	dir = 8;
-	icon_state = "closed";
 	name = "Maintenance";
 	req_one_access_txt = "12"
 	},
@@ -10407,8 +10521,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 8
 	},
-/turf/open/space/basic,
-/area/space)
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "Hf" = (
 /obj/structure/sign/departments/medbay,
 /turf/closed/wall/r_wall/ship,
@@ -10422,38 +10538,12 @@
 	},
 /turf/open/floor/plating,
 /area/hydroponics)
-"Hk" = (
-/obj/machinery/requests_console{
-	department = "Engineering";
-	departmentType = 3;
-	name = "Engineering RC";
-	pixel_x = -30
-	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/engine/break_room)
 "Hm" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/manifold/orange/visible{
 	dir = 8
-	},
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 4
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/obj/machinery/power/terminal{
-	dir = 1
 	},
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
@@ -10539,20 +10629,19 @@
 	icon_state = "platingdmg2"
 	},
 /area/hallway/nsv/deck2/frame1/port)
-"HD" = (
-/obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/crew_quarters/heads/chief)
 "HE" = (
 /obj/structure/sign/departments/engineering,
 /turf/closed/wall/r_wall/ship,
 /area/engine/break_room)
 "HF" = (
-/obj/structure/inflatable,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
 /turf/open/floor/plating,
-/area/space)
+/area/engine/storage)
 "HH" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
@@ -10572,37 +10661,18 @@
 /obj/item/bot_assembly/cleanbot,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
-"HK" = (
-/obj/structure/inflatable,
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/engine/storage)
 "HM" = (
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating/foam,
 /area/hallway/nsv/deck2/frame2/central)
-"HP" = (
-/obj/machinery/computer/atmos_alert{
+"HS" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 1
 	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
-/area/crew_quarters/heads/chief)
-"HS" = (
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 1
-	},
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/obj/structure/shuttle/engine/large{
-	dir = 8;
-	icon_state = "large_engine"
-	},
-/turf/open/floor/plating/airless,
-/area/maintenance/ship_exterior)
+/area/engine/gravity_generator)
 "HT" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
@@ -10784,11 +10854,10 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
 /obj/machinery/meter,
-/obj{
-	name = "---Merge conflict marker---"
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/turf/open/space/basic,
-/area/space)
+/area/engine/gravity_generator)
 "IE" = (
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/plating,
@@ -10840,8 +10909,7 @@
 /area/engine/engine_room/external)
 "IK" = (
 /obj/structure/hull_plate/end{
-	dir = 4;
-	icon_state = "tgmc_outerhull_dir"
+	dir = 4
 	},
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
@@ -10881,8 +10949,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/door/airlock/ship/public{
-	dir = 2;
-	icon_state = "closed";
 	id_tag = "Cabin2";
 	name = "Standard quarters"
 	},
@@ -10900,20 +10966,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/airlock/forward/starboard)
-"IR" = (
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/obj/machinery/atmospherics/pipe/manifold/orange/visible{
-	dir = 1
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating{
-	icon_state = "platingdmg2"
-	},
-/area/nsv/engine/engine_room/auxiliary)
 "IU" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -10921,35 +10973,8 @@
 /obj/machinery/atmospherics/components/trinary/filter/atmos/plasma/flipped{
 	dir = 1
 	},
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 5
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/obj/machinery/power/terminal{
-	dir = 1
-	},
-/turf/open/floor/plating{
-	icon_state = "plating_rust"
-	},
+/turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
-"IV" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/crew_quarters/heads/chief)
 "IW" = (
 /obj/machinery/atmospherics/components/trinary/filter/flipped/critical{
 	dir = 4
@@ -11003,6 +11028,14 @@
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"Jj" = (
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "Jk" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -11025,13 +11058,22 @@
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame2/port)
 "Jo" = (
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/structure/table/wood,
+/obj/item/cartridge/engineering{
+	pixel_x = -3;
+	pixel_y = 2
 	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
+/obj/item/cartridge/engineering{
+	pixel_x = -3;
+	pixel_y = 2
 	},
-/area/engine/storage)
+/obj/item/cartridge/engineering{
+	pixel_x = -3;
+	pixel_y = 2
+	},
+/obj/item/flashlight/lamp,
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "Jr" = (
 /obj/structure/fans/tiny,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
@@ -11082,9 +11124,9 @@
 /turf/open/space/basic,
 /area/engine/engine_room/external)
 "JA" = (
-/obj/machinery/armour_plating_nanorepair_pump/aft_starboard{
-	apnw_id = "pleaseSendHelp";
-	armour_allocation = 25
+/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/trunk{
+	dir = 1
 	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
@@ -11134,11 +11176,10 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 1
 	},
-/obj{
-	name = "---Merge conflict marker---"
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/turf/open/floor/plating/airless,
-/area/maintenance/ship_exterior)
+/area/engine/gravity_generator)
 "JM" = (
 /obj/structure/sign/directions/supply{
 	dir = 1
@@ -11149,12 +11190,6 @@
 	},
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/nsv/deck2/starboard)
-"JN" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
-/turf/open/floor/plating{
-	icon_state = "plating_rust"
-	},
-/area/nsv/engine/engine_room/auxiliary)
 "JO" = (
 /obj/machinery/armour_plating_nanorepair_pump/aft_port{
 	apnw_id = "pleaseSendHelp";
@@ -11171,6 +11206,13 @@
 	},
 /turf/open/floor/plating,
 /area/hallway/secondary/exit/departure_lounge)
+"JR" = (
+/obj/machinery/power/smes/engineering,
+/obj/structure/cable,
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "JS" = (
 /obj/effect/landmark/start/cook,
 /turf/open/floor/plating/foam,
@@ -11188,11 +11230,10 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 1
 	},
-/obj{
-	name = "---Merge conflict marker---"
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/turf/open/floor/plating/airless,
-/area/maintenance/ship_exterior)
+/area/engine/gravity_generator)
 "JU" = (
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
@@ -11208,6 +11249,14 @@
 "JW" = (
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"JZ" = (
+/obj/structure/chair/office/light{
+	dir = 1;
+	pixel_y = 3
+	},
+/obj/effect/landmark/start/chief_engineer,
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "Ke" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 6
@@ -11256,22 +11305,6 @@
 /obj/item/stack/sheet/duranium/fifty,
 /obj/item/stack/sheet/iron/fifty,
 /obj/item/stack/sheet/iron/fifty,
-/obj/item/electronics/airlock,
-/obj/item/electronics/airlock,
-/obj/item/stack/cable_coil{
-	pixel_x = 3;
-	pixel_y = -7
-	},
-/obj/item/book/manual/wiki/engineering_guide{
-	pixel_x = -4
-	},
-/obj/item/book/manual/wiki/engineering_construction{
-	pixel_y = 3
-	},
-/obj/item/book/manual/wiki/engineering_hacking{
-	pixel_x = 4;
-	pixel_y = 5
-	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
@@ -11279,7 +11312,6 @@
 "Ks" = (
 /obj/machinery/door/airlock/ship{
 	dir = 4;
-	icon_state = "closed";
 	name = "Hydroponics";
 	req_one_access_txt = "35"
 	},
@@ -11355,10 +11387,8 @@
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/engine/storage)
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "KR" = (
 /obj/structure/sign/nanotrasen,
 /turf/closed/wall/steel,
@@ -11423,12 +11453,9 @@
 /area/maintenance/ship_exterior)
 "Lg" = (
 /obj/machinery/atmospherics/components/binary/magnetic_constrictor{
-	dir = 4;
-	icon_state = "constrictor"
+	dir = 4
 	},
-/turf/open/floor/plating{
-	icon_state = "plating_rust"
-	},
+/turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "Lh" = (
 /obj/machinery/light{
@@ -11485,6 +11512,12 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
+"Lx" = (
+/obj/structure/shuttle/engine/large{
+	dir = 8
+	},
+/turf/open/floor/plating/airless,
+/area/maintenance/ship_exterior)
 "Ly" = (
 /obj/machinery/atmospherics/components/binary/circulator/cold{
 	dir = 4
@@ -11514,6 +11547,12 @@
 	},
 /turf/closed/wall/steel,
 /area/hydroponics)
+"LD" = (
+/obj/machinery/telecomms/relay/preset/station,
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "LG" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -11551,6 +11590,14 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons)
+"LO" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "LR" = (
 /obj/structure/mirror{
 	pixel_x = -28
@@ -11615,24 +11662,11 @@
 /turf/open/floor/plating/foam,
 /area/hallway/nsv/deck2/frame2/central)
 "Mj" = (
-/obj/structure/closet/secure_closet/engineering_chief,
-/obj/item/clothing/glasses/meson,
+/obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
-/area/crew_quarters/heads/chief)
-"Mk" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/turf/open/floor/plating,
-/area/engine/storage)
+/area/engine/break_room)
 "Mn" = (
 /turf/closed/wall/ship,
 /area/maintenance/nsv/deck2/starboard)
@@ -11718,9 +11752,7 @@
 /obj/machinery/atmospherics/pipe/simple/orange/visible{
 	dir = 4
 	},
-/turf/open/floor/plating{
-	icon_state = "plating_rust"
-	},
+/turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "MB" = (
 /obj/machinery/atmospherics/components/unary/vent_pump{
@@ -11782,36 +11814,29 @@
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 8
+	},
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 5
-	},
-/obj/item/storage/belt/utility/full/engi,
-/obj/item/storage/belt/utility/full/engi,
-/obj/item/clothing/glasses/meson/engine,
-/obj/item/clothing/glasses/meson/engine,
 /turf/open/floor/plating,
 /area/engine/break_room)
+"MU" = (
+/obj/machinery/computer/apc_control{
+	dir = 1
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "MV" = (
 /obj/structure/chair{
 	dir = 8
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
-"MX" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
-	dir = 4
-	},
-/obj/structure/closet/secure_closet/engineering_welding,
-/obj/machinery/airalarm{
-	dir = 4;
-	pixel_x = -23
-	},
-/turf/open/floor/plating,
-/area/engine/break_room)
 "MY" = (
 /obj/effect/gibspawner/human,
 /turf/open/floor/plating{
@@ -11847,6 +11872,15 @@
 	},
 /turf/open/floor/plating,
 /area/hallway/secondary/exit/departure_lounge)
+"Ne" = (
+/obj/machinery/armour_plating_nanorepair_well{
+	apnw_id = "pleaseSendHelp"
+	},
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
 "Ng" = (
 /obj/machinery/conveyor/slow{
 	dir = 9;
@@ -11878,25 +11912,16 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons)
-"Nr" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 4
-	},
-/turf/open/floor/plating{
-	icon_state = "platingdmg2"
-	},
-/area/nsv/engine/engine_room/auxiliary)
 "Ns" = (
+/obj/structure/table/wood,
+/obj/item/clipboard,
+/obj/item/paper/monitorkey,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 1
 	},
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/engine/storage)
+/mob/living/simple_animal/parrot/Poly,
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "Nu" = (
 /obj/structure/lattice,
 /obj/machinery/atmospherics/pipe/simple/orange/hidden{
@@ -11908,25 +11933,10 @@
 /turf/open/space/basic,
 /area/engine/engine_room/external)
 "Nv" = (
-/obj/machinery/armour_plating_nanorepair_well{
-	apnw_id = "pleaseSendHelp"
+/obj/machinery/camera/autoname{
+	dir = 4
 	},
-/obj/structure/cable{
-	icon_state = "0-4"
-	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/engine/storage)
-"Nw" = (
-/obj/structure/chair/office/light{
-	dir = 1;
-	pixel_y = 3
-	},
-/obj/effect/landmark/start/chief_engineer,
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
+/turf/open/floor/plating,
 /area/crew_quarters/heads/chief)
 "Nx" = (
 /obj/machinery/camera/autoname,
@@ -11940,14 +11950,6 @@
 	},
 /turf/open/floor/plating,
 /area/crew_quarters/kitchen)
-"NC" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 10
-	},
-/turf/open/floor/plating{
-	icon_state = "plating_rust"
-	},
-/area/nsv/engine/engine_room/auxiliary)
 "NE" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
@@ -11997,12 +11999,6 @@
 	},
 /obj/item/stack/sheet/iron/fifty,
 /obj/item/stack/sheet/iron/fifty,
-/obj/item/stack/rods/fifty,
-/obj/item/stack/cable_coil{
-	pixel_x = 3;
-	pixel_y = -7
-	},
-/obj/item/storage/box/lights/mixed,
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
@@ -12053,6 +12049,17 @@
 /obj/effect/landmark/start/clown,
 /turf/open/floor/plating,
 /area/crew_quarters/dorms)
+"Og" = (
+/obj/machinery/power/terminal{
+	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "Oj" = (
 /obj/machinery/atmospherics/pipe/multiz/layer4{
 	dir = 4
@@ -12093,11 +12100,8 @@
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos/atmos_waste{
 	dir = 4
 	},
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/turf/open/space/basic,
-/area/space)
+/turf/open/floor/plating/airless,
+/area/engine/gravity_generator)
 "OD" = (
 /obj/structure/sign/directions/evac,
 /turf/closed/wall/steel,
@@ -12144,15 +12148,6 @@
 /obj/machinery/atmospherics/pipe/manifold/orange/visible{
 	dir = 8
 	},
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/obj/item/radio/intercom{
-	pixel_x = -32
-	},
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
-/obj/machinery/power/smes/engineering,
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "ON" = (
@@ -12170,6 +12165,9 @@
 /turf/open/floor/plating,
 /area/science/xenobiology)
 "OV" = (
+/obj/structure/disposalpipe/junction/flip{
+	dir = 4
+	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
@@ -12178,9 +12176,6 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 5
 	},
 /turf/open/floor/plating,
 /area/engine/storage)
@@ -12204,9 +12199,7 @@
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
-/turf/open/floor/plating{
-	icon_state = "plating_rust"
-	},
+/turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "Pg" = (
 /obj/structure/sign/nanotrasen,
@@ -12216,8 +12209,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 5
 	},
-/turf/open/space/basic,
-/area/space)
+/turf/closed/wall/r_wall/ship,
+/area/engine/gravity_generator)
 "Pj" = (
 /obj/machinery/atmospherics/pipe/simple/orange/hidden{
 	dir = 10
@@ -12239,20 +12232,10 @@
 /obj/item/aicard,
 /turf/open/floor/plating/foam,
 /area/storage/tech)
-"Pl" = (
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/crew_quarters/heads/chief)
 "Pn" = (
 /obj/machinery/atmospherics/pipe/simple/orange/visible{
 	dir = 10
 	},
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/obj/machinery/power/smes/engineering,
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "Po" = (
@@ -12313,6 +12296,14 @@
 	icon_state = "plating_rust"
 	},
 /area/nsv/engine/engine_room/auxiliary)
+"Pv" = (
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "Pw" = (
 /obj/structure/table/wood,
 /obj/item/soap/nanotrasen,
@@ -12333,27 +12324,38 @@
 	icon_state = "platingdmg1"
 	},
 /area/maintenance/nsv/deck2/starboard)
-"PF" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
-	dir = 8
+"PG" = (
+/obj/item/radio/intercom{
+	pixel_y = 23
+	},
+/turf/open/floor/plating,
+/area/engine/storage)
+"PK" = (
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
-/area/crew_quarters/heads/chief)
+/area/engine/gravity_generator)
 "PL" = (
 /turf/closed/wall/steel,
 /area/maintenance/nsv/deck2/airlock/forward/starboard)
 "PN" = (
+/obj/machinery/door/airlock/ship/command{
+	name = "Chief Engineer's Office";
+	req_one_access_txt = "56"
+	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/engine/storage)
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "PQ" = (
 /turf/closed/wall/steel,
 /area/space)
@@ -12374,14 +12376,12 @@
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame3/central)
 "PY" = (
-/obj/machinery/power/apc/auto_name/north,
-/obj/structure/cable{
-	icon_state = "0-8"
-	},
+/obj/structure/table,
+/obj/item/storage/box/lights/mixed,
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
-/area/crew_quarters/heads/chief)
+/area/engine/break_room)
 "Qb" = (
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/plating,
@@ -12471,27 +12471,6 @@
 /obj/structure/foamedmetal,
 /turf/open/floor/plating/foam,
 /area/maintenance/disposal)
-"Qr" = (
-/obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plasteel/dark,
-/area/engine/storage)
-"Qu" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating{
-	icon_state = "plating_rust"
-	},
-/area/nsv/engine/engine_room/auxiliary)
 "Qw" = (
 /obj/machinery/vending/autodrobe/all_access,
 /turf/open/floor/plating,
@@ -12534,11 +12513,10 @@
 /area/crew_quarters/kitchen)
 "QI" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden,
-/obj{
-	name = "---Merge conflict marker---"
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/turf/open/space/basic,
-/area/space)
+/area/engine/gravity_generator)
 "QK" = (
 /obj/structure/lattice,
 /obj/machinery/atmospherics/pipe/simple/orange/hidden{
@@ -12555,6 +12533,10 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
+"QO" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/turf/open/floor/plating,
+/area/engine/storage)
 "QQ" = (
 /obj/machinery/conveyor{
 	dir = 6;
@@ -12576,15 +12558,6 @@
 "QW" = (
 /turf/closed/wall/ship,
 /area/medical/storage)
-"QZ" = (
-/obj/structure/table/wood,
-/obj/item/clipboard,
-/obj/item/paper/monitorkey,
-/mob/living/simple_animal/parrot/Poly,
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/crew_quarters/heads/chief)
 "Rc" = (
 /obj/machinery/atmospherics/pipe/simple/orange/hidden{
 	dir = 9
@@ -12593,12 +12566,19 @@
 /turf/open/floor/plating/airless,
 /area/engine/supermatter)
 "Re" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/atmos_waste{
-	dir = 4;
-	icon_state = "inje_map-2"
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
-/turf/open/floor/plating/airless,
-/area/nsv/engine/engine_room/auxiliary)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 4
+	},
+/obj/machinery/light/broken{
+	dir = 4
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "Rg" = (
 /obj/structure/disposaloutlet{
 	dir = 1
@@ -12612,15 +12592,13 @@
 	},
 /obj/machinery/door/airlock/ship/engineering{
 	dir = 8;
-	icon_state = "closed";
 	name = "Gravity Generator";
 	req_one_access_txt = "10"
 	},
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
-/obj/effect/mapping_helpers/airlock/locked,
 /turf/open/floor/plasteel/dark,
-/area/nsv/engine/engine_room/auxiliary)
+/area/engine/gravity_generator)
 "Rj" = (
 /obj/machinery/door/airlock/ship/medical{
 	name = "Chemistry";
@@ -12646,15 +12624,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 10
 	},
-/obj{
-	name = "---Merge conflict marker---"
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/obj/structure/shuttle/engine/large{
-	dir = 8;
-	icon_state = "large_engine"
-	},
-/turf/open/floor/plating/airless,
-/area/maintenance/ship_exterior)
+/area/engine/gravity_generator)
 "Ro" = (
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -12702,22 +12675,6 @@
 /obj/machinery/light/broken,
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame2/starboard)
-"RB" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating,
-/area/nsv/engine/engine_room/auxiliary)
 "RE" = (
 /obj/effect/gibspawner/human,
 /turf/open/floor/plating{
@@ -12786,7 +12743,7 @@
 	dir = 4
 	},
 /turf/closed/wall/ship,
-/area/nsv/engine/engine_room/auxiliary)
+/area/engine/gravity_generator)
 "Sa" = (
 /obj/structure/rack,
 /obj/effect/spawner/lootdrop/techstorage/tcomms,
@@ -12837,12 +12794,6 @@
 	},
 /turf/open/floor/plating/airless,
 /area/engine/engine_room/external)
-"Sq" = (
-/obj/machinery/vending/cigarette,
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/engine/storage)
 "Sr" = (
 /obj/structure/inflatable,
 /turf/open/floor/plating/foam,
@@ -12884,8 +12835,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 6
 	},
-/turf/open/space/basic,
-/area/space)
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "SD" = (
 /obj/machinery/camera/autoname,
 /obj/effect/turf_decal/tile/purple{
@@ -12903,17 +12856,11 @@
 	},
 /area/hallway/nsv/deck2/frame4/central)
 "SJ" = (
-/obj/machinery/camera/autoname{
+/obj/machinery/computer/atmos_control/tank{
 	dir = 1
 	},
-/obj/structure/rack,
-/obj/item/stack/sheet/duranium/fifty,
-/obj/item/stack/sheet/duranium/fifty,
-/obj/item/stack/sheet/mineral/titanium/fifty,
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/engine/storage)
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "SK" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -12929,10 +12876,6 @@
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 4
-	},
-/obj/structure/closet/secure_closet/engineering_welding,
 /turf/open/floor/plating,
 /area/engine/break_room)
 "SM" = (
@@ -12962,17 +12905,8 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
-/obj/machinery/armour_plating_nanorepair_pump/forward_port{
-	apnw_id = "pleaseSendHelp";
-	armour_allocation = 25
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/engine/storage)
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "SU" = (
 /obj/machinery/vending/engivend,
 /turf/open/floor/plating{
@@ -12990,6 +12924,18 @@
 /obj/machinery/power/apc/auto_name/east,
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame1/starboard)
+"SZ" = (
+/obj/structure/grille,
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/machinery/door/firedoor,
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
+"Tb" = (
+/obj/machinery/light/broken,
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/storage)
 "Tg" = (
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/plating,
@@ -13080,12 +13026,6 @@
 	icon_state = "panelscorched"
 	},
 /area/hallway/nsv/deck2/frame1/port)
-"Tw" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
-/turf/open/floor/plating{
-	icon_state = "platingdmg2"
-	},
-/area/nsv/engine/engine_room/auxiliary)
 "Ty" = (
 /obj/structure/table,
 /obj/machinery/door/firedoor,
@@ -13134,8 +13074,6 @@
 /area/crew_quarters/dorms)
 "TK" = (
 /obj/machinery/door/airlock/ship/public{
-	dir = 2;
-	icon_state = "closed";
 	id_tag = "Cabin2";
 	name = "Luxury quarters"
 	},
@@ -13147,7 +13085,14 @@
 /turf/open/floor/plating,
 /area/crew_quarters/dorms)
 "TL" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
 /area/engine/storage)
 "TM" = (
@@ -13181,21 +13126,9 @@
 	},
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
-"TT" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 5
-	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/crew_quarters/heads/chief)
 "TU" = (
 /obj/structure/hull_plate/end{
-	dir = 5;
-	icon_state = "tgmc_outerhull_dir"
+	dir = 5
 	},
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
@@ -13206,6 +13139,10 @@
 /obj/structure/sign/nanotrasen,
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/nsv/deck2/airlock/forward/starboard)
+"TY" = (
+/obj/machinery/light/broken,
+/turf/open/floor/plating,
+/area/engine/break_room)
 "Ud" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/light/small{
@@ -13258,6 +13195,9 @@
 /turf/open/floor/plating,
 /area/hallway/secondary/exit/departure_lounge)
 "Up" = (
+/obj/structure/table,
+/obj/item/electronics/airlock,
+/obj/item/electronics/airlock,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
@@ -13279,7 +13219,6 @@
 "Us" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	dir = 8;
-	icon_state = "closed";
 	name = "Maintenance";
 	req_one_access_txt = "12"
 	},
@@ -13289,6 +13228,15 @@
 /obj/structure/inflatable,
 /turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame1/port)
+"Ux" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
+	dir = 4
+	},
+/obj/machinery/gravity_generator/main/station,
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "Uz" = (
 /obj/machinery/atmospherics/pipe/simple/orange/hidden{
 	dir = 4
@@ -13363,11 +13311,10 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
-/obj{
-	name = "---Merge conflict marker---"
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/turf/open/floor/plating/airless,
-/area/maintenance/ship_exterior)
+/area/engine/gravity_generator)
 "UT" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -13449,10 +13396,6 @@
 	},
 /turf/open/floor/plating,
 /area/hydroponics)
-"Vj" = (
-/obj/structure/sign/warning/radiation,
-/turf/closed/wall/steel,
-/area/crew_quarters/heads/chief)
 "Vk" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -13461,15 +13404,10 @@
 	dir = 4
 	},
 /obj/machinery/meter,
-/obj{
-	name = "---Merge conflict marker---"
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
 	},
-/obj/structure/shuttle/engine/large{
-	dir = 8;
-	icon_state = "large_engine"
-	},
-/turf/open/floor/plating/airless,
-/area/maintenance/ship_exterior)
+/area/engine/gravity_generator)
 "Vq" = (
 /obj/machinery/conveyor/slow{
 	dir = 10;
@@ -13479,26 +13417,26 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plating,
 /area/nsv/weapons)
+"Vt" = (
+/obj/structure/sign/poster/random,
+/turf/closed/wall/r_wall/ship,
+/area/crew_quarters/heads/chief)
 "Vw" = (
 /obj/structure/closet/crate,
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "Vx" = (
-/obj/machinery/computer/apc_control{
-	dir = 1
-	},
+/obj/machinery/rnd/production/protolathe/department/engineering,
+/obj/machinery/light/broken,
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
-/area/crew_quarters/heads/chief)
+/area/engine/break_room)
 "Vz" = (
 /obj/machinery/airalarm{
 	dir = 4;
 	pixel_x = -23
-	},
-/obj/machinery/computer/rdconsole/production{
-	dir = 1
 	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
@@ -13575,8 +13513,7 @@
 /area/maintenance/ship_exterior)
 "VT" = (
 /obj/machinery/cryopod{
-	dir = 8;
-	icon_state = "cryopod-open"
+	dir = 8
 	},
 /obj/machinery/computer/cryopod{
 	pixel_y = 32
@@ -13642,7 +13579,7 @@
 /area/engine/break_room)
 "Wd" = (
 /turf/closed/wall/ship,
-/area/nsv/engine/engine_room/auxiliary)
+/area/engine/gravity_generator)
 "We" = (
 /obj/machinery/conveyor_switch/oneway{
 	id = "torp"
@@ -13676,20 +13613,6 @@
 "Wp" = (
 /turf/closed/wall/steel,
 /area/storage/primary)
-"Wq" = (
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating{
-	icon_state = "plating_rust"
-	},
-/area/nsv/engine/engine_room/auxiliary)
 "Wr" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 10
@@ -13722,32 +13645,11 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/cable{
-	icon_state = "2-4"
-	},
-/turf/open/floor/plating{
-	icon_state = "plating_rust"
-	},
+/turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
 "WA" = (
 /turf/open/floor/plating,
 /area/crew_quarters/dorms)
-"WC" = (
-/obj/machinery/suit_storage_unit/ce,
-/obj/machinery/airalarm{
-	dir = 4;
-	pixel_x = -23
-	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/crew_quarters/heads/chief)
 "WD" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -13756,6 +13658,20 @@
 	icon_state = "platingdmg3"
 	},
 /area/engine/engine_room)
+"WE" = (
+/obj/machinery/power/terminal{
+	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/engine/gravity_generator)
 "WF" = (
 /obj/structure/lattice,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
@@ -13875,22 +13791,31 @@
 	icon_state = "platingdmg2"
 	},
 /area/maintenance/nsv/deck2/starboard)
-"Xn" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 9
+"Xo" = (
+/obj/structure/table/wood,
+/obj/item/reagent_containers/pill/patch/silver_sulf,
+/obj/item/folder/yellow,
+/obj/item/stamp/chief_engineer,
+/obj/item/paper_bin{
+	pixel_x = -3;
+	pixel_y = 7
 	},
-/turf/open/floor/plating{
-	icon_state = "plating_rust"
-	},
-/area/nsv/engine/engine_room/auxiliary)
+/obj/item/pen,
+/obj/item/clothing/mask/cigarette/cigar,
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "Xq" = (
-/obj/machinery/computer/atmos_control/tank{
-	dir = 1
+/obj/machinery/vending/tool,
+/obj/machinery/requests_console{
+	department = "Engineering";
+	departmentType = 3;
+	name = "Engineering RC";
+	pixel_y = -30
 	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
-/area/crew_quarters/heads/chief)
+/area/engine/break_room)
 "Xr" = (
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
@@ -13928,8 +13853,7 @@
 /area/crew_quarters/locker)
 "XA" = (
 /obj/machinery/cryopod{
-	dir = 8;
-	icon_state = "cryopod-open"
+	dir = 8
 	},
 /turf/open/floor/plating/foam,
 /area/crew_quarters/dorms)
@@ -13981,24 +13905,15 @@
 /turf/open/floor/plating/foam,
 /area/storage/tech)
 "XV" = (
-/obj/structure/table/wood,
-/obj/item/cartridge/engineering{
-	pixel_x = -3;
-	pixel_y = 2
+/obj/structure/table,
+/obj/item/stack/cable_coil{
+	pixel_x = 3;
+	pixel_y = -7
 	},
-/obj/item/cartridge/engineering{
-	pixel_x = -3;
-	pixel_y = 2
-	},
-/obj/item/cartridge/engineering{
-	pixel_x = -3;
-	pixel_y = 2
-	},
-/obj/item/flashlight/lamp,
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
-/area/crew_quarters/heads/chief)
+/area/engine/break_room)
 "XW" = (
 /obj/effect/decal/cleanable/blood,
 /obj/structure/foamedmetal,
@@ -14129,8 +14044,7 @@
 /area/medical/medbay)
 "YB" = (
 /obj/structure/bodycontainer/morgue{
-	dir = 1;
-	icon_state = "morgue1"
+	dir = 1
 	},
 /obj/machinery/airalarm/directional/south,
 /turf/open/floor/plating,
@@ -14299,8 +14213,7 @@
 /area/maintenance/disposal)
 "ZB" = (
 /obj/machinery/door/airlock/ship/external{
-	name = "Escape Airlock";
-	req_one_access_txt = "0"
+	name = "Escape Airlock"
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
@@ -14321,14 +14234,6 @@
 /obj/effect/mapping_helpers/airlock/locked,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
-"ZE" = (
-/obj/machinery/computer/monitor{
-	dir = 1
-	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/crew_quarters/heads/chief)
 "ZF" = (
 /obj/machinery/light{
 	dir = 4
@@ -14346,11 +14251,11 @@
 /turf/open/floor/plating/airless,
 /area/engine/engine_room/external)
 "ZH" = (
-/obj/machinery/vending/wardrobe/engi_wardrobe,
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
+/obj/machinery/computer/monitor{
+	dir = 1
 	},
-/area/engine/storage)
+/turf/open/floor/plating,
+/area/crew_quarters/heads/chief)
 "ZI" = (
 /turf/closed/wall/steel,
 /area/hydroponics)
@@ -14390,8 +14295,7 @@
 /area/hallway/nsv/deck2/frame2/central)
 "ZP" = (
 /obj/structure/hull_plate/end{
-	dir = 9;
-	icon_state = "tgmc_outerhull_dir"
+	dir = 9
 	},
 /turf/open/floor/plating/airless,
 /area/maintenance/ship_exterior)
@@ -14407,23 +14311,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/components/binary/magnetic_constrictor{
-	dir = 4;
-	icon_state = "constrictor"
-	},
-/obj{
-	name = "---Merge conflict marker---"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
 	dir = 4
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/obj/machinery/power/terminal{
-	dir = 1
 	},
 /turf/open/floor/plating,
 /area/nsv/engine/engine_room/auxiliary)
@@ -23083,10 +22971,10 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
+Fk
+Lx
+Fk
+Lx
 aa
 aa
 aa
@@ -23372,26 +23260,26 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+zx
+Fk
+Fk
+Fk
+fz
+hu
+fz
+Fk
+Fk
+Fk
+fz
+Fk
+Fk
+Fk
+Fk
+Fk
+Fk
+Fk
+Fk
+sR
 aa
 aa
 aa
@@ -23674,26 +23562,26 @@ aa
 aa
 aa
 aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+zx
+fz
+fz
+fz
+fz
+eR
+fz
+fz
+fz
+fz
+fz
+qY
+qY
+qY
+sR
+am
+am
+qY
+sR
+sR
 aq
 aa
 aa
@@ -23976,26 +23864,26 @@ aa
 aa
 aa
 aa
-aa
-aa
+zx
+BE
 SC
 AO
 ID
 QI
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+aD
+mN
+BE
+BE
+fz
+ra
+ra
+JO
+yC
+ra
+ra
+yv
+vZ
+sR
 aa
 aa
 aa
@@ -24278,26 +24166,26 @@ aa
 aa
 aa
 aa
-aa
-aa
+zx
+pI
 He
 Fj
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+BE
+Ux
+Pv
+JR
+Og
+hz
+fz
+ra
+ra
+ra
+bK
+ra
+ra
+QO
+ra
+qY
 aq
 aa
 aa
@@ -24580,26 +24468,26 @@ aa
 aa
 aa
 aa
-aa
-aa
+zx
+ps
 Ey
 Ep
 yw
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+ju
+sQ
+JR
+WE
+BE
+fz
+PG
+bF
+ra
+ra
+Ne
+bF
+ra
+Ix
+qY
 aq
 MI
 aa
@@ -24882,8 +24770,8 @@ aa
 aa
 aa
 aa
-Wl
-Fk
+zx
+BE
 Rn
 UR
 Vk
@@ -24893,15 +24781,15 @@ eE
 JT
 HS
 Ph
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
-aa
+ra
+ux
+go
+ra
+vx
+ux
+lA
+Tb
+sR
 MI
 MI
 PE
@@ -25184,26 +25072,26 @@ aa
 aa
 aa
 cj
-Wl
-Fk
-Fk
-Fk
-Fk
+zx
+LD
+BE
+PK
+Ae
 Re
-Fk
-Fk
-Fk
-Fk
+Jj
+Bb
+LO
+BE
 zR
+ra
 HF
+ra
+ra
+vx
 HF
-PQ
-PQ
-HF
-HF
-HF
-PQ
-PQ
+Ix
+Ix
+Ix
 MY
 PE
 zw
@@ -25486,7 +25374,7 @@ aa
 Cq
 aa
 Cq
-Wl
+zx
 Wd
 Wd
 Ri
@@ -25496,16 +25384,16 @@ Wd
 Ri
 Wd
 Wd
-eJ
+zR
+ra
+HF
 ra
 ra
-ra
-ra
-ra
+vx
+xm
 Ix
 Ix
 Ix
-HK
 kE
 JW
 Xh
@@ -25792,20 +25680,20 @@ Wl
 to
 jI
 Bk
-FN
+OL
 kH
 OM
 IU
-Tw
+OL
 NR
 Fd
 ra
 zT
 TL
-JO
-ra
-ra
-Ix
+FJ
+yY
+yD
+mG
 JA
 sR
 MI
@@ -26091,25 +25979,25 @@ cj
 eN
 cj
 Wl
-NC
-JN
+Pn
+OL
 Wz
-Wq
-Qu
+Ev
+BK
 Pn
 Hm
 NR
 Mz
 Fd
 Gy
-vx
-ra
-ra
-ra
-Ix
-Ix
-Ix
-sR
+zv
+su
+Vt
+su
+Vt
+su
+su
+su
 JW
 aa
 zw
@@ -26393,25 +26281,25 @@ Cq
 Cq
 Gk
 Wl
-Xf
-Xf
-wb
-IR
-RB
-vA
+Ev
+Ev
+Jv
+Ev
+BK
+Ev
 ZS
 Lg
-Nr
+Mz
 Fd
 ra
-vx
-ra
-ra
-Ix
+zv
+Cu
+Fs
+bw
 Nv
-Ix
+BS
 SJ
-sR
+su
 MI
 MI
 zw
@@ -26696,24 +26584,24 @@ WN
 IB
 Wl
 Ev
-Bu
+Ev
 Jv
 Zm
 BK
 Ev
 rN
-Xn
-Nr
+TR
+Mz
 Fd
-ra
-vx
-ra
-Ix
-Ix
+Ft
+dP
+su
+wN
+BS
 Jo
-Ix
-Ix
-qY
+BS
+vB
+SZ
 aq
 MI
 Ed
@@ -26998,13 +26886,13 @@ DH
 XS
 Wl
 YF
-qN
-nD
+Ev
+Jv
 Xf
 BK
 DB
 IY
-Xf
+Ev
 Zq
 Fd
 AR
@@ -27013,9 +26901,9 @@ PN
 SO
 AM
 Ns
-Ix
-lA
-qY
+JZ
+MU
+SZ
 aq
 MI
 zw
@@ -27310,14 +27198,14 @@ OL
 TR
 Fd
 ra
-Mk
-sR
+zv
+su
 KO
-Ix
-Ix
-Ix
-Ix
-qY
+BS
+Xo
+BS
+rv
+SZ
 aq
 MI
 zw
@@ -27613,13 +27501,13 @@ EF
 xD
 re
 OV
-Qr
+Cu
 Bz
 rb
 zQ
-Sq
+BS
 ZH
-sR
+su
 MI
 MI
 MI
@@ -27915,13 +27803,13 @@ jo
 bS
 bS
 qa
-sR
-sR
-sR
-sR
-sR
-sR
-sR
+su
+su
+su
+su
+su
+su
+su
 QN
 LR
 Pt
@@ -28217,12 +28105,12 @@ pJ
 eQ
 yb
 qm
-MX
+dt
 SL
-WW
-dt
-dt
-dt
+iC
+Ba
+yL
+yL
 bS
 Iu
 MV
@@ -28521,10 +28409,10 @@ cc
 qy
 zs
 MQ
-WW
+tx
+up
 dt
-dt
-dt
+TY
 bS
 Iv
 JW
@@ -28823,9 +28711,9 @@ DI
 DI
 DI
 qm
-WW
 dt
-dt
+DL
+DL
 dt
 bS
 Qw
@@ -29125,11 +29013,11 @@ bS
 bS
 bS
 rw
-Vj
+eQ
+bS
 eM
-eM
-eM
-su
+bS
+bS
 Iw
 JW
 JW
@@ -29424,14 +29312,14 @@ oI
 nu
 bS
 Do
-Hk
+Bi
 Vz
 Yt
-HD
-WC
-Az
+Bi
+Bi
+Bi
 Xq
-su
+bS
 VH
 Iw
 JW
@@ -29727,13 +29615,13 @@ nF
 bS
 NQ
 Bi
-cv
-Bc
-Gm
-IV
-TT
-HP
-su
+Bi
+Yt
+Bi
+Bi
+Bi
+SU
+bS
 Mn
 Mn
 Mn
@@ -30031,11 +29919,11 @@ Ko
 Bi
 uY
 rx
-eM
+Bi
 PY
-PF
+Bi
 Vx
-su
+bS
 JW
 JW
 PR
@@ -30333,11 +30221,11 @@ Bi
 Bi
 Up
 ry
-HD
+Bi
 XV
-Pl
+Bi
 xR
-su
+bS
 JW
 JW
 PR
@@ -30632,14 +30520,14 @@ oL
 jo
 Yw
 Bi
-SU
-EO
+Bi
+Bi
 Yt
-HD
-QZ
-Nw
-ZE
-su
+Bi
+Bi
+Bi
+cv
+bS
 Mn
 Us
 Mn
@@ -30933,15 +30821,15 @@ nf
 oN
 jo
 AI
-Ee
-vL
+Bi
+Bi
 vF
 wL
-HD
-yM
-Pl
+Bi
+Bi
+EO
 Mj
-su
+bS
 JW
 JW
 JW
