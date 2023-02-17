@@ -337,6 +337,7 @@
 	req_components = list(
 		/obj/item/stock_parts/capacitor = 1,
 		/obj/item/stock_parts/manipulator = 1)
+
 /obj/item/circuitboard/machine/plasma_caster
 	name = "circuit board (plasma caster)"
 	desc = "My faithful...stand firm!"
