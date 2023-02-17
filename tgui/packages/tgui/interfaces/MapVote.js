@@ -9,10 +9,10 @@ import { Window } from '../layouts';
 
 export const MapVote = (props, context) => {
   const { act, data } = useBackend(context);
-  const { mode, question, lower_admin, choices, mapInfo } = data;
+  const { mode, question, lower_admin, choices, selectedChoice } = data;
   const [
-    selectedChoice,
-    setSelectedChoice,
+    selectedChoiceIndex,
+    setSelectedChoiceIndex,
   ] = useLocalState(context, 'choice');
   const [
     selectedChoiceName,
@@ -41,9 +41,10 @@ export const MapVote = (props, context) => {
                 {choices.map((choice, i) => (
                   <Tabs.Tab
                     key={i}
-                    selected={i === selectedChoice}
+                    selected={i === selectedChoiceIndex}
+                    icon={i === (selectedChoice-1) ? "vote-yea" : ""}
                     onclick={() => {
-                      setSelectedChoice(i);
+                      setSelectedChoiceIndex(i);
                       setSelectedChoiceName(choice.name);
                     }}>
                     {choice.name} ({choice.votes})
@@ -53,7 +54,7 @@ export const MapVote = (props, context) => {
               <Button fluid
                 onClick={() => {
                   act("vote", {
-                    index: selectedChoice + props.startIndex + 1,
+                    index: selectedChoiceIndex+1,
                   });
                 }}>
                 Vote
@@ -167,15 +168,12 @@ const MapData = (props, context) => {
                 </Table.Cell>
                 <Table.Cell>
                   <Section title="Performance History">
-                    <p>
-                      Missions completed: {selectedChoiceData.successRate}<br />
-                      Ships evacuated: {selectedChoiceData.evacRate}<br />
-                      On eternal patrol: {selectedChoiceData.lossRate}
-                    </p>
-                    <p>
-                      Engine stability: {selectedChoiceData.engineStability}<br />
-                      Hull durability: {selectedChoiceData.durability}
-                    </p>
+                    Missions completed: {selectedChoiceData.successRate}<br />
+                    Ships evacuated: {selectedChoiceData.evacRate}<br />
+                    On eternal patrol: {selectedChoiceData.lossRate}
+                    <br />
+                    Engine stability: {selectedChoiceData.engineStability}<br />
+                    Hull durability: {selectedChoiceData.durability}
                   </Section>
                 </Table.Cell>
               </Table.Row>

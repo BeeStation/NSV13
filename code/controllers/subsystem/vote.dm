@@ -334,7 +334,6 @@ SUBSYSTEM_DEF(vote)
 	return data
 
 /datum/controller/subsystem/vote/ui_act(action, params)
-	message_admins("ui_act([action], [english_list(params2list(params))])")
 	. = ..()
 	if(.)
 		return
