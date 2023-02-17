@@ -300,7 +300,10 @@ SUBSYSTEM_DEF(vote)
 		voting += user.client?.ckey
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "Vote")
+		if(mode == "map")
+			ui = new(user, src, "MapVote")
+		else
+			ui = new(user, src, "Vote")
 		ui.open()
 
 /datum/controller/subsystem/vote/ui_data(mob/user)
@@ -394,3 +397,87 @@ SUBSYSTEM_DEF(vote)
 		var/datum/player_details/P = GLOB.player_details[owner.ckey]
 		if(P)
 			P.player_actions -= src
+
+/datum/controller/subsystem/vote/ui_static_data(mob/user)
+	var/static/list/base64_cache = list()
+
+	// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA - Corvid
+	var/datum/DBQuery/stability_query = SSdbcore.NewQuery("SELECT map_name, SUM(started) AS started, SUM(failed) AS failed FROM " + \
+		"(SELECT [format_table_name("round")].id, [format_table_name("round")].map_name, feedback.started, feedback.failed FROM [format_table_name("round")] " + \
+		"INNER JOIN (SELECT round_id, JSON_VALUE(JSON, '$.data.started') AS started, JSON_VALUE(JSON, '$.data.failed') AS failed " + \
+		"FROM [format_table_name("feedback")] WHERE key_name='engine_stats') AS feedback ON feedback.round_id=[format_table_name("round")].id) AS stats GROUP BY map_name")
+
+	/*
+	// This should get me one row per ship with totals for each ending type but doesn't
+	var/datum/DBQuery/endings_query = SSdbcore.NewQuery("SUM(CASE WHEN feedback.ending LIKE 'succeeded' THEN 1 ELSE 0 END) as succeeded, " + \
+		"SUM(CASE WHEN feedback.ending LIKE 'evacuated' THEN 1 ELSE 0 END) as evacuated, SUM(CASE WHEN feedback.ending LIKE 'destroyed' THEN 1 ELSE 0 END) as destroyed " + \
+		"FROM ss13_round INNER JOIN (" + \
+		"SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data') AS CHAR) AS ending FROM ss13_feedback WHERE key_name='nsv_endings') AS feedback " + \
+		" ON ss13_round.id=feedback.round_id")
+		*/
+	var/datum/DBQuery/endings_query = SSdbcore.NewQuery("SELECT map_name, feedback.ending FROM ss13_round INNER JOIN (" + \
+		"SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data') AS CHAR) AS ending FROM ss13_feedback WHERE key_name='nsv_endings') AS feedback " + \
+		" ON ss13_round.id=feedback.round_id")
+
+	SSdbcore.QuerySelect(stability_query)
+	SSdbcore.QuerySelect(endings_query)
+
+	var/list/all_map_info = list()
+
+	for(var/key in config.maplist)
+		var/datum/map_config/map_data = config.maplist[key]
+
+		var/obj/structure/overmap/typedef = map_data.ship_type
+
+		var/stability = "No data"
+		while(stability_query.NextRow())
+			if((stability_query.item[1] == map_data.map_name) && (stability_query.item[2]))
+				// (starts - failures) * 100 / starts
+				stability = (stability_query.item[2] - stability_query.item[3]) * 100 / stability_query.item[2]
+		stability_query.next_row_to_take = 1
+
+		var/successes = 0
+		var/evacs = 0
+		var/losses = 0
+		while(endings_query.NextRow())
+			if(endings_query.item[1] == map_data.map_name)
+				message_admins(endings_query.item[2])
+				if(endings_query.item[2] == "\"succeeded\"")
+					successes += 1
+				else if(endings_query.item[2] == "\"evacuated\"")
+					evacs += 1
+				else if(endings_query.item[2] == "\"destroyed\"")
+					losses += 1
+		var/result_rates = "No data"
+		var/total_results = successes + evacs + losses
+		if(total_results > 0)
+			result_rates = "[successes*100/total_results] / [evacs*100/total_results] / [losses*100/total_results]"
+		endings_query.next_row_to_take = 1
+		var/base64
+		if(!base64)
+			if(base64_cache[map_data.ship_type])
+				base64 = base64_cache[map_data.ship_type]
+			else
+				base64 = icon2base64(icon(initial(typedef.icon), initial(typedef.icon_state), frame=1))
+				base64_cache[map_data.ship_type] = base64
+
+		var/list/map_info = list(
+			"img" = base64,
+			"shipClass" = initial(typedef.name),
+			"description" = map_data.map_description,
+			"manufacturer" = map_data.manufacturer,
+			"patternDate" = map_data.pattern_date,
+			"strengths" = map_data.strengths,
+			"weaknesses" = map_data.weaknesses,
+			"weapons" = map_data.weapons,
+			"durability" = initial(typedef.max_integrity),
+			"engine" = map_data.engine_type,
+			"engineStability" = stability,
+			"successRate" = result_rates
+		)
+		message_admins("[map_data.map_name]: [stability], [result_rates]")
+
+		all_map_info[key] = map_info
+
+	var/list/data = list("mapInfo" = all_map_info)
+	return data
