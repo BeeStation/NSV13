@@ -338,6 +338,16 @@
 		/obj/item/stock_parts/capacitor = 1,
 		/obj/item/stock_parts/manipulator = 1)
 
+ /obj/item/circuitboard/machine/plasma_loader/multitool_act(mob/living/user, obj/item/multitool/I)
+ 	. = ..()
+ 	if(istype(I))
+ 		pipe_layer = (pipe_layer >= PIPING_LAYER_MAX) ? PIPING_LAYER_MIN : (pipe_layer + 1)
+ 		to_chat(user, "<span class='notice'>You change the circuitboard to layer [pipe_layer].</span>")
+
+ /obj/item/circuitboard/machine/plasma_laoder/examine()
+ 	. = ..()
+ 	. += "<span class='notice'>It is set to layer [pipe_layer].</span>"
+
 /obj/item/circuitboard/machine/plasma_caster
 	name = "circuit board (plasma caster)"
 	desc = "My faithful...stand firm!"
