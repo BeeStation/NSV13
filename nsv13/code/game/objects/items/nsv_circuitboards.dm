@@ -345,9 +345,9 @@
 		/obj/item/stack/sheet/mineral/titanium = 25,
 		/obj/item/stack/sheet/iron = 50,
 		/obj/item/stack/sheet/mineral/uranium = 10,
-		/obj/item/stock_parts/manipulator = 10,
-		/obj/item/stock_parts/capacitor = 10,
-		/obj/item/stock_parts/matter_bin = 10,
+		/obj/item/stock_parts/manipulator = 1,
+		/obj/item/stock_parts/capacitor = 5,
+		/obj/item/stock_parts/matter_bin = 2,
 		/obj/item/assembly/igniter = 1,
 		/obj/item/ship_weapon/parts/firing_electronics = 1
 	)
