@@ -334,6 +334,7 @@ SUBSYSTEM_DEF(vote)
 	return data
 
 /datum/controller/subsystem/vote/ui_act(action, params)
+	message_admins("ui_act([action], [english_list(params2list(params))])")
 	. = ..()
 	if(.)
 		return
@@ -401,23 +402,51 @@ SUBSYSTEM_DEF(vote)
 /datum/controller/subsystem/vote/ui_static_data(mob/user)
 	var/static/list/base64_cache = list()
 
-	// AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA - Corvid
+	/* From the feedback table made by SSblackbox, for any entry with the key 'engine_stats', get the round ID and extract
+		the number of starts and failures from the JSON data. Call this result "feedback" for short.
+		(SELECT round_id, JSON_VALUE(JSON, '$.data.started') AS started, JSON_VALUE(JSON, '$.data.failed') AS failed FROM ss13_feedback WHERE key_name='engine_stats') as feedback
+
+		Take that round ID, and compare it with the data from the round table to also get the map name. Call this results "stats". (It didn't work without the AS, idk why)
+		(SELECT ss13_round.id, ss13_round.map_name, feedback.started, feedback.failed FROM ss13_round INNER JOIN [feedback] ON feedback.round_id=ss13_round.id) as stats
+
+		Then add up total starts and failures for each map.
+		SELECT map_name, SUM(started) AS started, SUM(failed) AS failed FROM [stats]
+	 */
 	var/datum/DBQuery/stability_query = SSdbcore.NewQuery("SELECT map_name, SUM(started) AS started, SUM(failed) AS failed FROM " + \
 		"(SELECT [format_table_name("round")].id, [format_table_name("round")].map_name, feedback.started, feedback.failed FROM [format_table_name("round")] " + \
 		"INNER JOIN (SELECT round_id, JSON_VALUE(JSON, '$.data.started') AS started, JSON_VALUE(JSON, '$.data.failed') AS failed " + \
 		"FROM [format_table_name("feedback")] WHERE key_name='engine_stats') AS feedback ON feedback.round_id=[format_table_name("round")].id) AS stats GROUP BY map_name")
 
-	/*
-	// This should get me one row per ship with totals for each ending type but doesn't
+	/* This SHOULD get me one row per ship with totals for each ending type but the quotation marks in the results are messing things up...
+		From the feedback table, for any entry with the key 'nsv_endings', get the round ID and extract the type of ending from the JSON data.
+		This is a text string. Current values (2023/02/17) are "succeeded", "evacuated", and "failed". Call this result "feedback".
+		(SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data') AS CHAR) AS ending FROM ss13_feedback WHERE key_name='nsv_endings') AS feedback
+
+		Take the round ID and compare it with the data from the round table to also get the map name. Add up how many "succeeded", "evacuated", and "destroyed"s
+		we have for each map name.
+		SUM(CASE WHEN feedback.ending LIKE 'succeeded' THEN 1 ELSE 0 END) as succeeded,
+		SUM(CASE WHEN feedback.ending LIKE 'evacuated' THEN 1 ELSE 0 END) as evacuated,
+		SUM(CASE WHEN feedback.ending LIKE 'destroyed' THEN 1 ELSE 0 END) as destroyed
+		FROM ss13_round INNER JOIN [feedback] ON ss13_round.id=feedback.round_id GROUP BY ss13_round.map_name
+
 	var/datum/DBQuery/endings_query = SSdbcore.NewQuery("SUM(CASE WHEN feedback.ending LIKE 'succeeded' THEN 1 ELSE 0 END) as succeeded, " + \
 		"SUM(CASE WHEN feedback.ending LIKE 'evacuated' THEN 1 ELSE 0 END) as evacuated, SUM(CASE WHEN feedback.ending LIKE 'destroyed' THEN 1 ELSE 0 END) as destroyed " + \
 		"FROM ss13_round INNER JOIN (" + \
 		"SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data') AS CHAR) AS ending FROM ss13_feedback WHERE key_name='nsv_endings') AS feedback " + \
-		" ON ss13_round.id=feedback.round_id")
+		" ON ss13_round.id=feedback.round_id GROUP BY ss13_round.map_name")
 		*/
-	var/datum/DBQuery/endings_query = SSdbcore.NewQuery("SELECT map_name, feedback.ending FROM ss13_round INNER JOIN (" + \
-		"SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data') AS CHAR) AS ending FROM ss13_feedback WHERE key_name='nsv_endings') AS feedback " + \
-		" ON ss13_round.id=feedback.round_id")
+
+	/* From the feedback table, for any entry with the key 'nsv_endings', get the round ID and extract the type of ending from the JSON data.
+		This is a text string. Current values (2023/02/17) are "succeeded", "evacuated", and "failed". Call this result "feedback".
+		(SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data') AS CHAR) AS ending FROM ss13_feedback WHERE key_name='nsv_endings') AS feedback
+
+		Take the round ID and compare it with the data from the round table to get the map name. This gives us one row per round where we
+		recorded the ending with the map name and the ending type. The ending type string includes quotation marks.
+		SELECT map_name, feedback.ending FROM ss13_round INNER JOIN [feedback] ON ss13_round.id=feedback.round_id
+	*/
+	var/datum/DBQuery/endings_query = SSdbcore.NewQuery("SELECT map_name, feedback.ending FROM [format_table_name("round")] INNER JOIN (" + \
+		"SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data') AS CHAR) AS ending FROM [format_table_name("feedback")] WHERE key_name='nsv_endings') AS feedback " + \
+		" ON [format_table_name("round")].id=feedback.round_id")
 
 	SSdbcore.QuerySelect(stability_query)
 	SSdbcore.QuerySelect(endings_query)
@@ -433,12 +462,15 @@ SUBSYSTEM_DEF(vote)
 		while(stability_query.NextRow())
 			if((stability_query.item[1] == map_data.map_name) && (stability_query.item[2]))
 				// (starts - failures) * 100 / starts
-				stability = (stability_query.item[2] - stability_query.item[3]) * 100 / stability_query.item[2]
+				stability = "[(stability_query.item[2] - stability_query.item[3]) * 100 / stability_query.item[2]] %"
 		stability_query.next_row_to_take = 1
 
 		var/successes = 0
 		var/evacs = 0
 		var/losses = 0
+		var/successes_text = "No data"
+		var/evacs_text = "No data"
+		var/losses_text = "No data"
 		while(endings_query.NextRow())
 			if(endings_query.item[1] == map_data.map_name)
 				message_admins(endings_query.item[2])
@@ -448,10 +480,11 @@ SUBSYSTEM_DEF(vote)
 					evacs += 1
 				else if(endings_query.item[2] == "\"destroyed\"")
 					losses += 1
-		var/result_rates = "No data"
 		var/total_results = successes + evacs + losses
 		if(total_results > 0)
-			result_rates = "[successes*100/total_results] / [evacs*100/total_results] / [losses*100/total_results]"
+			successes_text = "[successes] ([successes*100/total_results] %)"
+			evacs_text = "[evacs] ([evacs*100/total_results] %)"
+			losses_text = "[losses] ([losses*100/total_results] %)"
 		endings_query.next_row_to_take = 1
 		var/base64
 		if(!base64)
@@ -473,9 +506,10 @@ SUBSYSTEM_DEF(vote)
 			"durability" = initial(typedef.max_integrity),
 			"engine" = map_data.engine_type,
 			"engineStability" = stability,
-			"successRate" = result_rates
+			"successRate" = successes_text,
+			"evacRate" = evacs_text,
+			"lossRate" = losses_text
 		)
-		message_admins("[map_data.map_name]: [stability], [result_rates]")
 
 		all_map_info[key] = map_info
 
