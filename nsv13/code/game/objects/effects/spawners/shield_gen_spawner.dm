@@ -4,6 +4,6 @@
 	icon_state = "random_room"
 
 /obj/effect/spawner/structure/shield_generator/Initialize()
-	if(prob(100))
+	if(prob(1))
 		spawn_list = list(/obj/machinery/shield_generator)
 	. = ..()
