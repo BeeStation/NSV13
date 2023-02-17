@@ -341,9 +341,9 @@
 	name = "circuit board (plasma caster)"
 	desc = "My faithful...stand firm!"
 	req_components = list(
-		/obj/item/stack/sheet/mineral/titanium = 50,
-		/obj/item/stack/sheet/iron = 100,
-		/obj/item/stack/sheet/mineral/uranium = 20,
+		/obj/item/stack/sheet/mineral/titanium = 25,
+		/obj/item/stack/sheet/iron = 50,
+		/obj/item/stack/sheet/mineral/uranium = 10,
 		/obj/item/stock_parts/manipulator = 10,
 		/obj/item/stock_parts/capacitor = 10,
 		/obj/item/stock_parts/matter_bin = 10,
