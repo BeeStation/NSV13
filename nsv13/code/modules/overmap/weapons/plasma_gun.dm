@@ -254,9 +254,7 @@
 	if(confirm == "Yes")
 		visible_message("<span class='danger'>Burning energy and phoron starts to vent from the gun which chars [usr]!</span>")
 		field_integrity -= rand(30,50)
-		alignment -= rand(50,80)
-		if(alignment < 0)
-			alignment = 0
+		alignment = max(alignment - rand(50,80), 0)
 		fool.adjustFireLoss(rand(50, 120)) // Don't try to deconstruct it
 		fool.IgniteMob()
 		playsound(usr.loc, 'sound/magic/lightningbolt.ogg', 100, 1, extrarange = 30)
