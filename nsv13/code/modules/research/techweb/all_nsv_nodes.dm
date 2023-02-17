@@ -171,6 +171,7 @@
     prereq_ids = list("adv_biotech")
     design_ids = list("limbdesign_felinid", "limbdesign_lizard", "limbdesign_plasmaman", "limbdesign_ethereal", "limbdesign_moth", "limbdesign_apid")
     research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 6500)
+    export_price = 9000
 
 //Vehicle Hardpoint tech
 /datum/techweb_node/vehicle_start
