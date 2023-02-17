@@ -50,7 +50,7 @@ export const MapVote = (props, context) => {
                   </Tabs.Tab>
                 ))}
               </Tabs>
-              <Button
+              <Button fluid
                 onClick={() => {
                   act("vote", {
                     index: selectedChoice + props.startIndex + 1,
@@ -161,11 +161,22 @@ const MapData = (props, context) => {
               {/* Loadout and stats */}
               <Table.Row>
                 <Table.Cell>
-                  What&apos;s on the map
+                  <Section title="Equipment">
+                    What&apos;s on the map
+                  </Section>
                 </Table.Cell>
                 <Table.Cell>
-                  % returned / evacuated / destroyed: {selectedChoiceData.successRate}<br />
-                  Engine stability: {selectedChoiceData.engineStability} %
+                  <Section title="Performance History">
+                    <p>
+                      Missions completed: {selectedChoiceData.successRate}<br />
+                      Ships evacuated: {selectedChoiceData.evacRate}<br />
+                      On eternal patrol: {selectedChoiceData.lossRate}
+                    </p>
+                    <p>
+                      Engine stability: {selectedChoiceData.engineStability}<br />
+                      Hull durability: {selectedChoiceData.durability}
+                    </p>
+                  </Section>
                 </Table.Cell>
               </Table.Row>
             </Table>
