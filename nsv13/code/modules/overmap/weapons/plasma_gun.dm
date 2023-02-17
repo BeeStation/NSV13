@@ -5,6 +5,7 @@
 	desc = "An MPAC, a strong deterrent used by the Dominion as a method of staving off attackers. It requires a lot of maintenance."
 	anchored = TRUE
 	max_integrity = 1200 //It has no chance to survive a self-induced plasmafire
+	obj_integrity = 1200
 
 	density = TRUE
 	safety = TRUE
