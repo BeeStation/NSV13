@@ -18,7 +18,6 @@ export const MapVote = (props, context) => {
     selectedChoiceName,
     setSelectedChoiceName,
   ] = useLocalState(context, 'choiceName');
-  const selectedChoiceData = mapInfo && mapInfo[selectedChoiceName] || [];
 
   return (
     <Window
@@ -36,7 +35,7 @@ export const MapVote = (props, context) => {
       height={600} >
       <Window.Content overflowY="scroll">
         <Flex>
-          <Flex.Item m={1}>
+          <Flex.Item mr={1} mb={1}>
             <Section fill fitted>
               <Tabs vertical>
                 {choices.map((choice, i) => (
@@ -61,101 +60,7 @@ export const MapVote = (props, context) => {
               </Button>
             </Section>
           </Flex.Item>
-          {/* Map data pane */}
-          <Flex.Item
-            position="relative"
-            m={1}
-            grow={1}
-            basis={0}>
-            <Section title={selectedChoiceName}>
-              {!!selectedChoiceName && (
-                <>
-                  <Section>
-                    {/* Top left - Icon or image */}
-                    <Flex direction="row">
-                      <Flex.Item m={1}>
-                        {selectedChoiceData.img ? (
-                          <img
-                            src={`data:image/jpeg;base64,${selectedChoiceData.img}`}
-                            style={{
-                              'vertical-align': 'middle',
-                              'horizontal-align': 'middle',
-                            }} />
-                        ) : (
-                          <span
-                            className={classes([
-                              'ship32x32',
-                              selectedChoiceData.path,
-                            ])}
-                            style={{
-                              'vertical-align': 'middle',
-                              'horizontal-align': 'middle',
-                            }} />
-                        )}
-                      </Flex.Item>
-                      {/* Top right - class, manufacturer, design date */}
-                      <Flex.Item m={1} mb={5} grow={1}>
-                        <LabeledList collapsing>
-                          <LabeledList.Item label="Ship Class">
-                            {selectedChoiceData.shipClass}
-                          </LabeledList.Item>
-                          <LabeledList.Item label="Manufacturer">
-                            {selectedChoiceData.manufacturer}
-                          </LabeledList.Item>
-                          <LabeledList.Item label="Pattern Commission Date">
-                            {selectedChoiceData.patternDate}
-                          </LabeledList.Item>
-                        </LabeledList>
-                      </Flex.Item>
-                    </Flex>
-                    {/* Description */}
-                    {selectedChoiceData.description}
-                  </Section>
-                  <Table>
-                    {/* Middle - pros and cons */}
-                    <Table.Row>
-                      <Table.Cell>
-                        <Section title="Strengths">
-                          {!!selectedChoiceData.strengths && (
-                            <ul>
-                              {selectedChoiceData.strengths.map(strength => (
-                                <li key={strength}>
-                                  {strength}
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </Section>
-                      </Table.Cell>
-                      <Table.Cell>
-                        <Section title="Weaknesses">
-                          {!!selectedChoiceData.weaknesses && (
-                            <ul>
-                              {selectedChoiceData.weaknesses.map(weakness => (
-                                <li key={weakness}>
-                                  {weakness}
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </Section>
-                      </Table.Cell>
-                    </Table.Row>
-                    {/* Loadout and stats */}
-                    <Table.Row>
-                      <Table.Cell>
-                        What&apos;s on the map
-                      </Table.Cell>
-                      <Table.Cell>
-                        % returned / evacuated / destroyed: {selectedChoiceData.successRate}<br />
-                        Engine stability: {selectedChoiceData.engineStability} %
-                      </Table.Cell>
-                    </Table.Row>
-                  </Table>
-                </>
-              )}
-            </Section>
-          </Flex.Item>
+          <MapData />
         </Flex>
         {!!lower_admin && <AdminPanel />}
         <TimePanel />
@@ -164,12 +69,119 @@ export const MapVote = (props, context) => {
   );
 };
 
+const MapData = (props, context) => {
+  const { data } = useBackend(context);
+  const { mapInfo } = data;
+  const [
+    selectedChoiceName,
+    setSelectedChoiceName,
+  ] = useLocalState(context, 'choiceName');
+  const selectedChoiceData = mapInfo && mapInfo[selectedChoiceName] || [];
+
+  return (
+    <Flex.Item
+      position="relative"
+      mb={1}
+      grow={1}
+      basis={0}>
+      <Section title={selectedChoiceName}>
+        {!!selectedChoiceName && (
+          <>
+            <Section>
+              {/* Top left - Icon or image */}
+              <Flex direction="row">
+                <Flex.Item m={1}>
+                  {selectedChoiceData.img ? (
+                    <img
+                      src={`data:image/jpeg;base64,${selectedChoiceData.img}`}
+                      style={{
+                        'vertical-align': 'middle',
+                        'horizontal-align': 'middle',
+                      }} />
+                  ) : (
+                    <span
+                      className={classes([
+                        'ship32x32',
+                        selectedChoiceData.path,
+                      ])}
+                      style={{
+                        'vertical-align': 'middle',
+                        'horizontal-align': 'middle',
+                      }} />
+                  )}
+                </Flex.Item>
+                {/* Top right - class, manufacturer, design date */}
+                <Flex.Item m={1} mb={5} grow={1}>
+                  <LabeledList collapsing>
+                    <LabeledList.Item label="Ship Class">
+                      {selectedChoiceData.shipClass}
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Manufacturer">
+                      {selectedChoiceData.manufacturer}
+                    </LabeledList.Item>
+                    <LabeledList.Item label="Pattern Commission Date">
+                      {selectedChoiceData.patternDate}
+                    </LabeledList.Item>
+                  </LabeledList>
+                </Flex.Item>
+              </Flex>
+              {/* Description */}
+              {selectedChoiceData.description}
+            </Section>
+            <Table>
+              {/* Middle - pros and cons */}
+              <Table.Row>
+                <Table.Cell>
+                  <Section title="Strengths">
+                    {!!selectedChoiceData.strengths && (
+                      <ul>
+                        {selectedChoiceData.strengths.map(strength => (
+                          <li key={strength}>
+                            {strength}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </Section>
+                </Table.Cell>
+                <Table.Cell>
+                  <Section title="Weaknesses">
+                    {!!selectedChoiceData.weaknesses && (
+                      <ul>
+                        {selectedChoiceData.weaknesses.map(weakness => (
+                          <li key={weakness}>
+                            {weakness}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </Section>
+                </Table.Cell>
+              </Table.Row>
+              {/* Loadout and stats */}
+              <Table.Row>
+                <Table.Cell>
+                  What&apos;s on the map
+                </Table.Cell>
+                <Table.Cell>
+                  % returned / evacuated / destroyed: {selectedChoiceData.successRate}<br />
+                  Engine stability: {selectedChoiceData.engineStability} %
+                </Table.Cell>
+              </Table.Row>
+            </Table>
+          </>
+        )}
+      </Section>
+    </Flex.Item>
+  );
+};
+
 // Collapsible panel for admin actions.
 const AdminPanel = (props, context) => {
   const { act, data } = useBackend(context);
   const { avm, avr, avmap, voting, upper_admin } = data;
   return (
-    <Section m={1} title="Admin Options">
+    <Section mb={1} title="Admin Options">
       <Collapsible title="Start a Vote">
         <Flex basis={0} mt={2} justify="space-between">
           <Flex.Item>
@@ -247,7 +259,7 @@ const TimePanel = (props, context) => {
 
   return (
     <Section>
-      <Flex m={1} justify="space-between">
+      <Flex justify="space-between">
         {!!upper_admin && (
           <Button
             onClick={() => {
