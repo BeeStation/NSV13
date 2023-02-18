@@ -31,7 +31,7 @@
 	//NSV13 - special mapvote things
 	var/map_description
 	var/manufacturer
-	var/pattern_date
+	var/commission_date
 	var/list/strengths
 	var/list/weaknesses
 	var/list/weapons
@@ -192,8 +192,8 @@
 		map_description = json["map_description"]
 	if("manufacturer" in json)
 		manufacturer = json["manufacturer"]
-	if("pattern_date" in json)
-		pattern_date = json["pattern_date"]
+	if("commission_date" in json)
+		commission_date = json["commission_date"]
 	if("strengths" in json)
 		strengths = json["strengths"]
 	if("weaknesses" in json)

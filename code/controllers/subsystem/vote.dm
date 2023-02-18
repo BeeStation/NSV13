@@ -498,7 +498,7 @@ SUBSYSTEM_DEF(vote)
 			"shipClass" = initial(typedef.name),
 			"description" = map_data.map_description,
 			"manufacturer" = map_data.manufacturer,
-			"patternDate" = map_data.pattern_date,
+			"patternDate" = map_data.commission_date,
 			"strengths" = map_data.strengths,
 			"weaknesses" = map_data.weaknesses,
 			"weapons" = map_data.weapons,
