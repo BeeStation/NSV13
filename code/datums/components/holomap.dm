@@ -27,7 +27,7 @@
 	holo.summon_holomap(user)
 
 /datum/component/holomap
-	var/datum/action/toggle_holomap/holobutton = null
+	var/datum/action/toggle_holomap/holobutton = new
 	/// The various images and icons for the map are stored in here, as well as the actual big map itself.
 	var/datum/station_holomap/holomap_datum
 	/// The mob that is currently watching the holomap.
@@ -46,7 +46,6 @@
 /datum/component/holomap/Initialize()
 	. = ..()
 	if(isatom(parent))
-		holobutton = new
 		holobutton.holder = parent
 		holobutton.holo = src
 
@@ -77,12 +76,9 @@
 	holobutton.Remove(user)
 
 /datum/component/holomap/Destroy(force, silent)
-	if(holobutton)
-		if(holobutton.holder)
-			holobutton.Remove(holobutton.holder)
-		else
-			holobutton.Remove(get_user())
-		qdel(holobutton)
+	//if(holobutton)
+	//	holobutton.Remove(get_user())
+	//	qdel(holobutton)
 	. = ..()
 
 /datum/component/holomap/proc/summon_holomap(datum/user)
