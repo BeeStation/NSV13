@@ -170,7 +170,7 @@ const MapData = (props, context) => {
                   <Section title="Performance History">
                     Missions completed: {selectedChoiceData.successRate}<br />
                     Ships evacuated: {selectedChoiceData.evacRate}<br />
-                    On eternal patrol: {selectedChoiceData.lossRate}
+                    On eternal patrol: {selectedChoiceData.lossRate}<br />
                     <br />
                     Engine stability: {selectedChoiceData.engineStability}<br />
                     Hull durability: {selectedChoiceData.durability}

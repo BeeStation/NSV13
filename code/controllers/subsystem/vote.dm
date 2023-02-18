@@ -398,6 +398,14 @@ SUBSYSTEM_DEF(vote)
 		if(P)
 			P.player_actions -= src
 
+#define MASS_TINY 1 //1 Player - Fighters
+#define MASS_SMALL 2 //2-5 Players - FoB/Mining Ship
+#define MASS_MEDIUM 3 //10-20 Players - Small Capital Ships
+#define MASS_MEDIUM_LARGE 5 //10-20 Players - Small Capital Ships
+#define MASS_LARGE 7 //20-40 Players - Medium Capital Ships
+#define MASS_TITAN 150 //40+ Players - Large Capital Ships
+#define MASS_IMMOBILE 200 //Things that should not be moving. See: stations
+
 /datum/controller/subsystem/vote/ui_static_data(mob/user)
 	var/static/list/base64_cache = list()
 
@@ -427,13 +435,14 @@ SUBSYSTEM_DEF(vote)
 		SUM(CASE WHEN feedback.ending LIKE 'evacuated' THEN 1 ELSE 0 END) as evacuated,
 		SUM(CASE WHEN feedback.ending LIKE 'destroyed' THEN 1 ELSE 0 END) as destroyed
 		FROM ss13_round INNER JOIN [feedback] ON ss13_round.id=feedback.round_id GROUP BY ss13_round.map_name
-
-	var/datum/DBQuery/endings_query = SSdbcore.NewQuery("SUM(CASE WHEN feedback.ending LIKE 'succeeded' THEN 1 ELSE 0 END) as succeeded, " + \
-		"SUM(CASE WHEN feedback.ending LIKE 'evacuated' THEN 1 ELSE 0 END) as evacuated, SUM(CASE WHEN feedback.ending LIKE 'destroyed' THEN 1 ELSE 0 END) as destroyed " + \
+	*/
+	var/datum/DBQuery/endings_query2 = SSdbcore.NewQuery("CASE WHEN feedback.ending LIKE 'succeeded' THEN 1 ELSE 0 END as succeeded, " + \
+		"CASE WHEN feedback.ending LIKE 'evacuated' THEN 1 ELSE 0 END as evacuated, CASE WHEN feedback.ending LIKE 'destroyed' THEN 1 ELSE 0 END as destroyed " + \
 		"FROM ss13_round INNER JOIN (" + \
 		"SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data') AS CHAR) AS ending FROM ss13_feedback WHERE key_name='nsv_endings') AS feedback " + \
 		" ON ss13_round.id=feedback.round_id GROUP BY ss13_round.map_name")
-		*/
+	while(endings_query2.NextRow())
+		message_admins(endings_query2.item)
 
 	/* From the feedback table, for any entry with the key 'nsv_endings', get the round ID and extract the type of ending from the JSON data.
 		This is a text string. Current values (2023/02/17) are "succeeded", "evacuated", and "failed". Call this result "feedback".
@@ -472,7 +481,6 @@ SUBSYSTEM_DEF(vote)
 		var/losses_text = "No data"
 		while(endings_query.NextRow())
 			if(endings_query.item[1] == map_data.map_name)
-				message_admins(endings_query.item[2])
 				if(endings_query.item[2] == "\"succeeded\"")
 					successes += 1
 				else if(endings_query.item[2] == "\"evacuated\"")
@@ -485,6 +493,24 @@ SUBSYSTEM_DEF(vote)
 			evacs_text = "[evacs] ([evacs*100/total_results] %)"
 			losses_text = "[losses] ([losses*100/total_results] %)"
 		endings_query.next_row_to_take = 1
+
+		var/mass = "Maneuvering data not found"
+		var/mass_number = initial(typedef.mass)
+		switch(mass_number)
+			if(MASS_TINY)
+				mass = "Tiny and maneuverable"
+			if(MASS_SMALL)
+				mass = "Small and agile"
+			if(MASS_MEDIUM)
+				mass = "Average armour and manueverability"
+			if(MASS_MEDIUM_LARGE)
+				mass = "Medium-sized, clunky"
+			if(MASS_LARGE)
+				mass = "Larger, clunky"
+			if(MASS_TITAN)
+				mass = "Heavily armored, slow"
+			if(MASS_IMMOBILE)
+				mass = "An immobile fortess"
 		var/base64
 		if(!base64)
 			if(base64_cache[map_data.ship_type])
@@ -499,7 +525,7 @@ SUBSYSTEM_DEF(vote)
 			"description" = map_data.map_description,
 			"manufacturer" = map_data.manufacturer,
 			"patternDate" = map_data.commission_date,
-			"strengths" = map_data.strengths,
+			"strengths" = map_data.strengths + mass,
 			"weaknesses" = map_data.weaknesses,
 			"weapons" = map_data.weapons,
 			"durability" = initial(typedef.max_integrity),
