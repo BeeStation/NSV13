@@ -163,7 +163,7 @@ const ChoicesPanel = (props, context) => {
 
   return (
     <Flex.Item mb={1} grow={1}>
-      <Section title="Choices">
+      <Section fill title="Choices">
         {content}
       </Section>
     </Flex.Item>
@@ -176,7 +176,7 @@ const DisplayChoices = (props, context) => {
 
   return props.choices?.map((choice, i) => (
     <Flex justify="space-between" direction="row" key={i} mb={props.margin}>
-      <Flex.Item>
+      <Flex>
         <Button
           onClick={() => {
             act("vote", {
@@ -193,7 +193,7 @@ const DisplayChoices = (props, context) => {
             <Icon color="green" name="vote-yea" />
           )}
         </Box>
-      </Flex.Item>
+      </Flex>
       <Box ml={1}>
         {props.tally} {choice.votes}
       </Box>
