@@ -436,13 +436,6 @@ SUBSYSTEM_DEF(vote)
 		SUM(CASE WHEN feedback.ending LIKE 'destroyed' THEN 1 ELSE 0 END) as destroyed
 		FROM ss13_round INNER JOIN [feedback] ON ss13_round.id=feedback.round_id GROUP BY ss13_round.map_name
 	*/
-	var/datum/DBQuery/endings_query2 = SSdbcore.NewQuery("CASE WHEN feedback.ending LIKE 'succeeded' THEN 1 ELSE 0 END as succeeded, " + \
-		"CASE WHEN feedback.ending LIKE 'evacuated' THEN 1 ELSE 0 END as evacuated, CASE WHEN feedback.ending LIKE 'destroyed' THEN 1 ELSE 0 END as destroyed " + \
-		"FROM ss13_round INNER JOIN (" + \
-		"SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data') AS CHAR) AS ending FROM ss13_feedback WHERE key_name='nsv_endings') AS feedback " + \
-		" ON ss13_round.id=feedback.round_id GROUP BY ss13_round.map_name")
-	while(endings_query2.NextRow())
-		message_admins(endings_query2.item)
 
 	/* From the feedback table, for any entry with the key 'nsv_endings', get the round ID and extract the type of ending from the JSON data.
 		This is a text string. Current values (2023/02/17) are "succeeded", "evacuated", and "failed". Call this result "feedback".
@@ -524,12 +517,12 @@ SUBSYSTEM_DEF(vote)
 			"shipClass" = initial(typedef.name),
 			"description" = map_data.map_description,
 			"manufacturer" = map_data.manufacturer,
+			"mapper" = map_data.mapper,
 			"patternDate" = map_data.commission_date,
 			"strengths" = map_data.strengths + mass,
 			"weaknesses" = map_data.weaknesses,
-			"weapons" = map_data.weapons,
+			"equipment" = map_data.equipment,
 			"durability" = initial(typedef.max_integrity),
-			"engine" = map_data.engine_type,
 			"engineStability" = stability,
 			"successRate" = successes_text,
 			"evacRate" = evacs_text,

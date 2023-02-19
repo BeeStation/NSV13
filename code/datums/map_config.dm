@@ -31,11 +31,11 @@
 	//NSV13 - special mapvote things
 	var/map_description
 	var/manufacturer
+	var/mapper
 	var/commission_date
 	var/list/strengths
 	var/list/weaknesses
-	var/list/weapons
-	var/engine_type
+	var/list/equipment
 
 	var/traits = list(
 		list(
@@ -192,16 +192,16 @@
 		map_description = json["map_description"]
 	if("manufacturer" in json)
 		manufacturer = json["manufacturer"]
+	if("mapper" in json)
+		mapper = json["mapper"]
 	if("commission_date" in json)
 		commission_date = json["commission_date"]
 	if("strengths" in json)
 		strengths = json["strengths"]
 	if("weaknesses" in json)
 		weaknesses = json["weaknesses"]
-	if("weapons" in json)
-		weapons = json["weapons"]
-	if("engine_type" in json)
-		engine_type = json["engine_type"]
+	if("equipment" in json)
+		equipment = json["equipment"]
 
 	CHECK_EXISTS("ship_type")
 	if("ship_type" in json)

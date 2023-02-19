@@ -34,6 +34,8 @@ export const MapVote = (props, context) => {
       width={800}
       height={600} >
       <Window.Content overflowY="scroll">
+        {!!lower_admin && <AdminPanel />}
+        <TimePanel />
         <Flex>
           <Flex.Item mr={1} mb={1}>
             <Section fill fitted>
@@ -63,8 +65,6 @@ export const MapVote = (props, context) => {
           </Flex.Item>
           <MapData />
         </Flex>
-        {!!lower_admin && <AdminPanel />}
-        <TimePanel />
       </Window.Content>
     </Window>
   );
@@ -85,7 +85,7 @@ const MapData = (props, context) => {
       mb={1}
       grow={1}
       basis={0}>
-      <Section title={selectedChoiceName}>
+      <Section title={selectedChoiceName + " by " + selectedChoiceData.mapper}>
         {!!selectedChoiceName && (
           <>
             <Section>
@@ -163,7 +163,11 @@ const MapData = (props, context) => {
               <Table.Row>
                 <Table.Cell>
                   <Section title="Equipment">
-                    What&apos;s on the map
+                    {!!selectedChoiceData.equipment && selectedChoiceData.equipment.map(thing => (
+                      <>
+                        {thing}<br />
+                      </>
+                    ))}
                   </Section>
                 </Table.Cell>
                 <Table.Cell>
