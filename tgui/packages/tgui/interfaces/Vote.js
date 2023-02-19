@@ -38,7 +38,7 @@ export const Vote = (props, context) => {
 };
 
 // Collapsible panel for admin actions.
-const AdminPanel = (props, context) => {
+export const AdminPanel = (props, context) => {
   const { act, data } = useBackend(context);
   const { avm, avr, avmap, voting, upper_admin } = data;
   return (
@@ -173,7 +173,7 @@ const TextWithNewlines = (props) => {
   else {
     content = props.text;
   }
-  
+
   return content;
 };
 
@@ -218,7 +218,7 @@ const DisplayChoices = (props, context) => {
 };
 
 // Countdown timer at the bottom. Includes a cancel vote option for admins
-const TimePanel = (props, context) => {
+export const TimePanel = (props, context) => {
   const { act, data } = useBackend(context);
   const { upper_admin, time_remaining } = data;
 

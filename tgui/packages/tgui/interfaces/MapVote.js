@@ -6,6 +6,7 @@ import { Button, Flex, LabeledList, Section, Tabs, Table,
   Collapsible,
 } from '../components';
 import { Window } from '../layouts';
+import { AdminPanel, TimePanel } from './Vote.js';
 
 export const MapVote = (props, context) => {
   const { act, data } = useBackend(context);
@@ -85,7 +86,7 @@ const MapData = (props, context) => {
       mb={1}
       grow={1}
       basis={0}>
-      <Section title={selectedChoiceName + " by " + selectedChoiceData.mapper}>
+      <Section title={!!selectedChoiceName && (selectedChoiceName + " by " + selectedChoiceData.mapper)}>
         {!!selectedChoiceName && (
           <>
             <Section>
@@ -186,106 +187,5 @@ const MapData = (props, context) => {
         )}
       </Section>
     </Flex.Item>
-  );
-};
-
-// Collapsible panel for admin actions.
-const AdminPanel = (props, context) => {
-  const { act, data } = useBackend(context);
-  const { avm, avr, avmap, voting, upper_admin } = data;
-  return (
-    <Section mb={1} title="Admin Options">
-      <Collapsible title="Start a Vote">
-        <Flex basis={0} mt={2} justify="space-between">
-          <Flex.Item>
-            <Box mb={1}>
-              <Button
-                disabled={!upper_admin || !avmap}
-                onClick={() => act("map")} >
-                Map
-              </Button>
-              {!!upper_admin && (
-                <Button.Checkbox
-                  ml={1}
-                  color="red"
-                  checked={!avmap}
-                  onClick={() => act("toggle_map")} >
-                  Disable{!avmap ? "d" : ""}
-                </Button.Checkbox>
-              )}
-            </Box>
-            <Box mb={1}>
-              <Button
-                disabled={!upper_admin || !avr}
-                onClick={() => act("restart")} >
-                Restart
-              </Button>
-              {!!upper_admin && (
-                <Button.Checkbox
-                  ml={1}
-                  color="red"
-                  checked={!avr}
-                  onClick={() => act("toggle_restart")} >
-                  Disable{!avr ? "d" : ""}
-                </Button.Checkbox>
-              )}
-            </Box>
-            <Box mb={1}>
-              <Button
-                disabled={!upper_admin || !avm}
-                onClick={() => act("gamemode")} >
-                Gamemode
-              </Button>
-              {!!upper_admin && (
-                <Button.Checkbox
-                  ml={1}
-                  color="red"
-                  checked={!avm}
-                  onClick={() => act("toggle_gamemode")} >
-                  Disable{!avm ? "d" : ""}
-                </Button.Checkbox>
-              )}
-            </Box>
-          </Flex.Item>
-          <Flex.Item>
-            <Button disabled={!upper_admin} onClick={() => act("custom")}>
-              Create Custom Vote
-            </Button>
-          </Flex.Item>
-        </Flex>
-      </Collapsible>
-      <Collapsible title="View Voters">
-        <Box mt={2} width="100%" height={6} overflowY="scroll">
-          {voting.map(voter => {
-            return <Box key={voter}>{voter}</Box>;
-          })}
-        </Box>
-      </Collapsible>
-    </Section>
-  );
-};
-
-// Countdown timer at the bottom. Includes a cancel vote option for admins
-const TimePanel = (props, context) => {
-  const { act, data } = useBackend(context);
-  const { upper_admin, time_remaining } = data;
-
-  return (
-    <Section>
-      <Flex justify="space-between">
-        {!!upper_admin && (
-          <Button
-            onClick={() => {
-              act("cancel");
-            }}
-            color="red" >
-            Cancel Vote
-          </Button>
-        )}
-        <Box fontSize={1.5} textAlign="right">
-          Time Remaining: {time_remaining}s
-        </Box>
-      </Flex>
-    </Section>
   );
 };
