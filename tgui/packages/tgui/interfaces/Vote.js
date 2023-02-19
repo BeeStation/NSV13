@@ -162,23 +162,12 @@ const ChoicesPanel = (props, context) => {
   }
 
   return (
-    <Section title="Choices">
-      {content}
-    </Section>
+    <Flex.Item mb={1} grow={1}>
+      <Section title="Choices">
+        {content}
+      </Section>
+    </Flex.Item>
   );
-};
-
-const TextWithNewlines = (props) => {
-  let content;
-  const text = props.text;
-  if (text.includes('<br />')) {
-    content = text.split('<br />').map((item, i) => <p key={i}>{item}</p>);
-  }
-  else {
-    content = props.text;
-  }
-
-  return content;
 };
 
 const DisplayChoices = (props, context) => {
@@ -186,37 +175,28 @@ const DisplayChoices = (props, context) => {
   const { selectedChoice } = data;
 
   return props.choices?.map((choice, i) => (
-    <Flex justify="space-between" direction="column" key={i} mb={props.margin}>
+    <Flex justify="space-between" direction="row" key={i} mb={props.margin}>
       <Flex.Item>
-        <Flex justify="space-between" direction="row" key={i} mb={props.margin}>
-          <Flex.Item>
-            <Button
-              onClick={() => {
-                act("vote", {
-                  index: i + props.startIndex + 1,
-                });
-              }}
-              disabled={
-                choice === props.choices[selectedChoice - props.startIndex - 1]
-              } >
-              {choice.name?.replace(/^\w/, c => c.toUpperCase())}
-            </Button>
-            <Box mt={0.4} ml={1}>
-              {choice === props.choices[selectedChoice - props.startIndex - 1] && (
-                <Icon color="green" name="vote-yea" />
-              )}
-            </Box>
-          </Flex.Item>
-          <Box ml={1}>
-            {props.tally} {choice.votes}
-          </Box>
-        </Flex>
+        <Button
+          onClick={() => {
+            act("vote", {
+              index: i + props.startIndex + 1,
+            });
+          }}
+          disabled={
+            choice === props.choices[selectedChoice - props.startIndex - 1]
+          } >
+          {choice.name?.replace(/^\w/, c => c.toUpperCase())}
+        </Button>
+        <Box mt={0.4} ml={1}>
+          {choice === props.choices[selectedChoice - props.startIndex - 1] && (
+            <Icon color="green" name="vote-yea" />
+          )}
+        </Box>
       </Flex.Item>
-      {!!choice.description && (
-        <Flex.Item>
-          <TextWithNewlines text={choice.description} />
-        </Flex.Item>
-      )}
+      <Box ml={1}>
+        {props.tally} {choice.votes}
+      </Box>
     </Flex>
   ));
 };
@@ -227,21 +207,23 @@ export const TimePanel = (props, context) => {
   const { upper_admin, time_remaining } = data;
 
   return (
-    <Section>
-      <Flex justify="space-between">
-        {!!upper_admin && (
-          <Button
-            onClick={() => {
-              act("cancel");
-            }}
-            color="red" >
-            Cancel Vote
-          </Button>
-        )}
-        <Box fontSize={1.5} textAlign="right">
-          Time Remaining: {time_remaining}s
-        </Box>
-      </Flex>
-    </Section>
+    <Flex.Item>
+      <Section>
+        <Flex justify="space-between">
+          {!!upper_admin && (
+            <Button
+              onClick={() => {
+                act("cancel");
+              }}
+              color="red" >
+              Cancel Vote
+            </Button>
+          )}
+          <Box fontSize={1.5} textAlign="right">
+            Time Remaining: {time_remaining}s
+          </Box>
+        </Flex>
+      </Section>
+    </Flex.Item>
   );
 };

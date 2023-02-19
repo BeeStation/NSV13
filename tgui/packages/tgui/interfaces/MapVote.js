@@ -38,7 +38,7 @@ export const MapVote = (props, context) => {
         {!!lower_admin && <AdminPanel />}
         <TimePanel />
         <Flex>
-          <Flex.Item mr={1} mb={1}>
+          <Flex.Item mt={1} mr={1} mb={1}>
             <Section fill fitted>
               <Tabs vertical>
                 {choices.map((choice, i) => (
@@ -83,6 +83,7 @@ const MapData = (props, context) => {
   return (
     <Flex.Item
       position="relative"
+      mt={1}
       mb={1}
       grow={1}
       basis={0}>
