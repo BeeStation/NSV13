@@ -1613,7 +1613,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	name = "upgraded fighter missile rack"
 	icon_state = "missilerack_tier2"
 	tier = 2
-	max_ammo = 5
+	max_ammo = 10
 
 /obj/item/fighter_component/secondary/ordnance_launcher/tier3
 	name = "\improper A-11 'Spacehog' Cluster-Freedom Launcher"
