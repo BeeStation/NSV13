@@ -178,7 +178,6 @@ Bullet reactions
 
 /obj/structure/overmap/proc/handle_critical_failure_part_2()
 	if(role == MAIN_OVERMAP)
-		SSblackbox.record_feedback("nested_tally", "mission_status", 1, list(SSmapping.config.map_name, "exploded"))
 		for(var/M in mobs_in_ship)
 			if(!locate(M) in operators)
 				if(isliving(M))
