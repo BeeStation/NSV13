@@ -300,7 +300,7 @@ SUBSYSTEM_DEF(vote)
 		voting += user.client?.ckey
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		if(mode == "map")
+		if(mode == "map") // NSV13 - special mapvote UI
 			ui = new(user, src, "MapVote")
 		else
 			ui = new(user, src, "Vote")
@@ -323,6 +323,7 @@ SUBSYSTEM_DEF(vote)
 		"avr" = CONFIG_GET(flag/allow_vote_restart),
 		"selectedChoice" = choice_by_ckey[user.client?.ckey],
 		"upper_admin" = check_rights_for(user.client, R_ADMIN),
+		"mapvote_banned" = is_banned_from(user.ckey, "Mapvote"), // NSV13 - added mapvote bans
 	)
 
 	for(var/key in choices)
@@ -397,6 +398,8 @@ SUBSYSTEM_DEF(vote)
 		var/datum/player_details/P = GLOB.player_details[owner.ckey]
 		if(P)
 			P.player_actions -= src
+
+// NSV13 content below - additional info for map votes
 
 #define MASS_TINY 1 //1 Player - Fighters
 #define MASS_SMALL 2 //2-5 Players - FoB/Mining Ship

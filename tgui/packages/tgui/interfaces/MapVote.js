@@ -10,7 +10,7 @@ import { AdminPanel, TimePanel } from './Vote.js';
 
 export const MapVote = (props, context) => {
   const { act, data } = useBackend(context);
-  const { mode, question, lower_admin, choices, selectedChoice } = data;
+  const { mode, question, lower_admin, choices, selectedChoice, mapvote_banned } = data;
   const [
     selectedChoiceIndex,
     setSelectedChoiceIndex,
@@ -55,6 +55,7 @@ export const MapVote = (props, context) => {
                 ))}
               </Tabs>
               <Button fluid
+                disabled={mapvote_banned === 1}
                 onClick={() => {
                   act("vote", {
                     index: selectedChoiceIndex+1,
