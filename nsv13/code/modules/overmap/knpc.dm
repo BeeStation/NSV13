@@ -64,6 +64,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 	//They're alive!
 	GLOB.knpcs.Add(src)
 	RegisterSignal(parent, COMSIG_LIVING_REVIVE, .proc/restart)
+	RegisterSignal(parent, COMSIG_ATOM_BULLET_ACT, .proc/register_bullet)
 
 //Swiper! no swiping
 /datum/component/knpc/proc/steal_id(obj/item/card/id/their_id)
@@ -142,7 +143,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 		return FALSE
 	if(length(path) > 1)
 		var/turf/next_turf = get_step_towards(H, path[1])
-		var/turf/this_turf = get_turf(H)	
+		var/turf/this_turf = get_turf(H)
 		//Walk when you see a wet floor
 		if(next_turf.GetComponent(/datum/component/wet_floor))
 			H.m_intent = MOVE_INTENT_WALK
@@ -217,6 +218,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 
 //Allows the AI actor to be revived by a medic, and get straight back into the fight!
 /datum/component/knpc/proc/restart()
+	SIGNAL_HANDLER
 	START_PROCESSING(SSfastprocess, src)
 
 ///Pick a goal from the available goals!
@@ -230,6 +232,15 @@ GLOBAL_LIST_EMPTY(knpcs)
 			best_score = this_score
 	if(chosen)
 		chosen.assume(src)
+
+//Add someone to our threat list when they shoot us
+//Shamelessly lifted from monkey AI code
+/datum/component/knpc/proc/register_bullet(datum/source, obj/item/projectile/Proj)
+	SIGNAL_HANDLER
+	if(istype(Proj , /obj/item/projectile/beam)||istype(Proj, /obj/item/projectile/bullet))
+		if((Proj.damage_type == BURN) || (Proj.damage_type == BRUTE))
+			if(!Proj.nodamage && Proj.damage < living_pawn.health && isliving(Proj.firer))
+				last_aggressors += Proj.firer
 
 //Handles actioning on the goal every tick.
 /datum/component/knpc/process()
