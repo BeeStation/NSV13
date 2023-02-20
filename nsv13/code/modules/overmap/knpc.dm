@@ -236,7 +236,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 	SIGNAL_HANDLER
 	if(istype(Proj , /obj/item/projectile/beam)||istype(Proj, /obj/item/projectile/bullet))
 		if((Proj.damage_type == BURN) || (Proj.damage_type == BRUTE))
-			if(!Proj.nodamage && Proj.damage < parent.health && isliving(Proj.firer))
+			if(!Proj.nodamage && isliving(Proj.firer))
 				last_aggressors += Proj.firer
 
 ///Handles actioning on the goal every tick.
