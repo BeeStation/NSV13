@@ -271,5 +271,4 @@ Any-Mode: (hotkey doesn't need to be on)
 	set name = "Map"
 	set desc = "View the current map in the webviewer"
 	set hidden = 1
-	
-	config.ui_interact(mob)
+	map()
