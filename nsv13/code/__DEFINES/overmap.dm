@@ -25,8 +25,8 @@
 
 //Special cases
 
-#define FIRE_MODE_LASER_PD 15
-#define FIRE_MODE_RED_LASER 16
+#define FIRE_MODE_RED_LASER 15
+#define FIRE_MODE_LASER_PD 16
 #define FIRE_MODE_BLUE_LASER 17
 #define FIRE_MODE_HYBRID_RAIL 18
 
