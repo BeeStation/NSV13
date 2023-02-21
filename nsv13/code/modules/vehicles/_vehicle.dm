@@ -40,8 +40,7 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 	var/bounce_factor = 0.2 // how much of our velocity to keep on collision
 	var/lateral_bounce_factor = 0.95 // mostly there to slow you down when you drive (pilot?) down a 2x2 corridor
 
-	var/brakes = FALSE //Helps you stop the ship
-	var/last_process = 0
+	var/brakes = FALSE //Helps you stop the tug
 	var/last_slowprocess = 0
 	var/last_squeak = 0
 	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
@@ -76,16 +75,8 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 /obj/vehicle/sealed/car/realistic/after_remove_occupant(mob/M)
 	M.set_focus(M)
 
-/*
-
-/obj/vehicle/sealed/car/realistic/key_down(key, client/user)
-	var/mob/themob = user.mob
-	switch(key)
-		if("Alt")
-			if(is_driver(themob))
-				brakes = !brakes
-
-				*/
+/obj/vehicle/sealed/car/realistic/proc/toggle_brakes()
+	brakes = !brakes
 
 /obj/effect/decal/cleanable/tyre_marks
 	name = "Tyre tracks"
@@ -115,17 +106,12 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 		last_enginesound_time = world.time
 		playsound(src, engine_sound, 100, TRUE)
 	user_thrust_dir = direction
-	stoplag()
-	process()
 	return TRUE
 
 // The prices (tick drift) we'll pay for vroom
-/obj/vehicle/sealed/car/realistic/process()
+/obj/vehicle/sealed/car/realistic/process(delta_time)
 	set waitfor = FALSE
-	var/time = min(world.time - last_process, 10)
-	last_process = world.time
-	time /= 10 // fuck off deciseconds
-	if(world.time > last_slowprocess + 10)
+	if(world.time > last_slowprocess + 1 SECONDS)
 		last_slowprocess = world.time
 		slowprocess()
 	if(!canmove)
@@ -159,13 +145,13 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 	if(user_thrust_dir & WEST)
 		desired_angular_velocity = -turnspeed
 	desired_angular_velocity *= pre_forward_movement
-	var/angular_velocity_adjustment = CLAMP(desired_angular_velocity - angular_velocity, -max_angular_acceleration*time, max_angular_acceleration*time)
+	var/angular_velocity_adjustment = CLAMP(desired_angular_velocity - angular_velocity, -max_angular_acceleration*delta_time, max_angular_acceleration*delta_time)
 	if(angular_velocity_adjustment)
-		last_rotate = angular_velocity_adjustment / time
+		last_rotate = angular_velocity_adjustment / delta_time
 		angular_velocity += angular_velocity_adjustment
 	else
 		last_rotate = 0
-	angle += angular_velocity * time
+	angle += angular_velocity * delta_time
 	if(angle >= 360 || angle <= -360)
 		angle = 0
 
@@ -180,20 +166,20 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 			if(occupants.len)
 				var/mob/M = return_drivers()[1]
 				var/client/C = M.client
-				if(!M || C && C.keys_held["Alt"]) //No driver? Brake automatically. Otherwise check if driver wants to break.
+				if(brakes)
 					drag += braking_efficiency
 			var/datum/gas_mixture/env = T.return_air()
 			var/pressure = env.return_pressure()
 			drag += velocity_mag * pressure * 0.0001 // 1 atmosphere should shave off 1% of velocity per tile
 		if(velocity_mag > 20)
-			drag = max(drag, (velocity_mag - 20) / time)
+			drag = max(drag, (velocity_mag - 20) / delta_time)
 		if(drag)
 			if(velocity_mag)
-				var/drag_factor = 1 - CLAMP(drag * time / velocity_mag, 0, 1)
+				var/drag_factor = 1 - CLAMP(drag * delta_time / velocity_mag, 0, 1)
 				velocity_x *= drag_factor
 				velocity_y *= drag_factor
 			if(angular_velocity != 0)
-				var/drag_factor_spin = 1 - CLAMP(drag * 30 * time / abs(angular_velocity), 0, 1)
+				var/drag_factor_spin = 1 - CLAMP(drag * 30 * delta_time / abs(angular_velocity), 0, 1)
 				angular_velocity *= drag_factor_spin
 
 	// Alright now calculate the THRUST
@@ -205,20 +191,17 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 	var/sy = -fx
 	last_thrust_forward = 0
 	last_thrust_right = 0
-	/**
 	if(brakes) //If our brakes are engaged, attempt to slow them down
-		// basically calculates how much we can brake using the thrust
-		var/forward_thrust = -((fx * velocity_x) + (fy * velocity_y)) / time
-		var/right_thrust = -((sx * velocity_x) + (sy * velocity_y)) / time
-		forward_thrust = CLAMP(forward_thrust, -backward_maxthrust, forward_maxthrust)
-		right_thrust = CLAMP(right_thrust, -side_maxthrust, side_maxthrust)
+		// basically calculates how much we can brake using our acceleration
+		var/forward_thrust = -((fx * velocity_x) + (fy * velocity_y)) / delta_time
+		var/right_thrust = -((sx * velocity_x) + (sy * velocity_y)) / delta_time
+		forward_thrust = CLAMP(forward_thrust, -kinetic_traction, kinetic_traction)
+		right_thrust = CLAMP(right_thrust, -kinetic_traction, kinetic_traction)
 		thrust_x += forward_thrust * fx + right_thrust * sx;
 		thrust_y += forward_thrust * fy + right_thrust * sy;
 		last_thrust_forward = forward_thrust
 		last_thrust_right = right_thrust
-		*/
-//	else // Add our thrust to the movement vector
-	if(can_move())
+	else if(can_move())
 		if(user_thrust_dir & NORTH)
 			thrust_x += fx * acceleration
 			thrust_y += fy * acceleration
@@ -227,7 +210,7 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 			thrust_x -= fx * acceleration
 			thrust_y -= fy * acceleration
 			last_thrust_forward = -acceleration
-	 //Stops you yeeting off at lightspeed. This made AI ships really frustrating to play against.
+	 //Stops you yeeting off at lightspeed.
 	if(velocity_x > speed_limit)
 		velocity_x = speed_limit
 	if(velocity_y > speed_limit)
@@ -237,17 +220,17 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 	if(velocity_y < -speed_limit)
 		velocity_y = -speed_limit
 	//Speed us up based on thrust
-	velocity_x += thrust_x * time //And speed us up based on how long we've been thrusting (up to a point)
-	velocity_y += thrust_y * time
+	velocity_x += thrust_x * delta_time //And speed us up based on how long we've been thrusting (up to a point)
+	velocity_y += thrust_y * delta_time
 	//Shave off the sideways movement in a skid.
 	var/side_movement = (sx*velocity_x) + (sy*velocity_y)
-	var/friction_impulse = friction * time //Shouldn't be higher than
+	var/friction_impulse = friction * delta_time
 	var/clamped_side_movement = CLAMP(side_movement, -friction_impulse, friction_impulse)
 	velocity_x -= clamped_side_movement * sx
 	velocity_y -= clamped_side_movement * sy
 	//Reconcile everything into a movement vector
-	offset_x += velocity_x * time
-	offset_y += velocity_y * time
+	offset_x += velocity_x * delta_time
+	offset_y += velocity_y * delta_time
 
 	// alright so now we reconcile the offsets with the in-world position.
 	while((offset_x > 0 && velocity_x > 0) || (offset_y > 0 && velocity_y > 0) || (offset_x < 0 && velocity_x < 0) || (offset_y < 0 && velocity_y < 0))
@@ -334,7 +317,7 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 	transform = mat_from
 	pixel_x = last_offset_x*32
 	pixel_y = last_offset_y*32
-	animate(src, transform=mat_to, pixel_x = offset_x*32, pixel_y = offset_y*32, time = time*10, flags=ANIMATION_END_NOW)
+	animate(src, transform=mat_to, pixel_x = offset_x*32, pixel_y = offset_y*32, time = delta_time*10, flags=ANIMATION_END_NOW)
 
 	for(var/mob/living/M in return_occupants())
 		var/client/C = M.client
@@ -342,7 +325,7 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 			continue
 		C.pixel_x = last_offset_x*32
 		C.pixel_y = last_offset_y*32
-		animate(C, pixel_x = offset_x*32, pixel_y = offset_y*32, time = time*10, flags=ANIMATION_END_NOW)
+		animate(C, pixel_x = offset_x*32, pixel_y = offset_y*32, time = delta_time*10, flags=ANIMATION_END_NOW)
 	user_thrust_dir = 0
 	update_icon()
 

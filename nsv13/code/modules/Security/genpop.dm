@@ -319,7 +319,7 @@ GLOBAL_LIST_EMPTY(prisoner_ids)
 	if(_sentence)
 		sentence = _sentence
 		if(!_name)
-			registered_name = "Prisoner WR-DELPHIC#[rand(0, 10000)]"
+			registered_name = "Prisoner WR-ROSETTA#[rand(0, 10000)]"
 		else
 			registered_name = _name
 		update_label(registered_name, "Convict")

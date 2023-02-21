@@ -56,6 +56,65 @@
 		-->
 		<div class="commit sansserif">
 
+			<h2 class="date">17 February 2023</h2>
+			<h3 class="author">Pontenerd updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">tweaked fork code to allow you to eat all foods</li>
+			</ul>
+
+			<h2 class="date">10 February 2023</h2>
+			<h3 class="author">Bobbanz1 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Potentially fixes the issue the bots have where they randomly get stuck in place unless reset.</li>
+			</ul>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fleets should no longer run out of system options for spawning even with high cross-round F.L.A.R.E. use.</li>
+			</ul>
+			<h3 class="author">Kenionatus updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Boarders now only pick up guns they can actually fire.</li>
+				<li class="refactor">Adds some doc comments to procs in knpc code.</li>
+				<li class="refactor">Improves boarding code a bit.</li>
+				<li class="admin">Adds arguments to spawn_boarders proc of overmap ships. This allows to manually adjust minimum player numbers. Arguments are now "amount, faction_selection="syndicate", min_players = 5, min_players_for_ghosts = 20"</li>
+			</ul>
+			<h3 class="author">Tsar-Salat, ArcaneDefence, tmtmtl30, Mothblocks, RKz, S34NW, CydiaLamiales, Naevi updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added Mothperson markings.</li>
+				<li class="rscadd">Mothpeople now have a preference to choose their antennae type from.</li>
+				<li class="bugfix">Mothpeople will no longer have floating antennae when decapitated.</li>
+				<li class="bugfix">The markings on mothpeople will not show over missing or augmented limbs any more.</li>
+				<li class="bugfix">cut initialization time by 0.18s due to unecessary crop size of moth_wing.dmi</li>
+				<li class="bugfix">Fixes moth neck fluff not showing when their wings are open</li>
+				<li class="bugfix">Fixed wing, antennae and body marking blacklist not working</li>
+				<li class="imageadd">Added back the sprite for clockwork wings</li>
+				<li class="imageadd">Added added the neck fluff to the open wings file</li>
+				<li class="code_imp">Moth character customization and random mob spawning now use moth_wing_roundstart_list, moth_antennae_roundstart_list and moth_markings_roundstart_list for their respective body parts</li>
+				<li class="bugfix">fixed Ahealing a mothperson without wings giving them new wings that were invisible</li>
+			</ul>
+			<h3 class="author">benbot16 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Multi-z trunks can now be built with pipe dispensers.</li>
+				<li class="imageadd">Adds construction states for multi-z disposal trunks.</li>
+				<li class="bugfix">VLS tubes now properly handle missiles exiting them.</li>
+			</ul>
+			<h3 class="author">someone543 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Several teleporter beacons added to Galactica</li>
+			</ul>
+
+			<h2 class="date">05 February 2023</h2>
+			<h3 class="author">someone543 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">Replaces messages that have Delphic Expanse with Rosetta Cluster</li>
+			</ul>
+
+			<h2 class="date">29 January 2023</h2>
+			<h3 class="author">Bobbanz1 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="code_imp">Removes all Warning Signs in the existence of VSC</li>
+			</ul>
+
 			<h2 class="date">25 January 2023</h2>
 			<h3 class="author">Vasily2013 updated:</h3>
 			<ul class="changes bgimages16">
@@ -207,177 +266,6 @@
 			<ul class="changes bgimages16">
 				<li class="tweak">lathes/techfabs/etc light up when theres new research designs</li>
 				<li class="rscadd">researching a tech node 2 tier higher than current tech tier will warn you.</li>
-			</ul>
-
-			<h2 class="date">20 December 2022</h2>
-			<h3 class="author">Karmic-Skink updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added a new type of beaker box</li>
-				<li class="rscadd">Added at least one large beaker to shrike medical</li>
-				<li class="rscadd">Added an additional pipette to shrike medical</li>
-				<li class="rscadd">Added 30u of Rezadone to shrike medical</li>
-				<li class="tweak">Ensured the shrike medical lobby doors are glass for better visibility of the 4 banners</li>
-				<li class="rscadd">Added an emergency jettison system for the Supermatter Crystal on shrike</li>
-				<li class="tweak">Reworked all shrike guidlines to use the newer multilayer system that is also more vibrant</li>
-				<li class="rscadd">Added Munitions guideline from arrivals to shrike</li>
-				<li class="balance">The previous shrike captain's late night bender has been removed (no fun allowed)</li>
-				<li class="balance">The shutters to the captain's cabin now start closed on shrike</li>
-				<li class="rscadd">Added MAA stamp to MAA's locker on shrike</li>
-			</ul>
-
-			<h2 class="date">18 December 2022</h2>
-			<h3 class="author">Bobbanz1 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added a Database to the PDA which is just the Wiki being loaded in the PDA!</li>
-			</ul>
-			<h3 class="author">Bobbanz1, Kenionatus updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">The Nuclear Reactor Monitoring (engineering), The Storm Drive Monitoring (engineering), The Ship Hail Monitor (supply) and The Squad Management (crew), programs can now be found in categories rather than the All Section in the Software Downloader on Modular Computers!</li>
-				<li class="bugfix">Squad Management Program is now actually downloadable!</li>
-				<li class="code_imp">Makes the Ship Hail Monitor file no longer an abomination against indentation.</li>
-			</ul>
-			<h3 class="author">DrSirKnight updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Point Defence Rifle added to the traitor uplink</li>
-				<li class="imageadd">Added sprites for the Point Defence Rifle</li>
-			</ul>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixes fastmos, hopefully</li>
-				<li class="server">Updates the auxmos DLL</li>
-				<li class="bugfix">Changed name of "View Webmap" verb back to "Map"</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixes missing sprites for ion sabre and NSV guns</li>
-				<li class="bugfix">fixes Solir 4 hybrid revolver using the shotgun inhand icon</li>
-				<li class="imageadd">added back nsv inhand gun icons</li>
-			</ul>
-
-			<h2 class="date">16 December 2022</h2>
-			<h3 class="author">BetaCentari updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added the blast shower, which removes radiation faster than a normal shower at the expense of brute damage and damage to worn items</li>
-			</ul>
-			<h3 class="author">Bokkiewokkie updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="code_imp">Changed overmap vectors to use matrices instead of datums.</li>
-			</ul>
-			<h3 class="author">DuskLight9978 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Tweaked the boarding maps.</li>
-				<li class="bugfix">Added lights to Mako maps</li>
-			</ul>
-
-			<h2 class="date">07 December 2022</h2>
-			<h3 class="author">Kapu1178, Kevinz, XSlayer300, Ryll/Shaps, Seris02, GoldenAlpharex updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Speech Format Help verb under the OOC tab.</li>
-				<li class="rscadd">Text emphasis. |italics|, _underline_, +bold+</li>
-				<li class="rscadd">Emotes that start with an apostrophe wont format weirdly</li>
-				<li class="rscadd">You can now have custom say mods, and can use them to emote over radio. say";screeches*HELP SECURITY!" results in [Common] Joe screeches, "HELP SECURITY!"</li>
-			</ul>
-
-			<h2 class="date">03 December 2022</h2>
-			<h3 class="author">Arkatos updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Remote Robot Control now uses tgui.</li>
-			</ul>
-			<h3 class="author">Crossedfall updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="server">fixed CI by hard-setting ubuntu version to use</li>
-			</ul>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed an issue where the entire area of space thought it was part of an asteroid overmap, preventing sabres from FTL jumping</li>
-				<li class="bugfix">Fixed a startup check about donator items</li>
-				<li class="code_imp">Added unit tests for get_overmap</li>
-			</ul>
-
-			<h2 class="date">01 December 2022</h2>
-			<h3 class="author">SteelSlayer, actioninja, uomo91, twilightwanderer, Ghilker updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="refactor">Photocopiers now use TGUI</li>
-				<li class="tweak">You can insert any type of toner cartridge into photocopiers, and regardless of the currently inserted toner's charge level.</li>
-				<li class="tweak">Toner cartridges can be ejected from photocopiers at any time</li>
-				<li class="rscadd">Increased photocopier accuracy aka ADDED MORE BUTT PHOTOCOPIES</li>
-				<li class="rscadd">Added a system of forms and the ability to print them</li>
-				<li class="bugfix">Hints in bureaucracy forms</li>
-				<li class="imageadd">adds the podpeople photocopy ass</li>
-				<li class="rscadd">Added new VOID stamp</li>
-				<li class="bugfix">Photocopier paperforms</li>
-			</ul>
-			<h3 class="author">benbot16 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Munitions control computers can now be built after munitions computer tech is researched.</li>
-				<li class="tweak">Munitions control computer circuits are no longer immortal.</li>
-			</ul>
-
-			<h2 class="date">30 November 2022</h2>
-			<h3 class="author">BetaCentari updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added pixel shifting</li>
-				<li class="tweak">Tweaked a lot of animated pixel shifts</li>
-				<li class="code_imp">Added base_pixel_x</li>
-				<li class="code_imp">Added base_pixel_y</li>
-				<li class="refactor">refactored pixelshifting variables</li>
-			</ul>
-			<h3 class="author">benbot16 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Tweaks repairing ammo sorters.</li>
-				<li class="tweak">Tweaks repairing fighters and fighter armor.</li>
-			</ul>
-
-			<h2 class="date">29 November 2022</h2>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Some multiz things should stop runtiming again.</li>
-			</ul>
-			<h3 class="author">benbot16 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixes the Aetherwhisp's torpedos.</li>
-			</ul>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="code_imp">Added safety to hud removal</li>
-				<li class="code_imp">Suppressed warnings about weather listeners on logout</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Pilots will now hear hails after entering and exiting fighters</li>
-			</ul>
-
-			<h2 class="date">26 November 2022</h2>
-			<h3 class="author">BetaCentari updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Tweaked gravity handled munitions</li>
-			</ul>
-			<h3 class="author">Bobbanz1 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixes a named Mulebot by giving it a new name!</li>
-			</ul>
-			<h3 class="author">Grey updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Atlas now has a FLARE device! Scare people with a 'bomb', no Centcom required.</li>
-				<li class="bugfix">Atlas no longer has the distro and scrubber networks connected</li>
-			</ul>
-			<h3 class="author">Kenionatus updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixes tip of the round about nautical relative directions being straight up wrong.</li>
-			</ul>
-			<h3 class="author">Pontenerd updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added Highjack, a drug similar to space drugs, but for IPC's</li>
-			</ul>
-			<h3 class="author">benbot16 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="balance">Scanning systems using the astrometrics computer now takes 15 seconds, and scanning anomalies takes 1 minute.</li>
-			</ul>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed boarding objectives for non-random starmap</li>
-				<li class="bugfix">Fixed munitions positions falling under the "misc" section of the crew manifest</li>
-				<li class="bugfix">Allowed overmap double-click to view interior to work on smaller ships again</li>
 			</ul>
 		</div>
 
