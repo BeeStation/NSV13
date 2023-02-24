@@ -298,8 +298,6 @@
 				bonus_spread += dual_wield_spread
 				loop_counter++
 				addtimer(CALLBACK(G, /obj/item/gun.proc/process_fire, target, user, TRUE, params, null, bonus_spread, flag), loop_counter)
-	//Nsv13 aiming component
-	process_fire(target, user, TRUE, params, null, bonus_spread, aimed)
 
 	process_fire(target, user, TRUE, params, null, bonus_spread, aimed)
 
