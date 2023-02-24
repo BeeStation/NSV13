@@ -277,7 +277,7 @@
 	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/battleship
 
-/obj/structure/overmap/nanotrasen/corvette/ai
+/obj/structure/overmap/nanotrasen/frigate/ai
 	ai_controlled = TRUE
 	ai_flags = AI_FLAG_DESTROYER
 	torpedoes = 10 //it's vago, alright?
