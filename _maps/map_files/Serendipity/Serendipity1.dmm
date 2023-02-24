@@ -2461,12 +2461,6 @@
 	ai_controller = /area/ai_monitored/nuke_storage;
 	icon_state = "control_stun";
 	name = "Vault turret control panel";
-	pixel_y = 26
-	},
-/obj/machinery/turretid{
-	ai_controller = /area/ai_monitored/nuke_storage;
-	icon_state = "control_stun";
-	name = "Vault turret control panel";
 	pixel_y = -26
 	},
 /obj/machinery/camera/autoname{
@@ -9126,10 +9120,8 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/bridge/meeting_room/council)
 "Ey" = (
-/obj/machinery/door/window/brigdoor/security/cell/southleft{
-	req_one_access_txt = null
-	},
 /obj/effect/landmark/start/head_of_security,
+/obj/machinery/door/window/brigdoor/security/cell/southleft,
 /turf/open/floor/fakespace,
 /area/security/prison)
 "EA" = (
@@ -14813,11 +14805,11 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
-/obj/machinery/door/airlock/ship/security/glass{
-	name = "Riot Armory";
-	req_one_access_txt = "3"
-	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/airlock/ship/security/glass{
+	name = "Security Equipment";
+	req_one_access_txt = "1;4"
+	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "WN" = (
