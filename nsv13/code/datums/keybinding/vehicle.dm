@@ -7,7 +7,7 @@
 // Toggling brakes for tugs/similar vehicles
 /datum/keybinding/vehicle/toggle_brakes
 	key = "Alt"
-	name = "toggle_brakes"
+	name = "toggle_car_brakes"
 	full_name = "Toggle Brakes"
 	description = "Toggle a vehicle's brakes."
 	keybind_signal = COMSIG_KB_VEHICLE_TOGGLE_BRAKES
