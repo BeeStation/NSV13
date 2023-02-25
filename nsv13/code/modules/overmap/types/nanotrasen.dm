@@ -163,15 +163,6 @@
 	boardable = TRUE
 	plasma_caster = TRUE
 
-/obj/structure/overmap/nanotrasen/serendipity/event
-	obj_integrity = 10000000
-	max_integrity = 10000000
-	integrity_failure = 10000000
-	use_armour_quadrants = FALSE
-
-/obj/structure/overmap/nanotrasen/serendipity/event/apply_weapons()
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-
 //Player Versions
 // deletion_behavior = DAMAGE_STARTS_COUNTDOWN
 // starting_system = "Staging"
