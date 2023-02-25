@@ -348,7 +348,7 @@
 	name = "plasma ball"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "plasma_ball" //No longer bad test sprite, animated and globulated
-	homing = TRUE
+	can_home = TRUE
 	range = 25000 //Relentlessly tracks original target until the target is destroyed
 	homing_turn_speed = 180
 	damage = 150
