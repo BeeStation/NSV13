@@ -206,7 +206,7 @@
 	icon_state = initial(icon_state)
 
 /obj/machinery/ship_weapon/plasma_caster/animate_projectile(atom/target)
-	return linked.fire_projectile(weapon_type.default_projectile_type, target, homing = TRUE, speed = 2, lateral=weapon_type.lateral)
+	return linked.fire_projectile(weapon_type.default_projectile_type, target, speed = 2, lateral=weapon_type.lateral)
 
 /obj/machinery/ship_weapon/plasma_caster/proc/misfire()
 	say("WARNING! Phoron containment field failure, ejecting gas!")
