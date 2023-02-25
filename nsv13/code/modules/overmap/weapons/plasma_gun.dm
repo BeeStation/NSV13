@@ -1,6 +1,6 @@
 /obj/machinery/ship_weapon/plasma_caster
 	name = "\improper Magnetic Phoron Acceleration Caster"
-	icon = 'nsv13/icons/obj/plasma_gun.dmi' //This sprite cost me $150
+	icon = 'nsv13/icons/obj/plasma_gun.dmi'
 	icon_state = "plasma_gun"
 	desc = "An MPAC, a strong deterrent used by the Dominion as a method of staving off attackers. It requires a lot of maintenance."
 	anchored = TRUE

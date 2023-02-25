@@ -151,7 +151,7 @@
 	desc = "a serendipity class exploration and research vessel"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/serendipity.dmi'
 	icon_state = "serendipity"
-	mass = MASS_TINY
+	mass = MASS_SMALL
 	sprite_size = 48
 	damage_states = FALSE
 	bound_height = 32
@@ -160,7 +160,6 @@
 	max_integrity = 1250
 	integrity_failure = 1250
 	armor = list("overmap_light" = 50, "overmap_medium" = 40, "overmap_heavy" = 50)
-	boardable = TRUE
 	plasma_caster = TRUE
 
 //Player Versions
@@ -251,17 +250,12 @@
 
 /obj/structure/overmap/nanotrasen/serendipity/starter
 	role = MAIN_OVERMAP
-	obj_integrity = 900
-	max_integrity = 900
-	integrity_failure = 900
+	obj_integrity = 1400
+	max_integrity = 1400
+	integrity_failure = 1400
 	starting_system = "Staging" //Required for all player ships
-	armor = list("overmap_light" = 50, "overmap_medium" = 40, "overmap_heavy" = 50)
+	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
-	use_armour_quadrants = TRUE
-	armour_quadrants = list("forward_port" = list("name" = "Forward Port", "max_armour" = 450, "current_armour" = 450),\
-						"forward_starboard" = list("name" = "Forward Starboard", "max_armour" = 450, "current_armour" = 450),\
-						"aft_port" = list("name" = "Aft Port", "max_armour" = 450, "current_armour" = 450),\
-						"aft_starboard" = list("name" = "Aft Starboard", "max_armour" = 450, "current_armour" = 450))
 
 /obj/structure/overmap/nanotrasen/serendipity/starter/apply_weapons()
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
