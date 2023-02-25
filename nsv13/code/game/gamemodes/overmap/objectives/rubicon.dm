@@ -28,3 +28,4 @@
 
 /datum/overmap_objective/clear_system/dolos
 	system_name = "Dolos Remnants"
+	extension_supported = TRUE
