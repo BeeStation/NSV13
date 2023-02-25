@@ -46,6 +46,9 @@
 "aj" = (
 /obj/machinery/conveyor/auto,
 /obj/machinery/door/window/westright,
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
 "ak" = (
@@ -540,6 +543,9 @@
 /obj/machinery/announcement_system,
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
 	dir = 5
+	},
+/obj/machinery/camera/autoname{
+	dir = 1
 	},
 /turf/open/floor/circuit/red/telecomms,
 /area/comms)
@@ -4821,12 +4827,6 @@
 	},
 /turf/open/floor/mineral/titanium/yellow,
 /area/hallway/nsv/deck1/hallway)
-"wt" = (
-/obj/structure/shuttle/engine/huge{
-	dir = 8
-	},
-/turf/open/space/basic,
-/area/space)
 "wu" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/structure/cable{
@@ -4996,7 +4996,7 @@
 	dir = 4
 	},
 /turf/open/floor/engine/vacuum,
-/area/nsv/hanger)
+/area/nsv/weapons)
 "xg" = (
 /obj/machinery/telecomms/processor/preset_three,
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
@@ -5235,7 +5235,7 @@
 	icon_state = "1-2"
 	},
 /turf/closed/wall/r_wall/ship,
-/area/nsv/hanger)
+/area/nsv/weapons)
 "yD" = (
 /obj/structure/fluff/bleepypanel{
 	dir = 4
@@ -5602,9 +5602,10 @@
 	},
 /area/engine/engine_room)
 "Ah" = (
-/obj/item/radio/intercom/directional/south,
-/obj/structure/stairs{
-	dir = 4
+/obj/structure/ladder,
+/obj/structure/sign/directions/plaque/munitions{
+	dir = 1;
+	pixel_y = -32
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
@@ -7901,9 +7902,6 @@
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
 /obj/machinery/airalarm/directional/south{
 	pixel_y = -19
 	},
@@ -9015,7 +9013,7 @@
 	},
 /area/engine/engine_room)
 "PN" = (
-/turf/open/space/basic,
+/turf/open/floor/engine/airless/light,
 /area/space/nearstation)
 "PQ" = (
 /obj/structure/particle_accelerator/end_cap{
@@ -9176,7 +9174,7 @@
 /obj/structure/shuttle/engine/huge{
 	dir = 8
 	},
-/turf/open/space/basic,
+/turf/open/floor/engine/airless/light,
 /area/space/nearstation)
 "QA" = (
 /obj/structure/lattice/catwalk/over/ship,
@@ -10001,9 +9999,10 @@
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "Ua" = (
-/obj/structure/lattice,
-/turf/open/space/basic,
-/area/space)
+/obj/machinery/suit_storage_unit/pilot,
+/obj/machinery/newscaster/directional/south,
+/turf/open/floor/plasteel/dark,
+/area/nsv/weapons)
 "Uc" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -10680,10 +10679,7 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/engine_room)
 "Xn" = (
-/obj/machinery/newscaster/directional/south,
-/obj/structure/stairs{
-	dir = 4
-	},
+/obj/item/radio/intercom/directional/south,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "Xo" = (
@@ -36316,12 +36312,12 @@ Ks
 Ks
 Ks
 KG
-Ks
-Ks
-wt
-Ks
-Ks
-wt
+PN
+PN
+Qz
+PN
+PN
+Qz
 Ks
 Ks
 Ks
@@ -36549,13 +36545,13 @@ zg
 zg
 Sg
 Sg
-Ks
-Ks
-wt
-Ua
-Ua
-Ua
-Ua
+PN
+PN
+Qz
+Sg
+Sg
+Sg
+Sg
 Ks
 Ks
 dD
@@ -38619,7 +38615,7 @@ pv
 pv
 pv
 pv
-pC
+pv
 Od
 rP
 kx
@@ -50188,7 +50184,7 @@ As
 MI
 Bm
 Bm
-Bm
+Ua
 Bl
 Bl
 Qj

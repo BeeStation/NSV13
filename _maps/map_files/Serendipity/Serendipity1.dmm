@@ -2334,13 +2334,6 @@
 	},
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/cmo)
-"hN" = (
-/obj/structure/shuttle/engine/large{
-	dir = 8
-	},
-/obj/structure/lattice,
-/turf/open/floor/engine/airless/light,
-/area/space/nearstation)
 "hO" = (
 /obj/machinery/shieldwallgen/xenobiologyaccess,
 /obj/effect/turf_decal/tile/ship/purple{
@@ -2832,6 +2825,12 @@
 "jj" = (
 /obj/structure/disposalpipe/segment,
 /obj/structure/table/glass/plasma,
+/obj/item/folder/red,
+/obj/item/folder{
+	pixel_x = 3;
+	pixel_y = 3
+	},
+/obj/item/paper_bin,
 /obj/item/reagent_containers/food/drinks/mug,
 /turf/open/floor/carpet/red,
 /area/security/warden)
@@ -3196,6 +3195,9 @@
 /area/crew_quarters/dorms/nsv/nature_deck)
 "kt" = (
 /obj/machinery/firealarm/directional/west,
+/obj/machinery/computer/security{
+	dir = 4
+	},
 /turf/open/floor/carpet/red,
 /area/security/warden)
 "ky" = (
@@ -4407,7 +4409,6 @@
 /area/maintenance/department/medical)
 "oB" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/structure/grille,
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
@@ -5140,12 +5141,6 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/chemistry)
-"rl" = (
-/obj/structure/shuttle/engine/large{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/space/nearstation)
 "rm" = (
 /obj/structure/closet/secure_closet/CMO,
 /obj/item/sensor_device,
@@ -5933,6 +5928,10 @@
 /area/medical/chemistry)
 "tS" = (
 /obj/structure/extinguisher_cabinet/west,
+/obj/structure/closet/secure_closet/warden{
+	anchored = 1
+	},
+/obj/item/sensor_device,
 /turf/open/floor/carpet/red,
 /area/security/warden)
 "tV" = (
@@ -6162,7 +6161,7 @@
 /obj/structure/shuttle/engine/huge{
 	dir = 8
 	},
-/turf/open/floor/plating,
+/turf/open/floor/engine/airless/light,
 /area/space/nearstation)
 "uO" = (
 /turf/closed/wall/r_wall/ship,
@@ -7402,7 +7401,7 @@
 /obj/structure/shuttle/engine/propulsion{
 	dir = 8
 	},
-/turf/open/space/basic,
+/turf/open/floor/plating,
 /area/space/nearstation)
 "yz" = (
 /obj/structure/cable{
@@ -7445,10 +7444,16 @@
 /turf/open/floor/plating,
 /area/maintenance/department/bridge)
 "yD" = (
-/obj/machinery/computer/security{
-	dir = 1
-	},
 /obj/machinery/newscaster/directional/south,
+/obj/item/storage/box/handcuffs,
+/obj/item/storage/box/prisoner{
+	pixel_x = 4;
+	pixel_y = 4
+	},
+/obj/item/clothing/mask/muzzle,
+/obj/item/storage/box/exileimp,
+/obj/structure/table/glass/plasma,
+/obj/machinery/computer/med_data/laptop,
 /turf/open/floor/carpet/red,
 /area/security/warden)
 "yF" = (
@@ -8575,12 +8580,13 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/medical/genetics/cloning)
 "Cy" = (
-/obj/structure/lattice,
-/obj/structure/shuttle/engine/propulsion{
-	dir = 8
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
-/turf/open/floor/engine/airless/light,
-/area/space/nearstation)
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
+/obj/machinery/firealarm/directional/south,
+/turf/open/floor/plasteel/tiled/light,
+/area/hallway/secondary/exit)
 "Cz" = (
 /obj/effect/turf_decal/delivery,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
@@ -9907,10 +9913,6 @@
 	},
 /turf/open/floor/plasteel/tiled/light,
 /area/bridge/cic)
-"Ha" = (
-/obj/structure/lattice,
-/turf/open/floor/engine/airless/light,
-/area/space/nearstation)
 "Hb" = (
 /obj/structure/cable{
 	icon_state = "0-2"
@@ -10046,14 +10048,6 @@
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons/starboard)
 "HB" = (
-/obj/structure/table/glass/plasma,
-/obj/item/storage/box/exileimp,
-/obj/item/storage/box/prisoner{
-	pixel_x = 4;
-	pixel_y = 4
-	},
-/obj/item/clothing/mask/muzzle,
-/obj/item/storage/box/handcuffs,
 /obj/structure/sign/poster/official/no_erp{
 	pixel_y = -31
 	},
@@ -10127,14 +10121,12 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/bridge/cic)
 "HL" = (
-/obj/structure/closet/secure_closet/warden{
-	anchored = 1
-	},
-/obj/item/sensor_device,
 /obj/machinery/computer/ship/viewscreen{
 	pixel_x = -32;
 	pixel_y = -6
 	},
+/mob/living/simple_animal/pet/dog/bullterrier/walter,
+/obj/structure/bed/dogbed/walter,
 /turf/open/floor/carpet/red,
 /area/security/warden)
 "HM" = (
@@ -10696,8 +10688,6 @@
 	icon_state = "0-2"
 	},
 /obj/machinery/power/apc/auto_name/north,
-/mob/living/simple_animal/pet/dog/bullterrier/walter,
-/obj/structure/bed/dogbed/walter,
 /turf/open/floor/carpet/red,
 /area/security/warden)
 "JC" = (
@@ -12878,7 +12868,6 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/bridge/meeting_room/council)
 "Qu" = (
-/obj/structure/lattice,
 /obj/structure/shuttle/engine/large{
 	dir = 8
 	},
@@ -14575,7 +14564,8 @@
 /turf/open/floor/grass,
 /area/chapel)
 "VZ" = (
-/turf/open/openspace,
+/obj/structure/ladder,
+/turf/open/floor/plasteel/dark,
 /area/nsv/weapons/starboard)
 "Wc" = (
 /obj/structure/cable{
@@ -15715,7 +15705,6 @@
 /area/science/robotics)
 "ZQ" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/structure/grille,
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
@@ -40552,8 +40541,8 @@ zP
 zP
 zP
 az
-SY
-SY
+DI
+DI
 uN
 az
 zP
@@ -40809,9 +40798,9 @@ zP
 zP
 zP
 az
-SY
-SY
-SY
+DI
+DI
+DI
 az
 az
 az
@@ -41066,9 +41055,9 @@ zP
 zP
 zP
 az
-SY
-SY
-SY
+DI
+DI
+DI
 az
 MJ
 MJ
@@ -41329,8 +41318,8 @@ TF
 yx
 MJ
 MJ
-SY
-SY
+DI
+DI
 uN
 WK
 jN
@@ -41346,7 +41335,7 @@ DD
 aR
 xH
 ae
-Qw
+Cy
 WD
 WD
 WD
@@ -41362,8 +41351,8 @@ az
 az
 az
 az
-SY
-SY
+DI
+DI
 uN
 az
 zP
@@ -41584,11 +41573,11 @@ TF
 dq
 TF
 TF
-SY
-rl
-SY
-SY
-SY
+DI
+Qu
+DI
+DI
+DI
 WK
 wR
 jN
@@ -41619,9 +41608,9 @@ Te
 Te
 Te
 Te
-SY
-SY
-SY
+DI
+DI
+DI
 az
 az
 zP
@@ -41841,11 +41830,11 @@ XS
 uF
 Ya
 TF
-SY
-SY
-SY
-SY
-SY
+DI
+DI
+DI
+DI
+DI
 SY
 jN
 gz
@@ -41876,9 +41865,9 @@ Te
 Te
 Te
 QJ
-SY
-SY
-SY
+DI
+DI
+DI
 QJ
 az
 az
@@ -42908,7 +42897,7 @@ QP
 qf
 xl
 tq
-tb
+QJ
 Te
 Te
 Te
@@ -44660,7 +44649,7 @@ zP
 az
 Te
 Te
-Ha
+DI
 Qu
 zU
 KE
@@ -44708,8 +44697,8 @@ qD
 wP
 kc
 tq
-Ha
-hN
+DI
+Qu
 Te
 Te
 az
@@ -44917,8 +44906,8 @@ zP
 az
 Te
 Te
-Ha
-Ha
+DI
+DI
 zU
 yU
 gW
@@ -44965,8 +44954,8 @@ bH
 ch
 ds
 tq
-Ha
-Ha
+DI
+DI
 Te
 Te
 az
@@ -45430,7 +45419,7 @@ zP
 zP
 az
 lE
-Cy
+QJ
 BV
 cy
 BV
@@ -45481,7 +45470,7 @@ hO
 tq
 RB
 aA
-Cy
+QJ
 lE
 az
 IM
@@ -45686,7 +45675,7 @@ zP
 zP
 zP
 az
-Cy
+QJ
 BV
 BV
 AR
@@ -45739,7 +45728,7 @@ aA
 xG
 aA
 aA
-Cy
+QJ
 az
 IM
 zP
@@ -54205,7 +54194,7 @@ DI
 DI
 Te
 Et
-VZ
+Lq
 Et
 Te
 Te
