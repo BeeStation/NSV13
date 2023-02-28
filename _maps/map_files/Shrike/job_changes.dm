@@ -47,7 +47,7 @@ MAP_REMOVE_JOB(air_traffic_controller)
 	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
 		return
 	build_path = null
-
+*/
 //Bottle Chemistry Packs
 
 /datum/supply_pack/medical/chemical_supply_compounds/New()
@@ -97,7 +97,7 @@ MAP_REMOVE_JOB(air_traffic_controller)
 	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
 		return
 	hidden = FALSE
-*/
+
 //Job Changes
 
 /datum/job/bridge/New()
