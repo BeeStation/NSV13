@@ -29,7 +29,7 @@ MAP_REMOVE_JOB(air_traffic_controller)
 	can_be_bought = FALSE
 
 //Disabled objects
-
+/*
 /obj/item/circuitboard/machine/ore_silo/New()
 	.=..()
 	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
@@ -97,7 +97,7 @@ MAP_REMOVE_JOB(air_traffic_controller)
 	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
 		return
 	hidden = FALSE
-
+*/
 //Job Changes
 
 /datum/job/bridge/New()
