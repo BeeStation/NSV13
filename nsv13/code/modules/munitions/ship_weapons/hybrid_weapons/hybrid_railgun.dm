@@ -246,7 +246,7 @@
 			if(switching)
 				to_chat(usr, "<span class='notice'>Error: Unable to comply, action already in process.</span>")
 				return
-			if(ammo.len == 0)
+			if(state == STATE_NOTLOADED && !loading)
 				to_chat(usr, "<span class='notice'>Action queued: Cycling ordnance chamber configuration.</span>")
 				switching = TRUE
 				playsound(src, 'nsv13/sound/effects/ship/mac_hold.ogg', 100)
