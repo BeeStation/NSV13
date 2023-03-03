@@ -8,7 +8,7 @@ export const Smelter = (props, context) => {
   const {
     on,
     allowredeem,
-    points,
+    stored_points,
     materials,
     alloys,
   } = data;
@@ -34,11 +34,11 @@ export const Smelter = (props, context) => {
                   <Box inline color="label" mr={1}>
                     Stored Points:
                   </Box>
-                  {points}
+                  {stored_points}
                   <Button
                     ml={2}
                     content="Redeem"
-                    disabled={points === 0}
+                    disabled={stored_points === 0}
                     onClick={() => act('Redeem')} />
                 </Box>
               </Table.Cell>
@@ -96,7 +96,7 @@ const MaterialRow = (props, context) => {
         <Button
           color={material.smelting ? "good" : "bad"}
           content={material.smelting ? "Smelting" : "Not Smelting"}
-          onClick={() => onRelease(amount)} />
+          onClick={() => onRelease()} />
       </Table.Cell>
     </Table.Row>
   );
