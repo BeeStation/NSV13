@@ -206,7 +206,7 @@
 /obj/machinery/ship_weapon/hybrid_rail/attackby(obj/item/I, mob/user)
 	if(!linked)
 		get_ship()
-	if(switching)
+	if(switching && istype(I, /obj/item/ship_weapon/ammunition))
 		to_chat(usr, "<span class='notice'>Error: Unable to load ordnance while cycling chamber configuration.</span>")
 		return FALSE
 	if(islist(ammo_type))
