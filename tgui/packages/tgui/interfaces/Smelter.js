@@ -19,8 +19,17 @@ export const Smelter = (props, context) => {
       <Window.Content scrollable>
         <Section>
           <Table.Row>
+            <Table.Cell>
+              <Box inline color="label" mr={1}>
+                Machine Status:
+              </Box>
+              <Button
+                icon={on ? 'power-off' : 'times'}
+                content={on ? 'On' : 'Off'}
+                onClick={() => act('Toggle_on')} />
+            </Table.Cell>
             {!!allowredeem && (
-              <Table.Cell>
+              <Table.Cell collapsing textAlign="right">
                 <Box>
                   <Box inline color="label" mr={1}>
                     Stored Points:
@@ -34,15 +43,6 @@ export const Smelter = (props, context) => {
                 </Box>
               </Table.Cell>
             )}
-            <Table.Cell collapsing textAlign="right">
-              <Box inline color="label" mr={1}>
-                Machine Status:
-              </Box>
-              <Button
-                icon={on ? 'power-off' : 'times'}
-                content={on ? 'On' : 'Off'}
-                onClick={() => act('Toggle_on')} />
-            </Table.Cell>
           </Table.Row>
         </Section>
         <Section title="Materials">
