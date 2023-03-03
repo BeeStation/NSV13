@@ -155,7 +155,11 @@
 	ready = TRUE
 
 /obj/machinery/replicator/proc/grind(obj/item/reagent_containers/food/snacks/grown/G)
-	var/nutrimentgain = G.reagents.get_reagent_amount("nutriment")
+	var/nutrimentgain = G.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment)
+	if(G.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment) < 0.1)
+		nutrimentgain = 1 * capacity_multiplier
+	else
+		nutrimentgain = G.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment) * 10 * capacity_multiplier
 	Biogen.points += nutrimentgain
 	if(Biogen.points >= capacity_multiplier*600)
 		Biogen.points = capacity_multiplier*600
@@ -209,9 +213,9 @@
 			food.name = "Earl Grey tea"
 			food.desc = "Just how Captain Picard likes it."
 			if(emagged)
-				var/tea = food.reagents.get_reagent_amount("tea")
-				food.reagents.add_reagent("ethanol", tea)
-				food.reagents.remove_reagent("coffee",tea)
+				var/tea = food.reagents.get_reagent_amount(/datum/reagent/consumable/tea)
+				food.reagents.add_reagent(/datum/reagent/consumable/ethanol, tea)
+				food.reagents.remove_reagent(/datum/reagent/consumable/tea, tea)
 		if("surprise me","you choose","something","i dont care")
 			if(emagged)
 				switch(rand(1,6))
@@ -252,9 +256,9 @@
 				food.name = "coffee"
 				food.desc = "A wise woman once said that coffee keeps you sane in deep space."
 				if(emagged)
-					var/coffee = food.reagents.get_reagent_amount("coffee")
-					food.reagents.add_reagent("chloralhydrate", coffee)
-					food.reagents.remove_reagent("coffee",coffee)
+					var/coffee = food.reagents.get_reagent_amount(/datum/reagent/consumable/coffee)
+					food.reagents.add_reagent(/datum/reagent/toxin/chloralhydrate, coffee)
+					food.reagents.remove_reagent(/datum/reagent/consumable/coffee, coffee)
 	if(menu_grade >= 3) //SCANNER GRADE 3 (or above)!
 		switch(what)
 			if("cheese pizza")
@@ -298,7 +302,7 @@
 					qdel(M)
 
 	if(food)
-		var/nutriment = food.reagents.get_reagent_amount("nutriment")
+		var/nutriment = food.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment)
 		if(Biogen.points >= nutriment && Biogen.points >= 5)
 			//time to check laser power.
 			if(prob(6-failure_grade)) //Chance to make a burned mess so the chef is still useful.
@@ -325,8 +329,8 @@
 				else
 					Biogen.points -= 5 //Default, in case the food is useless.
 				if(emagged)
-					food.reagents.add_reagent("munchyserum", nutriment)
-					food.reagents.remove_reagent("nutriment",nutriment)
+					food.reagents.add_reagent(/datum/reagent/toxin/munchyserum, nutriment)
+					food.reagents.remove_reagent(/datum/reagent/consumable/nutriment, nutriment)
 				var/currentHandIndex = user.get_held_index_of_item(food)
 				user.put_in_hand(food,currentHandIndex)
 
