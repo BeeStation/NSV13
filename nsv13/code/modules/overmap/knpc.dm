@@ -293,8 +293,8 @@ of a specific action goes up, to encourage skynet to go for that one instead.
 /datum/ai_goal/proc/get_aggressors(datum/component/knpc/HA)
 	. = list()
 	var/mob/living/carbon/human/ai_boarder/H = HA.parent
-	var/list/detected_objects = oview(HA.view_range, HA.parent)
-	var/list/guessed_objects = oview(HA.guess_range, HA.parent)
+	var/list/detected_objects = view(HA.view_range, HA.parent)
+	var/list/guessed_objects = view(HA.guess_range, HA.parent)
 	for(var/mob/living/M in guessed_objects)
 		//Invis is a no go. Non-human, -cyborg or -hostile mobs are ignored.
 		if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || (!ishuman(M) && !iscyborg(M) && !ishostile(M)))
