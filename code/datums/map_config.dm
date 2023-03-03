@@ -29,10 +29,10 @@
 	var/mine_traits = null
 
 	//NSV13 - special mapvote things
-	var/map_description
-	var/manufacturer
-	var/mapper
-	var/commission_date
+	var/map_description = "No data"
+	var/manufacturer = "No data"
+	var/mapper = "No data"
+	var/commission_date = "No data"
 	var/list/strengths
 	var/list/weaknesses
 	var/list/equipment
@@ -198,10 +198,16 @@
 		commission_date = json["commission_date"]
 	if("strengths" in json)
 		strengths = json["strengths"]
+	else
+		strengths = list()
 	if("weaknesses" in json)
 		weaknesses = json["weaknesses"]
+	else
+		weaknesses = list()
 	if("equipment" in json)
 		equipment = json["equipment"]
+	else
+		equipment = list()
 
 	CHECK_EXISTS("ship_type")
 	if("ship_type" in json)
