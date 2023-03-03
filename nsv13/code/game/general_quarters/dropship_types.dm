@@ -30,6 +30,9 @@ Credit to TGMC for the interior sprites for all these!
 	max_angular_acceleration = 10
 	speed_limit = 4
 	resize_factor = 2
+//	ftl_goal = 45 SECONDS //sabres can, by default, initiate relative FTL jumps to other ships.
+	autotarget = FALSE // Transports have dedicated TAC consoles, so let them handle targeting
+	no_gun_cam = FALSE
 	loadout_type = /datum/component/ship_loadout/utility
 	dradis_type = null //Sabres can send sonar pulses
 	components = list(/obj/item/fighter_component/fuel_tank/tier2,

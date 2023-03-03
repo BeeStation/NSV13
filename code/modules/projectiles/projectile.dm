@@ -112,6 +112,7 @@
 
 	//Homing
 	var/homing = FALSE
+	var/can_home = FALSE //NSV13 - Whether a projectile is assigned a homing target after being fired
 	var/atom/homing_target
 	var/homing_turn_speed = 10		//Angle per tick.
 	var/homing_inaccuracy_min = 0		//in pixels for these. offsets are set once when setting target.
