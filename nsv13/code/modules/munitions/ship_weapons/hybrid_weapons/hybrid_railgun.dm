@@ -203,6 +203,29 @@
 /obj/machinery/ship_weapon/hybrid_rail/crowbar_act(mob/user, obj/item/tool)
 	return //prevent deconstructing
 
+/obj/machinery/ship_weapon/hybrid_rail/attackby(obj/item/I, mob/user)
+	if(!linked)
+		get_ship()
+	if(switching)
+		to_chat(usr, "<span class='notice'>Error: Unable to load ordnance while cycling chamber configuration.</span>")
+		return FALSE
+	if(islist(ammo_type))
+		for(var/at in ammo_type)
+			if(istype(I, at))
+				load(I, user)
+				return TRUE
+
+	if(ammo_type && istype(I, ammo_type))
+		load(I, user)
+		return TRUE
+	else if(magazine_type && istype(I, magazine_type))
+		load_magazine(I, user)
+		return TRUE
+	else if(istype(I, /obj/item/reagent_containers))
+		oil(I, user)
+		return TRUE
+	return ..()
+
 /obj/machinery/ship_weapon/hybrid_rail/attack_hand(mob/living/carbon/user)
 	ui_interact(user)
 
