@@ -58,7 +58,7 @@
 		cancel_action(us)
 		return
 	// The target isn't an overmap somehow, we're targeting ourselves, or they're an enemy
-	var/obj/structure/overmap/small_craft/them = us.target_painted[1]
+	var/obj/structure/overmap/small_craft/them = us.target_lock
 	if(!them || !istype(them) || (them == us) || (them.faction != us.faction))
 		cancel_action(us, them)
 		return
