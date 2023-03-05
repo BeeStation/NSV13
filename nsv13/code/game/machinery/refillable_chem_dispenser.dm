@@ -288,23 +288,18 @@
 			if(!beaker)
 				return
 			var/reagent = GLOB.name2reagent[params["id"]]
-			message_admins(english_list(params))
 			var/amount = min(text2num(params["amount"]))
-			message_admins("transfer [amount] units of [params["id"]] ([reagent])")
 			// Custom amount
 			if (amount == -1)
 				amount = text2num(input(
 					"Enter the amount you want to transfer:",
 					name, ""))
 			if (amount == null || amount <= 0)
-				message_admins("no amount")
 				return
 			if(mode)
-				message_admins("transfer mode")
 				beaker.reagents.trans_id_to(src, reagent, amount)
 				update_reagents()
 			else
-				message_admins("remove mode")
 				beaker.reagents.remove_reagent(reagent, amount)
 			. = TRUE
 		if("toggleMode")
