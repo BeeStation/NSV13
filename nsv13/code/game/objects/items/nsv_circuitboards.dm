@@ -317,3 +317,14 @@
 /obj/item/circuitboard/computer/iff
 	name = "IFF Console (circuit)"
 	build_path = /obj/machinery/computer/iff_console
+
+//Non-magic chem dispenser
+/obj/item/circuitboard/machine/refillable_chem_dispenser
+	name = "refillable_chem_dispenser (Machine Board)"
+	icon_state = "medical"
+	build_path = /obj/machinery/refillable_chem_dispenser
+	req_components = list(
+		/obj/item/stock_parts/matter_bin = 2,
+		/obj/item/stock_parts/manipulator = 1,
+		/obj/item/stack/sheet/glass = 1)
+	needs_anchored = FALSE
