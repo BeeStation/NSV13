@@ -320,7 +320,7 @@
 
 //Non-magic chem dispenser
 /obj/item/circuitboard/machine/refillable_chem_dispenser
-	name = "refillable_chem_dispenser (Machine Board)"
+	name = "refillable chem dispenser (machine board)"
 	icon_state = "medical"
 	build_path = /obj/machinery/refillable_chem_dispenser
 	req_components = list(

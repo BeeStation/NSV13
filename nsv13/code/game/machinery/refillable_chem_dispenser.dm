@@ -125,11 +125,6 @@
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "RefillableChemDispenser")
-		if(user.hallucinating())
-			ui.set_autoupdate(FALSE) //to not ruin the immersion by constantly changing the fake chemicals
-			//Seems like a pretty bad way to do it, but I think a better one would deserve a wider refactor including at least sleeper
-		else
-			ui.set_autoupdate(TRUE) // Cell charge
 		ui.open()
 
 /obj/machinery/refillable_chem_dispenser/ui_data(mob/user)
@@ -177,6 +172,7 @@
 
 /obj/machinery/refillable_chem_dispenser/ui_act(action, params)
 	. = ..()
+	ui_update()
 	if(.) // Propagation only used by debug machine, but eh
 		return
 
@@ -305,6 +301,7 @@
 		if("toggleMode")
 			mode = !mode
 			. = TRUE
+	ui_update()
 
 /obj/machinery/refillable_chem_dispenser/attackby(obj/item/I, mob/user, params)
 	if(default_unfasten_wrench(user, I))
