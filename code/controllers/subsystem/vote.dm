@@ -14,7 +14,6 @@ SUBSYSTEM_DEF(vote)
 	var/list/voted = list()
 	var/list/voting = list()
 	var/list/choices = list()
-	var/list/descriptions = list()
 	var/list/choice_by_ckey = list()
 	var/list/generated_actions = list()
 
@@ -32,7 +31,6 @@ SUBSYSTEM_DEF(vote)
 	voted.Cut()
 	voting.Cut()
 	choices.Cut()
-	descriptions.Cut()
 	question = null
 	initiator = null
 	time_remaining = 0
@@ -237,11 +235,9 @@ SUBSYSTEM_DEF(vote)
 					if(!VM.is_votable()) //NSV13 no forced map rotation
 						continue
 					maps += VM.map_name
-					maps[VM.map_name] = VM.map_description
 					shuffle_inplace(maps)
 				for(var/valid_map in maps)
 					choices.Add(valid_map)
-					LAZYORASSOCLIST(descriptions, valid_map, maps[valid_map])
 			if("transfer")
 				choices.Add("Initiate Crew Transfer", "Continue Playing")
 			if("Press On Or Return Home?") //NSV13 - Round extension vote
@@ -329,8 +325,7 @@ SUBSYSTEM_DEF(vote)
 	for(var/key in choices)
 		data["choices"] += list(list(
 			"name" = key,
-			"votes" = choices[key] || 0,
-			"description" = (key in descriptions) ? descriptions[key] : null
+			"votes" = choices[key] || 0
 		))
 
 	return data

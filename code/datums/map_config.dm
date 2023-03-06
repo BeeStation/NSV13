@@ -15,7 +15,6 @@
 
 	//NSV edits all over
 	var/map_name = "NSV Atlas - DEFAULTED"
-	var/map_description = null
 	var/map_link = null //This is intentionally wrong, this will make it not link to webmap.
 	var/map_path = "map_files/Atlas"
 	var/map_file = list("atlas.dmm", "atlas2.dmm")
@@ -95,8 +94,6 @@
 
 	CHECK_EXISTS("map_name")
 	map_name = json["map_name"]
-	if("map_description" in json)
-		map_description = json["map_description"]
 	CHECK_EXISTS("map_path")
 	map_path = json["map_path"]
 
