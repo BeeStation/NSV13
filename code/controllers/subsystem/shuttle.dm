@@ -154,7 +154,8 @@ SUBSYSTEM_DEF(shuttle)
 		log_game("[msg] Alive: [alive], Roundstart: [total], Threshold: [threshold]")
 		emergencyNoRecall = TRUE
 		priority_announce("Catastrophic casualties detected: crisis shuttle protocols activated - jamming recall signals across all frequencies.", sound = SSstation.announcer.get_rand_alert_sound())
-		if(emergency.timeLeft(1) > emergencyCallTime * 0.4)
+		//NSV13 - made the shuttle get called if it hasn't been called yet
+		if((emergency.timeLeft(1) > emergencyCallTime * 0.4) || !emergency.timer)
 			emergency.request(null, set_coefficient = 0.4)
 
 /datum/controller/subsystem/shuttle/proc/block_recall(lockout_timer)
