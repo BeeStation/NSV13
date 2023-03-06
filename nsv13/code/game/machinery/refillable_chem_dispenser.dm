@@ -10,6 +10,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	circuit = /obj/item/circuitboard/machine/refillable_chem_dispenser
 
+	var/base_capacity = 3000
 	var/mode = 1
 	var/amount = 30
 	var/list/default_transfer_amounts = list(5,10,15,20,25,30)
@@ -56,7 +57,7 @@
 	var/list/saved_recipes = list()
 
 /obj/machinery/refillable_chem_dispenser/Initialize(mapload)
-	create_reagents(3000)
+	create_reagents(base_capacity)
 	reagents.flags = NO_REACT
 	. = ..()
 	basic_reagents = sortList(basic_reagents, /proc/cmp_reagents_asc)
@@ -64,6 +65,14 @@
 		upgrade_reagents = sortList(upgrade_reagents, /proc/cmp_reagents_asc)
 	dispensable_reagents = basic_reagents + upgrade_reagents
 	update_icon()
+
+/obj/machinery/refillable_chem_dispenser/full
+
+/obj/machinery/refillable_chem_dispenser/full/Initialize(mapload)
+	. = ..()
+	var/init_amount = round(base_capacity / length(basic_reagents))
+	for(var/datum/reagent/R in basic_reagents)
+		reagents.add_reagent(R, init_amount, no_react=TRUE)
 
 /obj/machinery/refillable_chem_dispenser/Destroy()
 	QDEL_NULL(beaker)
