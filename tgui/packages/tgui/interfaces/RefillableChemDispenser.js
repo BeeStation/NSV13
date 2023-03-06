@@ -27,7 +27,7 @@ export const RefillableChemDispenser = (props, context) => {
     || [];
   return (
     <Window
-      width={565}
+      width={635}
       height={620}>
       <Window.Content scrollable>
         <Section
@@ -87,7 +87,7 @@ export const RefillableChemDispenser = (props, context) => {
               <Button
                 key={recipe.name}
                 icon="tint"
-                width="132px"
+                width="147px"
                 lineHeight="21px"
                 content={recipe.name}
                 onClick={() => act('dispense_recipe', {
@@ -120,7 +120,7 @@ export const RefillableChemDispenser = (props, context) => {
               <Button
                 key={chemical.id}
                 icon="tint"
-                width="132px"
+                width="147px"
                 lineHeight="21px"
                 content={chemical.title + " (" + chemical.volume + ")"}
                 disabled={chemical.volume === 0 && !recording}

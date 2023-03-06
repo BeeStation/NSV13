@@ -71,7 +71,7 @@
 /obj/machinery/refillable_chem_dispenser/full/Initialize(mapload)
 	. = ..()
 	var/init_amount = round(base_capacity / length(basic_reagents))
-	for(var/datum/reagent/R in basic_reagents)
+	for(var/R in basic_reagents)
 		reagents.add_reagent(R, init_amount, no_react=TRUE)
 
 /obj/machinery/refillable_chem_dispenser/Destroy()
@@ -336,7 +336,7 @@
 		return ..()
 
 /obj/machinery/refillable_chem_dispenser/RefreshParts()
-	reagents.maximum_volume = 5000
+	reagents.maximum_volume = base_capacity
 	for(var/obj/item/reagent_containers/glass/beaker/B in component_parts)
 		reagents.maximum_volume += B.reagents.maximum_volume
 
