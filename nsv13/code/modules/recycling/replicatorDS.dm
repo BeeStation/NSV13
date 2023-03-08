@@ -3,7 +3,7 @@
 
 /obj/machinery/replicator
 	name = "Replicator"
-	desc = "An advanced energy to matter synthesizer which is charged by <i>biomatter</i> and power. Click it to see the menu and simply say what you want to it."
+	desc = "An advanced energy to matter synthesizer which is charged by <i>biomatter</i> and power. Click it to see what's on the menu and simply say what you want to order from it."
 	icon = 'nsv13/icons/obj/machinery/replicator.dmi'
 	icon_state = "replicator"
 	use_power = IDLE_POWER_USE
@@ -21,17 +21,23 @@
 	var/list/activator = list("computer", "alexa", "google", "ai", "voice")
 	var/list/iguanas = list()
 	var/menutype = READY
-	var/fuel = 50
-	var/obj/machinery/biogenerator/Biogen
+	var/obj/machinery/biogenerator/biogen
 	var/capacity_multiplier = 1
 	var/failure_grade = 1
 	var/speed_grade = 1
 	var/menu_grade = 1
 	var/emagged = FALSE
 	var/ready = TRUE
+	var/max_visual_biomass = 5000
+
+	var/datum/techweb/stored_research
+	var/list/show_categories = list("Tier 1", "Tier 2", "Tier 3", "Tier 4")
+	/// Currently selected category in the UI
+	var/selected_cat
 
 /obj/machinery/replicator/Initialize()
 	. = ..()
+	stored_research = new /datum/techweb/specialized/autounlocking/replicator
 	all_menus += menutier1.Copy()
 	all_menus += menutier2.Copy()
 	all_menus += menutier3.Copy()
@@ -50,17 +56,32 @@
 		if(Bio.get_virtual_z_level() in SSmapping.levels_by_trait(valid_z))
 			var/area/location = get_area(Bio)
 			if(location.name == "Hydroponics")
-				Biogen = Bio
+				biogen = Bio
 				break
+
+/obj/machinery/replicator/ui_status(mob/user)
+	if(machine_stat & BROKEN || panel_open)
+		return UI_CLOSE
+	return ..()
+
+/obj/machinery/replicator/ui_assets(mob/user)
+	return list(
+		get_asset_datum(/datum/asset/spritesheet/research_designs),
+	)
 
 /obj/machinery/replicator/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "Replicator", name)
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /obj/machinery/replicator/ui_data()
-	var/data = list()
+	var/list/data = list()
+	data["replicating"] = ready
+	data["biomass"] = biogen.points
+	data["max_visual_biomass"] = max_visual_biomass
+	data["efficiency"] = 100 - (failure_grade * 20)
 	data["menutier1"] = list()
 	data["menutier2"] = list()
 	data["menutier3"] = list()
@@ -82,6 +103,61 @@
 			data["menutier4"] += foodname
 
 	return data
+
+/obj/machinery/replicator/ui_static_data(mob/user)
+	var/list/data = list()
+	data["categories"] = list()
+
+	var/categories = show_categories.Copy()
+	for(var/V in categories)
+		categories[V] = list()
+	for(var/V in stored_research.researched_designs)
+		var/datum/design/replicator/D = SSresearch.techweb_design_by_id(V)
+		for(var/C in categories)
+			if(C in D.category)
+				categories[C] += D
+
+	for(var/category in categories)
+		var/list/cat = list(
+			"name" = category,
+			"items" = (category == selected_cat ? list() : null))
+		for(var/item in categories[category])
+			var/datum/design/replicator/D = item
+			var/obj/item/temporary = new D.build_path
+			cat["items"] += list(list(
+				"id" = D.id,
+				"name" = D.name,
+				"cost" = temporary.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment),
+			))
+			qdel(temporary)
+		data["categories"] += list(cat)
+
+	return data
+
+/obj/machinery/replicator/ui_act(action, params)
+	if(..())
+		return
+
+	switch(action)
+		if("replicate")
+			if(!ready)
+				say("I'm not ready to replicate yet!")
+				return
+			var/repli = params["id"]
+			if(!stored_research.researched_designs.Find(repli))
+				stack_trace("ID did not map to a researched datum [repli]")
+				return
+			if(menutype == READY)
+				var/datum/design/replicator/D = SSresearch.techweb_design_by_id(repli)
+				if(D && !istype(D, /datum/design/error_design))
+					activation(D, user = usr)
+				else
+					stack_trace("ID could not be turned into a valid techweb design datum [repli]")
+					return
+				return TRUE
+		if("select")
+			selected_cat = params["category"]
+			return TRUE
 
 /obj/machinery/replicator/emag_act(mob/user)
 	if(!emagged)
@@ -110,7 +186,7 @@
 /obj/machinery/replicator/examine(mob/user)
 	. = ..()
 	ui_interact(user)
-	to_chat(user, "<span class='notice'>Fuel reserves: <b>[Biogen.points]</b>. Click it with any biomatter to recharge [src].</span>")
+	to_chat(user, "<span class='notice'>Fuel reserves: <b>[biogen.points]</b>. Click it with any biomatter to recharge [src].</span>")
 
 /obj/machinery/replicator/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode)
 	. = ..()
@@ -138,15 +214,24 @@
 			if(findtext(raw_message, hotorcold))
 				temp = hotorcold //If they specifically request a temperature, we'll oblige. Else it doesn't rename.
 		if(target && powered())
-			menutype = REPLICATING
-			idle_power_usage = 400
-			icon_state = "replicator-replicating"
-			playsound(src, 'nsv13/sound/effects/replicator.ogg', 100, 1)
-			ready = FALSE
-			var/speed_mult = 60 //Starts off hella slow.
-			speed_mult -= (speed_grade*10) //Upgrade with manipulators to make this faster!
-			addtimer(CALLBACK(src, .proc/replicate, target,temp,speaker), speed_mult)
-			addtimer(CALLBACK(src, .proc/set_ready, TRUE), speed_mult)
+			activation(target, temp, speaker)
+
+/obj/machinery/replicator/proc/activation(var/menu, var/temperature, var/mob/living/user)
+	menutype = REPLICATING
+	idle_power_usage = 400
+	icon_state = "replicator-replicating"
+	playsound(src, 'nsv13/sound/effects/replicator.ogg', 100, 1)
+	ready = FALSE
+	var/speed_mult = 60 //Starts off hella slow.
+	speed_mult -= (speed_grade*10) //Upgrade with manipulators to make this faster!
+	if(istype(menu, /datum/design/replicator))
+		var/datum/design/replicator/D = menu
+		var/obj/item/build_path_item = new D.build_path
+		menu = build_path_item.name
+		qdel(build_path_item)
+
+	addtimer(CALLBACK(src, .proc/replicate, menu, temperature, user), speed_mult)
+	addtimer(CALLBACK(src, .proc/set_ready, TRUE), speed_mult)
 
 /obj/machinery/replicator/proc/set_ready()
 	icon_state = "replicator-on"
@@ -160,9 +245,9 @@
 		nutrimentgain = 1 * capacity_multiplier
 	else
 		nutrimentgain = G.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment) * 10 * capacity_multiplier
-	Biogen.points += nutrimentgain
-	if(Biogen.points >= capacity_multiplier*600)
-		Biogen.points = capacity_multiplier*600
+	biogen.points += nutrimentgain
+	if(biogen.points >= capacity_multiplier*600)
+		biogen.points = capacity_multiplier*600
 	qdel(G)
 
 /obj/machinery/replicator/attackby(obj/item/O, mob/user, params)
@@ -176,14 +261,14 @@
 		playsound(src, 'nsv13/sound/effects/replicator-vaporize.ogg', 100, 1)
 		qdel(O)
 		return FALSE
-	if(Biogen.points < capacity_multiplier*600)
+	if(biogen.points < capacity_multiplier*600)
 		if(istype(O, /obj/item/reagent_containers/food/snacks/grown))
 			grind(O)
 			success = TRUE
 		else if(istype(O, /obj/item/storage/bag/plants))
 			var/obj/item/storage/bag/plants/P = O
 			for(var/obj/item/reagent_containers/food/snacks/grown/G in P.contents)
-				if(Biogen.points < capacity_multiplier*600)
+				if(biogen.points < capacity_multiplier*600)
 					grind(G)
 				success = TRUE
 	else
@@ -202,7 +287,7 @@
 	switch(what)
 		if("egg")
 			food = new /obj/item/reagent_containers/food/snacks/boiledegg(get_turf(src))
-		if("rice")
+		if("rice","boiled rice")
 			food = new /obj/item/reagent_containers/food/snacks/salad/boiledrice(get_turf(src))
 		if("ration pack","nutrients","nutritional supplement")
 			food = new /obj/item/reagent_containers/food/snacks/rationpack(get_turf(src))
@@ -303,13 +388,13 @@
 
 	if(food)
 		var/nutriment = food.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment)
-		if(Biogen.points >= nutriment && Biogen.points >= 5)
+		if(biogen.points >= nutriment && biogen.points >= 5)
 			//time to check laser power.
 			if(prob(6-failure_grade)) //Chance to make a burned mess so the chef is still useful.
 				var/obj/item/reagent_containers/food/snacks/badrecipe/neelixcooking = new /obj/item/reagent_containers/food/snacks/badrecipe(get_turf(src))
 				neelixcooking.name = "replicator mess"
 				neelixcooking.desc = "perhaps you should invest in some higher quality parts."
-				Biogen.points -= 5
+				biogen.points -= 5
 				qdel(food) //NO FOOD FOR YOU!
 				return
 			else
@@ -325,9 +410,9 @@
 						if("well done")
 							food.reagents.chem_temp = 2000000000000 //A nice warm Steak or a perfectly well boiled Cup of Tea
 				if(nutriment > 0)
-					Biogen.points -= nutriment
+					biogen.points -= nutriment
 				else
-					Biogen.points -= 5 //Default, in case the food is useless.
+					biogen.points -= 5 //Default, in case the food is useless.
 				if(emagged)
 					food.reagents.add_reagent(/datum/reagent/toxin/munchyserum, nutriment)
 					food.reagents.remove_reagent(/datum/reagent/consumable/nutriment, nutriment)
@@ -335,7 +420,7 @@
 				user.put_in_hand(food,currentHandIndex)
 
 		else
-			visible_message("<span_class='warning'> Insufficient fuel to create [food]. [src] requires [nutriment] U of biomatter.</span>")
+			visible_message("<span_class='warning'>Insufficient fuel to create [food]. [src] requires [nutriment] U of biomatter.</span>")
 			qdel(food) //NO FOOD FOR YOU!
 
 
