@@ -226,9 +226,12 @@
 	speed_mult -= (speed_grade*10) //Upgrade with manipulators to make this faster!
 	if(istype(menu, /datum/design/replicator))
 		var/datum/design/replicator/D = menu
-		var/obj/item/build_path_item = new D.build_path
-		menu = build_path_item.name
-		qdel(build_path_item)
+		if(D.build_path)
+			var/obj/item/build_path_item = new D.build_path
+			menu = build_path_item.name
+			qdel(build_path_item)
+		else
+			menu = D.name
 
 	addtimer(CALLBACK(src, .proc/replicate, menu, temperature, user), speed_mult)
 	addtimer(CALLBACK(src, .proc/set_ready, TRUE), speed_mult)
@@ -285,13 +288,13 @@
 /obj/machinery/replicator/proc/replicate(var/what, var/temp, var/mob/living/user)
 	var/atom/food
 	switch(what)
-		if("egg")
+		if("egg","boiled egg")
 			food = new /obj/item/reagent_containers/food/snacks/boiledegg(get_turf(src))
 		if("rice","boiled rice")
 			food = new /obj/item/reagent_containers/food/snacks/salad/boiledrice(get_turf(src))
 		if("ration pack","nutrients","nutritional supplement")
 			food = new /obj/item/reagent_containers/food/snacks/rationpack(get_turf(src))
-		if("glass")
+		if("glass","drinking glass")
 			food = new /obj/item/reagent_containers/food/drinks/drinkingglass(get_turf(src))
 		if("tea earl grey")
 			food = new /obj/item/reagent_containers/food/drinks/mug/tea(get_turf(src))
