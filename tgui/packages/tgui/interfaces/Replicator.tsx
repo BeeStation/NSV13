@@ -1,15 +1,16 @@
-import { BooleanLike } from 'common/react';
-import { classes } from 'common/react';
-import { toTitleCase } from 'common/string';
+import { BooleanLike } from '../../common/react';
+import { classes } from '../../common/react';
 import { useBackend, useLocalState } from '../backend';
 import { Window } from '../layouts';
-import { Box, Section, NumberInput, Table, Tabs, LabeledList, NoticeBox, Button, ProgressBar, Stack, Flex } from '../components';
+import { Box, Section, Dropdown, Table, Tabs, LabeledList, NoticeBox, Button, ProgressBar, Stack } from '../components';
 
 type ReplicatorData = {
   replicating: BooleanLike;
   biomass: number;
   max_visual_biomass: number;
   efficiency: number;
+  selected_temperature: string;
+  temperatures: string[];
   categories: Category[];
   menutier1: string[];
   menutier2: string[];
@@ -37,6 +38,8 @@ export const Replicator = (props, context) => {
     max_visual_biomass,
     efficiency,
     categories,
+    selected_temperature,
+    temperatures,
     menutier1,
     menutier2,
     menutier3,
@@ -57,16 +60,19 @@ export const Replicator = (props, context) => {
         <Stack vertical fill>
           <Stack.Item>
             <Section fill>
-              <NoticeBox>
-                This Machine is voice activated, please announce your choice to the Replicator
-                in one of the following formats:
+              <NoticeBox info>
+                This Machine is both Voice and Touch Activated.
                 <br />
+                Please announce your choice to the Food Replicator in one of the following formats:
                 <br />
-                Computer/Alexa/Google/AI/Voice, Choice of Food, Cold/Warm/Hot/Extra Hot/Well Done.
+                Computer/Alexa/Google/AI/Voice.
+                <br />
+                Choice of Food.
+                <br />
+                Cold/Warm/Hot/Extra Hot/Well Done.
               </NoticeBox>
               <LabeledList>
-                <LabeledList.Item
-                  label="Biomass">
+                <LabeledList.Item label="Biomass">
                   <ProgressBar
                     value={biomass}
                     minValue={0}
@@ -80,6 +86,16 @@ export const Replicator = (props, context) => {
                       {`${parseFloat(biomass.toFixed(2))} units`}
                     </Box>
                   </ProgressBar>
+                </LabeledList.Item>
+                <LabeledList.Item label="Temperature">
+                  <Dropdown
+                    width="100%"
+                    selected={selected_temperature}
+                    options={temperatures}
+                    onSelected={(value) =>
+                      act('change_temperature', {
+                        updated_temperature: value,
+                      })} />
                 </LabeledList.Item>
               </LabeledList>
             </Section>
