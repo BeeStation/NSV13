@@ -87,14 +87,11 @@
 	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
 		if(torpedoes <= 0)
 			return FALSE
-		var/obj/structure/overmap/OM = target
 		if(isovermap(target))
 			ai_aim = FALSE // This is a homing projectile
 		var/launches = min(torpedoes, burst)
 
-		fire_projectile(torpedo_type, target, homing = TRUE, speed=3, lateral = TRUE, ai_aim = ai_aim)
-		if(isovermap(OM) && OM.dradis)
-			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+		fire_projectile(torpedo_type, target, speed=3, lateral = TRUE, ai_aim = ai_aim)
 		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
 		relay_to_nearby(pick(SW.overmap_firing_sounds))
 
@@ -105,17 +102,13 @@
 
 /obj/structure/overmap/proc/fire_torpedo_burst(atom/target, ai_aim = FALSE, burst = 1)
 	set waitfor = FALSE
-	var/obj/structure/overmap/OM = target
 	for(var/cycle = 1; cycle <= burst; cycle++)
 		sleep(3)
 		if(QDELETED(src))	//We might get shot.
 			return
 		if(QDELETED(target))
-			OM = null
 			target = null
-		fire_projectile(torpedo_type, target, homing = TRUE, speed=3, lateral = TRUE, ai_aim = ai_aim)
-		if(isovermap(OM) && OM.dradis)
-			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+		fire_projectile(torpedo_type, target, speed=3, lateral = TRUE, ai_aim = ai_aim)
 		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
 		relay_to_nearby(pick(SW.overmap_firing_sounds))
 
@@ -129,9 +122,7 @@
 		var/obj/structure/overmap/OM = target
 		if(istype(OM))
 			ai_aim = FALSE // This is a homing projectile
-		fire_projectile(/obj/item/projectile/guided_munition/missile, target, homing = TRUE, lateral = FALSE, ai_aim = ai_aim)
-		if(istype(OM, /obj/structure/overmap) && OM.dradis)
-			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+		fire_projectile(/obj/item/projectile/guided_munition/missile, target, lateral = FALSE, ai_aim = ai_aim)
 		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_MISSILE]
 		relay_to_nearby(pick(SW.overmap_firing_sounds))
 		return TRUE

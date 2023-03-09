@@ -212,6 +212,7 @@
 					/obj/item/ship_weapon/parts/missile/warhead/freight,
 					/obj/item/ship_weapon/parts/missile/warhead/freight)
 	crate_type = /obj/structure/closet/crate/wooden
+	crate_name = "Freight torpedo warheads"
 
 /datum/supply_pack/munitions/pilot_outfitting
 	name = "Pilot Outfitting Crate"
@@ -223,6 +224,7 @@
 					/obj/item/clothing/head/beret/ship/pilot,
 					/obj/item/radio/headset/munitions/pilot,
 					/obj/item/clothing/suit/space/hardsuit/pilot)
+	crate_name = "Pilot outfitting crate"
 
 /datum/supply_pack/munitions/missile_warheads
 	name = "Missile Warheads"
@@ -290,6 +292,7 @@
 					/obj/item/fighter_component/docking_computer,
 					/obj/item/fighter_component/battery,
 					/obj/item/fighter_component/primary/cannon)
+	crate_name = "Light fighter starter kit"
 
 /datum/supply_pack/munitions/fighter_construction/heavy
 	name = "Heavy Fighter Starter Kit"
@@ -309,6 +312,7 @@
 					/obj/item/fighter_component/secondary/ordnance_launcher/torpedo,
 					/obj/item/fighter_component/battery,
 					/obj/item/fighter_component/primary/cannon/heavy)
+	crate_name = "Heavy fighter starter kit"
 
 /datum/supply_pack/munitions/fighter_construction/utility
 	name = "Utility Fighter Starter Kit"
@@ -328,6 +332,7 @@
 					/obj/item/fighter_component/secondary/utility/hold,
 					/obj/item/fighter_component/primary/utility/refuel,
 					/obj/item/fighter_component/countermeasure_dispenser)
+	crate_name = "Utility fighter starter kit"
 
 /datum/supply_pack/munitions/light_cannon
 	name = "Light Cannon Ammunition"
@@ -531,6 +536,7 @@
 	desc = "One cryogenic Tyrosene fuel pump, capable of fully refuelling 3 fighters. Handle with care."
 	cost = 1500
 	contains = list(/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel)
+	crate_name = "Fighter fuel crate"
 
 /datum/supply_pack/engineering/control_rods
 	name = "Nanocarbon Reactor Control Rods (x5)"
@@ -604,6 +610,7 @@
 					/obj/item/ammo_box/magazine/smgm9mm,
 					/obj/item/ammo_box/c9mm,
 					/obj/item/ammo_box/c9mm)
+	crate_name = "MP-16A4 ammo crate"
 
 /datum/supply_pack/security/armory/marine_rifle
 	name = "M4A-16A1 Assault Rifle Crate"
@@ -622,6 +629,7 @@
 					/obj/item/ammo_box/magazine/m556,
 					/obj/item/ammo_box/magazine/m556,
 					/obj/item/ammo_box/magazine/m556)
+	crate_name = "M4A-16A1 ammo crate"
 
 /datum/supply_pack/engineering/hulljuice
 	name = "Hulljuice Tank Crate"
