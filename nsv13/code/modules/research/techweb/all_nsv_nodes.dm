@@ -60,7 +60,7 @@
 	display_name = "Advanced Ballistics"
 	description = "More guns means better guns... Right?"
 	prereq_ids = list("ballistic_weapons")
-	design_ids = list("naval_shell", "powder_bag", "gauss_rack_upgrade", "broadside_casing", "broadside_load", "broadside_packer")
+	design_ids = list("naval_shell", "powder_bag", "gauss_rack_upgrade", "broadside_casing", "broadside_load", "broadside_packer", "plasma_core")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 5000
 
@@ -154,6 +154,24 @@
 	prereq_ids = list("fightergun2", "adv_weaponry")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 5000
+
+/datum/techweb_node/autoinjector
+	id = "autoinjector"
+	display_name = "Autoinjector Medipens"
+	description = "Research of instant reagent delivery into patient bloodstreams"
+	design_ids = list("autoinjector")
+	prereq_ids = list("adv_biotech","adv_surgery")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1500)
+	export_price = 1500
+
+/datum/techweb_node/xenoorgan_biotech
+    id = "xenoorgan_bio"
+    display_name = "Xeno-organ Biology"
+    description = "Plasmaman, Ethereals, Lizardpeople... What makes our non-human crewmembers tick?"
+    prereq_ids = list("adv_biotech")
+    design_ids = list("limbdesign_felinid", "limbdesign_lizard", "limbdesign_plasmaman", "limbdesign_ethereal", "limbdesign_moth", "limbdesign_apid")
+    research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 6500)
+    export_price = 9000
 
 //Vehicle Hardpoint tech
 /datum/techweb_node/vehicle_start

@@ -269,7 +269,10 @@ Returns a faction datum by its name (case insensitive!)
 	if(!ships[OM])
 		return
 	var/datum/star_system/system = system_by_id(OM.starting_system)
-	ships[OM]["current_system"] = system
+	if(!ships[OM]["current_system"])
+		ships[OM]["current_system"] = system
+	else
+		system = ships[OM]["current_system"]
 	return system
 
 /datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE)//Select Ship to Spawn and Location via Z-Trait
