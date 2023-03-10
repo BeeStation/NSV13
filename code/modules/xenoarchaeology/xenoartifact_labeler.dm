@@ -19,7 +19,7 @@
 	var/list/major_traits = list()
 
 	var/list/selected_malfunction_traits = list()
-	var/list/malfunction_list = list()  
+	var/list/malfunction_list = list()
 
 	///trait dialogue essentially
 	var/list/info_list = list()
@@ -35,9 +35,13 @@
 /obj/item/xenoartifact_labeler/Initialize(mapload)
 	. = ..()
 	generate_xenoa_statics()
+	//Append activators
 	activator_traits = get_trait_list_desc(activator_traits, GLOB.xenoa_activators)
+	//Minors
 	minor_traits = get_trait_list_desc(minor_traits, GLOB.xenoa_minors)
+	//Majors
 	major_traits = get_trait_list_desc(major_traits, GLOB.xenoa_majors)
+	//Malfs
 	malfunction_list = get_trait_list_desc(malfunction_list, GLOB.xenoa_malfs)
 
 /obj/item/xenoartifact_labeler/ui_interact(mob/user, datum/tgui/ui)
@@ -111,7 +115,7 @@
 	else if(!COOLDOWN_FINISHED(src, sticker_cooldown))
 		to_chat(user, "<span class='warning'>The labeler is still printing.</span>")
 
-///reset all the options	
+///reset all the options
 /obj/item/xenoartifact_labeler/proc/clear_selection()
 	sticker_name = null
 	info_list = list()
@@ -161,7 +165,7 @@
 	icon_state = "sticker_star"
 	name = "artifact label"
 	desc = "An adhesive label describing the characteristics of a Xenoartifact."
-	var/info = "" 
+	var/info = ""
 	var/set_name = FALSE
 	var/mutable_appearance/sticker_overlay
 	var/list/trait_list = list() //List of traits used to compare and generate modifier.
@@ -173,7 +177,7 @@
 	sticker_overlay = mutable_appearance(icon, sticker_state)
 	sticker_overlay.layer = FLOAT_LAYER
 	sticker_overlay.appearance_flags = RESET_COLOR
-	
+
 /obj/item/xenoartifact_label/proc/attempt_attach(atom/target, mob/user, instant = FALSE)
 	if(istype(target, /mob/living))
 		to_chat(target, "<span class='warning'>[user] attempts to stick a [src] to you!</span>")
@@ -206,7 +210,7 @@
 	. = ..()
 	if(proximity_flag)
 		attempt_attach(target, user, FALSE)
-	
+
 /obj/item/xenoartifact_label/proc/add_sticker(mob/target)
 	if(locate(/obj/item/xenoartifact_label) in target) //Remove old stickers
 		qdel(locate(/obj/item/xenoartifact_label) in target)
@@ -226,7 +230,7 @@
 	for(var/t in trait_list)
 		trait = new t
 		if(X.get_trait(trait))
-			xenop.modifier += 0.15 
+			xenop.modifier += 0.15
 		else
 			xenop.modifier -= 0.35
 
@@ -237,8 +241,8 @@
 	return text
 
 /obj/item/xenoartifact_labeler/debug
-	name = "xenoartifact debug labeler"      
-	desc = "Use to create specific Xenoartifacts" 
+	name = "xenoartifact debug labeler"
+	desc = "Use to create specific Xenoartifacts"
 
 /obj/item/xenoartifact_labeler/debug/afterattack(atom/target, mob/user)
 	return

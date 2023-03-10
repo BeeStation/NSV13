@@ -344,7 +344,6 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition
 	obj_integrity = 50
 	max_integrity = 50
-	density = TRUE
 	can_home = TRUE
 	armor = list("overmap_light" = 10, "overmap_medium" = 0, "overmap_heavy" = 0)
 
