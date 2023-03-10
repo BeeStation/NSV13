@@ -162,7 +162,7 @@
 	obj_integrity = 1250
 	max_integrity = 1250
 	integrity_failure = 1250
-	armor = list("overmap_light" = 50, "overmap_medium" = 40, "overmap_heavy" = 50)
+	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
 	plasma_caster = TRUE
 
 //Player Versions
