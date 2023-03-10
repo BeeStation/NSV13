@@ -341,7 +341,7 @@
 		AS.instance_interior()
 		AS.docking_points = AS.interior_entry_points
 		return transfer_from_overmap(OM)
-	if(mass < OM.mass)  //If theyre bigger than us and have docking points, and we want to dock. Special var for Serendipity specifically.
+	if(mass < OM.mass)  //If theyre bigger than us and have docking points, and we want to dock.
 		return transfer_from_overmap(OM)
 	return FALSE
 

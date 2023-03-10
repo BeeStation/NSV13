@@ -152,6 +152,9 @@
 	icon = 'nsv13/icons/overmap/new/nanotrasen/serendipity.dmi'
 	icon_state = "serendipity"
 	mass = MASS_SMALL
+	obj_integrity = 500
+	max_integrity = 500
+	integrity_failure = 500
 	sprite_size = 48
 	damage_states = FALSE
 	bound_height = 32
@@ -250,9 +253,9 @@
 
 /obj/structure/overmap/nanotrasen/serendipity/starter
 	role = MAIN_OVERMAP
-	obj_integrity = 1400
-	max_integrity = 1400
-	integrity_failure = 1400
+	obj_integrity = 1200
+	max_integrity = 1200
+	integrity_failure = 1200
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
