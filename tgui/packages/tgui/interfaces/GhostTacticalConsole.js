@@ -11,7 +11,7 @@ export const GhostTacticalConsole = (props, context) => {
   return (
     <Window
       resizable
-      theme="retro"
+      theme="hackerman"
       width={560}
       height={600}>
       <Window.Content scrollable>
@@ -108,8 +108,15 @@ export const GhostTacticalConsole = (props, context) => {
             </LabeledList>
           </Section>
           <Section title="Tracking:">
-            {Object.keys(data.ships).map((key, newCurrent) => {
-              let value = data.ships[key];
+            {!data.no_gun_cam && (
+              <Button
+                width="100%"
+                fluid
+                content={"Toggle Gun Camera"}
+                icon="bullseye"
+                onClick={() => act('toggle_gun_camera')} />)}
+            {Object.keys(data.painted_targets).map((key, newCurrent) => {
+              let value = data.painted_targets[key];
               const [current, setCurrent] = useLocalState(context, 'fs_current', true);
               const [hidden, setHidden] = useLocalState(context, 'fs_hidden', true);
 
@@ -188,10 +195,16 @@ export const GhostTacticalConsole = (props, context) => {
                       </Section>
                       <Button
                         fluid
-                        content={`Target ${value.name}`}
+                        content={data.target_name === value.name ? `Stop Targeting ${value.name}` : `Target ${value.name}`}
                         icon="bullseye"
                         onClick={() =>
-                          act('target_ship', { target: value.name })} />
+                          act('lock_ship', { target: value.name })} />
+                      <Button
+                        fluid
+                        content={`Stop Tracking ${value.name}`}
+                        icon="bullseye"
+                        onClick={() =>
+                          act('dump_lock', { target: value.name })} />
                     </Section>
                   )}
                 </Fragment>);

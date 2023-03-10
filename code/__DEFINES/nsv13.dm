@@ -113,6 +113,7 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 #define COMSIG_KB_OVERMAP_WEAPON3_DOWN "keybinding_overmap_weapon3_down"
 #define COMSIG_KB_OVERMAP_WEAPON4_DOWN "keybinding_overmap_weapon4_down"
 #define COMSIG_KB_VEHICLE_TOGGLE_BRAKES "keybinding_vehicle_toggle_brakes"
+#define COMSIG_KB_OVERMAP_UNLOCK_DOWN "keybinding_overmap_unlock_down"
 
 #define OVERMAP_USER_ROLE_PILOT (1<<0)
 #define OVERMAP_USER_ROLE_GUNNER (1<<1)

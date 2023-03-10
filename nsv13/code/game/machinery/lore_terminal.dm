@@ -269,6 +269,18 @@ SPECIAL KEYS RESPOND AS FOLLOWS:
 	Tyrosene production:`\
 	1 part hydrogen : 1 part carbon to make hydrocarbon heated to 333K. Mix hydrocarbon and welding fuel to produce tyrosene fuel and apply to tyrosene fuel tanks to allow for fighter refuel ops."
 
+/datum/lore_entry/nt/targeting
+	name = "targeting_systems.ntdoc"
+	title = "Guided Weapons Systems Employment"
+	filename = null
+	content = "Targeting enemy craft:`- Set DRADIS array to targeting mode`- Ensure weapons safety interlocks are disabled`- Move DRADIS cursor over hostile target and depress the designation switch to paint your target`Note: Most large ships only support up to 3 active paints at any given time. Most small craft support one paint.```-------------------```After a target has been painted, you may lock the target by using the tactical console and selecting the target you wish to lock.`If available and in range, your gunner camera will be slaved to the targeting radar and provide you with a view of the target.`Small craft (such as the Rapier or Scimitar) will automatically lock onto the first painted target.`If ordnance is employed without a lock, it will guide onto the first painted target.```-------------------```Always ensure proper emissions control procedures are followed when employing radar-guided ordnance.`Semi-active and active missiles and torpedos will give away the position of the launching craft, which may lead to detection and engagement at inopportune times.`Although some weapons (such as the FTL-1301 Magneton shell) may not require active guidance from the launching craft, a lock is still required for an accurate firing solution.```-------------------```"
+
+/datum/lore_entry/nt/datalink
+	name = "datalink.ntdoc"
+	title = "DRADIS Tactical Data Link Employment"
+	filename = null
+	content = "Transmitting targets via Data Link:`- Set DRADIS array to targeting mode`- Paint and lock onto a target`- Move DRADIS cursor over the friendly you wish to transmit the target to and depress the designation switch```-------------------```When a target is transmitted via datalink, it will automatically be considered painted by the receiving craft's targeting computer.`The transmitting craft will then continuously transmit data via DRADIS uplink to the receiving craft.`In order for the transmission to be successful, the transmitting craft must maintain a track on the target, and the receiving craft must be able to support the additional paint.`If datalink track is lost, the receiving craft will attempt to track the target using its own sensors, and dump the target track if that is unsuccessful.```-------------------```Proper employment of datalink systems is important in establishing an effective kill chain between early-warning craft and strike craft.`This allows for long-range or off-axis strikes by small craft, as well as long-range detection and tracking of stealth-capable craft that would otherwise escape a capital ship's notice.`Note that all information received via datalink should be considered C6 operational intelligence. Do not share opcodes with unauthorized personnel.```-------------------```"
+
 /datum/lore_entry/away_example
 	title = "Intercepted log file"
 	access_tag = "awayexample"
