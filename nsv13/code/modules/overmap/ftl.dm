@@ -54,7 +54,6 @@
 			GLOB.crew_transfer_risa = TRUE
 			SSticker.mode.check_finished()
 			SSticker.news_report = SHIP_VICTORY
-		SSblackbox.record_feedback("text", "nsv_endings", 1, "succeeded")
 	if(!audio_cues?.len)
 		return FALSE
 	for(var/datum/fleet/F in fleets)
