@@ -56,6 +56,136 @@
 		-->
 		<div class="commit sansserif">
 
+			<h2 class="date">10 March 2023</h2>
+			<h3 class="author">DrDuckedGoose updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">Tweaks Hypodermic injections rates from 5, 10, 15 > (7, 14 , 21 * metabolization_rate).</li>
+				<li class="tweak">Changes C.D.E knockout from 5 Seconds > 2 Seconds</li>
+				<li class="tweak">Barreled will no longer always target east when not given a specific direction, instead it will pick a random direction.</li>
+				<li class="tweak">Lamp now has a visible message which aids in identifying it in well-lit rooms</li>
+				<li class="tweak">Changes logging xyz > area</li>
+				<li class="tweak">Change research point reward from 2.3 * final price > 2.5 * final price</li>
+				<li class="tweak">Change discovery point reward from 350*final_price/initial_price > 350*(final price/initial price)) * max(1, final price/1000)</li>
+				<li class="tweak">Aggressively lowers stun times on all related traits</li>
+				<li class="tweak">Artifacts will now target the user too. The only way to avoid this is to be inside science & wearing safety-pinchers.</li>
+				<li class="tweak">Slightly lower sentient buffs to arfiacts</li>
+				<li class="tweak">Blacklist aura from destabilizing.</li>
+				<li class="tweak">Artifacts malfunction more often.</li>
+				<li class="tweak">All artifacts get an extra slot for malfunctions, 1 > 2</li>
+				<li class="tweak">Extend sentient play offer</li>
+				<li class="tweak">Wall trait now points randomly east or north if it is 3x1</li>
+				<li class="tweak">Increase bananium malfunction chance</li>
+				<li class="tweak">Ghosts can take control of player-less artifacts</li>
+				<li class="tweak">Artifact consoles now have a stability meter that stops spam-buying.</li>
+				<li class="tweak">Sentient artifacts are more common, slightly,</li>
+				<li class="tweak">Ghosts can activate haunted artifacts.</li>
+				<li class="tweak">Tweaks labeler UI to show elements in alphabetical order.</li>
+				<li class="tweak">Tweak console UI to have less clutter.</li>
+				<li class="bugfix">Swaps over to AREACOORD for logging.</li>
+				<li class="bugfix">Fix cheeky runtime on Weighted. No longer checks all gloves for safety variable.</li>
+				<li class="bugfix">Fix issue with weighted signal order preventing activation.</li>
+				<li class="bugfix">Fix lamp trait runtiming</li>
+				<li class="bugfix">Fix anti_artifact runtiming</li>
+				<li class="bugfix">Fix fragile artifacts not breaking due to byond being beyond illogical.</li>
+				<li class="bugfix">Fix strip malfunction from stripping non-removable clothing..</li>
+				<li class="rscadd">Adds anti-clone malfunction. Creates an evil twin of the target.</li>
+				<li class="rscadd">Add better functions for adding malfunctions that support typing</li>
+				<li class="rscadd">Add exploding malfunction delaminating, unique to bananium.</li>
+				<li class="rscadd">Add all artifact smoke screen trait.</li>
+				<li class="rscadd">Add Plasma & Bluespace trait, Marker trait, colors the target</li>
+				<li class="rscadd">Add all artifact malfunction absorbing. Absorbs nearby gasses, suffocating small rooms. Will spit gasses back out when destroyed.</li>
+				<li class="rscadd">Add Honked activator. Only clowns, and clown related items, can activate this artifact.</li>
+				<li class="rscadd">Add Emotional major. Makes target perform a random emote, from a curated list.</li>
+				<li class="rscadd">Add Desynced minor. Makes the artifact disappear for a short period after activating.</li>
+				<li class="rscadd">Add Hallucinogenic malfunction. Makes the target experience a random hallucination.</li>
+				<li class="rscadd">Add bar to UI that shows thread stability.</li>
+				<li class="bugfix">Fix flammable trait not activating</li>
+				<li class="bugfix">Fix haunted activation.</li>
+				<li class="bugfix">Fix blacklisting on explosive malfunction</li>
+				<li class="tweak">Add limit to clone & bear malfunction.</li>
+			</ul>
+			<h3 class="author">Ghommie, RKz updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">new advancements in Object Permanence Theory at NT Labs have been discovered! Lizard snoots will no longer disappear when wearing certain hoods or helmets.</li>
+			</ul>
+			<h3 class="author">SerynEngi updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">Doubled Ethereal light radius.</li>
+			</ul>
+			<h3 class="author">benbot16 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="code_imp">Adds virtual Zs to dropships.</li>
+			</ul>
+			<h3 class="author">covertcorvid updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="balance">Separated KNPC detection range from attack range. Set detection range equal to normal humans.</li>
+			</ul>
+
+			<h2 class="date">06 March 2023</h2>
+			<h3 class="author">Ikalpo updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">stopped ships bouncing off of guided munitions</li>
+			</ul>
+			<h3 class="author">benbot16 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fixes the overmap brakes hotkey.</li>
+			</ul>
+			<h3 class="author">itsmeow, EvilDragonfiend updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">ChemMasters now have an exact output units mode for pills/patches/bottles.</li>
+				<li class="tweak">ChemMasters can now have a set name input to use for all pills, instead of prompting every time.</li>
+				<li class="admin">ChemMaster packaging names are now subject to the IC filter.</li>
+				<li class="rscadd">a new reagent container type - Chemical bag (max 200u). printable from ChemMaster. Currently, this does not have many usages - not drinkable, and not insertable into ChemMaster back.(but grindable) only usable for IV drip.</li>
+				<li class="tweak">blood packs are grindable</li>
+				<li class="code_imp">adds a bitflag that allows a grinder can grind a reagent container, and related proc 'is_grindable()'</li>
+				<li class="code_imp">new variable label_name that is used to display specific string without suffix like bottle, pill, patch</li>
+				<li class="bugfix">bottles now show its names in vending machines</li>
+			</ul>
+			<h3 class="author">someone543 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Starmaps in local servers now load properly</li>
+			</ul>
+
+			<h2 class="date">03 March 2023</h2>
+			<h3 class="author">BetaCentari, Floyd, ActionNinja updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="soundadd">added a TON of new sounds under sound/surgery and sound/items/handling</li>
+				<li class="code_imp">Changed some inventory handling to configure picking up and putting down and dropping items</li>
+			</ul>
+			<h3 class="author">Bobbanz1 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="code_imp">Removed a redundant if condition, tug will probably now keep the breaks on until you turn it off and not just when there's someone inside the thingy, also removed two unused variables.</li>
+			</ul>
+			<h3 class="author">Kenionatus updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Turnstiles now break when heavily damaged</li>
+				<li class="rscadd">Turnstiles now shock you when broken.</li>
+				<li class="rscadd">Turnstiles can now be repaired with a welder</li>
+				<li class="refactor">Refactored Turnstile code a bit.</li>
+			</ul>
+			<h3 class="author">PowerfulBacon updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Adds in job icons to the orbit panel</li>
+			</ul>
+			<h3 class="author">TaG2e updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fixes APCs not showing the correct icons or overlays</li>
+			</ul>
+			<h3 class="author">benbot16 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="refactor">Refactors how targeting is handled</li>
+				<li class="rscadd">DRADIS now has a targeting mode, cycled using the hailing/targeting button. Clicking on enemies in targeting mode will paint them, and clicking on friendlies will pass your current target lock to them via datalink</li>
+				<li class="tweak">Tweaks how datalink functions. It is no longer automatic, and the sending ship must maintain a lock to maintain the datalink transmission. Targets recieved via datalink are also visible on DRADIS now.</li>
+				<li class="tweak">Painted targets will now be lost if radar contact is not maintained.</li>
+				<li class="rscadd">Readds the gunner's optical camera. This works on large ships and some small ships with TAC consoles, and has a range similar to that of the ship's base sensor range.</li>
+				<li class="balance">AI ships will now target incoming ordnance with PDCs, and will target ships locking them with flak.</li>
+				<li class="balance">All overmap ships are now limited to 3 target paints, except for fighters, which are limited to one paint. Fighters will also automatically lock onto the target they paint.</li>
+				<li class="bugfix">Fixes some null handling issues in target lists.</li>
+				<li class="code_imp">Homing is now based on the projectile being fired instead of the weapon.</li>
+				<li class="tweak">Non-fighter ghost ships now have access to active radar.</li>
+				<li class="bugfix">EWAR consoles now delete their radios properly  when destroyed.</li>
+			</ul>
+
 			<h2 class="date">21 February 2023</h2>
 			<h3 class="author">benbot16 updated:</h3>
 			<ul class="changes bgimages16">
@@ -244,40 +374,6 @@
 			<h3 class="author">someone543 updated:</h3>
 			<ul class="changes bgimages16">
 				<li class="rscadd">Camera added to Eclipse Xenobio</li>
-			</ul>
-
-			<h2 class="date">06 January 2023</h2>
-			<h3 class="author">Bobbanz1 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added a Modular Computer version of the Wiki Uplink that previously only existed in PDAs!</li>
-			</ul>
-			<h3 class="author">red031000 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fix badge</li>
-			</ul>
-
-			<h2 class="date">02 January 2023</h2>
-			<h3 class="author">Bobbanz1 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Manuals now send you to the correct pages on the NSV13 Wiki</li>
-				<li class="bugfix">Fixes the custom say stuff so you can now actually write in a relatively comfortable manner of "whimper* help" instead of "whimper*help"</li>
-			</ul>
-			<h3 class="author">Ikalpo updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixes large ships getting stuck on borders</li>
-			</ul>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Made sure all maps have at least 3 freight torpedoes available</li>
-			</ul>
-			<h3 class="author">dwasint updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">computers now glow again</li>
-			</ul>
-			<h3 class="author">etherware-novice, EvilDragonfiend updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">lathes/techfabs/etc light up when theres new research designs</li>
-				<li class="rscadd">researching a tech node 2 tier higher than current tech tier will warn you.</li>
 			</ul>
 		</div>
 
