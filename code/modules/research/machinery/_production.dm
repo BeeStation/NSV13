@@ -23,6 +23,7 @@
 	var/list/mob/viewing_mobs = list()
 
 	var/list/pending_research = list()  // only for examination
+	var/base_storage = 75000 // NSV13 - moved base storage multiplier into a variable
 
 /obj/machinery/rnd/production/Initialize(mapload)
 	. = ..()
@@ -259,7 +260,7 @@
 	if(materials)
 		var/total_storage = 0
 		for(var/obj/item/stock_parts/matter_bin/M in component_parts)
-			total_storage += M.rating * 75000
+			total_storage += M.rating * base_storage //NSV13 - moved base multiplier into a variable
 		materials.set_local_size(total_storage)
 	var/total_rating = 1.2
 	for(var/obj/item/stock_parts/manipulator/M in component_parts)
