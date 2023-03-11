@@ -730,7 +730,7 @@
 	playsound(src.loc, 'nsv13/sound/effects/ship/freespace2/m_load.wav', 100, 1)
 
 /obj/machinery/deck_turret/payload_gate/proc/chamber(obj/machinery/deck_turret/powder_gate/source)
-	if(!shell)
+	if(!shell || !source?.bag)
 		return FALSE
 	shell.speed += source.bag.power
 	shell.name = "Packed [initial(shell.name)]"
