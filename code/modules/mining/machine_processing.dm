@@ -124,6 +124,12 @@
 		if("Alloy")
 			machine.selected_material = null
 			machine.selected_alloy = params["id"]
+
+		if("toggle_auto_shutdown")
+			machine.toggle_auto_shutdown()
+
+		if("set_smelt_amount")
+			machine.smelt_amount_limit = CLAMP(text2num(params["amount"]), 1, 100)
 //NSV13 - Furnace TGUI - Stop
 
 /obj/machinery/mineral/processing_unit_console/Destroy()
@@ -148,6 +154,9 @@
 	var/link_id = null
 	var/points = 0
 	var/allow_point_redemption = FALSE
+	var/smelt_amount_limit = 50 // NSV13 - added automatic shutoff
+	var/amount_already_smelted = 0 // NSV13 - added automatic shutoff
+	var/auto_shutdown = FALSE // NSV13 - added automatic shutoff
 
 /obj/machinery/mineral/processing_unit/laborcamp
 	allow_point_redemption = FALSE
@@ -189,7 +198,7 @@
 
 	//Points
 	if(allow_point_redemption)
-		data["points"] = points
+		data["stored_points"] = points
 
 	data["materials"] = list()
 	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
@@ -203,6 +212,10 @@
 	for(var/v in stored_research.researched_designs)
 		var/datum/design/D = SSresearch.techweb_design_by_id(v)
 		data["alloys"] += list(list("name" = D.name, "id" = D.id, "smelting" = (selected_alloy == D.id), "amount" = can_smelt(D)))
+
+	// NSV13 - added automatic shutoff
+	data["auto_shutdown"] = auto_shutdown
+	data["smelt_amount_limit"] = smelt_amount_limit
 
 	return data
 //NSV13 - Furnace TGUI - Stop
@@ -218,6 +231,11 @@
 	if(on)
 		begin_processing()
 
+// NSV13 - added automatic shutoff
+/obj/machinery/mineral/processing_unit/proc/toggle_auto_shutdown()
+	auto_shutdown = !auto_shutdown
+	amount_already_smelted = 0
+
 /obj/machinery/mineral/processing_unit/process(delta_time)
 	if(on)
 		if(selected_material)
@@ -232,6 +250,7 @@
 		*/
 	else
 		end_processing()
+		amount_already_smelted = 0 // NSV13 - added automatic shutoff
 
 /obj/machinery/mineral/processing_unit/proc/smelt_ore(delta_time = 2)
 	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
@@ -242,8 +261,12 @@
 			on = FALSE
 		else
 			var/out = get_step(src, output_dir)
-			materials.retrieve_sheets(sheets_to_remove, mat, out)
-
+			// NSV13 - added automatic shutoff
+			var/retrieved = materials.retrieve_sheets(sheets_to_remove, mat, out)
+			if(auto_shutdown)
+				amount_already_smelted += retrieved
+				if(amount_already_smelted >= smelt_amount_limit)
+					on = FALSE
 
 /obj/machinery/mineral/processing_unit/proc/smelt_alloy(delta_time = 2)
 	var/datum/design/alloy = stored_research.isDesignResearchedID(selected_alloy) //check if it's a valid design
@@ -253,7 +276,7 @@
 
 	var/amount = can_smelt(alloy, delta_time)
 
-	if(!amount)
+	if(!amount || (auto_shutdown && (amount_already_smelted >= smelt_amount_limit))) //NSV13 - added automatic shutoff
 		on = FALSE
 		return
 
@@ -261,6 +284,7 @@
 	materials.use_materials(alloy.materials, amount)
 
 	generate_mineral(alloy.build_path)
+	amount_already_smelted += amount //NSV13 - added automatic shutoff
 
 /obj/machinery/mineral/processing_unit/proc/can_smelt(datum/design/D, delta_time = 2)
 	if(D.make_reagents.len)
