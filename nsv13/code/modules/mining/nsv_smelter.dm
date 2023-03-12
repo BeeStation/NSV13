@@ -7,3 +7,27 @@
 		point_upgrade_temp += 0.65 + (0.35 * L.rating)
 	point_upgrade = point_upgrade_temp
 	smelt_amount = round(smelt_amount_temp, 1)
+
+/obj/machinery/mineral/processing_unit/attackby(obj/item/W, mob/user, params)
+	if(default_deconstruction_screwdriver(user, icon_state, icon_state, W))
+		return
+
+	if(default_unfasten_wrench(user, W))
+		return
+
+	if(default_deconstruction_crowbar(W))
+		return
+
+	return ..()
+
+/obj/machinery/mineral/processing_unit_console/attackby(obj/item/W, mob/user, params)
+	if(default_deconstruction_screwdriver(user, icon_state, icon_state, W))
+		return
+
+	if(default_unfasten_wrench(user, W))
+		return
+
+	if(default_deconstruction_crowbar(W))
+		return
+
+	return ..()

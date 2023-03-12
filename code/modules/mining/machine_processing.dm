@@ -68,8 +68,10 @@
 		machine = locate(/obj/machinery/mineral/processing_unit, get_step(src, machinedir))
 		if (machine)
 			machine.CONSOLE = src
+		/* NSV13 - we don't want it to delete itself actually
 		else
 			return INITIALIZE_HINT_QDEL
+		*/
 
 // Only called if mappers set ID
 /obj/machinery/mineral/processing_unit_console/LateInitialize()
