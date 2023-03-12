@@ -363,3 +363,16 @@
 	)
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	build_path = /obj/machinery/ship_weapon/plasma_caster
+
+// Smelter and console
+/obj/item/circuitboard/machine/processing_unit
+	name = "circuit board (furnace)"
+	desc = "It melts and purifies ores."
+	req_components = list(
+		/obj/item/stock_parts/micro_laser = 1,
+		/obj/item/stock_parts/matter_bin = 2,
+		/obj/item/assembly/igniter = 1)
+
+/obj/item/circuitboard/machine/processing_unit_console
+	name = "circuit board (furnace console)"
+	desc = "Circuit for a furnace control console."

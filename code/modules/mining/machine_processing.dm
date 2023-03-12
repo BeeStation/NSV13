@@ -55,6 +55,7 @@
 	icon = 'icons/obj/machines/mining_machines.dmi'
 	icon_state = "console"
 	density = TRUE
+	circuit = /obj/item/circuitboard/machine/processing_unit_console // NSV13 - added circuits
 	var/obj/machinery/mineral/processing_unit/machine = null
 	var/machinedir = EAST
 	var/link_id = null
@@ -146,6 +147,7 @@
 	icon_state = "furnace"
 	density = TRUE
 	needs_item_input = TRUE
+	circuit = /obj/item/circuitboard/machine/processing_unit // NSV13 - why didn't this already have a circuitboard? And why isn't it a computer?
 	var/obj/machinery/mineral/CONSOLE = null
 	var/on = FALSE
 	var/datum/material/selected_material = null
@@ -157,6 +159,8 @@
 	var/smelt_amount_limit = 50 // NSV13 - added automatic shutoff
 	var/amount_already_smelted = 0 // NSV13 - added automatic shutoff
 	var/auto_shutdown = FALSE // NSV13 - added automatic shutoff
+	var/smelt_amount = 5 // NSV13 - made this a variable so we can upgrade
+	var/point_upgrade = 1 // NSV13 - upgrades
 
 /obj/machinery/mineral/processing_unit/laborcamp
 	allow_point_redemption = FALSE
@@ -255,8 +259,9 @@
 /obj/machinery/mineral/processing_unit/proc/smelt_ore(delta_time = 2)
 	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 	var/datum/material/mat = selected_material
+	var/desired_amount_sheets = auto_shutdown ? min(smelt_amount * delta_time, smelt_amount_limit - amount_already_smelted) : smelt_amount * delta_time  // NSV13 - added automatic shutoff
 	if(mat)
-		var/sheets_to_remove = (materials.materials[mat] >= (MINERAL_MATERIAL_AMOUNT * SMELT_AMOUNT * delta_time) ) ? SMELT_AMOUNT * delta_time : round(materials.materials[mat] /  MINERAL_MATERIAL_AMOUNT)
+		var/sheets_to_remove = (materials.materials[mat] >= (MINERAL_MATERIAL_AMOUNT * desired_amount_sheets) ) ? desired_amount_sheets : round(materials.materials[mat] /  MINERAL_MATERIAL_AMOUNT)
 		if(!sheets_to_remove)
 			on = FALSE
 		else
@@ -290,7 +295,7 @@
 	if(D.make_reagents.len)
 		return FALSE
 
-	var/build_amount = SMELT_AMOUNT * delta_time
+	var/build_amount = auto_shutdown ? min(smelt_amount * delta_time, smelt_amount_limit - amount_already_smelted) : smelt_amount * delta_time // NSV13 - added automatic shutoff
 
 	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 
