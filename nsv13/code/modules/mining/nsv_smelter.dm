@@ -18,6 +18,23 @@
 	if(default_deconstruction_crowbar(W))
 		return
 
+	if(W.tool_behaviour == TOOL_MULTITOOL)
+		if(!multitool_check_buffer(user, W))
+			return
+		var/obj/item/multitool/P = W
+
+		if(istype(P.buffer, /obj/machinery/mineral/processing_unit_console))
+			if(get_area(P.buffer) != get_area(src))
+				to_chat(user, "<font color = #666633>-% Cannot link machines across power zones. %-</font color>")
+				return
+			to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
+			CONSOLE = P.buffer
+			CONSOLE.machine = src
+		else
+			P.buffer = src
+			to_chat(user, "<font color = #666633>-% Successfully stored [REF(P.buffer)] [P.buffer.name] in buffer %-</font color>")
+		return
+
 	return ..()
 
 /obj/machinery/mineral/processing_unit_console/attackby(obj/item/W, mob/user, params)
@@ -28,6 +45,23 @@
 		return
 
 	if(default_deconstruction_crowbar(W))
+		return
+
+	if(W.tool_behaviour == TOOL_MULTITOOL)
+		if(!multitool_check_buffer(user, W))
+			return
+		var/obj/item/multitool/P = W
+
+		if(istype(P.buffer, /obj/machinery/mineral/processing_unit))
+			if(get_area(P.buffer) != get_area(src))
+				to_chat(user, "<font color = #666633>-% Cannot link machines across power zones. %-</font color>")
+				return
+			to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
+			CONSOLE = P.buffer
+			CONSOLE.machine = src
+		else
+			P.buffer = src
+			to_chat(user, "<font color = #666633>-% Successfully stored [REF(P.buffer)] [P.buffer.name] in buffer %-</font color>")
 		return
 
 	return ..()
