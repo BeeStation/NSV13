@@ -57,8 +57,8 @@
 				to_chat(user, "<font color = #666633>-% Cannot link machines across power zones. %-</font color>")
 				return
 			to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
-			CONSOLE = P.buffer
-			CONSOLE.machine = src
+			machine = P.buffer
+			machine.CONSOLE = src
 		else
 			P.buffer = src
 			to_chat(user, "<font color = #666633>-% Successfully stored [REF(P.buffer)] [P.buffer.name] in buffer %-</font color>")

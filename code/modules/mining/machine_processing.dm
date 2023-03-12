@@ -84,7 +84,7 @@
 //NSV13 - Furnace TGUI - Start
 /obj/machinery/mineral/processing_unit_console/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
+	if(machine && !ui)
 		ui = new(user, src, "Smelter")
 		ui.open()
 		ui.set_autoupdate(TRUE) // Material amounts
@@ -150,7 +150,7 @@
 	density = TRUE
 	needs_item_input = TRUE
 	circuit = /obj/item/circuitboard/machine/processing_unit // NSV13 - why didn't this already have a circuitboard? And why isn't it a computer?
-	var/obj/machinery/mineral/CONSOLE = null
+	var/obj/machinery/mineral/processing_unit_console/CONSOLE = null // NSV13 - changed to full path
 	var/on = FALSE
 	var/datum/material/selected_material = null
 	var/selected_alloy = null
@@ -175,6 +175,8 @@
 	selected_material = getmaterialref(/datum/material/iron)
 
 /obj/machinery/mineral/processing_unit/Destroy()
+	if(CONSOLE) // NSV13 - close any linked windows
+		SStgui.close_uis(CONSOLE)
 	CONSOLE = null
 	QDEL_NULL(stored_research)
 	return ..()
