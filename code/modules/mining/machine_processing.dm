@@ -186,7 +186,7 @@
 		unload_mineral(O)
 	else
 		if(allow_point_redemption)
-			points += O.points * O.amount
+			points += O.points * O.amount * point_upgrade
 		materials.insert_item(O)
 		qdel(O)
 		/* NSV13 - Disabled due to our TGUI version
