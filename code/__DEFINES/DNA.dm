@@ -130,6 +130,14 @@
 #define NOSOCKS       22 // You cannot wear socks.
 #define DRINKSBLOOD		23 // NSV13 - moths like drinking blood
 
+/// Used for determining which wounds are applicable to this species.
+/// if we have flesh (can suffer slash/piercing/burn wounds, requires they don't have NOBLOOD)
+// #define HAS_FLESH 24 [add if we ever port TGs wound system]
+/// if we have bones (can suffer bone wounds)
+// #define HAS_BONE 25 [add if we ever port TGs wound system]
+/// If we have a limb-specific overlay sprite
+#define HAS_MARKINGS 26 //NSV13 - used for markings
+
 //organ slots
 #define ORGAN_SLOT_BRAIN "brain"
 #define ORGAN_SLOT_APPENDIX "appendix"

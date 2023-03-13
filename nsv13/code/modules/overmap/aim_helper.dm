@@ -6,7 +6,10 @@
 		user_gun.onMouseDrag(src_object, over_object, src_location, over_location, params, M)
 		return TRUE
 	if(aiming)
-		lastangle = getMouseAngle(params, M)
+		if(target_lock)
+			lastangle = get_angle(src, get_turf(over_object))
+		else
+			lastangle = getMouseAngle(params, M)
 		draw_beam()
 	else
 		autofire_target = over_object
@@ -20,7 +23,13 @@
 	if(user_gun)
 		user_gun?.onMouseDown(object)
 		return TRUE
-	if(fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER || fire_mode == FIRE_MODE_HYBRID_RAIL)
+	if((fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER || fire_mode == FIRE_MODE_HYBRID_RAIL))
+		aiming_target = object
+		aiming_params = params
+		if(target_lock)
+			lastangle = get_angle(src, get_turf(object))
+		else
+			lastangle = getMouseAngle(params, M)
 		start_aiming(params, M)
 	else
 		autofire_target = object
@@ -33,7 +42,7 @@
 		user_gun?.onMouseUp(object)
 		return TRUE
 	autofire_target = null
-	lastangle = getMouseAngle(params, M)
+	lastangle = get_angle(src, get_turf(object))
 	stop_aiming()
 	if(fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER || fire_mode == FIRE_MODE_HYBRID_RAIL)
 		fire_weapon(object)
@@ -54,10 +63,8 @@
 	P.color = "#99ff99"
 	var/turf/curloc = get_turf(src)
 	var/turf/targloc = get_turf(aiming_target)
-	if(!istype(targloc))
-		if(!istype(curloc))
-			return
-		targloc = get_turf_in_angle(lastangle, curloc, 10)
+	if(!istype(targloc) || !istype(curloc))
+		return
 	P.preparePixelProjectile(targloc, src, aiming_params, 0)
 	P.layer = BULLET_HOLE_LAYER
 	P.fire(lastangle)
@@ -70,7 +77,6 @@
 	return TRUE
 
 /obj/structure/overmap/proc/start_aiming(params, mob/M)
-	lastangle = getMouseAngle(params, M)
 	aiming = TRUE
 	draw_beam(TRUE)
 

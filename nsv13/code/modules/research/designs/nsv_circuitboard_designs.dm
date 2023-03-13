@@ -96,3 +96,12 @@
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE
 
+//Autoinjector
+/datum/design/board/autoinjector
+	name = "Machine Design (Autoinjector Printer)"
+	desc = "Allows for the construction of circuit boards used to build a new autoinjector printer"
+	id = "autoinjector"
+	build_path = /obj/item/circuitboard/machine/autoinject_printer
+	category = list("Medical Machinery")
+	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
+

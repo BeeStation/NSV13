@@ -31,6 +31,8 @@ Credit to TGMC for the interior sprites for all these!
 	speed_limit = 4
 	resize_factor = 2
 //	ftl_goal = 45 SECONDS //sabres can, by default, initiate relative FTL jumps to other ships.
+	autotarget = FALSE // Transports have dedicated TAC consoles, so let them handle targeting
+	no_gun_cam = FALSE
 	loadout_type = /datum/component/ship_loadout/utility
 	dradis_type = null //Sabres can send sonar pulses
 	components = list(/obj/item/fighter_component/fuel_tank/tier2,
@@ -46,11 +48,20 @@ Credit to TGMC for the interior sprites for all these!
 						/obj/item/fighter_component/countermeasure_dispenser)
 	interior_mode = INTERIOR_DYNAMIC
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/countermeasure)
+	var/linked_virtual_z // The virtual Z of our transport bird.
 
 /obj/structure/overmap/small_craft/transport/Initialize(mapload, list/build_components)
 	return ..()
 
+/obj/structure/overmap/small_craft/transport/Destroy()
+	for(var/area/dropship/A in linked_areas)
+		A.linked_dropship = null
+	return ..()
+
 /obj/structure/overmap/small_craft/transport/post_load_interior()
+	linked_virtual_z = get_new_virtual_z()
+	for(var/area/dropship/A in linked_areas)
+		A.linked_dropship = src
 	var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
 	if(ftl)
 		if(length(linked_areas) == 1)
@@ -60,6 +71,10 @@ Credit to TGMC for the interior sprites for all these!
 			starmap = new(src)
 			starmap.use_power = 0
 			starmap.linked = src
+
+// Z override for transports. This returns our aircraft's unique Z.
+/obj/structure/overmap/small_craft/transport/get_virtual_z_level()
+	return linked_virtual_z != null ? linked_virtual_z : 0;
 
 /datum/map_template/dropship
     name = "Marine Dropship"
@@ -183,4 +198,4 @@ Credit to TGMC for the interior sprites for all these!
 /datum/map_template/dropship/sabre/syndicate
     name = "SU-437 Sabre Interior (Syndicate)"
     mappath = "_maps/templates/boarding/sabre_interior_syndicate.dmm"
- 
+

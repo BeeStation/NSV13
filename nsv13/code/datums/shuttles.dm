@@ -24,6 +24,10 @@
 	suffix = "shrike"
 	name = "\[NSV\] cargo ferry (Shrike)"
 
+/datum/map_template/shuttle/cargo/serendipity
+	suffix = "serendipity"
+	name = "\[NSV\] cargo ferry (Serendipity)"
+
 //Arrivals
 
 /datum/map_template/shuttle/arrival/aetherwhisp
@@ -41,6 +45,10 @@
 /datum/map_template/shuttle/arrival/shrike
 	suffix = "shrike"
 	name = "arrival shuttle (Shrike)"
+
+/datum/map_template/shuttle/arrival/serendipity
+	suffix = "serendipity"
+	name = "arrival shuttle (Serendipity)"
 
 /datum/map_template/shuttle/hammurabi //This is definitely an elevator trust me.
 	prefix = "_maps/shuttles/turbolifts/"
@@ -71,3 +79,9 @@
 	name = "Danube Class Yacht"
 	description = "A small, luxurious shuttle capable of ferrying small - medium crews in comfort and style."
 	credit_cost = 4000
+
+/datum/map_template/shuttle/emergency/celerity
+	suffix = "celerity"
+	name = "Dominion of Light Evacuation Shuttle, Celerity Class"
+	admin_notes = "This shuttle will not work for any other ship than the Serendipity"
+	can_be_bought = FALSE
