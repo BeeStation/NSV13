@@ -146,6 +146,25 @@
 	weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/burst_phaser(src)
 	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
 
+/obj/structure/overmap/nanotrasen/serendipity
+	name = "DLV Serendipity"
+	desc = "a serendipity class exploration and research vessel"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/serendipity.dmi'
+	icon_state = "serendipity"
+	mass = MASS_SMALL
+	obj_integrity = 500
+	max_integrity = 500
+	integrity_failure = 500
+	sprite_size = 48
+	damage_states = FALSE
+	bound_height = 32
+	bound_width = 32
+	obj_integrity = 1250
+	max_integrity = 1250
+	integrity_failure = 1250
+	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
+	plasma_caster = TRUE
+
 //Player Versions
 // deletion_behavior = DAMAGE_STARTS_COUNTDOWN
 // starting_system = "Staging"
@@ -231,6 +250,21 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 25)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+
+/obj/structure/overmap/nanotrasen/serendipity/starter
+	role = MAIN_OVERMAP
+	obj_integrity = 1200
+	max_integrity = 1200
+	integrity_failure = 1200
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
+	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+
+/obj/structure/overmap/nanotrasen/serendipity/starter/apply_weapons()
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
+	weapon_types[FIRE_MODE_PHORON] = new /datum/ship_weapon/plasma_caster(src)
 
 //AI Versions
 
@@ -343,3 +377,6 @@
 /obj/structure/overmap/nanotrasen/ai/fighter/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+
+
+

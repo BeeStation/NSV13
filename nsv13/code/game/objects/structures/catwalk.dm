@@ -10,6 +10,10 @@
 	obj_flags = CAN_BE_HIT
 	var/hatch_open = FALSE //To easily access wiring
 
+/obj/structure/lattice/catwalk/over/ship/light
+	color = "#ffffff"
+	icon_state = "catwalk_platedwhite"
+
 /obj/structure/lattice/catwalk/over/ship/dark
  	color = "#4c535b" //Curse you baystation
 

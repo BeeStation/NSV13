@@ -47,6 +47,15 @@
 	name = "Astrometrics Computer (Computer Board)"
 	build_path = /obj/machinery/computer/ship/navigation/astrometrics
 
+////Medical////
+/obj/item/circuitboard/machine/autoinject_printer
+	name = "Autoinjector Printer (Machine Board)"
+	icon_state = "medical"
+	build_path = /obj/machinery/autoinject_printer
+	req_components = list(
+		/obj/item/reagent_containers/glass/beaker = 2,
+		/obj/item/stock_parts/manipulator = 1)
+
 ////Munitions consoles////
 
 /obj/item/circuitboard/computer/ship/munitions_computer
@@ -317,3 +326,40 @@
 /obj/item/circuitboard/computer/iff
 	name = "IFF Console (circuit)"
 	build_path = /obj/machinery/computer/iff_console
+
+
+//Plasma Caster and Loader
+
+/obj/item/circuitboard/machine/plasma_loader
+	name = "Phoron Gas Regulator (Machine Board)"
+	build_path = /obj/machinery/atmospherics/components/unary/plasma_loader
+	var/pipe_layer = PIPING_LAYER_DEFAULT
+	req_components = list(
+		/obj/item/stock_parts/capacitor = 1,
+		/obj/item/stock_parts/manipulator = 1)
+
+/obj/item/circuitboard/machine/plasma_loader/multitool_act(mob/living/user, obj/item/multitool/I)
+	. = ..()
+	if(istype(I))
+		pipe_layer = (pipe_layer >= PIPING_LAYER_MAX) ? PIPING_LAYER_MIN : (pipe_layer + 1)
+		to_chat(user, "<span class='notice'>You change the circuitboard to layer [pipe_layer].</span>")
+
+/obj/item/circuitboard/machine/plasma_loader/examine()
+	. = ..()
+	. += "<span class='notice'>It is set to layer [pipe_layer].</span>"
+
+/obj/item/circuitboard/machine/plasma_caster
+	name = "circuit board (plasma caster)"
+	desc = "My faithful...stand firm!"
+	req_components = list(
+		/obj/item/stack/sheet/mineral/titanium = 25,
+		/obj/item/stack/sheet/iron = 50,
+		/obj/item/stack/sheet/mineral/uranium = 10,
+		/obj/item/stock_parts/manipulator = 1,
+		/obj/item/stock_parts/capacitor = 5,
+		/obj/item/stock_parts/matter_bin = 2,
+		/obj/item/assembly/igniter = 1,
+		/obj/item/ship_weapon/parts/firing_electronics = 1
+	)
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+	build_path = /obj/machinery/ship_weapon/plasma_caster

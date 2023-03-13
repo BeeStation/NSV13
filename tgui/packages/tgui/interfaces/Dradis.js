@@ -60,6 +60,8 @@ export const DradisContent = (props, context) => {
   let zoom_factor_min = data.zoom_factor_min;
   let zoom_factor_max = data.zoom_factor_max;
   let scale_factor = zoom_factor*5;
+  let dradis_targeting = data.dradis_targeting;
+  let can_use_radar = data.can_use_radar;
   let dradis = DradisMap(data.ships, zoom_factor, data.width_mod, focus_x, focus_y);
 
   return (
@@ -73,23 +75,35 @@ export const DradisContent = (props, context) => {
           <Button
             icon="search-minus"
             onClick={() => act('zoomout')} />
-          <Button
-            content="Radar Pulse"
-            icon="bullseye"
-            disabled={!data.can_radar_pulse}
-            onClick={() => act('radar_pulse')} />
-          <Button
-            content={data.sensor_mode}
-            icon="project-diagram"
-            onClick={() => act('sensor_mode')} />
-          <Button
-            content={data.pulse_delay}
-            icon="stopwatch"
-            onClick={() => act('radar_delay')} />
+          {!!data.can_use_radar && (
+            <>
+              <Button
+                content="Radar Pulse"
+                icon="bullseye"
+                disabled={!data.can_radar_pulse}
+                onClick={() => act('radar_pulse')} />
+              <Button
+                content={data.sensor_mode}
+                icon="project-diagram"
+                onClick={() => act('sensor_mode')} />
+              <Button
+                content={data.pulse_delay}
+                icon="stopwatch"
+                onClick={() => act('radar_delay')} />
+            </>
+          )}
           <Button
             content="Re-focus"
             icon="camera"
             onClick={() => location.reload()} />
+          {!!data.can_target && (
+            <Button
+              content={(dradis_targeting) ? "Targeting" : "Hailing"}
+              icon={dradis_targeting ? "bullseye" : "square-o"}
+              disabled={!data.can_target}
+              color={(data.dradis_targeting) ? "bad" : "good"}
+              onClick={() => act('dradis_targeting')} />
+          )}
         </>
       )}>
       Allies:
