@@ -256,9 +256,6 @@
 			var/datum/design/replicator/D = SSresearch.techweb_design_by_id(v)
 			if(findtext(raw_message, D.name))
 				target = lowertext(D.name)
-			for(var/alt_name in D.alt_names)
-				if(findtext(raw_message, alt_name))
-					target = lowertext(alt_name)
 		//for(var/X in all_menus)
 		//	var/tofind = X
 		//	if(findtext(raw_message, tofind))

@@ -1,6 +1,5 @@
 /datum/design/replicator
 	var/nutriment
-	var/list/alt_names = null
 
 /datum/design/replicator/boiledegg
 	name = "Boiled egg"
@@ -35,3 +34,16 @@
 	id = "tea"
 	build_type = REPLICATOR
 	category = list("initial","Tier 1")
+
+/datum/design/replicator/surprise
+	name = "Surprise me"
+	id = "surprise"
+	build_type = REPLICATOR
+	category = list("initial","Tier 1")
+
+/datum/design/replicator/burger
+	name = "Burger"
+	id = "burger"
+	build_type = REPLICATOR
+	build_path = /obj/item/reagent_containers/food/snacks/burger/plain
+	category = list("Tier 2")
