@@ -16,7 +16,7 @@
 	var/hardsuit_type = "engineering" //Determines used sprites: hardsuit[on]-[type]
 	actions_types = list(/datum/action/item_action/toggle_helmet_light)
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
-	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT //NSV13 - added HIDESNOUT
 	visor_flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	clothing_flags = NOTCONSUMABLE | STOPSPRESSUREDAMAGE | THICKMATERIAL | SHOWEROKAY | SNUG_FIT //NSV13 - kept SHOWEROKAY
 	var/current_tick_amount = 0

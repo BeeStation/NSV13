@@ -65,7 +65,7 @@
 
 	implants = list(/obj/item/implant/mindshield)
 
-	chameleon_extras = list(/obj/item/gun/ballistic/automatic/pistol/glock/command/hos, /obj/item/stamp/hos)
+	chameleon_extras = list(/obj/item/gun/ballistic/automatic/pistol/glock/security/hos, /obj/item/stamp/hos) //NSV13 Winona added
 
 /datum/outfit/job/head_of_security/hardsuit
 	name = "Head of Security (Hardsuit)"

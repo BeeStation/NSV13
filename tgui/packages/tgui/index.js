@@ -19,6 +19,7 @@ import './styles/themes/paper.scss';
 import './styles/themes/retro.scss';
 import './styles/themes/syndicate.scss';
 import './styles/themes/clockwork.scss';
+import './styles/themes/dominion.scss';
 
 import { perf } from 'common/perf';
 import { setupHotReloading } from 'tgui-dev-server/link/client.cjs';

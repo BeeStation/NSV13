@@ -125,8 +125,8 @@
 	actions_types = list(/datum/action/item_action/toggle_helmet_light, /datum/action/item_action/toggle_welding_screen)
 	flash_protect = 2
 	tint = 2
-	flags_inv = HIDEEYES | HIDEFACE
-	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH | HIDESNOUT
+	flags_inv = HIDEEYES | HIDEFACE | HIDESNOUT
+	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	visor_vars_to_toggle = VISOR_FLASHPROTECT | VISOR_TINT
 	visor_flags_inv = HIDEEYES | HIDEFACE | HIDESNOUT
 	visor_flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
