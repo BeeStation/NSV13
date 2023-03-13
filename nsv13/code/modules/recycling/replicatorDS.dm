@@ -73,6 +73,17 @@
 	if(default_unfasten_wrench(user, O))
 		return FALSE
 
+	if(istype(O, /obj/item/disk/design_disk/replicator))
+		user.visible_message("<span class='notice'>[user] begins to load \the [O] in \the [src]...</span>",
+			"<span class='notice'>You begin to load designs from \the [O]...</span>",
+			"<span class='hear'>You hear the clatter of a floppy drive.</span>")
+		var/obj/item/disk/design_disk/replicator/replicator_design_disk = O
+		if(do_after(user, 2 SECONDS, target = src))
+			for(var/datum/design/replicator/found_design in replicator_design_disk.blueprints)
+				stored_research.add_design(found_design)
+			update_static_data(user)
+		return
+
 	var/success = FALSE
 	if(istype(O, /obj/item/reagent_containers/glass) || istype(O, /obj/item/trash))
 		visible_message("<span class='warning'>[O] is vaporized by [src]</span>")
@@ -80,14 +91,14 @@
 		qdel(O)
 		return FALSE
 
-	if(biogen.points < capacity_multiplier*600)
+	if(biogen.points < capacity_multiplier*1000)
 		if(istype(O, /obj/item/reagent_containers/food/snacks))
 			convert_to_biomass(O)
 			success = TRUE
 		else if(istype(O, /obj/item/storage/bag/plants))
 			var/obj/item/storage/bag/plants/P = O
 			for(var/obj/item/reagent_containers/food/snacks/grown/G in P.contents)
-				if(biogen.points < capacity_multiplier*600)
+				if(biogen.points < capacity_multiplier*1000)
 					convert_to_biomass(G)
 				success = TRUE
 	else
@@ -172,13 +183,19 @@
 			"items" = (category == selected_cat ? list() : null))
 		for(var/item in categories[category])
 			var/datum/design/replicator/D = item
-			var/obj/item/temporary = new D.build_path
+			var/costs = 0
+			if(D.build_path)
+				var/obj/item/temporary = new D.build_path
+				if(istype(temporary, /obj/item/reagent_containers/food))
+					costs = temporary.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment)
+				else
+					costs = D.cost ? D.cost : 0
+				qdel(temporary)
 			cat["items"] += list(list(
 				"id" = D.id,
 				"name" = D.name,
-				"cost" = temporary.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment),
+				"cost" = costs,
 			))
-			qdel(temporary)
 		data["categories"] += list(cat)
 
 	return data
@@ -284,6 +301,7 @@
 		else
 			menu = D.name
 
+	menu = lowertext(menu)
 	addtimer(CALLBACK(src, .proc/replicate, menu, temperature, user), speed_mult)
 	addtimer(CALLBACK(src, .proc/set_ready, TRUE), speed_mult)
 
@@ -475,6 +493,49 @@
 		M.adjust_nutrition(-3)
 		M.overeatduration = 0
 	return ..()
+
+/obj/item/disk/design_disk/replicator
+	name = "Pattern Upgrade Disk"
+	desc = "You shouldn't be seeing this."
+	icon = 'nsv13/icons/obj/module.dmi'
+	/// List of all the designs this disk contains
+	var/list/repli_patterns = list()
+
+/obj/item/disk/design_disk/replicator/Initialize()
+	. = ..()
+	for(var/design in repli_patterns)
+		var/datum/design/replicator/new_design = design
+		blueprints += new new_design
+
+/obj/item/disk/design_disk/replicator/tier2
+	name = "Pattern Upgrade Disk (Tier 2)"
+	desc = "A disk containing the schematics for Tier 2 Replicator Patterns."
+	icon_state = "disk_tier2"
+	repli_patterns = list(
+		/datum/design/replicator/tier2/burger, /datum/design/replicator/tier2/steak, /datum/design/replicator/tier2/fries,
+		/datum/design/replicator/tier2/onionrings, /datum/design/replicator/tier2/pancakes, /datum/design/replicator/tier2/coffee,
+		/datum/design/replicator/tier2/tier3disk,
+	)
+
+/obj/item/disk/design_disk/replicator/tier3
+	name = "Pattern Upgrade Disk (Tier 3)"
+	desc = "A disk containing the schematics for Tier 3 Replicator Patterns."
+	icon_state = "disk_tier3"
+	repli_patterns = list(
+		/datum/design/replicator/tier3/cheesepizza, /datum/design/replicator/tier3/meatpizza, /datum/design/replicator/tier3/mushroompizza,
+		/datum/design/replicator/tier3/veggiepizza, /datum/design/replicator/tier3/pineapplepizza, /datum/design/replicator/tier3/donkpizza,
+		/datum/design/replicator/tier3/tier4disk,
+	)
+
+/obj/item/disk/design_disk/replicator/tier4
+	name = "Pattern Upgrade Disk (Tier 4)"
+	desc = "A disk containing the schematics for Tier 4 Replicator Patterns."
+	icon_state = "disk_tier4"
+	repli_patterns = list(
+		/datum/design/replicator/tier4/cakebatter, /datum/design/replicator/tier4/dough, /datum/design/replicator/tier4/eggbox,
+		/datum/design/replicator/tier4/flour, /datum/design/replicator/tier4/milk, /datum/design/replicator/tier4/enzymes,
+		/datum/design/replicator/tier4/cheesewheel, /datum/design/replicator/tier4/meatslab,
+	)
 
 #undef READY
 #undef REPLICATING
