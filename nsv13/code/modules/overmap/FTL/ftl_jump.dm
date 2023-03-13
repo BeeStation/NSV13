@@ -276,7 +276,6 @@
 
 
 /obj/structure/overmap/proc/jump_end(datum/star_system/target_system)
-	relay_to_nearby('nsv13/sound/effects/ship/FTL.ogg', null, ignore_self=TRUE)//Ships just hear a small "crack" when another one jumps
 	if(reserved_z) //Actual overmap parallax behaviour
 		var/datum/space_level/SL = SSmapping.z_list[reserved_z]
 		SL.set_parallax( (current_system != null) ?  current_system.parallax_property : target_system.parallax_property, null)

@@ -66,6 +66,9 @@
 	progress = 0
 	ftl_state = FTL_STATE_IDLE
 
+/obj/item/fighter_component/ftl/proc/get_jump_speed()
+	return jump_speed_factor
+
 /obj/item/fighter_component/ftl/process(delta_time)
 	//Not calling parent here as there's no need to use power yet if we're already spooled.
 	if(ftl_state == FTL_STATE_JUMPING)

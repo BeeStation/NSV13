@@ -803,7 +803,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		if(ignore_self)
 			if(ship == src)
 				continue
-		if(z != ship.z)	//If we aren't on the same z level this shouldn't be happening.
+		if(ship?.current_system != current_system)	//If we aren't in the same system this shouldn't be happening.
 			continue
 		if(get_dist(src, ship) <= sound_range) //Sound doesnt really travel in space, but space combat with no kaboom is LAME
 			if(faction_check)
