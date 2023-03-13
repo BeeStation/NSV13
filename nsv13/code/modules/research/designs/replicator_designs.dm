@@ -1,5 +1,6 @@
 /datum/design/replicator
 	var/nutriment
+	var/list/alt_names = null
 
 /datum/design/replicator/boiledegg
 	name = "Boiled egg"

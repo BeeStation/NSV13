@@ -256,6 +256,9 @@
 			var/datum/design/replicator/D = SSresearch.techweb_design_by_id(v)
 			if(findtext(raw_message, D.name))
 				target = lowertext(D.name)
+			for(var/alt_name in D.alt_names)
+				if(findtext(raw_message, alt_name))
+					target = lowertext(alt_name)
 		//for(var/X in all_menus)
 		//	var/tofind = X
 		//	if(findtext(raw_message, tofind))
@@ -404,47 +407,51 @@
 				for(var/mob/M as() in iguanas)
 					iguanas -= M
 					qdel(M)
-
 	if(food)
-		var/nutriment = food.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment)
-		if(biogen.points >= nutriment && biogen.points >= 5)
-			//time to check laser power.
-			if(prob(6-failure_grade)) //Chance to make a burned mess so the chef is still useful.
-				var/obj/item/reagent_containers/food/snacks/badrecipe/neelixcooking = new /obj/item/reagent_containers/food/snacks/badrecipe(get_turf(src))
-				neelixcooking.name = "replicator mess"
-				neelixcooking.desc = "perhaps you should invest in some higher quality parts."
-				biogen.points -= 5
-				qdel(food) //NO FOOD FOR YOU!
-				return
-			else
-				if(temp)
-					food.name = "[temp] [food.name]"
-					switch(temp)
-						if("cold")
-							food.reagents.chem_temp = 0
-						if("hot")
-							food.reagents.chem_temp = 450
-						if("extra hot")
-							food.reagents.chem_temp = 5000
-						if("well done")
-							food.reagents.chem_temp = 2000000000000 //A nice warm Steak or a perfectly well boiled Cup of Tea
-				if(nutriment > 0)
-					biogen.points -= nutriment
-				else
-					biogen.points -= 5 //Default, in case the food is useless.
-				if(emagged)
-					food.reagents.add_reagent(/datum/reagent/toxin/munchyserum, nutriment)
-					food.reagents.remove_reagent(/datum/reagent/consumable/nutriment, nutriment)
-				var/currentHandIndex = user.get_held_index_of_item(food)
-				user.put_in_hand(food,currentHandIndex)
+		finalize_replicating(food, temp, user)
 
-		else
-			visible_message("<span_class='warning'>Insufficient fuel to create [food]. [src] requires [nutriment] U of biomatter.</span>")
+/obj/machinery/replicator/proc/finalize_replicating(var/atom/food, var/temp, var/mob/living/user)
+	var/nutriment = food.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment)
+	if(biogen.points >= nutriment && biogen.points >= 5)
+		//time to check laser power.
+		if(prob(6-failure_grade)) //Chance to make a burned mess so the chef is still useful.
+			var/obj/item/reagent_containers/food/snacks/badrecipe/neelixcooking = new /obj/item/reagent_containers/food/snacks/badrecipe(get_turf(src))
+			neelixcooking.name = "replicator mess"
+			neelixcooking.desc = "perhaps you should invest in some higher quality parts."
+			biogen.points -= 5
 			qdel(food) //NO FOOD FOR YOU!
 			return
+		else
+			if(temp || selected_temperature)
+				food.name = "[temp ? temp : selected_temperature] [food.name]"
+				var/temperature_check = temp ? temp : selected_temperature
+				switch(temperature_check)
+					if("cold")
+						food.reagents.chem_temp = 0
+					if("hot")
+						food.reagents.chem_temp = 450
+					if("extra hot")
+						food.reagents.chem_temp = 5000
+					if("well done")
+						food.reagents.chem_temp = 2000000000000 //A nice warm Steak or a perfectly well boiled Cup of Tea
+			if(nutriment > 0)
+				biogen.points -= nutriment
+			else
+				biogen.points -= 5 //Default, in case the food is useless.
+			if(emagged)
+				food.reagents.add_reagent(/datum/reagent/toxin/munchyserum, nutriment)
+				food.reagents.remove_reagent(/datum/reagent/consumable/nutriment, nutriment)
+			var/currentHandIndex = user.get_held_index_of_item(food)
+			user.put_in_hand(food,currentHandIndex)
+	else
+		visible_message("<span_class='warning'>Insufficient fuel to create [food]. [src] requires [nutriment] U of biomatter.</span>")
+		qdel(food) //NO FOOD FOR YOU!
+		return
 
 /obj/item/circuitboard/machine/replicator
 	name = "Food Replicator (Machine Board)"
+	icon = 'nsv13/icons/obj/module.dmi'
+	icon_state = "repli_board"
 	build_path = /obj/machinery/replicator
 	req_components = list(
 		/obj/item/stock_parts/matter_bin = 1,
