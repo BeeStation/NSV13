@@ -33,7 +33,7 @@
 
 /datum/objective_item/steal/hoslaser
 	name = "the head of security's personal glock, 'Winona'." //Nsv13 changed this because LASERS BAD
-	targetitem = /obj/item/gun/ballistic/automatic/pistol/glock/command/hos
+	targetitem = /obj/item/gun/ballistic/automatic/pistol/glock/security/hos
 	difficulty = 10
 	excludefromjob = list("Head Of Security")
 

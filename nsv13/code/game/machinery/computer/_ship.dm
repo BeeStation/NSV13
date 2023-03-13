@@ -103,6 +103,11 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	density = FALSE
 	anchored = TRUE
 	req_access = null
+	var/obj/machinery/computer/ship/dradis/minor/internal_dradis
+
+/obj/machinery/computer/ship/viewscreen/Initialize(mapload)
+	. = ..()
+	internal_dradis = new(src)
 
 /obj/machinery/computer/ship/viewscreen/examine(mob/user)
 	. = ..()
@@ -113,7 +118,8 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		O.ManualFollow(linked)
 		return
 	playsound(src, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-	linked.start_piloting(user, OVERMAP_USER_ROLE_OBSERVER)
+	linked.observe_ship(user)
+	internal_dradis.attack_hand(user)
 
 /obj/machinery/computer/ship/viewscreen/ui_interact(mob/user)
 	if(!has_overmap())
