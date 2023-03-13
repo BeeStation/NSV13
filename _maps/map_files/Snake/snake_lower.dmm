@@ -2434,6 +2434,10 @@
 /obj/effect/turf_decal/stripes/corner,
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
+"iJ" = (
+/obj/effect/landmark/carpspawn,
+/turf/open/space/basic,
+/area/space)
 "iK" = (
 /obj/machinery/camera/autoname{
 	dir = 4
@@ -4465,6 +4469,11 @@
 /obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden/layer4,
 /obj/structure/disposalpipe/junction{
 	dir = 8
+	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("bar","chapel","bridge");
+	name = "Munitions patrol node";
+	id = "munitions"
 	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/fore)
@@ -7531,6 +7540,11 @@
 	dir = 4
 	},
 /obj/machinery/light_switch/north,
+/obj/effect/landmark/patrol_node{
+	next_id = list("cargo","bar","munitions","chapel");
+	name = "Bridge patrol node";
+	id = "bridge"
+	},
 /turf/open/floor/plasteel/dark/side,
 /area/hallway/primary/fore)
 "Bq" = (
@@ -13673,6 +13687,26 @@
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
+"VC" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("chapel","bridge","munitions");
+	id = "bar";
+	name = "Bar patrol node"
+	},
+/turf/open/floor/plasteel/dark,
+/area/hallway/primary/central)
 "VD" = (
 /obj/machinery/telecomms/server/presets/service,
 /turf/open/floor/circuit/green,
@@ -14025,6 +14059,11 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
 /obj/structure/disposalpipe/junction/flip{
 	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("bar","bridge","munitions");
+	id = "chapel";
+	name = "Chapel patrol node"
 	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/aft)
@@ -28636,7 +28675,7 @@ aJ
 aJ
 aJ
 aJ
-aJ
+iJ
 aJ
 aJ
 aJ
@@ -29900,7 +29939,7 @@ aJ
 aJ
 aJ
 aJ
-aJ
+iJ
 aJ
 aJ
 aJ
@@ -36834,7 +36873,7 @@ aJ
 aJ
 aJ
 aJ
-aJ
+iJ
 aJ
 aJ
 aJ
@@ -36879,7 +36918,7 @@ aJ
 aJ
 aJ
 aJ
-aJ
+iJ
 aJ
 aJ
 aJ
@@ -46598,7 +46637,7 @@ aJ
 aJ
 aJ
 aJ
-aJ
+iJ
 aJ
 aJ
 aJ
@@ -47672,7 +47711,7 @@ aJ
 aJ
 aJ
 aJ
-aJ
+iJ
 aJ
 aJ
 aJ
@@ -50472,7 +50511,7 @@ qn
 XS
 tP
 OY
-RB
+VC
 yk
 fG
 fG
@@ -52253,7 +52292,7 @@ aJ
 aJ
 aJ
 aJ
-aJ
+iJ
 aJ
 aJ
 aJ
@@ -59191,7 +59230,7 @@ aJ
 aJ
 aJ
 aJ
-aJ
+iJ
 aJ
 aJ
 aJ
@@ -60264,7 +60303,7 @@ aJ
 aJ
 aJ
 aJ
-aJ
+iJ
 aJ
 aJ
 aJ
@@ -64847,7 +64886,7 @@ aJ
 aJ
 aJ
 aJ
-aJ
+iJ
 aJ
 aJ
 aJ
@@ -66681,7 +66720,7 @@ aJ
 aJ
 aJ
 aJ
-aJ
+iJ
 aJ
 aJ
 aJ
@@ -70005,7 +70044,7 @@ aJ
 aJ
 aJ
 aJ
-aJ
+iJ
 aJ
 aJ
 aJ
