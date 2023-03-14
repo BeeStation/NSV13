@@ -168,7 +168,6 @@
 		if(sweetener_packs >= max_sweetener_packs)
 			balloon_alert(user, "the sweetener compartment is full!")
 			return TRUE
-		. = TRUE
 		if(!user.transferItemToLoc(attack_item, src))
 			return TRUE
 		sweetener_packs++
