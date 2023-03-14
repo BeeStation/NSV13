@@ -781,7 +781,7 @@
 //Coffee Related Packs
 /datum/supply_pack/service/coffee_kit
 	name = "Emergency Coffee Resupply Kit"
-	desc = "Did the Marines drink the last of the ships coffee and is now fertilizing the hydroponic trays? Did the clown destroy your coffee mugs while Runtime knocked the coffee pot into the floor making it shatter? Fear not, this crate contains everything you might need to get that liquid ambrosia flowing again!"
+	desc = "Did the Marines drink the last of the ship's coffee and are now fertilizing the hydroponic trays? Did the clown destroy your coffee mugs while Runtime knocked the coffee pot onto the floor, making it shatter? Fear not, this crate contains everything you might need to get that liquid ambrosia flowing again!"
 	cost = 1000 //It's a starter pack, so we're not completely greedy, unlike the grill.
 	contains = list(/obj/item/reagent_containers/food/drinks/mug,
 					/obj/item/reagent_containers/food/drinks/mug,
