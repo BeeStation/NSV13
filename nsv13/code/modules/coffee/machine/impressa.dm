@@ -154,7 +154,6 @@
 		if(creamer_packs >= max_creamer_packs)
 			balloon_alert(user, "the creamer compartment is full!")
 			return TRUE
-		. = TRUE
 		if(!user.transferItemToLoc(attack_item, src))
 			return TRUE
 		creamer_packs++
