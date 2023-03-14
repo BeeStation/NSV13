@@ -27,7 +27,6 @@
 	return attack_hand(user)
 
 /obj/machinery/computer/laser_pd/multitool_act(mob/living/user, obj/item/multitool/tool)
-	..()
 	. = TRUE
 	var/obj/machinery/ship_weapon/energy/laser_pd/stored_gun = tool.buffer
 	if(stored_gun && istype(stored_gun))
