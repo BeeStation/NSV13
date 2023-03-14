@@ -91,15 +91,15 @@
 
 	if(!(machine_stat & (NOPOWER|BROKEN)))
 		. += "<span class='notice'>The status display reads:</span>\n"+\
-		"<span class='notice'>- Brewing coffee at <b>[speed*100]%</b>.</span>"
+		"<span class='notice'>- Brewing coffee at <b>[speed*100]%</b> efficiency.</span>"
 		if(coffeepot)
 			for(var/datum/reagent/consumable/cawfee as anything in coffeepot.reagents.reagent_list)
 				. += "<span class='notice>- [cawfee.volume] units of coffee in pot.</span>"
 		if(cartridge)
 			if(cartridge.charges < 1)
-				. += "<span class='notice'>- grounds cartridge is empty.</span>"
+				. += "<span class='notice'>- The grounds cartridge is empty.</span>"
 			else
-				. += "<span class='notice'>- grounds cartridge has [cartridge.charges] charges remaining.</span>"
+				. += "<span class='notice'>- The grounds cartridge has [cartridge.charges] charges remaining.</span>"
 
 	if(coffee_cups >= 1)
 		. += "<span class='notice'>There [coffee_cups == 1 ? "is" : "are"] [coffee_cups] coffee cup[coffee_cups != 1 && "s"] left.</span>"
@@ -290,7 +290,7 @@
 		return FALSE
 	return TRUE
 
-/obj/machinery/coffeemaker/ui_interact(mob/user) // The microwave Menu //I am reasonably certain that this is not a microwave //I am positively certain that this is not a microwave
+/obj/machinery/coffeemaker/ui_interact(mob/user) // The coffeemaker menu
 	. = ..()
 
 	if(brewing || !user.canUseTopic(src, !issilicon(user)))

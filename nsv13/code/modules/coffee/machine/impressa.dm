@@ -182,7 +182,6 @@
 		if(!(new_coffee.dry))
 			balloon_alert(user, "coffee beans must be dry!")
 			return TRUE
-		. = TRUE
 		if(!user.transferItemToLoc(new_coffee, src))
 			return TRUE
 		coffee += new_coffee
@@ -210,10 +209,9 @@
 			else
 				balloon_alert(user, "non-dried beans inside the coffee pack!")
 				return TRUE
-	. = TRUE
+		return TRUE
 
-	update_icon()
-	return TRUE
+	return ..()
 
 /obj/machinery/coffeemaker/impressa/take_cup(mob/user)
 	if(!coffee_cups)

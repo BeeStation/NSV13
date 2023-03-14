@@ -13,7 +13,7 @@
 ///Technically condiment packs but they are non transparent
 /obj/item/reagent_containers/food/condiment/creamer
 	name = "coffee creamer pack"
-	desc = "Better not wonder what they are making this from"
+	desc = "Better not to think about what they are making this from."
 	icon = 'nsv13/icons/obj/coffee.dmi'
 	icon_state = "condi_creamer"
 	volume = 5
@@ -25,7 +25,7 @@
 
 /obj/item/reagent_containers/food/condiment/chocolate
 	name = "chocolate sprinkle pack"
-	desc= "The amount of sugar thats already there wasn't enough for you?"
+	desc= "The amount of sugar that's already there wasn't enough for you?"
 	icon = 'nsv13/icons/obj/coffee.dmi'
 	icon_state = "condi_chocolate"
 	list_reagents = list(/datum/reagent/consumable/chocolatepudding = 10)
@@ -99,28 +99,28 @@
 //types of syrups
 
 /obj/item/reagent_containers/glass/bottle/syrup_bottle/caramel
-	name = "bottle of Caramel syrup"
-	desc = "A pump bottle containing caramalized sugar, also known as Caramel. Do not lick."
+	name = "bottle of caramel syrup"
+	desc = "A pump bottle containing caramelized sugar, also known as caramel. Do not lick."
 	list_reagents = list(/datum/reagent/consumable/caramel = 50)
 
 /obj/item/reagent_containers/glass/bottle/syrup_bottle/liqueur
-	name = "bottle of Coffee liqueur syrup"
+	name = "bottle of coffee liqueur syrup"
 	desc = "A pump bottle containing mexican coffee-flavoured liqueur syrup. In production since 1936, HONK."
 	list_reagents = list(/datum/reagent/consumable/ethanol/kahlua = 50)
 
 /obj/item/reagent_containers/glass/bottle/syrup_bottle/honey
-	name = "bottle of Honey syrup"
-	desc = "A pump bottle containing Honey, very sticky. Do not lick."
+	name = "bottle of honey syrup"
+	desc = "A pump bottle containing honey, very sticky. Do not lick."
 	list_reagents = list(/datum/reagent/consumable/honey = 50)
 
 /obj/item/reagent_containers/glass/bottle/syrup_bottle/vanilla
-	name = "bottle of Vanilla syrup"
-	desc = "A pump bottle containing Vanilla. Do not lick."
+	name = "bottle of vanilla syrup"
+	desc = "A pump bottle containing vanilla syrup. Do not lick."
 	list_reagents = list(/datum/reagent/consumable/vanilla = 50)
 
 /obj/item/reagent_containers/glass/bottle/syrup_bottle/tea
-	name = "bottle of Tea-flavored syrup"
-	desc = "A pump bottle containing Tea-flavored syrup. Don't you dare."
+	name = "bottle of tea-flavored syrup"
+	desc = "A pump bottle containing tea-flavored syrup. Don't you dare."
 	list_reagents = list(/datum/reagent/consumable/tea = 50)
 
 /obj/item/reagent_containers/glass/bottle/syrup_bottle/creme_de_cacao
