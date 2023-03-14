@@ -801,7 +801,7 @@
 					/obj/item/coffee_cartridge,
 					/obj/item/coffee_cartridge,
 					/obj/item/coffee_cartridge)
-	crate_type = /obj/structure/closet/crate/secure // We still don't fuck around with our coffee supply, this thing is getting to that machine one way or another
+	crate_type = /obj/structure/closet/crate/secure // We still don't mess around with our coffee supply, this thing is getting to that machine one way or another
 	crate_name = "Coffee Cartridge Supply Crate"
 
 /datum/supply_pack/service/coffee_cartridge_fancy
