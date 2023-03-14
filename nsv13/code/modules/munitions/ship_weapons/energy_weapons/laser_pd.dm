@@ -12,7 +12,6 @@
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/computer/laser_pd/LateInitialize()
-	. = ..()
 	for(var/obj/machinery/ship_weapon/energy/laser_pd/pd_gun in GLOB.machines)
 		if(gun_id && pd_gun.gun_id == gun_id)
 			turret = pd_gun
