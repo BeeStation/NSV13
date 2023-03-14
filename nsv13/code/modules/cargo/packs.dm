@@ -818,7 +818,7 @@
 
 /datum/supply_pack/service/coffeekit
 	name = "Coffee Equippment Crate"
-	desc = "A complete kit to setup your own cozy coffee shop, the coffeemaker is for some reason not included."
+	desc = "A complete kit to setup your own cozy coffee shop. For some reason, the coffeemaker is not included."
 	cost = 2000
 	contains = list(/obj/item/storage/box/coffeepack/robusta,
 					/obj/item/storage/box/coffeepack/arabica,
