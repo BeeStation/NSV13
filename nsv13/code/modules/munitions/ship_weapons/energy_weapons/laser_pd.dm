@@ -18,7 +18,6 @@
 			break
 
 /obj/machinery/computer/laser_pd/attack_robot(mob/user)
-	. = ..()
 	return attack_hand(user)
 
 /obj/machinery/computer/laser_pd/attack_ai(mob/user)
