@@ -794,7 +794,7 @@
 
 /datum/supply_pack/service/coffee_cartridge
 	name = "Navy Coffee Cartridge Resupply"
-	desc = "A few cartridges, containing our finest navy coffee beans for the glorious coffeemaker. Contains 5 cartridges."
+	desc = "Five cartridges containing our finest navy coffee beans for the glorious coffeemaker."
 	cost = 3000 //Two thousand more than the Emergency kit, because it's a refill.
 	contains = list(/obj/item/coffee_cartridge,
 					/obj/item/coffee_cartridge,
