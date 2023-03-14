@@ -22,7 +22,6 @@
 	return attack_hand(user)
 
 /obj/machinery/computer/laser_pd/attack_ai(mob/user)
-	. = ..()
 	return attack_hand(user)
 
 /obj/machinery/computer/laser_pd/multitool_act(mob/living/user, obj/item/multitool/tool)
