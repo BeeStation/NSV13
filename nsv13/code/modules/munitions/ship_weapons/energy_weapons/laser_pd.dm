@@ -52,7 +52,7 @@
 	name = "laser point defense turret"
 	desc = "A low-wattage laser designed to provide close-combat relief to large ships."
 	icon ='nsv13/icons/obj/energy_weapons.dmi'
-	icon_state = "blaster_cannon"
+	icon_state = "pd_cannon"
 	bound_width = 64
 	pixel_x = -32
 	pixel_y = -32

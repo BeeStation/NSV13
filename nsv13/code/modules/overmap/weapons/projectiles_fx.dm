@@ -565,7 +565,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/beam/laser/phaser/pd
 	name = "point defense phaser"
-	damage = 80 // Doesn't scale with power input, but fires fairly quickly especially when upgraded
+	damage = 60 // Doesn't scale with power input, but fires fairly quickly especially when upgraded
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "pdphaser"
 
