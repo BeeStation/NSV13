@@ -789,7 +789,7 @@
 					/obj/item/reagent_containers/glass/coffeepot,
 					/obj/item/coffee_cartridge,
 					/obj/item/coffee_cartridge)
-	crate_type = /obj/structure/closet/crate/secure // We don't fuck around when it comes to those desperate for coffee.
+	crate_type = /obj/structure/closet/crate/secure // We don't mess around when it comes to those desperate for coffee.
 	crate_name = "Emergency Coffee Supply Crate"
 
 /datum/supply_pack/service/coffee_cartridge
