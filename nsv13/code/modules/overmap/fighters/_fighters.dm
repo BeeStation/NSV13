@@ -869,10 +869,10 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 		component = get_slot(slot)
 	component.dump_contents()
 
-/datum/component/ship_loadout/process()
+/datum/component/ship_loadout/process(delta_time)
 	for(var/slot in equippable_slots)
 		var/obj/item/fighter_component/component = hardpoint_slots[slot]
-		component?.process()
+		component?.process(delta_time)
 
 /obj/item/fighter_component
 	name = "fighter component"
@@ -1738,11 +1738,11 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		return
 	add_overlay(canopy)
 
-/obj/structure/overmap/small_craft/slowprocess()
+/obj/structure/overmap/small_craft/slowprocess(delta_time)
 	..()
 	if(engines_active())
 		use_fuel()
-		loadout.process()
+		loadout.process(delta_time)
 
 	var/obj/item/fighter_component/canopy/C = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
 

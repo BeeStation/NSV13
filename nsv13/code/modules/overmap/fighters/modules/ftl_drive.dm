@@ -7,8 +7,8 @@
 	power_usage = 200
 	weight = 0.5
 	var/progress = 0
-	var/spoolup_time = 2 MINUTES
-	var/ftl_startup_time = 6 SECONDS
+	var/spoolup_time = 120
+	var/ftl_startup_time = 6
 	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_torchdrive.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'

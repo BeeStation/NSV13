@@ -168,7 +168,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	last_process = world.time
 	if(world.time > last_slowprocess + 0.7 SECONDS)
 		last_slowprocess = world.time
-		slowprocess()
+		slowprocess(time SECONDS)
 	last_offset.copy(offset)
 	var/last_angle = angle
 	if(!move_by_mouse && !ai_controlled)
