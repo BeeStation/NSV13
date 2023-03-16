@@ -317,13 +317,11 @@ Been a mess since 2018, we'll fix it someday (probably)
 			ftl.toggle()
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 		if("anchor_ftl")
-			message_admins("[usr] called [src]'s anchor_ftl")
 			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
 			if(!ftl)
 				to_chat(usr, "<span class='warning'>FTL unit not properly installed.</span>")
 				return
 			var/obj/structure/overmap/new_target = get_overmap()
-			message_admins("get_overmap() returned [new_target]")
 			if(new_target)
 				ftl.anchored_to = new_target
 			else
@@ -592,7 +590,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 	// Create pod
 	var/obj/structure/overmap/small_craft/escapepod/escape_pod = new path(get_turf(src))
 	if(!istype(escape_pod))
-		message_admins("Unable to create escape pod for [src] with path [path]")
 		qdel(escape_pod)
 		return
 	escape_pod.name = "[name] - escape pod"

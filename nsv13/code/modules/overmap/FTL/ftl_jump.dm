@@ -96,7 +96,6 @@
 				other_player_ships += ship
 	if(OM.reserved_z == occupying_z && other_player_ships.len) //Alright, this is our Z-level but we're jumping out of it and there are still people here.
 		var/obj/structure/overmap/ship = pick(other_player_ships)
-		message_admins("Swapping [OM] and [ship]'s reserved Zs, as they overlap.")
 		var/temp = ship.get_reserved_z()
 		ship.reserved_z = OM.reserved_z
 		OM.reserved_z = temp
@@ -105,7 +104,6 @@
 		ftl_pull_small_craft(OM)
 		return //Early return here. This means that another player ship is already holding the system, and we really don't need to double-check for this.
 
-	message_admins("Successfully removed [OM] from [src]")
 	OM.forceMove(new_location ? new_location : locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 	system_contents -= OM
 
