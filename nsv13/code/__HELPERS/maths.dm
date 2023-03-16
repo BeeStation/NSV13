@@ -31,3 +31,6 @@
 		power++ //Transfer to output, increment power, repeat until the input pile is all used
 
 	return output
+
+#define KELVIN_TO_CELSIUS(A) (A-273.15)
+#define CELSIUS_TO_KELVIN(A) (A+273.15)

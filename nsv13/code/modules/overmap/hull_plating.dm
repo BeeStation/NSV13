@@ -159,7 +159,7 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 		return
 	max_armour_plates = armour_plates
 
-/obj/structure/overmap/slowprocess()
+/obj/structure/overmap/slowprocess(delta_time)
 	. = ..()
 	if(istype(src, /obj/structure/overmap/asteroid)) //Shouldn't be repairing over time
 		return
