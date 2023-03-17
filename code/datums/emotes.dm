@@ -83,6 +83,15 @@
 	else
 		user.visible_message(msg, visible_message_flags = list(CHATMESSAGE_EMOTE = TRUE), separation = space) //NSV13 - RADIO EMOTES I THINK
 
+	//NSV13 - AI QoL - Start
+	var/obj/effect/overlay/holo_pad_hologram/hologram = GLOB.hologram_impersonators[user]
+	if(hologram)
+		if(emote_type & (EMOTE_AUDIBLE | EMOTE_VISIBLE))
+			hologram.audible_message(msg, deaf_message = "<span class='emote'>You see how <b>[user]</b> [msg]</span>", audible_message_flags = list(CHATMESSAGE_EMOTE = TRUE))
+		else if(emote_type & EMOTE_VISIBLE)
+			hologram.visible_message(msg, visible_message_flags = list(CHATMESSAGE_EMOTE = TRUE))
+	//NSV13 - AI QoL - Stop
+
 /datum/emote/proc/get_sound(mob/living/user)
 	return sound //by default just return this var.
 

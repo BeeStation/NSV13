@@ -11,7 +11,7 @@
 
 /obj/machinery/computer/ship/navigation
 	name = "\improper FTL Navigation console"
-	desc = "A computer which can interface with the FTL drive to allow the ship to travel vast distances in space."
+	desc = "A computer which can interface with the Thirring Drive to allow the ship to travel vast distances in space."
 	icon_screen = "ftl"
 	var/datum/star_system/selected_system = null
 	var/screen = STARMAP
@@ -100,10 +100,13 @@
 	var/datum/star_system/current_system = info["current_system"]
 	SSstar_system.update_pos(linked)
 	if(linked.ftl_drive)
-		data["ftl_progress"] = linked.ftl_drive.progress
-		if(linked.ftl_drive.ftl_state == FTL_STATE_READY)
-			data["ftl_progress"] = linked.ftl_drive.spoolup_time
-		data["ftl_goal"] = linked.ftl_drive.spoolup_time //TODO
+		if(istype(linked.ftl_drive))
+			data["ftl_progress"] = linked.ftl_drive.progress
+			data["ftl_goal"] = linked.ftl_drive.req_charge
+		else // yes this is so bad I know but I don't want to rework a legacy system that is probably EoL, so this'll do for now
+			var/obj/machinery/computer/ship/ftl_computer/bodge = linked.ftl_drive
+			data["ftl_progress"] = bodge.progress
+			data["ftl_goal"] = bodge.spoolup_time
 	data["travelling"] = FALSE
 	switch(screen)
 		if(0) // ship information
