@@ -584,16 +584,16 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "broadside shell"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "broadside"
-	damage = 75
+	damage = 125
 	obj_integrity = 500
 	flag = "overmap_heavy"
-	spread = 25
+	spread = 15
 	speed = 1
 
 /obj/item/projectile/bullet/broadside/plasma
 	name = "plasma-packed broadside shell"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "broadside_plasma"
-	damage = 125
+	damage = 175
 	armour_penetration = 10
 	speed = 0.4
