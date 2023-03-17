@@ -57,8 +57,12 @@
 /turf/open/openspace,
 /area/medical/medbay/zone2)
 "aj" = (
-/obj/machinery/atmospherics/pipe/multiz/layer2,
-/obj/machinery/atmospherics/pipe/multiz/layer4,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 10
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/aft)
 "ak" = (
@@ -3257,6 +3261,15 @@
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/dorms)
+"jc" = (
+/obj/machinery/atmospherics/pipe/multiz/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/port/aft)
 "jd" = (
 /obj/structure/table,
 /obj/item/stack/cable_coil/red,
@@ -5448,10 +5461,10 @@
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "pe" = (
-/obj/structure/glowshroom/single,
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
+/obj/structure/cable{
+	icon_state = "2-8"
 	},
+/turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "pf" = (
 /obj/structure/lattice/catwalk,
@@ -5851,6 +5864,12 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/aft)
 "qg" = (
@@ -6392,6 +6411,15 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/medical/medbay/zone2)
+"rA" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/port/aft)
 "rB" = (
 /obj/machinery/power/apc/auto_name/south,
 /obj/structure/cable{
@@ -7394,6 +7422,15 @@
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/heads/hos)
+"uf" = (
+/obj/machinery/light/small{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/starboard)
 "ug" = (
 /obj/effect/turf_decal/stripes/line,
 /turf/open/floor/durasteel,
@@ -11824,15 +11861,9 @@
 /turf/open/floor/durasteel/techfloor,
 /area/ai_monitored/turret_protected/aisat/foyer)
 "Gr" = (
-/obj/structure/fluff/support_beam{
-	color = "#787878";
-	dir = 1
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/deck1/starboard)
+/obj/structure/sign/directions/evac,
+/turf/closed/wall/steel,
+/area/engine/break_room)
 "Gs" = (
 /obj/structure/cable{
 	icon_state = "0-2"
@@ -15585,6 +15616,14 @@
 /obj/machinery/ship_weapon/deck_turret/north,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
+"Qi" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/maintenance/nsv/deck1/starboard)
 "Qj" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -17611,12 +17650,9 @@
 /turf/open/floor/durasteel,
 /area/engine/storage_shared)
 "VM" = (
-/obj/structure/fluff/support_beam{
-	color = "#787878";
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/deck1/starboard)
+/obj/structure/sign/directions/evac,
+/turf/closed/wall/steel,
+/area/ai_monitored/turret_protected/AIsatextAP)
 "VO" = (
 /turf/closed/wall/r_wall,
 /area/bridge/cic)
@@ -19091,6 +19127,16 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/security/brig)
+"ZA" = (
+/obj/docking_port/stationary{
+	dir = 2;
+	dwidth = 1;
+	height = 4;
+	roundstart_template = /datum/map_template/shuttle/escape_pod/default;
+	width = 3
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/starboard)
 "ZB" = (
 /obj/structure/sign/ship/securearea,
 /turf/closed/wall/r_wall,
@@ -41731,7 +41777,7 @@ Zg
 Zg
 Co
 FG
-FG
+jc
 LN
 OZ
 ik
@@ -41988,7 +42034,7 @@ Zg
 Zg
 Co
 FG
-FG
+rA
 LN
 sW
 lP
@@ -42783,9 +42829,9 @@ ki
 tx
 VZ
 gU
-gU
-gU
 lV
+gU
+gU
 gU
 gU
 gU
@@ -43040,9 +43086,9 @@ Ms
 Bk
 GM
 kx
-kx
-kx
 PT
+kx
+kx
 kx
 kx
 kx
@@ -43292,17 +43338,17 @@ xQ
 xQ
 zO
 YV
-ca
+VM
 ca
 ca
 ca
 mI
-TV
 mI
 mI
 mI
-TV
-kx
+mI
+mI
+mI
 Zg
 Zg
 Zg
@@ -43552,14 +43598,14 @@ Ph
 Ba
 es
 es
-es
-es
-Gr
-es
-es
 cN
 mI
-kx
+mI
+mI
+ZA
+mI
+mI
+mI
 Zg
 Zg
 Zg
@@ -43806,17 +43852,17 @@ LL
 Vv
 mA
 uZ
-tZ
+Gr
 TV
 TV
-mI
-mI
-VM
-UA
-pe
 Wm
 mI
-kx
+mI
+mI
+mI
+mI
+mI
+mI
 Zg
 Zg
 Zg
@@ -44066,12 +44112,12 @@ bW
 MO
 MO
 Tw
-mI
-oy
-TV
-mI
-UA
-Wm
+pe
+es
+uf
+es
+Qi
+cN
 TV
 kx
 Zg
