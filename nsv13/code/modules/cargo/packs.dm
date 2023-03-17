@@ -832,10 +832,10 @@
 	crate_name = "coffee equpment crate"
 
 /datum/supply_pack/service/coffeemaker
-	name = "Impressa Coffeemaker Crate"
-	desc = "An assembled Impressa model coffeemaker."
+	name = "Pendulum Coffeemaker Crate"
+	desc = "An assembled Pendulum model coffeemaker."
 	cost = 4000
-	contains = list(/obj/machinery/coffeemaker/impressa)
+	contains = list(/obj/machinery/coffeemaker/pendulum)
 	crate_name = "coffeemaker crate"
 	crate_type = /obj/structure/closet/crate/large
 
