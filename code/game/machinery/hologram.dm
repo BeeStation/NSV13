@@ -392,6 +392,7 @@ Possible to do for anyone motivated enough:
 		var/obj/effect/overlay/holo_pad_hologram/Hologram = new(loc)//Spawn a blank effect at the location.
 		if(AI)
 			Hologram.icon = AI.holo_icon
+			Hologram.Impersonation = AI // NSV13 - EDIT - Puts the AI core as the impersonated mob so that the examine proc can be redirected
 		else	//make it like real life
 			Hologram.icon = user.icon
 			Hologram.icon_state = user.icon_state
@@ -401,10 +402,10 @@ Possible to do for anyone motivated enough:
 			Hologram.add_atom_colour("#77abff", FIXED_COLOUR_PRIORITY)
 			Hologram.Impersonation = user
 
-		Hologram.mouse_opacity = MOUSE_OPACITY_TRANSPARENT//So you can't click on it.
+		//Hologram.mouse_opacity = MOUSE_OPACITY_TRANSPARENT//So you can't click on it. //NSV13 - EDIT - Making holograms clickable/examinable
 		Hologram.layer = FLY_LAYER//Above all the other objects/mobs. Or the vast majority of them.
 		Hologram.setAnchored(TRUE)//So space wind cannot drag it.
-		Hologram.name = "[user.name] (Hologram)"//If someone decides to right click.
+		Hologram.name = user.name // NSV13 - Make the name exact, so that the double-emotes are less jarring in the chat
 		Hologram.set_light(2)	//hologram lighting
 		move_hologram()
 

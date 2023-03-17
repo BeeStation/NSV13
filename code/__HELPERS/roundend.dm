@@ -460,9 +460,9 @@
 	parts += "Objectives:"
 	for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
 		switch(O.status)
-			if(0 || 2)
+			if(0,2)
 				parts += "[O.brief]: <font color=red><b>FAILED</b></font>"
-			if(1 || 3)
+			if(1,3)
 				parts += "[O.brief]: <font color=green><b>COMPLETED</b></font>"
 
 	parts += "" //Line Break

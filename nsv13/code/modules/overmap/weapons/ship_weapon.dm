@@ -113,7 +113,7 @@
 	var/list/leftovers = list() //Assuming we can't find a fully loaded gun to fire our full burst, assemble a list of semi-loaded guns and fire all of them instead.
 	var/remaining = burst_size
 	for(var/obj/machinery/ship_weapon/SW in weapons["loaded"])
-		if(SW.can_fire()) //Ok great, looks like this weapon can do all the shooting for us. Use it!
+		if(SW.can_fire(target)) //Ok great, looks like this weapon can do all the shooting for us. Use it!
 			SW.fire(target)
 			next_firetime = world.time + fire_delay
 			return TRUE

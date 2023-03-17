@@ -7,8 +7,8 @@
 	power_usage = 200
 	weight = 0.5
 	var/progress = 0
-	var/spoolup_time = 2 MINUTES
-	var/ftl_startup_time = 6 SECONDS
+	var/spoolup_time = 120
+	var/ftl_startup_time = 6
 	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_torchdrive.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
@@ -28,14 +28,19 @@
 		return INITIALIZE_HINT_LATELOAD
 
 /obj/item/fighter_component/ftl/LateInitialize()
-	set waitfor = FALSE
 	var/obj/structure/overmap/ourfighter = get_overmap()
 	anchored_to = ourfighter.get_overmap()
 
-/obj/item/fighter_component/ftl/tier2
-	name = "class III torch drive"
-	desc = "A micro jump drive with an expanded range."
-	max_range = 200
+/obj/item/fighter_component/ftl/on_install(obj/structure/overmap/target)
+	. = ..()
+	var/obj/structure/overmap/OM = loc
+	OM.ftl_drive = src
+
+/obj/item/fighter_component/ftl/remove_from(obj/structure/overmap/target, due_to_damage)
+	var/obj/structure/overmap/OM = loc
+	. = ..()
+	if(. && istype(OM) && OM.ftl_drive == src)
+		OM.ftl_drive = null
 
 /obj/item/fighter_component/ftl/proc/jump(datum/star_system/target_system, force=FALSE)
 	var/obj/structure/overmap/linked = loc
@@ -61,21 +66,26 @@
 	progress = 0
 	ftl_state = FTL_STATE_IDLE
 
-/obj/item/fighter_component/ftl/process()
-	//No need to use power here. We're already spooled.
-	var/obj/structure/overmap/OM = loc
-	if(OM)
-		OM.ftl_drive = src
+/obj/item/fighter_component/ftl/proc/get_jump_speed()
+	return jump_speed_factor
+
+/obj/item/fighter_component/ftl/process(delta_time)
+	//Not calling parent here as there's no need to use power yet if we're already spooled.
 	if(ftl_state == FTL_STATE_JUMPING)
 		return
 	ftl_state = FTL_STATE_SPOOLING
 	if(progress >= spoolup_time)
 		ftl_state = FTL_STATE_READY
 		return
-	if(!powered())
+	if(!power_tick(delta_time))
 		return
-	progress += 1 SECONDS
-	progress = CLAMP(progress, 0, spoolup_time)
+	progress = CLAMP(progress + delta_time, 0, spoolup_time)
+
+
+/obj/item/fighter_component/ftl/tier2
+	name = "class III torch drive"
+	desc = "A micro jump drive with an expanded range."
+	max_range = 200
 
 /obj/effect/temp_visual/overmap_ftl
 	icon = 'nsv13/icons/overmap/effects.dmi'

@@ -60,8 +60,15 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	mode_cache = typecacheof(/datum/overmap_gamemode, TRUE)
 
+	var/list/probabilities = config.Get(/datum/config_entry/keyed_list/omode_probability)
+	var/list/min_pop = config.Get(/datum/config_entry/keyed_list/omode_min_pop)
+	var/list/max_pop = config.Get(/datum/config_entry/keyed_list/omode_max_pop)
+
 	for(var/D in subtypesof(/datum/overmap_gamemode))
 		var/datum/overmap_gamemode/N = new D()
+		N.selection_weight = probabilities[N.config_tag]
+		N.required_players = min_pop[N.config_tag]
+		N.max_players = max_pop[N.config_tag]
 		mode_cache[D] = N
 
 	var/list/mode_pool = mode_cache
@@ -307,6 +314,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/overmap_gamemode
 	var/name = null											//Name of the gamemode type
+	var/config_tag = null									//Tag for config file weight
 	var/desc = null											//Description of the gamemode for ADMINS
 	var/brief = null										//Description of the gamemode for PLAYERS
 	var/selection_weight = 0								//Used to determine the chance of this gamemode being selected
@@ -327,10 +335,10 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	//Reminder messages
 	var/reminder_origin = "Naval Command"
-	var/reminder_one = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, please continue on your mission"
-	var/reminder_two = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, your inactivity has been noted and will not be tolerated."
-	var/reminder_three = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, we are not paying you to idle in space during your assigned mission"
-	var/reminder_four = "This is Centcomm to the vessel currently assigned to the Delphic Expanse, you are expected to fulfill your assigned mission"
+	var/reminder_one = "This is Centcomm to all vessels assigned to patrol the Rosetta Cluster, please continue on your mission"
+	var/reminder_two = "This is Centcomm to all vessels assigned to patrol the Rosetta Cluster, your inactivity has been noted and will not be tolerated."
+	var/reminder_three = "This is Centcomm to all vessels assigned to patrol the Rosetta Cluster, we are not paying you to idle in space during your assigned mission"
+	var/reminder_four = "This is Centcomm to the vessel currently assigned to the Rosetta Cluster, you are expected to fulfill your assigned mission"
 	var/reminder_five = "This is Centcomm, due to your slow pace, a Syndicate Interdiction fleet has tracked you down, prepare for combat!"
 
 /datum/overmap_gamemode/New()

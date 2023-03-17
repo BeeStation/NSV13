@@ -28,23 +28,31 @@
 	attack_verb = list("attacked", "stabbed", "poked")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 30, "stamina" = 0)
-	var/datum/reagent/forkload //used to eat omelette
+	var/datum/reagent/forkload //NSV13 - used to eat any food (who coded this to just work for omlettes?)
 
 /obj/item/kitchen/fork/suicide_act(mob/living/carbon/user)
 	user.visible_message("<span class='suicide'>[user] stabs \the [src] into [user.p_their()] chest! It looks like [user.p_theyre()] trying to take a bite out of [user.p_them()]self!</span>")
 	playsound(src, 'sound/items/eatfood.ogg', 50, 1)
 	return BRUTELOSS
 
+//NSV13 - modified descriptions to work for all foods
 /obj/item/kitchen/fork/attack(mob/living/carbon/M, mob/living/carbon/user)
 	if(!istype(M))
 		return ..()
 
 	if(forkload)
 		if(M == user)
-			M.visible_message("<span class='notice'>[user] eats a delicious forkful of omelette!</span>")
+			M.visible_message("<span class='notice'>[user] eats the food off their fork!</span>")
 			M.reagents.add_reagent(forkload.type, 1)
 		else
-			M.visible_message("<span class='notice'>[user] feeds [M] a delicious forkful of omelette!</span>")
+			M.visible_message("<span class='danger'>[user] attempts to feed [M] from the fork.</span>", \
+				"<span class='userdanger'>[user] attempts to feed you with the fork.</span>")
+			if(!do_mob(user, M))
+				return
+			if(!forkload)
+				return // Might be empty after the delay, such as by spam-feeding
+			M.visible_message("<span class='notice'>[user] feeds [M] a forkful of food!</span>")
+			log_combat(user, M, "fed", forkload)
 			M.reagents.add_reagent(forkload.type, 1)
 		icon_state = "fork"
 		forkload = null
@@ -55,6 +63,57 @@
 		return eyestab(M,user)
 	else
 		return ..()
+
+//NSV13 - added spoon
+/obj/item/kitchen/spoon
+	name = "spoon"
+	desc = "Not pointy."
+	icon_state = "spoon"
+	force = 5
+	w_class = WEIGHT_CLASS_TINY
+	throwforce = 0
+	throw_speed = 3
+	throw_range = 5
+	materials = list(/datum/material/iron=80)
+	flags_1 = CONDUCT_1
+	attack_verb = list("attacked", "scooped",)
+	hitsound = 'sound/weapons/bladeslice.ogg'
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 30, "stamina" = 0)
+	var/datum/reagent/forkload //used to eat omelette
+
+/obj/item/kitchen/spoon/suicide_act(mob/living/carbon/user)
+	user.visible_message("<span class='suicide'>[user] stabs \the [src] into [user.p_their()] chest! It looks like [user.p_theyre()] trying to take a bite out of [user.p_them()]self!</span>")
+	playsound(src, 'sound/items/eatfood.ogg', 50, 1)
+	return BRUTELOSS
+
+/obj/item/kitchen/spoon/attack(mob/living/carbon/M, mob/living/carbon/user)
+	if(!istype(M))
+		return ..()
+
+	if(forkload)
+		if(M == user)
+			M.visible_message("<span class='notice'>[user] eats the food off their spoon!</span>")
+			M.reagents.add_reagent(forkload.type, 1)
+		else
+			M.visible_message("<span class='danger'>[user] attempts to feed [M] from the spoon.</span>", \
+				"<span class='userdanger'>[user] attempts to feed you with the spoon.</span>")
+			if(!do_mob(user, M))
+				return
+			if(!forkload)
+				return // Might be empty after the delay, such as by spam-feeding
+			M.visible_message("<span class='notice'>[user] feeds [M] a spoonful of food!</span>")
+			log_combat(user, M, "fed", forkload)
+			M.reagents.add_reagent(forkload.type, 1)
+		icon_state = "spoon"
+		forkload = null
+
+	else if(user.zone_selected == BODY_ZONE_PRECISE_EYES)
+		if(HAS_TRAIT(user, TRAIT_CLUMSY) && prob(50))
+			M = user
+		return eyestab(M,user)
+	else
+		return ..()
+//NSV13 end
 
 /obj/item/kitchen/knife/poison/attack(mob/living/M, mob/user)
 	if (!istype(M))

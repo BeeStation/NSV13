@@ -178,7 +178,18 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				dat += "<b>Gender:</b> <a href='?_src_=prefs;preference=gender'>[active_character.gender == MALE ? "Male" : "Female"]</a><BR>"
 			dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[active_character.age]</a><BR>"
 
-			dat += "<b>Special Names:</b><BR>"
+			//NSV13 FLAVOR TEXT RELATED START
+			dat += "<a href='?_src_=prefs;preference=flavor_text;task=input'><b>Set Flavor Text</b></a>"
+			if(length(active_character.flavor_text) <= 40)
+				if(!length(active_character.flavor_text))
+					dat += "\[...\]"
+				else
+					dat += "[active_character.flavor_text]"
+			else
+				dat += "[copytext_char(active_character.flavor_text, 1, 37)]...<br>"
+
+			dat += "<br><b>Special Names:</b><BR>"
+			//NSV13 FLAVOR TEXT RELATED END
 			var/old_group
 			for(var/custom_name_id in GLOB.preferences_custom_names)
 				var/namedata = GLOB.preferences_custom_names[custom_name_id]
@@ -401,6 +412,32 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					dat += "</td>"
 					mutant_category = 0
 
+			if("moth_antennae" in active_character.pref_species.default_features)
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
+
+				dat += "<h3>Moth antennae</h3>"
+
+				dat += "<a href='?_src_=prefs;preference=moth_antennae;task=input'>[active_character.features["moth_antennae"]]</a><BR>"
+
+				mutant_category++
+				if(mutant_category >= MAX_MUTANT_ROWS)
+					dat += "</td>"
+					mutant_category = 0
+
+			if("moth_markings" in active_character.pref_species.default_features)
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
+
+				dat += "<h3>Moth markings</h3>"
+
+				dat += "<a href='?_src_=prefs;preference=moth_markings;task=input'>[active_character.features["moth_markings"]]</a><BR>"
+
+				mutant_category++
+				if(mutant_category >= MAX_MUTANT_ROWS)
+					dat += "</td>"
+					mutant_category = 0
+
 			if("ipc_screen" in active_character.pref_species.mutant_bodyparts)
 				if(!mutant_category)
 					dat += APPEARANCE_CATEGORY_COLUMN
@@ -464,6 +501,45 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				dat += "<h3>Insect Type</h3>"
 
 				dat += "<a href='?_src_=prefs;preference=insect_type;task=input'>[active_character.features["insect_type"]]</a><BR>"
+
+				mutant_category++
+				if(mutant_category >= MAX_MUTANT_ROWS)
+					dat += "</td>"
+					mutant_category = 0
+
+			if("apid_antenna" in active_character.pref_species.mutant_bodyparts)
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
+
+				dat += "<h3>Antenna Style</h3>"
+
+				dat += "<a href='?_src_=prefs;preference=apid_antenna;task=input'>[active_character.features["apid_antenna"]]</a><BR>"
+
+				mutant_category++
+				if(mutant_category >= MAX_MUTANT_ROWS)
+					dat += "</td>"
+					mutant_category = 0
+
+			if("apid_stripes" in active_character.pref_species.mutant_bodyparts)
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
+
+				dat += "<h3>Stripe Pattern</h3>"
+
+				dat += "<a href='?_src_=prefs;preference=apid_stripes;task=input'>[active_character.features["apid_stripes"]]</a><BR>"
+
+				mutant_category++
+				if(mutant_category >= MAX_MUTANT_ROWS)
+					dat += "</td>"
+					mutant_category = 0
+
+			if("apid_headstripes" in active_character.pref_species.mutant_bodyparts)
+				if(!mutant_category)
+					dat += APPEARANCE_CATEGORY_COLUMN
+
+				dat += "<h3>Headstripe Pattern</h3>"
+
+				dat += "<a href='?_src_=prefs;preference=apid_headstripes;task=input'>[active_character.features["apid_headstripes"]]</a><BR>"
 
 				mutant_category++
 				if(mutant_category >= MAX_MUTANT_ROWS)
@@ -1596,11 +1672,21 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 				if("moth_wings")
 					var/new_moth_wings
-
-					new_moth_wings = input(user, "Choose your character's wings:", "Character Preference") as null|anything in GLOB.moth_wings_list
-
+					new_moth_wings = input(user, "Choose your character's wings:", "Character Preference") as null|anything in GLOB.moth_wings_roundstart_list
 					if(new_moth_wings)
 						active_character.features["moth_wings"] = new_moth_wings
+
+				if("moth_antennae")
+					var/new_moth_antennae
+					new_moth_antennae = input(user, "Choose your character's antennae:", "Character Preference") as null|anything in GLOB.moth_antennae_roundstart_list
+					if(new_moth_antennae)
+						active_character.features["moth_antennae"] = new_moth_antennae
+
+				if("moth_markings")
+					var/new_moth_markings
+					new_moth_markings = input(user, "Choose your character's markings:", "Character Preference") as null|anything in GLOB.moth_markings_roundstart_list
+					if(new_moth_markings)
+						active_character.features["moth_markings"] = new_moth_markings
 
 				if("ipc_screen")
 					var/new_ipc_screen
@@ -1633,6 +1719,30 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 					if(new_insect_type)
 						active_character.features["insect_type"] = new_insect_type
+
+				if("apid_antenna")
+					var/new_apid_antenna
+
+					new_apid_antenna = input(user, "Choose your apid antennae:", "Character Preference") as null|anything in GLOB.apid_antenna_list
+
+					if(new_apid_antenna)
+						active_character.features["apid_antenna"] = new_apid_antenna
+
+				if("apid_stripes")
+					var/new_apid_stripes
+
+					new_apid_stripes = input(user, "Choose your apid stripes:", "Character Preference") as null|anything in GLOB.apid_stripes_list
+
+					if(new_apid_stripes)
+						active_character.features["apid_stripes"] = new_apid_stripes
+
+				if("apid_headstripes")
+					var/new_apid_headstripes
+
+					new_apid_headstripes = input(user, "Choose your apid headstripes:", "Character Preference") as null|anything in GLOB.apid_headstripes_list
+
+					if(new_apid_headstripes)
+						active_character.features["apid_headstripes"] = new_apid_headstripes
 
 				if("s_tone")
 					var/new_s_tone = input(user, "Choose your character's skin-tone:", "Character Preference")  as null|anything in GLOB.skin_tones
@@ -1675,21 +1785,26 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/department = input(user, "Choose your preferred security department:", "Security Departments") as null|anything in GLOB.security_depts_prefs
 					if(department)
 						active_character.preferred_security_department = department
-
-				if("pilot_role") //NSV13
+				//NSV13 start
+				if("pilot_role")
 					var/p_role = input(user, "Choose your preferred pilot role:", "Pilot Roles") as null|anything in GLOB.pilot_role_prefs
 					if(p_role)
 						active_character.preferred_pilot_role = p_role
 
-				//Nsv13 squads - we CM now
 				if("squad")
 					var/datum/squad/new_spec = input(user, "Choose your preferred squad:", "Squad Setup") as null|anything in GLOB.squad_manager.squads
 					if(new_spec)
 						active_character.preferred_squad = new_spec.name
+
 				if("syndiecrew")
 					var/client/C = (istype(user, /client)) ? user : user.client
 					C.select_syndie_role()
-				//Nsv13 end
+
+				if("flavor_text")
+					var/msg = capped_multiline_input(usr, "Set the flavor text for your 'examine' verb.\nThe rules are the following;\nNo Memes.\nNothing that people can't see at a glance.\nNothing that's Out Of Character.\nNothing that breaks the game.", "Flavor Text", active_character.flavor_text)
+					if(msg)
+						active_character.flavor_text = html_decode(strip_html(msg))
+				//NSV13 end
 				if ("preferred_map")
 					var/maplist = list()
 					var/default = "Default"

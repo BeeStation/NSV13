@@ -4,7 +4,7 @@ import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Section, ProgressBar, Knob } from '../components';
 import { Window } from '../layouts';
-
+// legacy FTL drive computer
 export const FTLComputer = (props, context) => {
   const { act, data } = useBackend(context);
   return (

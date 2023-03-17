@@ -33,6 +33,10 @@
 	radio.listening = 0
 	radio.recalculateChannels()
 
+/obj/machinery/computer/ship/salvage/Destroy()
+	QDEL_NULL(radio)
+	. = ..()
+
 /obj/machinery/computer/ship/salvage/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
