@@ -945,6 +945,14 @@ Control Rods
 			step_towards(M,src)
 			M.Knockdown(40)
 
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/relaymove(mob/user)
+	if(user.incapacitated())
+		return
+	if(prob(40))
+		audible_message("<span class='danger'>CLANG, clang!</span>")
+	shake_animation(3)
+	playsound(src, 'sound/effects/clang.ogg', 45, 1)
+
 //////// OTHER PROCS ////////
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/send_alert(message, override=FALSE)
