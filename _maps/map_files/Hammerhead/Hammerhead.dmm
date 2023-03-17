@@ -466,6 +466,11 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/yellow,
+/obj/effect/landmark/patrol_node{
+	next_id = list("science","arrivals","atmos");
+	name = "Engineering patrol node";
+	id = "engineering"
+	},
 /turf/open/floor/durasteel,
 /area/hallway/primary/aft)
 "abz" = (
@@ -3055,6 +3060,11 @@
 	codes_txt = "patrol;next_patrol=Arrivals-B-0";
 	location = "MaintDetour-3"
 	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("dress_room","arrivals","science");
+	name = "Medbay patrol node";
+	id = "medbay"
+	},
 /turf/open/floor/durasteel,
 /area/hallway/primary/central)
 "aji" = (
@@ -3741,6 +3751,11 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer4{
 	dir = 8
 	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("hall_split");
+	name = "Hangar Bay patrol node";
+	id = "hangar_bay"
+	},
 /turf/open/floor/durasteel,
 /area/hallway/primary/fore)
 "alB" = (
@@ -3811,6 +3826,11 @@
 /obj/machinery/navbeacon{
 	codes_txt = "patrol;next_patrol=HOP";
 	location = "Bridge-Ext"
+	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("library_split","security");
+	name = "Bridge patrol node";
+	id = "bridge"
 	},
 /turf/open/floor/durasteel,
 /area/hallway/primary/fore)
@@ -10955,6 +10975,11 @@
 /obj/machinery/navbeacon{
 	codes_txt = "patrol;next_patrol=MaintDetour-2";
 	location = "MaintDetour-1"
+	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("escape","hangar_bay","dress_room");
+	name = "Hallway Split patrol node";
+	id = "hall_split"
 	},
 /turf/open/floor/durasteel,
 /area/hallway/primary/fore)
@@ -24936,6 +24961,14 @@
 /obj/effect/landmark/start/pilot,
 /turf/open/floor/durasteel,
 /area/nsv/hanger)
+"esM" = (
+/obj/effect/landmark/patrol_node{
+	next_id = list("library_split","cargo");
+	name = "Botany Hall patrol node";
+	id = "botany_hall"
+	},
+/turf/open/floor/durasteel,
+/area/hallway/primary/port)
 "etn" = (
 /obj/machinery/portable_atmospherics/canister/air,
 /obj/structure/extinguisher_cabinet/east,
@@ -27715,6 +27748,11 @@
 	codes_txt = "patrol;next_patrol=CentHallCurv-1";
 	location = "CentHallCurv-0.5"
 	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("hall_split","medbay");
+	name = "Dress Room patrol node";
+	id = "dress_room"
+	},
 /turf/open/floor/durasteel,
 /area/hallway/primary/central)
 "glW" = (
@@ -27915,6 +27953,11 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("arrivals","engineering");
+	name = "Science patrol node";
+	id = "science"
 	},
 /turf/open/floor/durasteel,
 /area/hallway/primary/aft)
@@ -28266,6 +28309,11 @@
 	location = "Brig-0"
 	},
 /obj/structure/disposalpipe/segment,
+/obj/effect/landmark/patrol_node{
+	next_id = list("bridge","library_split");
+	name = "List patrol node";
+	id = "security"
+	},
 /turf/open/floor/durasteel,
 /area/hallway/primary/fore)
 "gHQ" = (
@@ -33948,6 +33996,11 @@
 	codes_txt = "patrol;next_patrol=MaintDetour-0.5";
 	location = "MaintDetour-0"
 	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("botany_hall","bridge","hangar");
+	name = "Split Library patrol node";
+	id = "library_split"
+	},
 /turf/open/floor/durasteel,
 /area/hallway/primary/fore)
 "krx" = (
@@ -35196,6 +35249,14 @@
 /obj/machinery/atmospherics/pipe/simple/brown/visible,
 /turf/open/floor/plasteel/techmaint,
 /area/engine/atmos)
+"lgR" = (
+/obj/effect/landmark/patrol_node{
+	next_id = list("botany_hall");
+	name = "Cargo patrol node";
+	id = "cargo"
+	},
+/turf/open/floor/plasteel,
+/area/hallway/primary/port)
 "lgY" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
@@ -39703,6 +39764,11 @@
 /obj/structure/disposalpipe/segment{
 	dir = 2
 	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("service","hall_split","library_split");
+	name = "Hangar patrol node";
+	id = "hangar"
+	},
 /turf/open/floor/durasteel,
 /area/hallway/primary/fore)
 "nQJ" = (
@@ -42239,6 +42305,22 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/starboard/central)
+"pyV" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 2
+	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("hangar");
+	name = "Service patrol node";
+	id = "service"
+	},
+/turf/open/floor/durasteel,
+/area/crew_quarters/theatre)
 "pzb" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -42547,6 +42629,14 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
 /turf/open/floor/plasteel/dark,
 /area/crew_quarters/heads/hos)
+"pGF" = (
+/obj/effect/landmark/patrol_node{
+	next_id = list("medbay","science");
+	name = "Arrivals patrol node";
+	id = "arrivals"
+	},
+/turf/open/floor/durasteel/eris_techfloor_alt,
+/area/hallway/secondary/entry)
 "pHJ" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -46922,6 +47012,14 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/sleeper)
+"svO" = (
+/obj/effect/landmark/patrol_node{
+	next_id = list("hall_split");
+	name = "Escape patrol node";
+	id = "escape"
+	},
+/turf/open/floor/durasteel,
+/area/hallway/secondary/exit/departure_lounge)
 "svR" = (
 /obj/machinery/door/airlock/highsecurity/ship{
 	name = "Secure Tech Storage";
@@ -51632,6 +51730,20 @@
 	},
 /turf/open/floor/durasteel/eris_techfloor_alt,
 /area/hallway/primary/fore)
+"voQ" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
+/obj/structure/disposalpipe/segment,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("engineering","science","arrivals");
+	name = "Atmos patrol node";
+	id = "atmos"
+	},
+/turf/open/floor/durasteel,
+/area/hallway/primary/aft)
 "vpi" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -66461,7 +66573,7 @@ mkc
 pqS
 aYp
 aYp
-aYp
+voQ
 aYp
 aYp
 aYp
@@ -79329,7 +79441,7 @@ sWG
 uyM
 biN
 duW
-aaj
+pGF
 biC
 aHQ
 aaf
@@ -97021,7 +97133,7 @@ bGE
 mJn
 bGE
 tsA
-xnI
+svO
 ary
 aGW
 vRm
@@ -100127,7 +100239,7 @@ uTA
 tgx
 cyK
 xSA
-oaQ
+pyV
 kVF
 cwP
 xSA
@@ -109376,7 +109488,7 @@ afl
 afl
 afl
 afl
-afl
+esM
 dUp
 aUp
 afl
@@ -115273,7 +115385,7 @@ aAJ
 ljz
 ahn
 aaI
-ahn
+lgR
 eXL
 apa
 jzA

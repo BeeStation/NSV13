@@ -337,3 +337,23 @@
 	if(M != OM.gunner) return
 	OM.select_weapon(4)
 	return TRUE
+
+/datum/keybinding/overmap/unlock
+	key = "6"
+	name = "unlock"
+	full_name = "Unlock All Targets"
+	description = ""
+	keybind_signal = COMSIG_KB_OVERMAP_UNLOCK_DOWN
+
+/datum/keybinding/overmap/unlock/down(client/user)
+	. = ..()
+	if(.)
+		return
+	if(!user.mob) return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/OM = M.overmap_ship
+	if(!OM) return
+
+	if(M != OM.gunner) return
+	OM.dump_locks()
+	return TRUE

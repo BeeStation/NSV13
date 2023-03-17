@@ -390,3 +390,43 @@ All foods are distributed among various categories. Use common sense.
 	else
 		return ..()
 
+//NSV13 - added fork and spoon use
+/obj/item/reagent_containers/food/snacks/attackby(obj/item/W, mob/user, params)
+	if(istype(W, /obj/item/kitchen/fork))
+		if(istype(src, /obj/item/reagent_containers/food/snacks/soup))
+			to_chat(user, "<span class='warning'>You can't eat soup with a fork!</span>")
+			return
+		var/obj/item/kitchen/fork/F = W
+		if(F.forkload)
+			to_chat(user, "<span class='warning'>You already have [src] on your fork!</span>")
+		else
+			F.icon_state = "forkloaded"
+			user.visible_message("[user] takes a piece of [src] with [user.p_their()] fork!", \
+				"<span class='notice'>You take a piece of [src] with your fork.</span>")
+
+			var/datum/reagent/R = pick(reagents.reagent_list)
+			reagents.remove_reagent(R.type, 1)
+			F.forkload = R
+			if(reagents.total_volume <= 0)
+				qdel(src)
+		return
+	if(istype(W, /obj/item/kitchen/spoon))
+		if(istype(src, /obj/item/reagent_containers/food/snacks/soup))
+			var/obj/item/kitchen/spoon/F = W
+			if(F.forkload)
+				to_chat(user, "<span class='warning'>You already have spoonful of food!</span>")
+			else
+				F.icon_state = "spoonloaded"
+				user.visible_message("[user] takes a spoonful of [src] with [user.p_their()] spoon!", \
+					"<span class='notice'>You take a spoonful of [src] with your spoon.</span>")
+
+				var/datum/reagent/R = pick(reagents.reagent_list)
+				reagents.remove_reagent(R.type, 1)
+				F.forkload = R
+				if(reagents.total_volume <= 0)
+					qdel(src)
+			return
+		else
+			to_chat(user, "<span class='warning'>You can't eat this with a spoon!</span>")
+			return
+	..()

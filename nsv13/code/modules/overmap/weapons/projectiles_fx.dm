@@ -36,6 +36,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	//Not easily stopped.
 	obj_integrity = 300
 	max_integrity = 300
+	can_home = TRUE
 	homing_turn_speed = 2.5
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
@@ -343,7 +344,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition
 	obj_integrity = 50
 	max_integrity = 50
-	density = TRUE
+	can_home = TRUE
 	armor = list("overmap_light" = 10, "overmap_medium" = 0, "overmap_heavy" = 0)
 
 /obj/item/projectile/guided_munition/torpedo
@@ -427,6 +428,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/torpedo/dud
 	icon_state = "torpedo_dud"
 	damage = 0
+	can_home = FALSE
 
 /obj/item/projectile/guided_munition/Initialize(mapload)
 	. = ..()
@@ -582,16 +584,16 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "broadside shell"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "broadside"
-	damage = 75
+	damage = 125
 	obj_integrity = 500
 	flag = "overmap_heavy"
-	spread = 25
+	spread = 15
 	speed = 1
 
 /obj/item/projectile/bullet/broadside/plasma
 	name = "plasma-packed broadside shell"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "broadside_plasma"
-	damage = 125
+	damage = 175
 	armour_penetration = 10
 	speed = 0.4

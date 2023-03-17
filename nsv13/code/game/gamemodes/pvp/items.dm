@@ -267,7 +267,7 @@
 
 /datum/ship_loadout/interceptor
 	name = "Experimental Engine Modifications"
-	desc = "Scans have identified an experimental speed-enhancing manifold as well as a prototype FTL drive modification in the powergrid. Activate it to vastly increase ship maneuverability and transit speed whilst also allowing the FTL computer to automatically spool itself between jumps. This module will allow you to reach targets much more quickly, and increase your maneuverability and speed substantially, though no excess power will be left for structural reinforcement."
+	desc = "Scans have identified an experimental speed-enhancing manifold as well as a prototype Thirring Drive modification in the powergrid. Activate it to vastly increase ship maneuverability and transit speed whilst also allowing the FTL computer to automatically spool itself between jumps. This module will allow you to reach targets much more quickly, and increase your maneuverability and speed substantially, though no excess power will be left for structural reinforcement."
 
 /datum/ship_loadout/interceptor/apply(obj/structure/overmap/OM)
 	if(!OM)
@@ -277,7 +277,7 @@
 	OM.side_maxthrust *= 1.5
 	OM.speed_limit *= 1.5
 	OM.max_angular_acceleration *= 1.5
-	OM.ftl_drive.auto_spool = TRUE //Lazy sods, but yes this is a very valid option if you want to annoy NT.
+	OM.ftl_drive.auto_spool_enabled = TRUE //Lazy sods, but yes this is a very valid option if you want to annoy NT.
 	return TRUE
 
 /obj/item/ship_loadout_selector

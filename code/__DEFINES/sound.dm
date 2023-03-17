@@ -12,6 +12,7 @@
 #define CHANNEL_REACTOR_ALERT 1014 //nsv13 - sound channel for the nuclear storm drive meltdown sfx.
 #define CHANNEL_SHIP_FX 1013 //nsv13 - sound channel for general ship ambience / FX
 #define CHANNEL_IMPORTANT_SHIP_ALERT 1012 //nsv13 - sound channel for really REALLY IMPORTANT ship
+#define CHANNEL_FTL_MANIFOLD 1011 //nsv13 - sound channel for FTL manifold, needed for sound cancelling
 
 ///Default range of a sound.
 #define SOUND_RANGE 17
@@ -27,7 +28,7 @@
 //THIS SHOULD ALWAYS BE THE LOWEST ONE!
 //KEEP IT UPDATED
 
-#define CHANNEL_HIGHEST_AVAILABLE 1011 //Nsv13 - ADDED LOADS OF SOUND CHANNELS. KEEP THIS UP TO DATE
+#define CHANNEL_HIGHEST_AVAILABLE 1010 //Nsv13 - ADDED LOADS OF SOUND CHANNELS. KEEP THIS UP TO DATE
 
 #define MAX_INSTRUMENT_CHANNELS (128 * 6)
 
@@ -35,8 +36,8 @@
 #define FALLOFF_SOUNDS 1
 #define INTERACTION_SOUND_RANGE_MODIFIER -3
 #define EQUIP_SOUND_VOLUME 30
-#define PICKUP_SOUND_VOLUME 15
-#define DROP_SOUND_VOLUME 20
+#define PICKUP_SOUND_VOLUME 40
+#define DROP_SOUND_VOLUME 50
 #define YEET_SOUND_VOLUME 90
 
 #define AMBIENCE_GENERIC "generic"

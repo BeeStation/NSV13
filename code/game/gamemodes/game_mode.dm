@@ -662,6 +662,8 @@
 //////////////////////////
 /proc/display_roundstart_logout_report()
 	var/list/msg = list("<span class='boldnotice'>Roundstart logout report\n\n</span>")
+	var/list/mapvoters = SSpersistence.LoadMapVoters()
+	var/list/bad_mapvoters = list() // NSV13 - check for people who voted and ran
 	for(var/i in GLOB.mob_living_list)
 		var/mob/living/L = i
 		var/mob/living/carbon/C = L
@@ -670,6 +672,8 @@
 
 		if(L.ckey && !GLOB.directory[L.ckey])
 			msg += "<b>[L.name]</b> ([L.key]), the [L.job] (<font color='#ffcc00'><b>Disconnected</b></font>)\n"
+			if(replacetext(L.ckey, "@", "") in mapvoters) //NSV13 - mapvote tracking
+				bad_mapvoters += L.ckey
 
 
 		if(L.ckey && L.client)
@@ -697,6 +701,8 @@
 //				WARNING("AR_DEBUG: Zeroed [p_ckey]'s antag_rep_change")
 				SSpersistence.antag_rep_change[p_ckey] = 0
 
+			if(failed && (replacetext(L.client.ckey, "@", "") in mapvoters)) //NSV13 - mapvote tracking
+				bad_mapvoters += L.client.ckey
 			continue //Happy connected client
 		for(var/mob/dead/observer/D in GLOB.dead_mob_list)
 			if(D.mind && D.mind.current == L)
@@ -714,7 +720,8 @@
 						msg += "<b>[L.name]</b> ([ckey(D.mind.key)]), the [L.job] (<span class='boldannounce'>Ghosted</span>)\n"
 						continue //Ghosted while alive
 
-
+	msg += "\n<b>Absent mapvoters:</b> [english_list(bad_mapvoters)]\n"
+	log_vote("These voters were absent during the roundstart logout check: [english_list(bad_mapvoters)]")
 	for (var/C in GLOB.admins)
 		to_chat(C, msg.Join())
 
@@ -778,6 +785,7 @@
 		SSticker.news_report = STATION_DESTROYED_NUKE
 	if(EMERGENCY_ESCAPED_OR_ENDGAMED)
 		SSticker.news_report = STATION_EVACUATED
+		SSblackbox.record_feedback("text", "nsv_endings", 1, "evacuated")
 		if(SSshuttle.emergency.is_hijacked())
 			SSticker.news_report = SHUTTLE_HIJACK
 

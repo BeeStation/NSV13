@@ -36,6 +36,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	pixel_collision_size_y = 32 //Avoid center tile viewport jank
 	req_one_access = list(ACCESS_COMBAT_PILOT)
 	var/start_emagged = FALSE
+	max_paints = 1 // Only one target per fighter
 	var/max_passengers = 0 //Change this per fighter.
 	//Component to handle the fighter's loadout, weapons, parts, the works.
 	var/loadout_type = LOADOUT_DEFAULT_FIGHTER
@@ -46,6 +47,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/list/components = list() //What does this fighter start off with? Use this to set what engine tiers and whatever it gets.
 	var/maintenance_mode = FALSE //Munitions level IDs can change this.
 	var/dradis_type =/obj/machinery/computer/ship/dradis/internal
+	autotarget = TRUE
+	no_gun_cam = TRUE
 	var/obj/machinery/computer/ship/navigation/starmap = null
 	var/resize_factor = 1 //How far down should we scale when we fly onto the overmap?
 	var/escape_pod_type = /obj/structure/overmap/small_craft/escapepod
@@ -111,8 +114,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	data["canopy_lock"] = canopy_open
 	data["weapon_safety"] = weapon_safety
 	data["master_caution"] = master_caution
-	data["rwr"] = (enemies.len) ? TRUE : FALSE
-	data["target_lock"] = (target_painted.len) ? TRUE : FALSE
+	data["rwr"] = length(enemies) ? TRUE : FALSE
+	data["target_lock"] = length(target_painted) ? TRUE : FALSE
 	data["fuel_warning"] = get_fuel() <= get_max_fuel()*0.4
 	data["fuel"] = get_fuel()
 	data["max_fuel"] = get_max_fuel()
@@ -143,12 +146,20 @@ Been a mess since 2018, we'll fix it someday (probably)
 	data["rpm"] = engine? engine.rpm : 0
 
 	var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
-	data["ftl_capable"] = ftl ? TRUE : FALSE
-	data["ftl_spool_progress"] = ftl ? ftl.progress : FALSE
-	data["ftl_spool_time"] = ftl ? ftl.spoolup_time : FALSE
-	data["jump_ready"] = (ftl?.progress >= ftl?.spoolup_time)
-	data["ftl_active"] = (ftl?.active)
-	data["ftl_target"] = (ftl?.anchored_to?.name)
+	if(ftl)
+		data["ftl_capable"] = TRUE
+		data["ftl_spool_progress"] = ftl.progress
+		data["ftl_spool_time"] = ftl.spoolup_time
+		data["jump_ready"] = ftl.progress >= ftl.spoolup_time
+		data["ftl_active"] = ftl.active
+		data["ftl_target"] = ftl.anchored_to?.name
+	else
+		data["ftl_capable"] = FALSE
+		data["ftl_spool_progress"] = 0
+		data["ftl_spool_time"] = 0
+		data["jump_ready"] = FALSE
+		data["ftl_active"] = FALSE
+		data["ftl_target"] = FALSE
 
 	for(var/slot in loadout.equippable_slots)
 		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
@@ -286,6 +297,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			return
 		if("target_lock")
 			relay('nsv13/sound/effects/fighters/switch.ogg')
+			dump_locks()
 			return
 		if("mag_release")
 			if(!mag_lock)
@@ -302,16 +314,14 @@ Been a mess since 2018, we'll fix it someday (probably)
 			if(!ftl)
 				to_chat(usr, "<span class='warning'>FTL unit not properly installed.</span>")
 				return
-			ftl.active = !ftl.active
+			ftl.toggle()
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 		if("anchor_ftl")
-			message_admins("[usr] called [src]'s anchor_ftl")
 			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
 			if(!ftl)
 				to_chat(usr, "<span class='warning'>FTL unit not properly installed.</span>")
 				return
 			var/obj/structure/overmap/new_target = get_overmap()
-			message_admins("get_overmap() returned [new_target]")
 			if(new_target)
 				ftl.anchored_to = new_target
 			else
@@ -324,11 +334,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 			if(ftl.ftl_state != FTL_STATE_READY)
 				to_chat(usr, "<span class='warning'>Unable to comply. FTL vector calculation still in progress.</span>")
 				return
-			var/obj/structure/overmap/mothership = ftl.anchored_to
-			if(!mothership)
+			if(!ftl.anchored_to)
 				to_chat(usr, "<span class='warning'>Unable to comply. FTL tether lost.</span>")
 				return
-			var/datum/star_system/dest = SSstar_system.ships[mothership]["current_system"]
+			var/datum/star_system/dest = SSstar_system.ships[ftl.anchored_to]["current_system"]
 			if(!dest)
 				to_chat(usr, "<span class='warning'>Unable to comply. Target beacon is currently in FTL transit.</span>")
 				return
@@ -484,7 +493,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /obj/structure/overmap/small_craft/attackby(obj/item/W, mob/user, params)
 	if(operators && LAZYFIND(operators, user))
-		to_chat(user, "<span class='warning'>You can't reach [src]'s exterior from in here..</span>")
+		to_chat(user, "<span class='warning'>You can't reach [src]'s exterior from in here.</span>")
 		return FALSE
 	for(var/slot in loadout.equippable_slots)
 		var/obj/item/fighter_component/FC = loadout.get_slot(slot)
@@ -523,6 +532,12 @@ Been a mess since 2018, we'll fix it someday (probably)
 				enter(user)
 		else
 			to_chat(user, "<span class='warning'>Access denied.</span>")
+
+/obj/structure/overmap/small_craft/finish_lockon(obj/structure/overmap/target, data_link)
+	if(disruption)
+		to_chat(pilot, "<span class='warning'>ERROR: TGP NOT READY.</span>")
+		return FALSE
+	. = ..()
 
 /obj/structure/overmap/small_craft/proc/enter(mob/user)
 	var/obj/structure/overmap/OM = user.get_overmap()
@@ -575,7 +590,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 	// Create pod
 	var/obj/structure/overmap/small_craft/escapepod/escape_pod = new path(get_turf(src))
 	if(!istype(escape_pod))
-		message_admins("Unable to create escape pod for [src] with path [path]")
 		qdel(escape_pod)
 		return
 	escape_pod.name = "[name] - escape pod"
@@ -852,10 +866,10 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 		component = get_slot(slot)
 	component.dump_contents()
 
-/datum/component/ship_loadout/process()
+/datum/component/ship_loadout/process(delta_time)
 	for(var/slot in equippable_slots)
 		var/obj/item/fighter_component/component = hardpoint_slots[slot]
-		component?.process()
+		component?.process(delta_time)
 
 /obj/item/fighter_component
 	name = "fighter component"
@@ -907,15 +921,15 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 /obj/structure/overmap/small_craft/get_cell()
 	return loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 
-/obj/item/fighter_component/proc/powered()
+/obj/item/fighter_component/proc/power_tick(dt = 1)
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F) || !active)
 		return FALSE
 	var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
-	return B?.use_power(power_usage)
+	return B?.use_power(power_usage * dt)
 
-/obj/item/fighter_component/process()
-	return powered()
+/obj/item/fighter_component/process(delta_time)
+	return power_tick(delta_time)
 
 //Used for weapon style hardpoints
 /obj/item/fighter_component/proc/fire(obj/structure/overmap/target)
@@ -951,12 +965,12 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	forceMove(get_turf(target))
 	if(!weight)
 		return TRUE
-	for(var/atom/movable/AM in contents)
+	for(var/atom/movable/AM as() in contents)
 		AM.forceMove(get_turf(target))
 	target.speed_limit += weight
 	target.forward_maxthrust += weight
 	target.backward_maxthrust += weight
-	target.side_maxthrust += 0.25*weight
+	target.side_maxthrust += 0.25 * weight
 	target.max_angular_acceleration += weight*10
 	return TRUE
 
@@ -1613,7 +1627,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	name = "upgraded fighter missile rack"
 	icon_state = "missilerack_tier2"
 	tier = 2
-	max_ammo = 5
+	max_ammo = 10
 
 /obj/item/fighter_component/secondary/ordnance_launcher/tier3
 	name = "\improper A-11 'Spacehog' Cluster-Freedom Launcher"
@@ -1686,10 +1700,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	if(proj_type)
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 		F.relay_to_nearby(chosen)
-		if(proj_type == /obj/item/projectile/guided_munition/missile/dud) //Refactor this to something less trash sometime I guess
-			F.fire_projectile(proj_type, target, homing = FALSE, speed=proj_speed, lateral = FALSE)
-		else
-			F.fire_projectile(proj_type, target, homing = TRUE, speed=proj_speed, lateral = FALSE)
+		F.fire_projectile(proj_type, target, speed=proj_speed, lateral = FALSE)
 	return TRUE
 
 //Utility modules.
@@ -1724,11 +1735,11 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		return
 	add_overlay(canopy)
 
-/obj/structure/overmap/small_craft/slowprocess()
+/obj/structure/overmap/small_craft/slowprocess(delta_time)
 	..()
 	if(engines_active())
 		use_fuel()
-		loadout.process()
+		loadout.process(delta_time)
 
 	var/obj/item/fighter_component/canopy/C = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
 

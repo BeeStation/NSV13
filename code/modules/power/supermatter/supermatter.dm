@@ -274,6 +274,8 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	else if(power > POWER_PENALTY_THRESHOLD)
 		investigate_log("has spawned additional energy balls.", INVESTIGATE_ENGINES)
 
+	SSblackbox.record_feedback("tally", "engine_stats", 1, "failed")
+	SSblackbox.record_feedback("tally", "engine_stats", 1, "supermatter") //NSV13 - engine failure tracking
 	qdel(src)
 
 //this is here to eat arguments
@@ -508,6 +510,8 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 				investigate_log("has been powered for the first time.", INVESTIGATE_ENGINES)
 				message_admins("[src] has been powered for the first time [ADMIN_JMP(src)].")
 				has_been_powered = TRUE
+				SSblackbox.record_feedback("tally", "engine_stats", 1, "started")
+				SSblackbox.record_feedback("tally", "engine_stats", 1, "supermatter")
 	else if(takes_damage)
 		damage += Proj.damage * config_bullet_energy
 	return BULLET_ACT_HIT

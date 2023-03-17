@@ -105,6 +105,10 @@ Returns a faction datum by its name (case insensitive!)
 	message_admins("Loading starsystem from [_source_path]...")
 	var/list/_systems = list()
 	//Read the file in...
+	//If we can't find starmap.json, load in the default instead. This should usually be for local servers
+	if(!fexists(_source_path))
+		log_game("Unable to find [_source_path]. Loading default instead. This is normal for local servers")
+		_source_path = "config/starmap/starmap_default.json"
 	try
 		_systems += json_decode(rustg_file_read(file(_source_path)))
 	catch(var/exception/ex)
@@ -265,7 +269,10 @@ Returns a faction datum by its name (case insensitive!)
 	if(!ships[OM])
 		return
 	var/datum/star_system/system = system_by_id(OM.starting_system)
-	ships[OM]["current_system"] = system
+	if(!ships[OM]["current_system"])
+		ships[OM]["current_system"] = system
+	else
+		system = ships[OM]["current_system"]
 	return system
 
 /datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE)//Select Ship to Spawn and Location via Z-Trait
