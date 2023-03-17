@@ -254,7 +254,7 @@
 		G.fields["fingerprint"]	= rustg_hash_string(RUSTG_HASH_MD5, H.dna.uni_identity)
 		G.fields["p_stat"]		= "Active"
 		G.fields["m_stat"]		= "Stable"
-		G.fields["sex"] 		= H.dna.features["body_model"] //NSV13 - For Now
+		G.fields["sex"] 		= H.dna.features["body_model"] //NSV13
 		switch(H.gender)
 			if(MALE, FEMALE)
 				G.fields["gender"] = capitalize(H.gender)
@@ -297,7 +297,7 @@
 		L.fields["name"]		= H.real_name
 		L.fields["rank"] 		= H.mind.assigned_role
 		L.fields["age"]			= H.age
-		L.fields["sex"]			= H.dna.features["body_model"] //NSV13 - For Now
+		L.fields["sex"]			= H.dna.features["body_model"] //NSV13
 		switch(H.gender)
 			if(MALE, FEMALE)
 				L.fields["gender"] = capitalize(H.gender)
