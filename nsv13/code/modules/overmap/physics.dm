@@ -168,7 +168,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	last_process = world.time
 	if(world.time > last_slowprocess + 0.7 SECONDS)
 		last_slowprocess = world.time
-		slowprocess()
+		slowprocess(time SECONDS)
 	last_offset.copy(offset)
 	var/last_angle = angle
 	if(!move_by_mouse && !ai_controlled)
@@ -630,9 +630,9 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 			proj.setAngle(src.angle)
 		if(broadside)
 			if(angle2dir_ship(overmap_angle(src, target) - angle) == SOUTH)
-				proj.setAngle(src.angle + rand(70, 110))
+				proj.setAngle(src.angle + rand(90 - proj.spread, 90 + proj.spread))
 			else
-				proj.setAngle(src.angle + rand(250, 290))
+				proj.setAngle(src.angle + rand(270 - proj.spread, 270 + proj.spread))
 		//Sometimes we want to override speed.
 		if(speed)
 			proj.set_pixel_speed(speed)

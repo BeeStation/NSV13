@@ -275,10 +275,10 @@
 							src.active1.fields["fingerprint"] = t1
 					//NSV13 - Gender Neutrality - Start
 					if("sex")
-							var/t1 = input(usr, "Select sex", "Med. records", src.active1.fields["sex"]) as null|anything in list(MALE, FEMALE, PLURAL)
-							if(!canUseMedicalRecordsConsole(usr, t1, a1))
-								return
-							src.active1.fields["sex"] = capitalize(t1)
+						var/t1 = input(usr, "Select sex", "Med. records", src.active1.fields["sex"]) as null|anything in list(MALE, FEMALE, PLURAL)
+						if(!canUseMedicalRecordsConsole(usr, t1, a1))
+							return
+						src.active1.fields["sex"] = capitalize(t1)
 					//NSV13 - Gender Neutrality - Stop
 					if("gender")
 						if(active1)
