@@ -1,5 +1,5 @@
 //update_state
-#define UPSTATE_CELL_IN		(1<<0)
+#define UPSTATE_CELL_IN		(1<<2)
 #define UPSTATE_MAINT		(1<<3)
 #define UPSTATE_BROKE		(1<<4)
 #define UPSTATE_BLUESCREEN	(1<<5)
@@ -299,7 +299,6 @@
 
 // update the APC icon to show the three base states
 // also add overlays for indicator lights
-/obj/machinery/power/apc/update_icon()
 /obj/machinery/power/apc/update_appearance(updates=check_updates())
 	icon_update_needed = FALSE
 	if(!updates)

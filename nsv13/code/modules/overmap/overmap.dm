@@ -140,11 +140,17 @@
 	var/missiles = 0 //If this starts at above 0, then the ship can use missiles when AI controlled
 
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
-	var/atom/target_lock = null
+	var/atom/target_lock = null // Our "locked" target. This is what manually fired guided weapons will track towards.
 	var/can_lock = TRUE //Can we lock on to people or not
 	var/lockon_time = 2 SECONDS
-	var/list/target_painted = list()
+	var/list/target_painted = list() // How many targets we've "painted" for AMS/relay targeting, associated with the ship supplying the datalink (if any)
+	var/list/target_last_tracked = list() // When we last tracked a target
+	var/max_paints = 3 // The maximum amount of paints we can sustain at any one time.
+	var/target_loss_time = 3 SECONDS
+	var/autotarget = FALSE // Whether we autolock onto painted targets or not.
+	var/no_gun_cam = FALSE // Var for disabling the gunner's camera
 	var/list/ams_modes = list()
+	var/list/ams_data_source = AMS_LOCKED_TARGETS
 	var/next_ams_shot = 0
 	var/ams_targeting_cooldown = 1.5 SECONDS
 
@@ -173,6 +179,7 @@
 	var/next_maneuvre = 0 //When can we pull off a fancy trick like boost or kinetic turn?
 	var/flak_battery_amount = 0
 	var/broadside = FALSE //Whether the ship is allowed to have broadside cannons or not
+	var/plasma_caster = FALSE //Wehther the ship is allowed to have plasma gun or not
 	var/role = NORMAL_OVERMAP
 
 	var/list/missions = list()
@@ -421,6 +428,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			post_load_interior()
 
 	apply_weapons()
+	RegisterSignal(src, list(COMSIG_FTL_STATE_CHANGE, COMSIG_SHIP_KILLED), .proc/dump_locks) // Setup lockon handling
 	//We have a lot of types but not that many weapons per ship, so let's just worry about the ones we do have
 	for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
 		var/datum/ship_weapon/SW = weapon_types[firemode]
@@ -447,6 +455,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
 	if(broadside)
 		weapon_types[FIRE_MODE_BROADSIDE] = new/datum/ship_weapon/broadside(src)
+	if(plasma_caster)
+		weapon_types[FIRE_MODE_PHORON] = new/datum/ship_weapon/plasma_caster(src)
 
 /obj/item/projectile/Destroy()
 	if(physics2d)
@@ -490,6 +500,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		SSticker.force_ending = 1
 	SEND_SIGNAL(src,COMSIG_SHIP_KILLED)
 	QDEL_LIST(current_tracers)
+	QDEL_LIST(target_painted)
 	if(cabin_air)
 		QDEL_NULL(cabin_air)
 	//Free up memory refs here.
@@ -564,9 +575,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		var/datum/ship_weapon/SW = weapon_types[fire_mode]
 		if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
 			return FALSE
-	if((length(target_painted) > 0) && mass <= MASS_TINY)
-		fire(target_painted[1]) //Fighters get an aimbot to help them out.
-		return TRUE
 	fire(target)
 	return TRUE
 
@@ -574,34 +582,107 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 /obj/structure/overmap/proc/can_friendly_fire()
 	return FALSE
 
-/obj/structure/overmap/proc/start_lockon(atom/target)
-	if(!istype(target, /obj/structure/overmap))
+/obj/structure/overmap/proc/start_lockon(obj/structure/overmap/target)
+	if(!istype(target))
 		return FALSE
-	var/obj/structure/overmap/OM = target
-	if((OM.faction == faction) && !can_friendly_fire())
+	if((target.faction == faction) && !can_friendly_fire())
 		return FALSE
 	if(LAZYFIND(target_painted, target))
-		target_painted.Remove(target)
+		dump_lock(target)
 		if(gunner)
 			to_chat(gunner, "<span class='notice'>Target painting cancelled on [target].</span>")
 		return FALSE
 	relay('nsv13/sound/effects/fighters/being_locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 	addtimer(CALLBACK(src, .proc/finish_lockon, target), lockon_time)
 
-/obj/structure/overmap/proc/finish_lockon(atom/target)
-	if(!gunner)
+/obj/structure/overmap/proc/finish_lockon(obj/structure/overmap/target, obj/structure/overmap/data_link_origin)
+	if(!target || !istype(target) || target == src || target.current_system != current_system) // No target/invalid target
 		return
-	target_painted.Add(target)
-	if(last_overmap && ((last_overmap.faction == faction) || can_friendly_fire()))
-		last_overmap.target_painted.Add(target)
-		if(last_overmap.gunner)
-			to_chat(last_overmap.gunner, "<span class='notice'>[src] has painted [target] for AMS targeting.</span>")
-
-	to_chat(gunner, "<span class='notice'>Target painted</span>")
+	if(LAZYFIND(target_painted, target)) // already locked
+		return
+	if(!data_link_origin && target.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE)
+		return
+	if(length(target_painted) >= max_paints)
+		to_chat(gunner, "<span class='notice'>Target painting at maximum capacity. Cancelling painting of [target_painted[1]] to support new target.</span>")
+		dump_lock(target_painted[1])
+	if(data_link_origin)
+		target_painted[target] = data_link_origin
+		RegisterSignal(data_link_origin, COMSIG_LOCK_LOST, .proc/check_datalink)
+	else
+		target_painted[target] = FALSE
+		target_last_tracked[target] = world.time
+	to_chat(gunner, "<span class='notice'>Target painted.</span>")
 	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
+	RegisterSignal(target, list(COMSIG_PARENT_QDELETING, COMSIG_FTL_STATE_CHANGE), .proc/dump_lock)
+	if(autotarget)
+		select_target(target) //autopaint our target
+
+/obj/structure/overmap/proc/select_target(obj/structure/overmap/target)
+	if(QDELETED(target) || !istype(target) || !locate(target) in target_painted)
+		target_lock = null
+		update_gunner_cam()
+		dump_lock(target)
+		return
+	if(target_lock == target)
+		target_lock = null
+		update_gunner_cam()
+		return
+	target_lock = target
+
+/obj/structure/overmap/proc/dump_lock(obj/structure/overmap/target) // Our locked target got destroyed/moved, dump the lock
+	SIGNAL_HANDLER
+	SEND_SIGNAL(src, COMSIG_LOCK_LOST, target)
+	target_painted -= target
+	target_last_tracked -= target
+	UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+	if(target_lock == target)
+		update_gunner_cam()
+		target_lock = null
+
+/obj/structure/overmap/proc/dump_locks() // clears all target locks.
+	SIGNAL_HANDLER
+	update_gunner_cam()
+	for(var/obj/structure/overmap/OM in target_painted)
+		dump_lock(OM)
+
+// Can we pass targets to friendlies?
+/obj/structure/overmap/proc/can_use_datalink()
+	return TRUE
+
+// Handles the passing of said targets.
+/obj/structure/overmap/proc/datalink_transmit(obj/structure/overmap/target)
+	if(!can_use_datalink() || target == src || target.faction != faction || !target_lock)
+		return FALSE
+	if(target.ai_controlled || !target.gunner)
+		return FALSE
+	if(length(target.target_painted) < target.max_paints)
+		target.finish_lockon(target_lock, src)
+		to_chat(target.gunner, "<span class='notice'>Targeting data for [target] recieved from [src] via datalink.</span>")
+		to_chat(gunner, "<span class='notice'>Targeting paramaters relayed.</span>")
+
+// Called when we lose a target's datalink signal.
+/obj/structure/overmap/proc/check_datalink(obj/structure/overmap/data_link_origin, obj/structure/overmap/target)
+	SIGNAL_HANDLER
+	if(target_painted[target] == data_link_origin)
+		if(overmap_dist(src, target) > max(dradis?.sensor_range * 2, target.sensor_profile))
+			// We can't see the target, get rid of the lock
+			UnregisterSignal(data_link_origin, COMSIG_LOCK_LOST)
+			dump_lock(target)
+			return
+
+		// We can see the target, so un-datalink
+		UnregisterSignal(data_link_origin, COMSIG_LOCK_LOST)
+		target_painted[target] = FALSE
+		target_last_tracked[target] = world.time
 
 /obj/structure/overmap/proc/update_gunner_cam(atom/target)
+	if(!gunner)
+		return
 	var/mob/camera/ai_eye/remote/overmap_observer/cam = gunner.remote_control
+	if(!cam)
+		return
+	if(target == cam.ship_target) // Allows us to use this as a toggle
+		target = null
 	cam.track_target(target)
 
 // This is so ridicously expensive, who made this.
