@@ -778,7 +778,7 @@
 	if(incapacitated())
 		return
 	var/input
-	switch(alert("Would you like to select a hologram based on a crew member, an animal, or switch to a unique avatar?",,"Crew Member","Unique","Animal"))
+	switch(alert("Would you like to select a hologram based on a crew member, an animal, or switch to a unique avatar?",,"Crew Member","Unique","Animal","Robots")) //NSV13 - AI Bot Holographic Form
 		if("Crew Member")
 			var/list/personnel_list = list()
 
@@ -829,18 +829,26 @@
 				"floating face" = 'icons/mob/ai.dmi',
 				"xeno queen" = 'icons/mob/alien.dmi',
 				"horror" = 'icons/mob/ai.dmi',
-				"clock" = 'nsv13/icons/mob/ai_holo.dmi'
-				) //NSV13 - Added Clockwork Hologram
+				"clock" = 'nsv13/icons/mob/ai_holo.dmi',
+				"custom"
+				) //NSV13 - Added Clockwork Hologram and Custom Hologram
 
 			input = input("Please select a hologram:") as null|anything in sortList(icon_list)
 			if(input)
 				qdel(holo_icon)
 				switch(input)
+					//NSV13 - AI Custom Holographic Form - Start
+					if("custom")
+						if(client?.prefs?.custom_holoform_icon)
+							holo_icon = client.prefs.get_filtered_holoform(HOLOFORM_FILTER_AI)
+						else
+							holo_icon = getHologramIcon(icon('icons/mob/ai.dmi', "default"))
 					if("xeno queen")
+					//NSV13 - AI Custom Holographic Form - Stop
 						holo_icon = getHologramIcon(icon(icon_list[input],"alienq"))
 					else
 						holo_icon = getHologramIcon(icon(icon_list[input], input))
-	return
+	//return //NSV13 - Disabled this because the port demands it
 
 /mob/living/silicon/ai/proc/corereturn()
 	set category = "Malfunction"
