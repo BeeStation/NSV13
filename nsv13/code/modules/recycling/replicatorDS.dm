@@ -273,6 +273,10 @@
 			var/datum/design/replicator/D = SSresearch.techweb_design_by_id(v)
 			if(findtext(raw_message, D.name))
 				target = lowertext(D.name)
+			else if(length(D.alt_name) > 0)
+				for(var/alt in D.alt_name)
+					if(findtext(raw_message, alt))
+						target = lowertext(alt)
 		//for(var/X in all_menus)
 		//	var/tofind = X
 		//	if(findtext(raw_message, tofind))
@@ -292,6 +296,10 @@
 	ready = FALSE
 	var/speed_mult = 60 //Starts off hella slow.
 	speed_mult -= (speed_grade*10) //Upgrade with manipulators to make this faster!
+	addtimer(CALLBACK(src, .proc/temp_replicate, menu, temperature, user), speed_mult)
+	addtimer(CALLBACK(src, .proc/set_ready, TRUE), speed_mult)
+	return
+	/*
 	if(istype(menu, /datum/design/replicator))
 		var/datum/design/replicator/D = menu
 		if(D.build_path)
@@ -303,7 +311,7 @@
 
 	menu = lowertext(menu)
 	addtimer(CALLBACK(src, .proc/replicate, menu, temperature, user), speed_mult)
-	addtimer(CALLBACK(src, .proc/set_ready, TRUE), speed_mult)
+*/
 
 /obj/machinery/replicator/proc/set_ready()
 	icon_state = "replicator-on"
@@ -319,8 +327,27 @@
 	biogen.points += nutrimentgain
 	return
 
+/obj/machinery/replicator/proc/temp_replicate(var/food, var/temp, var/mob/living/user)
+	if(istype(food, /datum/design/replicator))
+		var/datum/design/replicator/D = food
+		if(D.build_path)
+			var/obj/item/build_path_item = new D.build_path(get_turf(src))
+			var/currentHandIndex = user.get_held_index_of_item(build_path_item)
+			user.put_in_hand(build_path_item, currentHandIndex)
+		else
+			food = D.name
+	else
+		food = lowertext(food)
+
 /obj/machinery/replicator/proc/replicate(var/what, var/temp, var/mob/living/user)
 	var/atom/food
+	if(istype(what, /datum/design/replicator))
+		var/datum/design/replicator/D = what
+		if(D.build_path)
+			food = new D.build_path(get_turf(src))
+		else
+			what = D.name
+
 	switch(what)
 		if("egg","boiled egg")
 			food = new /obj/item/reagent_containers/food/snacks/boiledegg(get_turf(src))
@@ -457,7 +484,7 @@
 				food.reagents.add_reagent(/datum/reagent/toxin/munchyserum, nutriment)
 				food.reagents.remove_reagent(/datum/reagent/consumable/nutriment, nutriment)
 			var/currentHandIndex = user.get_held_index_of_item(food)
-			user.put_in_hand(food,currentHandIndex)
+			user.put_in_hand(food, currentHandIndex)
 	else
 		visible_message("<span_class='warning'>Insufficient fuel to create [food]. [src] requires [nutriment] U of biomatter.</span>")
 		qdel(food) //NO FOOD FOR YOU!
@@ -535,6 +562,7 @@
 		/datum/design/replicator/tier4/cakebatter, /datum/design/replicator/tier4/dough, /datum/design/replicator/tier4/eggbox,
 		/datum/design/replicator/tier4/flour, /datum/design/replicator/tier4/milk, /datum/design/replicator/tier4/enzymes,
 		/datum/design/replicator/tier4/cheesewheel, /datum/design/replicator/tier4/meatslab,
+		/datum/design/replicator/tier4/active_iguana, /datum/design/replicator/tier4/deactive_iguana
 	)
 
 #undef READY

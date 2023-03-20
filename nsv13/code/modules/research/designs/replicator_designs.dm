@@ -1,9 +1,11 @@
 /datum/design/replicator
 	var/cost
+	var/list/alt_name = list()
 
 /datum/design/replicator/tier1/boiledegg
 	name = "Boiled egg"
 	id = "boiledegg"
+	alt_name = list("egg")
 	build_type = REPLICATOR
 	build_path = /obj/item/reagent_containers/food/snacks/boiledegg
 	category = list("initial","Tier 1")
@@ -11,6 +13,7 @@
 /datum/design/replicator/tier1/boiledrice
 	name = "Boiled rice"
 	id = "boiledrice"
+	alt_name = list("rice")
 	build_type = REPLICATOR
 	build_path = /obj/item/reagent_containers/food/snacks/salad/boiledrice
 	category = list("initial","Tier 1")
@@ -18,6 +21,7 @@
 /datum/design/replicator/tier1/rationpack
 	name = "Ration pack"
 	id = "rationpack"
+	alt_name = list("nutrients", "nutritional supplement")
 	build_type = REPLICATOR
 	build_path = /obj/item/reagent_containers/food/snacks/rationpack
 	category = list("initial","Tier 1")
@@ -25,8 +29,16 @@
 /datum/design/replicator/tier1/drinkingglass
 	name = "Drinking glass"
 	id = "drinkingglass"
+	alt_name = list("glass")
 	build_type = REPLICATOR
 	build_path = /obj/item/reagent_containers/food/drinks/drinkingglass
+	category = list("initial","Tier 1")
+
+/datum/design/replicator/tier1/shotglass
+	name = "Shot glass"
+	id = "shotglass"
+	build_type = REPLICATOR
+	build_path = /obj/item/reagent_containers/food/drinks/drinkingglass/shotglass
 	category = list("initial","Tier 1")
 
 /datum/design/replicator/tier1/tea
@@ -38,6 +50,7 @@
 /datum/design/replicator/tier1/surprise
 	name = "Surprise me"
 	id = "surprise"
+	alt_name = list("you choose", "something", "i dont care")
 	build_type = REPLICATOR
 	category = list("initial","Tier 1")
 
@@ -106,7 +119,7 @@
 	category = list("Tier 3")
 
 /datum/design/replicator/tier3/meatpizza
-	name = "Cheese pizza"
+	name = "Meat pizza"
 	id = "meatpizza"
 	build_type = REPLICATOR
 	build_path = /obj/item/reagent_containers/food/snacks/pizzaslice/meat
@@ -122,6 +135,7 @@
 /datum/design/replicator/tier3/veggiepizza
 	name = "Vegetable pizza"
 	id = "veggiepizza"
+	alt_name = list("veggie pizza")
 	build_type = REPLICATOR
 	build_path = /obj/item/reagent_containers/food/snacks/pizzaslice/vegetable
 	category = list("Tier 3")
@@ -129,6 +143,7 @@
 /datum/design/replicator/tier3/pineapplepizza
 	name = "Pineapple pizza"
 	id = "pineapplepizza"
+	alt_name = list("an insult to pizza")
 	build_type = REPLICATOR
 	build_path = /obj/item/reagent_containers/food/snacks/pizzaslice/pineapple
 	category = list("Tier 3")
@@ -136,6 +151,7 @@
 /datum/design/replicator/tier3/donkpizza
 	name = "Donkpocket pizza"
 	id = "donkpizza"
+	alt_name = list("donk pizza")
 	build_type = REPLICATOR
 	build_path = /obj/item/reagent_containers/food/snacks/pizzaslice/donkpocket
 	category = list("Tier 3")
@@ -200,6 +216,19 @@
 /datum/design/replicator/tier4/meatslab
 	name = "Meat slab"
 	id = "meatslab"
+	alt_name = list("slab of meat")
 	build_type = REPLICATOR
 	build_path = /obj/item/reagent_containers/food/snacks/meat/slab
+	category = list("Tier 4")
+
+/datum/design/replicator/tier4/active_iguana
+	name = "Activate iguana"
+	id = "activeiguana"
+	build_type = REPLICATOR
+	category = list("Tier 4")
+
+/datum/design/replicator/tier4/deactive_iguana
+	name = "Deactivate iguana"
+	id = "deactiveiguana"
+	build_type = REPLICATOR
 	category = list("Tier 4")
