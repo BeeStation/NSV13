@@ -235,7 +235,7 @@
 				if(istype(temporary, /obj/item/reagent_containers/food))
 					costs = temporary.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment)
 				else
-					costs = D.cost ? D.cost : 0
+					costs = D.cost ? D.cost : 5
 				qdel(temporary)
 			cat["items"] += list(list(
 				"id" = D.id,
