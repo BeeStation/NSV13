@@ -10,44 +10,47 @@
 	idle_power_usage = 40
 	density = TRUE
 	circuit = /obj/item/circuitboard/machine/replicator
-	var/list/menutier1 = list("rice", "egg", "ration pack", "glass", "tea earl grey") //It starts off terribly so the chef isn't replaced. You can then upgrade it via RnD to give actual food.
-	var/list/menutier2 = list("burger", "steak", "fries","onion rings", "pancakes","coffee")
-	var/list/menutier3 = list("cheese pizza", "mushroom pizza", "meat pizza", "pineapple pizza", "donkpocket pizza", "vegetable pizza")
-	var/list/menutier4 = list("cake batter", "dough","egg box", "flour", "milk", "enzymes", "cheese wheel", "meat slab","activate iguana","deactivate iguana")
-	var/list/all_menus = list() //All the menu items. Built on init(). We scan for menu items that've been ordered here.
-	var/list/menualtnames = list("nutrients", "donk pizza", "veggie pizza","slab of meat","nutritional supplement")
+	/// The list of possible vocal choosen temperatures.
 	var/list/temperatures = list("cold", "warm", "hot", "extra hot", "well done")
+	/// The list of activator words, used to trigger the replicator to listen to whatever they are ordering.
 	var/list/activator = list("computer", "alexa", "google", "ai", "voice")
-	/// The list of possible surprises built in.
-	var/list/surprises = list("surprise me", "you choose", "something", "i dont care", "an insult to pizza")
+	/// The list of currently Active Holographic Iguanas.
 	var/list/iguanas = list()
-	var/obj/machinery/biogenerator/biogen
-	var/capacity_multiplier = 1
+	/// The how much biomass is gained when converting organic stuff into biomass.
+	var/matter_energy_efficiency = 1
+	/// How high the chance of not having a replicator failure is.
 	var/failure_grade = 1
+	/// How fast the Replicator will create something.
 	var/speed_grade = 1
-	var/menu_grade = 1
+	/// If the Replicator is Emagged and can make more dangerous things.
 	var/emagged = FALSE
+	/// If the Replicator is currently replicating something.
 	var/ready = TRUE
+	/// The current state of the Replicator.
 	var/menutype = READY
+	/// The maximum amount of biomass that will affect the UI Progress bar.
 	var/max_visual_biomass = 5000
 	/// The research that is stored within this food replicator.
 	var/datum/techweb/stored_research
 	/// The different visual categories for the food replicator, for the tabs.
-	var/list/show_categories = list("Tier 1", "Tier 2", "Tier 3", "Tier 4")
+	var/list/show_categories = list(
+		"Nutritional Supplements",
+		"Basic Dishes",
+		"Complex Dishes",
+		"Ingredients"
+	)
 	/// Currently selected category in the UI
 	var/selected_cat
 	/// Currently selected temperature in the UI
 	var/selected_temperature = "cold"
+	/// Linked Biogenerator.
+	var/obj/machinery/biogenerator/biogen
+	/// Internal biomass storage of the food replicator.
+	var/internal_points = 0
 
 /obj/machinery/replicator/Initialize()
 	. = ..()
 	stored_research = new /datum/techweb/specialized/autounlocking/replicator
-	all_menus += menutier1.Copy()
-	all_menus += menutier2.Copy()
-	all_menus += menutier3.Copy()
-	all_menus += menutier4.Copy()
-	all_menus += menualtnames.Copy()
-
 	become_hearing_sensitive(ROUNDSTART_TRAIT)
 	return INITIALIZE_HINT_LATELOAD
 
@@ -63,6 +66,65 @@
 				biogen = Bio
 				break
 
+/**
+ * This is a hacky way to check whether the replicator is using
+ * the internal biomass store or a biogenerators biomass.
+ *
+ * * Returns TRUE if the replicator is linked to a biogenerator.
+ * * Returns FALSE if the replicator is using the internal biomass store.
+ */
+/obj/machinery/replicator/proc/link_check()
+	if(!biogen)
+		return FALSE
+	return TRUE
+
+/obj/machinery/replicator/proc/return_store()
+	if(!link_check())
+		return internal_points
+	else
+		return biogen.points
+
+/**
+ * This is a hacky way to check whether the replicator has enough
+ * biomass to complete the order.
+ *
+ * * amount - The amount of biomass to check for.
+ */
+/obj/machinery/replicator/proc/check_store(var/amount)
+	if(!link_check())
+		if(internal_points >= amount)
+			return TRUE
+		else
+			return FALSE
+	else
+		if(biogen.points >= amount)
+			return TRUE
+		else
+			return FALSE
+
+/**
+ * This is a hacky way to use biomass from the replicator.
+ * It will use the internal biomass store if the replicator
+ * is not linked to a biogenerator.
+ *
+ * * amount - The amount of biomass to use.
+ * * decrease - Whether to decrease the biomass count.
+ * * increase - Whether to increase the biomass count.
+ */
+/obj/machinery/replicator/proc/connection_use(var/amount, var/decrease = FALSE, var/increase = FALSE)
+	if(!link_check())
+		if(increase)
+			internal_points += amount
+			return
+		else if(decrease)
+			internal_points -= amount
+			return
+	else
+		if(increase)
+			biogen.points += amount
+		else if(decrease)
+			biogen.points -= amount
+
 /obj/machinery/replicator/attackby(obj/item/O, mob/user, params)
 	if(user.a_intent == INTENT_HARM)
 		return ..()
@@ -74,9 +136,11 @@
 		return FALSE
 
 	if(istype(O, /obj/item/disk/design_disk/replicator))
-		user.visible_message("<span class='notice'>[user] begins to load \the [O] in \the [src]...</span>",
+		user.visible_message(
+			"<span class='notice'>[user] begins to load \the [O] in \the [src]...</span>",
 			"<span class='notice'>You begin to load designs from \the [O]...</span>",
-			"<span class='hear'>You hear the clatter of a floppy drive.</span>")
+			"<span class='hear'>You hear the clatter of a floppy drive.</span>"
+		)
 		var/obj/item/disk/design_disk/replicator/replicator_design_disk = O
 		if(do_after(user, 2 SECONDS, target = src))
 			for(var/datum/design/replicator/found_design in replicator_design_disk.blueprints)
@@ -85,25 +149,20 @@
 		return
 
 	var/success = FALSE
-	if(istype(O, /obj/item/reagent_containers/glass) || istype(O, /obj/item/trash))
+	if(istype(O, /obj/item/reagent_containers/food/drinks/drinkingglass) || istype(O, /obj/item/trash))
 		visible_message("<span class='warning'>[O] is vaporized by [src]</span>")
 		playsound(src, 'nsv13/sound/effects/replicator-vaporize.ogg', 100, 1)
 		qdel(O)
 		return FALSE
 
-	if(biogen.points < capacity_multiplier*1000)
-		if(istype(O, /obj/item/reagent_containers/food/snacks))
-			convert_to_biomass(O)
+	if(istype(O, /obj/item/reagent_containers/food/snacks))
+		convert_to_biomass(O)
+		success = TRUE
+	else if(istype(O, /obj/item/storage/bag/plants))
+		var/obj/item/storage/bag/plants/P = O
+		for(var/obj/item/reagent_containers/food/snacks/grown/G in P.contents)
+			convert_to_biomass(G)
 			success = TRUE
-		else if(istype(O, /obj/item/storage/bag/plants))
-			var/obj/item/storage/bag/plants/P = O
-			for(var/obj/item/reagent_containers/food/snacks/grown/G in P.contents)
-				if(biogen.points < capacity_multiplier*1000)
-					convert_to_biomass(G)
-				success = TRUE
-	else
-		to_chat(user, "<span class='warning'>[src]'s chemical fuel cells are full.</span>")
-		return FALSE
 
 	if(success)
 		if(istype(O, /obj/item/storage/bag/plants))
@@ -113,6 +172,13 @@
 		playsound(src, 'nsv13/sound/effects/replicator-vaporize.ogg', 100, 1)
 		use_power(50)
 		return
+
+/obj/machinery/replicator/multitool_act(mob/living/user, obj/item/multitool/M)
+	if(istype(M))
+		if(istype(M.buffer, /obj/machinery/biogenerator))
+			biogen = M.buffer
+			to_chat(user, "<span class='notice'>You link [src] to the biogenerator in [M]'s buffer.</span>")
+			return TRUE
 
 /obj/machinery/replicator/ui_status(mob/user)
 	if(machine_stat & BROKEN || panel_open)
@@ -125,41 +191,21 @@
 	)
 
 /obj/machinery/replicator/ui_state(mob/user)
-	return GLOB.default_state
+	return GLOB.not_incapacitated_state
 
 /obj/machinery/replicator/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "Replicator", name)
 		ui.open()
-		ui.set_autoupdate(TRUE)
+		ui.set_autoupdate(TRUE) // Used for the progress bar.
 
 /obj/machinery/replicator/ui_data()
 	var/list/data = list()
 	data["replicating"] = ready
-	data["biomass"] = biogen.points
+	data["biomass"] = return_store()
 	data["max_visual_biomass"] = max_visual_biomass
-	data["efficiency"] = 100 - (failure_grade * 20)
 	data["selected_temperature"] = selected_temperature
-	data["menutier1"] = list()
-	data["menutier2"] = list()
-	data["menutier3"] = list()
-	data["menutier4"] = list()
-	if(menu_grade >= 1)
-		for(var/foodname in menutier1)
-			data["menutier1"] += foodname
-
-	if(menu_grade >= 2)
-		for(var/foodname in menutier2)
-			data["menutier2"] += foodname
-
-	if(menu_grade >= 3)
-		for(var/foodname in menutier3)
-			data["menutier3"] += foodname
-
-	if(menu_grade >= 4)
-		for(var/foodname in menutier4)
-			data["menutier4"] += foodname
 
 	return data
 
@@ -238,19 +284,17 @@
 		emagged = TRUE
 
 /obj/machinery/replicator/RefreshParts()
-	for(var/obj/item/stock_parts/matter_bin/B in component_parts)
-		capacity_multiplier = B.rating
+	for(var/obj/item/stock_parts/scanning_module/S in component_parts)
+		matter_energy_efficiency = S.rating
 	for(var/obj/item/stock_parts/manipulator/M in component_parts)
 		speed_grade = M.rating
-	for(var/obj/item/stock_parts/scanning_module/S in component_parts)
-		menu_grade = S.rating
 	for(var/obj/item/stock_parts/micro_laser/L in component_parts)
 		failure_grade = L.rating
 
 /obj/machinery/replicator/examine(mob/user)
 	. = ..()
 	ui_interact(user)
-	to_chat(user, "<span class='notice'>Fuel reserves: <b>[biogen.points]</b>. Click it with any biomatter to recharge.</span>")
+	to_chat(user, "<span class='notice'>Fuel reserves: <b>[return_store()]</b>. Click it with any biomatter to recharge.</span>")
 
 /obj/machinery/replicator/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, message_mode)
 	. = ..()
@@ -270,17 +314,13 @@
 		var/target
 		var/temperature = null
 		for(var/v in stored_research.researched_designs)
-			var/datum/design/replicator/D = SSresearch.techweb_design_by_id(v)
-			if(findtext(raw_message, D.name))
-				target = lowertext(D.name)
-			else if(length(D.alt_name) > 0)
-				for(var/alt in D.alt_name)
+			var/datum/design/replicator/design = SSresearch.techweb_design_by_id(v)
+			if(findtext(raw_message, design.name))
+				target = design
+			else if(length(design.alt_name) > 0)
+				for(var/alt in design.alt_name)
 					if(findtext(raw_message, alt))
-						target = lowertext(alt)
-		//for(var/X in all_menus)
-		//	var/tofind = X
-		//	if(findtext(raw_message, tofind))
-		//		target = tofind //Alright they've asked for something on the menu.
+						target = design
 		for(var/Y in temperatures) //See if they want it hot, or cold.
 			var/hotorcold = Y
 			if(findtext(raw_message, hotorcold))
@@ -296,22 +336,13 @@
 	ready = FALSE
 	var/speed_mult = 60 //Starts off hella slow.
 	speed_mult -= (speed_grade*10) //Upgrade with manipulators to make this faster!
-	addtimer(CALLBACK(src, .proc/temp_replicate, menu, temperature, user), speed_mult)
-	addtimer(CALLBACK(src, .proc/set_ready, TRUE), speed_mult)
-	return
-	/*
 	if(istype(menu, /datum/design/replicator))
-		var/datum/design/replicator/D = menu
-		if(D.build_path)
-			var/obj/item/build_path_item = new D.build_path
-			menu = build_path_item.name
-			qdel(build_path_item)
-		else
-			menu = D.name
+		var/datum/design/replicator/design = menu
+		menu = design
 
 	menu = lowertext(menu)
 	addtimer(CALLBACK(src, .proc/replicate, menu, temperature, user), speed_mult)
-*/
+	addtimer(CALLBACK(src, .proc/set_ready, TRUE), speed_mult)
 
 /obj/machinery/replicator/proc/set_ready()
 	icon_state = "replicator-on"
@@ -322,41 +353,21 @@
 /obj/machinery/replicator/proc/convert_to_biomass(obj/item/reagent_containers/food/snacks/S)
 	var/nutrimentgain = S.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment)
 	if(nutrimentgain < 0.1)
-		nutrimentgain = 1 * capacity_multiplier
+		nutrimentgain = 1 * matter_energy_efficiency
 	qdel(S)
-	biogen.points += nutrimentgain
+	connection_use(nutrimentgain, increase = TRUE)
 	return
-
-/obj/machinery/replicator/proc/temp_replicate(var/food, var/temp, var/mob/living/user)
-	if(istype(food, /datum/design/replicator))
-		var/datum/design/replicator/D = food
-		if(D.build_path)
-			var/obj/item/build_path_item = new D.build_path(get_turf(src))
-			var/currentHandIndex = user.get_held_index_of_item(build_path_item)
-			user.put_in_hand(build_path_item, currentHandIndex)
-		else
-			food = D.name
-	else
-		food = lowertext(food)
 
 /obj/machinery/replicator/proc/replicate(var/what, var/temp, var/mob/living/user)
 	var/atom/food
 	if(istype(what, /datum/design/replicator))
-		var/datum/design/replicator/D = what
-		if(D.build_path)
-			food = new D.build_path(get_turf(src))
+		var/datum/design/replicator/design = what
+		if(design.build_path)
+			food = new design.build_path(get_turf(src))
 		else
-			what = D.name
+			what = lowertext(design.name)
 
 	switch(what)
-		if("egg","boiled egg")
-			food = new /obj/item/reagent_containers/food/snacks/boiledegg(get_turf(src))
-		if("rice","boiled rice")
-			food = new /obj/item/reagent_containers/food/snacks/salad/boiledrice(get_turf(src))
-		if("ration pack","nutrients","nutritional supplement")
-			food = new /obj/item/reagent_containers/food/snacks/rationpack(get_turf(src))
-		if("glass","drinking glass")
-			food = new /obj/item/reagent_containers/food/drinks/drinkingglass(get_turf(src))
 		if("tea earl grey")
 			food = new /obj/item/reagent_containers/food/drinks/mug/tea(get_turf(src))
 			food.name = "Earl Grey tea"
@@ -365,7 +376,7 @@
 				var/tea = food.reagents.get_reagent_amount(/datum/reagent/consumable/tea)
 				food.reagents.add_reagent(/datum/reagent/consumable/ethanol, tea)
 				food.reagents.remove_reagent(/datum/reagent/consumable/tea, tea)
-		if("surprise me","you choose","something","i dont care")
+		if("surprise me")
 			if(emagged)
 				switch(rand(1,6))
 					if(1)
@@ -388,79 +399,35 @@
 				return
 			else
 				food = new /obj/item/reagent_containers/food/snacks/soup/mystery(get_turf(src))
-	if(menu_grade >= 2) //SCANNER GRADE 2 (or above)!
-		switch(what)
-			if("burger")
-				food = new /obj/item/reagent_containers/food/snacks/burger/plain(get_turf(src))
-			if("steak")
-				food = new /obj/item/reagent_containers/food/snacks/meat/steak/plain(get_turf(src))
-			if("fries")
-				food = new /obj/item/reagent_containers/food/snacks/fries(get_turf(src))
-			if("onion rings")
-				food = new /obj/item/reagent_containers/food/snacks/onionrings(get_turf(src))
-			if("pancakes")
-				food = new /obj/item/reagent_containers/food/snacks/pancakes(get_turf(src))
-			if("coffee")
-				food = new /obj/item/reagent_containers/food/drinks/coffee(get_turf(src))
-				food.name = "coffee"
-				food.desc = "A wise woman once said that coffee keeps you sane in deep space."
-				if(emagged)
-					var/coffee = food.reagents.get_reagent_amount(/datum/reagent/consumable/coffee)
-					food.reagents.add_reagent(/datum/reagent/toxin/chloralhydrate, coffee)
-					food.reagents.remove_reagent(/datum/reagent/consumable/coffee, coffee)
-	if(menu_grade >= 3) //SCANNER GRADE 3 (or above)!
-		switch(what)
-			if("cheese pizza")
-				food = new /obj/item/reagent_containers/food/snacks/pizzaslice/margherita(get_turf(src))
-			if("meat pizza")
-				food = new /obj/item/reagent_containers/food/snacks/pizzaslice/meat(get_turf(src))
-			if("mushroom pizza")
-				food = new /obj/item/reagent_containers/food/snacks/pizzaslice/mushroom(get_turf(src))
-			if("veggie pizza","vegetable pizza")
-				food = new /obj/item/reagent_containers/food/snacks/pizzaslice/vegetable(get_turf(src))
-			if("pineapple pizza","an insult to pizza")
-				food = new /obj/item/reagent_containers/food/snacks/pizzaslice/pineapple(get_turf(src))
-			if("donk pizza","donkpocket pizza")
-				food = new /obj/item/reagent_containers/food/snacks/pizzaslice/donkpocket(get_turf(src))
-	if(menu_grade >= 4)
-		switch(what)
-			if("cake batter")
-				food = new /obj/item/reagent_containers/food/snacks/cakebatter(get_turf(src))
-			if("dough")
-				food = new /obj/item/reagent_containers/food/snacks/dough(get_turf(src))
-			if("egg box")
-				food = new /obj/item/storage/fancy/egg_box(get_turf(src))
-			if("flour")
-				food = new /obj/item/reagent_containers/food/condiment/flour(get_turf(src))
-			if("milk")
-				food = new /obj/item/reagent_containers/food/condiment/milk(get_turf(src))
-			if("enzymes")
-				food = new /obj/item/reagent_containers/food/condiment/enzyme(get_turf(src))
-			if("cheese wheel")
-				food = new /obj/item/reagent_containers/food/snacks/store/cheesewheel(get_turf(src))
-			if("meat slab","slab of meat")
-				food = new /obj/item/reagent_containers/food/snacks/meat/slab(get_turf(src))
-			if("activate iguana")
-				if(length(iguanas) > 9)
-					say("You have reached the iguana limit!")
-					return
-				iguanas += new /mob/living/simple_animal/kalo/leonard(get_turf(src))
-			if("deactivate iguana")
-				for(var/mob/M as() in iguanas)
-					iguanas -= M
-					qdel(M)
+		if("coffee")
+			food = new /obj/item/reagent_containers/food/drinks/coffee(get_turf(src))
+			food.name = "coffee"
+			food.desc = "A wise woman once said that coffee keeps you sane in deep space."
+			if(emagged)
+				var/coffee = food.reagents.get_reagent_amount(/datum/reagent/consumable/coffee)
+				food.reagents.add_reagent(/datum/reagent/toxin/chloralhydrate, coffee)
+				food.reagents.remove_reagent(/datum/reagent/consumable/coffee, coffee)
+		if("activate iguana")
+			if(length(iguanas) > 9)
+				say("You have reached the iguana limit!")
+				return
+			iguanas += new /mob/living/simple_animal/kalo/leonard(get_turf(src))
+		if("deactivate iguana")
+			for(var/mob/M as() in iguanas)
+				iguanas -= M
+				qdel(M)
 	if(food)
 		finalize_replicating(food, temp, user)
 
 /obj/machinery/replicator/proc/finalize_replicating(var/atom/food, var/temp, var/mob/living/user)
 	var/nutriment = food.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment)
-	if(biogen.points >= nutriment && biogen.points >= 5)
+	if(check_store(nutriment) && check_store(5))
 		//time to check laser power.
 		if(prob(6-failure_grade)) //Chance to make a burned mess so the chef is still useful.
 			var/obj/item/reagent_containers/food/snacks/badrecipe/neelixcooking = new /obj/item/reagent_containers/food/snacks/badrecipe(get_turf(src))
 			neelixcooking.name = "replicator mess"
 			neelixcooking.desc = "perhaps you should invest in some higher quality parts."
-			biogen.points -= 5
+			connection_use(5, decrease = TRUE)
 			qdel(food) //NO FOOD FOR YOU!
 			return
 		else
@@ -477,9 +444,9 @@
 					if("well done")
 						food.reagents.chem_temp = 2000000000000 //A nice warm Steak or a perfectly well boiled Cup of Tea
 			if(nutriment > 0)
-				biogen.points -= nutriment
+				connection_use(nutriment, decrease = TRUE)
 			else
-				biogen.points -= 5 //Default, in case the food is useless.
+				connection_use(5, decrease = TRUE) //Default, in case the food is useless.
 			if(emagged)
 				food.reagents.add_reagent(/datum/reagent/toxin/munchyserum, nutriment)
 				food.reagents.remove_reagent(/datum/reagent/consumable/nutriment, nutriment)
@@ -496,10 +463,10 @@
 	icon_state = "repli_board"
 	build_path = /obj/machinery/replicator
 	req_components = list(
-		/obj/item/stock_parts/matter_bin = 1,
-		/obj/item/stock_parts/manipulator = 1,
 		/obj/item/stock_parts/scanning_module = 1,
-		/obj/item/stock_parts/micro_laser = 1)
+		/obj/item/stock_parts/manipulator = 1,
+		/obj/item/stock_parts/micro_laser = 1
+	)
 
 /mob/living/simple_animal/kalo/leonard
 	name = "Leonard"

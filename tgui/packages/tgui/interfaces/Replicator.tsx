@@ -8,14 +8,9 @@ type ReplicatorData = {
   replicating: BooleanLike;
   biomass: number;
   max_visual_biomass: number;
-  efficiency: number;
   selected_temperature: string;
   temperatures: string[];
   categories: Category[];
-  menutier1: string[];
-  menutier2: string[];
-  menutier3: string[];
-  menutier4: string[];
 };
 
 type Category = {
@@ -36,14 +31,9 @@ export const Replicator = (props, context) => {
     replicating,
     biomass,
     max_visual_biomass,
-    efficiency,
     categories,
     selected_temperature,
     temperatures,
-    menutier1,
-    menutier2,
-    menutier3,
-    menutier4,
   } = data;
 
   const [selectedCategory, setSelectedCategory] = useLocalState<string>(
@@ -55,7 +45,7 @@ export const Replicator = (props, context) => {
     = categories.find((category) => category.name === selectedCategory)?.items
     || [];
   return (
-    <Window width={400} height={500}>
+    <Window width={500} height={500}>
       <Window.Content>
         <Stack vertical fill>
           <Stack.Item>
@@ -120,7 +110,6 @@ export const Replicator = (props, context) => {
                   replicating={replicating}
                   biomass={biomass}
                   items={items}
-                  efficiency={efficiency}
                 />
               </Table>
             </Section>
