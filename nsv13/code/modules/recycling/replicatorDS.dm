@@ -37,7 +37,7 @@
 		"Nutritional Supplements",
 		"Basic Dishes",
 		"Complex Dishes",
-		"Ingredients"
+		"Exotic Dishes"
 	)
 	/// Currently selected category in the UI
 	var/selected_cat
@@ -191,7 +191,7 @@
 	)
 
 /obj/machinery/replicator/ui_state(mob/user)
-	return GLOB.not_incapacitated_state
+	return GLOB.not_incapacitated_state // Always viewable from a long range
 
 /obj/machinery/replicator/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -353,7 +353,7 @@
 /obj/machinery/replicator/proc/convert_to_biomass(obj/item/reagent_containers/food/snacks/S)
 	var/nutrimentgain = S.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment)
 	if(nutrimentgain < 0.1)
-		nutrimentgain = 1 * matter_energy_efficiency
+		nutrimentgain = 5 * matter_energy_efficiency
 	qdel(S)
 	connection_use(nutrimentgain, increase = TRUE)
 	return
@@ -417,9 +417,9 @@
 				iguanas -= M
 				qdel(M)
 	if(food)
-		finalize_replicating(food, temp, user)
+		finalize_replication(food, temp, user)
 
-/obj/machinery/replicator/proc/finalize_replicating(var/atom/food, var/temp, var/mob/living/user)
+/obj/machinery/replicator/proc/finalize_replication(var/atom/food, var/temp, var/mob/living/user)
 	var/nutriment = food.reagents.get_reagent_amount(/datum/reagent/consumable/nutriment)
 	if(check_store(nutriment) && check_store(5))
 		//time to check laser power.
@@ -453,7 +453,7 @@
 			var/currentHandIndex = user.get_held_index_of_item(food)
 			user.put_in_hand(food, currentHandIndex)
 	else
-		visible_message("<span_class='warning'>Insufficient fuel to create [food]. [src] requires [nutriment] U of biomatter.</span>")
+		visible_message("<span_class='warning'>Insufficient fuel to create [food.name]. [src] requires [nutriment] U of biomatter.</span>")
 		qdel(food) //NO FOOD FOR YOU!
 		return
 
@@ -472,7 +472,8 @@
 	name = "Leonard"
 	desc = "A holographic pet lizard. Say 'deactivate iguana' if you're a square."
 
-/datum/reagent/toxin/munchyserum //Tasteless alternative to lipolicide, less powerful. This has the reverse of the intended effect of a replicator and makes you hungrier.
+//Tasteless alternative to lipolicide, less powerful. This has the reverse of the intended effect of a replicator and makes you hungrier.
+/datum/reagent/toxin/munchyserum
 	name = "Metabolism Override Toxin"
 	description = "A strong toxin that increases the appetite of their victim while dampening their ability to absorb nutrients for as long as it is in their system."
 	silent_toxin = TRUE
@@ -492,45 +493,32 @@
 	name = "Pattern Upgrade Disk"
 	desc = "You shouldn't be seeing this."
 	icon = 'nsv13/icons/obj/module.dmi'
-	/// List of all the designs this disk contains
-	var/list/repli_patterns = list()
+	var/subtype
 
 /obj/item/disk/design_disk/replicator/Initialize()
 	. = ..()
-	for(var/design in repli_patterns)
-		var/datum/design/replicator/new_design = design
-		blueprints += new new_design
+	if(subtype)
+		for(var/design in subtypesof(subtype)-/datum/design/replicator)
+			var/datum/design/replicator/new_design = design
+			blueprints += new new_design
 
 /obj/item/disk/design_disk/replicator/tier2
 	name = "Pattern Upgrade Disk (Tier 2)"
 	desc = "A disk containing the schematics for Tier 2 Replicator Patterns."
 	icon_state = "disk_tier2"
-	repli_patterns = list(
-		/datum/design/replicator/tier2/burger, /datum/design/replicator/tier2/steak, /datum/design/replicator/tier2/fries,
-		/datum/design/replicator/tier2/onionrings, /datum/design/replicator/tier2/pancakes, /datum/design/replicator/tier2/coffee,
-		/datum/design/replicator/tier2/tier3disk,
-	)
+	subtype = /datum/design/replicator/tier2
 
 /obj/item/disk/design_disk/replicator/tier3
 	name = "Pattern Upgrade Disk (Tier 3)"
 	desc = "A disk containing the schematics for Tier 3 Replicator Patterns."
 	icon_state = "disk_tier3"
-	repli_patterns = list(
-		/datum/design/replicator/tier3/cheesepizza, /datum/design/replicator/tier3/meatpizza, /datum/design/replicator/tier3/mushroompizza,
-		/datum/design/replicator/tier3/veggiepizza, /datum/design/replicator/tier3/pineapplepizza, /datum/design/replicator/tier3/donkpizza,
-		/datum/design/replicator/tier3/tier4disk,
-	)
+	subtype = /datum/design/replicator/tier3
 
 /obj/item/disk/design_disk/replicator/tier4
 	name = "Pattern Upgrade Disk (Tier 4)"
 	desc = "A disk containing the schematics for Tier 4 Replicator Patterns."
 	icon_state = "disk_tier4"
-	repli_patterns = list(
-		/datum/design/replicator/tier4/cakebatter, /datum/design/replicator/tier4/dough, /datum/design/replicator/tier4/eggbox,
-		/datum/design/replicator/tier4/flour, /datum/design/replicator/tier4/milk, /datum/design/replicator/tier4/enzymes,
-		/datum/design/replicator/tier4/cheesewheel, /datum/design/replicator/tier4/meatslab,
-		/datum/design/replicator/tier4/active_iguana, /datum/design/replicator/tier4/deactive_iguana
-	)
+	subtype = /datum/design/replicator/tier4
 
 #undef READY
 #undef REPLICATING

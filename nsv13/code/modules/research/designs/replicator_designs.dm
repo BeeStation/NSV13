@@ -6,8 +6,8 @@
  * * "initial" is the category that will be unlocked by default.
  * * "Nutritional Supplements" is the category for all the recipes that are basically Tier 1 stuff, IE: A microwaved egg, things that don't need outside information to make.
  * * "Basic Dishes" is the category for all the recipes that are basically Tier 2 stuff, IE: A burger or a steak, things that need some thought to make but anyone can easily figure it out.
- * * "Complex Dishes" is the category for all the recipes that are basiaclly Tier 3 stuff, IE: A pizza, things that need a lot of thought put into producing it.
- * * "Ingredients" is the category for all the ingredients that can be used in cooking, for some reason this is Tier 4.
+ * * "Complex Dishes" is the category for all the recipes that are basically Tier 3 stuff, IE: A pizza, things that need a lot of thought put into producing it.
+ * * "Exotic Dishes" is the category for all the exotic recipes.
  */
 
 /datum/design/replicator
@@ -46,11 +46,11 @@
 	build_path = /obj/item/reagent_containers/food/drinks/drinkingglass
 	category = list("initial", "Nutritional Supplements")
 
-/datum/design/replicator/tier1/shotglass
-	name = "Shot glass"
-	id = "shotglass"
+/datum/design/replicator/tier1/rawegg
+	name = "Raw egg"
+	id = "rawegg"
 	build_type = REPLICATOR
-	build_path = /obj/item/reagent_containers/food/drinks/drinkingglass/shotglass
+	build_path = /obj/item/reagent_containers/food/snacks/egg
 	category = list("initial", "Nutritional Supplements")
 
 /datum/design/replicator/tier1/tea
@@ -74,11 +74,46 @@
 	cost = 2000 // 2000 Biomass in order to unlock the Tier 2 recipes
 	category = list("initial", "Nutritional Supplements")
 
+/datum/design/replicator/tier2/dough
+	name = "Dough"
+	id = "dough"
+	build_type = REPLICATOR
+	build_path = /obj/item/reagent_containers/food/snacks/dough
+	category = list("Basic Dishes")
+
+/datum/design/replicator/tier2/milk
+	name = "Milk"
+	id = "milkies"
+	build_type = REPLICATOR
+	build_path = /obj/item/reagent_containers/food/condiment/milk
+	category = list("Basic Dishes")
+
+/datum/design/replicator/tier2/soymilk
+	name = "Soy milk"
+	id = "soymilk"
+	build_type = REPLICATOR
+	build_path = /obj/item/reagent_containers/food/condiment/soymilk
+	category = list("Basic Dishes")
+
 /datum/design/replicator/tier2/burger
 	name = "Burger"
 	id = "burger"
 	build_type = REPLICATOR
 	build_path = /obj/item/reagent_containers/food/snacks/burger/plain
+	category = list("Basic Dishes")
+
+/datum/design/replicator/tier2/tofuburger
+	name = "Tofu burger"
+	id = "tofuburger"
+	build_type = REPLICATOR
+	build_path = /obj/item/reagent_containers/food/snacks/burger/tofu
+	category = list("Basic Dishes")
+
+/datum/design/replicator/tier2/flour
+	name = "Flour"
+	id = "flour"
+	build_type = REPLICATOR
+	build_path = /obj/item/reagent_containers/food/condiment/flour
 	category = list("Basic Dishes")
 
 /datum/design/replicator/tier2/steak
@@ -102,6 +137,13 @@
 	build_path = /obj/item/reagent_containers/food/snacks/onionrings
 	category = list("Basic Dishes")
 
+/datum/design/replicator/tier2/friedeggs
+	name = "Fried eggs"
+	id = "friedeggs"
+	build_type = REPLICATOR
+	build_path = /obj/item/reagent_containers/food/snacks/friedegg
+	category = list("Basic Dishes")
+
 /datum/design/replicator/tier2/pancakes
 	name = "Pancakes"
 	id = "pancakes"
@@ -115,6 +157,14 @@
 	build_type = REPLICATOR
 	category = list("Basic Dishes")
 
+/datum/design/replicator/tier2/meatslab
+	name = "Meat slab"
+	id = "meatslab"
+	alt_name = list("slab of meat")
+	build_type = REPLICATOR
+	build_path = /obj/item/reagent_containers/food/snacks/meat/slab
+	category = list("Basic Dishes")
+
 /datum/design/replicator/tier2/tier3disk
 	name = "Pattern Upgrade disk (Tier 3)"
 	id = "tier3disk"
@@ -122,6 +172,27 @@
 	build_path = /obj/item/disk/design_disk/replicator/tier3
 	cost = 3000 // 3000 Biomass in order to unlock the Tier 3 recipes
 	category = list("Basic Dishes")
+
+/datum/design/replicator/tier3/cakebatter
+	name = "Cake batter"
+	id = "cakebatter"
+	build_type = REPLICATOR
+	build_path = /obj/item/reagent_containers/food/snacks/cakebatter
+	category = list("Complex Dishes")
+
+/datum/design/replicator/tier3/enzymes
+	name = "Enzymes"
+	id = "enzymes"
+	build_type = REPLICATOR
+	build_path = /obj/item/reagent_containers/food/condiment/enzyme
+	category = list("Complex Dishes")
+
+/datum/design/replicator/tier3/cheesewheel
+	name = "Cheese wheel"
+	id = "cheesywheely"
+	build_type = REPLICATOR
+	build_path = /obj/item/reagent_containers/food/snacks/store/cheesewheel
+	category = list("Complex Dishes")
 
 /datum/design/replicator/tier3/cheesepizza
 	name = "Cheese pizza"
@@ -176,71 +247,56 @@
 	cost = 4000 // 4000 Biomass in order to unlock the Tier 3 recipes
 	category = list("Complex Dishes")
 
-/datum/design/replicator/tier4/cakebatter
-	name = "Cake batter"
-	id = "cakebatter"
+/datum/design/replicator/tier4/honkdae
+	name = "Honkdae"
+	id = "honkdae"
 	build_type = REPLICATOR
-	build_path = /obj/item/reagent_containers/food/snacks/cakebatter
-	category = list("Ingredients")
+	build_path = /obj/item/reagent_containers/food/snacks/honkdae
+	category = list("Exotic Dishes")
 
-/datum/design/replicator/tier4/dough
-	name = "Dough"
-	id = "dough"
+/datum/design/replicator/tier4/wingfangchu
+	name = "Wing fang chu"
+	id = "wingfangchu"
 	build_type = REPLICATOR
-	build_path = /obj/item/reagent_containers/food/snacks/dough
-	category = list("Ingredients")
+	build_path = /obj/item/reagent_containers/food/snacks/soup/wingfangchu
+	category = list("Exotic Dishes")
 
-/datum/design/replicator/tier4/eggbox
-	name = "Egg box"
-	id = "eggbox"
+/datum/design/replicator/tier4/clownstears
+	name = "Clown's tears"
+	id = "clownstears"
 	build_type = REPLICATOR
-	build_path = /obj/item/storage/fancy/egg_box
-	category = list("Ingredients")
+	build_path = /obj/item/reagent_containers/food/snacks/soup/clownstears
+	category = list("Exotic Dishes")
 
-/datum/design/replicator/tier4/flour
-	name = "Flour"
-	id = "flour"
+/datum/design/replicator/tier4/mimeburger
+	name = "Mime burger"
+	id = "mimeburger"
 	build_type = REPLICATOR
-	build_path = /obj/item/reagent_containers/food/condiment/flour
-	category = list("Ingredients")
+	build_path = /obj/item/reagent_containers/food/snacks/burger/mime
+	category = list("Exotic Dishes")
 
-/datum/design/replicator/tier4/milk
-	name = "Milk"
-	id = "milkies"
+/datum/design/replicator/tier4/clownburger
+	name = "Clown burger"
+	id = "clownburger"
 	build_type = REPLICATOR
-	build_path = /obj/item/reagent_containers/food/condiment/milk
-	category = list("Ingredients")
+	build_path = /obj/item/reagent_containers/food/snacks/burger/clown
+	category = list("Exotic Dishes")
 
-/datum/design/replicator/tier4/enzymes
-	name = "Enzymes"
-	id = "enzymes"
+/datum/design/replicator/tier4/spellburger
+	name = "Magic burger"
+	id = "magicburger"
 	build_type = REPLICATOR
-	build_path = /obj/item/reagent_containers/food/condiment/enzyme
-	category = list("Ingredients")
-
-/datum/design/replicator/tier4/cheesewheel
-	name = "Cheese wheel"
-	id = "cheesywheely"
-	build_type = REPLICATOR
-	build_path = /obj/item/reagent_containers/food/snacks/store/cheesewheel
-	category = list("Ingredients")
-
-/datum/design/replicator/tier4/meatslab
-	name = "Meat slab"
-	id = "meatslab"
-	alt_name = list("slab of meat")
-	build_type = REPLICATOR
-	build_path = /obj/item/reagent_containers/food/snacks/meat/slab
-	category = list("Ingredients")
+	build_path = /obj/item/reagent_containers/food/snacks/burger/spell
+	category = list("Exotic Dishes")
 
 /datum/design/replicator/tier4/active_iguana
 	name = "Activate iguana"
 	id = "activeiguana"
 	build_type = REPLICATOR
-	category = list("Ingredients")
+	category = list("Exotic Dishes")
 
 /datum/design/replicator/tier4/deactive_iguana
 	name = "Deactivate iguana"
 	id = "deactiveiguana"
 	build_type = REPLICATOR
-	category = list("Ingredients")
+	category = list("Exotic Dishes")
