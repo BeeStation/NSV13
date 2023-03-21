@@ -4,24 +4,23 @@
  */
 
  @use '../colors.scss';
- @use '../base.scss';
 
+ .AlertModal__Message {
+   text-align: center;
+   justify-content: center;
+ }
 
-.ListInput__Section .Section__title{
-  flex-shrink: 0;
-}
+ .AlertModal__Buttons {
+   justify-content: center;
+ }
 
-.ListInput__Section .Section__titleText {
-  font-size: base.em(12px);
-}
-
- .ListInput__Loader {
+ .AlertModal__Loader {
    width: 100%;
    position: relative;
    height: 4px;
  }
 
- .ListInput__LoaderProgress {
+ .AlertModal__LoaderProgress {
    position: absolute;
    transition: background-color 500ms, width 500ms;
    background-color: colors.bg(colors.$primary);

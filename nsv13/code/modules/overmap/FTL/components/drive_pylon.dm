@@ -144,6 +144,7 @@
 					audible_message("<span class='warning'>\The [src] hisses quitely.</span>")
 				if(3)
 					audible_message("<span class='warning'>\The [src] lets out a metallic groan.</span>")
+				else
 		if(MAX_WASTE_STORAGE_PRESSURE/2 to MAX_WASTE_STORAGE_PRESSURE)
 			switch(rand(1, 20))
 				if(1)
@@ -158,6 +159,7 @@
 					audible_message(src, "<span class='alert'>You hear a high pitch hiss!</span>")
 				if(7)
 					playsound(src, 'sound/magic/clockwork/fellowship_armory.ogg', 100, TRUE)
+				else
 
 		if(MAX_WASTE_STORAGE_PRESSURE to INFINITY)
 			var/turf/T = get_turf(src)
