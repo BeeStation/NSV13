@@ -4,8 +4,6 @@
 	ASSERT(prefs)
 	var/mob/living/carbon/human/dummy/mannequin = generate_or_wait_for_human_dummy(DUMMY_HUMAN_SLOT_HOLOFORM)
 	prefs.active_character.copy_to(mannequin)
-//	if(apply_loadout && prefs.parent)
-//		SSjob.after_spawn(prefs.parent.mob, mannequin, bypass_prereqs = TRUE)
 	if(copy_job)
 		var/datum/job/highest = prefs.active_character.get_highest_job()
 		if(highest && !istype(highest, /datum/job/ai) && !istype(highest, /datum/job/cyborg))
