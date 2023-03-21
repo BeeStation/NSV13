@@ -308,7 +308,7 @@
 		path = get_path_to(src, patient, 30,id=access_card)
 		mode = BOT_MOVING
 		if(!path.len) //try to get closer if you can't reach the patient directly
-            path = get_path_to(src, patient, 30,1,id=access_card)
+			path = get_path_to(src, patient, 30,1,id=access_card)
 			if(!path.len) //Do not chase a patient we cannot reach.
 				soft_reset()
 
@@ -370,10 +370,10 @@
 			visible_message("<span class='notice'>[src] gives [H] a pat on the head to make [H.p_them()] feel better!</span>", \
 						"<span class='notice'>You give [src] a pat on the head to make [H.p_them()] feel better!</span>")
 			SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "headpat", /datum/mood_event/headpat)
-            if(S?.can_wag_tail(src) && !(S?.is_wagging_tail()))
-                var/static/list/many_tails
-                if(!many_tails)
-                    many_tails = list("tail_human", "tail_lizard", "mam_tail")
+			if(S?.can_wag_tail(src) && !(S?.is_wagging_tail()))
+				var/static/list/many_tails
+				if(!many_tails)
+					many_tails = list("tail_human", "tail_lizard", "mam_tail")
 				for(var/T in many_tails)
 					if(S.mutant_bodyparts[T] && H.dna.features[T] != "None")
 						H.emote("wag")
