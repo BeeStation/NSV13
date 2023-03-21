@@ -101,7 +101,7 @@ MAP_REMOVE_JOB(air_traffic_controller)
 // Lathe storage
 /obj/machinery/rnd/production/New()
 	. = ..()
-	base_storage *= 5
+	base_storage *= 2
 
 //Job Changes
 
