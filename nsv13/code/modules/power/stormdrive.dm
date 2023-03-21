@@ -522,6 +522,8 @@ Control Rods
 		AR.ambient_buzz = 'nsv13/sound/ambience/engineering.ogg'
 		if(reaction_rate <= 0)
 			reaction_rate = 5
+		SSblackbox.record_feedback("tally", "engine_stats", 1, "started")
+		SSblackbox.record_feedback("tally", "engine_stats", 1, "stormdrive")
 		return TRUE
 	return FALSE
 
@@ -1174,6 +1176,8 @@ Control Rods
 		sleep(10)
 		icon_state = "broken"
 		reactor_end_times = FALSE //We don't need this anymore
+		SSblackbox.record_feedback("tally", "engine_stats", 1, "failed")
+		SSblackbox.record_feedback("tally", "engine_stats", 1, "stormdrive")
 	else
 		warning_state = WARNING_STATE_NONE
 		reactor_end_times = FALSE
