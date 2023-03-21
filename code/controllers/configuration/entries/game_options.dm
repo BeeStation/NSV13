@@ -437,5 +437,3 @@
 /datum/config_entry/flag/spare_enforce_coc
 
 /datum/config_entry/flag/station_traits
-
-/datum/config_entry/flag/pai_custom_holoforms //NSV13 - AI Custom Holographic Form
