@@ -778,7 +778,7 @@
 	if(incapacitated())
 		return
 	var/input
-	switch(alert("Would you like to select a hologram based on a crew member, an animal, or switch to a unique avatar?",,"Crew Member","Unique","Animal","Robots")) //NSV13 - AI Bot Holographic Form
+	switch(alert("Would you like to select a hologram based on a crew member, an animal, or switch to a unique avatar?",,"Crew Member","Unique","Animal"))
 		if("Crew Member")
 			var/list/personnel_list = list()
 
