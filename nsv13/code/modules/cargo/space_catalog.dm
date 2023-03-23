@@ -1,5 +1,6 @@
 #define SORT_OF_CLOSE 20
 #define TOO_FAR 40
+#define UPDATE_COOLDOWN 2 MINUTES
 
 /obj/item/book/space_yellow_pages
 	unique = 1
@@ -58,7 +59,8 @@
 			T.stock_items()
 		dat += T.yellow_pages_dat
 
-	next_update = world.time + 10 MINUTES
+	next_update = world.time + UPDATE_COOLDOWN
 
 #undef SORT_OF_CLOSE
 #undef TOO_FAR
+#undef UPDATE_COOLDOWN
