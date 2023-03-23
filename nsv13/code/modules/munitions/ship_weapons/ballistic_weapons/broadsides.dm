@@ -49,13 +49,7 @@
 		/obj/item/stock_parts/matter_bin = 6,
 		/obj/item/ship_weapon/parts/firing_electronics = 1
 	)
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	build_path = /obj/machinery/ship_weapon/broadside
-
-/obj/item/circuitboard/machine/broadside/Destroy(force=FALSE)
-	if(!force)
-		return QDEL_HINT_LETMELIVE
-	return ..()
 
 /datum/ship_weapon/broadside
 	name = "SNBC"
