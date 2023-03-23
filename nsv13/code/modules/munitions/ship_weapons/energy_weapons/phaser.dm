@@ -89,7 +89,7 @@
 			LAZYREMOVE(weapon_type.weapons["loaded"] , src)
 
 /obj/machinery/ship_weapon/energy/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
-	for(var/I = FIRE_MODE_ANTI_AIR; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
+	for(var/I = FIRE_MODE_ANTI_AIR; I <= length(OM.weapon_types); I++) //We should ALWAYS default to PDCs.
 		var/datum/ship_weapon/SW = OM.weapon_types[I]
 		if(!SW)
 			continue

@@ -388,7 +388,7 @@
 	var/list/automated_weapons = list()
 	if ( weapon_types )
 		for( var/item in weapon_types )
-			var/datum/ship_weapon/W = item
+			var/datum/ship_weapon/W = weapon_types[item]
 			if ( W && W.autonomous && ( ai_controlled || W.can_fire() ) ) // Is W defined to avoid runtimes? Is it loaded? Is it enabled? Is it not broken?
 				automated_weapons += W // Weapons are prioritized by the order they are defined in overmap.dm. Only the first priority weapon will be fired for each mode
 

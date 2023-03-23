@@ -1,36 +1,29 @@
 //Weapon modes
 
-#define FIRE_MODE_ANTI_AIR 1
-#define FIRE_MODE_TORPEDO 2
+#define FIRE_MODE_ANTI_AIR "anti_air"
+#define FIRE_MODE_TORPEDO "torpedo"
 
 //Revision 2.
-#define FIRE_MODE_AMS_LASER 3 // Laser AMS should be fired before expensive missiles are fired, so this is prioritized first
-#define FIRE_MODE_AMS 4 //You don't get to physically fire this one.
-#define FIRE_MODE_MAC 5
-#define FIRE_MODE_RAILGUN 6
-#define FIRE_MODE_GAUSS 7
-#define FIRE_MODE_PDC 8
-#define FIRE_MODE_BROADSIDE 9
-#define FIRE_MODE_PHORON 10
-
-
+#define FIRE_MODE_AMS_LASER "laser_ams" // Laser AMS should be fired before expensive missiles are fired, so this is prioritized first
+#define FIRE_MODE_AMS "ams" //You don't get to physically fire this one.
+#define FIRE_MODE_MAC "mac"
+#define FIRE_MODE_RAILGUN "railgun"
+#define FIRE_MODE_GAUSS "gauss"
+#define FIRE_MODE_PDC "pdc"
+#define FIRE_MODE_BROADSIDE "broadside"
+#define FIRE_MODE_PHORON "phoron"
 
 //Deprecated / legacy weapons.
-
-
-#define FIRE_MODE_FLAK 11
-#define FIRE_MODE_MISSILE 12
-#define FIRE_MODE_FIGHTER_SLOT_ONE 13
-#define FIRE_MODE_FIGHTER_SLOT_TWO 14
+#define FIRE_MODE_FLAK "flak"
+#define FIRE_MODE_MISSILE "missile"
+#define FIRE_MODE_FIGHTER_SLOT_ONE "fighter_one"
+#define FIRE_MODE_FIGHTER_SLOT_TWO "fighter_two"
 
 //Special cases
-
-#define FIRE_MODE_RED_LASER 15
-#define FIRE_MODE_LASER_PD 16
-#define FIRE_MODE_BLUE_LASER 17
-#define FIRE_MODE_HYBRID_RAIL 18
-
-#define MAX_POSSIBLE_FIREMODE 18 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
+#define FIRE_MODE_RED_LASER "red_laser"
+#define FIRE_MODE_LASER_PD "laser_pd"
+#define FIRE_MODE_BLUE_LASER "blue_laser"
+#define FIRE_MODE_HYBRID_RAIL "hybrid_rail"
 
 //Weapon classes for AIs
 #define WEAPON_CLASS_LIGHT 1

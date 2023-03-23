@@ -24,7 +24,7 @@
 	fire_weapon(target)
 
 /obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=gunner, ai_aim=FALSE) //"Lateral" means that your ship doesnt have to face the target
-	var/datum/ship_weapon/SW = weapon_types[mode]
+	var/datum/ship_weapon/SW = weapon_types[weapon_types[mode]]
 	if(ghost_controlled) //Hook in our ghost ship functions
 		if(!SW.special_fire_proc)
 			var/uses_main_shot = FALSE

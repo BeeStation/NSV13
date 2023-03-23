@@ -123,7 +123,7 @@
 	var/obj/machinery/computer/ship/dradis/dradis //So that pilots can check the radar easily
 
 	// Ship weapons
-	var/list/weapon_types[MAX_POSSIBLE_FIREMODE]
+	var/list/weapon_types = list()
 	var/list/weapon_numkeys_map = list() // I hate this
 
 	var/fire_mode = FIRE_MODE_TORPEDO //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
@@ -435,7 +435,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	apply_weapons()
 	RegisterSignal(src, list(COMSIG_FTL_STATE_CHANGE, COMSIG_SHIP_KILLED), .proc/dump_locks) // Setup lockon handling
 	//We have a lot of types but not that many weapons per ship, so let's just worry about the ones we do have
-	for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
+	for(var/firemode = 1; firemode <= length(weapon_types); firemode++)
 		var/datum/ship_weapon/SW = weapon_types[firemode]
 		if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
 			weapon_numkeys_map += firemode
@@ -563,8 +563,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				gauss_gunners -= user
 	if(user != gunner)
 		if(user == pilot)
-			for(var/mode = 1; mode <= MAX_POSSIBLE_FIREMODE; mode++)
-				var/datum/ship_weapon/SW = weapon_types[mode] //For annoying ships like whisp
+			for(var/mode = 1; mode <= length(weapon_types); mode++)
+				var/mode_key = weapon_types[mode]
+				var/datum/ship_weapon/SW = weapon_types[mode_key] //For annoying ships like whisp
 				if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))
 					continue
 				var/list/loaded = SW?.weapons["loaded"]
