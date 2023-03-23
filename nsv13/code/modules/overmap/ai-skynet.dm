@@ -1658,7 +1658,7 @@ Seek a ship thich we'll station ourselves around
 		//So! now we pick a weapon.. We start off with PDCs, which have an effective range of "5". On ships with gauss, gauss will be chosen 90% of the time over PDCs, because you can fire off a PDC salvo anyway.
 		//Heavy weapons take ammo, stuff like PDC and gauss do NOT for AI ships. We make decisions on the fly as to which gun we get to shoot. If we've run out of ammo, we have to resort to PDCs only.
 		for(var/I = 1; I <= length(weapon_types); I++) //We should ALWAYS default to PDCs.
-			var/datum/ship_weapon/SW = weapon_types[I]
+			var/datum/ship_weapon/SW = weapon_types[weapon_types[I]]
 			if(!SW)
 				continue
 			var/distance = target_range - SW.range_modifier //How close to the effective range of the given weapon are we?
@@ -1687,16 +1687,16 @@ Seek a ship thich we'll station ourselves around
 				new_firemode = I
 				best_distance = distance
 		if(!weapon_types[new_firemode]) //I have no physical idea how this even happened, but ok. Sure. If you must. If you REALLY must. We can do this, Sarah. We still gonna do this? It's been 5 years since the divorce, can't you just let go?
-			new_firemode = FIRE_MODE_GAUSS
-		if(new_firemode != FIRE_MODE_GAUSS && current_system) //If we're not on PDCs, let's fire off some PDC salvos while we're busy shooting people. This is still affected by weapon cooldowns so that they lay off on their target a bit.
-			var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_GAUSS]
+			new_firemode = weapon_types[1]
+		if((new_firemode != FIRE_MODE_PDC) && (FIRE_MODE_PDC in weapon_types) && current_system) //If we're not on PDCs, let's fire off some PDC salvos while we're busy shooting people. This is still affected by weapon cooldowns so that they lay off on their target a bit.
+			var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_PDC]
 			if(SW)
 				for(var/obj/structure/overmap/ship in current_system.system_contents)
 					if(warcrime_blacklist[ship.type])
 						continue
 					if(!ship || QDELETED(ship) || ship == src || overmap_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
 						continue
-					if(fire_weapon(ship, FIRE_MODE_GAUSS, ai_aim=TRUE))
+					if(fire_weapon(ship, FIRE_MODE_PDC, ai_aim=TRUE))
 						SW.next_firetime += SW.ai_fire_delay
 					break
 		fire_mode = new_firemode
@@ -1732,7 +1732,7 @@ Seek a ship thich we'll station ourselves around
 		if(iter == FIRE_MODE_AMS || iter == FIRE_MODE_FLAK)
 			continue	//These act independantly
 		var/will_use_ammo = FALSE
-		var/datum/ship_weapon/SW = weapon_types[iter]
+		var/datum/ship_weapon/SW = weapon_types[weapon_types[iter]]
 		if(!SW)
 			continue
 		if(!SW.next_firetime)
