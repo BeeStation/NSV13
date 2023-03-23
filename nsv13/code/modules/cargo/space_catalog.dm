@@ -54,9 +54,10 @@
 		if(dist > SORT_OF_CLOSE && prob(50))
 			continue
 
-		// Add the station to the buffer
-		if(!length(T.stonks))
+		// Don't ask me why len worked but length() didn't
+		if(!T.stonks.len)
 			T.stock_items()
+		// Add the station to the buffer
 		dat += T.yellow_pages_dat
 
 	next_update = world.time + UPDATE_COOLDOWN
