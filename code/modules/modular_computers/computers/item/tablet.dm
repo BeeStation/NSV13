@@ -333,6 +333,11 @@
 	/// If the PDA has been picked up / equipped before. This is used to set the user's preference background color / theme.
 	var/equipped = FALSE
 
+	///NSV13 - Holomap - Start
+	var/datum/component/holomap/holo_base = null //holomap component
+	var/datum/action/toggle_holomap/useless //Useless thingy meant for to be used for nothing more than deleting the action if it already exists
+	///NSV13 - Holomap - Stop
+
 /obj/item/modular_computer/tablet/pda/send_sound()
 	if(HAS_TRAIT(SSstation, STATION_TRAIT_PDA_GLITCHED))
 		playsound(src, pick('sound/machines/twobeep_voice1.ogg', 'sound/machines/twobeep_voice2.ogg'), 15, TRUE)
@@ -389,3 +394,17 @@
 		inserted_item = new insert_type(src)
 		// show the inserted item
 		update_icon()
+
+	///NSV13 - Holomap - Start
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/item/modular_computer/tablet/pda/LateInitialize()
+	. = ..()
+	apply_holomap()
+
+/obj/item/modular_computer/tablet/pda/proc/apply_holomap()
+	if(holo_base)
+		holo_base.RemoveComponent()
+		QDEL_NULL(holo_base)
+	AddComponent(/datum/component/holomap)
+	///NSV13 - Holomap - Stop
