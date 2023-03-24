@@ -6,7 +6,7 @@ import { Box, Button, LabeledList, NumberInput, Section, Table, Input } from '..
 import { Window } from '../layouts';
 import { createSearch } from 'common/string';
 
-export const SystemManager = (props, context) => {
+export const StarsystemManager = (props, context) => {
   const { act, data } = useBackend(context);
 
   const [
@@ -54,8 +54,12 @@ export const SystemManager = (props, context) => {
             onClick={() => act('createFleet', { sys_id: system.sys_id })} />
           <Button
             content={"Create object"}
-            icon={"hammer"}
+            icon={"sun"}
             onClick={() => act('createObject', { sys_id: system.sys_id })} />
+          <Button
+            content={"Variables"}
+            icon="eye"
+            onClick={() => act('systemVV', { sys_id: system.sys_id })} />
         </Fragment>
       }>
         Alignment: {system.alignment}<br />
