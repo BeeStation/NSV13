@@ -124,7 +124,7 @@
 			var/obj/structure/overmap/target = locate(params["id"])
 			if(!istype(target))
 				return
-			var/command = alert("What do you want to do with [target]?", "Starsystem Management", "Jump", "Hail", "Delete", "Cancel")
+			var/command = alert("What do you want to do with [target]?", "Starsystem Management", "Jump", "Hail", "Edit", "Cancel")
 			if(!command || command == "Cancel")
 				return FALSE
 			if(command == "Jump")
@@ -152,9 +152,15 @@
 				if(!message || !from)
 					return FALSE
 				target.hail(message, from)
-			if(command == "Delete")
-				usr.client.cmd_admin_delete(target)
-			if(command == "VV")
+			if(command == "Edit")
+				var/inner_command = alert("What do you want to do with [target]?", "Starsystem Management", "Variables", "Delete", "Cancel")
+				if(!inner_command || inner_command == "Cancel")
+					return FALSE
+				if(inner_command == "Variables")
+					usr.client.debug_variables(target)
+				if(inner_command == "Delete")
+					usr.client.cmd_admin_delete(target)
+			if(command == "Variables")
 				usr.client.debug_variables(target)
 		if("systemVV")
 			var/datum/star_system/target = locate(params["sys_id"])
