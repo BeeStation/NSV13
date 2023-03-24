@@ -83,7 +83,7 @@
 			var/datum/fleet/target = locate(params["id"])
 			if(!istype(target))
 				return
-			var/command = alert("What do you want to do with [target]?", "Starsystem Management", "Jump", "Delete", "Cancel")
+			var/command = alert("What do you want to do with [target]?", "Starsystem Management", "Jump", "Delete", "Variables", "Cancel")
 			if(!command || command == "Cancel")
 				return FALSE
 			if(command == "Jump")
@@ -94,6 +94,8 @@
 				target.move(sys, TRUE)
 			if(command == "Delete")
 				usr.client.cmd_admin_delete(target)
+			if(command == "Variables")
+				usr.client.debug_variables(target)
 		if("createFleet")
 			var/datum/star_system/target = locate(params["sys_id"])
 			if(!istype(target))
