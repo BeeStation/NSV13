@@ -54,7 +54,7 @@ export const StarsystemManager = (props, context) => {
             onClick={() => act('createObject', { sys_id: system.sys_id })} />
           <Button
             content={"Variables"}
-            icon="eye"
+            icon={"eye"}
             onClick={() => act('systemVV', { sys_id: system.sys_id })} />
         </Fragment>
       }>
