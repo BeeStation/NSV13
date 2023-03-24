@@ -91,6 +91,9 @@ GLOBAL_LIST_EMPTY(PDAs)
 
 	var/underline_flag = TRUE //flag for underline
 
+	var/datum/component/holomap/holo_base = null //holomap component
+	var/datum/action/toggle_holomap/useless //Useless thingy meant for to be used for nothing more than deleting the action if it already exists
+
 /obj/item/pda/suicide_act(mob/living/carbon/user)
 	var/deathMessage = msg_input(user)
 	if (!deathMessage)
@@ -124,6 +127,17 @@ GLOBAL_LIST_EMPTY(PDAs)
 	else
 		inserted_item =	new /obj/item/pen(src)
 	update_icon()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/item/pda/LateInitialize()
+	. = ..()
+	apply_holomap()
+
+/obj/item/pda/proc/apply_holomap()
+	if(holo_base)
+		holo_base.RemoveComponent()
+		QDEL_NULL(holo_base)
+	AddComponent(/datum/component/holomap) //NSV13
 
 /obj/item/pda/equipped(mob/user, slot)
 	. = ..()
