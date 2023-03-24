@@ -83,8 +83,8 @@
 			var/datum/fleet/target = locate(params["id"])
 			if(!istype(target))
 				return
-			var/command = alert("What do you want to do with [target]?", "Starsystem Management", "Jump", "Delete", "Variables", "Cancel")
-			if(!command || command == "Cancel")
+			var/command = tgui_alert(usr, "What do you want to do with [target]?", "Starsystem Management", list("Jump", "Variables", "Delete"))
+			if(!command)
 				return FALSE
 			if(command == "Jump")
 				var/datum/star_system/sys = input(usr, "Select a jump target for [target]...","Fleet Management", null) as null|anything in SSstar_system.systems
@@ -126,8 +126,8 @@
 			var/obj/structure/overmap/target = locate(params["id"])
 			if(!istype(target))
 				return
-			var/command = alert("What do you want to do with [target]?", "Starsystem Management", "Jump", "Hail", "Edit", "Cancel")
-			if(!command || command == "Cancel")
+			var/command = tgui_alert(usr, "What do you want to do with [target]?", "Starsystem Management", list("Jump", "Hail", "Delete", "Variables"))
+			if(!command)
 				return FALSE
 			if(command == "Jump")
 				var/datum/star_system/sys = input(usr, "Select a jump target for [target]...","Fleet Management", null) as null|anything in SSstar_system.systems
@@ -154,16 +154,10 @@
 				if(!message || !from)
 					return FALSE
 				target.hail(message, from)
-			if(command == "Edit")
-				var/inner_command = alert("What do you want to do with [target]?", "Starsystem Management", "Variables", "Delete", "Cancel")
-				if(!inner_command || inner_command == "Cancel")
-					return FALSE
-				if(inner_command == "Variables")
-					usr.client.debug_variables(target)
-				if(inner_command == "Delete")
-					usr.client.cmd_admin_delete(target)
 			if(command == "Variables")
 				usr.client.debug_variables(target)
+			if(command == "Delete")
+				usr.client.cmd_admin_delete(target)
 		if("systemVV")
 			var/datum/star_system/target = locate(params["sys_id"])
 			if(!istype(target))
