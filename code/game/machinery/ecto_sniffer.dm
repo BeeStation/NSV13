@@ -46,7 +46,6 @@
 	var/msg = "[src] beeps, detecting ectoplasm! There may be additional positronic brain matrices available!"
 	radio.talk_into(src, msg, RADIO_CHANNEL_SCIENCE)
 	//NSV13 - Ecto Sniffer Radio Yelling - Stop
-	visible_message("<span class='notice'></span>")
 	use_power(10)
 	if(activator?.ckey)
 		ectoplasmic_residues[activator.ckey] = TRUE
