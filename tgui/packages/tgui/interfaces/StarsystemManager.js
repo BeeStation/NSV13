@@ -18,10 +18,6 @@ export const StarsystemManager = (props, context) => {
     return item;
   });
 
-  const filterSearch = system => {
-    return Search(system.name);
-  };
-
   const makeFleetButton = fleet => {
     return (
       <Button key={fleet}
@@ -93,7 +89,10 @@ export const StarsystemManager = (props, context) => {
       } />
   );
 
-  let Systems = (data.systems_info).filter(filterSearch).map(makeSystem);
+  let searchSystems = (data.systems_info).filter(system => Search(system.name)).map(makeSystem);
+  let searchObjects = (data.systems_info).filter(system => system.objects.some(obj => Search(obj.name))).map(makeSystem);
+  let searchFleets = (data.systems_info).filter(system => system.fleets.some(obj => Search(obj.name))).map(makeSystem);
+  let Systems = searchSystems.concat(searchObjects.concat(searchFleets));
   return (
     <Window
       resizable
