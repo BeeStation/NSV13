@@ -65,7 +65,7 @@
 	var/owner = null
 
 /datum/trader_item/proc/on_purchase(obj/structure/overmap/OM)
-	. = OM.send_supplypod(unlock_path)
+	return OM.send_supplypod(unlock_path)
 
 /obj/structure/overmap/proc/send_supplypod(unlock_path, var/obj/structure/overmap/courier, isInitialized)
 	RETURN_TYPE(/atom/movable)
