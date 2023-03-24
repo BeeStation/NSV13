@@ -48,8 +48,8 @@
 				fleet_info["color"] = "bad"
 			else
 				fleet_info["color"] = null
-			var/list/fuckYouDreamChecker = sys_inf["fleets"]
-			fuckYouDreamChecker[++fuckYouDreamChecker.len] = fleet_info
+			var/list/outer_list = sys_inf["fleets"]
+			outer_list[++outer_list.len] = fleet_info
 		sys_inf["objects"] = list()
 		for(var/obj/object in (SS.system_contents))
 			var/list/overmap_info = list()
@@ -69,8 +69,8 @@
 				overmap_info["id"] = "\ref[object]"
 				overmap_info["color"] = null
 			if(length(overmap_info))
-				var/list/fuckYouDreamChecker = sys_inf["objects"]
-				fuckYouDreamChecker[++fuckYouDreamChecker.len] = overmap_info
+				var/list/outer_list = sys_inf["objects"]
+				outer_list[++outer_list.len] = overmap_info
 		systems_info[++systems_info.len] = sys_inf
 	data["systems_info"] = systems_info
 	return data
