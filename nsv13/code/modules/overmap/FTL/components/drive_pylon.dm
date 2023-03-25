@@ -121,8 +121,6 @@
 				set_state(PYLON_STATE_SHUTDOWN)
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/power_drain()
-	if(power_draw)
-		return TRUE
 	var/turf/T = get_turf(src)
 	if(!cable || cable.loc != loc)
 		cable = T.get_cable_node()
