@@ -71,6 +71,9 @@
 	pylons = null
 	return ..()
 
+/obj/machinery/computer/ship/ftl_core/swarmer_act()
+	return FALSE
+
 /// Links with available pylons and returns number of connections
 /obj/machinery/computer/ship/ftl_core/proc/get_pylons()
 	var/obj/structure/overmap/OMcache = get_overmap()

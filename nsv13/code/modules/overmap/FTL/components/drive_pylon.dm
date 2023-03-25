@@ -22,6 +22,7 @@
 	anchored = TRUE
 	idle_power_usage = 500
 	layer = ABOVE_MOB_LAYER
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	var/link_id = "default"
 	var/gyro_speed = 0
 	var/req_gyro_speed = 25
@@ -45,6 +46,9 @@
 	update_visuals(FALSE)
 	air_contents = new(3000)
 	air_contents.set_temperature(T20C)
+
+/obj/machinery/atmospherics/components/binary/drive_pylon/swarmer_act()
+	return FALSE
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/process()
 	if(!on)

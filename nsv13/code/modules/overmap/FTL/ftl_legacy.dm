@@ -48,6 +48,9 @@
 		else
 			to_chat(user, "<span class='notice'>[src] has already been upgraded to a higher tier than [FI] can offer.</span>")
 
+/obj/machinery/computer/ship/ftl_computer/swarmer_act(mob/living/simple_animal/hostile/swarmer/S)
+	return FALSE
+
 /obj/machinery/computer/ship/ftl_computer/vv_edit_var(var_name, var_value)
 	. = ..()
 	if(var_name == "tier")
