@@ -47,7 +47,7 @@
 	air_contents = new(3000)
 	air_contents.set_temperature(T20C)
 
-/obj/machinery/atmospherics/components/binary/drive_pylon/swarmer_act()
+/obj/machinery/atmospherics/components/binary/drive_pylon/swarmer_act(mob/living/simple_animal/hostile/swarmer/S)
 	to_chat(S, "<span class='warning'>This equipment should be preserved, it will be a useful resource to our masters in the future. Aborting.</span>")
 	S.LoseTarget()
 	return FALSE
