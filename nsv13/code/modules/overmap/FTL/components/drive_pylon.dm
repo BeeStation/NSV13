@@ -48,6 +48,8 @@
 	air_contents.set_temperature(T20C)
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/swarmer_act()
+	to_chat(S, "<span class='warning'>This equipment should be preserved, it will be a useful resource to our masters in the future. Aborting.</span>")
+	S.LoseTarget()
 	return FALSE
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/process()

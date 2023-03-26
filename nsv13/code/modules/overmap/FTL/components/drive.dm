@@ -72,6 +72,8 @@
 	return ..()
 
 /obj/machinery/computer/ship/ftl_core/swarmer_act()
+	to_chat(S, "<span class='warning'>This equipment should be preserved, it will be a useful resource to our masters in the future. Aborting.</span>")
+	S.LoseTarget()
 	return FALSE
 
 /// Links with available pylons and returns number of connections
