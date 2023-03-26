@@ -93,7 +93,11 @@
 				message_admins("[key_name(usr)] forced [target] to jump to [sys].")
 				target.move(sys, TRUE)
 			if(command == "Delete")
+				var/list/all_ships = target.all_ships
+				// Do the fleet first then the ships so the announcement doesn't trigger
 				usr.client.cmd_admin_delete(target)
+				for(var/obj/structure/overmap/OM as() in all_ships)
+					qdel(OM)
 			if(command == "Variables")
 				usr.client.debug_variables(target)
 		if("createFleet")
