@@ -90,7 +90,7 @@
 /mob/living/simple_animal/mouse/handle_automated_action()
 	if(prob(chew_probability))
 		var/turf/open/floor/F = get_turf(src)
-		if(istype(F) && !F.intact && !(locate(/obj/structure/lattice/catwalk) in T)) // NSV13 - Do not eat wires through catwalks
+		if(istype(F) && !F.intact && !(locate(/obj/structure/lattice/catwalk) in F)) // NSV13 - Do not eat wires through catwalks
 			var/obj/structure/cable/C = locate() in F
 			if(C && prob(15))
 				if(C.avail())
