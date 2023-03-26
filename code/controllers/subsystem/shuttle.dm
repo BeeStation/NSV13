@@ -138,6 +138,10 @@ SUBSYSTEM_DEF(shuttle)
 	if(!threshold)
 		return
 
+	// NSV13 - additional checks here
+	if(emergency.timeLeft(1) < emergencyCallTime * 0.5 && emergency.timer)
+		return
+
 	var/alive = 0
 	for(var/I in GLOB.player_list)
 		var/mob/M = I
@@ -149,14 +153,23 @@ SUBSYSTEM_DEF(shuttle)
 		return //no players no autoevac
 
 	if(alive / total <= threshold)
-		var/msg = "Automatically dispatching emergency shuttle due to crew death."
-		message_admins(msg)
-		log_game("[msg] Alive: [alive], Roundstart: [total], Threshold: [threshold]")
-		emergencyNoRecall = TRUE
-		priority_announce("Catastrophic casualties detected: crisis shuttle protocols activated - jamming recall signals across all frequencies.", sound = SSstation.announcer.get_rand_alert_sound())
-		//NSV13 - made the shuttle get called if it hasn't been called yet
-		if((emergency.timeLeft(1) > emergencyCallTime * 0.4) || !emergency.timer)
-			emergency.request(null, set_coefficient = 0.4)
+		var/msg
+		// NSV13 - If the dead can't vote, just call the shuttle. Don't jam recalls.
+		// If they can, make sure the security level will get the shuttle here quickly and do a transfer vote.
+		if(CONFIG_GET(flag/no_dead_vote))
+			emergency.request(null, set_coefficient = 0.5)
+			msg = "Automatically dispatching emergency shuttle due to crew death."
+			priority_announce("Catastrophic casualties detected: crisis shuttle protocols activated.", sound = SSstation.announcer.get_rand_alert_sound())
+		else
+			if(GLOB.security_level < SEC_LEVEL_RED)
+				set_security_level(SEC_LEVEL_RED)
+			if(SSvote.mode != "transfer")
+				SSvote.initiate_vote("transfer", "Crisis Protocols", forced=TRUE, popup=FALSE)
+				msg = "Automatically initiating transfer vote due to crew death."
+				priority_announce("Catastrophic casualties detected: crisis shuttle protocols activated.", sound = SSstation.announcer.get_rand_alert_sound())
+		if(msg)
+			message_admins(msg)
+			log_game("[msg] Alive: [alive], Roundstart: [total], Threshold: [threshold]")
 
 /datum/controller/subsystem/shuttle/proc/block_recall(lockout_timer)
 	emergencyNoRecall = TRUE
