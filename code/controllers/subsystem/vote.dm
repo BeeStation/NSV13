@@ -135,6 +135,18 @@ SUBSYSTEM_DEF(vote)
 	else
 		text += "<b>Vote Result: Inconclusive - No Votes!</b>"
 	log_vote(text)
+	// NSV13 - record who voted for what during the map vote
+	if(mode == "map")
+		var/ckeys_by_choice = list()
+		for(var/ckey in choice_by_ckey)
+			var/choice_index = choice_by_ckey[ckey]
+			var/choice_name = choices[choice_index]
+			if(!(choice_name in ckeys_by_choice))
+				ckeys_by_choice[choice_name] = list()
+			ckeys_by_choice[choice_name] += ckey
+		for(var/choice in ckeys_by_choice)
+			log_vote("[choice]: [english_list(ckeys_by_choice[choice])]")
+		SSpersistence.SaveMapVoters(voted)
 	remove_action_buttons()
 	to_chat(world, "\n<font color='purple'>[text]</font>")
 	return .
@@ -154,6 +166,7 @@ SUBSYSTEM_DEF(vote)
 			if("map")
 				SSmapping.changemap(global.config.maplist[.])
 				SSmapping.map_voted = TRUE
+				SStgui.close_uis(src) // NSV13 - close any current Vote UIs so the normal one comes back
 			if("transfer")
 				if(. == "Initiate Crew Transfer")
 					SSshuttle.requestEvac(null, "Crew Transfer Requested.")
@@ -238,6 +251,7 @@ SUBSYSTEM_DEF(vote)
 					shuffle_inplace(maps)
 				for(var/valid_map in maps)
 					choices.Add(valid_map)
+				SStgui.close_uis(src) // NSV13 - close any current Vote UIs so they have to reopen and get the alternate UI
 			if("transfer")
 				choices.Add("Initiate Crew Transfer", "Continue Playing")
 			if("Press On Or Return Home?") //NSV13 - Round extension vote
@@ -300,7 +314,10 @@ SUBSYSTEM_DEF(vote)
 		voting += user.client?.ckey
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
-		ui = new(user, src, "Vote")
+		if(mode == "map") // NSV13 - special mapvote UI
+			ui = new(user, src, "MapVote")
+		else
+			ui = new(user, src, "Vote")
 		ui.open()
 
 /datum/controller/subsystem/vote/ui_data(mob/user)
@@ -320,12 +337,13 @@ SUBSYSTEM_DEF(vote)
 		"avr" = CONFIG_GET(flag/allow_vote_restart),
 		"selectedChoice" = choice_by_ckey[user.client?.ckey],
 		"upper_admin" = check_rights_for(user.client, R_ADMIN),
+		"mapvote_banned" = is_banned_from(user.ckey, "Mapvote"), // NSV13 - added mapvote bans
 	)
 
 	for(var/key in choices)
 		data["choices"] += list(list(
 			"name" = key,
-			"votes" = choices[key] || 0
+			"votes" = choices[key] || 0,
 		))
 
 	return data
@@ -361,7 +379,7 @@ SUBSYSTEM_DEF(vote)
 				initiate_vote("gamemode",usr.key)
 		if("map")
 			if(CONFIG_GET(flag/allow_vote_map) || usr.client.holder)
-				initiate_vote("map",usr.key)
+				initiate_vote("map",usr.key,popup=TRUE)
 		if("custom")
 			if(usr.client.holder)
 				initiate_vote("custom",usr.key)

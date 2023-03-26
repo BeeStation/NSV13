@@ -172,7 +172,12 @@
 	var/static/list/free_treadmills = list()
 	var/static/list/free_boarding_levels = list()
 	var/starting_system = null //Where do we start in the world?
-	var/obj/machinery/computer/ship/ftl_computer/ftl_drive
+
+	// Large/Modern ships will use the modular FTL core. But the proc names and args are aligned so BYOND lets us use either object as just one object path
+	// It's terrible I know, but until we decide/are bothered enough to throw out the legacy drive (or subtype it), this'll have to do
+	var/obj/machinery/computer/ship/ftl_core/ftl_drive
+
+
 	var/reserved_z = 0 //The Z level we were spawned on, and thus inhabit. This can be changed if we "swap" positions with another ship.
 	var/list/occupying_levels = list() //Refs to the z-levels we own for setting parallax and that, or for admins to debug things when EVERYTHING INEVITABLY BREAKS
 	var/torpedo_type = /obj/item/projectile/guided_munition/torpedo
@@ -497,6 +502,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		Cinematic(CINEMATIC_NSV_SHIP_KABOOM,world)
 		SSticker.mode.check_finished(TRUE)
 		SSticker.news_report = SHIP_DESTROYED
+		SSblackbox.record_feedback("text", "nsv_endings", 1, "destroyed")
 		SSticker.force_ending = 1
 	SEND_SIGNAL(src,COMSIG_SHIP_KILLED)
 	QDEL_LIST(current_tracers)
@@ -798,7 +804,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		if(ignore_self)
 			if(ship == src)
 				continue
-		if(z != ship.z)	//If we aren't on the same z level this shouldn't be happening.
+		if(ship?.current_system != current_system)	//If we aren't in the same system this shouldn't be happening.
 			continue
 		if(get_dist(src, ship) <= sound_range) //Sound doesnt really travel in space, but space combat with no kaboom is LAME
 			if(faction_check)
