@@ -1,10 +1,9 @@
-// NSV13 Changes - Start
+// NSV13 Changes have been made to this file.
 import { flow } from 'common/fp';
 import { filter, sortBy } from 'common/collections';
 import { toArray } from 'common/collections';
 import { useBackend, useSharedState } from '../backend';
 import { AnimatedNumber, Box, Button, Flex, Icon, Input, RestrictedInput, LabeledList, NoticeBox, Section, Stack, Table, Tabs } from '../components';
-// NSV13 Changes - Stop - Added , flow, filter, sortBy, Icon, Input, RestrictedInput, NoticeBox, Stack
 import { formatMoney } from '../format';
 import { Window } from '../layouts';
 
@@ -46,7 +45,6 @@ export const CargoContent = (props, context) => {
             Requests ({requests.length})
           </Tabs.Tab>
           {!requestonly && (
-            // NSV13 Changes - Start
             <>
               <Tabs.Tab
                 icon="shopping-cart"
@@ -62,7 +60,6 @@ export const CargoContent = (props, context) => {
                 Help
               </Tabs.Tab>
             </>
-            // NSV13 Changes - Stop
           )}
         </Tabs>
       </Section>
@@ -76,7 +73,6 @@ export const CargoContent = (props, context) => {
         <CargoCart />
       )}
       {tab === 'help' && (
-      // NSV13 Changes - Added Help section
         <CargoHelp />
       )}
     </Box>
@@ -138,7 +134,6 @@ const CargoStatus = (props, context) => {
   );
 };
 
-// NSV13 Changes - Start
 /**
  * Take entire supplies tree
  * and return a flat supply pack list that matches search,
@@ -159,7 +154,6 @@ const searchForSupplies = (supplies, search) => {
     packs => packs.slice(0, 25),
   ])(supplies);
 };
-// NSV13 Changes - Stop
 
 export const CargoCatalog = (props, context) => {
   const {
@@ -177,7 +171,6 @@ export const CargoCatalog = (props, context) => {
     activeSupplyName,
     setActiveSupplyName,
   ] = useSharedState(context, 'supply', supplies[0]?.name);
-  // NSV13 Changes - Start
   const [
     searchText,
     setSearchText,
@@ -186,7 +179,6 @@ export const CargoCatalog = (props, context) => {
   const activeSupply = activeSupplyName === "search_results"
     ? { packs: searchForSupplies(supplies, searchText) }
     : supplies.find(supply => supply.name === activeSupplyName);
-  // NSV13 Changes - Stop
 
   return (
     <Section
@@ -511,7 +503,6 @@ const CargoCart = (props, context) => {
   );
 };
 
-// NSV13 Changes - Start
 const CargoHelp = (props, context) => {
   return (
     <>
@@ -551,4 +542,3 @@ const CargoHelp = (props, context) => {
     </>
   );
 };
-// NSV13 Changes - Stop
