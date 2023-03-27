@@ -447,25 +447,6 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
-"cg" = (
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
-/obj/effect/turf_decal/guideline/guideline_out/yellow{
-	dir = 4
-	},
-/obj/effect/turf_decal/guideline/guideline_in/brown{
-	color = "#FF7F00";
-	dir = 4
-	},
-/turf/open/floor/monofloor{
-	dir = 8
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "ck" = (
 /obj/structure/closet/radiation{
 	anchored = 1
@@ -516,6 +497,14 @@
 	},
 /turf/open/floor/carpet/black,
 /area/crew_quarters/nsv/observation{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
+"ct" = (
+/obj/machinery/vending/job_disk,
+/turf/open/floor/plasteel/ridged/steel,
+/area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
@@ -916,17 +905,6 @@
 	},
 /turf/open/floor/plating,
 /area/storage/tech)
-"eg" = (
-/obj/effect/turf_decal/guideline/guideline_out/blue,
-/obj/effect/turf_decal/guideline/guideline_in/red,
-/turf/open/floor/monofloor{
-	dir = 1
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "ei" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
@@ -1058,22 +1036,6 @@
 	},
 /turf/open/openspace,
 /area/shuttle/turbolift/tertiary)
-"eU" = (
-/obj/effect/turf_decal/guideline/guideline_out/yellow{
-	dir = 4
-	},
-/obj/effect/turf_decal/guideline/guideline_in/brown{
-	color = "#FF7F00";
-	dir = 4
-	},
-/turf/open/floor/monofloor{
-	dir = 8
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "eV" = (
 /obj/structure/cable/green{
 	icon_state = "4-8"
@@ -1198,6 +1160,16 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"fw" = (
+/obj/structure/fighter_launcher{
+	dir = 1
+	},
+/obj/effect/turf_decal/delivery,
+/obj/structure/overmap/small_craft/transport/sabre/mining{
+	random_name = 0
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/space/nearstation)
 "fx" = (
 /obj/structure/table/reinforced,
 /obj/item/ammo_box/magazine/glock/lethal{
@@ -1270,25 +1242,6 @@
 	},
 /turf/open/floor/plating,
 /area/engine/storage)
-"fJ" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 4
-	},
-/obj/effect/turf_decal/guideline/guideline_out/yellow{
-	dir = 4
-	},
-/obj/effect/turf_decal/guideline/guideline_in/brown{
-	color = "#FF7F00";
-	dir = 4
-	},
-/turf/open/floor/monofloor{
-	dir = 8
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "fK" = (
 /turf/open/floor/plasteel/dark,
 /area/security/locker_room)
@@ -1562,21 +1515,6 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/miningdock)
-"gS" = (
-/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/blue{
-	dir = 1
-	},
-/turf/open/floor/monofloor{
-	dir = 4
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "gV" = (
 /obj/structure/cable/green{
 	icon_state = "4-8"
@@ -1597,6 +1535,13 @@
 /obj/effect/landmark/blobstart,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
+"gY" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	name = "Engineering Wing";
+	req_one_access_txt = "10;24"
+	},
+/turf/open/floor/durasteel,
+/area/engine/stormdrive/monitor)
 "gZ" = (
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel,
 /turf/open/floor/monotile/dark/airless,
@@ -1615,6 +1560,21 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"hc" = (
+/obj/structure/table/glass,
+/obj/item/flashlight/lamp{
+	pixel_x = -1;
+	pixel_y = 14
+	},
+/obj/item/stamp/captain{
+	pixel_x = -5;
+	pixel_y = 4
+	},
+/obj/item/disk/nuclear{
+	pixel_x = 6
+	},
+/turf/open/floor/carpet/black,
+/area/crew_quarters/heads/captain/private)
 "hd" = (
 /obj/structure/disposalpipe/segment{
 	dir = 10
@@ -1678,18 +1638,6 @@
 /obj/item/gun/ballistic/automatic/pistol/glock,
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/security/armory)
-"hl" = (
-/obj/machinery/door/airlock/ship/public,
-/obj/effect/turf_decal/guideline/guideline_in/brown{
-	color = "#FF7F00";
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "hr" = (
 /obj/machinery/ship_weapon/gauss_gun,
 /turf/open/floor/engine/airless,
@@ -1718,12 +1666,47 @@
 "hy" = (
 /turf/closed/wall/ship,
 /area/storage/tech)
+"hC" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_out/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
+/turf/open/floor/monofloor{
+	dir = 8
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "hD" = (
 /obj/structure/closet/firecloset{
 	anchored = 1
 	},
 /turf/open/floor/plasteel/white/side,
 /area/medical/medbay/zone2)
+"hG" = (
+/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/brown{
+	color = "#FF7F00";
+	dir = 8
+	},
+/turf/open/floor/monofloor{
+	dir = 8
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "hK" = (
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 4
@@ -1754,20 +1737,6 @@
 	},
 /turf/open/floor/plating,
 /area/engine/storage)
-"hT" = (
-/obj/machinery/airalarm/directional/south,
-/obj/effect/turf_decal/guideline/guideline_out/blue{
-	dir = 9
-	},
-/obj/effect/turf_decal/guideline/guideline_in/red{
-	dir = 9
-	},
-/turf/open/floor/monofloor,
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "hV" = (
 /turf/open/floor/durasteel/alt,
 /area/engine/storage)
@@ -1908,31 +1877,6 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/miningoffice)
-"ix" = (
-/obj/structure/table/glass,
-/obj/item/storage/bag/tray,
-/obj/item/reagent_containers/food/snacks/raisincookie{
-	pixel_x = 4;
-	pixel_y = -4
-	},
-/obj/item/reagent_containers/food/snacks/raisincookie,
-/obj/item/reagent_containers/food/snacks/cookie{
-	pixel_y = -8
-	},
-/obj/item/reagent_containers/food/snacks/cookie{
-	pixel_x = -5;
-	pixel_y = -5
-	},
-/obj/item/reagent_containers/food/snacks/raisincookie{
-	pixel_x = 2;
-	pixel_y = -2
-	},
-/turf/open/floor/carpet/black,
-/area/crew_quarters/nsv/observation{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "iz" = (
 /obj/machinery/camera/autoname{
 	dir = 1
@@ -1976,6 +1920,29 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/starboard)
+"iO" = (
+/obj/machinery/light{
+	color = "#c1e1ff";
+	dir = 8
+	},
+/obj/structure/sign/directions/evac{
+	pixel_x = -30
+	},
+/obj/effect/turf_decal/guideline/guideline_out/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
+/turf/open/floor/monofloor{
+	dir = 8
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "iP" = (
 /obj/item/radio/intercom/directional/west,
 /turf/open/floor/plating,
@@ -2043,26 +2010,23 @@
 	},
 /turf/open/floor/durasteel,
 /area/crew_quarters/dorms)
-"jl" = (
-/turf/open/floor/carpet/black,
-/area/crew_quarters/dorms)
-"jr" = (
-/obj/machinery/light{
-	color = "#c1e1ff";
+"jk" = (
+/obj/machinery/door/airlock/ship/public,
+/obj/effect/turf_decal/guideline/guideline_out/blue{
 	dir = 8
 	},
-/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/brown{
-	color = "#FF7F00";
+/obj/effect/turf_decal/guideline/guideline_in/red{
 	dir = 8
 	},
-/turf/open/floor/monofloor{
-	dir = 8
-	},
+/turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"jl" = (
+/turf/open/floor/carpet/black,
+/area/crew_quarters/dorms)
 "jt" = (
 /obj/structure/table/reinforced,
 /obj/structure/window/reinforced/spawner/west,
@@ -2112,6 +2076,25 @@
 /obj/item/radio/intercom/directional/east,
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/miningoffice)
+"jE" = (
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_out/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
+/turf/open/floor/monofloor{
+	dir = 8
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "jF" = (
 /obj/structure/sign/warning/docking{
 	pixel_y = -30
@@ -2190,21 +2173,6 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/chemistry)
-"jT" = (
-/obj/effect/turf_decal/guideline/guideline_out/blue{
-	dir = 6
-	},
-/obj/effect/turf_decal/guideline/guideline_in/red{
-	dir = 6
-	},
-/turf/open/floor/monofloor{
-	dir = 1
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "jU" = (
 /obj/structure/closet/secure_closet/miner{
 	anchored = 1
@@ -2228,6 +2196,20 @@
 "kf" = (
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
+"kh" = (
+/obj/item/radio/intercom/directional/west,
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
+/turf/open/floor/monofloor{
+	dir = 8
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "ki" = (
 /obj/structure/window/reinforced/spawner/east,
 /obj/structure/window/reinforced/spawner/west,
@@ -2418,6 +2400,21 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/miningdock)
+"lz" = (
+/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
+	dir = 1
+	},
+/turf/open/floor/monofloor{
+	dir = 4
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "lA" = (
 /obj/structure/cable/green{
 	icon_state = "4-8"
@@ -2685,6 +2682,14 @@
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
+"mz" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 1
+	},
+/obj/machinery/firealarm/directional/south,
+/obj/machinery/refillable_chem_dispenser/full,
+/turf/open/floor/plasteel/white/corner,
+/area/medical/storage)
 "mH" = (
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/plating,
@@ -2702,20 +2707,6 @@
 /obj/machinery/telecomms/receiver/preset_right,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/tcommsat/server)
-"mQ" = (
-/obj/effect/turf_decal/guideline/guideline_out_alt/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/guideline/guideline_in_alt/brown{
-	color = "#FF7F00";
-	dir = 8
-	},
-/turf/open/floor/monofloor,
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "mR" = (
 /obj/machinery/conveyor{
 	dir = 4;
@@ -2748,16 +2739,6 @@
 	},
 /turf/open/floor/plating,
 /area/storage/tech)
-"nl" = (
-/obj/structure/fighter_launcher{
-	dir = 1
-	},
-/obj/effect/turf_decal/delivery,
-/obj/structure/overmap/small_craft/transport/sabre/mining{
-	random_name = 0
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
 "nm" = (
 /obj/structure/disposalpipe/segment{
 	dir = 10
@@ -2851,6 +2832,23 @@
 /obj/structure/plasticflaps,
 /turf/open/floor/plating,
 /area/maintenance/disposal)
+"ny" = (
+/obj/structure/closet/secure_closet/captains{
+	anchored = 1
+	},
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
+/obj/item/gun/energy/laser/captain{
+	cell_type = /obj/item/stock_parts/cell/empty;
+	desc = "This is a futuristic laser gun. All craftsmanship is of the highest quality. It is decorated with assistant leather and chrome. The object menaces with spikes of energy. On the item is an image of Space Station 13. The station is exploding.";
+	name = "futuristic laser gun model";
+	pin = null;
+	selfcharge = 0
+	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/crew_quarters/heads/captain/private)
 "nz" = (
 /obj/effect/decal/cleanable/robot_debris,
 /turf/open/floor/plating,
@@ -2864,21 +2862,6 @@
 	},
 /turf/open/floor/durasteel/padded,
 /area/crew_quarters/dorms)
-"nE" = (
-/obj/effect/turf_decal/guideline/guideline_out/blue{
-	dir = 1
-	},
-/obj/effect/turf_decal/guideline/guideline_in/red{
-	dir = 1
-	},
-/turf/open/floor/monofloor{
-	dir = 1
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "nF" = (
 /obj/structure/table/glass,
 /obj/item/paper_bin{
@@ -3138,32 +3121,6 @@
 /obj/item/radio/intercom/directional/west,
 /turf/open/floor/carpet/black,
 /area/crew_quarters/dorms)
-"oJ" = (
-/obj/effect/landmark/nuclear_waste_spawner,
-/obj/structure/sign/directions/command{
-	dir = 4;
-	pixel_x = 32;
-	pixel_y = -32
-	},
-/obj/structure/sign/directions/supply{
-	dir = 1;
-	pixel_x = 32;
-	pixel_y = -38
-	},
-/obj/effect/turf_decal/guideline/guideline_out/blue{
-	dir = 8
-	},
-/obj/effect/turf_decal/guideline/guideline_in/red{
-	dir = 8
-	},
-/turf/open/floor/monofloor/corner{
-	dir = 6
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "oK" = (
 /obj/item/kirbyplants/random,
 /turf/open/floor/durasteel,
@@ -3213,6 +3170,17 @@
 /obj/structure/dresser,
 /turf/open/floor/carpet/black,
 /area/crew_quarters/dorms)
+"oX" = (
+/obj/effect/turf_decal/guideline/guideline_out/blue,
+/obj/effect/turf_decal/guideline/guideline_in/red,
+/turf/open/floor/monofloor{
+	dir = 1
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "oY" = (
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 1
@@ -3233,6 +3201,14 @@
 	},
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
+"pd" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 1
+	},
+/obj/item/radio/intercom/directional/south,
+/obj/machinery/chem_master,
+/turf/open/floor/plasteel/white/side,
+/area/medical/storage)
 "pe" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
@@ -3256,21 +3232,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/disposal)
-"pi" = (
-/obj/machinery/door/airlock/ship/public,
-/obj/effect/turf_decal/guideline/guideline_out/yellow{
-	dir = 4
-	},
-/obj/effect/turf_decal/guideline/guideline_in/brown{
-	color = "#FF7F00";
-	dir = 4
-	},
-/turf/open/floor/plating,
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "pk" = (
 /obj/machinery/computer/ship/dradis/console{
 	dir = 8
@@ -3287,12 +3248,6 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
-"pn" = (
-/obj/machinery/chem_master,
-/turf/open/floor/plasteel/white/corner{
-	dir = 8
-	},
-/area/medical/storage)
 "pp" = (
 /obj/structure/cable/white{
 	icon_state = "5-8"
@@ -3356,6 +3311,18 @@
 /obj/item/circuitboard/machine/hydroponics,
 /turf/open/floor/durasteel,
 /area/storage/tech)
+"pS" = (
+/obj/effect/turf_decal/guideline/guideline_in_alt/brown{
+	color = "#FF7F00"
+	},
+/turf/open/floor/monofloor{
+	dir = 1
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "pT" = (
 /obj/structure/cable/green{
 	icon_state = "1-4"
@@ -3384,21 +3351,6 @@
 /obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating/foam,
 /area/maintenance/nsv/deck1/starboard)
-"qa" = (
-/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/blue{
-	dir = 4
-	},
-/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
-	dir = 4
-	},
-/turf/open/floor/monofloor{
-	dir = 1
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "qb" = (
 /turf/open/floor/plasteel/white/corner{
 	dir = 4
@@ -3662,14 +3614,6 @@
 	},
 /turf/open/floor/plating,
 /area/hallway/nsv/deck1/frame1/starboard)
-"rI" = (
-/obj/effect/spawner/structure/window/reinforced/ship,
-/obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/poddoor/shutters/ship{
-	id = "captains_shutters"
-	},
-/turf/open/floor/plating,
-/area/crew_quarters/heads/captain/private)
 "rK" = (
 /obj/effect/turf_decal/delivery,
 /obj/effect/spawner/lootdrop/maintenance/three,
@@ -3974,18 +3918,6 @@
 /obj/structure/railing,
 /turf/open/openspace,
 /area/maintenance/nsv/deck1/port)
-"sX" = (
-/obj/effect/turf_decal/guideline/guideline_in_alt/brown{
-	color = "#FF7F00"
-	},
-/turf/open/floor/monofloor{
-	dir = 1
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "sY" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -4025,6 +3957,31 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
 /turf/open/floor/plating,
 /area/maintenance/disposal)
+"tf" = (
+/obj/structure/sign/directions/command{
+	dir = 4;
+	pixel_x = 32;
+	pixel_y = 32
+	},
+/obj/effect/turf_decal/guideline/guideline_out_T/blue{
+	dir = 10
+	},
+/obj/effect/turf_decal/guideline/guideline_in_T/red{
+	dir = 10
+	},
+/obj/structure/sign/directions/supply{
+	dir = 1;
+	pixel_x = 32;
+	pixel_y = 26
+	},
+/turf/open/floor/monofloor/corner{
+	dir = 5
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "th" = (
 /obj/structure/disposalpipe/segment{
 	dir = 10
@@ -4194,6 +4151,30 @@
 /obj/machinery/firealarm/directional/south,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/disposal)
+"tM" = (
+/obj/item/reagent_containers/dropper{
+	pixel_x = 5;
+	pixel_y = -2
+	},
+/obj/structure/table/glass,
+/obj/item/book/manual/wiki/chemistry{
+	pixel_x = 5;
+	pixel_y = 5
+	},
+/obj/item/storage/box/syringes{
+	pixel_x = -7;
+	pixel_y = 3
+	},
+/obj/item/storage/box/beakers/large_mix{
+	pixel_x = -10
+	},
+/obj/item/reagent_containers/dropper{
+	pixel_x = 5
+	},
+/turf/open/floor/plasteel/white/corner{
+	dir = 8
+	},
+/area/medical/storage)
 "tN" = (
 /obj/structure/extinguisher_cabinet/west,
 /obj/machinery/camera/autoname{
@@ -4283,6 +4264,9 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/crew_quarters/dorms)
+"tZ" = (
+/turf/open/floor/durasteel,
+/area/engine/stormdrive/monitor)
 "ua" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/visible/layer2{
 	dir = 8
@@ -4299,47 +4283,6 @@
 "uc" = (
 /turf/closed/wall/ship,
 /area/maintenance/department/crew_quarters/dorms)
-"ue" = (
-/obj/structure/sign/ship/deck{
-	dir = 1;
-	pixel_y = -34
-	},
-/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/yellow{
-	dir = 4
-	},
-/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/brown{
-	color = "#FF7F00";
-	dir = 4
-	},
-/turf/open/floor/monofloor,
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
-"ug" = (
-/obj/machinery/light{
-	color = "#c1e1ff";
-	dir = 8
-	},
-/obj/structure/sign/directions/evac{
-	pixel_x = -30
-	},
-/obj/effect/turf_decal/guideline/guideline_out/yellow{
-	dir = 4
-	},
-/obj/effect/turf_decal/guideline/guideline_in/brown{
-	color = "#FF7F00";
-	dir = 4
-	},
-/turf/open/floor/monofloor{
-	dir = 8
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "ul" = (
 /obj/structure/weightmachine/stacklifter,
 /turf/open/floor/plating,
@@ -4460,23 +4403,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/storage)
-"uN" = (
-/obj/structure/closet/secure_closet/captains{
-	anchored = 1
-	},
-/obj/structure/lattice/catwalk/over/ship,
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
-/obj/item/gun/energy/laser/captain{
-	cell_type = /obj/item/stock_parts/cell/empty;
-	desc = "This is a futuristic laser gun. All craftsmanship is of the highest quality. It is decorated with assistant leather and chrome. The object menaces with spikes of energy. On the item is an image of Space Station 13. The station is exploding.";
-	name = "futuristic laser gun model";
-	pin = null;
-	selfcharge = 0
-	},
-/turf/open/floor/plating/rusty_techgrid,
-/area/crew_quarters/heads/captain/private)
 "uO" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -4523,20 +4449,6 @@
 	},
 /turf/open/openspace,
 /area/engine/stormdrive/monitor)
-"uX" = (
-/obj/structure/extinguisher_cabinet/west,
-/obj/effect/turf_decal/guideline/guideline_in/brown{
-	color = "#FF7F00";
-	dir = 4
-	},
-/turf/open/floor/monofloor{
-	dir = 8
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "va" = (
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/plating,
@@ -4800,47 +4712,6 @@
 /obj/effect/spawner/lootdrop/maintenance/two,
 /turf/open/floor/plating,
 /area/tcommsat/computer)
-"wn" = (
-/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/brown{
-	color = "#FF7F00";
-	dir = 8
-	},
-/turf/open/floor/monofloor{
-	dir = 8
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
-"wo" = (
-/obj/structure/sign/directions/command{
-	dir = 4;
-	pixel_x = 32;
-	pixel_y = 32
-	},
-/obj/effect/turf_decal/guideline/guideline_out_T/blue{
-	dir = 10
-	},
-/obj/effect/turf_decal/guideline/guideline_in_T/red{
-	dir = 10
-	},
-/obj/structure/sign/directions/supply{
-	dir = 1;
-	pixel_x = 32;
-	pixel_y = 26
-	},
-/turf/open/floor/monofloor/corner{
-	dir = 5
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "wq" = (
 /obj/machinery/vending/engivend,
 /obj/machinery/camera/autoname{
@@ -5064,15 +4935,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/port)
-"xp" = (
-/obj/structure/sign/departments/minsky/engineering/atmospherics{
-	pixel_y = -30
-	},
-/obj/effect/turf_decal/guideline/guideline_out_arrow/yellow{
-	dir = 10
-	},
-/turf/open/floor/durasteel,
-/area/hallway/nsv/deck1/frame1/central)
 "xu" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -5082,21 +4944,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/records)
-"xw" = (
-/obj/structure/table/glass,
-/obj/item/flashlight/lamp{
-	pixel_x = -1;
-	pixel_y = 14
-	},
-/obj/item/stamp/captain{
-	pixel_x = -5;
-	pixel_y = 4
-	},
-/obj/item/disk/nuclear{
-	pixel_x = 6
-	},
-/turf/open/floor/carpet/black,
-/area/crew_quarters/heads/captain/private)
 "xx" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
 	dir = 5
@@ -5161,6 +5008,21 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/port)
+"xH" = (
+/obj/machinery/door/airlock/ship/public,
+/obj/effect/turf_decal/guideline/guideline_out/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "xL" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -5203,20 +5065,6 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/port)
-"xQ" = (
-/obj/structure/closet/secure_closet/master_at_arms,
-/obj/structure/window/reinforced/spawner/west,
-/obj/structure/window/reinforced/spawner/east,
-/obj/machinery/door/window{
-	req_one_access_txt = "70"
-	},
-/obj/item/stamp/maa,
-/turf/open/floor/plasteel/ridged/steel,
-/area/crew_quarters/locker{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "xR" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
 	dir = 8
@@ -5233,19 +5081,6 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/vacant_room)
-"xS" = (
-/obj/effect/turf_decal/guideline/guideline_in/brown{
-	color = "#FF7F00";
-	dir = 4
-	},
-/turf/open/floor/monofloor{
-	dir = 8
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "xT" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer4{
@@ -5257,6 +5092,17 @@
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/port)
+"xV" = (
+/obj/structure/chair/fancy/sofa/mono{
+	color = "#94deff";
+	dir = 4
+	},
+/turf/open/floor/carpet/black,
+/area/crew_quarters/nsv/observation{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "xX" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	dir = 4;
@@ -5357,20 +5203,6 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/turret_protected/ai_upload_foyer)
-"yq" = (
-/obj/item/radio/intercom/directional/west,
-/obj/effect/turf_decal/guideline/guideline_in/brown{
-	color = "#FF7F00";
-	dir = 4
-	},
-/turf/open/floor/monofloor{
-	dir = 8
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "yt" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
@@ -5384,15 +5216,6 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/visible/layer2,
 /turf/open/floor/plating/rusty_techgrid,
 /area/vacant_room)
-"yv" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
-	name = "Engineering Monitoring";
-	req_one_access_txt = "10;24"
-	},
-/obj/structure/lattice/catwalk,
-/turf/open/floor/durasteel,
-/area/engine/stormdrive/monitor)
 "yz" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
 	dir = 8
@@ -5412,24 +5235,6 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/port)
-"yA" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
-	dir = 8
-	},
-/obj/effect/turf_decal/guideline/guideline_in/red{
-	dir = 8
-	},
-/obj/effect/turf_decal/guideline/guideline_out/blue{
-	dir = 8
-	},
-/turf/open/floor/monofloor{
-	dir = 4
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "yB" = (
 /obj/machinery/firealarm/directional/east,
 /obj/machinery/light{
@@ -5662,23 +5467,6 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/vacant_room)
-"zH" = (
-/obj/structure/sign/directions/evac{
-	dir = 8;
-	pixel_x = -30
-	},
-/obj/effect/turf_decal/guideline/guideline_in/brown{
-	color = "#FF7F00";
-	dir = 4
-	},
-/turf/open/floor/monofloor{
-	dir = 8
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "zI" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /obj/machinery/camera/autoname{
@@ -5745,19 +5533,6 @@
 	},
 /turf/open/openspace,
 /area/engine/stormdrive/monitor)
-"Ab" = (
-/obj/effect/turf_decal/guideline/guideline_in/red{
-	dir = 1
-	},
-/obj/effect/turf_decal/guideline/guideline_out/blue{
-	dir = 1
-	},
-/turf/open/floor/monofloor,
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "Ad" = (
 /obj/machinery/space_heater,
 /turf/open/floor/plating,
@@ -5872,15 +5647,6 @@
 /obj/structure/railing/corner,
 /turf/open/space/basic,
 /area/space/nearstation)
-"Ay" = (
-/obj/effect/spawner/structure/window/reinforced/ship,
-/obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/poddoor/shutters/ship{
-	dir = 4;
-	id = "captains_shutters"
-	},
-/turf/open/floor/plating,
-/area/crew_quarters/heads/captain/private)
 "AA" = (
 /turf/closed/wall/ship,
 /area/vacant_room)
@@ -6158,22 +5924,6 @@
 	},
 /turf/open/openspace,
 /area/quartermaster/miningoffice)
-"Ce" = (
-/obj/machinery/door/airlock/ship/engineering{
-	dir = 4;
-	req_one_access_txt = "10;24"
-	},
-/obj/machinery/door/firedoor/border_only/directional/west,
-/obj/machinery/door/firedoor/border_only/directional/east,
-/obj/effect/turf_decal/guideline/guideline_out/yellow{
-	dir = 1
-	},
-/turf/open/floor/durasteel,
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "Cf" = (
 /obj/structure/cable/cyan{
 	icon_state = "0-5"
@@ -6412,13 +6162,6 @@
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/engine/armour_pump)
-"Dn" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	name = "Engineering Wing";
-	req_one_access_txt = "10;24"
-	},
-/turf/open/floor/durasteel,
-/area/engine/stormdrive/monitor)
 "Do" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -6432,6 +6175,20 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck1/starboard)
+"Dq" = (
+/obj/effect/turf_decal/guideline/guideline_out_alt/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/guideline/guideline_in_alt/brown{
+	color = "#FF7F00";
+	dir = 8
+	},
+/turf/open/floor/monofloor,
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Du" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 4
@@ -6470,21 +6227,6 @@
 /obj/effect/spawner/lootdrop/maintenance/two,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
-"DF" = (
-/obj/effect/turf_decal/guideline/guideline_in_alt/red{
-	dir = 4
-	},
-/obj/effect/turf_decal/guideline/guideline_out_alt/blue{
-	dir = 4
-	},
-/turf/open/floor/monofloor/corner{
-	dir = 6
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "DG" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
@@ -6886,21 +6628,6 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
-"FB" = (
-/obj/effect/turf_decal/guideline/guideline_in/red{
-	dir = 8
-	},
-/obj/effect/turf_decal/guideline/guideline_out/blue{
-	dir = 8
-	},
-/turf/open/floor/monofloor{
-	dir = 4
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "FC" = (
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -7010,6 +6737,15 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/storage)
+"Ga" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 4;
+	name = "Engineering Monitoring";
+	req_one_access_txt = "10;24"
+	},
+/obj/structure/lattice/catwalk,
+/turf/open/floor/durasteel,
+/area/engine/stormdrive/monitor)
 "Gb" = (
 /obj/structure/table/glass,
 /turf/open/floor/carpet/black,
@@ -7143,9 +6879,6 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/tcommsat/computer)
-"GE" = (
-/turf/open/floor/durasteel,
-/area/engine/stormdrive/monitor)
 "GG" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
@@ -7332,6 +7065,21 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/genetics/cloning)
+"Hm" = (
+/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
+	dir = 1
+	},
+/turf/open/floor/monofloor{
+	dir = 1
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Ho" = (
 /obj/structure/cable/white{
 	icon_state = "1-8"
@@ -7441,20 +7189,20 @@
 /turf/open/floor/engine,
 /area/ai_monitored/turret_protected/ai_upload)
 "HR" = (
-/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/blue{
+/obj/structure/rack,
+/obj/machinery/camera/autoname{
 	dir = 1
 	},
-/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
-	dir = 1
-	},
-/turf/open/floor/monofloor{
-	dir = 4
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
+/obj/item/circuitboard/computer/cloning,
+/obj/item/circuitboard/computer/med_data,
+/obj/item/circuitboard/machine/clonepod,
+/obj/item/circuitboard/machine/clonescanner,
+/obj/item/circuitboard/machine/chem_heater,
+/obj/item/circuitboard/machine/chem_master,
+/obj/item/circuitboard/machine/stasis,
+/obj/item/circuitboard/machine/refillable_chem_dispenser,
+/turf/open/floor/durasteel,
+/area/storage/tech)
 "HS" = (
 /obj/structure/extinguisher_cabinet/south,
 /obj/effect/landmark/start/cyborg,
@@ -7621,19 +7369,6 @@
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/heads/captain/private)
-"IC" = (
-/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/blue{
-	dir = 1
-	},
-/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
-	dir = 1
-	},
-/turf/open/floor/monofloor,
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "ID" = (
 /obj/machinery/power/apc/auto_name/west,
 /obj/structure/cable/white{
@@ -7820,6 +7555,15 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/armour_pump)
+"Jt" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/poddoor/shutters/ship{
+	dir = 4;
+	id = "captains_shutters"
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/heads/captain/private)
 "Jx" = (
 /obj/structure/cable/white{
 	icon_state = "2-32"
@@ -7847,10 +7591,38 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/plating/rusty_techgrid,
 /area/storage/tools)
+"JF" = (
+/obj/effect/turf_decal/guideline/guideline_in_alt/red{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_out_alt/blue{
+	dir = 4
+	},
+/turf/open/floor/monofloor/corner{
+	dir = 6
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "JH" = (
 /obj/machinery/telecomms/server/presets/security,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/tcommsat/server)
+"JK" = (
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/guideline/guideline_out/blue{
+	dir = 1
+	},
+/turf/open/floor/monofloor,
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "JL" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable/green{
@@ -7981,6 +7753,24 @@
 "Kl" = (
 /turf/closed/wall/ship,
 /area/tcommsat/server)
+"Km" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 8
+	},
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 8
+	},
+/obj/effect/turf_decal/guideline/guideline_out/blue{
+	dir = 8
+	},
+/turf/open/floor/monofloor{
+	dir = 4
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Kp" = (
 /obj/item/storage/secure/safe/caps_spare,
 /turf/closed/wall/r_wall/ship,
@@ -8011,17 +7801,6 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/space/nearstation)
-"Ku" = (
-/obj/structure/chair/fancy/sofa/mono{
-	color = "#94deff";
-	dir = 4
-	},
-/turf/open/floor/carpet/black,
-/area/crew_quarters/nsv/observation{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "Kw" = (
 /obj/machinery/door/window/eastright{
 	dir = 1
@@ -8314,12 +8093,6 @@
 /obj/structure/hull_plate,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
-"LQ" = (
-/obj/machinery/light/small{
-	dir = 8
-	},
-/turf/open/floor/durasteel,
-/area/hallway/nsv/deck1/frame1/central)
 "LR" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -8376,6 +8149,23 @@
 /obj/structure/window/reinforced/spawner/north,
 /turf/open/floor/durasteel,
 /area/engine/storage)
+"Mh" = (
+/obj/structure/sign/directions/evac{
+	dir = 8;
+	pixel_x = -30
+	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
+/turf/open/floor/monofloor{
+	dir = 8
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Mk" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
@@ -8493,6 +8283,31 @@
 "MF" = (
 /turf/open/floor/plating,
 /area/storage/tools)
+"MH" = (
+/obj/structure/table/glass,
+/obj/item/storage/bag/tray,
+/obj/item/reagent_containers/food/snacks/raisincookie{
+	pixel_x = 4;
+	pixel_y = -4
+	},
+/obj/item/reagent_containers/food/snacks/raisincookie,
+/obj/item/reagent_containers/food/snacks/cookie{
+	pixel_y = -8
+	},
+/obj/item/reagent_containers/food/snacks/cookie{
+	pixel_x = -5;
+	pixel_y = -5
+	},
+/obj/item/reagent_containers/food/snacks/raisincookie{
+	pixel_x = 2;
+	pixel_y = -2
+	},
+/turf/open/floor/carpet/black,
+/area/crew_quarters/nsv/observation{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "MJ" = (
 /obj/structure/curtain/obscuring/grey{
 	density = 1;
@@ -8656,6 +8471,23 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/turret_protected/ai_upload_foyer)
+"Nu" = (
+/obj/machinery/light{
+	color = "#c1e1ff";
+	dir = 8
+	},
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/brown{
+	color = "#FF7F00";
+	dir = 8
+	},
+/turf/open/floor/monofloor{
+	dir = 8
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Ny" = (
 /obj/machinery/computer/squad_manager{
 	dir = 4
@@ -8732,6 +8564,18 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/storage)
+"NK" = (
+/obj/machinery/door/airlock/ship/public,
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "NM" = (
 /obj/item/storage/toolbox/mechanical,
 /obj/structure/rack,
@@ -8773,14 +8617,6 @@
 "NP" = (
 /turf/closed/wall/ship,
 /area/hallway/nsv/deck1/frame1/starboard)
-"NR" = (
-/obj/machinery/vending/job_disk,
-/turf/open/floor/plasteel/ridged/steel,
-/area/bridge{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "NT" = (
 /obj/structure/table/reinforced,
 /obj/item/weldingtool{
@@ -9014,6 +8850,22 @@
 "OQ" = (
 /obj/machinery/squad_vendor,
 /turf/open/floor/durasteel/eris_techfloor_alt,
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
+"OR" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
+/turf/open/floor/monofloor{
+	dir = 8
+	},
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
@@ -9319,6 +9171,19 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"PL" = (
+/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
+	dir = 1
+	},
+/turf/open/floor/monofloor,
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "PM" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -9518,6 +9383,22 @@
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plasteel/dark/telecomms,
 /area/tcommsat/server)
+"Qz" = (
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
+/turf/open/floor/monofloor{
+	dir = 8
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "QA" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
@@ -9592,6 +9473,13 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"QO" = (
+/obj/structure/overmap/small_craft/transport/sabre{
+	angle = 90;
+	random_name = 0
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/space/nearstation)
 "QP" = (
 /obj/structure/chair/office,
 /obj/effect/landmark/start/bridge,
@@ -9732,6 +9620,21 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/miningdock)
+"Ru" = (
+/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
+	dir = 4
+	},
+/turf/open/floor/monofloor{
+	dir = 1
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Rw" = (
 /obj/structure/closet/radiation,
 /obj/structure/window/reinforced/spawner/north,
@@ -9794,22 +9697,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/bridge)
-"RL" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 4
-	},
-/obj/effect/turf_decal/guideline/guideline_in/brown{
-	color = "#FF7F00";
-	dir = 4
-	},
-/turf/open/floor/monofloor{
-	dir = 8
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "RM" = (
 /obj/machinery/camera/autoname,
 /obj/structure/railing{
@@ -9847,6 +9734,14 @@
 /obj/effect/turf_decal/box,
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/security/armory)
+"RT" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/poddoor/shutters/ship{
+	id = "captains_shutters"
+	},
+/turf/open/floor/plating,
+/area/crew_quarters/heads/captain/private)
 "RV" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -9923,6 +9818,20 @@
 /obj/structure/railing,
 /turf/open/space/basic,
 /area/space/nearstation)
+"Sn" = (
+/obj/structure/closet/secure_closet/master_at_arms,
+/obj/structure/window/reinforced/spawner/west,
+/obj/structure/window/reinforced/spawner/east,
+/obj/machinery/door/window{
+	req_one_access_txt = "70"
+	},
+/obj/item/stamp/maa,
+/turf/open/floor/plasteel/ridged/steel,
+/area/crew_quarters/locker{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Sr" = (
 /obj/structure/cable/white{
 	icon_state = "1-8"
@@ -9957,19 +9866,6 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
-"Sv" = (
-/obj/item/storage/box/syringes{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/obj/structure/table/glass,
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
-	dir = 1
-	},
-/obj/item/radio/intercom/directional/south,
-/obj/item/storage/box/beakers/large_mix,
-/turf/open/floor/plasteel/white/side,
-/area/medical/storage)
 "Sw" = (
 /obj/machinery/light/floor{
 	color = "#c1e1ff"
@@ -10015,6 +9911,24 @@
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plasteel/dark/telecomms,
 /area/tcommsat/server)
+"SK" = (
+/obj/structure/sign/ship/deck{
+	dir = 1;
+	pixel_y = -34
+	},
+/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
+/turf/open/floor/monofloor,
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "SL" = (
 /obj/machinery/door/airlock/ship/hatch/glass{
 	name = "Hangar Lift"
@@ -10056,6 +9970,21 @@
 /obj/machinery/telecomms/bus/preset_two,
 /turf/open/floor/circuit/green/telecomms/mainframe,
 /area/tcommsat/server)
+"SU" = (
+/obj/effect/turf_decal/guideline/guideline_out_alt/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/guideline/guideline_in_alt/red{
+	dir = 1
+	},
+/turf/open/floor/monofloor/corner{
+	dir = 5
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "SV" = (
 /obj/structure/table,
 /obj/machinery/camera/autoname{
@@ -10150,22 +10079,6 @@
 	},
 /turf/open/floor/plating,
 /area/tcommsat/computer)
-"TE" = (
-/obj/effect/turf_decal/guideline/guideline_out_alt/yellow{
-	dir = 8
-	},
-/obj/effect/turf_decal/guideline/guideline_in/brown{
-	color = "#FF7F00";
-	dir = 4
-	},
-/turf/open/floor/monofloor{
-	dir = 8
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "TG" = (
 /turf/closed/wall/r_wall/ship,
 /area/crew_quarters/nsv/observation{
@@ -10393,20 +10306,6 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/armour_pump)
-"Uo" = (
-/obj/machinery/door/airlock/ship/public,
-/obj/effect/turf_decal/guideline/guideline_out/blue{
-	dir = 8
-	},
-/obj/effect/turf_decal/guideline/guideline_in/red{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "Up" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
@@ -10441,6 +10340,19 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /turf/open/floor/plating,
 /area/engine/storage)
+"Uu" = (
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
+/turf/open/floor/monofloor{
+	dir = 8
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Uv" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -10458,25 +10370,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating/rusty_techgrid,
 /area/storage/tech)
-"UA" = (
-/obj/structure/table/glass,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 1
-	},
-/obj/machinery/firealarm/directional/south,
-/obj/item/book/manual/wiki/chemistry{
-	pixel_x = 5;
-	pixel_y = 5
-	},
-/obj/item/reagent_containers/dropper{
-	pixel_x = 5
-	},
-/obj/item/reagent_containers/dropper{
-	pixel_x = 5;
-	pixel_y = -2
-	},
-/turf/open/floor/plasteel/white/corner,
-/area/medical/storage)
 "UB" = (
 /obj/structure/railing,
 /obj/structure/railing{
@@ -10894,6 +10787,20 @@
 	dir = 8
 	},
 /area/medical/genetics/cloning)
+"Wc" = (
+/obj/structure/extinguisher_cabinet/west,
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
+/turf/open/floor/monofloor{
+	dir = 8
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Wd" = (
 /obj/machinery/suit_storage_unit/hos,
 /obj/structure/window/reinforced/spawner/east,
@@ -10911,6 +10818,21 @@
 "We" = (
 /turf/open/floor/plating,
 /area/vacant_room)
+"Wf" = (
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 8
+	},
+/obj/effect/turf_decal/guideline/guideline_out/blue{
+	dir = 8
+	},
+/turf/open/floor/monofloor{
+	dir = 4
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Wg" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable/white{
@@ -10918,6 +10840,32 @@
 	},
 /turf/open/floor/plating,
 /area/engine/stormdrive/monitor)
+"Wh" = (
+/obj/effect/landmark/nuclear_waste_spawner,
+/obj/structure/sign/directions/command{
+	dir = 4;
+	pixel_x = 32;
+	pixel_y = -32
+	},
+/obj/structure/sign/directions/supply{
+	dir = 1;
+	pixel_x = 32;
+	pixel_y = -38
+	},
+/obj/effect/turf_decal/guideline/guideline_out/blue{
+	dir = 8
+	},
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 8
+	},
+/turf/open/floor/monofloor/corner{
+	dir = 6
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Wj" = (
 /obj/machinery/camera/autoname{
 	dir = 10
@@ -11061,20 +11009,6 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
-"WH" = (
-/obj/structure/rack,
-/obj/machinery/camera/autoname{
-	dir = 1
-	},
-/obj/item/circuitboard/computer/cloning,
-/obj/item/circuitboard/computer/med_data,
-/obj/item/circuitboard/machine/clonepod,
-/obj/item/circuitboard/machine/clonescanner,
-/obj/item/circuitboard/machine/chem_heater,
-/obj/item/circuitboard/machine/chem_master,
-/obj/item/circuitboard/machine/stasis,
-/turf/open/floor/durasteel,
-/area/storage/tech)
 "WI" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
@@ -11114,22 +11048,6 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/locker{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
-"WN" = (
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
-/obj/effect/turf_decal/guideline/guideline_in/brown{
-	color = "#FF7F00";
-	dir = 4
-	},
-/turf/open/floor/monofloor{
-	dir = 8
-	},
-/area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
@@ -11238,6 +11156,31 @@
 /obj/structure/table/reinforced,
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/security/armory)
+"Xh" = (
+/obj/structure/table/reinforced,
+/obj/machinery/door/window/westright{
+	req_one_access_txt = "5"
+	},
+/obj/item/reagent_containers/food/drinks/bottle/synthflesh{
+	pixel_x = -5;
+	pixel_y = 10
+	},
+/obj/item/reagent_containers/food/drinks/bottle/synthflesh{
+	pixel_x = 7;
+	pixel_y = 10
+	},
+/obj/item/reagent_containers/glass/bottle{
+	list_reagents = list(/datum/reagent/medicine/cryoxadone=30);
+	name = "cryoxadone bottle";
+	pixel_x = 8
+	},
+/obj/item/reagent_containers/glass/bottle/diphenhydramine{
+	list_reagents = list(/datum/reagent/medicine/rezadone=30);
+	name = "rezadone bottle";
+	pixel_x = -4
+	},
+/turf/open/floor/durasteel/eris_techfloor_alt,
+/area/medical/chemistry)
 "Xi" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -11258,21 +11201,6 @@
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
-"Xm" = (
-/obj/effect/turf_decal/guideline/guideline_out_alt/blue{
-	dir = 1
-	},
-/obj/effect/turf_decal/guideline/guideline_in_alt/red{
-	dir = 1
-	},
-/turf/open/floor/monofloor/corner{
-	dir = 5
-	},
-/area/hallway/nsv/deck1/frame1/central{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "Xp" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -11305,6 +11233,21 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/tcommsat/computer)
+"Xs" = (
+/obj/effect/turf_decal/guideline/guideline_out/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 1
+	},
+/turf/open/floor/monofloor{
+	dir = 1
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Xt" = (
 /obj/structure/closet/secure_closet/CMO{
 	anchored = 1
@@ -11351,38 +11294,6 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
-"XB" = (
-/obj/structure/overmap/small_craft/transport/sabre{
-	angle = 90;
-	random_name = 0
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
-"XC" = (
-/obj/structure/table/reinforced,
-/obj/machinery/door/window/westright{
-	req_one_access_txt = "5"
-	},
-/obj/item/reagent_containers/food/drinks/bottle/synthflesh{
-	pixel_x = -5;
-	pixel_y = 10
-	},
-/obj/item/reagent_containers/food/drinks/bottle/synthflesh{
-	pixel_x = 7;
-	pixel_y = 10
-	},
-/obj/item/reagent_containers/glass/bottle{
-	list_reagents = list(/datum/reagent/medicine/cryoxadone=30);
-	name = "cryoxadone bottle";
-	pixel_x = 8
-	},
-/obj/item/reagent_containers/glass/bottle/diphenhydramine{
-	list_reagents = list(/datum/reagent/medicine/rezadone = 30);
-	name = "rezadone bottle";
-	pixel_x = -4
-	},
-/turf/open/floor/durasteel/eris_techfloor_alt,
-/area/medical/chemistry)
 "XD" = (
 /obj/structure/window/spawner,
 /obj/structure/window/spawner{
@@ -11760,15 +11671,16 @@
 	},
 /turf/open/openspace,
 /area/medical/medbay/zone2)
-"Za" = (
-/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/blue{
-	dir = 1
+"YU" = (
+/obj/effect/turf_decal/guideline/guideline_out/yellow{
+	dir = 4
 	},
-/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
-	dir = 1
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
 	},
 /turf/open/floor/monofloor{
-	dir = 1
+	dir = 8
 	},
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
@@ -11799,6 +11711,21 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/security/locker_room)
+"Zf" = (
+/obj/effect/turf_decal/guideline/guideline_out/blue{
+	dir = 6
+	},
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 6
+	},
+/turf/open/floor/monofloor{
+	dir = 1
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Zh" = (
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
@@ -11822,6 +11749,37 @@
 /obj/structure/lattice/catwalk,
 /turf/open/openspace,
 /area/engine/stormdrive/monitor)
+"Zn" = (
+/obj/machinery/light/small{
+	dir = 8
+	},
+/turf/open/floor/durasteel,
+/area/hallway/nsv/deck1/frame1/central)
+"Zo" = (
+/obj/structure/sign/departments/minsky/engineering/atmospherics{
+	pixel_y = -30
+	},
+/obj/effect/turf_decal/guideline/guideline_out_arrow/yellow{
+	dir = 10
+	},
+/turf/open/floor/durasteel,
+/area/hallway/nsv/deck1/frame1/central)
+"Zt" = (
+/obj/machinery/door/airlock/ship/engineering{
+	dir = 4;
+	req_one_access_txt = "10;24"
+	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/effect/turf_decal/guideline/guideline_out/yellow{
+	dir = 1
+	},
+/turf/open/floor/durasteel,
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Zu" = (
 /obj/structure/disposalpipe/segment{
 	dir = 6
@@ -11837,6 +11795,22 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/medbay/zone2)
+"Zv" = (
+/obj/effect/turf_decal/guideline/guideline_out_alt/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
+	},
+/turf/open/floor/monofloor{
+	dir = 8
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "Zy" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -11859,6 +11833,21 @@
 /obj/structure/closet/secure_closet/medical3,
 /turf/open/floor/plasteel/white,
 /area/medical/medbay/zone2)
+"ZB" = (
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/blue{
+	dir = 1
+	},
+/turf/open/floor/monofloor{
+	dir = 4
+	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "ZC" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
@@ -11959,6 +11948,20 @@
 /turf/open/floor/monofloor/corner{
 	dir = 1
 	},
+/area/hallway/nsv/deck1/frame1/central{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
+"ZU" = (
+/obj/machinery/airalarm/directional/south,
+/obj/effect/turf_decal/guideline/guideline_out/blue{
+	dir = 9
+	},
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 9
+	},
+/turf/open/floor/monofloor,
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
@@ -40396,7 +40399,7 @@ BN
 BN
 wB
 nR
-WH
+HR
 hy
 hy
 hy
@@ -44243,7 +44246,7 @@ bO
 bO
 bO
 bO
-yv
+Ga
 bO
 bO
 NM
@@ -44498,9 +44501,9 @@ PA
 bO
 hw
 VW
-LQ
-Dn
-GE
+Zn
+gY
+tZ
 Uy
 eB
 MF
@@ -44755,7 +44758,7 @@ bO
 bO
 TT
 Wa
-xp
+Zo
 Ha
 Ha
 Uy
@@ -45012,7 +45015,7 @@ PE
 gC
 TZ
 gC
-Ce
+Zt
 gC
 xb
 Uy
@@ -45260,22 +45263,22 @@ Pd
 jI
 Sz
 vn
-xS
-WN
-zH
-jr
-RL
-xS
-yq
-xS
-uX
-TE
-wn
-fJ
-cg
-ug
-eU
-eU
+Uu
+Qz
+Mh
+Nu
+OR
+Uu
+kh
+Uu
+Wc
+Zv
+hG
+hC
+jE
+iO
+YU
+YU
 eb
 de
 Do
@@ -45534,7 +45537,7 @@ NN
 NN
 AC
 DG
-ue
+SK
 gC
 gC
 gC
@@ -45772,27 +45775,27 @@ Wp
 Wp
 Wp
 Wp
-hl
-sX
+NK
+pS
 Cv
-DF
-FB
-HR
-yA
-FB
-wo
+JF
+Wf
+lz
+Km
+Wf
+tf
 lF
-oJ
-gS
-FB
-yA
-FB
-FB
-FB
-Xm
+Wh
+ZB
+Wf
+Km
+Wf
+Wf
+Wf
+SU
 uD
-mQ
-pi
+Dq
+xH
 Wp
 Wp
 Wp
@@ -46032,12 +46035,12 @@ Wp
 bG
 bk
 Cv
-Ab
+JK
 Wo
 Wo
 Wo
 Wo
-nE
+Xs
 lF
 YL
 ZD
@@ -46046,7 +46049,7 @@ tV
 tV
 sR
 ZD
-eg
+oX
 vn
 YL
 dS
@@ -46286,15 +46289,15 @@ Uq
 Wp
 Wp
 Wp
-Uo
-Za
+jk
+Hm
 Cv
-hT
+ZU
 Wo
 Ny
 OT
 Wo
-nE
+Xs
 lF
 YL
 Yg
@@ -46303,10 +46306,10 @@ Yg
 Yg
 Yg
 Yg
-jT
+Zf
 vn
-IC
-Uo
+PL
+jk
 Wp
 Wp
 Wp
@@ -46551,7 +46554,7 @@ Wo
 NA
 OW
 PI
-nE
+Xs
 lF
 YL
 Yg
@@ -46808,7 +46811,7 @@ Wo
 NO
 PK
 Jc
-nE
+Xs
 Uf
 Wj
 Yg
@@ -47062,10 +47065,10 @@ VE
 jV
 sU
 Wo
-NR
+ct
 ha
 Wo
-qa
+Ru
 dh
 YL
 Yg
@@ -47801,7 +47804,7 @@ aU
 Wm
 Ud
 Ud
-nl
+fw
 Wm
 TA
 fn
@@ -47828,7 +47831,7 @@ Bh
 Bh
 Bh
 Bh
-rI
+RT
 PH
 Vy
 PN
@@ -48120,7 +48123,7 @@ Bh
 li
 li
 Ud
-XB
+QO
 Ud
 li
 TK
@@ -48128,7 +48131,7 @@ VB
 Sd
 NU
 NJ
-pn
+tM
 bJ
 dB
 Hg
@@ -48342,10 +48345,10 @@ Bh
 Bh
 Bh
 Bh
-rI
+RT
 IA
 Rg
-xw
+hc
 YK
 Yq
 TS
@@ -48642,12 +48645,12 @@ VB
 Ph
 NU
 op
-UA
+mz
 bJ
 xc
 wR
 Vn
-XC
+Xh
 Si
 TK
 pL
@@ -48829,7 +48832,7 @@ aU
 Wm
 Ud
 Ud
-nl
+fw
 Wm
 TA
 fn
@@ -48856,8 +48859,8 @@ Bh
 Bh
 Bh
 Bh
-rI
-uN
+RT
+ny
 IF
 ty
 Mx
@@ -48899,7 +48902,7 @@ VB
 gt
 sw
 QY
-Sv
+pd
 bJ
 Si
 Si
@@ -49115,7 +49118,7 @@ Wt
 Nk
 VE
 VE
-Ay
+Jt
 VE
 MJ
 Yq
@@ -50406,7 +50409,7 @@ Bh
 Bh
 Ml
 Ml
-xQ
+Sn
 xA
 WI
 Ar
@@ -51693,7 +51696,7 @@ Bh
 No
 Jk
 cp
-Ku
+xV
 XA
 vx
 No
@@ -51951,7 +51954,7 @@ No
 XT
 Gb
 Gb
-ix
+MH
 XT
 No
 Bh
