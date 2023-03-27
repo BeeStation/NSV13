@@ -29,7 +29,7 @@ MAP_REMOVE_JOB(air_traffic_controller)
 	can_be_bought = FALSE
 
 //Disabled objects
-
+/*
 /obj/item/circuitboard/machine/ore_silo/New()
 	.=..()
 	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
@@ -62,7 +62,7 @@ MAP_REMOVE_JOB(air_traffic_controller)
 					to_chat(user, "<span class='warning'>This ship cannot support this type of machine!</span>")
 					return
 	. = ..()
-
+*/
 //Bottle Chemistry Packs
 
 /datum/supply_pack/medical/chemical_supply_compounds/New()
