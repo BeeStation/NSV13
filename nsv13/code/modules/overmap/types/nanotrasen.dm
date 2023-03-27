@@ -46,8 +46,8 @@
 	bound_width = 96
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
 
-/obj/structure/overmap/nanotrasen/missile_cruiser //This has nothing to do with missiles
-	name = "caracal class missile frigate"
+/obj/structure/overmap/nanotrasen/frigate //This has nothing to do with missiles
+	name = "caracal class frigate"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
 	icon_state = "frigate"
 	mass = MASS_SMALL
@@ -177,15 +177,15 @@
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
-/obj/structure/overmap/nanotrasen/missile_cruiser/starter/shrike //TEMP UNTIL WE DIVERSIFY TYPES MORE
+/obj/structure/overmap/nanotrasen/frigate/starter/shrike //TEMP UNTIL WE DIVERSIFY TYPES MORE
 	icon_state = "shrike"
 
-/obj/structure/overmap/nanotrasen/missile_cruiser/starter/shrike/apply_weapons()
+/obj/structure/overmap/nanotrasen/frigate/starter/shrike/apply_weapons()
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 	weapon_types[FIRE_MODE_HYBRID_RAIL] = new /datum/ship_weapon/hybrid_railgun(src)
 
-/obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Atlas
+/obj/structure/overmap/nanotrasen/frigate/starter //Currently assigned to Jeppison and Atlas
 	role = MAIN_OVERMAP
 	obj_integrity = 1000
 	max_integrity = 1000
@@ -311,7 +311,7 @@
 	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/battleship
 
-/obj/structure/overmap/nanotrasen/missile_cruiser/ai
+/obj/structure/overmap/nanotrasen/frigate/ai
 	ai_controlled = TRUE
 	ai_flags = AI_FLAG_DESTROYER
 	torpedoes = 10 //it's vago, alright?

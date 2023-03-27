@@ -48,6 +48,21 @@ MAP_REMOVE_JOB(air_traffic_controller)
 		return
 	build_path = null
 
+/obj/structure/frame/machine/attackby(obj/item/P, mob/user, params)
+	switch(state)
+		if(2)
+			if(istype(P, /obj/item/circuitboard/machine))
+				var/obj/item/circuitboard/machine/B = P
+				if(B.build_path == null)
+					to_chat(user, "<span class='warning'>This ship cannot support this type of machine!</span>")
+					return
+
+			if(P.tool_behaviour == TOOL_SCREWDRIVER)
+				if(circuit.build_path == null)
+					to_chat(user, "<span class='warning'>This ship cannot support this type of machine!</span>")
+					return
+	. = ..()
+
 //Bottle Chemistry Packs
 
 /datum/supply_pack/medical/chemical_supply_compounds/New()

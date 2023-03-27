@@ -76,7 +76,8 @@
 	display_name = "Biological Technology"
 	description = "What makes us tick."	//the MC, silly!
 	prereq_ids = list("base")
-	design_ids = list("chem_heater", "chem_master", "chem_dispenser", "pandemic", "sleeper", "defibrillator", "defibmount", "operating", "soda_dispenser", "beer_dispenser", "healthanalyzer", "medspray","genescanner", "medipen_epi", "medipen_dex", "medipen_atropine")
+	// NSV13 - added design for refillable chem dispenser
+	design_ids = list("chem_heater", "chem_master", "chem_dispenser", "refillable_chem_dispenser", "pandemic", "sleeper", "defibrillator", "defibmount", "operating", "soda_dispenser", "beer_dispenser", "healthanalyzer", "medspray","genescanner", "medipen_epi", "medipen_dex", "medipen_atropine")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
