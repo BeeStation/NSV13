@@ -363,3 +363,14 @@
 	)
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	build_path = /obj/machinery/ship_weapon/plasma_caster
+
+//Non-magic chem dispenser
+/obj/item/circuitboard/machine/refillable_chem_dispenser
+	name = "refillable chem dispenser (machine board)"
+	icon_state = "medical"
+	build_path = /obj/machinery/refillable_chem_dispenser
+	req_components = list(
+		/obj/item/stock_parts/matter_bin = 2,
+		/obj/item/stock_parts/manipulator = 1,
+		/obj/item/stack/sheet/glass = 1)
+	needs_anchored = FALSE
