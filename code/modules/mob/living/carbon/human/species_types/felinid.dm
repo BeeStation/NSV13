@@ -3,7 +3,7 @@
 	name = "\improper Felinid"
 	id = SPECIES_FELINID
 	bodyflag = FLAG_FELINID
-	examine_limb_id = SPECIES_FELINID
+	examine_limb_id = SPECIES_HUMAN
 
 	mutant_bodyparts = list("ears", "tail_human")
 	default_features = list("mcolor" = "FFF", "wings" = "None", "body_size" = "Normal")
