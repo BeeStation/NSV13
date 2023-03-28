@@ -10,6 +10,8 @@
 	forced_features = list("tail_human" = "Cat", "ears" = "Cat")
 	ass_image = 'icons/ass/asscat.png' //NSV13
 
+	species_head = /obj/item/bodypart/head/felinid
+
 	mutantears = /obj/item/organ/ears/cat
 	mutanttail = /obj/item/organ/tail/cat
 	mutanttongue = /obj/item/organ/tongue/cat
