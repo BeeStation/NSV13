@@ -157,8 +157,10 @@
 		pushed_mob.pass_flags &= ~PASSTABLE
 	if(pushed_mob.loc != loc) //Something prevented the tabling
 		return
-	pushed_mob.Knockdown(30)
-	pushed_mob.apply_damage(40, STAMINA)
+	//NSV13 - removed brute damage and added paralyze. Reduced stamina by half.
+	pushed_mob.Paralyze(10)
+	pushed_mob.Knockdown(20)
+	pushed_mob.apply_damage(15, STAMINA)
 	if(user.mind?.martial_art?.smashes_tables)
 		deconstruct(FALSE)
 	playsound(pushed_mob, "sound/effects/tableslam.ogg", 90, TRUE)

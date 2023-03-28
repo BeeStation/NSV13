@@ -7,6 +7,7 @@
 	name = "beanbag slug"
 	damage = 5
 	stamina = 55
+	paralyze = 10 //NSV13 - added paralyze
 
 /obj/item/projectile/bullet/incendiary/shotgun
 	name = "incendiary slug"
@@ -71,6 +72,7 @@
 	name = "rubbershot pellet"
 	damage = 3
 	stamina = 9
+	knockdown = 30 //NSV13 - added knockdown
 
 /obj/item/projectile/bullet/pellet/shotgun_incapacitate
 	name = "incapacitating pellet"

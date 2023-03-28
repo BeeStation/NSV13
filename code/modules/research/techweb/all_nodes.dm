@@ -878,7 +878,7 @@
 	display_name = "Electric Weapons"
 	description = "Weapons using electric technology"
 	prereq_ids = list("weaponry", "adv_power"  , "emp_basic")
-	design_ids = list("stunrevolver", "ioncarbine")
+	design_ids = list("stunrevolver", "stunshell", "ioncarbine") //NSV13 - readded stunshell
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 

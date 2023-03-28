@@ -394,7 +394,7 @@
 	if(effect_amount > 0)
 		if(stun_pwr)
 			if(!ears.deaf)
-				Paralyze((stun_pwr*effect_amount)*0.1)
+				Paralyze((stun_pwr*effect_amount)*0.5) //NSV13 - strengthened flashbangs
 			Knockdown(stun_pwr*effect_amount)
 
 		if(istype(ears) && (deafen_pwr || damage_pwr))
