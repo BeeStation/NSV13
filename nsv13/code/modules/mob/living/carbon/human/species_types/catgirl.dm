@@ -3,6 +3,7 @@
 
 /mob/living/carbon/human/species/felinid/npc
 	ai_controller = /datum/ai_controller/monkey/angry/slow
+	faction = list("Syndicate","Pirate")
 
 /mob/living/carbon/human/species/felinid/npc/Initialize(mapload)
 	. = ..()
