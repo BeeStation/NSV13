@@ -399,7 +399,7 @@ That's it, ok bye!
 		for(var/turf/T as() in platform)
 			T.ChangeTurf(/turf/open/floor/plasteel/elevatorshaft, list(/turf/open/openspace, /turf/open/floor/plating), CHANGETURF_INHERIT_AIR)
 
-	open_all_doors()
+	open_all_doors(target.z)
 //Special FX and stuff.
 
 /obj/machinery/lazylift/master/proc/sound_effect(list/moblist, start = FALSE)
@@ -464,17 +464,18 @@ That's it, ok bye!
 		target.unbolt_doors()
 	return TRUE
 
-/obj/machinery/lazylift/proc/open_doors()
+/obj/machinery/lazylift/proc/open_doors(var/deck_holder)
 	for(var/obj/machinery/door/airlock/theDoor in doors)
 		theDoor.unbolt()
-		if(!theDoor.open()) //Close and bolt this badboy.
-			if(!theDoor.locked) //Failed to close, and is not bolted. So something went wrong. Abort.
-				return FALSE
-		theDoor.bolt()
+		if(theDoor.z == deck_holder)
+			if(!theDoor.open())
+				if(!theDoor.locked)
+					return FALSE
+			theDoor.bolt()
 	return TRUE
 
-/obj/machinery/lazylift/master/proc/open_all_doors()
+/obj/machinery/lazylift/master/proc/open_all_doors(var/deck_holder)
 	for(var/obj/machinery/lazylift/target in decks)
-		if(!target.open_doors())
+		if(!target.open_doors(deck_holder))
 			return FALSE
 	return TRUE
