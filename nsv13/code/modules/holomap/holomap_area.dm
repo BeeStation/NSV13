@@ -11,6 +11,9 @@
 /area/shuttle
 	holomap_should_draw = FALSE
 
+/area/shuttle/turbolift
+	holomap_should_draw = TRUE
+
 /area/ruin
 	holomap_should_draw = FALSE
 
