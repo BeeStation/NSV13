@@ -150,9 +150,8 @@
 			if(command == "Delete")
 				var/list/all_ships = target.all_ships
 				// Do the fleet first then the ships so the announcement doesn't trigger
-				usr.client.cmd_admin_delete(target)
-				for(var/obj/structure/overmap/OM as() in all_ships)
-					qdel(OM)
+				if(usr.client.cmd_admin_delete(target))
+					QDEL_LIST(all_ships)
 			if(command == "Variables")
 				usr.client.debug_variables(target)
 		if("createFleet")
