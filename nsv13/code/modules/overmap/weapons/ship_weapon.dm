@@ -92,11 +92,11 @@
 	return ..()
 
 //Dumbed down proc used to allow fighters to fire their weapons in a sane way.
-/datum/ship_weapon/proc/fire_fx_only(atom/target)
+/datum/ship_weapon/proc/fire_fx_only(atom/target, lateral = FALSE)
 	if(overmap_firing_sounds)
 		var/sound/chosen = pick(overmap_firing_sounds)
 		holder.relay_to_nearby(chosen)
-	holder.fire_projectile(default_projectile_type, target)
+	holder.fire_projectile(default_projectile_type, target, lateral = lateral)
 
 /datum/ship_weapon/proc/can_fire()
 	for(var/obj/machinery/ship_weapon/SW in weapons["loaded"])
