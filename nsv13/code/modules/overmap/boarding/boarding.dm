@@ -78,6 +78,8 @@
 	if(!amount)
 		amount = CEILING(1 + (SSovermap_mode.mode.difficulty / 2), 1)
 	var/list/knpc_types = list()
+	// April fools: Oops! All maids
+	faction_selection = "catgirl"
 	switch(faction_selection)
 		if("syndicate")
 			knpc_types = list(/mob/living/carbon/human/ai_boarder/syndicate/pistol, /mob/living/carbon/human/ai_boarder/syndicate/smg, /mob/living/carbon/human/ai_boarder/syndicate/shotgun)
