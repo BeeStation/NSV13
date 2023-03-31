@@ -843,12 +843,12 @@
 							holo_icon = client.prefs.get_filtered_holoform(HOLOFORM_FILTER_AI)
 						else
 							holo_icon = getHologramIcon(icon('icons/mob/ai.dmi', "default"))
-					if("xeno queen")
 					//NSV13 - AI Custom Holographic Form - Stop
+					if("xeno queen")
 						holo_icon = getHologramIcon(icon(icon_list[input],"alienq"))
 					else
 						holo_icon = getHologramIcon(icon(icon_list[input], input))
-	//return //NSV13 - Disabled this because the port demands it
+	return
 
 /mob/living/silicon/ai/proc/corereturn()
 	set category = "Malfunction"
