@@ -7,7 +7,7 @@
 /// Turfs that will be colored as HOLOMAP_PATH
 #define IS_PATH(tile) istype(tile, /turf/open/floor)
 /// Turfs that contain a Z transition, like ladders and stairs. They show with special animations on the map.
-#define HAS_Z_TRANSITION(tile) ((locate(/obj/structure/ladder) in tile) || (locate(/obj/structure/stairs) in tile))
+#define HAS_Z_TRANSITION(tile) ((locate(/obj/structure/ladder) in tile) || (locate(/obj/structure/stairs) in tile) || (locate(/obj/machinery/lazylift_button) in tile))
 
 // Holo-Minimaps Generation Subsystem handles initialization of the holo minimaps.
 
@@ -136,14 +136,26 @@ SUBSYSTEM_DEF(holomaps)
 				transitions["Stairs Down"]["markers"] += image_to_use
 				continue
 
-			if(!z_transition_positions["Ladders"])
-				z_transition_positions["Ladders"] = list("icon" = image('nsv13/icons/holomap/8x8.dmi', "ladder"), "markers" = list())
+			if(istype(z_transition_obj, /obj/structure/ladder))
+				if(!z_transition_positions["Ladders"])
+					z_transition_positions["Ladders"] = list("icon" = image('nsv13/icons/holomap/8x8.dmi', "ladder"), "markers" = list())
 
-			image_to_use = image('nsv13/icons/holomap/8x8.dmi', "ladder")
-			image_to_use.pixel_x = offset_x
-			image_to_use.pixel_y = offset_y
+				image_to_use = image('nsv13/icons/holomap/8x8.dmi', "ladder")
+				image_to_use.pixel_x = offset_x
+				image_to_use.pixel_y = offset_y
 
-			z_transition_positions["Ladders"]["markers"] += image_to_use
+				z_transition_positions["Ladders"]["markers"] += image_to_use
+				continue
+
+			if(istype(z_transition_obj, /obj/machinery/lazylift_button))
+				if(!z_transition_positions["Elevator"])
+					z_transition_positions["Elevator"] = list("icon" = image('nsv13/icons/holomap/8x8.dmi', "atmos_marker"), "markers" = list())
+
+				image_to_use = image('nsv13/icons/holomap/8x8.dmi', "elevator")
+				image_to_use.pixel_x = offset_x
+				image_to_use.pixel_y = offset_y
+
+				z_transition_positions["Elevator"]["markers"] += image_to_use
 
 		// Check sleeping after each row to avoid *completely* destroying the server
 		CHECK_TICK

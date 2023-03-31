@@ -155,6 +155,15 @@
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 5000
 
+/datum/techweb_node/fighter_mining
+	id = "fightermining"
+	display_name = "Aircraft Mining Equipment"
+	description = "Reasearch into mounting exosuit-grade mining equipment to utility vessels."
+	design_ids = list("r_cutter")
+	prereq_ids = list("fighter_tier1", "adv_mining", "adv_plasma")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1500)
+	export_price = 1000
+
 /datum/techweb_node/autoinjector
 	id = "autoinjector"
 	display_name = "Autoinjector Medipens"
