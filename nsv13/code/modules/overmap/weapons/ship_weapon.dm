@@ -11,6 +11,7 @@
 	var/default_projectile_type
 	var/burst_size = 1
 	var/fire_delay
+	var/burst_fire_delay = 1
 	var/range_modifier
 	var/select_alert
 	var/failure_alert
@@ -71,7 +72,7 @@
 				var/direction = rand(0, 359)
 				target = get_turf_in_angle(direction, target, rand(min(max_miss_distance,4), max_miss_distance))
 			for(var/I = 0; I < burst_size; I++)
-				sleep(1) //Prevents space shotgun
+				sleep(burst_fire_delay) //Prevents space shotgun
 				holder.fire_projectile(default_projectile_type, target, lateral=src.lateral, ai_aim=ai_aim)
 		return FIRE_INTERCEPTED
 	return FALSE
@@ -92,11 +93,11 @@
 	return ..()
 
 //Dumbed down proc used to allow fighters to fire their weapons in a sane way.
-/datum/ship_weapon/proc/fire_fx_only(atom/target)
+/datum/ship_weapon/proc/fire_fx_only(atom/target, lateral = FALSE)
 	if(overmap_firing_sounds)
 		var/sound/chosen = pick(overmap_firing_sounds)
 		holder.relay_to_nearby(chosen)
-	holder.fire_projectile(default_projectile_type, target)
+	holder.fire_projectile(default_projectile_type, target, lateral = lateral)
 
 /datum/ship_weapon/proc/can_fire()
 	for(var/obj/machinery/ship_weapon/SW in weapons["loaded"])
