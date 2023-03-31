@@ -563,6 +563,12 @@ Misc projectile types, effects, think of this as the special FX file.
 	muzzle_type = /obj/effect/projectile/muzzle/disabler
 	impact_type = /obj/effect/projectile/impact/disabler
 
+/obj/item/projectile/beam/laser/phaser/pd
+	name = "point defense phaser"
+	damage = 60 // Doesn't scale with power input, but fires fairly quickly especially when upgraded
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "pdphaser"
+
 /obj/item/projectile/beam/laser/point_defense
 	name = "laser pointer"
 	damage = 30

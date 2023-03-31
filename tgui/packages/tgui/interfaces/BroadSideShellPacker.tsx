@@ -1,12 +1,28 @@
-// NSV13
-
-import { Fragment } from 'inferno';
-import { useBackend, useLocalState } from '../backend';
+import { BooleanLike } from '../../common/react';
+import { useBackend } from '../backend';
 import { Box, Button, Table, Section, ProgressBar } from '../components';
 import { Window } from '../layouts';
 
+type BroadSideShellPackerData = {
+  casing_amount: number,
+  load_amount: number,
+  amount_to_pack: number,
+  plasma: BooleanLike,
+  gunpowder: BooleanLike,
+  full: BooleanLike,
+};
+
 export const BroadSideShellPacker = (props, context) => {
-  const { act, data } = useBackend(context);
+  const { act, data } = useBackend<BroadSideShellPackerData>(context);
+  const {
+    casing_amount,
+    load_amount,
+    amount_to_pack,
+    plasma,
+    gunpowder,
+    full,
+  } = data;
+
   return (
     <Window
       resizable
@@ -18,7 +34,7 @@ export const BroadSideShellPacker = (props, context) => {
             <Table.Cell collapsing>
               <Section title="Casings:">
                 <ProgressBar
-                  value={(data.casing_amount/data.amount_to_pack * 100)* 0.01}
+                  value={(casing_amount/amount_to_pack * 100)* 0.01}
                   ranges={{
                     good: [0.5, Infinity],
                     average: [0.15, 0.5],
@@ -26,14 +42,14 @@ export const BroadSideShellPacker = (props, context) => {
                   }} />
                 <br />
                 <Box bold textAlign={"center"}>
-                  {data.casing_amount}/{data.amount_to_pack}
+                  {casing_amount}/{amount_to_pack}
                 </Box>
               </Section>
             </Table.Cell>
             <Table.Cell collapsing>
               <Section title="Projectile Loads:">
                 <ProgressBar
-                  value={(data.load_amount/data.amount_to_pack * 100)* 0.01}
+                  value={(load_amount/amount_to_pack * 100)* 0.01}
                   ranges={{
                     good: [0.5, Infinity],
                     average: [0.15, 0.5],
@@ -41,7 +57,7 @@ export const BroadSideShellPacker = (props, context) => {
                   }} />
                 <br />
                 <Box bold textAlign={"center"}>
-                  {data.load_amount}/{data.amount_to_pack}
+                  {load_amount}/{amount_to_pack}
                 </Box>
               </Section>
             </Table.Cell>
@@ -54,14 +70,14 @@ export const BroadSideShellPacker = (props, context) => {
                   ellipsis
                   textAlign="center"
                   content="Plasma Charge"
-                  color={data.plasma ? "good" : "bad"} />
+                  color={plasma ? "good" : "bad"} />
                 <Button
                   fluid
                   ellipsis
                   textAlign="center"
                   content="Eject Plasma Charge"
                   icon="eject"
-                  disabled={!(data.plasma)}
+                  disabled={!(plasma)}
                   onClick={() => act('eject_plasma')} />
               </Table.Cell>
               <Table.Cell collapsing>
@@ -70,14 +86,14 @@ export const BroadSideShellPacker = (props, context) => {
                   ellipsis
                   textAlign="center"
                   content="Gunpowder Charge"
-                  color={data.gunpowder ? "good" : "bad"} />
+                  color={gunpowder ? "good" : "bad"} />
                 <Button
                   fluid
                   ellipsis
                   textAlign="center"
                   content="Eject Gunpowder Charge"
                   icon="eject"
-                  disabled={!(data.gunpowder)}
+                  disabled={!(gunpowder)}
                   onClick={() => act('eject_gunpowder')} />
               </Table.Cell>
             </Table.Row>
@@ -90,14 +106,14 @@ export const BroadSideShellPacker = (props, context) => {
                   ellipsis
                   textAlign="center"
                   content="Ready to Pack"
-                  color={data.full ? "good" : "bad"} />
+                  color={full ? "good" : "bad"} />
                 <Button
                   fluid
                   ellipsis
                   textAlign="center"
                   content="Pack Casings"
                   icon="exclamation-triangle"
-                  disabled={!(data.full)}
+                  disabled={!(full)}
                   onClick={() => act('pack')} />
               </Table.Cell>
             </Table.Row>
