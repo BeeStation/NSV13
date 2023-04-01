@@ -4,13 +4,15 @@
 	name = "\improper NTB-M4A1-IB prebuilt torpedo-casing"
 	icon_state = "case"
 	desc = "The outer casing of a 30mm torpedo."
+	claimable_gulag_points = 0
+	volatility = 0 
 	var/state = 0
 	var/obj/item/ship_weapon/parts/missile/warhead/wh = null
 	var/obj/item/ship_weapon/parts/missile/guidance_system/gs = null
 	var/obj/item/ship_weapon/parts/missile/propulsion_system/ps = null
 	var/obj/item/ship_weapon/parts/missile/iff_card/iff = null
 	projectile_type = /obj/item/projectile/guided_munition/torpedo/dud //Forget to finish your torpedo? You get a dud torpedo that doesn't do anything
-	claimable_gulag_points = 0
+
 
 /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/examine(mob/user) //No better guide than an in-game play-by-play guide
 	. = ..()
