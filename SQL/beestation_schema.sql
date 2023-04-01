@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `SS13_characters` (
 	`preferred_squad` VARCHAR(32) NOT NULL COLLATE 'utf8mb4_general_ci',
 	`preferred_pilot_role` VARCHAR(32) NOT NULL COLLATE 'utf8mb4_general_ci',
 	`flavor_text` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
-  `lizard_hiss_style` VARCHAR(32) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`lizard_hiss_style` VARCHAR(32) NOT NULL COLLATE 'utf8mb4_general_ci',
 	PRIMARY KEY (`slot`, `ckey`) USING BTREE
 ) COLLATE='utf8mb4_general_ci' ENGINE=InnoDB;
 
