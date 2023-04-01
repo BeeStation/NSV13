@@ -350,7 +350,7 @@ For when the marines are being irritating.
 	name = "Syndicate Maid (Captain)"
 	id = /obj/item/card/id/syndi_crew/captain
 	r_hand = /obj/item/ship_loadout_selector
-	command_radio = TRUE
+	ears = /obj/item/radio/headset/syndicate/alt
 
 /datum/outfit/syndie_maid
 	name = "Syndicate Maid"
