@@ -4,7 +4,7 @@ import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Section, ProgressBar, Knob, Map, StarButton } from '../components';
 import { Window } from '../layouts';
 
-export const drawStarmap = (props, context) => {
+export const drawStarmap = (props, context, starCallback) => {
   const { act, data } = useBackend(context);
   const travelling = data.travelling;
   const scale_factor = 12;
@@ -59,7 +59,7 @@ export const drawStarmap = (props, context) => {
       <StarButton unselectable="on" style={markerStyle} className={markerType}
         content="" tooltip={distance}
         onClick={() =>
-          act('select_system', { star_id: System.star_id })}>
+          starCallback(System)}>
         <span class="star_label">
           <p>{System.name} {label}</p>
         </span>
@@ -130,6 +130,8 @@ export const Starmap = (props, context) => {
   const screen = data.screen;
   const can_cancel = data.can_cancel;
 
+  const handleSystemAction = (system) => act('select_system', { star_id: system.star_id });
+
   return (
     <Window
       resizable
@@ -189,7 +191,7 @@ export const Starmap = (props, context) => {
               )}
             </>
           )}
-          {screen === 1 && drawStarmap(props, context)}
+          {screen === 1 && drawStarmap(props, context, handleSystemAction)}
           {screen === 2 && (
             <>
               <Button

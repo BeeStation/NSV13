@@ -1,14 +1,15 @@
 // NSV13
 
-import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Box, Button, LabeledList, NumberInput, Section, Table, Input, Flex } from '../components';
+import { Button, Section, Table, Input, Flex } from '../components';
 import { Window } from '../layouts';
 import { createSearch } from 'common/string';
 import { drawStarmap } from './Starmap';
 
 export const StarsystemManager = (props, context) => {
   const { act, data } = useBackend(context);
+
+  const handleSystemAction = (system) => setSearchText(system.name);
 
   const [
     searchText,
@@ -107,7 +108,7 @@ export const StarsystemManager = (props, context) => {
             </Section>
           </Flex.Item>
           <Flex.Item>
-            {drawStarmap(props, context)}
+            {drawStarmap(props, context, handleSystemAction)}
           </Flex.Item>
         </Flex>
       </Window.Content>
