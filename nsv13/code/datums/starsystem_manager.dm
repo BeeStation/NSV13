@@ -8,6 +8,7 @@
 /datum/starsystem_manager
 	var/name = "Starsystem manager"
 	var/client/holder = null
+	var/current_sector = 2
 
 /datum/starsystem_manager/New(H)//H can either be a client or a mob due to byondcode(tm)
 	if (istype(H,/client))
@@ -46,6 +47,7 @@
 		sys_inf["x"] = SS.x
 		sys_inf["y"] = SS.y
 		sys_inf["visited"] = 0
+		sys_inf["hidden"] = (SS.sector != current_sector)
 		var/label = ""
 		if(SS.is_hypergate)
 			label += " HYPERGATE"
@@ -101,6 +103,8 @@
 				continue
 			var/is_wormhole = (LAZYFIND(sys.wormhole_connections, SS.name) || LAZYFIND(SS.wormhole_connections, sys.name))
 			if(sys.sector != SS.sector) //Secret One way wormholes show you faint, purple paths.
+				continue
+			if(sys.sector != current_sector)
 				continue
 			var/thecolour = "#FFFFFF" //Highlight available routes with blue.
 			var/opacity = 1
@@ -221,3 +225,8 @@
 			if(!istype(target))
 				return
 			usr.client.debug_variables(target)
+		if("sector")
+			var/sector = input(usr, "Swap to what sector?","Sector Selection", null) as null|anything in list(ALL_STARMAP_SECTORS)
+			if(!sector)
+				return
+			current_sector = sector

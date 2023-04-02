@@ -87,7 +87,7 @@ export const drawStarmap = (props, context, starCallback) => {
     );
   };
 
-  let SystemNodes = (data.star_systems).map(drawSystemNodes);
+  let SystemNodes = (data.star_systems).filter(system => !system.hidden).map(drawSystemNodes);
   let Connections = (data.lines).map(drawLines);
 
   return (
