@@ -283,7 +283,7 @@
 /datum/chatmessage/proc/end_of_life(fadetime = CHAT_MESSAGE_EOL_FADE)
 	isFading = TRUE
 	animate(message, alpha = 0, pixel_y = message.pixel_y + MESSAGE_FADE_PIXEL_Y, time = fadetime, flags = ANIMATION_PARALLEL)
-	addtimer(CALLBACK(GLOBAL_PROC, /proc/qdel, src), fadetime, TIMER_DELETE_ME, SSrunechat)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(qdel), src), fadetime, TIMER_DELETE_ME, SSrunechat)
 
 /mob/proc/should_show_chat_message(atom/movable/speaker, datum/language/message_language, is_emote = FALSE, is_heard = FALSE)
 	if(!client)
@@ -504,7 +504,7 @@
 /datum/chatmessage/balloon_alert/end_of_life(fadetime = BALLOON_TEXT_FADE_TIME)
 	isFading = TRUE
 	animate(message, alpha = 0, pixel_y = message.pixel_y + MESSAGE_FADE_PIXEL_Y, time = fadetime, flags = ANIMATION_PARALLEL)
-	addtimer(CALLBACK(GLOBAL_PROC, /proc/qdel, src), fadetime, TIMER_DELETE_ME, SSrunechat)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(qdel), src), fadetime, TIMER_DELETE_ME, SSrunechat)
 
 /datum/chatmessage/balloon_alert/generate_image(text, atom/target, mob/owner)
 	// Register client who owns this message

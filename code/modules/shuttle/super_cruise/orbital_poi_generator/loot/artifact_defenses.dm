@@ -117,4 +117,4 @@
 
 /obj/effect/temp_visual/hierophant/blast/defenders/emp/Initialize(mapload, new_caster, friendly_fire)
 	. = ..()
-	addtimer(CALLBACK(GLOBAL_PROC, /proc/empulse, src.loc, 1, 2), 1 SECONDS)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(empulse), src.loc, 1, 2), 1 SECONDS)

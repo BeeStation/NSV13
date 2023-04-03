@@ -246,7 +246,7 @@ GLOBAL_VAR(cult_ratvar)
 	SEND_SOUND(world, 'sound/effects/ratvar_reveal.ogg')
 	to_chat(world, "<span class='ratvar'>The bluespace veil gives way to Ratvar, his light shall shine upon all mortals!</span>")
 	UnregisterSignal(src, COMSIG_ATOM_BSA_BEAM)
-	INVOKE_ASYNC(GLOBAL_PROC, /proc/trigger_clockcult_victory, src)
+	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(trigger_clockcult_victory), src)
 	check_gods_battle()
 
 //tasty
