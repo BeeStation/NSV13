@@ -157,7 +157,7 @@
 	//If our corgi died :(
 	if(new_corgi.stat)
 		holder.remove_all_type(type)
-		addtimer(CALLBACK(src, .proc/restore, M), 2 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(restore), M), 2 SECONDS)
 
 /datum/reagent/corgium/on_mob_end_metabolize(mob/living/L)
 	. = ..()

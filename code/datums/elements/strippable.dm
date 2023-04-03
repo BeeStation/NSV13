@@ -23,7 +23,7 @@
 	if(!isatom(target))
 		return ELEMENT_INCOMPATIBLE
 
-	RegisterSignal(target, COMSIG_MOUSEDROP_ONTO, .proc/mouse_drop_onto)
+	RegisterSignal(target, COMSIG_MOUSEDROP_ONTO, PROC_REF(mouse_drop_onto))
 
 	src.items = items
 	src.should_strip_proc_path = should_strip_proc_path

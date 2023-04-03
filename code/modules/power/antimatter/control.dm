@@ -266,7 +266,7 @@
 	else
 		for(var/obj/machinery/am_shielding/AMS in linked_shielding)
 			AMS.update_icon()
-	addtimer(CALLBACK(src, .proc/reset_shield_icon_delay), 20)
+	addtimer(CALLBACK(src, PROC_REF(reset_shield_icon_delay)), 20)
 
 /obj/machinery/power/am_control_unit/proc/reset_shield_icon_delay()
 	shield_icon_delay = 0
@@ -279,7 +279,7 @@
 	for(var/obj/machinery/am_shielding/AMS in linked_cores)
 		stored_core_stability += AMS.stability
 	stored_core_stability/=linked_cores.len
-	addtimer(CALLBACK(src, .proc/reset_stored_core_stability_delay), 40)
+	addtimer(CALLBACK(src, PROC_REF(reset_stored_core_stability_delay)), 40)
 
 /obj/machinery/power/am_control_unit/proc/reset_stored_core_stability_delay()
 	stored_core_stability_delay = 0

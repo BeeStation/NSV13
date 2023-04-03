@@ -685,7 +685,7 @@ GLOBAL_LIST_EMPTY(PDAs)
 	update_label()
 	if(!silent)
 		playsound(src, 'sound/machines/terminal_processing.ogg', 15, TRUE)
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/playsound, src, 'sound/machines/terminal_success.ogg', 15, TRUE), 1.3 SECONDS)
+		addtimer(CALLBACK(GLOBAL_PROC, PROC_REF(playsound), src, 'sound/machines/terminal_success.ogg', 15, TRUE), 1.3 SECONDS)
 
 /obj/item/pda/proc/do_remove_id(mob/user)
 	if(!id)
@@ -1218,7 +1218,7 @@ GLOBAL_LIST_EMPTY(PDAs)
 	if(!(. & EMP_PROTECT_SELF))
 		emped += 1
 		var/emptime = 200 * severity
-		addtimer(CALLBACK(src, .proc/decrease_emp_level), emptime)
+		addtimer(CALLBACK(src, PROC_REF(decrease_emp_level)), emptime)
 
 /obj/item/pda/proc/decrease_emp_level()
 	emped -= 1

@@ -330,7 +330,7 @@
 			A.setDir(turn(A.dir, 90))
 
 		A.forceMove(D.loc)
-		addtimer(CALLBACK(src, .proc/CheckStrikeTurf, A, T), 4)
+		addtimer(CALLBACK(src, PROC_REF(CheckStrikeTurf), A, T), 4)
 
 		D.visible_message("<span class='danger'><B>[A] headbutts [D]!</B></span>", \
 						"<span class='userdanger'>[A] headbutts you!</span>", null, COMBAT_MESSAGE_RANGE)

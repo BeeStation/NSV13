@@ -5,7 +5,7 @@
 /datum/game_mode/dynamic/proc/unfavorable_situation()
 	SHOULD_NOT_SLEEP(TRUE)
 
-	INVOKE_ASYNC(src, .proc/_unfavorable_situation)
+	INVOKE_ASYNC(src, PROC_REF(_unfavorable_situation))
 
 /datum/game_mode/dynamic/proc/_unfavorable_situation()
 	var/static/list/unfavorable_random_events = list(

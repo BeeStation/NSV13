@@ -25,8 +25,8 @@
 	QDEL_IN(src, 10 MINUTES)
 	AddComponent(
 		/datum/component/singularity, \
-		consume_callback = CALLBACK(src, .proc/consume), \
-		admin_investigate_callback = CALLBACK(src, .proc/admin_investigate_setup), \
+		consume_callback = CALLBACK(src, PROC_REF(consume)), \
+		admin_investigate_callback = CALLBACK(src, PROC_REF(admin_investigate_setup)), \
 		consume_range = BOH_TEAR_CONSUME_RANGE, \
 		grav_pull = BOH_TEAR_GRAV_PULL, \
 		roaming = FALSE, \
@@ -81,7 +81,7 @@
 	to_chat(user, "<span class='userdanger'>You don't feel like you are real anymore.</span>")
 	user.dust_animation()
 	user.spawn_dust()
-	addtimer(CALLBACK(src, .proc/consume, user), 5)
+	addtimer(CALLBACK(src, PROC_REF(consume), user), 5)
 
 #undef BOH_TEAR_CONSUME_RANGE
 #undef BOH_TEAR_GRAV_PULL

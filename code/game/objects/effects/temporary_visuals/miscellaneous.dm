@@ -513,7 +513,7 @@
 		qdel(src)
 	else
 		icon_state = "rcd_end"
-		addtimer(CALLBACK(src, .proc/end), 15)
+		addtimer(CALLBACK(src, PROC_REF(end)), 15)
 
 /obj/effect/constructing_effect/proc/end()
 	qdel(src)

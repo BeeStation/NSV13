@@ -49,7 +49,7 @@
 	use_power(10)
 	if(activator?.ckey)
 		ectoplasmic_residues[activator.ckey] = TRUE
-		addtimer(CALLBACK(src, .proc/clear_residue, activator.ckey), 60 SECONDS) //NSV13 - Ecto Sniffer Radio Yelling - 30 SECONDS to 60 SECONDS
+		addtimer(CALLBACK(src, PROC_REF(clear_residue), activator.ckey), 60 SECONDS) //NSV13 - Ecto Sniffer Radio Yelling - 30 SECONDS to 60 SECONDS
 
 /obj/machinery/ecto_sniffer/attack_hand(mob/living/user, list/modifiers)
 	. = ..()

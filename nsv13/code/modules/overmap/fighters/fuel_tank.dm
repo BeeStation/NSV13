@@ -99,7 +99,7 @@
 			to_chat(user, "<span class='warning'>You need a free hand to hold the fuel hose!</span>")
 			return
 		to_chat(user, "<span class='warning'>You grab [src]'s refuelling hose.</span>")
-		RegisterSignal(user, COMSIG_MOVABLE_MOVED, .proc/check_distance)
+		RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(check_distance))
 		set_nozzle(TRUE)
 		ui_interact(user)
 	else

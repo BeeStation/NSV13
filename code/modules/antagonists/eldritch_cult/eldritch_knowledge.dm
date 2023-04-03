@@ -173,7 +173,7 @@
 		to_chat(user, "<span class='warning'>The curse failed! The target is warded against curses.</span>")
 		return FALSE
 	curse(compiled_list[chosen_mob])
-	addtimer(CALLBACK(src, .proc/uncurse, compiled_list[chosen_mob]),timer)
+	addtimer(CALLBACK(src, PROC_REF(uncurse), compiled_list[chosen_mob]),timer)
 	return TRUE
 
 /datum/eldritch_knowledge/curse/proc/curse(mob/living/chosen_mob)

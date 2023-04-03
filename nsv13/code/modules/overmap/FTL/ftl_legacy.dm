@@ -124,7 +124,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 //Tell the FTL computer to start tracking a ship, regardless of how far apart you both are.
 /obj/machinery/computer/ship/ftl_computer/proc/start_monitoring(obj/structure/overmap/OM)
 	tracking[OM] = list("ship" = OM, "name" = OM.name, "current_system" = OM.starting_system, "target_system" = null)
-	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/announce_jump)
+	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, PROC_REF(announce_jump))
 
 /*
 A way for syndies to track where the player ship is going in advance, so they can get ahead of them and hunt them down.
@@ -140,7 +140,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 /obj/machinery/computer/ship/ftl_computer/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/has_overmap), 5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(has_overmap)), 5 SECONDS)
 	STOP_PROCESSING(SSmachines, src)
 
 /obj/machinery/computer/ship/ftl_computer/process()

@@ -144,7 +144,7 @@
 		for(var/aType in tier["abilities"])
 			abilities += new aType
 		ability_tiers[++ability_tiers.len] =list("unlockTier"=tier["unlockTier"], "abilities"=abilities, "lockAtTier"=tier["lockAtTier"])
-	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMGE, .proc/damage_react)
+	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMGE, PROC_REF(damage_react))
 	update_mob()
 
 /datum/component/bloodling/proc/damage_react(datum/source, amount)
@@ -452,7 +452,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	timer_overlay = mutable_appearance(timer_icon, timer_icon_state_active)
 	timer_overlay.alpha = 180
 	button.add_overlay(timer_overlay)
-	addtimer(CALLBACK(src, .proc/remove_cooldown), time)
+	addtimer(CALLBACK(src, PROC_REF(remove_cooldown)), time)
 
 /datum/action/bloodling/proc/remove_cooldown()
 	has_cooldown_timer = FALSE
@@ -922,7 +922,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	user.visible_message("<span class='warning'>[user] lashes out with a legion of tentacles!</span>")
 	user.shake_animation()
 	playsound(user, 'sound/magic/tail_swing.ogg', 100, TRUE)
-	INVOKE_ASYNC(src, .proc/summon_tentacles, user)
+	INVOKE_ASYNC(src, PROC_REF(summon_tentacles), user)
 	add_cooldown(cooldown)
 
 /datum/action/bloodling/whiplash/proc/summon_tentacles(mob/living/user)
@@ -1198,7 +1198,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	//No escape
 	SSshuttle.registerHostileEnvironment(user)
 	SSshuttle.lockdown = TRUE
-	addtimer(CALLBACK(src, .proc/begin_the_end), 5 MINUTES)
+	addtimer(CALLBACK(src, PROC_REF(begin_the_end)), 5 MINUTES)
 
 /datum/component/bloodling/proc/begin_the_end(mob/living/user)
 	user = parent
@@ -1209,7 +1209,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	//Give them a chance to resolve it.
 	priority_announce("WARNING: AN EXTRA-DIMENSIONAL CONSCIOUSNESS GRID HAS BEEN ESTABLISHED ABOARD [station_name()]... Eliminate the focal entity at all costs. Reports estimate total reality failure in T-10 minutes.","Central Command Higher Dimensional Affairs")
 
-	addtimer(CALLBACK(GLOBAL_PROC, .proc/bloodling_win), 10 MINUTES)
+	addtimer(CALLBACK(GLOBAL_PROC, PROC_REF(bloodling_win)), 10 MINUTES)
 
 	var/mob/last_user = user
 	var/mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended/theMaster = new(user.loc)
@@ -1255,7 +1255,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 
 /mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended/Initialize(mapload, spawn_more, len)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/update_biomass), 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(update_biomass)), 1 SECONDS)
 	var/area/A = get_area(src)
 	if(A)
 		var/mutable_appearance/alert_overlay = mutable_appearance('nsv13/icons/mob/actions/actions_bloodling.dmi', "ascend")

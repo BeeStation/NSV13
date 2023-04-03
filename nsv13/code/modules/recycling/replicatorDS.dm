@@ -145,8 +145,8 @@
 			ready = FALSE
 			var/speed_mult = 60 //Starts off hella slow.
 			speed_mult -= (speed_grade*10) //Upgrade with manipulators to make this faster!
-			addtimer(CALLBACK(src, .proc/replicate, target,temp,speaker), speed_mult)
-			addtimer(CALLBACK(src, .proc/set_ready, TRUE), speed_mult)
+			addtimer(CALLBACK(src, PROC_REF(replicate), target,temp,speaker), speed_mult)
+			addtimer(CALLBACK(src, PROC_REF(set_ready), TRUE), speed_mult)
 
 /obj/machinery/replicator/proc/set_ready()
 	icon_state = "replicator-on"

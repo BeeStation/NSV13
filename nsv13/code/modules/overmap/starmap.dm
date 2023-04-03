@@ -20,7 +20,7 @@
 	circuit = /obj/item/circuitboard/computer/ship/navigation
 
 /obj/machinery/computer/ship/navigation/LateInitialize()
-	addtimer(CALLBACK(src, .proc/has_overmap), 15 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(has_overmap)), 15 SECONDS)
 
 
 /obj/machinery/computer/ship/navigation/can_interact(mob/user) //Override this code to allow people to use consoles when flying the ship.

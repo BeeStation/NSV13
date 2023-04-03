@@ -98,7 +98,7 @@
 		UnregisterSignal(src, COMSIG_PARENT_QDELETING)
 	current = new_current
 	if(current)
-		RegisterSignal(src, COMSIG_PARENT_QDELETING, .proc/clear_current)
+		RegisterSignal(src, COMSIG_PARENT_QDELETING, PROC_REF(clear_current))
 
 /datum/mind/proc/clear_current(datum/source)
 	SIGNAL_HANDLER
@@ -139,7 +139,7 @@
 	transfer_antag_huds(hud_to_transfer)				//inherit the antag HUD
 	transfer_actions(new_character)
 	transfer_martial_arts(new_character)
-	RegisterSignal(new_character, COMSIG_MOB_DEATH, .proc/set_death_time)
+	RegisterSignal(new_character, COMSIG_MOB_DEATH, PROC_REF(set_death_time))
 	if(active || force_key_move)
 		new_character.key = key		//now transfer the key to link the client to our new body
 	current.update_atom_languages()

@@ -149,7 +149,7 @@
 
 /obj/effect/broken_illusion/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src,.proc/show_presence),15 SECONDS)
+	addtimer(CALLBACK(src,PROC_REF(show_presence)),15 SECONDS)
 
 	var/image/I = image('icons/effects/eldritch.dmi',src,null,OBJ_LAYER)
 	I.override = TRUE
@@ -160,7 +160,7 @@
 	I.alpha = 255
 	I.appearance_flags = RESET_ALPHA
 	add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/heretics,"pierced_reality_heretics",I)
-	addtimer(CALLBACK(src,.proc/dissipate),15 MINUTES)
+	addtimer(CALLBACK(src,PROC_REF(dissipate)),15 MINUTES)
 
 ///Makes this obj appear out of nothing
 /obj/effect/broken_illusion/proc/show_presence()

@@ -46,10 +46,10 @@
 		forceMove(H)
 		if(iscarbon(M))
 			in_use = TRUE
-			addtimer(CALLBACK(src, .proc/after_arrow_attack, H, kill_chance), 15 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(after_arrow_attack), H, kill_chance), 15 SECONDS)
 			in_use = FALSE
 		else if(isguardian(M))
-			INVOKE_ASYNC(src, .proc/requiem, M)
+			INVOKE_ASYNC(src, PROC_REF(requiem), M)
 
 	if(!uses)
 		visible_message("<span class='warning'>[src] falls apart!</span>")
@@ -64,7 +64,7 @@
 		H.adjustCloneLoss(500)
 		H.dust(TRUE)
 	else
-		INVOKE_ASYNC(src, .proc/generate_stand, H)
+		INVOKE_ASYNC(src, PROC_REF(generate_stand), H)
 
 /obj/item/stand_arrow/proc/requiem(mob/living/simple_animal/hostile/guardian/G)
 	G.range = 255
@@ -149,7 +149,7 @@
 				stats.range++
 				if(stats.range >= 5)
 					categories -= "Range"
-	INVOKE_ASYNC(src, .proc/get_stand, H, stats)
+	INVOKE_ASYNC(src, PROC_REF(get_stand), H, stats)
 
 /obj/item/stand_arrow/proc/pick_name(mob/living/simple_animal/hostile/guardian/G)
 	set waitfor = FALSE
@@ -193,7 +193,7 @@
 			visible_message("<span class='warning'>\The [src] falls apart!</span>")
 			qdel(src)
 	else
-		addtimer(CALLBACK(src, .proc/get_stand, H, stats), 90 SECONDS) // lmao
+		addtimer(CALLBACK(src, PROC_REF(get_stand), H, stats), 90 SECONDS) // lmao
 
 /obj/item/stand_arrow/examine(mob/user)
 	. = ..()

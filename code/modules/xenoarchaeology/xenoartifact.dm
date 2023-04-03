@@ -349,7 +349,7 @@
 		. = M?.pulling ? M.pulling : M
 	else
 		. = target
-	RegisterSignal(., COMSIG_PARENT_QDELETING, .proc/on_target_del, TRUE)
+	RegisterSignal(., COMSIG_PARENT_QDELETING, PROC_REF(on_target_del), TRUE)
 	return
 
 ///Hard del handle
@@ -433,7 +433,7 @@
 	var/price
 
 /datum/component/xenoartifact_pricing/Initialize(...)
-	RegisterSignal(parent, XENOA_CHANGE_PRICE, .proc/update_price)
+	RegisterSignal(parent, XENOA_CHANGE_PRICE, PROC_REF(update_price))
 	..()
 
 /datum/component/xenoartifact_pricing/Destroy(force, silent)

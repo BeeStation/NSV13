@@ -446,7 +446,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(GLOB.ckey_redirects.Find(ckey))
 		if(isnewplayer(mob))
 			to_chat(src, "<span class='redtext'>The server is full. You will be redirected to [CONFIG_GET(string/redirect_address)] in 10 seconds.</span>")
-			addtimer(CALLBACK(src, .proc/time_to_redirect), (10 SECONDS))
+			addtimer(CALLBACK(src, PROC_REF(time_to_redirect)), (10 SECONDS))
 		else
 			GLOB.ckey_redirects -= ckey
 
@@ -1047,7 +1047,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	set desc ="Get your ID for account verification."
 
 	remove_verb(/client/proc/show_account_identifier)
-	addtimer(CALLBACK(src, .proc/restore_account_identifier), 20) //Don't DoS DB queries, asshole
+	addtimer(CALLBACK(src, PROC_REF(restore_account_identifier)), 20) //Don't DoS DB queries, asshole
 
 	var/confirm = alert("Do NOT share the verification ID in the following popup. Understand?", "Important Warning", "Yes", "Cancel")
 	if(confirm != "Yes")

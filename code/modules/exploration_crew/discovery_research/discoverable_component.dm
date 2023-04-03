@@ -9,8 +9,8 @@
 	if(!isatom(parent))
 		return COMPONENT_INCOMPATIBLE
 
-	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, .proc/examine)
-	RegisterSignal(parent, COMSIG_CLICK, .proc/tryScan)
+	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(examine))
+	RegisterSignal(parent, COMSIG_CLICK, PROC_REF(tryScan))
 
 	point_reward = _point_reward
 	unique = _unique

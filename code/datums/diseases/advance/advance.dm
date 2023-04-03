@@ -106,7 +106,7 @@
 
 /datum/disease/advance/after_add()
 	if(affected_mob)
-		RegisterSignal(affected_mob, COMSIG_MOB_DEATH, .proc/on_mob_death)
+		RegisterSignal(affected_mob, COMSIG_MOB_DEATH, PROC_REF(on_mob_death))
 
 /datum/disease/advance/proc/on_mob_death()
 	SIGNAL_HANDLER

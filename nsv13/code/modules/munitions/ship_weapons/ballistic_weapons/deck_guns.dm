@@ -556,7 +556,7 @@
 		if(!target)
 			return
 	if(get_dist(src, target) <= 1)
-		INVOKE_ASYNC(src, .proc/devour, target)
+		INVOKE_ASYNC(src, PROC_REF(devour), target)
 		satisfied_until = world.time + satisfaction_duration
 	else if(!throwing)
 		throw_at(target, 10, 2)
@@ -565,7 +565,7 @@
 	if(!enraged)
 		return ..()
 	if(target && hit_atom == target && !devouring)
-		INVOKE_ASYNC(src, .proc/devour, target)
+		INVOKE_ASYNC(src, PROC_REF(devour), target)
 		satisfied_until = world.time + satisfaction_duration
 		return
 	return ..()
@@ -825,7 +825,7 @@
 
 /obj/machinery/ship_weapon/deck_turret/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/RefreshParts), world.tick_lag)
+	addtimer(CALLBACK(src, PROC_REF(RefreshParts)), world.tick_lag)
 
 	core = locate(/obj/machinery/deck_turret) in SSmapping.get_turf_below(src)
 	if(!core)

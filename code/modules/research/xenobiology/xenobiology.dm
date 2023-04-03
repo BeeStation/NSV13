@@ -483,7 +483,7 @@
 				return
 			to_chat(user, "<span class='notice'>You feel your skin harden and become more resistant.</span>")
 			species.armor += 25
-			addtimer(CALLBACK(src, .proc/reset_armor, species), 120 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(reset_armor), species), 120 SECONDS)
 			return 45 SECONDS
 
 		if(SLIME_ACTIVATE_MAJOR)

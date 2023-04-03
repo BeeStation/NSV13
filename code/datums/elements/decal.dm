@@ -21,21 +21,21 @@
 	cleanable = _cleanable
 	rotated = _rotated
 
-	RegisterSignal(target,COMSIG_ATOM_UPDATE_OVERLAYS, .proc/apply_overlay, TRUE)
+	RegisterSignal(target,COMSIG_ATOM_UPDATE_OVERLAYS, PROC_REF(apply_overlay), TRUE)
 	if(isturf(target))
-		RegisterSignal(target,COMSIG_TURF_AFTER_SHUTTLE_MOVE,.proc/shuttlemove_react, TRUE)
+		RegisterSignal(target,COMSIG_TURF_AFTER_SHUTTLE_MOVE,PROC_REF(shuttlemove_react), TRUE)
 	if(target.flags_1 & INITIALIZED_1)
 		target.update_icon() //could use some queuing here now maybe.
 	else
-		RegisterSignal(target,COMSIG_ATOM_AFTER_SUCCESSFUL_INITIALIZE,.proc/late_update_icon, TRUE)
+		RegisterSignal(target,COMSIG_ATOM_AFTER_SUCCESSFUL_INITIALIZE,PROC_REF(late_update_icon), TRUE)
 	if(isitem(target))
 		INVOKE_ASYNC(target, TYPE_PROC_REF(/obj/item/, update_slot_icon), TRUE)
 	if(_dir)
-		RegisterSignal(target, COMSIG_ATOM_DIR_CHANGE, .proc/rotate_react,TRUE)
+		RegisterSignal(target, COMSIG_ATOM_DIR_CHANGE, PROC_REF(rotate_react),TRUE)
 	if(_cleanable)
-		RegisterSignal(target, COMSIG_COMPONENT_CLEAN_ACT, .proc/clean_react,TRUE)
+		RegisterSignal(target, COMSIG_COMPONENT_CLEAN_ACT, PROC_REF(clean_react),TRUE)
 	if(_description)
-		RegisterSignal(target, COMSIG_PARENT_EXAMINE, .proc/examine, TRUE)
+		RegisterSignal(target, COMSIG_PARENT_EXAMINE, PROC_REF(examine), TRUE)
 
 /datum/element/decal/proc/generate_appearance(_icon, _icon_state, _dir, _layer, _color, _alpha, source)
 	if(!_icon || !_icon_state)

@@ -114,7 +114,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 		M.become_nearsighted("ftliver")
 		shake_camera(M,15)
 		M.playsound_local(M.loc,"sound/effects/hyperspace_end.ogg",50)
-		addtimer(CALLBACK(src, .proc/Recover, M), 55)
+		addtimer(CALLBACK(src, PROC_REF(Recover), M), 55)
 	return ..()
 
 /datum/reagent/consumable/ethanol/ftliver/proc/Recover(mob/living/M)

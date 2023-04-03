@@ -61,8 +61,8 @@ GLOBAL_LIST_EMPTY(knpcs)
 	START_PROCESSING(SSfastprocess, src)
 	//They're alive!
 	GLOB.knpcs.Add(src)
-	RegisterSignal(parent, COMSIG_LIVING_REVIVE, .proc/restart)
-	RegisterSignal(parent, COMSIG_ATOM_BULLET_ACT, .proc/register_bullet)
+	RegisterSignal(parent, COMSIG_LIVING_REVIVE, PROC_REF(restart))
+	RegisterSignal(parent, COMSIG_ATOM_BULLET_ACT, PROC_REF(register_bullet))
 
 //Swiper! no swiping
 /datum/component/knpc/proc/steal_id(obj/item/card/id/their_id)

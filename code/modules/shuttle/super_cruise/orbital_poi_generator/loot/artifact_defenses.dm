@@ -60,8 +60,8 @@
 	active = TRUE
 	flick("protector_pulse", src)
 	var/turf/target_location = get_turf(target)
-	addtimer(CALLBACK(effect, .proc/trigger, src, get_turf(src), target, target_location), 1 SECONDS)
-	addtimer(CALLBACK(src, .proc/reset_cooldown), 1.5 SECONDS)
+	addtimer(CALLBACK(effect, PROC_REF(trigger), src, get_turf(src), target, target_location), 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(reset_cooldown)), 1.5 SECONDS)
 
 /obj/structure/alien_artifact/protector/proc/reset_cooldown()
 	active = FALSE
@@ -82,12 +82,12 @@
 /datum/protector_effect/hierophant_burst/trigger(obj/source, turf/source_location, atom/movable/target, turf/target_location)
 	playsound(source_location,'sound/machines/airlockopen.ogg', 200, 1)
 	source.visible_message("<span class='hierophant'>\"Irkekmrk hijirwmzi tvsxsgspw.\"</span>")
-	INVOKE_ASYNC(src, .proc/protector_burst, null, get_turf(target), 1)
+	INVOKE_ASYNC(src, PROC_REF(protector_burst), null, get_turf(target), 1)
 
 /datum/protector_effect/hierophant_burst_self/trigger(obj/source, turf/source_location, atom/movable/target, turf/target_location)
 	playsound(source_location,'sound/machines/airlockopen.ogg', 200, 1)
 	source.visible_message("<span class='hierophant'>\"Yrorsar irxmxc hixigxih.\"</span>")
-	INVOKE_ASYNC(src, .proc/protector_burst, null, source_location, 2)
+	INVOKE_ASYNC(src, PROC_REF(protector_burst), null, source_location, 2)
 
 /datum/protector_effect/emp_attack/trigger(obj/source, turf/source_location, atom/movable/target, turf/target_location)
 	playsound(source_location,'sound/machines/airlockopen.ogg', 200, 1)

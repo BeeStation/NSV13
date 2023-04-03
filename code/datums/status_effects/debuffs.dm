@@ -543,7 +543,7 @@
 /datum/status_effect/trance/on_apply()
 	if(!iscarbon(owner))
 		return FALSE
-	RegisterSignal(owner, COMSIG_MOVABLE_HEAR, .proc/hypnotize)
+	RegisterSignal(owner, COMSIG_MOVABLE_HEAR, PROC_REF(hypnotize))
 	ADD_TRAIT(owner, TRAIT_MUTE, "trance")
 	if(!owner.has_quirk(/datum/quirk/monochromatic))
 		owner.add_client_colour(/datum/client_colour/monochrome)
