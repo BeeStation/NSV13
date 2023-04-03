@@ -168,9 +168,9 @@
 		G.summoner = H.mind
 		G.key = C.key
 		G.mind.enslave_mind_to_creator(H)
-		G.RegisterSignal(H, COMSIG_MOVABLE_MOVED, /mob/living/simple_animal/hostile/guardian.proc/OnMoved)
-		G.RegisterSignal(H, COMSIG_LIVING_REVIVE, /mob/living/simple_animal/hostile/guardian.proc/Reviveify)
-		G.RegisterSignal(H.mind, COMSIG_MIND_TRANSFER_TO, /mob/living/simple_animal/hostile/guardian.proc/OnMindTransfer)
+		G.RegisterSignal(H, COMSIG_MOVABLE_MOVED, TYPE_PROC_REF(/mob/living/simple_animal/hostile/guardian, OnMoved))
+		G.RegisterSignal(H, COMSIG_LIVING_REVIVE, TYPE_PROC_REF(/mob/living/simple_animal/hostile/guardian, Reviveify))
+		G.RegisterSignal(H.mind, COMSIG_MIND_TRANSFER_TO, TYPE_PROC_REF(/mob/living/simple_animal/hostile/guardian, OnMindTransfer))
 		var/datum/antagonist/guardian/S = new
 		S.stats = stats
 		S.summoner = H.mind

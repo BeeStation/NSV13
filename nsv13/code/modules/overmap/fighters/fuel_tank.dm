@@ -124,7 +124,7 @@
 	else
 		cut_overlay("cryofuel_nozzle")
 		current_beam = new(user, src, beam_icon='nsv13/icons/effects/beam.dmi',time=INFINITY,maxdistance = INFINITY,beam_icon_state="hose",btype=/obj/effect/ebeam/fuel_hose)
-		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+		INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/attackby(obj/item/I, mob/user, params)
 	if(I == nozzle)

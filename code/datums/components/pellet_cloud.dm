@@ -107,7 +107,7 @@
 		var/turf/current_loc = get_turf(user)
 		if(!istype(targloc) || !istype(current_loc))
 			return
-		INVOKE_ASYNC(shell, /obj/item/ammo_casing.proc/throw_proj, target, targloc, shooter, params, spread)
+		INVOKE_ASYNC(shell, TYPE_PROC_REF(/obj/item/ammo_casing, throw_proj), target, targloc, shooter, params, spread)
 		if(i != num_pellets)
 			shell.newshot()
 

@@ -226,9 +226,9 @@
 		UnregisterSignal(weapon, list(COMSIG_MOVABLE_MOVED, COMSIG_PARENT_QDELETING))
 		//If a mob was passed in and it can hold items, put it in the mob's hand.
 		if(istype(to_hands) && to_hands.can_hold_items())
-			INVOKE_ASYNC(to_hands, /mob.proc/put_in_hands, weapon)
+			INVOKE_ASYNC(to_hands, TYPE_PROC_REF(/mob, put_in_hands), weapon)
 		else
-			INVOKE_ASYNC(weapon, /atom/movable.proc/forceMove, get_turf(victim))
+			INVOKE_ASYNC(weapon, TYPE_PROC_REF(/atom/movable, forceMove), get_turf(victim))
 
 	qdel(src)
 

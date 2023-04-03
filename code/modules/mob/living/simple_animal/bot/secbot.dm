@@ -257,7 +257,7 @@ Auto Patrol: []"},
 	var/judgment_criteria = judgment_criteria()
 	playsound(src, 'sound/weapons/egloves.ogg', 50, TRUE, -1)
 	icon_state = "[initial(icon_state)]-c"
-	addtimer(CALLBACK(src, /atom/.proc/update_icon), 2)
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom/, update_icon)), 2)
 	var/threat = 5
 	if(ishuman(C))
 		C.stuttering = 5

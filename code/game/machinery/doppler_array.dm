@@ -186,7 +186,7 @@
 
 	for(var/mob/living/carbon/human/H in oviewers(src))
 		if(H.client)
-			INVOKE_ASYNC(H.client, /client.proc/increase_score, /datum/award/score/bomb_score, H, orig_light_range)
+			INVOKE_ASYNC(H.client, TYPE_PROC_REF(/client, increase_score), /datum/award/score/bomb_score, H, orig_light_range)
 
 	return TRUE
 

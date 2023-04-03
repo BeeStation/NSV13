@@ -643,7 +643,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	animate(user, alpha = 255, time = 2 SECONDS)
 
 	var/datum/beam/current_beam = new(user,M,time=absorb_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
-	INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+	INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 	M.visible_message("<span class='warning'>[user] plunges a tendril deep into [M]'s carotid artery!</span>", "<span class='userdanger'>You feel a stabbing pain in your carotid artery!</span>")
 	M.take_overall_damage(0, 0, 50) //OUCH!
 	M.emote("scream")
@@ -737,7 +737,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 			var/absorb_cooldown = 1 MINUTES - B.last_evolution SECONDS //It'll take everything you have to pull this off...
 			soundloop.start(user)
 			var/datum/beam/current_beam = new(user,physical_target,time=new_absorb_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
-			INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+			INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 			add_cooldown(absorb_cooldown*2)
 			user.emote("scream")
 			if(do_after(user, new_absorb_time, target=physical_target))
@@ -773,7 +773,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	var/absorb_cooldown = 20 SECONDS - B.last_evolution SECONDS //Bigger boys absorb better
 	soundloop.start(user)
 	var/datum/beam/current_beam = new(user,M,time=absorb_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
-	INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+	INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 	M.visible_message("<span class='warning'>[user] plunges a tendril deep into [M]'s carotid artery!</span>", "<span class='userdanger'>You feel a stabbing pain in your carotid artery!</span>")
 	add_cooldown(absorb_cooldown)
 	M.emote("scream")
@@ -932,7 +932,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 		if(M == user)
 			continue
 		var/datum/beam/current_beam = new(user,M,time=0.75 SECONDS,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
-		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+		INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 		animate(M, pixel_y = 70, 0.25 SECONDS)
 		playsound(M, 'nsv13/sound/effects/bloodling_squelch.ogg', 70, FALSE)
 		M.visible_message("<span class='warning'>A tentacle grabs hold of [M]!</span>", "<span class='userdanger'>A tentacle sweeps you high into the air!</span>")
@@ -1116,7 +1116,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	user.emote("scream")
 	var/heal_time = 20 SECONDS
 	var/datum/beam/current_beam = new(user,M,time=heal_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
-	INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+	INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 	M.visible_message("<span class='warning'>[user] plunges a tendril deep into [M]'s neck!</span>", "<span class='userdanger'>You feel a stabbing pain in your neck as your wounds knit back together...</span>")
 	M.emote("scream")
 	playsound(M, 'nsv13/sound/effects/bloodling_squelch.ogg', 70, FALSE)

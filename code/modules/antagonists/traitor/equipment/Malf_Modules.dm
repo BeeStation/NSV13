@@ -431,8 +431,8 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 	for(var/obj/machinery/door/D in GLOB.airlocks)
 		if(!is_station_level(D.z))
 			continue
-		INVOKE_ASYNC(D, /obj/machinery/door.proc/hostile_lockdown, owner)
-		addtimer(CALLBACK(D, /obj/machinery/door.proc/disable_lockdown), 900)
+		INVOKE_ASYNC(D, TYPE_PROC_REF(/obj/machinery/door, hostile_lockdown), owner)
+		addtimer(CALLBACK(D, TYPE_PROC_REF(/obj/machinery/door, disable_lockdown)), 900)
 
 	var/obj/machinery/computer/communications/C = locate() in GLOB.machines
 	if(C)
@@ -588,7 +588,7 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 	ranged_ability_user.playsound_local(ranged_ability_user, "sparks", 50, 0)
 	attached_action.adjust_uses(-1)
 	target.audible_message("<span class='userdanger'>You hear a loud electrical buzzing sound coming from [target]!</span>")
-	addtimer(CALLBACK(attached_action, /datum/action/innate/ai/ranged/overload_machine.proc/detonate_machine, target), 50) //kaboom!
+	addtimer(CALLBACK(attached_action, TYPE_PROC_REF(/datum/action/innate/ai/ranged/overload_machine, detonate_machine), target), 50) //kaboom!
 	remove_ranged_ability("<span class='danger'>Overcharging machine...</span>")
 	return TRUE
 
@@ -635,7 +635,7 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 	ranged_ability_user.playsound_local(ranged_ability_user, 'sound/misc/interference.ogg', 50, 0)
 	attached_action.adjust_uses(-1)
 	target.audible_message("<span class='userdanger'>You hear a loud electrical buzzing sound coming from [target]!</span>")
-	addtimer(CALLBACK(attached_action, /datum/action/innate/ai/ranged/override_machine.proc/animate_machine, target), 50) //kabeep!
+	addtimer(CALLBACK(attached_action, TYPE_PROC_REF(/datum/action/innate/ai/ranged/override_machine, animate_machine), target), 50) //kabeep!
 	remove_ranged_ability("<span class='danger'>Sending override signal...</span>")
 	return TRUE
 
@@ -763,7 +763,7 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 	for(var/obj/machinery/light/L in GLOB.machines)
 		if(is_station_level(L.z))
 			L.no_emergency = TRUE
-			INVOKE_ASYNC(L, /obj/machinery/light/.proc/update, FALSE)
+			INVOKE_ASYNC(L, TYPE_PROC_REF(/obj/machinery/light/, update), FALSE)
 		CHECK_TICK
 	to_chat(owner, "<span class='notice'>Emergency light connections severed.</span>")
 	owner.playsound_local(owner, 'sound/effects/light_flicker.ogg', 50, FALSE)

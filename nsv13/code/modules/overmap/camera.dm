@@ -115,7 +115,7 @@
 	eyeobj.off_action.ship = src
 	eyeobj.off_action.Grant(user)
 	eyeobj.setLoc(eyeobj.loc)
-	eyeobj.RegisterSignal(src, COMSIG_MOVABLE_MOVED, /mob/camera/ai_eye/remote/overmap_observer.proc/update)
+	eyeobj.RegisterSignal(src, COMSIG_MOVABLE_MOVED, TYPE_PROC_REF(/mob/camera/ai_eye/remote/overmap_observer, update))
 	user.reset_perspective(eyeobj)
 	user.remote_control = eyeobj
 

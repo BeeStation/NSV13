@@ -438,7 +438,7 @@
 		visible_message("<span class='danger'>\The [src] begins to expand!</span>")
 		var/delay = max(50 - plasma.volume, 5)
 		var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
-		addtimer(CALLBACK(VC, /datum/component/volatile/.proc/explode), delay)
+		addtimer(CALLBACK(VC, TYPE_PROC_REF(/datum/component/volatile/, explode)), delay)
 		Shake(10, 10, delay)
 		return
 	var/nutri = 0
@@ -514,7 +514,7 @@
 	target.notransform = TRUE
 	target.anchored = TRUE
 	if(target.stat != DEAD)
-		INVOKE_ASYNC(target, /mob.proc/emote, "scream")
+		INVOKE_ASYNC(target, TYPE_PROC_REF(/mob, emote), "scream")
 	SpinAnimation(20, 1, pick(0, 1), parallel = FALSE) // he does tricks!
 	var/segsleep = consumeTime * 0.5
 	sleep(segsleep)
@@ -524,7 +524,7 @@
 	if(isplasmaman(target))
 		visible_message("<span class='danger'>\The [src] doesn't look very well..</span>")
 		var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
-		addtimer(CALLBACK(VC, /datum/component/volatile/.proc/explode), 20)
+		addtimer(CALLBACK(VC, TYPE_PROC_REF(/datum/component/volatile/, explode)), 20)
 		Shake(10, 10, 20)
 	var/list/inventoryItems = target.get_equipped_items(TRUE)
 	target.unequip_everything()

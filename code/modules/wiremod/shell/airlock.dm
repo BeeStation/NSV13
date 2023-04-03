@@ -140,6 +140,6 @@
 	if(COMPONENT_TRIGGERED_BY(unbolt, port))
 		attached_airlock.unbolt()
 	if(COMPONENT_TRIGGERED_BY(open, port) && attached_airlock.density)
-		INVOKE_ASYNC(attached_airlock, /obj/machinery/door/airlock.proc/open)
+		INVOKE_ASYNC(attached_airlock, TYPE_PROC_REF(/obj/machinery/door/airlock, open))
 	if(COMPONENT_TRIGGERED_BY(close, port) && !attached_airlock.density)
-		INVOKE_ASYNC(attached_airlock, /obj/machinery/door/airlock.proc/close)
+		INVOKE_ASYNC(attached_airlock, TYPE_PROC_REF(/obj/machinery/door/airlock, close))

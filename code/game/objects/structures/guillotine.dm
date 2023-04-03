@@ -133,7 +133,7 @@
 			// The delay is to making large crowds have a longer laster applause
 			var/delay_offset = 0
 			for(var/mob/living/carbon/human/C in viewers(7, src))
-				addtimer(CALLBACK(C, /mob/.proc/emote, "clap"), delay_offset * 0.3)
+				addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/, emote), "clap"), delay_offset * 0.3)
 				delay_offset++
 		else
 			H.apply_damage(15 * blade_sharpness, BRUTE, head)

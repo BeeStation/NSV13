@@ -65,7 +65,7 @@
 /datum/component/shell/proc/on_attack_ghost(datum/source, mob/dead/observer/ghost)
 	SIGNAL_HANDLER
 	if(attached_circuit)
-		INVOKE_ASYNC(attached_circuit, /datum.proc/ui_interact, ghost)
+		INVOKE_ASYNC(attached_circuit, TYPE_PROC_REF(/datum, ui_interact), ghost)
 
 /datum/component/shell/proc/on_examine(datum/source, mob/user, list/examine_text)
 	SIGNAL_HANDLER

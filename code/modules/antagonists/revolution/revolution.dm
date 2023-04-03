@@ -443,7 +443,7 @@
 		priority_announce("A recent assessment of your station has marked your station as a severe risk area for high ranking Nanotrasen officials. \
 		For the safety of our staff, we have blacklisted your station for new employment of security and command. \
 		[pick(world.file2list("strings/anti_union_propaganda.txt"))]", null, SSstation.announcer.get_rand_report_sound(), null, "Central Command Loyalty Monitoring Division")
-		addtimer(CALLBACK(SSshuttle.emergency, /obj/docking_port/mobile/emergency.proc/request, null, 1), 50)
+		addtimer(CALLBACK(SSshuttle.emergency, TYPE_PROC_REF(/obj/docking_port/mobile/emergency, request), null, 1), 50)
 
 /// Mutates the ticker to report that the revs have won
 /datum/team/revolution/proc/round_result(finished)

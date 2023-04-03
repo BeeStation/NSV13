@@ -419,7 +419,7 @@ GLOBAL_DATUM(battle_royale, /datum/battle_royale_controller)
 	//lol u died
 	if(isliving(AM))
 		var/mob/living/M = AM
-		INVOKE_ASYNC(M, /mob/living/carbon.proc/gib)
+		INVOKE_ASYNC(M, TYPE_PROC_REF(/mob/living/carbon, gib))
 		to_chat(M, "<span class='warning'>You left the zone!</span>")
 
 /obj/effect/death_wall/Moved(atom/OldLoc, Dir)

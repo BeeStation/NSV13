@@ -82,14 +82,14 @@
 	log_admin_private("[key_name(denied_by)] has denied interview #[id] for [owner_ckey][!owner ? "(DC)": ""]. Retries [can_retry ? "enabled" : "disabled"].")
 	message_admins("<span class='adminnotice'>[key_name(denied_by)] has denied interview #[id] for [owner_ckey][!owner ? "(DC)": ""]. Retries [can_retry ? "enabled" : "disabled"].</span>")
 	if(can_retry)
-		addtimer(CALLBACK(GLOB.interviews, /datum/interview_manager.proc/release_from_cooldown, owner_ckey), 180 SECONDS)
+		addtimer(CALLBACK(GLOB.interviews, TYPE_PROC_REF(/datum/interview_manager, release_from_cooldown), owner_ckey), 180 SECONDS)
 		if (owner)
 			SEND_SOUND(owner, sound('sound/effects/adminhelp.ogg'))
 			to_chat(owner, "<font color='red' size='4'><b>-- Interview Update --</b></font>" \
 				+ "\n<span class='adminsay'>Unfortunately your interview was denied. Please try submitting another questionnaire." \
 				+ " You may do this in three minutes.</span>")
 	else
-		addtimer(CALLBACK(GLOB.interviews, /datum/interview_manager.proc/give_the_boot, owner_ckey), 30 SECONDS)
+		addtimer(CALLBACK(GLOB.interviews, TYPE_PROC_REF(/datum/interview_manager, give_the_boot), owner_ckey), 30 SECONDS)
 		if (owner)
 			SEND_SOUND(owner, sound('sound/effects/adminhelp.ogg'))
 			to_chat(owner, "<font color='red' size='4'><b>-- Interview Update --</b></font>" \

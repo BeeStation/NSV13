@@ -261,7 +261,7 @@
 			if(AMS.processing)
 				AMS.shutdown_core()
 			AMS.control_unit = null
-			addtimer(CALLBACK(AMS, /obj/machinery/am_shielding.proc/controllerscan), 10)
+			addtimer(CALLBACK(AMS, TYPE_PROC_REF(/obj/machinery/am_shielding, controllerscan)), 10)
 		linked_shielding = list()
 	else
 		for(var/obj/machinery/am_shielding/AMS in linked_shielding)
