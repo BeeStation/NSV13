@@ -25,7 +25,7 @@
 	if(!IS_HERETIC(user))
 		return
 	if(!is_in_use)
-		INVOKE_ASYNC(src, .proc/activate , user)
+		INVOKE_ASYNC(src, PROC_REF(activate), user)
 
 /obj/effect/eldritch/proc/activate(mob/living/user)
 	is_in_use = TRUE

@@ -1107,7 +1107,7 @@
 					to_chat(user, "<span class='warning'>Despite your attempts, [src] refuses to open.</span>")
 			prying_so_hard = FALSE
 		if(!hasPower())
-			INVOKE_ASYNC(src, (density ? .proc/open : PROC_REF(close)), 2)
+			INVOKE_ASYNC(src, (density ? PROC_REF(open) : PROC_REF(close)), 2)
 	else
 		return ..()
 
@@ -1178,7 +1178,7 @@
 			if(F && !ISWIELDED(F))
 				to_chat(user, "<span class='warning'>You need to be wielding the fire axe to do that!</span>")
 				return
-		INVOKE_ASYNC(src, (density ? .proc/open : PROC_REF(close)), 2)
+		INVOKE_ASYNC(src, (density ? PROC_REF(open) : PROC_REF(close)), 2)
 
 	if(HAS_TRAIT(I, TRAIT_DOOR_PRYER)) //NSV13 - kept the ability to use crowbars and stuff on doors
 		if(isElectrified())
