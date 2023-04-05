@@ -213,7 +213,7 @@
 	if(resolved == FALSE)
 		resolved = TRUE
 		sound_to_playing_players('sound/machines/alarm.ogg')
-		addtimer(CALLBACK(GLOBAL_PROC, PROC_REF(cult_ending_helper)), 120)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(cult_ending_helper)), 120)
 
 /obj/eldritch/narsie/Process_Spacemove()
 	return clashing
@@ -223,9 +223,9 @@
 
 /proc/cult_ending_helper(var/no_explosion = 0)
 	if(no_explosion)
-		Cinematic(CINEMATIC_CULT,world,CALLBACK(GLOBAL_PROC,/proc/ending_helper))
+		Cinematic(CINEMATIC_CULT,world,CALLBACK(GLOBAL_PROC_REF(ending_helper)))
 	else
-		Cinematic(CINEMATIC_CULT_NUKE,world,CALLBACK(GLOBAL_PROC,/proc/ending_helper))
+		Cinematic(CINEMATIC_CULT_NUKE,world,CALLBACK(GLOBAL_PROC_REF(ending_helper)))
 
 #undef NARSIE_CHANCE_TO_PICK_NEW_TARGET
 #undef NARSIE_CONSUME_RANGE
