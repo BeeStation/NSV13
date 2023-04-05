@@ -539,7 +539,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 				if(their_id && !HA.stealing_id)
 					H.visible_message("<span class='warning'>[H] starts to take [their_id] from [target]!</span>")
 					HA.stealing_id = TRUE
-					addtimer(CALLBACK(HA, /datum/component/knpc/proc/steal_id, their_id), 5 SECONDS)
+					addtimer(CALLBACK(HA, TYPE_PROC_REF(/datum/component/knpc, steal_id), their_id), 5 SECONDS)
 
 				if(istype(H) && CHECK_BITFIELD(H.knpc_traits, KNPC_IS_MARTIAL_ARTIST))
 					switch(rand(0, 2))

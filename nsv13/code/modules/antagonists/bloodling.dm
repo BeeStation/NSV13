@@ -1209,7 +1209,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	//Give them a chance to resolve it.
 	priority_announce("WARNING: AN EXTRA-DIMENSIONAL CONSCIOUSNESS GRID HAS BEEN ESTABLISHED ABOARD [station_name()]... Eliminate the focal entity at all costs. Reports estimate total reality failure in T-10 minutes.","Central Command Higher Dimensional Affairs")
 
-	addtimer(CALLBACK(GLOBAL_PROC, PROC_REF(bloodling_win)), 10 MINUTES)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(bloodling_win)), 10 MINUTES)
 
 	var/mob/last_user = user
 	var/mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended/theMaster = new(user.loc)
@@ -1231,7 +1231,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 			SSticker.mode.check_win()
 			return FALSE //Well! he dead..
 	sound_to_playing_players('sound/machines/alarm.ogg')
-	Cinematic(CINEMATIC_CULT,world,CALLBACK(GLOBAL_PROC,/proc/ending_helper))
+	Cinematic(CINEMATIC_CULT,world,CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(ending_helper)))
 
 /mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended
 	name = "Fleshy Entity"
