@@ -398,7 +398,7 @@
 		if(target_atom.anchored)
 			return
 		user.cocoon_target = target_atom
-		INVOKE_ASYNC(user, TYPE_PROC_REF(/mob/living/simple_animal/hostile/poison/giant_spider, cocoon))
+		INVOKE_ASYNC(user, TYPE_PROC_REF(/mob/living/simple_animal/hostile/poison/giant_spider/nurse, cocoon))
 		remove_ranged_ability()
 		return TRUE
 
