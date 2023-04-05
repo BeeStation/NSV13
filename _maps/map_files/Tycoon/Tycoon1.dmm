@@ -1577,8 +1577,8 @@
 /area/hallway/nsv/deck1/hallway)
 "ej" = (
 /obj/machinery/camera/motion{
-	dir = 1;
-	c_tag = "Core SW"
+	c_tag = "Core SW";
+	dir = 1
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
@@ -2367,6 +2367,9 @@
 /area/hallway/nsv/deck1/hallway)
 "fZ" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/squad_vendor{
+	pixel_y = 32
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "ga" = (
@@ -2533,13 +2536,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
-"gs" = (
-/obj/machinery/light{
-	dir = 8
-	},
-/obj/structure/table/reinforced,
-/turf/open/floor/monotile/dark,
-/area/ai_monitored/turret_protected/aisat)
 "gt" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
@@ -5690,13 +5686,12 @@
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/ai_upload)
 "nd" = (
-/obj/structure/chair/office{
-	dir = 8
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/turf/open/floor/durasteel/eris_techfloor_alt,
+/obj/machinery/porta_turret/ai,
+/obj/effect/turf_decal/stripes/box,
+/turf/open/floor/circuit/red,
 /area/ai_monitored/turret_protected/aisat)
 "nf" = (
 /obj/effect/landmark/start/ai,
@@ -5748,14 +5743,6 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
-	},
-/turf/open/floor/monotile/dark,
-/area/ai_monitored/turret_protected/aisat)
-"ng" = (
-/obj/structure/table/reinforced,
-/obj/machinery/camera/autoname{
-	dir = 4;
-	c_tag = "Core W"
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
@@ -6132,8 +6119,8 @@
 /area/space/nearstation)
 "qB" = (
 /obj/machinery/camera/autoname{
-	dir = 8;
-	c_tag = "Core E"
+	c_tag = "Core E";
+	dir = 8
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat)
@@ -6458,6 +6445,7 @@
 /area/quartermaster/miningdock)
 "vf" = (
 /obj/structure/table/reinforced,
+/obj/item/storage/toolbox/mechanical,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "vi" = (
@@ -6547,6 +6535,16 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
+"wg" = (
+/obj/effect/turf_decal/ship/delivery{
+	color = "#964B00"
+	},
+/obj/structure/fighter_launcher{
+	dir = 4;
+	name = "Bronze 1"
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/quartermaster/miningdock)
 "wk" = (
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -6692,6 +6690,13 @@
 /obj/machinery/computer/iff_console,
 /turf/open/floor/monotile/steel,
 /area/ai_monitored/nuke_storage)
+"xH" = (
+/obj/machinery/camera/autoname{
+	c_tag = "Core W";
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/ai_monitored/turret_protected/aisat)
 "yr" = (
 /obj/machinery/light{
 	dir = 4
@@ -6788,11 +6793,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/briefingroom)
-"zK" = (
-/obj/effect/turf_decal/ship/delivery/yellow,
-/obj/structure/rack,
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
 "zW" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /turf/open/floor/plating,
@@ -6850,8 +6850,8 @@
 	pixel_y = -25
 	},
 /obj/machinery/camera/motion{
-	dir = 1;
-	c_tag = "Upload South"
+	c_tag = "Upload South";
+	dir = 1
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
@@ -6877,8 +6877,8 @@
 /area/quartermaster/miningdock)
 "CA" = (
 /obj/machinery/camera/motion{
-	dir = 1;
-	c_tag = "Core SE"
+	c_tag = "Core SE";
+	dir = 1
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat)
@@ -7312,6 +7312,12 @@
 "Jp" = (
 /turf/closed/wall/r_wall/ship,
 /area/quartermaster/miningdock)
+"Jy" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/ai_monitored/turret_protected/aisat)
 "JE" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -7332,10 +7338,6 @@
 /obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/quartermaster/miningdock)
-"JS" = (
-/obj/structure/table/reinforced,
-/turf/open/floor/monotile/dark,
-/area/ai_monitored/turret_protected/aisat)
 "JT" = (
 /obj/machinery/teleport/hub,
 /obj/effect/turf_decal/tile/neutral{
@@ -7409,12 +7411,10 @@
 	},
 /obj/structure/fighter_launcher{
 	dir = 4;
-	name = "Gold 2"
+	name = "Bronze 2"
 	},
 /turf/open/floor/monotile/dark/airless,
-/area/nsv/hanger/deck3{
-	name = "Air traffic control pod"
-	})
+/area/quartermaster/miningdock)
 "KS" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -7746,6 +7746,15 @@
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
+"PO" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/chair/office{
+	dir = 8
+	},
+/turf/open/floor/durasteel/eris_techfloor_alt,
+/area/ai_monitored/turret_protected/aisat)
 "PT" = (
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "hopqueue";
@@ -8277,12 +8286,6 @@
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /turf/open/floor/monotile/steel,
 /area/quartermaster/miningdock)
-"XE" = (
-/obj/effect/turf_decal/ship/delivery/yellow,
-/obj/structure/rack,
-/obj/item/storage/toolbox/mechanical,
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
 "XJ" = (
 /obj/structure/rack,
 /obj/item/fighter_component/apu,
@@ -29357,9 +29360,9 @@ ie
 ce
 ce
 NP
-ce
-ce
-ce
+ct
+Jy
+xH
 NP
 ce
 ce
@@ -29613,11 +29616,11 @@ iC
 ie
 ce
 lg
-ct
-JS
-gs
-ng
-ct
+ni
+cy
+LI
+cy
+ni
 Ld
 ce
 ie
@@ -29870,11 +29873,11 @@ iC
 ie
 ce
 ct
-ni
 cy
-LI
+ce
+NP
+ce
 cy
-ni
 ct
 ce
 ie
@@ -30129,7 +30132,7 @@ ce
 pe
 cy
 ce
-NP
+ce
 ce
 cy
 ll
@@ -30385,9 +30388,9 @@ is
 ce
 cu
 cy
-ce
-ce
-ce
+Tn
+vW
+QL
 cy
 ej
 ce
@@ -30642,9 +30645,9 @@ mx
 ce
 ct
 cy
-Tn
-vW
-QL
+dQ
+PO
+dQ
 cy
 ct
 ce
@@ -41692,7 +41695,7 @@ Wi
 dJ
 es
 bN
-zK
+fZ
 cb
 iT
 cb
@@ -42206,7 +42209,7 @@ Wi
 dJ
 es
 bN
-XE
+fZ
 cb
 iT
 cb
@@ -47619,7 +47622,7 @@ ax
 ax
 ib
 ax
-KJ
+wg
 ax
 hX
 ax
