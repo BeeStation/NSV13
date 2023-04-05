@@ -451,7 +451,7 @@
 		//Create item and restart
 		process_completion_world_tick = world.time + time
 		total_build_time = time
-		addtimer(CALLBACK(src, PROC_REF(make_item), power, materials_used, custom_materials, multiplier, coeff, is_stack), time)
+		addtimer(CALLBACK(src, PROC_REF(make_item), power, materials_used, custom_materials, multiplier, coeff, is_stack, requested_design_id, queue_data), time)
 		addtimer(CALLBACK(src, PROC_REF(restart_process)), time + 5)
 	else
 		say("Insufficient materials, operation will proceed when sufficient materials are available.")

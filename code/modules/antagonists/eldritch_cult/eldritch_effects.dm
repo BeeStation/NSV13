@@ -25,7 +25,7 @@
 	if(!IS_HERETIC(user))
 		return
 	if(!is_in_use)
-		INVOKE_ASYNC(src, PROC_REF(activate), user)
+		INVOKE_ASYNC(src, PROC_REF(activate ), user)
 
 /obj/effect/eldritch/proc/activate(mob/living/user)
 	is_in_use = TRUE
@@ -160,7 +160,7 @@
 	I.alpha = 255
 	I.appearance_flags = RESET_ALPHA
 	add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/heretics,"pierced_reality_heretics",I)
-	addtimer(CALLBACK(src,PROC_REF(dissipate)),15 MINUTES)
+	addtimer(CALLBACK(src,PROC_REF(dissipate)),40 SECONDS)
 
 ///Makes this obj appear out of nothing
 /obj/effect/broken_illusion/proc/show_presence()

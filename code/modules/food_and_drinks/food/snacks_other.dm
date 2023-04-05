@@ -457,7 +457,7 @@
 		timer_id = null
 	chewing = (slot == ITEM_SLOT_MASK ? TRUE : FALSE)
 	if(chewing) //Set a timer to chew(), instead of calling chew for the convenience of being able to equip/unequip our pop
-		timer_id = addtimer(CALLBACK(src, PROC_REF(chew)), bite_frequency, TIMER_STOPPABLE)	
+		timer_id = addtimer(CALLBACK(src, PROC_REF(chew)), bite_frequency, TIMER_STOPPABLE)
 
 /obj/item/reagent_containers/food/snacks/lollipop/dropped(mob/user)
 	. = ..()

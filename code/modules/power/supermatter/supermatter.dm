@@ -694,7 +694,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 				var/image/causality_field = image(icon, null, "causality_field")
 				add_overlay(causality_field, TRUE)
 				radio.talk_into(src, "Anomalous object has breached containment, emergency causality field enganged to prevent reality destabilization.", engineering_channel)
-				disengage_field_timer = addtimer(CALLBACK(src, PROC_REF(disengage_field), causality_field), 5 SECONDS)
+				disengage_field_timer = addtimer(CALLBACK(src, PROC_REF(disengage_field)), 5 SECONDS)
 			return
 		if(!iseffect(AM))
 			var/suspicion = ""

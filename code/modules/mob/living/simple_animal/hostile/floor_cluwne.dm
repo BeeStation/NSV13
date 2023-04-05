@@ -191,7 +191,7 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 		mobility_flags &= ~MOBILITY_MOVE
 		update_mobility()
 		cluwnehole = new(src.loc)
-		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/floor_cluwne/, Appear)), MANIFEST_DELAY)
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/floor_cluwne, Appear)), MANIFEST_DELAY)
 	else
 		layer = GAME_PLANE
 		invisibility = INVISIBILITY_OBSERVER
@@ -263,7 +263,7 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 				to_chat(H, "<i>yalp ot tnaw I</i>")
 				Appear()
 				manifested = FALSE
-				addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/floor_cluwne/, Manifest)), 1)
+				addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/floor_cluwne, Manifest)), 1)
 
 		if(STAGE_TORMENT)
 
@@ -316,7 +316,7 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 				H.reagents.add_reagent("mercury", 3)
 				Appear()
 				manifested = FALSE
-				addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/floor_cluwne/, Manifest)), 2)
+				addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/floor_cluwne, Manifest)), 2)
 				for(var/obj/machinery/light/L in range(8, H))
 					L.flicker()
 
@@ -340,7 +340,7 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 				manifested = TRUE
 				Manifest()
 				if(!eating)
-					addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/floor_cluwne/, Grab), H), 50, TIMER_OVERRIDE|TIMER_UNIQUE)
+					addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/floor_cluwne, Grab), H), 50, TIMER_OVERRIDE|TIMER_UNIQUE)
 					for(var/turf/open/O in RANGE_TURFS(6, src))
 						O.MakeSlippery(TURF_WET_LUBE, 20)
 						playsound(src, 'sound/effects/meteorimpact.ogg', 30, 1)
@@ -367,7 +367,7 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 			H.invisibility = INVISIBILITY_OBSERVER
 			H.density = FALSE
 			H.anchored = TRUE
-			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/floor_cluwne/, Kill), H), 100, TIMER_OVERRIDE|TIMER_UNIQUE)
+			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/floor_cluwne, Kill), H), 100, TIMER_OVERRIDE|TIMER_UNIQUE)
 			visible_message("<span class='danger'>[src] pulls [H] under!</span>")
 			to_chat(H, "<span class='userdanger'>[src] drags you underneath the floor!</span>")
 		else

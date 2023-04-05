@@ -19,7 +19,7 @@
 	tracked = target
 	src.listener = listener
 
-	while(ismovableatom(target))
+	while(ismovable(target))
 		RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(move_react))
 		target = target.loc
 
@@ -48,7 +48,7 @@
 			target = target.loc
 	if(tracked.loc != newturf)
 		var/atom/target = mover.loc
-		while(ismovableatom(target))
+		while(ismovable(target))
 			RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(move_react), TRUE)
 			target = target.loc
 
