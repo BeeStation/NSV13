@@ -288,15 +288,10 @@
 		unload_mineral(O)
 	else
 		if(allow_point_redemption)
-			stored_points += O.points * O.amount * point_upgrade
+			points += O.points * point_upgrade * O.amount
 		materials.insert_item(O)
 		qdel(O)
-		/* NSV13 - Disabled due to our TGUI version
-		if(CONSOLE)
-			CONSOLE.updateUsrDialog()
-		*/
 
-//NSV13 - Furnace TGUI - Start
 /obj/machinery/mineral/processing_unit/proc/get_machine_data()
 	var/list/data = list()
 	data["on"] = on
@@ -323,7 +318,6 @@
 	data["smelt_amount_limit"] = smelt_amount_limit
 
 	return data
-//NSV13 - Furnace TGUI - Stop
 
 /obj/machinery/mineral/processing_unit/pickup_item(datum/source, atom/movable/target, atom/oldLoc)
 	if(QDELETED(target))
@@ -348,10 +342,6 @@
 		else if(selected_alloy)
 			smelt_alloy(delta_time)
 
-		/* NSV13 - Disabled due to our TGUI version
-		if(CONSOLE)
-			CONSOLE.updateUsrDialog()
-		*/
 	else
 		end_processing()
 		amount_already_smelted = 0
