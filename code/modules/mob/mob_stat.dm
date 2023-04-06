@@ -167,6 +167,9 @@
 		tab_data["Players Ready/Connected"] = GENERATE_STAT_TEXT("[SSticker.totalPlayersReady]/[GLOB.clients.len]")
 	else
 		tab_data["Players Playing/Connected"] = GENERATE_STAT_TEXT("[get_active_player_count()]/[GLOB.clients.len]")
+	if(SSticker.round_start_time)
+		tab_data["Security Level"] = GENERATE_STAT_TEXT("[capitalize(get_security_level())]")
+
 	tab_data["divider_3"] = GENERATE_STAT_DIVIDER
 
 	if(SSshuttle.emergency)
