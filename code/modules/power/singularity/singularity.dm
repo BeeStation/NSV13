@@ -359,10 +359,6 @@
 						"<span class='userdanger'>You look directly into the [src.name] and feel weak.</span>")
 	return
 
-
-/obj/anomaly/singularity/proc/emp_area()
-	empulse(src, 8, 10)
-
 /obj/anomaly/singularity/singularity_act()
 	var/gain = (energy/2)
 	var/dist = max((current_size - 2),1)
