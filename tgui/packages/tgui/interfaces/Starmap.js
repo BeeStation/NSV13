@@ -7,7 +7,7 @@ import { Window } from '../layouts';
 export const drawStarmap = (props, context, starCallback) => {
   const { act, data } = useBackend(context);
   const travelling = data.travelling;
-  const scale_factor = 12;
+  const scale_factor = typeof(data.scale_factor !== "undefined") ? data.scale_factor : 12;
   let arrowStyle = "position: absolute; left: " + data.freepointer_x * 12 + "px;";
   arrowStyle += "bottom: " + data.freepointer_y * 12 + "px;";
   arrowStyle += "filter: progid:DXImageTransform.Microsoft.";
