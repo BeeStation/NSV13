@@ -110,7 +110,8 @@ export const drawStarmap = (props, context, starCallback) => {
           act('sector')} />
       <Map initial_focus_x={data.focus_x}
         initial_focus_y={data.focus_y}
-        initial_scale_factor={scale_factor}>
+        initial_scale_factor={scale_factor}
+        width={400}>
         <>
           {data.star_systems && SystemNodes}
           {data.lines && Connections}

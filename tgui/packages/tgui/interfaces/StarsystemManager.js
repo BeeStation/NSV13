@@ -97,17 +97,19 @@ export const StarsystemManager = (props, context) => {
     <Window
       resizable
       theme="ntos"
-      width={900}
+      width={800}
       height={600}>
       <Window.Content scrollable>
         {Header}
         <Flex>
-          <Flex.Item>
+          <Flex.Item
+            width={200}>
             <Section>
               {Systems}
             </Section>
           </Flex.Item>
-          <Flex.Item>
+          <Flex.Item
+            width={400}>
             {drawStarmap(props, context, handleSystemAction)}
           </Flex.Item>
         </Flex>
