@@ -8308,7 +8308,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
 	},
-/turf/open/space/basic,
+/turf/open/floor/monotile/steel,
 /area/engine/gravity_generator)
 "ayF" = (
 /obj/effect/turf_decal/stripes/line{
@@ -40443,7 +40443,6 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/monotile/dark,
 /area/engine/engineering)
 "dUS" = (
@@ -50660,10 +50659,10 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/monotile/steel,
 /area/engine/engineering)
 "sNm" = (
@@ -53902,10 +53901,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
 /turf/open/floor/monotile/steel,
 /area/engine/engineering)
 "xJX" = (
@@ -54228,9 +54224,12 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/machinery/door/airlock/ship/engineering,
+/obj/machinery/door/airlock/ship/maintenance{
+	dir = 4;
+	req_one_access_txt = "10"
+	},
 /turf/open/floor/plating,
-/area/maintenance/department/engine)
+/area/engine/engineering)
 "yiR" = (
 /obj/effect/spawner/lootdrop/maintenance,
 /obj/structure/closet/crate{
