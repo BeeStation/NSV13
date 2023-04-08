@@ -640,6 +640,15 @@
 					/obj/item/extinguisher/advanced/hull_repair_juice)
 	crate_name = "engineering crate"
 
+/datum/supply_pack/security/taser
+	name = "Taser Crate"
+	desc = "From the depths of stunbased combat, this order rises above, supreme. Contains three hybrid tasers, capable of firing both electrodes and disabling shots. Requires Security access to open."
+	cost = 3000
+	contains = list(/obj/item/gun/energy/e_gun/advtaser,
+					/obj/item/gun/energy/e_gun/advtaser,
+					/obj/item/gun/energy/e_gun/advtaser)
+	crate_name = "taser crate"
+
 //Bottle chem packs - yes I have taken some liberties
 /datum/supply_pack/medical/chemical_supply_compounds
 	name = "Chemical Supply Crate - Organic Compounds"
@@ -777,12 +786,3 @@
 		/obj/machinery/portable_atmospherics/canister/toxins)
 	hidden = TRUE
 	crate_name = "Phoron Portable Gas Canister"
-
-/datum/supply_pack/security/taser
-	name = "Taser Crate"
-	desc = "From the depths of stunbased combat, this order rises above, supreme. Contains three hybrid tasers, capable of firing both electrodes and disabling shots. Requires Security access to open."
-	cost = 3000
-	contains = list(/obj/item/gun/energy/e_gun/advtaser,
-					/obj/item/gun/energy/e_gun/advtaser,
-					/obj/item/gun/energy/e_gun/advtaser)
-	crate_name = "taser crate"
