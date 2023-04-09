@@ -1,15 +1,13 @@
 // NSV13
 
+import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Button, Section, Table, Input, Flex } from '../components';
+import { Box, Button, LabeledList, NumberInput, Section, Table, Input } from '../components';
 import { Window } from '../layouts';
 import { createSearch } from 'common/string';
-import { drawStarmap } from './Starmap';
 
-export const StarsystemManager = (props, context) => {
+export const SystemManager = (props, context) => {
   const { act, data } = useBackend(context);
-
-  const handleSystemAction = (system) => setSearchText(system.name);
 
   const [
     searchText,
@@ -19,6 +17,10 @@ export const StarsystemManager = (props, context) => {
   const Search = createSearch(searchText, item => {
     return item;
   });
+
+  const filterSearch = system => {
+    return Search(system.name);
+  };
 
   const makeFleetButton = fleet => {
     return (
@@ -44,21 +46,19 @@ export const StarsystemManager = (props, context) => {
     let Fleets = (system.fleets).map(makeFleetButton);
     let OtherObjects = (system.objects).map(makeObjectButton);
     return (
-      <Section title={`${system.name}`}>
-        <Button
-          content={"Send Fleet"}
-          icon={"hammer"}
-          onClick={() => act('createFleet', { sys_id: system.sys_id })} />
-        <Button
-          content={"Create object"}
-          icon={"sun"}
-          onClick={() => act('createObject', { sys_id: system.sys_id })} />
-        <Button
-          content={"Variables"}
-          icon={"eye"}
-          onClick={() => act('systemVV', { sys_id: system.sys_id })} /><br />
-        {/* The string manipulations are to capitalize the first letter */}
-        Alignment: {system.alignment.charAt(0).toUpperCase() + system.alignment.slice(1)}<br />
+      <Section title={`${system.name}`} buttons={
+        <Fragment>
+          <Button
+            content={"Send Fleet"}
+            icon={"hammer"}
+            onClick={() => act('createFleet', { sys_id: system.sys_id })} />
+          <Button
+            content={"Create object"}
+            icon={"hammer"}
+            onClick={() => act('createObject', { sys_id: system.sys_id })} />
+        </Fragment>
+      }>
+        Alignment: {system.alignment}<br />
         System Type: {system.system_type}<br />
         <br />
         {Fleets}
@@ -89,30 +89,18 @@ export const StarsystemManager = (props, context) => {
       } />
   );
 
-  let searchSystems = (data.star_systems).filter(system => Search(system.name)).map(makeSystem);
-  let searchObjects = (data.star_systems).filter(system => system.objects.some(obj => Search(obj.name))).map(makeSystem);
-  let searchFleets = (data.star_systems).filter(system => system.fleets.some(obj => Search(obj.name))).map(makeSystem);
-  let Systems = searchSystems.concat(searchObjects.concat(searchFleets));
+  let Systems = (data.systems_info).filter(filterSearch).map(makeSystem);
   return (
     <Window
       resizable
       theme="ntos"
-      width={800}
+      width={600}
       height={600}>
       <Window.Content scrollable>
         {Header}
-        <Flex>
-          <Flex.Item
-            width={200}>
-            <Section>
-              {Systems}
-            </Section>
-          </Flex.Item>
-          <Flex.Item
-            width={400}>
-            {drawStarmap(props, context, handleSystemAction)}
-          </Flex.Item>
-        </Flex>
+        <Section>
+          {Systems}
+        </Section>
       </Window.Content>
     </Window>
   );

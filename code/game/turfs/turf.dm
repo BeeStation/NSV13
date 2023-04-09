@@ -87,7 +87,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 		add_overlay(/obj/effect/fullbright)
 
 	if(requires_activation)
-		ImmediateCalculateAdjacentTurfs()
+		CALCULATE_ADJACENT_TURFS(src)
 
 	if(color)
 		add_atom_colour(color, FIXED_COLOUR_PRIORITY)
@@ -124,7 +124,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 /turf/proc/set_temperature()
 
 /turf/proc/Initalize_Atmos(times_fired)
-	ImmediateCalculateAdjacentTurfs()
+	CALCULATE_ADJACENT_TURFS(src)
 
 /turf/Destroy(force)
 	. = QDEL_HINT_IWILLGC

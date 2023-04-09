@@ -14,8 +14,6 @@ export const Astrometrics = (props, context) => {
   const screen = data.screen;
   let scan_target = data.scan_target;
 
-  const handleSystemAction = (system) => act('select_system', { star_id: system.star_id });
-
   return (
     <Window
       resizable
@@ -55,7 +53,7 @@ export const Astrometrics = (props, context) => {
               </Section>
             </Fragment>
           )}
-          {screen === 1 && drawStarmap(props, context, handleSystemAction)}
+          {screen === 1 && drawStarmap(props, context)}
           {screen === 2 && (
             <Fragment>
               <Button

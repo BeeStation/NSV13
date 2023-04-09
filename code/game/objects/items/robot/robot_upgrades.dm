@@ -448,21 +448,26 @@
 /obj/item/borg/upgrade/hypospray/action(mob/living/silicon/robot/R, user = usr)
 	. = ..()
 	if(.)
-		///NSV13 - Borg Hypospray Update - Start
-		for(var/obj/item/reagent_containers/borghypo/medical/H in R.module.modules)
-			H.upgrade_hypo()
+		for(var/obj/item/reagent_containers/borghypo/H in R.module.modules)
+			if(H.accepts_reagent_upgrades)
+				for(var/re in additional_reagents)
+					H.add_reagent(re)
 
 /obj/item/borg/upgrade/hypospray/deactivate(mob/living/silicon/robot/R, user = usr)
 	. = ..()
 	if (.)
-		for(var/obj/item/reagent_containers/borghypo/medical/H in R.module.modules)
-			H.remove_hypo_upgrade()
+		for(var/obj/item/reagent_containers/borghypo/H in R.module.modules)
+			if(H.accepts_reagent_upgrades)
+				for(var/re in additional_reagents)
+					H.del_reagent(re)
 
 /obj/item/borg/upgrade/hypospray/expanded
 	name = "medical cyborg expanded hypospray"
 	desc = "An upgrade to the Medical module's hypospray, allowing it \
 		to treat a wider range of conditions and problems."
-	///NSV13 - Borg Hypospray Update - Stop
+	additional_reagents = list(/datum/reagent/medicine/mannitol, /datum/reagent/medicine/oculine, /datum/reagent/medicine/inacusiate,
+		/datum/reagent/medicine/mutadone, /datum/reagent/medicine/haloperidol, /datum/reagent/medicine/oxandrolone, /datum/reagent/medicine/sal_acid, /datum/reagent/medicine/rezadone,
+		/datum/reagent/medicine/pen_acid)
 
 /obj/item/borg/upgrade/piercing_hypospray
 	name = "cyborg piercing hypospray"
@@ -787,10 +792,10 @@
 				R.module.basic_modules += nmodule
 				R.module.add_module(nmodule, FALSE, TRUE)
 
-		///NSV13 - Borg Hypospray Update - Start
 		for(var/obj/item/reagent_containers/borghypo/borgshaker/H in R.module.modules)
-			H.upgrade_hypo()
-		///NSV13 - Borg Hypospray Update - Stop
+			for(var/re in additional_reagents)
+				H.add_reagent(re)
+
 		if(hat && R.hat_offset != INFINITY && !R.hat)
 			var/obj/item/equipt = new hat(src)
 			if (equipt )
@@ -804,10 +809,9 @@
 			var/dmod = locate(module) in R.module.modules
 			if (dmod)
 				R.module.remove_module(dmod, TRUE)
-		///NSV13 - Borg Hypospray Update - Start
 		for(var/obj/item/reagent_containers/borghypo/borgshaker/H in R.module.modules)
-			H.remove_hypo_upgrade()
-		///NSV13 - Borg Hypospray Update - Stop
+			for(var/re in additional_reagents)
+				H.del_reagent(re)
 
 /obj/item/borg/upgrade/speciality/kitchen
 	name = "Cook Speciality"

@@ -464,7 +464,9 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/central)
 "abt" = (
-/obj/machinery/door/airlock/ship/maintenance,
+/obj/machinery/door/airlock/ship/maintenance{
+	req_one_access_txt = "10"
+	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -5582,10 +5584,10 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/monotile/steel,
 /area/engine/engineering)
 "aoa" = (
@@ -8392,7 +8394,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
 	},
-/turf/open/space/basic,
+/turf/open/floor/monotile/steel,
 /area/engine/gravity_generator)
 "ayE" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
@@ -36159,7 +36161,9 @@
 /turf/open/floor/plating,
 /area/maintenance/central)
 "bFG" = (
-/obj/machinery/door/airlock/ship/maintenance,
+/obj/machinery/door/airlock/ship/maintenance{
+	req_one_access_txt = "10"
+	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -48787,7 +48791,6 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/monotile/dark,
 /area/engine/engineering)
 "psx" = (
@@ -52026,10 +52029,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
 /turf/open/floor/monotile/steel,
 /area/engine/engineering)
 "uti" = (
@@ -52922,7 +52922,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/machinery/door/airlock/ship/engineering,
+/obj/machinery/door/airlock/ship/maintenance{
+	req_one_access_txt = "10"
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "wat" = (

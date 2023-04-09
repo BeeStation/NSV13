@@ -296,7 +296,7 @@
 		/obj/item/assembly/flash/cyborg,
 		/obj/item/healthanalyzer,
 		/obj/item/borg/charger,
-		/obj/item/reagent_containers/borghypo/medical,
+		/obj/item/reagent_containers/borghypo,
 		/obj/item/borg/apparatus/beaker,
 		/obj/item/reagent_containers/dropper,
 		/obj/item/reagent_containers/syringe,
@@ -313,8 +313,8 @@
 		/obj/item/borg/cyborghug/medical,
 		/obj/item/stack/medical/gauze/cyborg,
 		/obj/item/organ_storage,
-		/obj/item/borg/lollipop) ///NSV13 - Changed borghypo to borghypo/medical
-	emag_modules = list(/obj/item/reagent_containers/borghypo/medical/hacked) ///NSV13 - Borg Hypospray Update
+		/obj/item/borg/lollipop)
+	emag_modules = list(/obj/item/reagent_containers/borghypo/hacked)
 	ratvar_modules = list(
 		/obj/item/clock_module/abscond,
 		/obj/item/clock_module/sentinels_compromise,

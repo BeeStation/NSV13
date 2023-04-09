@@ -22,7 +22,6 @@
 	anchored = TRUE
 	idle_power_usage = 500
 	layer = ABOVE_MOB_LAYER
-	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	var/link_id = "default"
 	var/gyro_speed = 0
 	var/req_gyro_speed = 25
@@ -46,11 +45,6 @@
 	update_visuals(FALSE)
 	air_contents = new(3000)
 	air_contents.set_temperature(T20C)
-
-/obj/machinery/atmospherics/components/binary/drive_pylon/swarmer_act(mob/living/simple_animal/hostile/swarmer/S)
-	to_chat(S, "<span class='warning'>This equipment should be preserved, it will be a useful resource to our masters in the future. Aborting.</span>")
-	S.LoseTarget()
-	return FALSE
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/process()
 	if(!on)
@@ -123,6 +117,8 @@
 				set_state(PYLON_STATE_SHUTDOWN)
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/power_drain()
+	if(power_draw)
+		return TRUE
 	var/turf/T = get_turf(src)
 	if(!cable || cable.loc != loc)
 		cable = T.get_cable_node()
