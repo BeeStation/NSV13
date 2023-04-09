@@ -105,3 +105,19 @@
 	category = list("Medical Machinery")
 	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
 
+/datum/design/board/refillable_chem_dispenser
+	name = "Machine Design (Refillable Chem Dispenser Board)"
+	desc = "The circuit board for a refillable chem dispenser."
+	id = "refillable_chem_dispenser"
+	build_path = /obj/item/circuitboard/machine/refillable_chem_dispenser
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_MEDICAL
+	category = list ("Medical Machinery")
+
+//GLORIOUS COFFEEMAKER
+/datum/design/board/coffeemaker
+	name = "Machine Design (Coffeemaker)"
+	desc = "The circuit board for a coffeemaker."
+	id = "coffeemaker"
+	build_path = /obj/item/circuitboard/machine/coffeemaker
+	category = list("Misc. Machinery")
+	departmental_flags = DEPARTMENTAL_FLAG_SERVICE | DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE

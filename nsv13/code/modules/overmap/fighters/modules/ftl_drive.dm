@@ -12,6 +12,8 @@
 	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_torchdrive.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
+	var/auto_spool_enabled = TRUE
+	var/req_charge = 120
 
 	var/jump_speed_factor = 5.5 //How quickly do we jump? Larger is faster.
 	var/ftl_state = FTL_STATE_IDLE //Mr Gaeta, spool up the FTLs.
@@ -41,6 +43,9 @@
 	. = ..()
 	if(. && istype(OM) && OM.ftl_drive == src)
 		OM.ftl_drive = null
+
+/obj/item/fighter_component/ftl/proc/force_jump(datum/star_system/target_system)
+	jump(target_system, force=TRUE)
 
 /obj/item/fighter_component/ftl/proc/jump(datum/star_system/target_system, force=FALSE)
 	var/obj/structure/overmap/linked = loc
