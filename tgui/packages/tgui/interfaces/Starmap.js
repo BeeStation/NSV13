@@ -4,10 +4,10 @@ import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Section, ProgressBar, Knob, Map, StarButton } from '../components';
 import { Window } from '../layouts';
 
-export const drawStarmap = (props, context) => {
+export const drawStarmap = (props, context, starCallback) => {
   const { act, data } = useBackend(context);
   const travelling = data.travelling;
-  const scale_factor = 12;
+  const scale_factor = typeof(data.scale_factor !== "undefined") ? data.scale_factor : 12;
   let arrowStyle = "position: absolute; left: " + data.freepointer_x * 12 + "px;";
   arrowStyle += "bottom: " + data.freepointer_y * 12 + "px;";
   arrowStyle += "filter: progid:DXImageTransform.Microsoft.";
@@ -59,7 +59,7 @@ export const drawStarmap = (props, context) => {
       <StarButton unselectable="on" style={markerStyle} className={markerType}
         content="" tooltip={distance}
         onClick={() =>
-          act('select_system', { star_id: System.star_id })}>
+          starCallback(System)}>
         <span class="star_label">
           <p>{System.name} {label}</p>
         </span>
@@ -87,7 +87,7 @@ export const drawStarmap = (props, context) => {
     );
   };
 
-  let SystemNodes = (data.star_systems).map(drawSystemNodes);
+  let SystemNodes = (data.star_systems).filter(system => !system.hidden).map(drawSystemNodes);
   let Connections = (data.lines).map(drawLines);
 
   return (
@@ -129,6 +129,8 @@ export const Starmap = (props, context) => {
   const { act, data } = useBackend(context);
   const screen = data.screen;
   const can_cancel = data.can_cancel;
+
+  const handleSystemAction = (system) => act('select_system', { star_id: system.star_id });
 
   return (
     <Window
@@ -189,7 +191,7 @@ export const Starmap = (props, context) => {
               )}
             </>
           )}
-          {screen === 1 && drawStarmap(props, context)}
+          {screen === 1 && drawStarmap(props, context, handleSystemAction)}
           {screen === 2 && (
             <>
               <Button

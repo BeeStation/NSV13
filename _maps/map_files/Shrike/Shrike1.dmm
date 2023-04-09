@@ -501,14 +501,6 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
-"ct" = (
-/obj/machinery/vending/job_disk,
-/turf/open/floor/plasteel/ridged/steel,
-/area/bridge{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
 "cu" = (
 /obj/machinery/door/airlock/turbolift/ship,
 /turf/open/floor/monotile/dark,
@@ -1837,6 +1829,14 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"io" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 1
+	},
+/obj/item/radio/intercom/directional/south,
+/obj/machinery/chem_master,
+/turf/open/floor/plasteel/white/side,
+/area/medical/storage)
 "ir" = (
 /obj/structure/hull_plate/end{
 	dir = 10
@@ -2566,6 +2566,14 @@
 /obj/machinery/vending/wardrobe/sec_wardrobe,
 /turf/open/floor/plasteel/dark,
 /area/security/locker_room)
+"mh" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 1
+	},
+/obj/machinery/firealarm/directional/south,
+/obj/machinery/refillable_chem_dispenser/full,
+/turf/open/floor/plasteel/white/corner,
+/area/medical/storage)
 "mi" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -2682,14 +2690,6 @@
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
-"mz" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 1
-	},
-/obj/machinery/firealarm/directional/south,
-/obj/machinery/refillable_chem_dispenser/full,
-/turf/open/floor/plasteel/white/corner,
-/area/medical/storage)
 "mH" = (
 /obj/machinery/firealarm/directional/west,
 /turf/open/floor/plating,
@@ -3201,14 +3201,6 @@
 	},
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
-"pd" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
-	dir = 1
-	},
-/obj/item/radio/intercom/directional/south,
-/obj/machinery/chem_master,
-/turf/open/floor/plasteel/white/side,
-/area/medical/storage)
 "pe" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
@@ -3248,6 +3240,30 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
+"pn" = (
+/obj/item/reagent_containers/dropper{
+	pixel_x = 5;
+	pixel_y = -2
+	},
+/obj/structure/table/glass,
+/obj/item/book/manual/wiki/chemistry{
+	pixel_x = 5;
+	pixel_y = 5
+	},
+/obj/item/storage/box/syringes{
+	pixel_x = -7;
+	pixel_y = 3
+	},
+/obj/item/storage/box/beakers/large_mix{
+	pixel_x = -10
+	},
+/obj/item/reagent_containers/dropper{
+	pixel_x = 5
+	},
+/turf/open/floor/plasteel/white/corner{
+	dir = 8
+	},
+/area/medical/storage)
 "pp" = (
 /obj/structure/cable/white{
 	icon_state = "5-8"
@@ -4151,30 +4167,6 @@
 /obj/machinery/firealarm/directional/south,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/disposal)
-"tM" = (
-/obj/item/reagent_containers/dropper{
-	pixel_x = 5;
-	pixel_y = -2
-	},
-/obj/structure/table/glass,
-/obj/item/book/manual/wiki/chemistry{
-	pixel_x = 5;
-	pixel_y = 5
-	},
-/obj/item/storage/box/syringes{
-	pixel_x = -7;
-	pixel_y = 3
-	},
-/obj/item/storage/box/beakers/large_mix{
-	pixel_x = -10
-	},
-/obj/item/reagent_containers/dropper{
-	pixel_x = 5
-	},
-/turf/open/floor/plasteel/white/corner{
-	dir = 8
-	},
-/area/medical/storage)
 "tN" = (
 /obj/structure/extinguisher_cabinet/west,
 /obj/machinery/camera/autoname{
@@ -5637,6 +5629,7 @@
 "Av" = (
 /obj/machinery/firealarm/directional/west,
 /obj/structure/table/glass,
+/obj/machinery/coffeemaker,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/nsv/observation{
 	lighting_colour_bulb = "#c1e1ff";
@@ -7188,21 +7181,6 @@
 /obj/effect/landmark/start/cyborg,
 /turf/open/floor/engine,
 /area/ai_monitored/turret_protected/ai_upload)
-"HR" = (
-/obj/structure/rack,
-/obj/machinery/camera/autoname{
-	dir = 1
-	},
-/obj/item/circuitboard/computer/cloning,
-/obj/item/circuitboard/computer/med_data,
-/obj/item/circuitboard/machine/clonepod,
-/obj/item/circuitboard/machine/clonescanner,
-/obj/item/circuitboard/machine/chem_heater,
-/obj/item/circuitboard/machine/chem_master,
-/obj/item/circuitboard/machine/stasis,
-/obj/item/circuitboard/machine/refillable_chem_dispenser,
-/turf/open/floor/durasteel,
-/area/storage/tech)
 "HS" = (
 /obj/structure/extinguisher_cabinet/south,
 /obj/effect/landmark/start/cyborg,
@@ -8617,6 +8595,14 @@
 "NP" = (
 /turf/closed/wall/ship,
 /area/hallway/nsv/deck1/frame1/starboard)
+"NR" = (
+/obj/machinery/vending/job_disk,
+/turf/open/floor/plasteel/ridged/steel,
+/area/bridge{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "NT" = (
 /obj/structure/table/reinforced,
 /obj/item/weldingtool{
@@ -9832,6 +9818,31 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"Sq" = (
+/obj/structure/table/reinforced,
+/obj/machinery/door/window/westright{
+	req_one_access_txt = "5"
+	},
+/obj/item/reagent_containers/food/drinks/bottle/synthflesh{
+	pixel_x = -5;
+	pixel_y = 10
+	},
+/obj/item/reagent_containers/food/drinks/bottle/synthflesh{
+	pixel_x = 7;
+	pixel_y = 10
+	},
+/obj/item/reagent_containers/glass/bottle{
+	list_reagents = list(/datum/reagent/medicine/cryoxadone=30);
+	name = "cryoxadone bottle";
+	pixel_x = 8
+	},
+/obj/item/reagent_containers/glass/bottle/diphenhydramine{
+	list_reagents = list(/datum/reagent/medicine/rezadone=30);
+	name = "rezadone bottle";
+	pixel_x = -4
+	},
+/turf/open/floor/durasteel/eris_techfloor_alt,
+/area/medical/chemistry)
 "Sr" = (
 /obj/structure/cable/white{
 	icon_state = "1-8"
@@ -11009,6 +11020,21 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"WH" = (
+/obj/structure/rack,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/obj/item/circuitboard/computer/cloning,
+/obj/item/circuitboard/computer/med_data,
+/obj/item/circuitboard/machine/clonepod,
+/obj/item/circuitboard/machine/clonescanner,
+/obj/item/circuitboard/machine/chem_heater,
+/obj/item/circuitboard/machine/chem_master,
+/obj/item/circuitboard/machine/stasis,
+/obj/item/circuitboard/machine/refillable_chem_dispenser,
+/turf/open/floor/durasteel,
+/area/storage/tech)
 "WI" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
@@ -11156,31 +11182,6 @@
 /obj/structure/table/reinforced,
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/security/armory)
-"Xh" = (
-/obj/structure/table/reinforced,
-/obj/machinery/door/window/westright{
-	req_one_access_txt = "5"
-	},
-/obj/item/reagent_containers/food/drinks/bottle/synthflesh{
-	pixel_x = -5;
-	pixel_y = 10
-	},
-/obj/item/reagent_containers/food/drinks/bottle/synthflesh{
-	pixel_x = 7;
-	pixel_y = 10
-	},
-/obj/item/reagent_containers/glass/bottle{
-	list_reagents = list(/datum/reagent/medicine/cryoxadone=30);
-	name = "cryoxadone bottle";
-	pixel_x = 8
-	},
-/obj/item/reagent_containers/glass/bottle/diphenhydramine{
-	list_reagents = list(/datum/reagent/medicine/rezadone=30);
-	name = "rezadone bottle";
-	pixel_x = -4
-	},
-/turf/open/floor/durasteel/eris_techfloor_alt,
-/area/medical/chemistry)
 "Xi" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -11591,12 +11592,13 @@
 /turf/open/floor/durasteel,
 /area/nsv/hanger)
 "YF" = (
-/obj/machinery/vending/coffee,
 /obj/machinery/light{
 	color = "#c1e1ff";
 	dir = 1
 	},
 /obj/machinery/newscaster/directional/west,
+/obj/structure/table/glass,
+/obj/item/storage/fancy/coffee_condi_display,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/nsv/observation{
 	lighting_colour_bulb = "#c1e1ff";
@@ -40399,7 +40401,7 @@ BN
 BN
 wB
 nR
-HR
+WH
 hy
 hy
 hy
@@ -47065,7 +47067,7 @@ VE
 jV
 sU
 Wo
-ct
+NR
 ha
 Wo
 Ru
@@ -48131,7 +48133,7 @@ VB
 Sd
 NU
 NJ
-tM
+pn
 bJ
 dB
 Hg
@@ -48645,12 +48647,12 @@ VB
 Ph
 NU
 op
-mz
+mh
 bJ
 xc
 wR
 Vn
-Xh
+Sq
 Si
 TK
 pL
@@ -48902,7 +48904,7 @@ VB
 gt
 sw
 QY
-pd
+io
 bJ
 Si
 Si
