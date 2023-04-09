@@ -769,8 +769,8 @@
 					/obj/item/reagent_containers/glass/bottle/sacid)
 	crate_name = "Chemical Supply Crate - Chalcogens"
 
-/datum/supply_pack/engineering/plasma_canister //Purely used for the Serendipity's plasma caster
-	name = "Replacement Plasma Canister"
+/datum/supply_pack/materials/plasma_canister //Purely used for the Serendipity's plasma caster
+	name = "Phoron Canister"
 	desc = "A single can of phoron gas, for all your plasma needs!"
 	cost = 2500
 	contains = list(
