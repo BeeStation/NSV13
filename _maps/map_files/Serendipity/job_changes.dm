@@ -29,7 +29,7 @@ MAP_REMOVE_JOB(air_traffic_controller)
     cant_discount = TRUE
     surplus = 0
 
-/datum/supply_pack/engineering/plasma_canister/New() //Plasma gun needs plasma gas
+/datum/supply_pack/materials/plasma_canister/New() //Plasma gun needs plasma gas
 	.=..()
 	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
 		return
