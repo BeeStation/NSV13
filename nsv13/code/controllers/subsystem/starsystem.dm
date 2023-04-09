@@ -509,6 +509,7 @@ Returns a faction datum by its name (case insensitive!)
 		station13.starting_system = src.name
 		station13.current_system = src
 		station13.set_trader(src.trader)
+		src.trader.system = src
 		// trader.generate_missions()
 	if(!CHECK_BITFIELD(src.system_traits, STARSYSTEM_NO_ANOMALIES))
 		addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
