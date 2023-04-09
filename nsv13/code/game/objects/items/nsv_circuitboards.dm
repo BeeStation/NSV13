@@ -408,6 +408,26 @@
 		/obj/item/stock_parts/cell = 5,
 		/obj/item/stack/ore/bluespace_crystal = 5)
 
+// Smelter and console
+/obj/item/circuitboard/machine/processing_unit
+	name = "circuit board (furnace)"
+	desc = "It melts and purifies ores."
+	req_components = list(
+		/obj/item/stock_parts/micro_laser = 1,
+		/obj/item/stock_parts/matter_bin = 2,
+		/obj/item/assembly/igniter = 1
+	)
+	build_path = /obj/machinery/mineral/processing_unit
+
+/obj/item/circuitboard/machine/processing_unit_console
+	name = "circuit board (furnace console)"
+	desc = "Circuit for a furnace control console."
+	req_components = list(
+		/obj/item/stack/sheet/glass = 1,
+		/obj/item/stack/cable_coil = 1
+	)
+	build_path = /obj/machinery/mineral/processing_unit_console
+
 //Non-magic chem dispenser
 /obj/item/circuitboard/machine/refillable_chem_dispenser
 	name = "refillable chem dispenser (machine board)"
