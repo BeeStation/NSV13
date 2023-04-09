@@ -27,7 +27,7 @@
 		if((moving_mob.movement_type & FLYING) && !moving_mob.stat)
 			return MOVELOOP_SKIP_STEP
 	var/atom/movable/moving_parent = parent
-	if(moving_parent.anchored || !moving_parent.has_gravity())
+	if(moving_parent.anchored || !moving_parent.has_gravity() || !isturf(moving_parent.loc)) // NSV13 - Conveyors
 		return MOVELOOP_SKIP_STEP
 
 /datum/component/convey/proc/loop_ended(datum/source)

@@ -480,6 +480,8 @@
 				charge -= charge_per_shot
 
 				after_fire()
+				if(shots > 1)
+					sleep(weapon_type.burst_fire_delay)
 			return TRUE
 		return FALSE
 
@@ -506,8 +508,9 @@
 
 			if(semi_auto)
 				chamber(rapidfire = TRUE)
-			sleep(0.75)
 			after_fire()
+			if(shots > 1)
+				sleep(weapon_type.burst_fire_delay)
 		return TRUE
 	return FALSE
 

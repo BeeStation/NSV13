@@ -484,6 +484,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	explosion(get_turf(src), 0, 5, 10, 20, TRUE, TRUE)
 	empulse(get_turf(src), 25, 15)
 	fail_meltdown_objective()
+	SSblackbox.record_feedback("tally", "engine_stats", 1, "failed")
+	SSblackbox.record_feedback("tally", "engine_stats", 1, "agcnr")
 
 //Failure condition 2: Blowout. Achieved by reactor going over-pressured. This is a round-ender because it requires more fuckery to achieve.
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/blowout()
@@ -538,6 +540,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	AR.set_looping_ambience('nsv13/sound/effects/rbmk/reactor_hum.ogg')
 	var/startup_sound = pick('nsv13/sound/effects/ship/reactor/startup.ogg', 'nsv13/sound/effects/ship/reactor/startup2.ogg')
 	playsound(loc, startup_sound, 100)
+	SSblackbox.record_feedback("tally", "engine_stats", 1, "agcnr")
+	SSblackbox.record_feedback("tally", "engine_stats", 1, "started")
 
 //Shuts off the fuel rods, ambience, etc. Keep in mind that your temperature may still go up!
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/shut_down()
