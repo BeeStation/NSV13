@@ -179,7 +179,7 @@ GLOBAL_PROTECT(VVpixelmovement)
 		return
 	var/assoc = 0
 	var/prompt = alert(src, "Do you want to edit the key or its assigned value?", "Associated List", "Key", "Assigned Value", "Cancel")
-	if (prompt == "Cancel" || !prompt)
+	if (prompt == "Cancel")
 		return
 	if (prompt == "Assigned Value")
 		assoc = 1

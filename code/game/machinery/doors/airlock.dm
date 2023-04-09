@@ -1123,7 +1123,6 @@
 				welded = !welded
 				user.visible_message("[user.name] has [welded? "welded shut":"unwelded"] [src].", \
 									"<span class='notice'>You [welded ? "weld the airlock shut":"unweld the airlock"].</span>")
-				log_combat(user, src, welded? "welded shut":"unwelded")
 				update_icon()
 		else
 			if(obj_integrity < max_integrity)

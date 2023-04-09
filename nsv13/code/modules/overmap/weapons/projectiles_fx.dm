@@ -563,12 +563,6 @@ Misc projectile types, effects, think of this as the special FX file.
 	muzzle_type = /obj/effect/projectile/muzzle/disabler
 	impact_type = /obj/effect/projectile/impact/disabler
 
-/obj/item/projectile/beam/laser/phaser/pd
-	name = "point defense phaser"
-	damage = 60 // Doesn't scale with power input, but fires fairly quickly especially when upgraded
-	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
-	icon_state = "pdphaser"
-
 /obj/item/projectile/beam/laser/point_defense
 	name = "laser pointer"
 	damage = 30
@@ -590,16 +584,16 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "broadside shell"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "broadside"
-	damage = 125
+	damage = 75
 	obj_integrity = 500
 	flag = "overmap_heavy"
-	spread = 15
+	spread = 25
 	speed = 1
 
 /obj/item/projectile/bullet/broadside/plasma
 	name = "plasma-packed broadside shell"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "broadside_plasma"
-	damage = 175
+	damage = 125
 	armour_penetration = 10
 	speed = 0.4

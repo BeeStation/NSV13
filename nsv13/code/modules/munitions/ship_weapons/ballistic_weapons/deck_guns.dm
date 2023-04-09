@@ -1,7 +1,3 @@
-#define NAC_MIN_POWDER_LOAD 0.5 // Min powder, equivelant to 25%
-#define NAC_NORMAL_POWDER_LOAD 2 // "100%" powder
-#define NAC_MAX_POWDER_LOAD 10 // Max powder, or 500%
-
 /obj/machinery/ship_weapon/deck_turret
 	name = "\improper M4-15 'Hood' deck turret"
 	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload. Use a multitool on it to re-register loading aparatus."
@@ -84,7 +80,7 @@
 	. = ..()
 	//Ensure that the lazyloaded shells come pre-packed
 	for(var/obj/item/ship_weapon/ammunition/naval_artillery/shell in ammo)
-		shell.speed = NAC_NORMAL_POWDER_LOAD
+		shell.speed = 2
 
 /obj/machinery/ship_weapon/deck_turret/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -105,8 +101,7 @@
 /obj/machinery/ship_weapon/deck_turret/animate_projectile(atom/target, lateral=TRUE)
 	var/obj/item/ship_weapon/ammunition/naval_artillery/T = chambered
 	if(T)
-		var/obj/item/projectile/proj = linked.fire_projectile(T.projectile_type, target,speed=T.speed, lateral=weapon_type.lateral)
-		T.handle_shell_modifiers(proj)
+		linked.fire_projectile(T.projectile_type, target,speed=T.speed, lateral=weapon_type.lateral)
 
 /obj/machinery/ship_weapon/deck_turret/proc/rack_load(atom/movable/A)
 	if(length(ammo) < max_ammo && istype(A, ammo_type))
@@ -595,10 +590,6 @@
 /obj/item/ship_weapon/ammunition/naval_artillery/armed //This is literally just for mail.
 	armed = TRUE
 
-// Handles shell powder load damage modifiers
-/obj/item/ship_weapon/ammunition/naval_artillery/proc/handle_shell_modifiers(obj/item/projectile/proj)
-	return
-
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "cannon ball"
 	desc = "The QM blew the cargo budget on corgis, the clown stole all our ammo, we've got half a tank of plasma and are halfway to Dolos. Hit it."
@@ -629,12 +620,6 @@
 	desc = "A massive diamond-tipped round which can slice through armour plating with ease to deliver a lethal impact. Best suited for targets with heavy armour such as destroyers and up."
 	icon_state = "torpedo_ap"
 	projectile_type = /obj/item/projectile/bullet/mac_round/ap
-
-
-/obj/item/ship_weapon/ammunition/naval_artillery/ap/handle_shell_modifiers(obj/item/projectile/proj)
-	if(speed >= NAC_NORMAL_POWDER_LOAD)
-		proj.damage = proj.damage * CLAMP(log(10, speed * 5), 1, 2) // at 2 speed (or 100% powder load), damage mod is 1, logarithmically scaling up/down based on powder load
-	proj.armour_penetration = proj.armour_penetration * CLAMP(sqrt(speed * 0.5), 0.5, 3)
 
 /obj/item/ship_weapon/ammunition/naval_artillery/homing
 	name = "FTL-1301 Magneton Naval Artillery Round"
@@ -730,11 +715,11 @@
 	playsound(src.loc, 'nsv13/sound/effects/ship/freespace2/m_load.wav', 100, 1)
 
 /obj/machinery/deck_turret/payload_gate/proc/chamber(obj/machinery/deck_turret/powder_gate/source)
-	if(!shell || !source?.bag)
+	if(!shell)
 		return FALSE
 	shell.speed += source.bag.power
 	shell.name = "Packed [initial(shell.name)]"
-	shell.speed = CLAMP(shell.speed, NAC_MIN_POWDER_LOAD, NAC_MAX_POWDER_LOAD)
+	shell.speed = CLAMP(shell.speed, 0, 10)
 	source.pack()
 	return TRUE
 

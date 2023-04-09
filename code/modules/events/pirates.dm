@@ -1,5 +1,3 @@
-GLOBAL_VAR_INIT(pirates_spawned, FALSE)
-
 /datum/round_event_control/pirates
 	name = "Space Pirates"
 	typepath = /datum/round_event/pirates
@@ -16,11 +14,9 @@ GLOBAL_VAR_INIT(pirates_spawned, FALSE)
 	return ..()
 
 /datum/round_event/pirates/start()
-	if(!GLOB.pirates_spawned)
-		send_pirate_threat()
+	send_pirate_threat()
 
 /proc/send_pirate_threat()
-	GLOB.pirates_spawned = TRUE
 	var/ship_name = "Space Privateers Association"
 	var/payoff_min = 20000
 	var/payoff = 0
@@ -131,7 +127,7 @@ GLOBAL_VAR_INIT(pirates_spawned, FALSE)
 
 /obj/machinery/shuttle_scrambler/interact(mob/user)
 	if(!active)
-		if(alert(user, "Turning the scrambler on will make the shuttle trackable by GPS. Are you sure you want to do it?", "Scrambler", "Yes", "Cancel") != "Yes")
+		if(alert(user, "Turning the scrambler on will make the shuttle trackable by GPS. Are you sure you want to do it?", "Scrambler", "Yes", "Cancel") == "Cancel")
 			return
 		if(active || !user.canUseTopic(src, BE_CLOSE))
 			return

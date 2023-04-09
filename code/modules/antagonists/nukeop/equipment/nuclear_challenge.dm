@@ -27,7 +27,7 @@
 	if(!check_allowed(user))
 		return
 
-	if(are_you_sure != "Yes")
+	if(are_you_sure == "No")
 		to_chat(user, "On second thought, the element of surprise isn't so bad after all.")
 		return
 

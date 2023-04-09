@@ -40,8 +40,7 @@ export const Vote = (props, context) => {
 };
 
 // Collapsible panel for admin actions.
-// NSV13 - exported function for use in MapVote.js
-export const AdminPanel = (props, context) => {
+const AdminPanel = (props, context) => {
   const { act, data } = useBackend(context);
   const { avm, avr, avmap, voting, upper_admin } = data;
   return (
@@ -171,10 +170,9 @@ const ChoicesPanel = (props, context) => {
   );
 };
 
-// NSV13 - added mapvote ban which disables buttons for user during mapvote
 const DisplayChoices = (props, context) => {
   const { act, data } = useBackend(context);
-  const { selectedChoice, mode, mapvote_banned } = data;
+  const { selectedChoice } = data;
 
   return props.choices?.map((choice, i) => (
     <Flex justify="space-between" direction="row" key={i} mb={props.margin}>
@@ -186,8 +184,7 @@ const DisplayChoices = (props, context) => {
             });
           }}
           disabled={
-            (choice === props.choices[selectedChoice - props.startIndex - 1])
-            || ((mode === "map") && mapvote_banned)
+            choice === props.choices[selectedChoice - props.startIndex - 1]
           } >
           {choice.name?.replace(/^\w/, c => c.toUpperCase())}
         </Button>
@@ -205,8 +202,7 @@ const DisplayChoices = (props, context) => {
 };
 
 // Countdown timer at the bottom. Includes a cancel vote option for admins
-// NSV13 - exported function for use in MapVote.js
-export const TimePanel = (props, context) => {
+const TimePanel = (props, context) => {
   const { act, data } = useBackend(context);
   const { upper_admin, time_remaining } = data;
 

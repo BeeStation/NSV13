@@ -1958,9 +1958,10 @@
 		if(!check_rights(R_ADMIN))
 			return
 		var/confirm = alert("Are you sure you want to reboot the server?", "Confirm Reboot", "Yes", "No")
-		if(confirm != "Yes")
+		if(confirm == "No")
 			return
-		restart()
+		if(confirm == "Yes")
+			restart()
 
 	else if(href_list["check_teams"])
 		if(!check_rights(R_ADMIN))

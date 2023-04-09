@@ -502,7 +502,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		Cinematic(CINEMATIC_NSV_SHIP_KABOOM,world)
 		SSticker.mode.check_finished(TRUE)
 		SSticker.news_report = SHIP_DESTROYED
-		SSblackbox.record_feedback("text", "nsv_endings", 1, "destroyed")
 		SSticker.force_ending = 1
 	SEND_SIGNAL(src,COMSIG_SHIP_KILLED)
 	QDEL_LIST(current_tracers)
@@ -910,8 +909,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		M.Knockdown(2 SECONDS)
 
 /obj/structure/overmap/proc/can_change_safeties()
-	// Safeties can be toggled on the overmap or on small dockable maps like ruins and asteroids
-	return (SSmapping.level_trait(loc.z, ZTRAIT_OVERMAP) || SSmapping.level_trait(loc.z, ZTRAIT_RESERVED))
+	return (SSmapping.level_trait(loc.z, ZTRAIT_OVERMAP))
 
 /obj/structure/overmap/proc/can_brake()
 	return TRUE //See fighters.dm

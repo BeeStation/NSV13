@@ -149,7 +149,6 @@
 				system_list["is_current"] = (system == current_system)
 				system_list["alignment"] = system.alignment
 				system_list["visited"] = is_visited(system)
-				system_list["hidden"] = FALSE
 				var/label = ""
 				if(system.is_hypergate)
 					label += " HYPERGATE"

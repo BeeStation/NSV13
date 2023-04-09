@@ -589,18 +589,15 @@
 	weight = 4
 	cost = 8
 	minimum_players = 27
-	repeatable = FALSE
+	repeatable = TRUE
 
 /datum/dynamic_ruleset/midround/pirates/acceptable(population=0, threat=0)
 	if (!SSmapping.empty_space)
 		return FALSE
-	if(GLOB.pirates_spawned)
-		return FALSE
 	return ..()
 
 /datum/dynamic_ruleset/midround/pirates/execute()
-	if(!GLOB.pirates_spawned)
-		send_pirate_threat()
+	send_pirate_threat()
 	return ..()
 
 /// Obsessed ruleset
