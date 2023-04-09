@@ -113,6 +113,11 @@ MAP_REMOVE_JOB(air_traffic_controller)
 		return
 	hidden = FALSE
 
+// Lathe storage
+/obj/machinery/rnd/production/New()
+	. = ..()
+	base_storage *= 2
+
 //Job Changes
 
 /datum/job/bridge/New()

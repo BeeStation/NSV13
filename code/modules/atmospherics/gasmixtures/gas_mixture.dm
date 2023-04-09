@@ -268,7 +268,11 @@ we use a hook instead
 	parse_gas_string(model.initial_gas_mix)
 	return 1
 
+/datum/gas_mixture/proc/__auxtools_parse_gas_string(gas_string)
+
 /datum/gas_mixture/parse_gas_string(gas_string)
+	return __auxtools_parse_gas_string(gas_string)
+	/*
 	var/list/gas = params2list(gas_string)
 	if(gas["TEMP"])
 		var/temp = text2num(gas["TEMP"])
@@ -279,7 +283,7 @@ we use a hook instead
 	clear()
 	for(var/id in gas)
 		set_moles(id, text2num(gas[id]))
-	return 1
+	*/
 
 /datum/gas_mixture/proc/set_analyzer_results(instability)
 	if(!analyzer_results)
