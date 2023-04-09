@@ -48,27 +48,19 @@
 	circuit = /obj/item/circuitboard/machine/vls
 	var/obj/structure/fluff/vls_hatch/hatch = null
 
-/obj/machinery/ship_weapon/vls/proc/on_entered(datum/source, atom/movable/AM, oldloc)
+/obj/machinery/ship_weapon/vls/proc/on_entered(datum/source, atom/movable/torp, oldloc)
 	SIGNAL_HANDLER
 
-	var/can_shoot_this = FALSE
-	for(var/_ammo_type in ammo_type)
-		if(istype(AM, _ammo_type))
-			can_shoot_this = TRUE
-			break
+	if(!is_type_in_list(torp, ammo_type))
+		return FALSE
 
-	if(can_shoot_this)
-		if(ammo?.len >= max_ammo)
-			return FALSE
-		if(loading)
-			return FALSE
-		if(state >= 2)
-			return FALSE
-		ammo += AM
-		AM.forceMove(src)
-		if(load_sound)
-			playsound(src, load_sound, 100, 1)
-		state = 2
+	if(ammo?.len >= max_ammo)
+		return FALSE
+	if(loading)
+		return FALSE
+	if(state >= STATE_LOADED)
+		return FALSE
+	load(torp)
 
 // Handles removal of stuff
 /obj/machinery/ship_weapon/vls/Exited(atom/movable/gone, direction)
@@ -140,12 +132,13 @@
 		return
 	hatch.toggle(HT_CLOSED)
 
-/obj/machinery/ship_weapon/vls/unload_magazine()
+/obj/machinery/ship_weapon/vls/unload()
+	loading = TRUE // This prevents torps from immediately falling back into the VLS tube
 	. = ..()
+	loading = FALSE
 	if(!hatch)
 		return
 	hatch.toggle(HT_CLOSED)
-
 
 /obj/structure/fluff/vls_hatch
 	name = "VLS Launch Hatch"
