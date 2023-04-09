@@ -2365,13 +2365,6 @@
 	},
 /turf/closed/wall/ship,
 /area/hallway/nsv/deck1/hallway)
-"fZ" = (
-/obj/effect/turf_decal/ship/delivery/yellow,
-/obj/machinery/squad_vendor{
-	pixel_y = 32
-	},
-/turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck1/hallway)
 "ga" = (
 /obj/structure/sign/ship/deck{
 	dir = 4
@@ -2536,6 +2529,14 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/primary/aft)
+"gs" = (
+/obj/machinery/flasher{
+	id = "AI";
+	pixel_x = 23;
+	pixel_y = -23
+	},
+/turf/open/floor/circuit,
+/area/ai_monitored/turret_protected/aisat)
 "gt" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
@@ -5746,9 +5747,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
-"ni" = (
+"ng" = (
 /obj/machinery/ai_slipper,
 /turf/open/floor/circuit,
+/area/ai_monitored/turret_protected/aisat)
+"ni" = (
+/obj/machinery/blackbox_recorder,
+/turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
 "nj" = (
 /obj/effect/turf_decal/bot_white,
@@ -6510,41 +6515,14 @@
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/ai_upload)
 "vW" = (
-/obj/structure/table/reinforced,
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
-/obj/item/paper_bin,
-/obj/machinery/power/apc/highcap/fifteen_k{
-	auto_name = 1;
-	dir = 8;
-	pixel_x = -24
-	},
 /obj/structure/cable{
-	icon_state = "0-4"
+	icon_state = "4-8"
 	},
-/obj/machinery/newscaster/security_unit{
-	pixel_x = -32;
-	pixel_y = 32
+/obj/structure/chair/office{
+	dir = 8
 	},
-/obj/machinery/requests_console{
-	department = "AI";
-	departmentType = 5;
-	pixel_x = -30;
-	pixel_y = -30
-	},
-/turf/open/floor/monotile/dark,
+/turf/open/floor/durasteel/eris_techfloor_alt,
 /area/ai_monitored/turret_protected/aisat)
-"wg" = (
-/obj/effect/turf_decal/ship/delivery{
-	color = "#964B00"
-	},
-/obj/structure/fighter_launcher{
-	dir = 4;
-	name = "Bronze 1"
-	},
-/turf/open/floor/monotile/dark/airless,
-/area/quartermaster/miningdock)
 "wk" = (
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -6690,13 +6668,6 @@
 /obj/machinery/computer/iff_console,
 /turf/open/floor/monotile/steel,
 /area/ai_monitored/nuke_storage)
-"xH" = (
-/obj/machinery/camera/autoname{
-	c_tag = "Core W";
-	dir = 4
-	},
-/turf/open/floor/monotile/dark,
-/area/ai_monitored/turret_protected/aisat)
 "yr" = (
 /obj/machinery/light{
 	dir = 4
@@ -7312,12 +7283,6 @@
 "Jp" = (
 /turf/closed/wall/r_wall/ship,
 /area/quartermaster/miningdock)
-"Jy" = (
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/monotile/dark,
-/area/ai_monitored/turret_protected/aisat)
 "JE" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -7338,6 +7303,12 @@
 /obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/quartermaster/miningdock)
+"JS" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
+/area/ai_monitored/turret_protected/aisat)
 "JT" = (
 /obj/machinery/teleport/hub,
 /obj/effect/turf_decal/tile/neutral{
@@ -7411,7 +7382,7 @@
 	},
 /obj/structure/fighter_launcher{
 	dir = 4;
-	name = "Bronze 2"
+	name = "Bronze 1"
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/quartermaster/miningdock)
@@ -7480,12 +7451,30 @@
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "LI" = (
-/obj/machinery/flasher{
-	id = "AI";
-	pixel_x = 23;
-	pixel_y = -23
+/obj/structure/table/reinforced,
+/obj/machinery/camera/autoname{
+	dir = 4
 	},
-/turf/open/floor/circuit,
+/obj/item/paper_bin,
+/obj/machinery/power/apc/highcap/fifteen_k{
+	auto_name = 1;
+	dir = 8;
+	pixel_x = -24
+	},
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/obj/machinery/newscaster/security_unit{
+	pixel_x = -32;
+	pixel_y = 32
+	},
+/obj/machinery/requests_console{
+	department = "AI";
+	departmentType = 5;
+	pixel_x = -30;
+	pixel_y = -30
+	},
+/turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
 "Mb" = (
 /obj/effect/turf_decal/stripes/line{
@@ -7546,6 +7535,16 @@
 /obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
+"MH" = (
+/obj/effect/turf_decal/ship/delivery{
+	color = "#964B00"
+	},
+/obj/structure/fighter_launcher{
+	dir = 4;
+	name = "Bronze 2"
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/quartermaster/miningdock)
 "MI" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
@@ -7746,15 +7745,6 @@
 /area/nsv/hanger/deck3{
 	name = "Air traffic control pod"
 	})
-"PO" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/chair/office{
-	dir = 8
-	},
-/turf/open/floor/durasteel/eris_techfloor_alt,
-/area/ai_monitored/turret_protected/aisat)
 "PT" = (
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "hopqueue";
@@ -7854,9 +7844,10 @@
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "QL" = (
-/obj/structure/table/reinforced,
-/obj/item/phone,
-/obj/item/pen/fourcolor,
+/obj/machinery/camera/autoname{
+	c_tag = "Core W";
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
 "QT" = (
@@ -8065,7 +8056,9 @@
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "Tn" = (
-/obj/machinery/blackbox_recorder,
+/obj/structure/table/reinforced,
+/obj/item/phone,
+/obj/item/pen/fourcolor,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
 "TJ" = (
@@ -8286,6 +8279,13 @@
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /turf/open/floor/monotile/steel,
 /area/quartermaster/miningdock)
+"XE" = (
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/squad_vendor{
+	pixel_y = 32
+	},
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck1/hallway)
 "XJ" = (
 /obj/structure/rack,
 /obj/item/fighter_component/apu,
@@ -29361,8 +29361,8 @@ ce
 ce
 NP
 ct
-Jy
-xH
+JS
+QL
 NP
 ce
 ce
@@ -29616,11 +29616,11 @@ iC
 ie
 ce
 lg
-ni
+ng
 cy
-LI
+gs
 cy
-ni
+ng
 Ld
 ce
 ie
@@ -30388,9 +30388,9 @@ is
 ce
 cu
 cy
+ni
+LI
 Tn
-vW
-QL
 cy
 ej
 ce
@@ -30646,7 +30646,7 @@ ce
 ct
 cy
 dQ
-PO
+vW
 dQ
 cy
 ct
@@ -41181,7 +41181,7 @@ Wi
 dK
 es
 bN
-fZ
+XE
 cb
 iT
 mP
@@ -41695,7 +41695,7 @@ Wi
 dJ
 es
 bN
-fZ
+XE
 cb
 iT
 cb
@@ -42209,7 +42209,7 @@ Wi
 dJ
 es
 bN
-fZ
+XE
 cb
 iT
 cb
@@ -42723,7 +42723,7 @@ Wi
 dJ
 es
 bN
-fZ
+XE
 cb
 iT
 dZ
@@ -47622,11 +47622,11 @@ ax
 ax
 ib
 ax
-wg
+KJ
 ax
 hX
 ax
-KJ
+MH
 ax
 ib
 ax
