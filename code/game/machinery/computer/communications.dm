@@ -268,7 +268,7 @@
 		if ("setState")
 			if (!authenticated(usr))
 				return
-			if (!(params["state"] in GLOB.approved_status_pictures))
+			if (!(params["state"] in approved_states))
 				return
 			var/newState = params["state"]
 			if (newState == STATE_BUYING_SHUTTLE && can_buy_shuttles(usr) != TRUE)
