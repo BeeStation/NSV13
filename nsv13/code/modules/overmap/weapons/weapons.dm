@@ -8,7 +8,7 @@
 	weapon_overlays += OL
 	return OL
 
-/obj/structure/overmap/proc/fire(atom/target)
+/obj/structure/overmap/proc/fire(atom/target, mode=fire_mode)
 	if(weapon_safety)
 		if(gunner)
 			to_chat(gunner, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
@@ -21,7 +21,7 @@
 		return	//end if(ai_controlled)
 	if(istype(target, /obj/structure/overmap))
 		ship.add_enemy(src)
-	fire_weapon(target)
+	fire_weapon(target, mode)
 
 /obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=gunner, ai_aim=FALSE) //"Lateral" means that your ship doesnt have to face the target
 	var/datum/ship_weapon/SW = weapon_types[mode]
@@ -64,18 +64,26 @@
 		return FIRE_MODE_TORPEDO
 	return FIRE_MODE_MAC
 
-/obj/structure/overmap/proc/select_weapon(number)
-	if(number > 0 && number <= length(weapon_numkeys_map))
-		swap_to(weapon_numkeys_map[number])
+/obj/structure/overmap/proc/select_weapon(number, wrole)
+	if(wrole && number > 0 && number <= length(weapon_numkeys_map))//GUNNER GO HERE, I SWAP FUNNI GUN
+		swap_to(weapon_numkeys_map[number], 1)
+		return TRUE
+	if(!wrole && number > 0 && number <= length(weapon_numkeys_map_pilot))//PILOT GO HERE, I SWAP FUNNI PILOT GUN
+		swap_to(weapon_numkeys_map_pilot[number], 2)
 		return TRUE
 
-/obj/structure/overmap/proc/swap_to(what=FIRE_MODE_ANTI_AIR)
+/obj/structure/overmap/proc/swap_to(what=FIRE_MODE_ANTI_AIR, num)
 	if(!weapon_types[what])
 		return FALSE
 	var/datum/ship_weapon/SW = weapon_types[what]
 	if(!(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
-		return FALSE
-	fire_mode = what
+		if(!(SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))
+			return FALSE
+
+	if(num == 1)
+		fire_mode = what
+	if(num == 2)
+		fire_mode_pilot = what
 	if(world.time > switchsound_cooldown)
 		relay(SW.overmap_select_sound)
 		switchsound_cooldown = world.time + 5 SECONDS

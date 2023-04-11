@@ -16,6 +16,7 @@
 	bound_height = 32
 	bound_width = 32
 	role = INSTANCED_MIDROUND_SHIP
+	crail = TRUE
 
 //AI versions
 

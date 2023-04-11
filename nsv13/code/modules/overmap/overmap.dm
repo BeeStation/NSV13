@@ -125,7 +125,9 @@
 	// Ship weapons
 	var/list/weapon_types[MAX_POSSIBLE_FIREMODE]
 	var/list/weapon_numkeys_map = list() // I hate this
+	var/list/weapon_numkeys_map_pilot = list() //I also hate this
 
+	var/fire_mode_pilot = FIRE_MODE_PDC //What gun does the pilot want to fire? STOP SWAPPING THE GUNNERS GUN
 	var/fire_mode = FIRE_MODE_TORPEDO //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
 	var/faction = null //Used for target acquisition by AIs
@@ -185,6 +187,7 @@
 	var/flak_battery_amount = 0
 	var/broadside = FALSE //Whether the ship is allowed to have broadside cannons or not
 	var/plasma_caster = FALSE //Wehther the ship is allowed to have plasma gun or not
+	var/crail = FALSE //Do we have a coax railgun? yes or no
 	var/role = NORMAL_OVERMAP
 
 	var/list/missions = list()
@@ -439,6 +442,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		var/datum/ship_weapon/SW = weapon_types[firemode]
 		if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
 			weapon_numkeys_map += firemode
+	for(var/pmode = 1; pmode <= MAX_POSSIBLE_FIREMODE; pmode++) //Make funny weapon list for pilot
+		var/datum/ship_weapon/SW = weapon_types[pmode]
+		if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))
+			weapon_numkeys_map_pilot += pmode
 
 //Method to apply weapon types to a ship. Override to your liking, this just handles generic rules and behaviours
 /obj/structure/overmap/proc/apply_weapons()
@@ -462,6 +469,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		weapon_types[FIRE_MODE_BROADSIDE] = new/datum/ship_weapon/broadside(src)
 	if(plasma_caster)
 		weapon_types[FIRE_MODE_PHORON] = new/datum/ship_weapon/plasma_caster(src)
+	if(crail)
+		weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
 
 /obj/item/projectile/Destroy()
 	if(physics2d)
@@ -563,13 +572,18 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				gauss_gunners -= user
 	if(user != gunner)
 		if(user == pilot)
-			for(var/mode = 1; mode <= MAX_POSSIBLE_FIREMODE; mode++)
+/*			for(var/mode = 1; mode <= MAX_POSSIBLE_FIREMODE; mode++)
 				var/datum/ship_weapon/SW = weapon_types[mode] //For annoying ships like whisp
 				if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))
 					continue
 				var/list/loaded = SW?.weapons["loaded"]
 				if(length(loaded))
 					fire_weapon(target, mode)
+*/
+			var/datum/ship_weapon/SW = weapon_types[fire_mode_pilot]
+			if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))
+				return FALSE
+			fire(target, fire_mode_pilot)
 		return FALSE
 	if(tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
