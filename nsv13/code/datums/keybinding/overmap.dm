@@ -301,10 +301,10 @@
 	if(!OM) return
 
 	if(M != OM.gunner && M != OM.pilot) return
-	if(M == OM.gunner)
+	if(M == OM.gunner) //I am Gunner lets goooooo
 		wrole = TRUE
 		OM.select_weapon(2, wrole)
-	if(M == OM.pilot)
+	if(M == OM.pilot) //I am Pilot Nyooooom
 		wrole = FALSE
 		OM.select_weapon(2, wrole)
 	return TRUE

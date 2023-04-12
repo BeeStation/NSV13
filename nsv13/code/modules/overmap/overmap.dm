@@ -124,8 +124,8 @@
 
 	// Ship weapons
 	var/list/weapon_types[MAX_POSSIBLE_FIREMODE]
-	var/list/weapon_numkeys_map = list() // I hate this
-	var/list/weapon_numkeys_map_pilot = list() //I also hate this
+	var/list/weapon_numkeys_map = list() // I hate this -- Weapon numkey list for gunner
+	var/list/weapon_numkeys_map_pilot = list() //I also hate this -- Weapon numkey list for pilot
 
 	var/fire_mode_pilot = FIRE_MODE_PDC //What gun does the pilot want to fire? STOP SWAPPING THE GUNNERS GUN
 	var/fire_mode = FIRE_MODE_TORPEDO //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
@@ -439,7 +439,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	apply_weapons()
 	RegisterSignal(src, list(COMSIG_FTL_STATE_CHANGE, COMSIG_SHIP_KILLED), .proc/dump_locks) // Setup lockon handling
 	//We have a lot of types but not that many weapons per ship, so let's just worry about the ones we do have
-	for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
+	for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)//Makes funny weapon list for gunner
 		var/datum/ship_weapon/SW = weapon_types[firemode]
 		if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
 			weapon_numkeys_map += firemode
@@ -471,9 +471,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(plasma_caster)
 		weapon_types[FIRE_MODE_PHORON] = new/datum/ship_weapon/plasma_caster(src)
 	if(crail)
-		weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
+		weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src) //add coax rail datum
 	if(hrail)
-		weapon_types[FIRE_MODE_HYBRID_RAIL] = new/datum/ship_weapon/hybrid_railgun(src)
+		weapon_types[FIRE_MODE_HYBRID_RAIL] = new/datum/ship_weapon/hybrid_railgun(src) //add hybrid rail datum
 
 /obj/item/projectile/Destroy()
 	if(physics2d)
@@ -577,8 +577,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		if(user == pilot)
 			var/datum/ship_weapon/SW = weapon_types[fire_mode_pilot]
 			if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))
-				return FALSE
-			fire(target, fire_mode_pilot)
+				return FALSE //Wait your not the pilot or an allowed role? do not fire!
+			fire(target, fire_mode_pilot) //Pilot Fire the selected Pilot weapon.
 		return FALSE
 	if(tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)

@@ -8,7 +8,7 @@
 	weapon_overlays += OL
 	return OL
 
-/obj/structure/overmap/proc/fire(atom/target, mode=fire_mode)
+/obj/structure/overmap/proc/fire(atom/target, mode=fire_mode) //target is the click target, mode here adds support for the pilot firemode
 	if(weapon_safety)
 		if(gunner)
 			to_chat(gunner, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
@@ -21,7 +21,7 @@
 		return	//end if(ai_controlled)
 	if(istype(target, /obj/structure/overmap))
 		ship.add_enemy(src)
-	fire_weapon(target, mode)
+	fire_weapon(target, mode) //Target is click target, Mode is fire_mode
 
 /obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=gunner, ai_aim=FALSE) //"Lateral" means that your ship doesnt have to face the target
 	var/datum/ship_weapon/SW = weapon_types[mode]
@@ -76,14 +76,13 @@
 	if(!weapon_types[what])
 		return FALSE
 	var/datum/ship_weapon/SW = weapon_types[what]
-	if(!(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
-		if(!(SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))
-			return FALSE
-
+	if(!(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))//If your not a gunner and allowed role, continue
+		if(!(SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))//If your not a pilot and allowed role, continue
+			return FALSE //wait your not a pilot? not a gunner? not a allowed role? DO NOT SWAP
 	if(num == 1)
-		fire_mode = what
+		fire_mode = what //Gunner gun swap
 	if(num == 2)
-		fire_mode_pilot = what
+		fire_mode_pilot = what //Pilot gun swap
 	if(world.time > switchsound_cooldown)
 		relay(SW.overmap_select_sound)
 		switchsound_cooldown = world.time + 5 SECONDS
