@@ -188,6 +188,7 @@
 	var/broadside = FALSE //Whether the ship is allowed to have broadside cannons or not
 	var/plasma_caster = FALSE //Wehther the ship is allowed to have plasma gun or not
 	var/crail = FALSE //Do we have a coax railgun? yes or no
+	var/hrail = FALSE //Do we have a hybrid railgun? Yes or no
 	var/role = NORMAL_OVERMAP
 
 	var/list/missions = list()
@@ -471,6 +472,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		weapon_types[FIRE_MODE_PHORON] = new/datum/ship_weapon/plasma_caster(src)
 	if(crail)
 		weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src)
+	if(hrail)
+		weapon_types[FIRE_MODE_HYBRID_RAIL] = new/datum/ship_weapon/hybrid_railgun(src)
 
 /obj/item/projectile/Destroy()
 	if(physics2d)
@@ -572,14 +575,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				gauss_gunners -= user
 	if(user != gunner)
 		if(user == pilot)
-/*			for(var/mode = 1; mode <= MAX_POSSIBLE_FIREMODE; mode++)
-				var/datum/ship_weapon/SW = weapon_types[mode] //For annoying ships like whisp
-				if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))
-					continue
-				var/list/loaded = SW?.weapons["loaded"]
-				if(length(loaded))
-					fire_weapon(target, mode)
-*/
 			var/datum/ship_weapon/SW = weapon_types[fire_mode_pilot]
 			if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))
 				return FALSE

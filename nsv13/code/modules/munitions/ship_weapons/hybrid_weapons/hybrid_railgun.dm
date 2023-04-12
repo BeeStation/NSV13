@@ -116,7 +116,7 @@
 			after_fire()
 	return FALSE
 
-/obj/machinery/ship_weapon/hybrid_rail/can_fire(shots = weapon_type.burst_size)
+/obj/machinery/ship_weapon/hybrid_rail/can_fire(target, shots = weapon_type.burst_size)
 	if((state < STATE_CHAMBERED) || !chambered)
 		return FALSE
 	if(state >= STATE_FIRING)
