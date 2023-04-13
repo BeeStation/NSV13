@@ -100,6 +100,7 @@
 				linked.active_boarding_target = OM
 				addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown)
 				OM.ai_controlled = FALSE
+				OM.hammerlocked = TRUE
 				OM.apply_weapons()
 				radio.talk_into(src, "Enemy point defense systems scrambled. Bluefor strike teams cleared for approach.", radio_channel)
 			else
@@ -129,5 +130,6 @@
 			message_admins("[usr] released boarding/salvage lock on [linked.active_boarding_target]")
 			linked.active_boarding_target.kill_boarding_level(linked)
 			linked.active_boarding_target.overmap_deletion_traits = initial(linked.active_boarding_target.overmap_deletion_traits)
+			linked.active_boarding_target.hammerlocked = FALSE
 			linked.active_boarding_target = null
 			addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown/2)
