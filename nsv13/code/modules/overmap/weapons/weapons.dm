@@ -64,24 +64,23 @@
 		return FIRE_MODE_TORPEDO
 	return FIRE_MODE_MAC
 
-/obj/structure/overmap/proc/select_weapon(number, wrole)
-	if(wrole && number > 0 && number <= length(weapon_numkeys_map))//GUNNER GO HERE, I SWAP FUNNI GUN
-		swap_to(weapon_numkeys_map[number], 1)
+/obj/structure/overmap/proc/select_weapon(number, is_gunner)
+	if(is_gunner && number > 0 && number <= length(weapon_numkeys_map))//GUNNER GO HERE, I SWAP FUNNI GUN
+		swap_to(weapon_numkeys_map[number], OVERMAP_USER_ROLE_GUNNER)
 		return TRUE
-	if(!wrole && number > 0 && number <= length(weapon_numkeys_map_pilot))//PILOT GO HERE, I SWAP FUNNI PILOT GUN
-		swap_to(weapon_numkeys_map_pilot[number], 2)
+	if(!is_gunner && number > 0 && number <= length(weapon_numkeys_map_pilot))//PILOT GO HERE, I SWAP FUNNI PILOT GUN
+		swap_to(weapon_numkeys_map_pilot[number], OVERMAP_USER_ROLE_PILOT)
 		return TRUE
 
-/obj/structure/overmap/proc/swap_to(what=FIRE_MODE_ANTI_AIR, num)
+/obj/structure/overmap/proc/swap_to(what=FIRE_MODE_ANTI_AIR, role=OVERMAP_USER_ROLE_GUNNER)
 	if(!weapon_types[what])
 		return FALSE
 	var/datum/ship_weapon/SW = weapon_types[what]
-	if(!(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))//If your not a gunner and allowed role, continue
-		if(!(SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))//If your not a pilot and allowed role, continue
-			return FALSE //wait your not a pilot? not a gunner? not a allowed role? DO NOT SWAP
-	if(num == 1)
+	if(!(SW.allowed_roles & role))//If your not a gunner and allowed role or Not a pilot and allowed role, continue
+		return FALSE //wait your not a pilot? not a gunner? not a allowed role? DO NOT SWAP
+	if(role & OVERMAP_USER_ROLE_GUNNER)
 		fire_mode = what //Gunner gun swap
-	if(num == 2)
+	if(role & OVERMAP_USER_ROLE_PILOT)
 		fire_mode_pilot = what //Pilot gun swap
 	if(world.time > switchsound_cooldown)
 		relay(SW.overmap_select_sound)

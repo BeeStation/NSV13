@@ -272,15 +272,15 @@
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
-	var/wrole = FALSE //Weapon role, Because are you gunner or pilot? swap that weapon set. Why wrole? theres already a role
+	var/is_gunner = FALSE //is_gunner, Because are you gunner or pilot? swap that weapon set.
 	if(!OM) return
 	if(M != OM.gunner && M != OM.pilot) return //Im not Pilot or Gunner, I dont get to swap weapons...
 	if(M == OM.gunner) //I am Gunner lets goooooo
-		wrole = TRUE
-		OM.select_weapon(1, wrole)
+		is_gunner = TRUE
+		OM.select_weapon(1, is_gunner)
 	if(M == OM.pilot) //I am Pilot Nyooooom
-		wrole = FALSE
-		OM.select_weapon(1, wrole)
+		is_gunner = FALSE
+		OM.select_weapon(1, is_gunner)
 	return TRUE
 
 /datum/keybinding/overmap/weapon_2
@@ -297,16 +297,16 @@
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
-	var/wrole = FALSE //Weapon role, Because are you gunner or pilot? swap that weapon set. Why wrole? theres already a role
+	var/is_gunner = FALSE //is_gunner, Because are you gunner or pilot? swap that weapon set.
 	if(!OM) return
 
 	if(M != OM.gunner && M != OM.pilot) return
 	if(M == OM.gunner) //I am Gunner lets goooooo
-		wrole = TRUE
-		OM.select_weapon(2, wrole)
+		is_gunner = TRUE
+		OM.select_weapon(2, is_gunner)
 	if(M == OM.pilot) //I am Pilot Nyooooom
-		wrole = FALSE
-		OM.select_weapon(2, wrole)
+		is_gunner = FALSE
+		OM.select_weapon(2, is_gunner)
 	return TRUE
 
 /datum/keybinding/overmap/weapon_3
@@ -323,15 +323,15 @@
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
-	var/wrole = FALSE //Weapon role, Because are you gunner or pilot? swap that weapon set. Why wrole? theres already a role
+	var/is_gunner = FALSE //is_gunner, Because are you gunner or pilot? swap that weapon set.
 	if(!OM) return
 	if(M != OM.gunner && M != OM.pilot) return //Im not Pilot or Gunner, I dont get to swap weapons...
 	if(M == OM.gunner) //I am Gunner lets goooooo
-		wrole = TRUE
-		OM.select_weapon(1, wrole)
+		is_gunner = TRUE
+		OM.select_weapon(3, is_gunner)
 	if(M == OM.pilot) //I am Pilot Nyooooom
-		wrole = FALSE
-		OM.select_weapon(1, wrole)
+		is_gunner = FALSE
+		OM.select_weapon(3, is_gunner)
 	return TRUE
 
 /datum/keybinding/overmap/weapon_4
@@ -348,15 +348,15 @@
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
-	var/wrole = FALSE //Weapon role, Because are you gunner or pilot? swap that weapon set. Why wrole? theres already a role
+	var/is_gunner = FALSE //is_gunner, Because are you gunner or pilot? swap that weapon set.
 	if(!OM) return
 	if(M != OM.gunner && M != OM.pilot) return //Im not Pilot or Gunner, I dont get to swap weapons...
 	if(M == OM.gunner) //I am Gunner lets goooooo
-		wrole = TRUE
-		OM.select_weapon(1, wrole)
+		is_gunner = TRUE
+		OM.select_weapon(4, is_gunner)
 	if(M == OM.pilot) //I am Pilot Nyooooom
-		wrole = FALSE
-		OM.select_weapon(1, wrole)
+		is_gunner = FALSE
+		OM.select_weapon(4, is_gunner)
 	return TRUE
 
 /datum/keybinding/overmap/unlock
