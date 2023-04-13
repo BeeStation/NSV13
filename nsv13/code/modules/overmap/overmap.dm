@@ -187,8 +187,6 @@
 	var/flak_battery_amount = 0
 	var/broadside = FALSE //Whether the ship is allowed to have broadside cannons or not
 	var/plasma_caster = FALSE //Wehther the ship is allowed to have plasma gun or not
-	var/crail = FALSE //Do we have a coax railgun? yes or no
-	var/hrail = FALSE //Do we have a hybrid railgun? Yes or no
 	var/role = NORMAL_OVERMAP
 
 	var/list/missions = list()
@@ -470,10 +468,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		weapon_types[FIRE_MODE_BROADSIDE] = new/datum/ship_weapon/broadside(src)
 	if(plasma_caster)
 		weapon_types[FIRE_MODE_PHORON] = new/datum/ship_weapon/plasma_caster(src)
-	if(crail)
-		weapon_types[FIRE_MODE_RAILGUN] = new/datum/ship_weapon/railgun(src) //add coax rail datum
-	if(hrail)
-		weapon_types[FIRE_MODE_HYBRID_RAIL] = new/datum/ship_weapon/hybrid_railgun(src) //add hybrid rail datum
 
 /obj/item/projectile/Destroy()
 	if(physics2d)
