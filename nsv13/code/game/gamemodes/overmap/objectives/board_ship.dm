@@ -11,7 +11,6 @@
 	var/ship_type = pick(GLOB.boardable_ship_types)
 	target_ship = instance_overmap(ship_type)
 	target_ship.block_deletion = TRUE
-	target_ship.hammerlocked = TRUE
 	RegisterSignal(target_ship, COMSIG_SHIP_BOARDED, .proc/check_completion, target_ship)
 	RegisterSignal(target_ship, COMSIG_SHIP_RELEASE_BOARDING, .proc/release_boarding, target_ship)
 	target_ship.ai_load_interior(SSstar_system.find_main_overmap())

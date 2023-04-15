@@ -17,6 +17,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 	//Free up the boarding level....
 	if(boarder)
 		boarder.boarding_reservation_z = null
+		boarder.hammerlocked = FALSE
 	switch(interior_mode)
 		if(INTERIOR_EXCLUSIVE)
 			if(boarding_interior && boarding_reservation_z)
@@ -97,6 +98,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 		message_admins("Error parsing boarding interior map for [src]")
 		return FALSE
 
+	boarder.hammerlocked = TRUE
 	current_system = boarder.current_system
 	get_overmap_level()
 	boarding_reservation_z = boarder.boarding_reservation_z
