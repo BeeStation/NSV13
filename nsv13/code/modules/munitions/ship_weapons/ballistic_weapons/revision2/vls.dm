@@ -97,7 +97,7 @@
 /obj/machinery/ship_weapon/vls/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 	var/turf/T = SSmapping.get_turf_above(src)
@@ -443,7 +443,7 @@
 /obj/structure/overmap/proc/on_missile_lock(obj/structure/overmap/firer, obj/item/projectile/proj)
 	add_enemy(firer)
 	torpedoes_to_target += proj
-	RegisterSignal(proj, COMSIG_PARENT_QDELETING, .proc/remove_torpedo_target)
+	RegisterSignal(proj, COMSIG_PARENT_QDELETING, PROC_REF(remove_torpedo_target))
 	if(dradis)
 		dradis.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
 		if(COOLDOWN_FINISHED(dradis, last_missile_warning))

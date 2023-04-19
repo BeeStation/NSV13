@@ -61,8 +61,8 @@ GLOBAL_LIST_EMPTY(knpcs)
 	START_PROCESSING(SSfastprocess, src)
 	//They're alive!
 	GLOB.knpcs.Add(src)
-	RegisterSignal(parent, COMSIG_LIVING_REVIVE, .proc/restart)
-	RegisterSignal(parent, COMSIG_ATOM_BULLET_ACT, .proc/register_bullet)
+	RegisterSignal(parent, COMSIG_LIVING_REVIVE, PROC_REF(restart))
+	RegisterSignal(parent, COMSIG_ATOM_BULLET_ACT, PROC_REF(register_bullet))
 
 //Swiper! no swiping
 /datum/component/knpc/proc/steal_id(obj/item/card/id/their_id)
@@ -539,7 +539,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 				if(their_id && !HA.stealing_id)
 					H.visible_message("<span class='warning'>[H] starts to take [their_id] from [target]!</span>")
 					HA.stealing_id = TRUE
-					addtimer(CALLBACK(HA, /datum/component/knpc/proc/steal_id, their_id), 5 SECONDS)
+					addtimer(CALLBACK(HA, TYPE_PROC_REF(/datum/component/knpc, steal_id), their_id), 5 SECONDS)
 
 				if(istype(H) && CHECK_BITFIELD(H.knpc_traits, KNPC_IS_MARTIAL_ARTIST))
 					switch(rand(0, 2))

@@ -67,7 +67,7 @@
 	animate(src, alpha = 255, time = rand(0, 2 SECONDS))
 
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
@@ -101,7 +101,7 @@
 /obj/item/projectile/bullet/flak/Initialize(mapload, range=10)
 	. = ..()
 	steps_left = range
-	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_range)
+	RegisterSignal(src, COMSIG_MOVABLE_MOVED, PROC_REF(check_range))
 
 /obj/item/projectile/bullet/flak/proc/explode()
 	if(exploded)
