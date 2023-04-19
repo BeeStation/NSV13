@@ -115,7 +115,7 @@
 	eyeobj.off_action.ship = src
 	eyeobj.off_action.Grant(user)
 	eyeobj.setLoc(eyeobj.loc)
-	eyeobj.RegisterSignal(src, COMSIG_MOVABLE_MOVED, /mob/camera/ai_eye/remote/overmap_observer.proc/update)
+	eyeobj.RegisterSignal(src, COMSIG_MOVABLE_MOVED, TYPE_PROC_REF(/mob/camera/ai_eye/remote/overmap_observer, update))
 	user.reset_perspective(eyeobj)
 	user.remote_control = eyeobj
 
@@ -188,8 +188,8 @@
 		UnregisterSignal(ship_target, list(COMSIG_MOVABLE_MOVED, COMSIG_PARENT_QDELETING))
 	ship_target = target
 	if(ship_target)
-		RegisterSignal(ship_target, COMSIG_MOVABLE_MOVED, .proc/update)
-		RegisterSignal(ship_target, COMSIG_PARENT_QDELETING, .proc/handle_target_qdel)
+		RegisterSignal(ship_target, COMSIG_MOVABLE_MOVED, PROC_REF(update))
+		RegisterSignal(ship_target, COMSIG_PARENT_QDELETING, PROC_REF(handle_target_qdel))
 	update()
 	return TRUE
 

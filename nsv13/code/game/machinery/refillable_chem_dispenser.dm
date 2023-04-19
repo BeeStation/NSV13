@@ -60,9 +60,9 @@
 	create_reagents(base_capacity)
 	reagents.flags = NO_REACT
 	. = ..()
-	basic_reagents = sortList(basic_reagents, /proc/cmp_reagents_asc)
+	basic_reagents = sortList(basic_reagents, GLOBAL_PROC_REF(cmp_reagents_asc))
 	if(upgrade_reagents)
-		upgrade_reagents = sortList(upgrade_reagents, /proc/cmp_reagents_asc)
+		upgrade_reagents = sortList(upgrade_reagents, GLOBAL_PROC_REF(cmp_reagents_asc))
 	dispensable_reagents = basic_reagents + upgrade_reagents
 	update_icon()
 
@@ -369,5 +369,5 @@
 		for(var/datum/reagent/N in reagents.reagent_list)
 			if(!(N.type in basic_reagents))
 				new_upgrade_reagents |= N.type
-	upgrade_reagents = sortList(new_upgrade_reagents, /proc/cmp_reagents_asc)
+	upgrade_reagents = sortList(new_upgrade_reagents, GLOBAL_PROC_REF(cmp_reagents_asc))
 	dispensable_reagents = basic_reagents + upgrade_reagents

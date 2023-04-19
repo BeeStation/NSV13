@@ -320,7 +320,7 @@ GLOBAL_LIST_EMPTY(req_console_ckey_departments)
 				Radio.set_frequency(radio_freq)
 				Radio.talk_into(src,"[emergency] emergency in [department]!!",radio_freq)
 				update_icon()
-				addtimer(CALLBACK(src, .proc/clear_emergency), 5 MINUTES)
+				addtimer(CALLBACK(src, PROC_REF(clear_emergency)), 5 MINUTES)
 			if(squad_type) //NSV13 - squad alerts
 				var/list/squads = GLOB.squad_manager.role_squad_map[squad_type]
 				for(var/datum/squad/S as() in squads)

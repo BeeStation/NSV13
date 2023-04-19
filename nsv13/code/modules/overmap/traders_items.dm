@@ -347,3 +347,15 @@
 	price = 8000
 	stock = 1
 	unlock_path = /obj/item/disk/design_disk/deck_gun_autorepair
+
+/datum/trader_item/yellow_pages
+	name = "Space Yellow Pages"
+	desc = "A book full of useful information about nearby space stations"
+	price = 1000
+	stock = 1
+	unlock_path = /obj/item/book/space_yellow_pages
+
+/datum/trader_item/yellow_pages/on_purchase(obj/structure/overmap/OM)
+	. = ..()
+	var/obj/item/book/space_yellow_pages/book = .
+	book.set_basic_info(owner)

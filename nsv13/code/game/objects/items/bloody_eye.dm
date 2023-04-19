@@ -44,7 +44,7 @@
 	M.Jitter(2)
 	M.adjustOrganLoss(ORGAN_SLOT_BRAIN, 0.25)
 	if(prob(5))
-		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
+		INVOKE_ASYNC(M, TYPE_PROC_REF(/mob, emote), pick("scream", "laugh"))
 	return TRUE
 
 /datum/reagent/drug/bloody_eye/overdose_start(mob/living/M)
@@ -57,7 +57,7 @@
 		for(var/i in 1 to 2)
 			step(M, pick(GLOB.cardinals))
 	if(prob(20))
-		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
+		INVOKE_ASYNC(M, TYPE_PROC_REF(/mob, emote), pick("scream", "laugh"))
 	if(prob(33))
 		M.visible_message("<span class='danger'>[M]'s eyes are blood red!</span>")
 		M.drop_all_held_items()
@@ -69,14 +69,14 @@
 	. = ..()
 	M.Jitter(20)
 	if(prob(20))
-		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
+		INVOKE_ASYNC(M, TYPE_PROC_REF(/mob, emote), pick("scream", "laugh"))
 
 /datum/reagent/drug/bloody_eye/addiction_act_stage2(mob/living/M)
 	. = ..()
 	M.Jitter(50)
 	M.Dizzy(5)
 	if(prob(30))
-		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
+		INVOKE_ASYNC(M, TYPE_PROC_REF(/mob, emote), pick("scream", "laugh"))
 
 /datum/reagent/drug/bloody_eye/addiction_act_stage3(mob/living/M)
 	. = ..()
@@ -86,7 +86,7 @@
 	M.Jitter(100)
 	M.Dizzy(10)
 	if(prob(40))
-		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "gasp"))
+		INVOKE_ASYNC(M, TYPE_PROC_REF(/mob, emote), pick("scream", "gasp"))
 
 /datum/reagent/drug/bloody_eye/addiction_act_stage4(mob/living/carbon/human/M)
 	. = ..()
@@ -97,7 +97,7 @@
 	M.Dizzy(15)
 	M.adjustToxLoss(0.25, 0)
 	if(prob(50))
-		INVOKE_ASYNC(M, /mob.proc/emote, pick("scream", "laugh"))
+		INVOKE_ASYNC(M, TYPE_PROC_REF(/mob, emote), pick("scream", "laugh"))
 	return TRUE
 
 /obj/item/reagent_containers/hypospray/bloody_eye/attack(mob/living/M, mob/user)

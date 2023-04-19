@@ -141,10 +141,10 @@
 
 /obj/machinery/conquest_beacon/LateInitialize()
 	. = ..()
-	addtimer(CALLBACK(src, .proc/add_to_ship), 5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(add_to_ship)), 5 SECONDS)
 
 /obj/machinery/conquest_beacon/proc/add_to_ship()
-	RegisterSignal(get_overmap(), COMSIG_FTL_STATE_CHANGE, .proc/deactivate)
+	RegisterSignal(get_overmap(), COMSIG_FTL_STATE_CHANGE, PROC_REF(deactivate))
 
 /obj/machinery/conquest_beacon/proc/deactivate()
 	set_active(FALSE)
@@ -344,7 +344,7 @@
 
 /obj/effect/landmark/trader_drop_point/LateInitialize()
 	..()
-	// addtimer(CALLBACK(src, .proc/add_to_ship), 1 MINUTES)
+	// addtimer(CALLBACK(src, PROC_REF(add_to_ship)), 1 MINUTES)
 	add_to_ship() // I don't understand why we're delaying this
 
 /obj/effect/landmark/trader_drop_point/proc/add_to_ship()

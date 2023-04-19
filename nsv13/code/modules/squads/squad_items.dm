@@ -244,7 +244,7 @@
 /obj/item/clothing/suit/ship/squad/Initialize(mapload, datum/squad/squad)
 	. = ..()
 	if(!squad)
-		addtimer(CALLBACK(src, .proc/apply_squad), 5 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(apply_squad)), 5 SECONDS)
 		return
 	apply_squad(squad)
 
@@ -258,7 +258,7 @@
 /obj/item/clothing/head/helmet/ship/squad/Initialize(mapload, datum/squad/squad)
 	. = ..()
 	if(!squad)
-		addtimer(CALLBACK(src, .proc/apply_squad), 5 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(apply_squad)), 5 SECONDS)
 		return
 	apply_squad(squad)
 

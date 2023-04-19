@@ -170,7 +170,7 @@ Adding tasks is easy! Just define a datum for it.
 		if(goal_system)
 			if(current_system == goal_system)
 				if(!force)
-					addtimer(CALLBACK(src, .proc/move), rand(minimum_random_move_delay, maximum_random_move_delay))
+					addtimer(CALLBACK(src, PROC_REF(move)), rand(minimum_random_move_delay, maximum_random_move_delay))
 				return //We already arrived at our goal, time to chill here unless it changes.
 			if(!plotted_course || !plotted_course.len)	//Route len should ONLY be empty if we already arrived.
 				navigate_to(goal_system)
@@ -202,14 +202,14 @@ Adding tasks is easy! Just define a datum for it.
 				potential = fallback //Nowhere else to go.
 			if(!potential.len)	//Welp, we are stuck here for now.
 				if(!force)
-					addtimer(CALLBACK(src, .proc/move), rand(minimum_random_move_delay, maximum_random_move_delay))
+					addtimer(CALLBACK(src, PROC_REF(move)), rand(minimum_random_move_delay, maximum_random_move_delay))
 				return FALSE
 			target = pick(potential)
 		else
 			target = plotted_course[1]	//This shouldn't be able to reach this point with an empty route, so it *should* be safe.
 			course_picked_target = TRUE
 	if(!force)
-		addtimer(CALLBACK(src, .proc/move), rand(minimum_random_move_delay, maximum_random_move_delay))
+		addtimer(CALLBACK(src, PROC_REF(move)), rand(minimum_random_move_delay, maximum_random_move_delay))
 		//Precondition: We're allowed to go to this system.
 		if(!course_picked_target)
 			switch(fleet_trait)
@@ -542,7 +542,7 @@ Adding tasks is easy! Just define a datum for it.
 				"This cargo isn't registered on our supply requests. We will return it as soon as we can.",
 				"We haven't asked for any cargo like this. Take your business elsewhere.",
 			) ), src)
-			addtimer(CALLBACK(src, .proc/return_shipment, receipt), speed_cargo_return)
+			addtimer(CALLBACK(src, PROC_REF(return_shipment), receipt), speed_cargo_return)
 		else
 			SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 			receipt.vessel.hail( pick( list(
@@ -562,13 +562,13 @@ Adding tasks is easy! Just define a datum for it.
 			"This cargo isn't matching on our supply requests, please review the attached contents manifest and resend the contents.",
 			"We haven't asked for any cargo like this. Take your business elsewhere if you won't complete the job.",
 		) ), src)
-		addtimer(CALLBACK(src, .proc/return_shipment, receipt), speed_cargo_return)
+		addtimer(CALLBACK(src, PROC_REF(return_shipment), receipt), speed_cargo_return)
 
 /obj/structure/overmap/proc/approve_shipment( var/datum/freight_delivery_receipt/receipt )
 	if(receipt?.vessel)
 		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		receipt.vessel.hail( "Thank you for delivering this cargo. We have marked the supply request as received.", src)
-		addtimer(CALLBACK(src, .proc/return_approved_form, receipt), speed_cargo_return)
+		addtimer(CALLBACK(src, PROC_REF(return_approved_form), receipt), speed_cargo_return)
 		SSovermap_mode.update_reminder(objective=TRUE) // Completing any valid delivery resets the timer
 
 /obj/structure/overmap/proc/return_shipment( var/datum/freight_delivery_receipt/receipt )
@@ -607,7 +607,7 @@ Adding tasks is easy! Just define a datum for it.
 		speed_cargo_return = 1 SECONDS
 
 	to_chat(user, "<span class='notice'>The cargo has been sent to [src] and should be received shortly.</span>")
-	addtimer(CALLBACK(src, .proc/check_objectives, receipt), speed_cargo_check)
+	addtimer(CALLBACK(src, PROC_REF(check_objectives), receipt), speed_cargo_check)
 
 	src.send_supplypod( shipment, courier, TRUE )
 	return TRUE
@@ -970,7 +970,7 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/solgov/assemble(datum/star_system/SS, difficulty)
 	. = ..()
 	if(!scanning)
-		addtimer(CALLBACK(src, .proc/scan), scan_delay)
+		addtimer(CALLBACK(src, PROC_REF(scan)), scan_delay)
 		scanning = TRUE
 
 /datum/fleet/solgov/proc/scan()
@@ -1016,7 +1016,7 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/solgov/interdiction/assemble(datum/star_system/SS, difficulty)
 	. = ..()
 	for(var/obj/structure/overmap/OM as() in all_ships)
-		RegisterSignal(OM, COMSIG_ATOM_BULLET_ACT, .proc/check_bullet)
+		RegisterSignal(OM, COMSIG_ATOM_BULLET_ACT, PROC_REF(check_bullet))
 
 /datum/fleet/solgov/interdiction/encounter(obj/structure/overmap/OM)
 	// Same as parent but detects if the player ship is hostile and uses different taunts
@@ -1027,7 +1027,7 @@ Adding tasks is easy! Just define a datum for it.
 		if(OM.alpha >= 150)
 			if(OM == SSstar_system.find_main_overmap())
 				OM.hail(pick(traitor_taunts), name)
-				RegisterSignal(OM, COMSIG_SHIP_BOARDED, .proc/handle_iff_change)
+				RegisterSignal(OM, COMSIG_SHIP_BOARDED, PROC_REF(handle_iff_change))
 			else
 				OM.hail(pick(taunts), name)
 			last_encounter_time = world.time
@@ -1098,7 +1098,7 @@ Adding tasks is easy! Just define a datum for it.
 		if(current_system.alignment != current_system.owner && !federation_check())
 			current_system.mission_sector = TRUE
 		assemble(current_system)
-	addtimer(CALLBACK(src, .proc/move), initial_move_delay)
+	addtimer(CALLBACK(src, PROC_REF(move)), initial_move_delay)
 
 /datum/fleet/proc/add_ship(var/obj/structure/overmap/member, role as text)
 	if(!istype(member) || !role)
@@ -1671,7 +1671,7 @@ Seek a ship thich we'll station ourselves around
 					if(shots_left <= 0)
 						if(!ai_resupply_scheduled)
 							ai_resupply_scheduled = TRUE
-							addtimer(CALLBACK(src, .proc/ai_self_resupply), ai_resupply_time)
+							addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
 						continue //If we are out of shots. Continue.
 				else if(light_shots_left <= 0)
 					spawn(150)
@@ -1745,7 +1745,7 @@ Seek a ship thich we'll station ourselves around
 			if((shots_left - ammo_use) <= 0)
 				if(!ai_resupply_scheduled)
 					ai_resupply_scheduled = TRUE
-					addtimer(CALLBACK(src, .proc/ai_self_resupply), ai_resupply_time)
+					addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
 				continue //If we are out of shots. Continue.
 			will_use_ammo = TRUE
 		var/arc = overmap_angle(src, target)
@@ -1868,7 +1868,7 @@ Seek a ship thich we'll station ourselves around
 			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= initial(OM.shots_left) && OM.missiles >= initial(OM.missiles) && OM.torpedoes >= initial(OM.torpedoes)) //No need to resupply this ship at all.
 				continue
 			resupply_target = OM
-			addtimer(CALLBACK(src, .proc/resupply), 5 SECONDS)	//Resupply comperatively fast, but not instant. Repairs take longer.
+			addtimer(CALLBACK(src, PROC_REF(resupply)), 5 SECONDS)	//Resupply comperatively fast, but not instant. Repairs take longer.
 			resupplying++
 			break
 //Method to allow a supply ship to resupply other AIs.
@@ -2075,163 +2075,6 @@ Seek a ship thich we'll station ourselves around
 		add_enemy(last_target)
 		return TRUE
 	return FALSE
-
-/client/proc/system_manager() //Creates a verb for admins to open up the ui
-	set name = "Starsystem Management"
-	set desc = "Manage fleets / systems that exist in game"
-	set category = "Adminbus"
-	var/datum/starsystem_manager/man = new(usr)//create the datum
-	man.ui_interact(usr)//datum has a tgui component, here we open the window
-
-/datum/starsystem_manager
-	var/name = "Starsystem manager"
-	var/client/holder = null
-
-/datum/starsystem_manager/New(H)//H can either be a client or a mob due to byondcode(tm)
-	if (istype(H,/client))
-		var/client/C = H
-		holder = C //if its a client, assign it to holder
-	else
-		var/mob/M = H
-		holder = M.client //if its a mob, assign the mob's client to holder
-	. = ..()
-
-/datum/starsystem_manager/ui_state(mob/user)
-        return GLOB.admin_state
-
-/datum/starsystem_manager/ui_interact(mob/user, datum/tgui/ui)
-	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		ui = new(user, src, "SystemManager")
-		ui.open()
-		ui.set_autoupdate(TRUE)
-
-/datum/starsystem_manager/ui_data(mob/user)
-	var/list/data = list()
-	var/list/systems_info = list()
-	for(var/datum/star_system/SS in SSstar_system.systems)
-		var/list/sys_inf = list()
-		sys_inf["name"] = SS.name
-		sys_inf["system_type"] = SS.system_type ? SS.system_type["tag"] : "none"
-		sys_inf["alignment"] = capitalize(SS.alignment)
-		sys_inf["sys_id"] = "\ref[SS]"
-		sys_inf["fleets"] = list() //2d array mess in 3...2...1..
-		for(var/datum/fleet/F in SS.fleets)
-			var/list/fleet_info = list()
-			fleet_info["name"] = F.name
-			fleet_info["id"] = "\ref[F]"
-			if(F.alignment == "nanotrasen" || F.alignment == "solgov")
-				fleet_info["color"] = "good"
-			else if(F.alignment == "syndicate" || F.alignment == "pirate")
-				fleet_info["color"] = "bad"
-			else
-				fleet_info["color"] = null
-			var/list/fuckYouDreamChecker = sys_inf["fleets"]
-			fuckYouDreamChecker[++fuckYouDreamChecker.len] = fleet_info
-		sys_inf["objects"] = list()
-		for(var/obj/object in (SS.system_contents))
-			var/list/overmap_info = list()
-			if(istype(object, /obj/structure/overmap))
-				var/obj/structure/overmap/OM = object
-				if(!OM.fleet)
-					overmap_info["name"] = object.name
-					overmap_info["id"] = "\ref[object]"
-					if(OM.faction == "nanotrasen" || OM.faction == "solgov")
-						overmap_info["color"] = "good"
-					else if(OM.faction == "syndicate" || OM.faction == "pirate")
-						overmap_info["color"] = "bad"
-					else
-						overmap_info["color"] = null
-			else // anomalies
-				overmap_info["name"] = object.name
-				overmap_info["id"] = "\ref[object]"
-				overmap_info["color"] = null
-			if(length(overmap_info))
-				var/list/fuckYouDreamChecker = sys_inf["objects"]
-				fuckYouDreamChecker[++fuckYouDreamChecker.len] = overmap_info
-		systems_info[++systems_info.len] = sys_inf
-	data["systems_info"] = systems_info
-	return data
-
-/datum/starsystem_manager/ui_act(action, params)
-	if(..())
-		return
-	switch(action)
-		if("fleetAct")
-			var/datum/fleet/target = locate(params["id"])
-			if(!istype(target))
-				return
-			var/command = alert("What do you want to do with [target]?", "Starsystem Management", "Jump", "Delete", "Cancel")
-			if(!command || command == "Cancel")
-				return FALSE
-			if(command == "Jump")
-				var/datum/star_system/sys = input(usr, "Select a jump target for [target]...","Fleet Management", null) as null|anything in SSstar_system.systems
-				if(!sys || !istype(sys))
-					return FALSE
-				message_admins("[key_name(usr)] forced [target] to jump to [sys].")
-				target.move(sys, TRUE)
-			if(command == "Delete")
-				usr.client.cmd_admin_delete(target)
-		if("createFleet")
-			var/datum/star_system/target = locate(params["sys_id"])
-			if(!istype(target))
-				return
-			var/fleet_type = input(usr, "What fleet template would you like to use?","Fleet Creation", null) as null|anything in typecacheof(/datum/fleet)
-			if(!fleet_type)
-				return
-			var/datum/fleet/F = new fleet_type()
-			target.fleets += F
-			F.current_system = target
-			F.assemble(target)
-			for(var/obj/structure/overmap/OM in target.system_contents)
-				if(length(OM.mobs_in_ship) && OM.reserved_z)
-					F.encounter(OM)
-			message_admins("[key_name(usr)] created a fleet ([F.name]) at [target].")
-		if("createObject")
-			var/datum/star_system/target = locate(params["sys_id"])
-			if(!istype(target))
-				return
-			var/object_type = input(usr, "What kind of object?","Overmap Object Creation", null) as null|anything in (typecacheof(/obj/structure/overmap/asteroid) + typecacheof(/obj/effect/overmap_anomaly) + typecacheof(/obj/structure/overmap/trader))
-			if(!object_type)
-				return
-			if(ispath(object_type, /obj/structure/overmap))
-				SSstar_system.spawn_ship(object_type, target)
-			else if(ispath(object_type, /obj/effect/overmap_anomaly))
-				SSstar_system.spawn_anomaly(object_type, target)
-		if("objectAct")
-			var/obj/structure/overmap/target = locate(params["id"])
-			if(!istype(target))
-				return
-			var/command = alert("What do you want to do with [target]?", "Starsystem Management", "Jump", "Hail", "Delete", "Cancel")
-			if(!command || command == "Cancel")
-				return FALSE
-			if(command == "Jump")
-				var/datum/star_system/sys = input(usr, "Select a jump target for [target]...","Fleet Management", null) as null|anything in SSstar_system.systems
-				if(!sys || !istype(sys))
-					return FALSE
-				// Handle player ships
-				if(length(target.linked_areas))
-					var/when = alert(usr, "When should they arrive?", "Jump to [sys]", "Now", "After FTL", "Cancel")
-					if(!when || when == "Cancel")
-						return FALSE
-					message_admins("[key_name(usr)] forced [target] to jump to [sys].")
-					if(when == "After FTL")
-						target.jump_start(sys, TRUE)
-						return TRUE
-					if(when == "Now")
-						target.current_system.remove_ship(target)
-						target.jump_end(sys)
-						return TRUE
-				message_admins("[key_name(usr)] forced [target] to jump to [sys].")
-				SSstar_system.move_existing_object(target, sys)
-			if(command == "Hail")
-				var/message = capped_input(usr, "Enter message", "Hail")
-				var/from = capped_input(usr, "Who is it from?", "Hail")
-				if(!message || !from)
-					return FALSE
-				target.hail(message, from)
-			if(command == "Delete")
-				usr.client.cmd_admin_delete(target)
 
 /client/proc/instance_overmap_menu() //Creates a verb for admins to open up the ui
 	set name = "Instance Overmap"
