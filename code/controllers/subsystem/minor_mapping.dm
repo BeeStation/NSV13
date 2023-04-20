@@ -43,6 +43,8 @@ SUBSYSTEM_DEF(minor_mapping)
 	for(var/turf/open/floor/plating/T in all_turfs)
 		if(is_blocked_turf(T))
 			continue
+		if(locate(/obj/structure/lattice/catwalk) in T) // NSV13 - Do not spawn mice on catwalks
+			continue
 		if(locate(/obj/structure/cable) in T)
 			exposed_wires += T
 

@@ -157,7 +157,7 @@
 	//If our corgi died :(
 	if(new_corgi.stat)
 		holder.remove_all_type(type)
-		addtimer(CALLBACK(src, .proc/restore, M), 2 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(restore), M), 2 SECONDS)
 
 /datum/reagent/corgium/on_mob_end_metabolize(mob/living/L)
 	. = ..()
@@ -1072,7 +1072,7 @@
 		to_chat(M, "<span class='warning'>You feel unstable...</span>")
 		M.Jitter(2)
 		current_cycle = 1
-		addtimer(CALLBACK(M, /mob/living/proc/bluespace_shuffle), 30)
+		addtimer(CALLBACK(M, TYPE_PROC_REF(/mob/living, bluespace_shuffle)), 30)
 	..()
 
 /mob/living/proc/bluespace_shuffle()
@@ -1383,7 +1383,7 @@
 	color = "#E1A116"
 	chem_flags = CHEMICAL_RNG_GENERAL | CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 	taste_description = "sourness"
-	///stores whether or not the mob has been warned that they are having difficulty breathing. 
+	///stores whether or not the mob has been warned that they are having difficulty breathing.
 	var/warned = FALSE
 
 /datum/reagent/stimulum/on_mob_metabolize(mob/living/L)

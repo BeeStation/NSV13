@@ -28,7 +28,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	if(sound)
 		playsound(src, sound, 100, 1)
 		can_sound = FALSE
-		addtimer(CALLBACK(src, .proc/reset_sound), sound_cooldown)
+		addtimer(CALLBACK(src, PROC_REF(reset_sound)), sound_cooldown)
 
 /obj/machinery/computer/ship/proc/reset_sound()
 	can_sound = TRUE

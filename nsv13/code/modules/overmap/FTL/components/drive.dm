@@ -364,7 +364,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 		for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
 			P.set_state(PYLON_STATE_SHUTDOWN)
 	cooldown = TRUE
-	addtimer(CALLBACK(src, .proc/post_cooldown, auto_spool_enabled), FTL_COOLDOWN)
+	addtimer(CALLBACK(src, PROC_REF(post_cooldown), auto_spool_enabled), FTL_COOLDOWN)
 	STOP_PROCESSING(SSmachines, src)
 	return TRUE
 

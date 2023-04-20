@@ -30,7 +30,7 @@
 /obj/item/organ/heart/Remove(mob/living/carbon/M, special = 0)
 	..()
 	if(!special)
-		addtimer(CALLBACK(src, .proc/stop_if_unowned), 120)
+		addtimer(CALLBACK(src, PROC_REF(stop_if_unowned)), 120)
 
 /obj/item/organ/heart/proc/stop_if_unowned()
 	if(!owner)
@@ -46,7 +46,7 @@
 		user.visible_message("<span class='notice'>[user] squeezes [src] to \
 			make it beat again!</span>","<span class='notice'>You squeeze [src] to make it beat again!</span>")
 		Restart()
-		addtimer(CALLBACK(src, .proc/stop_if_unowned), 80)
+		addtimer(CALLBACK(src, PROC_REF(stop_if_unowned)), 80)
 
 /obj/item/organ/heart/proc/Stop()
 	beating = 0
@@ -215,7 +215,7 @@
 /obj/item/organ/heart/cybernetic/ipc/emp_act()
 	. = ..()
 	to_chat(owner, "<span class='warning'>Alert: Cybernetic heart failed one heartbeat</span>")
-	addtimer(CALLBACK(src, .proc/Restart), 10 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(Restart)), 10 SECONDS)
 
 /obj/item/organ/heart/freedom
 	name = "heart of freedom"
@@ -257,9 +257,9 @@
 
 /obj/item/organ/heart/ethereal/Insert(mob/living/carbon/heart_owner, special = 0)
 	. = ..()
-	RegisterSignal(heart_owner, COMSIG_MOB_STATCHANGE, .proc/on_stat_change)
-	RegisterSignal(heart_owner, COMSIG_LIVING_POST_FULLY_HEAL, .proc/on_owner_fully_heal)
-	RegisterSignal(heart_owner, COMSIG_PARENT_PREQDELETED, .proc/owner_deleted)
+	RegisterSignal(heart_owner, COMSIG_MOB_STATCHANGE, PROC_REF(on_stat_change))
+	RegisterSignal(heart_owner, COMSIG_LIVING_POST_FULLY_HEAL, PROC_REF(on_owner_fully_heal))
+	RegisterSignal(heart_owner, COMSIG_PARENT_PREQDELETED, PROC_REF(owner_deleted))
 
 /obj/item/organ/heart/ethereal/Remove(mob/living/carbon/heart_owner, special = 0)
 	UnregisterSignal(heart_owner, list(COMSIG_MOB_STATCHANGE, COMSIG_LIVING_POST_FULLY_HEAL, COMSIG_PARENT_PREQDELETED))
@@ -314,11 +314,11 @@
 	victim.visible_message("<span class='notice'>Crystals start forming around [victim].</span>")
 	ADD_TRAIT(victim, TRAIT_CORPSELOCKED, SPECIES_TRAIT)
 
-	crystalize_timer_id = addtimer(CALLBACK(src, .proc/crystalize, victim), CRYSTALIZE_PRE_WAIT_TIME, TIMER_STOPPABLE)
+	crystalize_timer_id = addtimer(CALLBACK(src, PROC_REF(crystalize), victim), CRYSTALIZE_PRE_WAIT_TIME, TIMER_STOPPABLE)
 
-	RegisterSignal(victim, COMSIG_HUMAN_DISARM_HIT, .proc/reset_crystalizing)
-	RegisterSignal(victim, COMSIG_PARENT_EXAMINE, .proc/on_examine, override = TRUE)
-	RegisterSignal(victim, COMSIG_MOB_APPLY_DAMGE, .proc/on_take_damage)
+	RegisterSignal(victim, COMSIG_HUMAN_DISARM_HIT, PROC_REF(reset_crystalizing))
+	RegisterSignal(victim, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine), override = TRUE)
+	RegisterSignal(victim, COMSIG_MOB_APPLY_DAMGE, PROC_REF(on_take_damage))
 
 ///Ran when disarmed, prevents the ethereal from reviving
 /obj/item/organ/heart/ethereal/proc/reset_crystalizing(mob/living/defender, mob/living/attacker, zone)
@@ -326,7 +326,7 @@
 	to_chat(defender, "<span class='notice'>The crystals on your corpse are gently broken off, and will need some time to recover.</span>")
 	defender.visible_message("<span class='notice'>The crystals on [defender] are gently broken off.</span>")
 	deltimer(crystalize_timer_id)
-	crystalize_timer_id = addtimer(CALLBACK(src, .proc/crystalize, defender), CRYSTALIZE_DISARM_WAIT_TIME, TIMER_STOPPABLE) //Lets us restart the timer on disarm
+	crystalize_timer_id = addtimer(CALLBACK(src, PROC_REF(crystalize), defender), CRYSTALIZE_DISARM_WAIT_TIME, TIMER_STOPPABLE) //Lets us restart the timer on disarm
 
 
 ///Actually spawns the crystal which puts the ethereal in it.
@@ -412,11 +412,11 @@
 	possible_chair?.unbuckle_mob(ethereal_heart.owner, force = TRUE)
 	ethereal_heart.owner.forceMove(src) //put that ethereal in
 	add_atom_colour(ethereal_heart.ethereal_color, FIXED_COLOUR_PRIORITY)
-	crystal_heal_timer = addtimer(CALLBACK(src, .proc/heal_ethereal), CRYSTALIZE_HEAL_TIME, TIMER_STOPPABLE)
+	crystal_heal_timer = addtimer(CALLBACK(src, PROC_REF(heal_ethereal)), CRYSTALIZE_HEAL_TIME, TIMER_STOPPABLE)
 	set_light(4, 10, ethereal_heart.ethereal_color)
 	update_icon()
 	flick("ethereal_crystal_forming", src)
-	addtimer(CALLBACK(src, .proc/start_crystalization), 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(start_crystalization)), 1 SECONDS)
 
 /obj/structure/ethereal_crystal/proc/start_crystalization()
 	being_built = FALSE

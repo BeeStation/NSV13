@@ -50,11 +50,11 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 	parent = get_overmap()
 	if(!parent)
 		tries --
-		addtimer(CALLBACK(src, .proc/try_find_parent), 10 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(try_find_parent)), 10 SECONDS)
 		return
 	parent.armour_plates ++
 	parent.max_armour_plates ++
-	RegisterSignal(parent, COMSIG_ATOM_DAMAGE_ACT, .proc/relay_damage, override = TRUE)
+	RegisterSignal(parent, COMSIG_ATOM_DAMAGE_ACT, PROC_REF(relay_damage), override = TRUE)
 
 /obj/structure/hull_plate/Destroy()
 	parent?.armour_plates --
@@ -155,7 +155,7 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 	if(!length(occupying_levels))
 		return
 	if(armour_plates <= 0)
-		addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS) //Recursively call the function until we've generated the armour plates value to account for lag / late initializations.
+		addtimer(CALLBACK(src, PROC_REF(check_armour)), 20 SECONDS) //Recursively call the function until we've generated the armour plates value to account for lag / late initializations.
 		return
 	max_armour_plates = armour_plates
 

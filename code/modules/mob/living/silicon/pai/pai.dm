@@ -131,7 +131,7 @@
 	create_modularInterface()
 
 	emittersemicd = TRUE
-	addtimer(CALLBACK(src, .proc/emittercool), 600)
+	addtimer(CALLBACK(src, PROC_REF(emittercool)), 600)
 	return INITIALIZE_HINT_LATELOAD
 
 

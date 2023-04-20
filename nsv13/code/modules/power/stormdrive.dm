@@ -1147,7 +1147,7 @@ Control Rods
 	send_alert("ERROR IN MODULE FISSREAC0 AT ADDRESS 0x12DF. CONTROL RODS HAVE FAILED. IMMEDIATE INTERVENTION REQUIRED.", override=TRUE)
 	warning_state = WARNING_STATE_MELTDOWN
 	var/sound = 'nsv13/sound/effects/ship/reactor/meltdown.ogg'
-	addtimer(CALLBACK(src, .proc/meltdown), 18 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(meltdown)), 18 SECONDS)
 	var/obj/structure/overmap/OM = get_overmap()
 	OM?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
 	reactor_end_times = TRUE
@@ -1630,7 +1630,7 @@ Control Rods
 	freq_shift = rand(1, 10) / 10
 	code_shift = rand(1, 10) / 10
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
@@ -1783,7 +1783,7 @@ Control Rods
 		A.visible_message("<span class='danger'>The space around [A] begins to shimmer!</span>", \
 		"<span class='userdanger'>Your head swims as space appears to bend around you!</span>",
 		"<span class='italics'>You feel space shift slightly in your vicinity.</span>")
-		addtimer(CALLBACK(src, .proc/equalise, A), 5 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(equalise), A), 5 SECONDS)
 
 /obj/effect/anomaly/stormdrive/squall/proc/equalise(mob/living/A)
 	var/list/throwlist = orange(6, A)

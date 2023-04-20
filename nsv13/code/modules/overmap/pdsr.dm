@@ -72,7 +72,7 @@
 	OM = get_overmap()
 	OM?.shields = src
 	if(!OM)
-		addtimer(CALLBACK(src, .proc/try_find_overmap), 20 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(try_find_overmap)), 20 SECONDS)
 
 	records["r_power_input"] = list()
 	records["r_min_power_input"] = list()
