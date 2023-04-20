@@ -3,6 +3,8 @@
 	desc = "..."
 	icon = 'icons/obj/chemical.dmi'
 	w_class = WEIGHT_CLASS_TINY
+	/// this is to support when you don't want to display "bottle" part with a custom name. i.e.) "Bica-Kelo mix" rather than "Bica-Kelo mix bottle"
+	var/label_name
 	///How many units are we currently transferring?
 	var/amount_per_transfer_from_this = 5
 	///Possible amounts of units transfered a click
@@ -35,6 +37,8 @@
 		var/datum/disease/F = new spawned_disease()
 		var/list/data = list("viruses"= list(F))
 		reagents.add_reagent(/datum/reagent/blood, disease_amount, data)
+	if(!label_name)
+		label_name = name
 
 	add_initial_reagents()
 
@@ -42,7 +46,11 @@
 	if(list_reagents)
 		reagents.add_reagent_list(list_reagents)
 
+///NSV13 - Borg Hypospray Update - Start
 /obj/item/reagent_containers/attack_self(mob/user)
+	change_transfer_amount(user)
+
+/obj/item/reagent_containers/proc/change_transfer_amount(mob/user)
 	if(length(possible_transfer_amounts))
 		var/i = 0
 		for(var/A in possible_transfer_amounts)
@@ -54,6 +62,7 @@
 					amount_per_transfer_from_this = possible_transfer_amounts[1]
 				balloon_alert(user, "Transferring [amount_per_transfer_from_this]u.")
 				return
+///NSV13 - Borg Hypospray Update - Stop
 
 /obj/item/reagent_containers/attack(mob/M, mob/user, def_zone)
 	if(user.a_intent == INTENT_HARM)

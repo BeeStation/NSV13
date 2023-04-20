@@ -59,6 +59,12 @@
 	lighting_colour_bulb = "#e6af68"
 	area_flags = 0 // Not a unique area and spawns are not allowed
 	teleport_restriction = TELEPORT_ALLOW_NONE
+	var/obj/structure/overmap/small_craft/transport/linked_dropship
+
+/area/dropship/get_virtual_z(turf/T)
+	if(linked_dropship)
+		return linked_dropship.get_virtual_z_level()
+	return ..()
 
 //If we ever want to let them build these things..
 /area/dropship/generic

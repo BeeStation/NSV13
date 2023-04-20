@@ -105,6 +105,10 @@ Returns a faction datum by its name (case insensitive!)
 	message_admins("Loading starsystem from [_source_path]...")
 	var/list/_systems = list()
 	//Read the file in...
+	//If we can't find starmap.json, load in the default instead. This should usually be for local servers
+	if(!fexists(_source_path))
+		log_game("Unable to find [_source_path]. Loading default instead. This is normal for local servers")
+		_source_path = "config/starmap/starmap_default.json"
 	try
 		_systems += json_decode(rustg_file_read(file(_source_path)))
 	catch(var/exception/ex)
@@ -265,7 +269,10 @@ Returns a faction datum by its name (case insensitive!)
 	if(!ships[OM])
 		return
 	var/datum/star_system/system = system_by_id(OM.starting_system)
-	ships[OM]["current_system"] = system
+	if(!ships[OM]["current_system"])
+		ships[OM]["current_system"] = system
+	else
+		system = ships[OM]["current_system"]
 	return system
 
 /datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE)//Select Ship to Spawn and Location via Z-Trait
@@ -433,10 +440,10 @@ Returns a faction datum by its name (case insensitive!)
 /datum/star_system/proc/parse_startup_proc()
 	switch(startup_proc)
 		if("STARTUP_PROC_TYPE_BRASIL")
-			addtimer(CALLBACK(src, .proc/generate_badlands), 5 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(generate_badlands)), 5 SECONDS)
 			return
 		if("STARTUP_PROC_TYPE_BRASIL_LITE")
-			addtimer(CALLBACK(src, .proc/generate_litelands), 5 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(generate_litelands)), 5 SECONDS)
 			return
 	message_admins("WARNING: Invalid startup_proc declared for [name]! Review your defines (~L438, starsystem.dm), please.")
 	return 1
@@ -502,11 +509,12 @@ Returns a faction datum by its name (case insensitive!)
 		station13.starting_system = src.name
 		station13.current_system = src
 		station13.set_trader(src.trader)
+		src.trader.system = src
 		// trader.generate_missions()
 	if(!CHECK_BITFIELD(src.system_traits, STARSYSTEM_NO_ANOMALIES))
-		addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(generate_anomaly)), 15 SECONDS)
 	if(!CHECK_BITFIELD(src.system_traits, STARSYSTEM_NO_ASTEROIDS))
-		addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(spawn_asteroids)), 15 SECONDS)
 
 /datum/star_system/proc/create_wormhole()
 	var/list/potential_systems = list()
@@ -556,7 +564,7 @@ Returns a faction datum by its name (case insensitive!)
 /obj/effect/overmap_anomaly/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 

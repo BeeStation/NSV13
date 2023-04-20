@@ -9,6 +9,8 @@
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 	item_flags = NOBLUDGEON
 	w_class = WEIGHT_CLASS_SMALL
+	drop_sound = 'sound/items/handling/paper_drop.ogg'
+	pickup_sound = 'sound/items/handling/paper_pickup.ogg'
 	throwforce = 0
 	throw_range = 1
 	throw_speed = 1
@@ -114,7 +116,7 @@
 
 /obj/item/mail/Initialize()
 	. = ..()
-	RegisterSignal(src, COMSIG_MOVABLE_DISPOSING, .proc/disposal_handling)
+	RegisterSignal(src, COMSIG_MOVABLE_DISPOSING, PROC_REF(disposal_handling))
 	AddElement(/datum/element/item_scaling, 0.75, 1)
 	if(isnull(department_colors))
 		department_colors = list(

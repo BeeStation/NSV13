@@ -75,9 +75,9 @@
 			visible_message("<span class='warning'>[src] [pick("ran", "slammed")] into \the [A]!</span>")
 			apply_damage(5, BRUTE)
 			Paralyze(40)
-			addtimer(CALLBACK(src, .proc/can_bumpslam), 200)
+			addtimer(CALLBACK(src, PROC_REF(can_bumpslam)), 200)
 		else
-			addtimer(CALLBACK(src, .proc/can_bumpslam), 50)
+			addtimer(CALLBACK(src, PROC_REF(can_bumpslam)), 50)
 
 
 	if(ismob(A))
@@ -206,7 +206,7 @@
 	if(len)
 		for(var/obj/item/I in held_items)
 			if(!holding.len)
-				holding += "They are holding \a [I]"
+				holding += "[p_they(TRUE)] [p_are()] holding \a [I]"
 			else if(held_items.Find(I) == len)
 				holding += ", and \a [I]."
 			else
@@ -620,6 +620,7 @@
 		mood.remove_temp_moods(admin_revive)
 	update_mobility()
 	stop_sound_channel(CHANNEL_HEARTBEAT)
+	SEND_SIGNAL(src, COMSIG_LIVING_POST_FULLY_HEAL, admin_revive) //NSV13 - Crystalized Ethereal
 
 //proc called by revive(), to check if we can actually ressuscitate the mob (we don't want to revive him and have him instantly die again)
 /mob/living/proc/can_be_revived()
@@ -1384,3 +1385,9 @@
 	if(is_servant_of_ratvar(src) && !iseminence(src))
 		eminence.selected_mob = src
 		to_chat(eminence, "<span class='brass'>You select [src].</span>")
+
+/mob/living/proc/set_gender(ngender = NEUTER, silent = FALSE, update_icon = TRUE, forced = FALSE)
+	if(forced || (!ckey))
+		gender = ngender
+		return TRUE
+	return FALSE

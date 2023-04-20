@@ -40,8 +40,6 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 //Math. Lame.
 #define KPA_TO_PSI(A) (A/6.895)
 #define PSI_TO_KPA(A) (A*6.895)
-#define KELVIN_TO_CELSIUS(A) (A-273.15)
-#define CELSIUS_TO_KELVIN(A) (A+273.15)
 #define MEGAWATTS /1e+6
 
 #define HARDPOINT_SLOT_PRIMARY "Primary"
@@ -112,8 +110,14 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 #define COMSIG_KB_OVERMAP_WEAPON2_DOWN "keybinding_overmap_weapon2_down"
 #define COMSIG_KB_OVERMAP_WEAPON3_DOWN "keybinding_overmap_weapon3_down"
 #define COMSIG_KB_OVERMAP_WEAPON4_DOWN "keybinding_overmap_weapon4_down"
+#define COMSIG_KB_VEHICLE_TOGGLE_BRAKES "keybinding_vehicle_toggle_brakes"
+#define COMSIG_KB_OVERMAP_UNLOCK_DOWN "keybinding_overmap_unlock_down"
 
 #define OVERMAP_USER_ROLE_PILOT (1<<0)
 #define OVERMAP_USER_ROLE_GUNNER (1<<1)
 #define OVERMAP_USER_ROLE_SECONDARY_GUNNER (1<<2)
 #define OVERMAP_USER_ROLE_OBSERVER (1<<3)
+
+#define HOLOMAP_EXTRA_STATIONMAP "stationmapformatted"
+#define HOLOMAP_EXTRA_STATIONMAPAREAS "stationareas"
+#define HOLOMAP_EXTRA_STATIONMAPSMALL "stationmapsmall"

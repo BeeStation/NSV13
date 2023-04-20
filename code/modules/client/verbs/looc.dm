@@ -60,6 +60,18 @@
     mob.log_talk(raw_msg, LOG_OOC, tag="LOOC")
 
     var/list/heard = hearers(7, get_top_level_mob(src.mob))
+
+	//NSV13 - AI QoL - Start
+	//so the ai can post looc text
+    if(istype(mob, /mob/living/silicon/ai))
+        var/mob/living/silicon/ai/ai = mob
+        heard = hearers(7, get_top_level_mob(ai.eyeobj))
+	//so the ai can see looc text
+    for(var/mob/living/silicon/ai/ai as anything in GLOB.ai_list)
+        if(ai.client && !(ai in heard) && (ai.eyeobj in heard))
+            heard += ai
+	//NSV13 - AI QoL - Stop
+
     for(var/mob/M as() in heard)
         if(!M.client)
             continue

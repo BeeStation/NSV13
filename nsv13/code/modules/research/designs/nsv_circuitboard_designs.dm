@@ -96,3 +96,28 @@
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE
 
+//Autoinjector
+/datum/design/board/autoinjector
+	name = "Machine Design (Autoinjector Printer)"
+	desc = "Allows for the construction of circuit boards used to build a new autoinjector printer"
+	id = "autoinjector"
+	build_path = /obj/item/circuitboard/machine/autoinject_printer
+	category = list("Medical Machinery")
+	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
+
+/datum/design/board/refillable_chem_dispenser
+	name = "Machine Design (Refillable Chem Dispenser Board)"
+	desc = "The circuit board for a refillable chem dispenser."
+	id = "refillable_chem_dispenser"
+	build_path = /obj/item/circuitboard/machine/refillable_chem_dispenser
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_MEDICAL
+	category = list ("Medical Machinery")
+
+//GLORIOUS COFFEEMAKER
+/datum/design/board/coffeemaker
+	name = "Machine Design (Coffeemaker)"
+	desc = "The circuit board for a coffeemaker."
+	id = "coffeemaker"
+	build_path = /obj/item/circuitboard/machine/coffeemaker
+	category = list("Misc. Machinery")
+	departmental_flags = DEPARTMENTAL_FLAG_SERVICE | DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE

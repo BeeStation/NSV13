@@ -407,7 +407,7 @@ AI MODULES
 /******************** Crewsimov ********************/	// NSV changes begin
 
 /obj/item/aiModule/core/full/crewsimov
-	name = "Crewsimov Cor AI Module"
+	name = "Crewsimov Core AI Module"
 	law_id = "crewsimov" 								// NSV changes end
 
 /******************** Corporate ********************/

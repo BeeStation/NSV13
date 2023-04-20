@@ -15,8 +15,8 @@
 
 /datum/component/storage/concrete/Initialize()
 	. = ..()
-	RegisterSignal(parent, COMSIG_ATOM_CONTENTS_DEL, .proc/on_contents_del)
-	RegisterSignal(parent, COMSIG_OBJ_DECONSTRUCT, .proc/on_deconstruct)
+	RegisterSignal(parent, COMSIG_ATOM_CONTENTS_DEL, PROC_REF(on_contents_del))
+	RegisterSignal(parent, COMSIG_OBJ_DECONSTRUCT, PROC_REF(on_deconstruct))
 
 /datum/component/storage/concrete/Destroy()
 	var/atom/real_location = real_location()
@@ -132,7 +132,7 @@
 		I.remove_outline()
 		if(ismob(parent.loc))
 			var/mob/M = parent.loc
-			I.dropped(M)
+			I.dropped(M, TRUE)
 	if(new_location)
 		//Reset the items values
 		_removal_reset(AM)

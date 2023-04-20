@@ -301,3 +301,16 @@ SUBSYSTEM_DEF(persistence)
 	var/json_file = file("data/paintings.json")
 	fdel(json_file)
 	WRITE_FILE(json_file, json_encode(paintings))
+
+// NSV13 - Who voted for the map?
+/datum/controller/subsystem/persistence/proc/SaveMapVoters(list/voters)
+	var/json_file = file("data/mapvote.json")
+	var/list/file_data = list()
+	file_data["data"] = voters
+	fdel(json_file)
+	WRITE_FILE(json_file, json_encode(file_data))
+
+/datum/controller/subsystem/persistence/proc/LoadMapVoters()
+	var/json_file = file("data/mapvote.json")
+	if(fexists(json_file))
+		return json_decode(rustg_file_read(json_file))["data"]

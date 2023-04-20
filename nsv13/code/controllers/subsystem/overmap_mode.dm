@@ -238,7 +238,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/controller/subsystem/overmap_mode/proc/start_reminder()
 	next_objective_reminder = world.time + mode.objective_reminder_interval
-	addtimer(CALLBACK(src, .proc/announce_objectives), announce_delay)
+	addtimer(CALLBACK(src, PROC_REF(announce_objectives)), announce_delay)
 
 /datum/controller/subsystem/overmap_mode/proc/announce_objectives()
  	/*
@@ -335,10 +335,10 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	//Reminder messages
 	var/reminder_origin = "Naval Command"
-	var/reminder_one = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, please continue on your mission"
-	var/reminder_two = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, your inactivity has been noted and will not be tolerated."
-	var/reminder_three = "This is Centcomm to all vessels assigned to explore the Delphic Expanse, we are not paying you to idle in space during your assigned mission"
-	var/reminder_four = "This is Centcomm to the vessel currently assigned to the Delphic Expanse, you are expected to fulfill your assigned mission"
+	var/reminder_one = "This is Centcomm to all vessels assigned to patrol the Rosetta Cluster, please continue on your mission"
+	var/reminder_two = "This is Centcomm to all vessels assigned to patrol the Rosetta Cluster, your inactivity has been noted and will not be tolerated."
+	var/reminder_three = "This is Centcomm to all vessels assigned to patrol the Rosetta Cluster, we are not paying you to idle in space during your assigned mission"
+	var/reminder_four = "This is Centcomm to the vessel currently assigned to the Rosetta Cluster, you are expected to fulfill your assigned mission"
 	var/reminder_five = "This is Centcomm, due to your slow pace, a Syndicate Interdiction fleet has tracked you down, prepare for combat!"
 
 /datum/overmap_gamemode/New()

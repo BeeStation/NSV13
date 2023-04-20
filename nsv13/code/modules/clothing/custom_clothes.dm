@@ -280,7 +280,7 @@
 	alt_desc = "A hardsuit helmet fitted with highly experimental magnetic interlocks, allowing it to create a vacuum seal around the user, permitting usage in a hard vacuum. It is currently in IVA mode."
 	armor = list("melee" = 20, "bullet" = 30, "laser" = 10, "energy" = 10, "bomb" = 70, "bio" = 100, "rad" = 50, "fire" = 100, "acid" = 100)
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR //we want to see the mask
+	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDESNOUT //we want to see the mask
 	heat_protection = HEAD
 	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 
@@ -320,7 +320,7 @@
 		return
 	if(listeningTo)
 		UnregisterSignal(listeningTo, COMSIG_MOVABLE_MOVED)
-	RegisterSignal(user, COMSIG_MOVABLE_MOVED, .proc/on_mob_move)
+	RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(on_mob_move))
 	listeningTo = user
 
 /obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper/dropped()
@@ -418,7 +418,7 @@
 		return
 	cooldown = TRUE
 	UpdateButtonIcon()
-	addtimer(CALLBACK(src, .proc/reset_cooldown), 10 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(reset_cooldown)), 10 SECONDS)
 	var/message = pick("[user] strikes a menacing pose", "[user] poses menacingly", "[user] looks menacing")
 	user.visible_message("<span class='game deadsay'>[message]</span>")
 	user.shake_animation()
@@ -744,7 +744,7 @@
 	heat_protection = NONE
 	flash_protect = 0
 	bang_protect = 0
-	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEHAIR|HIDEFACIALHAIR
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
 	clothing_flags = STOPSPRESSUREDAMAGE | SNUG_FIT
 	max_heat_protection_temperature = 100
 
