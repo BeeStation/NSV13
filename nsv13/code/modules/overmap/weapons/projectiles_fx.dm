@@ -57,9 +57,9 @@ Misc projectile types, effects, think of this as the special FX file.
 	. = ..()
 	base_piercing_type = projectile_piercing
 	if(homing_benefit_time)
-		addtimer(CALLBACK(src, .proc/stop_homing), homing_benefit_time)
+		addtimer(CALLBACK(src, PROC_REF(stop_homing)), homing_benefit_time)
 	else
-		addtimer(CALLBACK(src, .proc/stop_homing), 0.2 SECONDS)	//Because all deck guns apparently have slight homing.
+		addtimer(CALLBACK(src, PROC_REF(stop_homing)), 0.2 SECONDS)	//Because all deck guns apparently have slight homing.
 
 /obj/item/projectile/bullet/proc/stop_homing()
 	homing = FALSE
@@ -432,10 +432,10 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/windup), 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(windup)), 1 SECONDS)
 
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 

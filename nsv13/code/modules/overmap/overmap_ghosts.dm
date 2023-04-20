@@ -97,4 +97,4 @@
 		ghost_controlled = TRUE
 
 	else //Try again later
-		addtimer(CALLBACK(src, .proc/ghost_key_check, ghost), 1 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(ghost_key_check), ghost), 1 SECONDS)

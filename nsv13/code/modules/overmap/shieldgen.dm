@@ -249,7 +249,7 @@
 	c_screen = mutable_appearance(src.icon, "screen_on")
 	add_overlay(c_screen)
 	if(!ours)
-		addtimer(CALLBACK(src, .proc/try_find_overmap), 20 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(try_find_overmap)), 20 SECONDS)
 
 /obj/machinery/shield_generator/Destroy()
 	cut_overlay(c_screen)

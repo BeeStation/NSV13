@@ -52,9 +52,9 @@ Add this component to an atom to mark it as volatile, if it takes fire damage, i
 	src.volatility = volatility
 	src.volatile_when_hit = volatile_when_hit
 	src.explosion_scale = explosion_scale
-	RegisterSignal(parent, COMSIG_ATOM_DAMAGE_ACT, .proc/damage_react, override = TRUE)
-	RegisterSignal(parent, COMSIG_ATOM_FIRE_ACT, .proc/burn_act)
-	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, .proc/examine)
+	RegisterSignal(parent, COMSIG_ATOM_DAMAGE_ACT, PROC_REF(damage_react), override = TRUE)
+	RegisterSignal(parent, COMSIG_ATOM_FIRE_ACT, PROC_REF(burn_act))
+	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(examine))
 
 /datum/component/volatile/Destroy(force, silent)
 	UnregisterSignal(parent, COMSIG_ATOM_DAMAGE_ACT)
