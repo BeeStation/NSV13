@@ -38,7 +38,7 @@
 #define THEME_NTOS_CLOWN_PINK "ntos-clown-pink"
 #define THEME_NTOS_CLOWN_YELLOW "ntos-clown-yellow"
 #define THEME_NTOS_HACKERMAN "ntos-hackerman"
-#define THEME_HACKERMAN "hackerman"
+#define THEME_HACKERMAN "hackeros"
 #define THEME_RETRO "retro"
 
 #define THEME_SYNDICATE "syndicate"

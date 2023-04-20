@@ -11,6 +11,7 @@ import './styles/themes/admin.scss';
 import './styles/themes/cardtable.scss';
 import './styles/themes/clockwork.scss';
 import './styles/themes/hackerman.scss';
+import './styles/themes/hackeros.scss'; // NSV13 - PDA Hackerman Theme, different from regular one.
 import './styles/themes/malfunction.scss';
 import './styles/themes/neutral.scss';
 import './styles/themes/ntos.scss';
