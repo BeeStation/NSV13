@@ -327,6 +327,29 @@
 	name = "IFF Console (circuit)"
 	build_path = /obj/machinery/computer/iff_console
 
+//Coffee Machine - Navy's Lifeblood
+/obj/item/circuitboard/machine/coffeemaker
+	name = "Coffeemaker (Machine Board)"
+	icon_state = "service"
+	build_path = /obj/machinery/coffeemaker
+	req_components = list(
+		/obj/item/stack/sheet/glass = 1,
+		/obj/item/reagent_containers/glass/beaker = 2,
+		/obj/item/stock_parts/capacitor = 1,
+		/obj/item/stock_parts/micro_laser = 1,
+	)
+
+/obj/item/circuitboard/machine/coffeemaker/pendulum
+	name = "Pendulum Coffeemaker (Machine Board)"
+	icon_state = "service"
+	build_path = /obj/machinery/coffeemaker/pendulum
+	req_components = list(
+		/obj/item/stack/sheet/glass = 1,
+		/obj/item/reagent_containers/glass/beaker = 2,
+		/obj/item/stock_parts/capacitor/adv = 1,
+		/obj/item/stock_parts/micro_laser/high = 2,
+	)
+
 
 //Plasma Caster and Loader
 
@@ -363,3 +386,55 @@
 	)
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	build_path = /obj/machinery/ship_weapon/plasma_caster
+
+// Laser PD console
+/obj/item/circuitboard/computer/laser_pd
+	name = "point defense laser console (circuit)"
+	build_path = /obj/machinery/computer/laser_pd
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+
+/obj/item/circuitboard/computer/laser_pd/Destroy(force=FALSE)
+	if(!force)
+		return QDEL_HINT_LETMELIVE
+	return ..()
+
+// Laser PD
+/obj/item/circuitboard/machine/laser_pd
+	name = "point defense laser turret (circuitboard)"
+	build_path = /obj/machinery/ship_weapon/energy/laser_pd
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+	req_components = list(
+		/obj/item/stock_parts/capacitor = 5,
+		/obj/item/stock_parts/cell = 5,
+		/obj/item/stack/ore/bluespace_crystal = 5)
+
+// Smelter and console
+/obj/item/circuitboard/machine/processing_unit
+	name = "circuit board (furnace)"
+	desc = "It melts and purifies ores."
+	req_components = list(
+		/obj/item/stock_parts/micro_laser = 1,
+		/obj/item/stock_parts/matter_bin = 2,
+		/obj/item/assembly/igniter = 1
+	)
+	build_path = /obj/machinery/mineral/processing_unit
+
+/obj/item/circuitboard/machine/processing_unit_console
+	name = "circuit board (furnace console)"
+	desc = "Circuit for a furnace control console."
+	req_components = list(
+		/obj/item/stack/sheet/glass = 1,
+		/obj/item/stack/cable_coil = 1
+	)
+	build_path = /obj/machinery/mineral/processing_unit_console
+
+//Non-magic chem dispenser
+/obj/item/circuitboard/machine/refillable_chem_dispenser
+	name = "refillable chem dispenser (machine board)"
+	icon_state = "medical"
+	build_path = /obj/machinery/refillable_chem_dispenser
+	req_components = list(
+		/obj/item/stock_parts/matter_bin = 2,
+		/obj/item/stock_parts/manipulator = 1,
+		/obj/item/stack/sheet/glass = 1)
+	needs_anchored = FALSE

@@ -103,7 +103,13 @@
 	. = ""
 	var/list/L = new /list(DNA_UNI_IDENTITY_BLOCKS)
 
-	L[DNA_GENDER_BLOCK] = construct_block((holder.gender!=MALE)+1, 2)
+	switch(holder.gender)
+		if(MALE)
+			L[DNA_GENDER_BLOCK] = construct_block(G_MALE, 3)
+		if(FEMALE)
+			L[DNA_GENDER_BLOCK] = construct_block(G_FEMALE, 3)
+		else
+			L[DNA_GENDER_BLOCK] = construct_block(G_PLURAL, 3)
 	if(ishuman(holder))
 		var/mob/living/carbon/human/H = holder
 		if(!GLOB.hair_styles_list.len)
@@ -193,7 +199,13 @@
 		if(DNA_EYE_COLOR_BLOCK)
 			setblock(uni_identity, blocknumber, sanitize_hexcolor(H.eye_color))
 		if(DNA_GENDER_BLOCK)
-			setblock(uni_identity, blocknumber, construct_block((H.gender!=MALE)+1, 2))
+			switch(H.gender)
+				if(MALE)
+					setblock(uni_identity, blocknumber, construct_block(G_MALE, 3))
+				if(FEMALE)
+					setblock(uni_identity, blocknumber, construct_block(G_FEMALE, 3))
+				else
+					setblock(uni_identity, blocknumber, construct_block(G_PLURAL, 3))
 		if(DNA_FACIAL_HAIR_STYLE_BLOCK)
 			setblock(uni_identity, blocknumber, construct_block(GLOB.facial_hair_styles_list.Find(H.facial_hair_style), GLOB.facial_hair_styles_list.len))
 		if(DNA_HAIR_STYLE_BLOCK)
@@ -395,7 +407,13 @@
 /mob/living/carbon/proc/updateappearance(icon_update=1, mutcolor_update=0, mutations_overlay_update=0)
 	if(!has_dna())
 		return
-	gender = (deconstruct_block(getblock(dna.uni_identity, DNA_GENDER_BLOCK), 2)-1) ? FEMALE : MALE
+	switch(deconstruct_block(getblock(dna.uni_identity, DNA_GENDER_BLOCK), 3))
+		if(G_MALE)
+			set_gender(MALE, TRUE)
+		if(G_FEMALE)
+			set_gender(FEMALE, TRUE)
+		else
+			set_gender(PLURAL, TRUE)
 
 /mob/living/carbon/human/updateappearance(icon_update=1, mutcolor_update=0, mutations_overlay_update=0)
 	..()
@@ -642,6 +660,7 @@
 			if(2)
 				death()
 				petrify(INFINITY)
+				ghostize(FALSE) //NSV13 - Ethereal Crystalization
 			if(3)
 				if(prob(95))
 					var/obj/item/bodypart/BP = get_bodypart(pick(BODY_ZONE_CHEST,BODY_ZONE_HEAD))
@@ -656,12 +675,12 @@
 				spawn_gibs()
 				set_species(/datum/species/skeleton)
 				if(prob(90) && !QDELETED(src))
-					addtimer(CALLBACK(src, .proc/death), 30)
+					addtimer(CALLBACK(src, PROC_REF(death)), 30)
 					if(mind)
 						mind.hasSoul = FALSE
 			if(5)
 				to_chat(src, "<span class='phobia'>LOOK UP!</span>")
-				addtimer(CALLBACK(src, .proc/something_horrible_mindmelt), 30)
+				addtimer(CALLBACK(src, PROC_REF(something_horrible_mindmelt)), 30)
 
 
 /mob/living/carbon/proc/something_horrible_mindmelt()
@@ -672,4 +691,4 @@
 		eyes.Remove(src)
 		qdel(eyes)
 		visible_message("<span class='notice'>[src] looks up and their eyes melt away!</span>", "<span class='userdanger'>I understand now.</span>")
-		addtimer(CALLBACK(src, .proc/adjustOrganLoss, ORGAN_SLOT_BRAIN, 200), 20)
+		addtimer(CALLBACK(src, PROC_REF(adjustOrganLoss), ORGAN_SLOT_BRAIN, 200), 20)

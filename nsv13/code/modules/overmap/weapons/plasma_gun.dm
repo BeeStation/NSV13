@@ -367,7 +367,7 @@
 	if(!homing_target)
 		find_target()
 		return
-	RegisterSignal(homing_target, COMSIG_PARENT_QDELETING, .proc/find_target)
+	RegisterSignal(homing_target, COMSIG_PARENT_QDELETING, PROC_REF(find_target))
 
 /obj/item/projectile/bullet/plasma_caster/proc/find_target() //Tracking Proc when the weapon initially fires
 	SIGNAL_HANDLER
@@ -402,7 +402,7 @@
 	if(!target_lock)
 		return
 	set_homing_target(target_lock)
-	RegisterSignal(homing_target, COMSIG_PARENT_QDELETING, .proc/find_target)
+	RegisterSignal(homing_target, COMSIG_PARENT_QDELETING, PROC_REF(find_target))
 
 /obj/machinery/ship_weapon/plasma_caster/proc/makedarkpurpleslime()
 	if(plasma_mole_amount > 0)

@@ -10,7 +10,7 @@ Welcome to the gardens of kadesh. You shall never leave.
     if(!istype(parent, /obj/structure/overmap))
         return COMPONENT_INCOMPATIBLE
     owner = parent
-    RegisterSignal(SSdcs, COMSIG_GLOB_CHECK_INTERDICT, .proc/check_interdict)    //It just works - the syndicate, probably.
+    RegisterSignal(SSdcs, COMSIG_GLOB_CHECK_INTERDICT, PROC_REF(check_interdict))    //It just works - the syndicate, probably.
 
 /datum/component/interdiction/proc/check_interdict(datum/source, obj/structure/overmap/interdicted)
     SIGNAL_HANDLER

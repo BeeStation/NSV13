@@ -24,7 +24,7 @@
 /obj/machinery/mineral/proc/register_input_turf()
 	input_turf = get_step(src, input_dir)
 	if(input_turf) // make sure there is actually a turf
-		RegisterSignal(input_turf, list(COMSIG_ATOM_CREATED, COMSIG_ATOM_ENTERED), .proc/pickup_item)
+		RegisterSignal(input_turf, list(COMSIG_ATOM_CREATED, COMSIG_ATOM_ENTERED), PROC_REF(pickup_item))
 
 /// Unregisters signals that are registered the machine's input turf, if it has one.
 /obj/machinery/mineral/proc/unregister_input_turf()
@@ -54,7 +54,8 @@
 	name = "production machine console"
 	icon = 'icons/obj/machines/mining_machines.dmi'
 	icon_state = "console"
-	density = TRUE
+	density = FALSE
+	circuit = /obj/item/circuitboard/machine/processing_unit_console
 	var/obj/machinery/mineral/processing_unit/machine = null
 	var/machinedir = EAST
 	var/link_id = null
@@ -66,22 +67,44 @@
 	else
 		machine = locate(/obj/machinery/mineral/processing_unit, get_step(src, machinedir))
 		if (machine)
-			machine.CONSOLE = src
-		else
-			return INITIALIZE_HINT_QDEL
+			machine.console = src
+	if(!mapload)
+		handle_pixel_offset()
 
 // Only called if mappers set ID
 /obj/machinery/mineral/processing_unit_console/LateInitialize()
 	for(var/obj/machinery/mineral/processing_unit/PU in GLOB.machines)
 		if(PU.link_id == link_id)
 			machine = PU
-			machine.CONSOLE = src
+			machine.console = src
 			return
 
-//NSV13 - Furnace TGUI - Start
+/obj/machinery/mineral/processing_unit_console/Destroy()
+	machine.console = null
+	return ..()
+
+/obj/machinery/mineral/processing_unit_console/AltClick()
+	if(anchored)
+		return ..()
+	setDir(turn(dir, 90))
+	handle_pixel_offset()
+
+/obj/machinery/mineral/processing_unit_console/proc/handle_pixel_offset()
+	pixel_x = 0
+	pixel_y = 0
+	switch(dir)
+		if(NORTH)
+			pixel_y = -30
+		if(SOUTH)
+			pixel_y = 30
+		if(EAST)
+			pixel_x = 30
+		if(WEST)
+			pixel_x = -30
+
 /obj/machinery/mineral/processing_unit_console/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
+	if(machine && !ui)
 		ui = new(user, src, "Smelter")
 		ui.open()
 		ui.set_autoupdate(TRUE) // Material amounts
@@ -124,10 +147,44 @@
 		if("Alloy")
 			machine.selected_material = null
 			machine.selected_alloy = params["id"]
-//NSV13 - Furnace TGUI - Stop
+
+		if("toggle_auto_shutdown")
+			machine.toggle_auto_shutdown()
+
+		if("set_smelt_amount")
+			machine.smelt_amount_limit = CLAMP(text2num(params["amount"]), 1, 100)
 
 /obj/machinery/mineral/processing_unit_console/Destroy()
-	machine = null
+	machine.console = null
+	return ..()
+
+/obj/machinery/mineral/processing_unit_console/attackby(obj/item/W, mob/user, params)
+	if(default_deconstruction_screwdriver(user, icon_state, icon_state, W))
+		return
+
+	if(default_unfasten_wrench(user, W))
+		return
+
+	if(default_deconstruction_crowbar(W))
+		return
+
+	if(W.tool_behaviour == TOOL_MULTITOOL)
+		if(!multitool_check_buffer(user, W))
+			return
+		var/obj/item/multitool/P = W
+
+		if(istype(P.buffer, /obj/machinery/mineral/processing_unit))
+			if(get_area(P.buffer) != get_area(src))
+				to_chat(user, "<font color = #666633>-% Cannot link machines across power zones. %-</font color>")
+				return
+			to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
+			machine = P.buffer
+			machine.console = src
+		else
+			P.buffer = src
+			to_chat(user, "<font color = #666633>-% Successfully stored [REF(P.buffer)] [P.buffer.name] in buffer %-</font color>")
+		return
+
 	return ..()
 
 
@@ -140,7 +197,8 @@
 	icon_state = "furnace"
 	density = TRUE
 	needs_item_input = TRUE
-	var/obj/machinery/mineral/CONSOLE = null
+	circuit = /obj/item/circuitboard/machine/processing_unit
+	var/obj/machinery/mineral/processing_unit_console/console = null
 	var/on = FALSE
 	var/datum/material/selected_material = null
 	var/selected_alloy = null
@@ -148,6 +206,11 @@
 	var/link_id = null
 	var/points = 0
 	var/allow_point_redemption = FALSE
+	var/smelt_amount_limit = 50
+	var/amount_already_smelted = 0
+	var/auto_shutdown = FALSE
+	var/smelt_amount = 5
+	var/point_upgrade = 1
 
 /obj/machinery/mineral/processing_unit/laborcamp
 	allow_point_redemption = FALSE
@@ -160,8 +223,60 @@
 	selected_material = getmaterialref(/datum/material/iron)
 
 /obj/machinery/mineral/processing_unit/Destroy()
-	CONSOLE = null
+	if(console)
+		SStgui.close_uis(console)
+	console = null
 	QDEL_NULL(stored_research)
+	return ..()
+
+/obj/machinery/mineral/processing_unit/RefreshParts()
+	var/point_upgrade_temp = 0
+	var/smelt_amount_temp = 1
+	for(var/obj/item/stock_parts/matter_bin/B in component_parts)
+		smelt_amount_temp += 1 + (1 * B.rating)
+	for(var/obj/item/stock_parts/micro_laser/L in component_parts)
+		point_upgrade_temp += 0.65 + (0.35 * L.rating)
+	point_upgrade = point_upgrade_temp
+	smelt_amount = round(smelt_amount_temp, 1)
+
+/obj/machinery/mineral/processing_unit/AltClick(mob/living/user)
+	if(!user.canUseTopic(src, BE_CLOSE))
+		return
+	if(panel_open)
+		input_dir = turn(input_dir, -90)
+		output_dir = turn(output_dir, -90)
+		to_chat(user, "<span class='notice'>You change [src]'s I/O settings, setting the input to [dir2text(input_dir)] and the output to [dir2text(output_dir)].</span>")
+		unregister_input_turf() // someone just rotated the input and output directions, unregister the old turf
+		register_input_turf() // register the new one
+		return TRUE
+
+/obj/machinery/mineral/processing_unit/attackby(obj/item/W, mob/user, params)
+	if(default_deconstruction_screwdriver(user, icon_state, icon_state, W))
+		return
+
+	if(default_unfasten_wrench(user, W))
+		return
+
+	if(default_deconstruction_crowbar(W))
+		return
+
+	if(W.tool_behaviour == TOOL_MULTITOOL)
+		if(!multitool_check_buffer(user, W))
+			return
+		var/obj/item/multitool/P = W
+
+		if(istype(P.buffer, /obj/machinery/mineral/processing_unit_console))
+			if(get_area(P.buffer) != get_area(src))
+				to_chat(user, "<font color = #666633>-% Cannot link machines across power zones. %-</font color>")
+				return
+			to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
+			console = P.buffer
+			console.machine = src
+		else
+			P.buffer = src
+			to_chat(user, "<font color = #666633>-% Successfully stored [REF(P.buffer)] [P.buffer.name] in buffer %-</font color>")
+		return
+
 	return ..()
 
 /obj/machinery/mineral/processing_unit/proc/process_ore(obj/item/stack/ore/O)
@@ -173,15 +288,10 @@
 		unload_mineral(O)
 	else
 		if(allow_point_redemption)
-			points += O.points * O.amount
+			points += O.points * point_upgrade * O.amount
 		materials.insert_item(O)
 		qdel(O)
-		/* NSV13 - Disabled due to our TGUI version
-		if(CONSOLE)
-			CONSOLE.updateUsrDialog()
-		*/
 
-//NSV13 - Furnace TGUI - Start
 /obj/machinery/mineral/processing_unit/proc/get_machine_data()
 	var/list/data = list()
 	data["on"] = on
@@ -189,7 +299,7 @@
 
 	//Points
 	if(allow_point_redemption)
-		data["points"] = points
+		data["stored_points"] = points
 
 	data["materials"] = list()
 	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
@@ -204,8 +314,10 @@
 		var/datum/design/D = SSresearch.techweb_design_by_id(v)
 		data["alloys"] += list(list("name" = D.name, "id" = D.id, "smelting" = (selected_alloy == D.id), "amount" = can_smelt(D)))
 
+	data["auto_shutdown"] = auto_shutdown
+	data["smelt_amount_limit"] = smelt_amount_limit
+
 	return data
-//NSV13 - Furnace TGUI - Stop
 
 /obj/machinery/mineral/processing_unit/pickup_item(datum/source, atom/movable/target, atom/oldLoc)
 	if(QDELETED(target))
@@ -218,6 +330,10 @@
 	if(on)
 		begin_processing()
 
+/obj/machinery/mineral/processing_unit/proc/toggle_auto_shutdown()
+	auto_shutdown = !auto_shutdown
+	amount_already_smelted = 0
+
 /obj/machinery/mineral/processing_unit/process(delta_time)
 	if(on)
 		if(selected_material)
@@ -226,24 +342,25 @@
 		else if(selected_alloy)
 			smelt_alloy(delta_time)
 
-		/* NSV13 - Disabled due to our TGUI version
-		if(CONSOLE)
-			CONSOLE.updateUsrDialog()
-		*/
 	else
 		end_processing()
+		amount_already_smelted = 0
 
 /obj/machinery/mineral/processing_unit/proc/smelt_ore(delta_time = 2)
 	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 	var/datum/material/mat = selected_material
+	var/desired_amount_sheets = auto_shutdown ? min(smelt_amount * delta_time, smelt_amount_limit - amount_already_smelted) : smelt_amount * delta_time
 	if(mat)
-		var/sheets_to_remove = (materials.materials[mat] >= (MINERAL_MATERIAL_AMOUNT * SMELT_AMOUNT * delta_time) ) ? SMELT_AMOUNT * delta_time : round(materials.materials[mat] /  MINERAL_MATERIAL_AMOUNT)
+		var/sheets_to_remove = (materials.materials[mat] >= (MINERAL_MATERIAL_AMOUNT * desired_amount_sheets) ) ? desired_amount_sheets : round(materials.materials[mat] /  MINERAL_MATERIAL_AMOUNT)
 		if(!sheets_to_remove)
 			on = FALSE
 		else
 			var/out = get_step(src, output_dir)
-			materials.retrieve_sheets(sheets_to_remove, mat, out)
-
+			var/retrieved = materials.retrieve_sheets(sheets_to_remove, mat, out)
+			if(auto_shutdown)
+				amount_already_smelted += retrieved
+				if(amount_already_smelted >= smelt_amount_limit)
+					on = FALSE
 
 /obj/machinery/mineral/processing_unit/proc/smelt_alloy(delta_time = 2)
 	var/datum/design/alloy = stored_research.isDesignResearchedID(selected_alloy) //check if it's a valid design
@@ -253,7 +370,7 @@
 
 	var/amount = can_smelt(alloy, delta_time)
 
-	if(!amount)
+	if(!amount || (auto_shutdown && (amount_already_smelted >= smelt_amount_limit)))
 		on = FALSE
 		return
 
@@ -261,12 +378,13 @@
 	materials.use_materials(alloy.materials, amount)
 
 	generate_mineral(alloy.build_path)
+	amount_already_smelted += amount
 
 /obj/machinery/mineral/processing_unit/proc/can_smelt(datum/design/D, delta_time = 2)
 	if(D.make_reagents.len)
 		return FALSE
 
-	var/build_amount = SMELT_AMOUNT * delta_time
+	var/build_amount = auto_shutdown ? min(smelt_amount * delta_time, smelt_amount_limit - amount_already_smelted) : smelt_amount * delta_time
 
 	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
 

@@ -156,14 +156,14 @@
 /obj/structure/overmap/proc/begin_jump(datum/star_system/target_system, force=FALSE)
 	relay(ftl_drive.ftl_start, channel = CHANNEL_IMPORTANT_SHIP_ALERT)
 	desired_angle = 90 //90 degrees AKA face EAST to match the FTL parallax.
-	addtimer(CALLBACK(src, .proc/jump_start, target_system, force), ftl_drive.ftl_startup_time)
+	addtimer(CALLBACK(src, PROC_REF(jump_start), target_system, force), ftl_drive.ftl_startup_time)
 
 /obj/structure/overmap/proc/force_return_jump(datum/star_system/target_system)
 	SSovermap_mode.already_ended = TRUE
 	if(ftl_drive) //Do we actually have an ftl drive?
 		ftl_drive.lockout = TRUE //Prevent further jumps
 		if(ftl_drive.ftl_state == FTL_STATE_JUMPING)
-			addtimer(CALLBACK(src, .proc/force_return_jump, target_system), 30 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(force_return_jump), target_system), 30 SECONDS)
 			message_admins("[src] is already jumping, delaying recall for 30 seconds")
 			log_runtime("DEBUG: force_return_jump: Players were already jumping, trying again in 30 seconds")
 		else
@@ -171,7 +171,7 @@
 
 			log_runtime("DEBUG: force_return_jump: Beginning jump to outpost 45")
 			ftl_drive.force_jump(target_system) //Jump home
-			addtimer(CALLBACK(src, .proc/check_return_jump), SSstar_system.ships[src]["to_time"] + 35 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(check_return_jump)), SSstar_system.ships[src]["to_time"] + 35 SECONDS)
 
 	else
 		message_admins("Target does not have an FTL Drive!")
@@ -209,7 +209,7 @@
 			log_runtime("DEBUG: jump_start: aborted jump to [target_system], drive state = [ftl_drive?.ftl_state]")
 			return
 	if((SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CHECK_INTERDICT, src) & BEING_INTERDICTED) && !force) // Override interdiction if the game is over
-		ftl_drive?.radio.talk_into(ftl_drive, "Warning. Local energy anomaly detected - calculated jump parameters invalid. Performing emergency reboot.", ftl_drive.radio_channel)
+		ftl_drive?.radio?.talk_into(ftl_drive, "Warning. Local energy anomaly detected - calculated jump parameters invalid. Performing emergency reboot.", ftl_drive.radio_channel)
 		relay('sound/magic/lightning_chargeup.ogg', channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 		ftl_drive?.depower()
 		log_runtime("DEBUG: jump_start: aborted jump to [target_system] due to interdiction")
@@ -242,7 +242,7 @@
 	SSstar_system.ships[src]["target_system"] = target_system
 	SSstar_system.ships[src]["from_time"] = world.time
 	SSstar_system.ships[src]["current_system"] = null
-	addtimer(CALLBACK(src, .proc/jump_end, target_system), speed MINUTES)
+	addtimer(CALLBACK(src, PROC_REF(jump_end), target_system), speed MINUTES)
 	ftl_drive.depower(ftl_drive.auto_spool_enabled)
 	jump_handle_shake()
 	force_parallax_update(TRUE)

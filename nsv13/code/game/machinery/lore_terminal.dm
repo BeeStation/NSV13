@@ -150,7 +150,7 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 	icon_state = "terminal_scroll"
 	clicks = clicks/3
 	var/loops = clicks/3 //Each click sound has 4 clicks in it, so we only need to click 1/4th of the time per character yeet.
-	addtimer(CALLBACK(src, .proc/stop_clicking), loops)
+	addtimer(CALLBACK(src, PROC_REF(stop_clicking)), loops)
 	soundloop?.start()
 
 

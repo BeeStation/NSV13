@@ -212,6 +212,17 @@
 	build_path = /obj/item/fighter_component/primary/utility/repairer
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
+
+/datum/design/air_plasmacutter
+	name = "Mounted Plasma Cutter"
+	desc = "A 217-A heavy plasma cutter with a gimballed mount. This is designed for use on Sabre-class utility vessels."
+	id = "r_cutter"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000, /datum/material/glass = 2000, /datum/material/plasma = 5000)
+	build_path = /obj/item/fighter_component/primary/plasmacutter
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+
 //Tier 2
 /datum/design/fuel_tank_tier2
 	name = "Upgraded Fighter Fuel Tank"

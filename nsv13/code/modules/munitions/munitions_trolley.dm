@@ -56,6 +56,27 @@
 	loading = FALSE
 	return TRUE
 
+/obj/structure/munitions_trolley/attackby(obj/item/A, mob/living/user, params)
+	. = ..()
+	if(get_dist(A, src) > 1)
+		return FALSE
+	if(istype(A, /obj/item/ship_weapon/ammunition))
+		var/obj/item/ship_weapon/ammunition/M = A
+		if(M.no_trolley)
+			return FALSE
+	if(!allowed[A.type])
+		return FALSE
+	if(loading)
+		to_chat(user, "<span class='notice'>Someone is already loading something onto [src]!</span>")
+		return FALSE
+	to_chat(user, "<span class='notice'>You start to load [A] onto [src]...</span>")
+	loading = TRUE
+	if(do_after(user,20, target = src))
+		load_trolley(A, user)
+		to_chat(user, "<span class='notice'>You load [A] onto [src].</span>")
+	loading = FALSE
+	return
+
 /obj/structure/munitions_trolley/proc/load_trolley(atom/movable/A, mob/user)
 	if(istype(A, /obj/item/ship_weapon/ammunition))
 		var/obj/item/ship_weapon/ammunition/M = A

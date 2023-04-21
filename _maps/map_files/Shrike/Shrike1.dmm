@@ -1830,16 +1830,11 @@
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
 "io" = (
-/obj/item/storage/box/syringes{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/obj/structure/table/glass,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 1
 	},
 /obj/item/radio/intercom/directional/south,
-/obj/item/storage/box/beakers/large_mix,
+/obj/machinery/chem_master,
 /turf/open/floor/plasteel/white/side,
 /area/medical/storage)
 "ir" = (
@@ -2572,22 +2567,11 @@
 /turf/open/floor/plasteel/dark,
 /area/security/locker_room)
 "mh" = (
-/obj/structure/table/glass,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 1
 	},
 /obj/machinery/firealarm/directional/south,
-/obj/item/book/manual/wiki/chemistry{
-	pixel_x = 5;
-	pixel_y = 5
-	},
-/obj/item/reagent_containers/dropper{
-	pixel_x = 5
-	},
-/obj/item/reagent_containers/dropper{
-	pixel_x = 5;
-	pixel_y = -2
-	},
+/obj/machinery/refillable_chem_dispenser/full,
 /turf/open/floor/plasteel/white/corner,
 /area/medical/storage)
 "mi" = (
@@ -3257,7 +3241,25 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
 "pn" = (
-/obj/machinery/chem_master,
+/obj/item/reagent_containers/dropper{
+	pixel_x = 5;
+	pixel_y = -2
+	},
+/obj/structure/table/glass,
+/obj/item/book/manual/wiki/chemistry{
+	pixel_x = 5;
+	pixel_y = 5
+	},
+/obj/item/storage/box/syringes{
+	pixel_x = -7;
+	pixel_y = 3
+	},
+/obj/item/storage/box/beakers/large_mix{
+	pixel_x = -10
+	},
+/obj/item/reagent_containers/dropper{
+	pixel_x = 5
+	},
 /turf/open/floor/plasteel/white/corner{
 	dir = 8
 	},
@@ -5627,6 +5629,7 @@
 "Av" = (
 /obj/machinery/firealarm/directional/west,
 /obj/structure/table/glass,
+/obj/machinery/coffeemaker,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/nsv/observation{
 	lighting_colour_bulb = "#c1e1ff";
@@ -9834,7 +9837,7 @@
 	pixel_x = 8
 	},
 /obj/item/reagent_containers/glass/bottle/diphenhydramine{
-	list_reagents = list(/datum/reagent/medicine/rezadone = 30);
+	list_reagents = list(/datum/reagent/medicine/rezadone=30);
 	name = "rezadone bottle";
 	pixel_x = -4
 	},
@@ -11029,6 +11032,7 @@
 /obj/item/circuitboard/machine/chem_heater,
 /obj/item/circuitboard/machine/chem_master,
 /obj/item/circuitboard/machine/stasis,
+/obj/item/circuitboard/machine/refillable_chem_dispenser,
 /turf/open/floor/durasteel,
 /area/storage/tech)
 "WI" = (
@@ -11588,12 +11592,13 @@
 /turf/open/floor/durasteel,
 /area/nsv/hanger)
 "YF" = (
-/obj/machinery/vending/coffee,
 /obj/machinery/light{
 	color = "#c1e1ff";
 	dir = 1
 	},
 /obj/machinery/newscaster/directional/west,
+/obj/structure/table/glass,
+/obj/item/storage/fancy/coffee_condi_display,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/nsv/observation{
 	lighting_colour_bulb = "#c1e1ff";

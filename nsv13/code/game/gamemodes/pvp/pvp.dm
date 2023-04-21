@@ -105,8 +105,8 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 
 	if(n_agents > 0)
 		//Registers two signals to check either ship as being destroyed.
-		RegisterSignal(syndiship, COMSIG_PARENT_QDELETING, .proc/force_loss)
-		RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_PARENT_QDELETING, .proc/force_win)
+		RegisterSignal(syndiship, COMSIG_PARENT_QDELETING, PROC_REF(force_loss))
+		RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_PARENT_QDELETING, PROC_REF(force_win))
 		SSovermap_mode.mode = new/datum/overmap_gamemode/galactic_conquest //Change the overmap gamemode
 		message_admins("Galactic Conquest in progress. Overmap gamemode is now [SSovermap_mode.mode.name]")
 		var/enemies_to_spawn = max(1, round(num_players()/2.5)) //Syndicates scale with pop. On a standard 30 pop, this'll be 30 - 10 -> 20 / 10 -> 2 floored = 2, where FLOOR rounds the number to a whole number.

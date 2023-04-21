@@ -43,10 +43,11 @@
 	var/casing_amount = 0
 	var/load_amount = 0
 	var/bag_amount = 0
+	var/max_bags = 1
 	var/amount_to_pack = 5
 	var/obj/item/powder_bag/plasma/plasma = FALSE
 	var/obj/item/powder_bag/gunpowder = FALSE
-	var/static/list/thingy = typecacheof(list(
+	var/static/list/whitelist = typecacheof(list(
 		/obj/item/ship_weapon/parts/broadside_casing,
 		/obj/item/ship_weapon/parts/broadside_load,
 		/obj/item/powder_bag))
@@ -54,14 +55,14 @@
 /obj/machinery/broadside_shell_packer/examine(mob/user)
 	. = ..()
 	. += "It has [casing_amount] casings, [load_amount] loads, and [bag_amount] bags."
-	. += "The Packer requires 5 Casings, 5 Loads and 1 Powder Bag to pack 5 Broadside Shells."
+	. += "The Packer requires [amount_to_pack] Casings, [amount_to_pack] Loads and [max_bags] Powder Bag to pack [amount_to_pack] Broadside Shells."
 
 /obj/machinery/broadside_shell_packer/attackby(obj/item/I, mob/living/user, params)
 	if(default_deconstruction_screwdriver(user, "[initial(icon_state)]", initial(icon_state), I))
 		return TRUE
 	if(default_deconstruction_crowbar(I))
 		return TRUE
-	if(thingy[I.type])
+	if(whitelist[I.type])
 		load(I, user)
 		return TRUE
 	else
@@ -71,11 +72,29 @@
 	. = ..()
 	ui_interact(user)
 
+/obj/machinery/broadside_shell_packer/proc/pack(mob/user)
+	if(casing_amount == amount_to_pack && load_amount == amount_to_pack && bag_amount == max_bags)
+		icon_state = "packing_bench_loading"
+		cut_overlays()
+		to_chat(user, "<span class='notice'>The table starts to stuff the shell casings!</span>")
+		play_click_sound("switch")
+		playsound(user, 'nsv13/sound/effects/ship/mac_load.ogg', 20)
+		sleep(0.5 SECONDS)
+		for(var/i in 1 to amount_to_pack)
+			if(plasma)
+				new /obj/item/ship_weapon/ammunition/broadside_shell/plasma(get_turf(src))
+			else if(gunpowder)
+				new /obj/item/ship_weapon/ammunition/broadside_shell(get_turf(src))
+		reset()
+		return TRUE
+	else
+		return FALSE
+
 /obj/machinery/broadside_shell_packer/proc/load(atom/movable/A, mob/user)
 	if(istype(A, /obj/item/ship_weapon/parts/broadside_casing))
 		if(casing_amount < amount_to_pack)
 			casing_amount++
-			to_chat(user, "<span class='notice'>You add a casing to the table.</span>")
+			to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
 			A.forceMove(src)
 			qdel(A)
 			playsound(user, 'sound/items/screwdriver2.ogg', 30)
@@ -89,7 +108,7 @@
 	if(istype(A, /obj/item/ship_weapon/parts/broadside_load))
 		if(load_amount < amount_to_pack)
 			load_amount++
-			to_chat(user, "<span class='notice'>You add a load to the table.</span>")
+			to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
 			A.forceMove(src)
 			qdel(A)
 			playsound(user, 'sound/items/screwdriver2.ogg', 30)
@@ -101,13 +120,13 @@
 			return FALSE
 
 	if(istype(A, /obj/item/powder_bag))
-		if(bag_amount < 1)
+		if(bag_amount < max_bags)
 			if(istype(A, /obj/item/powder_bag/plasma))
 				plasma = TRUE
-				to_chat(user, "<span class='notice'>You add a plasma bag to the table.</span>")
+				to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
 			else if(istype(A, /obj/item/powder_bag))
 				gunpowder = TRUE
-				to_chat(user, "<span class='notice'>You add a gunpowder bag to the table.</span>")
+				to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
 			A.forceMove(src)
 			bag_amount++
 			playsound(user, 'nsv13/sound/effects/ship/mac_load.ogg', 20)
@@ -115,7 +134,7 @@
 			add_overlay("powder-1")
 			return TRUE
 
-		if(bag_amount == 1)
+		if(bag_amount == max_bags)
 			to_chat(user, "<span class='warning'>The table is already packed with a bag!</span>")
 			return FALSE
 
@@ -158,26 +177,14 @@
 	if(..())
 		return
 
-	if(casing_amount == amount_to_pack && load_amount == amount_to_pack && bag_amount == 1)
-		icon_state = "packing_bench_loading"
-		cut_overlays()
-		to_chat(user, "<span class='notice'>The table starts to stuff the shell casings!</span>")
-		play_click_sound("switch")
-		playsound(user, 'nsv13/sound/effects/ship/mac_load.ogg', 20)
-		sleep(0.5 SECONDS)
-		for(var/i in 1 to amount_to_pack)
-			if(plasma)
-				new /obj/item/ship_weapon/ammunition/broadside_shell/plasma(get_turf(src))
-			else if(gunpowder)
-				new /obj/item/ship_weapon/ammunition/broadside_shell(get_turf(src))
-		reset()
-	else
+	if(!pack(user))
 		if(casing_amount < amount_to_pack)
 			to_chat(user, "<span class='warning'>The table is missing [amount_to_pack - casing_amount] casings!</span>")
 		if(load_amount < amount_to_pack)
 			to_chat(user, "<span class='warning'>The table is missing [amount_to_pack - load_amount] loads!</span>")
-		if(bag_amount < 1)
+		if(bag_amount < max_bags)
 			to_chat(user, "<span class='warning'>The table is missing a bag!</span>")
+
 	return
 
 /obj/machinery/broadside_shell_packer/ui_interact(mob/user, datum/tgui/ui)
@@ -197,7 +204,7 @@
 	data["plasma"] = plasma
 	data["gunpowder"] = gunpowder
 
-	if(casing_amount == amount_to_pack && load_amount == amount_to_pack && bag_amount == 1)
+	if(casing_amount == amount_to_pack && load_amount == amount_to_pack && bag_amount == max_bags)
 		data["full"] = TRUE
 	else
 		data["full"] = FALSE
@@ -210,18 +217,8 @@
 
 	switch(action)
 		if("pack")
-			icon_state = "packing_bench_loading"
-			cut_overlays()
-			to_chat(usr, "<span class='notice'>The table starts to stuff the shell casings!</span>")
-			play_click_sound("switch")
-			playsound(usr, 'nsv13/sound/effects/ship/mac_load.ogg', 20)
-			sleep(0.5 SECONDS)
-			for(var/i in 1 to amount_to_pack)
-				if(plasma)
-					new /obj/item/ship_weapon/ammunition/broadside_shell/plasma(get_turf(src))
-				else if(gunpowder)
-					new /obj/item/ship_weapon/ammunition/broadside_shell(get_turf(src))
-			reset()
+			pack(usr)
+			return
 
 		if("eject_plasma")
 			if(plasma)

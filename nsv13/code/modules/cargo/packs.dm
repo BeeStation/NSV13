@@ -769,11 +769,86 @@
 					/obj/item/reagent_containers/glass/bottle/sacid)
 	crate_name = "Chemical Supply Crate - Chalcogens"
 
-/datum/supply_pack/engineering/plasma_canister //Purely used for the Serendipity's plasma caster
-	name = "Replacement Plasma Canister"
+/datum/supply_pack/materials/plasma_canister //Purely used for the Serendipity's plasma caster
+	name = "Phoron Canister"
 	desc = "A single can of phoron gas, for all your plasma needs!"
 	cost = 2500
 	contains = list(
 		/obj/machinery/portable_atmospherics/canister/toxins)
 	hidden = TRUE
 	crate_name = "Phoron Portable Gas Canister"
+
+//Coffee Related Packs
+/datum/supply_pack/service/coffee_kit
+	name = "Emergency Coffee Resupply Kit"
+	desc = "Did the Marines drink the last of the ship's coffee and are now fertilizing the hydroponic trays? Did the clown destroy your coffee mugs while Runtime knocked the coffee pot onto the floor, making it shatter? Fear not, this crate contains everything you might need to get that liquid ambrosia flowing again!"
+	cost = 1000 //It's a starter pack, so we're not completely greedy, unlike the grill.
+	contains = list(/obj/item/reagent_containers/food/drinks/mug,
+					/obj/item/reagent_containers/food/drinks/mug,
+					/obj/item/reagent_containers/food/drinks/mug,
+					/obj/item/reagent_containers/glass/coffeepot,
+					/obj/item/coffee_cartridge,
+					/obj/item/coffee_cartridge)
+	crate_type = /obj/structure/closet/crate/secure // We don't mess around when it comes to those desperate for coffee.
+	crate_name = "Emergency Coffee Supply Crate"
+
+/datum/supply_pack/service/coffee_cartridge
+	name = "Navy Coffee Cartridge Resupply"
+	desc = "Five cartridges containing our finest navy coffee beans for the glorious coffeemaker."
+	cost = 3000 //Two thousand more than the Emergency kit, because it's a refill.
+	contains = list(/obj/item/coffee_cartridge,
+					/obj/item/coffee_cartridge,
+					/obj/item/coffee_cartridge,
+					/obj/item/coffee_cartridge,
+					/obj/item/coffee_cartridge)
+	crate_type = /obj/structure/closet/crate/secure // We still don't mess around with our coffee supply, this thing is getting to that machine one way or another
+	crate_name = "Coffee Cartridge Supply Crate"
+
+/datum/supply_pack/service/coffee_cartridge_fancy
+	name = "Fancy Garbage Coffee Cartridge Resupply"
+	desc = "We don't know why you would possibly want this garbage tasting coffee compared to the glorious ambrosia taste of Navy Coffee, but here you go. Contains 5 cartridges."
+	cost = 5000 //It's fancy coffee, so it's pretty expensive because the Navy wants to hoard it all from you.
+	contains = list(/obj/item/coffee_cartridge/fancy,
+					/obj/item/coffee_cartridge/fancy,
+					/obj/item/coffee_cartridge/fancy,
+					/obj/item/coffee_cartridge/fancy,
+					/obj/item/coffee_cartridge/fancy)
+	crate_type = /obj/structure/closet/crate/secure
+	crate_name = "Garbage Coffee Supply Crate"
+
+/datum/supply_pack/service/coffeekit
+	name = "Coffee Equippment Crate"
+	desc = "A complete kit to setup your own cozy coffee shop. For some reason, the coffeemaker is not included."
+	cost = 2000
+	contains = list(/obj/item/storage/box/coffeepack/robusta,
+					/obj/item/storage/box/coffeepack/arabica,
+					/obj/item/reagent_containers/glass/coffeepot,
+					/obj/item/storage/fancy/coffee_condi_display,
+					/obj/item/reagent_containers/food/drinks/bottle/cream,
+					/obj/item/reagent_containers/food/condiment/milk,
+					/obj/item/reagent_containers/food/condiment/soymilk,
+					/obj/item/reagent_containers/food/condiment/sugar,
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/caramel)
+	crate_name = "coffee equpment crate"
+
+/datum/supply_pack/service/coffeemaker
+	name = "Pendulum Coffeemaker Crate"
+	desc = "An assembled Pendulum model coffeemaker."
+	cost = 4000
+	contains = list(/obj/machinery/coffeemaker/pendulum)
+	crate_name = "coffeemaker crate"
+	crate_type = /obj/structure/closet/crate/large
+
+/datum/supply_pack/organic/syrup
+	name = "Coffee Syrups Box"
+	desc = "A packaged box of various syrups, perfect to make your delicious coffee even more diabetic."
+	cost = 3000
+	contains = list(/obj/item/reagent_containers/glass/bottle/syrup_bottle/caramel,
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/liqueur,
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/honey,
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/vanilla,
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/tea,
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/creme_de_cacao,
+					/obj/item/reagent_containers/glass/bottle/syrup_bottle/creme_de_menthe)
+	crate_name = "coffee syrups box"
+	crate_type = /obj/structure/closet/cardboard

@@ -118,6 +118,10 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 #define OVERMAP_USER_ROLE_SECONDARY_GUNNER (1<<2)
 #define OVERMAP_USER_ROLE_OBSERVER (1<<3)
 
+#define HOLOMAP_EXTRA_STATIONMAP "stationmapformatted"
+#define HOLOMAP_EXTRA_STATIONMAPAREAS "stationareas"
+#define HOLOMAP_EXTRA_STATIONMAPSMALL "stationmapsmall"
+
 /// AI Hologram Related
 #define DUMMY_HUMAN_SLOT_HOLOFORM "dummy_holoform_generation" //NSV13 - AI Custom Holographic Form
 

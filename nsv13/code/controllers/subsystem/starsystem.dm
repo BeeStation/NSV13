@@ -440,10 +440,10 @@ Returns a faction datum by its name (case insensitive!)
 /datum/star_system/proc/parse_startup_proc()
 	switch(startup_proc)
 		if("STARTUP_PROC_TYPE_BRASIL")
-			addtimer(CALLBACK(src, .proc/generate_badlands), 5 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(generate_badlands)), 5 SECONDS)
 			return
 		if("STARTUP_PROC_TYPE_BRASIL_LITE")
-			addtimer(CALLBACK(src, .proc/generate_litelands), 5 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(generate_litelands)), 5 SECONDS)
 			return
 	message_admins("WARNING: Invalid startup_proc declared for [name]! Review your defines (~L438, starsystem.dm), please.")
 	return 1
@@ -509,11 +509,12 @@ Returns a faction datum by its name (case insensitive!)
 		station13.starting_system = src.name
 		station13.current_system = src
 		station13.set_trader(src.trader)
+		src.trader.system = src
 		// trader.generate_missions()
 	if(!CHECK_BITFIELD(src.system_traits, STARSYSTEM_NO_ANOMALIES))
-		addtimer(CALLBACK(src, .proc/generate_anomaly), 15 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(generate_anomaly)), 15 SECONDS)
 	if(!CHECK_BITFIELD(src.system_traits, STARSYSTEM_NO_ASTEROIDS))
-		addtimer(CALLBACK(src, .proc/spawn_asteroids), 15 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(spawn_asteroids)), 15 SECONDS)
 
 /datum/star_system/proc/create_wormhole()
 	var/list/potential_systems = list()
@@ -563,7 +564,7 @@ Returns a faction datum by its name (case insensitive!)
 /obj/effect/overmap_anomaly/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
