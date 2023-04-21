@@ -339,7 +339,6 @@ GLOBAL_LIST_INIT(pda_styles, sortList(list(MONO, VT, ORBITRON, SHARE)))
 
 //Dummy mob reserve slots
 #define DUMMY_HUMAN_SLOT_PREFERENCES "dummy_preference_preview"
-#define DUMMY_HUMAN_SLOT_HOLOFORM "dummy_holoform_generation" //NSV13 - AI Custom Holographic Form
 #define DUMMY_HUMAN_SLOT_ADMIN "admintools"
 #define DUMMY_HUMAN_SLOT_MANIFEST "dummy_manifest_generation"
 
@@ -472,10 +471,3 @@ GLOBAL_LIST_EMPTY(monkey_icon_cache)
 // Pirates threat
 #define PIRATE_RESPONSE_NO_PAY "pirate_answer_no_pay"
 #define PIRATE_RESPONSE_PAY "pirate_answer_pay"
-
-//NSV13 - AI Custom Holographic Form - Start
-#define CUSTOM_HOLOFORM_DELAY 10 SECONDS //prevents spamming to make lag. it's pretty expensive to do this.
-
-#define HOLOFORM_FILTER_AI "FILTER_AI"
-#define HOLOFORM_FILTER_STATIC "FILTER_STATIC"
-//NSV13 - AI Custom Holographic Form - Stop
