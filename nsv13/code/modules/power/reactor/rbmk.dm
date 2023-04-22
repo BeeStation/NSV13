@@ -851,7 +851,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 		if(tempOutputdata.len > 100) //Only lets you track over a certain timeframe.
 			tempOutputdata.Cut(1, 2)
 
-/datum/computer_file/program/nuclear_monitor/run_program(mob/living/user)
+/datum/computer_file/program/nuclear_monitor/on_start(mob/living/user)
 	. = ..(user)
 	//No reactor? Go find one then.
 	if(!reactor)

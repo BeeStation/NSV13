@@ -33,7 +33,7 @@
 	head = /obj/item/clothing/head/helmet/decktech
 	gloves = /obj/item/clothing/gloves/color/brown
 	id = /obj/item/card/id/deck_technician
-	l_pocket = /obj/item/pda
+	l_pocket = /obj/item/modular_computer/tablet/pda/munition
 
 	backpack = /obj/item/storage/backpack/munitions
 	satchel = /obj/item/storage/backpack/satchel/munitions
