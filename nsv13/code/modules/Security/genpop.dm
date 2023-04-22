@@ -112,7 +112,7 @@
 	//Attach a signal handler to the turf below for when someone passes through.
 	//Signal automatically gets unattached and reattached when we're moved.
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 

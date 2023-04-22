@@ -44,7 +44,7 @@
 		var/datum/disease/advance/R = new /datum/disease/advance/random(rand(1, 6), 9, 1, infected = src)
 		ratdisease += R
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
@@ -90,7 +90,7 @@
 /mob/living/simple_animal/mouse/handle_automated_action()
 	if(prob(chew_probability))
 		var/turf/open/floor/F = get_turf(src)
-		if(istype(F) && !F.intact)
+		if(istype(F) && !F.intact && !(locate(/obj/structure/lattice/catwalk) in F)) // NSV13 - Do not eat wires through catwalks
 			var/obj/structure/cable/C = locate() in F
 			if(C && prob(15))
 				if(C.avail())

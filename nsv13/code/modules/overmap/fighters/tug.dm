@@ -137,7 +137,7 @@
 	for(var/obj/structure/overmap/small_craft/target in contents)
 		target.relay('nsv13/sound/effects/ship/fighter_launch.ogg')
 		ready = FALSE
-		addtimer(CALLBACK(src, .proc/finish_launch), 10 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(finish_launch)), 10 SECONDS)
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/finish_launch()
 	ready = TRUE

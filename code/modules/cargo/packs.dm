@@ -2045,10 +2045,10 @@
 
 /datum/supply_pack/service/vending/ptech
 	name = "PTech Supply Crate"
-	desc = "Not enough cartridges after half the crew lost their PDA to explosions? This may fix it."
+	desc = "Not enough job disks after half the crew lost their PDA to explosions? This may fix it."
 	cost = 800
 	access_budget = ACCESS_HOP
-	contains = list(/obj/item/vending_refill/cart)
+	contains = list(/obj/item/vending_refill/job_disk)
 	crate_name = "ptech supply crate"
 
 /datum/supply_pack/service/vending/snack
@@ -2255,7 +2255,7 @@
 				anomalous_box_provided = TRUE
 				log_game("An anomalous pizza box was provided in a pizza crate at during cargo delivery")
 				if(prob(50))
-					addtimer(CALLBACK(src, .proc/anomalous_pizza_report), rand(300, 1800))
+					addtimer(CALLBACK(src, PROC_REF(anomalous_pizza_report)), rand(300, 1800))
 				else
 					message_admins("An anomalous pizza box was silently created with no command report in a pizza crate delivery.")
 				break

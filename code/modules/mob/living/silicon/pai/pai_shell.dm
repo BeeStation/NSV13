@@ -17,13 +17,9 @@
 		return FALSE
 
 	emittersemicd = TRUE
-	addtimer(CALLBACK(src, .proc/emittercool), emittercd)
+	addtimer(CALLBACK(src, PROC_REF(emittercool)), emittercd)
 	mobility_flags = MOBILITY_FLAGS_DEFAULT
 	density = TRUE
-	if(istype(card.loc, /obj/item/pda))
-		var/obj/item/pda/P = card.loc
-		P.pai = null
-		P.visible_message("<span class='notice'>[src] ejects itself from [P]!</span>")
 	if(isliving(card.loc))
 		var/mob/living/L = card.loc
 		if(!L.temporarilyRemoveItemFromInventory(card))
@@ -46,9 +42,9 @@
 /mob/living/silicon/pai/proc/fold_in(force = FALSE)
 	emittersemicd = TRUE
 	if(!force)
-		addtimer(CALLBACK(src, .proc/emittercool), emittercd)
+		addtimer(CALLBACK(src, PROC_REF(emittercool)), emittercd)
 	else
-		addtimer(CALLBACK(src, .proc/emittercool), emitteroverloadcd)
+		addtimer(CALLBACK(src, PROC_REF(emittercool)), emitteroverloadcd)
 	icon_state = "[chassis]"
 	if(!holoform)
 		. = fold_out(force)

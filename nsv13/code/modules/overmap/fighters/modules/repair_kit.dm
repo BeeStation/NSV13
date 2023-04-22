@@ -82,7 +82,7 @@
 	// First see if we need to make a new beam
 	if(QDELETED(current_beam))
 		current_beam = new(us,them,beam_icon='icons/effects/beam.dmi',time=INFINITY,maxdistance = INFINITY,beam_icon_state="medbeam",btype=/obj/effect/ebeam/medical)
-		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+		INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 	new /obj/effect/temp_visual/heal(get_turf(them), COLOR_CYAN)
 	// Use some juice
 	tank.reagents.remove_reagent(/datum/reagent/hull_repair_juice, 5)
