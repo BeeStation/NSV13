@@ -1,4 +1,6 @@
 /obj/structure/overmap/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
+	if(move_by_mouse && M == pilot && can_move() && !pilot.incapacitated())
+		desired_angle = getMouseAngle(params, M)
 	aiming_target = over_object
 	aiming_params = params
 	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
