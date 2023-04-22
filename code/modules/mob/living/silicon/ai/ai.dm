@@ -98,6 +98,8 @@
 	var/list/cam_hotkeys = new/list(9)
 	var/cam_prev
 
+	var/atom/movable/screen/ai/modpc/interfaceButton
+
 	var/datum/robot_control/robot_control //NSV13
 
 /mob/living/silicon/ai/Initialize(mapload, datum/ai_laws/L, mob/target_ai)
@@ -132,11 +134,12 @@
 
 	job = JOB_NAME_AI
 
+	create_modularInterface()
 	create_eye()
 	if(client)
 		apply_pref_name("ai",client)
 
-	INVOKE_ASYNC(src, .proc/set_core_display_icon)
+	INVOKE_ASYNC(src, PROC_REF(set_core_display_icon))
 
 
 	holo_icon = getHologramIcon(icon('icons/mob/ai.dmi',"default"))
@@ -146,11 +149,6 @@
 	spark_system.attach(src)
 
 	add_verb(/mob/living/silicon/ai/proc/show_laws_verb)
-
-	aiPDA = new/obj/item/pda/ai(src)
-	aiPDA.owner = real_name
-	aiPDA.ownjob = JOB_NAME_AI
-	aiPDA.name = real_name + " (" + aiPDA.ownjob + ")"
 
 	aiMulti = new(src)
 	radio = new /obj/item/radio/headset/silicon/ai(src)
@@ -987,16 +985,11 @@
 	if(oldname != real_name)
 		if(eyeobj)
 			eyeobj.name = "[newname] (AI Eye)"
+			modularInterface.saved_identification = real_name
 
 		// Notify Cyborgs
 		for(var/mob/living/silicon/robot/Slave in connected_robots)
 			Slave.show_laws()
-
-/mob/living/silicon/ai/replace_identification_name(oldname,newname)
-	if(aiPDA)
-		aiPDA.owner = newname
-		aiPDA.name = newname + " (" + aiPDA.ownjob + ")"
-
 
 /mob/living/silicon/ai/proc/add_malf_picker()
 	to_chat(src, "In the top right corner of the screen you will find the Malfunctions tab, where you can purchase various abilities, from upgraded surveillance to station ending doomsday devices.")

@@ -99,7 +99,7 @@
 			to_chat(user, "<span class='warning'>You need a free hand to hold the fuel hose!</span>")
 			return
 		to_chat(user, "<span class='warning'>You grab [src]'s refuelling hose.</span>")
-		RegisterSignal(user, COMSIG_MOVABLE_MOVED, .proc/check_distance)
+		RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(check_distance))
 		set_nozzle(TRUE)
 		ui_interact(user)
 	else
@@ -124,7 +124,7 @@
 	else
 		cut_overlay("cryofuel_nozzle")
 		current_beam = new(user, src, beam_icon='nsv13/icons/effects/beam.dmi',time=INFINITY,maxdistance = INFINITY,beam_icon_state="hose",btype=/obj/effect/ebeam/fuel_hose)
-		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+		INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/attackby(obj/item/I, mob/user, params)
 	if(I == nozzle)

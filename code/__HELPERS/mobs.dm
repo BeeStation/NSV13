@@ -115,7 +115,8 @@
 		"apid_antenna" = pick(GLOB.apid_antenna_list),
 		"apid_stripes" = pick(GLOB.apid_stripes_list),
 		"apid_headstripes" = pick(GLOB.apid_headstripes_list),
-		"flavour_text" = ""
+		"flavour_text" = "",
+		"body_model" = MALE
 		)
 	) //NSV13 - ADD FLAVOR TEXT
 
@@ -141,8 +142,10 @@
 	for(var/i in 1 to attempts_to_find_unique_name)
 		if(gender==FEMALE)
 			. = capitalize(pick(GLOB.first_names_female)) + " " + capitalize(pick(GLOB.last_names))
-		else
+		else if(gender==MALE)
 			. = capitalize(pick(GLOB.first_names_male)) + " " + capitalize(pick(GLOB.last_names))
+		else if(gender==PLURAL)
+			. = capitalize(pick(GLOB.first_names)) + " " + capitalize(pick(GLOB.last_names))
 
 		if(!findname(.))
 			break

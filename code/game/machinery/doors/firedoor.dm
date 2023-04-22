@@ -122,7 +122,7 @@
 /obj/machinery/door/firedoor/power_change()
 	if(powered(power_channel))
 		set_machine_stat(machine_stat & ~NOPOWER)
-		INVOKE_ASYNC(src, .proc/latetoggle)
+		INVOKE_ASYNC(src, PROC_REF(latetoggle))
 	else
 		set_machine_stat(machine_stat | NOPOWER)
 
@@ -163,7 +163,7 @@
 	if(operating)
 		return
 
-	if(istype(C, /obj/item/pda))
+	if(istype(C, /obj/item/modular_computer/tablet/pda))
 		var/attack_verb = pick("smushes","rubs","smashes","presses","taps")
 		visible_message("<span class='warning'>[user] [attack_verb] \the [C] against [src]\s card reader.</span>", "<span class='warning'>You [attack_verb] \the [C] against [src]\s card reader. It doesn't do anything.</span>", "You hear plastic click against metal.")
 		return
@@ -449,7 +449,7 @@
 	air_update_turf(1)
 
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_EXIT = .proc/on_exit,
+		COMSIG_ATOM_EXIT = PROC_REF(on_exit),
 	)
 
 	AddElement(/datum/element/connect_loc, loc_connections)
@@ -818,7 +818,7 @@
 
 /obj/structure/firelock_frame/border/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/simple_rotation, ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS, null, CALLBACK(src, .proc/can_be_rotated))
+	AddComponent(/datum/component/simple_rotation, ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS, null, CALLBACK(src, PROC_REF(can_be_rotated)))
 
 /obj/structure/firelock_frame/border/proc/can_be_rotated(mob/user, rotation_type)
 	if (anchored)

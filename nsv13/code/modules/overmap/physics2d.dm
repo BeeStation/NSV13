@@ -94,7 +94,7 @@ PROCESSING_SUBSYSTEM_DEF(physics_processing)
 	if(!istype(holder))
 		return COMPONENT_INCOMPATIBLE //Precondition: This is a subtype of atom/movable.
 	last_registered_z = holder.z
-	RegisterSignal(holder, COMSIG_MOVABLE_Z_CHANGED, .proc/update_z)
+	RegisterSignal(holder, COMSIG_MOVABLE_Z_CHANGED, PROC_REF(update_z))
 
 /datum/component/physics2d/Destroy(force, silent)
 	last_node.FastRemove(collider2d)

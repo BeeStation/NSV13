@@ -87,7 +87,7 @@
 /obj/machinery/ship_weapon/Initialize(mapload)
 	. = ..()
 	PostInitialize()
-	addtimer(CALLBACK(src, .proc/get_ship), 15 SECONDS) //This takes a minute to load...
+	addtimer(CALLBACK(src, PROC_REF(get_ship)), 15 SECONDS) //This takes a minute to load...
 
 /**
 *

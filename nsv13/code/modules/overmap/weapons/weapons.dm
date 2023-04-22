@@ -32,7 +32,7 @@
 				if(shots_left <= 0)
 					if(!ai_resupply_scheduled)
 						ai_resupply_scheduled = TRUE
-						addtimer(CALLBACK(src, .proc/ai_self_resupply), ai_resupply_time)
+						addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
 					return FALSE
 				else if(light_shots_left <= 0)
 					spawn(150)
