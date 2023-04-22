@@ -15,7 +15,7 @@
 
 /obj/structure/closet/crate/large/freight_objective/New()
 	. = ..()
-	RegisterSignal( src, COMSIG_FREIGHT_TAMPERED, .proc/poll_for_ghost_sentience )
+	RegisterSignal( src, COMSIG_FREIGHT_TAMPERED, PROC_REF(poll_for_ghost_sentience) )
 
 /obj/structure/closet/crate/large/freight_objective/attackby(obj/item/W, mob/user, params)
 	if(W.tool_behaviour == TOOL_CROWBAR)

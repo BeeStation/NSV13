@@ -118,7 +118,7 @@
 
 /obj/machinery/ship_weapon/broadside/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/RefreshParts), world.tick_lag)
+	addtimer(CALLBACK(src, PROC_REF(RefreshParts)), world.tick_lag)
 
 /obj/machinery/ship_weapon/broadside/overmap_fire(atom/target)
 	if(world.time >= next_sound) //Prevents ear destruction from soundspam

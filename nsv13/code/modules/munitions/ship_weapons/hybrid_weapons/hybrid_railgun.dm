@@ -273,7 +273,7 @@
 				to_chat(usr, "<span class='notice'>Action queued: Cycling ordnance chamber configuration.</span>")
 				switching = TRUE
 				playsound(src, 'nsv13/sound/effects/ship/mac_hold.ogg', 100)
-				addtimer(CALLBACK(src, .proc/switch_munition), 10 SECONDS)
+				addtimer(CALLBACK(src, PROC_REF(switch_munition)), 10 SECONDS)
 			else
 				to_chat(usr, "<span class='notice'>Error: Unable to alter selected ordnance type, eject loaded munitions.</span>")
 	return
