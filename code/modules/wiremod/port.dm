@@ -140,7 +140,7 @@
 		UnregisterSignal(output_value, COMSIG_PARENT_QDELETING)
 	output_value = convert_value(output_value, value)
 	if(isatom(output_value))
-		RegisterSignal(output_value, COMSIG_PARENT_QDELETING, .proc/null_output)
+		RegisterSignal(output_value, COMSIG_PARENT_QDELETING, PROC_REF(null_output))
 
 	SEND_SIGNAL(src, COMSIG_PORT_SET_OUTPUT, output_value)
 
@@ -211,11 +211,11 @@
 /datum/port/input/proc/register_output_port(datum/port/output/port_to_register)
 	unregister_output_port()
 
-	RegisterSignal(port_to_register, COMSIG_PORT_SET_OUTPUT, .proc/receive_output)
+	RegisterSignal(port_to_register, COMSIG_PORT_SET_OUTPUT, PROC_REF(receive_output))
 	RegisterSignal(port_to_register, list(
 		COMSIG_PORT_DISCONNECT,
 		COMSIG_PARENT_QDELETING
-	), .proc/unregister_output_port)
+	), PROC_REF(unregister_output_port))
 
 	connected_port = port_to_register
 	SEND_SIGNAL(connected_port, COMSIG_PORT_OUTPUT_CONNECT, src)
@@ -233,7 +233,7 @@
 /datum/port/input/proc/receive_output(datum/port/output/connected_port, new_value)
 	SIGNAL_HANDLER
 
-	SScircuit_component.add_callback(CALLBACK(src, .proc/set_input, new_value))
+	SScircuit_component.add_callback(CALLBACK(src, PROC_REF(set_input), new_value))
 
 /**
  * Updates the value of the input
@@ -247,7 +247,7 @@
 		UnregisterSignal(input_value, COMSIG_PARENT_QDELETING)
 	input_value = convert_value(input_value, new_value)
 	if(isatom(input_value))
-		RegisterSignal(input_value, COMSIG_PARENT_QDELETING, .proc/null_output)
+		RegisterSignal(input_value, COMSIG_PARENT_QDELETING, PROC_REF(null_output))
 
 	SEND_SIGNAL(src, COMSIG_PORT_SET_INPUT, input_value)
 	if(trigger && send_update)

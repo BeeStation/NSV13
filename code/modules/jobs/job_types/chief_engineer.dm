@@ -43,15 +43,14 @@
 
 	id = /obj/item/card/id/job/chief_engineer
 	belt = /obj/item/storage/belt/utility/chief/full
-	l_pocket = /obj/item/pda/heads/chief_engineer
+	l_pocket = /obj/item/modular_computer/tablet/pda/heads/chief_engineer
 	ears = /obj/item/radio/headset/heads/chief_engineer
 	uniform = /obj/item/clothing/under/rank/engineering/chief_engineer
 	suit = /obj/item/clothing/suit/ship/engineer
 	shoes = /obj/item/clothing/shoes/workboots //NSV13 Give us boots that match
 	head = /obj/item/clothing/head/beret/ce //NSV13 Give us our cool beret back
 	gloves = /obj/item/clothing/gloves/color/black
-	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1,
-		/obj/item/modular_computer/tablet/preset/advanced/command=1)
+	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1)
 
 	backpack = /obj/item/storage/backpack/industrial
 	satchel = /obj/item/storage/backpack/satchel/eng
