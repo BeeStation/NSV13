@@ -39,7 +39,7 @@
 
 /mob/living/simple_animal/hostile/dio_clown/Initialize(mapload)
 	. = ..()
-	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/move_react)
+	RegisterSignal(src, COMSIG_MOVABLE_MOVED, PROC_REF(move_react))
 
 /mob/living/simple_animal/hostile/dio_clown/proc/move_react()
 	if(isspaceturf(get_turf(src)))

@@ -241,7 +241,7 @@
 			user.visible_message("<span class='notice'>With a sudden blaze, [H] stands back up.</span>")
 			H.fakefire()
 			fulfillContract(H, 1)//Revival contracts are always signed in blood
-			addtimer(CALLBACK(H, /mob/living/carbon/human.proc/fakefireextinguish), 5, TIMER_UNIQUE)
+			addtimer(CALLBACK(H, TYPE_PROC_REF(/mob/living/carbon/human, fakefireextinguish)), 5, TIMER_UNIQUE)
 		addtimer(CALLBACK(src, "resetcooldown"), 300, TIMER_UNIQUE)
 	else
 		..()
@@ -301,10 +301,12 @@
 		id.assignment = JOB_NAME_CAPTAIN
 		id.update_label()
 		if(worn)
-			if(istype(worn, /obj/item/pda))
-				var/obj/item/pda/PDA = worn
-				PDA.id = id
-				id.forceMove(worn)
+			if(istype(worn, /obj/item/modular_computer/tablet/pda))
+				var/obj/item/modular_computer/tablet/pda/PDA = worn
+				var/obj/item/computer_hardware/card_slot/card = PDA.all_components[MC_CARD]
+				card.try_eject(user, TRUE) // return their ID because we are nice
+				if(card)
+					card.try_insert(id, user)
 			else if(istype(worn, /obj/item/storage/wallet))
 				var/obj/item/storage/wallet/W = worn
 				W.front_id = id

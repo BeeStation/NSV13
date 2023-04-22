@@ -20,7 +20,7 @@
 	circuit = /obj/item/circuitboard/computer/ship/navigation
 
 /obj/machinery/computer/ship/navigation/LateInitialize()
-	addtimer(CALLBACK(src, .proc/has_overmap), 15 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(has_overmap)), 15 SECONDS)
 
 
 /obj/machinery/computer/ship/navigation/can_interact(mob/user) //Override this code to allow people to use consoles when flying the ship.
@@ -149,6 +149,7 @@
 				system_list["is_current"] = (system == current_system)
 				system_list["alignment"] = system.alignment
 				system_list["visited"] = is_visited(system)
+				system_list["hidden"] = FALSE
 				var/label = ""
 				if(system.is_hypergate)
 					label += " HYPERGATE"

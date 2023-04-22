@@ -55,8 +55,8 @@
 
 	if(istype(parent, /obj/item))
 		var/obj/item/holder = parent
-		RegisterSignal(holder, COMSIG_ITEM_EQUIPPED, .proc/on_equip)
-		RegisterSignal(holder, COMSIG_ITEM_DROPPED, .proc/on_drop)
+		RegisterSignal(holder, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equip))
+		RegisterSignal(holder, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
 		if(isliving(holder.loc)) //Account for items pre-spawned on people...
 			on_equip(holder, holder.loc, null)
 		return

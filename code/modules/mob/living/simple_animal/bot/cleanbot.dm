@@ -41,6 +41,11 @@
 	var/datum/job/janitor/J = new/datum/job/janitor
 	access_card.access += J.get_access()
 	prev_access = access_card.access
+	GLOB.janitor_devices += src
+
+/mob/living/simple_animal/bot/cleanbot/Destroy()
+	GLOB.janitor_devices -= src
+	return ..()
 
 /mob/living/simple_animal/bot/cleanbot/turn_on()
 	..()
@@ -64,7 +69,7 @@
 	text_dehack_fail = "[name] does not seem to respond to your repair code!"
 
 /mob/living/simple_animal/bot/cleanbot/attackby(obj/item/W, mob/user, params)
-	if(istype(W, /obj/item/card/id)||istype(W, /obj/item/pda))
+	if(istype(W, /obj/item/card/id)||istype(W, /obj/item/modular_computer/tablet/pda))
 		if(bot_core.allowed(user) && !open && !emagged)
 			locked = !locked
 			to_chat(user, "<span class='notice'>You [ locked ? "lock" : "unlock"] \the [src] behaviour controls.</span>")
@@ -210,7 +215,7 @@
 		icon_state = "cleanbot-c"
 		visible_message("<span class='notice'>[src] begins to clean up [A].</span>")
 		mode = BOT_CLEANING
-		addtimer(CALLBACK(src, .proc/clean, A), 50)
+		addtimer(CALLBACK(src, PROC_REF(clean), A), 50)
 	else if(istype(A, /obj/item) || istype(A, /obj/effect/decal/remains))
 		visible_message("<span class='danger'>[src] sprays hydrofluoric acid at [A]!</span>")
 		playsound(src, 'sound/effects/spray2.ogg', 50, 1, -6)
@@ -328,7 +333,7 @@
 		icon_state = "larry-c"
 		visible_message("<span class='notice'>[src] begins to clean up [A].</span>")
 		mode = BOT_CLEANING
-		addtimer(CALLBACK(src, .proc/clean, A), 50)
+		addtimer(CALLBACK(src, PROC_REF(clean), A), 50)
 	else if(istype(A, /obj/item) || istype(A, /obj/effect/decal/remains))
 		visible_message("<span class='danger'>[src] sprays hydrofluoric acid at [A]!</span>")
 		playsound(src, 'sound/effects/spray2.ogg', 50, 1, -6)

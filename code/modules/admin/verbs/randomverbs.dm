@@ -431,7 +431,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	if(record_found)//If they have a record we can determine a few things.
 		new_character.real_name = record_found.fields["name"]
-		new_character.gender = record_found.fields["sex"]
+		new_character.gender = record_found.fields["gender"]
 		new_character.age = record_found.fields["age"]
 		new_character.hardset_dna(record_found.fields["identity"], record_found.fields["enzymes"], record_found.fields["name"], record_found.fields["blood_type"], new record_found.fields["species"], record_found.fields["features"], null)
 	else
@@ -922,7 +922,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!holder)
 		return
 
-	var/weather_type = input("Choose a weather", "Weather")  as null|anything in sortList(subtypesof(/datum/weather), /proc/cmp_typepaths_asc)
+	var/weather_type = input("Choose a weather", "Weather")  as null|anything in sortList(subtypesof(/datum/weather), GLOBAL_PROC_REF(cmp_typepaths_asc))
 	if(!weather_type)
 		return
 
@@ -1204,17 +1204,17 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 		if(ADMIN_PUNISHMENT_DEMOCRACY)
 			target._AddComponent(list(/datum/component/deadchat_control, DEMOCRACY_MODE, list(
-			 "up" = CALLBACK(GLOBAL_PROC, .proc/_step, target, NORTH),
-			 "down" = CALLBACK(GLOBAL_PROC, .proc/_step, target, SOUTH),
-			 "left" = CALLBACK(GLOBAL_PROC, .proc/_step, target, WEST),
-			 "right" = CALLBACK(GLOBAL_PROC, .proc/_step, target, EAST)), 40))
+			 "up" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, NORTH),
+			 "down" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, SOUTH),
+			 "left" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, WEST),
+			 "right" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, EAST)), 40))
 
 		if(ADMIN_PUNISHMENT_ANARCHY)
 			target._AddComponent(list(/datum/component/deadchat_control, ANARCHY_MODE, list(
-			 "up" = CALLBACK(GLOBAL_PROC, .proc/_step, target, NORTH),
-			 "down" = CALLBACK(GLOBAL_PROC, .proc/_step, target, SOUTH),
-			 "left" = CALLBACK(GLOBAL_PROC, .proc/_step, target, WEST),
-			 "right" = CALLBACK(GLOBAL_PROC, .proc/_step, target, EAST)), 10))
+			 "up" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, NORTH),
+			 "down" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, SOUTH),
+			 "left" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, WEST),
+			 "right" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, EAST)), 10))
 
 		if(ADMIN_PUNISHMENT_CRYO)
 			forcecryo(target)
@@ -1349,3 +1349,15 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	var/turf/T = get_turf(usr)
 	new /mob/living/carbon/human(T)
 	log_admin("[key_name(usr)] spawned a mindless human.")
+
+/client/proc/cmd_admin_send_pda_msg()
+	set name = "Send PDA Message"
+	set category = "Adminbus"
+
+	if(!check_rights(R_ADMIN))
+		return
+	var/obj/machinery/telecomms/message_server/server
+	for(var/obj/machinery/telecomms/message_server/S in GLOB.telecomms_list)
+		server = S
+		break
+	tgui_send_admin_pda(usr, null, server, theme = "admin", allow_send_all = TRUE)

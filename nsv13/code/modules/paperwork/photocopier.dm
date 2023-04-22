@@ -111,23 +111,23 @@
 					return FALSE
 				// Basic paper
 				if(istype(paper_copy, /obj/item/paper))
-					do_copy_loop(CALLBACK(src, .proc/make_paper_copy), usr)
+					do_copy_loop(CALLBACK(src, PROC_REF(make_paper_copy)), usr)
 					return TRUE
 				// Devil contract paper.
 				if(istype(paper_copy, /obj/item/paper/contract/employment))
-					do_copy_loop(CALLBACK(src, .proc/make_devil_paper_copy), usr)
+					do_copy_loop(CALLBACK(src, PROC_REF(make_devil_paper_copy)), usr)
 					return TRUE
 			// Copying photo.
 			if(photo_copy)
-				do_copy_loop(CALLBACK(src, .proc/make_photo_copy), usr)
+				do_copy_loop(CALLBACK(src, PROC_REF(make_photo_copy)), usr)
 				return TRUE
 			// Copying Documents.
 			if(document_copy)
-				do_copy_loop(CALLBACK(src, .proc/make_document_copy), usr)
+				do_copy_loop(CALLBACK(src, PROC_REF(make_document_copy)), usr)
 				return TRUE
 			// ASS COPY. By Miauw
 			if(ass)
-				do_copy_loop(CALLBACK(src, .proc/make_ass_copy), usr)
+				do_copy_loop(CALLBACK(src, PROC_REF(make_ass_copy)), usr)
 				return TRUE
 
 		// Remove the paper/photo/document from the photocopier.
@@ -189,7 +189,7 @@
 			if(toner_cartridge.charges - PAPER_TONER_USE < 0)
 				to_chat(usr, "<span class='warning'>There is not enough toner in [src] to print the form, please replace the cartridge.")
 				return FALSE
-			do_copy_loop(CALLBACK(src, .proc/make_blank_print), usr)
+			do_copy_loop(CALLBACK(src, PROC_REF(make_blank_print)), usr)
 			var/obj/item/paper/printblank = new /obj/item/paper (loc)
 			var/printname = params["name"]
 			var/list/printinfo
@@ -224,7 +224,7 @@
 	var/i
 	for(i in 1 to num_copies)
 		addtimer(copy_cb, i SECONDS)
-	addtimer(CALLBACK(src, .proc/reset_busy), i SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(reset_busy)), i SECONDS)
 
 /**
  * Sets busy to `FALSE`. Created as a proc so it can be used in callbacks.
@@ -335,7 +335,7 @@
 		if(spec.ass_image)
 			temp_img = icon(spec.ass_image)
 		else
-			temp_img = icon(ass.gender == FEMALE ? 'icons/ass/assfemale.png' : 'icons/ass/assmale.png')
+			temp_img = icon(H.dna.features["body_model"] == FEMALE ? 'icons/ass/assfemale.png' : 'icons/ass/assmale.png')
 	else if(isalienadult(ass) || istype(ass, /mob/living/simple_animal/hostile/alien)) //Xenos have their own asses, thanks to Pybro.
 		temp_img = icon('icons/ass/assalien.png')
 	else if(issilicon(ass))
@@ -546,4 +546,4 @@
 #undef DOCUMENT_TONER_USE
 #undef ASS_TONER_USE
 #undef MAX_COPIES_AT_ONCE
- 
+

@@ -96,7 +96,7 @@
 	new /obj/item/storage/box/radiokey/med(src)
 	new /obj/item/storage/box/command_keys(src)
 	new /obj/item/megaphone/command(src)
-	new /obj/item/cartridge/cmo(src)
+	new /obj/item/computer_hardware/hard_drive/role/cmo(src)
 	new /obj/item/storage/lockbox/medal/med(src)
 
 	new /obj/item/circuitboard/machine/techfab/department/medical(src)

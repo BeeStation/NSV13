@@ -50,7 +50,7 @@
 	head = /obj/item/clothing/head/ship/maa_hat
 	glasses = /obj/item/clothing/glasses/sunglasses/advanced
 	id = /obj/item/card/id/job/master_at_arms
-	l_pocket = /obj/item/pda
+	l_pocket = /obj/item/modular_computer/tablet/pda/heads/maa
 	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1)
 
 	backpack = /obj/item/storage/backpack/munitions

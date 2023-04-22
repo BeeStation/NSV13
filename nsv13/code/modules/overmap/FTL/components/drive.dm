@@ -71,6 +71,11 @@
 	pylons = null
 	return ..()
 
+/obj/machinery/computer/ship/ftl_core/swarmer_act(mob/living/simple_animal/hostile/swarmer/S)
+	to_chat(S, "<span class='warning'>This equipment should be preserved, it will be a useful resource to our masters in the future. Aborting.</span>")
+	S.LoseTarget()
+	return FALSE
+
 /// Links with available pylons and returns number of connections
 /obj/machinery/computer/ship/ftl_core/proc/get_pylons()
 	var/obj/structure/overmap/OMcache = get_overmap()
@@ -359,7 +364,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 		for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
 			P.set_state(PYLON_STATE_SHUTDOWN)
 	cooldown = TRUE
-	addtimer(CALLBACK(src, .proc/post_cooldown, auto_spool_enabled), FTL_COOLDOWN)
+	addtimer(CALLBACK(src, PROC_REF(post_cooldown), auto_spool_enabled), FTL_COOLDOWN)
 	STOP_PROCESSING(SSmachines, src)
 	return TRUE
 

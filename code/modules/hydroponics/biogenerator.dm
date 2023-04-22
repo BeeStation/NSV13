@@ -165,6 +165,16 @@
 	else
 		to_chat(user, "<span class='warning'>You cannot put this in [src.name]!</span>")
 
+// NSV13 - Replicator Update - Start
+/obj/machinery/biogenerator/multitool_act(mob/living/user, obj/item/I)
+	if(!multitool_check_buffer(user, I))
+		return
+	var/obj/item/multitool/M = I
+	M.buffer = src
+	to_chat(user, "<span class='notice'>You store the linkage information in [I]'s buffer.</span>")
+	return TRUE
+// NSV13 - Replicator Update - Stop
+
 /obj/machinery/biogenerator/AltClick(mob/living/user)
 	if(user.canUseTopic(src, BE_CLOSE, FALSE, NO_TK) && can_interact(user))
 		detach(user)

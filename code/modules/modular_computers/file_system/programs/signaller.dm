@@ -15,7 +15,7 @@
 	/// Radio connection datum used by signallers.
 	var/datum/radio_frequency/radio_connection
 
-/datum/computer_file/program/signaller/run_program(mob/living/user)
+/datum/computer_file/program/signaller/on_start(mob/living/user)
 	. = ..()
 	if (!.)
 		return
@@ -47,7 +47,7 @@
 		return
 	switch(action)
 		if("signal")
-			INVOKE_ASYNC(src, .proc/signal)
+			INVOKE_ASYNC(src, PROC_REF(signal))
 			. = TRUE
 		if("freq")
 			var/new_signal_frequency = sanitize_frequency(unformat_frequency(params["freq"]), TRUE)

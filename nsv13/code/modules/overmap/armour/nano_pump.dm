@@ -42,7 +42,7 @@
 /obj/machinery/armour_plating_nanorepair_pump/Initialize(mapload)
 	.=..()
 	OM = get_overmap()
-	addtimer(CALLBACK(src, .proc/handle_linking), 30 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(handle_linking)), 30 SECONDS)
 
 	repair_records["armour"] = list()
 	repair_records["structure"] = list()
