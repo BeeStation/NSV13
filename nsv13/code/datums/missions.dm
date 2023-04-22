@@ -329,7 +329,7 @@ NOTE:
 			payout()
 			return TRUE
 		else
-			addtimer(CALLBACK(src, .proc/spawn_new_wave), rand(10,30) SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(spawn_new_wave)), rand(10,30) SECONDS)
 	else if(!targets_in_system(TRUE)) //If they have ships remaining, but we have no more ships in the system, spawn some more in so the mission doesn't get stuck
 		spawn_new_wave(ships_remaining)
 	return FALSE
@@ -497,7 +497,7 @@ kill station
 /datum/nsv_mission/cargo/nuke/register()
 	. = ..()
 	message_admins("The [owner.name] has just undertaken the live nuke mission! There will be multiple ingame warnings about the cargo.")
-	addtimer(CALLBACK(src, .proc/first_warning), 15 MINUTES) // 45 min to go
+	addtimer(CALLBACK(src, PROC_REF(first_warning)), 15 MINUTES) // 45 min to go
 
 
 /datum/nsv_mission/cargo/nuke/report_tampered_cargo(var/datum/component/nsv_mission_cargo/cargo)
@@ -512,13 +512,13 @@ kill station
 	if(stage != MISSION_ACTIVE) // Only report the crate is suspect if the mission is ongoing
 		return
 	owner.hail("[owner.name], we have noticed that a mission was assigned to you, asking to deliver a crate of cargo to [delivery_target.name]. However we don't have the request form from them to send the crate. Please hold off on delivering that crate until we figure out what is going on.", the_client.name)
-	addtimer(CALLBACK(src, .proc/second_warning), 15 MINUTES) // 30 min to go
+	addtimer(CALLBACK(src, PROC_REF(second_warning)), 15 MINUTES) // 30 min to go
 
 /datum/nsv_mission/cargo/nuke/proc/second_warning()
 	if(stage != MISSION_ACTIVE) // Only report the crate is suspect if the mission is ongoing
 		return
 	owner.hail("We have looked into that crate you were asked to deliver to [delivery_target.name] and found that someone has tampered with that job listing. We have found the person responsible and will attempt to find out why they want you to move that crate.", the_client.name)
-	addtimer(CALLBACK(src, .proc/third_warning), 15 MINUTES) // 15 min to go
+	addtimer(CALLBACK(src, PROC_REF(third_warning)), 15 MINUTES) // 15 min to go
 
 /datum/nsv_mission/cargo/nuke/proc/third_warning()
 	if(stage != MISSION_ACTIVE) // Only report the crate is suspect if the mission is ongoing

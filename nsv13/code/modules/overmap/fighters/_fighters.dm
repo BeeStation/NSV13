@@ -78,7 +78,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 /obj/structure/overmap/small_craft/start_piloting(mob/living/carbon/user, position)
 	. = ..()
 	if(.)
-		RegisterSignal(src, COMSIG_MOB_OVERMAP_CHANGE, .proc/pilot_overmap_change)
+		RegisterSignal(src, COMSIG_MOB_OVERMAP_CHANGE, PROC_REF(pilot_overmap_change))
 
 /obj/structure/overmap/small_craft/key_down(key, client/user)
 	if(disruption && prob(min(95, disruption)))
@@ -471,7 +471,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		dradis.linked = src
 	set_light(4)
 	obj_integrity = max_integrity
-	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/handle_moved) //Used to smoothly transition from ship to overmap
+	RegisterSignal(src, COMSIG_MOVABLE_MOVED, PROC_REF(handle_moved)) //Used to smoothly transition from ship to overmap
 	var/obj/item/fighter_component/engine/engineGoesLast = null
 	if(build_components.len)
 		for(var/Ctype in build_components)
@@ -579,7 +579,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 /obj/structure/overmap/small_craft/proc/pilot_overmap_change(mob/living/M, obj/structure/overmap/newOM) // in case we get forceMoved outside of the ship somehow
 	SIGNAL_HANDLER
 	if(newOM != src)
-		INVOKE_ASYNC(src, .proc/stop_piloting, M, FALSE, TRUE)
+		INVOKE_ASYNC(src, PROC_REF(stop_piloting), M, FALSE, TRUE)
 
 /obj/structure/overmap/small_craft/escapepod/eject(mob/living/M, force=FALSE)
 	. = ..()
@@ -688,7 +688,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /obj/structure/overmap/small_craft/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
 	add_fingerprint(user)
-	if(istype(W, /obj/item/card/id) || istype(W, /obj/item/pda) && length(operators))
+	if(istype(W, /obj/item/card/id) || istype(W, /obj/item/modular_computer/tablet/pda) && length(operators))
 		if(!allowed(user))
 			var/ersound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 			playsound(src, ersound, 100, 1)

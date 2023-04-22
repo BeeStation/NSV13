@@ -72,15 +72,15 @@ GLOBAL_LIST_EMPTY(simple_teamchats)
 		chatAction.holder = parent //This gets a bit weird, but the holder may be the item that's a "radio".
 		chatAction.teamspeak = src //The chat action holds a ref to the component, to allow you to have multiple teamchats at once (See: global squad pager.)
 
-	addtimer(CALLBACK(src, .proc/finalise_chat), 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(finalise_chat)), 1 SECONDS)
 	//GLOB.simple_teamchats[key] += src //Register this chat by its key.
 	if(isliving(parent))
 		chatAction.Grant(parent)
 		return
 	if(istype(parent, /obj/item))
 		var/obj/item/holder = parent
-		RegisterSignal(holder, COMSIG_ITEM_EQUIPPED, .proc/on_equip)
-		RegisterSignal(holder, COMSIG_ITEM_DROPPED, .proc/on_drop)
+		RegisterSignal(holder, COMSIG_ITEM_EQUIPPED, PROC_REF(on_equip))
+		RegisterSignal(holder, COMSIG_ITEM_DROPPED, PROC_REF(on_drop))
 		if(isliving(holder.loc)) //Account for items pre-spawned on people...
 			on_equip(holder, holder.loc, null)
 		return

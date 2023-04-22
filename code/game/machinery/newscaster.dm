@@ -813,10 +813,11 @@ GLOBAL_LIST_EMPTY(allCasters)
 	if(ishuman(user))
 		var/mob/living/carbon/human/human_user = user
 		if(human_user.wear_id)
-			if(istype(human_user.wear_id, /obj/item/pda))
-				var/obj/item/pda/P = human_user.wear_id
-				if(P.id)
-					scanned_user = "[P.id.registered_name] ([P.id.assignment])"
+			if(istype(human_user.wear_id, /obj/item/modular_computer/tablet/pda))
+				var/obj/item/modular_computer/tablet/pda/P = human_user.wear_id
+				var/obj/item/card/id/ID = P.GetID()
+				if(istype(ID))
+					scanned_user = "[ID.registered_name] ([ID.assignment])"
 				else
 					scanned_user = "Unknown"
 			else if(istype(human_user.wear_id, /obj/item/card/id) )
@@ -857,7 +858,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 		say("Breaking news from [channel]!")
 		alert = TRUE
 		update_icon()
-		addtimer(CALLBACK(src,.proc/remove_alert),alert_delay,TIMER_UNIQUE|TIMER_OVERRIDE)
+		addtimer(CALLBACK(src,PROC_REF(remove_alert)),alert_delay,TIMER_UNIQUE|TIMER_OVERRIDE)
 		playsound(loc, 'sound/machines/twobeep_high.ogg', 75, 1)
 	else
 		say("Attention! Wanted issue distributed!")

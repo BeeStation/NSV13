@@ -70,7 +70,7 @@ remove_in: Optional arg, if > 0: Will remove the effect in that amount of ticks
 	sensor_profile += penalty
 	if(remove_in < 1)
 		return
-	addtimer(CALLBACK(src, .proc/remove_sensor_profile_penalty, penalty), remove_in)
+	addtimer(CALLBACK(src, PROC_REF(remove_sensor_profile_penalty), penalty), remove_in)
 
 /*
 Reduces sensor profile by the amount given as arg.
@@ -193,7 +193,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	return linked
 
 /obj/machinery/computer/ship/dradis/minor/set_position(obj/structure/overmap/OM)
-	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/reset_dradis_contacts, override=TRUE)
+	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, PROC_REF(reset_dradis_contacts), override=TRUE)
 
 /datum/looping_sound/dradis
 	mid_sounds = list('nsv13/sound/effects/ship/dradis.ogg')
@@ -205,7 +205,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 
 /obj/machinery/computer/ship/dradis/set_position(obj/structure/overmap/OM) //This tells our overmap what kind of console we are. This is useful as pilots need to see the dradis pop-up as they enter the ship view.
 	OM.dradis = src
-	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/reset_dradis_contacts, override=TRUE)
+	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, PROC_REF(reset_dradis_contacts), override=TRUE)
 
 /obj/machinery/computer/ship/dradis/proc/reset_dradis_contacts()
 	last_ship_count = 0
@@ -361,7 +361,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 				return
 			animate(src, 15, alpha = 255)
 			mouse_opacity = TRUE
-			addtimer(CALLBACK(src, .proc/handle_cloak, TRUE), 15 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(handle_cloak), TRUE), 15 SECONDS)
 
 /obj/machinery/computer/ship/dradis/ui_data(mob/user) //NEW AND IMPROVED DRADIS 2.0. NOW FEATURING LESS LAG AND CLICKSPAM. ~~This was a pain to code. Don't make me do it again..please? -Kmc~~ 2020 Kmc here, I recoded it. You're right! It was painful, also your code sucked :)
 	var/list/data = list()

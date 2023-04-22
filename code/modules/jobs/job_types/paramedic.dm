@@ -41,7 +41,7 @@
 	jobtype = /datum/job/paramedic
 
 	id = /obj/item/card/id/job/paramedic
-	belt = /obj/item/pda/paramedic
+	belt = /obj/item/modular_computer/tablet/pda/paramedic
 	ears = /obj/item/radio/headset/headset_med
 	gloves = /obj/item/clothing/gloves/color/latex/nitrile
 	uniform = /obj/item/clothing/under/ship/medical //NSV13 - ship jumpsuit

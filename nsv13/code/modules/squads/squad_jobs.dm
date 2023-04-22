@@ -1,6 +1,6 @@
 /datum/job/after_spawn(mob/living/H, mob/M, latejoin = FALSE)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/register_squad, H), 5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(register_squad), H), 5 SECONDS)
 
 /datum/job/proc/register_squad(mob/living/H)
 	if(!ishuman(H))
