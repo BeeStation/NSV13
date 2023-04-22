@@ -16,7 +16,7 @@
 	target = rand(minimum_fleets, maximum_fleets) // Doing this in instance in case people want different numbers of them
 	desc = "Destroy [target] enemy fleets"
 	brief = "Defeat [target] [(target_faction == "any") ? "hostile" : "[target_faction]"] [(target != 1) ? "fleets" : "fleet" ]"
-	RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_SHIP_KILLED_FLEET, .proc/register_kill)
+	RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_SHIP_KILLED_FLEET, PROC_REF(register_kill))
 
 /datum/overmap_objective/destroy_fleets/proc/register_kill()
 	tally ++

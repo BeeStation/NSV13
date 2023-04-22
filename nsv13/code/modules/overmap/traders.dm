@@ -28,6 +28,7 @@
 	var/obj/structure/overmap/current_location = null
 	var/datum/star_system/system = null
 	var/max_missions = 5
+	var/yellow_pages_dat = ""
 
 /datum/trader/New()
 	. = ..()
@@ -42,11 +43,17 @@
 	for(var/datum/trader_item/item in stonks)
 		qdel(item)
 	stonks = list() //Reset our stores of supplies
+	var/datum/faction/F = SSstar_system.faction_by_id(faction_type)
+	yellow_pages_dat += "<h3>[F ? F.name : "neutral"]-aligned station [name] at [system.name]</h3>"
+	yellow_pages_dat += "<font size = \"2\">"
 	for(var/itemPath in sold_items)
 		var/datum/trader_item/TI = new itemPath()
 		TI.price = rand(TI.price/2, TI.price*4)
 		TI.stock = rand(TI.stock/2, TI.stock*2) //How much we got in stock boys
 		stonks += TI
+		TI.owner = src
+		yellow_pages_dat += "[TI.stock]x [TI.name] ([TI.price] ea.) - <i>[TI.desc]</i><br /><br />"
+	yellow_pages_dat += "</font>"
 	return FALSE
 
 /datum/trader_item
@@ -55,9 +62,10 @@
 	var/price = 1000 //What's the going rate for this item? The prices are slightly randomized.
 	var/unlock_path = null
 	var/stock = 1 //How many of these items are usually stocked, this is randomized
+	var/owner = null
 
 /datum/trader_item/proc/on_purchase(obj/structure/overmap/OM)
-	OM.send_supplypod(unlock_path)
+	return OM.send_supplypod(unlock_path)
 
 /obj/structure/overmap/proc/send_supplypod(unlock_path, var/obj/structure/overmap/courier, isInitialized)
 	RETURN_TYPE(/atom/movable)
@@ -131,7 +139,7 @@
 	faction_type = FACTION_ID_NT
 	system_type = "nanotrasen"
 	image = "https://cdn.discordapp.com/attachments/701841640897380434/764557336684527637/unknown.png"
-	sold_items = list(/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/c45, /datum/trader_item/pdc, /datum/trader_item/deck_gun_autorepair)
+	sold_items = list(/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/c45, /datum/trader_item/pdc, /datum/trader_item/deck_gun_autorepair, /datum/trader_item/yellow_pages)
 
 /datum/trader/armsdealer/syndicate
 	name = "DonkCo Warcrime Emporium"
@@ -141,7 +149,7 @@
 	system_type = "syndicate"
 	//Top tier trader with the best items available.
 	sold_items = list(/datum/trader_item/hellfire,/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/c20r, /datum/trader_item/c45, /datum/trader_item/stechkin, \
-		/datum/trader_item/pdc, /datum/trader_item/fighter/syndicate, /datum/trader_item/overmap_shields, /datum/trader_item/deck_gun_autoelevator)
+		/datum/trader_item/pdc, /datum/trader_item/fighter/syndicate, /datum/trader_item/overmap_shields, /datum/trader_item/deck_gun_autoelevator, /datum/trader_item/yellow_pages)
 	station_type = /obj/structure/overmap/trader/syndicate
 	image = "https://cdn.discordapp.com/attachments/728055734159540244/764570187357093928/unknown.png"
 	greetings = list("You've made it pretty far in, huh? We won't tell if you're buying...", "Freedom isn't free, buy a gun to secure yours.", "Excercise your right to bear arms now!")
@@ -173,7 +181,7 @@
 	"CzanekCorp here. We got a new shipment in, you down for talking turkey?",\
 	"CzanekCorp, we got repairs and goods on a budget, you in?")
 	on_purchase = list("Yes, we know the tazers aren't the safest, but if you don't like 'em, stop buying 'em, eh?", "Good doing business with you. Good luck out there, killer.", "About time we got somebody who knows what they're doing. Here, free shipping!", "No refunds, no returns!")
-	sold_items = list(/datum/trader_item/ship_repair,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/taser, /datum/trader_item/taser_ammo )
+	sold_items = list(/datum/trader_item/ship_repair,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/taser, /datum/trader_item/taser_ammo, /datum/trader_item/yellow_pages)
 	station_type = /obj/structure/overmap/trader/shipyard
 	image = "https://cdn.discordapp.com/attachments/701841640897380434/764540586732421120/unknown.png"
 
@@ -186,7 +194,7 @@
 	"Have you come to dig or pay?",\
 	"We got minerals for you, so long as you've got a deposit for us.")
 	on_purchase = list("Maybe next time, dig it up yourself lazy gits!", "Credits have been withdrawn, Supplies inbound.", "Czanek would approve of this.", "If you're too afraid to get these yourself, I'm almost scared to give them to you. But money is money.")
-	sold_items = list(/datum/trader_item/mining_point_card, /datum/trader_item/gold, /datum/trader_item/diamond, /datum/trader_item/uranium, /datum/trader_item/silver, /datum/trader_item/bluespace_crystal, /datum/trader_item/titanium )
+	sold_items = list(/datum/trader_item/mining_point_card, /datum/trader_item/gold, /datum/trader_item/diamond, /datum/trader_item/uranium, /datum/trader_item/silver, /datum/trader_item/bluespace_crystal, /datum/trader_item/titanium, /datum/trader_item/yellow_pages)
 	station_type = /obj/structure/overmap/trader
 	image = "https://cdn.discordapp.com/attachments/612668662977134592/859132739147792444/unknown.png"   //I don't wanna do this but I'm also not going to break the mold as to make it hopefully easier in future to fix.
 
@@ -203,7 +211,7 @@
 	desc = "Corporate approved aftermarket shipyard."
 	shortname = "MHE"
 	faction_type = FACTION_ID_NT
-	sold_items = list(/datum/trader_item/ship_repair/tier2, /datum/trader_item/flak,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/fighter/judgement, /datum/trader_item/fighter/prototype, /datum/trader_item/railgun_disk)
+	sold_items = list(/datum/trader_item/ship_repair/tier2, /datum/trader_item/flak,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/fighter/judgement, /datum/trader_item/fighter/prototype, /datum/trader_item/railgun_disk, /datum/trader_item/yellow_pages)
 	station_type = /obj/structure/overmap/trader/shipyard
 
 // HIM
@@ -234,6 +242,9 @@
 		item.stock = rand(item.stock/2, item.stock*2)
 		qdel(soldtype)
 		sold_items += item
+
+	var/datum/trader_item/yellow_pages/pages = new
+	sold_items += pages
 
 	stonks = sold_items
 

@@ -46,7 +46,11 @@
 	if(list_reagents)
 		reagents.add_reagent_list(list_reagents)
 
+///NSV13 - Borg Hypospray Update - Start
 /obj/item/reagent_containers/attack_self(mob/user)
+	change_transfer_amount(user)
+
+/obj/item/reagent_containers/proc/change_transfer_amount(mob/user)
 	if(length(possible_transfer_amounts))
 		var/i = 0
 		for(var/A in possible_transfer_amounts)
@@ -58,6 +62,7 @@
 					amount_per_transfer_from_this = possible_transfer_amounts[1]
 				balloon_alert(user, "Transferring [amount_per_transfer_from_this]u.")
 				return
+///NSV13 - Borg Hypospray Update - Stop
 
 /obj/item/reagent_containers/attack(mob/M, mob/user, def_zone)
 	if(user.a_intent == INTENT_HARM)

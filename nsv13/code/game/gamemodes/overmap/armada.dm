@@ -58,9 +58,9 @@
 		if(O.status == 1) //STATUS_COMPLETED
 			reinforcements ++ //For each side objective completed, add an NT fleet
 
-	addtimer(CALLBACK(src, .proc/vanguard), 1 MINUTES)
+	addtimer(CALLBACK(src, PROC_REF(vanguard)), 1 MINUTES)
 	if(reinforcements >= 1)
-		addtimer(CALLBACK(src, .proc/reinforce), 2 MINUTES)
+		addtimer(CALLBACK(src, PROC_REF(reinforce)), 2 MINUTES)
 
 
 /datum/overmap_gamemode/armada/consequence_five() //Syndicate Armada Arrives
@@ -82,7 +82,7 @@
 	F.assemble(target)
 
 	if(reinforcements >= 1)
-		addtimer(CALLBACK(src, .proc/reinforce), 2 MINUTES) //Keep Calling Them In
+		addtimer(CALLBACK(src, PROC_REF(reinforce)), 2 MINUTES) //Keep Calling Them In
 
 /datum/overmap_gamemode/armada/proc/vanguard()
 	var/datum/star_system/target = SSstar_system.system_by_id(selected_system)

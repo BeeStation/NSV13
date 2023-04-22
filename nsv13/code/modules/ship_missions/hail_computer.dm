@@ -14,7 +14,7 @@
 	tgui_id = "NtosHailLogs"
 	var/obj/var/obj/structure/overmap/ship //Our ship
 
-/datum/computer_file/program/ship_hail_logger/run_program(mob/living/user)
+/datum/computer_file/program/ship_hail_logger/on_start(mob/living/user)
 	. = ..(user)
 	ship = user.get_overmap()
 

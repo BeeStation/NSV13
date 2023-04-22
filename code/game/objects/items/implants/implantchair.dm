@@ -79,10 +79,10 @@
 		ready_implants--
 		if(!replenishing && auto_replenish)
 			replenishing = TRUE
-			addtimer(CALLBACK(src,"replenish"),replenish_cooldown)
+			addtimer(CALLBACK(src,PROC_REF(replenish)),replenish_cooldown)
 		if(injection_cooldown > 0)
 			ready = FALSE
-			addtimer(CALLBACK(src,"set_ready"),injection_cooldown)
+			addtimer(CALLBACK(src,PROC_REF(set_ready)),injection_cooldown)
 	else
 		playsound(get_turf(src), 'sound/machines/buzz-sigh.ogg', 25, 1)
 	update_icon()

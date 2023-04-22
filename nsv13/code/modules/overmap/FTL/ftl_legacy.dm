@@ -48,6 +48,11 @@
 		else
 			to_chat(user, "<span class='notice'>[src] has already been upgraded to a higher tier than [FI] can offer.</span>")
 
+/obj/machinery/computer/ship/ftl_computer/swarmer_act(mob/living/simple_animal/hostile/swarmer/S)
+	to_chat(S, "<span class='warning'>This equipment should be preserved, it will be a useful resource to our masters in the future. Aborting.</span>")
+	S.LoseTarget()
+	return FALSE
+
 /obj/machinery/computer/ship/ftl_computer/vv_edit_var(var_name, var_value)
 	. = ..()
 	if(var_name == "tier")
@@ -124,7 +129,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 //Tell the FTL computer to start tracking a ship, regardless of how far apart you both are.
 /obj/machinery/computer/ship/ftl_computer/proc/start_monitoring(obj/structure/overmap/OM)
 	tracking[OM] = list("ship" = OM, "name" = OM.name, "current_system" = OM.starting_system, "target_system" = null)
-	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, .proc/announce_jump)
+	RegisterSignal(OM, COMSIG_FTL_STATE_CHANGE, PROC_REF(announce_jump))
 
 /*
 A way for syndies to track where the player ship is going in advance, so they can get ahead of them and hunt them down.
@@ -140,7 +145,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 
 /obj/machinery/computer/ship/ftl_computer/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/has_overmap), 5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(has_overmap)), 5 SECONDS)
 	STOP_PROCESSING(SSmachines, src)
 
 /obj/machinery/computer/ship/ftl_computer/process()

@@ -14,7 +14,7 @@
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/launcher/smart_foam/proj_init(var/obj/item/grenade/chem_grenade/smart_metal_foam/F)
 	var/turf/T = get_turf(src)
 	log_game("[key_name(chassis.occupant)] fired a [src] in [AREACOORD(T)]")
-	addtimer(CALLBACK(F, /obj/item/grenade/chem_grenade/smart_metal_foam.proc/prime), det_time)
+	addtimer(CALLBACK(F, TYPE_PROC_REF(/obj/item/grenade/chem_grenade/smart_metal_foam, prime)), det_time)
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/launcher/smart_foam/can_attach(obj/mecha/working/M)
 	if(..()) //combat mech
