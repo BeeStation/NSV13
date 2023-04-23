@@ -50,10 +50,10 @@
 
 /obj/structure/overmap/proc/handle_ai_behaviour()
 	for(var/obj/structure/overmap/ship in GLOB.overmap_objects)
-		if(ship == src || ship.faction == faction || ship.z != z)
+		if(!QDELETED(ship) && (ship == src || ship.faction == faction || ship.z != z))
 			continue
 		if ( ship.essential )
-			continue // These checks are literally everywhere why 
+			continue // These checks are literally everywhere why
 		ai_target(ship)
 
 /**

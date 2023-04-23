@@ -248,7 +248,7 @@ Returns a faction datum by its name (case insensitive!)
 	if(main_overmap)
 		return main_overmap
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //We shouldn't have to do this, but fallback
-		if(OM.role == MAIN_OVERMAP)
+		if(!QDELETED(OM) && (OM.role == MAIN_OVERMAP))
 			return OM
 
 /datum/controller/subsystem/star_system/proc/find_main_miner() //Find the mining ship
@@ -256,7 +256,7 @@ Returns a faction datum by its name (case insensitive!)
 	if(mining_ship)
 		return mining_ship
 	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //We shouldn't have to do this, but fallback
-		if(OM.role == MAIN_MINING_SHIP)
+		if(!QDELETED(OM) && (OM.role == MAIN_MINING_SHIP))
 			return OM
 
 /datum/controller/subsystem/star_system/proc/system_by_id(id)
@@ -579,7 +579,7 @@ Returns a faction datum by its name (case insensitive!)
 		scanned = TRUE
 		minor_announce("Successfully received probe telemetry. Full astrological survey of [name] complete.", "WAYFARER subsystem")
 		for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //Has to go through global overmaps due to anomalies not referencing their system - probably something to change one day.
-			if(OM && OM.z == z)
+			if(!QDELETED(OM) && OM.z == z)
 				OM.relay('nsv13/sound/effects/ship/FTL.ogg')
 		qdel(AM)
 
@@ -621,6 +621,8 @@ Returns a faction datum by its name (case insensitive!)
 				stop_affecting(OM)
 		return
 	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects) //Has to go through global overmaps due to anomalies not referencing their system - probably something to change one day.
+		if(QDELETED(OM))
+			continue
 		if(LAZYFIND(affecting, OM))
 			continue
 		if(get_dist(src, OM) <= influence_range && OM.z == z)

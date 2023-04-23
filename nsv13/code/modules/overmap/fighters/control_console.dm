@@ -23,6 +23,8 @@
 	data["fighters"] = list()
 	var/desired_trait = is_station_level(src.z) ? ZTRAIT_STATION : ZTRAIT_BOARDABLE
 	for(var/obj/structure/overmap/small_craft/OM in GLOB.overmap_objects) //Needs to go through global list due to having to access fighters on a ship map.
+		if(QDELETED(OM))
+			continue
 		if(!locate(OM.z) in SSmapping.levels_by_trait(desired_trait))
 			continue
 		if(LAZYFIND(current_filters, "Only Occupied Ship") && !OM.operators.len)
@@ -70,6 +72,8 @@
 			message_admins("[key_name(ui.user)] ([(ui.user.mind && ui.user.mind.antag_datums) ? "<b>Antagonist</b>" : "Non-Antagonist"]) has force-ejected every pilot from their fighter.")
 		var/desired_trait = is_station_level(src.z) ? ZTRAIT_STATION : ZTRAIT_BOARDABLE
 		for(var/obj/structure/overmap/small_craft/OM in GLOB.overmap_objects) //Needs to go through global list due to interacting with fighters on the ship z.
+			if(QDELETED(OM))
+				continue
 			if(!locate(OM.z) in SSmapping.levels_by_trait(desired_trait))
 				continue
 			if(action == "global_toggle")
