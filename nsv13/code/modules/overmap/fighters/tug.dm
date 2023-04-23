@@ -121,12 +121,15 @@
 		return ..()
 	if(get_dist(dropping, src) > 3)
 		to_chat(M, "<span class='warning'>[dropping] is too far away!")
+		return
 
 	visible_message("<span class='notice'>[M] starts loading [dropping] onto [src]...</span>")
 	if(!do_after(M, 5 SECONDS, src))
 		return
+
 	if(get_dist(dropping, src) > 3)
 		to_chat(M, "<span class='warning'>[dropping] is too far away!")
+		return
 
 	hitch(dropping)
 
