@@ -1,6 +1,7 @@
 /obj/vehicle/sealed/car/realistic/fighter_tug
 	name = "\improper M575 Aircraft Tug"
-	desc = "A variant of an armoured personnel carrier which is able to tow fighters around. <b>Ctrl</b> click it to grab the hitch"
+	desc = "A variant of an armoured personnel carrier which is able to tow fighters around.\n\
+		<span class='notice'>You can <b>click-drag</b> a fighter onto the tug to load it.</span>"
 	icon = 'nsv13/icons/obj/vehicles.dmi'
 	icon_state = "tug"
 	max_integrity = 150
@@ -87,12 +88,15 @@
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/can_launch_fighters()
 	return TRUE
 
+/// Handles loading fighters from inside
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/load()
-	var/obj/structure/overmap/load = locate(/obj/structure/overmap/small_craft) in orange(get_turf(get_step(src, angle2dir(angle))), 1)
-	if(!load)
-		load = locate(/obj/structure/overmap/small_craft) in orange(1, src) //Failing a dir check, try this
+	var/list/possible_crafts = list()
+	for(var/obj/structure/overmap/small_craft/craft in orange(get_turf(get_step(src, angle2dir(angle))), 2))
+		possible_crafts[craft.name] = craft
+	var/load = input(usr, "Choose a fighter to load","[src]") as null|anything in possible_crafts
+	if(!possible_crafts[load] || get_dist(possible_crafts[load], src) > 3) // 3 tiles to account for the offset and the size of the vehicles
 		return
-	hitch(load)
+	hitch(possible_crafts[load])
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/Initialize(mapload)
 	. = ..()
@@ -106,10 +110,25 @@
 	target.forceMove(src)
 	vis_contents += target
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/crane_1.wav', 100, FALSE)
-	visible_message("<span class='warning'>[target] is loaded onto [src]</span>")
+	visible_message("<span class='warning'>[target] is loaded onto [src].</span>")
 	target.forceMove(src)
 	target.mag_lock = src
 	target.shake_animation()
+
+/// Handles ground crew manually loading fighters.
+/obj/vehicle/sealed/car/realistic/fighter_tug/MouseDrop_T(atom/dropping, mob/M)
+	if(LAZYLEN(loaded) || !istype(dropping, /obj/structure/overmap/small_craft))
+		return ..()
+	if(get_dist(dropping, src) > 3)
+		to_chat(M, "<span class='warning'>[dropping] is too far away!")
+
+	visible_message("<span class='notice'>[M] starts loading [dropping] onto [src]...</span>")
+	if(!do_after(M, 5 SECONDS, src))
+		return
+	if(get_dist(dropping, src) > 3)
+		to_chat(M, "<span class='warning'>[dropping] is too far away!")
+
+	hitch(dropping)
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/process(time)
 	. = ..()
@@ -185,7 +204,11 @@
 		var/turf/targetLoc = get_turf(get_step(src, angle2dir(angle)))
 		if(!istype(targetLoc, /turf/open))
 			targetLoc = get_turf(src) //Prevents them yeeting fighters through walls.
-		var/obj/structure/fighter_launcher/FL = locate(/obj/structure/fighter_launcher) in orange(targetLoc, 2)
+		var/obj/structure/fighter_launcher/FL
+		for(var/obj/structure/fighter_launcher/target_launcher in orange(targetLoc, 2))
+			if(!target_launcher.mag_locked)
+				FL = target_launcher
+				break
 		target.mag_lock = null
 		if(FL)
 			targetLoc = get_turf(FL)
@@ -194,7 +217,7 @@
 
 /obj/item/key/fighter_tug
 	name = "fighter tug key"
-	desc = "A small grey key with an inscription on it 'keep away from clown'."
+	desc = "A small grey key. An inscription on it reads: <i>Keep away from clown</i>."
 	icon = 'nsv13/icons/obj/vehicles32.dmi'
 	icon_state = "key"
 	w_class = WEIGHT_CLASS_TINY
