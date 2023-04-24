@@ -90,8 +90,12 @@
 
 /// Handles loading fighters from inside
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/load()
+	if(LAZYLEN(loaded))
+		return
 	var/list/possible_crafts = list()
 	for(var/obj/structure/overmap/small_craft/craft in orange(get_turf(get_step(src, angle2dir(angle))), 2))
+		if(craft.mag_lock)
+			continue
 		possible_crafts[craft.name] = craft
 	var/load = input(usr, "Choose a fighter to load","[src]") as null|anything in possible_crafts
 	if(!possible_crafts[load] || get_dist(possible_crafts[load], src) > 3) // 3 tiles to account for the offset and the size of the vehicles
@@ -117,21 +121,22 @@
 
 /// Handles ground crew manually loading fighters.
 /obj/vehicle/sealed/car/realistic/fighter_tug/MouseDrop_T(atom/dropping, mob/M)
-	if(LAZYLEN(loaded) || !istype(dropping, /obj/structure/overmap/small_craft))
+	var/obj/structure/overmap/small_craft/craft = dropping
+	if(LAZYLEN(loaded) || !istype(craft) || craft.mag_lock)
 		return ..()
 	if(get_dist(dropping, src) > 3)
-		to_chat(M, "<span class='warning'>[dropping] is too far away!")
+		to_chat(M, "<span class='warning'>[craft] is too far away!")
 		return
 
-	visible_message("<span class='notice'>[M] starts loading [dropping] onto [src]...</span>")
+	visible_message("<span class='notice'>[M] starts loading [craft] onto [src]...</span>")
 	if(!do_after(M, 5 SECONDS, src))
 		return
 
-	if(get_dist(dropping, src) > 3)
-		to_chat(M, "<span class='warning'>[dropping] is too far away!")
+	if(get_dist(craft, src) > 3)
+		to_chat(M, "<span class='warning'>[craft] is too far away!")
 		return
 
-	hitch(dropping)
+	hitch(craft)
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/process(time)
 	. = ..()
@@ -204,6 +209,7 @@
 			target.shake_animation()
 		vis_contents -= target
 		loaded -= target
+		target.mag_lock = null
 		var/turf/targetLoc = get_turf(get_step(src, angle2dir(angle)))
 		if(!istype(targetLoc, /turf/open))
 			targetLoc = get_turf(src) //Prevents them yeeting fighters through walls.
@@ -212,7 +218,6 @@
 			if(!target_launcher.mag_locked)
 				FL = target_launcher
 				break
-		target.mag_lock = null
 		if(FL)
 			targetLoc = get_turf(FL)
 		target.forceMove(targetLoc)
