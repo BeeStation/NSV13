@@ -107,7 +107,7 @@
 	set_light(5)
 
 /obj/vehicle/sealed/car/realistic/fighter_tug/proc/hitch(obj/structure/overmap/small_craft/target)
-	if(!target || LAZYFIND(loaded, target) || target.mag_lock)//No sucking
+	if(!target || !istype(target) || LAZYFIND(loaded, target) || target.mag_lock)//No sucking
 		return FALSE
 	loaded += target
 	STOP_PROCESSING(SSphysics_processing, target)
@@ -129,7 +129,7 @@
 		return
 
 	visible_message("<span class='notice'>[M] starts loading [craft] onto [src]...</span>")
-	if(!do_after(M, 5 SECONDS, src))
+	if(!do_after(M, 5 SECONDS, target = src))
 		return
 
 	if(get_dist(craft, src) > 3)
