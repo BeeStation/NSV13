@@ -130,12 +130,12 @@ Clean override of the navigation computer to provide scan functionality.
 		if(scan_progress >= scan_goal)
 			finish_scan()
 
-/obj/machinery/computer/ship/navigation/astrometrics/finish_scan()
+/obj/machinery/computer/ship/navigation/astrometrics/proc/finish_scan()
 	say("Scan of [scan_target] complete!")
 	playsound(src, 'nsv13/sound/voice/scanning_complete.wav', 100, FALSE)
 	radio.talk_into(src, "Scan of [scan_target] complete!", channel)
 	linked.scanned += scan_target.name
-	SEND_SIGNAL(linked, COMSIG_SHIP_ANOMALY_SCANNED)
+	SEND_SIGNAL(linked, COMSIG_ANOMALY_SCANNED)
 	if(istype(scan_target, /obj/effect/overmap_anomaly))
 		var/obj/effect/overmap_anomaly/OA = scan_target
 		if(OA.research_points > 0 && !OA.scanned) //In case someone else did a scan on it already.
