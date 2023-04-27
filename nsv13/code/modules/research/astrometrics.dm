@@ -128,19 +128,24 @@ Clean override of the navigation computer to provide scan functionality.
 	if(scan_target)
 		scan_progress += delta_time SECONDS
 		if(scan_progress >= scan_goal)
-			say("Scan of [scan_target] complete!")
-			playsound(src, 'nsv13/sound/voice/scanning_complete.wav', 100, FALSE)
-			radio.talk_into(src, "Scan of [scan_target] complete!", channel)
-			scanned += scan_target.name
-			if(istype(scan_target, /obj/effect/overmap_anomaly))
-				var/obj/effect/overmap_anomaly/OA = scan_target
-				if(OA.research_points > 0 && !OA.scanned) //In case someone else did a scan on it already.
-					var/reward = OA.research_points * 0.5
-					OA.research_points -= reward
-					linked_techweb.add_point_type(TECHWEB_POINT_TYPE_DISCOVERY, reward)
-				OA.scanned = TRUE
-			scan_target = null
-			scan_progress = 0
+			finish_scan()
+
+/obj/machinery/computer/ship/navigation/astrometrics/finish_scan()
+	say("Scan of [scan_target] complete!")
+	playsound(src, 'nsv13/sound/voice/scanning_complete.wav', 100, FALSE)
+	radio.talk_into(src, "Scan of [scan_target] complete!", channel)
+	linked.scanned += scan_target.name
+	SEND_SIGNAL(linked, COMSIG_SHIP_ANOMALY_SCANNED)
+	if(istype(scan_target, /obj/effect/overmap_anomaly))
+		var/obj/effect/overmap_anomaly/OA = scan_target
+		if(OA.research_points > 0 && !OA.scanned) //In case someone else did a scan on it already.
+			var/reward = OA.research_points * 0.5
+			OA.research_points -= reward
+			linked_techweb.add_point_type(TECHWEB_POINT_TYPE_DISCOVERY, reward)
+		OA.scanned = TRUE
+	scan_target = null
+	scan_progress = 0
+
 
 /obj/machinery/computer/ship/navigation/astrometrics/Destroy()
 	QDEL_NULL(radio)

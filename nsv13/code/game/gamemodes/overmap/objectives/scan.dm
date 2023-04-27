@@ -31,6 +31,12 @@
 	. = ..()
 	desc = "Scan [target] [anomaly_name]\s"
 	brief = "Locate and scan [target] [anomaly_name]\s"
+	RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_SHIP_ANOMALY_SCANNED, PROC_REF(register_scan))
+
+/datum/overmap_objective/scan/register_scan()
+	tally = count_by_type(SSstar_system.find_main_overmap().scanned, anomaly_type)
+	SSovermap_mode.update_reminder(objective=TRUE)
+	check_completion()
 
 /datum/overmap_objective/scan/check_completion()
 	if(tally <= target)
