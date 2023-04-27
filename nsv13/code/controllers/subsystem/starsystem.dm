@@ -270,11 +270,15 @@ Returns a faction datum by its name (case insensitive!)
 	if(isovermap(O))
 		var/obj/structure/overmap/OM = O
 		system = system_by_id(OM.starting_system)
-		if(ships[OM])
+		if(!ships[OM])
+			return
+		else if(!ships[OM]["current_system"])
 			ships[OM]["current_system"] = system
+		else
+			system = ships[OM]["current_system"]
 	else if(isanomaly(O))
 		var/obj/effect/overmap_anomaly/AN = O
-		system = system_by_id(AN.current_system)
+		system = AN.current_system
 	return system
 
 /datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE)//Select Ship to Spawn and Location via Z-Trait
@@ -337,6 +341,7 @@ Returns a faction datum by its name (case insensitive!)
 	target_sys.contents_positions[anomaly] = list("x" = anomaly.x, "y" = anomaly.y) //Cache the ship's position so we can regenerate it later.
 	target_sys.system_contents += anomaly
 	anomaly.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
+	anomaly.current_system = target_sys
 	return anomaly
 
 ///////BOUNTIES//////
@@ -575,7 +580,6 @@ Returns a faction datum by its name (case insensitive!)
 /obj/effect/overmap_anomaly/LateInitialize()
 	. = ..()
 	GLOB.overmap_anomalies += src
-	current_system = SSstar_system.find_system(src)
 
 /obj/effect/overmap_anomaly/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
