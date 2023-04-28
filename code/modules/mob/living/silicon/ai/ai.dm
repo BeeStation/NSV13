@@ -827,13 +827,21 @@
 				"floating face" = 'icons/mob/ai.dmi',
 				"xeno queen" = 'icons/mob/alien.dmi',
 				"horror" = 'icons/mob/ai.dmi',
-				"clock" = 'nsv13/icons/mob/ai_holo.dmi'
-				) //NSV13 - Added Clockwork Hologram
+				"clock" = 'nsv13/icons/mob/ai_holo.dmi',
+				"custom"
+				) //NSV13 - Added Clockwork Hologram and Custom Hologram
 
 			input = input("Please select a hologram:") as null|anything in sortList(icon_list)
 			if(input)
 				qdel(holo_icon)
 				switch(input)
+					//NSV13 - AI Custom Holographic Form - Start
+					if("custom")
+						if(client?.prefs?.custom_holoform_icon)
+							holo_icon = client.prefs.get_filtered_holoform(HOLOFORM_FILTER_AI)
+						else
+							holo_icon = getHologramIcon(icon('icons/mob/ai.dmi', "default"))
+					//NSV13 - AI Custom Holographic Form - Stop
 					if("xeno queen")
 						holo_icon = getHologramIcon(icon(icon_list[input],"alienq"))
 					else

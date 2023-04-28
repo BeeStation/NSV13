@@ -121,3 +121,11 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 #define HOLOMAP_EXTRA_STATIONMAP "stationmapformatted"
 #define HOLOMAP_EXTRA_STATIONMAPAREAS "stationareas"
 #define HOLOMAP_EXTRA_STATIONMAPSMALL "stationmapsmall"
+
+/// AI Hologram Related
+#define DUMMY_HUMAN_SLOT_HOLOFORM "dummy_holoform_generation" //NSV13 - AI Custom Holographic Form
+
+#define CUSTOM_HOLOFORM_DELAY 10 SECONDS //prevents spamming to make lag. it's pretty expensive to do this.
+
+#define HOLOFORM_FILTER_AI "FILTER_AI"
+#define HOLOFORM_FILTER_STATIC "FILTER_STATIC"

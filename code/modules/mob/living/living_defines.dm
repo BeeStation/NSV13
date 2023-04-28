@@ -140,3 +140,5 @@
 	var/body_pixel_x_offset = 0
 	///Default Y offset
 	var/body_pixel_y_offset = 0
+
+	var/rotate_on_lying = FALSE //NSV13
