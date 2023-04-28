@@ -72,7 +72,6 @@
 	name = "rubbershot pellet"
 	damage = 3
 	stamina = 9
-	knockdown = 30 //NSV13 - added knockdown
 
 /obj/item/projectile/bullet/pellet/shotgun_incapacitate
 	name = "incapacitating pellet"
