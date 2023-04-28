@@ -80,7 +80,7 @@ Clean override of the navigation computer to provide scan functionality.
 	return current_system && system && current_system.dist(system) <= max_range
 
 /obj/machinery/computer/ship/navigation/astrometrics/is_visited(datum/star_system/system)
-	return LAZYFIND(linked.scanned, system.name)
+	return LAZYFIND(linked.scanned, system)
 
 /obj/machinery/computer/ship/navigation/astrometrics/ui_act(action, params, datum/tgui/ui)
 	. = ..()
@@ -133,7 +133,7 @@ Clean override of the navigation computer to provide scan functionality.
 	say("Scan of [scan_target] complete!")
 	playsound(src, 'nsv13/sound/voice/scanning_complete.wav', 100, FALSE)
 	radio.talk_into(src, "Scan of [scan_target] complete!", channel)
-	linked.scanned += scan_target.name
+	linked.scanned += scan_target
 	SEND_SIGNAL(linked, COMSIG_ANOMALY_SCANNED)
 	if(istype(scan_target, /obj/effect/overmap_anomaly))
 		var/obj/effect/overmap_anomaly/OA = scan_target

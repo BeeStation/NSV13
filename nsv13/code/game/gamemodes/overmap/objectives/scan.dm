@@ -39,8 +39,5 @@
 	check_completion()
 
 /datum/overmap_objective/scan/check_completion()
-	if(tally <= target)
-		return
 	if(tally >= target)
-		SSovermap_mode.update_reminder(objective=TRUE)
 		status = 1
