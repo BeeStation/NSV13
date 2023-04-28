@@ -52,7 +52,7 @@
 	l_pocket = /obj/item/restraints/handcuffs
 	suit_store = /obj/item/gun/energy/e_gun/advtaser //NSV13 - give the guy in charge of the brig a better nonlethal
 	backpack_contents = list(/obj/item/melee/baton/loaded=1,
-							/obj/item/gun/ballistic/tazer, /obj/item/ammo_box/magazine/tazer_cartridge_storage, /obj/item/ammo_box/magazine/glock, /obj/item/squad_pager/all_channels, /obj/item/club=1) //NSV13
+							/obj/item/gun/ballistic/tazer, /obj/item/ammo_box/magazine/tazer_cartridge_storage, /obj/item/ammo_box/magazine/glock, /obj/item/squad_pager/all_channels, /obj/item/melee/classic_baton/police=1) //NSV13
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
