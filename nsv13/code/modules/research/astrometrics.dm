@@ -19,7 +19,6 @@ you build.
 	var/scan_goal_system = 15 SECONDS
 	var/scan_goal_anomaly = 2 MINUTES
 	var/datum/star_system/scan_target = null
-	var/list/scanned = list()
 	var/datum/techweb/linked_techweb = null
 	var/obj/item/radio/radio //For engineering alerts.
 	var/radio_key = /obj/item/encryptionkey/headset_sci
@@ -64,7 +63,7 @@ Clean override of the navigation computer to provide scan functionality.
 			var/datum/star_system/curr = info["current_system"]
 			data["star_dist"] = curr.dist(selected_system)
 		data["anomalies"] = selected_system.get_info()
-		if(LAZYFIND(scanned, selected_system.name)) //If we've scanned this one before, get me the list of its anomalies.
+		if(is_visited(selected_system)) //If we've scanned this one before, get me the list of its anomalies.
 			data["scanned"] = TRUE
 		if ( data["scanned"] )
 			data["system_type"] = syst ? syst[ "label" ] : "ERROR"	//the list /should/ always be initialized when players get to press the button, but alas never trust it.
@@ -81,7 +80,7 @@ Clean override of the navigation computer to provide scan functionality.
 	return current_system && system && current_system.dist(system) <= max_range
 
 /obj/machinery/computer/ship/navigation/astrometrics/is_visited(datum/star_system/system)
-	return LAZYFIND(scanned, system.name)
+	return LAZYFIND(linked.scanned, system.name)
 
 /obj/machinery/computer/ship/navigation/astrometrics/ui_act(action, params, datum/tgui/ui)
 	. = ..()
