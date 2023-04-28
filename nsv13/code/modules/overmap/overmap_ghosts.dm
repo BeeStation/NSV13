@@ -52,18 +52,8 @@
 	if(gunner)
 		QDEL_NULL(gunner)
 
-	//Buffs fighters so dogfights are more fun. 
-	if(mass == MASS_TINY)
-		max_armour = 200
-		obj_integrity = 200
-		max_integrity = 200 //About as squishy, and fast, as a light fighter
-		forward_maxthrust = 3.5
-		backward_maxthrust = 3.5
-		side_maxthrust = 4
-		integrity_failure = 200
-		max_angular_acceleration = 200
-		speed_limit = 10
-		shots_left = 500
+	//Buff the ships
+	spec_ghostship_changes()
 
 	//Insert the extra machines
 	if(!dradis)
@@ -111,3 +101,6 @@
 
 	else //Try again later
 		addtimer(CALLBACK(src, PROC_REF(ghost_key_check), ghost), 1 SECONDS)
+
+/obj/structure/overmap/proc/spec_ghostship_changes() //Proc to buff ghost ships. Must be overridden to apply buffs
+	return

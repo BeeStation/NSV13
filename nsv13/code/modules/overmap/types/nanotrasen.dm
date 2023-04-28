@@ -378,5 +378,15 @@
 	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
-
+/obj/structure/overmap/nanotrasen/ai/fighter/spec_ghostship_changes() //Buffs fighters so dogfights are more fun.
+	max_armour = 200
+	obj_integrity = 200
+	max_integrity = 200 //About as squishy, and fast, as a light fighter
+	forward_maxthrust = 3.5
+	backward_maxthrust = 3.5
+	side_maxthrust = 4
+	integrity_failure = 200
+	max_angular_acceleration = 200
+	speed_limit = 10
+	shots_left = 500
 
