@@ -2045,10 +2045,10 @@
 
 /datum/supply_pack/service/vending/ptech
 	name = "PTech Supply Crate"
-	desc = "Not enough cartridges after half the crew lost their PDA to explosions? This may fix it."
+	desc = "Not enough job disks after half the crew lost their PDA to explosions? This may fix it."
 	cost = 800
 	access_budget = ACCESS_HOP
-	contains = list(/obj/item/vending_refill/cart)
+	contains = list(/obj/item/vending_refill/job_disk)
 	crate_name = "ptech supply crate"
 
 /datum/supply_pack/service/vending/snack

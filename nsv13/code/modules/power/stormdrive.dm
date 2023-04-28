@@ -1894,7 +1894,7 @@ Control Rods
 	if(istype(computer))
 		computer.update_icon()
 
-/datum/computer_file/program/stormdrive_monitor/run_program(mob/living/user)
+/datum/computer_file/program/stormdrive_monitor/on_start(mob/living/user)
 	. = ..(user)
 	//No reactor? Go find one then.
 	if(!reactor)
