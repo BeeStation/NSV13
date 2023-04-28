@@ -77,6 +77,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/action_buttons_screen_locs = list()
 	//Nsv13 - Syndicate role select
 	var/preferred_syndie_role = CONQUEST_ROLE_GRUNT
+	//NSV13 - AI Custom Holographic Form - Start
+	var/icon/custom_holoform_icon
+	var/list/cached_holoform_icons
+	var/last_custom_holoform = 0
+	//NSV13 - AI Custom Holographic Form - End
 
 /datum/preferences/proc/set_max_character_slots(newmax)
 	max_usable_slots = min(TRUE_MAX_SAVE_SLOTS, newmax) // Make sure they dont go over
@@ -2136,3 +2141,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			active_character.equipped_gear -= RG.id
 			purchased_gear -= RG.id
 		save_preferences()
+
+//NSV13 - AI Custom Holographic Form
+/datum/preferences/proc/get_filtered_holoform(filter_type)
+	if(!custom_holoform_icon)
+		return
+	LAZYINITLIST(cached_holoform_icons)
+	if(!cached_holoform_icons[filter_type])
+		cached_holoform_icons[filter_type] = process_holoform_icon_filter(custom_holoform_icon, filter_type)
+	return cached_holoform_icons[filter_type]
