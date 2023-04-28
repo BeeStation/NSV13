@@ -8,7 +8,7 @@
 	weapon_overlays += OL
 	return OL
 
-/obj/structure/overmap/proc/fire(atom/target, mode=fire_mode) //target is the click target, mode here adds support for the pilot firemode
+/obj/structure/overmap/proc/fire(atom/target)
 	if(weapon_safety)
 		if(gunner)
 			to_chat(gunner, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
@@ -21,7 +21,7 @@
 		return	//end if(ai_controlled)
 	if(istype(target, /obj/structure/overmap))
 		ship.add_enemy(src)
-	fire_weapon(target, mode) //Target is click target, Mode is fire_mode
+	fire_weapon(target)
 
 /obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=gunner, ai_aim=FALSE) //"Lateral" means that your ship doesnt have to face the target
 	var/datum/ship_weapon/SW = weapon_types[mode]
@@ -32,7 +32,7 @@
 				if(shots_left <= 0)
 					if(!ai_resupply_scheduled)
 						ai_resupply_scheduled = TRUE
-						addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
+						addtimer(CALLBACK(src, .proc/ai_self_resupply), ai_resupply_time)
 					return FALSE
 				else if(light_shots_left <= 0)
 					spawn(150)
@@ -64,24 +64,18 @@
 		return FIRE_MODE_TORPEDO
 	return FIRE_MODE_MAC
 
-/obj/structure/overmap/proc/select_weapon(number, is_gunner)
-	if(is_gunner && number > 0 && number <= length(weapon_numkeys_map))//GUNNER GO HERE, I SWAP FUNNI GUN
-		swap_to(weapon_numkeys_map[number], OVERMAP_USER_ROLE_GUNNER)
-		return TRUE
-	if(!is_gunner && number > 0 && number <= length(weapon_numkeys_map_pilot))//PILOT GO HERE, I SWAP FUNNI PILOT GUN
-		swap_to(weapon_numkeys_map_pilot[number], OVERMAP_USER_ROLE_PILOT)
+/obj/structure/overmap/proc/select_weapon(number)
+	if(number > 0 && number <= length(weapon_numkeys_map))
+		swap_to(weapon_numkeys_map[number])
 		return TRUE
 
-/obj/structure/overmap/proc/swap_to(what=FIRE_MODE_ANTI_AIR, role=OVERMAP_USER_ROLE_GUNNER)
+/obj/structure/overmap/proc/swap_to(what=FIRE_MODE_ANTI_AIR)
 	if(!weapon_types[what])
 		return FALSE
 	var/datum/ship_weapon/SW = weapon_types[what]
-	if(!(SW.allowed_roles & role))//If your not a gunner and allowed role or Not a pilot and allowed role, continue
-		return FALSE //wait your not a pilot? not a gunner? not a allowed role? DO NOT SWAP
-	if(role & OVERMAP_USER_ROLE_GUNNER)
-		fire_mode = what //Gunner gun swap
-	if(role & OVERMAP_USER_ROLE_PILOT)
-		fire_mode_pilot = what //Pilot gun swap
+	if(!(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
+		return FALSE
+	fire_mode = what
 	if(world.time > switchsound_cooldown)
 		relay(SW.overmap_select_sound)
 		switchsound_cooldown = world.time + 5 SECONDS

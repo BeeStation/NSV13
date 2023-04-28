@@ -124,10 +124,8 @@
 
 	// Ship weapons
 	var/list/weapon_types[MAX_POSSIBLE_FIREMODE]
-	var/list/weapon_numkeys_map = list() // I hate this -- Weapon numkey list for gunner
-	var/list/weapon_numkeys_map_pilot = list() //I also hate this -- Weapon numkey list for pilot
+	var/list/weapon_numkeys_map = list() // I hate this
 
-	var/fire_mode_pilot = FIRE_MODE_PDC //What gun does the pilot want to fire? STOP SWAPPING THE GUNNERS GUN
 	var/fire_mode = FIRE_MODE_TORPEDO //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
 	var/faction = null //Used for target acquisition by AIs
@@ -421,8 +419,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	var/datum/star_system/sys = SSstar_system.find_system(src)
 	if(sys)
 		current_system = sys
-	addtimer(CALLBACK(src, PROC_REF(force_parallax_update)), 20 SECONDS)
-	addtimer(CALLBACK(src, PROC_REF(check_armour)), 20 SECONDS)
+	addtimer(CALLBACK(src, .proc/force_parallax_update), 20 SECONDS)
+	addtimer(CALLBACK(src, .proc/check_armour), 20 SECONDS)
 
 	//Boarding / Interior bits...
 	switch(interior_mode)
@@ -435,16 +433,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			post_load_interior()
 
 	apply_weapons()
-	RegisterSignal(src, list(COMSIG_FTL_STATE_CHANGE, COMSIG_SHIP_KILLED), PROC_REF(dump_locks)) // Setup lockon handling
+	RegisterSignal(src, list(COMSIG_FTL_STATE_CHANGE, COMSIG_SHIP_KILLED), .proc/dump_locks) // Setup lockon handling
 	//We have a lot of types but not that many weapons per ship, so let's just worry about the ones we do have
-	for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)//Makes funny weapon list for gunner
+	for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
 		var/datum/ship_weapon/SW = weapon_types[firemode]
 		if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
 			weapon_numkeys_map += firemode
-	for(var/pmode = 1; pmode <= MAX_POSSIBLE_FIREMODE; pmode++) //Make funny weapon list for pilot
-		var/datum/ship_weapon/SW = weapon_types[pmode]
-		if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))
-			weapon_numkeys_map_pilot += pmode
 
 //Method to apply weapon types to a ship. Override to your liking, this just handles generic rules and behaviours
 /obj/structure/overmap/proc/apply_weapons()
@@ -569,10 +563,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				gauss_gunners -= user
 	if(user != gunner)
 		if(user == pilot)
-			var/datum/ship_weapon/SW = weapon_types[fire_mode_pilot]
-			if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))
-				return FALSE //Wait your not the pilot or an allowed role? do not fire!
-			fire(target, fire_mode_pilot) //Pilot Fire the selected Pilot weapon.
+			for(var/mode = 1; mode <= MAX_POSSIBLE_FIREMODE; mode++)
+				var/datum/ship_weapon/SW = weapon_types[mode] //For annoying ships like whisp
+				if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))
+					continue
+				var/list/loaded = SW?.weapons["loaded"]
+				if(length(loaded))
+					fire_weapon(target, mode)
 		return FALSE
 	if(tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
@@ -602,7 +599,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			to_chat(gunner, "<span class='notice'>Target painting cancelled on [target].</span>")
 		return FALSE
 	relay('nsv13/sound/effects/fighters/being_locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
-	addtimer(CALLBACK(src, PROC_REF(finish_lockon), target), lockon_time)
+	addtimer(CALLBACK(src, .proc/finish_lockon, target), lockon_time)
 
 /obj/structure/overmap/proc/finish_lockon(obj/structure/overmap/target, obj/structure/overmap/data_link_origin)
 	if(!target || !istype(target) || target == src || target.current_system != current_system) // No target/invalid target
@@ -616,13 +613,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		dump_lock(target_painted[1])
 	if(data_link_origin)
 		target_painted[target] = data_link_origin
-		RegisterSignal(data_link_origin, COMSIG_LOCK_LOST, PROC_REF(check_datalink))
+		RegisterSignal(data_link_origin, COMSIG_LOCK_LOST, .proc/check_datalink)
 	else
 		target_painted[target] = FALSE
 		target_last_tracked[target] = world.time
 	to_chat(gunner, "<span class='notice'>Target painted.</span>")
 	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
-	RegisterSignal(target, list(COMSIG_PARENT_QDELETING, COMSIG_FTL_STATE_CHANGE), PROC_REF(dump_lock))
+	RegisterSignal(target, list(COMSIG_PARENT_QDELETING, COMSIG_FTL_STATE_CHANGE), .proc/dump_lock)
 	if(autotarget)
 		select_target(target) //autopaint our target
 
@@ -824,7 +821,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		var/sound = pick(GLOB.computer_beeps)
 		playsound(helm, sound, 100, 1)
 	next_maneuvre = world.time + 15 SECONDS
-	addtimer(CALLBACK(src, PROC_REF(reset_boost), forward_maxthrust, backward_maxthrust, side_maxthrust, max_angular_acceleration, speed_limit), 6 SECONDS)
+	addtimer(CALLBACK(src, .proc/reset_boost, forward_maxthrust, backward_maxthrust, side_maxthrust, max_angular_acceleration, speed_limit), 6 SECONDS)
 	speed_limit += 5
 	add_overlay("thrust")
 	switch(direction)
@@ -844,7 +841,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			max_angular_acceleration *= 5
 			max_angular_acceleration = CLAMP(max_angular_acceleration, 0, 360)
 			side_maxthrust *= 5
-	addtimer(CALLBACK(src, PROC_REF(check_throwaround), angle, direction), 3 SECONDS)
+	addtimer(CALLBACK(src, .proc/check_throwaround, angle, direction), 3 SECONDS)
 	user_thrust_dir = direction
 	shake_everyone(10)
 

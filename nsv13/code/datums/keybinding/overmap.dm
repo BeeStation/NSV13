@@ -205,7 +205,7 @@
 	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
-	if(M != OM.gunner) return //Sorry Pilot, Gunner gets the easy swap.
+	if(M != OM.gunner) return
 	OM.cycle_firemode()
 	if(OM.tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
@@ -272,15 +272,10 @@
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
-	var/is_gunner = FALSE //is_gunner, Because are you gunner or pilot? swap that weapon set.
 	if(!OM) return
-	if(M != OM.gunner && M != OM.pilot) return //Im not Pilot or Gunner, I dont get to swap weapons...
-	if(M == OM.gunner) //I am Gunner lets goooooo
-		is_gunner = TRUE
-		OM.select_weapon(1, is_gunner)
-	if(M == OM.pilot) //I am Pilot Nyooooom
-		is_gunner = FALSE
-		OM.select_weapon(1, is_gunner)
+
+	if(M != OM.gunner) return
+	OM.select_weapon(1)
 	return TRUE
 
 /datum/keybinding/overmap/weapon_2
@@ -297,16 +292,10 @@
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
-	var/is_gunner = FALSE //is_gunner, Because are you gunner or pilot? swap that weapon set.
 	if(!OM) return
 
-	if(M != OM.gunner && M != OM.pilot) return
-	if(M == OM.gunner) //I am Gunner lets goooooo
-		is_gunner = TRUE
-		OM.select_weapon(2, is_gunner)
-	if(M == OM.pilot) //I am Pilot Nyooooom
-		is_gunner = FALSE
-		OM.select_weapon(2, is_gunner)
+	if(M != OM.gunner) return
+	OM.select_weapon(2)
 	return TRUE
 
 /datum/keybinding/overmap/weapon_3
@@ -323,15 +312,10 @@
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
-	var/is_gunner = FALSE //is_gunner, Because are you gunner or pilot? swap that weapon set.
 	if(!OM) return
-	if(M != OM.gunner && M != OM.pilot) return //Im not Pilot or Gunner, I dont get to swap weapons...
-	if(M == OM.gunner) //I am Gunner lets goooooo
-		is_gunner = TRUE
-		OM.select_weapon(3, is_gunner)
-	if(M == OM.pilot) //I am Pilot Nyooooom
-		is_gunner = FALSE
-		OM.select_weapon(3, is_gunner)
+
+	if(M != OM.gunner) return
+	OM.select_weapon(3)
 	return TRUE
 
 /datum/keybinding/overmap/weapon_4
@@ -348,15 +332,10 @@
 	if(!user.mob) return
 	var/mob/M = user.mob
 	var/obj/structure/overmap/OM = M.overmap_ship
-	var/is_gunner = FALSE //is_gunner, Because are you gunner or pilot? swap that weapon set.
 	if(!OM) return
-	if(M != OM.gunner && M != OM.pilot) return //Im not Pilot or Gunner, I dont get to swap weapons...
-	if(M == OM.gunner) //I am Gunner lets goooooo
-		is_gunner = TRUE
-		OM.select_weapon(4, is_gunner)
-	if(M == OM.pilot) //I am Pilot Nyooooom
-		is_gunner = FALSE
-		OM.select_weapon(4, is_gunner)
+
+	if(M != OM.gunner) return
+	OM.select_weapon(4)
 	return TRUE
 
 /datum/keybinding/overmap/unlock
@@ -375,6 +354,6 @@
 	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
-	if(M != OM.gunner) return //Sorry pilot. You cant release the tone, thats a gunner thing.
+	if(M != OM.gunner) return
 	OM.dump_locks()
 	return TRUE
