@@ -33,6 +33,8 @@
 	if(user_gun)
 		user_gun?.onMouseDown(object)
 		return TRUE
+	if(M != gunner)
+		return
 	if((fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER || fire_mode == FIRE_MODE_HYBRID_RAIL))
 		aiming_target = object
 		aiming_params = params
@@ -51,6 +53,8 @@
 	if(user_gun)
 		user_gun?.onMouseUp(object)
 		return TRUE
+	if(M != gunner)
+		return
 	autofire_target = null
 	lastangle = get_angle(src, get_turf(object))
 	stop_aiming()
