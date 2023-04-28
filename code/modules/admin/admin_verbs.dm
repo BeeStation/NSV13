@@ -81,6 +81,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/client/proc/openTicketManager,
 	/client/proc/battle_royale,
 	/client/proc/delete_book,
+	/client/proc/cmd_admin_send_pda_msg,
 	/client/proc/changeranks, //NSV13 - verb to change rank structure
 	/client/proc/system_manager, //Nsv13 - Fleet + starsystem management
 	/client/proc/instance_overmap_menu, //Nsv13 - Midround ship creation.

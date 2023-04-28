@@ -341,8 +341,8 @@
 		menu = design
 
 	menu = lowertext(menu)
-	addtimer(CALLBACK(src, .proc/replicate, menu, temperature, user), speed_mult)
-	addtimer(CALLBACK(src, .proc/set_ready, TRUE), speed_mult)
+	addtimer(CALLBACK(src, PROC_REF(replicate), menu, temperature, user), speed_mult)
+	addtimer(CALLBACK(src, PROC_REF(set_ready), TRUE), speed_mult)
 
 /obj/machinery/replicator/proc/set_ready()
 	icon_state = "replicator-on"
