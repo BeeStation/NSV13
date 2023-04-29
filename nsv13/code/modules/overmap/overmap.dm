@@ -195,6 +195,7 @@
 	var/list/overmap_verbs = list()
 
 	var/ghost_controlled = FALSE //Is our overmap currently being controlled by a ghost?
+	var/spec_ghostship = FALSE //Do we give this ship buffs if controlled by a ghost?
 
 	//NPC combat
 	var/datum/combat_dice/npc_combat_dice

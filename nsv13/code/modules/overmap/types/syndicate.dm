@@ -588,6 +588,7 @@
 	torpedoes = 0
 	bounty = 250
 	armor = list("overmap_light" = 5, "overmap_medium" = 0, "overmap_heavy" = 90)
+	spec_ghostship = TRUE
 	ai_flags = AI_FLAG_SWARMER
 	combat_dice_type = /datum/combat_dice/fighter
 	possible_interior_maps = list()
@@ -596,18 +597,7 @@
 	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
-/obj/structure/overmap/syndicate/ai/fighter/spec_ghostship_changes() //Buffs fighters so dogfights are more fun.
-		max_armour = 200
-		obj_integrity = 200
-		max_integrity = 200 //About as squishy, and fast, as a light fighter
-		forward_maxthrust = 3.5
-		backward_maxthrust = 3.5
-		side_maxthrust = 4
-		integrity_failure = 200
-		max_angular_acceleration = 200
-		speed_limit = 10
-		shots_left = 500
-		missiles = 5
+
 /obj/structure/overmap/syndicate/ai/bomber //need custom AI behaviour to target capitals only
 	name = "Syndicate Bomber"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/fighter_overmap.dmi'
@@ -624,6 +614,7 @@
 	torpedoes = 3
 	bounty = 250
 	armor = list("overmap_light" = 20, "overmap_medium" = 10, "overmap_heavy" = 90)
+	spec_ghostship = TRUE
 	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_SWARMER
 	combat_dice_type = /datum/combat_dice/bomber
 	possible_interior_maps = list()
@@ -632,14 +623,4 @@
 	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
 
-/obj/structure/overmap/syndicate/ai/bomber/spec_ghostship_changes() //Buffs fighters so dogfights are more fun.
-	max_armour = 200
-	obj_integrity = 200
-	max_integrity = 200 //About as squishy, and fast, as a light fighter
-	forward_maxthrust = 3.5
-	backward_maxthrust = 3.5
-	side_maxthrust = 4
-	integrity_failure = 200
-	max_angular_acceleration = 200
-	speed_limit = 10
-	shots_left = 500
+
