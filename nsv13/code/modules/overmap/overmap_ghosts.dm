@@ -53,8 +53,7 @@
 		QDEL_NULL(gunner)
 
 	//Buff the ships
-	if(src.spec_ghostship == TRUE)
-		spec_ghostship_changes()
+	spec_ghostship_changes()
 
 	//Insert the extra machines
 	if(!dradis)

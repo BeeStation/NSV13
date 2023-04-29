@@ -114,7 +114,6 @@
 	missiles = 0
 	torpedoes = 0
 	armor = list("overmap_light" = 5, "overmap_medium" = 5,  "overmap_heavy" = 90)
-	spec_ghostship = TRUE
 	ai_flags = AI_FLAG_SWARMER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/fighter
 

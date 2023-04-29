@@ -369,7 +369,6 @@
 	obj_integrity = 75
 	max_integrity = 75 //Super squishy!
 	integrity_failure = 75
-	spec_ghostship = TRUE
 	ai_flags = AI_FLAG_SWARMER
 	bound_width = 32 //Change this on a per ship basis
 	bound_height = 32
