@@ -522,6 +522,8 @@ Control Rods
 		AR.ambient_buzz = 'nsv13/sound/ambience/engineering.ogg'
 		if(reaction_rate <= 0)
 			reaction_rate = 5
+		SSblackbox.record_feedback("tally", "engine_stats", 1, "started")
+		SSblackbox.record_feedback("tally", "engine_stats", 1, "stormdrive")
 		return TRUE
 	return FALSE
 
@@ -945,6 +947,14 @@ Control Rods
 			step_towards(M,src)
 			M.Knockdown(40)
 
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/relaymove(mob/user)
+	if(user.incapacitated())
+		return
+	if(prob(40))
+		audible_message("<span class='danger'>CLANG, clang!</span>")
+	shake_animation(3)
+	playsound(src, 'sound/effects/clang.ogg', 45, 1)
+
 //////// OTHER PROCS ////////
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/send_alert(message, override=FALSE)
@@ -1137,7 +1147,7 @@ Control Rods
 	send_alert("ERROR IN MODULE FISSREAC0 AT ADDRESS 0x12DF. CONTROL RODS HAVE FAILED. IMMEDIATE INTERVENTION REQUIRED.", override=TRUE)
 	warning_state = WARNING_STATE_MELTDOWN
 	var/sound = 'nsv13/sound/effects/ship/reactor/meltdown.ogg'
-	addtimer(CALLBACK(src, .proc/meltdown), 18 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(meltdown)), 18 SECONDS)
 	var/obj/structure/overmap/OM = get_overmap()
 	OM?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
 	reactor_end_times = TRUE
@@ -1166,6 +1176,8 @@ Control Rods
 		sleep(10)
 		icon_state = "broken"
 		reactor_end_times = FALSE //We don't need this anymore
+		SSblackbox.record_feedback("tally", "engine_stats", 1, "failed")
+		SSblackbox.record_feedback("tally", "engine_stats", 1, "stormdrive")
 	else
 		warning_state = WARNING_STATE_NONE
 		reactor_end_times = FALSE
@@ -1618,7 +1630,7 @@ Control Rods
 	freq_shift = rand(1, 10) / 10
 	code_shift = rand(1, 10) / 10
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
@@ -1771,7 +1783,7 @@ Control Rods
 		A.visible_message("<span class='danger'>The space around [A] begins to shimmer!</span>", \
 		"<span class='userdanger'>Your head swims as space appears to bend around you!</span>",
 		"<span class='italics'>You feel space shift slightly in your vicinity.</span>")
-		addtimer(CALLBACK(src, .proc/equalise, A), 5 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(equalise), A), 5 SECONDS)
 
 /obj/effect/anomaly/stormdrive/squall/proc/equalise(mob/living/A)
 	var/list/throwlist = orange(6, A)
@@ -1882,7 +1894,7 @@ Control Rods
 	if(istype(computer))
 		computer.update_icon()
 
-/datum/computer_file/program/stormdrive_monitor/run_program(mob/living/user)
+/datum/computer_file/program/stormdrive_monitor/on_start(mob/living/user)
 	. = ..(user)
 	//No reactor? Go find one then.
 	if(!reactor)

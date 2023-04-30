@@ -101,22 +101,22 @@ if grep -P '\W\/turf\s*[,\){]' _maps/**/*.dmm; then
     echo -e "${RED}ERROR: Base /turf path use detected in maps, please replace a with proper turf path.${NC}"
     st=1
 fi;
-if grep -P '^/*var/' code/**/*.dm; then
+if grep -n -P '^/*var/' code/**/*.dm; then
     echo
     echo -e "${RED}ERROR: Unmanaged global var use detected in code, please use the helpers.${NC}"
     st=1
 fi;
-if grep -i 'centcomm' code/**/*.dm; then
+if grep -n -i 'centcomm' code/**/*.dm; then
     echo
     echo -e "${RED}ERROR: Misspelling(s) of CentCom detected in code, please remove the extra M(s).${NC}"
     st=1
 fi;
-if grep -i 'centcomm' _maps/**/*.dm; then
+if grep -n -i 'centcomm' _maps/**/*.dm; then
     echo
     echo -e "${RED}ERROR: Misspelling(s) of CentCom detected in maps, please remove the extra M(s).${NC}"
     st=1
 fi;
-if grep -P 'set name\s*=\s*"[\S\s]*![\S\s]*"' code/**/*.dm; then
+if grep -n -P 'set name\s*=\s*"[\S\s]*![\S\s]*"' code/**/*.dm; then
     echo
     echo -e "${RED}ERROR: Verb with name containing an exclamation point found. These verbs are not compatible with TGUI chat's statpanel or chat box.${NC}"
     st=1
@@ -192,6 +192,14 @@ do
         fi
     fi
 done
+
+# Check for non-515 compatable .proc/ syntax
+if grep -n -P --exclude='__byond_version_compat.dm' '\.proc/' code/**/*.dm; then
+    echo
+    echo -e "${RED}ERROR: Outdated proc reference use detected in code, please use proc reference helpers.${NC}"
+    st=1
+fi;
+
 echo -e "${BLUE}Checking for missing newlines...${NC}"
 nl='
 '

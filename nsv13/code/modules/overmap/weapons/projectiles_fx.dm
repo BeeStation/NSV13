@@ -57,9 +57,9 @@ Misc projectile types, effects, think of this as the special FX file.
 	. = ..()
 	base_piercing_type = projectile_piercing
 	if(homing_benefit_time)
-		addtimer(CALLBACK(src, .proc/stop_homing), homing_benefit_time)
+		addtimer(CALLBACK(src, PROC_REF(stop_homing)), homing_benefit_time)
 	else
-		addtimer(CALLBACK(src, .proc/stop_homing), 0.2 SECONDS)	//Because all deck guns apparently have slight homing.
+		addtimer(CALLBACK(src, PROC_REF(stop_homing)), 0.2 SECONDS)	//Because all deck guns apparently have slight homing.
 
 /obj/item/projectile/bullet/proc/stop_homing()
 	homing = FALSE
@@ -432,10 +432,10 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/windup), 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(windup)), 1 SECONDS)
 
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
@@ -563,6 +563,12 @@ Misc projectile types, effects, think of this as the special FX file.
 	muzzle_type = /obj/effect/projectile/muzzle/disabler
 	impact_type = /obj/effect/projectile/impact/disabler
 
+/obj/item/projectile/beam/laser/phaser/pd
+	name = "point defense phaser"
+	damage = 60 // Doesn't scale with power input, but fires fairly quickly especially when upgraded
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "pdphaser"
+
 /obj/item/projectile/beam/laser/point_defense
 	name = "laser pointer"
 	damage = 30
@@ -584,16 +590,16 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "broadside shell"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "broadside"
-	damage = 75
+	damage = 125
 	obj_integrity = 500
 	flag = "overmap_heavy"
-	spread = 25
+	spread = 15
 	speed = 1
 
 /obj/item/projectile/bullet/broadside/plasma
 	name = "plasma-packed broadside shell"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "broadside_plasma"
-	damage = 125
+	damage = 175
 	armour_penetration = 10
 	speed = 0.4

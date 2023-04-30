@@ -141,10 +141,10 @@
 
 /obj/machinery/conquest_beacon/LateInitialize()
 	. = ..()
-	addtimer(CALLBACK(src, .proc/add_to_ship), 5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(add_to_ship)), 5 SECONDS)
 
 /obj/machinery/conquest_beacon/proc/add_to_ship()
-	RegisterSignal(get_overmap(), COMSIG_FTL_STATE_CHANGE, .proc/deactivate)
+	RegisterSignal(get_overmap(), COMSIG_FTL_STATE_CHANGE, PROC_REF(deactivate))
 
 /obj/machinery/conquest_beacon/proc/deactivate()
 	set_active(FALSE)
@@ -267,7 +267,7 @@
 
 /datum/ship_loadout/interceptor
 	name = "Experimental Engine Modifications"
-	desc = "Scans have identified an experimental speed-enhancing manifold as well as a prototype FTL drive modification in the powergrid. Activate it to vastly increase ship maneuverability and transit speed whilst also allowing the FTL computer to automatically spool itself between jumps. This module will allow you to reach targets much more quickly, and increase your maneuverability and speed substantially, though no excess power will be left for structural reinforcement."
+	desc = "Scans have identified an experimental speed-enhancing manifold as well as a prototype Thirring Drive modification in the powergrid. Activate it to vastly increase ship maneuverability and transit speed whilst also allowing the FTL computer to automatically spool itself between jumps. This module will allow you to reach targets much more quickly, and increase your maneuverability and speed substantially, though no excess power will be left for structural reinforcement."
 
 /datum/ship_loadout/interceptor/apply(obj/structure/overmap/OM)
 	if(!OM)
@@ -277,7 +277,7 @@
 	OM.side_maxthrust *= 1.5
 	OM.speed_limit *= 1.5
 	OM.max_angular_acceleration *= 1.5
-	OM.ftl_drive.auto_spool = TRUE //Lazy sods, but yes this is a very valid option if you want to annoy NT.
+	OM.ftl_drive.auto_spool_enabled = TRUE //Lazy sods, but yes this is a very valid option if you want to annoy NT.
 	return TRUE
 
 /obj/item/ship_loadout_selector
@@ -344,7 +344,7 @@
 
 /obj/effect/landmark/trader_drop_point/LateInitialize()
 	..()
-	// addtimer(CALLBACK(src, .proc/add_to_ship), 1 MINUTES)
+	// addtimer(CALLBACK(src, PROC_REF(add_to_ship)), 1 MINUTES)
 	add_to_ship() // I don't understand why we're delaying this
 
 /obj/effect/landmark/trader_drop_point/proc/add_to_ship()

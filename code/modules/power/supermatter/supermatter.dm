@@ -127,7 +127,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 		GLOB.main_supermatter_engine = src
 
 	AddElement(/datum/element/bsa_blocker)
-	RegisterSignal(src, COMSIG_ATOM_BSA_BEAM, .proc/call_delamination_event)
+	RegisterSignal(src, COMSIG_ATOM_BSA_BEAM, PROC_REF(call_delamination_event))
 
 	soundloop = new(src, TRUE)
 
@@ -274,6 +274,8 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	else if(power > POWER_PENALTY_THRESHOLD)
 		investigate_log("has spawned additional energy balls.", INVESTIGATE_ENGINES)
 
+	SSblackbox.record_feedback("tally", "engine_stats", 1, "failed")
+	SSblackbox.record_feedback("tally", "engine_stats", 1, "supermatter") //NSV13 - engine failure tracking
 	qdel(src)
 
 //this is here to eat arguments
@@ -508,6 +510,8 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 				investigate_log("has been powered for the first time.", INVESTIGATE_ENGINES)
 				message_admins("[src] has been powered for the first time [ADMIN_JMP(src)].")
 				has_been_powered = TRUE
+				SSblackbox.record_feedback("tally", "engine_stats", 1, "started")
+				SSblackbox.record_feedback("tally", "engine_stats", 1, "supermatter")
 	else if(takes_damage)
 		damage += Proj.damage * config_bullet_energy
 	return BULLET_ACT_HIT
@@ -690,7 +694,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 				var/image/causality_field = image(icon, null, "causality_field")
 				add_overlay(causality_field, TRUE)
 				radio.talk_into(src, "Anomalous object has breached containment, emergency causality field enganged to prevent reality destabilization.", engineering_channel)
-				disengage_field_timer = addtimer(CALLBACK(src, .proc/disengage_field, causality_field), 5 SECONDS)
+				disengage_field_timer = addtimer(CALLBACK(src, PROC_REF(disengage_field)), 5 SECONDS)
 			return
 		if(!iseffect(AM))
 			var/suspicion = ""

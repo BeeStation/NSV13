@@ -1,5 +1,10 @@
 #define MAX_TRANSIT_REQUEST_RETRIES 10
 
+#define AUTOEVAC_STATUS_NO_EVAC 0
+#define AUTOEVAC_STATUS_TIMER_STARTED 1
+#define AUTOEVAC_STATUS_NEED_EVAC 2
+#define AUTOEVAC_STATUS_EVAC_CALLED 3
+
 SUBSYSTEM_DEF(shuttle)
 	name = "Shuttle"
 	wait = 10
@@ -24,7 +29,7 @@ SUBSYSTEM_DEF(shuttle)
 	var/emergencyEscapeTime = 1200	//time taken for emergency shuttle to reach a safe distance after leaving station (in deciseconds)
 	var/area/emergencyLastCallLoc
 	var/emergencyCallAmount = 0		//how many times the escape shuttle was called
-	var/emergencyNoEscape
+	var/emergencyNoEscape			//Hostile environment that prevents the shuttle from leaving after it has arrived
 	var/emergencyNoRecall = FALSE
 	var/adminEmergencyNoRecall = FALSE
 	var/list/hostileEnvironments = list() //Things blocking escape shuttle from leaving
@@ -64,6 +69,8 @@ SUBSYSTEM_DEF(shuttle)
 	var/datum/turf_reservation/preview_reservation
 
 	var/shuttles_loaded = FALSE
+
+	var/autoevac_status = AUTOEVAC_STATUS_NO_EVAC //NSV13 - modified autoevac handling
 
 /datum/controller/subsystem/shuttle/Initialize(timeofday)
 	ordernum = rand(1, 9000)
@@ -130,12 +137,17 @@ SUBSYSTEM_DEF(shuttle)
 			if(MC_TICK_CHECK)
 				break
 
+// NSV13 - rewrote basically this whole proc to add a state machine, fix some math, and add voting
 /datum/controller/subsystem/shuttle/proc/CheckAutoEvac()
-	if(emergencyNoEscape || emergencyNoRecall || !emergency || !SSticker.HasRoundStarted())
+	if(emergencyNoEscape || emergencyNoRecall || !emergency || !SSticker.HasRoundStarted() || autoevac_status == AUTOEVAC_STATUS_EVAC_CALLED)
 		return
 
 	var/threshold = CONFIG_GET(number/emergency_shuttle_autocall_threshold)
 	if(!threshold)
+		return
+
+	if(emergency.timeLeft(1) < emergencyCallTime * 0.5 && emergency.timer)
+		autoevac_status = AUTOEVAC_STATUS_NO_EVAC
 		return
 
 	var/alive = 0
@@ -146,20 +158,45 @@ SUBSYSTEM_DEF(shuttle)
 
 	var/total = GLOB.joined_player_list.len
 	if(total <= 0)
+		autoevac_status = AUTOEVAC_STATUS_NO_EVAC
 		return //no players no autoevac
 
 	if(alive / total <= threshold)
-		var/msg = "Automatically dispatching emergency shuttle due to crew death."
-		message_admins(msg)
-		log_game("[msg] Alive: [alive], Roundstart: [total], Threshold: [threshold]")
-		emergencyNoRecall = TRUE
-		priority_announce("Catastrophic casualties detected: crisis shuttle protocols activated - jamming recall signals across all frequencies.", sound = SSstation.announcer.get_rand_alert_sound())
-		if(emergency.timeLeft(1) > emergencyCallTime * 0.4)
-			emergency.request(null, set_coefficient = 0.4)
+		switch(autoevac_status)
+			if(AUTOEVAC_STATUS_NO_EVAC)
+				addtimer(VARSET_CALLBACK(src, autoevac_status, AUTOEVAC_STATUS_NEED_EVAC), 2 MINUTES)
+				autoevac_status = AUTOEVAC_STATUS_TIMER_STARTED
+				return
+			if(AUTOEVAC_STATUS_TIMER_STARTED)
+				// Still waiting to see if they come back
+				return
+			if(AUTOEVAC_STATUS_NEED_EVAC)
+				var/msg
+				// If the dead can't vote, just call the shuttle. Don't jam recalls.
+				// If they can, make sure the security level will get the shuttle here quickly and do a transfer vote.
+				if(CONFIG_GET(flag/no_dead_vote))
+					emergency.request(null, set_coefficient = 0.5)
+					msg = "Automatically dispatching emergency shuttle due to crew death."
+					priority_announce("Catastrophic casualties detected: crisis shuttle protocols activated.", sound = SSstation.announcer.get_rand_alert_sound())
+					autoevac_status = AUTOEVAC_STATUS_EVAC_CALLED
+				else
+					if(GLOB.security_level < SEC_LEVEL_RED)
+						set_security_level(SEC_LEVEL_RED)
+					if(!SSvote.mode)
+						SSvote.initiate_vote("transfer", "Crisis Protocols", forced=TRUE, popup=FALSE)
+						msg = "Automatically initiating transfer vote due to crew death."
+						priority_announce("Catastrophic casualties detected: crisis shuttle protocols activated.", sound = SSstation.announcer.get_rand_alert_sound())
+						autoevac_status = AUTOEVAC_STATUS_EVAC_CALLED
+				if(msg)
+					message_admins(msg)
+					log_game("[msg] Alive: [alive], Roundstart: [total], Threshold: [threshold]")
+	else
+		autoevac_status = AUTOEVAC_STATUS_NO_EVAC
+
 
 /datum/controller/subsystem/shuttle/proc/block_recall(lockout_timer)
 	emergencyNoRecall = TRUE
-	addtimer(CALLBACK(src, .proc/unblock_recall), lockout_timer)
+	addtimer(CALLBACK(src, PROC_REF(unblock_recall)), lockout_timer)
 
 /datum/controller/subsystem/shuttle/proc/unblock_recall()
 	emergencyNoRecall = FALSE
@@ -901,3 +938,8 @@ SUBSYSTEM_DEF(shuttle)
 					message_admins("[key_name_admin(usr)] loaded [mdp] with the shuttle manipulator.")
 					log_admin("[key_name(usr)] loaded [mdp] with the shuttle manipulator.</span>")
 					SSblackbox.record_feedback("text", "shuttle_manipulator", 1, "[mdp.name]")
+
+#undef AUTOEVAC_STATUS_NO_EVAC
+#undef AUTOEVAC_STATUS_TIMER_STARTED
+#undef AUTOEVAC_STATUS_NEED_EVAC
+#undef AUTOEVAC_STATUS_EVAC_CALLED

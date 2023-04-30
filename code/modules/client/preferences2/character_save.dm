@@ -57,7 +57,11 @@
 						"ipc_screen" = "Blue",
 						"ipc_antenna" = "None",
 						"ipc_chassis" = "Morpheus Cyberkinetics(Greyscale)",
-						"insect_type" = "Common Fly"
+						"insect_type" = "Common Fly",
+						"apid_antenna" = "Curled",
+						"apid_stripes" = "Thick",
+						"apid_headstripes" = "Thick",
+						"body_model" = MALE
 					)
 	var/list/custom_names = list()
 	var/preferred_ai_core_display = "Blue"
@@ -73,7 +77,6 @@
 	var/preferred_pilot_role = PILOT_COMBAT
 	//NSV13 - Added Flavor Text
 	var/flavor_text = ""
-
 
 /datum/character_save/New()
 	real_name = get_default_name()
@@ -186,16 +189,11 @@
 	be_random_name	= sanitize_integer(be_random_name, 0, 1, initial(be_random_name))
 	be_random_body	= sanitize_integer(be_random_body, 0, 1, initial(be_random_body))
 
-	if(gender == MALE)
-		hair_style = sanitize_inlist(hair_style, GLOB.hair_styles_male_list)
-		facial_hair_style = sanitize_inlist(facial_hair_style, GLOB.facial_hair_styles_male_list)
-		underwear = sanitize_inlist(underwear, GLOB.underwear_m)
-		undershirt = sanitize_inlist(undershirt, GLOB.undershirt_m)
-	else
-		hair_style = sanitize_inlist(hair_style, GLOB.hair_styles_female_list)
-		facial_hair_style = sanitize_inlist(facial_hair_style, GLOB.facial_hair_styles_female_list)
-		underwear = sanitize_inlist(underwear, GLOB.underwear_f)
-		undershirt = sanitize_inlist(undershirt, GLOB.undershirt_f)
+	hair_style = sanitize_inlist(hair_style, GLOB.hair_styles_list)
+	facial_hair_style = sanitize_inlist(facial_hair_style, GLOB.facial_hair_styles_list)
+	underwear = sanitize_inlist(underwear, GLOB.underwear_list)
+	undershirt = sanitize_inlist(undershirt, GLOB.undershirt_list)
+	features["body_model"] = sanitize_gender(features["body_model"], FALSE, FALSE, gender == FEMALE ? FEMALE : MALE)
 	socks = sanitize_inlist(socks, GLOB.socks_list)
 	age = sanitize_integer(age, AGE_MIN, AGE_MAX, initial(age))
 	hair_color = sanitize_hexcolor(hair_color, 3, 0)
@@ -227,6 +225,9 @@
 	features["ipc_antenna"]	= sanitize_inlist(features["ipc_antenna"], GLOB.ipc_antennas_list)
 	features["ipc_chassis"]	= sanitize_inlist(features["ipc_chassis"], GLOB.ipc_chassis_list)
 	features["insect_type"]	= sanitize_inlist(features["insect_type"], GLOB.insect_type_list)
+	features["apid_antenna"] = sanitize_inlist(features["apid_antenna"], GLOB.apid_antenna_list)
+	features["apid_stripes"] = sanitize_inlist(features["apid_stripes"], GLOB.apid_stripes_list)
+	features["apid_headstripes"] = sanitize_inlist(features["apid_headstripes"], GLOB.apid_headstripes_list)
 
 	//Validate species forced mutant parts
 	for(var/forced_part in pref_species.forced_features)
@@ -269,18 +270,15 @@
 		var/datum/species/spath = GLOB.species_list[pick(GLOB.roundstart_races)]
 		pref_species = new spath
 	features = random_features()
+	if(gender)
+		features["body_model"] = pick(MALE,FEMALE)
 	age = rand(AGE_MIN,AGE_MAX)
 
 /datum/character_save/proc/update_preview_icon(client/parent)
 	if(!parent)
 		CRASH("Someone called update_preview_icon() without passing a client.")
 	// Determine what job is marked as 'High' priority, and dress them up as such.
-	var/datum/job/previewJob
-	var/highest_pref = 0
-	for(var/job in job_preferences)
-		if(job_preferences[job] > highest_pref)
-			previewJob = SSjob.GetJob(job)
-			highest_pref = job_preferences[job]
+	var/datum/job/previewJob = get_highest_job() //NSV13 - Moved this stuff to a new proc
 
 	if(previewJob)
 		// Silicons only need a very basic preview since there is no customization for them.
@@ -506,3 +504,13 @@
 		character.update_body_parts(TRUE)
 
 	character.dna.update_body_size()
+
+//NSV13 - AI Custom Holographic Form
+/datum/character_save/proc/get_highest_job()
+	var/highest_pref = 0
+	var/datum/job/highest_job
+	for(var/job in job_preferences)
+		if(job_preferences[job] > highest_pref)
+			highest_job = SSjob.GetJob(job)
+			highest_pref = job_preferences[job]
+	return highest_job

@@ -128,6 +128,7 @@
 /obj/structure/overmap/nanotrasen/solgov/proc/apply_medium_ai_weapons()
 	weapon_types[ FIRE_MODE_RED_LASER ] = new /datum/ship_weapon/burst_phaser( src )
 	weapon_types[ FIRE_MODE_BLUE_LASER ] = new /datum/ship_weapon/phaser( src )
+	weapon_types[ FIRE_MODE_LASER_PD ] = new /datum/ship_weapon/phaser_pd( src )
 	weapon_types[ FIRE_MODE_AMS_LASER ] = new /datum/ship_weapon/laser_ams( src )
 
 	// Need to enable the AI ship's countermeasures mode so they can actually use laser ams

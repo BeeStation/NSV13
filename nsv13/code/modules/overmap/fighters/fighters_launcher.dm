@@ -105,10 +105,10 @@
 	. = ..()
 	icon_state = "launcher"
 	linkup()
-	addtimer(CALLBACK(src, .proc/linkup), 45 SECONDS)//Just in case we're not done initializing
+	addtimer(CALLBACK(src, PROC_REF(linkup)), 45 SECONDS)//Just in case we're not done initializing
 
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
@@ -175,7 +175,7 @@
 		return
 	ready = FALSE
 	mag_locked.relay('nsv13/sound/effects/ship/fighter_launch.ogg')
-	addtimer(CALLBACK(src, .proc/finish_launch), 10 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(finish_launch)), 10 SECONDS)
 
 /obj/structure/fighter_launcher/proc/abort_launch()
 	if(!mag_locked)
@@ -186,7 +186,7 @@
 	mag_locked = null
 	icon_state = "launcher_charge"
 	ready = FALSE
-	addtimer(CALLBACK(src, .proc/recharge), 15 SECONDS) //Give them time to get out of there.
+	addtimer(CALLBACK(src, PROC_REF(recharge)), 15 SECONDS) //Give them time to get out of there.
 
 /obj/structure/fighter_launcher/proc/finish_launch()
 	icon_state = "launcher_charge"
@@ -206,7 +206,7 @@
 		if(WEST)
 			mag_locked.velocity.a = -20
 	mag_locked = null
-	addtimer(CALLBACK(src, .proc/recharge), 10 SECONDS) //Stops us from catching the fighter right after we launch it.
+	addtimer(CALLBACK(src, PROC_REF(recharge)), 10 SECONDS) //Stops us from catching the fighter right after we launch it.
 
 //Code that handles fighter - overmap transference.
 
@@ -313,13 +313,11 @@
 	OM.overmaps_in_ship -= src // No lazyremove, please don't null my list
 
 	if(CHECK_BITFIELD(OM.overmap_deletion_traits, DELETE_UNOCCUPIED_ON_DEPARTURE) && !(OM.has_occupants()))
-		message_admins("[src] was the last occupant of [OM], [OM] will now be deleted")
 		log_mapping("[src] was the last occupant of [OM], [OM] will now be deleted")
 		last_overmap = null
 		spawn(20)
 			qdel(OM)
 	else if(CHECK_BITFIELD(OM.overmap_deletion_traits, DELETE_UNOCCUPIED_ON_DEPARTURE))
-		message_admins("[OM] still has occupants, so [OM] will not be deleted when [src] leaves")
 		log_mapping("[OM] still has occupants [english_list(OM.mobs_in_ship)] and [OM.overmaps_in_ship], so [OM] will not be deleted when [src] leaves")
 
 	return TRUE

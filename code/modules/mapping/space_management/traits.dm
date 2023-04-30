@@ -3,7 +3,7 @@
 	if (!isnum_safe(z) || z < 1)
 		return null
 	if (z_list)
-		if (z > z_list.len)
+		if (z > length(z_list))
 			stack_trace("Unmanaged z-level [z]! maxz = [world.maxz], z_list.len = [z_list.len]")
 			return list()
 		var/datum/space_level/S = get_level(z)

@@ -1,3 +1,7 @@
+#define NAC_MIN_POWDER_LOAD 0.5 // Min powder, equivelant to 25%
+#define NAC_NORMAL_POWDER_LOAD 2 // "100%" powder
+#define NAC_MAX_POWDER_LOAD 10 // Max powder, or 500%
+
 /obj/machinery/ship_weapon/deck_turret
 	name = "\improper M4-15 'Hood' deck turret"
 	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload. Use a multitool on it to re-register loading aparatus."
@@ -80,7 +84,7 @@
 	. = ..()
 	//Ensure that the lazyloaded shells come pre-packed
 	for(var/obj/item/ship_weapon/ammunition/naval_artillery/shell in ammo)
-		shell.speed = 2
+		shell.speed = NAC_NORMAL_POWDER_LOAD
 
 /obj/machinery/ship_weapon/deck_turret/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -101,7 +105,8 @@
 /obj/machinery/ship_weapon/deck_turret/animate_projectile(atom/target, lateral=TRUE)
 	var/obj/item/ship_weapon/ammunition/naval_artillery/T = chambered
 	if(T)
-		linked.fire_projectile(T.projectile_type, target,speed=T.speed, lateral=weapon_type.lateral)
+		var/obj/item/projectile/proj = linked.fire_projectile(T.projectile_type, target,speed=T.speed, lateral=weapon_type.lateral)
+		T.handle_shell_modifiers(proj)
 
 /obj/machinery/ship_weapon/deck_turret/proc/rack_load(atom/movable/A)
 	if(length(ammo) < max_ammo && istype(A, ammo_type))
@@ -433,7 +438,7 @@
 		visible_message("<span class='danger'>\The [src] begins to expand!</span>")
 		var/delay = max(50 - plasma.volume, 5)
 		var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
-		addtimer(CALLBACK(VC, /datum/component/volatile/.proc/explode), delay)
+		addtimer(CALLBACK(VC, TYPE_PROC_REF(/datum/component/volatile/, explode)), delay)
 		Shake(10, 10, delay)
 		return
 	var/nutri = 0
@@ -509,7 +514,7 @@
 	target.notransform = TRUE
 	target.anchored = TRUE
 	if(target.stat != DEAD)
-		INVOKE_ASYNC(target, /mob.proc/emote, "scream")
+		INVOKE_ASYNC(target, TYPE_PROC_REF(/mob, emote), "scream")
 	SpinAnimation(20, 1, pick(0, 1), parallel = FALSE) // he does tricks!
 	var/segsleep = consumeTime * 0.5
 	sleep(segsleep)
@@ -519,7 +524,7 @@
 	if(isplasmaman(target))
 		visible_message("<span class='danger'>\The [src] doesn't look very well..</span>")
 		var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
-		addtimer(CALLBACK(VC, /datum/component/volatile/.proc/explode), 20)
+		addtimer(CALLBACK(VC, TYPE_PROC_REF(/datum/component/volatile/, explode)), 20)
 		Shake(10, 10, 20)
 	var/list/inventoryItems = target.get_equipped_items(TRUE)
 	target.unequip_everything()
@@ -551,7 +556,7 @@
 		if(!target)
 			return
 	if(get_dist(src, target) <= 1)
-		INVOKE_ASYNC(src, .proc/devour, target)
+		INVOKE_ASYNC(src, PROC_REF(devour), target)
 		satisfied_until = world.time + satisfaction_duration
 	else if(!throwing)
 		throw_at(target, 10, 2)
@@ -560,7 +565,7 @@
 	if(!enraged)
 		return ..()
 	if(target && hit_atom == target && !devouring)
-		INVOKE_ASYNC(src, .proc/devour, target)
+		INVOKE_ASYNC(src, PROC_REF(devour), target)
 		satisfied_until = world.time + satisfaction_duration
 		return
 	return ..()
@@ -589,6 +594,10 @@
 
 /obj/item/ship_weapon/ammunition/naval_artillery/armed //This is literally just for mail.
 	armed = TRUE
+
+// Handles shell powder load damage modifiers
+/obj/item/ship_weapon/ammunition/naval_artillery/proc/handle_shell_modifiers(obj/item/projectile/proj)
+	return
 
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "cannon ball"
@@ -620,6 +629,12 @@
 	desc = "A massive diamond-tipped round which can slice through armour plating with ease to deliver a lethal impact. Best suited for targets with heavy armour such as destroyers and up."
 	icon_state = "torpedo_ap"
 	projectile_type = /obj/item/projectile/bullet/mac_round/ap
+
+
+/obj/item/ship_weapon/ammunition/naval_artillery/ap/handle_shell_modifiers(obj/item/projectile/proj)
+	if(speed >= NAC_NORMAL_POWDER_LOAD)
+		proj.damage = proj.damage * CLAMP(log(10, speed * 5), 1, 2) // at 2 speed (or 100% powder load), damage mod is 1, logarithmically scaling up/down based on powder load
+	proj.armour_penetration = proj.armour_penetration * CLAMP(sqrt(speed * 0.5), 0.5, 3)
 
 /obj/item/ship_weapon/ammunition/naval_artillery/homing
 	name = "FTL-1301 Magneton Naval Artillery Round"
@@ -715,11 +730,11 @@
 	playsound(src.loc, 'nsv13/sound/effects/ship/freespace2/m_load.wav', 100, 1)
 
 /obj/machinery/deck_turret/payload_gate/proc/chamber(obj/machinery/deck_turret/powder_gate/source)
-	if(!shell)
+	if(!shell || !source?.bag)
 		return FALSE
 	shell.speed += source.bag.power
 	shell.name = "Packed [initial(shell.name)]"
-	shell.speed = CLAMP(shell.speed, 0, 10)
+	shell.speed = CLAMP(shell.speed, NAC_MIN_POWDER_LOAD, NAC_MAX_POWDER_LOAD)
 	source.pack()
 	return TRUE
 
@@ -810,7 +825,7 @@
 
 /obj/machinery/ship_weapon/deck_turret/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/RefreshParts), world.tick_lag)
+	addtimer(CALLBACK(src, PROC_REF(RefreshParts)), world.tick_lag)
 
 	core = locate(/obj/machinery/deck_turret) in SSmapping.get_turf_below(src)
 	if(!core)
