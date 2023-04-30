@@ -68,7 +68,7 @@ SUBSYSTEM_DEF(events)
 	//NSV13 - are we using our event list or the full one?
 	var/obj/structure/overmap/mainship = SSstar_system.find_main_overmap()
 	var/list/possible_events
-	if(mainship.current_system && length(mainship.current_system.possible_events) && prob(70))
+	if(mainship.current_system && length(mainship.current_system.possible_events) && prob(50))
 		possible_events = mainship.current_system.possible_events
 	else
 		possible_events = control
