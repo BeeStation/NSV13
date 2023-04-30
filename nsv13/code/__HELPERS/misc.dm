@@ -18,10 +18,3 @@
 		return SOUTH
 	else
 		return NORTH
-
-GLOBAL_LIST_INIT(plasma_names, list("phoron", "lean", "purpur", "tritiated ethanol", "purple X", "toxin", "amethyst"))
-
-/atom/Initialize(mapload, ...)
-	..()
-	replacetext(name,"plasma","plasma",pick(GLOB.plasma_names))
-	replacetext(desc,"plasma","plasma",pick(GLOB.plasma_names))
