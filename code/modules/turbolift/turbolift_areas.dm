@@ -1,5 +1,6 @@
 /area/shuttle/turbolift //Only use subtypes of this area
 	requires_power = FALSE //no APCS in the lifts please
+	ambient_buzz = 'nsv13/sound/effects/lift/elevatormusic.ogg' //Mandatory.
 	ambientsounds = list('sound/effects/turbolift/elevatormusic.ogg')
 
 /area/shuttle/turbolift/shaft //What the shuttle leaves behind
