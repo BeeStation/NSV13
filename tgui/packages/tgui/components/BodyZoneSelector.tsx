@@ -68,6 +68,7 @@ export class BodyZoneSelector extends Component<
   BodyZoneSelectorState
 > {
   ref = createRef<HTMLDivElement>();
+  // eslint-disable-next-line react/state-in-constructor
   state: BodyZoneSelectorState = {
     hoverZone: null,
   };

@@ -29,6 +29,7 @@ class SurgeryInitiatorInner extends Component<
   SurgeryInitiatorData,
   SurgeryInitiatorInnerState
 > {
+  // eslint-disable-next-line react/state-in-constructor
   state = {
     selectedSurgeryIndex: 0,
   }
@@ -50,10 +51,9 @@ class SurgeryInitiatorInner extends Component<
   }
 
   findSelectedSurgeryAfter(after: number): number | undefined {
-    const foundIndex
-     = this.props.surgeries.findIndex(
-       (surgery, index) => index > after && !surgery.blocked
-     );
+    const foundIndex = this.props.surgeries.findIndex(
+      (surgery, index) => index > after && !surgery.blocked
+    );
 
     return foundIndex === -1 ? undefined : foundIndex;
   }
