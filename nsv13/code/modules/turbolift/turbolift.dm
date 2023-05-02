@@ -7,6 +7,7 @@
 	icon = 'nsv13/goonstation/icons/turbolift_blast_door.dmi'
 	desc = "A bulkhead which opens and closes."
 	door_animation_speed = 1
+	autoclose = FALSE //Door open/close is controlled by the lift box
 
  // Turbolifts
 /datum/map_template/shuttle/turbolift/nsv/enterprise
