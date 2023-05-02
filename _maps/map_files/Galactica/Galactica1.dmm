@@ -1502,9 +1502,9 @@
 /area/nsv/hanger/notkmcstupidhanger)
 "dW" = (
 /obj/structure/cable{
-	icon_state = "4-8"
+	icon_state = "2-8"
 	},
-/turf/template_noop,
+/turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "dX" = (
 /obj/structure/railing/corner{
@@ -5807,11 +5807,14 @@
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "pe" = (
-/obj/structure/glowshroom/single,
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
+/obj/effect/turf_decal/tile/ship/half/yellow{
+	dir = 1
 	},
-/area/maintenance/nsv/deck1/starboard)
+/obj/structure/sign/ship/pods{
+	pixel_y = -28
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/break_room)
 "pf" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -5913,10 +5916,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/central)
 "pp" = (
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/structure/sign/ship/pods/west{
+	pixel_y = 29
 	},
-/obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "pr" = (
@@ -10248,6 +10250,16 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/medical/medbay/zone2)
+"AF" = (
+/obj/machinery/light/small,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/starboard)
 "AG" = (
 /obj/structure/bed,
 /obj/item/bedsheet/medical,
@@ -11867,6 +11879,9 @@
 /turf/open/floor/plating,
 /area/mine/laborcamp/security)
 "EN" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/plating{
 	icon_state = "platingdmg1"
 	},
@@ -12479,8 +12494,9 @@
 	color = "#787878";
 	dir = 1
 	},
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/structure/fluff/support_beam{
+	color = "#787878";
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
@@ -12783,12 +12799,9 @@
 /turf/open/floor/plating,
 /area/crew_quarters/dorms)
 "He" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
 /obj/machinery/power/apc/auto_name/south,
 /obj/structure/cable{
-	icon_state = "0-8"
+	icon_state = "4-8"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
@@ -13137,6 +13150,16 @@
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/frame1/central)
+"HU" = (
+/obj/effect/turf_decal/ship/delivery/yellow,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/effect/landmark/zebra_interlock_point,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/starboard)
 "HV" = (
 /obj/machinery/door/airlock/ship/hatch{
 	name = "Network Administration";
@@ -14059,13 +14082,10 @@
 /turf/open/floor/monotile/steel,
 /area/medical/virology)
 "Kg" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	req_access_txt = "12"
-	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/machinery/door/airlock/ship/maintenance{
+	req_access_txt = "12"
 	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
@@ -16044,9 +16064,6 @@
 /obj/effect/turf_decal/tile/ship/half/yellow{
 	dir = 1
 	},
-/obj/structure/chair{
-	dir = 1
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -16644,6 +16661,13 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
+"QM" = (
+/obj/structure/glowshroom/single,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/starboard)
 "QN" = (
 /turf/open/space/basic,
 /area/space/nearstation)
@@ -17832,11 +17856,14 @@
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/dorms)
 "TX" = (
-/obj/effect/turf_decal/tile/ship/half/yellow{
-	dir = 1
+/obj/structure/fluff/support_beam{
+	color = "#787878"
 	},
-/turf/open/floor/monotile/dark,
-/area/engine/break_room)
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/starboard)
 "TY" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
@@ -18565,9 +18592,12 @@
 /turf/open/floor/durasteel,
 /area/engine/storage_shared)
 "VM" = (
-/obj/structure/fluff/support_beam{
-	color = "#787878";
-	dir = 4
+/obj/docking_port/stationary{
+	dir = 2;
+	dwidth = 1;
+	height = 4;
+	roundstart_template = /datum/map_template/shuttle/escape_pod/default;
+	width = 3
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
@@ -19393,13 +19423,10 @@
 /turf/open/floor/monotile/dark,
 /area/maintenance/nsv/deck1/port)
 "XH" = (
-/obj/machinery/door/airlock/ship/maintenance{
-	req_access_txt = "12"
-	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/machinery/door/airlock/ship/maintenance{
+	req_access_txt = "12"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
@@ -43537,7 +43564,7 @@ sf
 xQ
 xQ
 xQ
-TX
+YV
 ca
 ox
 sZ
@@ -43799,10 +43826,10 @@ Po
 ki
 tx
 VZ
-gU
-gU
-gU
 lV
+gU
+gU
+gU
 gU
 gU
 gU
@@ -44056,10 +44083,10 @@ ca
 Ms
 Bk
 GM
-kx
-kx
-kx
 PT
+kx
+kx
+kx
 kx
 kx
 kx
@@ -44308,7 +44335,7 @@ YB
 xQ
 xQ
 zO
-YV
+pe
 ca
 ca
 ca
@@ -44318,7 +44345,7 @@ TV
 mI
 mI
 mI
-TV
+mI
 kx
 Zg
 Zg
@@ -44570,11 +44597,11 @@ Ba
 es
 es
 es
-es
-Gr
-es
-es
 cN
+Gr
+VM
+mI
+mI
 mI
 kx
 Zg
@@ -44827,11 +44854,11 @@ tZ
 TV
 TV
 mI
-mI
-VM
-UA
-pe
 Wm
+TV
+mI
+mI
+mI
 mI
 kx
 Zg
@@ -45082,13 +45109,13 @@ tg
 bW
 MO
 MO
-Tw
-mI
-oy
 TV
-mI
-UA
-Wm
+PT
+HU
+TV
+TV
+TV
+TV
 TV
 kx
 Zg
@@ -45339,13 +45366,13 @@ ni
 Sg
 zz
 MO
-TV
-PT
-PT
-TV
-TV
+Tw
 mI
-pp
+Wm
+mI
+mI
+mI
+oy
 TV
 kx
 Zg
@@ -45598,8 +45625,8 @@ NB
 MO
 tr
 mI
-mI
-AZ
+Wm
+oy
 TV
 TV
 XH
@@ -45855,11 +45882,11 @@ NB
 MO
 tr
 mI
-mI
+Wm
 jm
 TV
 Mr
-dW
+Mr
 bw
 kx
 Zg
@@ -46112,11 +46139,11 @@ rU
 MO
 kV
 mI
-mI
+Wm
 Ld
 TV
 Mr
-dW
+Mr
 Mr
 kx
 Zg
@@ -46373,7 +46400,7 @@ EN
 cJ
 TV
 Mr
-dW
+Mr
 Mr
 kx
 Zg
@@ -46626,7 +46653,7 @@ HA
 MO
 OJ
 mI
-mI
+Wm
 AZ
 TV
 TV
@@ -46883,7 +46910,7 @@ Ac
 MO
 TV
 mI
-mI
+Wm
 TV
 TV
 mI
@@ -47140,7 +47167,7 @@ Xd
 MO
 TV
 mI
-mI
+QM
 TV
 AZ
 UA
@@ -47397,7 +47424,7 @@ MO
 MO
 TV
 mI
-mI
+Wm
 TV
 pI
 mI
@@ -47654,7 +47681,7 @@ MO
 TV
 JI
 mI
-oy
+Oo
 TV
 hj
 UA
@@ -47911,7 +47938,7 @@ MO
 TV
 Gk
 mI
-mI
+Wm
 TV
 jC
 UA
@@ -48167,8 +48194,8 @@ Ya
 MO
 TV
 TV
-mI
-mI
+pp
+Wm
 TV
 AZ
 mI
@@ -48425,7 +48452,7 @@ MO
 TV
 TV
 PT
-PT
+HU
 TV
 TV
 mI
@@ -48682,7 +48709,7 @@ eQ
 AZ
 TV
 mI
-mI
+Wm
 TV
 mI
 mI
@@ -48939,11 +48966,11 @@ mI
 mI
 HS
 mI
-mI
-HS
-mI
-mI
-Oo
+dW
+TX
+es
+es
+AF
 TV
 kx
 Zg
@@ -50227,7 +50254,7 @@ Mr
 Mr
 Mr
 TV
-mI
+pp
 Wm
 lE
 kx
