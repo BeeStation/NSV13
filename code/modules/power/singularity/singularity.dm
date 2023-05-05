@@ -360,7 +360,7 @@
 	return
 
 /obj/anomaly/singularity/proc/emp_area()
-/	empulse(src, 8, 10)
+	empulse(src, 8, 10)
 
 /obj/anomaly/singularity/singularity_act()
 	var/gain = (energy/2)
