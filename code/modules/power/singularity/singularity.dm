@@ -359,9 +359,8 @@
 						"<span class='userdanger'>You look directly into the [src.name] and feel weak.</span>")
 	return
 
-//NSV13
-//obj/anomaly/singularity/proc/emp_area()  //NSV13
-//	empulse(src, 8, 10)  //NSV13
+/obj/anomaly/singularity/proc/emp_area()
+/	empulse(src, 8, 10)
 
 /obj/anomaly/singularity/singularity_act()
 	var/gain = (energy/2)
