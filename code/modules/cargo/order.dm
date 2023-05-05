@@ -39,6 +39,15 @@
 	src.reason = reason
 	src.paying_account = paying_account
 
+//NSV13 - Cargo Sleaker UI - Start
+//Returns the total cost of this order. Its not the total price paid by cargo but the total value of this order
+/datum/supply_order/proc/get_final_cost()
+	var/cost = pack.get_cost()
+	if(!isnull(paying_account)) //privately purchased means 1.1x the cost
+		cost *= 1.1
+	return cost
+//NSV13 - Cargo Sleaker UI - Stop
+
 /datum/supply_order/proc/generateRequisition(turf/T)
 	var/obj/item/paper/P = new(T)
 
