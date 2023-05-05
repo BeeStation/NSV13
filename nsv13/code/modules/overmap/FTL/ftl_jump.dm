@@ -290,13 +290,10 @@
 	relay(ftl_drive.ftl_exit, "<span class='warning'>You feel the ship lurch to a halt</span>", loop=FALSE, channel = CHANNEL_SHIP_ALERT)
 
 	var/list/pulled = list()
-	listclearnulls(GLOB.overmap_objects) // Hopefully this keeps the ship from being stuck in hyperspace forever. Could just continue on nulls but they're not supposed to be there anyways.
 	for(var/obj/structure/overmap/SOM as() in GLOB.overmap_objects) //Needs to go through global objects due to being in jumpspace not a system.
-		if(!SOM.z || SOM.z != reserved_z)
+		if(!SOM || !SOM.z || SOM.z != reserved_z)
 			continue
 		if(SOM == src)
-			continue
-		if(!SOM.z)
 			continue
 		LAZYADD(pulled, SOM)
 	target_system.add_ship(src) //Get the system to transfer us to its location.
