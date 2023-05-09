@@ -56,6 +56,13 @@
 		-->
 		<div class="commit sansserif">
 
+			<h2 class="date">05 May 2023</h2>
+			<h3 class="author">tralezab, Tastyfish, nickup9, SyncIt21 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">UI for ordering bulk amount of stuff from cargo</li>
+				<li class="bugfix">clear cart button which now properly clears cart</li>
+			</ul>
+
 			<h2 class="date">01 May 2023</h2>
 			<h3 class="author">covertcorvid updated:</h3>
 			<ul class="changes bgimages16">
@@ -520,71 +527,6 @@
 			<h3 class="author">covertcorvid updated:</h3>
 			<ul class="changes bgimages16">
 				<li class="balance">Separated KNPC detection range from attack range. Set detection range equal to normal humans.</li>
-			</ul>
-
-			<h2 class="date">06 March 2023</h2>
-			<h3 class="author">Ikalpo updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">stopped ships bouncing off of guided munitions</li>
-			</ul>
-			<h3 class="author">benbot16 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixes the overmap brakes hotkey.</li>
-			</ul>
-			<h3 class="author">itsmeow, EvilDragonfiend updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">ChemMasters now have an exact output units mode for pills/patches/bottles.</li>
-				<li class="tweak">ChemMasters can now have a set name input to use for all pills, instead of prompting every time.</li>
-				<li class="admin">ChemMaster packaging names are now subject to the IC filter.</li>
-				<li class="rscadd">a new reagent container type - Chemical bag (max 200u). printable from ChemMaster. Currently, this does not have many usages - not drinkable, and not insertable into ChemMaster back.(but grindable) only usable for IV drip.</li>
-				<li class="tweak">blood packs are grindable</li>
-				<li class="code_imp">adds a bitflag that allows a grinder can grind a reagent container, and related proc 'is_grindable()'</li>
-				<li class="code_imp">new variable label_name that is used to display specific string without suffix like bottle, pill, patch</li>
-				<li class="bugfix">bottles now show its names in vending machines</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Starmaps in local servers now load properly</li>
-			</ul>
-
-			<h2 class="date">03 March 2023</h2>
-			<h3 class="author">BetaCentari, Floyd, ActionNinja updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="soundadd">added a TON of new sounds under sound/surgery and sound/items/handling</li>
-				<li class="code_imp">Changed some inventory handling to configure picking up and putting down and dropping items</li>
-			</ul>
-			<h3 class="author">Bobbanz1 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="code_imp">Removed a redundant if condition, tug will probably now keep the breaks on until you turn it off and not just when there's someone inside the thingy, also removed two unused variables.</li>
-			</ul>
-			<h3 class="author">Kenionatus updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Turnstiles now break when heavily damaged</li>
-				<li class="rscadd">Turnstiles now shock you when broken.</li>
-				<li class="rscadd">Turnstiles can now be repaired with a welder</li>
-				<li class="refactor">Refactored Turnstile code a bit.</li>
-			</ul>
-			<h3 class="author">PowerfulBacon updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Adds in job icons to the orbit panel</li>
-			</ul>
-			<h3 class="author">TaG2e updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixes APCs not showing the correct icons or overlays</li>
-			</ul>
-			<h3 class="author">benbot16 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="refactor">Refactors how targeting is handled</li>
-				<li class="rscadd">DRADIS now has a targeting mode, cycled using the hailing/targeting button. Clicking on enemies in targeting mode will paint them, and clicking on friendlies will pass your current target lock to them via datalink</li>
-				<li class="tweak">Tweaks how datalink functions. It is no longer automatic, and the sending ship must maintain a lock to maintain the datalink transmission. Targets recieved via datalink are also visible on DRADIS now.</li>
-				<li class="tweak">Painted targets will now be lost if radar contact is not maintained.</li>
-				<li class="rscadd">Readds the gunner's optical camera. This works on large ships and some small ships with TAC consoles, and has a range similar to that of the ship's base sensor range.</li>
-				<li class="balance">AI ships will now target incoming ordnance with PDCs, and will target ships locking them with flak.</li>
-				<li class="balance">All overmap ships are now limited to 3 target paints, except for fighters, which are limited to one paint. Fighters will also automatically lock onto the target they paint.</li>
-				<li class="bugfix">Fixes some null handling issues in target lists.</li>
-				<li class="code_imp">Homing is now based on the projectile being fired instead of the weapon.</li>
-				<li class="tweak">Non-fighter ghost ships now have access to active radar.</li>
-				<li class="bugfix">EWAR consoles now delete their radios properly  when destroyed.</li>
 			</ul>
 		</div>
 

@@ -51,6 +51,7 @@
 	. = ..()
 	var/list/data = get_header_data()
 	data["location"] = SSshuttle.supply.getStatusText()
+	data["department"] = "Cargo" //NSV13
 	var/datum/bank_account/buyer = SSeconomy.get_dep_account(ACCOUNT_CAR)
 	var/obj/item/card/id/id_card = get_buyer_id(user)
 	if(get_buyer_id(user))
@@ -61,6 +62,11 @@
 		else
 			requestonly = TRUE
 			can_approve_requests = FALSE
+		//NSV13 - Departmental Budget Stuff - Start
+		if(ACCESS_HEADS in id_card.access)
+			// If buyer is a departmental budget, replaces "Cargo" with that budget - we're not using the cargo budget here
+			data["department"] = addtext(buyer.account_holder, " Requisitions")
+		//NSV13 - Departmental Budget Stuff - Stop
 	else
 		requestonly = TRUE
 	if(isnull(buyer))
