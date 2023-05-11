@@ -33,8 +33,7 @@
 	if(..())
 		return
 	var/mob/living/silicon/ai/AI = usr
-	var/target_name = input(AI, "Choose who you want to track", "Tracking") as null|anything in AI.trackable_mobs()
-	AI.ai_camera_track(target_name)
+	GLOB.tracking_menu.show(AI, AI) //NSV13 - Better Tracking Menu
 
 /atom/movable/screen/ai/camera_light
 	name = "Toggle Camera Light"
