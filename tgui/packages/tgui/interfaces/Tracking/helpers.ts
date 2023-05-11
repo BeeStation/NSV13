@@ -1,4 +1,4 @@
-import { filter, sortBy } from '../../../common/collections';
+import { filter } from '../../../common/collections';
 import { flow } from '../../../common/fp';
 import type { Trackable } from './types';
 

@@ -1,10 +1,10 @@
 export type TrackingData = {
-  carbon: Array<Trackable>;
-  simple_mob: Array<Trackable>;
+  carbon: Trackable[];
+  simple_mob: Trackable[];
 };
 
 export type Trackable = {
-  role_icon?: string;
+  role_icon?: string ;
   name?: string;
   ref: string;
 };

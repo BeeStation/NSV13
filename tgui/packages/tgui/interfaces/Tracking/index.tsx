@@ -110,7 +110,7 @@ const TrackableContent = (props, context) => {
 const TrackableSection = (
   props: {
     color?: string;
-    section: Array<Trackable>;
+    section: Trackable[];
     title: string;
   },
   context
