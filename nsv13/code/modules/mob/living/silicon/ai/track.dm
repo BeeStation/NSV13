@@ -58,9 +58,16 @@ GLOBAL_DATUM_INIT(tracking_menu, /datum/track_menu, new)
 		if(istype(mob_poi))
 			if(mob_poi.mind == null)
 				simple_mob += list(serialized)
-			else
+			else if(istype(mob_poi, /mob/living/carbon/human))
+				var/mob/living/carbon/human/player = mob_poi
+				var/nanite_sensors = HAS_TRAIT(player, TRAIT_NANITE_SENSORS)
+				var/obj/item/clothing/under/uniform = player.w_uniform
+				if(nanite_sensors || uniform.sensor_mode >= SENSOR_VITALS)
+					serialized["health"] = FLOOR((player.health / player.maxHealth * 100), 1)
+
 				var/obj/item/card/id/identification_card = mob_poi.get_idcard()
 				if(identification_card)
+					serialized["job"] = identification_card.assignment
 					serialized["role_icon"] = "hud[ckey(identification_card.GetJobIcon())]"
 
 				carbon += list(serialized)

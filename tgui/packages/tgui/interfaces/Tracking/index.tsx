@@ -1,9 +1,9 @@
 import { filter, sortBy } from '../../../common/collections';
 import { flow } from '../../../common/fp';
 import { useBackend, useLocalState } from '../../backend';
-import { Button, Collapsible, Icon, Input, Section, Stack, Box } from '../../components';
+import { Button, Collapsible, Icon, Input, LabeledList, NoticeBox, Section, Stack, Box } from '../../components';
 import { Window } from '../../layouts';
-import { getMostRelevant } from './helpers';
+import { getMostRelevant, getDisplayColor, isJobOrNameMatch } from './helpers';
 import type { Trackable, TrackingData } from './types';
 
 export const Tracking = (props, context) => {
@@ -124,7 +124,7 @@ const TrackableSection = (
 
   const filteredSection: Trackable[] = flow([
     filter<Trackable>((trackable) =>
-      trackable.name?.toLowerCase().includes(searchQuery?.toLowerCase())
+      isJobOrNameMatch(trackable, searchQuery)
     ),
     sortBy<Trackable>((trackable) => trackable.name.toLowerCase()
     ),
@@ -156,12 +156,14 @@ const TrackableItem = (
 ) => {
   const { act } = useBackend<TrackingData>(context);
   const { color, item } = props;
-  const { role_icon, name, ref } = item;
+  const { role_icon, health, name, ref } = item;
 
   return (
     <Button
-      color={color}
-      onClick={() => act('track', { name: name })}>
+      color={getDisplayColor(item, color)}
+      onClick={() => act('track', { name: name })}
+      tooltip={(!!health) && <TrackableTooltip item={item} />}
+      tooltipPosition="bottom-start">
       {role_icon && (
         <Box inline
           ml={-0.5}
@@ -170,6 +172,37 @@ const TrackableItem = (
       )}
       {nameToUpper(name).slice(0, 44) /** prevents it from overflowing */}
     </Button>
+  );
+};
+
+/** Displays some info on the mob as a tooltip. */
+const TrackableTooltip = (props: { item: Trackable }) => {
+  const { item } = props;
+  const { name, job, health } = item;
+
+  const displayHealth = !!health && health >= 0 ? `${health}%` : 'Critical';
+
+  return (
+    <>
+      <NoticeBox textAlign="center" nowrap>
+        Last Known Data
+      </NoticeBox>
+      <LabeledList>
+        <>
+          {!!name && (
+            <LabeledList.Item label="Name">{name}</LabeledList.Item>
+          )}
+          {!!job && (
+            <LabeledList.Item label="Job">{job}</LabeledList.Item>
+          )}
+          {!!health && (
+            <LabeledList.Item label="Health">
+              {displayHealth}
+            </LabeledList.Item>
+          )}
+        </>
+      </LabeledList>
+    </>
   );
 };
 
