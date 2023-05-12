@@ -99,7 +99,6 @@ export const GenPop = (props, context) => {
                     icon="hourglass-start"
                     content="Release"
                     onClick={() => act('release', { id: value.id })} />
-
                 </Fragment>
               }>
                 Incarcerated for: {value.crime} <br />
