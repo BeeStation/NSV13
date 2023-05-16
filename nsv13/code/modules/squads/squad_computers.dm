@@ -140,6 +140,7 @@
 	network_destination = "squad management"
 	size = 2
 	tgui_id = "NtosSquadManager"
+	program_icon = "users-cog"
 	var/next_major_action = 0
 
 /datum/computer_file/program/squad_manager/ui_data()

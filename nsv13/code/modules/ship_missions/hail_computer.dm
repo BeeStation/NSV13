@@ -12,6 +12,7 @@
 	category = PROGRAM_CATEGORY_SUPL
 	size = 4
 	tgui_id = "NtosHailLogs"
+	program_icon = "envelope-open"
 	var/obj/var/obj/structure/overmap/ship //Our ship
 
 /datum/computer_file/program/ship_hail_logger/on_start(mob/living/user)
