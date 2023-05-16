@@ -1909,7 +1909,7 @@ Control Rods
 	..()
 
 /datum/computer_file/program/stormdrive_monitor/ui_data()
-	var/list/data = get_header_data()
+	var/list/data = list()
 	data["heat"] = reactor.heat
 	data["rod_integrity"] = reactor.control_rod_integrity
 	data["control_rod_percent"] = reactor.control_rod_percent

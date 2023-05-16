@@ -866,7 +866,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	..()
 
 /datum/computer_file/program/nuclear_monitor/ui_data()
-	var/list/data = get_header_data()
+	var/list/data = list()
 	data["powerData"] = powerData
 	data["psiData"] = psiData
 	data["tempInputData"] = tempInputData

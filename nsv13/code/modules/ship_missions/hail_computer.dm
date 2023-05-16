@@ -29,7 +29,7 @@
 
 
 /datum/computer_file/program/ship_hail_logger/ui_data()
-	var/list/data = get_header_data()
+	var/list/data = list()
 	data["ship_name"] = ship ? ship.name : "No ship detected!"
 	data["missions"] = prep_missions()
 	return data

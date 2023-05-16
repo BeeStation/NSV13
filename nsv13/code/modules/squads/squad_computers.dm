@@ -143,7 +143,7 @@
 	var/next_major_action = 0
 
 /datum/computer_file/program/squad_manager/ui_data()
-	var/list/data = get_header_data()
+	var/list/data = list()
 	var/list/squads_info = list()
 	for(var/datum/squad/S in GLOB.squad_manager.squads)
 		var/list/squad_info = list()
