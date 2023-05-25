@@ -288,6 +288,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	flick("laser",src)
 
 /obj/structure/overmap/Initialize(mapload)	//If I see one more Destroy() or Initialize() split into multiple files I'm going to lose my mind.
+	GLOB.overmap_objects += src
 	. = ..()
 	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
 	pixel_collision_size_x = I.Width()
@@ -326,7 +327,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		// AddComponent(/datum/component/nsv_mission_departure_from_system)
 	// AddComponent(/datum/component/nsv_mission_killships)
 	current_tracers = list()
-	GLOB.overmap_objects += src
 	START_PROCESSING(SSphysics_processing, src)
 
 	vector_overlay = new()
