@@ -127,6 +127,16 @@
 			S.cost = 1
 			S.source = get_or_create_estorage(/datum/robot_energy_storage/beacon)
 
+		//NSV13 - Cargo Borgs - Start
+		else if(istype(S, /obj/item/stack/package_wrap/cyborg))
+			S.cost = 1
+			S.source = get_or_create_estorage(/datum/robot_energy_storage/package_wrap)
+
+		else if(istype(S, /obj/item/stack/wrapping_paper/cyborg))
+			S.cost = 1
+			S.source = get_or_create_estorage(/datum/robot_energy_storage/wrapping_paper)
+		//NSV13 - Cargo Borgs - Stop
+
 		if(S?.source)
 			S.materials = list()
 			S.is_cyborg = 1

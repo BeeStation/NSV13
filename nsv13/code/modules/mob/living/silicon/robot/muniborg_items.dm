@@ -7,6 +7,7 @@
 		/obj/item/powder_bag,
 		/obj/item/ship_weapon/ammunition,
 		/obj/item/ship_weapon/parts,
+		/obj/item/ammo_box/magazine/nsv,
 	)
 
 /obj/item/borg/apparatus/munitions/update_icon()

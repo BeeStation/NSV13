@@ -78,7 +78,7 @@
 	/// A short description used when the check to pick up something has failed.
 	var/whitelisted_item_description = "small wrapped packages"
 	/// Weight limit on the items it can hold. Leave as NONE if there isn't.
-	var/item_weight_limit = WEIGHT_CLASS_SMALL
+	var/item_weight_limit = WEIGHT_CLASS_NORMAL
 	/// Can it hold mobs? (Dangerous, it is recommended to leave this to FALSE)
 	var/can_hold_mobs = FALSE
 	/// Audio for using the hydraulic clamp.
@@ -318,15 +318,24 @@
 
 /// Holders for the package wrap and the wrapping paper synthesizers.
 
+/datum/robot_energy_storage/package_wrap
+	name ="Package wrapper synthetizer"
+	max_energy = 25
+	recharge_rate = 2
+
+
+/datum/robot_energy_storage/wrapping_paper
+	name ="Wrapping paper synthetizer"
+	max_energy = 25
+	recharge_rate = 2
+
 /obj/item/stack/package_wrap/cyborg
 	name = "integrated package wrapper"
 	is_cyborg = TRUE
-	cost = 5
 
 /obj/item/stack/wrapping_paper/cyborg
 	name = "integrated wrapping paper"
 	is_cyborg = TRUE
-	cost = 5
 
 /obj/item/stack/wrapping_paper/cyborg/use(used, transfer, check = FALSE) // Check is set to FALSE here, so the stack istn't deleted.
 	. = ..()
