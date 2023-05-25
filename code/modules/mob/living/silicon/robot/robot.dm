@@ -860,7 +860,7 @@
 
 /mob/living/silicon/robot/modules/Initialize(mapload)
 	. = ..()
-	module.transform_to(set_module)
+	INVOKE_ASYNC(module, TYPE_PROC_REF(/obj/item/robot_module, transform_to), set_module, TRUE) //NSV13 - Borg Skin Framework
 
 /mob/living/silicon/robot/modules/standard
 	set_module = /obj/item/robot_module/standard

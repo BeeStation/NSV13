@@ -2,6 +2,13 @@
 
 #define DEFAULT_AI_LAWID "default"
 
+//NSV13 - Borg Skin Framework - Start
+#define SKIN_ICON "skin_icon"
+#define SKIN_ICON_STATE "skin_icon_state"
+#define SKIN_LIGHT_KEY "skin_light_key"
+#define SKIN_HAT_OFFSET "skin_hat_offset"
+//NSV13 - Borg Skin Framework - End
+
 //Bot defines, placed here so they can be read by other things!
 #define BOT_STEP_DELAY 4 //Delay between movemements
 #define BOT_STEP_MAX_RETRIES 5 //Maximum times a bot will retry to step from its position
