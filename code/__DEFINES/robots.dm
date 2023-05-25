@@ -12,6 +12,13 @@
 /// Cyborgs with unique sprites for when they get totally broken down.
 #define R_TRAIT_UNIQUEWRECK	"unique_wreck"
 
+/// To store all the different cyborg modules, instead of creating that for each cyborg.
+GLOBAL_LIST_EMPTY(cyborg_module_list)
+/// To store all of the different base cyborg module icons, instead of creating them every time the pick_module() proc is called.
+GLOBAL_LIST_EMPTY(cyborg_base_modules_icon_list)
+/// To store all of the different cyborg module icons, instead of creating them every time the be_transformed_to() proc is called.
+GLOBAL_LIST_EMPTY(cyborg_all_modules_icon_list)
+
 //NSV13 - Borg Skin Framework - End
 
 //Bot defines, placed here so they can be read by other things!

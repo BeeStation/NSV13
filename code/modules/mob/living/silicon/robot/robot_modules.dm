@@ -40,6 +40,8 @@
 	var/list/borg_skins
 	/// Traits unique to this model, i.e. having a unique dead sprite
 	var/list/module_features = list()
+	///Host of this module
+	var/mob/living/silicon/robot/robot
 	//NSV13 - Borg Skin Framework - Stop
 
 /obj/item/robot_module/Initialize(mapload)
@@ -168,6 +170,11 @@
 			var/obj/item/gun/energy/EG = I
 			if(!EG.chambered)
 				EG.recharge_newshot() //try to reload a new shot.
+		///NSV13 - Cargo Borgs - Start
+		else if(istype(I, /obj/item/hand_labeler/cyborg))
+			var/obj/item/hand_labeler/cyborg/labeler = I
+			labeler.labels_left = 30
+		///NSV13 - Cargo Borgs - Stop
 
 	R.toner = R.tonermax
 
@@ -197,6 +204,7 @@
 /obj/item/robot_module/proc/transform_to(new_module_type, forced = FALSE) //NSV13 - Borg Skin Framework
 	var/mob/living/silicon/robot/R = loc
 	var/obj/item/robot_module/RM = new new_module_type(R)
+	RM.robot = R //NSV13 - Cargo Borg
 	if(!RM.be_transformed_to(src, forced)) //NSV13 - Borg Skin Framework
 		qdel(RM)
 		return
