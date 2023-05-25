@@ -321,10 +321,12 @@
 /obj/item/stack/package_wrap/cyborg
 	name = "integrated package wrapper"
 	is_cyborg = TRUE
+	cost = 5
 
 /obj/item/stack/wrapping_paper/cyborg
 	name = "integrated wrapping paper"
 	is_cyborg = TRUE
+	cost = 5
 
 /obj/item/stack/wrapping_paper/cyborg/use(used, transfer, check = FALSE) // Check is set to FALSE here, so the stack istn't deleted.
 	. = ..()
