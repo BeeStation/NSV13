@@ -50,14 +50,8 @@ MAP_REMOVE_JOB(brig_phys)
 /datum/job/pilot/New()
     ..()
     MAP_JOB_CHECK
-    total_positions = 1
-    spawn_positions = 1
-
-/datum/job/detective/New()
-    ..()
-    MAP_JOB_CHECK
-    total_positions = 1
-    spawn_positions = 1
+    total_positions = 2
+    spawn_positions = 2
 
 /datum/job/bartender/New()
     ..()
