@@ -36,7 +36,11 @@
 	var/ride_allow_incapacitated = TRUE
 	var/allow_riding = TRUE
 	var/canDispose = FALSE // Whether the borg can stuff itself into disposal
-	var/list/borg_skins //NSV13 - Borg Skin Framework
+	//NSV13 - Borg Skin Framework - Start
+	var/list/borg_skins
+	/// Traits unique to this model, i.e. having a unique dead sprite
+	var/list/module_features = list()
+	//NSV13 - Borg Skin Framework - Stop
 
 /obj/item/robot_module/Initialize(mapload)
 	. = ..()
@@ -224,6 +228,8 @@
 			special_light_key = details[SKIN_LIGHT_KEY]
 		if(!isnull(details[SKIN_HAT_OFFSET]))
 			hat_offset = details[SKIN_HAT_OFFSET]
+		if(!isnull(details[SKIN_FEATURES]))
+			module_features += details[SKIN_FEATURES]
 	//NSV13 - Borg Skin Framework - Stop
 	for(var/i in old_module.added_modules)
 		added_modules += i

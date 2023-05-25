@@ -7,6 +7,11 @@
 #define SKIN_ICON_STATE "skin_icon_state"
 #define SKIN_LIGHT_KEY "skin_light_key"
 #define SKIN_HAT_OFFSET "skin_hat_offset"
+#define SKIN_FEATURES "skin_features" //for the new system of borg making
+
+/// Cyborgs with unique sprites for when they get totally broken down.
+#define R_TRAIT_UNIQUEWRECK	"unique_wreck"
+
 //NSV13 - Borg Skin Framework - End
 
 //Bot defines, placed here so they can be read by other things!
