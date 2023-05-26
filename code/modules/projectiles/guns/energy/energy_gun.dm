@@ -121,7 +121,7 @@
 	pin = null
 	can_charge = FALSE
 	ammo_x_offset = 1
-	ammo_type = list(/obj/item/ammo_casing/energy/laser, /obj/item/ammo_casing/energy/disabler)
+	ammo_type = list(/obj/item/ammo_casing/energy/laser, /obj/item/ammo_casing/energy/electrode, /obj/item/ammo_casing/energy/disabler) //NSV13 - readded electrode
 	selfcharge = 1
 	var/reactor_overloaded
 	var/fail_tick = 0

@@ -224,7 +224,9 @@
 			slipper.Paralyze(paralyze_amount)
 			slipper.stop_pulling()
 		else
-			slipper.Knockdown(15)
+			//NSV13 - increased knockdown and added paralyze
+			slipper.Knockdown(30)
+			slipper.Paralyze(15)
 			slipper.drop_all_held_items()
 
 		if(buckled_obj)
