@@ -1715,6 +1715,16 @@
 	name = "Spikes"
 	icon_state = "spikes"
 
+///NSV13 - Big Lizard Tail - Start
+/datum/sprite_accessory/tails/lizard/thick
+	name = "Thick"
+	icon_state = "thicktail"
+
+/datum/sprite_accessory/tails_animated/lizard/thick
+	name = "Thick"
+	icon_state = "thicktail"
+///NSV13 - Big Lizard Tail - Stop
+
 /datum/sprite_accessory/tails/human/none
 	name = "None"
 	icon_state = "none"
