@@ -77,6 +77,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/action_buttons_screen_locs = list()
 	//Nsv13 - Syndicate role select
 	var/preferred_syndie_role = CONQUEST_ROLE_GRUNT
+	//NSV13 - AI Custom Holographic Form - Start
+	var/icon/custom_holoform_icon
+	var/list/cached_holoform_icons
+	var/last_custom_holoform = 0
+	//NSV13 - AI Custom Holographic Form - End
 
 /datum/preferences/proc/set_max_character_slots(newmax)
 	max_usable_slots = min(TRUE_MAX_SAVE_SLOTS, newmax) // Make sure they dont go over
@@ -225,7 +230,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Socks:</b><BR><a href ='?_src_=prefs;preference=socks;task=input'>[active_character.socks]</a><BR>"
 			dat += "<b>Backpack:</b><BR><a href ='?_src_=prefs;preference=bag;task=input'>[active_character.backbag]</a><BR>"
 			dat += "<b>Jumpsuit:</b><BR><a href ='?_src_=prefs;preference=suit;task=input'>[active_character.jumpsuit_style]</a><BR>"
-			dat += "<b>Uplink Spawn Location:</b><BR><a href ='?_src_=prefs;preference=uplink_loc;task=input'>[active_character.uplink_spawn_loc == UPLINK_IMPLANT ? UPLINK_IMPLANT_WITH_PRICE : active_character.uplink_spawn_loc]</a><BR></td>"
+			dat += "<b>Uplink Spawn Location:</b><BR><a href ='?_src_=prefs;preference=uplink_loc;task=input'>[active_character.uplink_spawn_loc == UPLINK_IMPLANT ? UPLINK_IMPLANT_WITH_PRICE : active_character.uplink_spawn_loc]</a><BR>"
+			dat += "<b>Lizard Hiss:</b><BR><a href ='?_src_=prefs;preference=lizard_hiss_style;task=input'>[active_character.lizard_hiss_style]</a><BR></td>" //NSV13
 
 			var/use_skintones = active_character.pref_species.use_skintones
 			if(use_skintones)
@@ -1863,6 +1869,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 					var/msg = input(usr, "Set the flavor text for your 'examine' verb.\nThe rules are the following;\nNo Memes.\nNothing that people can't see at a glance.\nNothing that's Out Of Character.\nNothing that breaks the game.", "Flavor Text", active_character.flavor_text) as message|null
 					if(msg)
 						active_character.flavor_text = html_decode(strip_html_simple(msg))
+				if("lizard_hiss_style")
+					if(active_character.lizard_hiss_style == LIZARD_HISS_EXPANDED)
+						active_character.lizard_hiss_style = LIZARD_HISS_LEGACY
+					else
+						active_character.lizard_hiss_style = LIZARD_HISS_EXPANDED
 
 				if("silicon_flavor_text")
 					var/msg = input(usr, "Set the flavor text in your 'examine' verb. This is for describing what people can tell by looking at your character.", "Silicon Flavor Text", active_character.silicon_flavor_text) as message|null
@@ -2236,3 +2247,12 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			active_character.equipped_gear -= RG.id
 			purchased_gear -= RG.id
 		save_preferences()
+
+//NSV13 - AI Custom Holographic Form
+/datum/preferences/proc/get_filtered_holoform(filter_type)
+	if(!custom_holoform_icon)
+		return
+	LAZYINITLIST(cached_holoform_icons)
+	if(!cached_holoform_icons[filter_type])
+		cached_holoform_icons[filter_type] = process_holoform_icon_filter(custom_holoform_icon, filter_type)
+	return cached_holoform_icons[filter_type]

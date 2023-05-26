@@ -366,6 +366,17 @@
 	category = list("Weapons")
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
+//NSV13 - readded the mech taser
+/datum/design/mech_taser
+	name = "Exosuit Weapon (PBT \"Pacifier\" Mounted Taser)"
+	desc = "A weapon for combat exosuits. Shoots non-lethal stunning electrodes."
+	id = "mech_taser"
+	build_type = MECHFAB
+	build_path = /obj/item/mecha_parts/mecha_equipment/weapon/energy/taser
+	materials = list(MAT_METAL=10000)
+	construction_time = 100
+	category = list("Exosuit Equipment")
+
 /datum/design/mech_sleeper
 	name = "Exosuit Medical (Mounted Sleeper)"
 	desc = "Equipment for medical exosuits. A mounted sleeper that stabilizes patients and can inject reagents in the exosuit's reserves."

@@ -129,4 +129,4 @@
 
 /obj/item/grown/bananapeel/specialpeel/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/slippery, 40)
+	AddComponent(/datum/component/slippery, 40, null, 20, TRUE) //NSV13 - re-added stun and accidents

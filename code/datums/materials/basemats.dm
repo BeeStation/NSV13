@@ -122,7 +122,7 @@
 /datum/material/bananium/on_applied(atom/source, amount, material_flags)
 	. = ..()
 	source.LoadComponent(/datum/component/squeak, list('sound/items/bikehorn.ogg'=1), 50)
-	source.AddComponent(/datum/component/slippery, min(amount / 10, 80))
+	source.AddComponent(/datum/component/slippery, min(amount / 10, 80), null, min(amount / 20, 40), _force_drop = TRUE) //NSV13 - added stuns and accidents
 
 /datum/material/bananium/on_removed(atom/source, amount, material_flags)
 	. = ..()

@@ -88,10 +88,18 @@ export const GenPop = (props, context) => {
             let value = data.allPrisoners[key];
             return (
               <Section key={value} title={value.name} buttons={
-                <Button
-                  icon="hourglass-start"
-                  content="Release"
-                  onClick={() => act('release', { id: value.id })} />
+                <Fragment>
+                  <Button
+                    icon="backward"
+                    onClick={() => act('adjust_time', { adjust: -60, id: value.id })} />
+                  <Button
+                    icon="forward"
+                    onClick={() => act('adjust_time', { adjust: 60, id: value.id })} />
+                  <Button
+                    icon="hourglass-start"
+                    content="Release"
+                    onClick={() => act('release', { id: value.id })} />
+                </Fragment>
               }>
                 Incarcerated for: {value.crime} <br />
                 <ProgressBar

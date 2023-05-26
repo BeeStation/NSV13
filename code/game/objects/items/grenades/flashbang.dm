@@ -35,7 +35,7 @@
 
 	if(M.flash_act(intensity = 1, affect_silicon = 1))
 		if(distance_proportion)
-			M.Paralyze(20 * distance_proportion)
+			M.Paralyze(100 * distance_proportion) //NSV13 - longer paralyze
 			M.Knockdown(200 * distance_proportion)
 	else
 		M.flash_act(intensity = 2)
@@ -47,12 +47,12 @@
 	var/distance = max(0,get_dist(get_turf(src),T))
 	M.show_message("<span class='warning'>BANG</span>", MSG_AUDIBLE)
 	if(!distance || loc == M || loc == M.loc)	//Stop allahu akbarring rooms with this.
-		M.Paralyze(20)
+		M.Paralyze(100) //NSV13 - made flashbangs stronger
 		M.Knockdown(200)
 		M.soundbang_act(1, 200, 10, 15)
 	else
 		if(distance <= 1)
-			M.Paralyze(5)
+			M.Paralyze(15) //NSV13 - readded paralyze
 			M.Knockdown(30)
 
 		var/distance_proportion = max(1 - (distance / flashbang_range), 0)
