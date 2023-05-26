@@ -40,7 +40,7 @@
 	/// List of types which should be allowed to be faxed if hacked
 	var/static/list/exotic_types = list(
 		/obj/item/reagent_containers/food/snacks/pizzaslice,
-		/obj/item/food/breadslice,
+		/obj/item/reagent_containers/food/snacks/breadslice, //NSV13 - For now until we get the food update.
 		/obj/item/reagent_containers/food/snacks/donkpocket,
 		/obj/item/reagent_containers/food/snacks/cookie,
 		/obj/item/reagent_containers/food/snacks/sugarcookie,
@@ -95,8 +95,7 @@
  * Emag the device if the panel is open.
  * Emag does not bring you into the syndicate network, but makes it visible to you.
  */
-/obj/machinery/fax/on_emag(mob/user)
-	..()
+/obj/machinery/fax/emag_act(mob/user)
 	if(!panel_open && !allow_exotic_faxes)
 		balloon_alert(user, "open the panel first!")
 		return

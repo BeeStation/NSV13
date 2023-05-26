@@ -136,16 +136,17 @@ Called by add_sensor_profile_penalty if remove_in is used.
 /obj/machinery/computer/ship/dradis/minor/cargo/Initialize(mapload)
 	. = ..()
 	var/obj/item/paper/paper = new /obj/item/paper(get_turf(src))
-	paper.info = ""
-	paper.info += "<h2>How to perform deliveries with the Cargo DRADIS</h2>"
-	paper.info += "<hr/><br/>"
-	paper.info += "Step 1: Find or build a freight torpedo.<br/><br/>"
-	paper.info += "Step 2: Load your contents directly into the freight torpedo. Or load your contents into a crate, then load the crate into the freight torpedo (click drag the object onto the torpedo).<br/><br/>"
-	paper.info += "Step 3: Load the freight torpedo into the Cargo freight launcher (click drag the torpedo onto the launcher). You may need to use a munitions trolley to move the freight torpedo closer.<br/><br/>"
-	paper.info += "Step 4: Use the munitions console to load the payload, chamber the payload, and disable weapon safeties.<br/><br/>"
-	paper.info += "Step 5: Put on hearing protection gear, such as earmuffs.<br/><br/>"
-	paper.info += "Step 6: Navigate to the cargo DRADIS, and click on the recipient. If the payload is malformed or not chambered, an error will display. If the payload is properly chambered, a final confirmation will display. Click Yes.<br/><br/>"
-	paper.update_icon()
+	var/final_paper_text = ""
+	final_paper_text += "<h2>How to perform deliveries with the Cargo DRADIS</h2>"
+	final_paper_text += "<hr/><br/>"
+	final_paper_text += "Step 1: Find or build a freight torpedo.<br/><br/>"
+	final_paper_text += "Step 2: Load your contents directly into the freight torpedo. Or load your contents into a crate, then load the crate into the freight torpedo (click drag the object onto the torpedo).<br/><br/>"
+	final_paper_text += "Step 3: Load the freight torpedo into the Cargo freight launcher (click drag the torpedo onto the launcher). You may need to use a munitions trolley to move the freight torpedo closer.<br/><br/>"
+	final_paper_text += "Step 4: Use the munitions console to load the payload, chamber the payload, and disable weapon safeties.<br/><br/>"
+	final_paper_text += "Step 5: Put on hearing protection gear, such as earmuffs.<br/><br/>"
+	final_paper_text += "Step 6: Navigate to the cargo DRADIS, and click on the recipient. If the payload is malformed or not chambered, an error will display. If the payload is properly chambered, a final confirmation will display. Click Yes.<br/><br/>"
+	paper.add_raw_text(final_paper_text)
+	paper.update_appearance()
 	sensor_range = hail_range
 
 	if(!linked_launcher)

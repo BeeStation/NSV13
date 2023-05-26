@@ -1,7 +1,7 @@
 ///////////	listening station
 
 /obj/item/paper/fluff/ruins/listeningstation/reports
-	info = "Nothing of interest to report."
+	default_raw_text = "Nothing of interest to report."
 
 /obj/item/paper/fluff/ruins/listeningstation/reports/july
 	name = "july report"
@@ -20,11 +20,11 @@
 
 /obj/item/paper/fluff/ruins/listeningstation/reports/june
 	name = "june report"
-	info = "Nanotrasen communications have been noticeably less frequent recently.  The pirate radio station I found last month has been transmitting pro-Nanotrasen propaganda. I will continue to monitor it."
+	default_raw_text = "Nanotrasen communications have been noticeably less frequent recently.  The pirate radio station I found last month has been transmitting pro-Nanotrasen propaganda. I will continue to monitor it."
 
 /obj/item/paper/fluff/ruins/listeningstation/reports/may
 	name = "may report"
-	info = "Nothing of real interest to report this month. I have intercepted faint transmissions from what appears to be some sort of pirate radio station. They do not appear to be relevant to my assignment."
+	default_raw_text = "Nothing of real interest to report this month. I have intercepted faint transmissions from what appears to be some sort of pirate radio station. They do not appear to be relevant to my assignment."
 
 /obj/item/paper/fluff/ruins/listeningstation/reports/april
 	name = "april report"
