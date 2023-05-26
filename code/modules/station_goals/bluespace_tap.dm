@@ -4,15 +4,16 @@
 	var/goal = 45000
 
 /datum/station_goal/bluespace_tap/get_report()
-	return {"<b>Bluespace Harvester Experiment</b><br>
-	Another research station has developed a device called a Bluespace Harvester.
-	It reaches through bluespace into other dimensions to shift through them for interesting objects.<br>
-	Due to unforseen circumstances the large-scale test of the prototype could not be completed on the original research station. It will instead be carried out on your station.
-	Acquire the circuit board, construct the device over a wire knot and feed it enough power to generate [goal] mining points by shift end.
-	<br><br>
-	Be advised that the device is experimental and might act in slightly unforseen ways if sufficiently powered.
-	<br>
-	Nanotrasen Science Directorate"}
+	return list(
+	"<blockquote><b>Bluespace Harvester Experiment</b>",
+	"Another research station has developed a device called a Bluespace Harvester.",
+	"It reaches through bluespace into other dimensions to shift through them for interesting objects.",
+	"Due to unforeseen circumstances the large-scale test of the prototype could not be completed on the original research station. It will instead be carried out on your station.",
+	"Acquire the circuit board, construct the device over a wire knot and feed it enough power to generate [goal] mining points by shift end.",
+	"",
+	"Be advised that the device is experimental and might act in slightly unforeseen ways if sufficiently powered.",
+	"Nanotrasen Science Directorate</blockquote>",
+	).Join("\n")
 
 /datum/station_goal/bluespace_tap/on_report()
 	var/datum/supply_pack/engineering/bluespace_tap/P = SSshuttle.supply_packs[/datum/supply_pack/engineering/bluespace_tap]

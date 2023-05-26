@@ -84,18 +84,6 @@
 #define GAME_STATE_PLAYING		3
 #define GAME_STATE_FINISHED		4
 
-//FONTS:
-// Used by Paper and PhotoCopier (and PaperBin once a year).
-// Used by PDA's Notekeeper.
-// Used by NewsCaster and NewsPaper.
-// Used by Modular Computers
-#define PEN_FONT "Verdana"
-#define FOUNTAIN_PEN_FONT "Segoe Script"
-#define CRAYON_FONT "Comic Sans MS"
-#define PRINTER_FONT "Times New Roman"
-#define SIGNFONT "Times New Roman"
-#define CHARCOAL_FONT "Candara"
-
 #define RESIZE_DEFAULT_SIZE 1
 
 //transfer_ai() defines. Main proc in ai_core.dm
