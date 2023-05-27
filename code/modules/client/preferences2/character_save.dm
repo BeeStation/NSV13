@@ -77,6 +77,8 @@
 	var/preferred_pilot_role = PILOT_COMBAT
 	//NSV13 - Added Flavor Text
 	var/flavor_text = ""
+	//Nsv13 - lizard hiss style pref
+	var/lizard_hiss_style = LIZARD_HISS_EXPANDED
 
 /datum/character_save/New()
 	real_name = get_default_name()
@@ -163,6 +165,9 @@
 
 	//NSV13 flavor text
 	SAFE_READ_QUERY(34, flavor_text)
+
+	//NSV13 lizard hiss style
+	SAFE_READ_QUERY(35, lizard_hiss_style)
 
 	//Sanitize. Please dont put query reads below this point. Please.
 
@@ -345,7 +350,8 @@
 			equipped_gear,
 			preferred_squad,
 			preferred_pilot_role,
-			flavor_text
+			flavor_text,
+			lizard_hiss_style
 		) VALUES (
 			:slot,
 			:ckey,
@@ -381,7 +387,8 @@
 			:equipped_gear,
 			:preferred_squad,
 			:preferred_pilot_role,
-			:flavor_text
+			:flavor_text,
+			:lizard_hiss_style
 		)
 	"}, list(
 		// Now for the above but in a fucking monsterous list
@@ -419,7 +426,8 @@
 		"equipped_gear" = json_encode(equipped_gear),
 		"preferred_squad" = preferred_squad,
 		"preferred_pilot_role" = preferred_pilot_role,
-		"flavor_text" = flavor_text
+		"flavor_text" = flavor_text,
+		"lizard_hiss_style" = lizard_hiss_style
 	))
 
 	if(!insert_query.warn_execute())

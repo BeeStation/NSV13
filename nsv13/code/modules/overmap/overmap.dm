@@ -210,6 +210,7 @@
 	var/boarding_reservation_z = null //Do we have a reserved Z-level for boarding? This is set up on instance_overmap. Ships being boarded copy this value from the boarder.
 	var/obj/structure/overmap/active_boarding_target = null
 	var/static/next_boarding_time = 0 // This is stupid and lazy but it's 5am and I don't care anymore
+	var/hammerlocked = FALSE //Is this ship currently being hammerlocked? Currently used to ensure IFF consoles on boarded ships stay emmaged
 /**
 Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 @return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
@@ -287,6 +288,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	flick("laser",src)
 
 /obj/structure/overmap/Initialize(mapload)	//If I see one more Destroy() or Initialize() split into multiple files I'm going to lose my mind.
+	GLOB.overmap_objects += src
 	. = ..()
 	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
 	pixel_collision_size_x = I.Width()
@@ -325,7 +327,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		// AddComponent(/datum/component/nsv_mission_departure_from_system)
 	// AddComponent(/datum/component/nsv_mission_killships)
 	current_tracers = list()
-	GLOB.overmap_objects += src
 	START_PROCESSING(SSphysics_processing, src)
 
 	vector_overlay = new()

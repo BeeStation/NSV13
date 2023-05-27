@@ -31,6 +31,10 @@
 #define CONQUEST_ROLE_LINECOOK "Line Cook"
 #define CONQUEST_ROLE_GRUNT "Autofill"
 
+//Lizard hiss preference options
+#define LIZARD_HISS_LEGACY "Legacy (s only)"
+#define LIZARD_HISS_EXPANDED "Expanded (x and s)"
+
 GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 
 #define COMSIG_ATOM_DAMAGE_ACT "comsig_atom_damage_act" //Used when an atom takes damage.

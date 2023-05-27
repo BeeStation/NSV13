@@ -96,6 +96,8 @@
 	icon_state = "commandglock"
 	full_auto = TRUE
 	requires_wielding = FALSE //While the HoS's upgraded energy gun gets a ion setting, Winona gets to fire with one hand without decreased accuracy.
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
+	investigate_flags = ADMIN_INVESTIGATE_TARGET
 
 /datum/design/rubbershot
 	name = "9mm rubber Glock round"
