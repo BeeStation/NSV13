@@ -40,6 +40,7 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 	var/bounce_factor = 0.2 // how much of our velocity to keep on collision
 	var/lateral_bounce_factor = 0.95 // mostly there to slow you down when you drive (pilot?) down a 2x2 corridor
 
+	COOLDOWN_DECLARE(key_cooldown) // Anti-spam for keys
 	var/brakes = FALSE //Helps you stop the tug
 	var/last_slowprocess = 0
 	var/last_squeak = 0
@@ -77,6 +78,7 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 
 /obj/vehicle/sealed/car/realistic/proc/toggle_brakes()
 	brakes = !brakes
+	to_chat(usr, "<span class='notice'>You toggle the brakes [brakes ? "on" : "off"].")
 
 /obj/effect/decal/cleanable/tyre_marks
 	name = "Tyre tracks"
@@ -100,7 +102,9 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 
 /obj/vehicle/sealed/car/realistic/driver_move(mob/user, direction)
 	if(key_type && !is_key(inserted_key))
-		to_chat(user, "<span class='warning'>[src] has no key inserted!</span>")
+		if(COOLDOWN_FINISHED(src, key_cooldown))
+			to_chat(user, "<span class='warning'>[src] has no key inserted!</span>")
+			COOLDOWN_START(src, key_cooldown, 1 SECONDS)
 		return FALSE
 	if(world.time >= last_enginesound_time + engine_sound_length)
 		last_enginesound_time = world.time

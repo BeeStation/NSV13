@@ -8,6 +8,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 /obj/structure/overmap/proc/kill_boarding_level(obj/structure/overmap/boarder)
 	set waitfor = FALSE
 	var/was_fully_loaded = TRUE
+	hammerlocked = FALSE
 	if(interior_status != INTERIOR_READY) // determines whether this ship can be loaded again
 		if(interior_status != INTERIOR_NOT_LOADED)
 			message_admins("DEBUG: Deleting the interior for [src] before it was fully loaded")
@@ -97,6 +98,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 		message_admins("Error parsing boarding interior map for [src]")
 		return FALSE
 
+	hammerlocked = TRUE
 	current_system = boarder.current_system
 	get_overmap_level()
 	boarding_reservation_z = boarder.boarding_reservation_z

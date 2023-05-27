@@ -29,7 +29,7 @@
 
 /obj/item/soap/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/slippery, 80)
+	AddComponent(/datum/component/slippery, 80, _force_drop = TRUE) //NSV13 - re-added accidents
 
 /obj/item/soap/examine(mob/user)
 	. = ..()

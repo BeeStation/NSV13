@@ -175,10 +175,7 @@
 		if(!deductcharge(hitcost))
 			return FALSE
 
-	var/obj/item/bodypart/affecting = target.get_bodypart(ran_zone(user.zone_selected))
-	var/armor_block = target.run_armor_check(affecting, "stamina")
-	// L.adjustStaminaLoss(stunforce)
-	target.apply_damage(stunforce, STAMINA, affecting, armor_block)
+	target.Paralyze(stunforce) //NSV13 - re-added stun, removed stamina damage
 	target.apply_effect(EFFECT_STUTTER, stunforce)
 	SEND_SIGNAL(target, COMSIG_LIVING_MINOR_SHOCK) //Only used for nanites
 	target.stuttering = 20
