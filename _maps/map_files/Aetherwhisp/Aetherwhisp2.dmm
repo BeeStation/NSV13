@@ -10078,6 +10078,9 @@
 /obj/machinery/atmospherics/components/binary/drive_pylon{
 	dir = 8
 	},
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
 /turf/open/floor/engine,
 /area/gateway)
 "gNy" = (
@@ -10478,8 +10481,12 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science/central)
 "hbD" = (
-/obj/item/wallframe/airalarm,
-/obj/item/electronics/airalarm,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/airalarm/all_access{
+	pixel_y = 25
+	},
 /turf/open/floor/engine/vacuum,
 /area/nsv/hanger)
 "hbN" = (
@@ -22841,6 +22848,9 @@
 /obj/machinery/atmospherics/components/binary/drive_pylon{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
 /turf/open/floor/engine,
 /area/gateway)
 "pHk" = (
@@ -29863,6 +29873,13 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/janitor)
+"uzC" = (
+/obj/machinery/airalarm/all_access{
+	dir = 8;
+	pixel_x = 23
+	},
+/turf/closed/wall/r_wall/ship,
+/area/nsv/atc)
 "uzL" = (
 /obj/machinery/modular_computer/console/preset/command{
 	dir = 8
@@ -67155,7 +67172,7 @@ mot
 qjS
 uiF
 dCU
-hbD
+vAz
 wTG
 nIK
 vIp
@@ -71015,8 +71032,8 @@ tnW
 rZn
 pjB
 wNh
-wNh
-wTG
+uzC
+hbD
 vAz
 wTG
 bBU

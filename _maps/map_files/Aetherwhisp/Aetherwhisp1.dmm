@@ -5013,6 +5013,9 @@
 /area/security/brig)
 "dfh" = (
 /obj/effect/landmark/nuclear_waste_spawner,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engine_smes)
 "dfP" = (
@@ -25742,7 +25745,9 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
 "qMu" = (
-/obj/machinery/atmospherics/pipe/multiz/layer1,
+/obj/machinery/atmospherics/pipe/multiz/layer1{
+	dir = 1
+	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
@@ -25752,6 +25757,9 @@
 /obj/machinery/airalarm/directional/west,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/components/unary/portables_connector{
+	dir = 1
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engine_smes)
@@ -30392,9 +30400,6 @@
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/components/unary/portables_connector{
-	dir = 1
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engine_smes)
