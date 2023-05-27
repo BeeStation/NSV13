@@ -33,6 +33,12 @@ If someone hacks it, you can always rebuild it.
 /obj/machinery/computer/iff_console/LateInitialize()
 	. = ..()
 	var/obj/structure/overmap/OM = get_overmap()
+	if(OM?.hammerlocked == TRUE) //In case the console gets destroyed and needs to be rebuilt
+		start_emagged = TRUE
+		if(OM.faction == "Syndicate")
+			radio_channel = RADIO_CHANNEL_SYNDICATE
+		else if(OM.faction == "Pirate")
+			radio_channel = RADIO_CHANNEL_PIRATE
 	if(start_emagged)
 		obj_flags |= EMAGGED
 	if(!OM)

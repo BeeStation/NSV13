@@ -182,10 +182,11 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	cost = 30 // normally 42
 	purchasable_from = UPLINK_NUKE_OPS | UPLINK_CLOWN_OPS
 
+// NSV13 - added taser drum
 /datum/uplink_item/bundles_TC/bulldog
 	name = "Bulldog bundle"
 	desc = "Lean and mean: Optimized for people that want to get up close and personal. Contains the popular \
-			Bulldog shotgun, two 12g buckshot drums, and a pair of Thermal imaging goggles."
+			Bulldog shotgun, a 12g buckshot drum, a 12g taser slug drum, and a pair of Thermal imaging goggles."
 	item = /obj/item/storage/backpack/duffelbag/syndie/bulldogbundle
 	cost = 13 // normally 16
 	purchasable_from = UPLINK_NUKE_OPS
@@ -765,12 +766,13 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	cost = 8
 	surplus = 50
 
+//NSV13 - ebow does paralyze
 /datum/uplink_item/stealthy_weapons/crossbow
 	name = "Miniature Energy Crossbow"
 	desc = "A short bow mounted across a tiller in miniature. \
 	Small enough to fit into a pocket or slip into a bag unnoticed. \
 	It will synthesize and fire bolts tipped with a disabling \
-	toxin that will damage and disorient targets, causing them to \
+	toxin that will briefly stun and disorient targets, causing them to \
 	slur as if inebriated. It can produce an infinite number \
 	of bolts, but takes a small amount of time to automatically recharge after each shot."
 	item = /obj/item/gun/energy/kinetic_accelerator/crossbow
@@ -906,6 +908,14 @@ GLOBAL_LIST_INIT(uplink_items, subtypesof(/datum/uplink_item))
 	desc = "An alternative 8-round breaching slug magazine for use with the Bulldog shotgun. \
 			Great for quickly destroying light barricades such as airlocks and windows."
 	item = /obj/item/ammo_box/magazine/m12g/breacher
+
+//NSV13 - readded stun slugs
+/datum/uplink_item/ammo/shotgun/stun
+	name = "12g Stun Slug Drum"
+	desc = "An alternative 8-round stun slug magazine for use with the Bulldog shotgun. \
+			Saying that they're completely non-lethal would be lying."
+	item = /obj/item/ammo_box/magazine/m12g/stun
+	purchasable_from = UPLINK_NUKE_OPS
 
 /datum/uplink_item/ammo/revolver
 	name = ".357 Speed Loader"

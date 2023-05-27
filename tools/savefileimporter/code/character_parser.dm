@@ -20,9 +20,10 @@ var/global/list/custom_name_types = list(
 	if(!equipped_gear)
 		equipped_gear = list()
 
-	// NSV13 - squad and pilot role
+	// NSV13 - squad, pilot role and lizard hiss style
 	READ_FILE(S["preferred_squad"], preferred_squad, "Able") //Change this line to '	var/preferred_squad = "Able" ' in case of errors when converting files
 	READ_FILE(S["preferred_pilot_role"], preferred_pilot_role, "Combat")
+	READ_FILE(S["lizard_hiss_style"], lizard_hiss_style, LIZARD_HISS_EXPANDED)
 
 	for(var/character_dir in cdirs)
 		S.cd = "/[character_dir]"
@@ -97,7 +98,7 @@ var/global/list/custom_name_types = list(
 		var/list/slot_list = splittext(character_dir, "character")
 		var/slot_number = text2num(slot_list[2])
 
-		// NSV13 - added preferred squad and preferred pilot role
+		// NSV13 - added preferred squad, preferred pilot role and lizard hiss style
 		var/querytext = {"
 		INSERT INTO SS13_characters (
 			slot,
@@ -133,7 +134,8 @@ var/global/list/custom_name_types = list(
 			all_quirks,
 			equipped_gear,
 			preferred_squad,
-			preferred_pilot_role
+			preferred_pilot_role,
+			lizard_hiss_style
 		) VALUES (
 			:slotnum,
 			:ckey,
@@ -168,7 +170,8 @@ var/global/list/custom_name_types = list(
 			:allquirks,
 			:gear,
 			:preferredsquad,
-			:preferredpilotrole
+			:preferredpilotrole,
+			:lizardhissstyle
 		)
 		"}
 
@@ -206,7 +209,8 @@ var/global/list/custom_name_types = list(
 			"allquirks" = json_encode(all_quirks),
 			"gear" = json_encode(equipped_gear),
 			"preferredsquad" = preferred_squad,
-			"preferredpilotrole" = preferred_pilot_role
+			"preferredpilotrole" = preferred_pilot_role,
+			"lizardhissstyle" = lizard_hiss_style
 		)
 
 		var/datum/DBQuery/query = NewDBQuery(querytext, qargs)

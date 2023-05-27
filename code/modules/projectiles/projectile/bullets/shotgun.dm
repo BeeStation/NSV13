@@ -7,6 +7,7 @@
 	name = "beanbag slug"
 	damage = 5
 	stamina = 55
+	paralyze = 10 //NSV13 - added paralyze
 
 /obj/item/projectile/bullet/incendiary/shotgun
 	name = "incendiary slug"
