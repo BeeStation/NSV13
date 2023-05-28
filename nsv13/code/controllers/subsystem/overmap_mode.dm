@@ -20,6 +20,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/highest_objective_completion = 0				//What was the highest amount of objectives completed? If it increases, reduce threat.
 	var/player_check = 0 							//Number of players connected when the check is made for gamemode
 	var/datum/overmap_gamemode/mode 				//The assigned mode
+	var/datum/overmap_gamemode/forced_mode = null							//Admin forced gamemode prior to initialization
 
 	var/objective_reminder_override = FALSE 		//Are we currently using the reminder system?
 	var/last_objective_interaction = 0 				//Last time the crew interacted with one of our objectives
@@ -109,21 +110,24 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	if(length(mode_cache))
 		var/list/mode_select = list()
-		for(var/M in mode_cache)
-			var/datum/overmap_gamemode/GM = M
-			var/config_tag = initial(GM.config_tag)
+		if(forced_mode)
+			mode = new forced_mode
+		else
+			for(var/M in mode_cache)
+				var/datum/overmap_gamemode/GM = M
+				var/config_tag = initial(GM.config_tag)
 
-			var/selection_weight = 0
-			if(config_tag in probabilities)
-				selection_weight = probabilities[config_tag]
-			else
-				selection_weight = initial(GM.selection_weight)
-			for(var/I = 0, I < selection_weight, I++) //Populate with weight number of instances
-				mode_select += M
+				var/selection_weight = 0
+				if(config_tag in probabilities)
+					selection_weight = probabilities[config_tag]
+				else
+					selection_weight = initial(GM.selection_weight)
+				for(var/I = 0, I < selection_weight, I++) //Populate with weight number of instances
+					mode_select += M
 
-		if(length(mode_select))
-			var/mode_type = pick(mode_select)
-			mode = new mode_type
+			if(length(mode_select))
+				var/mode_type = pick(mode_select)
+				mode = new mode_type
 
 	if(mode)
 		message_admins("[mode.name] has been selected as the overmap gamemode")
@@ -355,6 +359,12 @@ SUBSYSTEM_DEF(overmap_mode)
 		/datum/overmap_objective/perform_jumps
 	)
 
+/datum/overmap_gamemode/Destroy()
+	for(var/datum/overmap_objective/objective in objectives)
+		QDEL_NULL(objective)
+	objectives.Cut()
+	. = ..()
+
 /datum/overmap_gamemode/proc/consequence_one()
 
 /datum/overmap_gamemode/proc/consequence_two()
@@ -531,15 +541,19 @@ SUBSYSTEM_DEF(overmap_mode)
 			if(SSovermap_mode.mode_initialised)
 				message_admins("Post Initilisation Overmap Gamemode Changes Not Currently Supported") //SoonTM
 				return
-			var/list/gamemode_pool = typecacheof(/datum/overmap_gamemode, TRUE)
+			var/list/gamemode_pool = subtypesof(/datum/overmap_gamemode)
 			var/datum/overmap_gamemode/S = input("Select Overmap Gamemode", "Change Overmap Gamemode") as null|anything in gamemode_pool
 			if(isnull(S))
 				return
-			SSovermap_mode.mode = new S()
+			if(SSovermap_mode.mode_initialised)
+				qdel(SSovermap_mode.mode)
+				SSovermap_mode.mode = new S()
+			else
+				SSovermap_mode.forced_mode = S
 			message_admins("[key_name_admin(usr)] has changed the overmap gamemode to [SSovermap_mode.mode.name]")
 			return
 		if("add_objective")
-			var/list/objectives_pool = typecacheof(/datum/overmap_objective, TRUE)
+			var/list/objectives_pool = subtypesof(/datum/overmap_objective)
 			var/datum/overmap_objective/S = input("Select objective to add", "Add Objective") as null|anything in objectives_pool
 			if(isnull(S))
 				return
@@ -650,7 +664,10 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_mode_controller/ui_data(mob/user)
 	var/list/data = list()
 	var/list/objectives = list()
-	data["current_gamemode"] = SSovermap_mode.mode?.name
+	if(SSovermap_mode.mode)
+		data["current_gamemode"] = SSovermap_mode.mode.name
+	else if(SSovermap_mode.forced_mode)
+		data["current_gamemode"] = initial(SSovermap_mode.forced_mode.name)
 	data["current_description"] = SSovermap_mode.mode?.desc
 	data["mode_initalised"] = SSovermap_mode?.mode_initialised
 	data["current_difficulty"] = SSovermap_mode.mode?.difficulty
