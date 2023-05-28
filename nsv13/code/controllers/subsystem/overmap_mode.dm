@@ -58,68 +58,77 @@ SUBSYSTEM_DEF(overmap_mode)
 	//Set starting systems for the player ships
 	//Load and set objectives
 
-	mode_cache = typecacheof(/datum/overmap_gamemode, TRUE)
+	mode_cache = subtypesof(/datum/overmap_gamemode)
 
 	var/list/probabilities = config.Get(/datum/config_entry/keyed_list/omode_probability)
 	var/list/min_pop = config.Get(/datum/config_entry/keyed_list/omode_min_pop)
 	var/list/max_pop = config.Get(/datum/config_entry/keyed_list/omode_max_pop)
 
-	for(var/D in subtypesof(/datum/overmap_gamemode))
-		var/datum/overmap_gamemode/N = new D()
-		N.selection_weight = probabilities[N.config_tag]
-		N.required_players = min_pop[N.config_tag]
-		N.max_players = max_pop[N.config_tag]
-		mode_cache[D] = N
+	for(var/M in mode_cache)
+		var/datum/overmap_gamemode/GM = M
+		if(initial(GM.whitelist_only)) //Remove all of our only whitelisted modes
+			mode_cache -= M
 
-	var/list/mode_pool = mode_cache
-
-	for(var/M in mode_pool)
-		var/datum/overmap_gamemode/GM = mode_pool[M]
-		if(GM.whitelist_only) //Remove all of our only whitelisted modes
-			QDEL_NULL(mode_pool[M])
-			mode_pool -= M
-
-	if(SSmapping.config.omode_blacklist.len > 0)
+	if(length(SSmapping.config.omode_blacklist) > 0)
 		if(locate("all") in SSmapping.config.omode_blacklist)
-			mode_pool = list() //Clear the list
+			mode_cache.Cut()
 		else
 			for(var/S in SSmapping.config.omode_blacklist) //Grab the string to be the path - is there a proc for this?
 				var/B = text2path("/datum/overmap_gamemode/[S]")
-				QDEL_NULL(mode_pool[B])
-				mode_pool -= B
+				mode_cache -= B
 
-	if(SSmapping.config.omode_whitelist.len > 0)
+	if(length(SSmapping.config.omode_whitelist) > 0)
 		for(var/S in SSmapping.config.omode_whitelist) //Grab the string to be the path - is there a proc for this?
 			var/W = text2path("/datum/overmap_gamemode/[S]")
-			mode_pool[W] = new W()
+			mode_cache += W
 
 	for(var/mob/dead/new_player/P in GLOB.player_list) //Count the number of connected players
 		if(P.client)
 			player_check ++
 
-	for(var/M in mode_pool) //Check and remove any modes that we have insufficient players for the mode
-		var/datum/overmap_gamemode/GM = mode_pool[M]
-		if(player_check < GM.required_players)
-			QDEL_NULL(mode_pool[M])
-			mode_pool -= M
-		else if(GM.max_players > 0)
-			if(player_check > GM.max_players)
-				QDEL_NULL(mode_pool[M])
-				mode_pool -= M
+	for(var/M in mode_cache) //Check and remove any modes that we have insufficient players for the mode
+		var/datum/overmap_gamemode/GM = M
+		var/config_tag = initial(GM.config_tag)
 
-	if(mode_pool.len)
+		var/required_players = 0
+		if(config_tag in min_pop)
+			required_players = min_pop[config_tag]
+		else
+			required_players = initial(GM.required_players)
+		var/max_players = -1
+		if(config_tag in max_pop)
+			max_players = max_pop[config_tag]
+		else
+			max_players = initial(GM.max_players)
+
+		if(player_check < required_players)
+			mode_cache -= M
+		else if(max_players > 0)
+			if(player_check > max_players)
+				mode_cache -= M
+
+	if(length(mode_cache))
 		var/list/mode_select = list()
-		for(var/M in mode_pool)
-			var/datum/overmap_gamemode/GM = mode_pool[M]
-			for(var/I = 0, I < GM.selection_weight, I++) //Populate with weight number of instances
+		for(var/M in mode_cache)
+			var/datum/overmap_gamemode/GM = M
+			var/config_tag = initial(GM.config_tag)
+
+			var/selection_weight = 0
+			if(config_tag in probabilities)
+				selection_weight = probabilities[config_tag]
+			else
+				selection_weight = initial(GM.selection_weight)
+			for(var/I = 0, I < selection_weight, I++) //Populate with weight number of instances
 				mode_select += M
 
-		if(mode_select.len)
+		if(length(mode_select))
 			var/mode_type = pick(mode_select)
-			mode = mode_pool[mode_type]
-			message_admins("[mode.name] has been selected as the overmap gamemode")
-			log_game("[mode.name] has been selected as the overmap gamemode")
-	if(!mode)
+			mode = new mode_type
+
+	if(mode)
+		message_admins("[mode.name] has been selected as the overmap gamemode")
+		log_game("[mode.name] has been selected as the overmap gamemode")
+	else
 		mode = new/datum/overmap_gamemode/patrol() //Holding that as the default for now - REPLACE ME LATER
 		message_admins("Error: mode section pool empty - defaulting to PATROL")
 		log_game("Error: mode section pool empty - defaulting to PATROL")
