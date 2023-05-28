@@ -156,9 +156,18 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	mode.objectives += mode.fixed_objectives //Add our fixed objectives
 
-	if(mode.random_objectives.len) //Do we have random objectives?
+	if(mode.random_objective_amount) //Do we have random objectives?
+		var/list/select_objectives = mode.random_objectives
+		for(var/datum/overmap_objective/objective in mode.random_objectives)
+			if(player_check < initial(objective.required_players))
+				select_objectives -= objective
+			if((initial(objective.maximum_players) > 0) && (player_check > initial(objective.maximum_players)))
+				select_objectives -= objective
 		for(var/I = 0, I < mode.random_objective_amount, I++) //We pick from our pool of random objectives
-			mode.objectives += pick_n_take(mode.random_objectives)
+			if(!length(select_objectives))
+				message_admins("Overmap mode ran out of random objectives to pick!")
+				break
+			mode.objectives += pick_n_take(select_objectives)
 
 	for(var/O in mode.objectives)
 		var/datum/overmap_objective/I = new O()
@@ -297,16 +306,23 @@ SUBSYSTEM_DEF(overmap_mode)
 	for(var/datum/overmap_objective/O in mode.objectives)
 		O.ignore_check = TRUE //We no longer care about checking these objective against completeion
 
-	var/list/extension_pool = typecacheof(/datum/overmap_objective, TRUE)
-	for(var/O in extension_pool)
-		var/datum/overmap_objective/OO = new O()
-		if(OO.extension_supported == FALSE) //Clear the pool of anything we can't add
+	var/list/extension_pool = subtypesof(/datum/overmap_objective)
+	var/players = get_active_player_count(TRUE, TRUE, FALSE) //Number of living, non-AFK players including non-humanoids
+	for(var/datum/overmap_objective/O in extension_pool)
+		if(initial(O.extension_supported) == FALSE) //Clear the pool of anything we can't add
 			extension_pool -= O
-		else
-			extension_pool[O] = OO
+		if(players < initial(O.required_players)) //Not enough people
+			extension_pool -= O
+		if((initial(O.maximum_players) > 0) && (players > initial(O.maximum_players))) //Too many people
+			extension_pool -= O
 
-	var/datum/overmap_objective/selected = extension_pool[pick(extension_pool)] //Insert new objective
-	mode.objectives += selected
+	if(length(extension_pool))
+		var/datum/overmap_objective/selected = pick(extension_pool) //Insert new objective
+		mode.objectives += new selected
+	else
+		message_admins("No additional objective candidates! Defaulting to tickets")
+		mode.objectives += new /datum/overmap_objective/tickets
+
 	instance_objectives()
 
 	announce_objectives() //Let them all know
@@ -466,6 +482,8 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/ignore_check = FALSE						//Used for checking extended rounds
 	var/instanced = FALSE							//Have we yet run the instance proc for this objective?
 	var/objective_number = 0						//The objective's index in the list. Useful for creating arbitrary report titles
+	var/required_players = 0						//Minimum number of players to get this if it's a random/extended objective
+	var/maximum_players = -1								//Maximum number of players to get this if it's a random/extended objective. -1 means no cap.
 
 /datum/overmap_objective/New()
 
