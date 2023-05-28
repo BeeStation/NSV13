@@ -566,9 +566,10 @@ SUBSYSTEM_DEF(overmap_mode)
 			if(SSovermap_mode.mode_initialised)
 				qdel(SSovermap_mode.mode)
 				SSovermap_mode.mode = new S()
+				message_admins("[key_name_admin(usr)] has changed the overmap gamemode to [SSovermap_mode.mode.name]")
 			else
 				SSovermap_mode.forced_mode = S
-			message_admins("[key_name_admin(usr)] has changed the overmap gamemode to [SSovermap_mode.mode.name]")
+				message_admins("[key_name_admin(usr)] has changed the overmap gamemode to [initial(S.name)]")
 			return
 		if("add_objective")
 			var/list/objectives_pool = subtypesof(/datum/overmap_objective)
