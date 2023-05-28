@@ -96,7 +96,7 @@ SUBSYSTEM_DEF(overmap_mode)
 			required_players = min_pop[config_tag]
 		else
 			required_players = initial(GM.required_players)
-		var/max_players = -1
+		var/max_players = 0
 		if(config_tag in max_pop)
 			max_players = max_pop[config_tag]
 		else
@@ -104,9 +104,8 @@ SUBSYSTEM_DEF(overmap_mode)
 
 		if(player_check < required_players)
 			mode_cache -= M
-		else if(max_players > 0)
-			if(player_check > max_players)
-				mode_cache -= M
+		else if((max_players > 0) && (player_check > max_players))
+			mode_cache -= M
 
 	if(length(mode_cache))
 		var/list/mode_select = list()
@@ -483,7 +482,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/instanced = FALSE							//Have we yet run the instance proc for this objective?
 	var/objective_number = 0						//The objective's index in the list. Useful for creating arbitrary report titles
 	var/required_players = 0						//Minimum number of players to get this if it's a random/extended objective
-	var/maximum_players = -1								//Maximum number of players to get this if it's a random/extended objective. -1 means no cap.
+	var/maximum_players = 0							//Maximum number of players to get this if it's a random/extended objective. 0 is unlimited.
 
 /datum/overmap_objective/New()
 
