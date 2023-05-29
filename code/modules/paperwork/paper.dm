@@ -138,7 +138,7 @@
 		for(var/datum/paper_field/text as anything in new_paper.raw_field_input_data)
 			text.field_data.colour = new_color
 
-
+	new_paper.input_field_count = input_field_count //NSV13 - Fixes photocopier forms not producing copies with usable fields
 	new_paper.raw_stamp_data = copy_raw_stamps()
 	new_paper.stamp_cache = stamp_cache?.Copy()
 	new_paper.update_icon_state()
