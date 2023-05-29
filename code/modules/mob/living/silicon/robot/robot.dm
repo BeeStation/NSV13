@@ -248,7 +248,6 @@
 			"Engineering" = /obj/item/robot_module/engineering,
 			"Medical" = /obj/item/robot_module/medical,
 			"Cargo" = /obj/item/robot_module/cargo,
-			"Munition" = /obj/item/robot_module/munition,
 			"Miner" = /obj/item/robot_module/miner,
 			"Janitor" = /obj/item/robot_module/janitor,
 			"Service" = /obj/item/robot_module/butler,
