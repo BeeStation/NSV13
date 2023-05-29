@@ -9494,14 +9494,12 @@
 /area/security/main/warroom)
 "gay" = (
 /obj/structure/table,
-/obj/item/storage/box/prisoner{
-	pixel_x = 4;
-	pixel_y = 4
-	},
-/obj/item/storage/box/exileimp,
-/obj/item/binoculars,
 /obj/structure/sign/poster/official/random{
 	pixel_x = 32
+	},
+/obj/machinery/fax{
+	fax_name = "Wardens Office";
+	name = "Wardens Office Fax Machine"
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/warden)
@@ -13661,7 +13659,11 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
 "iUH" = (
-/obj/item/kirbyplants/random,
+/obj/machinery/fax{
+	fax_name = "Law Office";
+	name = "Law Office Fax Machine"
+	},
+/obj/structure/table/wood,
 /turf/open/floor/wood,
 /area/lawoffice)
 "iUM" = (
@@ -24090,6 +24092,14 @@
 	initial_gas_mix = "n2=300000;TEMP=293.15"
 	},
 /area/engine/atmos)
+"pKi" = (
+/obj/machinery/fax{
+	fax_name = "Medical Lobby";
+	name = "Medical Lobby Fax Machine"
+	},
+/obj/structure/table/reinforced,
+/turf/open/floor/carpet/blue,
+/area/medical/medbay/lobby)
 "pKs" = (
 /obj/machinery/computer/warrant{
 	dir = 1
@@ -32329,6 +32339,10 @@
 /area/medical/morgue)
 "vrB" = (
 /obj/structure/table,
+/obj/machinery/fax{
+	name = "Engineerings Fax Machine";
+	fax_name = "Engineering"
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engine_smes)
 "vrH" = (
@@ -32598,6 +32612,12 @@
 "vzU" = (
 /obj/structure/table,
 /obj/machinery/airalarm/directional/north,
+/obj/item/storage/box/prisoner{
+	pixel_x = 4;
+	pixel_y = 4
+	},
+/obj/item/storage/box/exileimp,
+/obj/item/binoculars,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/warden)
 "vAl" = (
@@ -70299,7 +70319,7 @@ dim
 vnJ
 fvf
 haC
-quU
+pKi
 fWo
 qgc
 tDb

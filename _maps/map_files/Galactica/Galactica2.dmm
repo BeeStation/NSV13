@@ -2538,6 +2538,7 @@
 /obj/machinery/atmospherics/pipe/simple/orange/hidden/layer2{
 	dir = 4
 	},
+/obj/item/stack/cable_coil/random,
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering)
 "blK" = (
@@ -11570,8 +11571,6 @@
 /area/bridge/showroom/corporate)
 "ghH" = (
 /obj/structure/table/reinforced,
-/obj/item/stack/sheet/mineral/copper,
-/obj/item/reagent_containers/food/drinks/beer,
 /obj/effect/turf_decal/stripes/white/corner{
 	dir = 8
 	},
@@ -11580,6 +11579,10 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
+/obj/machinery/fax{
+	name = "Service Fax Machine";
+	fax_name = "Service"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/secondary/service)
 "ghJ" = (
@@ -12154,6 +12157,8 @@
 /obj/structure/closet/crate/trashcart,
 /obj/effect/turf_decal/stripes/white/line,
 /obj/machinery/light_switch/west,
+/obj/item/reagent_containers/food/drinks/beer,
+/obj/item/stack/sheet/mineral/copper,
 /turf/open/floor/monotile/dark,
 /area/hallway/secondary/service)
 "gxD" = (
@@ -15791,6 +15796,14 @@
 /obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/monotile/steel/airless,
 /area/nsv/hanger/notkmcstupidhanger)
+"irV" = (
+/obj/machinery/fax{
+	fax_name = "Medical";
+	name = "Medical Fax Machine"
+	},
+/obj/structure/table/glass,
+/turf/open/floor/monotile/dark,
+/area/medical/medbay)
 "isn" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 4
@@ -22825,6 +22838,8 @@
 	dir = 1
 	},
 /obj/item/radio/intercom/directional/south,
+/obj/machinery/fax,
+/obj/structure/table,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "mjH" = (
@@ -38210,6 +38225,10 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
+/obj/machinery/fax{
+	name = "Science Fax Machine";
+	fax_name = "Science"
+	},
 /turf/open/floor/fakespace,
 /area/science/nsv/astronomy)
 "uuV" = (
@@ -40848,6 +40867,14 @@
 /obj/item/clothing/shoes/sandal,
 /turf/open/floor/wood,
 /area/maintenance/nsv/deck2/frame5/port)
+"vRc" = (
+/obj/machinery/fax{
+	name = "Cargo Fax Machine";
+	fax_name = "Cargo"
+	},
+/obj/structure/table/reinforced,
+/turf/open/floor/monotile/dark,
+/area/quartermaster/lobby)
 "vRh" = (
 /obj/structure/table,
 /obj/item/reagent_containers/food/snacks/mint,
@@ -41822,9 +41849,12 @@
 	icon_state = "4-8"
 	},
 /obj/structure/table/reinforced,
-/obj/item/stack/cable_coil/random,
 /obj/machinery/atmospherics/pipe/simple/orange/hidden/layer2{
 	dir = 4
+	},
+/obj/machinery/fax{
+	name = "Engineerings Fax Machine";
+	fax_name = "Engineering"
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering)
@@ -78903,7 +78933,7 @@ gCG
 vlP
 aCB
 jEc
-jEc
+irV
 enf
 mxV
 fcQ
@@ -82265,7 +82295,7 @@ dJW
 vgA
 deD
 cRj
-cRj
+vRc
 daT
 ofC
 jij
