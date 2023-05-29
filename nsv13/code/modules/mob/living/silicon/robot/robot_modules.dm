@@ -34,6 +34,10 @@
 	name = "Munitions"
 	basic_modules = list(
 		/obj/item/borg/apparatus/munitions,
+		/obj/item/borg/fuelnozzle,
+		/obj/item/lighter,
+		/obj/item/borg/charger,
+		/obj/item/airlock_painter/cyborg,
 		/obj/item/screwdriver/cyborg,
 		/obj/item/weldingtool/largetank/cyborg,
 		/obj/item/wrench/cyborg,
