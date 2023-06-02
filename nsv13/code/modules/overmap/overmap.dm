@@ -249,6 +249,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	var/obj/structure/overmap/squad_lead = null
 	var/obj/structure/overmap/last_overmap = null
 	var/switchsound_cooldown = 0
+	var/obj/structure/overmap/designated_target = null //This our SBM designated target
+	var/designated_objective = null //This is the text associated with SBM direction
 
 	//Random vars KMC left everywhere
 	var/next_beam = 0
