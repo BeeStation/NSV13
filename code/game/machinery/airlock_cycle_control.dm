@@ -630,7 +630,7 @@
 		"vis_target" = "\ref[vis_target]"
 	)
 
-	if((locked && !user.has_unlimited_silicon_privilege) || (user.has_unlimited_silicon_privilege && aidisabled) ||)
+	if((locked && !user.has_unlimited_silicon_privilege) || (user.has_unlimited_silicon_privilege && aidisabled))
 		return data
 
 	data["config_error_str"] = config_error_str
