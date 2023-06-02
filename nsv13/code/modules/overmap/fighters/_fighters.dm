@@ -781,6 +781,13 @@ Been a mess since 2018, we'll fix it someday (probably)
 /obj/structure/overmap/small_craft/InterceptClickOn(mob/user, params, atom/target)
 	if(user.incapacitated() || !isliving(user))
 		return FALSE
+	if(istype(target, /obj/machinery/button/door) || istype(target, /obj/machinery/turbolift_button))
+		target.attack_hand(user)
+		return FALSE
+	if(istype(target, /obj/machinery/advanced_airlock_controller))
+		to_chat(user, "<span class='notice'>Remote access to [target] established.</span>")
+		target.ui_interact(user, pilot=TRUE)
+		return FALSE
 	if((target == src) && (user == pilot))
 		helm?.ui_interact(user)
 		return FALSE
