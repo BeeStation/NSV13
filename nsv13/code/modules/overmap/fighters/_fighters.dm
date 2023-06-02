@@ -1838,7 +1838,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	playsound(src, 'nsv13/sound/effects/fighters/canopy.ogg', 100, 1)
 
 /obj/structure/overmap/small_craft/proc/start_sequence_avionics()
-	if(!velocity.x && !velocity.y) //Update me to matricies
+	if(!velocity.a && !velocity.e) //Update me to matricies
 		avionics_calibration += 3
 	else //Align statically you fools!
 		avionics_calibration += 0.5

@@ -21,7 +21,6 @@
 	req_access = list(ACCESS_ENGINE_EQUIP)
 	flags_1 = PREVENT_CONTENTS_EXPLOSION_1
 	var/tier = 1 // increased tiers increase jump range
-	var/faction = "nanotrasen"
 	var/link_id = "default"
 	var/list/pylons = list() //connected pylons
 	var/min_pylons = 1 // min active pylons required to spool drive

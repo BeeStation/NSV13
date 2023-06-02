@@ -213,6 +213,7 @@
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO|DEPARTMENTAL_FLAG_MUNITIONS|DEPARTMENTAL_FLAG_ENGINEERING
 
+/* whatever this is, don't care
 /datum/design/air_plasmacutter
 	name = "Mounted Plasma Cutter"
 	desc = "A 217-A heavy plasma cutter with a gimballed mount. This is designed for use on Sabre-class utility vessels."
@@ -222,6 +223,7 @@
 	build_path = /obj/item/fighter_component/primary/plasmacutter
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_CARGO
+*/
 
 //Tier 2
 /datum/design/fuel_tank_tier2
