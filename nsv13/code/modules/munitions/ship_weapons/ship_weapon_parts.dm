@@ -63,3 +63,15 @@
 /obj/item/ship_weapon/parts/mac_barrel/Initialize(mapload)
 	..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
+
+/obj/item/ship_weapon/parts/broadside_casing
+	name = "broadside shell casing"
+	desc = "An empty casing for the Broadside Cannon. Load it into the Shell Packer!"
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "broadside_casing"
+
+/obj/item/ship_weapon/parts/broadside_load
+	name = "broadside shell load"
+	desc = "A loose load meant for a Broadside shell. Load it into the Shell Packer!"
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "broadside_load"

@@ -1,3 +1,5 @@
+#define MAX_SENT 10
+
 /obj/machinery/rnd/production
 	name = "technology fabricator"
 	desc = "Makes researched and prototype items with materials and energy."
@@ -20,6 +22,10 @@
 
 	var/list/mob/viewing_mobs = list()
 
+	/// Only used for storing pending research for examine()
+	var/list/pending_research = list()
+	var/base_storage = 75000
+
 /obj/machinery/rnd/production/Initialize(mapload)
 	. = ..()
 	create_reagents(0, OPENCONTAINER)
@@ -30,8 +36,9 @@
 	update_research()
 	materials = AddComponent(/datum/component/remote_materials, "lathe", mapload)
 	RefreshParts()
-	RegisterSignal(src, COMSIG_MATERIAL_CONTAINER_CHANGED, .proc/on_materials_changed)
-	RegisterSignal(src, COMSIG_REMOTE_MATERIALS_CHANGED, .proc/on_materials_changed)
+	RegisterSignal(src, COMSIG_MATERIAL_CONTAINER_CHANGED, PROC_REF(on_materials_changed))
+	RegisterSignal(src, COMSIG_REMOTE_MATERIALS_CHANGED, PROC_REF(on_materials_changed))
+	RegisterSignal(SSdcs, COMSIG_GLOB_NEW_RESEARCH, PROC_REF(alert_research))
 
 /obj/machinery/rnd/production/Destroy()
 	materials = null
@@ -40,6 +47,23 @@
 	QDEL_NULL(stored_research)
 	host_research = null
 	return ..()
+
+/obj/machinery/rnd/production/examine(mob/user)
+	. = ..()
+	var/num_research = length(pending_research)
+	if(num_research)
+		. += "\nPENDING RESEARCH:"
+		var/list/displayed = reverseList(pending_research)  // newest first
+		if(num_research >= MAX_SENT)
+			displayed.Cut(MAX_SENT)
+			displayed += "..."
+		. += displayed.Join("\n")
+
+/obj/machinery/rnd/production/update_icon()
+	. = ..()
+	cut_overlays()
+	if(length(pending_research))
+		add_overlay("lathe-research")
 
 /obj/machinery/rnd/production/proc/on_materials_changed()
 	SIGNAL_HANDLER
@@ -53,13 +77,26 @@
 	host_research.copy_research_to(stored_research, TRUE)
 	update_designs()
 
+/obj/machinery/rnd/production/proc/alert_research(datum/source, var/node_id)
+	SIGNAL_HANDLER
+
+	var/datum/techweb_node/node = SSresearch.techweb_node_by_id(node_id)
+
+	for(var/i in node.design_ids)
+		var/datum/design/d = SSresearch.techweb_design_by_id(i)
+		if((isnull(allowed_department_flags) || (d.departmental_flags & allowed_department_flags)) && (d.build_type & allowed_buildtypes))
+			pending_research += d.name
+	update_icon()
+
 /obj/machinery/rnd/production/proc/update_designs()
+	pending_research.Cut()
 	cached_designs.Cut()
 	for(var/i in stored_research.researched_designs)
 		var/datum/design/d = SSresearch.techweb_design_by_id(i)
 		if((isnull(allowed_department_flags) || (d.departmental_flags & allowed_department_flags)) && (d.build_type & allowed_buildtypes))
 			cached_designs |= d
 	update_viewer_statics()
+	update_icon()
 
 /obj/machinery/rnd/production/RefreshParts()
 	calculate_efficiency()
@@ -224,7 +261,7 @@
 	if(materials)
 		var/total_storage = 0
 		for(var/obj/item/stock_parts/matter_bin/M in component_parts)
-			total_storage += M.rating * 75000
+			total_storage += M.rating * base_storage
 		materials.set_local_size(total_storage)
 	var/total_rating = 1.2
 	for(var/obj/item/stock_parts/manipulator/M in component_parts)
@@ -314,8 +351,8 @@
 	if(production_animation)
 		flick(production_animation, src)
 	var/timecoeff = D.lathe_time_factor / efficiency_coeff
-	addtimer(CALLBACK(src, .proc/reset_busy), (30 * timecoeff * amount) ** 0.5)
-	addtimer(CALLBACK(src, .proc/do_print, D.build_path, amount, efficient_mats, D.dangerous_construction), (32 * timecoeff * amount) ** 0.8)
+	addtimer(CALLBACK(src, PROC_REF(reset_busy)), (30 * timecoeff * amount) ** 0.5)
+	addtimer(CALLBACK(src, PROC_REF(do_print), D.build_path, amount, efficient_mats, D.dangerous_construction), (32 * timecoeff * amount) ** 0.8)
 	return TRUE
 
 /obj/machinery/rnd/production/proc/eject_sheets(eject_sheet, eject_amt)
@@ -335,3 +372,5 @@
 /obj/machinery/rnd/production/reset_busy()
 	. = ..()
 	SStgui.update_uis(src)
+
+#undef MAX_SENT

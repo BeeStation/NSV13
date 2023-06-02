@@ -26,7 +26,7 @@
 	new /obj/item/storage/box/radiokey/com(src)
 	new /obj/item/storage/box/command_keys(src)
 	new /obj/item/megaphone/command(src)
-	new /obj/item/cartridge/captain(src)
+	new /obj/item/computer_hardware/hard_drive/role/captain(src)
 	new /obj/item/storage/box/silver_ids(src)
 	new /obj/item/restraints/handcuffs/cable/zipties(src)
 
@@ -67,7 +67,7 @@
 
 	new /obj/item/storage/box/radiokey/srv(src)
 	new /obj/item/storage/box/command_keys(src)
-	new /obj/item/cartridge/hop(src)
+	new /obj/item/computer_hardware/hard_drive/role/hop(src)
 	new /obj/item/storage/box/ids(src)
 	new /obj/item/storage/box/ids(src)
 	new /obj/item/restraints/handcuffs/cable/zipties(src)
@@ -138,7 +138,7 @@
 	new /obj/item/storage/box/radiokey/sec(src)
 	new /obj/item/storage/box/command_keys(src)
 	new /obj/item/megaphone/sec(src)
-	new /obj/item/cartridge/hos(src)
+	new /obj/item/computer_hardware/hard_drive/role/hos(src)
 	new /obj/item/storage/box/flashbangs(src)
 	new /obj/item/storage/box/deputy(src)
 	new /obj/item/storage/lockbox/medal/sec(src)
@@ -154,7 +154,7 @@
 	new /obj/item/shield/riot/tele(src)
 	new /obj/item/storage/belt/security/full(src)
 	new /obj/item/ammo_box/c9mm/rubber(src)
-	new /obj/item/gun/ballistic/automatic/pistol/glock/command/hos(src)
+	new /obj/item/gun/ballistic/automatic/pistol/glock/security/hos(src) //NSV13 No laser
 	new /obj/item/flashlight/seclite(src)
 	//new /obj/item/gun/energy/e_gun/hos(src) //NSV13
 	new /obj/item/pinpointer/nuke(src)

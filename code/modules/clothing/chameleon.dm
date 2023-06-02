@@ -85,7 +85,7 @@
 			var/datum/outfit/O = path
 			if(initial(O.can_be_admin_equipped))
 				standard_outfit_options[initial(O.name)] = path
-		sortTim(standard_outfit_options, /proc/cmp_text_asc)
+		sortTim(standard_outfit_options, GLOBAL_PROC_REF(cmp_text_asc))
 	outfit_options = standard_outfit_options
 
 /datum/action/chameleon_outfit/Trigger()
@@ -179,7 +179,7 @@
 /datum/action/item_action/chameleon/change/proc/select_look(mob/user)
 	var/obj/item/picked_item
 	var/picked_name
-	picked_name = input("Select [chameleon_name] to change into", "Chameleon [chameleon_name]", picked_name) as null|anything in sortList(chameleon_list, /proc/cmp_typepaths_asc)
+	picked_name = input("Select [chameleon_name] to change into", "Chameleon [chameleon_name]", picked_name) as null|anything in sortList(chameleon_list, GLOBAL_PROC_REF(cmp_typepaths_asc))
 	if(!picked_name)
 		return
 	picked_item = chameleon_list[picked_name]
@@ -215,6 +215,11 @@
 		if(ispath(picked_item, /obj/item/card/id))
 			var/mob/living/carbon/human/H = user
 			H?.sec_hud_set_ID()
+		if(istype(target, /obj/item/modular_computer/tablet/pda))
+			var/mob/living/carbon/human/H = user
+			H?.sec_hud_set_ID()
+			var/obj/item/modular_computer/tablet/pda/PDA = target
+			PDA.update_id_display()
 
 		var/obj/item/thing = target
 		thing.update_slot_icon()
@@ -538,7 +543,7 @@
 	resistance_flags = NONE
 	armor = list("melee" = 5, "bullet" = 5, "laser" = 5, "energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50, "stamina" = 10)
 	clothing_flags = BLOCK_GAS_SMOKE_EFFECT | MASKINTERNALS
-	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEFACIALHAIR
+	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEFACIALHAIR|HIDESNOUT
 	gas_transfer_coefficient = 0.01
 	permeability_coefficient = 0.01
 	flags_cover = MASKCOVERSEYES | MASKCOVERSMOUTH
@@ -700,25 +705,25 @@
 	item_state = "syndie_headset"
 	bang_protect = 3
 
-/obj/item/pda/chameleon
-	name = "PDA"
+/obj/item/modular_computer/tablet/pda/chameleon
+	name = "tablet"
 	var/datum/action/item_action/chameleon/change/chameleon_action
 
-/obj/item/pda/chameleon/Initialize(mapload)
+/obj/item/modular_computer/tablet/pda/chameleon/Initialize(mapload)
 	. = ..()
 	chameleon_action = new(src)
-	chameleon_action.chameleon_type = /obj/item/pda
-	chameleon_action.chameleon_name = "PDA"
-	chameleon_action.chameleon_blacklist = typecacheof(list(/obj/item/pda/heads, /obj/item/pda/ai, /obj/item/pda/ai/pai), only_root_path = TRUE)
+	chameleon_action.chameleon_type = /obj/item/modular_computer/tablet/pda
+	chameleon_action.chameleon_name = "tablet"
+	chameleon_action.chameleon_blacklist = typecacheof(list(/obj/item/modular_computer/tablet/pda/heads), only_root_path = TRUE)
 	chameleon_action.initialize_disguises()
 
-/obj/item/pda/chameleon/emp_act(severity)
+/obj/item/modular_computer/tablet/pda/chameleon/emp_act(severity)
 	. = ..()
 	if(. & EMP_PROTECT_SELF)
 		return
 	chameleon_action.emp_randomise()
 
-/obj/item/pda/chameleon/broken/Initialize(mapload)
+/obj/item/modular_computer/tablet/pda/chameleon/broken/Initialize(mapload)
 	. = ..()
 	chameleon_action.emp_randomise(INFINITY)
 

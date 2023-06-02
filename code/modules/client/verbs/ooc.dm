@@ -68,7 +68,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 
 	var/keyname = key
 	if(prefs.unlock_content)
-		if(prefs.toggles & MEMBER_PUBLIC)
+		if(prefs.toggles & PREFTOGGLE_MEMBER_PUBLIC)
 			keyname = "<font color='[prefs.ooccolor ? prefs.ooccolor : GLOB.normal_ooc_colour]'>[icon2html('icons/member_content.dmi', world, "blag")][keyname]</font>"
 	//Get client badges
 	var/badge_data = badge_parse(get_badges())
@@ -301,3 +301,17 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		return
 
 	GLOB.error_cache.show_to_minimal(src)
+
+///NSV13 - Speech Formats
+/client/verb/speech_format_help()
+	set name = "Speech Format Help"
+	set category = "OOC"
+	set desc = "Chat formatting help"
+
+	var/message = "<span class='big'>You can add emphasis to your text by surrounding words or sentences in certain characters.</span>\n \
+		+bold+, _underline_, and |italics| are supported.\n\n \
+		<span class='big'>You can made custom saymods by doing <i>say 'screams* HELP IM DYING!'</i>. This works over the radio, and can be used to emote over the radio.</span>\n \
+		Example: say ';laughs maniacally!*' >> \[Common] Joe Schmoe laughs maniacally!"
+
+
+	to_chat(usr, "<span class='notice'>[message]</span>")

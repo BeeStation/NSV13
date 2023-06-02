@@ -367,7 +367,7 @@
 /proc/flick_overlay(image/I, list/show_to, duration)
 	for(var/client/C in show_to)
 		C.images += I
-	addtimer(CALLBACK(GLOBAL_PROC, /proc/remove_images_from_clients, I, show_to), duration, TIMER_CLIENT_TIME)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(remove_images_from_clients), I, show_to), duration, TIMER_CLIENT_TIME)
 
 /proc/flick_overlay_view(image/I, atom/target, duration) //wrapper for the above, flicks to everyone who can see the target atom
 	var/list/viewing = list()
@@ -496,7 +496,7 @@
 	var/mob/living/carbon/human/new_character = new//The mob being spawned.
 	SSjob.SendToLateJoin(new_character)
 
-	G_found.client.prefs.copy_to(new_character)
+	G_found.client.prefs.active_character.copy_to(new_character)
 	new_character.dna.update_dna_identity()
 	new_character.key = G_found.key
 
@@ -512,7 +512,7 @@
 		var/mob/M = C
 		if(M.client)
 			C = M.client
-	if(!C || (!C.prefs.windowflashing && !ignorepref))
+	if(!C || (!(C.prefs.toggles2 & PREFTOGGLE_2_WINDOW_FLASHING) && !ignorepref))
 		return
 	winset(C, "mainwindow", "flash=5")
 

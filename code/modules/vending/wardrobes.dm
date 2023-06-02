@@ -341,7 +341,7 @@
 					//obj/item/clothing/under/rank/civilian/janitor/skirt = 2, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/janitor = 2,
 					/obj/item/clothing/head/helmet/space/plasmaman/janitor = 2,
-					/obj/item/cartridge/janitor = 2,
+					/obj/item/computer_hardware/hard_drive/role/janitor = 2,
 					/obj/item/clothing/gloves/color/black = 2,
 					/obj/item/clothing/head/soft/purple = 2,
 					/obj/item/pushbroom = 2,
@@ -425,7 +425,9 @@
 					/obj/item/clothing/suit/chaplainsuit/whiterobe = 1,
 					/obj/item/clothing/head/taqiyahwhite = 1,
 					/obj/item/clothing/head/taqiyahred = 3,
-					/obj/item/clothing/head/beanie/rasta = 1)
+					/obj/item/clothing/head/beanie/rasta = 1,
+					/obj/item/candle/incense = 5,
+					/obj/item/candle/incense/pink = 5)
 	contraband = list(/obj/item/toy/plush/plushvar = 1,
 					/obj/item/toy/plush/narplush = 1,
 					/obj/item/clothing/head/medievaljewhat = 3,

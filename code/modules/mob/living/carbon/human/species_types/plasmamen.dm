@@ -20,6 +20,7 @@
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC
 	outfit_important_for_life = /datum/outfit/plasmaman
 	species_language_holder = /datum/language_holder/skeleton
+	ass_image = 'icons/ass/assplasma.png' //NSV13
 
 	species_chest = /obj/item/bodypart/chest/plasmaman
 	species_head = /obj/item/bodypart/head/plasmaman
@@ -72,10 +73,10 @@
 		return
 	var/path = J.species_outfits[SPECIES_PLASMAMAN]
 	var/datum/outfit/plasmaman/O = new path
-	var/datum/preferences/prefs = preference_source.prefs
-	if(prefs.helmet_style != HELMET_DEFAULT)
-		if(O.helmet_variants[prefs.helmet_style])
-			var/helmet = O.helmet_variants[prefs.helmet_style]
+	var/datum/character_save/CS = preference_source.prefs.active_character
+	if(CS.helmet_style != HELMET_DEFAULT)
+		if(O.helmet_variants[CS.helmet_style])
+			var/helmet = O.helmet_variants[CS.helmet_style]
 			qdel(H.head)
 			H.equip_to_slot(new helmet, ITEM_SLOT_HEAD)
 

@@ -114,8 +114,8 @@
 		return
 	var/mob/living/carbon/human/human = H
 	var/list/gear_leftovers = list()
-	if(M.client && LAZYLEN(M.client.prefs.equipped_gear))
-		for(var/gear in M.client.prefs.equipped_gear)
+	if(M.client && LAZYLEN(M.client.prefs.active_character.equipped_gear))
+		for(var/gear in M.client.prefs.active_character.equipped_gear)
 			var/datum/gear/G = GLOB.gear_datums[gear]
 			if(G)
 				var/permitted = FALSE
@@ -139,12 +139,12 @@
 					if(M.client.ckey != G.ckey)
 						to_chat(M, "<span class='warning'>You somehow have someone else's donator item! Call a coder. Item: [gear]</span>")
 						message_admins("[ADMIN_LOOKUPFLW(M)] Somehow equipped the donator gear of [G.ckey]. It has been removed.")
-						M.client.prefs.equipped_gear -= gear
+						M.client.prefs.active_character.equipped_gear -= gear
 						M.client.prefs.purchased_gear -= gear
 						permitted = FALSE
 					if(!(M.client.ckey in config.active_donators))
 						to_chat(M, "<span class='warning'>Your patreon has expired! Your donator item has been removed. Item: [gear]</span>")
-						M.client.prefs.equipped_gear -= gear
+						M.client.prefs.active_character.equipped_gear -= gear
 						M.client.prefs.purchased_gear -= gear
 						permitted = FALSE
 
@@ -162,11 +162,11 @@
 					gear_leftovers += G
 
 			else
-				M.client.prefs.equipped_gear -= gear
+				M.client.prefs.active_character.equipped_gear -= gear
 
 	if(gear_leftovers.len)
 		for(var/datum/gear/G in gear_leftovers)
-			var/metadata = M.client.prefs.equipped_gear[G.id]
+			var/metadata = M.client.prefs.active_character.equipped_gear[G.id]
 			var/item = G.spawn_item(null, metadata)
 			var/atom/placed_in = human.equip_or_collect(item)
 
@@ -261,7 +261,7 @@
 /datum/job/proc/announce_head(var/mob/living/carbon/human/H, var/channels) //tells the given channel that the given mob is the new department head. See communications.dm for valid channels.
 	if(H && GLOB.announcement_systems.len)
 		//timer because these should come after the captain announcement
-		SSticker.OnRoundstart(CALLBACK(GLOBAL_PROC, .proc/_addtimer, CALLBACK(pick(GLOB.announcement_systems), /obj/machinery/announcement_system/proc/announce, "NEWHEAD", H.real_name, H.job, channels), 1))
+		SSticker.OnRoundstart(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_addtimer), CALLBACK(pick(GLOB.announcement_systems), /obj/machinery/announcement_system/proc/announce, "NEWHEAD", H.real_name, H.job, channels), 1))
 
 //If the configuration option is set to require players to be logged as old enough to play certain jobs, then this proc checks that they are, otherwise it just returns 1
 /datum/job/proc/player_old_enough(client/C)
@@ -299,7 +299,7 @@
 	uniform = /obj/item/clothing/under/color/grey
 	id = /obj/item/card/id
 	ears = /obj/item/radio/headset
-	belt = /obj/item/pda
+	belt = /obj/item/modular_computer/tablet/pda
 	back = /obj/item/storage/backpack
 	shoes = /obj/item/clothing/shoes/sneakers/black
 	box = /obj/item/storage/box/survival
@@ -364,11 +364,11 @@
 				break
 		H.sec_hud_set_ID()
 
-	var/obj/item/pda/PDA = H.get_item_by_slot(pda_slot)
+	var/obj/item/modular_computer/tablet/pda/PDA = H.get_item_by_slot(pda_slot)
 	if(istype(PDA))
-		PDA.owner = H.real_name
-		PDA.ownjob = J.title
-		PDA.update_label()
+		PDA.saved_identification = C.registered_name
+		PDA.saved_job = C.assignment
+		PDA.update_id_display()
 
 /datum/outfit/job/get_chameleon_disguise_info()
 	var/list/types = ..()
@@ -387,7 +387,7 @@
 //NSV13
 /datum/job/proc/get_rank()
 	return display_rank
-	
+
 //why is this as part of a job? because it's something every human recieves at roundstart after all other initializations and factors job in. it fits best with the equipment proc
 //this gives a dormant disease for the virologist to check for. if this disease actually does something to the mob... call me, or your local coder
 /datum/job/proc/dormant_disease_check(mob/living/carbon/human/H)

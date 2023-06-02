@@ -14,4 +14,4 @@
 		log_mapping("[src] failed to find a port at [AREACOORD(src)]")
 
 	else
-		addtimer(CALLBACK(C, /obj/machinery/portable_atmospherics.proc/connect, P), 2 SECONDS) //Make sure we have a pipenet first
+		addtimer(CALLBACK(C, TYPE_PROC_REF(/obj/machinery/portable_atmospherics, connect), P), 2 SECONDS) //Make sure we have a pipenet first

@@ -101,7 +101,7 @@
 	materials = list(/datum/material/iron = 2500, /datum/material/glass = 500, /datum/material/copper = 500)
 	build_path = /obj/item/ship_weapon/parts/missile/warhead
 	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS	
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 
 //Torp Parts
@@ -225,5 +225,37 @@
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron=5000, /datum/material/titanium=5000, /datum/material/silver=1000,)
 	build_path = /obj/item/ship_weapon/ammunition/railgun_ammo
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+//Broadside ammo parts!
+/datum/design/broadside_casing
+	name = "Space Naval titanium reinforced Broadside Shell Casing"
+	desc = "Allows you to construct Broadside Shell Casings"
+	id = "broadside_casing"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron=500, /datum/material/titanium=1500)
+	build_path = /obj/item/ship_weapon/parts/broadside_casing
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+/datum/design/broadside_load
+	name = "Space Naval 250mm uranium coated Broadside Shell Load"
+	desc = "Allows you to construct Broadside Shell Loads"
+	id = "broadside_load"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron=1500, /datum/material/uranium=500)
+	build_path = /obj/item/ship_weapon/parts/broadside_load
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+//Plasma ball for plasma caster
+/datum/design/plasma_core
+	name = "Condensed Phoron Core"
+	desc = "Allows you to synthesize condensed phoron cores for the MPAC"
+	id = "plasma_core"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/plasma=40000, /datum/material/iron=10000)
+	build_path = /obj/item/ship_weapon/ammunition/plasma_core
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS

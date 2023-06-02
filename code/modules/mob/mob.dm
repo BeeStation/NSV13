@@ -150,7 +150,7 @@
   * Return the desc of this mob for a photo
   */
 /mob/proc/get_photo_description(obj/item/camera/camera)
-	return "a ... thing?"
+	return "You can also see a ... thing?"
 
 /**
   * Show a message to this mob (visual or audible)
@@ -186,7 +186,7 @@
 	to_chat(src, msg, avoid_highlighting = avoid_highlighting)
 
 
-/atom/proc/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, list/visible_message_flags)
+/atom/proc/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, list/visible_message_flags, allow_inside_usr = FALSE, separation = " ") //NSV13
 	var/turf/T = get_turf(src)
 	if(!T)
 		return
@@ -197,13 +197,24 @@
 	var/list/hearers = hearers(vision_distance, T) //caches the hearers and then removes ignored mobs.
 	hearers -= ignored_mobs
 
+	//NSV13 - AI QoL - Start
+	for(var/mob/camera/ai_eye/ai_eye in hearers)
+		if(ai_eye.ai?.client && !(ai_eye.ai.stat == DEAD))
+			hearers -= ai_eye
+			hearers |= ai_eye.ai
+
+	for(var/obj/effect/overlay/holo_pad_hologram/holo in hearers)
+		if(holo.Impersonation?.client)
+			hearers |= holo.Impersonation
+	//NSV13 - AI QoL - Stop
+
 	if(self_message)
 		hearers -= src
 
 	var/raw_msg = message
 	var/is_emote = FALSE
 	if(LAZYFIND(visible_message_flags, CHATMESSAGE_EMOTE))
-		message = "<span class='emote'><b>[src]</b> [message]</span>"
+		message = "<span class='emote'><b>[src]</b>[separation][message]</span>" //NSV13
 		is_emote = TRUE
 
 	var/list/show_to = list()
@@ -216,7 +227,8 @@
 		if(M.see_invisible < invisibility)//if src is invisible to M
 			msg = blind_message
 		else if(T != loc && T != src) //if src is inside something and not a turf.
-			msg = blind_message
+			if(!allow_inside_usr || loc != usr)
+				msg = blind_message
 		else if(T.lighting_object && T.lighting_object.invisibility <= M.see_invisible && T.is_softly_lit() && !in_range(T,M)) //if it is too dark.
 			msg = blind_message
 		if(!msg)
@@ -231,7 +243,7 @@
 	if(length(show_to))
 		create_chat_message(src, null, show_to, raw_msg, null, visible_message_flags)
 
-/mob/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, list/visible_message_flags)
+/mob/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, list/visible_message_flags, separation = " ") //NSV13
 	. = ..()
 	if(self_message)
 		show_message(self_message, MSG_VISUAL, blind_message, MSG_AUDIBLE)
@@ -247,8 +259,20 @@
   * * deaf_message (optional) is what deaf people will see.
   * * hearing_distance (optional) is the range, how many tiles away the message can be heard.
   */
-/atom/proc/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, list/audible_message_flags)
+/atom/proc/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, list/audible_message_flags, separation = " ")	//NSV13
 	var/list/hearers = get_hearers_in_view(hearing_distance, src, SEE_INVISIBLE_MAXIMUM)
+
+	//NSV13 - AI QoL - Start
+	for(var/mob/camera/ai_eye/ai_eye in hearers)
+		if(ai_eye.ai?.client && !(ai_eye.ai.stat == DEAD))
+			hearers -= ai_eye
+			hearers |= ai_eye.ai
+
+	for(var/obj/effect/overlay/holo_pad_hologram/holo in hearers)
+		if(holo.Impersonation?.client)
+			hearers |= holo.Impersonation
+	//NSV13 - AI QoL - Stop
+
 	if(self_message)
 		hearers -= src
 
@@ -256,7 +280,7 @@
 	var/is_emote = FALSE
 	if(LAZYFIND(audible_message_flags, CHATMESSAGE_EMOTE))
 		is_emote = TRUE
-		message = "<span class='emote'><b>[src]</b> [message]</span>"
+		message = "<span class='emote'><b>[src]</b>[separation][message]</span>" //NSV13
 
 	var/list/show_to = list()
 	for(var/mob/M in hearers)
@@ -278,23 +302,23 @@
   * * deaf_message (optional) is what deaf people will see.
   * * hearing_distance (optional) is the range, how many tiles away the message can be heard.
   */
-/mob/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, list/audible_message_flags)
+/mob/audible_message(message, deaf_message, hearing_distance = DEFAULT_MESSAGE_RANGE, self_message, list/audible_message_flags, separation = " ") //NSV13
 	. = ..()
 	if(self_message)
 		show_message(self_message, MSG_AUDIBLE, deaf_message, MSG_VISUAL)
 
 ///Returns the client runechat visible messages preference according to the message type.
 /atom/proc/runechat_prefs_check(mob/target, list/visible_message_flags)
-	if(!target.client?.prefs.chat_on_map || !target.client.prefs.see_chat_non_mob)
+	if(!(target.client?.prefs.toggles & PREFTOGGLE_RUNECHAT_GLOBAL) || !(target.client.prefs.toggles & PREFTOGGLE_RUNECHAT_NONMOBS))
 		return FALSE
-	if(LAZYFIND(visible_message_flags, CHATMESSAGE_EMOTE) && !target.client.prefs.see_rc_emotes)
+	if(LAZYFIND(visible_message_flags, CHATMESSAGE_EMOTE) && !(target.client.prefs.toggles & PREFTOGGLE_RUNECHAT_EMOTES))
 		return FALSE
 	return TRUE
 
 /mob/runechat_prefs_check(mob/target, list/visible_message_flags)
-	if(!target.client?.prefs.chat_on_map)
+	if(!(target.client?.prefs.toggles & PREFTOGGLE_RUNECHAT_GLOBAL))
 		return FALSE
-	if(LAZYFIND(visible_message_flags, CHATMESSAGE_EMOTE) && !target.client.prefs.see_rc_emotes)
+	if(LAZYFIND(visible_message_flags, CHATMESSAGE_EMOTE) && !(target.client.prefs.toggles & PREFTOGGLE_RUNECHAT_EMOTES))
 		return FALSE
 	return TRUE
 
@@ -746,6 +770,12 @@
 		unset_machine()
 		src << browse(null, t1)
 
+	//NSV13 START
+	if(href_list["flavor_more"])
+		usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", name, replacetext(flavour_text, "\n", "<BR>")), text("window=[];size=500x200", name))
+		onclose(usr, "[name]")
+	//NSV13 STOP
+
 	if(href_list["item"] && usr.canUseTopic(src, BE_CLOSE, NO_DEXTERY))
 		var/slot = text2num(href_list["item"])
 		var/hand_index = text2num(href_list["hand_index"])
@@ -969,8 +999,12 @@
 	return 1
 
 ///Can the mob interact() with an atom?
-/mob/proc/can_interact_with(atom/A)
-	return IsAdminGhost(src) || Adjacent(A)
+/mob/proc/can_interact_with(atom/A, treat_mob_as_adjacent)
+	if(IsAdminGhost(src))
+		return TRUE
+	if(treat_mob_as_adjacent && src == A.loc)
+		return TRUE
+	return Adjacent(A)
 
 ///Can the mob use Topic to interact with machines
 /mob/proc/canUseTopic(atom/movable/M, be_close=FALSE, no_dextery=FALSE, no_tk=FALSE)
@@ -1069,11 +1103,11 @@
 					break
 				search_id = 0
 
-		else if( search_pda && istype(A, /obj/item/pda) )
-			var/obj/item/pda/PDA = A
-			if(PDA.owner == oldname)
-				PDA.owner = newname
-				PDA.update_label()
+		else if(search_pda && istype(A, /obj/item/modular_computer/tablet/pda))
+			var/obj/item/modular_computer/tablet/pda/PDA = A
+			if(PDA.saved_identification == oldname)
+				PDA.saved_identification = newname
+				PDA.update_id_display()
 				if(!search_id)
 					break
 				search_pda = 0
@@ -1265,7 +1299,7 @@
 		UnregisterSignal(active_storage, COMSIG_PARENT_QDELETING)
 	active_storage = new_active_storage
 	if(active_storage)
-		RegisterSignal(active_storage, COMSIG_PARENT_QDELETING, .proc/active_storage_deleted)
+		RegisterSignal(active_storage, COMSIG_PARENT_QDELETING, PROC_REF(active_storage_deleted))
 
 /mob/proc/active_storage_deleted(datum/source)
 	SIGNAL_HANDLER

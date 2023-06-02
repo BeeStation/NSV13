@@ -80,7 +80,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 				continue
 			affecting += L
 	for(var/mob/L in affecting)
-		if(L.client && L.client.prefs.toggles & SOUND_SHIP_AMBIENCE && L.client?.last_ambience != ambient_buzz)
+		if(L.client && L.client.prefs.toggles & PREFTOGGLE_SOUND_SHIP_AMBIENCE && L.client?.last_ambience != ambient_buzz)
 			L.client.buzz_playing = ambient_buzz
 			SEND_SOUND(L, sound(ambient_buzz, repeat = 1, wait = 0, volume = 100, channel = CHANNEL_BUZZ))
 			L.client.last_ambience = ambient_buzz
@@ -239,7 +239,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	gas_absorption_constant = gas_absorption_effectiveness //And set this up for the rest of the round.
 
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
@@ -289,6 +289,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 				vessel_integrity -= temperature / 200 //Think fast loser.
 				take_damage(10) //Just for the sound effect, to let you know you've fucked up.
 				color = "[COLOR_RED]"
+
 	//Now, heat up the output and set our pressure.
 	coolant_output.set_temperature(CELSIUS_TO_KELVIN(temperature)) //Heat the coolant output gas that we just had pass through us.
 	last_output_temperature = KELVIN_TO_CELSIUS(coolant_output.return_temperature())
@@ -483,6 +484,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	explosion(get_turf(src), 0, 5, 10, 20, TRUE, TRUE)
 	empulse(get_turf(src), 25, 15)
 	fail_meltdown_objective()
+	SSblackbox.record_feedback("tally", "engine_stats", 1, "failed")
+	SSblackbox.record_feedback("tally", "engine_stats", 1, "agcnr")
 
 //Failure condition 2: Blowout. Achieved by reactor going over-pressured. This is a round-ender because it requires more fuckery to achieve.
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/blowout()
@@ -537,6 +540,8 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	AR.set_looping_ambience('nsv13/sound/effects/rbmk/reactor_hum.ogg')
 	var/startup_sound = pick('nsv13/sound/effects/ship/reactor/startup.ogg', 'nsv13/sound/effects/ship/reactor/startup2.ogg')
 	playsound(loc, startup_sound, 100)
+	SSblackbox.record_feedback("tally", "engine_stats", 1, "agcnr")
+	SSblackbox.record_feedback("tally", "engine_stats", 1, "started")
 
 //Shuts off the fuel rods, ambience, etc. Keep in mind that your temperature may still go up!
 /obj/machinery/atmospherics/components/trinary/nuclear_reactor/proc/shut_down()
@@ -570,7 +575,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 
 /obj/machinery/computer/reactor/Initialize(mapload, obj/item/circuitboard/C)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/link_to_reactor), 10 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(link_to_reactor)), 10 SECONDS)
 
 /obj/machinery/computer/reactor/proc/link_to_reactor()
 	for(var/obj/machinery/atmospherics/components/trinary/nuclear_reactor/asdf in GLOB.machines)
@@ -797,6 +802,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	extended_desc = "This program connects to specially calibrated sensors to provide information on the status of nuclear reactors."
 	requires_ntnet = TRUE
 	transfer_access = ACCESS_CONSTRUCTION
+	category = PROGRAM_CATEGORY_ENGI
 	network_destination = "rbmk monitoring system"
 	size = 2
 	tgui_id = "NtosRbmkStats"
@@ -845,7 +851,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 		if(tempOutputdata.len > 100) //Only lets you track over a certain timeframe.
 			tempOutputdata.Cut(1, 2)
 
-/datum/computer_file/program/nuclear_monitor/run_program(mob/living/user)
+/datum/computer_file/program/nuclear_monitor/on_start(mob/living/user)
 	. = ..(user)
 	//No reactor? Go find one then.
 	if(!reactor)

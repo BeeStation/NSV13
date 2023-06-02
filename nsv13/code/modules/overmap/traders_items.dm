@@ -12,7 +12,7 @@
 	max_integrity = 3000
 	bound_width = 224
 	bound_height = 224
-	req_one_access = list(ACCESS_CARGO, ACCESS_SYNDICATE)
+	req_one_access = list(ACCESS_CARGO, ACCESS_SYNDICATE, ACCESS_HEADS)
 	var/datum/trader/inhabited_trader = null
 
 /obj/structure/overmap/trader/try_hail(mob/living/user)
@@ -38,6 +38,10 @@
 	icon_state = "syndie"
 	faction = "syndicate"
 	supply_pod_type = /obj/structure/closet/supplypod/syndicate_odst
+
+/obj/structure/overmap/trader/independent
+	faction = "unaligned" //TODO: make this actually do something
+	supply_pod_type = /obj/structure/closet/supplypod
 
 /obj/structure/overmap/trader/proc/set_trader(datum/trader/bob) //The love story of alice and bob continues.
 	name = "[bob.name]"
@@ -343,3 +347,15 @@
 	price = 8000
 	stock = 1
 	unlock_path = /obj/item/disk/design_disk/deck_gun_autorepair
+
+/datum/trader_item/yellow_pages
+	name = "Space Yellow Pages"
+	desc = "A book full of useful information about nearby space stations"
+	price = 1000
+	stock = 1
+	unlock_path = /obj/item/book/space_yellow_pages
+
+/datum/trader_item/yellow_pages/on_purchase(obj/structure/overmap/OM)
+	. = ..()
+	var/obj/item/book/space_yellow_pages/book = .
+	book.set_basic_info(owner)

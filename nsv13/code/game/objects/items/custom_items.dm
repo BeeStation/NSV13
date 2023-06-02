@@ -4,6 +4,7 @@
 	icon = 'nsv13/icons/obj/items_and_weapons.dmi'
 	icon_state = "stunsword"
 	item_state = "stunsword"
+	worn_icon = 'icons/mob/belt.dmi'
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/melee_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/melee_righthand.dmi'
 	flags_1 = CONDUCT_1
@@ -14,9 +15,9 @@
 	attack_verb = list("immolated", "slashed")
 	hitsound = 'sound/weapons/rapierhit.ogg'
 	materials = list(/datum/material/iron = 1000)
-	var/stunforce_on = 60
-	var/stunforce_off = 0
-	var/stunforce = 60
+	var/stuntime_on = (4 SECONDS)
+	var/stuntime_off = 0
+	var/stuntime = (4 SECONDS)
 	on_icon_state = "stunsword_active"
 	off_icon_state = "stunsword"
 	on_item_state = "stunsword_active"
@@ -47,7 +48,7 @@
 		icon_state = on_icon_state
 		item_state = on_item_state
 		force = force_on
-		stunforce = stunforce_on
+		stuntime = stuntime_on
 		attack_verb = list("sliced", "cut", "striken", "immobilized")
 		hitsound = 'nsv13/sound/effects/saberhit.ogg'
 		set_light(3)
@@ -62,7 +63,7 @@
 		icon_state = off_icon_state
 		item_state = off_icon_state
 		slot_flags = ITEM_SLOT_BELT
-		stunforce = stunforce_off
+		stuntime = stuntime_off
 		force = force_off
 		attack_verb = list("immolated", "slashed")
 		hitsound = 'sound/weapons/rapierhit.ogg'
@@ -75,7 +76,7 @@
 /obj/item/melee/classic_baton/telescopic/stunsword/attack(mob/living/target, mob/living/user)
 	if(ishuman(target))
 		var/mob/living/carbon/human/H = target
-		H.adjustStaminaLoss(stunforce)
+		H.Paralyze(stuntime)
 		H.apply_damage(force, BRUTE)
 		user.do_attack_animation(H)
 		playsound(user.loc, hitsound, 100, 1)
@@ -111,3 +112,18 @@
 /obj/item/kirbyplants/random/plush/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE, force_unwielded=0, force_wielded=0, wieldsound='sound/items/bikehorn.ogg')
+
+//A special megaphone for fans of Admiral Rudiger
+/obj/item/megaphone/command/rudiger
+	name = "Rudigerphone"
+	desc = "A device used to project your own voice. Loudly. Just like Rudiger."
+
+/obj/item/toy/plush/random
+	name = "\improper Random Plush"
+	icon_state = "debug"
+	desc = "Oh no! What have you done! (if you see this, contact an upper being as soon as possible)."
+
+/obj/item/toy/plush/random/Initialize()
+	var/plush_type = pick(subtypesof(/obj/item/toy/plush/) - /obj/item/toy/plush/random/)
+	new plush_type(loc)
+	return INITIALIZE_HINT_QDEL

@@ -38,9 +38,6 @@ That's it, ok bye!
 
 //Mappers, DON'T USE ME! Use the other one.
 
-/area/shuttle/turbolift
-	ambient_buzz = 'nsv13/sound/effects/lift/elevatormusic.ogg' //Mandatory.
-
 /obj/machinery/lazylift_button
 	name = "Turbolift call button"
 	desc = "A button that can call a turbolift to your location, so that you can board it. Be sure to mash it as often as physically possible."
@@ -213,6 +210,7 @@ That's it, ok bye!
 	var/wait_time = 5 SECONDS //Brief cooldown after the lift reaches its destination, to allow people from that floor to board it.
 	var/play_voice_lines = TRUE //Do you want your elevator to sarcastically tell you that it's going up or down? Thanks to Corsaka / Skullmagic for the VA!
 	var/open_doors_on_arrival = FALSE
+	var/use_music = TRUE //Default on
 
 /obj/machinery/lazylift/master/aircraft_elevator
 	open_doors_on_arrival = TRUE
@@ -235,7 +233,7 @@ That's it, ok bye!
 		if(T.z != z)
 			continue
 		platform += T
-	addtimer(CALLBACK(src, .proc/acquire_destinations), 10 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(acquire_destinations)), 10 SECONDS)
 	setup()
 
 /obj/machinery/lazylift/proc/acquire_destinations()
@@ -276,10 +274,10 @@ That's it, ok bye!
 
 	close_all_doors() //Start off by closing all the doors.
 	platform_location.unbolt_doors(open_doors_on_arrival) //But ensure that you can board the lift at some point.
-	set_music()
+	if(use_music)
+		set_music()
 
 //Lets you set the elevator music for this turbolift. Used by emags to make the music ~~horrible~~ amazing
-
 /obj/machinery/lazylift/master/proc/set_music(what)
 	if(!what)
 		what = pick('sound/effects/turbolift/elevatormusic.ogg','nsv13/sound/effects/lift/elevatormusic.ogg', 'nsv13/sound/effects/lift/GeorgeForse-rick.ogg', 'nsv13/sound/effects/lift/tchaikovsky.ogg')
@@ -295,6 +293,7 @@ That's it, ok bye!
 /obj/machinery/lazylift/master/emag_act(mob/user)
 	if(obj_flags & EMAGGED)
 		return
+	use_music = TRUE
 	set_music('nsv13/sound/effects/lift/emagged.ogg') //Wonderful music, manifique, c'est encroyable.
 	req_access = list()
 	obj_flags |= EMAGGED
@@ -400,6 +399,7 @@ That's it, ok bye!
 		for(var/turf/T as() in platform)
 			T.ChangeTurf(/turf/open/floor/plasteel/elevatorshaft, list(/turf/open/openspace, /turf/open/floor/plating), CHANGETURF_INHERIT_AIR)
 
+	open_all_doors(target.z)
 //Special FX and stuff.
 
 /obj/machinery/lazylift/master/proc/sound_effect(list/moblist, start = FALSE)
@@ -462,4 +462,20 @@ That's it, ok bye!
 	set waitfor = FALSE
 	for(var/obj/machinery/lazylift/target in decks)
 		target.unbolt_doors()
+	return TRUE
+
+/obj/machinery/lazylift/proc/open_doors(var/deck_holder)
+	for(var/obj/machinery/door/airlock/theDoor in doors)
+		theDoor.unbolt()
+		if(theDoor.z == deck_holder)
+			if(!theDoor.open())
+				if(!theDoor.locked)
+					return FALSE
+			theDoor.bolt()
+	return TRUE
+
+/obj/machinery/lazylift/master/proc/open_all_doors(var/deck_holder)
+	for(var/obj/machinery/lazylift/target in decks)
+		if(!target.open_doors(deck_holder))
+			return FALSE
 	return TRUE

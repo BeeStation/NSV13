@@ -3,11 +3,12 @@
 	desc = "A large ship to ship weapon designed to provide a constant barrage of fire over a long distance. It has a small cockpit for a gunner to control it manually."
 	icon = 'nsv13/icons/obj/railgun.dmi'
 	icon_state = "gauss"
+	pixel_x = -45
+	pixel_y = -96
 	bound_width = 96
-	bound_height = 96
+	bound_height = 64
 	bound_x = -32
 	bound_y = -32
-	pixel_x = -44
 	obj_integrity = 500
 	max_integrity = 500
 
@@ -219,12 +220,66 @@
 
 /obj/machinery/ship_weapon/gauss_gun/north
 	dir = NORTH
+	pixel_x = -45
+	pixel_y = 0
+	bound_width = 96
+	bound_height = 64
+	bound_x = -32
+	bound_y = 0
 
 /obj/machinery/ship_weapon/gauss_gun/east
 	dir = EAST
+	pixel_x = 0
+	pixel_y = -52
+	bound_width = 64
+	bound_height = 96
+	bound_x = 0
+	bound_y = -32
 
 /obj/machinery/ship_weapon/gauss_gun/west
 	dir = WEST
+	pixel_x = -96
+	pixel_y = -52
+	bound_width = 64
+	bound_height = 96
+	bound_x = -32
+	bound_y = -32
+
+/obj/machinery/ship_weapon/gauss_gun/setDir()
+	. = ..()
+	switch(dir)
+		if(NORTH)
+			pixel_x = -45
+			pixel_y = 0
+			bound_width = 96
+			bound_height = 64
+			bound_x = -32
+			bound_y = 0
+		if(SOUTH)
+			pixel_x = -45
+			pixel_y = -96
+			bound_width = 96
+			bound_height = 64
+			bound_x = -32
+			bound_y = -32
+		if(EAST)
+			pixel_x = 0
+			pixel_y = -52
+			bound_width = 64
+			bound_height = 96
+			bound_x = 0
+			bound_y = -32
+		if(WEST)
+			pixel_x = -96
+			pixel_y = -52
+			bound_width = 64
+			bound_height = 96
+			bound_x = -32
+			bound_y = -32
+
+/obj/machinery/ship_weapon/gauss_gun/on_construction(ndir)
+	if(!isnull(ndir))
+		setDir(ndir)
 
 /obj/machinery/ship_weapon/gauss_gun/proc/onClick(atom/target)
 	if(pdc_mode && world.time >= last_pdc_fire + 2 SECONDS)
@@ -337,6 +392,10 @@
 	var/max_alpha = 255
 	///pixel_y offset for each gauss round in the rack
 	var/ammo_offset_y = 4
+
+/obj/structure/gauss_rack/examine(mob/user)
+	. = ..()
+	. += "You can use a screwdriver on the gunner chair to adjust the rack's position."
 
 /obj/item/circuitboard/gauss_rack_upgrade
 	name = "Gauss Rack Autoload Module (Circuit)"
@@ -541,6 +600,8 @@ Chair + rack handling
 	desc = "A chair which can be lowered down from the ceiling to feed into a gauss gun, allowing for easy access to the gun's cockpit."
 	icon = 'nsv13/icons/obj/chairs.dmi'
 	icon_state = "shuttle_chair"
+	item_chair = null
+	buildstackamount = 10
 	var/locked = FALSE
 	var/obj/machinery/ship_weapon/gauss_gun/gun
 	var/mob/living/occupant
@@ -551,6 +612,12 @@ Chair + rack handling
 		gun.gunner_chair = null
 	return ..()
 
+/obj/structure/chair/fancy/gauss/screwdriver_act(mob/living/user, obj/item/I)
+	. = ..()
+	feed_direction = turn(feed_direction,-90)
+	to_chat(user, "<span class='notice'>You adjust the loading rack feed direction to the [dir2text(feed_direction)].</span>")
+	return TRUE
+
 /obj/structure/chair/fancy/gauss/north
 	feed_direction = NORTH
 
@@ -559,6 +626,11 @@ Chair + rack handling
 
 /obj/structure/chair/fancy/gauss/west
 	feed_direction = WEST
+
+/obj/structure/chair/fancy/gauss/examine(mob/user)
+	. = ..()
+	. += "Use a screwdriver to adjust where the loading rack drops down from."
+	. += "Currently feeding from the [dir2text(feed_direction)]."
 
 /obj/structure/chair/fancy/gauss/unbuckle_mob(mob/buckled_mob, force=FALSE)
 	if(locked)

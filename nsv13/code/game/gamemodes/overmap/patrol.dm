@@ -4,6 +4,7 @@
 
 /datum/overmap_gamemode/patrol
 	name = "Patrol"
+	config_tag = "patrol"
 	desc = "Default Gamemode - Acquire 1000 victory tickets for Nanotrasen"
 	brief = "You have been assigned to standard patrol duty beyond the Foothold sector. Patrol this area and eliminate any Syndicate forces with extreme prejudice, then return back to Outpost 45."
 	starting_system = "Argo"

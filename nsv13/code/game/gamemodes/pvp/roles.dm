@@ -216,7 +216,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0)
 	to_chat(owner, "<span class='notice'>You are a [title] in the Syndicate navy. Your ship is a highly advanced modular battlecruiser, choose a ship loadout wisely, and consult with your crew! <br> You are second only to the <b>admiral</b>, but you have autonomy over the ship unless otherwise ordered.</span>")
 	to_chat(owner, "<span class='warning'>Diminish Nanotrasen's presence in this sector by destroying NT fleets and claiming systems with your lighthouse beacon. Destruction of the [station_name()] via superstructure crit or nuclear detonation are also options. For Abassi!</span>")
-	addtimer(CALLBACK(src, .proc/nuketeam_name_assign), 1)
+	addtimer(CALLBACK(src, PROC_REF(nuketeam_name_assign)), 1)
 	owner.announce_objectives()
 
 //Syndicate crew roles, defined in order of priority.
@@ -386,7 +386,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	job_rank = ROLE_SYNDI_CREW
 
 /datum/antagonist/nukeop/syndi_crew/clown/give_alias()
-	owner.current.fully_replace_character_name(owner.current.real_name,owner.current.client.prefs.custom_names["clown"])
+	owner.current.fully_replace_character_name(owner.current.real_name, owner.current.client.prefs.active_character.custom_names["clown"])
 
 /datum/outfit/syndicate/clownop/no_crystals/jojo_reference
 	name = "Syndicate Clown (Jojo Reference)"

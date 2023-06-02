@@ -135,7 +135,7 @@
 	var/datum/browser/panel = new(usr, "banpanel", "Banning Panel", 910, panel_height)
 	panel.add_stylesheet("admin_panelscss", 'html/admin/admin_panels.css')
 	panel.add_stylesheet("banpanelcss", 'html/admin/banpanel.css')
-	if(usr.client.prefs.tgui_fancy) //some browsers (IE8) have trouble with unsupported css3 elements and DOM methods that break the panel's functionality, so we won't load those if a user is in no frills tgui mode since that's for similar compatability support
+	if(usr.client.prefs.toggles2 & PREFTOGGLE_2_FANCY_TGUI) //some browsers (IE8) have trouble with unsupported css3 elements and DOM methods that break the panel's functionality, so we won't load those if a user is in no frills tgui mode since that's for similar compatability support
 		panel.add_stylesheet("admin_panelscss3", 'html/admin/admin_panels_css3.css')
 		panel.add_script("banpaneljs", 'html/admin/banpanel.js')
 	var/list/output = list("<form method='get' action='?src=[REF(src)]'>[HrefTokenFormField()]")
@@ -275,14 +275,14 @@
 				banned_from += query_get_banned_roles.item[1]
 			qdel(query_get_banned_roles)
 		var/break_counter = 0
-		output += "<div class='row'><div class='column'><label class='rolegroup command'><input type='checkbox' name='Command' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_dep\")'" : ""]>Command</label><div class='content'>"
+		output += "<div class='row'><div class='column'><label class='rolegroup command'><input type='checkbox' name='Command' class='hidden' [(usr.client.prefs.toggles2 & PREFTOGGLE_2_FANCY_TGUI) ? " onClick='toggle_checkboxes(this, \"_dep\")'" : ""]>Command</label><div class='content'>"
 		//all heads are listed twice so have a javascript call to toggle both their checkboxes when one is pressed
 		//for simplicity this also includes the captain even though it doesn't do anything
 		for(var/job in GLOB.command_positions)
 			if(break_counter > 0 && (break_counter % 3 == 0))
 				output += "<br>"
 			output += {"<label class='inputlabel checkbox'>[job]
-						<input type='checkbox' id='[job]_com' name='[job]' class='Command' value='1'[usr.client.prefs.tgui_fancy ? " onClick='toggle_head(this, \"_dep\")'" : ""]>
+						<input type='checkbox' id='[job]_com' name='[job]' class='Command' value='1'[(usr.client.prefs.toggles2 & PREFTOGGLE_2_FANCY_TGUI) ? " onClick='toggle_head(this, \"_dep\")'" : ""]>
 						<div class='inputbox[(job in banned_from) ? " banned" : ""]'></div></label>
 			"}
 			break_counter++
@@ -295,9 +295,9 @@
 							"Supply" = GLOB.supply_positions)
 		for(var/department in job_lists)
 			//the first element is the department head so they need the same javascript call as above
-			output += "<div class='column'><label class='rolegroup [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
+			output += "<div class='column'><label class='rolegroup [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [(usr.client.prefs.toggles2 & PREFTOGGLE_2_FANCY_TGUI) ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
 			output += {"<label class='inputlabel checkbox'>[job_lists[department][1]]
-						<input type='checkbox' id='[job_lists[department][1]]_dep' name='[job_lists[department][1]]' class='[department]' value='1'[usr.client.prefs.tgui_fancy ? " onClick='toggle_head(this, \"_com\")'" : ""]>
+						<input type='checkbox' id='[job_lists[department][1]]_dep' name='[job_lists[department][1]]' class='[department]' value='1'[(usr.client.prefs.toggles2 & PREFTOGGLE_2_FANCY_TGUI) ? " onClick='toggle_head(this, \"_com\")'" : ""]>
 						<div class='inputbox[(job_lists[department][1] in banned_from) ? " banned" : ""]'></div></label>
 			"}
 			break_counter = 1
@@ -312,9 +312,9 @@
 			output += "</div></div>"
 		//departments/groups that don't have command staff would throw a javascript error since there's no corresponding reference for toggle_head()
 		var/list/headless_job_lists = list("Silicon" = GLOB.nonhuman_positions,
-										"Abstract" = list("Appearance", "Emote", "OOC", "DSAY"))
+										"Abstract" = list("Appearance", "Emote", "OOC", "DSAY", "Mapvote")) // NSV13 - added Mapvote ban
 		for(var/department in headless_job_lists)
-			output += "<div class='column'><label class='rolegroup [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
+			output += "<div class='column'><label class='rolegroup [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [(usr.client.prefs.toggles2 & PREFTOGGLE_2_FANCY_TGUI) ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
 			break_counter = 0
 			for(var/job in headless_job_lists[department])
 				if(break_counter > 0 && (break_counter % 3 == 0))
@@ -336,7 +336,7 @@
 									ROLE_REV_HEAD, ROLE_SYNDICATE,
 									ROLE_TRAITOR, ROLE_WIZARD, ROLE_HIVE, ROLE_GANG, ROLE_TERATOMA)) //ROLE_REV_HEAD is excluded from this because rev jobbans are handled by ROLE_REV
 		for(var/department in long_job_lists)
-			output += "<div class='column'><label class='rolegroup long [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
+			output += "<div class='column'><label class='rolegroup long [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [(usr.client.prefs.toggles2 & PREFTOGGLE_2_FANCY_TGUI) ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
 			break_counter = 0
 			for(var/job in long_job_lists[department])
 				if(break_counter > 0 && (break_counter % 10 == 0))
@@ -819,7 +819,7 @@
 		to_chat(usr, "<span class='danger'>Failed to establish database connection.</span>")
 		return
 	var/target = ban_target_string(player_key, player_ip, player_cid)
-	if(alert(usr, "Please confirm unban of [target] from [role].", "Unban confirmation", "Yes", "No") == "No")
+	if(alert(usr, "Please confirm unban of [target] from [role].", "Unban confirmation", "Yes", "No") != "Yes")
 		return
 	var/kn = key_name(usr)
 	var/kna = key_name_admin(usr)

@@ -161,6 +161,7 @@
 			icon_state = icon_full
 		else
 			icon_state = icon_empty
+	return ..()
 
 /atom/movable/screen/inventory/proc/add_overlays()
 	var/mob/user = hud?.mymob
@@ -270,7 +271,7 @@
 	usr.a_intent_change(INTENT_HOTKEY_RIGHT)
 
 /atom/movable/screen/act_intent/segmented/Click(location, control, params)
-	if(usr.client.prefs.toggles & INTENT_STYLE)
+	if(usr.client.prefs.toggles & PREFTOGGLE_INTENT_STYLE)
 		var/_x = text2num(params2list(params)["icon-x"])
 		var/_y = text2num(params2list(params)["icon-y"])
 
@@ -370,6 +371,7 @@
 			icon_state = "walking"
 		if(MOVE_INTENT_RUN)
 			icon_state = "running"
+	return ..()
 
 /atom/movable/screen/mov_intent/proc/toggle(mob/user)
 	if(isobserver(user))
@@ -391,6 +393,7 @@
 		icon_state = "pull"
 	else
 		icon_state = "pull0"
+	return ..()
 
 /atom/movable/screen/resist
 	name = "resist"
@@ -425,6 +428,7 @@
 		icon_state = "act_rest"
 	else
 		icon_state = "act_rest0"
+	return ..()
 
 /atom/movable/screen/storage
 	name = "storage"

@@ -33,7 +33,7 @@
 	jobtype = /datum/job/shaft_miner
 
 	id = /obj/item/card/id/job/shaft_miner
-	belt = /obj/item/pda/shaft_miner
+	belt = /obj/item/modular_computer/tablet/pda/shaft_miner
 	ears = /obj/item/radio/headset/headset_cargo/shaft_miner
 	shoes = /obj/item/clothing/shoes/workboots/mining
 	gloves = /obj/item/clothing/gloves/color/black
@@ -45,7 +45,8 @@
 		/obj/item/kitchen/knife/combat/survival=1,\
 		/obj/item/mining_voucher=1,\
 		/obj/item/stack/marker_beacon/ten=1,\
-		/obj/item/discovery_scanner=1)
+		/obj/item/discovery_scanner=1,\
+		/obj/item/encryptionkey/pilot=1) //NSV13
 
 	backpack = /obj/item/storage/backpack/explorer
 	satchel = /obj/item/storage/backpack/satchel/explorer

@@ -247,12 +247,24 @@
 //Used as an upper limit for species that continuously gain nutriment
 #define NUTRITION_LEVEL_ALMOST_FULL 535
 
-//NSV13 - TG style ethereal charge levels
+//NSV13 - TG style ethereal charge levels - Crystalized Ethereal
 #define ETHEREAL_CHARGE_NONE 0
 #define ETHEREAL_CHARGE_LOWPOWER 500
 #define ETHEREAL_CHARGE_NORMAL 1250
 #define ETHEREAL_CHARGE_ALMOSTFULL 1875
 #define ETHEREAL_CHARGE_FULL 2500
+
+#define CRYSTALIZE_COOLDOWN_LENGTH 120 SECONDS
+#define CRYSTALIZE_PRE_WAIT_TIME 40 SECONDS
+#define CRYSTALIZE_DISARM_WAIT_TIME 120 SECONDS
+#define CRYSTALIZE_HEAL_TIME 60 SECONDS
+
+#define BRUTE_DAMAGE_REQUIRED_TO_STOP_CRYSTALIZATION 30
+
+#define CRYSTALIZE_STAGE_ENGULFING 100 //Cant use second defines
+#define CRYSTALIZE_STAGE_ENCROACHING 300 //In switches
+#define CRYSTALIZE_STAGE_SMALL 600 //Because they're not static
+//NSV13 - Changes END - For now probably
 
 //Base nutrition value used for newly initialized slimes
 #define SLIME_DEFAULT_NUTRITION 700
@@ -432,6 +444,9 @@
 #define SENTIENCE_RETAIN 1	//a player ghosting out of the mob will make the mob playable for others, if it was already playable
 #define SENTIENCE_FORCE 2		//the mob will be made playable by force when a player is forcefully ejected from a mob (by admin, for example)
 #define SENTIENCE_ERASE 3
+
+///How much a mob's sprite should be moved when they're lying down
+#define PIXEL_Y_OFFSET_LYING -6 //NSV13
 
 //Flavor Text When Entering A Playable Mob
 #define FLAVOR_TEXT_EVIL "evil"	//mob antag

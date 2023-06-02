@@ -2,22 +2,23 @@
 "am" = (
 /turf/closed/wall/r_wall/syndicate,
 /area/ruin/powered/nsv13/boarding_interior)
-"an" = (
-/obj/structure/railing{
-	dir = 4
-	},
-/obj/structure/railing{
-	dir = 8
-	},
-/turf/open/floor/plasteel/stairs{
-	dir = 1
-	},
+"aA" = (
+/obj/structure/closet,
+/obj/effect/spawner/lootdrop/armory_contraband,
+/turf/open/floor/monotile/dark,
 /area/ruin/powered/nsv13/boarding_interior)
 "aF" = (
 /obj/machinery/computer/ship/munitions_computer/east{
 	dir = 8
 	},
 /turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
+"aR" = (
+/obj/machinery/power/smes,
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/circuit/red/anim,
 /area/ruin/powered/nsv13/boarding_interior)
 "bH" = (
 /obj/effect/turf_decal/stripes/red/line{
@@ -79,7 +80,8 @@
 /obj/machinery/porta_turret/syndicate,
 /obj/effect/turf_decal/stripes/box,
 /obj/structure/peacekeeper_barricade/metal{
-	dir = 8
+	dir = 8;
+	max_integrity = 100
 	},
 /turf/open/floor/monotile/dark,
 /area/ruin/powered/nsv13/boarding_interior)
@@ -89,6 +91,8 @@
 	},
 /obj/structure/table/reinforced,
 /obj/item/phone,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "du" = (
@@ -99,6 +103,10 @@
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
 	},
+/area/ruin/powered/nsv13/boarding_interior)
+"dv" = (
+/obj/machinery/porta_turret/syndicate,
+/turf/closed/wall/r_wall,
 /area/ruin/powered/nsv13/boarding_interior)
 "dE" = (
 /obj/machinery/vending/boozeomat/syndicate_access,
@@ -128,6 +136,11 @@
 /obj/item/storage/box/donkpockets/donkpocketspicy,
 /turf/open/floor/monotile/dark,
 /area/ruin/powered/nsv13/boarding_interior)
+"eU" = (
+/obj/machinery/power/smes,
+/obj/machinery/light,
+/turf/open/floor/circuit/red/anim,
+/area/ruin/powered/nsv13/boarding_interior)
 "fd" = (
 /obj/structure/table/reinforced,
 /obj/item/wrench,
@@ -135,11 +148,13 @@
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "fh" = (
-/obj/structure/chair/fancy/shuttle{
+/obj/structure/chair{
 	dir = 4;
 	name = "safety seat"
 	},
 /mob/living/simple_animal/hostile/syndicate/melee,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "fA" = (
@@ -253,15 +268,7 @@
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "iR" = (
-/obj/structure/railing{
-	dir = 8
-	},
-/obj/structure/railing{
-	dir = 4
-	},
-/turf/open/floor/plasteel/stairs{
-	dir = 1
-	},
+/turf/open/floor/stairs,
 /area/ruin/powered/nsv13/boarding_interior)
 "iU" = (
 /obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
@@ -314,6 +321,21 @@
 	},
 /turf/open/space/basic,
 /area/ruin/powered/nsv13/boarding_interior)
+"lm" = (
+/obj/structure/rack,
+/obj/structure/railing,
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/boarding_interior)
+"lo" = (
+/obj/structure/fluff/support_beam{
+	color = "#5e5e5c";
+	dir = 1
+	},
+/obj/item/aiModule/toyAI{
+	name = "Minervasoft"
+	},
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
 "lv" = (
 /obj/effect/turf_decal/box/red,
 /obj/structure/closet/crate/large,
@@ -335,17 +357,6 @@
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "lV" = (
-/obj/structure/railing/corner{
-	dir = 4
-	},
-/obj/structure/railing/corner,
-/obj/structure/railing/corner{
-	dir = 1;
-	pixel_y = 1
-	},
-/obj/structure/railing/corner{
-	dir = 8
-	},
 /obj/effect/turf_decal/stripes/red/corner{
 	dir = 4
 	},
@@ -389,6 +400,12 @@
 /obj/structure/closet/crate,
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
+"nm" = (
+/obj/structure/rack,
+/obj/item/ship_weapon/ammunition/torpedo/hellfire,
+/obj/structure/railing,
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/boarding_interior)
 "nA" = (
 /obj/effect/turf_decal/tile/ship/half/red{
 	alpha = 200;
@@ -400,6 +417,16 @@
 	},
 /obj/effect/turf_decal/ship/techfloor/grid,
 /turf/open/floor/plasteel/dark/corner,
+/area/ruin/powered/nsv13/boarding_interior)
+"nF" = (
+/obj/structure/fluff/support_beam{
+	color = "#5e5e5c";
+	dir = 4
+	},
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "nX" = (
 /obj/structure/railing,
@@ -476,7 +503,7 @@
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "rk" = (
-/obj/structure/chair/fancy/shuttle{
+/obj/structure/chair{
 	dir = 4;
 	name = "safety seat"
 	},
@@ -491,6 +518,8 @@
 /obj/structure/railing{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "rw" = (
@@ -536,8 +565,9 @@
 /turf/open/floor/plating/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "sw" = (
-/obj/machinery/porta_turret/syndicate,
-/turf/closed/wall/r_wall,
+/obj/structure/closet/crate,
+/obj/effect/spawner/lootdrop/maintenance/two,
+/turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "sW" = (
 /obj/effect/turf_decal/box/red,
@@ -563,7 +593,9 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "tL" = (
-/obj/structure/table,
+/obj/structure/railing{
+	dir = 10
+	},
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "tM" = (
@@ -636,6 +668,9 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "xg" = (
 /mob/living/simple_animal/hostile/syndicate/melee,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "xz" = (
@@ -733,7 +768,7 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
 "BN" = (
-/obj/structure/chair/fancy/shuttle{
+/obj/structure/chair{
 	dir = 4;
 	name = "safety seat"
 	},
@@ -793,6 +828,12 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
+"DL" = (
+/obj/structure/railing{
+	dir = 9
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/boarding_interior)
 "DT" = (
 /obj/machinery/vending/cigarette/syndicate,
 /obj/machinery/computer/ship/viewscreen,
@@ -809,15 +850,6 @@
 /obj/item/ship_weapon/parts/missile/warhead/hellfire,
 /obj/item/ship_weapon/parts/missile/warhead/hellfire,
 /turf/open/floor/engine,
-/area/ruin/powered/nsv13/boarding_interior)
-"EZ" = (
-/obj/structure/railing{
-	dir = 8
-	},
-/obj/structure/railing{
-	dir = 4
-	},
-/turf/open/floor/plasteel/stairs,
 /area/ruin/powered/nsv13/boarding_interior)
 "Fd" = (
 /obj/machinery/computer/ship/viewscreen,
@@ -836,6 +868,12 @@
 /obj/structure/fans/tiny,
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/plating,
+/area/ruin/powered/nsv13/boarding_interior)
+"FI" = (
+/obj/structure/railing{
+	dir = 5
+	},
+/turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "FX" = (
 /obj/effect/turf_decal/stripes/red/line{
@@ -874,7 +912,17 @@
 /obj/structure/railing{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
+"Hq" = (
+/obj/structure/rack,
+/obj/item/ship_weapon/ammunition/torpedo/hellfire,
+/obj/structure/railing{
+	dir = 1
+	},
+/turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "Hu" = (
 /obj/effect/turf_decal/stripes/red/line,
@@ -887,21 +935,20 @@
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
-"Ix" = (
-/obj/effect/turf_decal/stripes/red/line{
-	dir = 1
+"HT" = (
+/obj/structure/railing{
+	dir = 6
 	},
-/obj/effect/turf_decal/stripes/red/line,
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/boarding_interior)
+"Ix" = (
+/obj/structure/railing,
 /mob/living/simple_animal/hostile/syndicate/civilian,
-/turf/open/floor/plasteel/tech/grid,
+/turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/boarding_interior)
 "IL" = (
 /obj/effect/turf_decal/stripes/red/line,
 /obj/effect/turf_decal/stripes/red/line{
-	dir = 1
-	},
-/obj/structure/railing,
-/obj/structure/railing{
 	dir = 1
 	},
 /obj/effect/landmark/patrol_node{
@@ -927,7 +974,7 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "Ji" = (
-/obj/structure/chair/fancy/shuttle{
+/obj/structure/chair{
 	dir = 8;
 	name = "safety seat"
 	},
@@ -946,7 +993,7 @@
 /turf/open/floor/monotile/dark,
 /area/ruin/powered/nsv13/boarding_interior)
 "JF" = (
-/obj/structure/chair/fancy/shuttle{
+/obj/structure/chair{
 	dir = 8;
 	name = "safety seat"
 	},
@@ -956,6 +1003,8 @@
 /obj/structure/railing{
 	dir = 5
 	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "JZ" = (
@@ -1017,6 +1066,12 @@
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
+/area/ruin/powered/nsv13/boarding_interior)
+"Mp" = (
+/obj/structure/railing{
+	dir = 1
+	},
+/turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "Mr" = (
 /obj/effect/turf_decal/stripes/red/corner,
@@ -1093,17 +1148,6 @@
 /obj/machinery/telecomms/relay/preset/station,
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
-"NM" = (
-/obj/effect/turf_decal/stripes/red/line,
-/obj/effect/turf_decal/stripes/red/line{
-	dir = 1
-	},
-/obj/structure/railing,
-/obj/structure/railing{
-	dir = 1
-	},
-/turf/open/floor/plasteel/tech/grid,
-/area/ruin/powered/nsv13/boarding_interior)
 "NO" = (
 /obj/structure/railing,
 /turf/open/floor/plasteel/dark,
@@ -1140,6 +1184,16 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
+"Ps" = (
+/obj/machinery/conveyor/slow{
+	dir = 1;
+	id = "aether_torp"
+	},
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/boarding_interior)
 "PF" = (
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 8
@@ -1170,6 +1224,8 @@
 	},
 /obj/structure/table/reinforced,
 /obj/item/toy/figure/syndie,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "Qg" = (
@@ -1180,13 +1236,9 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
 "Qu" = (
-/obj/structure/railing{
-	dir = 4
+/turf/open/floor/stairs{
+	dir = 1
 	},
-/obj/structure/railing{
-	dir = 8
-	},
-/turf/open/floor/plasteel/stairs,
 /area/ruin/powered/nsv13/boarding_interior)
 "QH" = (
 /obj/structure/chair{
@@ -1194,10 +1246,24 @@
 	},
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
+"QX" = (
+/obj/structure/railing,
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/boarding_interior)
 "Rm" = (
 /obj/machinery/door/airlock/ship/hatch{
 	dir = 8;
 	req_one_access_txt = "150"
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/boarding_interior)
+"RJ" = (
+/obj/structure/fluff/support_beam{
+	color = "#5e5e5c";
+	dir = 1
+	},
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
@@ -1213,6 +1279,8 @@
 /obj/structure/railing{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "Sj" = (
@@ -1220,10 +1288,6 @@
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 1
 	},
-/obj/structure/railing{
-	dir = 1
-	},
-/obj/structure/railing,
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
 "Sp" = (
@@ -1263,10 +1327,20 @@
 	dir = 1
 	},
 /obj/structure/railing,
+/obj/machinery/door/firedoor/border_only/directional/south,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "TH" = (
 /obj/structure/table/reinforced,
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/boarding_interior)
+"TJ" = (
+/obj/structure/rack,
+/obj/structure/railing{
+	dir = 1
+	},
+/obj/item/ship_weapon/ammunition/torpedo/hellfire,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "Ui" = (
@@ -1309,12 +1383,16 @@
 /obj/structure/railing{
 	dir = 6
 	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "Vk" = (
 /obj/structure/railing{
 	dir = 4
 	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "Vw" = (
@@ -1322,11 +1400,13 @@
 /turf/open/floor/plating/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "VW" = (
-/obj/structure/chair/fancy/shuttle{
+/obj/structure/chair{
 	dir = 4;
 	name = "safety seat"
 	},
 /mob/living/simple_animal/hostile/syndicate/ranged,
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "Wn" = (
@@ -1401,6 +1481,8 @@
 /obj/structure/railing{
 	dir = 1
 	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "Xx" = (
@@ -1432,10 +1514,18 @@
 /obj/effect/spawner/lootdrop/maintenance/four,
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
+"Yv" = (
+/obj/structure/rack,
+/obj/structure/railing{
+	dir = 1
+	},
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/boarding_interior)
 "Yy" = (
 /obj/structure/table/reinforced,
 /obj/item/screwdriver/nuke,
 /obj/item/screwdriver/nuke,
+/obj/item/skub,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "Yz" = (
@@ -1444,20 +1534,10 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "Zw" = (
 /obj/machinery/light/small,
+/obj/item/skub,
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "ZM" = (
-/obj/structure/railing/corner,
-/obj/structure/railing/corner{
-	dir = 8
-	},
-/obj/structure/railing/corner{
-	dir = 1;
-	pixel_y = 1
-	},
-/obj/structure/railing/corner{
-	dir = 4
-	},
 /obj/effect/turf_decal/stripes/red/corner,
 /obj/effect/turf_decal/stripes/red/corner{
 	dir = 8
@@ -18500,7 +18580,7 @@ rX
 rX
 rw
 rw
-Am
+lo
 Nv
 Am
 rw
@@ -18508,7 +18588,7 @@ rw
 rX
 rX
 rw
-nd
+sw
 rw
 Vw
 rH
@@ -19011,11 +19091,11 @@ rw
 rX
 rX
 rw
-yt
+aR
 bH
 Mr
 FX
-yt
+eU
 rw
 rX
 rX
@@ -20029,17 +20109,17 @@ rX
 gP
 Vw
 rw
-nd
+sw
 xA
 rw
 rw
 rX
 rw
-yt
+aR
 od
 Mr
 od
-yt
+eU
 rw
 rX
 rw
@@ -20557,7 +20637,7 @@ rw
 rw
 Jw
 Jw
-nd
+sw
 rw
 rw
 Vw
@@ -22599,11 +22679,11 @@ Mo
 rw
 Qg
 rw
-fX
+RJ
 wO
 wO
 wO
-wO
+Ps
 WE
 rw
 rX
@@ -23877,7 +23957,7 @@ sg
 OH
 BU
 bQ
-Ix
+Qg
 rw
 DT
 yI
@@ -24388,7 +24468,7 @@ me
 me
 me
 me
-NO
+Ix
 Qg
 rw
 Ea
@@ -25159,7 +25239,7 @@ du
 nX
 Qg
 rw
-GF
+nF
 uQ
 uQ
 uQ
@@ -25667,11 +25747,11 @@ KF
 oT
 UE
 Fv
-uQ
-Fv
-NM
-oT
-uQ
+KF
+lm
+Sj
+Hq
+KF
 Fv
 uQ
 oT
@@ -25924,9 +26004,9 @@ Fv
 UE
 oT
 uQ
-Fv
-NM
-Fv
+lm
+Sj
+TJ
 uQ
 oT
 uQ
@@ -26180,9 +26260,9 @@ Fv
 UE
 Fv
 uQ
-oT
-NM
-oT
+nm
+Sj
+Yv
 uQ
 Fv
 uQ
@@ -26436,9 +26516,9 @@ uQ
 hi
 uQ
 uQ
-uQ
+HT
 Sj
-uQ
+FI
 uQ
 uQ
 uQ
@@ -26949,8 +27029,8 @@ uQ
 uQ
 uQ
 tL
-NM
-tL
+Sj
+DL
 uQ
 uQ
 hi
@@ -27204,9 +27284,9 @@ sa
 uQ
 uQ
 uQ
-tL
+HT
 IL
-tL
+FI
 uQ
 uQ
 uQ
@@ -27460,9 +27540,9 @@ aF
 cr
 aF
 cr
-an
+iR
 lV
-EZ
+Qu
 cr
 aF
 cr
@@ -27716,9 +27796,9 @@ Uw
 uQ
 Uw
 uQ
-uQ
-NM
-uQ
+tL
+Sj
+DL
 uQ
 Uw
 uQ
@@ -27972,9 +28052,9 @@ uQ
 uQ
 uQ
 uQ
-uQ
-NM
-uQ
+QX
+Sj
+Mp
 uQ
 uQ
 uQ
@@ -28227,11 +28307,11 @@ ov
 uQ
 uQ
 uQ
-uQ
-uQ
-NM
-uQ
-uQ
+ov
+QX
+Sj
+Mp
+ov
 uQ
 uQ
 uQ
@@ -30792,7 +30872,7 @@ cr
 xM
 cr
 Am
-Lr
+aA
 ZP
 cr
 cr
@@ -31052,7 +31132,7 @@ Lr
 hA
 cr
 cr
-Lr
+aA
 HC
 cr
 cr
@@ -32072,7 +32152,7 @@ cr
 xM
 cr
 JZ
-Lr
+aA
 va
 cr
 cr
@@ -32832,7 +32912,7 @@ Vw
 rw
 Jw
 FY
-nd
+sw
 Jw
 rw
 TH
@@ -33356,7 +33436,7 @@ fX
 rw
 FY
 FY
-nd
+sw
 rw
 Vw
 rH
@@ -34112,7 +34192,7 @@ rX
 rw
 rw
 rw
-nd
+sw
 rw
 Xl
 VW
@@ -34623,7 +34703,7 @@ rX
 rX
 rX
 rX
-rw
+dv
 rw
 rw
 GF
@@ -34635,7 +34715,7 @@ cr
 GF
 rw
 rw
-rw
+dv
 rX
 rX
 rX
@@ -34880,7 +34960,7 @@ rX
 rX
 rX
 rX
-sw
+rw
 rw
 rw
 JU
@@ -34890,7 +34970,7 @@ Se
 Vi
 rw
 rw
-sw
+rw
 rX
 rX
 rX
@@ -35138,13 +35218,13 @@ rX
 rX
 rX
 rX
-rw
+dv
 pd
 pd
 pd
 pd
 pd
-rw
+dv
 rX
 rX
 rX

@@ -24,6 +24,8 @@
 	desc = "A small 9mm handgun used by Nanotrasen crewmen. It has a polymer handle and a full durasteel body construction, giving it a nice weight."
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "crewglock"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/guns_righthand.dmi'
 	item_state = "glock"
 	fire_sound = 'nsv13/sound/weapons/glock.ogg'
 	w_class = WEIGHT_CLASS_NORMAL
@@ -88,9 +90,14 @@
 	desc = "A small 9mm handgun used by high ranking Nanotrasen officers, it's been customized with a nice wooden handle painted with a small emblem and blue stripes."
 	icon_state = "commandglock"
 
-/obj/item/gun/ballistic/automatic/pistol/glock/command/hos
+/obj/item/gun/ballistic/automatic/pistol/glock/security/hos
 	name = "Winona"
 	desc = "A handgun that's never let its owner down before. It's got a pleasant wooden grip with plenty of detailing etched into it. A nice, all round weapon to defend yourself with."
+	icon_state = "commandglock"
+	full_auto = TRUE
+	requires_wielding = FALSE //While the HoS's upgraded energy gun gets a ion setting, Winona gets to fire with one hand without decreased accuracy.
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
+	investigate_flags = ADMIN_INVESTIGATE_TARGET
 
 /datum/design/rubbershot
 	name = "9mm rubber Glock round"

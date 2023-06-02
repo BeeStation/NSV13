@@ -71,8 +71,8 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 
 /obj/docking_port/mobile/supply/initiate_docking()
 	if(getDockedId() == "supply_away") // Buy when we leave home.
-		buy()
 		create_mail()
+		buy()
 	. = ..() // Fly/enter transit.
 	if(. != DOCKING_SUCCESS)
 		return
@@ -220,5 +220,5 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 			if(is_blocked_turf(T))
 				continue
 			empty_turfs += T
-
-	new /obj/structure/closet/crate/mail/economy(pick(empty_turfs))
+		if (empty_turfs)
+			new /obj/structure/closet/crate/mail/economy(pick(empty_turfs))

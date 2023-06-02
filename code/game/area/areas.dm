@@ -132,7 +132,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 		if (picked && is_station_level(picked.z))
 			GLOB.teleportlocs[AR.name] = AR
 
-	sortTim(GLOB.teleportlocs, /proc/cmp_text_asc)
+	sortTim(GLOB.teleportlocs, GLOBAL_PROC_REF(cmp_text_asc))
 
 /**
   * Called when an area loads
@@ -367,7 +367,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 				if(D.operating)
 					D.nextstate = opening ? FIREDOOR_OPEN : FIREDOOR_CLOSED
 				else if(!(D.density ^ opening))
-					INVOKE_ASYNC(D, (opening ? /obj/machinery/door/firedoor.proc/open : /obj/machinery/door/firedoor.proc/close))
+					INVOKE_ASYNC(D, (opening ? TYPE_PROC_REF(/obj/machinery/door/firedoor, open) : TYPE_PROC_REF(/obj/machinery/door/, close)))
 
 /**
   * Generate an firealarm alert for this area
@@ -482,7 +482,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 		var/mob/living/silicon/SILICON = i
 		if(SILICON.triggerAlarm("Burglar", src, cameras, trigger))
 			//Cancel silicon alert after 1 minute
-			addtimer(CALLBACK(SILICON, /mob/living/silicon.proc/cancelAlarm,"Burglar",src,trigger), 600)
+			addtimer(CALLBACK(SILICON, TYPE_PROC_REF(/mob/living/silicon, cancelAlarm),"Burglar",src,trigger), 600)
 
 /**
   * Trigger the fire alarm visual affects in an area
@@ -539,13 +539,14 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 			weather_icon = TRUE
 	if(!weather_icon)
 		icon_state = null
+	return ..()
 
 /**
   * Update the icon of the area (overridden to always be null for space
   */
 /area/space/update_icon_state()
 	icon_state = null
-
+	return ..()
 
 /**
   * Returns int 1 or 0 if the area has power for the given channel
@@ -637,7 +638,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 		var/goal = linked_overmap.max_integrity
 		progress = CLAMP(progress, 0, goal)
 		progress = round(((progress / goal) * 100), 50)//If the ship goes below 50% health, we start creaking like mad.
-		if((progress <= 50) && (mymob.client?.prefs.toggles & SOUND_AMBIENCE) && mymob.can_hear_ambience())
+		if((progress <= 50) && (mymob.client?.prefs.toggles & PREFTOGGLE_SOUND_AMBIENCE) && mymob.can_hear_ambience())
 			var/list/creaks = list('nsv13/sound/ambience/ship_damage/creak1.ogg','nsv13/sound/ambience/ship_damage/creak2.ogg','nsv13/sound/ambience/ship_damage/creak3.ogg','nsv13/sound/ambience/ship_damage/creak4.ogg','nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg','nsv13/sound/ambience/ship_damage/creak7.ogg')
 			var/creak = pick(creaks)
 			SEND_SOUND(mymob, sound(creak, repeat = 0, wait = 0, volume = 100, channel = CHANNEL_AMBIENT_EFFECTS))

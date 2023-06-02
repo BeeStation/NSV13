@@ -150,8 +150,8 @@
 		"Science" = GLOB.science_positions_hud,
 		"Supply" = GLOB.supply_positions_hud,
 		"Civilian" = GLOB.civilian_positions_hud,
-		"Silicon" = GLOB.nonhuman_positions, // this is something that doesn't work. need to fix.
-		"Munitions" = GLOB.munitions_positions //NSV ADDED DEPARTMENTS
+		"Munitions" = GLOB.munitions_positions_hud, //NSV ADDED DEPARTMENTS
+		"Silicon" = GLOB.nonhuman_positions // this is something that doesn't work. need to fix.
 	)
 	for(var/datum/data/record/t in GLOB.data_core.general)
 		var/name = t.fields["name"]
@@ -254,7 +254,12 @@
 		G.fields["fingerprint"]	= rustg_hash_string(RUSTG_HASH_MD5, H.dna.uni_identity)
 		G.fields["p_stat"]		= "Active"
 		G.fields["m_stat"]		= "Stable"
-		G.fields["sex"]			= H.gender
+		G.fields["sex"] 		= H.dna.features["body_model"] //NSV13
+		switch(H.gender)
+			if(MALE, FEMALE)
+				G.fields["gender"] = capitalize(H.gender)
+			if(PLURAL)
+				G.fields["gender"] = "Other"
 		G.fields["photo_front"]	= photo_front
 		G.fields["photo_side"]	= photo_side
 		general += G
@@ -292,7 +297,12 @@
 		L.fields["name"]		= H.real_name
 		L.fields["rank"] 		= H.mind.assigned_role
 		L.fields["age"]			= H.age
-		L.fields["sex"]			= H.gender
+		L.fields["sex"]			= H.dna.features["body_model"] //NSV13
+		switch(H.gender)
+			if(MALE, FEMALE)
+				L.fields["gender"] = capitalize(H.gender)
+			if(PLURAL)
+				L.fields["gender"] = "Other"
 		L.fields["blood_type"]	= H.dna.blood_type
 		L.fields["b_dna"]		= H.dna.unique_enzymes
 		L.fields["identity"]	= H.dna.uni_identity
@@ -305,9 +315,9 @@
 
 /datum/datacore/proc/get_id_photo(mob/living/carbon/human/H, client/C, show_directions = list(SOUTH))
 	var/datum/job/J = SSjob.GetJob(H.mind.assigned_role)
-	var/datum/preferences/P
+	var/datum/character_save/CS
 	if(!C)
 		C = H.client
 	if(C)
-		P = C.prefs
-	return get_flat_human_icon(null, J, P, DUMMY_HUMAN_SLOT_MANIFEST, show_directions)
+		CS = C.prefs.active_character
+	return get_flat_human_icon(null, J, CS, DUMMY_HUMAN_SLOT_MANIFEST, show_directions)

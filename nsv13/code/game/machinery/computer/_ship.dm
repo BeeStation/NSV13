@@ -29,7 +29,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	if(sound)
 		playsound(src, sound, 100, 1)
 		can_sound = FALSE
-		addtimer(CALLBACK(src, .proc/reset_sound), sound_cooldown)
+		addtimer(CALLBACK(src, PROC_REF(reset_sound)), sound_cooldown)
 
 /obj/machinery/computer/ship/proc/reset_sound()
 	can_sound = TRUE
@@ -87,10 +87,10 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	return ..()
 
 /obj/machinery/computer/ship/Destroy()
-	if(linked)
-		for(var/mob/living/M in ui_users)
-			linked.stop_piloting(M)
-	return ..()
+	. = ..()
+	for(var/mob/living/M in ui_users)
+		ui_close(M)
+		linked?.stop_piloting(M)
 
 //Viewscreens for regular crew to watch combat
 /obj/machinery/computer/ship/viewscreen
@@ -104,17 +104,23 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	density = FALSE
 	anchored = TRUE
 	req_access = null
+	var/obj/machinery/computer/ship/dradis/minor/internal_dradis
+
+/obj/machinery/computer/ship/viewscreen/Initialize(mapload)
+	. = ..()
+	internal_dradis = new(src)
 
 /obj/machinery/computer/ship/viewscreen/examine(mob/user)
 	. = ..()
-	if(!has_overmap())
+	if(!linked)
 		return
 	if(isobserver(user))
 		var/mob/dead/observer/O = user
 		O.ManualFollow(linked)
 		return
 	playsound(src, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-	linked.start_piloting(user, OVERMAP_USER_ROLE_OBSERVER)
+	linked.observe_ship(user)
+	internal_dradis.attack_hand(user)
 
 /obj/machinery/computer/ship/viewscreen/ui_interact(mob/user)
 	if(!has_overmap())

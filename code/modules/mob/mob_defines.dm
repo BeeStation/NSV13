@@ -224,3 +224,13 @@
 
 	///Currently possesses a typing indicator icon
 	var/typing_indicator = FALSE
+
+	//NSV13 - CHANGES START HERE
+	///Is the mob pixel shifted?
+	var/is_shifted
+
+	///Is the mob actively shifting?
+	var/shifting
+
+	///Takes the four cardinal direction defines. Any atoms moving into this atom's tile will be allowed to from the added directions.
+	var/passthroughable = NONE

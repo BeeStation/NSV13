@@ -53,7 +53,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 	/// Should we used the smooth tiled dirt decal or not
 	var/tiled_dirt = FALSE
 
-	vis_flags = VIS_INHERIT_PLANE|VIS_INHERIT_ID	//when this be added to vis_contents of something it inherit something.plane and be associated with something on clicking, important for visualisation of turf in openspace and interraction with openspace that show you turf.
+	vis_flags = VIS_INHERIT_ID|VIS_INHERIT_PLANE // Important for interaction with and visualization of openspace.
 
 	///the holodeck can load onto this turf if TRUE
 	var/holodeck_compatible = FALSE
@@ -87,7 +87,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 		add_overlay(/obj/effect/fullbright)
 
 	if(requires_activation)
-		CALCULATE_ADJACENT_TURFS(src)
+		ImmediateCalculateAdjacentTurfs()
 
 	if(color)
 		add_atom_colour(color, FIXED_COLOUR_PRIORITY)
@@ -124,7 +124,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 /turf/proc/set_temperature()
 
 /turf/proc/Initalize_Atmos(times_fired)
-	CALCULATE_ADJACENT_TURFS(src)
+	ImmediateCalculateAdjacentTurfs()
 
 /turf/Destroy(force)
 	. = QDEL_HINT_IWILLGC
@@ -488,7 +488,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 
 	var/list/things = src_object.contents()
 	var/datum/progressbar/progress = new(user, things.len, src)
-	while (do_after(usr, 10, TRUE, src, FALSE, CALLBACK(src_object, /datum/component/storage.proc/mass_remove_from_storage, src, things, progress)))
+	while (do_after(usr, 10, TRUE, src, FALSE, CALLBACK(src_object, TYPE_PROC_REF(/datum/component/storage, mass_remove_from_storage), src, things, progress)))
 		stoplag(1)
 	qdel(progress)
 

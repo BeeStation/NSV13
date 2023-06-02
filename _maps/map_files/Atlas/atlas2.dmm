@@ -844,7 +844,7 @@
 	},
 /obj/structure/table/wood,
 /obj/item/storage/box/squad_lanyards,
-/obj/item/stamp/head_of_personnel,
+/obj/item/stamp/xo,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/xo)
 "dW" = (
@@ -940,8 +940,14 @@
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/bar/mess_hall)
 "ep" = (
-/obj/machinery/computer/cloning,
 /obj/effect/turf_decal/stripes/line,
+/obj/machinery/clonepod/prefilled{
+	dir = 1
+	},
+/obj/structure/window/reinforced,
+/obj/structure/window/reinforced{
+	dir = 8
+	},
 /turf/open/floor/monotile/dark,
 /area/medical/medbay)
 "eq" = (
@@ -1951,6 +1957,7 @@
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/machinery/newscaster/directional/south,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
 "iW" = (
@@ -2346,11 +2353,7 @@
 /area/crew_quarters/heads/xo)
 "kN" = (
 /obj/structure/hull_plate,
-/obj/machinery/ship_weapon/gauss_gun{
-	bound_height = 32;
-	bound_width = 32;
-	pixel_y = -96
-	},
+/obj/machinery/ship_weapon/gauss_gun,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "kO" = (
@@ -2373,10 +2376,11 @@
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "24"
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
 "kQ" = (
@@ -3563,6 +3567,9 @@
 /area/space/nearstation)
 "qK" = (
 /obj/machinery/holopad,
+/obj/structure/chair/office{
+	dir = 1
+	},
 /turf/open/floor/durasteel/lino,
 /area/medical/medbay)
 "qM" = (
@@ -3665,6 +3672,7 @@
 /area/hallway/nsv/deck1/hallway)
 "rj" = (
 /obj/structure/extinguisher_cabinet/east,
+/mob/living/simple_animal/hostile/retaliate/bat/sgt_araneus,
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/hos)
 "rk" = (
@@ -3715,7 +3723,7 @@
 /area/crew_quarters/heads/hor)
 "rt" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
 "rv" = (
@@ -4342,20 +4350,9 @@
 /turf/closed/wall/r_wall,
 /area/ai_monitored/turret_protected/ai_upload)
 "ur" = (
-/obj/structure/table/glass,
-/obj/item/reagent_containers/glass/beaker{
-	pixel_x = 8;
-	pixel_y = 2
-	},
-/obj/item/reagent_containers/dropper,
-/obj/item/storage/box/disks,
-/obj/item/storage/box/monkeycubes,
-/obj/item/storage/box/monkeycubes{
-	pixel_x = 2;
-	pixel_y = -2
-	},
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/firealarm/directional/north,
+/obj/machinery/dna_scannernew,
 /turf/open/floor/monotile/dark,
 /area/medical/medbay)
 "ut" = (
@@ -4931,7 +4928,7 @@
 	name = "Executive requests console";
 	pixel_y = -32
 	},
-/obj/machinery/vending/cart{
+/obj/machinery/vending/job_disk{
 	density = 0;
 	pixel_x = 23
 	},
@@ -5118,6 +5115,7 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/conquest_beacon/nanotrasen,
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "xY" = (
@@ -5792,6 +5790,9 @@
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "BD" = (
+/obj/machinery/computer/scan_consolenew{
+	dir = 1
+	},
 /turf/open/floor/durasteel/lino,
 /area/medical/medbay)
 "BE" = (
@@ -5800,6 +5801,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/effect/landmark/start/assistant,
 /turf/open/floor/monotile/dark,
+/area/crew_quarters/bar/mess_hall)
+"BF" = (
+/obj/structure/table/reinforced,
+/obj/item/storage/fancy/coffee_condi_display,
+/turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
 "BH" = (
 /obj/machinery/door/airlock/ship/external/glass{
@@ -5987,6 +5993,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
+"CG" = (
+/obj/structure/table/glass,
+/turf/open/floor/durasteel/lino,
+/area/medical/medbay)
 "CI" = (
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/cable{
@@ -6238,14 +6248,11 @@
 /turf/open/floor/monotile/steel,
 /area/hydroponics)
 "DC" = (
-/obj/machinery/computer/ship/viewscreen,
 /obj/effect/turf_decal/stripes/line,
-/obj/machinery/clonepod/prefilled{
-	dir = 1
-	},
 /obj/machinery/shower{
-	dir = 8
+	pixel_y = 21
 	},
+/obj/machinery/door/window,
 /turf/open/floor/monotile/dark,
 /area/medical/medbay)
 "DE" = (
@@ -6859,9 +6866,6 @@
 /turf/open/floor/durasteel/alt,
 /area/hallway/nsv/deck1/hallway)
 "Gp" = (
-/obj/machinery/computer/scan_consolenew{
-	dir = 4
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
@@ -7534,7 +7538,7 @@
 /area/hallway/nsv/deck1/hallway)
 "Jw" = (
 /obj/effect/turf_decal/stripes/line,
-/obj/machinery/dna_scannernew,
+/obj/machinery/computer/cloning,
 /turf/open/floor/monotile/dark,
 /area/medical/medbay)
 "JA" = (
@@ -7733,6 +7737,8 @@
 	name = "Captain requests console";
 	pixel_y = 32
 	},
+/obj/item/storage/lockbox/medal,
+/obj/item/melee/chainofcommand/tailwhip/kitty,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/captain)
 "Kn" = (
@@ -7798,6 +7804,7 @@
 /obj/item/storage/firstaid/advanced,
 /obj/item/clothing/neck/stethoscope,
 /obj/item/storage/box/bodybags,
+/obj/item/clothing/neck/stethoscope,
 /turf/open/floor/durasteel/lino,
 /area/medical/medbay)
 "Ku" = (
@@ -7868,10 +7875,24 @@
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/xo)
 "KL" = (
-/obj/machinery/dna_scannernew,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
+/obj/structure/table/glass,
+/obj/item/storage/box/monkeycubes{
+	pixel_x = 2;
+	pixel_y = -2
+	},
+/obj/item/storage/box/monkeycubes{
+	pixel_x = 2;
+	pixel_y = -2
+	},
+/obj/item/storage/box/disks,
+/obj/item/reagent_containers/glass/beaker{
+	pixel_x = 8;
+	pixel_y = 2
+	},
+/obj/item/reagent_containers/dropper,
 /obj/structure/sign/poster/official/random{
 	pixel_y = -32
 	},
@@ -8422,16 +8443,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
-"No" = (
-/obj/effect/turf_decal/tile/ship/half/green{
-	dir = 1
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/newscaster/directional/south,
-/turf/open/floor/monotile/steel,
-/area/crew_quarters/bar/mess_hall)
 "Np" = (
 /obj/machinery/light{
 	dir = 1
@@ -9069,13 +9080,14 @@
 /turf/open/floor/wood,
 /area/crew_quarters/bar/mess_hall)
 "Qk" = (
-/obj/machinery/vending/coffee,
 /obj/machinery/requests_console{
 	department = "Mess Hall";
 	departmentType = 2;
 	name = "Mess Hall RC";
 	pixel_y = -32
 	},
+/obj/machinery/coffeemaker,
+/obj/structure/table/reinforced,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
 "Ql" = (
@@ -9657,6 +9669,7 @@
 	},
 /obj/item/clothing/neck/stethoscope,
 /obj/item/storage/box/bodybags,
+/obj/item/clothing/neck/stethoscope,
 /turf/open/floor/durasteel/lino,
 /area/medical/medbay)
 "Tv" = (
@@ -9670,6 +9683,10 @@
 /obj/effect/turf_decal/tile/ship/half/green,
 /turf/open/floor/monotile/steel,
 /area/hydroponics)
+"Tx" = (
+/obj/machinery/dna_scannernew,
+/turf/open/floor/durasteel/lino,
+/area/medical/medbay)
 "Tz" = (
 /obj/structure/closet/secure_closet/personal,
 /obj/machinery/camera/autoname{
@@ -45266,7 +45283,7 @@ iJ
 cH
 ur
 dO
-BD
+Tx
 DQ
 wy
 Lw
@@ -46037,7 +46054,7 @@ sA
 cH
 DC
 Zl
-BD
+CG
 DQ
 AY
 bi
@@ -47818,8 +47835,8 @@ hJ
 hJ
 eg
 Ga
-No
-SH
+Gm
+HB
 SH
 Xl
 Ey
@@ -48076,7 +48093,7 @@ hJ
 rN
 vp
 eO
-HB
+BF
 Oj
 mK
 mK

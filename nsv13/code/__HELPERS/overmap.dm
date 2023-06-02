@@ -8,7 +8,7 @@
 		return loc.get_overmap() // Begin recursion!
 	if(!SSmapping.z_list) //Being called by pre-mapping init call
 		if(!failsafe) //Only retry once
-			addtimer(CALLBACK(src, .proc/get_overmap, TRUE), 30 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(get_overmap), TRUE), 30 SECONDS)
 		return FALSE
 	var/datum/space_level/SL = SSmapping.z_list[z] // Overmaps linked to Zs, like the main ship
 	if(SL?.linked_overmap)
@@ -17,9 +17,6 @@
 		var/datum/turf_reservation/reserved = SSmapping.used_turfs[get_turf(src)]
 		if(reserved && reserved.overmap_fallback)
 			return reserved.overmap_fallback
-	// We might be able to remove this last bit
-	var/area/AR = get_area(src)
-	return AR.overmap_fallback
 
 /**
 Helper method to get what ship an observer belongs to for stuff like parallax.

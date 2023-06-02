@@ -299,7 +299,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	else //80% chance to get an actual asteroid
 		var/list/potential_asteroids = flist("_maps/map_files/Mining/nsv13/asteroids/")
 		current_asteroid = new /datum/map_template/asteroid("_maps/map_files/Mining/nsv13/asteroids/[pick(potential_asteroids)]", null, FALSE, AS.core_composition) //Set up an asteroid
-	addtimer(CALLBACK(src, .proc/load_asteroid), 10 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(load_asteroid)), 10 SECONDS)
 	qdel(AS)
 
 /obj/machinery/computer/ship/mineral_magnet/proc/load_asteroid()
@@ -316,7 +316,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, cooldown, FALSE), 1 MINUTES)
 	linked.relay('nsv13/sound/effects/ship/general_quarters.ogg', "<span class='warning'>DANGER: An asteroid is now being detached from [linked]. Vacate the asteroid cage immediately.</span>")
-	addtimer(CALLBACK(src, .proc/push_away_asteroid), 30 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(push_away_asteroid)), 30 SECONDS)
 
 /obj/machinery/computer/ship/mineral_magnet/proc/push_away_asteroid()
 	for(var/turf/T as() in current_asteroid.get_affected_turfs(target_location, FALSE)) //nuke

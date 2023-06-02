@@ -75,9 +75,9 @@
 			visible_message("<span class='warning'>[src] [pick("ran", "slammed")] into \the [A]!</span>")
 			apply_damage(5, BRUTE)
 			Paralyze(40)
-			addtimer(CALLBACK(src, .proc/can_bumpslam), 200)
+			addtimer(CALLBACK(src, PROC_REF(can_bumpslam)), 200)
 		else
-			addtimer(CALLBACK(src, .proc/can_bumpslam), 50)
+			addtimer(CALLBACK(src, PROC_REF(can_bumpslam)), 50)
 
 
 	if(ismob(A))
@@ -200,20 +200,17 @@
 				return
 
 /mob/living/get_photo_description(obj/item/camera/camera)
-	var/list/mob_details = list()
 	var/list/holding = list()
 	var/len = length(held_items)
 	if(len)
 		for(var/obj/item/I in held_items)
-			if(!holding.len)
-				holding += "They are holding \a [I]"
+			if(!length(holding))
+				holding += "[p_they(TRUE)] [p_are()] holding \a [I]"
 			else if(held_items.Find(I) == len)
 				holding += ", and \a [I]."
 			else
 				holding += ", \a [I]"
-	holding += "."
-	mob_details += "You can also see [src] on the photo[health < (maxHealth * 0.75) ? ", looking a bit hurt":""][holding ? ". [holding.Join("")]":"."]."
-	return mob_details.Join("")
+	return "You can also see [src] on the photo[health < (maxHealth * 0.75) ? ", looking a bit hurt":""].[length(holding) ? " [holding.Join("")].":""]"
 
 //Called when we bump onto an obj
 /mob/living/proc/ObjBump(obj/O)
@@ -356,26 +353,26 @@
 	M.setDir(get_dir(M, src))
 	switch(M.dir)
 		if(NORTH)
-			animate(M, pixel_x = 0, pixel_y = offset, 3)
+			animate(M, pixel_x = M.base_pixel_x, pixel_y = M.base_pixel_y + offset, 3)
 		if(SOUTH)
-			animate(M, pixel_x = 0, pixel_y = -offset, 3)
+			animate(M, pixel_x = M.base_pixel_x, pixel_y = M.base_pixel_y - offset, 3)
 		if(EAST)
 			if(M.lying == 270) //update the dragged dude's direction if we've turned
 				M.lying = 90
 				M.update_transform() //force a transformation update, otherwise it'll take a few ticks for update_mobility() to do so
 				M.lying_prev = M.lying
-			animate(M, pixel_x = offset, pixel_y = 0, 3)
+			animate(M, pixel_x = M.base_pixel_x + offset, pixel_y = M.base_pixel_y, 3)
 		if(WEST)
 			if(M.lying == 90)
 				M.lying = 270
 				M.update_transform()
 				M.lying_prev = M.lying
-			animate(M, pixel_x = -offset, pixel_y = 0, 3)
+			animate(M, pixel_x = M.base_pixel_x - offset, pixel_y = M.base_pixel_y, 3)
 
 /mob/living/proc/reset_pull_offsets(mob/living/M, override)
 	if(!override && M.buckled)
 		return
-	animate(M, pixel_x = 0, pixel_y = 0, 1)
+	animate(M, pixel_x = M.base_pixel_x, pixel_y = M.base_pixel_y, 1)
 
 //mob verbs are a lot faster than object verbs
 //for more info on why this is not atom/pull, see examinate() in mob.dm
@@ -620,6 +617,7 @@
 		mood.remove_temp_moods(admin_revive)
 	update_mobility()
 	stop_sound_channel(CHANNEL_HEARTBEAT)
+	SEND_SIGNAL(src, COMSIG_LIVING_POST_FULLY_HEAL, admin_revive) //NSV13 - Crystalized Ethereal
 
 //proc called by revive(), to check if we can actually ressuscitate the mob (we don't want to revive him and have him instantly die again)
 /mob/living/proc/can_be_revived()
@@ -836,11 +834,11 @@
 	if(anchored || (buckled && buckled.anchored))
 		fixed = 1
 	if(on && !(movement_type & FLOATING) && !fixed)
-		animate(src, pixel_y = 2, time = 10, loop = -1, flags = ANIMATION_RELATIVE)
-		animate(pixel_y = -2, time = 10, loop = -1, flags = ANIMATION_RELATIVE)
+		animate(src, pixel_y = base_pixel_y + 2, time = 10, loop = -1, flags = ANIMATION_RELATIVE)
+		animate(pixel_y = base_pixel_y - 2, time = 10, loop = -1, flags = ANIMATION_RELATIVE)
 		setMovetype(movement_type | FLOATING)
 	else if(((!on || fixed) && (movement_type & FLOATING)))
-		animate(src, pixel_y = get_standard_pixel_y_offset(lying), time = 10)
+		animate(src, pixel_y = base_pixel_y + get_standard_pixel_y_offset(lying), time = 1 SECONDS)
 		setMovetype(movement_type & ~FLOATING)
 
 // The src mob is trying to strip an item from someone
@@ -906,8 +904,8 @@
 	var/amplitude = min(4, (jitteriness/100) + 1)
 	var/pixel_x_diff = rand(-amplitude, amplitude)
 	var/pixel_y_diff = rand(-amplitude/3, amplitude/3)
-	var/final_pixel_x = get_standard_pixel_x_offset(lying)
-	var/final_pixel_y = get_standard_pixel_y_offset(lying)
+	var/final_pixel_x = base_pixel_x + get_standard_pixel_x_offset(lying)
+	var/final_pixel_y = base_pixel_y + get_standard_pixel_y_offset(lying)
 	animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff , time = 2, loop = 6)
 	animate(pixel_x = final_pixel_x , pixel_y = final_pixel_y , time = 2)
 	setMovetype(movement_type & ~FLOATING) // If we were without gravity, the bouncing animation got stopped, so we make sure to restart it in next life().
@@ -1384,3 +1382,9 @@
 	if(is_servant_of_ratvar(src) && !iseminence(src))
 		eminence.selected_mob = src
 		to_chat(eminence, "<span class='brass'>You select [src].</span>")
+
+/mob/living/proc/set_gender(ngender = NEUTER, silent = FALSE, update_icon = TRUE, forced = FALSE)
+	if(forced || (!ckey))
+		gender = ngender
+		return TRUE
+	return FALSE

@@ -7,7 +7,7 @@
 
 	owner_ckey = new_owner
 
-	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, .proc/examine)
+	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(examine))
 
 /datum/component/donator/proc/examine(datum/source, mob/user, list/examine_list)
 	if(user.ckey == owner_ckey)

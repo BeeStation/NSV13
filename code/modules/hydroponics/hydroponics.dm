@@ -421,7 +421,7 @@
 	weedlevel = 0 // Reset
 
 	var/message = "<span class='warning'>[oldPlantName] suddenly mutates into [myseed.plantname]!</span>"
-	addtimer(CALLBACK(src, .proc/after_mutation, message), 0.5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(after_mutation), message), 0.5 SECONDS)
 
 
 /obj/machinery/hydroponics/proc/mutateweed() // If the weeds gets the mutagent instead. Mind you, this pretty much destroys the old plant
@@ -440,7 +440,7 @@
 		weedlevel = 0 // Reset
 
 		var/message = "<span class='warning'>The mutated weeds in [src] spawn some [myseed.plantname]!</span>"
-		addtimer(CALLBACK(src, .proc/after_mutation, message), 0.5 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(after_mutation), message), 0.5 SECONDS)
 	else
 		to_chat(usr, "<span class='warning'>The few weeds in [src] seem to react, but only for a moment...</span>")
 
@@ -942,13 +942,14 @@
 	self_sustaining = TRUE
 	update_icon()
 
-/obj/machinery/hydroponics/proc/update_name()
+/obj/machinery/hydroponics/update_name()
 	if(renamedByPlayer)
 		return
 	if(myseed)
 		name = "[initial(name)] ([myseed.plantname])"
 	else
 		name = initial(name)
+	return ..()
 
 ///////////////////////////////////////////////////////////////////////////////
 /obj/machinery/hydroponics/soil //Not actually hydroponics at all! Honk!

@@ -1,7 +1,7 @@
 /datum/job/master_at_arms
 	title = JOB_NAME_MASTERATARMS
 	flag = MASTER_AT_ARMS
-	auto_deadmin_role_flags = DEADMIN_POSITION_HEAD
+	auto_deadmin_role_flags = PREFTOGGLE_DEADMIN_POSITION_HEAD
 	department_head = list(JOB_NAME_CAPTAIN)
 	department_flag = ENGSEC
 	head_announce = list("Munitions")
@@ -50,8 +50,8 @@
 	head = /obj/item/clothing/head/ship/maa_hat
 	glasses = /obj/item/clothing/glasses/sunglasses/advanced
 	id = /obj/item/card/id/job/master_at_arms
-	l_pocket = /obj/item/pda
-	backpack_contents = list(/obj/item/melee/classic_baton/telescopic=1)
+	l_pocket = /obj/item/modular_computer/tablet/pda/heads/maa
+	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1)
 
 	backpack = /obj/item/storage/backpack/munitions
 	satchel = /obj/item/storage/backpack/satchel/munitions

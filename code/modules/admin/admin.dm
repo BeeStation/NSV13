@@ -532,11 +532,10 @@
 	if (!usr.client.holder)
 		return
 	var/confirm = alert("End the round and  restart the game world?", "End Round", "Yes", "Cancel")
-	if(confirm == "Cancel")
+	if(confirm != "Yes")
 		return
-	if(confirm == "Yes")
-		SSticker.force_ending = 1
-		SSblackbox.record_feedback("tally", "admin_verb", 1, "End Round") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+	SSticker.force_ending = 1
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "End Round") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /datum/admins/proc/dynamic_mode_options(mob/user)
 	var/dat = {"
@@ -1007,7 +1006,7 @@
 		if(logout && CONFIG_GET(flag/announce_admin_logout))
 			string = pick(
 				"Admin logout: [key_name(src)]")
-		else if(!logout && CONFIG_GET(flag/announce_admin_login) && (prefs.toggles & ANNOUNCE_LOGIN))
+		else if(!logout && CONFIG_GET(flag/announce_admin_login) && (prefs.toggles & PREFTOGGLE_ANNOUNCE_LOGIN))
 			string = pick(
 				"Admin login: [key_name(src)]")
 		if(string)

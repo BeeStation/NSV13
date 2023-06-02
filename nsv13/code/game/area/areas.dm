@@ -1,9 +1,6 @@
 /client/var/last_ambience = null
 
 /area
-	var/obj/structure/overmap/overmap_fallback = null //Used for dropships. Allows you to define an overmap to "fallback" to if get_overmap() fails to find a space level with a linked overmap.
-
-/area
 	ambient_buzz = 'nsv13/sound/ambience/shipambience.ogg' //If you want an ambient sound to play on loop while theyre in a specific area, set this. Defaults to the classic "engine rumble"
 
 /area/space
@@ -46,12 +43,22 @@
 	name = "Corporate Stateroom"
 	icon_state = "Sleep"
 
+/area/crew_quarters/dorms/nsv/nature_deck
+	name = "Nature Deck"
+	icon_state = "hydro"
+	mood_bonus = 3
+	mood_message = "<span class='nicegreen'>It's beautiful in here!\n</span>"
+
 /area/medical/nsv/clinic
 	name = "Deck 2 Medical Clinic"
 	icon_state = "medbay"
 
 /area/medical/nsv/psychology
 	name = "Psychology Office"
+	icon_state = "medbay"
+
+/area/medical/nsv/trauma
+	name = "Trauma Center"
 	icon_state = "medbay"
 
 /area/medical/nsv/plumbing

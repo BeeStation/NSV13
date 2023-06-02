@@ -6,8 +6,8 @@
 	create_reagents(1000)
 	update_body_parts() //to update the carbon's new bodyparts appearance
 	GLOB.carbon_list += src
-	RegisterSignal(src, COMSIG_MOB_LOGOUT, .proc/med_hud_set_status)
-	RegisterSignal(src, COMSIG_MOB_LOGIN, .proc/med_hud_set_status)
+	RegisterSignal(src, COMSIG_MOB_LOGOUT, PROC_REF(med_hud_set_status))
+	RegisterSignal(src, COMSIG_MOB_LOGIN, PROC_REF(med_hud_set_status))
 
 /mob/living/carbon/Destroy()
 	//This must be done first, so the mob ghosts correctly before DNA etc is nulled
@@ -161,7 +161,7 @@
 
 	else if(!CHECK_BITFIELD(I.item_flags, ABSTRACT) && !HAS_TRAIT(I, TRAIT_NODROP))
 		thrown_thing = I
-		dropItemToGround(I, thrown = TRUE)
+		dropItemToGround(I, silent = TRUE)
 
 		if(HAS_TRAIT(src, TRAIT_PACIFISM) && I.throwforce)
 			to_chat(src, "<span class='notice'>You set [I] down gently on the ground.</span>")
@@ -983,3 +983,25 @@
 	if(mood)
 		if(mood.sanity < SANITY_UNSTABLE)
 			return TRUE
+
+//NSV13
+/mob/living/carbon/proc/update_flavor_text_feature(new_text)
+	if(!dna)
+		return
+	dna.features["flavour_text"] = new_text
+
+/mob/living/carbon/set_gender(ngender = NEUTER, silent = FALSE, update_icon = TRUE, forced = FALSE)
+	var/bender = gender != ngender
+	. = ..()
+	if(!.)
+		return
+	if(dna && bender)
+		if(ngender == MALE || ngender == FEMALE)
+			dna.features["body_model"] = ngender
+			if(!silent)
+				var/adj = ngender == MALE ? "masculine" : "feminine"
+				visible_message("<span class='boldnotice'>[src] suddenly looks more [adj]!</span>", "<span class='boldwarning'>You suddenly feel more [adj]!</span>")
+		else if(ngender == NEUTER)
+			dna.features["body_model"] = MALE
+	if(update_icon)
+		update_body()

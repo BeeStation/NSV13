@@ -31,6 +31,10 @@
 #define CONQUEST_ROLE_LINECOOK "Line Cook"
 #define CONQUEST_ROLE_GRUNT "Autofill"
 
+//Lizard hiss preference options
+#define LIZARD_HISS_LEGACY "Legacy (s only)"
+#define LIZARD_HISS_EXPANDED "Expanded (x and s)"
+
 GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 
 #define COMSIG_ATOM_DAMAGE_ACT "comsig_atom_damage_act" //Used when an atom takes damage.
@@ -40,8 +44,6 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 //Math. Lame.
 #define KPA_TO_PSI(A) (A/6.895)
 #define PSI_TO_KPA(A) (A*6.895)
-#define KELVIN_TO_CELSIUS(A) (A-273.15)
-#define CELSIUS_TO_KELVIN(A) (A+273.15)
 #define MEGAWATTS /1e+6
 
 #define HARDPOINT_SLOT_PRIMARY "Primary"
@@ -120,8 +122,22 @@ GLOBAL_DATUM_INIT(conquest_role_handler, /datum/conquest_role_handler, new)
 #define COMSIG_KB_OVERMAP_WEAPON2_DOWN "keybinding_overmap_weapon2_down"
 #define COMSIG_KB_OVERMAP_WEAPON3_DOWN "keybinding_overmap_weapon3_down"
 #define COMSIG_KB_OVERMAP_WEAPON4_DOWN "keybinding_overmap_weapon4_down"
+#define COMSIG_KB_VEHICLE_TOGGLE_BRAKES "keybinding_vehicle_toggle_brakes"
+#define COMSIG_KB_OVERMAP_UNLOCK_DOWN "keybinding_overmap_unlock_down"
 
 #define OVERMAP_USER_ROLE_PILOT (1<<0)
 #define OVERMAP_USER_ROLE_GUNNER (1<<1)
 #define OVERMAP_USER_ROLE_SECONDARY_GUNNER (1<<2)
 #define OVERMAP_USER_ROLE_OBSERVER (1<<3)
+
+#define HOLOMAP_EXTRA_STATIONMAP "stationmapformatted"
+#define HOLOMAP_EXTRA_STATIONMAPAREAS "stationareas"
+#define HOLOMAP_EXTRA_STATIONMAPSMALL "stationmapsmall"
+
+/// AI Hologram Related
+#define DUMMY_HUMAN_SLOT_HOLOFORM "dummy_holoform_generation" //NSV13 - AI Custom Holographic Form
+
+#define CUSTOM_HOLOFORM_DELAY 10 SECONDS //prevents spamming to make lag. it's pretty expensive to do this.
+
+#define HOLOFORM_FILTER_AI "FILTER_AI"
+#define HOLOFORM_FILTER_STATIC "FILTER_STATIC"

@@ -1,7 +1,7 @@
 /datum/job/bridge
 	title = JOB_NAME_BRIDGESTAFF
 	flag = BRIDGE_OFFICER
-	auto_deadmin_role_flags = DEADMIN_POSITION_SECURITY
+	auto_deadmin_role_flags = PREFTOGGLE_DEADMIN_POSITION_SECURITY
 	department_head = list(JOB_NAME_HEADOFPERSONNEL)
 	department_flag = ENGSEC
 	faction = "Station"

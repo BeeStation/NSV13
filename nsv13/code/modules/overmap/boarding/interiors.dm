@@ -8,6 +8,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 /obj/structure/overmap/proc/kill_boarding_level(obj/structure/overmap/boarder)
 	set waitfor = FALSE
 	var/was_fully_loaded = TRUE
+	hammerlocked = FALSE
 	if(interior_status != INTERIOR_READY) // determines whether this ship can be loaded again
 		if(interior_status != INTERIOR_NOT_LOADED)
 			message_admins("DEBUG: Deleting the interior for [src] before it was fully loaded")
@@ -97,6 +98,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 		message_admins("Error parsing boarding interior map for [src]")
 		return FALSE
 
+	hammerlocked = TRUE
 	current_system = boarder.current_system
 	get_overmap_level()
 	boarding_reservation_z = boarder.boarding_reservation_z
@@ -196,8 +198,7 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 		target_area.name = "[src.name] interior #[rand(0,999)]" //Avoid naming conflicts.
 	else if(!(target_area.area_flags & UNIQUE_AREA))
 		target_area.name = src.name
-		linked_areas += target_area
-		target_area.overmap_fallback = src // We might be able to remove this since I learned how room reservations work
+	linked_areas += target_area
 	interior_status = INTERIOR_READY
 	return TRUE
 

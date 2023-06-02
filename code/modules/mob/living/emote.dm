@@ -123,7 +123,7 @@
 	if(. && ishuman(user))
 		var/mob/living/carbon/human/H = user
 		if(H.Togglewings())
-			addtimer(CALLBACK(H,/mob/living/carbon/human.proc/Togglewings), wing_time)
+			addtimer(CALLBACK(H,TYPE_PROC_REF(/mob/living/carbon/human, Togglewings)), wing_time)
 
 /datum/emote/living/flap/aflap
 	key = "aflap"
@@ -434,7 +434,7 @@
 				else
 					alert("Unable to use this emote, must be either hearable or visible.")
 					return
-			message = custom_emote
+			message = user.say_emphasis(custom_emote) //NSV13
 	else
 		message = params
 		if(type_override)

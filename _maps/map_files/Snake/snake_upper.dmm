@@ -438,8 +438,8 @@
 	dir = 4
 	},
 /obj/machinery/navbeacon{
-	location = "UpperExit";
-	codes_txt = "patrol;next_patrol=Aft"
+	codes_txt = "patrol;next_patrol=Aft";
+	location = "UpperExit"
 	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/central)
@@ -972,6 +972,10 @@
 /obj/structure/lattice/catwalk,
 /turf/open/floor/plating,
 /area/nsv/crew_quarters/heads/maa)
+"fL" = (
+/obj/effect/landmark/carpspawn,
+/turf/open/space/basic,
+/area/space)
 "fP" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Mining Airlock";
@@ -1130,7 +1134,7 @@
 /turf/open/floor/carpet/orange,
 /area/nsv/crew_quarters/heads/maa)
 "gJ" = (
-/obj/structure/closet/secure_closet/transport_pilot,
+/obj/structure/closet/secure_closet/combat_pilot,
 /turf/open/floor/plasteel/dark,
 /area/nsv/hanger/notkmcstupidhanger)
 "gK" = (
@@ -1398,8 +1402,8 @@
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=1";
 	freq = 1400;
-	name = "Delivery Hangar";
-	location = "Hangar"
+	location = "Hangar";
+	name = "Delivery Hangar"
 	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/central)
@@ -1484,8 +1488,8 @@
 /turf/open/floor/plasteel/dark,
 /area/maintenance/fore)
 "iE" = (
-/obj/structure/table/reinforced,
 /obj/machinery/light_switch/south,
+/obj/structure/closet/secure_closet/transport_pilot,
 /turf/open/floor/plasteel/dark,
 /area/nsv/hanger/notkmcstupidhanger)
 "iN" = (
@@ -2212,10 +2216,7 @@
 "nj" = (
 /obj/effect/turf_decal/delivery,
 /obj/structure/hull_plate,
-/obj/machinery/ship_weapon/gauss_gun/east{
-	pixel_x = -1;
-	pixel_y = -51
-	},
+/obj/machinery/ship_weapon/gauss_gun/east,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "nk" = (
@@ -3885,10 +3886,10 @@
 /turf/open/floor/plating,
 /area/maintenance/central)
 "xr" = (
-/obj/structure/closet/secure_closet/transport_pilot,
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/structure/closet/secure_closet/combat_pilot,
 /turf/open/floor/plasteel/dark,
 /area/nsv/hanger/notkmcstupidhanger)
 "xs" = (
@@ -4415,8 +4416,8 @@
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "Be" = (
-/obj/structure/closet/secure_closet/transport_pilot,
 /obj/machinery/airalarm/directional/north,
+/obj/structure/closet/secure_closet/combat_pilot,
 /turf/open/floor/plasteel/dark,
 /area/nsv/hanger/notkmcstupidhanger)
 "Bi" = (
@@ -5053,6 +5054,7 @@
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai_upload)
 "EC" = (
+/mob/living/simple_animal/hostile/retaliate/bat/sgt_araneus,
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/hos)
 "EG" = (
@@ -6250,8 +6252,8 @@
 	dir = 4
 	},
 /obj/machinery/navbeacon{
-	location = "UpperEntry";
-	codes_txt = "patrol;next_patrol=UpperCargo"
+	codes_txt = "patrol;next_patrol=UpperCargo";
+	location = "UpperEntry"
 	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/central)
@@ -6780,8 +6782,8 @@
 	dir = 4
 	},
 /obj/machinery/navbeacon{
-	location = "UpperHangar";
-	codes_txt = "patrol;next_patrol=UpperExit"
+	codes_txt = "patrol;next_patrol=UpperExit";
+	location = "UpperHangar"
 	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/central)
@@ -6816,6 +6818,11 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("hangar","munitions","bar");
+	name = "Cargo patrol node";
+	id = "cargo"
 	},
 /turf/open/floor/plasteel,
 /area/maintenance/fore)
@@ -7267,8 +7274,8 @@
 	dir = 4
 	},
 /obj/machinery/navbeacon{
-	location = "UpperCargo";
-	codes_txt = "patrol;next_patrol=UpperHangar"
+	codes_txt = "patrol;next_patrol=UpperHangar";
+	location = "UpperCargo"
 	},
 /turf/open/floor/plasteel,
 /area/maintenance/fore)
@@ -7565,12 +7572,12 @@
 /area/maintenance/central)
 "RR" = (
 /obj/structure/table/reinforced,
-/obj/item/cartridge/quartermaster{
+/obj/item/computer_hardware/hard_drive/role/quartermaster{
 	pixel_x = -4;
 	pixel_y = 7
 	},
-/obj/item/cartridge/quartermaster,
-/obj/item/cartridge/quartermaster{
+/obj/item/computer_hardware/hard_drive/role/quartermaster,
+/obj/item/computer_hardware/hard_drive/role/quartermaster{
 	pixel_x = 6;
 	pixel_y = 5
 	},
@@ -8026,6 +8033,11 @@
 /obj/machinery/camera/autoname,
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("cargo","bar","bridge");
+	name = "Hangar patrol node";
+	id = "hangar"
 	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/central)
@@ -8558,10 +8570,7 @@
 /area/maintenance/aft)
 "Xk" = (
 /obj/effect/turf_decal/delivery,
-/obj/machinery/ship_weapon/gauss_gun/east{
-	pixel_x = -1;
-	pixel_y = -51
-	},
+/obj/machinery/ship_weapon/gauss_gun/east,
 /obj/structure/hull_plate,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
@@ -8863,8 +8872,8 @@
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai_upload)
 "YH" = (
-/obj/structure/table/reinforced,
 /obj/machinery/firealarm/directional/south,
+/obj/structure/closet/secure_closet/transport_pilot,
 /turf/open/floor/plasteel/dark,
 /area/nsv/hanger/notkmcstupidhanger)
 "YI" = (
@@ -23104,7 +23113,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 mv
 zQ
@@ -26175,7 +26184,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -29288,7 +29297,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -30274,7 +30283,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -35971,7 +35980,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -37726,7 +37735,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -42869,7 +42878,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -42912,7 +42921,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -49847,7 +49856,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -52122,7 +52131,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -55501,7 +55510,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -63181,7 +63190,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ

@@ -186,6 +186,7 @@
 	playsound(src, "sparks", 100, FALSE)
 
 /mob/living/simple_animal/bot/mulebot/update_icon_state() //if you change the icon_state names, please make sure to update /datum/wires/mulebot/on_pulse() as well. <3
+	. = ..()
 	icon_state = "[base_icon][on ? wires.is_cut(WIRE_AVOIDANCE) : 0]"
 
 /mob/living/simple_animal/bot/mulebot/update_overlays()
@@ -595,7 +596,7 @@
 							buzz(SIGH)
 							mode = BOT_WAIT_FOR_NAV
 							blockcount = 0
-							addtimer(CALLBACK(src, .proc/process_blocked, next), 2 SECONDS)
+							addtimer(CALLBACK(src, PROC_REF(process_blocked), next), 2 SECONDS)
 							return
 						return
 				else
@@ -608,7 +609,7 @@
 
 		if(BOT_NAV)	// calculate new path
 			mode = BOT_WAIT_FOR_NAV
-			INVOKE_ASYNC(src, .proc/process_nav)
+			INVOKE_ASYNC(src, PROC_REF(process_nav))
 
 /mob/living/simple_animal/bot/mulebot/proc/process_blocked(turf/next)
 	calc_path(avoid=next)
@@ -632,7 +633,7 @@
 // calculates a path to the current destination
 // given an optional turf to avoid
 /mob/living/simple_animal/bot/mulebot/calc_path(turf/avoid = null)
-	if(!is_reserved_level(z) && is_station_level(z))
+	if(!is_reserved_level(z) && get_overmap()) //NSV13 start - Overmap ship compatibility
 		if(target != null)
 			if(z > target.z)
 				mule_up_or_down(DOWN)
@@ -642,8 +643,9 @@
 				return
 	path = get_path_to(src, target, 250, id=access_card, exclude=avoid)
 
+//BOT MULTI-Z MOVEMENT
 /mob/living/simple_animal/bot/mulebot/proc/mule_up_or_down(direction)
-	if(!is_reserved_level(z) && is_station_level(z))
+	if(!is_reserved_level(z) && get_overmap()) //NSV13 start - Overmap ship compatibility
 		var/new_target = find_nearest_bot_elevator(direction)
 
 		var/go_here
@@ -655,6 +657,7 @@
 		target = go_here
 		path = get_path_to(src, target, 250, id=access_card)
 
+//BOT MULTI-Z MOVEMENT
 /mob/living/simple_animal/bot/mulebot/proc/mulebot_z_movement()
 	var/obj/structure/bot_elevator/E = locate(/obj/structure/bot_elevator) in get_turf(src)
 	if(mulebot_z_mode == MULEBOT_Z_MODE_ACTIVE)
@@ -690,7 +693,7 @@
 /mob/living/simple_animal/bot/mulebot/proc/start_home()
 	if(!on)
 		return
-	INVOKE_ASYNC(src, .proc/do_start_home)
+	INVOKE_ASYNC(src, PROC_REF(do_start_home))
 
 /mob/living/simple_animal/bot/mulebot/proc/do_start_home()
 	set_destination(home_destination)

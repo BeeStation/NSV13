@@ -60,6 +60,18 @@
     mob.log_talk(raw_msg, LOG_OOC, tag="LOOC")
 
     var/list/heard = hearers(7, get_top_level_mob(src.mob))
+
+	//NSV13 - AI QoL - Start
+	//so the ai can post looc text
+    if(istype(mob, /mob/living/silicon/ai))
+        var/mob/living/silicon/ai/ai = mob
+        heard = hearers(7, get_top_level_mob(ai.eyeobj))
+	//so the ai can see looc text
+    for(var/mob/living/silicon/ai/ai as anything in GLOB.ai_list)
+        if(ai.client && !(ai in heard) && (ai.eyeobj in heard))
+            heard += ai
+	//NSV13 - AI QoL - Stop
+
     for(var/mob/M as() in heard)
         if(!M.client)
             continue
@@ -99,6 +111,38 @@
 /proc/log_looc(text)
     if (CONFIG_GET(flag/log_ooc))
         WRITE_FILE(GLOB.world_game_log, "\[[time_stamp()]]LOOC: [text]")
+
+////////////////////FLAVOUR TEXT NSV13////////////////////
+/mob
+	var/flavour_text = ""
+
+/mob/proc/update_flavor_text()
+	set src in usr
+
+	if(usr != src)
+		usr << "No."
+	var/msg = sanitize(input(usr,"Set the flavor text in your 'examine' verb. Can also be used for OOC notes about your character.","Flavour Text",html_decode(flavour_text)) as message|null)
+
+	if(msg)
+		msg = copytext(msg, 1, MAX_MESSAGE_LEN)
+		msg = html_encode(msg)
+
+		flavour_text = msg
+
+/mob/proc/warn_flavor_changed()
+	if(flavour_text && flavour_text != "") // don't spam people that don't use it!
+		src << "<h2 class='alert'>OOC Warning:</h2>"
+		src << "<span class='alert'>Your flavor text is likely out of date! <a href='byond://?src=\ref[src];flavor_change=1'>Change</a></span>"
+
+/mob/proc/print_flavor_text()
+	if(flavour_text && flavour_text != "")
+		var/msg = replacetext(flavour_text, "\n", " ")
+		if(length(msg) <= 100)
+			return "<span class='notice'>[msg]</span>"
+		else
+			return "<span class='notice'>[copytext(msg, 1, 97)]... <a href=\"byond://?src=\ref[src];flavor_more=1\">More...</span></a>"
+
+//Needed for LOOC and flavour text
 
 /mob/proc/get_top_level_mob()
     if(istype(src.loc,/mob)&&src.loc!=src)

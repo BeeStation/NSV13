@@ -1,12 +1,26 @@
+GLOBAL_LIST_EMPTY(hologram_impersonators)
+
+/obj/machinery/holopad/set_holo(mob/living/user, obj/effect/overlay/holo_pad_hologram/h)
+	if(h.Impersonation)
+		GLOB.hologram_impersonators[user] = h
+		h.become_hearing_sensitive() // Well, we need to show up on "get_hearers_in_view()"
+	. = ..()
+
+/obj/machinery/holopad/clear_holo(mob/living/user)
+	var/obj/effect/overlay/holo_pad_hologram/hologram = GLOB.hologram_impersonators[user]
+	if(hologram)
+		GLOB.hologram_impersonators -= user
+	. = ..()
+
 /obj/machinery/holopad/proc/create_admin_hologram(client/C)
 	set waitfor = FALSE
 	RETURN_TYPE(/mob/living/simple_animal/admin_holopad)
 	var/icon/final = icon()
 	var/mob/living/carbon/human/dummy/D = new(locate(1,1,1)) //spawn on 1,1,1 so we don't have runtimes when items are deleted
 	var/new_name = null //Name for the hologram. Can be defaulted to your char name otherwise.
-	if(alert("Do you want to use your character slot ([C.prefs.real_name]) or choose a new name and have a random appearance?",src,"Yes","No") == "Yes")
-		C.prefs.copy_to(D)
-		new_name = C.prefs.real_name
+	if(alert("Do you want to use your character slot ([C.prefs.active_character.real_name]) or choose a new name and have a random appearance?",src,"Yes","No") == "Yes")
+		C.prefs.active_character.copy_to(D)
+		new_name = C.prefs.active_character.real_name
 	else
 		randomize_human(D)
 		new_name = input(C, "Select a name for your communications hologram (leave blank to just be called hologram)", "Robust hologram creator") as text
@@ -47,8 +61,8 @@
 	. = ..()
 	source = locate(/obj/machinery/holopad) in get_turf(src)
 	current_beam = new(src,source,time=INFINITY,maxdistance=INFINITY, beam_icon_state="hologram",btype=/obj/effect/ebeam)
-	INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
-	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_distance)
+	INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
+	RegisterSignal(src, COMSIG_MOVABLE_MOVED, PROC_REF(check_distance))
 
 /mob/living/simple_animal/admin_holopad/proc/check_distance()
 	var/dist = get_dist(src, source)
