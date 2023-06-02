@@ -363,21 +363,14 @@
 		playsound(H, 'sound/weapons/tap.ogg', 50, 0)
 		SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "headpat", /datum/mood_event/headpat)
 	else if(check_zone(zone_selected) == BODY_ZONE_HEAD)
-		var/datum/species/S
 		if(ishuman(H))
-			S = H.dna.species
-
 			visible_message("<span class='notice'>[src] gives [H] a pat on the head to make [H.p_them()] feel better!</span>", \
 						"<span class='notice'>You give [src] a pat on the head to make [H.p_them()] feel better!</span>")
 			SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "headpat", /datum/mood_event/headpat)
-			if(S?.can_wag_tail(src) && !(S?.is_wagging_tail()))
-				var/static/list/many_tails
-				if(!many_tails)
-					many_tails = list("tail_human", "tail_lizard", "mam_tail")
-				for(var/T in many_tails)
-					if(S.mutant_bodyparts[T] && H.dna.features[T] != "None")
-						H.emote("wag")
-						break
+			var/obj/item/organ/tail/tail = H.get_bodypart(ORGAN_SLOT_TAIL)
+			if(!tail)
+				return
+			tail.toggle_wag(H)
 	else
 		visible_message("<span class='notice'>[src] hugs [H] to make [H.p_them()] feel better!</span>", \
 					"<span class='notice'>You hug [H] to make [H.p_them()] feel better!</span>")
