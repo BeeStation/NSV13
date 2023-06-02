@@ -1,11 +1,21 @@
 /obj/structure/overmap/onMouseDrag(src_object, over_object, src_location, over_location, params, mob/M)
-	aiming_target = over_object
-	aiming_params = params
-	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
-	if(user_gun)
+	// Handle pilots dragging their mouse
+	if(M == pilot)
+		if(move_by_mouse && can_move() && !pilot.incapacitated())
+			desired_angle = getMouseAngle(params, M)
+
+	// If we're the pilot but not the gunner, don't update gunner-specific information
+	if(!LAZYFIND(gauss_gunners, M) && M != gunner)
+		return
+
+	// Handle gunners dragging their mouse
+	if(LAZYFIND(gauss_gunners, M)) // Anyone with overmap_gunning should also be in gauss_gunners
+		var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
 		user_gun.onMouseDrag(src_object, over_object, src_location, over_location, params, M)
 		return TRUE
 	if(aiming)
+		aiming_target = over_object
+		aiming_params = params
 		if(target_lock)
 			lastangle = get_angle(src, get_turf(over_object))
 		else
@@ -23,6 +33,8 @@
 	if(user_gun)
 		user_gun?.onMouseDown(object)
 		return TRUE
+	if(M != gunner)
+		return
 	if((fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER || fire_mode == FIRE_MODE_HYBRID_RAIL))
 		aiming_target = object
 		aiming_params = params
@@ -41,6 +53,8 @@
 	if(user_gun)
 		user_gun?.onMouseUp(object)
 		return TRUE
+	if(M != gunner)
+		return
 	autofire_target = null
 	lastangle = get_angle(src, get_turf(object))
 	stop_aiming()
