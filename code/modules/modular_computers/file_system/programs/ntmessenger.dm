@@ -92,11 +92,6 @@
 		usr << browse_rsc(img, deter_path) // funny random assignment for now, i'll make an actual key later
 		photo_path = deter_path
 
-/datum/computer_file/program/messenger/ui_state(mob/user)
-	if(istype(user, /mob/living/silicon))
-		return GLOB.reverse_contained_state
-	return GLOB.default_state
-
 /datum/computer_file/program/messenger/ui_assets(mob/user)
 	return list(
 		get_asset_datum(/datum/asset/spritesheet/chat),
@@ -148,7 +143,7 @@
 			if(!disk?.spam_delay)
 				if(!disk)
 					return
-				log_href_exploit(usr)
+				log_href_exploit(usr, " Attempted sending PDA message to all without a disk capable of doing so: [disk].")
 				return
 
 			var/list/targets = list()
@@ -213,7 +208,7 @@
 			return TRUE
 
 /datum/computer_file/program/messenger/ui_data(mob/user)
-	var/list/data = get_header_data()
+	var/list/data = list()
 
 	var/obj/item/computer_hardware/hard_drive/role/disk = computer.all_components[MC_HDD_JOB]
 
