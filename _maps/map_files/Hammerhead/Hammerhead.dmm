@@ -263,7 +263,7 @@
 	dir = 8
 	},
 /obj/machinery/light/runway/delay4,
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 8
 	},
 /turf/open/floor/plating,
@@ -298,7 +298,7 @@
 	pixel_x = 26;
 	req_one_access_txt = "69"
 	},
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -403,19 +403,10 @@
 /turf/open/floor/plating,
 /area/hallway/secondary/entry)
 "abp" = (
-/obj/effect/turf_decal/stripes/line{
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
-/obj/machinery/button/door{
-	id = "launch3";
-	name = "Tube 3 exterior doors";
-	req_one_access_txt = "69";
-	pixel_x = -26
-	},
-/obj/machinery/atmospherics/pipe/manifold/general{
-	dir = 8
-	},
-/turf/open/floor/plating,
+/turf/open/floor/durasteel,
 /area/nsv/hanger/deck2/port{
 	name = "Launch tubes 3 and 4"
 	})
@@ -563,7 +554,9 @@
 	dir = 8
 	},
 /obj/structure/fighter_launcher,
-/obj/machinery/advanced_airlock_controller/directional/west,
+/obj/machinery/advanced_airlock_controller/directional/west{
+	req_access = list(79)
+	},
 /obj/machinery/atmospherics/pipe/simple/general/visible,
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/starboard{
@@ -654,7 +647,7 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -746,7 +739,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 8
 	},
 /turf/open/floor/plating,
@@ -799,7 +792,7 @@
 	dir = 1
 	},
 /obj/machinery/door/airlock/ship/external{
-	req_one_access_txt = "13,69"
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/starboard{
@@ -813,7 +806,7 @@
 	dir = 1
 	},
 /obj/machinery/door/airlock/ship/external{
-	req_one_access_txt = "13,69"
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/starboard{
@@ -861,7 +854,7 @@
 	dir = 1
 	},
 /obj/machinery/door/airlock/ship/external{
-	req_one_access_txt = "13,69"
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/starboard{
@@ -1052,7 +1045,7 @@
 	dir = 8
 	},
 /obj/machinery/light/runway/delay4,
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 8
 	},
 /turf/open/floor/plating,
@@ -1086,7 +1079,7 @@
 	pixel_x = 26;
 	req_one_access_txt = "69"
 	},
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -1301,7 +1294,7 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -1333,7 +1326,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 8
 	},
 /turf/open/floor/plating,
@@ -1383,7 +1376,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 8
 	},
 /turf/open/floor/plating,
@@ -1396,7 +1389,7 @@
 	dir = 1
 	},
 /obj/machinery/door/airlock/ship/external{
-	req_one_access_txt = "13,69"
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/port{
@@ -1412,9 +1405,7 @@
 /turf/open/floor/durasteel/eris_techfloor_alt,
 /area/hallway/primary/port)
 "aew" = (
-/obj/machinery/atmospherics/components/unary/tank/air{
-	volume = 40000
-	},
+/obj/machinery/atmospherics/components/unary/tank/air,
 /turf/open/floor/plating,
 /area/maintenance/department/chapel)
 "aex" = (
@@ -1425,7 +1416,7 @@
 	dir = 1
 	},
 /obj/machinery/door/airlock/ship/external{
-	req_one_access_txt = "13,69"
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/port{
@@ -1435,7 +1426,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -1453,7 +1444,7 @@
 	dir = 1
 	},
 /obj/machinery/door/airlock/ship/external{
-	req_one_access_txt = "13,69"
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/port{
@@ -1739,7 +1730,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 8
 	},
 /turf/open/floor/plating,
@@ -2159,7 +2150,7 @@
 /area/science/mixing)
 "agz" = (
 /obj/effect/turf_decal/stripes/full,
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 1
 	},
 /turf/open/floor/plating,
@@ -7201,7 +7192,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -7868,7 +7859,7 @@
 	dir = 4
 	},
 /obj/machinery/light/runway/delay4,
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -8501,9 +8492,10 @@
 /turf/open/floor/durasteel/eris_techfloor_alt,
 /area/nsv/hanger)
 "aAe" = (
-/obj/machinery/atmospherics/components/binary/pressure_valve{
-	dir = 4;
-	target_pressure = 2000
+/obj/machinery/atmospherics/components/binary/passive_gate{
+	target_pressure = 1000;
+	on = 1;
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/maintenance/starboard/central)
@@ -18604,7 +18596,7 @@
 /area/maintenance/starboard/central)
 "bgy" = (
 /obj/effect/turf_decal/stripes/full,
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 1
 	},
 /turf/open/floor/durasteel/riveted,
@@ -18617,7 +18609,7 @@
 	dir = 4
 	},
 /obj/machinery/light/runway/delay4,
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -21616,11 +21608,11 @@
 /turf/open/floor/engine/air,
 /area/engine/atmos)
 "cob" = (
-/obj/machinery/door/airlock/ship/external{
-	req_one_access_txt = "13,69"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 1
+	},
+/obj/machinery/door/airlock/ship/external{
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/plating,
 /area/maintenance/starboard/central)
@@ -22815,7 +22807,9 @@
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
-/obj/machinery/advanced_airlock_controller/directional/west,
+/obj/machinery/advanced_airlock_controller/directional/west{
+	req_access = list(79)
+	},
 /obj/machinery/atmospherics/pipe/simple/general/visible,
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/starboard{
@@ -23627,7 +23621,9 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /obj/effect/landmark/start/pilot,
 /turf/open/floor/durasteel,
-/area/nsv/hanger)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "dzQ" = (
 /obj/machinery/light/small{
 	brightness = 3;
@@ -24347,7 +24343,9 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
-/obj/machinery/advanced_airlock_controller/directional/east,
+/obj/machinery/advanced_airlock_controller/directional/east{
+	req_access = list(79)
+	},
 /obj/machinery/atmospherics/pipe/simple/general/visible,
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/port{
@@ -26255,7 +26253,7 @@
 "fpq" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/stripes/full,
-/obj/machinery/atmospherics/pipe/manifold/general{
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 1
 	},
 /turf/open/floor/plating,
@@ -27587,6 +27585,17 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"giZ" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 4
+	},
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/turf/open/floor/durasteel,
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
 "gjo" = (
 /obj/structure/disposalpipe/segment{
 	dir = 5
@@ -27605,7 +27614,9 @@
 	dir = 1
 	},
 /turf/open/floor/durasteel,
-/area/nsv/hanger)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "gjQ" = (
 /obj/effect/turf_decal/tile/brown,
 /obj/effect/turf_decal/tile/brown{
@@ -27732,7 +27743,9 @@
 	dir = 1
 	},
 /turf/open/floor/durasteel,
-/area/nsv/hanger)
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
 "goU" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible{
 	dir = 5
@@ -28121,8 +28134,9 @@
 /turf/open/floor/plating,
 /area/engine/engineering/hangar)
 "gCm" = (
-/obj/machinery/atmospherics/components/binary/pressure_valve{
-	target_pressure = 2000
+/obj/machinery/atmospherics/components/binary/passive_gate{
+	target_pressure = 1000;
+	on = 1
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/chapel)
@@ -28660,7 +28674,9 @@
 	dir = 4
 	},
 /turf/open/floor/durasteel,
-/area/nsv/hanger)
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "haO" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -33083,7 +33099,9 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
-/obj/machinery/advanced_airlock_controller/directional/east,
+/obj/machinery/advanced_airlock_controller/directional/east{
+	req_access = list(79)
+	},
 /obj/machinery/atmospherics/pipe/simple/general/visible,
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/port{
@@ -37222,7 +37240,7 @@
 /obj/effect/turf_decal/stripes/full,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/door/airlock/ship/external{
-	req_one_access_txt = "13,69"
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/starboard{
@@ -41865,7 +41883,7 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/atmospherics/pipe/simple/general/visible,
 /obj/machinery/door/airlock/ship/external{
-	req_one_access_txt = "13,69"
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/port{
@@ -42923,7 +42941,7 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/atmospherics/pipe/simple/general/visible,
 /obj/machinery/door/airlock/ship/external{
-	req_one_access_txt = "13,69"
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/starboard{
@@ -43025,6 +43043,14 @@
 	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai)
+"pZl" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 8
+	},
+/turf/open/floor/durasteel,
+/area/nsv/hanger/deck2/starboard{
+	name = "Launch tubes 1 and 2"
+	})
 "pZs" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
 /turf/open/floor/plasteel/dark,
@@ -43100,7 +43126,7 @@
 "qdB" = (
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/door/airlock/ship/external{
-	req_one_access_txt = "13,69"
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/plating,
 /area/nsv/hanger/deck2/port{
@@ -49852,9 +49878,7 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/central)
 "unu" = (
-/obj/machinery/atmospherics/components/unary/tank/air{
-	volume = 40000
-	},
+/obj/machinery/atmospherics/components/unary/tank/air,
 /turf/open/floor/plating,
 /area/maintenance/starboard/central)
 "unC" = (
@@ -52988,7 +53012,9 @@
 "wnV" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /turf/open/floor/durasteel,
-/area/nsv/hanger)
+/area/nsv/hanger/deck2/port{
+	name = "Launch tubes 3 and 4"
+	})
 "woi" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
@@ -53024,12 +53050,12 @@
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
 "woJ" = (
-/obj/machinery/door/airlock/ship/external{
-	req_one_access_txt = "13,69"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/door/airlock/ship/external{
+	req_one_access_txt = "79"
+	},
 /turf/open/floor/plating,
 /area/maintenance/starboard/central)
 "wpp" = (
@@ -100805,7 +100831,7 @@ gNf
 uJD
 aaW
 svV
-aid
+pZl
 acF
 qNA
 fwh
@@ -102089,9 +102115,9 @@ ail
 ail
 ail
 ail
+aaW
+aaW
 ail
-aaW
-aaW
 aaW
 bfL
 bfK
@@ -102603,9 +102629,9 @@ adI
 adI
 adI
 adI
+adq
+adq
 adI
-adq
-adq
 adq
 bfL
 bfK
@@ -102861,7 +102887,7 @@ adP
 adP
 adQ
 aes
-abp
+aes
 ahS
 aex
 aaa
@@ -103889,7 +103915,7 @@ aGp
 goH
 adq
 aei
-gYY
+giZ
 aer
 kVX
 fwh
@@ -104403,7 +104429,7 @@ xCd
 nWp
 adq
 hYn
-aid
+abp
 aer
 kVX
 fwh
