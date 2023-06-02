@@ -1616,54 +1616,6 @@ Seek a ship thich we'll station ourselves around
 		return
 	chosen.assume(src)
 
-//Basic inherited stuff that we need goes here:
-
-/obj/structure/overmap
-	var/ai_controlled = FALSE //Set this to true to let the computer fly your ship.
-	var/ai_behaviour = null // Determines if the AI ship shoots you first, or if you have to shoot them.
-	var/list/enemies = list() //Things that have attacked us
-	var/max_weapon_range = 50
-	var/max_tracking_range = 50//50, 100 when pinging - Range that AI ships can hunt you down in. The amounts to almost half the Z-level.
-	var/obj/structure/overmap/defense_target = null
-	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
-	var/list/ai_fighter_type = list()
-	var/ai_flags = AI_FLAG_DESTROYER
-
-	var/list/holding_cargo = list() // list of objective datums. This station has cargo to deliver to the players as part of a courier objective
-	var/list/expecting_cargo = list() // list of objective datums. This station is expecting cargo delivered to them by the players as a part of a courier objective
-	var/list/received_cargo = list() // list of typically freight torps. This station has received cargo
-	var/list/receipts = list() // All cargo delivery attempts made to this station
-	var/essential = FALSE // AI targeting will ignore essential stations to preserve ammo. At least I hope, there's a thousand places AI last_target is updated
-	var/nodamage = FALSE // Mob immunity equivalent for stations, used for mission critical targets. Separate var if mission critical stations need to be essential but not immortal
-	var/supply_pod_type = /obj/structure/closet/supplypod/centcompod
-	var/returns_rejected_cargo = TRUE // AI ships will return cargo that does not match their expected shipments
-	var/speed_cargo_check = 30 SECONDS // Time it takes for a ship to respond to a shipment
-	var/speed_cargo_return = 30 SECONDS // Time it takes for a ship to return shipment results (approved paperwork, rejected shipment)
-
-	var/last_decision = 0
-	var/decision_delay = 2 SECONDS
-	var/move_mode = 0
-	var/next_boarding_attempt = 0
-
-	var/reloading_torpedoes = FALSE
-	var/reloading_missiles = FALSE
-	var/static/list/warcrime_blacklist = typecacheof(list(/obj/structure/overmap/small_craft/escapepod, /obj/structure/overmap/asteroid))//Ok. I'm not THAT mean...yet. (Hello karmic, it's me karmic 2)
-
-	//Fleet organisation
-	var/shots_left = 15 //Number of arbitrary shots an AI can fire with its heavy weapons before it has to resupply with a supply ship.
-	var/light_shots_left = 300
-	var/resupply_range = 15
-	var/resupplying = 0	//Are we resupplying things right now? If yes, how many?
-	var/can_resupply = FALSE //Can this ship resupply other ships?
-	var/obj/structure/overmap/resupply_target = null
-	var/datum/fleet/fleet = null
-	var/datum/current_lance = null	//Some ships can assign themselves to a lance, which will act together.
-	var/turf/patrol_target = null
-	var/datum/ai_goal/current_goal = null
-	var/obj/structure/overmap/squad_lead = null
-	var/obj/structure/overmap/last_overmap = null
-	var/switchsound_cooldown = 0
-
 /obj/structure/overmap/proc/ai_fire(atom/target)
 	if(istype(target, /obj/structure/overmap))
 		add_enemy(target)

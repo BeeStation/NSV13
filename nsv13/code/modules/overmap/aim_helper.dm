@@ -39,9 +39,6 @@
 		fire_weapon(object)
 	QDEL_LIST(current_tracers)
 
-/obj/structure/overmap
-	var/next_beam = 0
-
 /obj/structure/overmap/proc/draw_beam(force_update = FALSE)
 	var/diff = abs(aiming_lastangle - lastangle)
 	check_user()
