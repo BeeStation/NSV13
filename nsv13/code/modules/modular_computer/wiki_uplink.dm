@@ -9,7 +9,7 @@
 	program_icon = "book"
 
 /datum/computer_file/program/databank_uplink/ui_data(mob/user)
-	var/list/data = get_header_data()
+	var/list/data = list()
 	var/wikiurl = CONFIG_GET(string/wikiurl)
 
 	data["src"] = wikiurl
