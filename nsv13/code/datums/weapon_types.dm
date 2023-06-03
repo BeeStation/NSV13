@@ -142,6 +142,7 @@
 	miss_chance = 33
 	max_miss_distance = 6
 	ai_fire_delay = 0.5 SECONDS
+	allowed_roles = OVERMAP_USER_ROLE_PILOT
 
 /datum/ship_weapon/phaser // Big blue laser
 	name = "Phaser Banks"
@@ -156,7 +157,6 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg' //Sound effect provided by: "All Sounds" https://www.youtube.com/watch?v=EpaCJ75T3fo under creative commons. Trimmed by Kmc2000
 	screen_shake = 1
 	ai_fire_delay = 3 SECONDS
-	allowed_roles = OVERMAP_USER_ROLE_PILOT
 
 /datum/ship_weapon/phaser/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
 	if(!istype(source) || !istype(target))
