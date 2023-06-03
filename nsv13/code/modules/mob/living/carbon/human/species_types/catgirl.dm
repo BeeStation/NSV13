@@ -9,7 +9,9 @@
 	. = ..()
 	randomize_human(src)
 	equipOutfit(/datum/outfit/maid)
-	dna.species.start_wagging_tail(src)
+	var/obj/item/organ/tail/tail = getorganslot(ORGAN_SLOT_TAIL)
+	if(tail)
+		tail.set_wagging(src, TRUE)
 
 /mob/living/carbon/human/ai_boarder/assistant/felinid
 	outfit = list(/datum/outfit/maid, /datum/outfit/maid/knpc_pistol, /datum/outfit/maid/knpc_smg)
@@ -28,6 +30,12 @@
 	)
 
 	faction = list("Syndicate","Pirate")
+
+/mob/living/carbon/human/ai_boarder/assistant/felinid/Initialize(mapload)
+	. = ..()
+	var/obj/item/organ/tail/tail = getorganslot(ORGAN_SLOT_TAIL)
+	if(tail)
+		tail.set_wagging(src, TRUE)
 
 /mob/living/carbon/human/ai_boarder/assistant/felinid/smg
 
