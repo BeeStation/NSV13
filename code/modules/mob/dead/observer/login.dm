@@ -16,7 +16,7 @@
 	if (isturf(T))
 		update_z(T.z)
 
-	update_icon(preferred_form)
+	update_icon(new_form = preferred_form)
 	updateghostimages()
 
 	if(mind?.current)
