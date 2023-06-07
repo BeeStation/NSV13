@@ -51,7 +51,7 @@
 
 	if(weapon_safety)
 		return FALSE
-	if(mode = FIRE_MODE_AMS)
+	if(mode == FIRE_MODE_AMS)
 		ams_shots_fired = 0
 	if(SW?.fire(target, ai_aim=ai_aim))
 		return TRUE
