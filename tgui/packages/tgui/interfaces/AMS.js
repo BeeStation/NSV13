@@ -39,7 +39,7 @@ export const AMS = (props, context) => {
         <Section title="Shots to fire:">
           <NumberInput
             animated
-            value={parseInt(data.shot_limit)}
+            value={parseInt(data.shot_limit, 10)}
             unit="shots"
             width="125px"
             minValue={1}
