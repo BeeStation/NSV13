@@ -202,8 +202,11 @@
 		return FALSE
 	if(QDELETED(target))
 		return FALSE
+	if(OM.ams_shot_limit <= OM.ams_shots_fired)
+		return FALSE
 	// OM.fire_weapon(target, mode=weapon_type, lateral=TRUE)
 	weapon_type.fire( target )
+	OM.ams_shots_fired += 1
 	OM.next_ams_shot = world.time + OM.ams_targeting_cooldown
 
 //Subtypes.
@@ -249,10 +252,15 @@
 			return
 		linked.ams_data_source = AMS_LOCKED_TARGETS
 		return
-	var/datum/ams_mode/target = locate(params["target"])
-	if(!target)
-		return FALSE
-	target.enabled = !target.enabled
+	if(action == "set_shot_limit")
+		var/obj/structure/overmap/linked = get_overmap()
+		linked.ams_shot_limit = sanitize_integer(params["shot_limit"], 1, 100, 5)
+		return
+	if(action == "select")
+		var/datum/ams_mode/target = locate(params["target"])
+		if(!target)
+			return FALSE
+		target.enabled = !target.enabled
 
 /obj/machinery/computer/ams/ui_data(mob/user)
 	..()
@@ -271,6 +279,7 @@
 		categories[++categories.len] = category
 	data["categories"] = categories
 	data["data_source"] = OM.ams_data_source
+	data["shot_limit"] = OM.ams_shot_limit
 	return data
 
 /obj/machinery/computer/ams/ui_interact(mob/user, datum/tgui/ui)
