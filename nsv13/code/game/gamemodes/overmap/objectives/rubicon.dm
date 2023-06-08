@@ -25,6 +25,8 @@
 /datum/overmap_objective/clear_system/rubicon
 	system_name = "Rubicon"
 	extension_supported = TRUE
+	required_players = 4
 
 /datum/overmap_objective/clear_system/dolos
 	system_name = "Dolos Remnants"
+	required_players = 4
