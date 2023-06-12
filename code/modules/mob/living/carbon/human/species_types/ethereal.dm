@@ -152,9 +152,7 @@
 
 //NSV13 - Ethereal Stuff - Start
 #define NUTRITION_LEVEL_VERY_STARVING 50
-#define NUTRITION_LEVEL_CANNIBALISING 2
-#define NUTRITION_LEVEL_NEAR_DEATH 1
-#define NUTRITION_LEVEL_DYING 0
+#define NUTRITION_LEVEL_DYING 1
 
 /datum/species/ethereal/handle_charge(mob/living/carbon/human/H)
 	brutemod = 1.25
@@ -162,10 +160,10 @@
 		return
 	switch(H.nutrition)
 		// This is formatted in the following style: from low to high
-		// IE: NUTRITION_LEVEL_STARVING (150) to NUTRITION_LEVEL_PECKISH (300)
+		// IE: NUTRITION_LEVEL_STARVING (150) to NUTRITION_LEVEL_FED (350)
 		if(NUTRITION_LEVEL_FED to INFINITY)
 			H.throw_alert("nutrition", /atom/movable/screen/alert/etherealfull)
-		if(NUTRITION_LEVEL_STARVING to NUTRITION_LEVEL_PECKISH)
+		if(NUTRITION_LEVEL_STARVING to NUTRITION_LEVEL_FED)
 			H.throw_alert("nutrition", /atom/movable/screen/alert/etherealcharge, 1)
 			brutemod = 1.5
 		if(NUTRITION_LEVEL_VERY_STARVING to NUTRITION_LEVEL_STARVING)
@@ -173,18 +171,16 @@
 			if(H.health > 10.5)
 				apply_damage(0.65, TOX, null, null, H)
 			brutemod = 1.75
-		if(NUTRITION_LEVEL_CANNIBALISING to NUTRITION_LEVEL_VERY_STARVING)
+		if(NUTRITION_LEVEL_DYING to NUTRITION_LEVEL_VERY_STARVING)
 			H.throw_alert("nutrition", /atom/movable/screen/alert/etherealcharge, 3)
 			if(H.health > 10.5)
 				apply_damage(0.65, TOX, null, null, H)
-		if(NUTRITION_LEVEL_DYING to NUTRITION_LEVEL_NEAR_DEATH)
+		else
 			H.throw_alert("nutrition", /atom/movable/screen/alert/etherealcharge, 4)
 			if(H.health > 10.5)
 				apply_damage(1, TOX, null, null, H)
 			brutemod = 2
 
 #undef NUTRITION_LEVEL_VERY_STARVING
-#undef NUTRITION_LEVEL_CANNIBALISING
-#undef NUTRITION_LEVEL_NEAR_DEATH
 #undef NUTRITION_LEVEL_DYING
 //NSV13 - Ethereal Stuff - Stop
