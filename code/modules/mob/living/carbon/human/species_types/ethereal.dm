@@ -166,11 +166,11 @@
 			if(H.health > 10.5)
 				apply_damage(0.65, TOX, null, null, H)
 			brutemod = 1.75
-		if(1 to 50)
+		if(2 to 50)
 			H.throw_alert("nutrition", /atom/movable/screen/alert/etherealcharge, 3)
 			if(H.health > 10.5)
 				apply_damage(0.65, TOX, null, null, H)
-		else
+		if(0 to 1)
 			H.throw_alert("nutrition", /atom/movable/screen/alert/etherealcharge, 4)
 			//NSV13 - Ethereal Stuff - Stop
 			if(H.health > 10.5)
