@@ -1,6 +1,28 @@
 
 //Space Pirate ships go here
 
+/obj/structure/overmap/spacepirate/HomeOne
+	name = "HomeOne Class Pirate Raider"
+	desc = "A heavily modified hauler that was rebuilt using outdated armaments for maximum firepower and speed, these self-sufficient raiding vessels are not known for their durability."
+	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
+	icon_state = "spacepirate_hauler"
+	mass = MASS_SMALL
+	sprite_size = 48
+	damage_states = FALSE
+	obj_integrity = 1200
+	max_integrity = 1200
+	integrity_failure = 1200
+	starting_system = "Staging"
+	armor = list("overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
+	bound_height = 32
+	bound_width = 32
+	role = INSTANCED_MIDROUND_SHIP
+
+/obj/structure/overmap/spacepirate/HomeOne/apply_weapons()
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_HYBRID_RAIL] = new /datum/ship_weapon/hybrid_railgun(src)
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 //AI versions
 
 /obj/structure/overmap/spacepirate/ai
@@ -154,4 +176,4 @@
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 	flak_battery_amount = 2
-	
+
