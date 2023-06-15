@@ -750,7 +750,7 @@
 
 /obj/item/clothing/suit/space/skinsuit
 	name = "skinsuit"
-	desc = "A slim, compression-based spacesuit meant to protect the user during emergency situations. It's only a little warmer than your uniform."
+	desc = "An insulated, compression-based spacesuit meant to protect the user during emergency situations."
 	icon = 'icons/obj/clothing/suits.dmi'
 	worn_icon = 'icons/mob/suit.dmi'
 	icon_state = "skinsuit_rolled"
@@ -760,7 +760,7 @@
 	gas_transfer_coefficient = 0.5
 	permeability_coefficient = 0.5
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 0, "bio" = 10, "rad" = 0, "fire" = 0, "acid" = 0, "stamina" = 0)
-	min_cold_protection_temperature = EMERGENCY_SUIT_MIN_TEMP_PROTECT
+	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
 	heat_protection = NONE
 	max_heat_protection_temperature = 100
 	var/rolled_up = TRUE
