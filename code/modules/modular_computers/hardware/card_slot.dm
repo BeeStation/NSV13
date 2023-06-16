@@ -71,6 +71,7 @@
 	current_job = stored_card.assignment
 	holder?.on_id_insert()
 	holder?.update_icon()
+	holder?.ui_update()
 	return TRUE
 
 
