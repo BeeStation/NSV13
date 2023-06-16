@@ -360,6 +360,7 @@ For when the marines are being irritating.
 	ears = /obj/item/radio/headset/syndicate
 	id = /obj/item/card/id/syndi_crew/technician
 	head = /obj/item/clothing/head/maidheadband/syndicate
+	back = /obj/item/storage/backpack/duffelbag/syndie
 	backpack_contents = list(
 		/obj/item/storage/box/syndie = 1,
 		/obj/item/kitchen/knife/combat/survival = 1
