@@ -142,6 +142,7 @@
 	miss_chance = 33
 	max_miss_distance = 6
 	ai_fire_delay = 0.5 SECONDS
+	allowed_roles = OVERMAP_USER_ROLE_PILOT
 
 /datum/ship_weapon/phaser // Big blue laser
 	name = "Phaser Banks"
