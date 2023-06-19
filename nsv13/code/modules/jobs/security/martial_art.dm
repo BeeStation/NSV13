@@ -1,8 +1,7 @@
 #define MARTIALART_JUJITSU "ju jitsu"
-
 #define TAKEDOWN_COMBO "DD"
 #define JUDO_THROW "DHHG"
-#define DISARMAMENT "HH"
+#define DISARMAMENT "DH"
 
 /obj/item/book/granter/martial/jujitsu
 	martial = /datum/martial_art/jujitsu
@@ -40,6 +39,7 @@
 	to_chat(usr, "<span class='notice'>Combos:</span>")
 	to_chat(usr, "<span class='warning'><b>Disarm, disarm</b> will perform a takedown on the target, if they have been slowed / weakened first</span>")
 	to_chat(usr, "<span class='warning'><b>Disarm, harm, harm, grab</b> will execute a judo throw on the target,landing you on top of them in a pinning position. Provided that you have a grab on them on the final step...</span>")
+	to_chat(usr, "<span class='warning'><b>Grab, grab</b> will perform a disarming move on the target in which you clasp his hand and take his held item away.</span>")
 
 /datum/martial_art/jujitsu/proc/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(findtext(streak,TAKEDOWN_COMBO))
@@ -94,16 +94,19 @@
 		last_move = world.time
 
 /datum/martial_art/jujitsu/proc/disarmament(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	var/obj/item/I = null
 	if(world.time < last_move+cooldown)
 		to_chat(A, "<span class='sciradio'>You're too fatigued to perform this move right now...</span>")
 		return FALSE
 	A.do_attack_animation(D, ATTACK_EFFECT_KICK)
 	D.visible_message("<span class='userdanger'>[A] clamps down [D]'s hand and takes an item out of his hand!</span>", "<span class='userdanger'>[A] is taking your thing!</span>") //find thing?
-	playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
+	playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE) // I need a better audio
+	I = D.get_active_held_item()
+	if(I && D.temporarilyRemoveItemFromInventory(I)) // takes the item from D and gives it to A
+		A.put_in_hands(I)
+	D.Jitter(1 SECONDS)
 	D.adjustStaminaLoss(30) // fair bit of staminaloss to follow
 	D.Paralyze(2 SECONDS) // enough paralyze for you to let go or run away
-	A.shake_animation(10)
-	D.shake_animation(20)
 	A.start_pulling(D, supress_message = FALSE)
 	A.setGrabState(GRAB_AGGRESSIVE)
 	last_move = world.time
@@ -121,14 +124,14 @@
 
 /datum/martial_art/jujitsu/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	var/def_check = D.getarmor(BODY_ZONE_CHEST, "melee")
+	D.apply_damage(rand(8, 12), STAMINA, blocked = def_check) // stamina damage on harm to safely keep a knocked down person, on the ground
+	playsound(get_turf(D), 'sound/weapons/cqchit1.ogg', 50, 1, -1)
 	if(!can_use(A))
 		return FALSE
 	add_to_streak("H",D)
 	if(check_streak(A,D))
 		return TRUE
 	return FALSE
-	D.apply_damage(12, STAMINA, blocked = def_check) // stamina instead of brute to make sure the guy stays down
-	playsound(get_turf(D), 'sound/weapons/cqchit1.ogg', 50, 1, -1)
 
 /datum/martial_art/jujitsu/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(!can_use(A))
