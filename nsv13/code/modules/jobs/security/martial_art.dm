@@ -1,7 +1,7 @@
 #define MARTIALART_JUJITSU "ju jitsu"
 #define TAKEDOWN_COMBO "DD"
 #define JUDO_THROW "DHHG"
-#define DISARMAMENT "DH"
+#define DISARMAMENT "DG"
 
 /obj/item/book/granter/martial/jujitsu
 	martial = /datum/martial_art/jujitsu
@@ -37,9 +37,9 @@
 	set desc = "Remember your police academy martial arts training."
 	set category = "Jujitsu"
 	to_chat(usr, "<span class='notice'>Combos:</span>")
-	to_chat(usr, "<span class='warning'><b>Disarm, disarm</b> will perform a takedown on the target, if they have been slowed / weakened first</span>")
-	to_chat(usr, "<span class='warning'><b>Disarm, harm, harm, grab</b> will execute a judo throw on the target,landing you on top of them in a pinning position. Provided that you have a grab on them on the final step...</span>")
-	to_chat(usr, "<span class='warning'><b>Grab, grab</b> will perform a disarming move on the target in which you clasp his hand and take his held item away.</span>")
+	to_chat(usr, "<span class='warning'><b>Disarm, Disarm</b> will perform a takedown on the target, if they have been slowed / weakened first</span>")
+	to_chat(usr, "<span class='warning'><b>Disarm, Harm, Harm, Grab</b> will execute a judo throw on the target,landing you on top of them in a pinning position. Provided that you have a grab on them on the final step...</span>")
+	to_chat(usr, "<span class='warning'><b>Disarm, Grab</b> will perform a disarming move on the target in which you clasp his hand and take his held item away.</span>")
 
 /datum/martial_art/jujitsu/proc/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(findtext(streak,TAKEDOWN_COMBO))
@@ -69,6 +69,8 @@
 	D.Paralyze(7 SECONDS) //Equivalent to a clown PDA
 	A.shake_animation(10)
 	D.shake_animation(10)
+	D.adjustStaminaLoss(20)
+	D.adjustOxyLoss(10) // you smashed him into the ground
 	A.forceMove(get_turf(D))
 	A.start_pulling(D, supress_message = FALSE)
 	A.setGrabState(GRAB_AGGRESSIVE)
@@ -88,6 +90,7 @@
 		A.setDir(newdir)
 		A.start_pulling(D, supress_message = FALSE)
 		A.setGrabState(GRAB_AGGRESSIVE)
+		D.adjustOxyLoss(40) // YOU THREW HIM, THREW HIM!!
 		D.Paralyze(7 SECONDS) //Equivalent to a clown PDA
 		D.visible_message("<span class='userdanger'>[A] throws [D] over their shoulder and pins them down!</span>", "<span class='userdanger'>[A] throws you over their shoulder and pins you to the ground!</span>")
 		playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
@@ -100,13 +103,14 @@
 		return FALSE
 	A.do_attack_animation(D, ATTACK_EFFECT_KICK)
 	D.visible_message("<span class='userdanger'>[A] clamps down [D]'s hand and takes an item out of his hand!</span>", "<span class='userdanger'>[A] is taking your thing!</span>") //find thing?
-	playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE) // I need a better audio
+	playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
 	I = D.get_active_held_item()
-	if(I && D.temporarilyRemoveItemFromInventory(I)) // takes the item from D and gives it to A
+	if(I && D.temporarilyRemoveItemFromInventory(I)) // takes the item from target and gives it to policeman
 		A.put_in_hands(I)
 	D.Jitter(1 SECONDS)
-	D.adjustStaminaLoss(30) // fair bit of staminaloss to follow
-	D.Paralyze(2 SECONDS) // enough paralyze for you to let go or run away
+	D.adjustStaminaLoss(30) // ow, my hand
+	D.adjustBruteLoss(5) // YEOWCH
+	D.Paralyze(1 SECONDS) // enough paralyze for you to pull out to start readying with baton or something to detain with
 	A.start_pulling(D, supress_message = FALSE)
 	A.setGrabState(GRAB_AGGRESSIVE)
 	last_move = world.time
@@ -124,8 +128,9 @@
 
 /datum/martial_art/jujitsu/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	var/def_check = D.getarmor(BODY_ZONE_CHEST, "melee")
+	playsound(get_turf(D), 'sound/weapons/cqchit1.ogg', 50, 1, -1) // background to the mainpunch
 	D.apply_damage(rand(8, 12), STAMINA, blocked = def_check) // stamina damage on harm to safely keep a knocked down person, on the ground
-	playsound(get_turf(D), 'sound/weapons/cqchit1.ogg', 50, 1, -1)
+	D.adjustBruteLoss(rand(0, 2))
 	if(!can_use(A))
 		return FALSE
 	add_to_streak("H",D)
@@ -134,6 +139,16 @@
 	return FALSE
 
 /datum/martial_art/jujitsu/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	if(restraining && A.pulling == D)
+		D.visible_message("<span class='danger'>[A] puts [D] into a chokehold!</span>", \
+							"<span class='userdanger'>[A] puts you into a chokehold!</span>")
+		D.SetSleeping(120)
+		restraining = FALSE
+		if(A.grab_state < GRAB_NECK)
+			A.setGrabState(GRAB_NECK)
+	else
+		restraining = FALSE
+		return FALSE
 	if(!can_use(A))
 		return FALSE
 	add_to_streak("D",D)
