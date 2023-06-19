@@ -2,6 +2,7 @@
 
 #define TAKEDOWN_COMBO "DD"
 #define JUDO_THROW "DHHG"
+#define DISARMAMENT "HH"
 
 /obj/item/book/granter/martial/jujitsu
 	martial = /datum/martial_art/jujitsu
@@ -49,6 +50,10 @@
 		streak = ""
 		judo_throw(A,D)
 		return TRUE
+	if(findtext(streak,DISARMAMENT))
+		streak = ""
+		disarmament(A, D)
+		return TRUE
 	return FALSE
 
 /datum/martial_art/jujitsu/proc/takedown(mob/living/carbon/human/A, mob/living/carbon/human/D)
@@ -88,6 +93,21 @@
 		playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
 		last_move = world.time
 
+/datum/martial_art/jujitsu/proc/disarmament(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	if(world.time < last_move+cooldown)
+		to_chat(A, "<span class='sciradio'>You're too fatigued to perform this move right now...</span>")
+		return FALSE
+	A.do_attack_animation(D, ATTACK_EFFECT_KICK)
+	D.visible_message("<span class='userdanger'>[A] clamps down [D]'s hand and takes an item out of his hand!</span>", "<span class='userdanger'>[A] is taking your thing!</span>") //find thing?
+	playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
+	D.adjustStaminaLoss(30) // fair bit of staminaloss to follow
+	D.Paralyze(2 SECONDS) // enough paralyze for you to let go or run away
+	A.shake_animation(10)
+	D.shake_animation(20)
+	A.start_pulling(D, supress_message = FALSE)
+	A.setGrabState(GRAB_AGGRESSIVE)
+	last_move = world.time
+
 /datum/martial_art/jujitsu/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(!can_use(A))
 		return FALSE
@@ -100,12 +120,15 @@
 	return FALSE
 
 /datum/martial_art/jujitsu/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	var/def_check = D.getarmor(BODY_ZONE_CHEST, "melee")
 	if(!can_use(A))
 		return FALSE
 	add_to_streak("H",D)
 	if(check_streak(A,D))
 		return TRUE
 	return FALSE
+	D.apply_damage(12, STAMINA, blocked = def_check) // stamina instead of brute to make sure the guy stays down
+	playsound(get_turf(D), 'sound/weapons/cqchit1.ogg', 50, 1, -1)
 
 /datum/martial_art/jujitsu/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(!can_use(A))
