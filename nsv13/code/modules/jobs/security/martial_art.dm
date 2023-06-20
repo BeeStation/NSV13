@@ -102,15 +102,15 @@
 		to_chat(A, "<span class='sciradio'>You're too fatigued to perform this move right now...</span>")
 		return FALSE
 	A.do_attack_animation(D, ATTACK_EFFECT_KICK)
-	D.visible_message("<span class='userdanger'>[A] clamps down [D]'s hand and takes an item out of his hand!</span>", "<span class='userdanger'>[A] is taking your thing!</span>") //find thing?
+	D.visible_message("<span class='userdanger'>[A] clamps down [D]'s hand wrangles it!</span>", "<span class='userdanger'>[A] wrangles your hand!</span>") //find thing?
 	playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
 	I = D.get_active_held_item()
 	if(I && D.temporarilyRemoveItemFromInventory(I)) // takes the item from target and gives it to policeman
 		A.put_in_hands(I)
-	D.Jitter(1 SECONDS)
+	D.shake_animation(20)
 	D.adjustStaminaLoss(30) // ow, my hand
 	D.adjustBruteLoss(5) // YEOWCH
-	D.Paralyze(1 SECONDS) // enough paralyze for you to pull out to start readying with baton or something to detain with
+	D.Stun(2 SECONDS) // enough paralyze for you to pull out to start readying with baton or something to detain with
 	A.start_pulling(D, supress_message = FALSE)
 	A.setGrabState(GRAB_AGGRESSIVE)
 	last_move = world.time
@@ -128,9 +128,8 @@
 
 /datum/martial_art/jujitsu/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	var/def_check = D.getarmor(BODY_ZONE_CHEST, "melee")
-	playsound(get_turf(D), 'sound/weapons/cqchit1.ogg', 50, 1, -1) // background to the mainpunch
-	D.apply_damage(rand(8, 12), STAMINA, blocked = def_check) // stamina damage on harm to safely keep a knocked down person, on the ground
-	D.adjustBruteLoss(rand(0, 2))
+	D.apply_damage(rand(8, 14), STAMINA, blocked = def_check) // stamina damage on harm to safely keep a knocked down person, on the ground
+	D.adjustBruteLoss(rand(-5, -7)) // reduces brute by 60-100% at random
 	if(!can_use(A))
 		return FALSE
 	add_to_streak("H",D)
@@ -139,16 +138,12 @@
 	return FALSE
 
 /datum/martial_art/jujitsu/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	if(restraining && A.pulling == D)
+	if(A.pulling == D && A.grab_state >= GRAB_NECK) // LV3 hold minimum
 		D.visible_message("<span class='danger'>[A] puts [D] into a chokehold!</span>", \
 							"<span class='userdanger'>[A] puts you into a chokehold!</span>")
-		D.SetSleeping(120)
-		restraining = FALSE
-		if(A.grab_state < GRAB_NECK)
-			A.setGrabState(GRAB_NECK)
-	else
-		restraining = FALSE
-		return FALSE
+		playsound(get_turf(D), 'sound/weapons/cqchit1.ogg', 50, 1, -1)
+		D.SetSleeping(200)
+		return FALSE // so you don't accidentally takedown instead of knocking out
 	if(!can_use(A))
 		return FALSE
 	add_to_streak("D",D)
