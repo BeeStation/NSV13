@@ -33,7 +33,7 @@
 		/obj/item/toy/figure/atmos = 5,
 	)
 
-//BART ENDER
+//BARTENDER
 /datum/job/bartender
 	mail_goodies = list(
 		/obj/item/storage/box/rubbershot = 30,
@@ -77,6 +77,8 @@
 
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
+		/obj/item/reagent_containers/hypospray/medipen/stimpack = 2,
+		/obj/item/reagent_containers/hypospray/medipen/atropine = 10,
 	)
 
 //CAPTAIN
@@ -121,6 +123,7 @@
 
 		//NSV13
 		/obj/item/toy/figure/chaplain = 5,
+		/obj/item/nullrod = 2, // two chainsaw hands? based
 	)
 
 //CHEMIST
@@ -283,6 +286,8 @@
 		//NSV13
 		/obj/item/paper/fluff/jobs/medical/hippocratic = 15,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
+		/obj/item/tank/internals/emergency_oxygen/double = 7,
+		/obj/item/powertool/jaws_of_life = 1,
 	)
 
 //EXPLORATION CREW
@@ -346,6 +351,9 @@
 		/obj/item/toy/figure/hos = 5,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4,
 		/obj/item/megaphone/command/rudiger = 4,
+		/obj/item/clothing/shoes/jackboots/fast = 2,
+		// You want it don't you?
+		/obj/item/melee/classic_baton/police/telescopic = 1,
 	)
 
 //JANITOR
@@ -356,6 +364,7 @@
 		/obj/item/lightreplacer = 10,
 		//ha!
 		/obj/item/clothing/under/rank/civilian/janitor/maid = 5,
+		/obj/item/clothing/head/kitty = 5, // he already has the maid outfit..
 		/obj/item/grenade/clusterbuster/cleaner = 2,
 
 		//NSV13
@@ -407,6 +416,7 @@
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
 		/obj/item/toy/figure/md = 5,
+
 	)
 
 //MIME
@@ -415,9 +425,10 @@
 		/obj/item/reagent_containers/food/snacks/baguette/mime = 15,
 		/obj/item/reagent_containers/food/snacks/store/cheesewheel = 10,
 		/obj/item/reagent_containers/food/drinks/bottle/bottleofnothing = 10,
-		/obj/item/book/mimery = 2,
+		// annoy them silent boy
+		/obj/item/book/mimery = 4,
 		//when you thought it could get worse...
-		/obj/item/book/granter/spell/mimery_blockade = 1,
+		/obj/item/book/granter/spell/mimery_blockade = 2,
 
 		//NSV13
 		/obj/item/toy/dummy = 5,
@@ -476,7 +487,7 @@
 		//eh.
 		/obj/item/clothing/glasses/hud/diagnostic/sunglasses = 7,
 		/obj/item/borg/upgrade/rename = 5,
-		//do anyone ever use this???
+		//do anyone ever use this??? Yes.
 		/obj/item/modular_computer/tablet/preset/advanced = 5,
 
 		//NSV13
@@ -495,6 +506,7 @@
 
 		//NSV13
 		/obj/item/toy/figure/scientist = 5,
+		/obj/item/slime_extract/rainbow = 1,
 	)
 
 //SECURITY OFFICER
@@ -506,12 +518,18 @@
 		/obj/item/assembly/flash/handheld = 7,
 		/obj/effect/spawner/mail/rdonut = 5,
 		//we don't have boomerangs here, ask ausstation
-		/obj/item/melee/classic_baton/police/telescopic = 1,
+		/obj/item/melee/classic_baton/police/telescopic = 2,
 
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quadruple_sec = 8,
 		/obj/item/toy/figure/secofficer = 5,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4,
+		// They're mocking you boy
+		/obj/item/clothing/under/syndicate/tacticool = 10,
+		// he will buy the SWAT pack anyway
+		/obj/item/combatgloves = 2,
+		// CHRISTMAS!?
+		/obj/item/gun/ballistic/shotgun/lever_action = 1,
 	)
 
 //SHAFT MINER
@@ -549,6 +567,8 @@
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/screwdrivercocktail = 8,
 		/obj/item/toy/figure/engineer = 5,
+		/obj/item/powertool/hand_drill = 2,
+		/obj/item/powertool/jaws_of_life = 1,
 	)
 
 //VIROLOGIST
