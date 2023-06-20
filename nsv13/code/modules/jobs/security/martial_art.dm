@@ -141,7 +141,7 @@
 	if(A.pulling == D && A.grab_state >= GRAB_NECK) // LV3 hold minimum
 		D.visible_message("<span class='danger'>[A] puts [D] into a chokehold!</span>", \
 							"<span class='userdanger'>[A] puts you into a chokehold!</span>")
-		playsound(get_turf(D), 'sound/weapons/cqchit1.ogg', 50, 1, -1)
+		playsound(get_turf(D), 'nsv13/sound/weapons/chokehold.ogg', 50, 1, 1)
 		D.SetSleeping(200)
 		return FALSE // so you don't accidentally takedown instead of knocking out
 	if(!can_use(A))
