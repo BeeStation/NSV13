@@ -58,3 +58,12 @@
 #define COMSIG_MOB_CLIENT_PRE_LIVING_MOVE "mob_client_pre_living_move"
 ///Called after a client connects to a mob and all UI elements have been setup
 #define COMSIG_MOB_CLIENT_LOGIN "comsig_mob_client_login"
+
+///NSV13 - Surgery QoL - Start
+/// From /datum/surgery/New(): (datum/surgery/surgery, surgery_location (body zone), obj/item/bodypart/targeted_limb)
+#define COMSIG_MOB_SURGERY_STARTED "mob_surgery_started"
+
+/// From /atom/movable/screen/zone_sel/proc/set_selected_zone.
+/// Fires when the user has changed their selected body target.
+#define COMSIG_MOB_SELECTED_ZONE_SET "mob_set_selected_zone"
+///NSV13 - Surgery QoL - Stop

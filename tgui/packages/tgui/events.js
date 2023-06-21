@@ -149,7 +149,8 @@ window.addEventListener('beforeunload', e => {
 
 const keyHeldByCode = {};
 
-class KeyEvent {
+// NSV13 - Exports this
+export class KeyEvent {
   constructor(e, type, repeat) {
     this.event = e;
     this.type = type;
