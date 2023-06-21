@@ -77,8 +77,8 @@
 
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
-		/obj/item/reagent_containers/hypospray/medipen/stimpack = 2,
-		/obj/item/reagent_containers/hypospray/medipen/atropine = 10,
+		// it's pretty easy to make, I will make it rarer, but it's not rare enough to warrant removing it..
+		/obj/item/reagent_containers/hypospray/medipen/atropine = 5,
 	)
 
 //CAPTAIN
@@ -364,11 +364,12 @@
 		/obj/item/lightreplacer = 10,
 		//ha!
 		/obj/item/clothing/under/rank/civilian/janitor/maid = 5,
-		/obj/item/clothing/head/kitty = 5, // he already has the maid outfit..
 		/obj/item/grenade/clusterbuster/cleaner = 2,
 
 		//NSV13
+		/obj/item/clothing/head/kitty = 5, // he already has the maid outfit..
 		/obj/item/toy/figure/janitor = 5,
+		/obj/item/trash/syndi_cakes = 1, // the best trash can
 	)
 
 //LAWYER
@@ -416,6 +417,7 @@
 		//NSV13
 		/obj/item/reagent_containers/food/drinks/drinkingglass/doctor_delight = 8,
 		/obj/item/toy/figure/md = 5,
+		/obj/item/reagent_containers/pill/patch/synthflesh = 1,
 
 	)
 
@@ -458,6 +460,8 @@
 
 		//NSV13
 		/obj/item/toy/figure/qm = 5,
+		// the chef has nothing on your cargo pizza (it's just pizza)
+		/obj/item/bombcore/miniature/pizza/bomb = 1,
 		/obj/structure/mecha_wreckage/ripley = 1,
 	)
 
@@ -493,6 +497,7 @@
 		//NSV13
 		/obj/item/toy/figure/borg = 5,
 		/obj/item/toy/figure/roboticist = 5,
+		/obj/item/stack/sheet/plasteel/five = 2,
 		/obj/structure/mecha_wreckage/phazon = 1,
 	)
 
@@ -506,6 +511,7 @@
 
 		//NSV13
 		/obj/item/toy/figure/scientist = 5,
+		// Christmas.
 		/obj/item/slime_extract/rainbow = 1,
 	)
 
@@ -525,11 +531,11 @@
 		/obj/item/toy/figure/secofficer = 5,
 		/obj/item/reagent_containers/food/drinks/drinkingglass/quintuple_sec = 4,
 		// They're mocking you boy
-		/obj/item/clothing/under/syndicate/tacticool = 10,
+		/obj/item/clothing/under/syndicate/tacticool = 8,
 		// he will buy the SWAT pack anyway
 		/obj/item/combatgloves = 2,
-		// CHRISTMAS!?
-		/obj/item/gun/ballistic/shotgun/lever_action = 1,
+		// Don't let the warden know
+		/obj/item/ammo_box/magazine/glock/lethal = 1,
 	)
 
 //SHAFT MINER
@@ -607,6 +613,8 @@
 
 		//NSV13
 		/obj/item/dance_trance = 20,
+		// go on.. shoot it
+		/obj/item/gun/ballistic/revolver/reverse = 1,
 	)
 
 //WARDEN
