@@ -123,7 +123,6 @@
 
 		//NSV13
 		/obj/item/toy/figure/chaplain = 5,
-		/obj/item/nullrod = 2, // two chainsaw hands? based
 	)
 
 //CHEMIST
