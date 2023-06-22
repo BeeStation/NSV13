@@ -53,7 +53,7 @@
 	set name = "Switch firemode"
 	set category = "Ship"
 	set src = usr.loc
-	if(usr != gunner)
+	if(usr != gunner || usr != pilot)
 		return
 
 	var/stop = fire_mode

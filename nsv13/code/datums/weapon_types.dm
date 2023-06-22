@@ -262,6 +262,7 @@
 	select_alert = "<span class='notice'>Cannon selected. DRADIS assisted targeting: online.</span>"
 	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
 	lateral = FALSE
+	special_fire_proc = /obj/structure/overmap/proc/primary_fire
 	allowed_roles = OVERMAP_USER_ROLE_PILOT
 
 /datum/ship_weapon/light_cannon/integrated	//Weapon for ships big enough that autocannon ammo concerns shouldn't matter this much anymore. Changes their class from HEAVY to LIGHT
@@ -293,6 +294,7 @@
 	failure_alert = "<span class='warning'>DANGER: Primary mount not responding to fire command.</span>"
 	lateral = FALSE
 	special_fire_proc = /obj/structure/overmap/proc/primary_fire
+	allowed_roles = OVERMAP_USER_ROLE_PILOT
 
 /datum/ship_weapon/fighter_secondary
 	name = "Secondary Equipment Mount"

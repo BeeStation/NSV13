@@ -73,14 +73,14 @@
 	if(!weapon_types[what])
 		return FALSE
 	var/datum/ship_weapon/SW = weapon_types[what]
-	if(!(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
-		return FALSE
 	fire_mode = what
 	if(world.time > switchsound_cooldown)
 		relay(SW.overmap_select_sound)
 		switchsound_cooldown = world.time + 5 SECONDS
-	if(gunner)
+	if(gunner && SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER)
 		to_chat(gunner, SW.select_alert)
+	if(pilot && SW.allowed_roles & OVERMAP_USER_ROLE_PILOT)
+		to_chat(pilot, SW.select_alert)
 	return TRUE
 
 /obj/structure/overmap/proc/fire_torpedo(atom/target, ai_aim = FALSE, burst = 1)
