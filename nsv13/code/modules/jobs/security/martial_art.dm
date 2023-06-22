@@ -1,7 +1,9 @@
 #define MARTIALART_JUJITSU "ju jitsu"
 #define TAKEDOWN_COMBO "DD"
 #define JUDO_THROW "DHHG"
-#define DISARMAMENT "DG"
+#define ARMLOCK "HGG"
+
+#define armlockstate = FALSE
 
 /obj/item/book/granter/martial/jujitsu
 	martial = /datum/martial_art/jujitsu
@@ -50,9 +52,9 @@
 		streak = ""
 		judo_throw(A,D)
 		return TRUE
-	if(findtext(streak,DISARMAMENT))
+	if(findtext(streak,ARMLOCK))
 		streak = ""
-		disarmament(A, D)
+		armlock(A, D)
 		return TRUE
 	return FALSE
 
@@ -69,7 +71,6 @@
 	D.Paralyze(7 SECONDS) //Equivalent to a clown PDA
 	A.shake_animation(10)
 	D.shake_animation(10)
-	D.adjustStaminaLoss(20)
 	D.adjustOxyLoss(10) // you smashed him into the ground
 	A.forceMove(get_turf(D))
 	A.start_pulling(D, supress_message = FALSE)
@@ -96,24 +97,54 @@
 		playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
 		last_move = world.time
 
-/datum/martial_art/jujitsu/proc/disarmament(mob/living/carbon/human/A, mob/living/carbon/human/D)
-	var/obj/item/I = null
+// Armlock removal when out of time
+
+/datum/martial_art/jujitsu/proc/drop_armlock()
+	armlockstate = FALSE
+
+// Armlock removal when officer stops pulling
+
+/datum/martial_art/jujitsu/proc/armlock_set(mob/living/carbon/human/A, mob/living/carbon/human/D) // would a proc repeat if I make it ..()? I hope so
+	if(!armlockstate = TRUE)
+		return FALSE
+	if(!D.stat || !A.stat)
+		return FALSE
+	if(A.stop_pulling(D))
+		A.Knockdown(0) // removes knockdown of officer
+		D.Paralyze(0) // removes paralyze of suspect
+		D.Knockdown(20) // leaves suspecton the ground for a tiny bit to recover
+		armlockstate = FALSE
+	if(A.harm_act(D))
+		var/obj/item/bodypart/affecting = D.get_bodypart(ran_zone(A.zone_selected))
+		//A.pain in hand selected enough to disable
+	..()
+
+// Armlock
+
+/datum/martial_art/jujitsu/proc/armlock(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	if(armlockstate)
+		return
+	if(!can_use(A))
+		return FALSE
 	if(world.time < last_move+cooldown)
 		to_chat(A, "<span class='sciradio'>You're too fatigued to perform this move right now...</span>")
 		return FALSE
-	A.do_attack_animation(D, ATTACK_EFFECT_KICK)
-	D.visible_message("<span class='userdanger'>[A] clamps down [D]'s hand wrangles it!</span>", "<span class='userdanger'>[A] wrangles your hand!</span>") //find thing?
-	playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
-	I = D.get_active_held_item()
-	if(I && D.temporarilyRemoveItemFromInventory(I)) // takes the item from target and gives it to policeman
-		A.put_in_hands(I)
-	D.shake_animation(20)
-	D.adjustStaminaLoss(30) // ow, my hand
-	D.adjustBruteLoss(5) // YEOWCH
-	D.Stun(2 SECONDS) // enough paralyze for you to pull out to start readying with baton or something to detain with
-	A.start_pulling(D, supress_message = FALSE)
-	A.setGrabState(GRAB_AGGRESSIVE)
-	last_move = world.time
+	if(!D.stat)
+
+		D.visible_message("<span class='warning'>[A] locks [D] into a armlock position!</span>", \
+							"<span class='userdanger'>[A] locks you into a armlock position!</span>")
+		A.do_attack_animation(D, ATTACK_EFFECT_DISARM)
+		D.adjustStaminaLoss(30)
+		A.Knockdown(100)
+		D.Paralyze(100)
+		A.start_pulling(D, supress_message = FALSE)
+		A.setGrabState(GRAB_NECK)
+		armlockstate = TRUE
+		proc(armlock_set) // would this work?
+		addtimer(CALLBACK(src, PROC_REF(drop_armlock)), 50, TIMER_UNIQUE)
+		playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
+		last_move = world.time
+	return TRUE
 
 /datum/martial_art/jujitsu/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(!can_use(A))
@@ -127,9 +158,12 @@
 	return FALSE
 
 /datum/martial_art/jujitsu/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	var/obj/item/bodypart/affecting = D.get_bodypart(ran_zone(A.zone_selected))
 	var/def_check = D.getarmor(BODY_ZONE_CHEST, "melee")
-	D.apply_damage(rand(8, 14), STAMINA, blocked = def_check) // stamina damage on harm to safely keep a knocked down person, on the ground
-	D.adjustBruteLoss(rand(-5, -7)) // reduces brute by 60-100% at random
+	var/bonus_damage = 0
+	if((A.grab_state >= GRAB_AGGRESSIVE & MOBILITY_STAND))
+		bonus_damage += 5
+	D.apply_damage(rand(2) + bonus_damage, A.dna.species.attack_type, affecting, def_check) // bonus damage when grabbing at least aggressively
 	if(!can_use(A))
 		return FALSE
 	add_to_streak("H",D)
