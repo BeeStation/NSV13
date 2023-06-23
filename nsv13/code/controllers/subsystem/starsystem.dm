@@ -575,10 +575,6 @@ Returns a faction datum by its name (case insensitive!)
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
-	return INITIALIZE_HINT_LATELOAD
-
-/obj/effect/overmap_anomaly/LateInitialize()
-	. = ..()
 	GLOB.overmap_anomalies += src
 
 /obj/effect/overmap_anomaly/proc/on_entered(datum/source, atom/movable/AM)
