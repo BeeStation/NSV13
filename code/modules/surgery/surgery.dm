@@ -20,15 +20,21 @@
 	var/requires_tech = FALSE										//handles techweb-oriented surgeries, previously restricted to the /advanced subtype (You still need to add designs)
 	var/replaced_by													//type; doesn't show up if this type exists. Set to /datum/surgery if you want to hide a "base" surgery (useful for typing parents IE healing.dm just make sure to null it out again)
 
-/datum/surgery/New(surgery_target, surgery_location, surgery_bodypart)
+//NSV13 - Surgery QoL - Start
+/datum/surgery/New(atom/surgery_target, surgery_location, surgery_bodypart)
 	..()
-	if(surgery_target)
-		target = surgery_target
-		target.surgeries += src
-		if(surgery_location)
-			location = surgery_location
-		if(surgery_bodypart)
-			operated_bodypart = surgery_bodypart
+	if(!surgery_target)
+		return
+	target = surgery_target
+	target.surgeries += src
+	if(surgery_location)
+		location = surgery_location
+	if(!surgery_bodypart)
+		return
+	operated_bodypart = surgery_bodypart
+
+	SEND_SIGNAL(surgery_target, COMSIG_MOB_SURGERY_STARTED, src, surgery_location, surgery_bodypart)
+//NSV13 - Surgery QoL - Stop
 
 /datum/surgery/Destroy()
 	if(target)
