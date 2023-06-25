@@ -831,8 +831,8 @@ contains = list(/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
 					/obj/item/storage/belt/military/assault,
 					/obj/item/clothing/gloves/combat,
 					/obj/item/clothing/gloves/combat,
-					/obj/item/clothing/shoes/jackboots/fast,
-					/obj/item/clothing/shoes/jackboots/fast)
+					/obj/item/clothing/shoes/combat/nanotrasen,
+					/obj/item/clothing/shoes/combat/nanotrasen)
 	crate_name = "swat crate"
 
 /datum/supply_pack/security/armory/wt550_single
