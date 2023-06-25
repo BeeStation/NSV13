@@ -180,7 +180,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	desc = "A durable uniform worn by military police officers, who enforce ship-law."
 	icon_state = "military_police"
 	item_state = "bl_suit"
-	armor = list("melee" = 20, "bullet" = 20, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30)
+	armor = list("melee" = 20, "bullet" = 20, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 30)
 	can_adjust = TRUE
 
 /obj/item/clothing/suit/ship/squad/military_police
