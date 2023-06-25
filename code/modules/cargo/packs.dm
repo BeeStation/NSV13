@@ -338,6 +338,19 @@
 					/obj/item/clothing/head/helmet/sec)
 	crate_name = "armor crate"
 
+//NSV13
+/datum/supply_pack/security/mparmor
+	name = "Military Police Replacement Crate"
+	desc = "Three vests of MP armor vests complete with MP undershirts, everything to replace which fire razed to the ground."
+	cost = 3500
+	contains = list(/obj/item/clothing/suit/ship/squad/military_police,
+					/obj/item/clothing/suit/ship/squad/military_police,
+					/obj/item/clothing/suit/ship/squad/military_police,
+					/obj/item/clothing/under/ship/military_police,
+					/obj/item/clothing/under/ship/military_police,
+					/obj/item/clothing/under/ship/military_police)
+	crate_name = "MP armor crate"
+
 /* /datum/supply_pack/security/disabler NOT AVAILABLE - NSV
 	name = "Disabler Crate"
 	desc = "Three stamina-draining disabler weapons. Requires Security access to open."

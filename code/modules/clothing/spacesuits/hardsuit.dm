@@ -684,7 +684,7 @@
 	icon_state = "hardsuit0-sec"
 	item_state = "sec_helm"
 	hardsuit_type = "sec"
-	armor = list("melee" = 35, "bullet" = 15, "laser" = 30,"energy" = 40, "bomb" = 10, "bio" = 100, "rad" = 50, "fire" = 75, "acid" = 75, "stamina" = 50)
+	armor = list("melee" = 35, "bullet" = 50, "laser" = 30, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 50, "fire" = 90, "acid" = 80, "stamina" = 50)
 
 
 /obj/item/clothing/suit/space/hardsuit/security
@@ -693,7 +693,7 @@
 	desc = "A special suit that protects against hazardous, low pressure environments. Has an additional layer of armor."
 	item_state = "sec_hardsuit"
 	supports_variations = DIGITIGRADE_VARIATION
-	armor = list("melee" = 35, "bullet" = 15, "laser" = 30, "energy" = 40, "bomb" = 10, "bio" = 100, "rad" = 50, "fire" = 75, "acid" = 75, "stamina" = 50)
+	armor = list("melee" = 35, "bullet" = 50, "laser" = 30, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 50, "fire" = 90, "acid" = 80, "stamina" = 50)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/security
 
 /obj/item/clothing/suit/space/hardsuit/security/Initialize(mapload)
@@ -706,7 +706,7 @@
 	desc = "A special bulky helmet designed for work in a hazardous, low pressure environment. Has an additional layer of armor."
 	icon_state = "hardsuit0-hos"
 	hardsuit_type = "hos"
-	armor = list("melee" = 45, "bullet" = 25, "laser" = 30, "energy" = 40, "bomb" = 25, "bio" = 100, "rad" = 50, "fire" = 95, "acid" = 95, "stamina" = 60)
+	armor = list("melee" = 40, "bullet" = 60, "laser" = 30, "energy" = 30, "bomb" = 40, "bio" = 100, "rad" = 50, "fire" = 100, "acid" = 100, "stamina" = 60)
 
 
 /obj/item/clothing/suit/space/hardsuit/security/head_of_security
@@ -714,12 +714,12 @@
 	name = "head of security's hardsuit"
 	supports_variations = DIGITIGRADE_VARIATION
 	desc = "A special bulky suit that protects against hazardous, low pressure environments. Has an additional layer of armor."
-	armor = list("melee" = 45, "bullet" = 25, "laser" = 30, "energy" = 40, "bomb" = 25, "bio" = 100, "rad" = 50, "fire" = 95, "acid" = 95, "stamina" = 60)
+	armor = list("melee" = 40, "bullet" = 60, "laser" = 20, "energy" = 30, "bomb" = 40, "bio" = 100, "rad" = 50, "fire" = 100, "acid" = 100, "stamina" = 60)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/security/hos
 	jetpack = /obj/item/tank/jetpack/suit
 
 	//SWAT MKII
-/obj/item/clothing/head/helmet/space/hardsuit/swat
+/obj/item/clothing/head/helmet/space/hardsuit/swat // Needs sprites and some work
 	name = "\improper MK.II SWAT Helmet"
 	icon_state = "swat2helm"
 	item_state = "swat2helm"
