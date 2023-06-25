@@ -18,10 +18,6 @@
 	permeability_coefficient = 0.05 //Thick soles, and covers the ankle
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/shoes
 
-/obj/item/clothing/shoes/combat/nanotrasen //for mk.1 SWAT and make believe "combat boots" for their wishes
-	desc = "High speed, low drag combat boots. Has a NT logo on the inside."
-	armor = list("melee" = 5, "bullet" = 5, "laser" = 5, "energy" = 5, "bomb" = 10, "bio" = 10, "rad" = 0, "fire" = 60, "acid" = 50, "stamina" = 5)
-
 /obj/item/clothing/shoes/combat/swat //overpowered boots for death squads
 	name = "\improper SWAT boots"
 	desc = "High speed, no drag combat boots."

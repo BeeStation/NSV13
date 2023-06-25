@@ -135,7 +135,7 @@
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	armor = list("melee" = 60, "bullet" = 10, "laser" = 10, "energy" = 15, "bomb" = 10, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 80, "stamina" = 50)
+	armor = list("melee" = 50, "bullet" = 10, "laser" = 10, "energy" = 15, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 80, "stamina" = 50)
 	blocks_shove_knockdown = TRUE
 	strip_delay = 80
 	equip_delay_other = 60
@@ -157,7 +157,7 @@
 	icon_state = "bulletproof"
 	item_state = "armor"
 	blood_overlay_type = "armor"
-	armor = list("melee" = 10, "bullet" = 70, "laser" = 10, "energy" = 10, "bomb" = 40, "bio" = 0, "rad" = 0, "fire" = 60, "acid" = 80, "stamina" = 40)
+	armor = list("melee" = 15, "bullet" = 60, "laser" = 10, "energy" = 10, "bomb" = 40, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50, "stamina" = 40)
 	strip_delay = 70
 	equip_delay_other = 50
 
@@ -167,7 +167,7 @@
 	icon_state = "armor_reflec"
 	item_state = "armor_reflec"
 	blood_overlay_type = "armor"
-	armor = list("melee" = 10, "bullet" = 10, "laser" = 60, "energy" = 80, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 60, "stamina" = 40)
+	armor = list("melee" = 10, "bullet" = 10, "laser" = 60, "energy" = 80, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 100, "stamina" = 40)
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	var/hit_reflect_chance = 40
 
