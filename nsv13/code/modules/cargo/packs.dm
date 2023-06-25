@@ -551,7 +551,7 @@ contains = list(/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
 				/obj/item/ammo_box/magazine/m45)
 	crate_name = "1911 single crate"
 
-/datum/supply_pack/security/armory/45issuperiorweapon_single
+/datum/supply_pack/security/armory/45issuperiorweapon_crate
 	name = "M1911 handgun Crate"
 	desc = "For the ones which know that .45 ACP is a superior cartridge"
 	cost = 2000 // ~20% disc
@@ -563,7 +563,7 @@ contains = list(/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
 					/obj/item/ammo_box/magazine/m45)
 	crate_name = "1911 gun crate"
 
-/datum/supply_pack/security/armory/45issuperiorweapon_single
+/datum/supply_pack/security/armory/45issuperiorweapon_ammo
 	name = "M1911 Ammo Crate"
 	desc = "For the ones which know that .45 ACP is a superior cartridge"
 	cost = 1000 // 20% disc
