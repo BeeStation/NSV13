@@ -167,7 +167,7 @@
 	icon_state = "armor_reflec"
 	item_state = "armor_reflec"
 	blood_overlay_type = "armor"
-	armor = list("melee" = 10, "bullet" = 10, "laser" = 70, "energy" = 80, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 80, "stamina" = 40)
+	armor = list("melee" = 10, "bullet" = 10, "laser" = 60, "energy" = 80, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 60, "stamina" = 40)
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	var/hit_reflect_chance = 40
 
