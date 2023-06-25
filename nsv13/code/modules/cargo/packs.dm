@@ -531,6 +531,52 @@
 					/obj/item/gun/energy/laser)
 	crate_name = "laser crate"
 
+/datum/supply_pack/security/mparmor
+	name = "Military Police Replacement Crate"
+	desc = "Three vests of MP armor vests complete with MP undershirts, everything to replace which fire razed to the ground."
+	cost = 3600
+	contains = list(/obj/item/clothing/suit/ship/squad/military_police,
+					/obj/item/clothing/suit/ship/squad/military_police,
+					/obj/item/clothing/suit/ship/squad/military_police,
+					/obj/item/clothing/under/ship/military_police,
+					/obj/item/clothing/under/ship/military_police,
+					/obj/item/clothing/under/ship/military_police)
+	crate_name = "MP armor crate"
+
+/datum/supply_pack/security/armory/45issuperiorweapon_single
+	name = "M1911 handgun Single-pack"
+	desc = "For the ones which know that .45 ACP is a superior cartridge"
+	cost = 800
+contains = list(/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
+				/obj/item/ammo_box/magazine/m45)
+	crate_name = "1911 single crate"
+
+/datum/supply_pack/security/armory/45issuperiorweapon_single
+	name = "M1911 handgun Crate"
+	desc = "For the ones which know that .45 ACP is a superior cartridge"
+	cost = 2000 // ~20% disc
+	contains = list(/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
+					/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
+					/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
+					/obj/item/ammo_box/magazine/m45,
+					/obj/item/ammo_box/magazine/m45
+					/obj/item/ammo_box/magazine/m45)
+	crate_name = "1911 gun crate"
+
+/datum/supply_pack/security/armory/45issuperiorweapon_single
+	name = "M1911 Ammo Crate"
+	desc = "For the ones which know that .45 ACP is a superior cartridge"
+	cost = 1000 // 20% disc
+	contains = list(/obj/item/ammo_box/magazine/m45,
+					/obj/item/ammo_box/magazine/m45,
+					/obj/item/ammo_box/magazine/m45,
+					/obj/item/ammo_box/magazine/m45,
+					/obj/item/ammo_box/magazine/m45,
+					/obj/item/ammo_box/magazine/m45,
+					/obj/item/ammo_box/c45,
+					/obj/item/ammo_box/c45)
+	crate_name = "1911 ammo crate"
+
 /datum/supply_pack/munitions/fighter_fuel
 	name = "Fighter fuel"
 	desc = "One cryogenic Tyrosene fuel pump, capable of fully refuelling 3 fighters. Handle with care."
