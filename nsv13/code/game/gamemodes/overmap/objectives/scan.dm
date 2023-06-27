@@ -2,6 +2,7 @@
 	name = "Scan anomalies"
 	desc = "Scan a target anomaly_type"
 	brief = "Locate and scan target anomaly_type"
+	binary = FALSE
 	var/anomaly_type
 	var/anomaly_name = "anomaly"
 	var/list/anomaly_whitelist = list(
