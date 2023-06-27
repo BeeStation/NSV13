@@ -168,3 +168,26 @@
 	knife_y_offset = 13
 	w_class = WEIGHT_CLASS_NORMAL // It's a syndicate weapon so weight is reduced to allow it to be hidden in backpacks
 	weapon_weight = WEAPON_MEDIUM
+
+/obj/item/gun/ballistic/automatic/smg_smp2
+	name = "\improper SMP II"
+	desc = "A relatively small experimental SMG."
+	icon = 'nsv13/icons/obj/guns/guns_big.dmi'
+	icon_state = "smp2"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/guns_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/guns_righthand.dmi'
+	item_state = "smp2"
+	mag_type = /obj/item/ammo_box/magazine/smp2
+	can_suppress = TRUE
+	w_class = WEIGHT_CLASS_HUGE ///Too big for a backpack. Can fit on your belt or back.
+	fire_delay = 1
+	fire_rate = 4
+	burst_size = 2
+	mag_display = TRUE
+	mag_display_ammo = FALSE
+	empty_indicator = FALSE
+	weapon_weight = WEAPON_HEAVY
+	fire_sound = 'nsv13/sound/weapons/smg_fire.ogg'
+	recoil = 0.1 //Slight jolting when you fire due to it's small size.
+	full_auto = TRUE
+

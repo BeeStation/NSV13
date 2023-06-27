@@ -4,6 +4,13 @@
 	name = ".45 bullet"
 	damage = 30
 
+/obj/item/projectile/bullet/c45_rubber
+	name = ".45 rubber bullet"
+	damage_type = STAMINA
+	flag = "stamina"
+	damage = 25
+
+
 // 4.6x30mm (Autorifles)
 
 /obj/item/projectile/bullet/c46x30mm

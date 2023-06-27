@@ -79,3 +79,19 @@
 	ammo_type = /obj/item/ammo_casing/c45
 	caliber = ".45"
 	max_ammo = 50
+
+/obj/item/ammo_box/magazine/smp2
+	name = "SMG magazine (.45)"
+	icon_state = "smp2_lethal"
+	ammo_type = /obj/item/ammo_casing/c45
+	max_ammo = 30
+
+/obj/item/ammo_box/magazine/smp2/rubber
+	name = "SMG magazine (.45)"
+	icon_state = "smp2_nonlethal"
+	ammo_type = /obj/item/ammo_casing/c45/rubber
+	max_ammo = 30
+
+/obj/item/ammo_box/magazine/smp2/update_icon()
+    ..()
+    icon_state = "[initial(icon_state)][ammo_count() ? "" : "-0"]"
