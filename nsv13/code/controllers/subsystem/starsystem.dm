@@ -265,14 +265,20 @@ Returns a faction datum by its name (case insensitive!)
 		if(sys.name == id)
 			return sys
 
-/datum/controller/subsystem/star_system/proc/find_system(obj/structure/overmap/OM) //Used to determine what system a ship is currently in. Famously used to determine the starter system that you've put the ship in.
-	if(!ships[OM])
-		return
-	var/datum/star_system/system = system_by_id(OM.starting_system)
-	if(!ships[OM]["current_system"])
-		ships[OM]["current_system"] = system
-	else
-		system = ships[OM]["current_system"]
+/datum/controller/subsystem/star_system/proc/find_system(obj/O) //Used to determine what system a ship is currently in. Famously used to determine the starter system that you've put the ship in.
+	var/datum/star_system/system
+	if(isovermap(O))
+		var/obj/structure/overmap/OM = O
+		system = system_by_id(OM.starting_system)
+		if(!ships[OM])
+			return
+		else if(!ships[OM]["current_system"])
+			ships[OM]["current_system"] = system
+		else
+			system = ships[OM]["current_system"]
+	else if(isanomaly(O))
+		var/obj/effect/overmap_anomaly/AN = O
+		system = AN.current_system
 	return system
 
 /datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE)//Select Ship to Spawn and Location via Z-Trait
@@ -335,6 +341,7 @@ Returns a faction datum by its name (case insensitive!)
 	target_sys.contents_positions[anomaly] = list("x" = anomaly.x, "y" = anomaly.y) //Cache the ship's position so we can regenerate it later.
 	target_sys.system_contents += anomaly
 	anomaly.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
+	anomaly.current_system = target_sys
 	return anomaly
 
 ///////BOUNTIES//////
@@ -557,6 +564,7 @@ Returns a faction datum by its name (case insensitive!)
 	icon_state = "rit-elec-aoe"
 	bound_width = 64
 	bound_height = 64
+	var/datum/star_system/current_system
 	var/research_points = 25000 //Glitches in spacetime are *really* interesting okay?
 	var/scanned = FALSE
 	var/specialist_research_type = null //Special techweb node unlocking.
@@ -567,6 +575,7 @@ Returns a faction datum by its name (case insensitive!)
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
+	GLOB.overmap_anomalies += src
 
 /obj/effect/overmap_anomaly/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
