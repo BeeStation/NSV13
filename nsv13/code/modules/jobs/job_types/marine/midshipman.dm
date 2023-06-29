@@ -72,13 +72,12 @@ Marine & all their unique stuff!
 /datum/job/assistant/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
 	// Assign department
-	var/department
-	if(M && M.client && M.client.prefs && M.client.prefs.active_character)
-		department = M.client.prefs.active_character.preferred_security_department
-		if(department == "None")
-			return
-		else if(!(department in GLOB.available_depts))
-			department = pick(GLOB.available_depts)
+	var/department = M?.client?.prefs?.active_character?.preferred_security_department
+	if(department == "None")
+		to_chat(M, "<b>You have not been assigned to any department. Help in any way you can!</b>")
+		return
+	else if(!(department in GLOB.available_depts))
+		department = pick(GLOB.available_depts)
 
 	var/ears = null
 	var/accessory = null
@@ -116,7 +115,4 @@ Marine & all their unique stuff!
 	var/obj/item/card/id/W = H.wear_id
 	W.access |= dep_access
 
-	if(department)
-		to_chat(M, "<b>You have been assigned to [department]!</b>")
-	else
-		to_chat(M, "<b>You have not been assigned to any department. Help in any way you can!</b>")
+	to_chat(M, "<b>You have been assigned to [department]!</b>")
