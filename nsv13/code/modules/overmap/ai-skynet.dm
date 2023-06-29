@@ -687,7 +687,7 @@ Adding tasks is easy! Just define a datum for it.
 			if(SSovermap_mode.override_ghost_ships)
 				message_admins("Failed to spawn ghost ship due to admin override.")
 				return
-			if(!prob(10))
+			if(!prob(20))
 				return
 
 			var/player_check = get_active_player_count(alive_check = TRUE, afk_check = TRUE, human_check = TRUE)
