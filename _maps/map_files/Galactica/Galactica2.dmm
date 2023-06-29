@@ -143,14 +143,6 @@
 	},
 /turf/closed/wall/steel,
 /area/nsv/briefingroom)
-"adB" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/layer_manifold,
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
-/turf/open/floor/plasteel/ridged/steel,
-/area/engine/engineering/reactor_core)
 "adL" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/machinery/atmospherics/pipe/simple/general/hidden/layer2{
@@ -3465,10 +3457,11 @@
 "bPe" = (
 /obj/machinery/atmospherics/components/binary/pump/layer2{
 	dir = 8;
-	name = "o2 to AGR#2"
+	name = "O2 to Utility Reactor"
 	},
 /obj/machinery/atmospherics/components/binary/pump{
-	dir = 8
+	dir = 8;
+	name = "O2 to Defensive Reactor"
 	},
 /obj/machinery/light{
 	dir = 4
@@ -6418,7 +6411,7 @@
 /obj/machinery/atmospherics/components/binary/pump/rbmk_output{
 	dir = 4;
 	id = "rbmk2_output";
-	name = "AGCNR Coolant Outlet"
+	name = "s Outlet"
 	},
 /obj/machinery/atmospherics/pipe/simple/orange/visible/layer2{
 	dir = 4
@@ -6977,7 +6970,7 @@
 "dOf" = (
 /obj/machinery/atmospherics/components/binary/pump/layer2{
 	dir = 8;
-	name = "AGR #2 Moderator Line"
+	name = "Utility Reactor Moderator Line"
 	},
 /obj/structure/cable/cyan{
 	icon_state = "1-2"
@@ -8324,7 +8317,7 @@
 "eAl" = (
 /obj/effect/turf_decal/ship/techfloor,
 /obj/machinery/atmospherics/pipe/layer_manifold,
-/obj/machinery/atmospherics/pipe/simple/violet/visible/layer4,
+/obj/machinery/atmospherics/pipe/simple/violet/hidden/layer4,
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
 "eAp" = (
@@ -13686,13 +13679,6 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/security/brig)
-"hkd" = (
-/obj/structure/lattice/catwalk/over/ship,
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/plating,
-/area/engine/engineering/reactor_core)
 "hkh" = (
 /obj/machinery/smartfridge/disks,
 /obj/structure/table/wood,
@@ -19923,7 +19909,7 @@
 	dir = 4
 	},
 /obj/structure/cable/cyan,
-/obj/item/inducer/eng,
+/obj/item/inducer,
 /turf/open/floor/carpet/green,
 /area/engine/engineering/reactor_control)
 "kEZ" = (
@@ -20553,11 +20539,11 @@
 /turf/open/floor/monotile/steel,
 /area/science/nsv/astronomy)
 "kXb" = (
-/obj/machinery/modular_computer/console/preset/engineering{
-	dir = 4;
-	name = "Defensive Reactor engineering console"
-	},
 /obj/structure/cable/yellow,
+/obj/machinery/computer/monitor{
+	dir = 4;
+	name = "Defensive Reactor power monitoring console"
+	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
 "kXY" = (
@@ -20934,7 +20920,8 @@
 	},
 /obj/machinery/atmospherics/components/binary/pump/rbmk_input{
 	dir = 4;
-	id = "rbmk2_input"
+	id = "rbmk2_input";
+	name = "AGCNR Coolant Input"
 	},
 /turf/open/floor/durasteel/techfloor_grid,
 /area/engine/engineering/reactor_core)
@@ -23414,6 +23401,13 @@
 /obj/structure/ladder,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame3/central)
+"mwX" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/engine/engineering/reactor_core)
 "mxh" = (
 /obj/structure/cable/orange{
 	icon_state = "2-8"
@@ -28246,13 +28240,13 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/machinery/modular_computer/console/preset/engineering{
-	dir = 8;
-	name = "Utility Reactor engineering console"
-	},
 /obj/item/radio/intercom/directional/north,
 /obj/structure/cable/cyan{
 	icon_state = "0-8"
+	},
+/obj/machinery/computer/monitor{
+	dir = 8;
+	name = "Utility Reactor power monitoring console"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
@@ -29141,11 +29135,12 @@
 	})
 "pCi" = (
 /obj/machinery/atmospherics/components/binary/pump{
-	dir = 8
+	dir = 8;
+	name = "Custom to Utility Reactor"
 	},
 /obj/machinery/atmospherics/components/binary/pump/layer2{
 	dir = 8;
-	name = "custom to AGR#2"
+	name = "Custom to Defensive Reactor"
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -29357,7 +29352,8 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/components/binary/pump/rbmk_input{
-	dir = 4
+	dir = 4;
+	name = "AGCNR Coolant Input"
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
@@ -34630,10 +34626,11 @@
 "sDg" = (
 /obj/machinery/atmospherics/components/binary/pump/layer2{
 	dir = 8;
-	name = "custom to AGR#2"
+	name = "Custom to Defensive Reactor"
 	},
 /obj/machinery/atmospherics/components/binary/pump{
-	dir = 8
+	dir = 8;
+	name = "Custom to Utility Reactor"
 	},
 /obj/machinery/light{
 	dir = 4
@@ -34832,7 +34829,7 @@
 "sHj" = (
 /obj/machinery/atmospherics/components/binary/pump{
 	dir = 8;
-	name = "AGCNR Moderator Tank"
+	name = "Defensive Reactor Moderator Tank"
 	},
 /obj/structure/cable/cyan{
 	icon_state = "1-2"
@@ -37442,10 +37439,11 @@
 "tZd" = (
 /obj/machinery/atmospherics/components/binary/pump/layer2{
 	dir = 8;
-	name = "CO2 to AGR#2"
+	name = "CO2 to Defensive Reactor"
 	},
 /obj/machinery/atmospherics/components/binary/pump{
-	dir = 8
+	dir = 8;
+	name = "CO2 to Utility Reactor"
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -40566,10 +40564,11 @@
 "vHu" = (
 /obj/machinery/atmospherics/components/binary/pump/layer2{
 	dir = 8;
-	name = "n2 to AGR#2"
+	name = "N2 to Defensive Reactor"
 	},
 /obj/machinery/atmospherics/components/binary/pump{
-	dir = 8
+	dir = 8;
+	name = "N2 to Utility Reactor"
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -41106,6 +41105,14 @@
 /obj/structure/cable/yellow,
 /turf/open/floor/plating,
 /area/bridge/showroom/corporate)
+"vXy" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
+/turf/open/floor/plasteel/ridged/steel,
+/area/engine/engineering/reactor_core)
 "vXL" = (
 /obj/structure/cable/orange{
 	icon_state = "2-8"
@@ -41770,10 +41777,11 @@
 "wtc" = (
 /obj/machinery/atmospherics/components/binary/pump/layer2{
 	dir = 8;
-	name = "plasma to AGR#2"
+	name = "Plasma to Defensive Reactor"
 	},
 /obj/machinery/atmospherics/components/binary/pump{
-	dir = 8
+	dir = 8;
+	name = "Plasma to Utility Reactor"
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -42344,10 +42352,11 @@
 "wKy" = (
 /obj/machinery/atmospherics/components/binary/pump/layer2{
 	dir = 8;
-	name = "n2o to AGR#2"
+	name = "N2O to Defensive Reactor"
 	},
 /obj/machinery/atmospherics/components/binary/pump{
-	dir = 8
+	dir = 8;
+	name = "N2O to Utility Reactor"
 	},
 /obj/machinery/light{
 	dir = 4
@@ -60417,7 +60426,7 @@ srp
 srp
 vrQ
 cpE
-hkd
+mwX
 oEg
 xQO
 rDP
@@ -61449,7 +61458,7 @@ dqO
 tln
 bSC
 igj
-adB
+vXy
 mwQ
 fXE
 bKv
