@@ -143,6 +143,14 @@
 	},
 /turf/closed/wall/steel,
 /area/nsv/briefingroom)
+"adB" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
+/turf/open/floor/plasteel/ridged/steel,
+/area/engine/engineering/reactor_core)
 "adL" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/machinery/atmospherics/pipe/simple/general/hidden/layer2{
@@ -391,7 +399,7 @@
 	input_tag = "extra_2_input";
 	name = "Custom Tank 2 Control";
 	output_tag = "extra_2_output";
-	sensors = list("extra_2_sensor"="Custom Tank 2")
+	sensors = list("extra_2_sensor"="Custom  Tank  2")
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -1417,7 +1425,6 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 5
 	},
-/obj/machinery/atmospherics/pipe/manifold4w/green/visible,
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
 "aNT" = (
@@ -8302,7 +8309,7 @@
 /obj/structure/table/reinforced,
 /obj/machinery/computer/reactor/stats{
 	id = "default_reactor_for_lazy_mappers2";
-	name = "Reactor 2 Statistics Console"
+	name = "Utility Reactor Statistics Console"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
@@ -8317,6 +8324,7 @@
 "eAl" = (
 /obj/effect/turf_decal/ship/techfloor,
 /obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/atmospherics/pipe/simple/violet/visible/layer4,
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
 "eAp" = (
@@ -8958,7 +8966,7 @@
 "eTh" = (
 /obj/structure/table/reinforced,
 /obj/machinery/computer/reactor/fuel_rods{
-	name = "Reactor 1 Fuel Management Console"
+	name = "Defensive Reactor Fuel Management Console"
 	},
 /obj/machinery/light,
 /obj/structure/extinguisher_cabinet/south,
@@ -10115,9 +10123,6 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 4
-	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
 "fye" = (
@@ -10969,7 +10974,7 @@
 	input_tag = "extra_5_input";
 	name = "Custom Tank 5 Control";
 	output_tag = "extra_5_output";
-	sensors = list("extra_5_sensor"="Custom Tank 5")
+	sensors = list("extra_5_sensor"="Custom  Tank  5")
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/plating,
@@ -11056,7 +11061,7 @@
 "fVd" = (
 /obj/structure/table/reinforced,
 /obj/machinery/computer/reactor/pump/rbmk_moderator{
-	name = "Reactor 1 moderator valve computer"
+	name = "Defensive Reactor moderator valve computer"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
@@ -11621,7 +11626,7 @@
 	input_tag = "extra_1_input";
 	name = "Custom Tank 1 Control";
 	output_tag = "extra_1_output";
-	sensors = list("extra_1_sensor"="Custom Tank 1")
+	sensors = list("extra_1_sensor"="Custom  Tank  1")
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -11701,7 +11706,7 @@
 	input_tag = "FTLinput";
 	name = "Fuel Monitoring";
 	output_tag = "FTLoutput";
-	sensors = list("FTLsensor"="FTL Fuel Tank")
+	sensors = list("FTLsensor"="FTL  Fuel  Tank")
 	},
 /turf/open/floor/engine,
 /area/engine/engineering/ftl_room)
@@ -11914,6 +11919,9 @@
 	icon_state = "2-4"
 	},
 /obj/machinery/atmospherics/pipe/simple/cyan/visible,
+/obj/machinery/light/small{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame5/port)
 "grI" = (
@@ -13678,6 +13686,13 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/security/brig)
+"hkd" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/engine/engineering/reactor_core)
 "hkh" = (
 /obj/machinery/smartfridge/disks,
 /obj/structure/table/wood,
@@ -14452,7 +14467,7 @@
 	input_tag = "nuclear_mix_in_3";
 	name = "Nuclear Reactor Gas Tank Control";
 	output_tag = "nuclear_min_out_3";
-	sensors = list("nuclear_mix_sensor_3"="Nuclear Reactor Gas Mix Tank 3")
+	sensors = list("nuclear_mix_sensor_3"="Nuclear  Reactor  Gas  Mix  Tank  3")
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
@@ -19908,6 +19923,7 @@
 	dir = 4
 	},
 /obj/structure/cable/cyan,
+/obj/item/inducer/eng,
 /turf/open/floor/carpet/green,
 /area/engine/engineering/reactor_control)
 "kEZ" = (
@@ -20539,7 +20555,7 @@
 "kXb" = (
 /obj/machinery/modular_computer/console/preset/engineering{
 	dir = 4;
-	name = "reactor #1 engineering console"
+	name = "Defensive Reactor engineering console"
 	},
 /obj/structure/cable/yellow,
 /turf/open/floor/durasteel/lino,
@@ -20667,7 +20683,6 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 9
 	},
-/obj/machinery/atmospherics/pipe/manifold4w/green/visible,
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
 "lbY" = (
@@ -21036,7 +21051,7 @@
 "lms" = (
 /obj/structure/table/reinforced,
 /obj/machinery/computer/reactor/stats{
-	name = "Reactor 1 Statistics Console"
+	name = "Defensive Reactor Statistics Console"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
@@ -23021,7 +23036,7 @@
 	},
 /obj/machinery/computer/reactor/pump/rbmk_output{
 	id = "rbmk2_output";
-	name = "Reactor 2 output valve computer"
+	name = "Utility Reactor output valve computer"
 	},
 /obj/structure/cable/cyan{
 	icon_state = "1-2"
@@ -23588,7 +23603,7 @@
 "mCa" = (
 /obj/structure/table/reinforced,
 /obj/machinery/computer/reactor/control_rods{
-	name = "Reactor 1 Control rod management computer"
+	name = "Defensive Reactor Control rod management computer"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
@@ -23675,7 +23690,7 @@
 	input_tag = "extra_4_input";
 	name = "Custom Tank 4 Control";
 	output_tag = "extra_4_output";
-	sensors = list("extra_4_sensor"="Custom Tank 4")
+	sensors = list("extra_4_sensor"="Custom  Tank  4")
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating,
@@ -24733,7 +24748,7 @@
 /obj/structure/table/reinforced,
 /obj/machinery/computer/reactor/pump/rbmk_input{
 	id = "rbmk2_input";
-	name = "Reactor 2 inlet valve computer"
+	name = "Utility Reactor inlet valve computer"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
@@ -25404,7 +25419,7 @@
 "nFZ" = (
 /obj/structure/table/reinforced,
 /obj/machinery/computer/reactor/pump/rbmk_input{
-	name = "Reactor 1 inlet valve computer"
+	name = "Defensive Reactor inlet valve computer"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
@@ -25964,7 +25979,7 @@
 /obj/structure/table/reinforced,
 /obj/machinery/computer/reactor/control_rods{
 	id = "default_reactor_for_lazy_mappers2";
-	name = "Reactor 2 Control rod management computer"
+	name = "Utility Reactor Control rod management computer"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
@@ -28233,7 +28248,7 @@
 	},
 /obj/machinery/modular_computer/console/preset/engineering{
 	dir = 8;
-	name = "reactor #2 engineering console"
+	name = "Utility Reactor engineering console"
 	},
 /obj/item/radio/intercom/directional/north,
 /obj/structure/cable/cyan{
@@ -32140,7 +32155,7 @@
 "rnr" = (
 /obj/structure/table/reinforced,
 /obj/machinery/computer/reactor/pump/rbmk_output{
-	name = "Reactor 1 output valve computer"
+	name = "Defensive Reactor output valve computer"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
@@ -34352,7 +34367,7 @@
 	input_tag = "extra_3_input";
 	name = "Custom Tank 3 Control";
 	output_tag = "extra_3_output";
-	sensors = list("extra_3_sensor"="Custom Tank 3")
+	sensors = list("extra_3_sensor"="Custom  Tank  3")
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/light{
@@ -35653,7 +35668,7 @@
 /obj/structure/table/reinforced,
 /obj/machinery/computer/reactor/pump/rbmk_moderator{
 	id = "rbmk2_moderator";
-	name = "Reactor 2 moderator valve computer"
+	name = "Utility Reactor moderator valve computer"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
@@ -40787,7 +40802,7 @@
 /obj/structure/table/reinforced,
 /obj/machinery/computer/reactor/fuel_rods{
 	id = "default_reactor_for_lazy_mappers2";
-	name = "Reactor 2 Fuel Management Console"
+	name = "Utility Reactor Fuel Management Console"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
@@ -40858,9 +40873,9 @@
 /obj/machinery/computer/atmos_control/tank/toxin_tank{
 	dir = 4;
 	input_tag = "stormdrive_mix_in";
-	name = "Secondary reactor Gas Tank Control";
+	name = "Defense Reactor Gas Tank Control";
 	output_tag = "stormdrive_mix_out";
-	sensors = list("stormdrive_mix_sensor"="Stormdrive Gas Mix Tank")
+	sensors = list("stormdrive_mix_sensor"="Stormdrive  Gas  Mix  Tank")
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating,
@@ -44037,7 +44052,9 @@
 /obj/machinery/atmospherics/pipe/simple/orange/visible/layer2{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/orange/hidden,
+/obj/machinery/atmospherics/pipe/simple/orange/hidden{
+	dir = 8
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
 "xGU" = (
@@ -44709,9 +44726,6 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 6
 	},
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 5
-	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
 "yca" = (
@@ -44949,9 +44963,9 @@
 /obj/machinery/computer/atmos_control/tank/toxin_tank{
 	dir = 4;
 	input_tag = "nuclear_mix_in_1";
-	name = "Primary reactor Gas Tank Control";
+	name = "Utility Reactor Gas Tank Control";
 	output_tag = "nuclear_min_out_1";
-	sensors = list("nuclear_mix_sensor_1"="Nuclear Reactor Gas Mix Tank 1")
+	sensors = list("nuclear_mix_sensor_1"="Nuclear  Reactor  Gas  Mix  Tank  1")
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/violet/visible/layer4,
@@ -60403,7 +60417,7 @@ srp
 srp
 vrQ
 cpE
-xQO
+hkd
 oEg
 xQO
 rDP
@@ -61435,7 +61449,7 @@ dqO
 tln
 bSC
 igj
-nQh
+adB
 mwQ
 fXE
 bKv
