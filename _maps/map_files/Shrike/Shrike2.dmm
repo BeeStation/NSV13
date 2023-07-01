@@ -894,6 +894,22 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/science/lab)
+"cP" = (
+/obj/effect/turf_decal/guideline/guideline_out/blue{
+	dir = 6
+	},
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 6
+	},
+/obj/effect/landmark/latejoin,
+/turf/open/floor/monofloor/corner{
+	dir = 1
+	},
+/area/hallway/nsv/deck2/frame1/starboard{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "cQ" = (
 /obj/machinery/firealarm/directional/west,
 /obj/machinery/vending/cola/random,
@@ -1366,6 +1382,7 @@
 /obj/structure/cable/green{
 	icon_state = "1-2"
 	},
+/obj/effect/landmark/latejoin,
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/starboard{
 	lighting_colour_bulb = "#c1e1ff";
@@ -2097,6 +2114,22 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/bar/mess_hall)
+"gB" = (
+/obj/effect/turf_decal/guideline/guideline_out/blue{
+	dir = 8
+	},
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 8
+	},
+/obj/effect/landmark/latejoin,
+/turf/open/floor/monofloor{
+	dir = 4
+	},
+/area/hallway/nsv/deck2/frame1/starboard{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "gC" = (
 /turf/open/floor/plating,
 /area/nsv/weapons/gauss/battery/deck2/port{
@@ -4628,17 +4661,26 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "pX" = (
-/obj/docking_port/stationary{
-	dir = 4;
-	dwidth = 3;
-	height = 12;
-	id = "arrivals_stationary";
-	name = "Deck 2 Arrivals Port";
-	roundstart_template = /datum/map_template/shuttle/arrival/shrike;
-	width = 7
+/obj/structure/cable/green{
+	icon_state = "4-8"
 	},
-/turf/open/space/basic,
-/area/space)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/effect/landmark/latejoin,
+/turf/open/floor/plating/rusty_techgrid,
+/area/hallway/nsv/deck2/frame1/starboard{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "pY" = (
 /obj/structure/fluff/support_beam,
 /turf/open/floor/plating,
@@ -6196,6 +6238,7 @@
 /obj/structure/cable/green{
 	icon_state = "2-8"
 	},
+/obj/effect/landmark/latejoin,
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/cryopods)
 "uS" = (
@@ -9289,6 +9332,7 @@
 /obj/machinery/camera/autoname,
 /obj/effect/turf_decal/guideline/guideline_out/blue,
 /obj/effect/turf_decal/guideline/guideline_in/red,
+/obj/effect/landmark/latejoin,
 /turf/open/floor/monofloor{
 	dir = 1
 	},
@@ -9432,6 +9476,7 @@
 /obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/red{
 	dir = 5
 	},
+/obj/effect/landmark/latejoin,
 /turf/open/floor/monofloor{
 	dir = 1
 	},
@@ -16313,6 +16358,7 @@
 	icon_state = "1-2"
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/effect/landmark/latejoin,
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/starboard{
 	lighting_colour_bulb = "#c1e1ff";
@@ -52105,7 +52151,7 @@ KI
 KI
 KI
 gi
-pX
+gi
 gi
 gi
 gi
@@ -52857,7 +52903,7 @@ qo
 qo
 qo
 Eh
-YT
+pX
 HE
 eP
 eP
@@ -53114,7 +53160,7 @@ qo
 RD
 IG
 Ey
-YT
+pX
 bs
 LA
 Vt
@@ -53627,8 +53673,8 @@ KI
 qo
 Bo
 IG
-yY
-rk
+cP
+gB
 rk
 cY
 yI
