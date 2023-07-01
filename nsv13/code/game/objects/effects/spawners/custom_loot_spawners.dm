@@ -82,6 +82,7 @@
 /obj/effect/spawner/lootdrop/nac_supplies
 	name = "\improper NAC stuff spawner"
 	loot = list(
+		/obj/item/ship_weapon/parts/firing_electronics = 1,
 		/obj/machinery/computer/deckgun = 1,
 		/obj/machinery/deck_turret = 1,
 		/obj/machinery/deck_turret/payload_gate = 1,
