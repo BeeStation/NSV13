@@ -213,6 +213,7 @@
 
 /obj/item/robot_module/proc/transform_to(new_module_type, forced = FALSE) //NSV13 - Borg Skin Framework
 	var/mob/living/silicon/robot/R = loc
+	R.icon = 'icons/mob/robots.dmi' //NSV13 - Borg Skin Framework - Should prevent the invisibility glitch
 	var/obj/item/robot_module/RM = new new_module_type(R)
 	RM.robot = R //NSV13 - Cargo Borg
 	if(!RM.be_transformed_to(src, forced)) //NSV13 - Borg Skin Framework
