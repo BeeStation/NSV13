@@ -32,6 +32,12 @@
 
 /obj/item/ammo_casing/c45/rubber
 	name = ".45 bullet casing"
-	desc = "A .45 bullet casing."
+	desc = "A .45 rubber bullet casing."
 	caliber = ".45"
-	projectile_type = /obj/item/projectile/bullet/c45
+	projectile_type = /obj/item/projectile/bullet/c45_rubber
+
+/obj/item/ammo_casing/c45/ap
+	name = ".45 bullet casing"
+	desc = "A .45 armour-piercing bullet casing."
+	caliber = ".45"
+	projectile_type = /obj/item/projectile/bullet/c45_ap

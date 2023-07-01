@@ -10,6 +10,10 @@
 	flag = "stamina"
 	damage = 25
 
+/obj/item/projectile/bullet/c45_ap // significant damage drop for slightly higher than average armour penetration
+	name = ".45 bullet"
+	damage = 20
+	armour_penetration = 50
 
 // 4.6x30mm (Autorifles)
 

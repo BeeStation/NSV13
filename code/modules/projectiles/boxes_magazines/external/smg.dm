@@ -87,10 +87,12 @@
 	max_ammo = 30
 
 /obj/item/ammo_box/magazine/smp2/rubber
-	name = "SMG magazine (.45)"
 	icon_state = "smp2_nonlethal"
 	ammo_type = /obj/item/ammo_casing/c45/rubber
-	max_ammo = 30
+
+/obj/item/ammo_box/magazine/smp2/ap
+	icon_state = "smp2_ap"
+	ammo_type = /obj/item/ammo_casing/c45/ap
 
 /obj/item/ammo_box/magazine/smp2/update_icon()
     ..()

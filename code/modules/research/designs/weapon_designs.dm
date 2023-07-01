@@ -180,6 +180,50 @@
 	category = list("Weapons")
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
+// SMP II
+
+/datum/design/experimental_smg
+	name = "Experimental SMG"
+	desc = "A relatively small experimental SMG."
+	id = "experimental_smg"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000, /datum/material/titanium = 20000, /datum/material/silver = 3000, /datum/material/gold = 1000)
+	build_path = /obj/item/gun/ballistic/automatic/smg_smp2
+	category = list("Weapons")
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+
+//SMP II mags
+
+/datum/design/smp2mag
+	name = "SMG magazine (.45)"
+	desc = "A 30 round magazine for the experimental SMP-II SMG."
+	id = "45mag"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 12000, /datum/material/plasma = 1000)
+	build_path = /obj/item/ammo_box/magazine/smp2
+	category = list("Ammo")
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+
+/datum/design/smp2mag/rubber
+	name = "SMG rubber magazine (.45)"
+	desc = "A 30 round rubber magazine for the experimental SMP-II SMG."
+	id = "45magrubber"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 8000, /datum/material/plasma = 1000)
+	build_path = /obj/item/ammo_box/magazine/smp2/rubber
+	category = list("Ammo")
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+
+/datum/design/smp2mag/ap
+	name = "SMG ap magazine (.45)"
+	desc = "A 30 round armour-piercing magazine for the experimental SMP-II SMG."
+	id = "45magap"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 8000, /datum/material/titanium = 2000, /datum/material/plasma = 1000)
+	build_path = /obj/item/ammo_box/magazine/smp2/ap
+	category = list("Ammo")
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+
 /datum/design/tele_shield
 	name = "Telescopic Riot Shield"
 	desc = "An advanced riot shield made of lightweight materials that collapses for easy storage."
