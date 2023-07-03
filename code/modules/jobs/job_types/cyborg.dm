@@ -4,7 +4,7 @@
 	auto_deadmin_role_flags = PREFTOGGLE_DEADMIN_POSITION_SILICON
 	department_flag = ENGSEC
 	faction = "Station"
-	total_positions = 0
+	total_positions = 1
 	spawn_positions = 1
 	supervisors = "your laws and the AI"	//Nodrak
 	selection_color = "#ddffdd"
@@ -24,6 +24,7 @@
 /datum/job/cyborg/after_spawn(mob/living/silicon/robot/R, mob/M)
 	R.updatename(M.client)
 	R.gender = NEUTER
+	R.apply_pref_name("cyborg", M.client) //NSV13
 
 /datum/job/cyborg/radio_help_message(mob/M)
 	to_chat(M, "<b>Prefix your message with :b to speak with other cyborgs and AI.</b>")

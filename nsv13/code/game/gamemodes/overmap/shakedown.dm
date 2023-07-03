@@ -22,5 +22,6 @@
 	random_objectives = list(
 		/datum/overmap_objective/perform_jumps,
 		/datum/overmap_objective/destroy_fleets,
-		/datum/overmap_objective/apnw_efficiency
+		/datum/overmap_objective/apnw_efficiency,
+		/datum/overmap_objective/scan
 	)
