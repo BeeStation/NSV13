@@ -61,7 +61,7 @@
 /obj/structure/overmap/syndicate/ai/Initialize(mapload)
 	. = ..()
 	name = "[name] ([rand(0,999)])"
-	
+
 /obj/structure/overmap/hostile/ai/fighter/Initialize()
 	. = ..()
 	name = "[name] ([rand(0,999)])"
@@ -230,7 +230,7 @@
 	missiles = 10
 	bounty = 4000
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
-	
+
 /datum/map_template/boarding/carrier
 	name = "carrier (interior)"
 	mappath = "_maps/templates/boarding/syndicate/carrier.dmm"
@@ -503,7 +503,7 @@
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
 	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
-	
+
 /obj/structure/overmap/hostile/ai/alicorn
 	name = "SGV Alicorn"
 	desc = "One Billion Lives!"
@@ -557,7 +557,7 @@
 	max_integrity = 115 //Slightly less squishy!
 	integrity_failure = 115
 	ai_flags = AI_FLAG_SWARMER
-	bound_width = 32 
+	bound_width = 32
 	bound_height = 32
 	torpedoes = 1
 	missiles = 4
@@ -596,6 +596,7 @@
 	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
+
 /obj/structure/overmap/syndicate/ai/bomber //need custom AI behaviour to target capitals only
 	name = "Syndicate Bomber"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/fighter_overmap.dmi'
@@ -619,3 +620,5 @@
 /obj/structure/overmap/syndicate/ai/bomber/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+
+
