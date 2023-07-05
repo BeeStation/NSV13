@@ -47,7 +47,7 @@
 	name = "6mm electro-shock round"
 	damage = 6 //Straight up WAY worse than the security glock at stunning, but they serve a purpose
 	armour_penetration = 0 //Less strong. Can't penetrate armor.
-	stamina = 15 //Slightly more than 3 bursts to stun Minor buff to make it viable
+	stamina = 15 //Slightly more than 3 bursts to stun
 	stutter = 5
 	jitter = 5
 	range = 7
