@@ -2539,6 +2539,12 @@
 	},
 /obj/effect/turf_decal/tile/neutral,
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/requests_console{
+	pixel_x = 30;
+	departmentType = 1;
+	payment_department = "MUN";
+	department = "NAC Bay"
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "agu" = (
@@ -4991,6 +4997,13 @@
 	dir = 8
 	},
 /obj/machinery/holopad,
+/obj/machinery/requests_console{
+	department = "Medbay Clinic";
+	departmentType = 1;
+	name = "Medbay RC";
+	pixel_x = -32;
+	payment_department = "MED"
+	},
 /turf/open/floor/engine,
 /area/medical/medbay/lobby)
 "ami" = (
@@ -5198,7 +5211,8 @@
 	department = "Bar";
 	departmentType = 2;
 	pixel_y = 30;
-	receive_ore_updates = 1
+	receive_ore_updates = 1;
+	payment_department = "CIV"
 	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar)
@@ -6489,7 +6503,8 @@
 /obj/machinery/requests_console{
 	department = "Kitchen";
 	departmentType = 2;
-	pixel_x = 30
+	pixel_x = 30;
+	payment_department = "CIV"
 	},
 /turf/open/floor/monotile/light,
 /area/crew_quarters/kitchen)
@@ -6765,7 +6780,8 @@
 	},
 /obj/machinery/requests_console{
 	department = "Law office";
-	pixel_y = -32
+	pixel_y = -32;
+	payment_department = "SEC"
 	},
 /turf/open/floor/monotile/dark,
 /area/lawoffice)
@@ -7330,7 +7346,8 @@
 	department = "Chief Medical Officer's Desk";
 	departmentType = 5;
 	name = "Chief Medical Officer RC";
-	pixel_x = 30
+	pixel_x = 30;
+	payment_department = "MED"
 	},
 /mob/living/simple_animal/pet/cat/Runtime,
 /turf/open/floor/carpet/blue,
@@ -9408,6 +9425,12 @@
 	dir = 4
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/requests_console{
+	pixel_x = 30;
+	departmentType = 1;
+	payment_department = "MUN";
+	department = "Missile Factory"
+	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "aBs" = (
@@ -12030,7 +12053,8 @@
 /obj/machinery/requests_console{
 	department = "Security";
 	departmentType = 7;
-	pixel_x = -32
+	pixel_x = -32;
+	payment_department = "SEC"
 	},
 /obj/structure/sign/nanotrasen{
 	pixel_y = 26
@@ -12156,7 +12180,8 @@
 /obj/machinery/requests_console{
 	department = "Security";
 	departmentType = 5;
-	pixel_y = 30
+	pixel_y = 30;
+	payment_department = "SEC"
 	},
 /obj/machinery/computer/security,
 /turf/open/floor/monotile/steel,
@@ -12343,7 +12368,8 @@
 "aIq" = (
 /obj/machinery/requests_console{
 	department = "Detective's office";
-	pixel_x = -30
+	pixel_x = -30;
+	payment_department = "SEC"
 	},
 /turf/open/floor/carpet/red,
 /area/security/detectives_office)
@@ -13338,7 +13364,8 @@
 	name = "Research Director RC";
 	pixel_x = -30;
 	pixel_y = 30;
-	receive_ore_updates = 1
+	receive_ore_updates = 1;
+	payment_department = "SCI"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -13728,7 +13755,8 @@
 	departmentType = 2;
 	name = "Science Requests Console";
 	pixel_y = -30;
-	receive_ore_updates = 1
+	receive_ore_updates = 1;
+	payment_department = "SCI"
 	},
 /obj/structure/table/reinforced,
 /obj/machinery/light,
@@ -13816,7 +13844,8 @@
 	departmentType = 2;
 	name = "Science Requests Console";
 	pixel_x = 32;
-	receive_ore_updates = 1
+	receive_ore_updates = 1;
+	payment_department = "SCI"
 	},
 /turf/open/floor/monotile/dark,
 /area/science/xenobiology)
@@ -14724,7 +14753,8 @@
 	departmentType = 2;
 	name = "Robotics RC";
 	pixel_x = -31;
-	receive_ore_updates = 1
+	receive_ore_updates = 1;
+	payment_department = "SCI"
 	},
 /obj/machinery/ecto_sniffer,
 /turf/open/floor/monotile/dark,
@@ -24559,6 +24589,12 @@
 	icon_state = "4-8"
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/requests_console{
+	pixel_y = 26;
+	department = "Bridge";
+	payment_department = "CIV";
+	departmentType = 1
+	},
 /turf/open/floor/monotile/dark,
 /area/bridge{
 	name = "CIC"
@@ -25221,7 +25257,8 @@
 	department = "Hydroponics";
 	departmentType = 2;
 	pixel_x = -31;
-	pixel_y = -2
+	pixel_y = -2;
+	payment_department = "CIV"
 	},
 /turf/open/floor/monotile/steel,
 /area/hydroponics)
@@ -26741,7 +26778,8 @@
 /obj/machinery/requests_console{
 	department = "Cargo Bay";
 	departmentType = 2;
-	pixel_y = 30
+	pixel_y = 30;
+	payment_department = "CAR"
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
@@ -33214,18 +33252,17 @@
 /turf/open/floor/monotile/steel,
 /area/engine/engineering)
 "bAs" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
 /obj/effect/turf_decal/stripes/line,
 /obj/machinery/atmospherics/pipe/simple/brown/hidden{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
+/obj/structure/cable{
+	icon_state = "1-8"
 	},
 /turf/open/floor/monotile/steel,
 /area/engine/engineering)
@@ -33246,9 +33283,6 @@
 	dir = 8
 	},
 /obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/brown/hidden{
@@ -37573,7 +37607,8 @@
 	department = "Head of Security's Desk";
 	departmentType = 5;
 	name = "Head of Security RC";
-	pixel_y = 26
+	pixel_y = 26;
+	payment_department = "SEC"
 	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/hos)
@@ -40024,6 +40059,11 @@
 	},
 /obj/effect/mapping_helpers/airlock/abandoned,
 /obj/structure/barricade/wooden/crude,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/durasteel,
 /area/engine/engine_room)
 "ctT" = (
@@ -41234,6 +41274,16 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
 /area/crew_quarters/dorms)
+"eoI" = (
+/obj/machinery/requests_console{
+	department = "Surgery";
+	departmentType = 1;
+	name = "Medbay RC";
+	payment_department = "MED";
+	pixel_y = -30
+	},
+/turf/open/floor/monotile/dark,
+/area/medical/surgery)
 "eoU" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -42748,7 +42798,10 @@
 "gFO" = (
 /obj/effect/turf_decal/delivery/red,
 /obj/effect/decal/cleanable/blood/tracks,
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 10
+	},
 /turf/open/floor/engine,
 /area/engine/engine_room)
 "gGP" = (
@@ -42870,7 +42923,8 @@
 /obj/machinery/requests_console{
 	department = "Medbay";
 	departmentType = 1;
-	name = "Medbay RC"
+	name = "Medbay RC";
+	payment_department = "MED"
 	},
 /turf/closed/wall/ship,
 /area/medical/medbay/central)
@@ -44029,6 +44083,11 @@
 /turf/open/floor/monotile/dark,
 /area/security/checkpoint/engineering)
 "ixq" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering)
 "ixD" = (
@@ -44460,9 +44519,6 @@
 	dir = 8;
 	name = "emergency shower"
 	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 8
-	},
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engine_room)
 "jbq" = (
@@ -44483,6 +44539,9 @@
 /obj/machinery/shower{
 	dir = 8;
 	name = "emergency shower"
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 8
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engine_room)
@@ -44911,7 +44970,8 @@
 	departmentType = 2;
 	name = "Science Requests Console";
 	pixel_y = -30;
-	receive_ore_updates = 1
+	receive_ore_updates = 1;
+	payment_department = "SCI"
 	},
 /turf/open/floor/monotile/steel,
 /area/science/research)
@@ -46937,7 +46997,8 @@
 "mzP" = (
 /obj/machinery/requests_console{
 	department = "Chapel";
-	departmentType = 2
+	departmentType = 2;
+	payment_department = "CIV"
 	},
 /turf/closed/wall/ship,
 /area/chapel/office)
@@ -47589,6 +47650,13 @@
 /obj/structure/disposalpipe/segment,
 /turf/closed/wall/ship,
 /area/hallway/nsv/deck2/frame2/port)
+"nuc" = (
+/obj/effect/turf_decal/delivery/red,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 10
+	},
+/turf/open/floor/engine,
+/area/engine/engine_room)
 "nus" = (
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/visible{
 	dir = 4
@@ -48111,6 +48179,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engine_room)
@@ -48681,8 +48752,8 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 1
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engine_room)
@@ -49243,6 +49314,11 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering)
 "qio" = (
@@ -49588,15 +49664,12 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "qLS" = (
-/obj/effect/decal/cleanable/blood/tracks,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
 /obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
-	dir = 4
+	icon_state = "1-8"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engine_room)
@@ -49645,7 +49718,8 @@
 /obj/machinery/requests_console{
 	department = "Custodial Closet";
 	departmentType = 3;
-	pixel_x = -28
+	pixel_x = -28;
+	payment_department = "CIV"
 	},
 /turf/open/floor/monotile/steel,
 /area/janitor)
@@ -49787,6 +49861,16 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"rbJ" = (
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/requests_console{
+	pixel_x = 30;
+	departmentType = 1;
+	payment_department = "MUN";
+	department = "VLS Bay"
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/weapons/fore)
 "rbR" = (
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -49953,6 +50037,7 @@
 "rll" = (
 /obj/structure/barricade/wooden,
 /obj/effect/turf_decal/stripes/line,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /turf/open/floor/plasteel/techmaint,
 /area/engine/engine_room)
 "rnf" = (
@@ -50033,6 +50118,7 @@
 /obj/effect/decal/cleanable/blood/tracks{
 	dir = 5
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/engine,
 /area/engine/engine_room)
 "rsM" = (
@@ -50242,7 +50328,9 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 1
+	},
 /turf/open/floor/engine,
 /area/engine/engine_room)
 "rEt" = (
@@ -50405,6 +50493,13 @@
 	id = "spentfuel2"
 	},
 /area/engine/engineering/reactor_core)
+"rOq" = (
+/obj/effect/turf_decal/delivery/red,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/engine/engine_room)
 "rSa" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
@@ -50917,7 +51012,9 @@
 	icon_state = "2-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 1
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/engine_room)
 "sFd" = (
@@ -50929,6 +51026,16 @@
 	id = "spentfuel2"
 	},
 /area/engine/engineering/reactor_core)
+"sHl" = (
+/obj/machinery/requests_console{
+	department = "Medbay Clinic";
+	departmentType = 1;
+	name = "Medbay RC";
+	pixel_x = -32;
+	payment_department = "MED"
+	},
+/turf/open/floor/monotile/light,
+/area/medical/medbay/lobby)
 "sIU" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/light{
@@ -51180,7 +51287,8 @@
 /obj/machinery/requests_console{
 	department = "Genetics";
 	name = "Genetics Requests Console";
-	pixel_y = -30
+	pixel_y = -30;
+	payment_department = "MED"
 	},
 /turf/open/floor/monotile/light,
 /area/medical/genetics)
@@ -51307,7 +51415,8 @@
 	department = "Chemistry";
 	departmentType = 2;
 	pixel_x = -30;
-	receive_ore_updates = 1
+	receive_ore_updates = 1;
+	payment_department = "MED"
 	},
 /obj/item/storage/bag/chemistry,
 /turf/open/floor/monotile/steel,
@@ -51692,6 +51801,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
 /turf/open/floor/monotile/steel,
 /area/engine/engine_room)
 "tRQ" = (
@@ -51744,6 +51856,17 @@
 /obj/machinery/status_display/supply,
 /turf/closed/wall/ship,
 /area/quartermaster/storage)
+"tXv" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/monotile/steel,
+/area/engine/engineering)
 "tXO" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
@@ -51977,6 +52100,13 @@
 /obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/space/basic,
 /area/space/nearstation)
+"uoi" = (
+/obj/effect/turf_decal/delivery/red,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/turf/open/floor/engine,
+/area/engine/engine_room)
 "uoW" = (
 /turf/closed/wall/ship,
 /area/maintenance/nsv/weapons)
@@ -52094,7 +52224,8 @@
 	department = "Master at Arms";
 	departmentType = 5;
 	name = "Master at Arms RC";
-	pixel_x = -32
+	pixel_x = -32;
+	payment_department = "MUN"
 	},
 /turf/open/floor/carpet/ship,
 /area/nsv/crew_quarters/heads/maa)
@@ -53032,11 +53163,14 @@
 /obj/effect/decal/cleanable/blood/footprints{
 	dir = 4
 	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "2-4"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engine_room)
@@ -54270,6 +54404,13 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
+"ykz" = (
+/obj/effect/turf_decal/delivery/red,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 4
+	},
+/turf/open/floor/engine,
+/area/engine/engine_room)
 
 (1,1,1) = {"
 aaa
@@ -80106,7 +80247,7 @@ bZl
 bwl
 bkC
 aKh
-ahf
+sHl
 bFU
 afV
 bin
@@ -81883,7 +82024,7 @@ ahR
 amM
 amM
 amV
-ahi
+eoI
 aaK
 ahV
 aRL
@@ -85997,7 +86138,7 @@ abV
 lNT
 gGU
 abV
-abV
+rbJ
 abV
 abV
 ago
@@ -87295,7 +87436,7 @@ cbg
 aec
 aHk
 bgR
-abH
+abG
 biP
 byz
 bYh
@@ -103186,7 +103327,7 @@ aaa
 arT
 anJ
 avO
-aPW
+rOq
 cSU
 aPW
 vbV
@@ -103443,7 +103584,7 @@ aaa
 arT
 anJ
 atN
-aPW
+uoi
 rwm
 aPW
 vbV
@@ -103458,7 +103599,7 @@ ixq
 qhr
 ixq
 ixq
-aQF
+tXv
 bAs
 ayJ
 ayJ
@@ -103700,7 +103841,7 @@ aaa
 arT
 anJ
 awg
-aPW
+uoi
 rwm
 aPW
 vIX
@@ -103957,9 +104098,9 @@ aaa
 arT
 anJ
 awK
-aPW
+uoi
 rwm
-aPW
+ykz
 vbV
 chg
 cae
@@ -104214,7 +104355,7 @@ aaa
 arT
 anJ
 awS
-aPW
+nuc
 rsK
 gFO
 sDP
