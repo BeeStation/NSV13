@@ -545,7 +545,7 @@
 
 /datum/supply_pack/security/armory/m45single
 	name = "M1911 handgun Single-pack"
-	desc = "For the ones which know that .45 ACP is a superior cartridge"
+	desc = "Single M1911 with a .45 magazine to fit inside of it."
 	cost = 1500
 	contains = list(/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
 				/obj/item/ammo_box/magazine/m45)
@@ -553,7 +553,7 @@
 
 /datum/supply_pack/security/armory/m45guns
 	name = "M1911 handgun Crate"
-	desc = "For the ones which know that .45 ACP is a superior cartridge"
+	desc = "Holds 3 M1911's with 3 magazines to fit in each one of them."
 	cost = 4200
 	contains = list(/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
 					/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
@@ -565,7 +565,7 @@
 
 /datum/supply_pack/security/armory/m45ammo
 	name = "M1911 Ammo Crate"
-	desc = "For the ones which know that .45 ACP is a superior cartridge"
+	desc = "Contains 6 magazines and 2 ammoboxes which hold 3 loads each, which should contain enough lead for that holy crusade your chaplain always wanted."
 	cost = 2200
 	contains = list(/obj/item/ammo_box/magazine/m45,
 					/obj/item/ammo_box/magazine/m45,

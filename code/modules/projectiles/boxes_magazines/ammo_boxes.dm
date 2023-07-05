@@ -75,8 +75,6 @@
 	ammo_type = /obj/item/ammo_casing/c45
 	max_ammo = 20
 
-obj/item/ammo_box/c45/m45 // 1911 version with 3 loads
-	max_ammo = 24
 
 /obj/item/ammo_box/a40mm
 	name = "ammo box (40mm grenades)"

@@ -38,16 +38,16 @@
 
 /obj/item/projectile/bullet/peacekeeper
 	name = "6mm tungsten round"
-	damage = 12 //Hopefully making it bias towards armorpen should make it less likely to kill people straight out. Minor buff to make it viable
+	damage = 10 //Hopefully making it bias towards armorpen should make it less likely to kill people straight out.
 	armour_penetration = 30
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "pdc"
 
 /obj/item/projectile/bullet/peacekeeper/stun
 	name = "6mm electro-shock round"
-	damage = 4 //Straight up WAY worse than the security glock at stunning, but they serve a purpose it used to kill a bit too often
+	damage = 6 //Straight up WAY worse than the security glock at stunning, but they serve a purpose
 	armour_penetration = 0 //Less strong. Can't penetrate armor.
-	stamina = 20 //Slightly more than 3 bursts to stun Minor buff to make it viable
+	stamina = 15 //Slightly more than 3 bursts to stun Minor buff to make it viable
 	stutter = 5
 	jitter = 5
 	range = 7

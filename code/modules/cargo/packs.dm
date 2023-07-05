@@ -548,6 +548,7 @@
 					/obj/item/ammo_box/c38/iceblox)
 	crate_name = "ammo crate"
 
+// NSV13 modified
 /datum/supply_pack/security/armory/bulletarmor
 	name = "Bulletproof Armor Crate"
 	desc = "Contains three sets of bulletproof armors with their corresponding helmets. Guaranteed to reduce a bullet's stopping power by over half. Requires Armory access to open."

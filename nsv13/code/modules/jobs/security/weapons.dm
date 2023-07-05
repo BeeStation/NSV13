@@ -75,6 +75,9 @@
 	mag_type = /obj/item/ammo_box/magazine/m45
 	can_suppress = FALSE
 
+/obj/item/ammo_box/c45/m45 // .45 ammobox intended for m1911
+	max_ammo = 24
+
 /datum/design/gulagpack
 	name = "Gulagpack"
 	id = "gulagpack"
