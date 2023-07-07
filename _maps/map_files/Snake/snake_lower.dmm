@@ -34,15 +34,17 @@
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/fore)
 "ag" = (
-/obj/structure/frame/computer{
-	dir = 1
-	},
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/fax{
+	name = "CIC Fax Machine";
+	fax_name = "CIC"
+	},
+/obj/structure/table/reinforced,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -794,6 +796,10 @@
 /area/engine/engineering/reactor_core)
 "cW" = (
 /obj/structure/table/reinforced,
+/obj/machinery/fax{
+	name = "Engineerings Fax Machine";
+	fax_name = "Engineering"
+	},
 /obj/item/binoculars,
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering/reactor_control)
@@ -4026,10 +4032,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering)
-"oD" = (
-/obj/structure/table/wood,
-/turf/open/floor/wood,
-/area/lawoffice)
 "oF" = (
 /obj/machinery/light{
 	dir = 8
@@ -6447,6 +6449,14 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering/reactor_core)
+"xv" = (
+/obj/structure/table/wood,
+/obj/machinery/fax{
+	fax_name = "Law Office";
+	name = "Law Office Fax Machine"
+	},
+/turf/open/floor/wood,
+/area/lawoffice)
 "xw" = (
 /obj/structure/chair/office{
 	dir = 8
@@ -6941,7 +6951,6 @@
 /turf/open/floor/carpet/orange,
 /area/nsv/crew_quarters/heads/maa)
 "zj" = (
-/obj/structure/closet/secure_closet/brig,
 /obj/effect/turf_decal/tile/ship/red{
 	dir = 1
 	},
@@ -6949,6 +6958,11 @@
 	dir = 4
 	},
 /obj/machinery/firealarm/directional/north,
+/obj/machinery/fax{
+	fax_name = "Wardens Office";
+	name = "Wardens Office Fax Machine"
+	},
+/obj/structure/table,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -10330,6 +10344,11 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 1
 	},
+/obj/machinery/fax{
+	fax_name = "Medical";
+	name = "Medical Fax Machine"
+	},
+/obj/structure/table,
 /turf/open/floor/plasteel/white,
 /area/medical/sleeper)
 "KC" = (
@@ -52323,9 +52342,9 @@ lK
 Ip
 Xc
 Gr
-ht
+xv
 if
-oD
+ht
 OB
 BT
 aJ
