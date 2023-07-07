@@ -4559,7 +4559,7 @@
 	dir = 4
 	},
 /obj/item/paper{
-	info = "<p>Munitions notice: Reminder that the laser anti missile systems provided must have power allocated, must be enabled, and must have Anti-missile countermeasures enabled in the AMS control console!</p>"
+	default_raw_text = "<p>Munitions notice: Reminder that the laser anti missile systems provided must have power allocated, must be enabled, and must have Anti-missile countermeasures enabled in the AMS control console!</p>"
 	},
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
@@ -5540,7 +5540,7 @@
 	dir = 4
 	},
 /obj/item/paper{
-	info = "<p>Engineering notice: There are three wire colors used on the Aetherwhisp 6 ship model. White cable is wired to the Stormdrive MK-4 and the supermatter crystal near atmospherics. These lead to their own SMES located nearby. Yellow wires are department distribution wires, which deliver power from the engines SMES to deparment SMES. Red wires deliver power from department SMES to department APCs.</p>"
+	default_raw_text = "<p>Engineering notice: There are three wire colors used on the Aetherwhisp 6 ship model. White cable is wired to the Stormdrive MK-4 and the supermatter crystal near atmospherics. These lead to their own SMES located nearby. Yellow wires are department distribution wires, which deliver power from the engines SMES to deparment SMES. Red wires deliver power from department SMES to department APCs.</p>"
 	},
 /obj/machinery/newscaster/directional/west,
 /obj/structure/cable/yellow{
@@ -6618,12 +6618,20 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/hangar)
 "eCq" = (
-/obj/structure/window/reinforced{
-	dir = 1
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/machinery/fax{
+	name = "Cargo Fax Machine";
+	fax_name = "Cargo"
+	},
+/obj/structure/window/reinforced{
+	layer = 2.89
+	},
+/obj/structure/window/reinforced{
+	dir = 8
+	},
+/obj/structure/table,
 /turf/open/floor/engine,
 /area/quartermaster/storage)
 "eCw" = (
@@ -6711,8 +6719,8 @@
 /turf/open/floor/plating,
 /area/nsv/atc)
 "eFv" = (
-/obj/machinery/door/firedoor/border_only/directional/north,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/engine,
 /area/quartermaster/storage)
 "eFO" = (
@@ -6767,8 +6775,8 @@
 /turf/open/floor/engine,
 /area/nsv/weapons/starboard)
 "eHQ" = (
-/obj/machinery/door/firedoor/border_only/directional/north,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/carpet/orange,
 /area/quartermaster/storage)
 "eHV" = (
@@ -6778,7 +6786,7 @@
 /turf/open/openspace,
 /area/engine/engine_smes)
 "eIb" = (
-/obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/carpet/orange,
 /area/quartermaster/storage)
 "eIc" = (
@@ -7749,7 +7757,7 @@
 	name = "stormdrive power monitoring console"
 	},
 /obj/item/paper{
-	info = "<p>Engineering notice: There are three wire colors used on the Aetherwhisp 6 ship model. White cable is wired to the Stormdrive MK-4 and the supermatter crystal near atmospherics. These lead to their own SMES located nearby. Yellow wires are department distribution wires, which deliver power from the engines SMES to deparment SMES. Red wires deliver power from department SMES to department APCs.</p>"
+	default_raw_text = "<p>Engineering notice: There are three wire colors used on the Aetherwhisp 6 ship model. White cable is wired to the Stormdrive MK-4 and the supermatter crystal near atmospherics. These lead to their own SMES located nearby. Yellow wires are department distribution wires, which deliver power from the engines SMES to deparment SMES. Red wires deliver power from department SMES to department APCs.</p>"
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nsv/weapons/fore)
@@ -8830,7 +8838,7 @@
 	},
 /obj/structure/cable,
 /obj/item/paper{
-	info = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
+	default_raw_text = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
 	pixel_x = 4;
 	pixel_y = 4
 	},
@@ -12737,6 +12745,14 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/pool_party)
+"iIw" = (
+/obj/structure/table,
+/obj/machinery/fax{
+	fax_name = "Munitions";
+	name = "Munitions Fax Machine"
+	},
+/turf/open/floor/engine,
+/area/nsv/weapons/fore)
 "iIB" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -13313,7 +13329,7 @@
 	},
 /obj/machinery/door/window/eastright,
 /obj/item/paper{
-	info = "<p>Reminder that squad equipment vendors are located in the council chamber, tool storage, and that 4-way junction at the primary hallway, Deck 1</p>"
+	default_raw_text = "<p>Reminder that squad equipment vendors are located in the council chamber, tool storage, and that 4-way junction at the primary hallway, Deck 1</p>"
 	},
 /obj/machinery/door/poddoor/shutters/ship/preopen{
 	dir = 4;
@@ -15109,7 +15125,7 @@
 	icon_state = "0-8"
 	},
 /obj/item/paper{
-	info = "<p>Munitions notice: Reminder that the laser anti missile systems provided must have power allocated, must be enabled, and must have Anti-missile countermeasures enabled in the AMS control console!</p>"
+	default_raw_text = "<p>Munitions notice: Reminder that the laser anti missile systems provided must have power allocated, must be enabled, and must have Anti-missile countermeasures enabled in the AMS control console!</p>"
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nsv/weapons/fore)
@@ -18128,7 +18144,7 @@
 	dir = 8
 	},
 /obj/item/paper{
-	info = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
+	default_raw_text = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
 	pixel_x = 4;
 	pixel_y = 4
 	},
@@ -19894,6 +19910,14 @@
 	},
 /turf/open/floor/carpet,
 /area/crew_quarters/dorms)
+"nLE" = (
+/obj/structure/table/glass,
+/obj/machinery/fax{
+	name = "Science Fax Machine";
+	fax_name = "Science"
+	},
+/turf/open/floor/carpet/ship/purple_carpet,
+/area/science/research)
 "nLX" = (
 /obj/structure/disposalpipe/sorting/wrap/flip{
 	dir = 4
@@ -20808,7 +20832,7 @@
 	dir = 8
 	},
 /obj/item/paper{
-	info = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
+	default_raw_text = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
 	pixel_x = 4;
 	pixel_y = 4
 	},
@@ -22029,7 +22053,7 @@
 	dir = 4
 	},
 /obj/item/paper{
-	info = "<p>Reminder that squad equipment vendors are located in the council chamber, tool storage, and that 4-way junction at the primary hallway, Deck 1</p>"
+	default_raw_text = "<p>Reminder that squad equipment vendors are located in the council chamber, tool storage, and that 4-way junction at the primary hallway, Deck 1</p>"
 	},
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
@@ -22570,6 +22594,10 @@
 	},
 /obj/structure/cable/pink{
 	icon_state = "1-2"
+	},
+/obj/machinery/fax{
+	name = "Bridge Fax Machine";
+	fax_name = "Bridge"
 	},
 /turf/open/floor/carpet/blue,
 /area/bridge/meeting_room)
@@ -24633,7 +24661,7 @@
 	pixel_y = 4
 	},
 /obj/item/paper{
-	info = "<p>Reminder that squad equipment vendors are located in the council chamber, tool storage, and that 4-way junction at the primary hallway, Deck 1</p>"
+	default_raw_text = "<p>Reminder that squad equipment vendors are located in the council chamber, tool storage, and that 4-way junction at the primary hallway, Deck 1</p>"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -26842,7 +26870,7 @@
 	},
 /obj/machinery/modular_computer/console/preset/research,
 /obj/item/paper{
-	info = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
+	default_raw_text = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
 	pixel_x = 4;
 	pixel_y = 4
 	},
@@ -27172,7 +27200,7 @@
 /obj/structure/cable,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/item/paper{
-	info = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
+	default_raw_text = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
 	pixel_x = 4;
 	pixel_y = 4
 	},
@@ -64114,7 +64142,7 @@ gCc
 eyH
 xVB
 jOn
-jby
+nLE
 pTc
 jby
 sCA
@@ -78976,7 +79004,7 @@ hbT
 aKK
 brY
 qqd
-hWF
+iIw
 dnp
 oqH
 wsl
