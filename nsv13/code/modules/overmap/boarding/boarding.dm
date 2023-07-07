@@ -91,6 +91,8 @@
 			knpc_types = list(/mob/living/carbon/human/ai_boarder/zombie,)
 		if("droid")
 			knpc_types = list(/mob/living/carbon/human/ai_boarder/boarding_droid,)
+		if("catgirl")
+			knpc_types = list(/mob/living/carbon/human/species/felinid/npc, /mob/living/carbon/human/ai_boarder/assistant/felinid)
 		else
 			message_admins("KNPC spawn failed. No knpcs configured for faction name \"[faction_selection]\".")
 			throw EXCEPTION("No knpcs configured for faction name \"[faction_selection]\"")
