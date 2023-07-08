@@ -481,19 +481,19 @@ Adding tasks is easy! Just define a datum for it.
 /obj/structure/overmap/proc/make_paperwork( var/datum/freight_delivery_receipt/receipt, var/approval )
 	// Cargo DRADIS automatically synthesizes and attaches the requisition form to the cargo torp
 	var/obj/item/paper/paper = new /obj/item/paper()
-	paper.info = "<h2>[receipt.vessel] Shipping Manifest</h2><hr/>"
+	var/final_paper_text = "<h2>[receipt.vessel] Shipping Manifest</h2><hr/>"
 
 	if ( length( receipt.completed_objectives ) == 1 )
 		var/datum/overmap_objective/cargo/objective = receipt.completed_objectives[ 1 ]
-		paper.info += "Order: #[GLOB.round_id]-[objective.objective_number]<br/> \
+		final_paper_text += "Order: #[GLOB.round_id]-[objective.objective_number]<br/> \
 			Destination: [src]<br/> \
 			Item: [objective.crate_name]<br/>"
 	else
-		paper.info += "Order: N/A<br/> \
+		final_paper_text += "Order: N/A<br/> \
 			Destination: [src]<br/> \
 			Item: Unregistered Shipment<br/>"
 
-	paper.info += "Contents:<br/><ul>"
+	final_paper_text += "Contents:<br/><ul>"
 
 	if ( istype( receipt.shipment, /obj/item/ship_weapon/ammunition/torpedo/freight ) )
 		var/obj/item/ship_weapon/ammunition/torpedo/freight/shipment = receipt.shipment
@@ -502,25 +502,28 @@ Adding tasks is easy! Just define a datum for it.
 		for ( var/atom/item in shipment.GetAllContents() )
 			// Remove redundant objects that would otherwise always appear on the list
 			if ( !is_type_in_typecache( item.type, GLOB.blacklisted_paperwork_itemtypes ) )
-				paper.info += "<li>[item]</li>"
+				final_paper_text += "<li>[item]</li>"
 	else
-		paper.info += "<li>miscellaneous unpackaged objects</li>"
+		final_paper_text += "<li>miscellaneous unpackaged objects</li>"
 
-	paper.info += "</ul><h4>Stamp below to confirm receipt of goods:</h4>"
+	final_paper_text += "</ul><h4>Stamp below to confirm receipt of goods:</h4>"
 
-	paper.stamped = list()
-	paper.stamps = list()
+	//paper.stamped = list()
+	//paper.stamps = list()
 	var/datum/asset/spritesheet/sheet = get_asset_datum(/datum/asset/spritesheet/simple/paper)
 
 	// Extremely cheap stamp code because the only way to add stamps is through tgui
 	if ( approval )
-		paper.stamped += "stamp-ok"
-		paper.stamps = list( list(sheet.icon_class_name("stamp-ok"), 1, 1, 0) )
+		paper.add_stamp(sheet.icon_class_name("stamp-ok"), 1, 1, 0, "stamp-ok")
+		//paper.stamped += "stamp-ok"
+		//paper.stamps = list( list(sheet.icon_class_name("stamp-ok"), 1, 1, 0) )
 	else
-		paper.stamped += "stamp-deny"
-		paper.stamps = list( list(sheet.icon_class_name("stamp-deny"), 1, 1, 0) )
+		paper.add_stamp(sheet.icon_class_name("stamp-deny"), 1, 1, 0, "stamp-deny")
+		//paper.stamped += "stamp-deny"
+		//paper.stamps = list( list(sheet.icon_class_name("stamp-deny"), 1, 1, 0) )
 
-	paper.update_icon()
+	paper.add_raw_text(final_paper_text)
+	paper.update_appearance()
 	return paper
 
 /obj/structure/overmap/proc/return_approved_form( var/datum/freight_delivery_receipt/receipt )
