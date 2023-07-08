@@ -545,6 +545,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return FALSE
 	if(weapon_safety && !can_friendly_fire())
 		return FALSE
+	if(istype(target, /obj/machinery/button))
+		return target.attack_hand(user)
 	var/list/params_list = params2list(params)
 	if(target == src || istype(target, /atom/movable/screen) || (target in user.GetAllContents()) || params_list["alt"] || params_list["shift"])
 		return FALSE
