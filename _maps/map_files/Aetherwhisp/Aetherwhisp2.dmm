@@ -1655,7 +1655,9 @@
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
 /turf/open/floor/engine/vacuum,
 /area/nsv/hanger)
 "bfP" = (
@@ -3231,15 +3233,6 @@
 /obj/structure/chair,
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/pool_party)
-"ciw" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 1
-	},
-/turf/open/floor/plating/airless,
-/area/nsv/hanger)
 "ciI" = (
 /obj/structure/cable/yellow{
 	icon_state = "0-4"
@@ -4345,7 +4338,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/effect/landmark/patrol_node{
 	id = "deck2_hangar";
 	next_id = "deck2_cargooffice"
@@ -10018,12 +10010,14 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
 	},
 /turf/open/floor/engine/vacuum,
 /area/nsv/hanger)
@@ -10482,16 +10476,6 @@
 /obj/item/clothing/mask/gas,
 /turf/open/floor/plating,
 /area/maintenance/department/science/central)
-"hbD" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/airalarm/all_access{
-	pixel_y = 24;
-	TLV = list("pressure" = news /datum/tlv(0, 0, 111.458, 121.59), "temperature" = new /datum/tlv(293.15, -1, 313.15, 339.15), "o2" = new /datum/tlv(-1, -1, 40, 50), "n2" = new /datum/tlv(-1, -1, 1000, 1000), "co2" = new /datum/tlv(-1, -1, 5, 10), "plasma" = new /datum/tlv/dangerous, "n2o" = new /datum/tlv/dangerous, "bz" = new /datum/tlv/dangerous, "nob" = new /datum/tlv(-1, -1, 1000, 1000), "water_vapor" = new /datum/tlv/dangerous, "tritium" = new /datum/tlv/dangerous, "stim" = new /datum/tlv/dangerous, "no2" = new /datum/tlv/dangerous, "pluox" = new /datum/tlv(-1, -1, 5, 6), "constricted_plasma" = new /datum/tlv/dangerous, "nucleium" = new /datum/tlv/dangerous)
-	},
-/turf/open/floor/engine/vacuum,
-/area/nsv/hanger)
 "hbN" = (
 /obj/machinery/atmospherics/pipe/simple/purple/visible,
 /turf/open/floor/plating,
@@ -12887,17 +12871,6 @@
 /obj/effect/spawner/lootdrop/maintenance/three,
 /turf/open/floor/plating,
 /area/maintenance/disposal)
-"iMT" = (
-/obj/effect/turf_decal/stripes/line,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
-/turf/open/floor/plating/airless,
-/area/nsv/hanger)
 "iMY" = (
 /obj/machinery/portable_atmospherics/scrubber,
 /obj/machinery/atmospherics/components/unary/portables_connector/layer4{
@@ -14386,19 +14359,6 @@
 	name = "nanoweave carpet (bluer)"
 	},
 /area/maintenance/fore)
-"jLA" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/purple/hidden{
-	dir = 4
-	},
-/turf/open/floor/engine/vacuum,
-/area/nsv/hanger)
 "jLE" = (
 /obj/structure/chair/office/light{
 	dir = 4
@@ -16100,13 +16060,6 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/nsv/atc)
-"llI" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/layer4,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/engine/vacuum,
-/area/nsv/hanger)
 "llQ" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
@@ -16162,17 +16115,6 @@
 /obj/machinery/power/port_gen/pacman,
 /turf/open/floor/plating,
 /area/maintenance/department/science/central)
-"loz" = (
-/obj/effect/turf_decal/stripes/line,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/turf/open/floor/plating/airless,
-/area/nsv/hanger)
 "lpi" = (
 /obj/structure/closet/firecloset/full,
 /turf/open/floor/carpet/ship/blue{
@@ -17082,11 +17024,13 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 4
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
 /turf/open/floor/engine/vacuum,
 /area/nsv/hanger)
 "lVe" = (
@@ -27000,10 +26944,6 @@
 /obj/structure/extinguisher_cabinet/east,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/mixing)
-"slK" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
-/turf/open/floor/engine/vacuum,
-/area/nsv/hanger)
 "slO" = (
 /obj/structure/window/reinforced{
 	dir = 1
@@ -29068,7 +29008,6 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
@@ -29951,11 +29890,7 @@
 /turf/open/floor/plating,
 /area/ai_monitored/turret_protected/aisat_interior)
 "uDy" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/effect/landmark/event_spawn,
-/obj/machinery/atmospherics/components/unary/vent_scrubber/layer4{
-	dir = 1
-	},
 /turf/open/floor/engine/vacuum,
 /area/nsv/hanger)
 "uDQ" = (
@@ -30139,13 +30074,6 @@
 /obj/effect/landmark/start/cyborg,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/robotics/lab)
-"uNa" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/engine/vacuum,
-/area/nsv/hanger)
 "uNA" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -67942,9 +67870,9 @@ vAz
 vAz
 vAz
 vAz
-llI
-loz
-jLA
+wTG
+nIK
+wLR
 vAz
 mot
 qjS
@@ -68969,12 +68897,12 @@ ikq
 vAz
 kLc
 vAz
-slK
-uNa
+vAz
+wTG
 cXE
 gLD
 uDy
-ciw
+hPa
 pey
 pey
 rjk
@@ -69485,7 +69413,7 @@ vAz
 vAz
 vAz
 wTG
-iMT
+nIK
 bfM
 vAz
 mot
@@ -70512,7 +70440,7 @@ pey
 pey
 mfj
 vAz
-llI
+wTG
 tSt
 lUN
 aIb
@@ -71031,7 +70959,7 @@ rZn
 pjB
 wNh
 uzC
-hbD
+wTG
 vAz
 wTG
 bBU
