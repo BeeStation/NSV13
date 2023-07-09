@@ -8625,7 +8625,7 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/item/paper{
-	info = "<p>Reminder that squad equipment vendors are located in the council chamber, tool storage, and that 4-way junction at the primary hallway, Deck 1</p>"
+	default_raw_text = "<p>Reminder that squad equipment vendors are located in the council chamber, tool storage, and that 4-way junction at the primary hallway, Deck 1</p>"
 	},
 /obj/item/reagent_containers/spray/cleaner,
 /obj/effect/landmark/zebra_interlock_point,
@@ -9505,14 +9505,12 @@
 /area/security/main/warroom)
 "gay" = (
 /obj/structure/table,
-/obj/item/storage/box/prisoner{
-	pixel_x = 4;
-	pixel_y = 4
-	},
-/obj/item/storage/box/exileimp,
-/obj/item/binoculars,
 /obj/structure/sign/poster/official/random{
 	pixel_x = 32
+	},
+/obj/machinery/fax{
+	fax_name = "Wardens Office";
+	name = "Wardens Office Fax Machine"
 	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/warden)
@@ -13672,7 +13670,11 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
 "iUH" = (
-/obj/item/kirbyplants/random,
+/obj/machinery/fax{
+	fax_name = "Law Office";
+	name = "Law Office Fax Machine"
+	},
+/obj/structure/table/wood,
 /turf/open/floor/wood,
 /area/lawoffice)
 "iUM" = (
@@ -16793,7 +16795,7 @@
 	dir = 4
 	},
 /obj/item/paper{
-	info = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
+	default_raw_text = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
 	pixel_x = 4;
 	pixel_y = 4
 	},
@@ -22820,7 +22822,7 @@
 	icon_state = "4-8"
 	},
 /obj/item/paper{
-	info = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
+	default_raw_text = "<p>Executive Officer notice: Modular computers are currently experiencing technical difficulties regarding their ID modification hardware. The 'identification card authentication module' supports 2 ID slots, and was previously paired with the 'ID Card Modification' program that also supported 2 IDs. There was recently a software update that removed the need to insert your own ID to authenticate and log in. However, it did not update the hardware, nor does it allow you to remove an ID from the authentication slot anymore.<br><br>To edit IDs with a modular computer without losing your ID, insert the target's ID but NEVER insert your own ID. You will still be able to log in if you are wearing it. Make sure you never put more than 1 ID in the modular computer.<br><br>If you do accidentally lose your own ID and getting a new one without your XO access is borderline impossible, contact Central Command. Politely ask them to remote into the console, then run subroutine '/proc/eject_id'<br><br>Have a secure shift</p>";
 	pixel_x = 4;
 	pixel_y = 4
 	},
@@ -24102,6 +24104,14 @@
 	initial_gas_mix = "n2=300000;TEMP=293.15"
 	},
 /area/engine/atmos)
+"pKi" = (
+/obj/machinery/fax{
+	fax_name = "Medical Lobby";
+	name = "Medical Lobby Fax Machine"
+	},
+/obj/structure/table/reinforced,
+/turf/open/floor/carpet/blue,
+/area/medical/medbay/lobby)
 "pKs" = (
 /obj/machinery/computer/warrant{
 	dir = 1
@@ -24788,7 +24798,7 @@
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /obj/machinery/suit_storage_unit/standard_unit,
 /obj/item/paper{
-	info = "<p>Reminder to deactivate ID requirements for airlocks in the secondary EVA storage located on Deck 1 Chapel maintenance.</p>"
+	default_raw_text = "<p>Reminder to deactivate ID requirements for airlocks in the secondary EVA storage located on Deck 1 Chapel maintenance.</p>"
 	},
 /obj/structure/window/reinforced{
 	dir = 8
@@ -32344,6 +32354,10 @@
 /area/medical/morgue)
 "vrB" = (
 /obj/structure/table,
+/obj/machinery/fax{
+	name = "Engineerings Fax Machine";
+	fax_name = "Engineering"
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engine_smes)
 "vrH" = (
@@ -32613,6 +32627,12 @@
 "vzU" = (
 /obj/structure/table,
 /obj/machinery/airalarm/directional/north,
+/obj/item/storage/box/prisoner{
+	pixel_x = 4;
+	pixel_y = 4
+	},
+/obj/item/storage/box/exileimp,
+/obj/item/binoculars,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/warden)
 "vAl" = (
@@ -34350,7 +34370,7 @@
 	req_one_access_txt = "3"
 	},
 /obj/item/paper{
-	info = "<p>Reminder that squad equipment vendors are located in the council chamber, tool storage, and that 4-way junction at the primary hallway, Deck 1</p>"
+	default_raw_text = "<p>Reminder that squad equipment vendors are located in the council chamber, tool storage, and that 4-way junction at the primary hallway, Deck 1</p>"
 	},
 /obj/machinery/door/poddoor/ship/preopen{
 	dir = 4;
@@ -35396,22 +35416,22 @@
 	},
 /obj/effect/spawner/lootdrop/maintenance/three,
 /obj/item/paper{
-	info = "<p><br>X <br>Sasha Mendell (Research Director) Bethany Joyce (Scientist) Nice!<br><br>X <br>Bethany Joyce (Scientist) Sasha Mendell (Research Director) Want me to do anything wihth them?<br><br>X <br>Julissa Carr (Ship Engineer) Alexis Catherina (Ship Engineer) Im back, did I miss anything<br><br>X <br>Ascalapha Modesta (Head of Security) Sasha Mendell (Research Director) Can you send us the PDA logs for this shift? We're trying to solve a few crimes and we think that might help <br><br>X <br>Sasha Mendell (Research Director) Ascalapha Modesta (Head of Security) Sure, I'll send that right over <br><br>X <br>Ascalapha Modesta (Head of Security) Sasha Mendell (Research Director) Thanks <br></p>";
+	default_raw_text = "<p><br>X <br>Sasha Mendell (Research Director) Bethany Joyce (Scientist) Nice!<br><br>X <br>Bethany Joyce (Scientist) Sasha Mendell (Research Director) Want me to do anything wihth them?<br><br>X <br>Julissa Carr (Ship Engineer) Alexis Catherina (Ship Engineer) Im back, did I miss anything<br><br>X <br>Ascalapha Modesta (Head of Security) Sasha Mendell (Research Director) Can you send us the PDA logs for this shift? We're trying to solve a few crimes and we think that might help <br><br>X <br>Sasha Mendell (Research Director) Ascalapha Modesta (Head of Security) Sure, I'll send that right over <br><br>X <br>Ascalapha Modesta (Head of Security) Sasha Mendell (Research Director) Thanks <br></p>";
 	pixel_x = 2;
 	pixel_y = 2
 	},
 /obj/item/paper{
-	info = "<p><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) I'll see what I can do <br><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) Hey I got your key back, you won't believe how lucky I was with the rad storm! Sent from my PDA <br><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) How do you want me to get it to you? <br><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) Stephen? Hello? <br><br>X <br>Julissa Carr (Ship Engineer) Alexis Catherina (Ship Engineer) brb<br><br>X <br>Violet Koster (Scientist) Ascalapha Modesta (Head of Security) Hey I think a cargo tech has gone missing, Stephen Greenawalt. I just messaged him a few times and he's not responding <br><br>X <br>Ascalapha Modesta (Head of Security) Violet Koster (Scientist) Ok we'll look into it <br><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) I'm stowing this contraband stuff in maintenance for now. Do let me know when you get back<br><br>X <br>Bethany Joyce (Scientist) Sasha Mendell (Research Director) Got rainbow in xeno<br></p>";
+	default_raw_text = "<p><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) I'll see what I can do <br><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) Hey I got your key back, you won't believe how lucky I was with the rad storm! Sent from my PDA <br><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) How do you want me to get it to you? <br><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) Stephen? Hello? <br><br>X <br>Julissa Carr (Ship Engineer) Alexis Catherina (Ship Engineer) brb<br><br>X <br>Violet Koster (Scientist) Ascalapha Modesta (Head of Security) Hey I think a cargo tech has gone missing, Stephen Greenawalt. I just messaged him a few times and he's not responding <br><br>X <br>Ascalapha Modesta (Head of Security) Violet Koster (Scientist) Ok we'll look into it <br><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) I'm stowing this contraband stuff in maintenance for now. Do let me know when you get back<br><br>X <br>Bethany Joyce (Scientist) Sasha Mendell (Research Director) Got rainbow in xeno<br></p>";
 	pixel_x = 2;
 	pixel_y = 2
 	},
 /obj/item/paper{
-	info = "<p><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) ATV? Cool <br><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) Why did they take it in the first place? <br><br>X <br>Stephen Greenawalt (Cargo Technician) Violet Koster (Scientist) i dont know <br><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) You'll have to be more specific than that <br><br>X <br>Dustin Stroh (Assistant) In A Nutshell (AI) Law 2 open<br><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) Were you joyriding it across the hallways? <br><br>X <br>Stephen Greenawalt (Cargo Technician) Violet Koster (Scientist) yes <br><br>X <br>Stephen Greenawalt (Cargo Technician) Violet Koster (Scientist) will you get it back for me? <br></p>";
+	default_raw_text = "<p><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) ATV? Cool <br><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) Why did they take it in the first place? <br><br>X <br>Stephen Greenawalt (Cargo Technician) Violet Koster (Scientist) i dont know <br><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) You'll have to be more specific than that <br><br>X <br>Dustin Stroh (Assistant) In A Nutshell (AI) Law 2 open<br><br>X <br>Violet Koster (Scientist) Stephen Greenawalt (Cargo Technician) Were you joyriding it across the hallways? <br><br>X <br>Stephen Greenawalt (Cargo Technician) Violet Koster (Scientist) yes <br><br>X <br>Stephen Greenawalt (Cargo Technician) Violet Koster (Scientist) will you get it back for me? <br></p>";
 	pixel_x = 2;
 	pixel_y = 2
 	},
 /obj/item/paper{
-	info = "<p><br>X<br><br>Sender<br><br>Recipient<br><br>Message<br><br><br>X <br>system System Administrator This is an automated message. The messaging system is functioning correctly. <br><br>X <br>Jalen Khan (Cook) SYS-32EXE (Botanist) wheat carrots sugarcane lemons limes oranges chilis corn <br><br>X <br>Jalen Khan (Cook) SYS-32EXE (Botanist) vwheat carrots sugarcane lemons limes oranges chilis corn <br><br>X <br>SYS-32EXE (Botanist) Jalen Khan (Cook) anything else?<br><br>X <br>Bethany Joyce (Scientist) Violet Koster (Scientist) I'll go to xeno then<br><br>X <br>Stephen Greenawalt (Cargo Technician) Violet Koster (Scientist) hey can you help me with something? security took away my atv key and i want it back <br></p>";
+	default_raw_text = "<p><br>X<br><br>Sender<br><br>Recipient<br><br>Message<br><br><br>X <br>system System Administrator This is an automated message. The messaging system is functioning correctly. <br><br>X <br>Jalen Khan (Cook) SYS-32EXE (Botanist) wheat carrots sugarcane lemons limes oranges chilis corn <br><br>X <br>Jalen Khan (Cook) SYS-32EXE (Botanist) vwheat carrots sugarcane lemons limes oranges chilis corn <br><br>X <br>SYS-32EXE (Botanist) Jalen Khan (Cook) anything else?<br><br>X <br>Bethany Joyce (Scientist) Violet Koster (Scientist) I'll go to xeno then<br><br>X <br>Stephen Greenawalt (Cargo Technician) Violet Koster (Scientist) hey can you help me with something? security took away my atv key and i want it back <br></p>";
 	pixel_x = 2;
 	pixel_y = 2
 	},
@@ -35707,7 +35727,7 @@
 /obj/structure/table,
 /obj/item/storage/toolbox/mechanical,
 /obj/item/paper{
-	info = "<p>Engineering notice: There are three wire colors used on the Aetherwhisp 6 ship model. White cable is wired to the Stormdrive MK-4 and the supermatter crystal near atmospherics. These lead to their own SMES located nearby. Yellow wires are department distribution wires, which deliver power from the engines SMES to deparment SMES. Red wires deliver power from department SMES to department APCs.</p>"
+	default_raw_text = "<p>Engineering notice: There are three wire colors used on the Aetherwhisp 6 ship model. White cable is wired to the Stormdrive MK-4 and the supermatter crystal near atmospherics. These lead to their own SMES located nearby. Yellow wires are department distribution wires, which deliver power from the engines SMES to deparment SMES. Red wires deliver power from department SMES to department APCs.</p>"
 	},
 /obj/effect/spawner/lootdrop/maintenance,
 /obj/item/dest_tagger{
@@ -70314,7 +70334,7 @@ dim
 vnJ
 fvf
 haC
-quU
+pKi
 fWo
 qgc
 tDb

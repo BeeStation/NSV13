@@ -39,6 +39,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 
 /mob/living/carbon/human/ai_boarder/Initialize(mapload)
 	. = ..()
+	randomize_human(src)
 	var/outfit_path = pick(outfit)
 	var/datum/outfit/O = new outfit_path
 	O.equip(src)
