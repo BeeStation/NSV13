@@ -806,6 +806,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	network_destination = "rbmk monitoring system"
 	size = 2
 	tgui_id = "NtosRbmkStats"
+	program_icon = "radiation"
 	var/active = TRUE //Easy process throttle
 	var/next_stat_interval = 0
 	var/list/psiData = list()
@@ -866,7 +867,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	..()
 
 /datum/computer_file/program/nuclear_monitor/ui_data()
-	var/list/data = get_header_data()
+	var/list/data = list()
 	data["powerData"] = powerData
 	data["psiData"] = psiData
 	data["tempInputData"] = tempInputData

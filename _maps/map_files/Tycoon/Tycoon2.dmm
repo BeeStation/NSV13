@@ -5246,6 +5246,7 @@
 "amY" = (
 /obj/item/reagent_containers/food/drinks/beer,
 /obj/structure/table,
+/obj/item/storage/box/lights/mixed,
 /turf/open/floor/monotile/steel,
 /area/hallway/secondary/service)
 "ana" = (
@@ -7002,6 +7003,10 @@
 /area/crew_quarters/dorms)
 "ash" = (
 /obj/structure/table/glass,
+/obj/machinery/fax{
+	fax_name = "Law Office";
+	name = "Law Office Fax Machine"
+	},
 /turf/open/floor/carpet/blue,
 /area/lawoffice)
 "asm" = (
@@ -12001,10 +12006,9 @@
 /area/engine/engineering)
 "aHx" = (
 /obj/structure/table/reinforced,
-/obj/item/modular_computer/tablet/preset/advanced,
-/obj/item/geiger_counter{
-	desc = "It's capped at 3.6 Roentgen. Not great, not terrible.";
-	name = "\improper Dossimiter"
+/obj/machinery/fax{
+	name = "Engineerings Fax Machine";
+	fax_name = "Engineering"
 	},
 /turf/open/floor/durasteel/lino,
 /area/engine/engineering/reactor_control)
@@ -22599,6 +22603,11 @@
 	pixel_x = 6;
 	pixel_y = 2
 	},
+/obj/item/reagent_containers/syringe/epinephrine{
+	pixel_x = 3;
+	pixel_y = -2
+	},
+/obj/item/reagent_containers/dropper,
 /turf/open/floor/engine,
 /area/medical/medbay/lobby)
 "beI" = (
@@ -23712,11 +23721,10 @@
 /obj/machinery/light{
 	dir = 1
 	},
-/obj/item/reagent_containers/syringe/epinephrine{
-	pixel_x = 3;
-	pixel_y = -2
+/obj/machinery/fax{
+	fax_name = "Medical";
+	name = "Medical Cryo Fax Machine"
 	},
-/obj/item/reagent_containers/dropper,
 /turf/open/floor/engine,
 /area/medical/medbay/lobby)
 "bha" = (
@@ -25919,6 +25927,10 @@
 "blF" = (
 /obj/structure/table/reinforced,
 /obj/structure/disposalpipe/segment,
+/obj/machinery/fax{
+	fax_name = "Wardens Office";
+	name = "Wardens Office Fax Machine"
+	},
 /turf/open/floor/carpet/red,
 /area/security/warden)
 "blG" = (
@@ -43847,7 +43859,10 @@
 /obj/structure/extinguisher_cabinet{
 	pixel_x = 27
 	},
-/obj/item/storage/box/lights/mixed,
+/obj/machinery/fax{
+	name = "Service Fax Machine";
+	fax_name = "Service"
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/secondary/service)
 "ihA" = (
@@ -44426,6 +44441,16 @@
 /obj/machinery/door/firedoor/border_only,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar)
+"iVx" = (
+/obj/structure/table/reinforced,
+/obj/machinery/fax{
+	name = "CIC Fax Machine";
+	fax_name = "CIC"
+	},
+/turf/open/floor/monotile/dark,
+/area/bridge{
+	name = "CIC"
+	})
 "iVI" = (
 /turf/open/floor/engine,
 /area/engine/engineering)
@@ -49552,6 +49577,18 @@
 	},
 /turf/closed/wall/ship,
 /area/medical/medbay/lobby)
+"qIl" = (
+/obj/structure/table/reinforced,
+/obj/item/modular_computer/tablet/preset/advanced,
+/obj/item/geiger_counter{
+	desc = "It's capped at 3.6 Roentgen. Not great, not terrible.";
+	name = "\improper Dossimiter"
+	},
+/obj/item/paper/crumpled{
+	default_raw_text = "<center><b>No. You do not deserve them</center></b><br><br><center></center>"
+	},
+/turf/open/floor/durasteel/lino,
+/area/engine/engineering/reactor_control)
 "qIN" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 8
@@ -50405,6 +50442,23 @@
 	id = "spentfuel2"
 	},
 /area/engine/engineering/reactor_core)
+"rPS" = (
+/obj/structure/table/reinforced,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/machinery/fax{
+	name = "Cargo Fax Machine";
+	fax_name = "Cargo"
+	},
+/turf/open/floor/carpet/ship,
+/area/quartermaster/storage)
 "rSa" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
@@ -86533,7 +86587,7 @@ buW
 cak
 bzO
 abG
-bYf
+iVx
 caG
 abG
 abG
@@ -89636,7 +89690,7 @@ ajl
 aes
 aes
 bcr
-bqf
+rPS
 aOo
 bcv
 aci
@@ -103723,7 +103777,7 @@ nOu
 apt
 and
 amv
-rpx
+aHx
 ayJ
 gfj
 mWF
@@ -104746,7 +104800,7 @@ fBS
 azg
 bto
 ayJ
-aHx
+qIl
 pxL
 wvQ
 ana

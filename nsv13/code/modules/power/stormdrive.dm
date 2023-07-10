@@ -1865,6 +1865,7 @@ Control Rods
 	network_destination = "storm drive monitoring system"
 	size = 2
 	tgui_id = "NtosStormdriveMonitor"
+	program_icon = "atom"
 	var/active = TRUE //Easy process throttle
 	var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/reactor //Our reactor.
 
@@ -1909,7 +1910,7 @@ Control Rods
 	..()
 
 /datum/computer_file/program/stormdrive_monitor/ui_data()
-	var/list/data = get_header_data()
+	var/list/data = list()
 	data["heat"] = reactor.heat
 	data["rod_integrity"] = reactor.control_rod_integrity
 	data["control_rod_percent"] = reactor.control_rod_percent

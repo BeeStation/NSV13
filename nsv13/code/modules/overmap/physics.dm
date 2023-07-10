@@ -597,7 +597,12 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	if(ai_aim && !proj.can_home && !proj.hitscan)
 		target = calculate_intercept(target, proj, miss_chance=miss_chance, max_miss_distance=max_miss_distance)
 	proj.starting = T
-	proj.firer = (!user_override && gunner) ? gunner : user_override
+	if(user_override)
+		proj.firer = user_override
+	else if(gunner)
+		proj.firer = gunner
+	else
+		proj.firer = src
 	proj.def_zone = "chest"
 	proj.original = target
 	proj.overmap_firer = src
@@ -619,10 +624,6 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		if(isovermap(proj.homing_target))
 			var/obj/structure/overmap/overmap_target = proj.homing_target
 			overmap_target.on_missile_lock(src, proj)
-	if(gunner)
-		proj.firer = gunner
-	else
-		proj.firer = src
 	spawn()
 		proj.preparePixelProjectileOvermap(target, src, null, round((rand() - 0.5) * proj.spread), lateral=lateral)
 		proj.fire()
