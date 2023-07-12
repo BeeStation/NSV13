@@ -46,3 +46,14 @@
 		new /obj/item/reagent_containers/glass/beaker/large( src )
 	for(var/i in 1 to 5)
 		new /obj/item/reagent_containers/glass/beaker( src )
+
+/obj/item/storage/box/suitbox/maid
+	name = "compression box of maid uniforms"
+	desc = "Contains a state of the art maid uniform."
+
+/obj/item/storage/box/suitbox/maid/PopulateContents()
+	new /obj/item/clothing/head/maidheadband(src)
+	new /obj/item/clothing/neck/maid(src)
+	new /obj/item/clothing/gloves/maid(src)
+	new /obj/item/clothing/under/costume/maid(src)
+
