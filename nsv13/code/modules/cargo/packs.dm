@@ -540,7 +540,10 @@
 					/obj/item/clothing/suit/ship/squad/military_police,
 					/obj/item/clothing/under/ship/military_police,
 					/obj/item/clothing/under/ship/military_police,
-					/obj/item/clothing/under/ship/military_police)
+					/obj/item/clothing/under/ship/military_police,
+					/obj/item/clothing/head/helmet/ship/squad/military_police,
+					/obj/item/clothing/head/helmet/ship/squad/military_police,
+					/obj/item/clothing/head/helmet/ship/squad/military_police)
 	crate_name = "MP armor crate"
 
 /datum/supply_pack/security/armory/m45single
