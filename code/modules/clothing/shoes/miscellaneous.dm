@@ -133,10 +133,7 @@
 	permeability_coefficient = 0.05 //Thick soles, and covers the ankle
 	pocket_storage_component_path = /datum/component/storage/concrete/pockets/shoes
 
-// NSV13 modified
 /obj/item/clothing/shoes/jackboots/fast
-	name = "modified jackboots"
-	desc = "Security combat boots for combat scenarios or combat situations. This pair seems to be modified with lighter materials."
 	slowdown = -1
 
 /obj/item/clothing/shoes/winterboots
