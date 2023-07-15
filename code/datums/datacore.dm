@@ -263,7 +263,7 @@
 		G.fields["photo_front"]	= photo_front
 		G.fields["photo_side"]	= photo_side
 		//NSV13 - Roleplaying Records General Records - Start
-		if(C && C.prefs.active_character && C.prefs.active_character.general_record)
+		if(C?.prefs?.active_character?.general_record)
 			G.fields["past_records"] = C.prefs.active_character.general_record
 		else
 			G.fields["past_records"] = ""
@@ -286,7 +286,7 @@
 		M.fields["cdi_d"]		= "No diseases have been diagnosed at the moment."
 		M.fields["notes"]		= "No notes."
 		//NSV13 - Roleplaying Records Medical Records - Start
-		if(C && C.prefs.active_character && C.prefs.active_character.medical_record)
+		if(C?.prefs?.active_character?.medical_record)
 			M.fields["past_records"] = C.prefs.active_character.medical_record
 		else
 			M.fields["past_records"] = ""
@@ -302,7 +302,7 @@
 		S.fields["crim"]		= list()
 		S.fields["notes"]		= "No notes."
 		//NSV13 - Roleplaying Records Security Records - Start
-		if(C && C.prefs.active_character && C.prefs.active_character.security_record)
+		if(C?.prefs?.active_character?.security_record)
 			S.fields["past_records"] = C.prefs.active_character.security_record
 		else
 			S.fields["past_records"] = ""

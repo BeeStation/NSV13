@@ -38,7 +38,7 @@ export interface BoxProps {
   bold?: BooleanLike;
   italic?: BooleanLike;
   nowrap?: BooleanLike;
-  preserveWhitespace?: BooleanLike;
+  preserveWhitespace?: BooleanLike; // NSV13 - Roleplaying Flavor Text
   m?: string | BooleanLike;
   mx?: string | BooleanLike;
   my?: string | BooleanLike;
@@ -164,7 +164,7 @@ const styleMapperByPropName = {
   bold: mapBooleanPropTo('font-weight', 'bold'),
   italic: mapBooleanPropTo('font-style', 'italic'),
   nowrap: mapBooleanPropTo('white-space', 'nowrap'),
-  preserveWhitespace: mapBooleanPropTo('white-space', 'pre'),
+  preserveWhitespace: mapBooleanPropTo('white-space', 'pre-wrap'), // NSV13 - Roleplaying Flavor Text
   // Margins
   m: mapDirectionalUnitPropTo('margin', halfUnit, [
     'top', 'bottom', 'left', 'right',

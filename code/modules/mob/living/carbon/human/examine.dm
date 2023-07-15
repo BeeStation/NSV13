@@ -391,18 +391,6 @@
 		if(line)
 			. += line
 
-	if(client && user.client.holder && isobserver(user))
-		var/line = ""
-		if(!(client.prefs.active_character.general_record == ""))
-			line += "<a href='?src=[REF(src)];general_records=1'>\[GEN\]</a>"
-		if(!(client.prefs.active_character.security_record == ""))
-			line += "<a href='?src=[REF(src)];security_records=1'>\[SEC\]</a>"
-		if(!(client.prefs.active_character.medical_record == ""))
-			line += "<a href='?src=[REF(src)];medical_records=1'>\[MED\]</a>"
-
-		if(!(line == ""))
-			. += "*---------*"
-			. += line
 	//NSV13 - Roleplaying Records - End
 	. += "*---------*</span>"
 

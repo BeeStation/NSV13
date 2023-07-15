@@ -36,7 +36,10 @@ export const ExaminePanel = (props, context) => {
           <Stack.Item grow>
             <Stack fill vertical>
               <Stack.Item grow>
-                <Section scrollable fill title={character_name + "'s Flavor Text:"}
+                <Section
+                  scrollable
+                  fill
+                  title={character_name + "'s Flavor Text:"}
                   preserveWhitespace>
                   {flavor_text}
                 </Section>
