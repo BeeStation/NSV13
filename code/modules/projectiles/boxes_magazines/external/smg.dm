@@ -32,7 +32,7 @@
 	icon_state = "46x30mmtp-20"
 	ammo_type = /obj/item/ammo_casing/c46x30mm/rubber
 
-/obj/item/ammo_box/magazine/wt550m9/wtic/update_icon()
+/obj/item/ammo_box/magazine/wt550m9/rubber/update_icon()
 	..()
 	icon_state = "46x30mmtp-[round(ammo_count(),4)]"
 
