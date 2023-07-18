@@ -46,3 +46,13 @@
 		new /obj/item/reagent_containers/glass/beaker/large( src )
 	for(var/i in 1 to 5)
 		new /obj/item/reagent_containers/glass/beaker( src )
+
+/obj/item/storage/box/syndie_kit/maid/PopulateContents()
+	new /obj/item/clothing/head/maidheadband/syndicate(src)
+	new /obj/item/clothing/under/syndicate/maid(src)
+	new /obj/item/clothing/gloves/combat/maid(src)
+	new /obj/item/clothing/accessory/maidapron/syndicate(src)
+	new /obj/item/clothing/shoes/jackboots(src)
+	new /obj/item/soap/syndie(src)
+	new /obj/item/reagent_containers/glass/bucket(src)
+	new /obj/item/mop/sharp(src)
