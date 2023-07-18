@@ -241,8 +241,7 @@
 	if(strength <= RAD_BACKGROUND_RADIATION)
 		qdel(healthy_green_glow)
 		return
-	healthy_green_glow.strength -= max(0, (healthy_green_glow.strength - (RAD_BACKGROUND_RADIATION * 2)) * 0.2)
-
+	healthy_green_glow.strength -= max(0, healthy_green_glow.strength * 0.2) //NSV13 - Now removes rads towards 0, instead of towards (background radiation * 2).
 /obj/machinery/shower/process()
 	if(on)
 		wash_atom(loc)
