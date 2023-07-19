@@ -1,6 +1,6 @@
 #define MARTIALART_JUJITSU "ju jitsu"
 #define TAKEDOWN_COMBO "DG" // changed for stam damage pushes
-#define JUDO_THROW "DHHG"
+#define JUDO_THROW "HHG"
 #define ARMLOCKING "DHGG"
 
 /obj/item/book/granter/martial/jujitsu
@@ -38,7 +38,7 @@
 	set category = "Jujitsu"
 	to_chat(usr, "<span class='notice'>Combos:</span>")
 	to_chat(usr, "<span class='warning'><b>Disarm, Grab</b> will perform a takedown on the target, if they have been slowed / weakened first</span>")
-	to_chat(usr, "<span class='warning'><b>Disarm, Harm, Harm, Grab</b> will execute a judo throw on the target,landing you on top of them in a pinning position. Provided that you have a grab on them on the final step...</span>")
+	to_chat(usr, "<span class='warning'><b>Harm, Harm, Grab</b> will execute a judo throw on the target,landing you on top of them in a pinning position. Provided that you have a grab on them on the final step...</span>")
 	to_chat(usr, "<span class='warning'><b>Disarm, Harm, Grab, Grab</b> will execute an armlock on the target, throwing you both to the ground. You however have more maneuverability than the perp from this position.</span>")
 
 	to_chat(usr, "<b><i>In addition, you also have a small window of opportunity to forcefully grab the perp during armlock.</i></b>")
@@ -68,9 +68,10 @@
 	A.do_attack_animation(D, ATTACK_EFFECT_KICK)
 	D.visible_message("<span class='userdanger'>[A] trips [D] up and pins them to the ground!</span>", "<span class='userdanger'>[A] is pinning you to the ground!</span>")
 	playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
-	D.Paralyze(7 SECONDS) //Equivalent to a clown PDA
+	D.Paralyze(2 SECONDS)
+	D.Knockdown(7 SECONDS)
 	A.shake_animation(10)
-	D.shake_animation(10)
+	D.shake_animation(20)
 	D.adjustOxyLoss(10) // you smashed him into the ground
 	A.forceMove(get_turf(D))
 	A.start_pulling(D, supress_message = FALSE)
@@ -180,7 +181,7 @@
 							"<span class='userdanger'>[A] puts you into a chokehold!</span>")
 		playsound(get_turf(D), 'nsv13/sound/weapons/chokehold.ogg', 50, 1, 1)
 		D.SetSleeping(200)
-		return FALSE // so you don't accidentally takedown instead of knocking out
+		return FALSE
 	if(!can_use(A))
 		return FALSE
 	add_to_streak("D",D)
