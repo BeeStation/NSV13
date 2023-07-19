@@ -223,15 +223,15 @@
     ..()
     icon_state = "[initial(icon_state)][ammo_count() ? "" : "-0"]"
 
-	/obj/item/ammo_box/c9mm/ap
+	/obj/item/ammo_box/c9mm/ap // for colouring
 	name = "ammo box (9mm, armour piercing)"
-	icon_state = "9mmbox"
+	icon_state = "45box"
 	ammo_type = /obj/item/ammo_casing/c9mm/ap
 	max_ammo = 30
 
 /obj/item/ammo_box/c9mm/inc
 	name = "ammo box (9mm, incendiary)"
-	icon_state = "9mmbox"
+	icon_state = "10mmbox"
 	ammo_type = /obj/item/ammo_casing/c9mm/inc
 	max_ammo = 30
 
