@@ -391,10 +391,10 @@
 
 //Security
 
-/obj/item/circuitboard/computer/gulag_teleporter_console //NSV13 modified - fix
+/obj/item/circuitboard/computer/gulag_teleporter_console
 	name = "labor camp teleporter console (Computer Board)"
 	icon_state = "security"
-	build_path = /obj/item/circuitboard/computer/gulag_teleporter_console
+	build_path = /obj/machinery/computer/prisoner/gulag_teleporter_computer
 
 /obj/item/circuitboard/computer/prisoner/management //NSV13 modified - fix
 	name = "prisoner management console (Computer Board)"
