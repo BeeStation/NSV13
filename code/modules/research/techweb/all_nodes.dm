@@ -935,7 +935,7 @@
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
-/datum/techweb_node/ballistic_weapons
+/datum/techweb_node/ballistic_weapons // NSV13 - glock additions
 	id = "ballistic_weapons"
 	tech_tier = 3
 	display_name = "Ballistic Weaponry"
