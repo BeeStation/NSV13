@@ -156,7 +156,7 @@
 			D.visible_message("<span class ='danger'>[A] has cracked [D]'s arm!</span>", "<span class ='danger'>[A] cracks your arm, causing a coursing pain!</span>")
 			armlockstate = FALSE
 		return FALSE
-	if((A.grab_state >= GRAB_AGGRESSIVE & MOBILITY_STAND))
+	if((A.grab_state >= GRAB_AGGRESSIVE))
 		bonus_damage += 5
 	D.apply_damage(rand(2,3) + bonus_damage, A.dna.species.attack_type, affecting, def_check) // bonus damage when grabbing at least aggressively if required to kill
 	if((D.mobility_flags & MOBILITY_STAND))
@@ -170,9 +170,9 @@
 
 /datum/martial_art/jujitsu/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	var/bonus_stam = 0
-	if((A.grab_state >= GRAB_AGGRESSIVE & MOBILITY_STAND)) // If you shove during agressive grab it deals bonus stam
+	if((A.grab_state >= GRAB_AGGRESSIVE)) // If you shove during agressive grab it deals bonus stam
 		bonus_stam = 20
-		if(!(D.mobility_flags & MOBILITY_STAND)) // If you shove during on ground and aggressive grab it deals even more stam
+		if(!(D.mobility_flags & MOBILITY_STAND)) // If you shove while perp is on ground and aggressive grabbing, it deals even more stam
 			bonus_stam += 10
 	D.adjustStaminaLoss(10 + bonus_stam) // deals minor stam damage with scaling dependant on grab and perp standing
 	A.do_attack_animation(D, ATTACK_EFFECT_DISARM)
