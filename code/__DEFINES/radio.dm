@@ -99,7 +99,7 @@
 // This represents 1/8th of the available spectrum.
 
 #define FREQ_ATMOS_STORAGE 1441
-#define FREQ_NAV_BEACON 1445
+// #define FREQ_NAV_BEACON 1445 - NSV13 - Removed during the Murder of Navbeacons
 #define FREQ_AI_PRIVATE 1447  //! AI private comms frequency, magenta
 #define FREQ_PRESSURE_PLATE 1447
 #define FREQ_AIRLOCK_CONTROL 1449
