@@ -4276,6 +4276,14 @@
 /obj/machinery/atmospherics/pipe/simple/purple/hidden,
 /turf/open/floor/carpet/red,
 /area/security/processing)
+"cFz" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/green/visible,
+/obj/machinery/atmospherics/components/unary/portables_connector/layer2,
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/engine/engine_smes)
 "cGN" = (
 /obj/structure/table/wood,
 /obj/machinery/computer/secure_data/laptop,
@@ -5013,6 +5021,9 @@
 /area/security/brig)
 "dfh" = (
 /obj/effect/landmark/nuclear_waste_spawner,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engine_smes)
 "dfP" = (
@@ -17631,7 +17642,8 @@
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos{
 	dir = 4;
 	id = "stormdrive_in";
-	piping_layer = 2
+	piping_layer = 2;
+	pixel_y = -5
 	},
 /turf/open/floor/engine/vacuum,
 /area/engine/stormdrive)
@@ -25752,7 +25764,6 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
 "qMu" = (
-/obj/machinery/atmospherics/pipe/multiz/layer1,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
@@ -25762,6 +25773,9 @@
 /obj/machinery/airalarm/directional/west,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/multiz{
+	dir = 1
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engine_smes)
@@ -26012,7 +26026,7 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "qUs" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer4,
+/obj/machinery/atmospherics/pipe/layer_manifold/visible,
 /obj/structure/sign/warning/electricshock,
 /turf/closed/wall/r_wall/ship,
 /area/engine/stormdrive)
@@ -28459,9 +28473,6 @@
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
 "sIe" = (
-/obj/machinery/atmospherics/components/binary/pump{
-	name = "Stormdrive Nucleium to FTL"
-	},
 /obj/machinery/atmospherics/components/binary/pump/layer2{
 	name = "Stormdrive Chamber to Scrubbers";
 	on = 1;
@@ -28469,6 +28480,9 @@
 	},
 /obj/machinery/atmospherics/components/binary/pump/layer4{
 	name = "Stormdrive Nucleium to Scrubbers"
+	},
+/obj/machinery/atmospherics/components/binary/pump{
+	name = "Stormdrive Nucleium to FTL"
 	},
 /turf/closed/wall/r_wall/ship,
 /area/engine/stormdrive)
@@ -30403,9 +30417,6 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/components/unary/portables_connector{
-	dir = 1
-	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engine_smes)
 "tTY" = (
@@ -30897,7 +30908,11 @@
 /turf/open/floor/carpet/ship,
 /area/security/prison)
 "unH" = (
-/obj/machinery/atmospherics/pipe/layer_manifold/visible,
+/obj/machinery/atmospherics/pipe/simple/green/visible/layer4,
+/obj/machinery/atmospherics/pipe/simple/green/visible/layer2,
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 9
+	},
 /obj/structure/sign/warning/radiation,
 /turf/closed/wall/r_wall/ship,
 /area/engine/stormdrive)
@@ -49734,7 +49749,7 @@ twj
 piG
 xsq
 eaU
-eaU
+cFz
 wqH
 qMu
 tTs
