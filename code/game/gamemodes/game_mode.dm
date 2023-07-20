@@ -144,7 +144,7 @@
 /datum/game_mode/proc/post_setup(report) //Gamemodes can override the intercept report. Passing TRUE as the argument will force a report.
 	if(!report)
 		report = !CONFIG_GET(flag/no_intercept_report)
-	addtimer(CALLBACK(GLOBAL_PROC, .proc/display_roundstart_logout_report), ROUNDSTART_LOGOUT_REPORT_TIME)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(display_roundstart_logout_report)), ROUNDSTART_LOGOUT_REPORT_TIME)
 
 	if(CONFIG_GET(flag/reopen_roundstart_suicide_roles))
 		var/delay = CONFIG_GET(number/reopen_roundstart_suicide_roles_delay)
@@ -152,7 +152,7 @@
 			delay = (delay SECONDS)
 		else
 			delay = (4 MINUTES) //default to 4 minutes if the delay isn't defined.
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/reopen_roundstart_suicide_roles), delay)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(reopen_roundstart_suicide_roles)), delay)
 
 	if(SSdbcore.Connect())
 		var/list/to_set = list()
@@ -174,7 +174,7 @@
 	create_special_antags()
 	generate_station_goals()
 	if(report)
-		addtimer(CALLBACK(src, .proc/send_intercept, 0), rand(waittime_l, waittime_h))
+		addtimer(CALLBACK(src, PROC_REF(send_intercept), 0), rand(waittime_l, waittime_h))
 	else // goals only become purchasable when on_report is called, this also makes a replacement announcement.
 		for(var/datum/station_goal/G in station_goals)
 			G.prepare_report()
@@ -409,9 +409,12 @@
 	if(!station_goals.len)
 		return
 	. = "<hr><b>Special Orders for [station_name()]:</b><BR>"
+	var/list/goal_reports = list()
 	for(var/datum/station_goal/station_goal in station_goals)
 		station_goal.on_report()
-		. += station_goal.get_report()
+		goal_reports += station_goal.get_report()
+
+	. += goal_reports.Join("<hr>")
 	return
 
 // This is a frequency selection system. You may imagine it like a raffle where each player can have some number of tickets. The more tickets you have the more likely you are to
@@ -662,6 +665,8 @@
 //////////////////////////
 /proc/display_roundstart_logout_report()
 	var/list/msg = list("<span class='boldnotice'>Roundstart logout report\n\n</span>")
+	var/list/mapvoters = SSpersistence.LoadMapVoters()
+	var/list/bad_mapvoters = list() // NSV13 - check for people who voted and ran
 	for(var/i in GLOB.mob_living_list)
 		var/mob/living/L = i
 		var/mob/living/carbon/C = L
@@ -670,6 +675,8 @@
 
 		if(L.ckey && !GLOB.directory[L.ckey])
 			msg += "<b>[L.name]</b> ([L.key]), the [L.job] (<font color='#ffcc00'><b>Disconnected</b></font>)\n"
+			if(replacetext(L.ckey, "@", "") in mapvoters) //NSV13 - mapvote tracking
+				bad_mapvoters += L.ckey
 
 
 		if(L.ckey && L.client)
@@ -697,6 +704,8 @@
 //				WARNING("AR_DEBUG: Zeroed [p_ckey]'s antag_rep_change")
 				SSpersistence.antag_rep_change[p_ckey] = 0
 
+			if(failed && (replacetext(L.client.ckey, "@", "") in mapvoters)) //NSV13 - mapvote tracking
+				bad_mapvoters += L.client.ckey
 			continue //Happy connected client
 		for(var/mob/dead/observer/D in GLOB.dead_mob_list)
 			if(D.mind && D.mind.current == L)
@@ -714,7 +723,8 @@
 						msg += "<b>[L.name]</b> ([ckey(D.mind.key)]), the [L.job] (<span class='boldannounce'>Ghosted</span>)\n"
 						continue //Ghosted while alive
 
-
+	msg += "\n<b>Absent mapvoters:</b> [english_list(bad_mapvoters)]\n"
+	log_vote("These voters were absent during the roundstart logout check: [english_list(bad_mapvoters)]")
 	for (var/C in GLOB.admins)
 		to_chat(C, msg.Join())
 
@@ -778,6 +788,7 @@
 		SSticker.news_report = STATION_DESTROYED_NUKE
 	if(EMERGENCY_ESCAPED_OR_ENDGAMED)
 		SSticker.news_report = STATION_EVACUATED
+		SSblackbox.record_feedback("text", "nsv_endings", 1, "evacuated")
 		if(SSshuttle.emergency.is_hijacked())
 			SSticker.news_report = SHUTTLE_HIJACK
 

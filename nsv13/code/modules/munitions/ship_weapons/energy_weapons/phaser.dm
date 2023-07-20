@@ -19,6 +19,7 @@
 	var/power_modifier = 0 //Power youre inputting into this thing.
 	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
 	var/energy_weapon_type = /datum/ship_weapon/burst_phaser
+	var/static_charge = FALSE //Controls whether power and energy cost scale with power modifier. True = no scaling
 
 /obj/machinery/ship_weapon/energy/beam
 	name = "phase cannon"
@@ -115,12 +116,14 @@
 
 /obj/machinery/ship_weapon/energy/beam/animate_projectile(atom/target)
 	var/obj/item/projectile/P = ..()
-	P.damage *= power_modifier
+	if(!static_charge)
+		P.damage *= power_modifier
 
 /obj/machinery/ship_weapon/energy/process()
 	charge_rate = initial(charge_rate) * power_modifier
 	max_charge = initial(max_charge) * power_modifier
-	charge_per_shot = max(initial(charge_per_shot) * power_modifier, 10) //No getting infinite ammo by setting power mod to 0 :))
+	if(!static_charge)
+		charge_per_shot = max(initial(charge_per_shot) * power_modifier, 10) //No getting infinite ammo by setting power mod to 0 :))
 	if(charge >= max_charge)
 		charge = max_charge //Time to fricking ignore thermodynamics gamers!
 		idle_power_usage = 0 //No power draw when fully charged

@@ -460,9 +460,9 @@
 	parts += "Objectives:"
 	for(var/datum/overmap_objective/O in SSovermap_mode.mode.objectives)
 		switch(O.status)
-			if(0 || 2)
+			if(0,2)
 				parts += "[O.brief]: <font color=red><b>FAILED</b></font>"
-			if(1 || 3)
+			if(1,3)
 				parts += "[O.brief]: <font color=green><b>COMPLETED</b></font>"
 
 	parts += "" //Line Break
@@ -572,7 +572,7 @@
 	var/currrent_category
 	var/datum/antagonist/previous_category
 
-	sortTim(all_antagonists, /proc/cmp_antag_category)
+	sortTim(all_antagonists, GLOBAL_PROC_REF(cmp_antag_category))
 
 	for(var/datum/antagonist/A in all_antagonists)
 		if(!A.show_in_roundend)

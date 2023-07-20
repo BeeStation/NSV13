@@ -9,7 +9,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 	var/static/list/role_access_map = list(
 		DC_SQUAD = list(ACCESS_ENGINE, ACCESS_ENGINE_EQUIP, ACCESS_ATMOSPHERICS), //Low staffing? Guess you better get the engine running
 		MEDICAL_SQUAD = list(ACCESS_MEDICAL, ACCESS_SURGERY),
-		SECURITY_SQUAD = list(ACCESS_BRIG, ACCESS_SEC_DOORS),
+		SECURITY_SQUAD = list(ACCESS_BRIG, ACCESS_SEC_DOORS, ACCESS_TRANSPORT_PILOT, ACCESS_HANGAR),
 		MUNITIONS_SUPPORT = list(ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE),
 		COMBAT_AIR_PATROL = list(ACCESS_COMBAT_PILOT, ACCESS_MUNITIONS), //Hangar is typically through munitions
 		CIC_OPS = list(ACCESS_HEADS, ACCESS_RC_ANNOUNCE),
@@ -42,7 +42,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 		squads |= squad
 		LAZYADDASSOCLIST(role_squad_map, squad.role, squad)
 		squad.retask(squad.role)
-	addtimer(CALLBACK(src, .proc/check_squad_assignments), 5 MINUTES) //Kick off a timer to check if we need to finagle some people into jobs. Ensure people have a chance to join.
+	addtimer(CALLBACK(src, PROC_REF(check_squad_assignments)), 5 MINUTES) //Kick off a timer to check if we need to finagle some people into jobs. Ensure people have a chance to join.
 
 /datum/squad_manager/proc/get_squad(name)
 	for(var/datum/squad/S in squads)

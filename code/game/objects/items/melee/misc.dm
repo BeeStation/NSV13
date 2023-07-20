@@ -118,8 +118,8 @@
 		var/speedbase = abs((4 SECONDS) / limbs_to_dismember.len)
 		for(bodypart in limbs_to_dismember)
 			i++
-			addtimer(CALLBACK(src, .proc/suicide_dismember, user, bodypart), speedbase * i)
-	addtimer(CALLBACK(src, .proc/manual_suicide, user), (5 SECONDS) * i)
+			addtimer(CALLBACK(src, PROC_REF(suicide_dismember), user, bodypart), speedbase * i)
+	addtimer(CALLBACK(src, PROC_REF(manual_suicide), user), (5 SECONDS) * i)
 	return MANUAL_SUICIDE
 
 /obj/item/melee/sabre/proc/suicide_dismember(mob/living/user, obj/item/bodypart/affecting)
@@ -170,7 +170,9 @@
 	var/cooldown_check = 0 // Used interally, you don't want to modify
 
 	var/cooldown = 20 // Default wait time until can stun again.
-	var/stun_time_silicon = (5 SECONDS) // If enabled, how long do we stun silicons.
+	var/knockdown_time_carbon = 0 //NSV13 - added knockdown times
+	var/stun_time_carbon = 0 //NSV13 - readded stun time variable
+	var/stun_time_silicon_multiplier = 0.6 //NSV13 - Multiplier for stunning silicons; if enabled, is 60% of human stun time.
 	var/stamina_damage = 55 // Do we deal stamina damage.
 	var/affect_silicon = FALSE // Does it stun silicons.
 	var/on_sound // "On" sound, played when switching between able to stun or not.
@@ -231,6 +233,11 @@
 //Police Baton
 /obj/item/melee/classic_baton/police
 	name = "police baton"
+	// NSV13 - added stun and knockdown, removed stamina, added silicon effects
+	stun_time_carbon = (3 SECONDS)
+	knockdown_time_carbon = (6 SECONDS)
+	stamina_damage = 0
+	affect_silicon = TRUE
 
 /obj/item/melee/classic_baton/police/attack(mob/living/target, mob/living/user)
 	if(!on)
@@ -241,6 +248,9 @@
 	if((HAS_TRAIT(user, TRAIT_CLUMSY)) && prob(50))
 		to_chat(user, "<span class ='danger'>You hit yourself over the head.</span>")
 		user.adjustStaminaLoss(stamina_damage)
+		//NSV13 - added stamina and knockdown
+		user.Paralyze(stun_time_carbon * force)
+		user.Knockdown(knockdown_time_carbon * force)
 
 		additional_effects_carbon(user) // user is the target here
 		if(ishuman(user))
@@ -256,7 +266,7 @@
 				var/list/desc = get_silicon_stun_description(target, user)
 
 				target.flash_act(affect_silicon = TRUE)
-				target.Paralyze(stun_time_silicon)
+				target.Paralyze(stun_time_carbon * stun_time_silicon_multiplier) //NSV13 - silicon stun is a multiplier
 				additional_effects_silicon(target, user)
 
 				user.visible_message(desc["visible"], desc["local"])
@@ -292,6 +302,7 @@
 			playsound(get_turf(src), on_stun_sound, 75, 1, -1)
 			additional_effects_carbon(target, user)
 			if((user.zone_selected == BODY_ZONE_HEAD) || (user.zone_selected == BODY_ZONE_CHEST))
+				target.Paralyze(stun_time_carbon) //NSV13 - readded stuns
 				target.apply_damage(stamina_damage, STAMINA, BODY_ZONE_CHEST, def_check)
 				log_combat(user, target, "stunned", src)
 				target.visible_message(desc["visiblestun"], desc["localstun"])
@@ -410,7 +421,7 @@
 	item_flags = NONE
 	force = 5
 	on = FALSE
-	var/knockdown_time_carbon = (1.5 SECONDS) // Knockdown length for carbons.
+	knockdown_time_carbon = (1.5 SECONDS) // NSV13 - Moved back to parent item
 	var/stamina_damage_non_target = 55
 	var/stamina_damage_target = 85
 	var/target_confusion = 4 SECONDS
@@ -490,7 +501,7 @@
 				var/list/desc = get_silicon_stun_description(target, user)
 
 				target.flash_act(affect_silicon = TRUE)
-				target.Paralyze(stun_time_silicon)
+				target.Paralyze(stun_time_carbon * stun_time_silicon_multiplier) //NSV13 - silicon stun is a multiplier
 				additional_effects_silicon(target, user)
 
 				user.visible_message(desc["visible"], desc["local"])
@@ -661,7 +672,7 @@
 	T.visible_message("<span class='danger'>[T] smacks into [src] and rapidly flashes to ash.</span>",\
 	"<span class='italics'>You hear a loud crack as you are washed with a wave of heat.</span>")
 	shard.Consume()
-	CALCULATE_ADJACENT_TURFS(T)
+	T.ImmediateCalculateAdjacentTurfs()
 
 /obj/item/melee/supermatter_sword/add_blood_DNA(list/blood_dna)
 	return FALSE

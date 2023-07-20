@@ -7,6 +7,7 @@
 	density = TRUE
 	move_resist = MOVE_FORCE_EXTREMELY_STRONG
 	claimable_gulag_points = 0
+	volatility = 0
 	var/state = 0
 	var/obj/item/ship_weapon/parts/missile/warhead/wh = null
 	var/obj/item/ship_weapon/parts/missile/guidance_system/gs = null
@@ -158,14 +159,16 @@
 			if(tool.use_tool(src, user, 40, volume=100))
 				to_chat(user, "<span class='notice'>You secure [gs.name] to [src]. </span>")
 				state = 4
+				projectile_type = /obj/item/projectile/guided_munition/missile/dud/homing
 				update_icon()
 			return TRUE
 		if(4)
-			to_chat(user, "<span class='notice'>You start unsecuring [gs.name] to [src]...</span>")
+			to_chat(user, "<span class='notice'>You start unsecuring [gs.name]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You unsecure [gs.name] to [src]. </span>")
+				to_chat(user, "<span class='notice'>You unsecure [gs.name]. </span>")
 				state = 3
 				update_icon()
+				projectile_type = /obj/item/projectile/guided_munition/missile/dud
 			return TRUE
 		if(5)
 			to_chat(user, "<span class='notice'>You start securing [iff.name] to [src]...</span>")
@@ -175,9 +178,9 @@
 				update_icon()
 			return TRUE
 		if(6)
-			to_chat(user, "<span class='notice'>You start unsecuring [iff.name] to [src]...</span>")
+			to_chat(user, "<span class='notice'>You start unsecuring [iff.name]...</span>")
 			if(tool.use_tool(src, user, 40, volume=100))
-				to_chat(user, "<span class='notice'>You unsecure [iff.name] to [src]. </span>")
+				to_chat(user, "<span class='notice'>You unsecure [iff.name]. </span>")
 				state = 5
 				update_icon()
 			return TRUE

@@ -48,27 +48,28 @@
 	circuit = /obj/item/circuitboard/machine/vls
 	var/obj/structure/fluff/vls_hatch/hatch = null
 
-/obj/machinery/ship_weapon/vls/proc/on_entered(datum/source, atom/movable/AM, oldloc)
+/obj/machinery/ship_weapon/vls/proc/on_entered(datum/source, atom/movable/torp, oldloc)
 	SIGNAL_HANDLER
 
-	var/can_shoot_this = FALSE
-	for(var/_ammo_type in ammo_type)
-		if(istype(AM, _ammo_type))
-			can_shoot_this = TRUE
-			break
+	if(!is_type_in_list(torp, ammo_type))
+		return FALSE
 
-	if(can_shoot_this)
-		if(ammo?.len >= max_ammo)
-			return FALSE
-		if(loading)
-			return FALSE
-		if(state >= 2)
-			return FALSE
-		ammo += AM
-		AM.forceMove(src)
-		if(load_sound)
-			playsound(src, load_sound, 100, 1)
-		state = 2
+	if(ammo?.len >= max_ammo)
+		return FALSE
+	if(loading)
+		return FALSE
+	if(state >= STATE_LOADED)
+		return FALSE
+	load(torp)
+
+// Handles removal of stuff
+/obj/machinery/ship_weapon/vls/Exited(atom/movable/gone, direction)
+	. = ..()
+	if(!ammo?.Find(gone)) // Remove our ammo
+		return
+	ammo -= gone
+	if(!length(ammo)) // Set notloaded if applicable
+		state = STATE_NOTLOADED
 
 /obj/machinery/ship_weapon/vls/PostInitialize()
 	..()
@@ -79,7 +80,7 @@
 	// We have different sprites and behaviors for each torpedo
 	var/obj/item/ship_weapon/ammunition/torpedo/T = chambered
 	if(T)
-		var/obj/item/projectile/P = linked.fire_projectile(T.projectile_type, target, homing = TRUE, lateral = weapon_type.lateral)
+		var/obj/item/projectile/P = linked.fire_projectile(T.projectile_type, target, lateral = weapon_type.lateral)
 		if(T.contents.len)
 			for(var/atom/movable/AM in T.contents)
 				to_chat(AM, "<span class='warning'>You feel slightly nauseous as you're shot out into space...</span>")
@@ -88,7 +89,7 @@
 /obj/machinery/ship_weapon/vls/Initialize(mapload)
 	. = ..()
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 	var/turf/T = SSmapping.get_turf_above(src)
@@ -131,12 +132,13 @@
 		return
 	hatch.toggle(HT_CLOSED)
 
-/obj/machinery/ship_weapon/vls/unload_magazine()
+/obj/machinery/ship_weapon/vls/unload()
+	loading = TRUE // This prevents torps from immediately falling back into the VLS tube
 	. = ..()
+	loading = FALSE
 	if(!hatch)
 		return
 	hatch.toggle(HT_CLOSED)
-
 
 /obj/structure/fluff/vls_hatch
 	name = "VLS Launch Hatch"
@@ -212,6 +214,13 @@
 	max_range = 85
 	enabled = TRUE //By default, so that AIs can use it.
 
+/datum/ams_mode/sts/acquire_targets(obj/structure/overmap/OM)
+	if(OM.ams_data_source == AMS_LOCKED_TARGETS)
+		if(OM.target_lock)
+			return list(OM.target_lock)
+		return list()
+	. = ..()
+
 /datum/ams_mode/countermeasures
 	name = "Anti-missile countermeasures"
 	desc = "This mode will target oncoming missiles and attempt to counter them with the ship's own missile complement. Recommended for usage exclusively with ECM missiles."
@@ -229,7 +238,17 @@
 	. = ..()
 
 /obj/machinery/computer/ams/ui_act(action, params)
-	. = ..()
+	if(..())
+		return
+	if(action == "data_source")
+		var/obj/structure/overmap/linked = get_overmap()
+		if(!linked)
+			return
+		if(linked.ams_data_source == AMS_LOCKED_TARGETS)
+			linked.ams_data_source = AMS_PAINTED_TARGETS
+			return
+		linked.ams_data_source = AMS_LOCKED_TARGETS
+		return
 	var/datum/ams_mode/target = locate(params["target"])
 	if(!target)
 		return FALSE
@@ -251,6 +270,7 @@
 		category["id"] = "\ref[AMS]"
 		categories[++categories.len] = category
 	data["categories"] = categories
+	data["data_source"] = OM.ams_data_source
 	return data
 
 /obj/machinery/computer/ams/ui_interact(mob/user, datum/tgui/ui)
@@ -261,7 +281,7 @@
 		ui.set_autoupdate(TRUE) // Ammo updates, loading delay
 
 /datum/ams_mode/countermeasures/acquire_targets(obj/structure/overmap/OM)
-	var/list/targets = list()
+	var/list/targets = OM.torpedoes_to_target.Copy(1, min(length(OM.torpedoes_to_target), max_targets))
 	for(var/obj/item/projectile/guided_munition/P in SSprojectiles.processing)
 		if(!P || !istype(P))
 			continue
@@ -280,7 +300,7 @@
 		targets += P
 	return targets
 
-
+// Proc for handling flak
 /obj/structure/overmap/proc/handle_flak()
 	if(fire_mode == FIRE_MODE_FLAK) //If theyre aiming the flak manually.
 		return
@@ -302,6 +322,8 @@
 			flak_left --
 			if(flak_left <= 0)
 				return
+
+	// Targets hostile ships for flak. Prioritized over missiles since PDC handles that.
 	for(var/obj/structure/overmap/ship in current_system.system_contents)
 		if(!ship || !istype(ship))
 			continue
@@ -312,21 +334,48 @@
 		if ( ship.essential )
 			continue
 		var/target_range = get_dist(ship,src)
-		if(target_range > 30 || target_range <= 0) //Random pulled from the aether
+		if((target_range > 30 || target_range <= 0) && !(ship in enemies))
 			continue
 		if(!QDELETED(ship) && isovermap(ship) && ship.is_sensor_visible(src) >= SENSOR_VISIBILITY_TARGETABLE)
 			last_target = ship
 			fire_weapon(ship, mode=FIRE_MODE_FLAK, lateral=TRUE)
 			flak_left --
 			if(flak_left <= 0)
-				break
+				return
+
+// Proc for handling missile intercept with PDC
+/obj/structure/overmap/proc/handle_pdc_intercept()
+	if(disruption)
+		return FALSE
+	if(!weapon_types[FIRE_MODE_PDC])
+		return FALSE
+	if(light_shots_left <= 0) // Reloading
+		spawn(150)
+			light_shots_left = initial(light_shots_left)
+		return FALSE
+	if(!current_system)
+		return
+
+	// Target our incoming missiles
+	for(var/obj/item/projectile/guided_munition/incoming_missile in torpedoes_to_target)
+		if(QDELETED(incoming_missile))
+			continue
+		var/target_range = overmap_dist(incoming_missile, src)
+		// Don't engage until it's close
+		if((target_range > 15 || target_range <= 0))
+			continue
+		fire_weapon(incoming_missile, mode=FIRE_MODE_PDC, lateral=TRUE, ai_aim = TRUE)
+		if(!light_shots_left)
+			return
 
 /**
  * Handles the AMS system
  */
 /obj/structure/overmap/proc/handle_autonomous_targeting()
-	if(flak_battery_amount >= 1)
+	if(flak_battery_amount >= 1) // Anti-missile flak
 		handle_flak()
+	if(ai_controlled) // Anti-missile PDC
+		handle_pdc_intercept()
 
 	// Get all weapons designated as autonomous and prepare to fire
 	var/list/automated_weapons = list()
@@ -381,3 +430,21 @@
 				flak_left --
 				if(flak_left <= 0)
 					break
+
+// Handles passing incoming missile launches to torpedo targeting and alerting the crew to a launch.
+// Paramaters: The launching ship, and the incoming projectile
+/obj/structure/overmap/proc/on_missile_lock(obj/structure/overmap/firer, obj/item/projectile/proj)
+	add_enemy(firer)
+	torpedoes_to_target += proj
+	RegisterSignal(proj, COMSIG_PARENT_QDELETING, PROC_REF(remove_torpedo_target))
+	if(dradis)
+		dradis.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+		if(COOLDOWN_FINISHED(dradis, last_missile_warning))
+			var/incoming_angle = round(overmap_angle(src, proj))
+			dradis.visible_message("<span class='warning'>[icon2html(src, viewers(src))] WARNING: STS radar lock detected. Bearing: [incoming_angle].</span>")
+			COOLDOWN_START(dradis, last_missile_warning, 10 SECONDS)
+
+/obj/structure/overmap/proc/remove_torpedo_target(obj/item/projectile/proj)
+	SIGNAL_HANDLER
+	torpedoes_to_target -= proj
+	UnregisterSignal(proj, COMSIG_PARENT_QDELETING)

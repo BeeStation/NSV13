@@ -56,7 +56,7 @@
 		cancel_action(us)
 		return
 	// The target isn't an overmap somehow, we're targeting ourselves, or they're an enemy
-	var/obj/structure/overmap/small_craft/them = us.target_painted[1]
+	var/obj/structure/overmap/small_craft/them = us.target_lock
 	if(!them || !istype(them) || (them == us) || (them.faction != us.faction))
 		cancel_action(us, them)
 		return
@@ -69,7 +69,7 @@
 	// See if we need to make a new beam. Comes after the refuel so we can not do this if we fail any checks.
 	if(QDELETED(current_beam))
 		current_beam = new(us,them,beam_icon='nsv13/icons/effects/beam.dmi',time=INFINITY,maxdistance = INFINITY,beam_icon_state="hose",btype=/obj/effect/ebeam/fuel_hose)
-		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+		INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 
 /obj/item/fighter_component/primary/utility/refuel/proc/transfer_fuel(obj/structure/overmap/small_craft/us, obj/structure/overmap/small_craft/them)
 	var/transfer_amount = CLAMP((them.get_max_fuel() - them.get_fuel()), 0, fuel_transfer_rate)

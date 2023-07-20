@@ -52,9 +52,15 @@
 	if(gunner)
 		QDEL_NULL(gunner)
 
+	//Buff the ships
+	spec_ghostship_changes()
+
 	//Insert the extra machines
 	if(!dradis)
-		dradis = new /obj/machinery/computer/ship/dradis/internal(src)
+		if(mass >= MASS_SMALL)
+			dradis = new /obj/machinery/computer/ship/dradis/internal/large_ship(src)
+		else
+			dradis = new /obj/machinery/computer/ship/dradis/internal(src)
 		dradis.linked = src
 
 	if(!tactical)
@@ -78,7 +84,7 @@
 
 	//Make sure the ship doesn't enter countdown
 	overmap_deletion_traits = DAMAGE_ALWAYS_DELETES
-	
+
 	//Add some verbs
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/show_dradis, .verb/show_tactical, .verb/toggle_move_mode, .verb/cycle_firemode)
 
@@ -94,4 +100,17 @@
 		ghost_controlled = TRUE
 
 	else //Try again later
-		addtimer(CALLBACK(src, .proc/ghost_key_check, ghost), 1 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(ghost_key_check), ghost), 1 SECONDS)
+
+/obj/structure/overmap/proc/spec_ghostship_changes() //Proc to buff ghost ships. Currently handles only fighters. Override if you want
+	if(mass == MASS_TINY) //Makes dogfighting fun
+		obj_integrity *= 6
+		max_integrity *= 6 //About as squishy, and fast, as a light fighter
+		forward_maxthrust *= 3.5
+		backward_maxthrust *= 3.5
+		side_maxthrust *= 2
+		integrity_failure *= 3.5
+		max_angular_acceleration *= 2
+		speed_limit *= 2.5
+		shots_left = 500 //Having 15 max cannon shots isn't fun
+

@@ -972,6 +972,10 @@
 /obj/structure/lattice/catwalk,
 /turf/open/floor/plating,
 /area/nsv/crew_quarters/heads/maa)
+"fL" = (
+/obj/effect/landmark/carpspawn,
+/turf/open/space/basic,
+/area/space)
 "fP" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Mining Airlock";
@@ -2212,10 +2216,7 @@
 "nj" = (
 /obj/effect/turf_decal/delivery,
 /obj/structure/hull_plate,
-/obj/machinery/ship_weapon/gauss_gun/east{
-	pixel_x = -1;
-	pixel_y = -51
-	},
+/obj/machinery/ship_weapon/gauss_gun/east,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "nk" = (
@@ -5053,6 +5054,7 @@
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai_upload)
 "EC" = (
+/mob/living/simple_animal/hostile/retaliate/bat/sgt_araneus,
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/hos)
 "EG" = (
@@ -6817,6 +6819,11 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("hangar","munitions","bar");
+	name = "Cargo patrol node";
+	id = "cargo"
+	},
 /turf/open/floor/plasteel,
 /area/maintenance/fore)
 "NG" = (
@@ -7055,6 +7062,11 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/machinery/fax{
+	name = "Cargo Fax Machine";
+	fax_name = "Cargo"
+	},
+/obj/structure/table/reinforced,
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "OV" = (
@@ -7565,12 +7577,12 @@
 /area/maintenance/central)
 "RR" = (
 /obj/structure/table/reinforced,
-/obj/item/cartridge/quartermaster{
+/obj/item/computer_hardware/hard_drive/role/quartermaster{
 	pixel_x = -4;
 	pixel_y = 7
 	},
-/obj/item/cartridge/quartermaster,
-/obj/item/cartridge/quartermaster{
+/obj/item/computer_hardware/hard_drive/role/quartermaster,
+/obj/item/computer_hardware/hard_drive/role/quartermaster{
 	pixel_x = 6;
 	pixel_y = 5
 	},
@@ -8026,6 +8038,11 @@
 /obj/machinery/camera/autoname,
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("cargo","bar","bridge");
+	name = "Hangar patrol node";
+	id = "hangar"
 	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/central)
@@ -8558,10 +8575,7 @@
 /area/maintenance/aft)
 "Xk" = (
 /obj/effect/turf_decal/delivery,
-/obj/machinery/ship_weapon/gauss_gun/east{
-	pixel_x = -1;
-	pixel_y = -51
-	},
+/obj/machinery/ship_weapon/gauss_gun/east,
 /obj/structure/hull_plate,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
@@ -23104,7 +23118,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 mv
 zQ
@@ -26175,7 +26189,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -29288,7 +29302,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -30274,7 +30288,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -35971,7 +35985,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -37726,7 +37740,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -42869,7 +42883,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -42912,7 +42926,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -49847,7 +49861,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -52122,7 +52136,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -55501,7 +55515,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ
@@ -63181,7 +63195,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+fL
 zQ
 zQ
 zQ

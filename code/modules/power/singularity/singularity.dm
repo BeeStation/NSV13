@@ -39,8 +39,8 @@
 	GLOB.singularities |= src
 	var/datum/component/singularity/new_component = AddComponent(
 		/datum/component/singularity, \
-		consume_callback = CALLBACK(src, .proc/consume), \
-		admin_investigate_callback = CALLBACK(src, .proc/admin_investigate_setup), \
+		consume_callback = CALLBACK(src, PROC_REF(consume)), \
+		admin_investigate_callback = CALLBACK(src, PROC_REF(admin_investigate_setup)), \
 		grav_pull = grav_pull \
 	)
 
@@ -316,13 +316,13 @@
 
 
 /obj/anomaly/singularity/proc/event()
-	var/numb = rand(1,4)
+	var/numb = rand(1,4) //NSV13
 	switch(numb)
-		if(1)//EMP
-			emp_area()
+		//if(1)//EMP     //NSV13
+		//	emp_area()   //NSV13
 		if(2)//Stun mobs who lack optic scanners
 			mezzer()
-		if(3,4) //Sets all nearby mobs on fire
+		if(1,3,4) //Sets all nearby mobs on fire   //NSV13
 			if(current_size < STAGE_SIX)
 				return 0
 			combust_mobs()
@@ -359,7 +359,6 @@
 						"<span class='userdanger'>You look directly into the [src.name] and feel weak.</span>")
 	return
 
-
 /obj/anomaly/singularity/proc/emp_area()
 	empulse(src, 8, 10)
 
@@ -376,7 +375,7 @@
 /obj/anomaly/singularity/deadchat_controlled/Initialize(mapload, starting_energy)
 	. = ..()
 	AddComponent(/datum/component/deadchat_control, DEMOCRACY_MODE, list(
-	 "up" = CALLBACK(GLOBAL_PROC, .proc/_step, src, NORTH),
-	 "down" = CALLBACK(GLOBAL_PROC, .proc/_step, src, SOUTH),
-	 "left" = CALLBACK(GLOBAL_PROC, .proc/_step, src, WEST),
-	 "right" = CALLBACK(GLOBAL_PROC, .proc/_step, src, EAST)))
+	 "up" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), src, NORTH),
+	 "down" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), src, SOUTH),
+	 "left" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), src, WEST),
+	 "right" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), src, EAST)))

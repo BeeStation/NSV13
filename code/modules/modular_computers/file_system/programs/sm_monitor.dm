@@ -6,7 +6,7 @@
 	program_icon_state = "smmon_0"
 	extended_desc = "This program connects to specially calibrated supermatter sensors to provide information on the status of supermatter-based engines."
 	requires_ntnet = TRUE
-	transfer_access = ACCESS_CONSTRUCTION
+	transfer_access = list(ACCESS_CONSTRUCTION)
 	network_destination = "supermatter monitoring system"
 	size = 5
 	tgui_id = "NtosSupermatterMonitor"
@@ -31,7 +31,7 @@
 		if(istype(computer))
 			computer.update_icon()
 
-/datum/computer_file/program/supermatter_monitor/run_program(mob/living/user)
+/datum/computer_file/program/supermatter_monitor/on_start(mob/living/user)
 	. = ..(user)
 	if(!.)
 		return
@@ -50,7 +50,7 @@
 	for(var/supermatter in supermatters)
 		clear_supermatter(supermatter)
 	supermatters = list()
-	var/turf/T = get_turf(ui_host())
+	var/turf/T = get_turf(computer.ui_host())
 	if(!T)
 		return
 	for(var/obj/machinery/power/supermatter_crystal/S in GLOB.machines)
@@ -58,7 +58,7 @@
 		if (!isturf(S.loc) || !(is_station_level(S.z) || is_mining_level(S.z) || S.get_virtual_z_level() == T.get_virtual_z_level()))
 			continue
 		supermatters.Add(S)
-		RegisterSignal(S, COMSIG_PARENT_QDELETING, .proc/react_to_del)
+		RegisterSignal(S, COMSIG_PARENT_QDELETING, PROC_REF(react_to_del))
 
 /datum/computer_file/program/supermatter_monitor/proc/get_status()
 	. = SUPERMATTER_INACTIVE
@@ -74,8 +74,8 @@
  */
 /datum/computer_file/program/supermatter_monitor/proc/set_signals()
 	if(active)
-		RegisterSignal(active, COMSIG_SUPERMATTER_DELAM_ALARM, .proc/send_alert, override = TRUE)
-		RegisterSignal(active, COMSIG_SUPERMATTER_DELAM_START_ALARM, .proc/send_start_alert, override = TRUE)
+		RegisterSignal(active, COMSIG_SUPERMATTER_DELAM_ALARM, PROC_REF(send_alert), override = TRUE)
+		RegisterSignal(active, COMSIG_SUPERMATTER_DELAM_START_ALARM, PROC_REF(send_start_alert), override = TRUE)
 
 /**
   * Removes the signal listener for Supermatter delaminations from the selected supermatter.
@@ -118,7 +118,7 @@
 		computer.alert_call(src, "Crystal delamination in progress!")
 
 /datum/computer_file/program/supermatter_monitor/ui_data(mob/user)
-	var/list/data = get_header_data()
+	var/list/data = list()
 
 	if(istype(active))
 		var/turf/T = get_turf(active)

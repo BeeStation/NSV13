@@ -62,7 +62,7 @@ export const toKeyedArray = (obj, keyProp = 'key') => {
   }))(obj);
 };
 
-/**
+/** NSV13 - TGUI Core/Style Updates Minor Upstream Port - Start
  * Iterates over elements of collection, returning an array of all elements
  * iteratee returns truthy for. The predicate is invoked with three
  * arguments: (value, index|key, collection).
@@ -72,22 +72,25 @@ export const toKeyedArray = (obj, keyProp = 'key') => {
  *
  * @returns {any[]}
  */
-export const filter = iterateeFn => collection => {
-  if (collection === null && collection === undefined) {
-    return collection;
-  }
-  if (Array.isArray(collection)) {
-    const result = [];
-    for (let i = 0; i < collection.length; i++) {
-      const item = collection[i];
-      if (iterateeFn(item, i, collection)) {
-        result.push(item);
+export const filter
+  = <T>(iterateeFn: (input: T, index: number, collection: T[]) => boolean) =>
+    (collection: T[]): T[] => {
+      if (collection === null || collection === undefined) {
+        return collection;
       }
-    }
-    return result;
-  }
-  throw new Error(`filter() can't iterate on type ${typeof collection}`);
-};
+      if (Array.isArray(collection)) {
+        const result: T[] = [];
+        for (let i = 0; i < collection.length; i++) {
+          const item = collection[i];
+          if (iterateeFn(item, i, collection)) {
+            result.push(item);
+          }
+        }
+        return result;
+      }
+      throw new Error(`filter() can't iterate on type ${typeof collection}`);
+    };
+// NSV13 - TGUI Core/Style Updates Minor Upstream Port - Stop
 
 /**
  * Creates an array of values by running each element in collection
@@ -140,7 +143,7 @@ const COMPARATOR = (objA, objB) => {
   return 0;
 };
 
-/**
+/** NSV13 - TGUI Core/Style Updates Minor Upstream Port - Start
  * Creates an array of elements, sorted in ascending order by the results
  * of running each element in a collection thru each iteratee.
  *
@@ -148,31 +151,39 @@ const COMPARATOR = (objA, objB) => {
  *
  * @returns {any[]}
  */
-export const sortBy = (...iterateeFns) => array => {
-  if (!Array.isArray(array)) {
-    return array;
-  }
-  let length = array.length;
-  // Iterate over the array to collect criteria to sort it by
-  let mappedArray = [];
-  for (let i = 0; i < length; i++) {
-    const value = array[i];
-    mappedArray.push({
-      criteria: iterateeFns.map(fn => fn(value)),
-      value,
-    });
-  }
-  // Sort criteria using the base comparator
-  mappedArray.sort(COMPARATOR);
-  // Unwrap values
-  while (length--) {
-    mappedArray[length] = mappedArray[length].value;
-  }
-  return mappedArray;
-};
+export const sortBy
+  = <T>(...iterateeFns: ((input: T) => unknown)[]) =>
+    (array: T[]): T[] => {
+      if (!Array.isArray(array)) {
+        return array;
+      }
+      let length = array.length;
+      // Iterate over the array to collect criteria to sort it by
+      let mappedArray: {
+      criteria: unknown[];
+      value: T;
+    }[] = [];
+      for (let i = 0; i < length; i++) {
+        const value = array[i];
+        mappedArray.push({
+          criteria: iterateeFns.map((fn) => fn(value)),
+          value,
+        });
+      }
+      // Sort criteria using the base comparator
+      mappedArray.sort(COMPARATOR);
+
+      // Unwrap values
+      const values: T[] = [];
+      while (length--) {
+        values[length] = mappedArray[length].value;
+      }
+      return values;
+    };
+// NSV13 - TGUI Core/Style Updates Minor Upstream Port - Stop
 
 /**
- * 
+ *
  * returns a range of numbers from start to end, exclusively.
  * for example, range(0, 5) will return [0, 1, 2, 3, 4].
  */

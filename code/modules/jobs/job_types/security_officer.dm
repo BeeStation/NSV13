@@ -124,7 +124,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	jobtype = /datum/job/security_officer
 
 	id = /obj/item/card/id/job/security_officer
-	belt = /obj/item/pda/security
+	belt = /obj/item/modular_computer/tablet/pda/security
 	ears = /obj/item/radio/headset/headset_sec/alt
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	uniform = /obj/item/clothing/under/ship/peacekeeper
@@ -137,7 +137,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	l_pocket = /obj/item/restraints/handcuffs
 	r_pocket = /obj/item/assembly/flash/handheld
 	suit_store = /obj/item/gun/ballistic/tazer //NSV13
-	backpack_contents = list(/obj/item/gun/ballistic/tazer=1,/obj/item/ammo_box/magazine/tazer_cartridge_storage=1,/obj/item/pda/security, /obj/item/book/granter/martial/jujitsu, /obj/item/club=1) //NSV13)
+	backpack_contents = list(/obj/item/gun/ballistic/tazer=1,/obj/item/ammo_box/magazine/tazer_cartridge_storage=1,/obj/item/modular_computer/tablet/pda/security, /obj/item/book/granter/martial/jujitsu, /obj/item/melee/classic_baton/police=1) //NSV13)
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec

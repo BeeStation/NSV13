@@ -104,6 +104,14 @@ export class TextArea extends Component {
     if (input) {
       input.value = toInputValue(nextValue);
     }
+    if (this.props.autoFocus || this.props.autoSelect) {
+      setTimeout(() => {
+        input.focus();
+        if (this.props.autoSelect) {
+          input.select();
+        }
+      }, 1);
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -137,6 +145,8 @@ export class TextArea extends Component {
       value,
       maxLength,
       placeholder,
+      scrollbar,
+      noborder,
       ...boxProps
     } = this.props;
     // Box props
@@ -150,12 +160,17 @@ export class TextArea extends Component {
         className={classes([
           'TextArea',
           fluid && 'TextArea--fluid',
+          fluid && 'TextArea--fluid',
+          noborder && 'TextArea--noborder',
           className,
         ])}
         {...rest}>
         <textarea
           ref={this.textareaRef}
-          className="TextArea__textarea"
+          className={classes([
+            'TextArea__textarea',
+            scrollbar && 'TextArea__textarea--scrollable',
+          ])}
           placeholder={placeholder}
           onChange={this.handleOnChange}
           onKeyDown={this.handleKeyDown}

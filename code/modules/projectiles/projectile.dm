@@ -112,6 +112,7 @@
 
 	//Homing
 	var/homing = FALSE
+	var/can_home = FALSE //NSV13 - Whether a projectile is assigned a homing target after being fired
 	var/atom/homing_target
 	var/homing_turn_speed = 10		//Angle per tick.
 	var/homing_inaccuracy_min = 0		//in pixels for these. offsets are set once when setting target.
@@ -161,7 +162,7 @@
 	decayedRange = range
 
 	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = .proc/on_entered,
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
@@ -700,7 +701,7 @@
 	last_projectile_move = world.time
 	fired = TRUE
 	if(hitscan)
-		INVOKE_ASYNC(src, .proc/process_hitscan)
+		INVOKE_ASYNC(src, PROC_REF(process_hitscan))
 	if(!(datum_flags & DF_ISPROCESSING))
 		START_PROCESSING(SSprojectiles, src)
 	pixel_move(1, FALSE)	//move it now!

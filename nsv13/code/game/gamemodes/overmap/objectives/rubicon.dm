@@ -13,7 +13,7 @@
 	desc = "Defeat all enemies in the [system_name] system"
 	brief = desc
 	target_system = SSstar_system.system_by_id(system_name)
-	RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_SHIP_KILLED_FLEET, .proc/check_completion)
+	RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_SHIP_KILLED_FLEET, PROC_REF(check_completion))
 
 /datum/overmap_objective/clear_system/check_completion()
 	.=..()
@@ -25,6 +25,8 @@
 /datum/overmap_objective/clear_system/rubicon
 	system_name = "Rubicon"
 	extension_supported = TRUE
+	required_players = 4
 
 /datum/overmap_objective/clear_system/dolos
 	system_name = "Dolos Remnants"
+	required_players = 4

@@ -307,7 +307,7 @@
 			to_chat(user, "<span class='notice'>The maintenance panel is now [open ? "opened" : "closed"].</span>")
 		else
 			to_chat(user, "<span class='warning'>The maintenance panel is locked.</span>")
-	else if(istype(W, /obj/item/card/id) || istype(W, /obj/item/pda))
+	else if(istype(W, /obj/item/card/id) || istype(W, /obj/item/modular_computer/tablet/pda))
 		togglelock(user)
 	else if(istype(W, /obj/item/paicard))
 		insertpai(user, W)
@@ -542,7 +542,8 @@ Pass a positive integer as an argument to override a bot's default speed.
 	else if(path.len == 1)
 		step_to(src, dest)
 		if(last_waypoint != null)
-			if(z != last_waypoint.z)
+			var/obj/structure/bot_elevator/E = locate(/obj/structure/bot_elevator) in get_turf(src) //NSV13 - Attempt at fixing the code that is causing bots to randomly get stuck
+			if(z != last_waypoint.z && E)
 				bot_z_movement()
 		set_path(null)
 	return TRUE
@@ -577,7 +578,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 			turn_on() //Saves the AI the hassle of having to activate a bot manually.
 		access_card = all_access //Give the bot all-access while under the AI's command.
 		if(client)
-			reset_access_timer_id = addtimer(CALLBACK (src, .proc/bot_reset), 600, TIMER_UNIQUE|TIMER_OVERRIDE|TIMER_STOPPABLE) //if the bot is player controlled, they get the extra access for a limited time
+			reset_access_timer_id = addtimer(CALLBACK (src, PROC_REF(bot_reset)), 600, TIMER_UNIQUE|TIMER_OVERRIDE|TIMER_STOPPABLE) //if the bot is player controlled, they get the extra access for a limited time
 			to_chat(src, "<span class='notice'><span class='big'>Priority waypoint set by [icon2html(calling_ai, src)] <b>[caller]</b>. Proceed to <b>[end_area]</b>.</span><br>[path.len-1] meters to destination. You have been granted additional door access for 60 seconds.</span>")
 		if(message)
 			to_chat(calling_ai, "<span class='notice'>[icon2html(src, calling_ai)] [name] called to [end_area]. [path.len-1] meters to destination.</span>")
@@ -612,11 +613,20 @@ Pass a positive integer as an argument to override a bot's default speed.
 	access_card.access = prev_access
 	tries = 0
 	mode = BOT_IDLE
+	hard_reset() //NSV13 - Hard reset the bot's pathing
 	diag_hud_set_botstat()
 	diag_hud_set_botmode()
 
 
 
+//NSV13 For Now - Hard Reset - Literally tries to make it forget everything about it's last path in the hopes that resetting it will make it start fresh
+/mob/living/simple_animal/bot/proc/hard_reset()
+	patrol_target = null
+	last_waypoint = null
+	ai_waypoint = null
+	original_patrol = null
+	nearest_beacon = null
+	nearest_beacon_loc = null
 
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //Patrol and summon code!
@@ -664,7 +674,8 @@ Pass a positive integer as an argument to override a bot's default speed.
 
 	if(loc == patrol_target)		// reached target
 		if(original_patrol != null)
-			if(z != original_patrol.z)
+			var/obj/structure/bot_elevator/E = locate(/obj/structure/bot_elevator) in get_turf(src) //NSV13 - Attempt at fixing the code that is causing bots to randomly get stuck
+			if(z != original_patrol.z && E)
 				bot_z_movement()
 				return
 		//Find the next beacon matching the target.
@@ -823,7 +834,8 @@ Pass a positive integer as an argument to override a bot's default speed.
 
 	if(loc == summon_target)		// Arrived to summon location.
 		if(last_summon != null)
-			if(z != last_summon.z)
+			var/obj/structure/bot_elevator/E = locate(/obj/structure/bot_elevator) in get_turf(src) //NSV13 - Attempt at fixing the code that is causing bots to randomly get stuck
+			if(z != last_summon.z && E)
 				bot_z_movement()
 				return
 		bot_reset()
@@ -1165,6 +1177,11 @@ Pass a positive integer as an argument to override a bot's default speed.
 				E.travel(TRUE, src, FALSE, E.up, FALSE)
 				ai_waypoint = last_waypoint
 				call_bot(calling_ai, ai_waypoint)
+		//NSV13 For Now
+		if(!E) //We're stuck in a loop, terminate our attempt because we're not where we're supposed to be.
+			bot_z_mode = null
+			last_waypoint = null
+			summon_step() //We've gotten stuck, as such the loop needs to be broken, so re-run the summon_step().
 
 	if(bot_z_mode == BOT_Z_MODE_PATROLLING)
 		if(E)
@@ -1176,6 +1193,12 @@ Pass a positive integer as an argument to override a bot's default speed.
 				E.travel(TRUE, src, FALSE, E.up, FALSE)
 				patrol_target = original_patrol
 				calc_path()
+		//NSV13 For Now
+		if(!E) //We're stuck in a loop, terminate our attempt because we're not where we're supposed to be.
+			bot_z_mode = null
+			original_patrol = null
+			patrol_step() //We've gotten stuck, as such the loop needs to be broken, so re-run the patrol_step().
+
 	if(bot_z_mode == BOT_Z_MODE_SUMMONED)
 		if(E)
 			if(z > last_summon.z)
@@ -1186,6 +1209,11 @@ Pass a positive integer as an argument to override a bot's default speed.
 				E.travel(TRUE, src, FALSE, E.up, FALSE)
 				summon_target = last_summon
 				calc_summon_path()
+		//NSV13 For Now
+		if(!E) //We're stuck in a loop, terminate our attempt because we're not where we're supposed to be.
+			bot_z_mode = null
+			last_summon = null
+			summon_step() //We've gotten stuck, as such the loop needs to be broken. so re-run the summon_step().
 
 //BOT MULTI-Z MOVEMENT
 /mob/living/simple_animal/bot/proc/call_bot_z_move(caller, turf/ori_dest, message=TRUE)
@@ -1220,7 +1248,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 			turn_on() //Saves the AI the hassle of having to activate a bot manually.
 		access_card = all_access //Give the bot all-access while under the AI's command.
 		if(client)
-			reset_access_timer_id = addtimer(CALLBACK (src, .proc/bot_reset), 600, TIMER_UNIQUE|TIMER_OVERRIDE|TIMER_STOPPABLE) //if the bot is player controlled, they get the extra access for a limited time
+			reset_access_timer_id = addtimer(CALLBACK (src, PROC_REF(bot_reset)), 600, TIMER_UNIQUE|TIMER_OVERRIDE|TIMER_STOPPABLE) //if the bot is player controlled, they get the extra access for a limited time
 			to_chat(src, "<span class='notice'><span class='big'>Priority waypoint set by [icon2html(calling_ai, src)] <b>[caller]</b>. Proceed to <b>[end_area]</b>.</span><br>[path.len-1] meters to destination. You have been granted additional door access for 60 seconds.</span>")
 		pathset = 1
 		mode = BOT_RESPONDING

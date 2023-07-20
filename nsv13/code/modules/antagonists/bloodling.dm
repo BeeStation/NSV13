@@ -144,7 +144,7 @@
 		for(var/aType in tier["abilities"])
 			abilities += new aType
 		ability_tiers[++ability_tiers.len] =list("unlockTier"=tier["unlockTier"], "abilities"=abilities, "lockAtTier"=tier["lockAtTier"])
-	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMGE, .proc/damage_react)
+	RegisterSignal(parent, COMSIG_MOB_APPLY_DAMGE, PROC_REF(damage_react))
 	update_mob()
 
 /datum/component/bloodling/proc/damage_react(datum/source, amount)
@@ -452,7 +452,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	timer_overlay = mutable_appearance(timer_icon, timer_icon_state_active)
 	timer_overlay.alpha = 180
 	button.add_overlay(timer_overlay)
-	addtimer(CALLBACK(src, .proc/remove_cooldown), time)
+	addtimer(CALLBACK(src, PROC_REF(remove_cooldown)), time)
 
 /datum/action/bloodling/proc/remove_cooldown()
 	has_cooldown_timer = FALSE
@@ -643,7 +643,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	animate(user, alpha = 255, time = 2 SECONDS)
 
 	var/datum/beam/current_beam = new(user,M,time=absorb_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
-	INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+	INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 	M.visible_message("<span class='warning'>[user] plunges a tendril deep into [M]'s carotid artery!</span>", "<span class='userdanger'>You feel a stabbing pain in your carotid artery!</span>")
 	M.take_overall_damage(0, 0, 50) //OUCH!
 	M.emote("scream")
@@ -737,7 +737,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 			var/absorb_cooldown = 1 MINUTES - B.last_evolution SECONDS //It'll take everything you have to pull this off...
 			soundloop.start(user)
 			var/datum/beam/current_beam = new(user,physical_target,time=new_absorb_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
-			INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+			INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 			add_cooldown(absorb_cooldown*2)
 			user.emote("scream")
 			if(do_after(user, new_absorb_time, target=physical_target))
@@ -773,7 +773,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	var/absorb_cooldown = 20 SECONDS - B.last_evolution SECONDS //Bigger boys absorb better
 	soundloop.start(user)
 	var/datum/beam/current_beam = new(user,M,time=absorb_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
-	INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+	INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 	M.visible_message("<span class='warning'>[user] plunges a tendril deep into [M]'s carotid artery!</span>", "<span class='userdanger'>You feel a stabbing pain in your carotid artery!</span>")
 	add_cooldown(absorb_cooldown)
 	M.emote("scream")
@@ -922,7 +922,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	user.visible_message("<span class='warning'>[user] lashes out with a legion of tentacles!</span>")
 	user.shake_animation()
 	playsound(user, 'sound/magic/tail_swing.ogg', 100, TRUE)
-	INVOKE_ASYNC(src, .proc/summon_tentacles, user)
+	INVOKE_ASYNC(src, PROC_REF(summon_tentacles), user)
 	add_cooldown(cooldown)
 
 /datum/action/bloodling/whiplash/proc/summon_tentacles(mob/living/user)
@@ -932,7 +932,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 		if(M == user)
 			continue
 		var/datum/beam/current_beam = new(user,M,time=0.75 SECONDS,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
-		INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+		INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 		animate(M, pixel_y = 70, 0.25 SECONDS)
 		playsound(M, 'nsv13/sound/effects/bloodling_squelch.ogg', 70, FALSE)
 		M.visible_message("<span class='warning'>A tentacle grabs hold of [M]!</span>", "<span class='userdanger'>A tentacle sweeps you high into the air!</span>")
@@ -1116,7 +1116,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	user.emote("scream")
 	var/heal_time = 20 SECONDS
 	var/datum/beam/current_beam = new(user,M,time=heal_time,beam_icon_state="tentacle",btype=/obj/effect/ebeam/blood)
-	INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+	INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 	M.visible_message("<span class='warning'>[user] plunges a tendril deep into [M]'s neck!</span>", "<span class='userdanger'>You feel a stabbing pain in your neck as your wounds knit back together...</span>")
 	M.emote("scream")
 	playsound(M, 'nsv13/sound/effects/bloodling_squelch.ogg', 70, FALSE)
@@ -1198,7 +1198,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	//No escape
 	SSshuttle.registerHostileEnvironment(user)
 	SSshuttle.lockdown = TRUE
-	addtimer(CALLBACK(src, .proc/begin_the_end), 5 MINUTES)
+	addtimer(CALLBACK(src, PROC_REF(begin_the_end)), 5 MINUTES)
 
 /datum/component/bloodling/proc/begin_the_end(mob/living/user)
 	user = parent
@@ -1209,7 +1209,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 	//Give them a chance to resolve it.
 	priority_announce("WARNING: AN EXTRA-DIMENSIONAL CONSCIOUSNESS GRID HAS BEEN ESTABLISHED ABOARD [station_name()]... Eliminate the focal entity at all costs. Reports estimate total reality failure in T-10 minutes.","Central Command Higher Dimensional Affairs")
 
-	addtimer(CALLBACK(GLOBAL_PROC, .proc/bloodling_win), 10 MINUTES)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(bloodling_win)), 10 MINUTES)
 
 	var/mob/last_user = user
 	var/mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended/theMaster = new(user.loc)
@@ -1231,7 +1231,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 			SSticker.mode.check_win()
 			return FALSE //Well! he dead..
 	sound_to_playing_players('sound/machines/alarm.ogg')
-	Cinematic(CINEMATIC_CULT,world,CALLBACK(GLOBAL_PROC,/proc/ending_helper))
+	Cinematic(CINEMATIC_CULT,world,CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(ending_helper)))
 
 /mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended
 	name = "Fleshy Entity"
@@ -1255,7 +1255,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 
 /mob/living/simple_animal/hostile/eldritch/armsy/prime/bloodling_ascended/Initialize(mapload, spawn_more, len)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/update_biomass), 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(update_biomass)), 1 SECONDS)
 	var/area/A = get_area(src)
 	if(A)
 		var/mutable_appearance/alert_overlay = mutable_appearance('nsv13/icons/mob/actions/actions_bloodling.dmi', "ascend")

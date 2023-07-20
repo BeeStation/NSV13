@@ -6,7 +6,7 @@
 	extended_desc = "This program monitors stationwide NTNet network, provides access to logging systems, and allows for configuration changes"
 	size = 12
 	requires_ntnet = TRUE
-	required_access = ACCESS_NETWORK	//NETWORK CONTROL IS A MORE SECURE PROGRAM.
+	required_access = list(ACCESS_NETWORK)	//NETWORK CONTROL IS A MORE SECURE PROGRAM.
 	available_on_ntnet = TRUE
 	tgui_id = "NtosNetMonitor"
 	program_icon = "network-wired"
@@ -52,7 +52,7 @@
 /datum/computer_file/program/ntnetmonitor/ui_data(mob/user)
 	if(!SSnetworks.station_network)
 		return
-	var/list/data = get_header_data()
+	var/list/data = list()
 
 	data["ntnetstatus"] = SSnetworks.station_network.check_function(zlevel=user.get_virtual_z_level())
 	data["ntnetrelays"] = SSnetworks.relays.len

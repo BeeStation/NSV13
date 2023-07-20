@@ -504,7 +504,10 @@
 "cu" = (
 /obj/machinery/door/airlock/turbolift/ship,
 /turf/open/floor/monotile/dark,
-/area/shuttle/turbolift/shaft)
+/area/shuttle/turbolift/shaft{
+	ambient_buzz = null;
+	ambientsounds = null
+	})
 "cv" = (
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
@@ -513,7 +516,10 @@
 	dir = 1
 	},
 /turf/closed/wall/r_wall/ship,
-/area/shuttle/turbolift/shaft)
+/area/shuttle/turbolift/shaft{
+	ambient_buzz = null;
+	ambientsounds = null
+	})
 "cy" = (
 /obj/machinery/light{
 	color = "#c1e1ff";
@@ -694,7 +700,10 @@
 /area/quartermaster/miningdock)
 "dx" = (
 /turf/closed/wall/r_wall/ship,
-/area/shuttle/turbolift/shaft)
+/area/shuttle/turbolift/shaft{
+	ambient_buzz = null;
+	ambientsounds = null
+	})
 "dy" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
 	dir = 6
@@ -789,7 +798,10 @@
 "dF" = (
 /obj/machinery/light/floor,
 /turf/open/openspace,
-/area/shuttle/turbolift/shaft)
+/area/shuttle/turbolift/shaft{
+	ambient_buzz = null;
+	ambientsounds = null
+	})
 "dI" = (
 /obj/structure/table/reinforced,
 /obj/item/gun/grenadelauncher,
@@ -952,7 +964,10 @@
 	dir = 8
 	},
 /turf/open/openspace,
-/area/shuttle/turbolift/shaft)
+/area/shuttle/turbolift/shaft{
+	ambient_buzz = null;
+	ambientsounds = null
+	})
 "ez" = (
 /obj/machinery/door/airlock/ship/security{
 	dir = 4;
@@ -976,7 +991,10 @@
 /area/storage/tools)
 "eF" = (
 /turf/open/openspace,
-/area/shuttle/turbolift/shaft)
+/area/shuttle/turbolift/shaft{
+	ambient_buzz = null;
+	ambientsounds = null
+	})
 "eG" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -1048,6 +1066,9 @@
 /area/maintenance/nsv/bridge)
 "eY" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
+/obj/machinery/light/small{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/cargo)
 "eZ" = (
@@ -1442,9 +1463,6 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/armour_pump)
 "gF" = (
-/obj/machinery/light/small{
-	dir = 4
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 6
 	},
@@ -1631,9 +1649,7 @@
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/security/armory)
 "hr" = (
-/obj/machinery/ship_weapon/gauss_gun{
-	pixel_y = -64
-	},
+/obj/machinery/ship_weapon/gauss_gun,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "ht" = (
@@ -1832,16 +1848,11 @@
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
 "io" = (
-/obj/item/storage/box/syringes{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/obj/structure/table/glass,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 1
 	},
 /obj/item/radio/intercom/directional/south,
-/obj/item/storage/box/beakers/large_mix,
+/obj/machinery/chem_master,
 /turf/open/floor/plasteel/white/side,
 /area/medical/storage)
 "ir" = (
@@ -2574,22 +2585,11 @@
 /turf/open/floor/plasteel/dark,
 /area/security/locker_room)
 "mh" = (
-/obj/structure/table/glass,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 1
 	},
 /obj/machinery/firealarm/directional/south,
-/obj/item/book/manual/wiki/chemistry{
-	pixel_x = 5;
-	pixel_y = 5
-	},
-/obj/item/reagent_containers/dropper{
-	pixel_x = 5
-	},
-/obj/item/reagent_containers/dropper{
-	pixel_x = 5;
-	pixel_y = -2
-	},
+/obj/machinery/refillable_chem_dispenser/full,
 /turf/open/floor/plasteel/white/corner,
 /area/medical/storage)
 "mi" = (
@@ -3203,9 +3203,7 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 1
 	},
-/obj/machinery/ship_weapon/gauss_gun/north{
-	pixel_y = -60
-	},
+/obj/machinery/ship_weapon/gauss_gun/north,
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "oZ" = (
@@ -3261,7 +3259,25 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
 "pn" = (
-/obj/machinery/chem_master,
+/obj/item/reagent_containers/dropper{
+	pixel_x = 5;
+	pixel_y = -2
+	},
+/obj/structure/table/glass,
+/obj/item/book/manual/wiki/chemistry{
+	pixel_x = 5;
+	pixel_y = 5
+	},
+/obj/item/storage/box/syringes{
+	pixel_x = -7;
+	pixel_y = 3
+	},
+/obj/item/storage/box/beakers/large_mix{
+	pixel_x = -10
+	},
+/obj/item/reagent_containers/dropper{
+	pixel_x = 5
+	},
 /turf/open/floor/plasteel/white/corner{
 	dir = 8
 	},
@@ -3327,6 +3343,8 @@
 /obj/item/circuitboard/machine/microwave,
 /obj/item/circuitboard/machine/hydroponics,
 /obj/item/circuitboard/machine/hydroponics,
+/obj/item/circuitboard/machine/vendor,
+/obj/item/circuitboard/machine/processor,
 /turf/open/floor/durasteel,
 /area/storage/tech)
 "pS" = (
@@ -4546,10 +4564,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
-"vt" = (
-/obj/structure/foamedmetal,
-/turf/closed/wall/ship,
-/area/maintenance/nsv/deck1/starboard)
 "vu" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable{
@@ -5631,6 +5645,7 @@
 "Av" = (
 /obj/machinery/firealarm/directional/west,
 /obj/structure/table/glass,
+/obj/machinery/coffeemaker,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/nsv/observation{
 	lighting_colour_bulb = "#c1e1ff";
@@ -5929,10 +5944,10 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
-/obj/item/modular_computer/tablet/preset,
-/obj/item/modular_computer/tablet/preset,
 /obj/structure/rack,
-/obj/item/modular_computer/laptop/preset,
+/obj/item/modular_computer/laptop/preset/civillian,
+/obj/item/modular_computer/tablet,
+/obj/item/modular_computer/tablet,
 /turf/open/floor/durasteel,
 /area/storage/tech)
 "Cl" = (
@@ -6330,6 +6345,7 @@
 	dir = 4
 	},
 /obj/effect/spawner/lootdrop/maintenance/two,
+/obj/item/circuitboard/machine/processor/slime,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "El" = (
@@ -8597,7 +8613,7 @@
 /turf/closed/wall/ship,
 /area/hallway/nsv/deck1/frame1/starboard)
 "NR" = (
-/obj/machinery/vending/cart,
+/obj/machinery/vending/job_disk,
 /turf/open/floor/plasteel/ridged/steel,
 /area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
@@ -9838,7 +9854,7 @@
 	pixel_x = 8
 	},
 /obj/item/reagent_containers/glass/bottle/diphenhydramine{
-	list_reagents = list(/datum/reagent/medicine/rezadone = 30);
+	list_reagents = list(/datum/reagent/medicine/rezadone=30);
 	name = "rezadone bottle";
 	pixel_x = -4
 	},
@@ -11033,6 +11049,7 @@
 /obj/item/circuitboard/machine/chem_heater,
 /obj/item/circuitboard/machine/chem_master,
 /obj/item/circuitboard/machine/stasis,
+/obj/item/circuitboard/machine/refillable_chem_dispenser,
 /turf/open/floor/durasteel,
 /area/storage/tech)
 "WI" = (
@@ -11592,12 +11609,13 @@
 /turf/open/floor/durasteel,
 /area/nsv/hanger)
 "YF" = (
-/obj/machinery/vending/coffee,
 /obj/machinery/light{
 	color = "#c1e1ff";
 	dir = 1
 	},
 /obj/machinery/newscaster/directional/west,
+/obj/structure/table/glass,
+/obj/item/storage/fancy/coffee_condi_display,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/nsv/observation{
 	lighting_colour_bulb = "#c1e1ff";
@@ -41451,9 +41469,9 @@ qQ
 vG
 vG
 bw
-vt
-vt
-vt
+Ep
+Ep
+Ep
 iL
 cF
 li
@@ -41710,7 +41728,7 @@ jf
 wS
 rt
 yU
-vt
+Ep
 iL
 cF
 li
@@ -41967,7 +41985,7 @@ NX
 El
 rt
 dV
-vt
+Ep
 iL
 cF
 li
@@ -42224,7 +42242,7 @@ jf
 WA
 rt
 kq
-vt
+Ep
 iL
 cF
 li
@@ -42481,7 +42499,7 @@ ck
 WA
 rt
 pZ
-vt
+Ep
 iL
 li
 li

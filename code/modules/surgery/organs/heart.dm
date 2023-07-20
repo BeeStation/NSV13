@@ -30,7 +30,7 @@
 /obj/item/organ/heart/Remove(mob/living/carbon/M, special = 0)
 	..()
 	if(!special)
-		addtimer(CALLBACK(src, .proc/stop_if_unowned), 120)
+		addtimer(CALLBACK(src, PROC_REF(stop_if_unowned)), 120)
 
 /obj/item/organ/heart/proc/stop_if_unowned()
 	if(!owner)
@@ -46,7 +46,7 @@
 		user.visible_message("<span class='notice'>[user] squeezes [src] to \
 			make it beat again!</span>","<span class='notice'>You squeeze [src] to make it beat again!</span>")
 		Restart()
-		addtimer(CALLBACK(src, .proc/stop_if_unowned), 80)
+		addtimer(CALLBACK(src, PROC_REF(stop_if_unowned)), 80)
 
 /obj/item/organ/heart/proc/Stop()
 	beating = 0
@@ -215,7 +215,7 @@
 /obj/item/organ/heart/cybernetic/ipc/emp_act()
 	. = ..()
 	to_chat(owner, "<span class='warning'>Alert: Cybernetic heart failed one heartbeat</span>")
-	addtimer(CALLBACK(src, .proc/Restart), 10 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(Restart)), 10 SECONDS)
 
 /obj/item/organ/heart/freedom
 	name = "heart of freedom"
@@ -231,3 +231,229 @@
 		owner.heal_overall_damage(15, 15, 0, BODYTYPE_ORGANIC)
 		if(owner.reagents.get_reagent_amount(/datum/reagent/medicine/ephedrine) < 20)
 			owner.reagents.add_reagent(/datum/reagent/medicine/ephedrine, 10)
+
+
+//NSV13 - Rest of file is purely ours from down here - Ethereal Crystalization
+
+/obj/item/organ/heart/ethereal
+	name = "crystal core"
+	icon_state = "ethereal_heart" //Welp. At least it's more unique in functionaliy.
+	desc = "A crystal-like organ that functions similarly to a heart for Ethereals. It can revive its owner."
+
+	///Cooldown for the next time we can crystalize
+	COOLDOWN_DECLARE(crystalize_cooldown)
+	///Timer ID for when we will be crystalized, If not preparing this will be null.
+	var/crystalize_timer_id
+	///The current crystal the ethereal is in, if any
+	var/obj/structure/ethereal_crystal/current_crystal
+	///Damage taken during crystalization, resets after it ends
+	var/crystalization_process_damage = 0
+	///Color of the heart, is set by the species on gain
+	var/ethereal_color = "#9c3030"
+
+/obj/item/organ/heart/ethereal/Initialize()
+	. = ..()
+	add_atom_colour(ethereal_color, FIXED_COLOUR_PRIORITY)
+
+/obj/item/organ/heart/ethereal/Insert(mob/living/carbon/heart_owner, special = 0)
+	. = ..()
+	RegisterSignal(heart_owner, COMSIG_MOB_STATCHANGE, PROC_REF(on_stat_change))
+	RegisterSignal(heart_owner, COMSIG_LIVING_POST_FULLY_HEAL, PROC_REF(on_owner_fully_heal))
+	RegisterSignal(heart_owner, COMSIG_PARENT_PREQDELETED, PROC_REF(owner_deleted))
+
+/obj/item/organ/heart/ethereal/Remove(mob/living/carbon/heart_owner, special = 0)
+	UnregisterSignal(heart_owner, list(COMSIG_MOB_STATCHANGE, COMSIG_LIVING_POST_FULLY_HEAL, COMSIG_PARENT_PREQDELETED))
+	REMOVE_TRAIT(heart_owner, TRAIT_CORPSELOCKED, SPECIES_TRAIT)
+	stop_crystalization_process(heart_owner)
+	QDEL_NULL(current_crystal)
+	return ..()
+
+/obj/item/organ/heart/ethereal/update_overlays()
+	. = ..()
+	var/mutable_appearance/shine = mutable_appearance(icon, icon_state = "[icon_state]_shine")
+	shine.appearance_flags = RESET_COLOR //No color on this, just pure white
+	. += shine
+
+/obj/item/organ/heart/ethereal/proc/on_owner_fully_heal(mob/living/carbon/healed, admin_heal)
+	SIGNAL_HANDLER
+
+	QDEL_NULL(current_crystal) //Kicks out the ethereal
+
+///Ran when examined while crystalizing, gives info about the amount of time left
+/obj/item/organ/heart/ethereal/proc/on_examine(mob/living/carbon/human/examined_human, mob/user, list/examine_list)
+	SIGNAL_HANDLER
+
+	if(!crystalize_timer_id)
+		return
+
+	switch(timeleft(crystalize_timer_id))
+		if(0 to CRYSTALIZE_STAGE_ENGULFING)
+			examine_list += "<span class='warning'>Crystals are almost engulfing [examined_human]! </span>"
+		if(CRYSTALIZE_STAGE_ENGULFING to CRYSTALIZE_STAGE_ENCROACHING)
+			examine_list += "<span class='notice'>Crystals are starting to cover [examined_human]. </span>"
+		if(CRYSTALIZE_STAGE_SMALL to INFINITY)
+			examine_list += "<span class='notice'>Some crystals are coming out of [examined_human]. </span>"
+
+///On stat changes, if the victim is no longer dead but they're crystalizing, cancel it, if they become dead, start the crystalizing process if possible
+/obj/item/organ/heart/ethereal/proc/on_stat_change(mob/living/victim, new_stat)
+	SIGNAL_HANDLER
+
+	if(new_stat != DEAD)
+		if(crystalize_timer_id)
+			stop_crystalization_process(victim)
+		return
+
+
+	if(QDELETED(victim) || victim.suiciding)
+		return //lol rip
+
+	if(!COOLDOWN_FINISHED(src, crystalize_cooldown))
+		return //lol double rip
+
+	to_chat(victim, "<span class='nicegreen'>Crystals start forming around your dead body.</span>")
+	victim.visible_message("<span class='notice'>Crystals start forming around [victim].</span>")
+	ADD_TRAIT(victim, TRAIT_CORPSELOCKED, SPECIES_TRAIT)
+
+	crystalize_timer_id = addtimer(CALLBACK(src, PROC_REF(crystalize), victim), CRYSTALIZE_PRE_WAIT_TIME, TIMER_STOPPABLE)
+
+	RegisterSignal(victim, COMSIG_HUMAN_DISARM_HIT, PROC_REF(reset_crystalizing))
+	RegisterSignal(victim, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine), override = TRUE)
+	RegisterSignal(victim, COMSIG_MOB_APPLY_DAMGE, PROC_REF(on_take_damage))
+
+///Ran when disarmed, prevents the ethereal from reviving
+/obj/item/organ/heart/ethereal/proc/reset_crystalizing(mob/living/defender, mob/living/attacker, zone)
+	SIGNAL_HANDLER
+	to_chat(defender, "<span class='notice'>The crystals on your corpse are gently broken off, and will need some time to recover.</span>")
+	defender.visible_message("<span class='notice'>The crystals on [defender] are gently broken off.</span>")
+	deltimer(crystalize_timer_id)
+	crystalize_timer_id = addtimer(CALLBACK(src, PROC_REF(crystalize), defender), CRYSTALIZE_DISARM_WAIT_TIME, TIMER_STOPPABLE) //Lets us restart the timer on disarm
+
+
+///Actually spawns the crystal which puts the ethereal in it.
+/obj/item/organ/heart/ethereal/proc/crystalize(mob/living/ethereal)
+
+	var/location = ethereal.loc
+
+	if(!COOLDOWN_FINISHED(src, crystalize_cooldown) || ethereal.stat != DEAD)
+		return //Should probably not happen, but lets be safe.
+
+	if(ismob(location) || isitem(location) || HAS_TRAIT_FROM(src, TRAIT_HUSK, CHANGELING_DRAIN)) //Stops crystallization if they are eaten by a dragon, turned into a legion, consumed by his grace, etc.
+		to_chat(ethereal, "<span class='userwarning'>You were unable to finish your crystallization, for obvious reasons.</span>")
+		stop_crystalization_process(ethereal, FALSE)
+		return
+
+	COOLDOWN_START(src, crystalize_cooldown, INFINITY) //Prevent cheeky double-healing until we get out, this is against stupid admemery
+	current_crystal = new(get_turf(ethereal), src)
+	stop_crystalization_process(ethereal, TRUE)
+
+///Stop the crystalization process, unregistering any signals and resetting any variables.
+/obj/item/organ/heart/ethereal/proc/stop_crystalization_process(mob/living/ethereal, succesful = FALSE)
+	UnregisterSignal(ethereal, COMSIG_HUMAN_DISARM_HIT)
+	UnregisterSignal(ethereal, COMSIG_PARENT_EXAMINE)
+	UnregisterSignal(ethereal, COMSIG_MOB_APPLY_DAMGE)
+
+	crystalization_process_damage = 0 //Reset damage taken during crystalization
+
+	if(!succesful)
+		REMOVE_TRAIT(owner, TRAIT_CORPSELOCKED, SPECIES_TRAIT)
+		QDEL_NULL(current_crystal)
+
+	if(crystalize_timer_id)
+		deltimer(crystalize_timer_id)
+		crystalize_timer_id = null
+
+/obj/item/organ/heart/ethereal/proc/owner_deleted(datum/source)
+	SIGNAL_HANDLER
+
+	stop_crystalization_process(owner)
+	return
+
+///Lets you stop the process with enough brute damage
+/obj/item/organ/heart/ethereal/proc/on_take_damage(datum/source, damage, damagetype, def_zone)
+	SIGNAL_HANDLER
+	if(damagetype != BRUTE)
+		return
+
+	crystalization_process_damage += damage
+
+	if(crystalization_process_damage < BRUTE_DAMAGE_REQUIRED_TO_STOP_CRYSTALIZATION)
+		return
+
+	var/mob/living/carbon/human/ethereal = source
+
+	to_chat(ethereal, "<span class='userwarning'>The crystals on your body have completely broken</span>")
+	ethereal.visible_message("<span class='notice'>The crystals on [ethereal] are completely shattered and stopped growing</span>")
+
+	stop_crystalization_process(ethereal)
+
+/obj/structure/ethereal_crystal
+	name = "Ethereal Resurrection Crystal"
+	desc = "It seems to contain the corpse of an ethereal mending its wounds."
+	icon = 'nsv13/icons/obj/ethereal_crystal.dmi'
+	icon_state = "ethereal_crystal"
+	max_integrity = 100
+	resistance_flags = FIRE_PROOF
+	density = TRUE
+	anchored = TRUE
+	///The organ this crystal belongs to
+	var/obj/item/organ/heart/ethereal/ethereal_heart
+	///Timer for the healing process. Stops if destroyed.
+	var/crystal_heal_timer
+	///Is the crystal still being built? True by default, gets changed after a timer.
+	var/being_built = TRUE
+
+/obj/structure/ethereal_crystal/Initialize(mapload, obj/item/organ/heart/ethereal/ethereal_heart)
+	. = ..()
+	src.ethereal_heart = ethereal_heart
+	ethereal_heart.owner.visible_message("<span class='notice'>The crystals fully encase [ethereal_heart.owner]!</span>")
+	to_chat(ethereal_heart.owner, "<span class='notice'>You are encased in a huge crystal!</span>")
+	playsound(get_turf(src), 'nsv13/sound/effects/ethereal_crystalization.ogg', 50)
+	var/atom/movable/possible_chair = ethereal_heart.owner.buckled
+	possible_chair?.unbuckle_mob(ethereal_heart.owner, force = TRUE)
+	ethereal_heart.owner.forceMove(src) //put that ethereal in
+	add_atom_colour(ethereal_heart.ethereal_color, FIXED_COLOUR_PRIORITY)
+	crystal_heal_timer = addtimer(CALLBACK(src, PROC_REF(heal_ethereal)), CRYSTALIZE_HEAL_TIME, TIMER_STOPPABLE)
+	set_light(4, 10, ethereal_heart.ethereal_color)
+	update_icon()
+	flick("ethereal_crystal_forming", src)
+	addtimer(CALLBACK(src, PROC_REF(start_crystalization)), 1 SECONDS)
+
+/obj/structure/ethereal_crystal/proc/start_crystalization()
+	being_built = FALSE
+	update_icon()
+
+
+/obj/structure/ethereal_crystal/obj_destruction(damage_flag)
+	playsound(get_turf(ethereal_heart.owner), 'nsv13/sound/effects/ethereal_revive_fail.ogg', 100)
+	return ..()
+
+
+/obj/structure/ethereal_crystal/Destroy()
+	if(!ethereal_heart)
+		return ..()
+	ethereal_heart.current_crystal = null
+	COOLDOWN_START(ethereal_heart, crystalize_cooldown, CRYSTALIZE_COOLDOWN_LENGTH)
+	ethereal_heart.owner.forceMove(get_turf(src))
+	REMOVE_TRAIT(ethereal_heart.owner, TRAIT_CORPSELOCKED, SPECIES_TRAIT)
+	deltimer(crystal_heal_timer)
+	visible_message("<span class='notice'>The crystals shatters, causing [ethereal_heart.owner] to fall out</span>")
+	return ..()
+
+/obj/structure/ethereal_crystal/update_overlays()
+	. = ..()
+	if(!being_built)
+		var/mutable_appearance/shine = mutable_appearance(icon, icon_state = "[icon_state]_shine")
+		shine.appearance_flags = RESET_COLOR //No color on this, just pure white
+		. += shine
+
+/obj/structure/ethereal_crystal/proc/heal_ethereal()
+	ethereal_heart.owner.revive(TRUE, FALSE)
+	to_chat(ethereal_heart.owner, "<span class='notice'>You burst out of the crystal with vigour... </span><span class='userdanger'>But at a cost.</span>")
+	var/datum/brain_trauma/picked_trauma
+	if(prob(10)) //10% chance for a severe trauma
+		picked_trauma = pick(subtypesof(/datum/brain_trauma/severe))
+	else
+		picked_trauma = pick(subtypesof(/datum/brain_trauma/mild))
+	ethereal_heart.owner.gain_trauma(picked_trauma, TRAUMA_RESILIENCE_ABSOLUTE)
+	playsound(get_turf(ethereal_heart.owner), 'nsv13/sound/effects/ethereal_revive.ogg', 100)
+	qdel(src)

@@ -56,7 +56,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 /datum/reagent/consumable/ethanol/reaction_obj(obj/O, reac_volume)
 	if(istype(O, /obj/item/paper))
 		var/obj/item/paper/paperaffected = O
-		paperaffected.clearpaper()
+		paperaffected.clear_paper()
 		to_chat(usr, "<span class='notice'>[paperaffected]'s ink washes away.</span>")
 	if(istype(O, /obj/item/book))
 		if(reac_volume >= 5)
@@ -114,7 +114,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 		M.become_nearsighted("ftliver")
 		shake_camera(M,15)
 		M.playsound_local(M.loc,"sound/effects/hyperspace_end.ogg",50)
-		addtimer(CALLBACK(src, .proc/Recover, M), 55)
+		addtimer(CALLBACK(src, PROC_REF(Recover), M), 55)
 	return ..()
 
 /datum/reagent/consumable/ethanol/ftliver/proc/Recover(mob/living/M)
@@ -2010,7 +2010,7 @@ All effects don't start immediately, but rather get worse over time; the rate is
 
 	var/minimum_name_percent = 0.35
 	name = ""
-	var/list/names_in_order = sortTim(names, /proc/cmp_numeric_dsc, TRUE)
+	var/list/names_in_order = sortTim(names, GLOBAL_PROC_REF(cmp_numeric_dsc), TRUE)
 	var/named = FALSE
 	for(var/fruit_name in names)
 		if(names[fruit_name] >= minimum_name_percent)

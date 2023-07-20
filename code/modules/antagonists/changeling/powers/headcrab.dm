@@ -19,7 +19,7 @@
 			if(other_ling?.isabsorbing)
 				to_chat(user, "<span class='warning'>Our last resort is being disrupted by another changeling!</span>")
 				return
-	if(alert("Are we sure we wish to kill ourself and create a headslug?",,"Yes", "No") == "No")
+	if(alert("Are we sure we wish to kill ourself and create a headslug?",,"Yes", "No") != "Yes")
 		return
 	if(isliving(user))
 		var/mob/living/L = user

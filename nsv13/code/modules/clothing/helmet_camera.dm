@@ -38,9 +38,8 @@
 			on_drop(equipper)
 			return
 		if(builtInCamera && H)
-			builtInCamera.c_tag = "Helmet Cam #[rand(0,999)]"
 			builtInCamera.forceMove(equipper) //I hate this. But, it's necessary.
-			RegisterSignal(equipper, COMSIG_MOVABLE_MOVED, .proc/update_camera_location)
+			RegisterSignal(equipper, COMSIG_MOVABLE_MOVED, PROC_REF(update_camera_location))
 
 /obj/item/clothing/head/helmet/dropped(mob/user)
 	. = ..()
@@ -63,5 +62,5 @@
 		oldLoc = get_turf(loc)
 	if(!QDELETED(builtInCamera) && !updating)
 		updating = TRUE
-		addtimer(CALLBACK(src, .proc/do_camera_update, oldLoc), SILICON_CAMERA_BUFFER)
+		addtimer(CALLBACK(src, PROC_REF(do_camera_update), oldLoc), SILICON_CAMERA_BUFFER)
 #undef SILICON_CAMERA_BUFFER

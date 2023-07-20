@@ -113,7 +113,7 @@
 
 /obj/item/surgicaldrill/suicide_act(mob/user)
 	user.visible_message("<span class='suicide'>[user] rams [src] into [user.p_their()] chest! It looks like [user.p_theyre()] trying to commit suicide!</span>")
-	addtimer(CALLBACK(user, /mob/living/carbon.proc/gib, null, null, TRUE, TRUE), 25)
+	addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living/carbon, gib), null, null, TRUE, TRUE), 25)
 	user.SpinAnimation(3, 10)
 	playsound(user, 'sound/machines/juicer.ogg', 20, TRUE)
 	return (MANUAL_SUICIDE)
@@ -233,9 +233,11 @@
 	w_class = WEIGHT_CLASS_TINY
 	attack_verb = list("slapped")
 
-/obj/item/surgical_drapes/attack(mob/living/M, mob/user)
-	if(!attempt_initiate_surgery(src, M, user))
-		..()
+//NSV13 - Surgery-Initiation Componentizes - Start
+/obj/item/surgical_drapes/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/surgery_initiator, null)
+//NSV13 - Surgery-Initiation Componentizes - Stop
 
 /obj/item/organ_storage //allows medical cyborgs to manipulate organs without hands
 	name = "organ storage bag"

@@ -42,11 +42,7 @@
 		return FALSE
 	return TRUE
 
-/obj/item/debug/omnitool/attack(mob/living/M, mob/living/user)
-	if(tool_behaviour == "drapes")
-		attempt_initiate_surgery(src, M, user)
-	..()
-
+///NSV13 - Removed Surgical Drapes from Omnitool, removes attack proc too
 /obj/item/debug/omnitool/attack_self(mob/user)
 	if(!user)
 		return
@@ -63,15 +59,14 @@
 		"Cautery" = image(icon = 'icons/obj/surgery.dmi', icon_state = "cautery"),
 		"Drill" = image(icon = 'icons/obj/surgery.dmi', icon_state = "drill"),
 		"Scalpel" = image(icon = 'icons/obj/surgery.dmi', icon_state = "scalpel"),
-		"Surgical drapes" = image(icon = 'icons/obj/surgery.dmi', icon_state = "surgical_drapes"),
 		"Saw" = image(icon = 'icons/obj/surgery.dmi', icon_state = "saw"),
 		"Pickaxe" = image(icon = 'icons/obj/mining.dmi', icon_state = "minipick"),
 		"Shovel" = image(icon = 'icons/obj/mining.dmi', icon_state = "spade"),
 		"Blood Filter" = image(icon = 'icons/obj/surgery.dmi', icon_state = "bloodfilter"),
 		"Wire Brush" = image(icon = 'icons/obj/tools.dmi', icon_state = "wirebrush")
-	)
+	) //NSV13 - Removed surgical drapes
 
-	var/tool_result = show_radial_menu(user, src, tool_list, custom_check = CALLBACK(src, .proc/check_menu, user), require_near = TRUE, tooltips = TRUE)
+	var/tool_result = show_radial_menu(user, src, tool_list, custom_check = CALLBACK(src, PROC_REF(check_menu), user), require_near = TRUE, tooltips = TRUE)
 	if(!check_menu(user))
 		return
 	switch(tool_result)
@@ -89,8 +84,7 @@
 			tool_behaviour = TOOL_WELDER
 		if("Analyzer")
 			tool_behaviour = TOOL_ANALYZER
-		if("Surgical drapes")
-			tool_behaviour = "drapes"
+		//NSV13 - Removed Surgical Drapes from Omnitool
 		if("Retractor")
 			tool_behaviour = TOOL_RETRACTOR
 		if("Hemostat")

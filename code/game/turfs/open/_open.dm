@@ -149,11 +149,10 @@
 	baseturfs = /turf/open/indestructible/airblock
 
 /turf/open/Initalize_Atmos(times_fired)
-	if(!blocks_air)
-		if(!istype(air,/datum/gas_mixture/turf))
-			air = new(2500,src)
-		air.copy_from_turf(src)
-		update_air_ref(planetary_atmos ? 1 : 2)
+	if(!istype(air,/datum/gas_mixture/turf))
+		air = new(2500,src)
+	air.copy_from_turf(src)
+	update_air_ref(planetary_atmos ? 1 : 2)
 
 	update_visuals()
 
@@ -225,7 +224,9 @@
 			slipper.Paralyze(paralyze_amount)
 			slipper.stop_pulling()
 		else
-			slipper.Knockdown(15)
+			//NSV13 - increased knockdown and added paralyze
+			slipper.Knockdown(30)
+			slipper.Paralyze(15)
 			slipper.drop_all_held_items()
 
 		if(buckled_obj)

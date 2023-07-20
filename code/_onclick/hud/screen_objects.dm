@@ -568,6 +568,7 @@
 	if(choice != selecting)
 		selecting = choice
 		update_icon()
+		SEND_SIGNAL(user, COMSIG_MOB_SELECTED_ZONE_SET, choice) //NSV13 - Surgery QoL
 
 	return TRUE
 

@@ -96,7 +96,7 @@
 
 /obj/machinery/ship_weapon/hybrid_rail/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
 	set waitfor = FALSE //As to not hold up any feedback messages.
-	if(can_fire(shots))
+	if(can_fire(target, shots))
 		if(manual)
 			linked.last_fired = overlay
 		for(var/i = 0, i < shots, i++)
@@ -116,7 +116,7 @@
 			after_fire()
 	return FALSE
 
-/obj/machinery/ship_weapon/hybrid_rail/can_fire(shots = weapon_type.burst_size)
+/obj/machinery/ship_weapon/hybrid_rail/can_fire(target, shots = weapon_type.burst_size) //Target is for the passed target variable, Shots is for the burst fire size
 	if((state < STATE_CHAMBERED) || !chambered)
 		return FALSE
 	if(state >= STATE_FIRING)
@@ -138,7 +138,7 @@
 	var/obj/item/ship_weapon/ammunition/T = chambered
 	if(T)
 		var/final_velo = projectile_velo - ((100 - alignment) / 100) //Misalignment slows projectiles
-		linked.fire_projectile(T.projectile_type, target, FALSE, final_velo, null, TRUE)
+		linked.fire_projectile(T.projectile_type, target, speed=final_velo, user_override=TRUE, lateral=TRUE) //CHECK THIS CODE LATERAL WAS RECEIVING NULL, REPLACED TO TRUE
 
 /obj/machinery/ship_weapon/hybrid_rail/after_fire()
 	if(maint_state != 0) //MSTATE_CLOSED
@@ -203,6 +203,29 @@
 /obj/machinery/ship_weapon/hybrid_rail/crowbar_act(mob/user, obj/item/tool)
 	return //prevent deconstructing
 
+/obj/machinery/ship_weapon/hybrid_rail/attackby(obj/item/I, mob/user)
+	if(!linked)
+		get_ship()
+	if(switching && istype(I, /obj/item/ship_weapon/ammunition))
+		to_chat(usr, "<span class='notice'>Error: Unable to load ordnance while cycling chamber configuration.</span>")
+		return FALSE
+	if(islist(ammo_type))
+		for(var/at in ammo_type)
+			if(istype(I, at))
+				load(I, user)
+				return TRUE
+
+	if(ammo_type && istype(I, ammo_type))
+		load(I, user)
+		return TRUE
+	else if(magazine_type && istype(I, magazine_type))
+		load_magazine(I, user)
+		return TRUE
+	else if(istype(I, /obj/item/reagent_containers))
+		oil(I, user)
+		return TRUE
+	return ..()
+
 /obj/machinery/ship_weapon/hybrid_rail/attack_hand(mob/living/carbon/user)
 	ui_interact(user)
 
@@ -246,11 +269,11 @@
 			if(switching)
 				to_chat(usr, "<span class='notice'>Error: Unable to comply, action already in process.</span>")
 				return
-			if(ammo.len == 0)
+			if(state == STATE_NOTLOADED && !loading)
 				to_chat(usr, "<span class='notice'>Action queued: Cycling ordnance chamber configuration.</span>")
 				switching = TRUE
 				playsound(src, 'nsv13/sound/effects/ship/mac_hold.ogg', 100)
-				addtimer(CALLBACK(src, .proc/switch_munition), 10 SECONDS)
+				addtimer(CALLBACK(src, PROC_REF(switch_munition)), 10 SECONDS)
 			else
 				to_chat(usr, "<span class='notice'>Error: Unable to alter selected ordnance type, eject loaded munitions.</span>")
 	return

@@ -35,7 +35,7 @@
 	allow_numbers_in_name = TRUE
 	deathsound = "sound/voice/borg_deathsound.ogg"
 	changesource_flags = MIRROR_BADMIN | WABBAJACK
-	species_language_holder = /datum/language_holder/synthetic
+	species_language_holder = /datum/language_holder/ipc //NSV13
 	special_step_sounds = list('sound/effects/servostep.ogg')
 
 	species_chest = /obj/item/bodypart/chest/ipc
@@ -91,7 +91,7 @@
 	saved_screen = C.dna.features["ipc_screen"]
 	C.dna.features["ipc_screen"] = "BSOD"
 	C.update_body()
-	addtimer(CALLBACK(src, .proc/post_death, C), 5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(post_death), C), 5 SECONDS)
 
 /datum/species/ipc/proc/post_death(mob/living/carbon/C)
 	if(C.stat < DEAD)
