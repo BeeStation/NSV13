@@ -135,7 +135,7 @@
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/glockmag
-	name = "Glock Magazine (rubber)"
+	name = "Glock Magazine (Rubber)"
 	id = "glock_rubbermag"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 14000)
