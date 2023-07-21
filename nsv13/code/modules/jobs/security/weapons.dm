@@ -230,7 +230,7 @@
 	max_ammo = 30
 
 /obj/item/ammo_box/c9mm/inc
-	name = "ammo box (9mm, incendiary)"
+	name = "ammo box (9mm Incendiary)"
 	icon_state = "10mmbox"
 	ammo_type = /obj/item/ammo_casing/c9mm/inc
 	max_ammo = 30
