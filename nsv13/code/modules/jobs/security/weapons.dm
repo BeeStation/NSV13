@@ -204,7 +204,7 @@
 	max_ammo = 15
 
 /obj/item/ammo_box/magazine/glock/ap
-	name = "pistol magazine (9mm AP)"
+	name = "pistol magazine (9mm Armour Piercing)"
 	desc = "Loaded with titanium tipped bullets that excel in dealing with armored hostile threats onboard or offboard the ship."
 	icon_state = "Glock-ap"
 	ammo_type = /obj/item/ammo_casing/c9mm/ap
