@@ -212,7 +212,7 @@
 	max_ammo = 15
 
 /obj/item/ammo_box/magazine/glock/inc
-	name = "pistol magazine (9mm INC)"
+	name = "pistol magazine (9mm Incendiary)"
 	desc = "Loaded with plasma tipped bullets that excel in setting any living target on fire."
 	icon_state = "Glock-lethal"
 	ammo_type = /obj/item/ammo_casing/c9mm/inc
