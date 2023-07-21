@@ -47,10 +47,6 @@
 	new /obj/item/reagent_containers/glass/bucket(src)
 	new /obj/item/mop/sharp(src)
 
-/obj/item/storage/box/beakers/large_mix
-	name = "box of beakers"
-	illustration = "beaker"
-
 /obj/item/storage/box/beakers/large_mix/PopulateContents()
 	for(var/i in 1 to 2)
 		new /obj/item/reagent_containers/glass/beaker/large( src )
