@@ -538,6 +538,13 @@ Recharging stations are available in robotics, the dormitory bathrooms, and the 
 	desc = "Your blood's electric charge is running low, find a source of charge for your blood. Use a recharging station found in robotics or the dormitory bathrooms, or eat some Ethereal-friendly food."
 	icon_state = "etherealcharge"
 
+///NSV13 - Ethereal Stuff - Start
+/atom/movable/screen/alert/etherealfull
+	name = "Blood Normal Charge"
+	desc = "Your blood's electric charge is currently normal!"
+	icon_state = "etherealfullcharge"
+///NSV13 - Ethereal Stuff - Stop
+
 //Need to cover all use cases - emag, illegal upgrade module, malf AI hack, traitor cyborg
 /atom/movable/screen/alert/hacked
 	name = "Hacked"

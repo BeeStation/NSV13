@@ -1418,9 +1418,12 @@
 /area/engine/engine_room)
 "gs" = (
 /obj/structure/table/wood,
-/obj/item/pen/fourcolor,
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/fax{
+	name = "QM Office Fax Machine";
+	fax_name = "Quartermaster"
 	},
 /turf/open/floor/wood,
 /area/quartermaster/qm)
@@ -2146,6 +2149,7 @@
 	icon_state = "4-8"
 	},
 /obj/item/stamp/quartermaster,
+/obj/item/pen/fourcolor,
 /turf/open/floor/wood,
 /area/quartermaster/qm)
 "jx" = (
@@ -3323,6 +3327,11 @@
 /obj/structure/sign/poster/official/moth3{
 	pixel_x = 30
 	},
+/obj/machinery/fax{
+	name = "Engineerings Fax Machine";
+	fax_name = "Engineering"
+	},
+/obj/structure/table,
 /turf/open/floor/plasteel/dark/side{
 	dir = 8
 	},
@@ -3621,7 +3630,7 @@
 /obj/item/stack/cable_coil/red,
 /obj/item/crowbar,
 /obj/item/paper{
-	info = "<p>NOTE: The Dominion don't install gravity generators on their ships, we barely had enough time to install one but you're going to have to wire it to the power grid. Remember: Terminal to powerline, SMES to APC.</p>";
+	default_raw_text = "<p>NOTE: The Dominion don't install gravity generators on their ships, we barely had enough time to install one but you're going to have to wire it to the power grid. Remember: Terminal to powerline, SMES to APC.</p>";
 	name = "READ ME."
 	},
 /obj/item/clothing/gloves/color/yellow,
@@ -10063,6 +10072,11 @@
 /obj/machinery/camera/autoname{
 	dir = 9
 	},
+/obj/machinery/fax{
+	fax_name = "Law Office";
+	name = "Law Office Fax Machine"
+	},
+/obj/structure/table/glass/plasma,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
 "Us" = (
@@ -10486,7 +10500,7 @@
 	icon_state = "0-4"
 	},
 /obj/item/paper{
-	info = "<p>NOTE: This ship is outfitted with a Tesla reactor. Take extra care to wrench everything down and weld what needs welding. If you want to upgrade the Tesla Coils, be sure to use the BSRPED in the CE's Office or unwrench the coil and take it away from the reactor before opening it up and upgrading it.</p>";
+	default_raw_text = "<p>NOTE: This ship is outfitted with a Tesla reactor. Take extra care to wrench everything down and weld what needs welding. If you want to upgrade the Tesla Coils, be sure to use the BSRPED in the CE's Office or unwrench the coil and take it away from the reactor before opening it up and upgrading it.</p>";
 	name = "READ ME."
 	},
 /turf/open/floor/engine,

@@ -28,8 +28,16 @@
 	bound_width = 128
 	bound_height = 128
 	role = PVP_SHIP
-	starting_system = "The Badlands" //Relatively safe start, fleets won't hotdrop you here.
+	starting_system = "Rubicon" //Relatively safe start, fleets won't hotdrop you here.
 	armor = list("overmap_light" = 99, "overmap_medium" = 45, "overmap_heavy" = 20)
+
+/obj/structure/overmap/syndicate/pvp/elco
+	name = "SSV Elco"
+	icon = 'nsv13/icons/overmap/new/syndicate/pt_boat.dmi'
+	icon_state = "pt_boat"
+	sprite_size = 256
+	bound_width = 256
+	bound_height = 256
 
 /obj/structure/overmap/syndicate/pvp/apply_weapons()
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)

@@ -197,14 +197,15 @@
 			//create the paper from the cart list
 			var/obj/item/paper/requisition_paper = new(get_turf(src))
 			requisition_paper.name = "requisition form"
-			requisition_paper.info += "<h2>[GLOB.station_name] Supply Requisition</h2>"
-			requisition_paper.info += "<hr/>"
-			requisition_paper.info += "Time of Order: [station_time_timestamp()]<br/>"
+			var/requisition_text= "<h2>[GLOB.station_name] Supply Requisition</h2>"
+			requisition_text += "<hr/>"
+			requisition_text += "Time of Order: [station_time_timestamp()]<br/>"
 			for(var/order_name in cart_list)
 				var/datum/supply_order/order = cart_list[order_name]["order"]
-				requisition_paper.info += "[cart_list[order_name]["amount"]] [order.pack.name]("
-				requisition_paper.info += "Access Restrictions: [get_access_desc(order.pack.access)])</br>"
-			requisition_paper.update_icon()
+				requisition_text += "[cart_list[order_name]["amount"]] [order.pack.name]("
+				requisition_text += "Access Restrictions: [get_access_desc(order.pack.access)])</br>"
+			requisition_paper.add_raw_text(requisition_text)
+			requisition_paper.update_appearance()
 			//NSV13 - Cargo Sleaker UI - Stop
 			. = TRUE
 		if("loan")
