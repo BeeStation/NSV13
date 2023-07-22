@@ -192,12 +192,6 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
 	body_parts_covered = CHEST|GROIN|LEGS|FEET
 
-/obj/item/clothing/head/helmet/ship/squad/military_police
-	name = "Military Police Helmet"
-	desc = "A heavy-duty helmet which denotes that the user is a military police officer"
-	icon_state = "military_police"
-	armor = list("melee" = 35, "bullet" = 45, "laser" = 15, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 35, "acid" = 50)
-
 /obj/item/clothing/suit/ship/squad/military_police/Initialize(mapload, datum/squad/squad)
 	. = ..()
 
