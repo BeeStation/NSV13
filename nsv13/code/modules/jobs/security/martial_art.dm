@@ -74,8 +74,9 @@
 	D.shake_animation(20)
 	D.adjustOxyLoss(10) // you smashed him into the ground
 	A.forceMove(get_turf(D))
-	A.start_pulling(D, supress_message = FALSE)
-	A.setGrabState(GRAB_AGGRESSIVE)
+	if(A.mobility_flags & MOBILITY_STAND) //Fixes permanent slowdown
+		A.start_pulling(D, supress_message = FALSE)
+		A.setGrabState(GRAB_AGGRESSIVE)
 	last_move = world.time
 
 /datum/martial_art/jujitsu/proc/judo_throw(mob/living/carbon/human/A, mob/living/carbon/human/D)
@@ -91,8 +92,9 @@
 		D.forceMove(target)
 		A.setDir(newdir)
 		D.dropItemToGround(D.get_active_held_item()) // yeet
-		A.start_pulling(D, supress_message = FALSE)
-		A.setGrabState(GRAB_AGGRESSIVE)
+		if(A.mobility_flags & MOBILITY_STAND) //Fixes permanent slowdown
+			A.start_pulling(D, supress_message = FALSE)
+			A.setGrabState(GRAB_AGGRESSIVE)
 		D.adjustOxyLoss(40) // YOU THREW HIM, THREW HIM!!
 		D.Paralyze(7 SECONDS) //Equivalent to a clown PDA
 		D.visible_message("<span class='userdanger'>[A] throws [D] over their shoulder and pins them down!</span>", "<span class='userdanger'>[A] throws you over their shoulder and pins you to the ground!</span>")
@@ -131,7 +133,7 @@
 		return FALSE
 	if(A==D)
 		return FALSE //prevents grabbing yourself
-	if(A.a_intent == INTENT_GRAB)
+	if(A.a_intent == INTENT_GRAB && A.mobility_flags & MOBILITY_STAND) //Fixes permanent slowdown and missfire
 		if(armlockstate == TRUE) // neck grabs if armlocked
 			A.setGrabState(GRAB_NECK)
 			D.visible_message("<span class='warning'>[A] grabs [D] from the armlock position by the neck!</span>", \
