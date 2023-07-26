@@ -465,6 +465,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	back = /obj/item/storage/backpack/satchel/leather
 	suit = /obj/item/clothing/suit/toggle/labcoat
 	use_cooldown = TRUE
+	banType = ROLE_HOTEL_STAFF
 
 /obj/item/paper/crumpled/docslogs
 	name = "Research Logs"

@@ -16,8 +16,8 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	required_players = 24 //40 // 40 to make 20 v 20
 	required_enemies = 12 //20
 	recommended_enemies = 15
-	antag_flag = ROLE_SYNDI_CREW
-	enemy_minimum_age = 0
+	role_preference = /datum/role_preference/antagonist/pvp
+	antag_datum = /datum/antagonist/nukeop/syndi_crew
 
 	announce_span = "danger"
 	announce_text = "The Syndicate are planning an all out assault!\n\
