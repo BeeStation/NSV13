@@ -39,6 +39,8 @@
 #define ROLE_MORPH				"Morph"
 #define ROLE_NIGHTMARE			"Nightmare"
 #define ROLE_SPACE_PIRATE		"Space Pirate"
+#define ROLE_FUGITIVE			"Fugitive"
+#define ROLE_FUGITIVE_HUNTER	"Fugitive Hunter"
 #define ROLE_SYNDI_CREW			"Syndicate crew" //Nsv13 - added pvp role
 #define ROLE_BLOODLING			"Bloodling" //Nsv13 - Bloodling
 #define ROLE_GHOSTSHIP			"Ghost Ship" //NSV13 - Playable "NPC" ships
@@ -81,6 +83,8 @@ GLOBAL_LIST_INIT(antagonist_bannable_roles, list(
 	ROLE_BLOODLING, //NSV13
 	ROLE_GHOSTSHIP, //NSV13
 	ROLE_TERATOMA,
+	ROLE_FUGITIVE,
+	ROLE_FUGITIVE_HUNTER,
 	ROLE_SLAUGHTER_DEMON,
 	ROLE_CONTRACTOR_SUPPORT_UNIT,
 ))
