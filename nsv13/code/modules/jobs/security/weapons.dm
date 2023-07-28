@@ -100,7 +100,7 @@
 	investigate_flags = ADMIN_INVESTIGATE_TARGET
 
 /datum/design/lethal9mm
-	name = "9mm ammobox"
+	name = "9mm Ammo Box"
 	id = "glock_lethalammo"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 30000)
@@ -126,7 +126,7 @@
 	category = list("initial", "Security")
 
 /datum/design/rubber9mm
-	name = "9mm ammobox (rubber)"
+	name = "9mm Ammo Box (Rubber)"
 	id = "glock_rubberammo"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 25000)
@@ -144,7 +144,7 @@
 	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
 
 /datum/design/ap9mm
-	name = "9mm ammobox (armour piercing)"
+	name = "9mm Ammo Box (Armour Piercing)"
 	id = "glock_apammo"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 25000, /datum/material/titanium = 4000, /datum/material/silver = 1000)
@@ -162,7 +162,7 @@
 	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
 
 /datum/design/inc9mm
-	name = "9mm ammobox (incendiary)"
+	name = "9mm Ammo box (Incendiary)"
 	id = "glock_incammo"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 25000, /datum/material/plasma = 4000, /datum/material/glass = 500, /datum/material/gold = 500)
@@ -242,7 +242,7 @@
 	projectile_type = /obj/item/projectile/bullet/c9mm/rubber
 
 /obj/item/ammo_box/c9mm/rubber
-	name = "ammo box (9mm, rubber)"
+	name = "ammo box (9mm Rubber)"
 	icon_state = "9mmbox"
 	ammo_type = /obj/item/ammo_casing/c9mm/rubber
 	max_ammo = 30
