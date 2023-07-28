@@ -76,9 +76,9 @@
 	holobutton.Remove(user)
 
 /datum/component/holomap/Destroy(force, silent)
-	//if(holobutton)
-	//	holobutton.Remove(get_user())
-	//	qdel(holobutton)
+	if(holobutton)
+		holobutton.Remove(get_user())
+		qdel(holobutton)
 	. = ..()
 
 /datum/component/holomap/proc/summon_holomap(datum/user)
