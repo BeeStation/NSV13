@@ -216,7 +216,11 @@
 			preferred_squad,
 			preferred_pilot_role,
 			flavor_text,
-			lizard_hiss_style
+			lizard_hiss_style,
+			silicon_flavor_text,
+			general_record,
+			security_record,
+			medical_record
 		FROM [format_table_name("characters")] WHERE
 			ckey=:ckey
 	"}, list("ckey" = parent.ckey))
