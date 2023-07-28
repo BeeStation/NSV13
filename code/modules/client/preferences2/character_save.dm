@@ -77,9 +77,15 @@
 	//NSV13 - Pilots
 	var/preferred_pilot_role = PILOT_COMBAT
 	//NSV13 - Roleplaying Stuff - Start
+	//NSV13 - Roleplaying Stuff - Start
 	var/flavor_text = ""
 	//Nsv13 - lizard hiss style pref
 	var/lizard_hiss_style = LIZARD_HISS_EXPANDED
+	var/silicon_flavor_text = ""
+	var/general_record = ""
+	var/security_record = ""
+	var/medical_record = ""
+	//NSV13 - Roleplaying Stuff - End
 	var/silicon_flavor_text = ""
 	var/general_record = ""
 	var/security_record = ""
