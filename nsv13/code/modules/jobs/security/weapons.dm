@@ -153,7 +153,7 @@
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/apglockmag
-	name = "Glock Magazine (armour piercing)"
+	name = "Glock Magazine (Armour Piercing)"
 	id = "glock_apmag"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 14000, /datum/material/titanium = 150, /datum/material/silver = 150)
@@ -171,7 +171,7 @@
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/incglockmag
-	name = "Glock Magazine (incendiary)"
+	name = "Glock Magazine (Incendiary)"
 	id = "glock_incmag"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron = 14000, /datum/material/plasma = 150, /datum/material/glass = 50, /datum/material/gold = 50)
