@@ -151,7 +151,7 @@
 	armor = list("melee" = 35, "bullet" = 25, "laser" = 25, "energy" = 30, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50, "stamina" = 20)
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS
 
-/obj/item/clothing/suit/armor/bulletproof // NSV modified - cover arms
+/obj/item/clothing/suit/armor/bulletproof
 	name = "bulletproof armor"
 	desc = "A Type III heavy bulletproof vest that excels in protecting the wearer against traditional projectile weaponry and explosives to a minor extent."
 	icon_state = "bulletproof"
@@ -160,7 +160,6 @@
 	armor = list("melee" = 15, "bullet" = 60, "laser" = 10, "energy" = 10, "bomb" = 40, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50, "stamina" = 40)
 	strip_delay = 70
 	equip_delay_other = 50
-	body_parts_covered = CHEST|GROIN|ARMS // less boarder one shots, but you can still get crippled
 
 /obj/item/clothing/suit/armor/laserproof
 	name = "reflector vest"
