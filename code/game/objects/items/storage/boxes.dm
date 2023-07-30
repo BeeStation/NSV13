@@ -102,6 +102,10 @@
 	if(!box_exists)
 		user.remove_movespeed_modifier(MOVESPEED_ID_SLOW_SUITBOX, TRUE)
 
+/obj/item/storage/box/suitbox/attack_self(mob/user) // NSV13 - Fixes suitbox folding not taking away slowdown
+	. = ..()
+	user.remove_movespeed_modifier(MOVESPEED_ID_SLOW_SUITBOX, TRUE)
+
 /obj/item/storage/box/suitbox/wardrobe // for `wardrobe.dm`
 	name = "compression box of crew outfits"
 	var/list/repeated_items = list( // just as a sample
