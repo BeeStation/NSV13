@@ -31,11 +31,12 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
 	},
-/obj/machinery/atmospherics/components/binary/pump/layer4{
-	name = "N20 to remix"
+/obj/machinery/atmospherics/components/binary/pump/on/layer2{
+	name = "Nitrogen to Air Mix";
+	target_pressure = 2000
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 4
+/obj/machinery/atmospherics/components/binary/pump/layer4{
+	name = "O2 to mix"
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -275,14 +276,8 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "aT" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 6
-	},
-/obj/machinery/light{
-	dir = 8
-	},
-/obj/machinery/atmospherics/components/trinary/mixer/layer4{
-	dir = 8
+/obj/machinery/atmospherics/components/trinary/mixer/flipped/layer4{
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -567,9 +562,6 @@
 	},
 /turf/open/floor/engine,
 /area/nsv/weapons)
-"bO" = (
-/turf/open/floor/plating,
-/area/maintenance/department/engine/atmos)
 "bW" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -653,10 +645,10 @@
 	dir = 4
 	},
 /obj/machinery/camera/autoname,
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 4
-	},
 /obj/structure/closet/secure_closet/atmospherics,
+/obj/structure/fireaxecabinet{
+	pixel_y = 32
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "ct" = (
@@ -961,7 +953,6 @@
 /area/hallway/nsv/deck2/primary)
 "dq" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/structure/disposalpipe/segment,
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -969,6 +960,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "ds" = (
@@ -1169,11 +1161,13 @@
 /area/science)
 "dW" = (
 /obj/structure/cable{
-	icon_state = "4-16"
-	},
-/obj/structure/cable{
 	icon_state = "1-4"
 	},
+/obj/structure/cable{
+	icon_state = "4-16"
+	},
+/obj/effect/turf_decal/ship/shutoff,
+/obj/effect/turf_decal/box,
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "dX" = (
@@ -1312,9 +1306,6 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 4
-	},
 /obj/machinery/airalarm/directional/north,
 /obj/effect/landmark/start/atmospheric_technician,
 /turf/open/floor/plating,
@@ -1384,9 +1375,8 @@
 	},
 /area/maintenance/department/engine/atmos)
 "eF" = (
-/obj/item/beacon,
-/obj/machinery/atmospherics/components/trinary/mixer/flipped/layer4{
-	dir = 4
+/obj/machinery/atmospherics/components/trinary/mixer/layer4{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -1459,11 +1449,11 @@
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "eX" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 10
-	},
 /obj/machinery/atmospherics/components/trinary/mixer/layer4{
 	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+	dir = 10
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -1936,13 +1926,7 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "gn" = (
-/obj/machinery/atmospherics/components/binary/pump/on/layer2{
-	name = "Oxygen to Air Mix";
-	target_pressure = 2000
-	},
-/obj/machinery/atmospherics/components/binary/pump/layer4{
-	name = "Oxygen to mixtape"
-	},
+/obj/machinery/atmospherics/components/trinary/filter/atmos/co2,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "go" = (
@@ -2397,7 +2381,15 @@
 /turf/closed/wall/r_wall,
 /area/maintenance/nsv/deck2/port)
 "hH" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
+/obj/machinery/computer/atmos_control/tank/air_tank{
+	density = 0;
+	dir = 4;
+	input_tag = "sdmix_in";
+	name = "Reactor Mix Control";
+	output_tag = "sdmix_out";
+	pixel_x = -9;
+	sensors = list("sdmix_sensor"="Reactor                Mix                Tank")
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "hI" = (
@@ -2640,6 +2632,7 @@
 /area/nsv/weapons)
 "iF" = (
 /obj/machinery/light_switch/south,
+/obj/structure/ladder,
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "iH" = (
@@ -2807,7 +2800,7 @@
 /turf/open/floor/monotile/steel,
 /area/maintenance/nsv/deck2/starboard)
 "jh" = (
-/obj/machinery/atmospherics/pipe/simple/yellow/hidden,
+/obj/machinery/atmospherics/pipe/simple/green/hidden,
 /turf/closed/wall/r_wall,
 /area/engine/atmos)
 "jl" = (
@@ -3049,10 +3042,10 @@
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
 "jP" = (
-/obj/machinery/portable_atmospherics/canister/toxins,
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/toxin_output{
 	dir = 1
 	},
+/obj/machinery/portable_atmospherics/canister/toxins,
 /turf/open/floor/engine/plasma,
 /area/engine/atmos)
 "jQ" = (
@@ -3836,19 +3829,24 @@
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
+/obj/effect/turf_decal/ship/shutoff,
+/obj/effect/turf_decal/box,
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "lX" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 10
 	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
 /obj/machinery/power/apc/auto_name/east,
 /obj/structure/disposalpipe/trunk,
 /obj/machinery/disposal/bin,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "lY" = (
@@ -3923,6 +3921,9 @@
 "mr" = (
 /obj/structure/extinguisher_cabinet/east,
 /obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "ms" = (
@@ -4088,20 +4089,20 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 10
-	},
-/obj/machinery/computer/atmos_control/tank/nitrous_tank,
+/obj/machinery/computer/atmos_control/tank/oxygen_tank,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "mX" = (
 /turf/open/floor/carpet/orange,
 /area/engine/engine_room)
 "mY" = (
-/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer2{
-	dir = 10
-	},
 /obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4,
+/obj/machinery/atmospherics/components/trinary/mixer/airmix/flipped/inverse{
+	dir = 8;
+	piping_layer = 2;
+	node1_concentration = 0.79;
+	node2_concentration = 0.21
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "mZ" = (
@@ -4229,10 +4230,6 @@
 /obj/effect/spawner/lootdrop/maintenance/three,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
-"nv" = (
-/obj/structure/sign/directions/evac,
-/turf/closed/wall/r_wall,
-/area/engine/atmos)
 "nw" = (
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
@@ -4319,12 +4316,12 @@
 /area/nsv/weapons)
 "nG" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/disposalpipe/segment,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "nH" = (
@@ -4386,25 +4383,19 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "nM" = (
-/obj/machinery/atmospherics/components/binary/pump/on/layer2{
-	name = "Air to distro";
-	target_pressure = 2000
-	},
-/obj/machinery/atmospherics/components/trinary/mixer/layer4{
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4{
+	dir = 9
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "nN" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible,
 /obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor{
-	dir = 8;
-	piping_layer = 2
+/obj/machinery/light{
+	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/green/visible,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "nO" = (
@@ -4429,11 +4420,12 @@
 /turf/open/floor/durasteel/alt,
 /area/hallway/nsv/deck2/primary)
 "nT" = (
-/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4{
-	dir = 9
-	},
 /obj/machinery/meter/atmos{
 	target_layer = 4
+	},
+/obj/machinery/atmospherics/components/binary/pump/on/layer2{
+	name = "Air to distro";
+	target_pressure = 2000
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -4450,18 +4442,17 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "nZ" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
-/turf/open/floor/plating,
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/carbon_input,
+/obj/machinery/camera/autoname,
+/turf/open/floor/engine/co2,
 /area/engine/atmos)
 "ob" = (
 /turf/closed/wall/r_wall,
 /area/nsv/weapons/gauss/battery/deck2/starboard)
 "oc" = (
-/obj/machinery/atmospherics/components/trinary/mixer/airmix/flipped/inverse{
-	dir = 8;
-	piping_layer = 2
+/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4{
+	dir = 10
 	},
-/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "oe" = (
@@ -4557,12 +4548,8 @@
 	name = "Abandoned Bar"
 	})
 "or" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 5
-	},
-/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4{
-	dir = 9
-	},
+/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4,
+/obj/machinery/atmospherics/pipe/manifold/purple/visible/layer2,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "os" = (
@@ -4677,10 +4664,6 @@
 "oI" = (
 /turf/closed/wall/r_wall,
 /area/chapel/main)
-"oL" = (
-/obj/structure/fireaxecabinet,
-/turf/closed/wall/r_wall,
-/area/engine/atmos)
 "oM" = (
 /obj/structure/disposaloutlet,
 /obj/structure/disposalpipe/trunk,
@@ -5329,13 +5312,6 @@
 /obj/effect/landmark/start/security_officer,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
-"qw" = (
-/obj/machinery/camera{
-	c_tag = "Atmospherics Tank - Mix";
-	dir = 8
-	},
-/turf/open/floor/engine/vacuum,
-/area/engine/atmos)
 "qx" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -5586,9 +5562,6 @@
 	})
 "rx" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -6079,11 +6052,11 @@
 /turf/open/floor/monotile/dark,
 /area/science)
 "tg" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/o2{
-	dir = 8
+/obj/machinery/atmospherics/components/binary/pump/layer4{
+	name = "CO2 to mix"
 	},
-/obj/machinery/atmospherics/pipe/manifold/purple/visible/layer2{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -6263,12 +6236,9 @@
 /turf/open/floor/plasteel/techmaint,
 /area/security/prison)
 "tA" = (
-/obj/machinery/computer/atmos_control/tank/oxygen_tank,
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 6
-	},
+/obj/machinery/computer/atmos_control/tank/carbon_tank,
 /obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 6
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -6696,9 +6666,6 @@
 "uJ" = (
 /obj/machinery/atmospherics/pipe/manifold/purple/visible/layer2{
 	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4{
-	dir = 6
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -7373,11 +7340,12 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "xd" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/nitrous_output,
-/obj/machinery/portable_atmospherics/canister/nitrous_oxide{
-	valve_open = 1
+/obj/structure/extinguisher_cabinet/west,
+/obj/machinery/atmospherics/pipe/simple/green/visible,
+/obj/machinery/camera/autoname{
+	dir = 4
 	},
-/turf/open/floor/engine/n2o,
+/turf/open/floor/plating,
 /area/engine/atmos)
 "xg" = (
 /obj/effect/spawner/lootdrop/minor/bowler_or_that,
@@ -8393,14 +8361,12 @@
 /turf/open/floor/plating,
 /area/security/prison)
 "AL" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 5
+/obj/machinery/atmospherics/miner/carbon_dioxide,
+/obj/machinery/air_sensor/atmos/carbon_tank,
+/obj/machinery/light/small{
+	dir = 1
 	},
-/obj/structure/extinguisher_cabinet/west,
-/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4{
-	dir = 6
-	},
-/turf/open/floor/plating,
+/turf/open/floor/engine/co2,
 /area/engine/atmos)
 "AR" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
@@ -8574,13 +8540,10 @@
 /turf/open/floor/monotile/steel,
 /area/engine/engine_room)
 "BC" = (
-/obj/machinery/computer/atmos_control/tank/nitrogen_tank,
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 4
-	},
+/obj/machinery/computer/atmos_control/tank/nitrogen_tank,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "BD" = (
@@ -8597,13 +8560,7 @@
 	},
 /area/nsv/hanger/mining)
 "BG" = (
-/obj/machinery/atmospherics/components/binary/pump/layer4{
-	dir = 1;
-	name = "Co2 to MEGAmix"
-	},
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
+/obj/machinery/atmospherics/components/trinary/filter/atmos/n2o,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "BH" = (
@@ -8685,13 +8642,13 @@
 	name = "Abandoned Bar"
 	})
 "BR" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/carbon_input{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/nitrous_output{
 	dir = 1
 	},
-/obj/machinery/camera/autoname{
-	dir = 1
+/obj/machinery/portable_atmospherics/canister/nitrous_oxide{
+	valve_open = 1
 	},
-/turf/open/floor/engine/co2,
+/turf/open/floor/engine/n2o,
 /area/engine/atmos)
 "BU" = (
 /turf/closed/wall/r_wall{
@@ -8989,11 +8946,6 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/nsv/hanger/notkmcstupidhanger)
-"Dd" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/nitrous_input,
-/obj/machinery/camera/autoname,
-/turf/open/floor/engine/n2o,
-/area/engine/atmos)
 "De" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -9442,15 +9394,15 @@
 /turf/open/floor/wood,
 /area/chapel/main)
 "Fg" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/n2{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+/obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
 	},
-/obj/machinery/light/small{
-	brightness = 3;
-	dir = 1
+/obj/machinery/atmospherics/components/binary/pump/layer4{
+	name = "N2 to mix"
+	},
+/obj/machinery/atmospherics/components/binary/pump/on/layer2{
+	name = "Nitrogen to Air Mix";
+	target_pressure = 2000
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -9581,10 +9533,9 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "FB" = (
-/obj/machinery/meter/atmos/distro_loop{
-	target_layer = 2
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 6
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "FE" = (
@@ -9893,10 +9844,10 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "GB" = (
+/obj/machinery/light/small,
 /obj/machinery/atmospherics/components/trinary/filter/atmos/plasma{
 	dir = 4
 	},
-/obj/machinery/light/small,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "GC" = (
@@ -10844,10 +10795,9 @@
 /turf/open/floor/plating,
 /area/hallway/secondary/exit/departure_lounge)
 "JU" = (
-/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer2{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4{
+	dir = 5
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "JW" = (
@@ -11091,11 +11041,12 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "KJ" = (
-/obj/structure/sign/directions/evac{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer2{
+	dir = 5
 	},
-/turf/closed/wall/r_wall,
-/area/maintenance/department/engine/atmos)
+/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "KK" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
@@ -11236,6 +11187,9 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "Lb" = (
@@ -11268,11 +11222,11 @@
 /turf/open/floor/monotile/steel,
 /area/engine/engine_room)
 "Le" = (
-/obj/machinery/computer/atmos_control/tank/carbon_tank{
-	dir = 1
-	},
 /obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 5
+	dir = 4
+	},
+/obj/machinery/computer/atmos_control/tank/nitrous_tank{
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -11679,8 +11633,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "Mt" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 4
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor{
+	dir = 8;
+	piping_layer = 2
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -11841,11 +11796,13 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "MW" = (
-/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer2{
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
-/obj/machinery/atmospherics/pipe/simple/green/visible,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
+/obj/machinery/meter/atmos/distro_loop{
+	target_layer = 2
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "MX" = (
@@ -11952,7 +11909,9 @@
 	name = "Abandoned Bar"
 	})
 "Nn" = (
-/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer2{
+	dir = 10
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "Nr" = (
@@ -12111,10 +12070,12 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "Ob" = (
-/obj/machinery/atmospherics/miner/carbon_dioxide,
-/obj/machinery/air_sensor/atmos/carbon_tank,
-/obj/machinery/light/small,
-/turf/open/floor/engine/co2,
+/obj/machinery/air_sensor/atmos/nitrous_tank,
+/obj/machinery/atmospherics/miner/n2o,
+/obj/machinery/light/small{
+	brightness = 3
+	},
+/turf/open/floor/engine/n2o,
 /area/engine/atmos)
 "Oc" = (
 /obj/structure/disposalpipe/segment{
@@ -12300,7 +12261,11 @@
 /turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
 "Oy" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/co2{
+/obj/machinery/atmospherics/components/binary/pump/layer4{
+	name = "N20 to mix";
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -12462,16 +12427,12 @@
 	name = "Abandoned Bar"
 	})
 "OY" = (
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/binary/pump/layer4{
-	dir = 1;
-	name = "Plasma to radiomix"
-	},
 /obj/machinery/atmospherics/components/binary/pump/layer2{
 	dir = 1;
 	name = "Plasma to constrictornator5000"
+	},
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -12912,13 +12873,11 @@
 /turf/open/floor/carpet/red,
 /area/security/brig)
 "Qx" = (
-/obj/machinery/air_sensor/atmos/nitrous_tank,
-/obj/machinery/atmospherics/miner/n2o,
-/obj/machinery/light/small{
-	brightness = 3;
-	dir = 1
+/obj/item/beacon,
+/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4{
+	dir = 4
 	},
-/turf/open/floor/engine/n2o,
+/turf/open/floor/plating,
 /area/engine/atmos)
 "Qy" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
@@ -13025,14 +12984,11 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "QO" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 10
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 5
-	},
 /obj/machinery/atmospherics/components/trinary/mixer/flipped/layer4{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+	dir = 6
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -13160,18 +13116,8 @@
 /turf/open/floor/monotile/dark,
 /area/science)
 "Rk" = (
-/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer2{
+/obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 5
-	},
-/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4,
-/obj/machinery/computer/atmos_control/tank/air_tank{
-	density = 0;
-	dir = 4;
-	input_tag = "sdmix_in";
-	name = "Reactor Mix Control";
-	output_tag = "sdmix_out";
-	pixel_x = -9;
-	sensors = list("sdmix_sensor"="Reactor Mix Tank")
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -13227,7 +13173,7 @@
 /turf/open/floor/monotile/steel,
 /area/engine/engine_room)
 "Rs" = (
-/obj/machinery/atmospherics/components/trinary/filter/atmos/n2o{
+/obj/machinery/atmospherics/components/trinary/filter/atmos/o2{
 	dir = 8
 	},
 /turf/open/floor/plating,
@@ -13239,6 +13185,9 @@
 /obj/machinery/light_switch/east,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -13338,6 +13287,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/tile/ship/half/yellow,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "RL" = (
@@ -14076,13 +14028,9 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/engine/engine_room)
 "Ub" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4{
+/obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/green/visible,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "Uc" = (
@@ -14343,11 +14291,13 @@
 	},
 /area/maintenance/department/science)
 "UZ" = (
-/obj/machinery/portable_atmospherics/canister/carbon_dioxide,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/carbon_output{
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/nitrous_input{
 	dir = 1
 	},
-/turf/open/floor/engine/co2,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/turf/open/floor/engine/n2o,
 /area/engine/atmos)
 "Va" = (
 /obj/structure/cable/yellow{
@@ -14895,6 +14845,10 @@
 /obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	dir = 1
 	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "WY" = (
@@ -14948,15 +14902,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
-"Xg" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4{
-	dir = 9
-	},
-/turf/open/floor/plating,
-/area/engine/atmos)
 "Xl" = (
 /obj/structure/sign/ship/armoury{
 	name = "Munitions Department"
@@ -15009,6 +14954,9 @@
 	dir = 1
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/monotile/steel,
 /area/engine/atmos)
 "Xv" = (
@@ -15229,12 +15177,10 @@
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "Yh" = (
-/obj/structure/grille,
-/obj/effect/turf_decal/tile/ship/blue{
-	dir = 1
-	},
-/turf/open/floor/plating,
-/area/maintenance/department/engine/atmos)
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/carbon_output,
+/obj/machinery/portable_atmospherics/canister/carbon_dioxide,
+/turf/open/floor/engine/co2,
+/area/engine/atmos)
 "Yi" = (
 /obj/structure/cable/yellow{
 	icon_state = "0-4"
@@ -15280,18 +15226,8 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "Ys" = (
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/binary/pump/on/layer2{
-	name = "Nitrogen to Air Mix";
-	target_pressure = 2000
-	},
-/obj/machinery/atmospherics/components/binary/pump/layer4{
-	name = "Nitrogen to mix"
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 4
+/obj/machinery/atmospherics/components/trinary/filter/atmos/n2{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -45181,7 +45117,7 @@ zI
 zI
 zI
 zI
-KJ
+zI
 Qv
 kq
 pc
@@ -46457,11 +46393,11 @@ rf
 un
 aM
 zI
-bO
+KB
 hv
 RN
-SK
 cf
+QB
 SK
 RN
 MR
@@ -46714,15 +46650,15 @@ QG
 lx
 TU
 zI
-KB
-hv
+zI
+zI
 RN
-qw
-QB
-SK
+BU
+Cv
 RN
-Yh
-KB
+RN
+zI
+zI
 zI
 Bw
 un
@@ -46973,11 +46909,11 @@ BP
 RN
 RN
 RN
-RN
-BU
-Cv
-RN
-RN
+FB
+hH
+nN
+xd
+Rk
 RN
 RN
 Nl
@@ -47228,14 +47164,14 @@ jY
 VJ
 ny
 RN
-rh
-pH
+nZ
+jh
 gn
-Rk
+mj
 aT
-AL
+JU
 BG
-pH
+jh
 UZ
 RN
 oY
@@ -47485,11 +47421,11 @@ Sz
 SX
 Ef
 RN
-yZ
+AL
 YT
 tA
-MW
-nN
+mj
+OJ
 Ub
 Le
 YT
@@ -47742,14 +47678,14 @@ OR
 un
 Ef
 RN
-KG
-jh
+Yh
+pH
 tg
 JU
 QO
 or
 Oy
-jh
+pH
 BR
 RN
 xU
@@ -48002,7 +47938,7 @@ RN
 RN
 RN
 ev
-ZB
+OJ
 VG
 Mt
 xq
@@ -48256,8 +48192,8 @@ ef
 un
 Ef
 RN
-ZF
-pH
+jI
+jh
 Ys
 oc
 eX
@@ -48516,7 +48452,7 @@ RN
 gu
 YT
 BC
-ZB
+mj
 iu
 rx
 UQ
@@ -48770,12 +48706,12 @@ Ao
 un
 Ef
 RN
-jI
-jh
+ZF
+pH
 Fg
-ZB
+KJ
 eF
-Xg
+HW
 GB
 jh
 lD
@@ -49031,7 +48967,7 @@ RN
 RN
 cs
 ZB
-OJ
+Qx
 HW
 LE
 RN
@@ -49284,12 +49220,12 @@ zX
 tk
 Ef
 RN
-xd
+KG
 pH
 ad
 mY
 nM
-FB
+HW
 Ym
 pH
 KF
@@ -49541,12 +49477,12 @@ Wk
 SX
 Yv
 RN
-Qx
+yZ
 YT
 mV
 Nn
 nT
-HW
+MW
 vH
 YT
 SK
@@ -49798,16 +49734,16 @@ uP
 tk
 Ss
 RN
-Dd
+rh
 jh
 Rs
 mZ
-nZ
-hH
+mj
+HW
 Se
 pH
 EB
-nv
+RN
 LA
 un
 ny
@@ -50056,7 +49992,7 @@ kA
 hr
 RN
 RN
-oL
+RN
 OK
 Im
 mj
