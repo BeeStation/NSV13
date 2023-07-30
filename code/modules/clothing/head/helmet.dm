@@ -171,13 +171,17 @@
 			return
 	return ..()
 
-/obj/item/clothing/head/helmet/alt
+/obj/item/clothing/head/helmet/alt // NSV modified - headcams
 	name = "bulletproof helmet"
 	desc = "A bulletproof combat helmet that excels in protecting the wearer against traditional projectile weaponry and explosives to a minor extent."
 	icon_state = "helmetalt"
 	item_state = "helmetalt"
 	armor = list("melee" = 15, "bullet" = 60, "laser" = 10, "energy" = 15, "bomb" = 40, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50, "stamina" = 30)
+	flags_inv = HIDEEARS|HIDEFACE
+	flags_cover = HEADCOVERSEYES
+	visor_flags_cover = HEADCOVERSEYES // logical covering due to texture
 	can_flashlight = TRUE
+	var/has_headcam = TRUE
 
 /obj/item/clothing/head/helmet/old
 	name = "degrading helmet"
@@ -191,7 +195,7 @@
 	item_state = "blueshift"
 	custom_premium_price = 450
 
-/obj/item/clothing/head/helmet/riot
+/obj/item/clothing/head/helmet/riot // NSV modified - headcams
 	name = "riot helmet"
 	desc = "It's a helmet specifically designed to protect against close range attacks."
 	icon_state = "riot"
@@ -206,6 +210,7 @@
 	visor_flags_inv = HIDEFACE|HIDESNOUT
 	flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
 	visor_flags_cover = HEADCOVERSEYES | HEADCOVERSMOUTH
+	var/has_headcam = TRUE
 
 /obj/item/clothing/head/helmet/riot/update_icon()
 	icon_state = "[initial(icon_state)][up ? "up" : ""]"
@@ -277,7 +282,7 @@
 	toggle_message = "You turn off the light on"
 	alt_toggle_message = "You turn on the light on"
 
-/obj/item/clothing/head/helmet/swat
+/obj/item/clothing/head/helmet/swat // NSV modified - headcams
 	name = "\improper SWAT helmet"
 	desc = "An extremely robust, space-worthy helmet in a nefarious red and black stripe pattern."
 	icon_state = "swatsyndie"
@@ -289,6 +294,7 @@
 	max_heat_protection_temperature = SPACE_HELM_MAX_TEMP_PROTECT
 	clothing_flags = STOPSPRESSUREDAMAGE | SNUG_FIT
 	strip_delay = 80
+	var/has_headcam = TRUE
 
 /obj/item/clothing/head/helmet/police
 	name = "police officer's hat"
