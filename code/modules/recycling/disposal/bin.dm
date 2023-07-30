@@ -102,6 +102,8 @@
 /obj/machinery/disposal/proc/place_item_in_disposal(obj/item/I, mob/user)
 	I.forceMove(src)
 	user.visible_message("<span class='notice'>[user.name] places \the [I] into \the [src].</span>", "<span class='notice'>You place \the [I] into \the [src].</span>")
+	if(istype(I, /obj/item/storage/box/suitbox)) // NSV13 - Suitbox slowdown is removed when it's put into disposals
+		user.remove_movespeed_modifier(MOVESPEED_ID_SLOW_SUITBOX, TRUE)
 
 //mouse drop another mob or self
 /obj/machinery/disposal/MouseDrop_T(mob/living/target, mob/living/user)
