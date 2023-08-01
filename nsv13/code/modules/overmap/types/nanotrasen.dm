@@ -30,7 +30,7 @@
 	obj_integrity = 300
 	max_integrity = 300
 	integrity_failure = 300
-	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser
@@ -44,7 +44,7 @@
 	integrity_failure = 450
 	bound_height = 96
 	bound_width = 96
-	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 
 /obj/structure/overmap/nanotrasen/frigate //This has nothing to do with missiles
 	name = "caracal class frigate"
@@ -59,7 +59,7 @@
 	max_integrity = 500
 	integrity_failure = 500
 	//collision_positions = list(new /datum/vector2d(-13,71), new /datum/vector2d(-25,52), new /datum/vector2d(-24,-25), new /datum/vector2d(-11,-66), new /datum/vector2d(4,-69), new /datum/vector2d(15,-28), new /datum/vector2d(15,38), new /datum/vector2d(6,61))
-	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser
 	name = "corvid class tactical cruiser"
@@ -75,7 +75,7 @@
 	integrity_failure = 800
 	bound_height = 96
 	bound_width = 96
-	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_heavy" = 30, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_heavy" = 30, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 
 /obj/structure/overmap/nanotrasen/battleship
 	name = "jupiter class battlestar"
@@ -90,7 +90,7 @@
 	obj_integrity = 1000
 	max_integrity = 1000
 	integrity_failure = 1000
-	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 50, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 50, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 
 /obj/structure/overmap/nanotrasen/carrier
 	name = "enterprise class carrier"
@@ -105,7 +105,7 @@
 	obj_integrity = 700
 	max_integrity = 700
 	integrity_failure = 700
-	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 10, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 10, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 
 /obj/structure/overmap/nanotrasen/battlecruiser
 	name = "corvid class tactical cruiser"
@@ -121,7 +121,7 @@
 	integrity_failure = 1000
 	bound_height = 96
 	bound_width = 96
-	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 50, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 50, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 
 //Instanced Versions
 
@@ -136,7 +136,7 @@
 	obj_integrity = 1200
 	max_integrity = 1200 //Max health
 	integrity_failure = 1200
-	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 10, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 10, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 	bound_height = 320
 	bound_width = 320
 	role = INSTANCED_MIDROUND_SHIP
@@ -162,7 +162,7 @@
 	obj_integrity = 1250
 	max_integrity = 1250
 	integrity_failure = 1250
-	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 	plasma_caster = TRUE
 
 //Player Versions
@@ -174,7 +174,7 @@
 	max_integrity = 1400 //Max health
 	integrity_failure = 1400
 	starting_system = "Staging" //Required for all player ships
-	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
 /obj/structure/overmap/nanotrasen/frigate/starter/shrike //TEMP UNTIL WE DIVERSIFY TYPES MORE

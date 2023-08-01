@@ -15,7 +15,7 @@
 	obj_integrity = 500
 	max_integrity = 500
 	integrity_failure = 500
-	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 
 /obj/structure/overmap/nanotrasen/solgov/carrier
 	name = "rio-grande class support cruiser"
@@ -29,7 +29,7 @@
 	obj_integrity = 1000
 	max_integrity = 1000
 	integrity_failure = 1000
-	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 20, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 20, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp
 	name = "Aetherwhisp class light cruiser"
@@ -44,7 +44,7 @@
 	obj_integrity = 750
 	max_integrity = 750
 	integrity_failure = 750
-	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 
 //Player Versions
 
@@ -54,7 +54,7 @@
 	max_integrity = 750 //She's fragile and relies heavily on shields.
 	integrity_failure = 750
 	starting_system = "Staging" //Required for all player ships
-	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 25, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 25, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 
 //AI Versions
 
@@ -113,7 +113,7 @@
 	bound_height = 32
 	missiles = 0
 	torpedoes = 0
-	armor = list("overmap_light" = 5, "overmap_medium" = 5,  "overmap_heavy" = 90, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 5, "overmap_medium" = 5,  "overmap_heavy" = 90, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 	ai_flags = AI_FLAG_SWARMER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/fighter
 
