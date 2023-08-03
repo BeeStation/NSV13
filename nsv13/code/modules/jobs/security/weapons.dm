@@ -223,28 +223,25 @@
 	desc = "A stunning weapon developed by Czanek Corp. It can deliver an extremely powerful electric shock via a specialised electrode, the electrodes are resupplied using the cyborg's internal power source. <b>It has an effective range of 2 meters</b>"
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "taser"
-	fire_delay = 2 SECONDS
 	recoil = 2 //BZZZZTTTTTTT
 	ammo_type = list(/obj/item/ammo_casing/energy/taser)
 	automatic = FALSE
-	fire_rate = 2.5
+	fire_rate = 0.2
 
 /obj/item/ammo_casing/energy/taser
 	projectile_type = /obj/item/projectile/energy/electrode/hitscan
 	select_name = "electrode"
 	fire_sound = 'sound/weapons/zapbang.ogg'
 	firing_effect_type = /obj/effect/temp_visual/dir_setting/firing_effect
+	e_cost = 600 //uses a lot more energy
 
 /obj/item/gun/energy/printer/glock
 	name = "Cyborg Glock-13BR"
 	desc = "An integrated 9mm handgun for use by Nanotrasen security cyborgs. Designed to fire lethal bullets"
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "secborgglock"
-	gun_charge = 1500 //15 shots
 	can_suppress = TRUE
-	burst_size = 3
-	fire_delay = 2
-	ammo_type = list(/obj/item/ammo_casing/energy/c9mmbullet)
+	ammo_type = list(/obj/item/ammo_casing/energy/c9mmbullet/rubber, /obj/item/ammo_casing/energy/c9mmbullet) //Switch between lethal or rubber bullets with attack_self
 	automatic = FALSE
 	fire_rate = 2
 
@@ -253,3 +250,7 @@
 	select_name = "9mm"
 	fire_sound = 'nsv13/sound/weapons/glock.ogg'
 	firing_effect_type = /obj/effect/temp_visual/dir_setting/firing_effect
+
+/obj/item/ammo_casing/energy/c9mmbullet/rubber
+	projectile_type = /obj/item/projectile/bullet/c9mm/rubber
+	select_name = "9mm (Rubber)"
