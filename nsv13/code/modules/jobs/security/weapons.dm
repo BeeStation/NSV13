@@ -240,7 +240,6 @@
 	desc = "An integrated 9mm handgun for use by Nanotrasen security cyborgs. Designed to fire lethal bullets"
 	icon = 'nsv13/icons/obj/guns/projectile.dmi'
 	icon_state = "secborgglock"
-	can_suppress = TRUE
 	ammo_type = list(/obj/item/ammo_casing/energy/c9mmbullet/rubber, /obj/item/ammo_casing/energy/c9mmbullet) //Switch between lethal or rubber bullets with attack_self
 	automatic = FALSE
 	fire_rate = 2
