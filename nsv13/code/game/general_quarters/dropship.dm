@@ -165,6 +165,10 @@
 	name = "circuit board (dropship helm computer)"
 	build_path = /obj/machinery/computer/ship/helm/console/dropship
 
+/obj/machinery/computer/ship/helm/console/dropship/attack_robot(mob/user)
+	. = ..()
+	return attack_hand(user)
+	
 /obj/machinery/computer/ship/helm/console/dropship/attack_hand(mob/living/user)
 	. = ..()
 	var/obj/structure/overmap/OM = has_overmap()
