@@ -1863,6 +1863,7 @@
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 1
 	},
+/obj/machinery/space_heater,
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "ge" = (
@@ -2382,13 +2383,16 @@
 /area/maintenance/nsv/deck2/port)
 "hH" = (
 /obj/machinery/computer/atmos_control/tank/air_tank{
-	density = 0;
+	density = 1;
 	dir = 4;
 	input_tag = "sdmix_in";
 	name = "Reactor Mix Control";
 	output_tag = "sdmix_out";
-	pixel_x = -9;
+	pixel_x = 0;
 	sensors = list("sdmix_sensor"="Reactor                Mix                Tank")
+	},
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -4099,9 +4103,9 @@
 /obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4,
 /obj/machinery/atmospherics/components/trinary/mixer/airmix/flipped/inverse{
 	dir = 8;
-	piping_layer = 2;
 	node1_concentration = 0.79;
-	node2_concentration = 0.21
+	node2_concentration = 0.21;
+	piping_layer = 2
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -4262,6 +4266,10 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
+"nz" = (
+/obj/machinery/firealarm/directional/south,
+/turf/open/floor/plating,
+/area/engine/atmos)
 "nA" = (
 /obj/structure/particle_accelerator/particle_emitter/center{
 	dir = 8
@@ -4392,9 +4400,6 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible,
 /obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4{
 	dir = 4
-	},
-/obj/machinery/light{
-	dir = 8
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -5471,7 +5476,7 @@
 /area/hallway/nsv/deck2/primary)
 "rh" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/oxygen_output,
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/oxygen_input,
 /turf/open/floor/engine/o2,
 /area/engine/atmos)
 "ri" = (
@@ -7345,6 +7350,7 @@
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
+/obj/machinery/space_heater,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "xg" = (
@@ -9487,8 +9493,8 @@
 	dir = 8
 	},
 /obj/machinery/fax{
-	name = "Engineerings Fax Machine";
-	fax_name = "Engineering"
+	fax_name = "Engineering";
+	name = "Engineerings Fax Machine"
 	},
 /obj/structure/table/reinforced,
 /turf/open/floor/monotile/steel,
@@ -11032,8 +11038,8 @@
 /turf/open/floor/engine/vacuum,
 /area/engine/atmos)
 "KG" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/oxygen_input,
 /obj/machinery/camera/autoname,
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/oxygen_output,
 /turf/open/floor/engine/o2,
 /area/engine/atmos)
 "KH" = (
@@ -12262,8 +12268,8 @@
 /area/quartermaster/storage)
 "Oy" = (
 /obj/machinery/atmospherics/components/binary/pump/layer4{
-	name = "N20 to mix";
-	dir = 1
+	dir = 1;
+	name = "N20 to mix"
 	},
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
@@ -12360,6 +12366,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 6
 	},
+/obj/item/radio/intercom/directional/north,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "OO" = (
@@ -13119,6 +13126,7 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 5
 	},
+/obj/machinery/space_heater,
 /turf/open/floor/plating,
 /area/engine/atmos)
 "Rl" = (
@@ -49997,7 +50005,7 @@ OK
 Im
 mj
 HW
-mj
+nz
 RN
 RN
 fS
