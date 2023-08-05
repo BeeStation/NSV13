@@ -29,7 +29,7 @@
 	bound_height = 128
 	role = PVP_SHIP
 	starting_system = "Rubicon" //Relatively safe start, fleets won't hotdrop you here.
-	armor = list("overmap_light" = 99, "overmap_medium" = 45, "overmap_heavy" = 20)
+	armor = list(OM_ARMOR, "overmap_light" = 99, "overmap_medium" = 45, "overmap_heavy" = 20)
 
 /obj/structure/overmap/syndicate/pvp/elco
 	name = "SSV Elco"
@@ -62,7 +62,7 @@
 	max_integrity = 1100 //Max health
 	integrity_failure = 1100
 	role = PVP_SHIP
-	armor = list("overmap_light" = 99, "overmap_medium" = 55, "overmap_heavy" = 30)
+	armor = list(OM_ARMOR, "overmap_light" = 99, "overmap_medium" = 55, "overmap_heavy" = 30)
 
 //AI Versions
 
@@ -102,7 +102,7 @@
 	integrity_failure = 300
 	area_type = /area/ruin/powered/nsv13/gunship
 	var/bounty = 1000
-	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
+	armor = list(OM_ARMOR, "overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
 	ai_flags = AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/frigate
 	possible_interior_maps = list(/datum/map_template/boarding/mako)
@@ -120,7 +120,7 @@
 	obj_integrity = 400
 	max_integrity = 400
 	integrity_failure = 400
-	armor = list("overmap_light" = 30, "overmap_medium" = 30, "overmap_heavy" = 30)
+	armor = list(OM_ARMOR, "overmap_light" = 30, "overmap_medium" = 30, "overmap_heavy" = 30)
 	combat_dice_type = /datum/combat_dice/carrier
 	possible_interior_maps = list(/datum/map_template/boarding/mako_carrier)
 
@@ -162,7 +162,7 @@
 	max_integrity = 1200 //Max health
 	integrity_failure = 1200
 	bounty = 15000
-	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_light" = 50)
+	armor = list(OM_ARMOR, "overmap_light" = 90, "overmap_medium" = 75, "overmap_light" = 50)
 	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/destroyer/conflagration
 
@@ -180,7 +180,7 @@
 	obj_integrity = 500
 	max_integrity = 500
 	integrity_failure = 500
-	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
+	armor = list(OM_ARMOR, "overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
 	missiles = 6
 	bounty = 1000
 	combat_dice_type = /datum/combat_dice/destroyer
@@ -192,7 +192,7 @@
 	obj_integrity = 900
 	max_integrity = 900
 	integrity_failure = 900
-	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_heavy" = 40)
+	armor = list(OM_ARMOR, "overmap_light" = 90, "overmap_medium" = 80, "overmap_heavy" = 40)
 	missiles = 8
 	torpedoes = 4
 	bounty = 1500
@@ -209,7 +209,7 @@
 	obj_integrity = 450
 	max_integrity = 450
 	integrity_failure = 450
-	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
+	armor = list(OM_ARMOR, "overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher
 
 /obj/structure/overmap/syndicate/ai/cruiser
@@ -219,7 +219,7 @@
 	bound_height = 128
 	bound_width = 128
 	mass = MASS_LARGE
-	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 30)
+	armor = list(OM_ARMOR, "overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 30)
 	obj_integrity = 450
 	max_integrity = 450
 	integrity_failure = 450
@@ -259,7 +259,7 @@
 	integrity_failure = 600
 	bounty = 3000
 	torpedoes = 0
-	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 10)
+	armor = list(OM_ARMOR, "overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 10)
 	can_resupply = TRUE
 	ai_flags = AI_FLAG_SUPPLY
 	combat_dice_type = /datum/combat_dice/carrier
@@ -272,7 +272,7 @@
 	obj_integrity = 1400
 	max_integrity = 1400 //Tanky so that it can survive to deploy multiple fighter waves.
 	integrity_failure = 1400
-	armor = list("overmap_light" = 80, "overmap_medium" = 70, "overmap_heavy" = 25)
+	armor = list(OM_ARMOR, "overmap_light" = 80, "overmap_medium" = 70, "overmap_heavy" = 25)
 	//This scary one can launch bombers, which absolutely wreak havoc
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter,
 							/obj/structure/overmap/syndicate/ai/bomber)
@@ -303,7 +303,7 @@
 	shots_left = 500 //A monster.
 	bound_width = 640
 	bound_height = 640
-	armor = list("overmap_light" = 100, "overmap_medium" = 85, "overmap_heavy" = 50)
+	armor = list(OM_ARMOR, "overmap_light" = 100, "overmap_medium" = 85, "overmap_heavy" = 50)
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/battleship
 	possible_interior_maps = list()
@@ -328,7 +328,7 @@
 	integrity_failure = 800
 	missiles = 0
 	torpedoes = 0
-	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_heavy" = 30)
+	armor = list(OM_ARMOR, "overmap_light" = 90, "overmap_medium" = 80, "overmap_heavy" = 30)
 	ai_flags = AI_FLAG_DESTROYER
 	speed_limit = 3
 	combat_dice_type = /datum/combat_dice/cruiser
@@ -360,7 +360,7 @@
 	obj_integrity = 750
 	max_integrity = 750
 	integrity_failure = 750
-	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_light" = 30)
+	armor = list(OM_ARMOR, "overmap_light" = 90, "overmap_medium" = 80, "overmap_light" = 30)
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher	//Cruiser subtype, called frigate? Guess it gets the combat dice inbetween both.
 	possible_interior_maps = list(/datum/map_template/boarding/boarding_frigate)
 
@@ -388,7 +388,7 @@
 	missiles = 5
 	shots_left = 5
 	torpedoes = 0
-	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 15)
+	armor = list(OM_ARMOR, "overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 15)
 	ai_flags = AI_FLAG_ANTI_FIGHTER
 	damage_states = FALSE
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher
@@ -417,7 +417,7 @@
 	missiles = 10
 	torpedoes = 10 //Torp boat!
 	shots_left = 10
-	armor = list("overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
+	armor = list(OM_ARMOR, "overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
 	ai_flags = AI_FLAG_DESTROYER
 	cloak_factor = 100 //Not a perfect cloak, mind you.
 	combat_dice_type = /datum/combat_dice/destroyer
@@ -448,7 +448,7 @@
 	sprite_size = 96
 	bound_height = 128
 	bound_width = 128
-	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 50)
+	armor = list(OM_ARMOR, "overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 50)
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	max_tracking_range = 70	//Big sensors, they gotta be useful
 	flak_battery_amount = 2
@@ -492,7 +492,7 @@
 	speed_limit = 16
 	flak_battery_amount = 3
 	max_tracking_range = 90
-	armor = list("overmap_light" = 99, "overmap_medium" = 65, "overmap_heavy" = 40)
+	armor = list(OM_ARMOR, "overmap_light" = 99, "overmap_medium" = 65, "overmap_heavy" = 40)
 	ai_controlled = TRUE
 	shots_left = 500
 	missiles = 30
@@ -530,7 +530,7 @@
 	shots_left = 350
 	torpedoes = 60
 	ai_controlled = TRUE
-	armor = list("overmap_light" = 99, "overmap_medium" = 70, "overmap_heavy" = 65)
+	armor = list(OM_ARMOR, "overmap_light" = 99, "overmap_medium" = 70, "overmap_heavy" = 65)
 	can_resupply = TRUE
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/carrier
@@ -560,7 +560,7 @@
 	ai_behaviour = AI_AGGRESSIVE
 	weapon_safety = FALSE
 	faction = "hostile"
-	armor = list("overmap_light" = 10, "overmap_medium" = 5, "overmap_heavy" = 95)
+	armor = list(OM_ARMOR, "overmap_light" = 10, "overmap_medium" = 5, "overmap_heavy" = 95)
 	obj_integrity = 115
 	max_integrity = 115 //Slightly less squishy!
 	integrity_failure = 115
@@ -595,7 +595,7 @@
 	missiles = 4
 	torpedoes = 0
 	bounty = 250
-	armor = list("overmap_light" = 5, "overmap_medium" = 0, "overmap_heavy" = 90)
+	armor = list(OM_ARMOR, "overmap_light" = 5, "overmap_medium" = 0, "overmap_heavy" = 90)
 	ai_flags = AI_FLAG_SWARMER
 	combat_dice_type = /datum/combat_dice/fighter
 	possible_interior_maps = list()
@@ -620,7 +620,7 @@
 	missiles = 0
 	torpedoes = 3
 	bounty = 250
-	armor = list("overmap_light" = 20, "overmap_medium" = 10, "overmap_heavy" = 90)
+	armor = list(OM_ARMOR, "overmap_light" = 20, "overmap_medium" = 10, "overmap_heavy" = 90)
 	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_SWARMER
 	combat_dice_type = /datum/combat_dice/bomber
 	possible_interior_maps = list()

@@ -13,7 +13,9 @@
 #define FIRE_MODE_BROADSIDE 9
 #define FIRE_MODE_PHORON 10
 
+//Base Armor Values
 
+#define OM_ARMOR "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100
 
 //Deprecated / legacy weapons.
 
