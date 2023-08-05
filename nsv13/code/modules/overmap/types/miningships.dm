@@ -13,7 +13,7 @@
 	integrity_failure = 800
 	bound_height = 96
 	bound_width = 96
-	armor = list("overmap_light" = 90, "overmap_medium" = 40, "overmap_heavy" = 15, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 100, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 90, "overmap_medium" = 40, "overmap_heavy" = 15)
 
 //Player varieties
 
@@ -38,7 +38,7 @@
 	name = "NSV FOB"
 	mass = MASS_SMALL //providing a real difference between nostromo and fob - this probably isn't a thing anymore
 	area_type = /area/nsv/shuttle
-	armor = list("overmap_light" = 90, "overmap_medium" = 20, "overmap_heavy" = 0, "melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
+	armor = list("overmap_light" = 90, "overmap_medium" = 20, "overmap_heavy" = 0)
 	max_integrity = 400 //Max health
 	integrity_failure = 400
 	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
