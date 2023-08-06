@@ -20,10 +20,6 @@
 	suffix = "atlas"
 	name = "\[NSV\] cargo elevator (Atlas)"
 
-/datum/map_template/shuttle/cargo/shrike
-	suffix = "shrike"
-	name = "\[NSV\] cargo ferry (Shrike)"
-
 /datum/map_template/shuttle/cargo/serendipity
 	suffix = "serendipity"
 	name = "\[NSV\] cargo ferry (Serendipity)"
@@ -51,17 +47,8 @@
 	port_id = "elevator"
 	suffix = "hammurabi"
 	name = "Hammurabi mining elevator"
-//Mining
-
-/datum/map_template/shuttle/mining/shrike
-	suffix = "shrike"
-	name = "mining shuttle (Shrike)"
 
 //Escape
-/datum/map_template/shuttle/escape_pod/shrike
-	suffix = "shrike"
-	name = "escape pod (Shrike)"
-
 /datum/map_template/shuttle/emergency/void
 	suffix = "void"
 	name = "Void Emergency Shuttle"
