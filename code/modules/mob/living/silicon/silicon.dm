@@ -471,7 +471,7 @@
 	add_sensors()
 	to_chat(src, "Sensor overlay activated.")
 
-/mob/living/silicon/proc/crew_manifest(mob/living/silicon)
+/mob/living/silicon/proc/crew_manifest(mob/living/silicon) //nsv add manifest to borg computer
 	var/mob/living/silicon/borgo = usr
 	borgo.ai_roster()
 

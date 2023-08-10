@@ -116,7 +116,7 @@
 		if("toggleSensors")
 			borgo.toggle_sensors()
 
-		if("crewmanifest")
+		if("crewmanifest")		 //nsv add manifest to borg computer
 			borgo.crew_manifest()
 
 		if("viewImage")
