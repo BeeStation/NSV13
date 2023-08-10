@@ -318,7 +318,7 @@
 
 /atom/movable/screen/robot/crew_manifest
 	name = "Crew Manifest"
-	icon = 'icons/mob/screen_ai.dmi'
+	icon = 'icons/mob/screen_cyborg.dmi'
 	icon_state = "manifest"
 
 /atom/movable/screen/robot/crew_manifest/Click()
