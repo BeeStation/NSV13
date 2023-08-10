@@ -141,12 +141,6 @@
 	using.hud = src
 	static_inventory += using
 
-//Manifest
-	using = new /atom/movable/screen/robot/crew_manifest()
-	using.screen_loc = ui_borg_crew_manifest
-	using.hud = src
-	static_inventory += using
-
 //Intent
 	action_intent = new /atom/movable/screen/act_intent/robot()
 	action_intent.icon_state = mymob.a_intent
@@ -315,14 +309,3 @@
 		return
 	var/mob/living/silicon/robot/borgo = usr
 	borgo.robot_alerts()
-
-/atom/movable/screen/robot/crew_manifest
-	name = "Crew Manifest"
-	icon = 'icons/mob/screen_cyborg.dmi'
-	icon_state = "manifest"
-
-/atom/movable/screen/robot/crew_manifest/Click()
-	if(..())
-		return
-	var/mob/living/silicon/robot/borgo = usr
-	borgo.ai_roster()

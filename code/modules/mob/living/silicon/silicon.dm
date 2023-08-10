@@ -471,6 +471,10 @@
 	add_sensors()
 	to_chat(src, "Sensor overlay activated.")
 
+/mob/living/silicon/proc/crew_manifest(mob/living/silicon)
+	var/mob/living/silicon/borgo = usr
+	borgo.ai_roster()
+
 /mob/living/silicon/proc/GetPhoto(mob/user)
 	if (aicamera)
 		return aicamera.selectpicture(user)

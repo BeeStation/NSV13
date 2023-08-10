@@ -116,6 +116,9 @@
 		if("toggleSensors")
 			borgo.toggle_sensors()
 
+		if("crewmanifest")
+			borgo.crew_manifest()
+
 		if("viewImage")
 			if(borgo.connected_ai)
 				borgo.connected_ai.aicamera?.viewpictures(usr)

@@ -177,6 +177,13 @@ export const NtosCyborgSelfMonitorContent = (props, context) => {
                       />
                     </LabeledList.Item>
                     <LabeledList.Item
+                      label={'Crew Manifest'}>
+                      <Button
+                        content="Open"
+                        onClick={() => act('crewmanifest')}
+                      />
+                    </LabeledList.Item>
+                    <LabeledList.Item
                       label={'Stored Photos (' + printerPictures + ')'}>
                       <Button
                         content="View"
