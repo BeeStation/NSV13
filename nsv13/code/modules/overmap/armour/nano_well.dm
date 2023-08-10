@@ -358,7 +358,7 @@ Starting Materials
 		return
 	var/adjust = text2num(params["adjust"])
 	if(action == "power_allocation")
-		if(adjust && isnum(adjust))
+		if(isnum(adjust))
 			power_allocation = adjust
 			if(power_allocation > maximum_power_allocation)
 				power_allocation = maximum_power_allocation
