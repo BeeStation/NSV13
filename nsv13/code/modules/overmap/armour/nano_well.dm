@@ -360,12 +360,8 @@ Starting Materials
 	if(action == "power_allocation")
 		if(isnum(adjust))
 			power_allocation = adjust
-			if(power_allocation > maximum_power_allocation)
-				power_allocation = maximum_power_allocation
-				return
-			if(power_allocation < 0)
-				power_allocation = 0
-				return
+			adjust = CLAMP(adjust, 0, maximum_power_allocation)
+			return
 	switch(action)
 		if("iron")
 			if(material_tier != 0)
