@@ -75,6 +75,9 @@
 	mag_type = /obj/item/ammo_box/magazine/m45
 	can_suppress = FALSE
 
+/obj/item/ammo_box/c45/m45 // .45 ammobox intended for m1911
+	max_ammo = 24
+
 /datum/design/gulagpack
 	name = "Gulagpack"
 	id = "gulagpack"
@@ -128,6 +131,22 @@
 	desc = "Loaded with rubber bullets that excel in disabling limbs and pacifying at range."
 	icon_state = "Glock-nonlethal"
 	ammo_type = /obj/item/ammo_casing/c9mm/rubber
+	caliber = "9mm"
+	max_ammo = 15
+
+/obj/item/ammo_box/magazine/glock/lethal_ap // unimplemented
+	name = "pistol magazine (9mm AP)"
+	desc = "Loaded with titanium tipped bullets that excel in dealing with armored hostile threats onboard or offboard the ship."
+	icon_state = "Glock-ap"
+	ammo_type = /obj/item/ammo_casing/c9mm/ap
+	caliber = "9mm"
+	max_ammo = 15
+
+/obj/item/ammo_box/magazine/glock/lethal_inc // unimplemented
+	name = "pistol magazine (9mm incendiary)"
+	desc = "Loaded with plasma tipped bullets that excel in setting any living target on fire."
+	icon_state = "Glock-inci"
+	ammo_type = /obj/item/ammo_casing/c9mm/inc
 	caliber = "9mm"
 	max_ammo = 15
 
