@@ -1,5 +1,5 @@
 #define MARTIALART_JUJITSU "ju jitsu"
-#define TAKEDOWN_COMBO "DG" // changed for stam damage pushes
+#define TAKEDOWN_COMBO "DG"
 #define JUDO_THROW "HHG"
 #define ARMLOCKING "DHGG"
 
