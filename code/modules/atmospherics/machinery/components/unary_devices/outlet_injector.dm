@@ -254,3 +254,6 @@
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos/toxins_mixing_input
 	name = "toxins mixing input injector"
 	id = ATMOS_GAS_MONITOR_INPUT_TOXINS_LAB
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/nucleium_input
+	name = "nucleium tank input injector"
+	id = ATMOS_GAS_MONITOR_INPUT_NUCLEIUM
