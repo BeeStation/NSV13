@@ -122,9 +122,9 @@
 	name = "incinerator air control (Computer Board)"
 	build_path = /obj/machinery/computer/atmos_control/tank/incinerator
 
-/obj/item/circuitboard/computer/atmos_control/tank/nucleium
+/obj/item/circuitboard/computer/atmos_control/tank/nucleium_tank
 	name = "nucleium supply control (Computer Board)"
-	build_path = /obj/machinery/computer/atmos_control/tank/nucleium
+	build_path = /obj/machinery/computer/atmos_control/tank/nucleium_tank
 /obj/item/circuitboard/computer/auxillary_base
 	name = "auxillary base management console (Computer Board)"
 	icon_state = "engineering"
