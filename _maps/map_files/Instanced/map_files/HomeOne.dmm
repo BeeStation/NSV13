@@ -118,7 +118,9 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 8
+	},
 /turf/open/floor/monotile/steel,
 /area/ruin/unpowered/boarding_interior)
 "bs" = (
@@ -460,6 +462,7 @@
 /obj/structure/table,
 /obj/item/tank/internals/oxygen,
 /obj/item/clothing/mask/breath,
+/obj/item/clothing/head/helmet/space/eva,
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "eL" = (
@@ -495,7 +498,9 @@
 "eS" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/advanced_airlock_controller/directional/west,
+/obj/machinery/advanced_airlock_controller/directional/west{
+	req_access = null
+	},
 /obj/structure/fluff/support_beam{
 	color = "#787878";
 	dir = 1
@@ -556,8 +561,12 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/machinery/door/firedoor/heavy,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/ruin/unpowered/boarding_interior)
 "fo" = (
@@ -630,7 +639,9 @@
 /obj/machinery/door/airlock/ship{
 	dir = 4
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plating,
 /area/ruin/unpowered/boarding_interior)
 "fW" = (
@@ -638,6 +649,10 @@
 /obj/item/storage/firstaid/regular,
 /obj/effect/decal/cleanable/cobweb,
 /turf/open/floor/plasteel/white,
+/area/ruin/unpowered/boarding_interior)
+"gf" = (
+/obj/item/storage/backpack,
+/turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "gk" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
@@ -694,7 +709,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "hl" = (
@@ -1026,16 +1043,16 @@
 	id = "torp";
 	name = "Torp Factory Input 2"
 	},
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "kt" = (
@@ -1080,6 +1097,16 @@
 "kJ" = (
 /obj/machinery/atmospherics/pipe/simple/cyan/visible/layer2,
 /turf/open/floor/plasteel,
+/area/ruin/unpowered/boarding_interior)
+"la" = (
+/obj/structure/fluff/bleepypanel{
+	dir = 4;
+	pixel_x = 11
+	},
+/obj/machinery/computer/ship/helm{
+	dir = 8
+	},
+/turf/open/floor/plasteel/techmaint,
 /area/ruin/unpowered/boarding_interior)
 "lb" = (
 /obj/machinery/atmospherics/components/trinary/filter/atmos/n2{
@@ -1223,7 +1250,9 @@
 "mr" = (
 /obj/machinery/door/airlock/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "ms" = (
@@ -1251,8 +1280,7 @@
 /obj/machinery/button/door{
 	id = "PiratePortBay";
 	name = "Pod Bay Doors";
-	pixel_y = -28;
-	req_one_access_txt = "69"
+	pixel_y = -28
 	},
 /turf/open/space/basic,
 /area/ruin/unpowered/boarding_interior)
@@ -1291,9 +1319,25 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/obj/machinery/computer/ship/munitions_computer/west{
-	pixel_x = -8
+/obj/item/reagent_containers/glass/bottle{
+	list_reagents = list(/datum/resl=30);
+	name = "oil bottle";
+	pixel_x = 1;
+	pixel_y = 4
 	},
+/obj/item/reagent_containers/glass/bottle{
+	list_reagents = list(/datum/resl=30);
+	name = "oil bottle";
+	pixel_x = 1;
+	pixel_y = 4
+	},
+/obj/item/reagent_containers/glass/bottle{
+	list_reagents = list(/datum/resl=30);
+	name = "oil bottle";
+	pixel_x = 1;
+	pixel_y = 4
+	},
+/obj/structure/table/reinforced,
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "mO" = (
@@ -1385,13 +1429,15 @@
 /turf/open/floor/plasteel/techmaint,
 /area/ruin/unpowered/boarding_interior)
 "nJ" = (
-/obj/machinery/door/airlock/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
+/obj/machinery/door/airlock/ship,
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "nO" = (
@@ -1401,7 +1447,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/machinery/advanced_airlock_controller/directional/north,
+/obj/machinery/advanced_airlock_controller/directional/north{
+	req_access = null
+	},
 /turf/open/floor/monotile/steel,
 /area/ruin/unpowered/boarding_interior)
 "nQ" = (
@@ -1411,10 +1459,11 @@
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "nT" = (
-/obj/machinery/computer/ams{
-	dir = 4
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
 	},
-/turf/open/floor/plating/rusty_techgrid,
+/obj/machinery/door/airlock/ship,
+/turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "nY" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
@@ -1474,6 +1523,12 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/ruin/unpowered/boarding_interior)
+"oB" = (
+/obj/structure/filingcabinet,
+/obj/item/storage/backpack,
+/obj/item/storage/box/ids,
+/turf/open/floor/carpet/grimy,
+/area/ruin/unpowered/boarding_interior)
 "oE" = (
 /obj/structure/particle_accelerator/power_box{
 	anchored = 1;
@@ -1514,6 +1569,7 @@
 /area/ruin/unpowered/boarding_interior)
 "oZ" = (
 /obj/structure/table/wood/bar,
+/obj/item/storage/box/ids,
 /turf/open/floor/monotile/steel,
 /area/ruin/unpowered/boarding_interior)
 "pe" = (
@@ -1585,8 +1641,7 @@
 /obj/machinery/button/door{
 	id = "PiratePortBay";
 	name = "Pod Bay Doors";
-	pixel_y = -28;
-	req_one_access_txt = "69"
+	pixel_y = -28
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/ruin/unpowered/boarding_interior)
@@ -1697,7 +1752,9 @@
 /obj/machinery/door/airlock/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "rG" = (
@@ -1739,7 +1796,9 @@
 /obj/machinery/door/airlock/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plating,
 /area/ruin/unpowered/boarding_interior)
 "sa" = (
@@ -1861,13 +1920,12 @@
 /turf/open/floor/plasteel/techmaint,
 /area/ruin/unpowered/boarding_interior)
 "tz" = (
-/obj/machinery/computer/ship/tactical{
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
 	},
-/obj/structure/fluff/bleepypanel{
-	dir = 4;
-	pixel_x = 11
-	},
+/obj/machinery/door/airlock/ship,
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "tC" = (
@@ -1910,7 +1968,8 @@
 /obj/structure/overmap/small_craft/transport/sabre/mining{
 	faction = "pirate";
 	name = "Stolen Su-437 Sabre";
-	random_name = 0
+	random_name = 0;
+	req_one_access = null
 	},
 /turf/open/floor/plating,
 /area/ruin/unpowered/boarding_interior)
@@ -1998,6 +2057,9 @@
 /obj/structure/table,
 /obj/item/stack/sheet/mineral/titanium/fifty,
 /obj/item/stack/sheet/duranium/fifty,
+/obj/item/stack/sheet/mineral/plasma/twenty,
+/obj/item/stack/sheet/mineral/silver/twenty,
+/obj/item/stack/sheet/mineral/titanium/twenty,
 /turf/open/floor/plasteel/techmaint,
 /area/ruin/unpowered/boarding_interior)
 "uE" = (
@@ -2111,6 +2173,10 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/ruin/unpowered/boarding_interior)
+"vS" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
+/turf/open/floor/plasteel/white,
+/area/ruin/unpowered/boarding_interior)
 "vW" = (
 /obj/effect/decal/cleanable/oil,
 /turf/open/floor/plasteel/techmaint,
@@ -2121,6 +2187,15 @@
 	id = "top_torp"
 	},
 /turf/open/floor/plating/rusty_techgrid,
+/area/ruin/unpowered/boarding_interior)
+"wd" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/turf/open/floor/plasteel/white,
 /area/ruin/unpowered/boarding_interior)
 "wr" = (
 /obj/structure/sign/directions/science{
@@ -2208,8 +2283,7 @@
 /obj/machinery/button/door{
 	id = "PirateSTBDbay";
 	name = "Pod Bay Doors";
-	pixel_y = 32;
-	req_one_access_txt = "69"
+	pixel_y = 32
 	},
 /turf/open/space/basic,
 /area/ruin/unpowered/boarding_interior)
@@ -2250,8 +2324,14 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 8
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plasteel,
+/area/ruin/unpowered/boarding_interior)
+"xo" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/turf/open/floor/plasteel/white,
 /area/ruin/unpowered/boarding_interior)
 "xp" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/nitrous_output,
@@ -2277,14 +2357,17 @@
 /turf/open/floor/plating,
 /area/ruin/unpowered/boarding_interior)
 "xF" = (
-/obj/machinery/computer/ship/helm{
-	dir = 8
-	},
 /obj/structure/fluff/bleepypanel{
 	dir = 4;
 	pixel_x = 11
 	},
-/turf/open/floor/plasteel,
+/obj/machinery/computer/ship/dradis/mining{
+	dir = 8
+	},
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plasteel/techmaint,
 /area/ruin/unpowered/boarding_interior)
 "xI" = (
 /obj/machinery/conveyor/slow{
@@ -2298,7 +2381,9 @@
 	input_dir = 4;
 	output_dir = 8
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/monotile/steel,
 /area/ruin/unpowered/boarding_interior)
 "xN" = (
@@ -2336,7 +2421,9 @@
 /area/ruin/unpowered/boarding_interior)
 "xX" = (
 /obj/machinery/door/airlock/ship,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "yb" = (
@@ -2390,6 +2477,9 @@
 /area/ruin/unpowered/boarding_interior)
 "yo" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
 /turf/open/floor/plasteel/white,
 /area/ruin/unpowered/boarding_interior)
 "yp" = (
@@ -2448,16 +2538,21 @@
 /obj/structure/table,
 /obj/item/tank/internals/oxygen,
 /obj/item/clothing/mask/breath,
+/obj/item/clothing/head/helmet/space/eva,
 /turf/open/floor/monotile/steel,
 /area/ruin/unpowered/boarding_interior)
 "yT" = (
-/obj/machinery/door/airlock/ship{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 8
 	},
-/turf/open/floor/goonplaque,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
+/obj/machinery/door/airlock/ship,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/turf/open/floor/plating/rusty_techgrid,
 /area/ruin/unpowered/boarding_interior)
 "yU" = (
 /obj/machinery/atmospherics/pipe/simple/purple/visible/layer4,
@@ -2547,6 +2642,15 @@
 /obj/structure/etherealball,
 /turf/open/floor/carpet/grimy,
 /area/ruin/unpowered/boarding_interior)
+"Aq" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 9
+	},
+/turf/open/floor/plating,
+/area/ruin/unpowered/boarding_interior)
 "At" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 1
@@ -2564,15 +2668,19 @@
 /turf/open/floor/plating,
 /area/ruin/unpowered/boarding_interior)
 "Av" = (
-/obj/machinery/door/airlock/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/airlock/ship,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/monotile/steel,
 /area/ruin/unpowered/boarding_interior)
 "AC" = (
 /obj/machinery/door/airlock/ship,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plating,
 /area/ruin/unpowered/boarding_interior)
 "AO" = (
@@ -2684,7 +2792,9 @@
 "Cd" = (
 /obj/machinery/atmospherics/components/binary/dp_vent_pump/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/advanced_airlock_controller/directional/west,
+/obj/machinery/advanced_airlock_controller/directional/west{
+	req_access = null
+	},
 /turf/open/floor/plating,
 /area/ruin/unpowered/boarding_interior)
 "Ce" = (
@@ -2697,7 +2807,9 @@
 	id = "torp2";
 	name = "Torp Factory Output 2"
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "Cm" = (
@@ -2735,7 +2847,9 @@
 /obj/machinery/door/airlock/ship{
 	dir = 4
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "Cy" = (
@@ -2869,6 +2983,16 @@
 /obj/machinery/ship_weapon/vls,
 /turf/open/floor/plating/rusty_techgrid,
 /area/ruin/unpowered/boarding_interior)
+"DF" = (
+/obj/structure/fluff/bleepypanel{
+	dir = 4;
+	pixel_x = 11
+	},
+/obj/machinery/computer/ship/tactical{
+	dir = 8
+	},
+/turf/open/floor/monotile/steel,
+/area/ruin/unpowered/boarding_interior)
 "DH" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos/air_input,
 /turf/open/floor/engine/air/light,
@@ -2935,12 +3059,8 @@
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "Ey" = (
-/obj/structure/chair/fancy/shuttle{
-	color = "#696969";
-	dir = 4;
-	name = "captain's chair"
-	},
-/turf/open/floor/plasteel/techmaint,
+/obj/structure/munitions_trolley,
+/turf/open/floor/monotile/steel,
 /area/ruin/unpowered/boarding_interior)
 "EA" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
@@ -3035,7 +3155,8 @@
 /obj/structure/overmap/small_craft/transport/sabre/mining{
 	faction = "pirate";
 	name = "Stolen Su-437 Sabre";
-	random_name = 0
+	random_name = 0;
+	req_one_access = null
 	},
 /turf/open/floor/monotile/steel,
 /area/ruin/unpowered/boarding_interior)
@@ -3163,17 +3284,10 @@
 /turf/open/floor/engine/n2o/light,
 /area/ruin/unpowered/boarding_interior)
 "Ho" = (
-/obj/machinery/computer/ship/dradis/mining{
-	dir = 8
-	},
-/obj/machinery/light{
+/obj/machinery/computer/ams{
 	dir = 4
 	},
-/obj/structure/fluff/bleepypanel{
-	dir = 4;
-	pixel_x = 11
-	},
-/turf/open/floor/monotile/steel,
+/turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "Hq" = (
 /obj/structure/girder,
@@ -3296,7 +3410,9 @@
 /area/ruin/unpowered/boarding_interior)
 "Iv" = (
 /obj/machinery/door/airlock/ship,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/ruin/unpowered/boarding_interior)
 "Iz" = (
@@ -3331,6 +3447,19 @@
 	node2_concentration = 0.0;
 	target_pressure = 1500
 	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/ruin/unpowered/boarding_interior)
+"IE" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/obj/structure/table/wood/bar,
+/obj/item/storage/backpack,
+/obj/item/storage/backpack,
+/obj/item/storage/backpack,
+/obj/item/storage/backpack,
+/obj/item/storage/backpack,
+/obj/item/storage/backpack,
 /turf/open/floor/plating/rusty_techgrid,
 /area/ruin/unpowered/boarding_interior)
 "IG" = (
@@ -3368,6 +3497,10 @@
 "IU" = (
 /obj/effect/decal/cleanable/oil/slippery,
 /turf/open/floor/plating/rusty_techgrid,
+/area/ruin/unpowered/boarding_interior)
+"IY" = (
+/obj/machinery/computer/ship/dradis,
+/turf/closed/wall/r_wall/ship,
 /area/ruin/unpowered/boarding_interior)
 "Jh" = (
 /obj/machinery/atmospherics/components/binary/dp_vent_pump/layer2{
@@ -3610,8 +3743,7 @@
 /obj/machinery/button/door{
 	id = "PirateSTBDbay";
 	name = "Pod Bay Doors";
-	pixel_y = 32;
-	req_one_access_txt = "69"
+	pixel_y = 32
 	},
 /turf/open/space/basic,
 /area/ruin/unpowered/boarding_interior)
@@ -4011,6 +4143,7 @@
 /obj/structure/table/wood/bar,
 /obj/item/tank/internals/oxygen,
 /obj/item/clothing/mask/breath,
+/obj/item/clothing/head/helmet/space/eva,
 /turf/open/floor/carpet/grimy,
 /area/ruin/unpowered/boarding_interior)
 "Pk" = (
@@ -4115,7 +4248,9 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/ruin/unpowered/boarding_interior)
 "PI" = (
-/obj/machinery/computer/ship/ftl_computer,
+/obj/machinery/computer/ship/ftl_computer{
+	req_access = null
+	},
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "PL" = (
@@ -4282,7 +4417,9 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "Rc" = (
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /obj/structure/fluff/fokoff_sign,
 /turf/open/floor/plating,
 /area/ruin/unpowered/boarding_interior)
@@ -4362,7 +4499,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/machinery/advanced_airlock_controller/directional/north,
+/obj/machinery/advanced_airlock_controller/directional/north{
+	req_access = null
+	},
 /turf/open/floor/plating,
 /area/ruin/unpowered/boarding_interior)
 "RJ" = (
@@ -4437,7 +4576,9 @@
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "Sz" = (
-/obj/structure/closet/secure_closet/medical1,
+/obj/structure/closet/secure_closet/medical1{
+	req_access = null
+	},
 /turf/open/floor/plasteel/white,
 /area/ruin/unpowered/boarding_interior)
 "SB" = (
@@ -4469,6 +4610,7 @@
 /obj/item/clothing/head/pirate/captain,
 /obj/item/gun/ballistic/automatic/pistol/deagle/gold,
 /obj/item/ammo_box/magazine/m50,
+/obj/item/clothing/head/helmet/space/eva,
 /turf/open/floor/carpet/grimy,
 /area/ruin/unpowered/boarding_interior)
 "SP" = (
@@ -4511,7 +4653,8 @@
 /obj/structure/overmap/small_craft/transport/sabre/mining{
 	faction = "pirate";
 	name = "Stolen Su-437 Sabre";
-	random_name = 0
+	random_name = 0;
+	req_one_access = null
 	},
 /turf/open/space/basic,
 /area/ruin/unpowered/boarding_interior)
@@ -4680,7 +4823,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "UC" = (
@@ -4699,16 +4844,16 @@
 	id = "torp";
 	name = "Torp Factory Input 1"
 	},
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
-/obj/item/ship_weapon/ammunition/missile/missile_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "UI" = (
@@ -4741,6 +4886,13 @@
 "UZ" = (
 /obj/machinery/ship_weapon/vls,
 /turf/open/floor/plasteel,
+/area/ruin/unpowered/boarding_interior)
+"Vg" = (
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
+/obj/machinery/door/airlock/ship,
+/turf/open/floor/monotile/steel,
 /area/ruin/unpowered/boarding_interior)
 "Vj" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -4811,7 +4963,9 @@
 "VN" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /obj/structure/fluff/support_beam{
 	color = "#787878";
 	dir = 1
@@ -4897,7 +5051,9 @@
 	id = "torp2";
 	name = "Torp Factory Output 1"
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "WA" = (
@@ -4931,8 +5087,10 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/obj/machinery/door/firedoor/heavy,
-/turf/open/floor/goonplaque,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
+/turf/open/floor/plasteel/techmaint,
 /area/ruin/unpowered/boarding_interior)
 "WJ" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/visible/layer2{
@@ -4946,7 +5104,9 @@
 /turf/open/floor/monotile/steel,
 /area/ruin/unpowered/boarding_interior)
 "WX" = (
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /obj/structure/fluff/support_beam{
 	color = "#787878";
 	dir = 4
@@ -5004,7 +5164,9 @@
 /area/ruin/unpowered/boarding_interior)
 "XF" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "XH" = (
@@ -5086,7 +5248,9 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/advanced_airlock_controller/directional/west,
+/obj/machinery/advanced_airlock_controller/directional/west{
+	req_access = null
+	},
 /obj/structure/fluff/support_beam{
 	color = "#787878"
 	},
@@ -5126,6 +5290,18 @@
 /area/ruin/unpowered/boarding_interior)
 "Zf" = (
 /obj/structure/table/reinforced,
+/obj/item/reagent_containers/glass/bottle{
+	list_reagents = list(/datum/resl=30);
+	name = "oil bottle";
+	pixel_x = 1;
+	pixel_y = 4
+	},
+/obj/item/reagent_containers/glass/bottle{
+	list_reagents = list(/datum/resl=30);
+	name = "oil bottle";
+	pixel_x = 1;
+	pixel_y = 4
+	},
 /turf/open/floor/plasteel/white,
 /area/ruin/unpowered/boarding_interior)
 "Zi" = (
@@ -5179,7 +5355,9 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor/heavy{
+	req_one_access = null
+	},
 /turf/open/floor/plasteel,
 /area/ruin/unpowered/boarding_interior)
 "Zz" = (
@@ -40823,7 +41001,7 @@ eH
 tf
 NE
 qK
-YZ
+gf
 tf
 uC
 Af
@@ -42868,7 +43046,7 @@ eZ
 CF
 sq
 xc
-rE
+tz
 xc
 Gm
 xc
@@ -43131,7 +43309,7 @@ hr
 CF
 VM
 NY
-Ul
+wd
 NP
 cI
 YZ
@@ -43645,7 +43823,7 @@ Ty
 Ur
 XR
 ac
-Ul
+wd
 LR
 cd
 YZ
@@ -44152,14 +44330,14 @@ Uu
 kn
 yu
 Uu
-xX
+nT
 kD
 qs
 Pb
 tf
 lA
 yl
-Ul
+wd
 Zf
 aq
 Cy
@@ -44412,11 +44590,11 @@ tf
 tf
 bD
 nY
-bD
+oB
 tf
-hr
-hr
-ae
+vS
+xo
+Aq
 US
 cd
 YZ
@@ -44683,7 +44861,7 @@ tf
 YW
 sz
 NY
-Ln
+IE
 NY
 Uu
 CF
@@ -46217,7 +46395,7 @@ ZB
 ii
 ZB
 Wh
-rE
+tz
 Kc
 wZ
 Af
@@ -46992,7 +47170,7 @@ ti
 Re
 Df
 me
-xX
+nT
 YZ
 eK
 RY
@@ -47496,7 +47674,7 @@ jf
 ti
 Wx
 YZ
-Iv
+Vg
 SC
 Rj
 Rt
@@ -47753,11 +47931,11 @@ YZ
 ti
 Wx
 Uu
-eh
-Ey
+IY
 Uu
-Od
-fz
+Uu
+YZ
+zk
 NY
 zy
 NY
@@ -48010,11 +48188,11 @@ NY
 ti
 EH
 hV
-rV
-tz
-Ho
-xF
-rV
+eh
+Od
+jf
+Od
+fz
 dv
 ti
 YZ
@@ -48267,11 +48445,11 @@ ti
 ti
 ti
 ti
-zk
-zk
-zk
-zk
-zk
+rV
+DF
+xF
+la
+rV
 ti
 ti
 Cx
@@ -48524,11 +48702,11 @@ Cu
 YZ
 YZ
 ns
-YZ
-YZ
-oj
-nT
-ti
+zk
+zk
+zk
+zk
+zk
 CF
 SB
 YZ
@@ -48783,14 +48961,14 @@ YZ
 Uu
 jf
 gk
-jf
-YZ
+Ey
+Ho
 zM
 YZ
 hu
 YZ
 fs
-YZ
+CF
 YZ
 fs
 WA
@@ -49296,7 +49474,7 @@ YZ
 VM
 YZ
 uy
-CF
+VB
 CF
 YZ
 ti
