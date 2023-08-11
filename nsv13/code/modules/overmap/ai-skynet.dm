@@ -679,7 +679,7 @@ Adding tasks is easy! Just define a datum for it.
 	if(OM.faction == alignment || federation_check(OM))
 		OM.hail(pick(greetings), name)
 	assemble(current_system)
-	if(OM.faction != alignment)
+	if(OM.faction != alignment && !federation_check(OM))
 		if(OM.alpha >= 150) //Sensor cloaks my boy, sensor cloaks
 			OM.hail(pick(taunts), name)
 			last_encounter_time = world.time
