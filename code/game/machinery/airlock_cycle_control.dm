@@ -77,8 +77,6 @@
 	var/list/vents = list()
 	var/obj/vis_target = null
 
-	var/range_ignore //NSV13 pilot remote access functionality
-
 /obj/machinery/advanced_airlock_controller/lavaland
 	exterior_pressure = WARNING_LOW_PRESSURE + 10
 	depressurization_margin = ONE_ATMOSPHERE
@@ -548,13 +546,13 @@
 		if(assume_roles)
 			T.ImmediateCalculateAdjacentTurfs()
 		for(var/turf/open/T2 in T.atmos_adjacent_turfs)
-			if(get_dist(initial_turf, T2) > 6) //NSV13 increased range for hangar launch tubes
+			if(get_dist(initial_turf, T2) > 5)
 				config_error_str = "Airlock too big"
 				return
 			if(locate(/obj/machinery/door/airlock) in T2)
 				continue
 			turfs[T2] = 1
-		if(turfs.len > 33) // NSV13 increased size for hangar launch tubes
+		if(turfs.len > 16)
 			config_error_str = "Airlock too big"
 		for(var/cdir in GLOB.cardinals)
 			var/turf/T2 = get_step(T, cdir)
@@ -599,10 +597,8 @@
 /obj/machinery/advanced_airlock_controller/ui_state(mob/user)
 	return GLOB.default_state
 
-/obj/machinery/advanced_airlock_controller/ui_interact(mob/user, datum/tgui/ui, pilot = FALSE) //NSV13 added special pilot interaction
+/obj/machinery/advanced_airlock_controller/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
-	if(pilot) //NSV13 pilot remote access
-		range_ignore = TRUE
 	if(!ui)
 		ui = new(user, src, "AdvancedAirlockController")
 		ui.set_autoupdate(TRUE) // Pressure display, mode changes as part of the cycle process
@@ -618,7 +614,7 @@
 
 	var/data = list(
 		"locked" = locked,
-		"siliconUser" = range_ignore ? TRUE : user.has_unlimited_silicon_privilege, //NSV13 pilot remote access
+		"siliconUser" = user.has_unlimited_silicon_privilege,
 		"emagged" = (obj_flags & EMAGGED ? 1 : 0),
 		"cyclestate" = cyclestate,
 		"pressure" = pressure,
@@ -674,7 +670,6 @@
 /obj/machinery/advanced_airlock_controller/ui_close()
 	. = ..()
 	vis_target = null
-	range_ignore = FALSE //NSV13
 
 /obj/machinery/advanced_airlock_controller/ui_act(action, params)
 	if(..() || buildstage != 2)
