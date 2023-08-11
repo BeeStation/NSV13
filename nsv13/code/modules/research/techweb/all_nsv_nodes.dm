@@ -227,3 +227,14 @@
 	prereq_ids = list("vehicle_tier2")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 5000
+
+/// Munitions Upgrade for Engineering Borg
+/datum/techweb_node/cyborg_upg_muni
+	id = "cyborg_upg_muni"
+	tech_tier = 4
+	display_name = "Cyborg Upgrades: Munitions"
+	description = "Munition related upgrades for cyborgs."
+	prereq_ids = list("adv_robotics", "adv_engi" , "adv_ballistics")
+	design_ids = list("borg_upgrade_muniapp")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	export_price = 5000

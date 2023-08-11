@@ -40,7 +40,7 @@
 
 	return ..()
 
-/datum/dna/proc/transfer_identity(mob/living/carbon/destination, transfer_SE = FALSE)
+/datum/dna/proc/transfer_identity(mob/living/carbon/human/destination, transfer_SE = FALSE)
 	if(!istype(destination))
 		return
 	destination.dna.unique_enzymes = unique_enzymes
@@ -51,7 +51,7 @@
 	destination.dna.features = features.Copy()
 	destination.dna.real_name = real_name
 	destination.dna.temporary_mutations = temporary_mutations.Copy()
-	destination.flavour_text = destination.dna.features["flavour_text"] //Update the flavor_text to use new dna text //NSV13
+	destination.flavour_text = destination.client.prefs.active_character.flavor_text //Update the flavor_text to use new dna text //NSV13
 	if(transfer_SE)
 		destination.dna.mutation_index = mutation_index
 		destination.dna.default_mutation_genes = default_mutation_genes
@@ -360,7 +360,6 @@
 //Do not use force_transfer_mutations for stuff like cloners without some precautions, otherwise some conditional mutations could break (timers, drill hat etc)
 	if(newfeatures)
 		dna.features = newfeatures
-		flavour_text = dna.features["flavour_text"] //Update the flavor_text to use new dna text //NSV13
 
 	if(mrace)
 		var/datum/species/newrace = new mrace.type

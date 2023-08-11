@@ -153,6 +153,8 @@
 	var/list/ams_data_source = AMS_LOCKED_TARGETS
 	var/next_ams_shot = 0
 	var/ams_targeting_cooldown = 1.5 SECONDS
+	var/ams_shot_limit = 5
+	var/ams_shots_fired = 0
 
 	// Railgun aim helper
 	var/last_tracer_process = 0
@@ -545,6 +547,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return FALSE
 	if(weapon_safety && !can_friendly_fire())
 		return FALSE
+	if(istype(target, /obj/machinery/button))
+		return target.attack_hand(user)
 	var/list/params_list = params2list(params)
 	if(target == src || istype(target, /atom/movable/screen) || (target in user.GetAllContents()) || params_list["alt"] || params_list["shift"])
 		return FALSE
@@ -578,6 +582,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		playsound(tactical, sound, 100, 1)
 	if(params_list["ctrl"]) //Ctrl click to lock on to people
 		start_lockon(target)
+		ams_shots_fired = 0
 		return TRUE
 	if(user == gunner)
 		var/datum/ship_weapon/SW = weapon_types[fire_mode]

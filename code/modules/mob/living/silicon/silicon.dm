@@ -56,6 +56,9 @@
 
 	mobchatspan = "centcom"
 
+	//NSV13 - Roleplay Stuff
+	var/datum/examine_panel/tgui = new() //create the datum
+
 /mob/living/silicon/Initialize(mapload)
 	. = ..()
 	GLOB.silicon_mobs += src
@@ -256,6 +259,11 @@
 	if (href_list["printlawtext"]) // this is kinda backwards
 		to_chat(usr, href_list["printlawtext"])
 
+	//NSV13 - Silicon Flavor Text - Start
+	if(href_list["lookup_info"])
+		tgui.holder = src
+		tgui.ui_interact(usr) //datum has a tgui component, here we open the window
+	//NSV13 - Silicon Flavor Text - End
 	return
 
 
