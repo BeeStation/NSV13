@@ -293,7 +293,7 @@
 	name = "\improper LBX AC 10 \"Scattershot\""
 	desc = "A weapon for combat exosuits. Shoots a spread of pellets."
 	icon_state = "mecha_scatter"
-	equip_cooldown = 10  //NSV13 - halved cooldown
+	equip_cooldown = 15  //NSV13 - decreased cool down to 15 from 20
 	projectile = /obj/item/projectile/bullet/scattershot
 	projectiles = 40
 	projectile_energy_cost = 25
