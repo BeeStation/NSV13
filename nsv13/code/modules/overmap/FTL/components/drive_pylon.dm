@@ -147,7 +147,7 @@
 		visible_message("<span class='warning'>The power warning diode on [src] flashes [power_failure_counter > 1 ? "bright red" : "yellow"]!</span>")
 	else
 		power_failure_counter = max(0, power_failure_counter - 1)
-	cable.add_load(actual_power_draw)
+	cable.add_load(clamp(actual_power_draw, 0, cable.surplus()))
 	return TRUE
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/process_atmos()
