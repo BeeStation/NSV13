@@ -54,6 +54,8 @@ export const FTLComputerModular = (props, context) => {
                         }} />
                       <br />
                       Power Draw: <b>{value.draw}</b>
+                      <br />
+                      Nucleium: <b>{value.nucleium}</b> mol / s
                     </Section>
                   </Table.Cell>);
               })}
