@@ -211,10 +211,6 @@
 #define ATMOS_GAS_MONITOR_OUTPUT_TOXINS_LAB "toxinslab_out"
 #define ATMOS_GAS_MONITOR_SENSOR_TOXINS_LAB "toxinslab_sensor"
 
-#define ATMOS_GAS_MONITOR_INPUT_NUCLEIUM "nucleium_in" //NSV nucleium gas tank
-#define ATMOS_GAS_MONITOR_OUTPUT_NUCLEIUM "nucleium_out"
-#define ATMOS_GAS_MONITOR_SENSOR_NUCLEIUM "nucleium_sensor"
-
 #define ATMOS_GAS_MONITOR_LOOP_DISTRIBUTION "distro-loop_meter"
 #define ATMOS_GAS_MONITOR_LOOP_ATMOS_WASTE "atmos-waste_loop_meter"
 

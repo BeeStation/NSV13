@@ -385,9 +385,6 @@
 	name = "toxins mixing output inlet"
 	id_tag = ATMOS_GAS_MONITOR_OUTPUT_TOXINS_LAB
 	frequency = FREQ_ATMOS_CONTROL
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/nucleium_output //NSV nucleium tank
-	name = "nucleium tank output inlet"
-	id_tag = ATMOS_GAS_MONITOR_OUTPUT_NUCLEIUM
 
 /obj/machinery/atmospherics/components/unary/vent_pump/high_volume/layer2
 	piping_layer = 2
