@@ -118,7 +118,7 @@
 	materials = list(/datum/material/iron = 16500)
 	build_path = /obj/item/ammo_box/magazine/glock/lethal
 	category = list("Ammo")
-	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/rubbershot
 	name = "9mm rubber Glock round"
@@ -127,6 +127,7 @@
 	materials = list(/datum/material/iron = 500)
 	build_path = /obj/item/ammo_casing/c9mm/rubber
 	category = list("initial", "Security")
+	DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/rubber9mm
 	name = "9mm Ammo Box (Rubber)"
@@ -135,7 +136,6 @@
 	materials = list(/datum/material/iron = 25000)
 	build_path = /obj/item/ammo_box/c9mm/rubber
 	category = list("Ammo")
-	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/glockmag
 	name = "Glock Magazine (Rubber)"
@@ -144,7 +144,7 @@
 	materials = list(/datum/material/iron = 14000)
 	build_path = /obj/item/ammo_box/magazine/glock
 	category = list("Ammo")
-	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/ap9mm
 	name = "9mm Ammo Box (Armour Piercing)"
@@ -162,7 +162,7 @@
 	materials = list(/datum/material/iron = 14000, /datum/material/titanium = 150, /datum/material/silver = 150)
 	build_path = /obj/item/ammo_box/magazine/glock/ap
 	category = list("Ammo")
-	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/inc9mm
 	name = "9mm Ammo box (Incendiary)"
@@ -180,7 +180,7 @@
 	materials = list(/datum/material/iron = 14000, /datum/material/plasma = 150, /datum/material/glass = 50, /datum/material/gold = 50)
 	build_path = /obj/item/ammo_box/magazine/glock/inc
 	category = list("Ammo")
-	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/tazer
 	name = "3mm electro-shock tazer round"
