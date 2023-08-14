@@ -127,7 +127,6 @@
 	materials = list(/datum/material/iron = 500)
 	build_path = /obj/item/ammo_casing/c9mm/rubber
 	category = list("initial", "Security")
-	DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/rubber9mm
 	name = "9mm Ammo Box (Rubber)"
