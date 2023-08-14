@@ -13,6 +13,7 @@
 	integrity_failure = 800
 	bound_height = 96
 	bound_width = 96
+	armor = list(OM_ARMOR, "overmap_light" = 90, "overmap_medium" = 40, "overmap_heavy" = 15)
 
 //Player varieties
 
