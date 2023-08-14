@@ -765,7 +765,7 @@
 /turf/open/floor/plasteel,
 /area/security/brig)
 "cO" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/siphon/atmos/air_output{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos{
 	dir = 8
 	},
 /turf/open/floor/engine/air,
@@ -1910,14 +1910,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/structure/table/reinforced,
-/obj/item/storage/toolbox/mechanical{
-	pixel_x = -1;
-	pixel_y = 4
-	},
-/obj/item/restraints/handcuffs{
-	pixel_y = 3
-	},
+/obj/machinery/conquest_beacon/nanotrasen,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -2489,9 +2482,6 @@
 	dir = 5
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/structure/disposalpipe/segment{
-	dir = 5
-	},
 /turf/open/floor/plasteel/dark/side,
 /area/bridge/cic)
 "iU" = (
@@ -2561,16 +2551,15 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/ship/command/glass{
-	name = "Combat Information Center";
-	req_one_access_txt = "19"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/effect/mapping_helpers/airlock/unres,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
-/obj/structure/disposalpipe/segment,
+/obj/machinery/door/airlock/ship/command/glass{
+	name = "Combat Information Center";
+	req_one_access_txt = "19"
+	},
 /turf/open/floor/plasteel,
 /area/bridge/cic)
 "jn" = (
@@ -2811,10 +2800,14 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 10
 	},
-/obj/structure/disposalpipe/trunk{
-	dir = 8
+/obj/structure/table/reinforced,
+/obj/item/storage/toolbox/mechanical{
+	pixel_x = -1;
+	pixel_y = 4
 	},
-/obj/machinery/disposal/bin,
+/obj/item/restraints/handcuffs{
+	pixel_y = 3
+	},
 /turf/open/floor/plasteel/dark/side,
 /area/bridge/cic)
 "ke" = (
@@ -3162,7 +3155,7 @@
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "ls" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/mix_output{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
 	dir = 4
 	},
 /turf/open/floor/engine/airless,
@@ -3808,9 +3801,9 @@
 /turf/open/floor/plasteel/white,
 /area/science/lab)
 "nL" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/mix_input{
+/obj/machinery/atmospherics/components/unary/outlet_injector/on/layer4{
 	dir = 8;
-	piping_layer = 4
+	name = "Fuel Mix Injector"
 	},
 /turf/open/floor/engine/airless,
 /area/engine/atmos)
@@ -5452,8 +5445,8 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
+/obj/structure/disposalpipe/junction/flip{
+	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/fore)
@@ -5903,7 +5896,6 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 1
 	},
-/obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -6305,9 +6297,6 @@
 	dir = 4
 	},
 /obj/item/radio/intercom/directional/south,
-/obj/machinery/computer/atmos_control/tank/nucleium_tank{
-	dir = 1
-	},
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "wV" = (
@@ -6988,6 +6977,9 @@
 	dir = 8
 	},
 /obj/effect/landmark/start/scientist,
+/obj/structure/disposalpipe/junction{
+	dir = 1
+	},
 /turf/open/floor/plasteel/white,
 /area/science/lab)
 "zm" = (
@@ -8137,6 +8129,7 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 1
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -8748,12 +8741,6 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering/reactor_control)
-"EW" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/nucleium_output{
-	dir = 1
-	},
-/turf/open/floor/engine/vacuum,
-/area/engine/atmos)
 "EZ" = (
 /obj/item/storage/photo_album,
 /obj/structure/table/wood,
@@ -10219,8 +10206,8 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 4
 	},
-/obj/structure/disposalpipe/junction/flip{
-	dir = 8
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/fore)
@@ -12761,12 +12748,6 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
 /turf/open/floor/plasteel/dark,
 /area/chapel/main)
-"Su" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/nucleium_input{
-	dir = 1
-	},
-/turf/open/floor/engine/vacuum,
-/area/engine/atmos)
 "Sv" = (
 /obj/machinery/atmospherics/components/binary/magnetic_constrictor{
 	dir = 4
@@ -13102,10 +13083,6 @@
 /area/security/brig)
 "TL" = (
 /obj/machinery/light/small,
-/obj/machinery/air_sensor/atmos/nucleium_tank,
-/obj/machinery/portable_atmospherics/canister/nucleium{
-	filled = 0
-	},
 /turf/open/floor/engine/vacuum,
 /area/engine/atmos)
 "TP" = (
@@ -40540,7 +40517,7 @@ NS
 Ly
 IV
 hP
-EW
+Hg
 Hg
 ge
 ge
@@ -41054,7 +41031,7 @@ iB
 yL
 xe
 hP
-Su
+Hg
 Hg
 ge
 oe

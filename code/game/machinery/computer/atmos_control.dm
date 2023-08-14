@@ -257,13 +257,6 @@ GLOBAL_LIST_EMPTY(atmos_air_controllers)
 	sensors = list(ATMOS_GAS_MONITOR_SENSOR_TOXINS_LAB = "Toxins Mixing Chamber")
 	circuit = /obj/item/circuitboard/computer/atmos_control/tank/incinerator
 
-/obj/machinery/computer/atmos_control/tank/nucleium_tank //NSV added nucleium tank console
-	name = "Nucleium Supply Monitor"
-	input_tag = ATMOS_GAS_MONITOR_INPUT_NUCLEIUM
-	output_tag = ATMOS_GAS_MONITOR_OUTPUT_NUCLEIUM
-	sensors = list(ATMOS_GAS_MONITOR_SENSOR_NUCLEIUM = "Nucleium Tank")
-	circuit = /obj/item/circuitboard/computer/atmos_control/tank/nucleium_tank
-
 // This hacky madness is the evidence of the fact that a lot of machines were never meant to be constructable, im so sorry you had to see this
 /obj/machinery/computer/atmos_control/tank/proc/reconnect(mob/user)
 	var/list/IO = list()
