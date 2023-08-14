@@ -13,7 +13,7 @@
 	max_integrity = 1200
 	integrity_failure = 1200
 	starting_system = "Staging"
-	armor = list(OM_ARMOR, "overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
 	bound_height = 32
 	bound_width = 32
 	role = INSTANCED_MIDROUND_SHIP
@@ -110,7 +110,7 @@
 	obj_integrity = 525
 	max_integrity = 525
 	integrity_failure = 525
-	armor = list(OM_ARMOR, "overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
 	ai_flags = AI_FLAG_DESTROYER
 	torpedoes = 30
 	missiles = 30
@@ -132,7 +132,7 @@
 	max_integrity = 350
 	integrity_failure = 350
 	shots_left = 20
-	armor = list(OM_ARMOR, "overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE //Needs to be shooting all its guns
 	combat_dice_type = /datum/combat_dice/destroyer
 
@@ -162,7 +162,7 @@
 	integrity_failure = 5000
 	shots_left = 35
 	torpedoes = 35
-	armor = list(OM_ARMOR, "overmap_light" = 95, "overmap_medium" = 80, "overmap_heavy" = 45)
+	armor = list("overmap_light" = 95, "overmap_medium" = 80, "overmap_heavy" = 45)
 	can_resupply = TRUE
 	ai_flags = AI_FLAG_SUPPLY | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/flagship
