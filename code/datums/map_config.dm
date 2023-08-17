@@ -26,6 +26,7 @@
 	var/list/omode_blacklist = list() //NSV13 - Blacklisted overmap modes - ie remove modes
 	var/list/omode_whitelist = list() //NSV13 - Whitelisted overmap modes - ie add modes
 	var/starmap_path = CONFIG_DIRECTORY + "/" + STARMAP_FILE //NSV13 - What starmap should this map load?
+	var/return_system = "Outpost 45" //NSV13 - Which system are we jumping back to when the round ends?
 	var/mine_traits = null
 
 	//NSV13 - special mapvote things
@@ -188,6 +189,8 @@
 		omode_whitelist = json["omode_whitelist"]
 	if("starmap_path" in json)
 		starmap_path = json["starmap_path"]
+	if("return_system" in json)
+		starmap_path = json["return_system"]
 	if("map_description" in json)
 		map_description = json["map_description"]
 	if("manufacturer" in json)

@@ -242,19 +242,20 @@ SUBSYSTEM_DEF(overmap_mode)
 							objective_reminder_stacks = 0
 				else
 					var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+					var/datum/star_system/S = SSstar_system.return_system
 					if(length(OM.current_system?.enemies_in_system))
 						if(objective_reminder_stacks == 3)
-							priority_announce("Auto-recall to Outpost 45 will occur once you are out of combat.", "[mode.reminder_origin]")
+							priority_announce("Auto-recall to [S.name] will occur once you are out of combat.", "[mode.reminder_origin]")
 						return // Don't send them home while there are enemies to kill
 					switch(objective_reminder_stacks) //Less Stacks Here, Prevent The Post-Round Stalling
 						if(1)
-							priority_announce("Auto-recall to Outpost 45 will occur in [(mode.objective_reminder_interval * 2) / 600] Minutes.", "[mode.reminder_origin]")
+							priority_announce("Auto-recall to [S.name] will occur in [(mode.objective_reminder_interval * 2) / 600] Minutes.", "[mode.reminder_origin]")
 
 						if(2)
-							priority_announce("Auto-recall to Outpost 45 will occur in [(mode.objective_reminder_interval * 1) / 600] Minutes.", "[mode.reminder_origin]")
+							priority_announce("Auto-recall to [S.name] will occur in [(mode.objective_reminder_interval * 1) / 600] Minutes.", "[mode.reminder_origin]")
 
 						else
-							priority_announce("Auto-recall to Outpost 45 activated, additional objective aborted.", "[mode.reminder_origin]")
+							priority_announce("Auto-recall to [S.name] activated, additional objective aborted.", "[mode.reminder_origin]")
 							mode.victory()
 
 /datum/controller/subsystem/overmap_mode/proc/start_reminder()
@@ -452,16 +453,16 @@ SUBSYSTEM_DEF(overmap_mode)
 	if(SSvote.mode == "Press On Or Return Home?") // We're still voting
 		return
 
-	var/datum/star_system/S = SSstar_system.system_by_id("Outpost 45")
+	var/datum/star_system/S = SSstar_system.return_system
 	S.hidden = FALSE
 	if(!SSovermap_mode.round_extended)	//If we haven't yet extended the round, let us vote!
 		priority_announce("Mission Complete - Vote Pending") //TEMP get better words
 		SSvote.initiate_vote("Press On Or Return Home?", "Centcomm", forced=TRUE, popup=FALSE)
-	else	//Begin FTL jump to Outpost 45
+	else	//Begin FTL return jump
 		var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
 		if(!length(OM.current_system?.enemies_in_system))
-			priority_announce("Mission Complete - Returning to Outpost 45") //TEMP get better words
-			OM.force_return_jump(SSstar_system.system_by_id("Outpost 45"))
+			priority_announce("Mission Complete - Returning to [S.name]") //TEMP get better words
+			OM.force_return_jump()
 
 /datum/overmap_gamemode/proc/defeat() //Override this if defeat is to be called based on an objective
 	priority_announce("Mission Critical Failure - Standby for carbon asset liquidation")

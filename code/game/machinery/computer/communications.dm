@@ -342,10 +342,12 @@
 			if (!authenticated(usr))
 				return
 			. = TRUE
-			SSovermap_mode.mode.check_completion()
-			if(SSovermap_mode.objectives_completed && SSovermap_mode.round_extended && !SSovermap_mode.already_ended)
-				priority_announce("Auto-recall to Outpost 45 will occur once you are out of combat.", "[SSovermap_mode.mode.reminder_origin]")
 			state = STATE_OBJECTIVES
+			if(SSovermap_mode.already_ended)
+				return
+			SSovermap_mode.mode.check_completion()
+			if(SSovermap_mode.objectives_completed && SSovermap_mode.round_extended)
+				priority_announce("Auto-recall to Outpost 45 will occur once you are out of combat.", "[SSovermap_mode.mode.reminder_origin]")
 
 /obj/machinery/computer/communications/ui_data(mob/user)
 	var/list/data = list(
