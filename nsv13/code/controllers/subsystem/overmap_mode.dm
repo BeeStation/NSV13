@@ -303,7 +303,7 @@ SUBSYSTEM_DEF(overmap_mode)
 
 /datum/controller/subsystem/overmap_mode/proc/request_additional_objectives()
 	for(var/datum/overmap_objective/O in mode.objectives)
-		O.ignore_check = TRUE //We no longer care about checking these objective against completeion
+		O.ignore_check = TRUE //We no longer care about checking these objective against completion
 
 	var/list/extension_pool = subtypesof(/datum/overmap_objective)
 	var/players = get_active_player_count(TRUE, TRUE, FALSE) //Number of living, non-AFK players including non-humanoids
@@ -414,6 +414,7 @@ SUBSYSTEM_DEF(overmap_mode)
 		return
 	if(SSovermap_mode.objectives_completed)
 		victory()
+		return
 
 	var/objective_length = objectives.len
 	var/objective_check = 0
@@ -435,9 +436,8 @@ SUBSYSTEM_DEF(overmap_mode)
 		SSovermap_mode.modify_threat_elevation(-TE_OBJECTIVE_THREAT_NEGATION * (successes - SSovermap_mode.highest_objective_completion))
 		SSovermap_mode.highest_objective_completion = successes
 	if(istype(SSticker.mode, /datum/game_mode/pvp)) //If the gamemode is PVP and a faction has over a 700 points, they win.
-		for(var/X in SSstar_system.factions)
+		for(var/datum/faction/F in SSstar_system.factions)
 			var/datum/game_mode/pvp/mode = SSticker.mode
-			var/datum/faction/F = X
 			if(F.tickets >= 700)
 				mode.winner = F //This should allow the mode to finish up by itself
 				mode.check_finished()
