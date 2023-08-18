@@ -60,7 +60,7 @@
 		return FALSE
 	if(oldloc == src)// stops torps from getting sent back in instantly
 		return FALSE
-	if(state >= STATE_FEEDING)
+	if(state >= STATE_LOADED)
 		return FALSE
 	load(torp)
 
