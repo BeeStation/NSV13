@@ -1,3 +1,4 @@
+/* This file was unticked before so I just commented this out
 /obj/item/toy/plush/random
 	name = "\improper Random Plush"
 	icon_state = "debug"
@@ -7,7 +8,7 @@
 	var/plush_type = pick(subtypesof(/obj/item/toy/plush/) - /obj/item/toy/plush/random/)
 	new plush_type(loc)
 	return INITIALIZE_HINT_QDEL
-
+*/
 /obj/item/toy/plush/hfighter
 	name = "heavy fighter plush"
 	desc = "An adorable stuffed toy shaped like a Su-410 Scimitar heavy fighter."
