@@ -13,3 +13,6 @@
 	desc = "An adorable stuffed toy shaped like a Su-410 Scimitar heavy fighter."
 	icon = 'nsv13/icons/obj/custom_plushes.dmi'
 	icon_state = "heavyfighter"
+	attack_verb = list("gunned down", "bombed", "bumped into")
+	squeak_override = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg'=1)
+
