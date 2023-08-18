@@ -99,3 +99,6 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 #define INTERIOR_READY 2
 #define INTERIOR_DELETING 3
 #define INTERIOR_DELETED 4
+
+//Overmap flags
+#define OVERMAP_FLAG_ZLEVEL_CARRIER (1<<0) //! This overmap is meant to carry a z with it, prompting restoration in certain cases.

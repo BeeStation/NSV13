@@ -1,11 +1,17 @@
 /datum/star_system/proc/add_ship(obj/structure/overmap/OM, turf/target_turf)
 	if(!system_contents.Find(OM))
 		system_contents += OM	//Lets be safe while I cast some black magic.
+	var/did_restore_system = FALSE
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
 		if(!SSmapping.level_trait(OM.z, ZTRAIT_OVERMAP))
 			occupying_z = OM.get_reserved_z()
 		else
 			occupying_z = OM.z
+		did_restore_system = TRUE
+	else if(!occupying_z && ((OM.overmap_flags & OVERMAP_FLAG_ZLEVEL_CARRIER) || length(OM.mobs_in_ship))) //If someone is inside, or we always want it loaded, load it.
+		occupying_z = OM.get_reserved_z()
+		did_restore_system = TRUE
+	if(did_restore_system)
 		if(fleets.len)
 			for(var/datum/fleet/F in fleets)
 				if(!F.current_system)
