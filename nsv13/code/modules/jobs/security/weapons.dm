@@ -102,6 +102,24 @@
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
 	investigate_flags = ADMIN_INVESTIGATE_TARGET
 
+/datum/design/lethal9mm
+	name = "9mm Ammo Box"
+	id = "glock_lethalammo"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 30000)
+	build_path = /obj/item/ammo_box/c9mm
+	category = list("Ammo")
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+
+/datum/design/lethalglockmag
+	name = "Glock Magazine"
+	id = "glock_lethalmag"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 16500)
+	build_path = /obj/item/ammo_box/magazine/glock/lethal
+	category = list("Ammo")
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+
 /datum/design/rubbershot
 	name = "9mm rubber Glock round"
 	id = "glock_ammo"
@@ -109,6 +127,60 @@
 	materials = list(/datum/material/iron = 500)
 	build_path = /obj/item/ammo_casing/c9mm/rubber
 	category = list("initial", "Security")
+
+/datum/design/rubber9mm
+	name = "9mm Ammo Box (Rubber)"
+	id = "glock_rubberammo"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 25000)
+	build_path = /obj/item/ammo_box/c9mm/rubber
+	category = list("Ammo")
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+
+/datum/design/glockmag
+	name = "Glock Magazine (Rubber)"
+	id = "glock_rubbermag"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 14000)
+	build_path = /obj/item/ammo_box/magazine/glock
+	category = list("Ammo")
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+
+/datum/design/ap9mm
+	name = "9mm Ammo Box (Armour Piercing)"
+	id = "glock_apammo"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 25000, /datum/material/titanium = 4000, /datum/material/silver = 1000)
+	build_path = /obj/item/ammo_box/c9mm/ap
+	category = list("Ammo")
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+
+/datum/design/apglockmag
+	name = "Glock Magazine (Armour Piercing)"
+	id = "glock_apmag"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 14000, /datum/material/titanium = 150, /datum/material/silver = 150)
+	build_path = /obj/item/ammo_box/magazine/glock/ap
+	category = list("Ammo")
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+
+/datum/design/inc9mm
+	name = "9mm Ammo box (Incendiary)"
+	id = "glock_incammo"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 25000, /datum/material/plasma = 4000, /datum/material/glass = 500, /datum/material/gold = 500)
+	build_path = /obj/item/ammo_box/c9mm/inc
+	category = list("Ammo")
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
+
+/datum/design/incglockmag
+	name = "Glock Magazine (Incendiary)"
+	id = "glock_incmag"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 14000, /datum/material/plasma = 150, /datum/material/glass = 50, /datum/material/gold = 50)
+	build_path = /obj/item/ammo_box/magazine/glock/inc
+	category = list("Ammo")
+	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 
 /datum/design/tazer
 	name = "3mm electro-shock tazer round"
@@ -134,18 +206,18 @@
 	caliber = "9mm"
 	max_ammo = 15
 
-/obj/item/ammo_box/magazine/glock/lethal_ap // unimplemented
-	name = "pistol magazine (9mm AP)"
+/obj/item/ammo_box/magazine/glock/ap
+	name = "pistol magazine (9mm Armour Piercing)"
 	desc = "Loaded with titanium tipped bullets that excel in dealing with armored hostile threats onboard or offboard the ship."
 	icon_state = "Glock-ap"
 	ammo_type = /obj/item/ammo_casing/c9mm/ap
 	caliber = "9mm"
 	max_ammo = 15
 
-/obj/item/ammo_box/magazine/glock/lethal_inc // unimplemented
-	name = "pistol magazine (9mm incendiary)"
+/obj/item/ammo_box/magazine/glock/inc
+	name = "pistol magazine (9mm Incendiary)"
 	desc = "Loaded with plasma tipped bullets that excel in setting any living target on fire."
-	icon_state = "Glock-inci"
+	icon_state = "Glock-lethal"
 	ammo_type = /obj/item/ammo_casing/c9mm/inc
 	caliber = "9mm"
 	max_ammo = 15
@@ -154,6 +226,18 @@
     ..()
     icon_state = "[initial(icon_state)][ammo_count() ? "" : "-0"]"
 
+/obj/item/ammo_box/c9mm/ap // for colouring
+	name = "ammo box (9mm Armour Piercing)"
+	icon_state = "45box"
+	ammo_type = /obj/item/ammo_casing/c9mm/ap
+	max_ammo = 30
+
+/obj/item/ammo_box/c9mm/inc
+	name = "ammo box (9mm Incendiary)"
+	icon_state = "10mmbox"
+	ammo_type = /obj/item/ammo_casing/c9mm/inc
+	max_ammo = 30
+
 /obj/item/ammo_casing/c9mm/rubber
 	name = "9mm rubber bullet casing"
 	desc = "A 9mm rubber bullet casing."
@@ -161,7 +245,7 @@
 	projectile_type = /obj/item/projectile/bullet/c9mm/rubber
 
 /obj/item/ammo_box/c9mm/rubber
-	name = "ammo box (9mm, rubber)"
+	name = "ammo box (9mm Rubber)"
 	icon_state = "9mmbox"
 	ammo_type = /obj/item/ammo_casing/c9mm/rubber
 	max_ammo = 30
