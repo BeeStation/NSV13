@@ -156,7 +156,7 @@
 			log_game("DEBUG: force_return_jump: Players were already jumping, trying again when jump is complete")
 		else
 			SSstar_system.return_system.hidden = FALSE //Reveal where we are going
-
+			UnregisterSignal(src, COMSIG_SHIP_ARRIVED)
 			log_game("DEBUG: force_return_jump: Beginning jump to [target_system.name]")
 			ftl_drive.force_jump(target_system) //Jump home
 			addtimer(CALLBACK(src, PROC_REF(check_return_jump)), SSstar_system.ships[src]["to_time"] + 35 SECONDS)
