@@ -500,7 +500,7 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_objective/custom
 	name = "Custom"
 
-/datum/overmap_objective/custom/New(var/passed_input) //Receive the string and make it brief/desc
+/datum/overmap_objective/custom/New(passed_input) //Receive the string and make it brief/desc
 	.=..()
 	desc = passed_input
 	brief = passed_input
@@ -559,7 +559,7 @@ SUBSYSTEM_DEF(overmap_mode)
 				message_admins("Post Initilisation Overmap Gamemode Changes Not Currently Supported") //SoonTM
 				return
 			var/list/gamemode_pool = subtypesof(/datum/overmap_gamemode)
-			var/datum/overmap_gamemode/S = input("Select Overmap Gamemode", "Change Overmap Gamemode") as null|anything in gamemode_pool
+			var/datum/overmap_gamemode/S = input(usr, "Select Overmap Gamemode", "Change Overmap Gamemode") as null|anything in gamemode_pool
 			if(isnull(S))
 				return
 			if(SSovermap_mode.mode_initialised)
@@ -571,11 +571,14 @@ SUBSYSTEM_DEF(overmap_mode)
 				message_admins("[key_name_admin(usr)] has changed the overmap gamemode to [initial(S.name)]")
 			return
 		if("add_objective")
-			var/list/objectives_pool = subtypesof(/datum/overmap_objective)
-			var/datum/overmap_objective/S = input("Select objective to add", "Add Objective") as null|anything in objectives_pool
+			var/list/objectives_pool = (subtypesof(/datum/overmap_objective) - /datum/overmap_objective/custom)
+			var/datum/overmap_objective/S = input(usr, "Select objective to add", "Add Objective") as null|anything in objectives_pool
 			if(isnull(S))
 				return
-			SSovermap_mode.mode.objectives += new S()
+			var/extra
+			if(ispath(S,/datum/overmap_objective/clear_system))
+				extra = input(usr, "Select a target system", "Select System") as null|anything in SSstar_system.systems
+			SSovermap_mode.mode.objectives += new S(extra)
 			SSovermap_mode.instance_objectives()
 			return
 		if("add_custom_objective")
