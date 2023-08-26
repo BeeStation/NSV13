@@ -85,10 +85,10 @@
 	item_state = "mp16"
 	mag_type = /obj/item/ammo_box/magazine/smgm9mm
 	can_suppress = TRUE
-	w_class = WEIGHT_CLASS_BULKY //Too big for a backpack. Can fit on your belt or back.
+	w_class = WEIGHT_CLASS_BULKY //Too big for a backpack. Can fit on your belt back or suit slot with armor.
 	fire_delay = 1
 	fire_rate = 4
-	burst_size = 1
+	burst_size = 2
 	can_bayonet = TRUE
 	knife_x_offset = 25
 	knife_y_offset = 12
