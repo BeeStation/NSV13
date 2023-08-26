@@ -44,7 +44,6 @@
 	playsound(loc, 'sound/machines/ectoscope_beep.ogg', 25)
 	//NSV13 - Ecto Sniffer Radio Yelling - Start
 	var/msg = "[src] beeps, detecting ectoplasm! There may be additional positronic brain matrices available!"
-	visible_message("<span class='notice'>[msg]</span>")
 	radio.talk_into(src, msg, RADIO_CHANNEL_SCIENCE)
 	//NSV13 - Ecto Sniffer Radio Yelling - Stop
 	use_power(10)
