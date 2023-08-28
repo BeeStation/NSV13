@@ -146,7 +146,9 @@
 	desired_angle = 90 //90 degrees AKA face EAST to match the FTL parallax.
 	addtimer(CALLBACK(src, PROC_REF(jump_start), target_system, force), ftl_drive.ftl_startup_time)
 
-/obj/structure/overmap/proc/force_return_jump(datum/star_system/target_system = SSstar_system.return_system)
+/obj/structure/overmap/proc/force_return_jump()
+	SIGNAL_HANDLER
+	var/datum/star_system/target_system = SSstar_system.return_system
 	SSovermap_mode.already_ended = TRUE
 	if(ftl_drive && target_system) //Do we actually have an ftl drive?
 		ftl_drive.lockout = TRUE //Prevent further jumps
@@ -165,7 +167,7 @@
 		message_admins("Failed to force return jump! [src] does not have an FTL Drive!")
 		log_runtime("DEBUG: force_return_jump: [src] had no FTL drive")
 	else
-		message_admins("Failed to force return jump! No target system was specified! (Tell a coder)")
+		message_admins("Failed to force return jump! No target system was found! (Tell a coder)")
 		log_runtime("DEBUG: force_return_jump: No target system")
 
 /obj/structure/overmap/proc/check_return_jump()
@@ -173,7 +175,7 @@
 	var/datum/star_system/S = SSstar_system.return_system
 	if(current_system != S && SSstar_system.ships[src]["target_system"] != S) // Not in 45 and not on our way there
 		log_runtime("DEBUG: check_return_jump detected bad state, trying to force_return_jump")
-		force_return_jump(S)
+		force_return_jump()
 
 
 /obj/structure/overmap/proc/force_parallax_update(ftl_start)
