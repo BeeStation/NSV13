@@ -56,6 +56,80 @@
 		-->
 		<div class="commit sansserif">
 
+			<h2 class="date">01 September 2023</h2>
+			<h3 class="author">Bokkiewokkie updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fixed return vote spamming with the comms console</li>
+				<li class="bugfix">Fixed forced return jumps not jumping while the ship was in transit</li>
+				<li class="refactor">Refactored some starsystem code which determines the system to make a return jump to</li>
+				<li class="admin">Added the ability for the return system to be changed on runtime</li>
+				<li class="config">The return jump target system is now changeable in the map config</li>
+			</ul>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">FTL Pylons are now not doomed to run out of nucleium even when supplied.</li>
+				<li class="bugfix">FTL Pylons with closed shielding now actually have an increasing nucleium demand..</li>
+				<li class="tweak">FTL Pylons need multiple cycles of failed power to shut down (to prevent power code oddities)</li>
+				<li class="balance">FTL Pylons now also output plasma when they are running, instead of only when booting (why did they not?)</li>
+				<li class="code_imp">Improves various other bits and pieces of code related to FTL Pylons that do not need individual mention</li>
+			</ul>
+			<h3 class="author">SerynEngi updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added wire nodes for all Sec Dept. doors and windows on the Galactica</li>
+				<li class="rscadd">Added an breathing air tank dispenser to atmos storage on the Galactica</li>
+				<li class="rscadd">Added 4 borg chargers to the lower deck of the Galactica in various locations.</li>
+				<li class="bugfix">Added disposals output to gulag torp disposal pipe in munitions on the galactica.</li>
+				<li class="bugfix">Fixed a couple mapping issues with the Galactica Xenobio</li>
+				<li class="bugfix">Corrected Sec Dept. Airlock permissions on the Galactica</li>
+				<li class="bugfix">Properly connected PDSR output piping</li>
+				<li class="balance">Increased radiation emission from Particle Accelerator particles and plutonium sludge.</li>
+			</ul>
+			<h3 class="author">someone543 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">Ecto Sniffer has a cooldown for radio messages, and can now send visible_messages</li>
+			</ul>
+
+			<h2 class="date">25 August 2023</h2>
+			<h3 class="author">BlueHNT updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added Glock AP magazine and ammo box</li>
+				<li class="rscadd">Added Glock I magazine and ammo box</li>
+				<li class="rscadd">Added Glock-related designs to proto-lathe</li>
+			</ul>
+			<h3 class="author">Bokkiewokkie updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added an emag effect to plasma constrictors</li>
+				<li class="tweak">Combined Stormdrive RCC and plasma constrictor tech into one</li>
+				<li class="bugfix">Fixed constrictors not pixel shifting on different layers</li>
+				<li class="bugfix">Made it possible for constrictors to be rotated</li>
+				<li class="code_imp">Moved plasma constrictors into their own file</li>
+				<li class="bugfix">Fixed VV menu not showing new turfs after deleting a turf</li>
+				<li class="bugfix">Fixed admins adding components not logging the object it was added to</li>
+			</ul>
+			<h3 class="author">Ikalpo updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">fixed the holomap not working when inside objects</li>
+				<li class="tweak">The holomap cursor now shows the location of your camera</li>
+			</ul>
+			<h3 class="author">SerynEngi updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Added normal armor to all overmap ships.</li>
+			</ul>
+			<h3 class="author">bruhlookatthisdood updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">torpedo crate comes with torpedo warheads now</li>
+				<li class="bugfix">fixed borg crew manifest button overlapping</li>
+			</ul>
+			<h3 class="author">cacogen, Profakos updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Modifying a navigation beacon's codes list or location name now correctly updates the associated global lists</li>
+				<li class="refactor">Refactored navigational beacons, making them constructable, deconstructable, and generally easier to use</li>
+			</ul>
+			<h3 class="author">covertcorvid updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Make gun deletion actually pass in a source to UnregisterSignal</li>
+			</ul>
+
 			<h2 class="date">18 August 2023</h2>
 			<h3 class="author">BlueHNT updated:</h3>
 			<ul class="changes bgimages16">
@@ -247,52 +321,6 @@
 				<li class="rscadd">Added felinid maid boarders</li>
 				<li class="rscadd">Added the NSV Elco</li>
 				<li class="bugfix">Made PVP ships spawn in Rubicon</li>
-			</ul>
-
-			<h2 class="date">04 July 2023</h2>
-			<h3 class="author">SerynEngi updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Inducer to Galactica Reactor Control room.</li>
-				<li class="bugfix">Correctly rotated Defensive reactor coolant output pipe on the Galactica</li>
-				<li class="tweak">Renamed reactor pumps and computers for clarification on the Galactica</li>
-			</ul>
-
-			<h2 class="date">29 June 2023</h2>
-			<h3 class="author">RKz updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="code_imp">renamed signal subfiles to match proper naming schemes of "[root] _ [sub]" , not "[sub] _ [root]"</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Ghost ship probability increased to 20% from 10%</li>
-				<li class="balance">Ghost ship fighters buffed</li>
-			</ul>
-
-			<h2 class="date">27 June 2023</h2>
-			<h3 class="author">Bokkiewokkie updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added a new overmap objective: scanning anomalies!</li>
-				<li class="balance">lowered the amount of required jumps for the FTL jump objective by 2-3</li>
-				<li class="code_imp">added global anomaly list</li>
-				<li class="code_imp">added get_by_type and get_atom_by_type procs to get a type of object from a lists</li>
-				<li class="code_imp">scanned anomalies are now stored per overmap instead of per astrometrics console</li>
-				<li class="code_imp">anomalies now store their current system in a variable like ships, and can be located with find_system()</li>
-			</ul>
-
-			<h2 class="date">21 June 2023</h2>
-			<h3 class="author">4310V343k updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">buying an extra charslot for torps now unlocks it immediately</li>
-			</ul>
-			<h3 class="author">ExcessiveUseOfCobblestone, Mothblocks updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscdel">Removed the Surgery Drapes from the Debug Omnitool.</li>
-				<li class="code_imp">Converts the act of initiating or cancelling surgeries into a component, this allows for any item to support surgeries.</li>
-				<li class="refactor">Replaced the old surgery interface with one that is much better to use, and lets you choose the body zone within itself.</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Cyborg total positions set to 1</li>
 			</ul>
 		</div>
 

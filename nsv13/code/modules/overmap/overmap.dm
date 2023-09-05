@@ -324,6 +324,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/LateInitialize()
 	. = ..()
+	armor = armor.setRating(arglist(OM_ARMOR)) //add the default armor values
 	if(role > NORMAL_OVERMAP)
 		SSstar_system.add_ship(src)
 		//reserved_z = src.z //Our "reserved" Z will always be kept for us, no matter what. If we, for example, visit a system that another player is on and then jump away, we are returned to our own Z.
