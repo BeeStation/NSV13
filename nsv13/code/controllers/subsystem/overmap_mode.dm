@@ -325,7 +325,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	*/
 
 	if(get_active_player_count(TRUE,TRUE,FALSE) > 4)
-		mode.objective += new /datum/overmap_objective/clear_system/rubicon
+		mode.objectives += new /datum/overmap_objective/clear_system/rubicon
 	else
 		mode.objectives += new /datum/overmap_objective/tickets
 
