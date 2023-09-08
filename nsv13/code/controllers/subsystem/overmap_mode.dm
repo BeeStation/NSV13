@@ -305,6 +305,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	for(var/datum/overmap_objective/O in mode.objectives)
 		O.ignore_check = TRUE //We no longer care about checking these objective against completeion
 
+	/* This doesn't work and I don't have the time to refactor all of it right now so on the TODO pile it goes!
 	var/list/extension_pool = subtypesof(/datum/overmap_objective)
 	var/players = get_active_player_count(TRUE, TRUE, FALSE) //Number of living, non-AFK players including non-humanoids
 	for(var/datum/overmap_objective/O in extension_pool)
@@ -320,6 +321,12 @@ SUBSYSTEM_DEF(overmap_mode)
 		mode.objectives += new selected
 	else
 		message_admins("No additional objective candidates! Defaulting to tickets")
+		mode.objectives += new /datum/overmap_objective/tickets
+	*/
+
+	if(get_active_player_count(TRUE,TRUE,FALSE) > 4)
+		mode.objective += new /datum/overmap_objective/clear_system/rubicon
+	else
 		mode.objectives += new /datum/overmap_objective/tickets
 
 	instance_objectives()
