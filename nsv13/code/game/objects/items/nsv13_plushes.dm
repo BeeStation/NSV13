@@ -14,6 +14,13 @@
 	desc = "An adorable stuffed toy shaped like a Su-410 Scimitar heavy fighter."
 	icon = 'nsv13/icons/obj/custom_plushes.dmi'
 	icon_state = "heavyfighter"
-	attack_verb = list("gunned down", "bombed", "bumped into")
+	attack_verb = list("gunned", "bombed", "bumped", "rammed")
 	squeak_override = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg'=1)
 
+/obj/item/toy/plush/lfighter
+	name = "light fighter plush"
+	desc = "An adorable stuffed toy shaped like a Su-818 Rapier light fighter."
+	icon = 'nsv13/icons/obj/custom_plushes.dmi'
+	icon_state = "lightfighter"
+	attack_verb = list("gunned", "bumped", "rammed")
+	squeak_override = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg'=1)
