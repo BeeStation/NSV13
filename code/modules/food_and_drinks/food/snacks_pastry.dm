@@ -856,10 +856,10 @@
 	name = "hardtack"
 	desc = "Traditional pirate snack. Legally considered a dangerous weapon."
 	icon_state = "hardtack"
-	bitesize = 1
+	bitesize = 10
 	bonus_reagents = list(/datum/reagent/consumable/nutriment = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = 2)
-	tastes = list("broken teeth" = 1,"depression" = 1,"flour and water" = 1)
+	tastes = list("broken teeth" = 7,"depression" = 10,"flour mixed with water" = 4)
 	foodtype = GRAIN
 	force = 9
 
