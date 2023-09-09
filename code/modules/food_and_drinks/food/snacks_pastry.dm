@@ -852,4 +852,16 @@
 	tastes = list("pastry" = 1, "sweetness" = 1)
 	foodtype = GRAIN | FRUIT
 
+/obj/item/reagent_containers/food/snacks/hardtack //NSV13
+	name = "hardtack"
+	desc = "Traditional pirate snack. Legally considered a dangerous weapon."
+	icon_state = "hardtack"
+	bitesize = 1
+	bonus_reagents = list(/datum/reagent/consumable/nutriment = 1)
+	list_reagents = list(/datum/reagent/consumable/nutriment = 2)
+	tastes = list("broken teeth" = 1,"depression" = 1,"flour and water" = 1)
+	foodtype = GRAIN
+	force = 9
+
+
 #undef PANCAKE_MAX_STACK
