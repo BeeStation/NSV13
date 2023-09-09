@@ -3,6 +3,11 @@
 	path = /obj/item/storage/box/suitbox/maid
 	cost = 5000
 
+/datum/gear/misc/lfighterplush
+	display_name = "light fighter plush"
+	path = /obj/item/toy/plush/lfighter
+	cost = 1000
+
 /datum/gear/misc/hfighterplush
 	display_name = "heavy fighter plush"
 	path = /obj/item/toy/plush/hfighter
