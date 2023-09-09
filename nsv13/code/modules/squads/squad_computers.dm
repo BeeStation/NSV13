@@ -135,15 +135,17 @@
 	program_icon_state = "ntnrc_idle"
 	extended_desc = "A program to allow you to manage the ship's squads while on the go!"
 	requires_ntnet = TRUE
-	transfer_access = ACCESS_HOP
+	required_access = list(ACCESS_HEADS)
+	transfer_access = list(ACCESS_HEADS)
 	category = PROGRAM_CATEGORY_CREW
 	network_destination = "squad management"
 	size = 2
 	tgui_id = "NtosSquadManager"
+	program_icon = "users-cog"
 	var/next_major_action = 0
 
 /datum/computer_file/program/squad_manager/ui_data()
-	var/list/data = get_header_data()
+	var/list/data = list()
 	var/list/squads_info = list()
 	for(var/datum/squad/S in GLOB.squad_manager.squads)
 		var/list/squad_info = list()

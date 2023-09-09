@@ -116,7 +116,7 @@
 			after_fire()
 	return FALSE
 
-/obj/machinery/ship_weapon/hybrid_rail/can_fire(shots = weapon_type.burst_size)
+/obj/machinery/ship_weapon/hybrid_rail/can_fire(target, shots = weapon_type.burst_size) //Target is for the passed target variable, Shots is for the burst fire size
 	if((state < STATE_CHAMBERED) || !chambered)
 		return FALSE
 	if(state >= STATE_FIRING)
@@ -138,7 +138,7 @@
 	var/obj/item/ship_weapon/ammunition/T = chambered
 	if(T)
 		var/final_velo = projectile_velo - ((100 - alignment) / 100) //Misalignment slows projectiles
-		linked.fire_projectile(T.projectile_type, target, FALSE, final_velo, null, TRUE)
+		linked.fire_projectile(T.projectile_type, target, speed=final_velo, user_override=TRUE, lateral=TRUE) //CHECK THIS CODE LATERAL WAS RECEIVING NULL, REPLACED TO TRUE
 
 /obj/machinery/ship_weapon/hybrid_rail/after_fire()
 	if(maint_state != 0) //MSTATE_CLOSED

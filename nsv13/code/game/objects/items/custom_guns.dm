@@ -47,7 +47,7 @@
 	name = "6mm electro-shock round"
 	damage = 6 //Straight up WAY worse than the security glock at stunning, but they serve a purpose
 	armour_penetration = 0 //Less strong. Can't penetrate armor.
-	stamina = 5 //20 hits required to fully stun, by that time you probably killed them anyway!
+	stamina = 15 //Slightly more than 3 bursts to stun
 	stutter = 5
 	jitter = 5
 	range = 7
@@ -85,10 +85,10 @@
 	item_state = "mp16"
 	mag_type = /obj/item/ammo_box/magazine/smgm9mm
 	can_suppress = TRUE
-	w_class = WEIGHT_CLASS_BULKY //Too big for a backpack. Can fit on your belt or back.
+	w_class = WEIGHT_CLASS_BULKY //Too big for a backpack. Can fit on your belt back or suit slot with armor.
 	fire_delay = 1
 	fire_rate = 4
-	burst_size = 1
+	burst_size = 2
 	can_bayonet = TRUE
 	knife_x_offset = 25
 	knife_y_offset = 12

@@ -6,7 +6,7 @@
 	program_icon_state = "generic"
 	extended_desc = "This program allows for remote monitoring of station cyborgs."
 	requires_ntnet = TRUE
-	transfer_access = ACCESS_ROBOTICS
+	transfer_access = list(ACCESS_ROBOTICS)
 	network_destination = "cyborg remote monitoring"
 	size = 5
 	tgui_id = "NtosCyborgRemoteMonitor"
@@ -22,7 +22,7 @@
 
 
 /datum/computer_file/program/borg_monitor/ui_data(mob/user)
-	var/list/data = get_header_data()
+	var/list/data = list()
 
 	// Syndicate version doesn't require an ID - so we use this proc instead of computer.GetID()
 	data["card"] = !!get_id_name()
@@ -61,13 +61,13 @@
 		if("messagebot")
 			var/mob/living/silicon/robot/R = locate(params["ref"]) in GLOB.silicon_mobs
 			if(!istype(R))
-				return
+				return TRUE
 			var/sender_name = get_id_name()
 			if(!sender_name)
 				// This can only happen if the action somehow gets called as UI blocks this action with no ID
 				computer.visible_message("<span class='notice'>Insert an ID to send messages.</span>")
 				playsound(usr, 'sound/machines/terminal_error.ogg', 15, TRUE)
-				return
+				return TRUE
 			if(R.stat == DEAD) //Dead borgs will listen to you no longer
 				to_chat(usr, "<span class='warn'>Error -- Could not open a connection to unit:[R]</span>")
 			var/message = stripped_input(usr, message = "Enter message to be sent to remote cyborg.", title = "Send Message")
@@ -77,7 +77,7 @@
 				to_chat(usr, "<span class='warning'>ERROR: Prohibited word(s) detected in message.</span>")
 				return
 			to_chat(usr, "<br><br><span class='notice'>Message to [R] (as [sender_name]) -- \"[message]\"</span><br>")
-			playsound(usr, 'sound/machines/terminal_success.ogg', 15, TRUE)
+			computer.send_sound()
 			to_chat(R, "<br><br><span class='notice'>Message from [sender_name] -- \"[message]\"</span><br>")
 			SEND_SOUND(R, 'sound/machines/twobeep_high.ogg')
 			if(R.connected_ai)
@@ -85,6 +85,7 @@
 				SEND_SOUND(R.connected_ai, 'sound/machines/twobeep_high.ogg')
 			R.logevent("Message from [sender_name] -- \"[message]\"")
 			usr.log_talk(message, LOG_PDA, tag="Cyborg Monitor Program: ID name \"[sender_name]\" to [R]")
+			return TRUE
 
 ///This proc is used to determin if a borg should be shown in the list (based on the borg's scrambledcodes var). Syndicate version overrides this to show only syndicate borgs.
 /datum/computer_file/program/borg_monitor/proc/evaluate_borg(mob/living/silicon/robot/R)

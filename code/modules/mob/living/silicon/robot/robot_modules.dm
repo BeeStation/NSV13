@@ -36,6 +36,13 @@
 	var/ride_allow_incapacitated = TRUE
 	var/allow_riding = TRUE
 	var/canDispose = FALSE // Whether the borg can stuff itself into disposal
+	//NSV13 - Borg Skin Framework - Start
+	var/list/borg_skins
+	/// Traits unique to this model, i.e. having a unique dead sprite
+	var/list/module_features = list()
+	///Host of this module
+	var/mob/living/silicon/robot/robot
+	//NSV13 - Borg Skin Framework - Stop
 
 /obj/item/robot_module/Initialize(mapload)
 	. = ..()
@@ -120,6 +127,16 @@
 			S.cost = 1
 			S.source = get_or_create_estorage(/datum/robot_energy_storage/beacon)
 
+		//NSV13 - Cargo Borgs - Start
+		else if(istype(S, /obj/item/stack/package_wrap/cyborg))
+			S.cost = 1
+			S.source = get_or_create_estorage(/datum/robot_energy_storage/package_wrap)
+
+		else if(istype(S, /obj/item/stack/wrapping_paper/cyborg))
+			S.cost = 1
+			S.source = get_or_create_estorage(/datum/robot_energy_storage/wrapping_paper)
+		//NSV13 - Cargo Borgs - Stop
+
 		if(S?.source)
 			S.materials = list()
 			S.is_cyborg = 1
@@ -163,6 +180,11 @@
 			var/obj/item/gun/energy/EG = I
 			if(!EG.chambered)
 				EG.recharge_newshot() //try to reload a new shot.
+		///NSV13 - Cargo Borgs - Start
+		else if(istype(I, /obj/item/hand_labeler/cyborg))
+			var/obj/item/hand_labeler/cyborg/labeler = I
+			labeler.labels_left = 30
+		///NSV13 - Cargo Borgs - Stop
 
 	R.toner = R.tonermax
 
@@ -189,10 +211,12 @@
 	if(R.hud_used)
 		R.hud_used.update_robot_modules_display()
 
-/obj/item/robot_module/proc/transform_to(new_module_type)
+/obj/item/robot_module/proc/transform_to(new_module_type, forced = FALSE) //NSV13 - Borg Skin Framework
 	var/mob/living/silicon/robot/R = loc
+	R.icon = 'icons/mob/robots.dmi' //NSV13 - Borg Skin Framework - Should prevent the invisibility glitch
 	var/obj/item/robot_module/RM = new new_module_type(R)
-	if(!RM.be_transformed_to(src))
+	RM.robot = R //NSV13 - Cargo Borg
+	if(!RM.be_transformed_to(src, forced)) //NSV13 - Borg Skin Framework
 		qdel(RM)
 		return
 	R.module = RM
@@ -203,7 +227,29 @@
 	qdel(src)
 	return RM
 
-/obj/item/robot_module/proc/be_transformed_to(obj/item/robot_module/old_module)
+//NSV13 - Borg Skin Framework - Start
+/obj/item/robot_module/proc/be_transformed_to(obj/item/robot_module/old_module, forced = FALSE)
+	if(islist(borg_skins) && !forced)
+		var/mob/living/silicon/robot/cyborg = loc
+		var/list/reskin_icons = list()
+		for(var/skin in borg_skins)
+			var/list/details = borg_skins[skin]
+			reskin_icons[skin] = image(icon = details[SKIN_ICON] || 'icons/mob/robots.dmi', icon_state = details[SKIN_ICON_STATE])
+		var/borg_skin = show_radial_menu(cyborg, cyborg, reskin_icons, custom_check = CALLBACK(src, PROC_REF(check_menu), cyborg, old_module), radius = 38, require_near = TRUE)
+		if(!borg_skin)
+			return FALSE
+		var/list/details = borg_skins[borg_skin]
+		if(!isnull(details[SKIN_ICON_STATE]))
+			cyborg_base_icon = details[SKIN_ICON_STATE]
+		if(!isnull(details[SKIN_ICON]))
+			cyborg.icon = details[SKIN_ICON]
+		if(!isnull(details[SKIN_LIGHT_KEY]))
+			special_light_key = details[SKIN_LIGHT_KEY]
+		if(!isnull(details[SKIN_HAT_OFFSET]))
+			hat_offset = details[SKIN_HAT_OFFSET]
+		if(!isnull(details[SKIN_FEATURES]))
+			module_features += details[SKIN_FEATURES]
+	//NSV13 - Borg Skin Framework - Stop
 	for(var/i in old_module.added_modules)
 		added_modules += i
 		old_module.added_modules -= i
@@ -394,10 +440,11 @@
 		/obj/item/restraints/handcuffs/cable/zipties,
 		/obj/item/melee/baton/loaded,
 		/obj/item/borg/charger,
-		/obj/item/gun/energy/disabler/cyborg,
+		/obj/item/gun/energy/printer/taser,
+		/obj/item/gun/energy/printer/glock,
 		/obj/item/clothing/mask/gas/sechailer/cyborg,
-		/obj/item/extinguisher/mini)
-	emag_modules = list(/obj/item/gun/energy/laser/cyborg)
+		/obj/item/extinguisher/mini) //NSV13 replaced disabler with taser and (lethal) glock printer guns
+	emag_modules = list(/obj/item/gun/energy/printer) //NSV13 replaced energy gun with LMG
 	ratvar_modules = list(
 		/obj/item/clock_module/abscond,
 		/obj/item/clockwork/weapon/brass_spear,
@@ -555,6 +602,15 @@
 	cyborg_base_icon = "service_m" // display as butlerborg for radial model selection
 	special_light_key = "service"
 	hat_offset = 0
+	//NSV13 - Borg Skin Framework - Start
+	borg_skins = list(
+		"Waitress" = list(SKIN_ICON_STATE = "service_f"),
+		"Butler" = list(SKIN_ICON_STATE = "service_m"),
+		"Bro" = list(SKIN_ICON_STATE = "brobot"),
+		"Kent" = list(SKIN_ICON_STATE = "kent", SKIN_LIGHT_KEY = "medical", SKIN_HAT_OFFSET = 3),
+		"Tophat" = list(SKIN_ICON_STATE = "tophat", SKIN_LIGHT_KEY = NONE, SKIN_HAT_OFFSET = INFINITY),
+	)
+	//NSV13 - Borg Skin Framework - Stop
 
 /obj/item/robot_module/butler/respawn_consumable(mob/living/silicon/robot/R, coeff = 1)
 	..()
@@ -562,34 +618,7 @@
 	if(O)
 		O.reagents.add_reagent(/datum/reagent/consumable/enzyme, 2 * coeff)
 
-/obj/item/robot_module/butler/be_transformed_to(obj/item/robot_module/old_module)
-	var/mob/living/silicon/robot/cyborg = loc
-	var/list/service_icons = list(
-		"Waitress" = image(icon = 'icons/mob/robots.dmi', icon_state = "service_f"),
-		"Butler" = image(icon = 'icons/mob/robots.dmi', icon_state = "service_m"),
-		"Bro" = image(icon = 'icons/mob/robots.dmi', icon_state = "brobot"),
-		"Kent" = image(icon = 'icons/mob/robots.dmi', icon_state = "kent"),
-		"Tophat" = image(icon = 'icons/mob/robots.dmi', icon_state = "tophat")
-	)
-	var/service_robot_icon = show_radial_menu(cyborg, cyborg, service_icons, custom_check = CALLBACK(src, PROC_REF(check_menu), cyborg, old_module), radius = 42, require_near = TRUE)
-	switch(service_robot_icon)
-		if("Waitress")
-			cyborg_base_icon = "service_f"
-		if("Butler")
-			cyborg_base_icon = "service_m"
-		if("Bro")
-			cyborg_base_icon = "brobot"
-		if("Kent")
-			cyborg_base_icon = "kent"
-			special_light_key = "medical"
-			hat_offset = 3
-		if("Tophat")
-			cyborg_base_icon = "tophat"
-			special_light_key = null
-			hat_offset = INFINITY //He's already wearing a hat
-		else
-			return FALSE
-	return ..()
+// NSV13 - Borg Skin Framework - Removed /butler/be_transformed_to
 
 /obj/item/robot_module/borgi
 	name = "Borgi"
@@ -626,26 +655,15 @@
 	moduleselect_icon = "miner"
 	hat_offset = 0
 	var/obj/item/t_scanner/adv_mining_scanner/cyborg/mining_scanner //built in memes.
-
-/obj/item/robot_module/miner/be_transformed_to(obj/item/robot_module/old_module)
-	var/mob/living/silicon/robot/cyborg = loc
-	var/list/miner_icons = list(
-		"Lavaland Miner" = image(icon = 'icons/mob/robots.dmi', icon_state = "miner"),
-		"Asteroid Miner" = image(icon = 'icons/mob/robots.dmi', icon_state = "minerOLD"),
-		"Spider Miner" = image(icon = 'icons/mob/robots.dmi', icon_state = "spidermin")
+	//NSV13 - Borg Skin Framework - Start
+	borg_skins = list(
+		"Lavaland Miner" = list(SKIN_ICON_STATE = "miner"),
+		"Asteroid Miner" = list(SKIN_ICON_STATE = "minerOLD", SKIN_LIGHT_KEY = "miner"),
+		"Spider Miner" = list(SKIN_ICON_STATE = "spidermin"),
 	)
-	var/miner_robot_icon = show_radial_menu(cyborg, cyborg, miner_icons, custom_check = CALLBACK(src, PROC_REF(check_menu), cyborg, old_module), radius = 42, require_near = TRUE)
-	switch(miner_robot_icon)
-		if("Lavaland Miner")
-			cyborg_base_icon = "miner"
-		if("Asteroid Miner")
-			cyborg_base_icon = "minerOLD"
-			special_light_key = "miner"
-		if("Spider Miner")
-			cyborg_base_icon = "spidermin"
-		else
-			return FALSE
-	return ..()
+	//NSV13 - Borg Skin Framework - Stop
+
+// NSV13 - Borg Skin Framework - Removed /miner/be_transformed_to
 
 /obj/item/robot_module/miner/rebuild_modules()
 	. = ..()

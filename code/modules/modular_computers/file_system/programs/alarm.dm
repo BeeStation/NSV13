@@ -27,7 +27,7 @@
 	return 1
 
 /datum/computer_file/program/alarm_monitor/ui_data(mob/user)
-	var/list/data = get_header_data()
+	var/list/data = list()
 
 	data["alarms"] = list()
 	for(var/class in GLOB.alarms)
@@ -112,7 +112,7 @@
 		if(L.len)
 			has_alert = TRUE
 
-/datum/computer_file/program/alarm_monitor/run_program(mob/user)
+/datum/computer_file/program/alarm_monitor/on_start(mob/user)
 	. = ..(user)
 	if(!.)
 		return

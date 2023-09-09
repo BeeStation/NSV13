@@ -37,12 +37,29 @@
 	new /obj/item/reagent_containers/food/snacks/sugarcookie/spookyskull( src )
 	new /obj/item/reagent_containers/food/snacks/sugarcookie/spookyskull( src )
 
-/obj/item/storage/box/beakers/large_mix
-	name = "box of beakers"
-	illustration = "beaker"
+/obj/item/storage/box/syndie_kit/maid/PopulateContents()
+	new /obj/item/clothing/head/maidheadband/syndicate(src)
+	new /obj/item/clothing/under/syndicate/maid(src)
+	new /obj/item/clothing/gloves/combat/maid(src)
+	new /obj/item/clothing/accessory/maidapron/syndicate(src)
+	new /obj/item/clothing/shoes/jackboots(src)
+	new /obj/item/soap/syndie(src)
+	new /obj/item/reagent_containers/glass/bucket(src)
+	new /obj/item/mop/sharp(src)
 
-/obj/item/storage/box/beakers/PopulateContents()
+/obj/item/storage/box/beakers/large_mix/PopulateContents()
 	for(var/i in 1 to 2)
 		new /obj/item/reagent_containers/glass/beaker/large( src )
 	for(var/i in 1 to 5)
 		new /obj/item/reagent_containers/glass/beaker( src )
+
+/obj/item/storage/box/suitbox/maid
+	name = "compression box of maid uniforms"
+	desc = "Contains a state of the art maid uniform."
+
+/obj/item/storage/box/suitbox/maid/PopulateContents()
+	new /obj/item/clothing/head/maidheadband(src)
+	new /obj/item/clothing/neck/maid(src)
+	new /obj/item/clothing/gloves/maid(src)
+	new /obj/item/clothing/under/costume/maid(src)
+

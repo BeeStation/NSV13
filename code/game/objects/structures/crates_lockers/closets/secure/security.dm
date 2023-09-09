@@ -26,7 +26,7 @@
 	new /obj/item/storage/box/radiokey/com(src)
 	new /obj/item/storage/box/command_keys(src)
 	new /obj/item/megaphone/command(src)
-	new /obj/item/cartridge/captain(src)
+	new /obj/item/computer_hardware/hard_drive/role/captain(src)
 	new /obj/item/storage/box/silver_ids(src)
 	new /obj/item/restraints/handcuffs/cable/zipties(src)
 
@@ -67,7 +67,7 @@
 
 	new /obj/item/storage/box/radiokey/srv(src)
 	new /obj/item/storage/box/command_keys(src)
-	new /obj/item/cartridge/hop(src)
+	new /obj/item/computer_hardware/hard_drive/role/hop(src)
 	new /obj/item/storage/box/ids(src)
 	new /obj/item/storage/box/ids(src)
 	new /obj/item/restraints/handcuffs/cable/zipties(src)
@@ -138,7 +138,7 @@
 	new /obj/item/storage/box/radiokey/sec(src)
 	new /obj/item/storage/box/command_keys(src)
 	new /obj/item/megaphone/sec(src)
-	new /obj/item/cartridge/hos(src)
+	new /obj/item/computer_hardware/hard_drive/role/hos(src)
 	new /obj/item/storage/box/flashbangs(src)
 	new /obj/item/storage/box/deputy(src)
 	new /obj/item/storage/lockbox/medal/sec(src)
@@ -199,6 +199,7 @@
 	new /obj/item/clothing/gloves/krav_maga(src)
 	new /obj/item/door_remote/head_of_security(src)
 	new /obj/item/gun/ballistic/shotgun/automatic/combat/compact(src)
+	new /obj/item/shield/riot/flash(src) //NSV13 - strobe shield instead of energy weaponry
 	new /obj/item/ammo_box/c9mm/rubber(src) //NSV13 - rubber bullets
 	new /obj/item/storage/box/deputy(src)
 

@@ -43,7 +43,7 @@
 	jobtype = /datum/job/head_of_security
 
 	id = /obj/item/card/id/job/head_of_security
-	belt = /obj/item/pda/heads/head_of_security
+	belt = /obj/item/modular_computer/tablet/pda/heads/head_of_security
 	ears = /obj/item/radio/headset/heads/hos/alt
 	uniform = /obj/item/clothing/under/ship/peacekeeper //NSV13
 	shoes = /obj/item/clothing/shoes/jackboots
@@ -55,8 +55,10 @@
 	r_pocket = /obj/item/assembly/flash/handheld
 	l_pocket = /obj/item/restraints/handcuffs
 	backpack_contents = list(/obj/item/melee/baton/loaded=1,
-		/obj/item/modular_computer/tablet/preset/advanced/command=1,
-		/obj/item/gun/ballistic/tazer,  /obj/item/ammo_box/magazine/tazer_cartridge_storage=1, /obj/item/book/granter/martial/jujitsu, /obj/item/club=1) //NSV13 this line)
+		/obj/item/gun/ballistic/tazer,
+		/obj/item/ammo_box/magazine/tazer_cartridge_storage=1,
+		/obj/item/book/granter/martial/jujitsu,
+		/obj/item/melee/classic_baton/police=1) //NSV13 this line)
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec

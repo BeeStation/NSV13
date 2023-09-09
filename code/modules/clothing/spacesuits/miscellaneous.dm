@@ -52,7 +52,7 @@ Contains:
 	icon_state = "heavy"
 	item_state = "swat_suit"
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/kitchen/knife/combat)
-	armor = list("melee" = 40, "bullet" = 30, "laser" = 30,"energy" = 30, "bomb" = 50, "bio" = 90, "rad" = 20, "fire" = 100, "acid" = 100, "stamina" = 60)
+	armor = list("melee" = 40, "bullet" = 45, "laser" = 15,"energy" = 30, "bomb" = 50, "bio" = 90, "rad" = 20, "fire" = 100, "acid" = 100, "stamina" = 60) //NSV13
 	strip_delay = 120
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	move_sound = list('sound/effects/suitstep1.ogg', 'sound/effects/suitstep2.ogg')
@@ -509,7 +509,7 @@ Contains:
 	icon_state = "hunter"
 	item_state = "swat_suit"
 	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/kitchen/knife/combat)
-	armor = list(melee = 60, bullet = 40, laser = 40, energy = 50, bomb = 100, bio = 100, rad = 100, fire = 100, acid = 100, stamina = 70)
+	armor = list(melee = 60, bullet = 50, laser = 15, energy = 50, bomb = 100, bio = 100, rad = 100, fire = 100, acid = 100, stamina = 70) //NSV13
 	strip_delay = 130
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 

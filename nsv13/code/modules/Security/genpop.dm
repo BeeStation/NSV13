@@ -297,7 +297,8 @@
 	var/obj/item/card/id/id = new /obj/item/card/id/prisoner(get_turf(src), desired_sentence, desired_crime, desired_name)
 	Radio.talk_into(src, "Prisoner [id.registered_name] has been incarcerated for [desired_sentence / 60 ] minutes.", FREQ_SECURITY)
 	var/obj/item/paper/paperwork = new /obj/item/paper(get_turf(src))
-	paperwork.info = "<h1 id='record-of-incarceration'>Record Of Incarceration:</h1> <hr> <h2 id='name'>Name: </h2> <p>[desired_name]</p> <h2 id='crime'>Crime: </h2> <p>[desired_crime]</p> <h2 id='sentence-min'>Sentence (Min)</h2> <p>[desired_sentence/60]</p> <p>WhiteRapids Military Council, disciplinary authority</p>"
+	paperwork.add_raw_text("<h1 id='record-of-incarceration'>Record Of Incarceration:</h1> <hr> <h2 id='name'>Name: </h2> <p>[desired_name]</p> <h2 id='crime'>Crime: </h2> <p>[desired_crime]</p> <h2 id='sentence-min'>Sentence (Min)</h2> <p>[desired_sentence/60]</p> <p>WhiteRapids Military Council, disciplinary authority</p>")
+	paperwork.update_appearance()
 	desired_sentence = 60
 	desired_crime = null
 	desired_name = null
@@ -352,7 +353,16 @@
 			desired_sentence = preset_time MINUTES
 			desired_sentence /= 10
 			desired_crime = preset_crime
-
+		if("adjust_time")
+			var/obj/item/card/id/prisoner/id = locate(params["id"])
+			if(!istype(id))
+				return
+			if(id.access == ACCESS_PRISONER)
+				return
+			var/value = text2num(params["adjust"])
+			if(value && isnum(value))
+				id.sentence += value
+				id.sentence = clamp(id.sentence,0,MAX_TIMER)
 		if("release")
 			var/obj/item/card/id/prisoner/id = locate(params["id"])
 			if(!istype(id))

@@ -504,7 +504,10 @@
 "cu" = (
 /obj/machinery/door/airlock/turbolift/ship,
 /turf/open/floor/monotile/dark,
-/area/shuttle/turbolift/shaft)
+/area/shuttle/turbolift/shaft{
+	ambient_buzz = null;
+	ambientsounds = null
+	})
 "cv" = (
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
@@ -513,7 +516,10 @@
 	dir = 1
 	},
 /turf/closed/wall/r_wall/ship,
-/area/shuttle/turbolift/shaft)
+/area/shuttle/turbolift/shaft{
+	ambient_buzz = null;
+	ambientsounds = null
+	})
 "cy" = (
 /obj/machinery/light{
 	color = "#c1e1ff";
@@ -694,7 +700,10 @@
 /area/quartermaster/miningdock)
 "dx" = (
 /turf/closed/wall/r_wall/ship,
-/area/shuttle/turbolift/shaft)
+/area/shuttle/turbolift/shaft{
+	ambient_buzz = null;
+	ambientsounds = null
+	})
 "dy" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
 	dir = 6
@@ -789,7 +798,10 @@
 "dF" = (
 /obj/machinery/light/floor,
 /turf/open/openspace,
-/area/shuttle/turbolift/shaft)
+/area/shuttle/turbolift/shaft{
+	ambient_buzz = null;
+	ambientsounds = null
+	})
 "dI" = (
 /obj/structure/table/reinforced,
 /obj/item/gun/grenadelauncher,
@@ -952,7 +964,10 @@
 	dir = 8
 	},
 /turf/open/openspace,
-/area/shuttle/turbolift/shaft)
+/area/shuttle/turbolift/shaft{
+	ambient_buzz = null;
+	ambientsounds = null
+	})
 "ez" = (
 /obj/machinery/door/airlock/ship/security{
 	dir = 4;
@@ -976,7 +991,10 @@
 /area/storage/tools)
 "eF" = (
 /turf/open/openspace,
-/area/shuttle/turbolift/shaft)
+/area/shuttle/turbolift/shaft{
+	ambient_buzz = null;
+	ambientsounds = null
+	})
 "eG" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -1048,6 +1066,9 @@
 /area/maintenance/nsv/bridge)
 "eY" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
+/obj/machinery/light/small{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/cargo)
 "eZ" = (
@@ -1442,9 +1463,6 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/armour_pump)
 "gF" = (
-/obj/machinery/light/small{
-	dir = 4
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 6
 	},
@@ -3325,6 +3343,8 @@
 /obj/item/circuitboard/machine/microwave,
 /obj/item/circuitboard/machine/hydroponics,
 /obj/item/circuitboard/machine/hydroponics,
+/obj/item/circuitboard/machine/vendor,
+/obj/item/circuitboard/machine/processor,
 /turf/open/floor/durasteel,
 /area/storage/tech)
 "pS" = (
@@ -4544,10 +4564,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
-"vt" = (
-/obj/structure/foamedmetal,
-/turf/closed/wall/ship,
-/area/maintenance/nsv/deck1/starboard)
 "vu" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable{
@@ -5928,10 +5944,10 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
-/obj/item/modular_computer/tablet/preset,
-/obj/item/modular_computer/tablet/preset,
 /obj/structure/rack,
-/obj/item/modular_computer/laptop/preset,
+/obj/item/modular_computer/laptop/preset/civillian,
+/obj/item/modular_computer/tablet,
+/obj/item/modular_computer/tablet,
 /turf/open/floor/durasteel,
 /area/storage/tech)
 "Cl" = (
@@ -6329,6 +6345,7 @@
 	dir = 4
 	},
 /obj/effect/spawner/lootdrop/maintenance/two,
+/obj/item/circuitboard/machine/processor/slime,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "El" = (
@@ -8596,7 +8613,7 @@
 /turf/closed/wall/ship,
 /area/hallway/nsv/deck1/frame1/starboard)
 "NR" = (
-/obj/machinery/vending/cart,
+/obj/machinery/vending/job_disk,
 /turf/open/floor/plasteel/ridged/steel,
 /area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
@@ -41452,9 +41469,9 @@ qQ
 vG
 vG
 bw
-vt
-vt
-vt
+Ep
+Ep
+Ep
 iL
 cF
 li
@@ -41711,7 +41728,7 @@ jf
 wS
 rt
 yU
-vt
+Ep
 iL
 cF
 li
@@ -41968,7 +41985,7 @@ NX
 El
 rt
 dV
-vt
+Ep
 iL
 cF
 li
@@ -42225,7 +42242,7 @@ jf
 WA
 rt
 kq
-vt
+Ep
 iL
 cF
 li
@@ -42482,7 +42499,7 @@ ck
 WA
 rt
 pZ
-vt
+Ep
 iL
 li
 li

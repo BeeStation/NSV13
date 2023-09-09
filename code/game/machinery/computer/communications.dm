@@ -1,5 +1,4 @@
 #define IMPORTANT_ACTION_COOLDOWN (60 SECONDS)
-#define MAX_STATUS_LINE_LENGTH 40
 
 #define STATE_BUYING_SHUTTLE "buying_shuttle"
 #define STATE_CHANGING_STATUS "changing_status"
@@ -80,7 +79,6 @@
 
 /obj/machinery/computer/communications/ui_act(action, list/params)
 	var/static/list/approved_states = list(STATE_BUYING_SHUTTLE, STATE_CHANGING_STATUS, STATE_MESSAGES, STATE_OBJECTIVES) //NSV13 - added objectives
-	var/static/list/approved_status_pictures = list("biohazard", "blank", "default", "lockdown", "redalert", "shuttle")
 
 	. = ..()
 	if (.)
@@ -296,7 +294,7 @@
 			if (!authenticated(usr))
 				return
 			var/picture = params["picture"]
-			if (!(picture in approved_status_pictures))
+			if (!(picture in GLOB.approved_status_pictures))
 				return
 			post_status("alert", picture)
 			playsound(src, "terminal_type", 50, FALSE)
@@ -340,14 +338,16 @@
 				log_game("[key_name(usr)] enabled emergency maintenance access.")
 				message_admins("[ADMIN_LOOKUPFLW(usr)] enabled emergency maintenance access.")
 				deadchat_broadcast("<span class='deadsay'><span class='name'>[usr.real_name]</span> enabled emergency maintenance access at <span class='name'>[get_area_name(usr, TRUE)]</span>.</span>", usr)
-		if("checkObjectives")
+		if("checkObjectives") //NSV13 overmap objectives
 			if (!authenticated(usr))
 				return
 			. = TRUE
+			state = STATE_OBJECTIVES
+			if(SSovermap_mode.already_ended)
+				return
 			SSovermap_mode.mode.check_completion()
 			if(SSovermap_mode.objectives_completed && SSovermap_mode.round_extended)
 				priority_announce("Auto-recall to Outpost 45 will occur once you are out of combat.", "[SSovermap_mode.mode.reminder_origin]")
-			state = STATE_OBJECTIVES
 
 /obj/machinery/computer/communications/ui_data(mob/user)
 	var/list/data = list(
@@ -593,7 +593,6 @@
 		possible_answers = new_possible_answers
 
 #undef IMPORTANT_ACTION_COOLDOWN
-#undef MAX_STATUS_LINE_LENGTH
 #undef STATE_BUYING_SHUTTLE
 #undef STATE_CHANGING_STATUS
 #undef STATE_MESSAGES

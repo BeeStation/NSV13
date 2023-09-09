@@ -311,6 +311,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 		pylon_info["gyro"] = round(P.gyro_speed / P.req_gyro_speed, 0.01)
 		pylon_info["capacitor"] = round(P.capacitor / P.req_capacitor, 0.01)
 		pylon_info["draw"] = display_power(P.power_draw)
+		pylon_info["nucleium"] = round(P.get_nucleium_use() / 2, 0.01) //Converted into mol / second, SSmachines runs every 2 seconds.
 		pylon_info["shielded"] = P.shielded
 		all_pylon_info[++all_pylon_info.len] = pylon_info // Unfortunately, this is currently the best way to embed lists
 	data["pylons"] = all_pylon_info
@@ -323,7 +324,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 	if(!target_system)
 		radio.talk_into(src, "ERROR. Specified star_system no longer exists.", radio_channel)
 		return
-	linked?.begin_jump(target_system, force)
+	linked.begin_jump(target_system, force)
 	playsound(src, 'nsv13/sound/voice/ftl_start.wav', 100, FALSE)
 	radio.talk_into(src, "Initiating FTL translation.", radio_channel)
 	playsound(src, 'nsv13/sound/effects/ship/freespace2/computer/escape.wav', 100, 1)

@@ -1401,7 +1401,6 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=1";
-	freq = 1400;
 	location = "Hangar";
 	name = "Delivery Hangar"
 	},
@@ -5054,6 +5053,7 @@
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai_upload)
 "EC" = (
+/mob/living/simple_animal/hostile/retaliate/bat/sgt_araneus,
 /turf/open/floor/carpet/red,
 /area/crew_quarters/heads/hos)
 "EG" = (
@@ -7061,6 +7061,11 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/machinery/fax{
+	name = "Cargo Fax Machine";
+	fax_name = "Cargo"
+	},
+/obj/structure/table/reinforced,
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "OV" = (
@@ -7571,12 +7576,12 @@
 /area/maintenance/central)
 "RR" = (
 /obj/structure/table/reinforced,
-/obj/item/cartridge/quartermaster{
+/obj/item/computer_hardware/hard_drive/role/quartermaster{
 	pixel_x = -4;
 	pixel_y = 7
 	},
-/obj/item/cartridge/quartermaster,
-/obj/item/cartridge/quartermaster{
+/obj/item/computer_hardware/hard_drive/role/quartermaster,
+/obj/item/computer_hardware/hard_drive/role/quartermaster{
 	pixel_x = 6;
 	pixel_y = 5
 	},

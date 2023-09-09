@@ -2,14 +2,14 @@
 	filename = "atmosscan"
 	filedesc = "Atmospheric Scanner"
 	category = PROGRAM_CATEGORY_ENGI
-	program_icon_state = "air"
+	program_icon_state = "atmos_control"
 	extended_desc = "A small built-in sensor reads out the atmospheric conditions around the device."
 	network_destination = "atmos scan"
 	size = 4
 	tgui_id = "NtosAtmos"
 	program_icon = "thermometer-half"
 
-/datum/computer_file/program/atmosscan/run_program(mob/living/user)
+/datum/computer_file/program/atmosscan/on_start(mob/living/user)
 	. = ..()
 	if (!.)
 		return
@@ -18,9 +18,9 @@
 
 
 /datum/computer_file/program/atmosscan/ui_data(mob/user)
-	var/list/data = get_header_data()
+	var/list/data = list()
 	var/list/airlist = list()
-	var/turf/T = get_turf(ui_host())
+	var/turf/T = get_turf(computer.ui_host())
 	var/obj/item/computer_hardware/sensorpackage/sensors = computer?.get_modular_computer_part(MC_SENSORS)
 	if(T && sensors?.check_functionality())
 		var/datum/gas_mixture/environment = T.return_air()

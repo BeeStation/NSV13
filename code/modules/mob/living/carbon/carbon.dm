@@ -194,6 +194,13 @@
 		SEND_SIGNAL(src, COMSIG_CARBON_EMBED_RIP, I, L)
 		return
 
+	if(href_list["show_paper_note"])
+		var/obj/item/paper/paper_note = locate(href_list["show_paper_note"])
+		if(!paper_note)
+			return
+
+		paper_note.show_through_camera(usr)
+
 /mob/living/carbon/fall(forced)
     loc.handle_fall(src, forced)//it's loc so it doesn't call the mob's handle_fall which does nothing
 
@@ -984,11 +991,6 @@
 		if(mood.sanity < SANITY_UNSTABLE)
 			return TRUE
 
-//NSV13
-/mob/living/carbon/proc/update_flavor_text_feature(new_text)
-	if(!dna)
-		return
-	dna.features["flavour_text"] = new_text
 
 /mob/living/carbon/set_gender(ngender = NEUTER, silent = FALSE, update_icon = TRUE, forced = FALSE)
 	var/bender = gender != ngender

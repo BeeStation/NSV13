@@ -86,9 +86,7 @@
 	var/sight_mode = 0
 	hud_possible = list(ANTAG_HUD, DIAG_STAT_HUD, DIAG_HUD, DIAG_BATT_HUD, DIAG_TRACK_HUD)
 
-	///The reference to the built-in tablet that borgs carry.
-	var/obj/item/modular_computer/tablet/integrated/modularInterface
-	var/atom/movable/screen/robot/modPC/interfaceButton
+	var/atom/movable/screen/robot/modpc/interfaceButton
 
 	var/list/upgrades = list()
 
@@ -179,17 +177,6 @@
 	diag_hud_set_borgcell()
 	logevent("System brought online.")
 
-/mob/living/silicon/robot/proc/create_modularInterface()
-	if(!modularInterface)
-		modularInterface = new /obj/item/modular_computer/tablet/integrated(src)
-	modularInterface.layer = ABOVE_HUD_PLANE
-	modularInterface.plane = ABOVE_HUD_PLANE
-
-/mob/living/silicon/robot/modules/syndicate/create_modularInterface()
-	if(!modularInterface)
-		modularInterface = new /obj/item/modular_computer/tablet/integrated/syndicate(src)
-	return ..()
-
 /**
  * Sets the tablet theme and icon
  *
@@ -198,12 +185,12 @@
  */
 /mob/living/silicon/robot/proc/set_modularInterface_theme()
 	if(istype(module, /obj/item/robot_module/syndicate) || emagged)
-		modularInterface.device_theme = "syndicate"
+		modularInterface.device_theme = THEME_SYNDICATE
 		modularInterface.icon_state = "tablet-silicon-syndicate"
 		modularInterface.icon_state_powered = "tablet-silicon-syndicate"
 		modularInterface.icon_state_unpowered = "tablet-silicon-syndicate"
 	else
-		modularInterface.device_theme = "ntos"
+		modularInterface.device_theme = THEME_NTOS
 		modularInterface.icon_state = "tablet-silicon"
 		modularInterface.icon_state_powered = "tablet-silicon"
 		modularInterface.icon_state_unpowered = "tablet-silicon"
@@ -254,28 +241,37 @@
 		to_chat(src,"<span class='userdanger'>ERROR: Module installer reply timeout. Please check internal connections.</span>")
 		return
 
-	var/list/modulelist = list("Standard" = /obj/item/robot_module/standard, \
-	"Engineering" = /obj/item/robot_module/engineering, \
-	"Medical" = /obj/item/robot_module/medical, \
-	"Miner" = /obj/item/robot_module/miner, \
-	"Janitor" = /obj/item/robot_module/janitor, \
-	"Service" = /obj/item/robot_module/butler)
-	if(!CONFIG_GET(flag/disable_peaceborg))
-		modulelist["Peacekeeper"] = /obj/item/robot_module/peacekeeper
+	//NSV13 - Borg Skin Framework - Start
+	if(!length(GLOB.cyborg_module_list))
+		GLOB.cyborg_module_list = list(
+			"Standard" = /obj/item/robot_module/standard,
+			"Engineering" = /obj/item/robot_module/engineering,
+			"Medical" = /obj/item/robot_module/medical,
+			"Cargo" = /obj/item/robot_module/cargo,
+			"Miner" = /obj/item/robot_module/miner,
+			"Janitor" = /obj/item/robot_module/janitor,
+			"Service" = /obj/item/robot_module/butler,
+		) //NSV13 - Cargo and Munition Borgs
+		if(!CONFIG_GET(flag/disable_peaceborg))
+			GLOB.cyborg_module_list["Peacekeeper"] = /obj/item/robot_module/peacekeeper
+
+		for(var/module in GLOB.cyborg_module_list)
+			// Creating the list here since we know all the module icons will need them right after.
+			GLOB.cyborg_all_modules_icon_list[module] = list()
 
 	// Create radial menu for choosing borg model *smug* module
-	var/list/module_icons = list()
-	for(var/option in modulelist)
-		var/obj/item/robot_module/module = modulelist[option]
-		var/module_icon = initial(module.cyborg_base_icon)
-		module_icons[option] = image(icon = 'icons/mob/robots.dmi', icon_state = module_icon)
+	if(!length(GLOB.cyborg_base_modules_icon_list))
+		for(var/option in GLOB.cyborg_module_list)
+			var/obj/item/robot_module/module = GLOB.cyborg_module_list[option]
+			var/module_icon = initial(module.cyborg_base_icon)
+			GLOB.cyborg_base_modules_icon_list[option] = image(icon = 'icons/mob/robots.dmi', icon_state = module_icon)
 
-	var/input_module = show_radial_menu(src, src, module_icons, radius = 42)
+	var/input_module = show_radial_menu(src, src, GLOB.cyborg_base_modules_icon_list, radius = 42)
 	if(!input_module || module.type != /obj/item/robot_module)
 		return
 
-	module.transform_to(modulelist[input_module])
-
+	module.transform_to(GLOB.cyborg_module_list[input_module])
+	//NSV13 - Borg Skin Framework - Stop
 
 /mob/living/silicon/robot/proc/updatename(client/C)
 	if(shell)
@@ -561,7 +557,7 @@
 		else
 			to_chat(user, "<span class='warning'>Unable to locate a radio!</span>")
 
-	else if (istype(W, /obj/item/card/id)||istype(W, /obj/item/pda))			// trying to unlock the interface with an ID card
+	else if (istype(W, /obj/item/card/id)||istype(W, /obj/item/modular_computer/tablet/pda))			// trying to unlock the interface with an ID card
 		togglelock(user)
 
 	else if(istype(W, /obj/item/borg/upgrade/))
@@ -873,7 +869,7 @@
 
 /mob/living/silicon/robot/modules/Initialize(mapload)
 	. = ..()
-	module.transform_to(set_module)
+	INVOKE_ASYNC(module, TYPE_PROC_REF(/obj/item/robot_module, transform_to), set_module, TRUE) //NSV13 - Borg Skin Framework
 
 /mob/living/silicon/robot/modules/standard
 	set_module = /obj/item/robot_module/standard
@@ -932,6 +928,8 @@
 /mob/living/silicon/robot/modules/syndicate/create_modularInterface()
 	if(!modularInterface)
 		modularInterface = new /obj/item/modular_computer/tablet/integrated/syndicate(src)
+		modularInterface.saved_identification = real_name
+		modularInterface.saved_job = "Cyborg"
 	return ..()
 
 /mob/living/silicon/robot/modules/syndicate/proc/show_playstyle()
@@ -940,6 +938,11 @@
 
 /mob/living/silicon/robot/modules/syndicate/ResetModule()
 	return
+
+/mob/living/silicon/robot/modules/syndicate/create_modularInterface()
+	if(!modularInterface)
+		modularInterface = new /obj/item/modular_computer/tablet/integrated/syndicate(src)
+	return ..()
 
 /mob/living/silicon/robot/modules/syndicate/medical
 	icon_state = "synd_medical"
@@ -1087,6 +1090,7 @@
 		notify_ai(RENAME, oldname, newname)
 	if(!QDELETED(builtInCamera))
 		builtInCamera.c_tag = real_name
+		modularInterface.saved_identification = real_name
 	custom_name = newname
 
 
@@ -1314,26 +1318,3 @@
 		cell.charge = min(cell.charge + amount, cell.maxcharge)
 	if(repairs)
 		heal_bodypart_damage(repairs, repairs - 1)
-
-/**
-  * Records an IC event log entry in the cyborg's internal tablet.
-  *
-  * Creates an entry in the borglog list of the cyborg's internal tablet, listing the current
-  * in-game time followed by the message given. These logs can be seen by the cyborg in their
-  * BorgUI tablet app. By design, logging fails if the cyborg is dead.
-  *
-  * Arguments:
-  * arg1: a string containing the message to log.
- */
-/mob/living/silicon/robot/proc/logevent(var/string = "")
-	if(!string)
-		return
-	if(stat == DEAD) //Dead borgs log no longer
-		return
-	if(!modularInterface)
-		stack_trace("Cyborg [src] ( [type] ) was somehow missing their integrated tablet. Please make a bug report.")
-		create_modularInterface()
-	modularInterface.borglog += "[station_time_timestamp()] - [string]"
-	var/datum/computer_file/program/borg_self_monitor/program = modularInterface.get_self_monitoring()
-	if(program)
-		program.force_full_update()

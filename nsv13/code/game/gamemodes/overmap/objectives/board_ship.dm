@@ -11,6 +11,7 @@
 	var/ship_type = pick(GLOB.boardable_ship_types)
 	target_ship = instance_overmap(ship_type)
 	target_ship.block_deletion = TRUE
+	target_ship.essential = TRUE
 	RegisterSignal(target_ship, COMSIG_SHIP_BOARDED, PROC_REF(check_completion), target_ship)
 	RegisterSignal(target_ship, COMSIG_SHIP_RELEASE_BOARDING, PROC_REF(release_boarding), target_ship)
 	target_ship.ai_load_interior(SSstar_system.find_main_overmap())
@@ -60,6 +61,7 @@
 	if (target_ship.faction == SSovermap_mode.mode.starting_faction)
 		status = 1
 		target_ship.block_deletion = FALSE
+		target_ship.essential = FALSE
 		UnregisterSignal(target_ship, COMSIG_SHIP_BOARDED)
 		UnregisterSignal(target_ship, COMSIG_SHIP_RELEASE_BOARDING)
 

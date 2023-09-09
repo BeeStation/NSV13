@@ -3943,7 +3943,7 @@
 /turf/open/floor/monotile/light,
 /area/science/mixing)
 "bXz" = (
-/obj/machinery/atmospherics/components/unary/portables_connector{
+/obj/machinery/atmospherics/pipe/multiz{
 	dir = 1
 	},
 /turf/open/floor/plating,
@@ -4068,6 +4068,12 @@
 /obj/machinery/newscaster/security_unit/north,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
+"cai" = (
+/obj/machinery/atmospherics/components/unary/portables_connector{
+	dir = 8
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/port/aft)
 "cal" = (
 /obj/structure/lattice/catwalk/over/ship/dark,
 /obj/effect/landmark/event_spawn,
@@ -4401,6 +4407,20 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/nsv/weapons)
+"cid" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/disposalpipe/segment{
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/port/aft)
 "cih" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -22438,7 +22458,7 @@
 	pixel_x = -2
 	},
 /obj/item/book/manual/wiki/security_space_law,
-/obj/item/cartridge/detective,
+/obj/item/computer_hardware/hard_drive/role/detective,
 /obj/machinery/light_switch/north,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/hos)
@@ -23358,16 +23378,16 @@
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/dorms/nsv/state_room)
 "kXg" = (
-/obj/item/cartridge/medical{
+/obj/item/computer_hardware/hard_drive/role/medical{
 	pixel_x = -2;
 	pixel_y = 6
 	},
-/obj/item/cartridge/medical{
+/obj/item/computer_hardware/hard_drive/role/medical{
 	pixel_x = 6;
 	pixel_y = 3
 	},
-/obj/item/cartridge/medical,
-/obj/item/cartridge/chemistry{
+/obj/item/computer_hardware/hard_drive/role/medical,
+/obj/item/computer_hardware/hard_drive/role/chemistry{
 	pixel_y = 2
 	},
 /obj/structure/table/glass,
@@ -30180,12 +30200,12 @@
 /area/crew_quarters/heads/hor)
 "oga" = (
 /obj/structure/table,
-/obj/item/cartridge/signal/toxins,
-/obj/item/cartridge/signal/toxins{
+/obj/item/computer_hardware/hard_drive/role/signal/toxins,
+/obj/item/computer_hardware/hard_drive/role/signal/toxins{
 	pixel_x = -4;
 	pixel_y = 2
 	},
-/obj/item/cartridge/signal/toxins{
+/obj/item/computer_hardware/hard_drive/role/signal/toxins{
 	pixel_x = 4;
 	pixel_y = 6
 	},
@@ -35526,6 +35546,10 @@
 	},
 /turf/open/floor/engine/vacuum,
 /area/maintenance/disposal/incinerator)
+"qCo" = (
+/obj/machinery/atmospherics/components/binary/valve/digital,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/port/aft)
 "qCC" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
@@ -42075,7 +42099,7 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/briefingroom)
 "tPt" = (
-/obj/machinery/vending/cart{
+/obj/machinery/vending/job_disk{
 	req_access_txt = "57"
 	},
 /turf/open/floor/wood,
@@ -44822,9 +44846,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/structure/disposalpipe/segment{
 	dir = 1
-	},
-/obj/structure/cable{
-	icon_state = "4-32"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/aft)
@@ -48316,9 +48337,8 @@
 /turf/open/floor/carpet/blue,
 /area/bridge/meeting_room)
 "wKy" = (
-/obj/structure/grille/broken,
-/obj/machinery/atmospherics/pipe/simple/dark/visible{
-	dir = 10
+/obj/machinery/atmospherics/pipe/manifold/dark{
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/aft)
@@ -50470,6 +50490,11 @@
 /area/science/research)
 "xLA" = (
 /obj/machinery/atmospherics/pipe/simple/dark/visible,
+/obj/effect/turf_decal/box,
+/obj/effect/turf_decal/ship/shutoff,
+/obj/structure/cable{
+	icon_state = "8-32"
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port/aft)
 "xLQ" = (
@@ -74334,7 +74359,7 @@ cDJ
 mgX
 cuq
 vck
-cuq
+cid
 tCd
 acZ
 mNq
@@ -74589,7 +74614,7 @@ csK
 pdN
 lNe
 wKy
-xLA
+qCo
 qai
 xLA
 bXz
@@ -74845,7 +74870,7 @@ pdN
 pdN
 pdN
 qCG
-qCG
+cai
 vCb
 emS
 meS

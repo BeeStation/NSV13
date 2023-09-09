@@ -83,7 +83,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 			destination = /area/security/checkpoint/science
 			spawn_point = locate(/obj/effect/landmark/start/depsec/science) in GLOB.department_security_spawns
 			accessory = /obj/item/clothing/accessory/armband/science
-		if(SEC_DEPT_MUNITIONS) 
+		if(SEC_DEPT_MUNITIONS)
 			ears = /obj/item/radio/headset/munitions/munitions_security_alt
 			dep_access = list(ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE)
 			accessory = /obj/item/clothing/accessory/armband/munitions
@@ -139,7 +139,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	id = /obj/item/card/id/job/security_officer
 	l_pocket = /obj/item/restraints/handcuffs
 	r_pocket = /obj/item/assembly/flash/handheld
-	backpack_contents = list(/obj/item/ammo_box/magazine/glock, /obj/item/gun/ballistic/tazer,  /obj/item/ammo_box/magazine/tazer_cartridge_storage=1,/obj/item/pda/security, /obj/item/book/granter/martial/jujitsu, /obj/item/squad_pager/all_channels, /obj/item/club=1) //NSV13
+	backpack_contents = list(/obj/item/ammo_box/magazine/glock, /obj/item/gun/ballistic/tazer,  /obj/item/ammo_box/magazine/tazer_cartridge_storage=1,/obj/item/modular_computer/tablet/pda/security, /obj/item/book/granter/martial/jujitsu, /obj/item/squad_pager/all_channels, /obj/item/melee/classic_baton/police=1) //NSV13
 
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
@@ -148,7 +148,7 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 
 	implants = list(/obj/item/implant/mindshield)
 
-	chameleon_extras = list(/obj/item/gun/energy/disabler, /obj/item/clothing/glasses/hud/security/sunglasses, /obj/item/clothing/head/helmet)
+	chameleon_extras = list(/obj/item/gun/energy/e_gun/advtaser, /obj/item/clothing/glasses/hud/security/sunglasses, /obj/item/clothing/head/helmet)
 	//The helmet is necessary because /obj/item/clothing/head/helmet/sec is overwritten in the chameleon list by the standard helmet, which has the same name and icon state
 
 

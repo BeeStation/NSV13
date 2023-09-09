@@ -48,7 +48,7 @@
 	jobtype = /datum/job/head_of_personnel
 
 	id = /obj/item/card/id/job/head_of_personnel
-	r_pocket = /obj/item/pda/heads/head_of_personnel
+	r_pocket = /obj/item/modular_computer/tablet/pda/heads/head_of_personnel
 	belt = /obj/item/melee/classic_baton/telescopic/stunsword
 	ears = /obj/item/radio/headset/heads/xo //NSV13 - update to XO
 	uniform = /obj/item/clothing/under/ship/officer
@@ -57,7 +57,7 @@
 	head = /obj/item/clothing/head/beret/ship/xo //NSV13 - update to XO
 	backpack_contents = list(/obj/item/storage/box/ids=1,
 		/obj/item/melee/classic_baton/police/telescopic=1,
-		/obj/item/modular_computer/tablet/preset/advanced/command=1,
-		/obj/item/squad_pager/all_channels=1, /obj/item/storage/box/squad_lanyards=1) // NSV13 - added squad lanyards and pager
+		/obj/item/squad_pager/all_channels=1,
+		/obj/item/storage/box/squad_lanyards=1) // NSV13 - added squad lanyards and pager
 
 	chameleon_extras = list(/obj/item/gun/energy/e_gun, /obj/item/stamp/head_of_personnel)

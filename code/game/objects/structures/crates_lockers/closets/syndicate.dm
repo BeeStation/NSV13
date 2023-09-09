@@ -25,7 +25,7 @@
 	new /obj/item/storage/box/flashbangs(src)
 	new /obj/item/storage/box/teargas(src)
 	new /obj/item/storage/backpack/duffelbag/syndie/med(src)
-	new /obj/item/pda/syndicate(src)
+	new /obj/item/modular_computer/tablet/pda/syndicate(src)
 
 /obj/structure/closet/syndicate/resources
 	desc = "An old, dusty locker."
@@ -42,9 +42,10 @@
 
 	//Sad trombone
 	if(pickednum == 1)
-		var/obj/item/paper/P = new /obj/item/paper(src)
-		P.name = "\improper IOU"
-		P.info = "Sorry man, we needed the money so we sold your stash. It's ok, we'll double our money for sure this time!"
+		var/obj/item/paper/paper = new /obj/item/paper(src)
+		paper.name = "\improper IOU"
+		paper.add_raw_text("Sorry man, we needed the money so we sold your stash. It's ok, we'll double our money for sure this time!")
+		paper.update_appearance()
 
 	//Iron (common ore)
 	if(pickednum >= 2)

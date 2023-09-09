@@ -4,7 +4,7 @@
 	category = PROGRAM_CATEGORY_CREW
 	program_icon_state = "id"
 	extended_desc = "Program for viewing and printing the current crew manifest"
-	transfer_access = ACCESS_HEADS
+	transfer_access = list(ACCESS_HEADS)
 	requires_ntnet = FALSE
 	size = 4
 	tgui_id = "NtosCrewManifest"
@@ -18,7 +18,7 @@
 	return data
 
 /datum/computer_file/program/crew_manifest/ui_data(mob/user)
-	var/list/data = get_header_data()
+	var/list/data = list()
 
 	var/obj/item/computer_hardware/printer/printer
 	if(computer)

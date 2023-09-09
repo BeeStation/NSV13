@@ -13,7 +13,9 @@
 #define FIRE_MODE_BROADSIDE 9
 #define FIRE_MODE_PHORON 10
 
+//Base Armor Values
 
+#define OM_ARMOR list("melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 
 //Deprecated / legacy weapons.
 
@@ -55,6 +57,7 @@
 
 #define isovermap(A) (istype(A, /obj/structure/overmap))
 #define isasteroid(A) (istype(A, /obj/structure/overmap/asteroid))
+#define isanomaly(A) (istype(A, /obj/effect/overmap_anomaly))
 
 //Assigning player ships goes here
 
@@ -78,6 +81,7 @@
 #define CLOAK_TEMPORARY_LOSS 2 //Cloak handling. When you fire a weapon, you temporarily lose your cloak, and AIs can target you.
 
 GLOBAL_LIST_INIT(overmap_objects, list())
+GLOBAL_LIST_INIT(overmap_anomalies, list())
 GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace2/impacts/boom_1.wav','nsv13/sound/effects/ship/freespace2/impacts/boom_2.wav','nsv13/sound/effects/ship/freespace2/impacts/boom_3.wav','nsv13/sound/effects/ship/freespace2/impacts/boom_4.wav','nsv13/sound/effects/ship/freespace2/impacts/m_hit.wav','nsv13/sound/effects/ship/freespace2/impacts/subhit.wav','nsv13/sound/effects/ship/freespace2/impacts/subhit2.wav','nsv13/sound/effects/ship/damage/consolehit.ogg','nsv13/sound/effects/ship/damage/consolehit2.ogg','nsv13/sound/effects/ship/damage/consolehit3.ogg','nsv13/sound/effects/ship/damage/consolehit4.ogg','nsv13/sound/effects/ship/damage/shiphit.ogg','nsv13/sound/effects/ship/damage/shiphit2.ogg','nsv13/sound/effects/ship/damage/shiphit3.ogg','nsv13/sound/effects/ship/damage/shiphit4.ogg','nsv13/sound/effects/ship/damage/torpedo_hit.ogg','nsv13/sound/effects/ship/damage/explosionfar_2.ogg','nsv13/sound/effects/ship/damage/explosionfar_3.ogg','nsv13/sound/effects/ship/damage/explosionfar_4.ogg','nsv13/sound/effects/ship/damage/explosionfar_5.ogg','nsv13/sound/effects/ship/damage/explosionfar_6.ogg'))
 
 //Unique identifiers for each faction. Keep this updated when you make a new faction.
@@ -97,3 +101,12 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 #define INTERIOR_READY 2
 #define INTERIOR_DELETING 3
 #define INTERIOR_DELETED 4
+
+//Ship mass
+#define MASS_TINY 1 //1 Player - Fighters
+#define MASS_SMALL 2 //2-5 Players - FoB/Mining Ship
+#define MASS_MEDIUM 3 //10-20 Players - Small Capital Ships
+#define MASS_MEDIUM_LARGE 5 //10-20 Players - Small Capital Ships
+#define MASS_LARGE 7 //20-40 Players - Medium Capital Ships
+#define MASS_TITAN 150 //40+ Players - Large Capital Ships
+#define MASS_IMMOBILE 200 //Things that should not be moving. See: stations

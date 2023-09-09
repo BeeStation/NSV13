@@ -7,7 +7,7 @@
 	size = 12
 	requires_ntnet = FALSE
 	usage_flags = PROGRAM_CONSOLE | PROGRAM_LAPTOP
-	transfer_access = ACCESS_HEADS
+	transfer_access = list(ACCESS_HEADS)
 	available_on_ntnet = TRUE
 	tgui_id = "NtosAiRestorer"
 	program_icon = "laptop-code"
@@ -90,7 +90,7 @@
 
 
 /datum/computer_file/program/aidiag/ui_data(mob/user)
-	var/list/data = get_header_data()
+	var/list/data = list()
 	var/mob/living/silicon/ai/AI = get_ai()
 
 	var/obj/item/aicard/aicard = get_ai(2)

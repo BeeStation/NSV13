@@ -548,13 +548,17 @@
 					/obj/item/ammo_box/c38/iceblox)
 	crate_name = "ammo crate"
 
+// NSV13 modified
 /datum/supply_pack/security/armory/bulletarmor
 	name = "Bulletproof Armor Crate"
-	desc = "Contains three sets of bulletproof armor. Guaranteed to reduce a bullet's stopping power by over half. Requires Armory access to open."
-	cost = 1200
+	desc = "Contains three sets of bulletproof armors with their corresponding helmets. Guaranteed to reduce a bullet's stopping power by over half. Requires Armory access to open."
+	cost = 3000
 	contains = list(/obj/item/clothing/suit/armor/bulletproof,
 					/obj/item/clothing/suit/armor/bulletproof,
-					/obj/item/clothing/suit/armor/bulletproof)
+					/obj/item/clothing/suit/armor/bulletproof,
+					/obj/item/clothing/head/helmet/alt,
+					/obj/item/clothing/head/helmet/alt,
+					/obj/item/clothing/head/helmet/alt)
 	crate_name = "bulletproof armor crate"
 
 /datum/supply_pack/security/armory/chemimp
@@ -2045,10 +2049,10 @@
 
 /datum/supply_pack/service/vending/ptech
 	name = "PTech Supply Crate"
-	desc = "Not enough cartridges after half the crew lost their PDA to explosions? This may fix it."
+	desc = "Not enough job disks after half the crew lost their PDA to explosions? This may fix it."
 	cost = 800
 	access_budget = ACCESS_HOP
-	contains = list(/obj/item/vending_refill/cart)
+	contains = list(/obj/item/vending_refill/job_disk)
 	crate_name = "ptech supply crate"
 
 /datum/supply_pack/service/vending/snack

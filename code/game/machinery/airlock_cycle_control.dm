@@ -452,7 +452,7 @@
 				to_chat(user, "<span class='notice'>The wires have been [panel_open ? "exposed" : "unexposed"].</span>")
 				update_icon()
 				return
-			else if(istype(W, /obj/item/card/id) || istype(W, /obj/item/pda))// trying to unlock the interface with an ID card
+			else if(istype(W, /obj/item/card/id) || istype(W, /obj/item/modular_computer/tablet/pda))// trying to unlock the interface with an ID card
 				togglelock(user)
 				return
 			else if(panel_open && is_wire_tool(W))
@@ -552,7 +552,7 @@
 			if(locate(/obj/machinery/door/airlock) in T2)
 				continue
 			turfs[T2] = 1
-		if(turfs.len > 16) // I will allow a 4x4 airlock for a shitty poor-man's spacepod bay.
+		if(turfs.len > 16)  // I will allow a 4x4 airlock for a shitty poor-man's spacepod bay.
 			config_error_str = "Airlock too big"
 		for(var/cdir in GLOB.cardinals)
 			var/turf/T2 = get_step(T, cdir)

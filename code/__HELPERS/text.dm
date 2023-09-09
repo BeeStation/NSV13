@@ -64,7 +64,7 @@
 
 
 //Returns null if there is any bad text in the string
-/proc/reject_bad_text(text, max_length = 512, ascii_only = TRUE)
+/proc/reject_bad_text(text, max_length = 512, ascii_only = TRUE, alphanumeric_only = FALSE, underscore_allowed = TRUE)
 	var/char_count = 0
 	var/non_whitespace = FALSE
 	var/lenbytes = length(text)
@@ -79,13 +79,51 @@
 				return
 			if(0 to 31)
 				return
-			if(32)
-				continue
+			if(32 to 47)
+				if(alphanumeric_only)
+					return
+				else
+					non_whitespace = TRUE
+					continue
+			if(58 to 64)
+				if(alphanumeric_only)
+					return
+				else
+					non_whitespace = TRUE
+					continue
+			if(91 to 94)
+				if(alphanumeric_only)
+					return
+				else
+					non_whitespace = TRUE
+					continue
+			if(95)
+				if(underscore_allowed)
+					non_whitespace = TRUE
+					continue
+				else if(alphanumeric_only)
+					return
+				else
+					non_whitespace = TRUE
+					continue
+			if(96)
+				if(alphanumeric_only)
+					return
+				else
+					non_whitespace = TRUE
+					continue
+			if(123 to 126)
+				if(alphanumeric_only)
+					return
+				else
+					non_whitespace = TRUE
+					continue
 			if(127 to INFINITY)
 				if(ascii_only)
 					return
 			else
 				non_whitespace = TRUE
+
 	if(non_whitespace)
 		return text		//only accepts the text if it has some non-spaces
 
@@ -544,7 +582,7 @@ GLOBAL_LIST_INIT(alphabet, list("a","b","c","d","e","f","g","h","i","j","k","l",
 
 	t = parsemarkdown_basic_step1(t)
 
-	t = replacetext(t, regex("%s(?:ign)?(?=\\s|$)", "igm"), user ? "<font face=\"[SIGNFONT]\"><i>[user.real_name]</i></font>" : "<span class=\"paper_field\"></span>")
+	t = replacetext(t, regex("%s(?:ign)?(?=\\s|$)", "igm"), user ? "<font face=\"[SIGNATURE_FONT]\"><i>[user.real_name]</i></font>" : "<span class=\"paper_field\"></span>")
 	t = replacetext(t, regex("%f(?:ield)?(?=\\s|$)", "igm"), "<span class=\"paper_field\"></span>")
 
 	t = parsemarkdown_basic_step2(t)

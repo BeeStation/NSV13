@@ -13,7 +13,7 @@
 	category = PROGRAM_CATEGORY_CREW
 	program_icon_state = "id"
 	extended_desc = "Program for programming employee ID cards to access parts of the station."
-	transfer_access = ACCESS_HEADS
+	transfer_access = list(ACCESS_HEADS)
 	requires_ntnet = 0
 	size = 8
 	tgui_id = "NtosCard"
@@ -107,24 +107,22 @@
 	if(..())
 		return TRUE
 
-	var/obj/item/computer_hardware/card_slot/card_slot
-	var/obj/item/computer_hardware/card_slot/card_slot2
-	var/obj/item/computer_hardware/printer/printer
-	if(computer)
-		card_slot = computer.all_components[MC_CARD]
-		card_slot2 = computer.all_components[MC_CARD2]
-		printer = computer.all_components[MC_PRINT]
-		if(!card_slot || !card_slot2)
-			return
+	if(!computer)
+		return
+
+	var/obj/item/computer_hardware/card_slot/card_slot = computer.all_components[MC_CARD]
+	var/obj/item/computer_hardware/card_slot/card_slot2 = computer.all_components[MC_CARD2]
+	var/obj/item/computer_hardware/printer/printer = computer.all_components[MC_PRINT]
+	if(!card_slot || !card_slot2)
+		return
 
 	var/mob/user = usr
 	var/obj/item/card/id/user_id_card = card_slot.stored_card
-
 	var/obj/item/card/id/target_id_card = card_slot2.stored_card
 
 	switch(action)
 		if("PRG_authenticate")
-			if(!computer || !user_id_card)
+			if(!user_id_card)
 				playsound(computer, 'sound/machines/terminal_prompt_deny.ogg', 50, FALSE)
 				return
 			if(authenticate(user, user_id_card))
@@ -135,7 +133,7 @@
 			playsound(computer, 'sound/machines/terminal_off.ogg', 50, FALSE)
 			return TRUE
 		if("PRG_print")
-			if(!computer || !printer)
+			if(!printer)
 				return
 			if(!authenticated)
 				return
@@ -160,7 +158,7 @@
 				computer.visible_message("<span class='notice'>\The [computer] prints out a paper.</span>")
 			return TRUE
 		if("PRG_eject")
-			if(!computer || !card_slot2)
+			if(!card_slot2)
 				return
 			if(target_id_card)
 				GLOB.data_core.manifest_modify(target_id_card.registered_name, target_id_card.assignment, target_id_card.hud_state)
@@ -171,7 +169,7 @@
 					return card_slot2.try_insert(I, user)
 			return FALSE
 		if("PRG_terminate")
-			if(!computer || !authenticated)
+			if(!authenticated)
 				return
 			if(minor)
 				if(!(target_id_card.assignment in head_subordinates) && target_id_card.assignment != JOB_NAME_ASSISTANT)
@@ -184,7 +182,7 @@
 			playsound(computer, 'sound/machines/terminal_prompt_deny.ogg', 50, FALSE)
 			return TRUE
 		if("PRG_edit")
-			if(!computer || !authenticated || !target_id_card)
+			if(!authenticated || !target_id_card)
 				return
 
 			// Sanitize the name first. We're not using the full sanitize_name proc as ID cards can have a wider variety of things on them that
@@ -202,7 +200,7 @@
 			playsound(computer, "terminal_type", 50, FALSE)
 			return TRUE
 		if("PRG_assign")
-			if(!computer || !authenticated || !target_id_card)
+			if(!authenticated || !target_id_card)
 				return
 			var/target = params["assign_target"]
 			if(!target)
@@ -245,7 +243,7 @@
 			playsound(computer, 'sound/machines/terminal_prompt_confirm.ogg', 50, FALSE)
 			return TRUE
 		if("PRG_access")
-			if(!computer || !authenticated)
+			if(!authenticated)
 				return
 			var/access_type = text2num(params["access_target"])
 			if(access_type in (is_centcom ? get_all_centcom_access() : get_all_accesses()))
@@ -258,21 +256,21 @@
 				playsound(computer, "terminal_type", 50, FALSE)
 				return TRUE
 		if("PRG_grantall")
-			if(!computer || !authenticated || minor)
+			if(!authenticated || minor)
 				return
 			target_id_card.access |= (is_centcom ? get_all_centcom_access() : get_all_accesses())
 			log_id("[key_name(usr)] granted All Access to [target_id_card] using [user_id_card] via a portable ID console at [AREACOORD(usr)].")
 			playsound(computer, 'sound/machines/terminal_prompt_confirm.ogg', 50, FALSE)
 			return TRUE
 		if("PRG_denyall")
-			if(!computer || !authenticated || minor)
+			if(!authenticated || minor)
 				return
 			target_id_card.access.Cut()
 			log_id("[key_name(usr)] removed All Access from [target_id_card] using [user_id_card] via a portable ID console at [AREACOORD(usr)].")
 			playsound(computer, 'sound/machines/terminal_prompt_deny.ogg', 50, FALSE)
 			return TRUE
 		if("PRG_grantregion")
-			if(!computer || !authenticated)
+			if(!authenticated)
 				return
 			var/region = text2num(params["region"])
 			if(isnull(region))
@@ -282,7 +280,7 @@
 			playsound(computer, 'sound/machines/terminal_prompt_confirm.ogg', 50, FALSE)
 			return TRUE
 		if("PRG_denyregion")
-			if(!computer || !authenticated)
+			if(!authenticated)
 				return
 			var/region = text2num(params["region"])
 			if(isnull(region))
@@ -352,7 +350,7 @@
 	return data
 
 /datum/computer_file/program/card_mod/ui_data(mob/user)
-	var/list/data = get_header_data()
+	var/list/data = list()
 
 	data["station_name"] = station_name()
 

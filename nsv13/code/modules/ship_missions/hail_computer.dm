@@ -12,9 +12,10 @@
 	category = PROGRAM_CATEGORY_SUPL
 	size = 4
 	tgui_id = "NtosHailLogs"
+	program_icon = "envelope-open"
 	var/obj/var/obj/structure/overmap/ship //Our ship
 
-/datum/computer_file/program/ship_hail_logger/run_program(mob/living/user)
+/datum/computer_file/program/ship_hail_logger/on_start(mob/living/user)
 	. = ..(user)
 	ship = user.get_overmap()
 
@@ -29,7 +30,7 @@
 
 
 /datum/computer_file/program/ship_hail_logger/ui_data()
-	var/list/data = get_header_data()
+	var/list/data = list()
 	data["ship_name"] = ship ? ship.name : "No ship detected!"
 	data["missions"] = prep_missions()
 	return data
