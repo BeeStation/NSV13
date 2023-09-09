@@ -153,6 +153,8 @@
 	var/list/ams_data_source = AMS_LOCKED_TARGETS
 	var/next_ams_shot = 0
 	var/ams_targeting_cooldown = 1.5 SECONDS
+	var/ams_shot_limit = 5
+	var/ams_shots_fired = 0
 
 	// Railgun aim helper
 	var/last_tracer_process = 0
@@ -177,7 +179,8 @@
 	// It's terrible I know, but until we decide/are bothered enough to throw out the legacy drive (or subtype it), this'll have to do
 	var/obj/machinery/computer/ship/ftl_core/ftl_drive
 
-
+	//Misc variables
+	var/list/scanned = list() //list of scanned overmap anomalies
 	var/reserved_z = 0 //The Z level we were spawned on, and thus inhabit. This can be changed if we "swap" positions with another ship.
 	var/list/occupying_levels = list() //Refs to the z-levels we own for setting parallax and that, or for admins to debug things when EVERYTHING INEVITABLY BREAKS
 	var/torpedo_type = /obj/item/projectile/guided_munition/torpedo
@@ -210,6 +213,7 @@
 	var/boarding_reservation_z = null //Do we have a reserved Z-level for boarding? This is set up on instance_overmap. Ships being boarded copy this value from the boarder.
 	var/obj/structure/overmap/active_boarding_target = null
 	var/static/next_boarding_time = 0 // This is stupid and lazy but it's 5am and I don't care anymore
+	var/hammerlocked = FALSE //Is this ship currently being hammerlocked? Currently used to ensure IFF consoles on boarded ships stay emmaged
 /**
 Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 @return OM, a newly spawned overmap sitting on its treadmill as it ought to be.
@@ -287,6 +291,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	flick("laser",src)
 
 /obj/structure/overmap/Initialize(mapload)	//If I see one more Destroy() or Initialize() split into multiple files I'm going to lose my mind.
+	GLOB.overmap_objects += src
 	. = ..()
 	var/icon/I = icon(icon,icon_state,SOUTH) //SOUTH because all overmaps only ever face right, no other dirs.
 	pixel_collision_size_x = I.Width()
@@ -318,6 +323,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/LateInitialize()
 	. = ..()
+	armor = armor.setRating(arglist(OM_ARMOR)) //add the default armor values
 	if(role > NORMAL_OVERMAP)
 		SSstar_system.add_ship(src)
 		//reserved_z = src.z //Our "reserved" Z will always be kept for us, no matter what. If we, for example, visit a system that another player is on and then jump away, we are returned to our own Z.
@@ -325,7 +331,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		// AddComponent(/datum/component/nsv_mission_departure_from_system)
 	// AddComponent(/datum/component/nsv_mission_killships)
 	current_tracers = list()
-	GLOB.overmap_objects += src
 	START_PROCESSING(SSphysics_processing, src)
 
 	vector_overlay = new()
@@ -543,6 +548,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return FALSE
 	if(weapon_safety && !can_friendly_fire())
 		return FALSE
+	if(istype(target, /obj/machinery/button))
+		return target.attack_hand(user)
 	var/list/params_list = params2list(params)
 	if(target == src || istype(target, /atom/movable/screen) || (target in user.GetAllContents()) || params_list["alt"] || params_list["shift"])
 		return FALSE
@@ -576,6 +583,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		playsound(tactical, sound, 100, 1)
 	if(params_list["ctrl"]) //Ctrl click to lock on to people
 		start_lockon(target)
+		ams_shots_fired = 0
 		return TRUE
 	if(user == gunner)
 		var/datum/ship_weapon/SW = weapon_types[fire_mode]

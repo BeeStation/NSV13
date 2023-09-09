@@ -91,9 +91,10 @@ SUBSYSTEM_DEF(vote)
 						factor = 1.4
 				choices["Initiate Crew Transfer"] += round(non_voters.len * factor)
 			else if(mode == "Press On Or Return Home?") //NSV13 - Round extension vote
-				choices["Return to Outpost 45"] += non_voters.len
-				if(choices["Return to Outpost 45"] >= greatest_votes)
-					greatest_votes = choices["Return to Outpost 45"]
+				var/datum/star_system/target = SSstar_system.return_system
+				choices["Return to [target.name]]"] += non_voters.len
+				if(choices["Return to [target.name]]"] >= greatest_votes)
+					greatest_votes = choices["Return to [target.name]"]
 	//get all options with that many votes and return them in a list
 	. = list()
 	if(greatest_votes)
@@ -182,9 +183,9 @@ SUBSYSTEM_DEF(vote)
 					SSovermap_mode.already_ended = FALSE
 					SSovermap_mode.objectives_completed = FALSE
 				else
-					priority_announce("Returning to Outpost 45") //TEMP
+					priority_announce("Returning to [SSstar_system.return_system.name]") //TEMP
 					var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
-					OM.force_return_jump(SSstar_system.system_by_id("Outpost 45"))
+					OM.force_return_jump()
 
 	if(restart)
 		var/active_admins = FALSE

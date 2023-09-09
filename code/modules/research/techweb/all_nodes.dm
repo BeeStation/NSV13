@@ -13,7 +13,7 @@
 	design_ids = list("basic_matter_bin", "basic_cell", "basic_scanning", "basic_capacitor", "basic_micro_laser", "micro_mani", "dest_tagger", "handlabel", "larry", "package_wrap",
 	"destructive_analyzer", "circuit_imprinter", "experimentor", "rdconsole", "design_disk", "tech_disk", "rdserver", "rdservercontrol", "mechfab", "paystand",
 	"space_heater", "beaker", "large_beaker", "bucket", "xlarge_beaker", "sec_rshot", "sec_beanbag_slug", "sec_bshot", "sec_slug", "sec_Islug", "sec_Brslug", "sec_dart", "sec_38", "sec_38b",
-	"rglass","plasteel","plastitanium","plasmaglass","plasmareinforcedglass","titaniumglass","plastitaniumglass","plumbing_rcd", "antivirus", "glasses_prescription", "light_replacer", "xenoa_labeler", "nanocarbon_glass", "durasteel", "duranium", "coffeemaker", "coffeepot", "coffee_cartridge", "syrup_bottle") //NSV13 - BLOOD FOR THE BLOOD GOD, COFFEE FOR THE NAVY!!
+	"rglass","plasteel","plastitanium","plasmaglass","plasmareinforcedglass","titaniumglass","plastitaniumglass","plumbing_rcd", "antivirus", "glasses_prescription", "light_replacer", "xenoa_labeler", "nanocarbon_glass", "durasteel", "duranium", "coffeemaker", "coffeepot", "coffee_cartridge", "syrup_bottle", "fax") //NSV13 - BLOOD FOR THE BLOOD GOD, COFFEE FOR THE NAVY!!
 
 /datum/techweb_node/mmi
 	id = "mmi"
@@ -408,7 +408,7 @@
 	display_name = "Basic Robotics Research"
 	description = "Programmable machines that make our lives lazier."
 	prereq_ids = list("base")
-	design_ids = list("paicard")
+	design_ids = list("paicard","botnavbeacon") //NSV13 - Navbeacon Refactoring
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
@@ -418,7 +418,7 @@
 	display_name = "Advanced Robotics Research"
 	description = "It can even do the dishes!"
 	prereq_ids = list("robotics")
-	design_ids = list("borg_upgrade_diamonddrill", "borg_upgrade_trashofholding", "borg_upgrade_advancedmop")
+	design_ids = list("borg_upgrade_diamonddrill", "borg_upgrade_trashofholding", "borg_upgrade_advancedmop", "borg_upgrade_clamp") //NSV13 - Cargo Borgs
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
@@ -878,7 +878,7 @@
 	display_name = "Electric Weapons"
 	description = "Weapons using electric technology"
 	prereq_ids = list("weaponry", "adv_power"  , "emp_basic")
-	design_ids = list("stunrevolver", "ioncarbine")
+	design_ids = list("stunrevolver", "stunshell", "ioncarbine") //NSV13 - readded stunshell
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
@@ -935,13 +935,13 @@
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
-/datum/techweb_node/ballistic_weapons
+/datum/techweb_node/ballistic_weapons // NSV13 - glock additions
 	id = "ballistic_weapons"
 	tech_tier = 3
 	display_name = "Ballistic Weaponry"
 	description = "This isn't research.. This is reverse-engineering!"
 	prereq_ids = list("weaponry")
-	design_ids = list("mag_oldsmg", "mag_oldsmg_ap", "mag_oldsmg_ic", "mag_oldsmg_rubber")
+	design_ids = list("mag_oldsmg", "mag_oldsmg_ap", "mag_oldsmg_ic", "mag_oldsmg_rubber", "glock_lethalmag", "glock_rubbermag", "glock_apmag", "glock_incmag", "glock_lethalammo", "glock_rubberammo", "glock_apammo", "glock_incammo")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 

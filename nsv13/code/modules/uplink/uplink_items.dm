@@ -13,3 +13,13 @@
 	item = /obj/item/gun/ballistic/rifle/boltaction/pdc
 	cost = 12
 	restricted_roles = list(JOB_NAME_MUNITIONSTECHNICIAN,JOB_NAME_MASTERATARMS)
+
+/datum/uplink_item/badass/maid
+	name = "Emergency Maid Kit"
+	desc = "A kit containing everything you need to become a proper syndicate maid. \
+			Contains a maid outfit, a mop, a bucket and a bar of soap. \
+			Because you never know when you might need to clean up a mess."
+	item = /obj/item/storage/box/syndie_kit/maid
+	cost = 20
+	cant_discount = TRUE
+	surplus = 0

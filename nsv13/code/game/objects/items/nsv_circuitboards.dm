@@ -438,3 +438,9 @@
 		/obj/item/stock_parts/manipulator = 1,
 		/obj/item/stack/sheet/glass = 1)
 	needs_anchored = FALSE
+
+/obj/item/circuitboard/machine/navbeacon
+	name = "Bot Navigational Beacon"
+	icon_state = "science"
+	build_path = /obj/machinery/navbeacon
+	req_components = list()

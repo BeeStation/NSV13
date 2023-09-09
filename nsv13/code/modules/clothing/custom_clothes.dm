@@ -795,3 +795,41 @@
 		w_class = WEIGHT_CLASS_SMALL
 
 	rolled_up = !rolled_up
+
+/obj/item/clothing/head/maidheadband/syndicate
+	name = "tactical maid headband"
+	desc = "Tacticute."
+	icon = 'nsv13/icons/obj/clothing/hats.dmi'
+	worn_icon = 'nsv13/icons/mob/head.dmi'
+	icon_state = "syndieheadband"
+	item_state = "syndieheadband"
+
+/obj/item/clothing/under/syndicate/maid
+	name = "tactical maid outfit"
+	desc = "A 'tactical' turtleneck fashioned to the likeness of a maid outfit. Why the Syndicate has these, you'll never know."
+	icon = 'nsv13/icons/obj/clothing/uniforms.dmi'
+	worn_icon = 'nsv13/icons/mob/uniform.dmi'
+	icon_state = "syndimaid"
+	item_state = "syndimaid"
+	can_adjust = FALSE
+
+/obj/item/clothing/under/syndicate/skirt/maid/Initialize()
+	. = ..()
+	var/obj/item/clothing/accessory/maidapron/syndicate/A = new (src)
+	attach_accessory(A)
+
+/obj/item/clothing/gloves/combat/maid
+	name = "combat maid sleeves"
+	desc = "These 'tactical' gloves and sleeves are fireproof and electrically insulated. Warm to boot."
+	icon = 'nsv13/icons/obj/clothing/gloves.dmi'
+	worn_icon = 'nsv13/icons/mob/hands.dmi'
+	icon_state = "syndimaid_arms"
+	worn_icon_state = "syndimaid_arms"
+	item_state = "syndimaid_arms"
+
+/obj/item/clothing/accessory/maidapron/syndicate
+	name = "syndicate maid apron"
+	desc = "Practical? No. Tactical? Also no. Cute? Most definitely yes."
+	icon = 'nsv13/icons/mob/accessories.dmi'
+	icon_state = "maidapronsynd"
+	item_state = "maidapronsynd"

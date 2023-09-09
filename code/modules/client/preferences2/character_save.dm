@@ -75,8 +75,15 @@
 	var/preferred_squad = "Able"
 	//NSV13 - Pilots
 	var/preferred_pilot_role = PILOT_COMBAT
-	//NSV13 - Added Flavor Text
+	//NSV13 - Roleplaying Stuff - Start
 	var/flavor_text = ""
+	//Nsv13 - lizard hiss style pref
+	var/lizard_hiss_style = LIZARD_HISS_EXPANDED
+	var/silicon_flavor_text = ""
+	var/general_record = ""
+	var/security_record = ""
+	var/medical_record = ""
+	//NSV13 - Roleplaying Stuff - End
 
 /datum/character_save/New()
 	real_name = get_default_name()
@@ -155,14 +162,25 @@
 	SAFE_READ_QUERY(31, loadout_tmp)
 	equipped_gear = json_decode(loadout_tmp)
 
-	//NSV13 squads
+	//NSV13 - Start
 	SAFE_READ_QUERY(32, preferred_squad)
 
-	//NSV13 pilot role
 	SAFE_READ_QUERY(33, preferred_pilot_role)
 
-	//NSV13 flavor text
 	SAFE_READ_QUERY(34, flavor_text)
+
+	//NSV13 lizard hiss style
+	SAFE_READ_QUERY(35, lizard_hiss_style)
+
+	SAFE_READ_QUERY(36, silicon_flavor_text)
+
+	SAFE_READ_QUERY(37, general_record)
+
+	SAFE_READ_QUERY(38, security_record)
+
+	SAFE_READ_QUERY(39, medical_record)
+	//NSV13 - Stop
+
 
 	//Sanitize. Please dont put query reads below this point. Please.
 
@@ -244,8 +262,13 @@
 
 	all_quirks = SANITIZE_LIST(all_quirks)
 
-
-	flavor_text = html_decode(strip_html(flavor_text)) //NSV13 added flavor text
+	//NSV13 - Roleplay Stuff - Start
+	flavor_text = html_decode(strip_html(flavor_text))
+	silicon_flavor_text = html_decode(strip_html(silicon_flavor_text))
+	general_record = sanitize_text(general_record)
+	security_record = sanitize_text(security_record)
+	medical_record = sanitize_text(medical_record)
+	//NSV13 - Roleplay Stuff - Stop
 
 	return TRUE
 
@@ -308,7 +331,7 @@
 	if(IS_GUEST_KEY(C.ckey))
 		return
 
-	// Get ready for a disgusting query //NSV13 adds squads, pilot role and flavor text prefs
+	// Get ready for a disgusting query //NSV13 adds squads, pilot role and roleplaying prefs
 	var/datum/DBQuery/insert_query = SSdbcore.NewQuery({"
 		REPLACE INTO [format_table_name("characters")] (
 			slot,
@@ -345,7 +368,12 @@
 			equipped_gear,
 			preferred_squad,
 			preferred_pilot_role,
-			flavor_text
+			flavor_text,
+			lizard_hiss_style,
+			silicon_flavor_text,
+			general_record,
+			security_record,
+			medical_record
 		) VALUES (
 			:slot,
 			:ckey,
@@ -381,7 +409,12 @@
 			:equipped_gear,
 			:preferred_squad,
 			:preferred_pilot_role,
-			:flavor_text
+			:flavor_text,
+			:lizard_hiss_style,
+			:silicon_flavor_text,
+			:general_record,
+			:security_record,
+			:medical_record
 		)
 	"}, list(
 		// Now for the above but in a fucking monsterous list
@@ -419,7 +452,12 @@
 		"equipped_gear" = json_encode(equipped_gear),
 		"preferred_squad" = preferred_squad,
 		"preferred_pilot_role" = preferred_pilot_role,
-		"flavor_text" = flavor_text
+		"flavor_text" = flavor_text,
+		"lizard_hiss_style" = lizard_hiss_style,
+		"silicon_flavor_text" = silicon_flavor_text,
+		"general_record" = general_record,
+		"security_record" = security_record,
+		"medical_record" = medical_record
 	))
 
 	if(!insert_query.warn_execute())

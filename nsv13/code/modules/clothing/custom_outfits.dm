@@ -345,3 +345,23 @@ For when the marines are being irritating.
 /datum/outfit/boarding_droid/post_equip(mob/living/carbon/human/H)
 	var/obj/item/implant/explosive/E = new/obj/item/implant/explosive(H)
 	E.implant(H)
+
+/datum/outfit/syndie_maid/leader
+	name = "Syndicate Maid (Captain)"
+	id = /obj/item/card/id/syndi_crew/captain
+	r_hand = /obj/item/ship_loadout_selector
+	ears = /obj/item/radio/headset/syndicate/alt
+
+/datum/outfit/syndie_maid
+	name = "Syndicate Maid"
+	uniform = /obj/item/clothing/under/syndicate/maid
+	shoes = /obj/item/clothing/shoes/combat
+	gloves = /obj/item/clothing/gloves/combat/maid
+	ears = /obj/item/radio/headset/syndicate
+	id = /obj/item/card/id/syndi_crew/technician
+	head = /obj/item/clothing/head/maidheadband/syndicate
+	back = /obj/item/storage/backpack/duffelbag/syndie
+	backpack_contents = list(
+		/obj/item/storage/box/syndie = 1,
+		/obj/item/kitchen/knife/combat/survival = 1
+	)

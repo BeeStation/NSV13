@@ -552,7 +552,7 @@
 			if(locate(/obj/machinery/door/airlock) in T2)
 				continue
 			turfs[T2] = 1
-		if(turfs.len > 16) // I will allow a 4x4 airlock for a shitty poor-man's spacepod bay.
+		if(turfs.len > 16)  // I will allow a 4x4 airlock for a shitty poor-man's spacepod bay.
 			config_error_str = "Airlock too big"
 		for(var/cdir in GLOB.cardinals)
 			var/turf/T2 = get_step(T, cdir)

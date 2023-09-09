@@ -316,13 +316,13 @@
 
 
 /obj/anomaly/singularity/proc/event()
-	var/numb = rand(1,4)
+	var/numb = rand(1,4) //NSV13
 	switch(numb)
-		if(1)//EMP
-			emp_area()
+		//if(1)//EMP     //NSV13
+		//	emp_area()   //NSV13
 		if(2)//Stun mobs who lack optic scanners
 			mezzer()
-		if(3,4) //Sets all nearby mobs on fire
+		if(1,3,4) //Sets all nearby mobs on fire   //NSV13
 			if(current_size < STAGE_SIX)
 				return 0
 			combust_mobs()
@@ -358,7 +358,6 @@
 		M.visible_message("<span class='danger'>[M] stares blankly at the [src.name]!</span>", \
 						"<span class='userdanger'>You look directly into the [src.name] and feel weak.</span>")
 	return
-
 
 /obj/anomaly/singularity/proc/emp_area()
 	empulse(src, 8, 10)

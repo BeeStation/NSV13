@@ -1,6 +1,7 @@
 // in kPa
 #define MAX_WASTE_OUTPUT_PRESSURE 5000
 #define MAX_WASTE_STORAGE_PRESSURE 8000
+#define POWER_FAIL_TOLERANCE 3 //! If more than this many cycles of power are missed, we shut down. If any stacks of this are present, it multiplies power drain of following cycles by the counter.
 
 // Base temperature to heat waste gas by in celcius.
 #define WASTE_GAS_HEAT 35
@@ -8,8 +9,6 @@
 /// Multiplies power draw by this value every tick it remains active when spooled. Higher values will make power use increase faster
 #define PYLON_ACTIVE_EXPONENT 1.01
 
-/// Max power use before we start to overheat (watts)
-#define POWER_USE_SAFE 100000
 
 ///Thirring Drive PYLON///
 /obj/machinery/atmospherics/components/binary/drive_pylon
@@ -39,6 +38,8 @@
 	var/datum/gas_mixture/air_contents
 	var/obj/structure/cable/cable
 	var/obj/machinery/computer/ship/ftl_core/ftl_drive
+	///Stacking counter of how many times we have missed power demands. If we go over the defined tolerance, we shut down. Even below, we use [counter] times more power to make up for the loss.
+	var/power_failure_counter = 0
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/Initialize(mapload)
 	. = ..()
@@ -72,15 +73,20 @@
 	switch(pylon_state)
 		if(PYLON_STATE_ACTIVE)
 			if(shielded)
-				active_mol_use = max(round(active_mol_use * PYLON_ACTIVE_EXPONENT, 0.1), 0.025) // Shielded pylons use less power but burn more fuel
-				power_draw += round(500 * (active_mol_use / 10 + 1), 1)
+				active_mol_use = max(active_mol_use * PYLON_ACTIVE_EXPONENT, active_mol_use + 0.015) // Shielded pylons use less power but burn more fuel
+				power_draw += round(100 * (active_mol_use / 10 + 1), 1) //Power scaling is considerably lower in exchange for a tangible cost.
 			else
 				power_draw = round(power_draw * PYLON_ACTIVE_EXPONENT + 300, 1) // Active pylons slowly but exponentially require more charge to stay stable. Don't leave them on when you don't need to
-			if(input.get_moles(GAS_NUCLEIUM) < active_mol_use)
+			var/rounded_mol_use = round(active_mol_use, 0.1)
+			if(input.get_moles(GAS_NUCLEIUM) < rounded_mol_use)
 				say("Insufficient FTL fuel, spooling down.")
 				set_state(PYLON_STATE_SHUTDOWN)
 				return
-			input.adjust_moles(GAS_NUCLEIUM, -active_mol_use)
+			input.adjust_moles(GAS_NUCLEIUM, -rounded_mol_use)
+			var/outgoing_temp = T20C + WASTE_GAS_HEAT + round(power_draw / 1000 / log(power_draw), 1)
+			if(shielded)
+				outgoing_temp *= 2
+			air_contents.adjust_moles_temp(GAS_PLASMA, rounded_mol_use, outgoing_temp) //Why did we have the whole piping stuff around output of this thing if we only ever ejected gas during the initial charge??
 
 		if(PYLON_STATE_STARTING) //pop the lid
 			power_draw = 5000
@@ -124,22 +130,30 @@
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/power_drain()
 	var/turf/T = get_turf(src)
-	if(!cable || cable.loc != loc)
-		cable = T.get_cable_node()
-		if(!cable)
+	if(!cable || get_turf(cable) != get_turf(src))
+		if(cable)
+			clear_cable_ref()
+		var/obj/structure/cable/new_cable = T.get_cable_node()
+		if(!new_cable)
 			return FALSE
-	if(power_draw > cable.surplus())
-		visible_message("<span class='warning'>\The [src] lets out a metallic groan as its power indicator flickers.</span>")
-		return FALSE
-	cable.add_load(power_draw)
+		cable = new_cable
+		RegisterSignal(new_cable, COMSIG_PARENT_QDELETING, PROC_REF(clear_cable_ref))
+	var/actual_power_draw = power_draw * (1 + power_failure_counter)
+	if(actual_power_draw > cable.surplus())
+		power_failure_counter++
+		if(power_failure_counter > POWER_FAIL_TOLERANCE)
+			visible_message("<span class='warning'>\The [src] lets out a metallic groan as its power indicator flickers.</span>")
+			return FALSE
+		visible_message("<span class='warning'>The power warning diode on [src] flashes [power_failure_counter > 1 ? "bright red" : "yellow"]!</span>")
+	else
+		power_failure_counter = max(0, power_failure_counter - 1)
+	cable.add_load(clamp(actual_power_draw, 0, cable.surplus()))
 	return TRUE
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/process_atmos()
 	var/datum/gas_mixture/output = airs[2]
 	var/i_pressure = air_contents.return_pressure()
 	switch(i_pressure)
-		if(0)
-			return
 		if(MAX_WASTE_STORAGE_PRESSURE/3 to MAX_WASTE_STORAGE_PRESSURE/2)
 			switch(rand(1, 10))
 				if(1)
@@ -172,19 +186,26 @@
 			explosion(T, 0, 1, 3)
 			qdel(src)
 			return
+		else
+
 	var/output_pressure = output.return_pressure()
+	//When I arrived here, this file was terrible. Now, it is still terrible, but at least the nodes update. ~Delta
 	if(output_pressure < MAX_WASTE_OUTPUT_PRESSURE)
 		var/transfer_moles = (MAX_WASTE_OUTPUT_PRESSURE - output_pressure) * output.return_volume()/(air_contents.return_temperature() * R_IDEAL_GAS_EQUATION)
 		air_contents.transfer_to(output, transfer_moles)
-		update_parents()
+	update_parents() //Why would you not always be updating the gas input on a machine that consumes gas??
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/try_enable()
 	if(pylon_state == PYLON_STATE_SHUTDOWN)
 		return FALSE
 	var/turf/T = get_turf(src)
-	cable = T.get_cable_node()
-	if(!cable)
+	var/obj/structure/cable/new_cable = T.get_cable_node()
+	if(cable)
+		clear_cable_ref()
+	if(!new_cable)
 		return FALSE
+	cable = new_cable
+	RegisterSignal(new_cable, COMSIG_PARENT_QDELETING, PROC_REF(clear_cable_ref))
 	on = TRUE
 	START_PROCESSING(SSmachines, src)
 	set_state(PYLON_STATE_STARTING)
@@ -205,12 +226,12 @@
 	capacitor = 0
 	active_mol_use = initial(active_mol_use)
 	on = FALSE
+	power_failure_counter = 0
 	STOP_PROCESSING(SSmachines, src)
 
 /// Main spool process, consumes nucleium and converts it into FTL capacitor power
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/consume_fuel()
 	var/datum/gas_mixture/input = airs[1]
-	var/datum/gas_mixture/output = airs[2]
 //	if(prob(30))
 //		tesla_zap(src, 2, 1000)
 	var/input_fuel = min(input.get_moles(GAS_NUCLEIUM), max_charge_rate * mol_per_capacitor)
@@ -219,18 +240,26 @@
 	var/datum/gas_mixture/waste = new
 	waste.adjust_moles(GAS_PLASMA, input_fuel / 3)
 	waste.adjust_moles(GAS_NUCLEIUM, input_fuel / 4)
-	var/heat_increase = WASTE_GAS_HEAT + round(power_draw / 1000 / log(power_draw), 1)
-	if(shielded) // Closing shields greatly increases internal temperture gain
+	var/heat_increase = WASTE_GAS_HEAT + round(power_draw / 1000 / log(power_draw), 1) //???? This proc only ever happens while the pylon boots up, during which power use is basically CONSTANT??????
+	if(shielded) // Closing shields greatly increases internal temperature gain
 		heat_increase *= 2
 	var/air_temperature = air_contents.return_temperature()
 	var/air_heat_capacity = air_contents.heat_capacity()
 	var/combined_energy = heat_capacity * (air_temperature + heat_increase) + air_heat_capacity * air_temperature // Thermodynamics and it's consequences have been a disaster for the humanity's programmers
 	waste.set_temperature(combined_energy/(air_heat_capacity + heat_capacity)) // combined energy divided by combined heat capacity
-	if(output.return_pressure() < MAX_WASTE_OUTPUT_PRESSURE)
-		air_contents.merge(waste)
-	else
-		output.merge(waste)
+	air_contents.merge(waste) //Why was this snowflaked before?? We already handle overfilled internal storage on atmos process.
 	qdel(waste)
+
+///Returns the current nucleium use of this machine in moles / machine tick (2 seconds). Not rounded.
+/obj/machinery/atmospherics/components/binary/drive_pylon/proc/get_nucleium_use()
+	switch(pylon_state)
+		if(PYLON_STATE_SPOOLING)
+			var/datum/gas_mixture/input = airs[1]
+			return min(input.get_moles(GAS_NUCLEIUM), max_charge_rate * mol_per_capacitor)
+		if(PYLON_STATE_ACTIVE)
+			return active_mol_use
+		else
+			return 0
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/proc/toggle_shield()
 	if(!pylon_shield) //somehow...
@@ -258,6 +287,8 @@
 		ftl_drive.pylons -= src
 		ftl_drive = null
 	pylon_shield.pylon = null
+	if(cable)
+		clear_cable_ref()
 	QDEL_NULL(pylon_shield)
 	var/datum/gas_mixture/input = airs[1]
 	var/datum/gas_mixture/output = airs[2]
@@ -274,6 +305,10 @@
 	qdel(spill)
 	return ..()
 
+///Clears the ref of the cable. Why this didn't have any measures for this before, I do not know.
+/obj/machinery/atmospherics/components/binary/drive_pylon/proc/clear_cable_ref()
+	UnregisterSignal(cable, COMSIG_PARENT_QDELETING)
+	cable = null
 
 /obj/machinery/atmospherics/components/binary/drive_pylon/return_analyzable_air()
 	return airs + air_contents
@@ -364,4 +399,4 @@
 #undef MAX_WASTE_STORAGE_PRESSURE
 
 #undef PYLON_ACTIVE_EXPONENT
-#undef POWER_USE_SAFE
+#undef POWER_FAIL_TOLERANCE

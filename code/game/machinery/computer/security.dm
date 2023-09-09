@@ -356,6 +356,7 @@
 						<tr><td>Fingerprint:</td><td><A href='?src=[REF(src)];choice=Edit Field;field=fingerprint'>&nbsp;[active1.fields["fingerprint"]]&nbsp;</A></td></tr>
 						<tr><td>Physical Status:</td><td>&nbsp;[active1.fields["p_stat"]]&nbsp;</td></tr>
 						<tr><td>Mental Status:</td><td>&nbsp;[active1.fields["m_stat"]]&nbsp;</td></tr>
+						<tr><td>General Records:</td><td><A href='?src=[REF(src)];choice=View Past General'>View&nbsp;</A></td></tr>
 						</table></td>
 						<td><table><td align = center><a href='?src=[REF(src)];choice=Edit Field;field=show_photo_front'><img src=photo_front height=80 width=80 border=4></a><br>
 						<a href='?src=[REF(src)];choice=Edit Field;field=print_photo_front'>Print photo</a><br>
@@ -363,11 +364,12 @@
 						<td align = center><a href='?src=[REF(src)];choice=Edit Field;field=show_photo_side'><img src=photo_side height=80 width=80 border=4></a><br>
 						<a href='?src=[REF(src)];choice=Edit Field;field=print_photo_side'>Print photo</a><br>
 						<a href='?src=[REF(src)];choice=Edit Field;field=upd_photo_side'>Update side photo</a></td></table>
-						</td></tr></table></td></tr></table>"}
+						</td></tr></table></td></tr></table>"} //NSV13 - TEXT AMENDED, "GENERAL RECORDS" - Roleplaying Records
 					else
 						dat += "<br>General Record Lost!<br>"
 					if((istype(active2, /datum/data/record) && GLOB.data_core.security.Find(active2)))
 						dat += "<font size='4'><b>Security Data</b></font>"
+						dat += "<br>Security Records: <A href='?src=[REF(src)];choice=View Past Security'>View</A>" //NSV13 - Roleplaying Records
 						dat += "<br>Criminal Status: <A href='?src=[REF(src)];choice=Edit Field;field=criminal'>[active2.fields["criminal"]]</A>"
 						dat += "<br><br>Citations: <A href='?src=[REF(src)];choice=Edit Field;field=citation_add'>Add New</A>"
 
@@ -455,6 +457,21 @@ What a mess.*/
 	if(usr.contents.Find(src) || (in_range(src, usr) && isturf(loc)) || issilicon(usr) || IsAdminGhost(usr))
 		usr.set_machine(src)
 		switch(href_list["choice"])
+			//NSV13 - Roleplaying Records - Start
+			if("View Past Security")
+				if(istype(active2, /datum/data/record))
+					temp = "<h5>Security Records:</h5>"
+					temp += "<ul>"
+					temp += "<li>[active2.fields["past_records"]]</li>"
+					temp += "</ul>"
+
+			if("View Past General")
+				if(istype(active1, /datum/data/record))
+					temp = "<h5>General Records:</h5>"
+					temp += "<ul>"
+					temp += "<li>[active1.fields["past_records"]]</li>"
+					temp += "</ul>"
+			//NSV13 - Roleplaying Records - End
 // SORTING!
 			if("Sorting")
 				// Reverse the order if clicked twice
@@ -551,19 +568,27 @@ What a mess.*/
 					GLOB.data_core.securityPrintCount++
 					playsound(loc, 'sound/items/poster_being_created.ogg', 100, 1)
 					sleep(30)
-					var/obj/item/paper/P = new /obj/item/paper( loc )
-					P.info = "<CENTER><B>Security Record - (SR-[GLOB.data_core.securityPrintCount])</B></CENTER><BR>"
+					var/obj/item/paper/printed_paper = new /obj/item/paper( loc )
+					var/final_paper_text = "<CENTER><B>Security Record - (SR-[GLOB.data_core.securityPrintCount])</B></CENTER><BR>"
 					if((istype(active1, /datum/data/record) && GLOB.data_core.general.Find(active1)))
-						P.info += text("Name: [] ID: []<BR>\nGender: []<BR>\nAge: []<BR>", active1.fields["name"], active1.fields["id"], active1.fields["gender"], active1.fields["age"])
-						P.info += "\nSpecies: [active1.fields["species"]]<BR>"
-						P.info += text("\nFingerprint: []<BR>\nPhysical Status: []<BR>\nMental Status: []<BR>", active1.fields["fingerprint"], active1.fields["p_stat"], active1.fields["m_stat"])
+						final_paper_text += text("Name: [] ID: []<BR>\nGender: []<BR>\nAge: []<BR>", active1.fields["name"], active1.fields["id"], active1.fields["gender"], active1.fields["age"])
+						final_paper_text += "\nSpecies: [active1.fields["species"]]<BR>"
+						final_paper_text += text("\nFingerprint: []<BR>\nPhysical Status: []<BR>\nMental Status: []<BR>", active1.fields["fingerprint"], active1.fields["p_stat"], active1.fields["m_stat"])
+						//NSV13 - Roleplaying Records - Start
+						if(!(active1.fields["past_records"] == ""))
+							final_paper_text += "\nGeneral Records:\n[active1.fields["past_records"]]\n"
+						//NSV13 - Roleplaying Records - End
 					else
-						P.info += "<B>General Record Lost!</B><BR>"
+						final_paper_text += "<B>General Record Lost!</B><BR>"
 					if((istype(active2, /datum/data/record) && GLOB.data_core.security.Find(active2)))
-						P.info += text("<BR>\n<CENTER><B>Security Data</B></CENTER><BR>\nCriminal Status: []", active2.fields["criminal"])
-
-						P.info += "<BR>\n<BR>\nCrimes:<BR>\n"
-						P.info +={"<table style="text-align:center;" border="1" cellspacing="0" width="100%">
+						//NSV13 - Roleplaying Records - Start
+						final_paper_text += text("<BR>\n<CENTER><B>Security Data</B></CENTER><BR>\n")
+						if(!(active2.fields["past_records"] == ""))
+							final_paper_text += "\nSecurity Records:\n[active2.fields["past_records"]]\n"
+						final_paper_text += text("Criminal Status: []", active2.fields["criminal"])
+						//NSV13 - Roleplaying Records - End
+						final_paper_text += "<BR>\n<BR>\nCrimes:<BR>\n"
+						final_paper_text +={"<table style="text-align:center;" border="1" cellspacing="0" width="100%">
 <tr>
 <th>Crime</th>
 <th>Details</th>
@@ -571,23 +596,25 @@ What a mess.*/
 <th>Time Added</th>
 </tr>"}
 						for(var/datum/data/crime/c in active2.fields["crim"])
-							P.info += "<tr><td>[c.crimeName]</td>"
-							P.info += "<td>[c.crimeDetails]</td>"
-							P.info += "<td>[c.author]</td>"
-							P.info += "<td>[c.time]</td>"
-							P.info += "</tr>"
-						P.info += "</table>"
+							final_paper_text += "<tr><td>[c.crimeName]</td>"
+							final_paper_text += "<td>[c.crimeDetails]</td>"
+							final_paper_text += "<td>[c.author]</td>"
+							final_paper_text += "<td>[c.time]</td>"
+							final_paper_text += "</tr>"
+						final_paper_text += "</table>"
 
-						P.info += text("<BR>\nImportant Notes:<BR>\n\t[]<BR>\n<BR>\n<CENTER><B>Comments/Log</B></CENTER><BR>", active2.fields["notes"])
+						final_paper_text += text("<BR>\nImportant Notes:<BR>\n\t[]<BR>\n<BR>\n<CENTER><B>Comments/Log</B></CENTER><BR>", active2.fields["notes"])
 						var/counter = 1
 						while(active2.fields[text("com_[]", counter)])
-							P.info += text("[]<BR>", active2.fields[text("com_[]", counter)])
+							final_paper_text += text("[]<BR>", active2.fields[text("com_[]", counter)])
 							counter++
-						P.name = text("SR-[] '[]'", GLOB.data_core.securityPrintCount, active1.fields["name"])
+						printed_paper.name = text("SR-[] '[]'", GLOB.data_core.securityPrintCount, active1.fields["name"])
 					else
-						P.info += "<B>Security Record Lost!</B><BR>"
-						P.name = text("SR-[] '[]'", GLOB.data_core.securityPrintCount, "Record Lost")
-					P.info += "</TT>"
+						final_paper_text += "<B>Security Record Lost!</B><BR>"
+						printed_paper.name = text("SR-[] '[]'", GLOB.data_core.securityPrintCount, "Record Lost")
+					final_paper_text += "</TT>"
+					printed_paper.add_raw_text(final_paper_text)
+					printed_paper.update_appearance()
 					printing = null
 			if("Print Poster")
 				if(!( printing ))

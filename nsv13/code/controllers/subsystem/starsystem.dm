@@ -1,11 +1,3 @@
-GLOBAL_VAR_INIT(crew_transfer_risa, FALSE)
-
-#define COMBAT_CYCLE_INTERVAL 180 SECONDS	//Time between each 'combat cycle' of starsystems. Every combat cycle, every system that has opposing fleets in it gets iterated through, with the fleets firing at eachother.
-
-#define THREAT_LEVEL_NONE 0
-#define THREAT_LEVEL_UNSAFE 2
-#define THREAT_LEVEL_DANGEROUS 4
-
 //Subsystem to control overmap events and the greater gameworld
 SUBSYSTEM_DEF(star_system)
 	name = "star_system"
@@ -24,6 +16,7 @@ SUBSYSTEM_DEF(star_system)
 	var/list/neutral_zone_systems = list()
 	var/list/all_missions = list()
 	var/time_limit = FALSE //Do we want to end the round after a specific time? Mostly used for galconquest.
+	var/datum/star_system/return_system //Which system should we jump to at the end of the round?
 
 	var/enable_npc_combat = TRUE	//If you are running an event and don't want fleets to shoot eachother, set this to false.
 	var/next_combat_cycle = 0
@@ -56,6 +49,7 @@ SUBSYSTEM_DEF(star_system)
 /datum/controller/subsystem/star_system/Initialize(start_timeofday)
 	instantiate_systems()
 	. = ..()
+	return_system = system_by_id(SSmapping.config.return_system)
 	enemy_types = subtypesof(/obj/structure/overmap/syndicate/ai)
 	for(var/type in enemy_blacklist)
 		enemy_types -= type
@@ -66,7 +60,7 @@ SUBSYSTEM_DEF(star_system)
 		F.setup_relationships() //Set up faction relationships AFTER they're all initialised to avoid errors.
 
 	for(var/datum/star_system/S in systems)	//Setup the neutral zone for easier access - Bit of overhead but better than having to search for sector 2 systems everytime we want a new neutral zone occupier)
-		if(S.sector != 2)	//Magic numbers bad I know, but there is no sector defines.
+		if(S.sector != SECTOR_NEUTRAL)
 			continue
 		neutral_zone_systems += S
 
@@ -265,14 +259,20 @@ Returns a faction datum by its name (case insensitive!)
 		if(sys.name == id)
 			return sys
 
-/datum/controller/subsystem/star_system/proc/find_system(obj/structure/overmap/OM) //Used to determine what system a ship is currently in. Famously used to determine the starter system that you've put the ship in.
-	if(!ships[OM])
-		return
-	var/datum/star_system/system = system_by_id(OM.starting_system)
-	if(!ships[OM]["current_system"])
-		ships[OM]["current_system"] = system
-	else
-		system = ships[OM]["current_system"]
+/datum/controller/subsystem/star_system/proc/find_system(obj/O) //Used to determine what system a ship is currently in. Famously used to determine the starter system that you've put the ship in.
+	var/datum/star_system/system
+	if(isovermap(O))
+		var/obj/structure/overmap/OM = O
+		system = system_by_id(OM.starting_system)
+		if(!ships[OM])
+			return
+		else if(!ships[OM]["current_system"])
+			ships[OM]["current_system"] = system
+		else
+			system = ships[OM]["current_system"]
+	else if(isanomaly(O))
+		var/obj/effect/overmap_anomaly/AN = O
+		system = AN.current_system
 	return system
 
 /datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE)//Select Ship to Spawn and Location via Z-Trait
@@ -335,6 +335,7 @@ Returns a faction datum by its name (case insensitive!)
 	target_sys.contents_positions[anomaly] = list("x" = anomaly.x, "y" = anomaly.y) //Cache the ship's position so we can regenerate it later.
 	target_sys.system_contents += anomaly
 	anomaly.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.
+	anomaly.current_system = target_sys
 	return anomaly
 
 ///////BOUNTIES//////
@@ -557,6 +558,7 @@ Returns a faction datum by its name (case insensitive!)
 	icon_state = "rit-elec-aoe"
 	bound_width = 64
 	bound_height = 64
+	var/datum/star_system/current_system
 	var/research_points = 25000 //Glitches in spacetime are *really* interesting okay?
 	var/scanned = FALSE
 	var/specialist_research_type = null //Special techweb node unlocking.
@@ -567,6 +569,7 @@ Returns a faction datum by its name (case insensitive!)
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
+	GLOB.overmap_anomalies += src
 
 /obj/effect/overmap_anomaly/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
@@ -740,7 +743,7 @@ Returns a faction datum by its name (case insensitive!)
 			anomaly_type = /obj/effect/overmap_anomaly/singularity
 			parallax_property = "pitchblack"
 		if("blacksite") //this a special one!
-			adjacency_list += "Outpost 45" //you're going to risa, damnit.
+			adjacency_list += SSstar_system.return_system.name //you're going to risa, damnit.
 			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
 	if(alignment == "syndicate")
 		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some Syndie ships.
@@ -1591,4 +1594,3 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	fleet_type = /datum/fleet/border
 	adjacency_list = list("Rubicon", "Aeterna Victrix")
 
-#define ALL_STARMAP_SECTORS 1,2,3 //KEEP THIS UPDATED.

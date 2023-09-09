@@ -38,7 +38,6 @@
 			on_drop(equipper)
 			return
 		if(builtInCamera && H)
-			builtInCamera.c_tag = "Helmet Cam #[rand(0,999)]"
 			builtInCamera.forceMove(equipper) //I hate this. But, it's necessary.
 			RegisterSignal(equipper, COMSIG_MOVABLE_MOVED, PROC_REF(update_camera_location))
 

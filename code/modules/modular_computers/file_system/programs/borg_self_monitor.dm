@@ -31,7 +31,7 @@
 	return FALSE
 
 /datum/computer_file/program/borg_self_monitor/ui_data(mob/user)
-	var/list/data = get_header_data()
+	var/list/data = list()
 	if(!iscyborg(user))
 		return data
 	var/mob/living/silicon/robot/borgo = tablet.borgo
@@ -115,6 +115,9 @@
 
 		if("toggleSensors")
 			borgo.toggle_sensors()
+
+		if("crewmanifest")		 //nsv add manifest to borg computer
+			borgo.crew_manifest()
 
 		if("viewImage")
 			if(borgo.connected_ai)

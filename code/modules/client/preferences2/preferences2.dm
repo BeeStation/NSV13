@@ -77,7 +77,7 @@
 	READPREF_RAW(ghost_orbit, PREFERENCE_TAG_GHOST_ORBIT)
 	READPREF_RAW(ghost_accs, PREFERENCE_TAG_GHOST_ACCS)
 	READPREF_RAW(ghost_others, PREFERENCE_TAG_GHOST_OTHERS)
-	READPREF_RAW(pda_style, PREFERENCE_TAG_PDA_STYLE)
+	READPREF_RAW(pda_theme, PREFERENCE_TAG_PDA_THEME)
 	READPREF_RAW(pda_color, PREFERENCE_TAG_PDA_COLOUR)
 	READPREF_RAW(preferred_syndie_role, PREFERENCE_TAG_PREFERRED_SYNDIE_ROLE) //NSV13
 
@@ -106,7 +106,7 @@
 	ghost_others	= sanitize_inlist(ghost_others, GLOB.ghost_others_options, GHOST_OTHERS_DEFAULT_OPTION)
 	be_special		= SANITIZE_LIST(be_special)
 
-	pda_style		= sanitize_inlist(pda_style, GLOB.pda_styles, initial(pda_style))
+	pda_theme		= sanitize_inlist(pda_theme, GLOB.ntos_device_themes_default_content, initial(pda_theme))
 	pda_color		= sanitize_hexcolor(pda_color, 6, TRUE, initial(pda_color))
 	preferred_syndie_role = sanitize_text(preferred_syndie_role, CONQUEST_ROLE_GRUNT) //NSV13
 
@@ -147,7 +147,7 @@
 	PREP_WRITEPREF_RAW(parallax, PREFERENCE_TAG_PARALLAX)
 	PREP_WRITEPREF_RAW(pixel_size, PREFERENCE_TAG_PIXELSIZE)
 	PREP_WRITEPREF_RAW(tip_delay, PREFERENCE_TAG_TIP_DELAY)
-	PREP_WRITEPREF_RAW(pda_style, PREFERENCE_TAG_PDA_STYLE)
+	PREP_WRITEPREF_RAW(pda_theme, PREFERENCE_TAG_PDA_THEME)
 	PREP_WRITEPREF_RAW(pda_color, PREFERENCE_TAG_PDA_COLOUR)
 	PREP_WRITEPREF_RAW(preferred_syndie_role, PREFERENCE_TAG_PREFERRED_SYNDIE_ROLE) //NSV13
 
@@ -215,7 +215,12 @@
 			equipped_gear,
 			preferred_squad,
 			preferred_pilot_role,
-			flavor_text
+			flavor_text,
+			lizard_hiss_style,
+			silicon_flavor_text,
+			general_record,
+			security_record,
+			medical_record
 		FROM [format_table_name("characters")] WHERE
 			ckey=:ckey
 	"}, list("ckey" = parent.ckey))

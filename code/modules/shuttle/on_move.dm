@@ -319,11 +319,11 @@ All ShuttleMove procs go here
 	. = ..()
 	var/turf/T = loc
 	hide(T.intact)
-	if(codes["patrol"])
+	if(codes[NAVBEACON_PATROL_MODE]) //NSV13 - Navbeacon refactor
 		if(!GLOB.navbeacons["[z]"])
 			GLOB.navbeacons["[z]"] = list()
 		GLOB.navbeacons["[z]"] += src //Register with the patrol list!
-	if(codes["delivery"])
+	if(codes[NAVBEACON_DELIVERY_MODE]) //NSV13 - Navbeacon refactor
 		GLOB.deliverybeacons += src
 		GLOB.deliverybeacontags += location
 

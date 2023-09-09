@@ -150,23 +150,37 @@
 	spec_updatehealth(H)
 	H.visible_message("<span class='danger'>[H] stops flickering and goes back to their normal state!</span>")
 
+//NSV13 - Ethereal Stuff - Start
+#define NUTRITION_LEVEL_VERY_STARVING 50
+#define NUTRITION_LEVEL_DYING 1
+
 /datum/species/ethereal/handle_charge(mob/living/carbon/human/H)
 	brutemod = 1.25
 	if(HAS_TRAIT(H, TRAIT_NOHUNGER))
 		return
 	switch(H.nutrition)
+		// This is formatted in the following style: from low to high
+		// IE: NUTRITION_LEVEL_STARVING (150) to NUTRITION_LEVEL_FED (350)
 		if(NUTRITION_LEVEL_FED to INFINITY)
-			H.clear_alert("nutrition")
+			H.throw_alert("nutrition", /atom/movable/screen/alert/etherealfull)
 		if(NUTRITION_LEVEL_STARVING to NUTRITION_LEVEL_FED)
 			H.throw_alert("nutrition", /atom/movable/screen/alert/etherealcharge, 1)
 			brutemod = 1.5
-		if(1 to NUTRITION_LEVEL_STARVING)
+		if(NUTRITION_LEVEL_VERY_STARVING to NUTRITION_LEVEL_STARVING)
 			H.throw_alert("nutrition", /atom/movable/screen/alert/etherealcharge, 2)
 			if(H.health > 10.5)
 				apply_damage(0.65, TOX, null, null, H)
 			brutemod = 1.75
-		else
+		if(NUTRITION_LEVEL_DYING to NUTRITION_LEVEL_VERY_STARVING)
 			H.throw_alert("nutrition", /atom/movable/screen/alert/etherealcharge, 3)
+			if(H.health > 10.5)
+				apply_damage(0.65, TOX, null, null, H)
+		else
+			H.throw_alert("nutrition", /atom/movable/screen/alert/etherealcharge, 4)
 			if(H.health > 10.5)
 				apply_damage(1, TOX, null, null, H)
 			brutemod = 2
+
+#undef NUTRITION_LEVEL_VERY_STARVING
+#undef NUTRITION_LEVEL_DYING
+//NSV13 - Ethereal Stuff - Stop

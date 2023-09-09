@@ -5,8 +5,8 @@
 	tally = -1 // Don't count staging
 	target = 1
 
-	var/minimum_jumps = 8
-	var/maximum_jumps = 13
+	var/minimum_jumps = 6
+	var/maximum_jumps = 10
 
 /datum/overmap_objective/perform_jumps/instance()
 	.=..()
