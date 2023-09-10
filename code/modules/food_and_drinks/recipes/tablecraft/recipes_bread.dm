@@ -126,12 +126,3 @@
 	result = /obj/item/reagent_containers/food/snacks/hotdog
 	subcategory = CAT_BREAD
 
-
-/datum/crafting_recipe/food/hardtack //NSV13
-	name = "Hardtack"
-	reqs = list(
-		/datum/reagent/water = 10,
-		/datum/reagent/consumable/flour = 10
-	)
-	result = /obj/item/reagent_containers/food/snacks/hardtack
-	subcategory = CAT_BREAD
