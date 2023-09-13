@@ -351,11 +351,20 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "be" = (
-/obj/machinery/light,
+/obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "31; 48";
+	name = "Mining Hangar Access"
+	},
 /turf/open/floor/monotile/steel{
 	initial_gas_mix = "TEMP=2.7"
 	},
-/area/nsv/hanger/mining)
+/area/quartermaster/miningoffice)
 "bf" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -849,7 +858,9 @@
 	dir = 8
 	},
 /obj/machinery/suit_storage_unit/mining/eva,
-/turf/open/floor/monotile/steel,
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
+	},
 /area/quartermaster/miningoffice)
 "cZ" = (
 /obj/structure/table/reinforced,
@@ -1042,6 +1053,12 @@
 	},
 /turf/closed/wall/r_wall,
 /area/engine/engine_room)
+"dG" = (
+/obj/machinery/airalarm/directional/north,
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/quartermaster/miningoffice)
 "dH" = (
 /obj/structure/lattice/catwalk/over/ship,
 /obj/structure/cable{
@@ -1229,24 +1246,6 @@
 	},
 /turf/open/floor/plasteel/grid/steel,
 /area/hallway/secondary/exit/departure_lounge)
-"el" = (
-/obj/machinery/advanced_airlock_controller/directional/east{
-	pixel_y = 24
-	},
-/obj/item/radio/intercom/directional/north,
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/turf/open/floor/plasteel/techmaint{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/quartermaster/miningoffice)
 "em" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -1459,6 +1458,17 @@
 	},
 /turf/open/floor/durasteel/techfloor,
 /area/maintenance/nsv/deck2/port)
+"eU" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/nsv/hanger/mining)
 "eV" = (
 /obj/effect/turf_decal/tile/ship/half/red{
 	dir = 4
@@ -2120,20 +2130,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/security/armory)
-"gQ" = (
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer2{
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
-/turf/open/floor/plasteel/techmaint{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/quartermaster/miningoffice)
 "gS" = (
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
@@ -3035,9 +3031,7 @@
 	dir = 6
 	},
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel,
-/turf/open/floor/monotile/steel{
-	initial_gas_mix = "TEMP=2.7"
-	},
+/turf/open/floor/monotile/steel/airless,
 /area/nsv/hanger/mining)
 "jI" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos/nitrogen_input,
@@ -3290,15 +3284,18 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/secondary/exit/departure_lounge)
 "kx" = (
-/obj/item/radio,
-/obj/item/radio,
-/obj/item/radio,
-/obj/item/radio,
-/obj/structure/rack,
-/turf/open/floor/monotile/steel{
+/obj/machinery/light,
+/obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 4
+	},
+/obj/machinery/camera/autoname{
+	c_tag = "Atmos - Airlock #2";
+	dir = 8
+	},
+/turf/open/floor/plasteel/techmaint{
 	initial_gas_mix = "TEMP=2.7"
 	},
-/area/nsv/hanger/mining)
+/area/quartermaster/miningoffice)
 "ky" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -3657,16 +3654,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "ls" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 5
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 5
-	},
-/turf/open/floor/monotile/steel{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/quartermaster/miningoffice)
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel,
+/turf/open/floor/monotile/steel/airless,
+/area/nsv/hanger/mining)
 "lt" = (
 /obj/machinery/computer/ams{
 	dir = 8
@@ -4596,10 +4586,11 @@
 /turf/open/floor/plasteel/techmaint,
 /area/security/brig)
 "ot" = (
-/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel,
-/turf/open/floor/monotile/steel{
-	initial_gas_mix = "TEMP=2.7"
+/obj/structure/closet/secure_closet/engineering_welding{
+	req_access = null;
+	req_one_access_txt = "48"
 	},
+/turf/open/floor/monotile/steel/airless,
 /area/nsv/hanger/mining)
 "ov" = (
 /obj/structure/cable{
@@ -5328,6 +5319,24 @@
 /obj/machinery/ship_weapon/vls,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
+"qs" = (
+/obj/machinery/advanced_airlock_controller/directional/east{
+	pixel_y = 24
+	},
+/obj/item/radio/intercom/directional/north,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/turf/open/floor/plasteel/techmaint{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/quartermaster/miningoffice)
 "qt" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -5448,6 +5457,15 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
 "qX" = (
+/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer2{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
 /turf/open/floor/plasteel/techmaint{
 	initial_gas_mix = "TEMP=2.7"
 	},
@@ -6073,6 +6091,18 @@
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
+"ta" = (
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/obj/machinery/power/apc/auto_name/west,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/quartermaster/miningoffice)
 "td" = (
 /turf/open/floor/monotile/steel,
 /area/science)
@@ -7131,7 +7161,10 @@
 /turf/closed/wall/r_wall,
 /area/security/prison)
 "wn" = (
-/obj/machinery/airalarm/directional/north,
+/obj/machinery/light{
+	dir = 1
+	},
+/obj/machinery/vendor/mining,
 /turf/open/floor/monotile/steel{
 	initial_gas_mix = "TEMP=2.7"
 	},
@@ -7367,6 +7400,17 @@
 	icon_state = "platingdmg2"
 	},
 /area/maintenance/nsv/deck2/starboard)
+"xb" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 5
+	},
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/quartermaster/miningoffice)
 "xc" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 10
@@ -7685,7 +7729,9 @@
 "ya" = (
 /obj/machinery/light,
 /obj/effect/landmark/start/shaft_miner,
-/turf/open/floor/monotile/steel,
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
+	},
 /area/quartermaster/miningoffice)
 "ye" = (
 /obj/effect/turf_decal/stripes/line,
@@ -8055,20 +8101,6 @@
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Abandoned Bar"
 	})
-"zn" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
-	dir = 1
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
-	dir = 1
-	},
-/turf/open/floor/monotile/steel{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/quartermaster/miningoffice)
 "zo" = (
 /obj/machinery/door/airlock/ship/maintenance,
 /obj/machinery/door/firedoor/border_only{
@@ -8537,13 +8569,6 @@
 "Bj" = (
 /turf/open/floor/monotile/dark,
 /area/science)
-"Bn" = (
-/obj/machinery/firealarm/directional/west,
-/obj/structure/tank_dispenser/oxygen,
-/turf/open/floor/monotile/steel{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/quartermaster/miningoffice)
 "Bp" = (
 /obj/item/control_rod,
 /obj/machinery/light{
@@ -8828,18 +8853,6 @@
 /obj/machinery/vending/coffee,
 /turf/open/floor/carpet/red,
 /area/nsv/weapons)
-"Co" = (
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
-/obj/machinery/power/apc/auto_name/west,
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
-/turf/open/floor/monotile/steel{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/quartermaster/miningoffice)
 "Cp" = (
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/cable{
@@ -9026,12 +9039,11 @@
 /turf/open/floor/carpet/ship,
 /area/nsv/hanger/notkmcstupidhanger)
 "De" = (
-/obj/structure/closet/secure_closet/engineering_welding{
-	req_access = null;
-	req_one_access_txt = "48"
+/obj/machinery/suit_storage_unit/mining/eva,
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
 	},
-/turf/open/space/basic,
-/area/space)
+/area/quartermaster/miningoffice)
 "Dh" = (
 /obj/item/radio/intercom/directional/west,
 /turf/open/floor/carpet/orange,
@@ -9175,7 +9187,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
 "DH" = (
-/turf/closed/wall/r_wall,
+/turf/open/floor/plasteel/techmaint{
+	initial_gas_mix = "TEMP=2.7"
+	},
 /area/quartermaster/miningoffice)
 "DM" = (
 /obj/structure/cable/yellow{
@@ -9259,7 +9273,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
-/turf/open/floor/plating,
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
+	},
 /area/quartermaster/miningoffice)
 "Ec" = (
 /obj/machinery/light{
@@ -9355,6 +9371,10 @@
 /obj/item/clothing/ears/earmuffs,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
+"Ev" = (
+/obj/machinery/light,
+/turf/open/floor/monotile/steel/airless,
+/area/nsv/hanger/mining)
 "Ex" = (
 /obj/structure/chair,
 /turf/open/floor/wood,
@@ -9714,21 +9734,6 @@
 /area/crew_quarters/abandoned_gambling_den{
 	name = "Abandoned Bar"
 	})
-"FS" = (
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "31; 48";
-	name = "Mining Hangar Access"
-	},
-/turf/open/floor/plasteel/techmaint{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/quartermaster/miningoffice)
 "FT" = (
 /obj/effect/turf_decal/tile/ship/half/red{
 	dir = 1
@@ -9769,6 +9774,12 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
+"Ga" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
+/turf/open/floor/plasteel/techmaint{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/quartermaster/miningoffice)
 "Gd" = (
 /obj/machinery/computer/camera_advanced/xenobio{
 	dir = 8
@@ -10361,20 +10372,6 @@
 /obj/machinery/deck_turret/powder_gate,
 /turf/open/floor/plating,
 /area/nsv/weapons)
-"HV" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/button/door{
-	id = "atlas_mining_hangar";
-	name = "Pod Bay Doors";
-	pixel_y = 32;
-	req_one_access_txt = "48"
-	},
-/turf/open/floor/monotile/steel{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/nsv/hanger/mining)
 "HW" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -10421,6 +10418,9 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/security/brig)
+"Ij" = (
+/turf/open/floor/monotile/steel/airless,
+/area/nsv/hanger/mining)
 "Il" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	req_one_access_txt = "24"
@@ -10569,8 +10569,9 @@
 /turf/open/floor/monotile/steel,
 /area/maintenance/department/science)
 "Ja" = (
-/obj/machinery/suit_storage_unit/mining/eva,
-/turf/open/floor/monotile/steel,
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
+	},
 /area/quartermaster/miningoffice)
 "Jb" = (
 /obj/structure/sign/ship/securearea{
@@ -10687,18 +10688,13 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
 "Jq" = (
-/obj/machinery/light,
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
-	},
-/obj/machinery/camera/autoname{
-	c_tag = "Atmos - Airlock #2";
-	dir = 8
-	},
-/turf/open/floor/plasteel/techmaint{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/quartermaster/miningoffice)
+/obj/item/radio,
+/obj/item/radio,
+/obj/item/radio,
+/obj/item/radio,
+/obj/structure/rack,
+/turf/open/floor/monotile/steel/airless,
+/area/nsv/hanger/mining)
 "Jr" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 5
@@ -10752,17 +10748,6 @@
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /turf/open/floor/monotile/steel,
 /area/maintenance/nsv/deck2/port/fore)
-"Jy" = (
-/obj/machinery/camera/autoname{
-	dir = 1
-	},
-/obj/structure/rack,
-/obj/item/gps/mining,
-/obj/item/gps/mining,
-/turf/open/floor/monotile/steel{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/nsv/hanger/mining)
 "Jz" = (
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 4
@@ -11552,15 +11537,6 @@
 	},
 /turf/open/floor/carpet/royalblack,
 /area/chapel/main)
-"LI" = (
-/obj/structure/closet/secure_closet/miner,
-/obj/item/stack/sheet/mineral/wood/five,
-/obj/item/encryptionkey/pilot,
-/obj/item/encryptionkey/pilot,
-/turf/open/floor/monotile/steel{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/quartermaster/miningoffice)
 "LJ" = (
 /obj/machinery/mineral/stacking_unit_console{
 	machinedir = 4;
@@ -11614,10 +11590,9 @@
 /turf/open/floor/durasteel/techfloor_grid,
 /area/maintenance/nsv/deck2/port)
 "LV" = (
-/turf/open/floor/monotile/steel{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/nsv/hanger/mining)
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
+/area/quartermaster/miningoffice)
 "LY" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
@@ -11906,6 +11881,20 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/red,
 /area/nsv/weapons)
+"MM" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/button/door{
+	id = "atlas_mining_hangar";
+	name = "Pod Bay Doors";
+	pixel_y = 32;
+	req_one_access_txt = "48"
+	},
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/nsv/hanger/mining)
 "MO" = (
 /turf/closed/wall/r_wall,
 /area/engine/engine_room)
@@ -12717,6 +12706,13 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/science)
+"Pu" = (
+/obj/machinery/firealarm/directional/west,
+/obj/structure/tank_dispenser/oxygen,
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/quartermaster/miningoffice)
 "Px" = (
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -13741,14 +13737,8 @@
 /turf/open/floor/monotile/steel,
 /area/science)
 "SP" = (
-/obj/structure/closet/secure_closet/engineering_welding{
-	req_access = null;
-	req_one_access_txt = "48"
-	},
-/turf/open/floor/monotile/steel{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/nsv/hanger/mining)
+/turf/closed/wall/r_wall,
+/area/quartermaster/miningoffice)
 "SR" = (
 /obj/machinery/recharge_station,
 /turf/open/floor/plating,
@@ -14286,8 +14276,13 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
 "Uy" = (
-/obj/effect/spawner/structure/window/reinforced,
-/turf/open/floor/plating,
+/obj/structure/closet/secure_closet/miner,
+/obj/item/stack/sheet/mineral/wood/five,
+/obj/item/encryptionkey/pilot,
+/obj/item/encryptionkey/pilot,
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
+	},
 /area/quartermaster/miningoffice)
 "Uz" = (
 /obj/structure/disposalpipe/segment{
@@ -14443,6 +14438,20 @@
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/nsv/hanger/notkmcstupidhanger)
+"UU" = (
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 1
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 1
+	},
+/turf/open/floor/monotile/steel{
+	initial_gas_mix = "TEMP=2.7"
+	},
+/area/quartermaster/miningoffice)
 "UY" = (
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel,
 /turf/open/floor/plating{
@@ -14926,6 +14935,15 @@
 /obj/structure/sign/ship/deck/two,
 /turf/closed/wall/steel,
 /area/maintenance/nsv/deck2/port)
+"WC" = (
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/obj/structure/rack,
+/obj/item/gps/mining,
+/obj/item/gps/mining,
+/turf/open/floor/monotile/steel/airless,
+/area/nsv/hanger/mining)
 "WD" = (
 /obj/structure/overmap/small_craft/transport/sabre,
 /obj/effect/turf_decal/loading_area{
@@ -14962,17 +14980,6 @@
 	},
 /turf/open/space/basic,
 /area/engine/engine_room)
-"WK" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
-/turf/open/floor/monotile/steel{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/nsv/hanger/mining)
 "WM" = (
 /obj/machinery/aug_manipulator,
 /turf/open/floor/plasteel/techmaint,
@@ -15001,12 +15008,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
-"WU" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
-/turf/open/floor/plasteel/techmaint{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/quartermaster/miningoffice)
 "WW" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 4
@@ -15084,15 +15085,6 @@
 	},
 /turf/closed/wall/r_wall,
 /area/security/brig)
-"Xm" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/obj/machinery/vendor/mining,
-/turf/open/floor/monotile/steel{
-	initial_gas_mix = "TEMP=2.7"
-	},
-/area/quartermaster/miningoffice)
 "Xn" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -15117,9 +15109,6 @@
 /obj/effect/landmark/start/cargo_technician,
 /turf/open/floor/monotile/steel,
 /area/quartermaster/storage)
-"Xr" = (
-/turf/open/floor/monotile/steel,
-/area/quartermaster/miningoffice)
 "Xt" = (
 /obj/docking_port/stationary{
 	dir = 2;
@@ -53029,14 +53018,14 @@ fc
 oo
 tP
 tP
-DH
-DH
-DH
+SP
+SP
+SP
 Ry
-Uy
-DH
-DH
-DH
+LV
+SP
+SP
+SP
 Od
 Nh
 Nh
@@ -53286,14 +53275,14 @@ kg
 Rh
 Tb
 QI
-DH
-Bn
-Co
+SP
+Pu
+ta
 Qs
-Ja
+De
 cY
-Ja
-Uy
+De
+LV
 Od
 Nh
 Nh
@@ -53543,14 +53532,14 @@ kg
 Gy
 td
 VM
+SP
+wn
 DH
-Xm
-qX
 ar
 wt
 zJ
 ya
-Uy
+LV
 Od
 Nh
 Nh
@@ -53800,14 +53789,14 @@ bo
 ti
 Ki
 xp
-DH
-wn
-WU
+SP
+dG
+Ga
 NN
 wk
 sA
-Xr
-Uy
+Ja
+LV
 Od
 Nh
 Nh
@@ -54057,14 +54046,14 @@ Oq
 ti
 HA
 Yc
-DH
+SP
 yg
-LI
-LI
+Uy
+Uy
 wr
-zn
-ls
-DH
+UU
+xb
+SP
 Od
 Nh
 Nh
@@ -54314,14 +54303,14 @@ qf
 Be
 wU
 Wa
-DH
-DH
-Uy
-Uy
-DH
+SP
+SP
+LV
+LV
+SP
 Eb
 Ho
-DH
+SP
 Od
 Nh
 Nh
@@ -54572,13 +54561,13 @@ nm
 Bj
 ez
 Pm
-ot
-LV
-kx
-DH
-el
+ls
+Ij
+Jq
+SP
+qs
 zc
-Uy
+LV
 Od
 Nh
 Nh
@@ -54831,11 +54820,11 @@ ZZ
 Pm
 jG
 sH
-Jy
-DH
-gQ
-Jq
-Uy
+WC
+SP
+qX
+kx
+LV
 Od
 Nh
 Nh
@@ -55086,13 +55075,13 @@ yN
 sn
 Mi
 Pm
+ot
+Ij
+Ev
 SP
-LV
 be
-DH
-FS
-DH
-DH
+SP
+SP
 kD
 Nh
 Nh
@@ -55347,7 +55336,7 @@ Pm
 xs
 PJ
 PJ
-WK
+eU
 fn
 Pm
 Nh
@@ -55610,7 +55599,7 @@ Pm
 Nh
 Nh
 Nh
-De
+Nh
 Nh
 Nh
 Nh
@@ -55858,7 +55847,7 @@ av
 lj
 WM
 Pm
-HV
+MM
 sH
 sH
 sH
