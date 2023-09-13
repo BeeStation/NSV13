@@ -27,11 +27,11 @@
 	if(isliving(AM))
 		var/mob/living/L = AM
 		playsound(loc, 'sound/effects/gib_step.ogg', HAS_TRAIT(L, TRAIT_LIGHT_STEP) ? 20 : 50, 1)
-	radiation_pulse(src, 500, 5) //MORE RADS
+	radiation_pulse(src, 625, 5) //MORE RADS
 
 /obj/effect/decal/nuclear_waste/attackby(obj/item/tool, mob/user)
 	if(tool.tool_behaviour == TOOL_SHOVEL)
-		radiation_pulse(src, 1000, 5) //MORE RADS
+		radiation_pulse(src, 500, 5) //MORE RADS //The careful clearing of sludge should not give off as much radiation as casually running through it.
 		to_chat(user, "<span class='notice'>You start to clear [src]...</span>")
 		if(tool.use_tool(src, user, 50, volume=100))
 			to_chat(user, "<span class='notice'>You clear [src]. </span>")

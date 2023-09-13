@@ -75,13 +75,13 @@
 			. = TRUE
 		if("jump")
 			if(linked.ftl_drive.lockout)
-				visible_message("<span class='warning'>[icon2html(src, viewers(src))] Unable to comply. Invalid authkey to unlock remove override code.</span>")
+				to_chat(usr, "<span class='warning'>[icon2html(src, viewers(src))] Unable to comply. Invalid authkey to unlock remove override code.</span>")
 				return
 			linked.ftl_drive.jump(selected_system)
 			. = TRUE
 		if("cancel_jump")
 			if(linked.ftl_drive.lockout)
-				visible_message("<span class='warning'>[icon2html(src, viewers(src))] Unable to comply. Invalid authkey to unlock remove override code.</span>")
+				to_chat(usr, "<span class='warning'>[icon2html(src, viewers(src))] Unable to comply. Invalid authkey to unlock remove override code.</span>")
 				return
 			if(linked.ftl_drive.cancel_ftl())
 				linked.stop_relay(CHANNEL_IMPORTANT_SHIP_ALERT)

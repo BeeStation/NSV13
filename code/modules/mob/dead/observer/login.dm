@@ -16,7 +16,7 @@
 	if (isturf(T))
 		update_z(T.z)
 
-	update_icon(preferred_form)
+	update_icon(ALL, new_form = preferred_form) //NSV13 fixes ghost icon states
 	updateghostimages()
 
 	if(mind?.current)

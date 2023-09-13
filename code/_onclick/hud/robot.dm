@@ -141,11 +141,11 @@
 	using.hud = src
 	static_inventory += using
 
-//Manifest
-	using = new /atom/movable/screen/robot/crew_manifest()
-	using.screen_loc = ui_borg_crew_manifest
-	using.hud = src
-	static_inventory += using
+//NSV removed //Manifest
+// 		using = new /atom/movable/screen/robot/crew_manifest()
+//		using.screen_loc = ui_borg_crew_manifest
+//		using.hud = src
+//		static_inventory += using
 
 //Intent
 	action_intent = new /atom/movable/screen/act_intent/robot()
@@ -316,7 +316,7 @@
 	var/mob/living/silicon/robot/borgo = usr
 	borgo.robot_alerts()
 
-/atom/movable/screen/robot/crew_manifest
+/* NSV removed /atom/movable/screen/robot/crew_manifest
 	name = "Crew Manifest"
 	icon = 'icons/mob/screen_ai.dmi'
 	icon_state = "manifest"
@@ -325,4 +325,4 @@
 	if(..())
 		return
 	var/mob/living/silicon/robot/borgo = usr
-	borgo.ai_roster()
+	borgo.ai_roster() */

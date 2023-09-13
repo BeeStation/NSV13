@@ -1,11 +1,3 @@
-GLOBAL_VAR_INIT(crew_transfer_risa, FALSE)
-
-#define COMBAT_CYCLE_INTERVAL 180 SECONDS	//Time between each 'combat cycle' of starsystems. Every combat cycle, every system that has opposing fleets in it gets iterated through, with the fleets firing at eachother.
-
-#define THREAT_LEVEL_NONE 0
-#define THREAT_LEVEL_UNSAFE 2
-#define THREAT_LEVEL_DANGEROUS 4
-
 //Subsystem to control overmap events and the greater gameworld
 SUBSYSTEM_DEF(star_system)
 	name = "star_system"
@@ -24,6 +16,7 @@ SUBSYSTEM_DEF(star_system)
 	var/list/neutral_zone_systems = list()
 	var/list/all_missions = list()
 	var/time_limit = FALSE //Do we want to end the round after a specific time? Mostly used for galconquest.
+	var/datum/star_system/return_system //Which system should we jump to at the end of the round?
 
 	var/enable_npc_combat = TRUE	//If you are running an event and don't want fleets to shoot eachother, set this to false.
 	var/next_combat_cycle = 0
@@ -56,6 +49,7 @@ SUBSYSTEM_DEF(star_system)
 /datum/controller/subsystem/star_system/Initialize(start_timeofday)
 	instantiate_systems()
 	. = ..()
+	return_system = system_by_id(SSmapping.config.return_system)
 	enemy_types = subtypesof(/obj/structure/overmap/syndicate/ai)
 	for(var/type in enemy_blacklist)
 		enemy_types -= type
@@ -66,7 +60,7 @@ SUBSYSTEM_DEF(star_system)
 		F.setup_relationships() //Set up faction relationships AFTER they're all initialised to avoid errors.
 
 	for(var/datum/star_system/S in systems)	//Setup the neutral zone for easier access - Bit of overhead but better than having to search for sector 2 systems everytime we want a new neutral zone occupier)
-		if(S.sector != 2)	//Magic numbers bad I know, but there is no sector defines.
+		if(S.sector != SECTOR_NEUTRAL)
 			continue
 		neutral_zone_systems += S
 
@@ -749,7 +743,7 @@ Returns a faction datum by its name (case insensitive!)
 			anomaly_type = /obj/effect/overmap_anomaly/singularity
 			parallax_property = "pitchblack"
 		if("blacksite") //this a special one!
-			adjacency_list += "Outpost 45" //you're going to risa, damnit.
+			adjacency_list += SSstar_system.return_system.name //you're going to risa, damnit.
 			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
 	if(alignment == "syndicate")
 		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some Syndie ships.
@@ -1600,4 +1594,3 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	fleet_type = /datum/fleet/border
 	adjacency_list = list("Rubicon", "Aeterna Victrix")
 
-#define ALL_STARMAP_SECTORS 1,2,3 //KEEP THIS UPDATED.

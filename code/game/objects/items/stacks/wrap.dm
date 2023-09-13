@@ -68,6 +68,10 @@
 		return
 	if(target.anchored)
 		return
+	///NSV13 - Cargo Borgs - Start
+	if(!amount)
+		return
+	///NSV13 - Cargo Borgs - Stop
 
 	if(isitem(target))
 		var/obj/item/I = target

@@ -173,3 +173,12 @@
 				paper.rename()
 				update_icon()
 				. = TRUE
+
+//NSV13 - Clipboard Stuff - Start
+/**
+ * This is a simple proc to handle calling update_icon() upon receiving the top paper's `COMSIG_ATOM_UPDATE_APPEARANCE`.
+ */
+/obj/item/clipboard/proc/on_top_paper_change()
+	SIGNAL_HANDLER
+	update_appearance()
+//NSV13 - Clipboard Stuff - Stop
