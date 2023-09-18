@@ -143,10 +143,11 @@
 /turf/open/floor/monotile/light,
 /area/crew_quarters/kitchen)
 "aD" = (
-/obj/structure/lattice/catwalk/over/ship,
 /obj/structure/cable{
 	icon_state = "4-32"
 	},
+/obj/effect/turf_decal/ship/shutoff,
+/obj/effect/turf_decal/box,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/central)
 "aE" = (
@@ -567,9 +568,8 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=4";
-	dir = 4;
-	freq = 1400;
-	location = "Service"
+	location = "Service";
+	name = "navigation beacon (Service Delivery)"
 	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/bar/mess_hall)
@@ -808,7 +808,6 @@
 /area/hallway/nsv/deck1/hallway)
 "dF" = (
 /obj/structure/lattice/catwalk/over/ship,
-/obj/structure/ladder,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/central)
 "dH" = (
@@ -2267,6 +2266,16 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/bridge/cic)
+"kc" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/effect/landmark/latejoin,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck1/hallway)
 "ke" = (
 /obj/effect/turf_decal/tile/ship/brown{
 	dir = 1
@@ -2906,9 +2915,8 @@
 	},
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=4";
-	dir = 4;
-	freq = 1400;
-	location = "Medbay"
+	location = "Medbay";
+	name = "navigation beacon (Medbay Delivery)"
 	},
 /turf/open/floor/durasteel/alt,
 /area/medical/medbay)
@@ -3516,18 +3524,6 @@
 "pT" = (
 /turf/closed/wall/r_wall,
 /area/ai_monitored/turret_protected/ai)
-"pU" = (
-/obj/docking_port/stationary{
-	dir = 4;
-	dwidth = 3;
-	height = 15;
-	id = "arrivals_stationary";
-	name = "Atlas Arrivals";
-	roundstart_template = /datum/map_template/shuttle/arrival/atlas;
-	width = 7
-	},
-/turf/open/floor/engine/airless,
-/area/space/nearstation)
 "pW" = (
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
@@ -3957,6 +3953,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/ship/green,
+/obj/effect/landmark/latejoin,
 /turf/open/floor/durasteel/alt,
 /area/hallway/nsv/deck1/hallway)
 "sd" = (
@@ -5345,6 +5342,7 @@
 	pixel_y = 26
 	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
+/obj/effect/landmark/latejoin,
 /turf/open/floor/carpet/green,
 /area/hallway/nsv/deck1/hallway)
 "ys" = (
@@ -5364,6 +5362,7 @@
 /obj/machinery/light/small{
 	dir = 1
 	},
+/obj/structure/ladder,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/central)
 "yv" = (
@@ -5907,6 +5906,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/ship/green,
+/obj/effect/landmark/latejoin,
 /turf/open/floor/durasteel/alt,
 /area/hallway/nsv/deck1/hallway)
 "Bl" = (
@@ -6212,6 +6212,7 @@
 "CJ" = (
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/light/small,
+/obj/structure/ladder,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/central)
 "CN" = (
@@ -7214,6 +7215,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
+/obj/effect/landmark/latejoin,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "Hh" = (
@@ -9683,6 +9685,7 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 1
 	},
+/obj/effect/landmark/latejoin,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "RC" = (
@@ -10816,11 +10819,15 @@
 	},
 /area/maintenance/nsv/deck1/port)
 "Xn" = (
-/obj/structure/lattice/catwalk/over/ship,
 /obj/structure/cable{
 	icon_state = "4-32"
 	},
 /obj/machinery/power/apc/auto_name/west,
+/obj/effect/turf_decal/box,
+/obj/effect/turf_decal/ship/shutoff,
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/central)
 "Xp" = (
@@ -48517,7 +48524,7 @@ mK
 Am
 Am
 PT
-ST
+kc
 sc
 cH
 xT
@@ -50577,7 +50584,7 @@ KN
 cx
 cx
 cx
-pU
+cx
 cx
 cx
 cx

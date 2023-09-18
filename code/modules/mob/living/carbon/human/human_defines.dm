@@ -57,3 +57,6 @@
 	var/lastpuke = 0
 	var/last_fire_update
 	var/account_id
+
+	///The Examine Panel TGUI. //NSV13
+	var/datum/examine_panel/tgui = new() //create the datum

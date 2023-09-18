@@ -17,7 +17,7 @@
 		if(HAS_TRAIT(L, TRAIT_PROSOPAGNOSIA))
 			obscure_name = TRUE
 
-	var/apparent_species	
+	var/apparent_species
 	//NSV13 - add rank to name
 	var/display_name = ""
 	if(CONFIG_GET(flag/show_ranks))
@@ -359,6 +359,10 @@
 				. += "<a href='?src=[REF(src)];hud=m;evaluation=1'>\[Medical evaluation\]</a><br>"
 			if(traitstring)
 				. += "<span class='info'>Detected physiological traits:\n[traitstring]"
+			//NSV13 - Roleplaying Records - Start
+			. += "<a href='?src=[REF(src)];hud=m;medrecords=1'>\[View medical records\]</a>"
+			. += "<a href='?src=[REF(src)];hud=m;genrecords=1'>\[View general records\]</a>"
+			//NSV13 - Roleplaying Records - End
 
 		if(HAS_TRAIT(user, TRAIT_SECURITY_HUD))
 			if(!user.stat && user != src)
@@ -370,25 +374,24 @@
 					criminal = R.fields["criminal"]
 
 				. += "<span class='deptradio'>Criminal status:</span> <a href='?src=[REF(src)];hud=s;status=1'>\[[criminal]\]</a>"
-				. += jointext(list("<span class='deptradio'>Security record:</span> <a href='?src=[REF(src)];hud=s;view=1'>\[View\]</a>",
+				. += jointext(list("<span class='deptradio'>Security record:</span> <a href='?src=[REF(src)];hud=s;viewsec=1'>\[View security records\]</a>", //NSV13 - Roleplaying Records
 					"<a href='?src=[REF(src)];hud=s;add_citation=1'>\[Add citation\]</a>",
 					"<a href='?src=[REF(src)];hud=s;add_crime=1'>\[Add crime\]</a>",
 					"<a href='?src=[REF(src)];hud=s;view_comment=1'>\[View comment log\]</a>",
 					"<a href='?src=[REF(src)];hud=s;add_comment=1'>\[Add comment\]</a>"), "")
+
+				. += jointext(list("<span class='deptradio'>General record:</span> <a href='?src=[REF(src)];hud=s;genrecords=1'>\[View general records\]</a>"), "") //NSV13 - Roleplaying Records
 	else if(isobserver(user) && traitstring)
 		. += "<span class='info'><b>Traits:</b> [traitstring]</span>"
 
-	//NSV13 START
-	//No flavor text unless the face can be seen. Prevents certain metagaming with impersonation.
-	var/invisible_man = skipface || get_visible_name() == "Unknown"
-	if(invisible_man)
-		. += "...?"
-	else
-		var/flavor = print_flavor_text()
-		if(flavor)
-			. += flavor
-	//NSV13 STOP
+	//NSV13 - Roleplaying Records - Start
+	if(!skipface)
+		var/line = "<span class='notice'><a href='?src=[REF(src)];lookup_info=open_examine_panel'>Examine closely...</a></span>"
 
+		if(line)
+			. += line
+
+	//NSV13 - Roleplaying Records - End
 	. += "*---------*</span>"
 
 /mob/living/proc/status_effect_examines(pronoun_replacement) //You can include this in any mob's examine() to show the examine texts of status effects!

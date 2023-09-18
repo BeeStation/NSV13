@@ -3769,6 +3769,10 @@
 	},
 /turf/closed/wall/ship,
 /area/maintenance/department/medical)
+"mk" = (
+/obj/effect/landmark/latejoin,
+/turf/open/floor/wood,
+/area/crew_quarters/cryopods)
 "mm" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -7360,6 +7364,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 1
 	},
+/obj/effect/landmark/latejoin,
 /turf/open/floor/wood,
 /area/crew_quarters/cryopods)
 "yp" = (
@@ -7400,6 +7405,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 1
 	},
+/obj/effect/landmark/latejoin,
 /turf/open/floor/wood,
 /area/crew_quarters/cryopods)
 "yx" = (
@@ -10488,17 +10494,11 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/bridge/cic)
 "IQ" = (
-/obj/docking_port/stationary{
-	dir = 8;
-	dwidth = 7;
-	height = 8;
-	id = "arrivals_stationary";
-	name = "Serendipity Arrivals";
-	roundstart_template = /datum/map_template/shuttle/arrival/serendipity;
-	width = 15
-	},
-/turf/open/space/basic,
-/area/space/nearstation)
+/obj/machinery/recharge_station,
+/obj/effect/landmark/start/cyborg,
+/obj/effect/landmark/latejoin,
+/turf/open/floor/wood,
+/area/crew_quarters/cryopods)
 "IT" = (
 /obj/structure/table/glass/plasma,
 /obj/item/paper_bin,
@@ -11646,6 +11646,13 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet,
 /area/crew_quarters/heads/xo)
+"Mh" = (
+/obj/structure/bed,
+/obj/item/bedsheet/random,
+/obj/effect/landmark/start/assistant,
+/obj/effect/landmark/latejoin,
+/turf/open/floor/wood,
+/area/crew_quarters/cryopods)
 "Mi" = (
 /obj/machinery/stasis,
 /obj/effect/turf_decal/tile/ship/blue{
@@ -14625,6 +14632,7 @@
 	pixel_y = -30
 	},
 /obj/effect/landmark/start/assistant,
+/obj/effect/landmark/latejoin,
 /turf/open/floor/wood,
 /area/crew_quarters/cryopods)
 "Wk" = (
@@ -36974,7 +36982,7 @@ zP
 zP
 zP
 zP
-IQ
+zP
 zP
 zP
 zP
@@ -44690,8 +44698,8 @@ Gu
 Tc
 yw
 yo
-Kf
-Kf
+mk
+mk
 wF
 Vp
 Lr
@@ -44945,9 +44953,9 @@ kG
 SB
 Fe
 mm
-zw
-Kf
-zA
+IQ
+mk
+Mh
 Wj
 vP
 Sf

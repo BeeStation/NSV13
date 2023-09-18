@@ -199,6 +199,7 @@
 	new /obj/item/clothing/gloves/krav_maga(src)
 	new /obj/item/door_remote/head_of_security(src)
 	new /obj/item/gun/ballistic/shotgun/automatic/combat/compact(src)
+	new /obj/item/shield/riot/flash(src) //NSV13 - strobe shield instead of energy weaponry
 	new /obj/item/ammo_box/c9mm/rubber(src) //NSV13 - rubber bullets
 	new /obj/item/storage/box/deputy(src)
 

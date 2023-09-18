@@ -396,10 +396,10 @@
 	icon_state = "security"
 	build_path = /obj/machinery/computer/prisoner/gulag_teleporter_computer
 
-/obj/item/circuitboard/computer/prisoner
+/obj/item/circuitboard/computer/prisoner/management //NSV13 modified - fix
 	name = "prisoner management console (Computer Board)"
 	icon_state = "security"
-	build_path = /obj/machinery/computer/prisoner
+	build_path = /obj/machinery/computer/prisoner/management
 
 /obj/item/circuitboard/computer/secure_data
 	name = "security records console (Computer Board)"

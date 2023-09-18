@@ -241,28 +241,37 @@
 		to_chat(src,"<span class='userdanger'>ERROR: Module installer reply timeout. Please check internal connections.</span>")
 		return
 
-	var/list/modulelist = list("Standard" = /obj/item/robot_module/standard, \
-	"Engineering" = /obj/item/robot_module/engineering, \
-	"Medical" = /obj/item/robot_module/medical, \
-	"Miner" = /obj/item/robot_module/miner, \
-	"Janitor" = /obj/item/robot_module/janitor, \
-	"Service" = /obj/item/robot_module/butler)
-	if(!CONFIG_GET(flag/disable_peaceborg))
-		modulelist["Peacekeeper"] = /obj/item/robot_module/peacekeeper
+	//NSV13 - Borg Skin Framework - Start
+	if(!length(GLOB.cyborg_module_list))
+		GLOB.cyborg_module_list = list(
+			"Standard" = /obj/item/robot_module/standard,
+			"Engineering" = /obj/item/robot_module/engineering,
+			"Medical" = /obj/item/robot_module/medical,
+			"Cargo" = /obj/item/robot_module/cargo,
+			"Miner" = /obj/item/robot_module/miner,
+			"Janitor" = /obj/item/robot_module/janitor,
+			"Service" = /obj/item/robot_module/butler,
+		) //NSV13 - Cargo and Munition Borgs
+		if(!CONFIG_GET(flag/disable_peaceborg))
+			GLOB.cyborg_module_list["Peacekeeper"] = /obj/item/robot_module/peacekeeper
+
+		for(var/module in GLOB.cyborg_module_list)
+			// Creating the list here since we know all the module icons will need them right after.
+			GLOB.cyborg_all_modules_icon_list[module] = list()
 
 	// Create radial menu for choosing borg model *smug* module
-	var/list/module_icons = list()
-	for(var/option in modulelist)
-		var/obj/item/robot_module/module = modulelist[option]
-		var/module_icon = initial(module.cyborg_base_icon)
-		module_icons[option] = image(icon = 'icons/mob/robots.dmi', icon_state = module_icon)
+	if(!length(GLOB.cyborg_base_modules_icon_list))
+		for(var/option in GLOB.cyborg_module_list)
+			var/obj/item/robot_module/module = GLOB.cyborg_module_list[option]
+			var/module_icon = initial(module.cyborg_base_icon)
+			GLOB.cyborg_base_modules_icon_list[option] = image(icon = 'icons/mob/robots.dmi', icon_state = module_icon)
 
-	var/input_module = show_radial_menu(src, src, module_icons, radius = 42)
+	var/input_module = show_radial_menu(src, src, GLOB.cyborg_base_modules_icon_list, radius = 42)
 	if(!input_module || module.type != /obj/item/robot_module)
 		return
 
-	module.transform_to(modulelist[input_module])
-
+	module.transform_to(GLOB.cyborg_module_list[input_module])
+	//NSV13 - Borg Skin Framework - Stop
 
 /mob/living/silicon/robot/proc/updatename(client/C)
 	if(shell)
@@ -860,7 +869,7 @@
 
 /mob/living/silicon/robot/modules/Initialize(mapload)
 	. = ..()
-	module.transform_to(set_module)
+	INVOKE_ASYNC(module, TYPE_PROC_REF(/obj/item/robot_module, transform_to), set_module, TRUE) //NSV13 - Borg Skin Framework
 
 /mob/living/silicon/robot/modules/standard
 	set_module = /obj/item/robot_module/standard

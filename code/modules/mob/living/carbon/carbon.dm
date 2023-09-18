@@ -991,11 +991,6 @@
 		if(mood.sanity < SANITY_UNSTABLE)
 			return TRUE
 
-//NSV13
-/mob/living/carbon/proc/update_flavor_text_feature(new_text)
-	if(!dna)
-		return
-	dna.features["flavour_text"] = new_text
 
 /mob/living/carbon/set_gender(ngender = NEUTER, silent = FALSE, update_icon = TRUE, forced = FALSE)
 	var/bender = gender != ngender

@@ -356,6 +356,7 @@
 						<tr><td>Fingerprint:</td><td><A href='?src=[REF(src)];choice=Edit Field;field=fingerprint'>&nbsp;[active1.fields["fingerprint"]]&nbsp;</A></td></tr>
 						<tr><td>Physical Status:</td><td>&nbsp;[active1.fields["p_stat"]]&nbsp;</td></tr>
 						<tr><td>Mental Status:</td><td>&nbsp;[active1.fields["m_stat"]]&nbsp;</td></tr>
+						<tr><td>General Records:</td><td><A href='?src=[REF(src)];choice=View Past General'>View&nbsp;</A></td></tr>
 						</table></td>
 						<td><table><td align = center><a href='?src=[REF(src)];choice=Edit Field;field=show_photo_front'><img src=photo_front height=80 width=80 border=4></a><br>
 						<a href='?src=[REF(src)];choice=Edit Field;field=print_photo_front'>Print photo</a><br>
@@ -363,11 +364,12 @@
 						<td align = center><a href='?src=[REF(src)];choice=Edit Field;field=show_photo_side'><img src=photo_side height=80 width=80 border=4></a><br>
 						<a href='?src=[REF(src)];choice=Edit Field;field=print_photo_side'>Print photo</a><br>
 						<a href='?src=[REF(src)];choice=Edit Field;field=upd_photo_side'>Update side photo</a></td></table>
-						</td></tr></table></td></tr></table>"}
+						</td></tr></table></td></tr></table>"} //NSV13 - TEXT AMENDED, "GENERAL RECORDS" - Roleplaying Records
 					else
 						dat += "<br>General Record Lost!<br>"
 					if((istype(active2, /datum/data/record) && GLOB.data_core.security.Find(active2)))
 						dat += "<font size='4'><b>Security Data</b></font>"
+						dat += "<br>Security Records: <A href='?src=[REF(src)];choice=View Past Security'>View</A>" //NSV13 - Roleplaying Records
 						dat += "<br>Criminal Status: <A href='?src=[REF(src)];choice=Edit Field;field=criminal'>[active2.fields["criminal"]]</A>"
 						dat += "<br><br>Citations: <A href='?src=[REF(src)];choice=Edit Field;field=citation_add'>Add New</A>"
 
@@ -455,6 +457,21 @@ What a mess.*/
 	if(usr.contents.Find(src) || (in_range(src, usr) && isturf(loc)) || issilicon(usr) || IsAdminGhost(usr))
 		usr.set_machine(src)
 		switch(href_list["choice"])
+			//NSV13 - Roleplaying Records - Start
+			if("View Past Security")
+				if(istype(active2, /datum/data/record))
+					temp = "<h5>Security Records:</h5>"
+					temp += "<ul>"
+					temp += "<li>[active2.fields["past_records"]]</li>"
+					temp += "</ul>"
+
+			if("View Past General")
+				if(istype(active1, /datum/data/record))
+					temp = "<h5>General Records:</h5>"
+					temp += "<ul>"
+					temp += "<li>[active1.fields["past_records"]]</li>"
+					temp += "</ul>"
+			//NSV13 - Roleplaying Records - End
 // SORTING!
 			if("Sorting")
 				// Reverse the order if clicked twice
@@ -557,11 +574,19 @@ What a mess.*/
 						final_paper_text += text("Name: [] ID: []<BR>\nGender: []<BR>\nAge: []<BR>", active1.fields["name"], active1.fields["id"], active1.fields["gender"], active1.fields["age"])
 						final_paper_text += "\nSpecies: [active1.fields["species"]]<BR>"
 						final_paper_text += text("\nFingerprint: []<BR>\nPhysical Status: []<BR>\nMental Status: []<BR>", active1.fields["fingerprint"], active1.fields["p_stat"], active1.fields["m_stat"])
+						//NSV13 - Roleplaying Records - Start
+						if(!(active1.fields["past_records"] == ""))
+							final_paper_text += "\nGeneral Records:\n[active1.fields["past_records"]]\n"
+						//NSV13 - Roleplaying Records - End
 					else
 						final_paper_text += "<B>General Record Lost!</B><BR>"
 					if((istype(active2, /datum/data/record) && GLOB.data_core.security.Find(active2)))
-						final_paper_text += text("<BR>\n<CENTER><B>Security Data</B></CENTER><BR>\nCriminal Status: []", active2.fields["criminal"])
-
+						//NSV13 - Roleplaying Records - Start
+						final_paper_text += text("<BR>\n<CENTER><B>Security Data</B></CENTER><BR>\n")
+						if(!(active2.fields["past_records"] == ""))
+							final_paper_text += "\nSecurity Records:\n[active2.fields["past_records"]]\n"
+						final_paper_text += text("Criminal Status: []", active2.fields["criminal"])
+						//NSV13 - Roleplaying Records - End
 						final_paper_text += "<BR>\n<BR>\nCrimes:<BR>\n"
 						final_paper_text +={"<table style="text-align:center;" border="1" cellspacing="0" width="100%">
 <tr>

@@ -354,18 +354,14 @@ Starting Materials
 /obj/machinery/armour_plating_nanorepair_well/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	if(!(in_range(src, usr) | IsAdminGhost(usr)))
+	if(!(in_range(src, usr) || IsAdminGhost(usr)))
 		return
 	var/adjust = text2num(params["adjust"])
 	if(action == "power_allocation")
-		if(adjust && isnum(adjust))
+		if(isnum(adjust))
 			power_allocation = adjust
-			if(power_allocation > maximum_power_allocation)
-				power_allocation = maximum_power_allocation
-				return
-			if(power_allocation < 0)
-				power_allocation = 0
-				return
+			adjust = CLAMP(adjust, 0, maximum_power_allocation)
+			return
 	switch(action)
 		if("iron")
 			if(material_tier != 0)

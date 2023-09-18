@@ -34,3 +34,12 @@
 	materials = list(/datum/material/iron=25000, /datum/material/glass=5000)
 	construction_time = 200
 	category = list("Exosuit Equipment")
+
+/datum/design/borg_upgrade_muni_app
+	name = "Cyborg Upgrade (Munitions Manipulator)"
+	id = "borg_upgrade_muniapp"
+	build_type = MECHFAB
+	build_path = /obj/item/borg/upgrade/munitions
+	materials = list(/datum/material/iron = 2000, /datum/material/titanium = 500)
+	construction_time = 120
+	category = list("Cyborg Upgrade Modules")

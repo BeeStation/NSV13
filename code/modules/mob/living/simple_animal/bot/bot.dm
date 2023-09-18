@@ -83,7 +83,7 @@
 	var/nearest_beacon			// the nearest beacon's tag
 	var/turf/nearest_beacon_loc	// the nearest beacon's location
 
-	var/beacon_freq = FREQ_NAV_BEACON
+	//var/beacon_freq = FREQ_NAV_BEACON //NSV13 - Navbeacon Refactor - Removed
 	var/model = "" //The type of bot it is.
 	var/bot_type = 0 //The type of bot it is, for radio control.
 	var/data_hud_type = DATA_HUD_DIAGNOSTIC_BASIC //The type of data HUD the bot uses. Diagnostic by default.
@@ -716,24 +716,24 @@ Pass a positive integer as an argument to override a bot's default speed.
 /mob/living/simple_animal/bot/proc/get_next_patrol_target()
 	// search the beacon list for the next target in the list.
 	for(var/obj/machinery/navbeacon/NB in get_overmap().beacons_in_ship) //NSV13 - Navbeacons are in the Overmap Ship
-		if(NB.codes["next_patrol"] != null) //NSV13
+		if(NB.codes[NAVBEACON_PATROL_NEXT] != null) //NSV13
 			if(NB.location == next_destination) //Does the Beacon location text match the destination?
 				destination = new_destination //We now know the name of where we want to go.
 				patrol_target = NB.loc //Get its location and set it as the target.
 				original_patrol = NB.loc
-				next_destination = NB.codes["next_patrol"] //Also get the name of the next beacon in line.
+				next_destination = NB.codes[NAVBEACON_PATROL_NEXT] //Also get the name of the next beacon in line. //NSV13 - Navbeacon Refactor
 				return TRUE
 
 /mob/living/simple_animal/bot/proc/find_nearest_beacon()
 	for(var/obj/machinery/navbeacon/NB in get_overmap().beacons_in_ship) //NSV13 - Navbeacons are in the Overmap Ship
-		if(NB.codes["next_patrol"] != null) //NSV13
+		if(NB.codes[NAVBEACON_PATROL_NEXT] != null) //NSV13
 			var/dist = get_dist(src, NB)
 			if(nearest_beacon) //Loop though the beacon net to find the true closest beacon.
 				//Ignore the beacon if were are located on it.
 				if(dist>1 && dist<get_dist(src,nearest_beacon_loc))
 					nearest_beacon = NB.location
 					nearest_beacon_loc = NB.loc
-					next_destination = NB.codes["next_patrol"]
+					next_destination = NB.codes[NAVBEACON_PATROL_NEXT] //NSV13 - Navbeacon Refactor
 				else
 					continue
 			else if(dist > 1) //Begin the search, save this one for comparison on the next loop.

@@ -121,3 +121,12 @@
 	build_path = /obj/item/circuitboard/machine/coffeemaker
 	category = list("Misc. Machinery")
 	departmental_flags = DEPARTMENTAL_FLAG_SERVICE | DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE
+
+/datum/design/board/navbeacon
+	name = "Machine Design (Bot Navigational Beacon)"
+	desc = "The circuit board for a beacon that aids bot navigation."
+	id = "botnavbeacon"
+	build_type = IMPRINTER
+	build_path = /obj/item/circuitboard/machine/navbeacon
+	category = list ("Research Machinery")
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING

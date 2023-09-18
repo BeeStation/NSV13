@@ -78,9 +78,9 @@
 	contains = list(/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
 					/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing,
-					/obj/item/ship_weapon/parts/missile/warhead,
-					/obj/item/ship_weapon/parts/missile/warhead,
-					/obj/item/ship_weapon/parts/missile/warhead,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+					/obj/item/ship_weapon/parts/missile/warhead/torpedo,
 					/obj/item/ship_weapon/parts/missile/guidance_system,
 					/obj/item/ship_weapon/parts/missile/guidance_system,
 					/obj/item/ship_weapon/parts/missile/guidance_system,
@@ -530,6 +530,55 @@
 					/obj/item/gun/energy/laser,
 					/obj/item/gun/energy/laser)
 	crate_name = "laser crate"
+
+/datum/supply_pack/security/mparmor
+	name = "Military Police Replacement Crate"
+	desc = "Three vests of MP armor vests complete with MP undershirts, everything to replace which fire razed to the ground."
+	cost = 3600
+	contains = list(/obj/item/clothing/suit/ship/squad/military_police,
+					/obj/item/clothing/suit/ship/squad/military_police,
+					/obj/item/clothing/suit/ship/squad/military_police,
+					/obj/item/clothing/under/ship/military_police,
+					/obj/item/clothing/under/ship/military_police,
+					/obj/item/clothing/under/ship/military_police,
+					/obj/item/clothing/head/helmet/ship/squad/leader,
+					/obj/item/clothing/head/helmet/ship/squad/leader,
+					/obj/item/clothing/head/helmet/ship/squad/leader)
+	crate_name = "MP armor crate"
+
+/datum/supply_pack/security/armory/m45single
+	name = "M1911 handgun Single-pack"
+	desc = "Single M1911 with a .45 magazine to fit inside of it."
+	cost = 1500
+	contains = list(/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
+				/obj/item/ammo_box/magazine/m45)
+	crate_name = "1911 single crate"
+
+/datum/supply_pack/security/armory/m45guns
+	name = "M1911 handgun Crate"
+	desc = "Holds 3 M1911's with 3 magazines to fit in each one of them."
+	cost = 4200
+	contains = list(/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
+					/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
+					/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
+					/obj/item/ammo_box/magazine/m45,
+					/obj/item/ammo_box/magazine/m45,
+					/obj/item/ammo_box/magazine/m45)
+	crate_name = "1911 single gun crate"
+
+/datum/supply_pack/security/armory/m45ammo
+	name = "M1911 Ammo Crate"
+	desc = "Contains 6 magazines and 2 ammoboxes which hold 3 loads each, which should contain enough lead for that holy crusade your chaplain always wanted."
+	cost = 2200
+	contains = list(/obj/item/ammo_box/magazine/m45,
+					/obj/item/ammo_box/magazine/m45,
+					/obj/item/ammo_box/magazine/m45,
+					/obj/item/ammo_box/magazine/m45,
+					/obj/item/ammo_box/magazine/m45,
+					/obj/item/ammo_box/magazine/m45,
+					/obj/item/ammo_box/c45/m45,
+					/obj/item/ammo_box/c45/m45) // yes, they use the C20R ammo, funny KMC
+	crate_name = "1911 ammo crate"
 
 /datum/supply_pack/munitions/fighter_fuel
 	name = "Fighter fuel"

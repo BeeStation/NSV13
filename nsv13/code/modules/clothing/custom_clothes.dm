@@ -824,12 +824,12 @@
 	icon = 'nsv13/icons/obj/clothing/gloves.dmi'
 	worn_icon = 'nsv13/icons/mob/hands.dmi'
 	icon_state = "syndimaid_arms"
+	worn_icon_state = "syndimaid_arms"
 	item_state = "syndimaid_arms"
 
 /obj/item/clothing/accessory/maidapron/syndicate
 	name = "syndicate maid apron"
 	desc = "Practical? No. Tactical? Also no. Cute? Most definitely yes."
-	icon = 'nsv13/icons/obj/clothing/accessories.dmi'
-	worn_icon = 'nsv13/icons/mob/accessories.dmi'
+	icon = 'nsv13/icons/mob/accessories.dmi'
 	icon_state = "maidapronsynd"
 	item_state = "maidapronsynd"

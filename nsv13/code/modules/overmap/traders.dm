@@ -385,3 +385,4 @@
 	assets.send(user)
 	ui = new(user, src, "Trader")
 	ui.open()
+	ui.set_autoupdate(TRUE) // Current balance and stock updates

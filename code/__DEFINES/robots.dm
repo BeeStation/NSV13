@@ -2,6 +2,25 @@
 
 #define DEFAULT_AI_LAWID "default"
 
+//NSV13 - Borg Skin Framework - Start
+#define SKIN_ICON "skin_icon"
+#define SKIN_ICON_STATE "skin_icon_state"
+#define SKIN_LIGHT_KEY "skin_light_key"
+#define SKIN_HAT_OFFSET "skin_hat_offset"
+#define SKIN_FEATURES "skin_features" //for the new system of borg making
+
+/// Cyborgs with unique sprites for when they get totally broken down.
+#define R_TRAIT_UNIQUEWRECK	"unique_wreck"
+
+/// To store all the different cyborg modules, instead of creating that for each cyborg.
+GLOBAL_LIST_EMPTY(cyborg_module_list)
+/// To store all of the different base cyborg module icons, instead of creating them every time the pick_module() proc is called.
+GLOBAL_LIST_EMPTY(cyborg_base_modules_icon_list)
+/// To store all of the different cyborg module icons, instead of creating them every time the be_transformed_to() proc is called.
+GLOBAL_LIST_EMPTY(cyborg_all_modules_icon_list)
+
+//NSV13 - Borg Skin Framework - End
+
 //Bot defines, placed here so they can be read by other things!
 #define BOT_STEP_DELAY 4 //Delay between movemements
 #define BOT_STEP_MAX_RETRIES 5 //Maximum times a bot will retry to step from its position
@@ -50,3 +69,11 @@
 #define ASSEMBLY_THIRD_STEP     2
 #define ASSEMBLY_FOURTH_STEP    3
 #define ASSEMBLY_FIFTH_STEP     4
+
+//NSV13 - Start - Navbeacon Refactor
+//bot navigation beacon defines
+#define NAVBEACON_PATROL_MODE "patrol"
+#define NAVBEACON_PATROL_NEXT "next_patrol"
+#define NAVBEACON_DELIVERY_MODE "delivery"
+#define NAVBEACON_DELIVERY_DIRECTION "dir"
+//NSV13 - End

@@ -1069,8 +1069,6 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=8";
-	dir = 4;
-	freq = 1400;
 	location = "Security";
 	name = "Delivery Security"
 	},
@@ -1903,14 +1901,6 @@
 /turf/open/floor/plasteel,
 /area/janitor)
 "gY" = (
-/obj/structure/table/reinforced,
-/obj/item/storage/toolbox/mechanical{
-	pixel_x = -1;
-	pixel_y = 4
-	},
-/obj/item/restraints/handcuffs{
-	pixel_y = 3
-	},
 /obj/machinery/light,
 /obj/effect/turf_decal/tile/ship/brown{
 	dir = 1
@@ -1918,6 +1908,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/conquest_beacon/nanotrasen,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -2152,6 +2143,7 @@
 /area/lawoffice)
 "hM" = (
 /obj/machinery/airalarm/directional/south,
+/obj/effect/landmark/latejoin,
 /turf/open/floor/plasteel,
 /area/crew_quarters/cryopods)
 "hO" = (
@@ -2488,9 +2480,6 @@
 	dir = 5
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/structure/disposalpipe/segment{
-	dir = 5
-	},
 /turf/open/floor/plasteel/dark/side,
 /area/bridge/cic)
 "iU" = (
@@ -2560,16 +2549,15 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/door/airlock/ship/command/glass{
-	name = "Combat Information Center";
-	req_one_access_txt = "19"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/effect/mapping_helpers/airlock/unres,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
-/obj/structure/disposalpipe/segment,
+/obj/machinery/door/airlock/ship/command/glass{
+	name = "Combat Information Center";
+	req_one_access_txt = "19"
+	},
 /turf/open/floor/plasteel,
 /area/bridge/cic)
 "jn" = (
@@ -2764,8 +2752,6 @@
 "jW" = (
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=8";
-	dir = 4;
-	freq = 1400;
 	location = "Engineering";
 	name = "Delivery Engineering"
 	},
@@ -2810,10 +2796,14 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 10
 	},
-/obj/structure/disposalpipe/trunk{
-	dir = 8
+/obj/structure/table/reinforced,
+/obj/item/storage/toolbox/mechanical{
+	pixel_x = -1;
+	pixel_y = 4
 	},
-/obj/machinery/disposal/bin,
+/obj/item/restraints/handcuffs{
+	pixel_y = 3
+	},
 /turf/open/floor/plasteel/dark/side,
 /area/bridge/cic)
 "ke" = (
@@ -5451,8 +5441,8 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
+/obj/structure/disposalpipe/junction/flip{
+	dir = 8
 	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/fore)
@@ -5902,7 +5892,6 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 1
 	},
-/obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -6984,6 +6973,9 @@
 	dir = 8
 	},
 /obj/effect/landmark/start/scientist,
+/obj/structure/disposalpipe/junction{
+	dir = 1
+	},
 /turf/open/floor/plasteel/white,
 /area/science/lab)
 "zm" = (
@@ -7784,8 +7776,6 @@
 "BI" = (
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=1";
-	dir = 1;
-	freq = 1400;
 	location = "KItchen";
 	name = "Delivery Kitchen"
 	},
@@ -8133,6 +8123,7 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 1
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -8279,17 +8270,12 @@
 /turf/open/floor/plasteel/chapel,
 /area/chapel/main)
 "Dn" = (
-/obj/docking_port/stationary{
-	dir = 4;
-	dwidth = 3;
-	height = 15;
-	id = "arrivals_stationary";
-	name = "arrivals";
-	roundstart_template = /datum/map_template/shuttle/arrival/box;
-	width = 7
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 4
 	},
-/turf/open/space/basic,
-/area/space/nearstation)
+/obj/effect/landmark/latejoin,
+/turf/open/floor/plasteel,
+/area/crew_quarters/cryopods)
 "Dp" = (
 /turf/open/floor/engine/n2o,
 /area/engine/atmos)
@@ -8853,6 +8839,7 @@
 /obj/machinery/computer/cryopod{
 	pixel_y = 32
 	},
+/obj/effect/landmark/latejoin,
 /turf/open/floor/plasteel,
 /area/crew_quarters/cryopods)
 "Fz" = (
@@ -10213,8 +10200,8 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 4
 	},
-/obj/structure/disposalpipe/junction/flip{
-	dir = 8
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
 /area/hallway/primary/fore)
@@ -10872,8 +10859,6 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=";
-	dir = 4;
-	freq = 1400;
 	location = "Medbay";
 	name = "Delivery Medbay"
 	},
@@ -10929,6 +10914,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 4
 	},
+/obj/effect/landmark/latejoin,
 /turf/open/floor/plasteel,
 /area/crew_quarters/cryopods)
 "Mu" = (
@@ -13387,7 +13373,6 @@
 	},
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=1";
-	freq = 1400;
 	location = "Munitions";
 	name = "Delivery Munitions"
 	},
@@ -14213,6 +14198,7 @@
 /obj/machinery/light/small{
 	dir = 8
 	},
+/obj/effect/landmark/latejoin,
 /turf/open/floor/plasteel,
 /area/crew_quarters/cryopods)
 "Xj" = (
@@ -14680,8 +14666,6 @@
 "YU" = (
 /obj/machinery/navbeacon{
 	codes_txt = "delivery;dir=8";
-	dir = 4;
-	freq = 1400;
 	location = "Bar";
 	name = "Delivery Bar"
 	},
@@ -41299,7 +41283,7 @@ ge
 aJ
 aJ
 aJ
-Dn
+aJ
 aJ
 aJ
 aJ
@@ -43609,7 +43593,7 @@ xW
 Ur
 jy
 kJ
-gb
+aJ
 aJ
 aJ
 aJ
@@ -62354,7 +62338,7 @@ ee
 vc
 PH
 Fv
-ww
+Dn
 hM
 ih
 eE
