@@ -122,6 +122,10 @@
 		user.forceMove(T)
 	mobs_in_ship -= user
 
+/obj/structure/overmap/small_craft/transport/attack_robot(mob/user)
+	if(user.Adjacent(src))
+		return attack_hand(user)
+
 /obj/structure/overmap/small_craft/transport/attack_hand(mob/user)
 	if(allowed(user))
 		if(do_after(user, 2 SECONDS, target=src))
