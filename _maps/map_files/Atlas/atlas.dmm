@@ -4427,9 +4427,6 @@
 /turf/open/floor/durasteel/alt,
 /area/hallway/nsv/deck2/primary)
 "nT" = (
-/obj/machinery/meter/atmos{
-	target_layer = 4
-	},
 /obj/machinery/atmospherics/components/binary/pump/on/layer2{
 	name = "Air to distro";
 	target_pressure = 2000
@@ -10343,6 +10340,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 9
 	},
+/obj/machinery/meter/atmos{
+	target_layer = 4;
+	name = "Scrubber loop gas flow meter"
+	},
 /turf/open/floor/plating,
 /area/engine/atmos)
 "In" = (
@@ -11843,7 +11844,8 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
 /obj/machinery/meter/atmos/distro_loop{
-	target_layer = 2
+	target_layer = 2;
+	name = "Distribution loop gas flow meter"
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -12401,7 +12403,6 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
 	},
-/obj/machinery/meter/atmos/atmos_waste_loop,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 6
 	},
