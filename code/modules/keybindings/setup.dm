@@ -57,7 +57,7 @@
 		winset(src, "[setname]-ooc", "parent=[setname];name=O;command=[ooc]")
 		if(use_tgui_say)
 			winset(src, "[setname]-radio", "parent=[setname];name=Y;command=[radio]")
-			winset(src, "[setname]-looc", "parent=[setname];name=U;command=[looc]")
+			winset(src, "[setname]-looc", "parent=[setname];name=L;command=[looc]") // NSV13 - Moves LOOC keybind to L from U
 			winset(src, "[setname]-close-tgui-say", "parent=[setname];name=Escape;command=[tgui_say_create_close_command()]")
 
 	if(prefs.toggles2 & PREFTOGGLE_2_HOTKEYS)

@@ -32,7 +32,7 @@ class SurgeryInitiatorInner extends Component<
   // eslint-disable-next-line react/state-in-constructor
   state = {
     selectedSurgeryIndex: 0,
-  }
+  };
 
   componentDidMount() {
     this.updateSelectedSurgeryIndexState();

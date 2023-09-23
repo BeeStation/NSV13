@@ -370,7 +370,8 @@
 // Error handling
 // ------------------------------------------------------
 
-window.onerror.errorCount = (window.onerror.errorCount || 0) + 1;
+window.onerror = function (msg, url, line, col, error) {
+  window.onerror.errorCount = (window.onerror.errorCount || 0) + 1;
   // Proper stacktrace
   var stack = error && error.stack;
   // Ghetto stacktrace
