@@ -3303,6 +3303,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"csstype@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "csstype@npm:3.1.2"
+  checksum: e1a52e6c25c1314d6beef5168da704ab29c5186b877c07d822bd0806717d9a265e8493a2e35ca7e68d0f5d472d43fac1cdce70fd79fd0853dff81f3028d857b5
+  languageName: node
+  linkType: hard
+
 "cubic2quad@npm:^1.2.1":
   version: 1.2.1
   resolution: "cubic2quad@npm:1.2.1"
@@ -3478,6 +3485,13 @@ __metadata:
   version: 2.3.5
   resolution: "dompurify@npm:2.3.5"
   checksum: 06a7883b5ed0aed0da7c54606f3491d200ca427b8269834240110083c85908f96d7f7afdd56ee497fa6b2d500cb20b3026954219fec30b557cfea2535e0559c9
+  languageName: node
+  linkType: hard
+
+"dompurify@npm:^3.0.1":
+  version: 3.0.5
+  resolution: "dompurify@npm:3.0.5"
+  checksum: 2d9421570c833ce26ce7022955241749b646d41e8bf453f42ede9f22d0e98af482cedb7dfbf8129419eb48b351c1d677a08fc9f1cd91836ce7f6c1807a0676b2
   languageName: node
   linkType: hard
 
@@ -4765,6 +4779,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"inferno-vnode-flags@npm:8.2.2":
+  version: 8.2.2
+  resolution: "inferno-vnode-flags@npm:8.2.2"
+  checksum: 2b4688c0e1606af3ed16e39d6eb4703505ede787786a3637d38eea9b0c75920fdcf1de8f7e27787fdc5e1e19c3ee4a713c07ab7e6c5b5eaf5696ab9464a8de05
+  languageName: node
+  linkType: hard
+
 "inferno@npm:^7.4.8":
   version: 7.4.11
   resolution: "inferno@npm:7.4.11"
@@ -4773,6 +4794,17 @@ __metadata:
     inferno-vnode-flags: 7.4.11
     opencollective-postinstall: ^2.0.3
   checksum: 1651aad357995170c135520ff09d6e24311e05f0b0736b66d50dba5e68ff521b6c9dff13eec64effd6b79455d39f06176f0a5be50a1aaa979384721ae9b9862c
+  languageName: node
+  linkType: hard
+
+"inferno@npm:^8.0.6":
+  version: 8.2.2
+  resolution: "inferno@npm:8.2.2"
+  dependencies:
+    csstype: ^3.1.2
+    inferno-vnode-flags: 8.2.2
+    opencollective-postinstall: ^2.0.3
+  checksum: 6667d0800279b197180151d371e3d974fb83533e61dfd5369eb71082d95bf5375332f43c9dee6185aac3ae9044434cc1aba59e18f9b56ee93f72d752cf638abc
   languageName: node
   linkType: hard
 
@@ -7986,6 +8018,19 @@ __metadata:
     regenerator-runtime: ^0.13.9
     terser: ^5.12.1
     unfetch: ^4.2.0
+  languageName: unknown
+  linkType: soft
+
+"tgui-say@workspace:packages/tgui-say":
+  version: 0.0.0-use.local
+  resolution: "tgui-say@workspace:packages/tgui-say"
+  dependencies:
+    common: "workspace:*"
+    dompurify: ^3.0.1
+    inferno: ^8.0.6
+    tgui: "workspace:*"
+    tgui-dev-server: "workspace:*"
+    tgui-polyfill: "workspace:*"
   languageName: unknown
   linkType: soft
 
