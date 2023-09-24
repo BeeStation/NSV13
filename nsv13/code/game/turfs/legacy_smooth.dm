@@ -58,6 +58,7 @@
 		else
 			I = image(icon, "[basestate][connections[i]]", dir = 1<<(i-1))
 		overlays += I
+	update_icon()
 
 /obj/structure/window/proc/can_visually_connect_to(obj/structure/S)
 	return istype(S, src)
