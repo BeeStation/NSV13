@@ -715,7 +715,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	var/datum/radio_frequency/radio_connection
 	var/on = FALSE
 
-/obj/machinery/computer/reactor/pump/AltClick(mob/user)
+/obj/machinery/computer/reactor/pump/attack_hand(mob/living/user/)
 	. = ..()
 	var/newPressure = input(user, "Set new output pressure (kPa)", "Remote pump control", null) as num
 	if(!newPressure)
@@ -731,7 +731,7 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	. = ..()
 	attack_hand(user)
 
-/obj/machinery/computer/reactor/pump/attack_hand(mob/living/user)
+/obj/machinery/computer/reactor/pump/AltClick(mob/user)
 	. = ..()
 	if(!is_operational)
 		return FALSE
