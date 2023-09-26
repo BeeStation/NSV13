@@ -1,7 +1,7 @@
 #define MARTIALART_JUJITSU "ju jitsu"
-
-#define TAKEDOWN_COMBO "DD"
-#define JUDO_THROW "DHHG"
+#define TAKEDOWN_COMBO "DG"
+#define JUDO_THROW "HHG"
+#define ARMLOCKING "DHGG"
 
 /obj/item/book/granter/martial/jujitsu
 	martial = /datum/martial_art/jujitsu
@@ -37,8 +37,11 @@
 	set desc = "Remember your police academy martial arts training."
 	set category = "Jujitsu"
 	to_chat(usr, "<span class='notice'>Combos:</span>")
-	to_chat(usr, "<span class='warning'><b>Disarm, disarm</b> will perform a takedown on the target, if they have been slowed / weakened first</span>")
-	to_chat(usr, "<span class='warning'><b>Disarm, harm, harm, grab</b> will execute a judo throw on the target,landing you on top of them in a pinning position. Provided that you have a grab on them on the final step...</span>")
+	to_chat(usr, "<span class='warning'><b>Disarm, Grab</b> will perform a takedown on the target, if they have been slowed / weakened first</span>")
+	to_chat(usr, "<span class='warning'><b>Harm, Harm, Grab</b> will execute a judo throw on the target,landing you on top of them in a pinning position. Provided that you have a grab on them on the final step...</span>")
+	to_chat(usr, "<span class='warning'><b>Disarm, Harm, Grab, Grab</b> will execute an armlock on the target, throwing you both to the ground. You however have more maneuverability than the perp from this position.</span>")
+
+	to_chat(usr, "<b><i>In addition, you also have a small window of opportunity to forcefully grab the perp during armlock.</i></b>")
 
 /datum/martial_art/jujitsu/proc/check_streak(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(findtext(streak,TAKEDOWN_COMBO))
@@ -48,6 +51,10 @@
 	if(findtext(streak, JUDO_THROW))
 		streak = ""
 		judo_throw(A,D)
+		return TRUE
+	if(findtext(streak,ARMLOCKING))
+		streak = ""
+		armlocking(A, D)
 		return TRUE
 	return FALSE
 
@@ -61,12 +68,15 @@
 	A.do_attack_animation(D, ATTACK_EFFECT_KICK)
 	D.visible_message("<span class='userdanger'>[A] trips [D] up and pins them to the ground!</span>", "<span class='userdanger'>[A] is pinning you to the ground!</span>")
 	playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
-	D.Paralyze(7 SECONDS) //Equivalent to a clown PDA
+	D.Paralyze(2 SECONDS)
+	D.Knockdown(7 SECONDS)
 	A.shake_animation(10)
-	D.shake_animation(10)
+	D.shake_animation(20)
+	D.adjustOxyLoss(10) // you smashed him into the ground
 	A.forceMove(get_turf(D))
-	A.start_pulling(D, supress_message = FALSE)
-	A.setGrabState(GRAB_AGGRESSIVE)
+	if(A.mobility_flags & MOBILITY_STAND) //Fixes permanent slowdown
+		A.start_pulling(D, supress_message = FALSE)
+		A.setGrabState(GRAB_AGGRESSIVE)
 	last_move = world.time
 
 /datum/martial_art/jujitsu/proc/judo_throw(mob/living/carbon/human/A, mob/living/carbon/human/D)
@@ -81,25 +91,78 @@
 			target = get_turf(A)
 		D.forceMove(target)
 		A.setDir(newdir)
-		A.start_pulling(D, supress_message = FALSE)
-		A.setGrabState(GRAB_AGGRESSIVE)
+		D.dropItemToGround(D.get_active_held_item()) // yeet
+		if(A.mobility_flags & MOBILITY_STAND) //Fixes permanent slowdown
+			A.start_pulling(D, supress_message = FALSE)
+			A.setGrabState(GRAB_AGGRESSIVE)
+		D.adjustOxyLoss(40) // YOU THREW HIM, THREW HIM!!
 		D.Paralyze(7 SECONDS) //Equivalent to a clown PDA
 		D.visible_message("<span class='userdanger'>[A] throws [D] over their shoulder and pins them down!</span>", "<span class='userdanger'>[A] throws you over their shoulder and pins you to the ground!</span>")
 		playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
 		last_move = world.time
+
+// Armlock state removal after 5s
+/datum/martial_art/jujitsu/proc/drop_armlocking()
+	armlockstate = FALSE
+
+// Armlock
+/datum/martial_art/jujitsu/proc/armlocking(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	if(!can_use(A))
+		return FALSE
+	if(world.time < last_move+cooldown)
+		to_chat(A, "<span class='sciradio'>You're too fatigued to perform this move right now...</span>")
+		return FALSE
+	if(!D.stat)
+		D.visible_message("<span class='warning'>[A] locks [D] into a armlock position!</span>", \
+							"<span class='userdanger'>[A] locks you into a armlock position!</span>")
+		A.Knockdown(20) // knockdown officer with the perp
+		A.adjustStaminaLoss(15)
+		D.adjustStaminaLoss(30)
+		D.Paralyze(70)
+		D.shake_animation(50)
+		A.start_pulling(D, supress_message = FALSE)
+		armlockstate = TRUE
+		addtimer(CALLBACK(src, PROC_REF(drop_armlocking)), 50, TIMER_UNIQUE) // you get 3 seconds after standing up to grab the perp
+		A.do_attack_animation(D, ATTACK_EFFECT_DISARM)
+		playsound(get_turf(D), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
+		last_move = world.time
+	return TRUE
 
 /datum/martial_art/jujitsu/grab_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
 	if(!can_use(A))
 		return FALSE
 	if(A==D)
 		return FALSE //prevents grabbing yourself
-	if(A.a_intent == INTENT_GRAB)
+	if(A.a_intent == INTENT_GRAB && A.mobility_flags & MOBILITY_STAND) //Fixes permanent slowdown and missfire
+		if(armlockstate == TRUE) // neck grabs if armlocked
+			A.setGrabState(GRAB_NECK)
+			D.visible_message("<span class='warning'>[A] grabs [D] from the armlock position by the neck!</span>", \
+							"<span class='userdanger'>[A] grabs you from the armlock position by the neck!</span>")
+			armlockstate = FALSE
 		add_to_streak("G",D)
 		if(check_streak(A,D)) //doing combos is prioritized over upgrading grabs
 			return TRUE
 	return FALSE
 
 /datum/martial_art/jujitsu/harm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	var/obj/item/bodypart/affecting = D.get_bodypart(ran_zone(A.zone_selected))
+	var/def_check = D.getarmor(BODY_ZONE_CHEST, "melee")
+	var/bonus_damage = 0
+	if((armlockstate == TRUE)) // disable chosen arm temporarily when armlocked
+		if(A.zone_selected == BODY_ZONE_L_ARM)
+			D.apply_damage(100, STAMINA, BODY_ZONE_L_ARM, def_check)
+			D.visible_message("<span class ='danger'>[A] has cracked [D]'s arm!</span>", "<span class ='danger'>[A] cracks your arm, causing a coursing pain!</span>")
+			armlockstate = FALSE
+		if(A.zone_selected == BODY_ZONE_R_ARM)
+			D.apply_damage(100, STAMINA, BODY_ZONE_R_ARM, def_check)
+			D.visible_message("<span class ='danger'>[A] has cracked [D]'s arm!</span>", "<span class ='danger'>[A] cracks your arm, causing a coursing pain!</span>")
+			armlockstate = FALSE
+		return FALSE
+	if((A.grab_state >= GRAB_AGGRESSIVE))
+		bonus_damage += 5
+	D.apply_damage(rand(2,3) + bonus_damage, A.dna.species.attack_type, affecting, def_check) // bonus damage when grabbing at least aggressively if required to kill
+	if((D.mobility_flags & MOBILITY_STAND))
+		A.do_attack_animation(D, ATTACK_EFFECT_PUNCH) // makes punch be default if he's standing
 	if(!can_use(A))
 		return FALSE
 	add_to_streak("H",D)
@@ -108,6 +171,19 @@
 	return FALSE
 
 /datum/martial_art/jujitsu/disarm_act(mob/living/carbon/human/A, mob/living/carbon/human/D)
+	var/bonus_stam = 0
+	if((A.grab_state >= GRAB_AGGRESSIVE)) // If you shove during agressive grab it deals bonus stam
+		bonus_stam = 20
+		if(!(D.mobility_flags & MOBILITY_STAND)) // If you shove while perp is on ground and aggressive grabbing, it deals even more stam
+			bonus_stam += 10
+	D.adjustStaminaLoss(10 + bonus_stam) // deals minor stam damage with scaling dependant on grab and perp standing
+	A.do_attack_animation(D, ATTACK_EFFECT_DISARM)
+	if(A.pulling == D && A.grab_state >= GRAB_NECK) // LV3 hold minimum
+		D.visible_message("<span class='danger'>[A] puts [D] into a chokehold!</span>", \
+							"<span class='userdanger'>[A] puts you into a chokehold!</span>")
+		playsound(get_turf(D), 'nsv13/sound/weapons/chokehold.ogg', 50, 1, 1)
+		D.SetSleeping(200)
+		return FALSE
 	if(!can_use(A))
 		return FALSE
 	add_to_streak("D",D)

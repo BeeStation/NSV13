@@ -58,6 +58,8 @@
 		return FALSE
 	if(loading)
 		return FALSE
+	if(oldloc == src)// stops torps from getting sent back in instantly
+		return FALSE
 	if(state >= STATE_LOADED)
 		return FALSE
 	load(torp)
@@ -133,9 +135,7 @@
 	hatch.toggle(HT_CLOSED)
 
 /obj/machinery/ship_weapon/vls/unload()
-	loading = TRUE // This prevents torps from immediately falling back into the VLS tube
 	. = ..()
-	loading = FALSE
 	if(!hatch)
 		return
 	hatch.toggle(HT_CLOSED)
