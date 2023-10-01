@@ -360,7 +360,7 @@
 		cut_overlay(crack_overlay)
 		if(ratio > 75)
 			return
-		crack_overlay = mutable_appearance('icons/obj/structures.dmi', "damage[ratio]", (layer+0.1)) //NSV13 - made layer in front of windows
+		crack_overlay = mutable_appearance('icons/obj/structures.dmi', "damage[ratio]", -(layer+0.1))
 		add_overlay(crack_overlay)
 
 /obj/structure/window/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed_volume)
