@@ -24,3 +24,11 @@
 	icon_state = "lightfighter"
 	attack_verb = list("bumped", "rammed", "missiled")
 	squeak_override = list('nsv13/sound/effects/fighters/autocannon.ogg'=1)
+
+/obj/item/toy/plush/transport
+	name = "utility craft plush"
+	desc = "An adorable stuffed toy shaped like a Su-437 Sabre utility vessel."
+	icon = 'nsv13/icons/obj/custom_plushes.dmi'
+	icon_state = "lightfighter"
+	attack_verb = list("bumped", "rammed")
+	squeak_override = list('nsv13/sound/effects/fighters/warmup.ogg'=1)

@@ -12,3 +12,8 @@
 	display_name = "heavy fighter plush"
 	path = /obj/item/toy/plush/hfighter
 	cost = 1000
+
+/datum/gear/misc/transportplush
+	display_name = "utility craft plush"
+	path = /obj/item/toy/plush/transport
+	cost = 1000
