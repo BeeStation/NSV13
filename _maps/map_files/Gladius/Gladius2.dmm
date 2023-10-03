@@ -3401,6 +3401,15 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port/fore)
+"cnA" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 4
+	},
+/obj/machinery/light{
+	dir = 1
+	},
+/turf/open/floor/plasteel/dark,
+/area/engine/engineering/ftl_room)
 "cnV" = (
 /obj/structure/closet/firecloset/full,
 /turf/open/floor/plasteel/dark,
@@ -6375,6 +6384,10 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/dorms)
+"eaY" = (
+/obj/machinery/firealarm/directional/east,
+/turf/open/floor/engine,
+/area/engine/engineering/ftl_room)
 "eba" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/plasteel/techmaint,
@@ -10088,6 +10101,10 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"fXF" = (
+/obj/structure/extinguisher_cabinet/east,
+/turf/open/floor/engine,
+/area/engine/engineering/ftl_room)
 "fYs" = (
 /obj/machinery/door/airlock/ship/public{
 	name = "Dressing Room";
@@ -12742,12 +12759,18 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
 /obj/machinery/door/airlock/ship/engineering{
 	name = "FTL Room";
 	req_one_access_txt = "10"
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
 	},
 /turf/open/floor/plasteel/dark,
 /area/engine/engineering/ftl_room)
@@ -17832,6 +17855,9 @@
 "koE" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
+	},
+/obj/machinery/light{
+	dir = 4
 	},
 /turf/open/floor/engine,
 /area/engine/engineering/ftl_room)
@@ -32127,6 +32153,10 @@
 /area/crew_quarters/dorms)
 "shr" = (
 /obj/machinery/airalarm/directional/north,
+/obj/machinery/door/airlock/ship/engineering{
+	name = "Engineering Construction Storage";
+	req_one_access_txt = "10;24"
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/engine/corridor)
 "shB" = (
@@ -37173,6 +37203,12 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame1/starboard)
 "vcj" = (
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
 /obj/machinery/door/airlock/ship/engineering{
 	name = "FTL Room";
 	req_one_access_txt = "10"
@@ -39699,10 +39735,6 @@
 	dir = 8
 	},
 /obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/airlock/ship/engineering{
-	name = "Engineering Construction Storage";
-	req_one_access_txt = "10;24"
-	},
 /turf/open/floor/monotile/dark,
 /area/engine/storage)
 "wAT" = (
@@ -59151,7 +59183,7 @@ vwN
 vwN
 ecj
 hig
-vXY
+cnA
 oGG
 mmi
 sCZ
@@ -59675,8 +59707,8 @@ vTu
 nVk
 jlv
 koE
-pCV
-pCV
+eaY
+fXF
 hig
 qop
 pYQ
