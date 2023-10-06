@@ -408,7 +408,7 @@
 	display_name = "Basic Robotics Research"
 	description = "Programmable machines that make our lives lazier."
 	prereq_ids = list("base")
-	design_ids = list("paicard")
+	design_ids = list("paicard","botnavbeacon") //NSV13 - Navbeacon Refactoring
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
@@ -935,13 +935,13 @@
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
-/datum/techweb_node/ballistic_weapons
+/datum/techweb_node/ballistic_weapons // NSV13 - glock additions
 	id = "ballistic_weapons"
 	tech_tier = 3
 	display_name = "Ballistic Weaponry"
 	description = "This isn't research.. This is reverse-engineering!"
 	prereq_ids = list("weaponry")
-	design_ids = list("mag_oldsmg", "mag_oldsmg_ap", "mag_oldsmg_ic", "mag_oldsmg_rubber")
+	design_ids = list("mag_oldsmg", "mag_oldsmg_ap", "mag_oldsmg_ic", "mag_oldsmg_rubber", "glock_lethalmag", "glock_rubbermag", "glock_apmag", "glock_incmag", "glock_lethalammo", "glock_rubberammo", "glock_apammo", "glock_incammo")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 

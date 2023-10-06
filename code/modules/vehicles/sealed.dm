@@ -46,6 +46,9 @@
 /obj/vehicle/sealed/proc/mob_enter(mob/M, silent = FALSE)
 	if(!istype(M))
 		return FALSE
+	if(!M.IsAdvancedToolUser()) //NSV13 - simple mobs cant get in car anymore
+		to_chat(M, "<span class='warning'>You don't have the dexterity to climb in [src]!</span>")
+		return
 	if(!silent)
 		M.visible_message("<span class='notice'>[M] climbs into \the [src]!</span>")
 	M.forceMove(src)

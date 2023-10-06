@@ -440,10 +440,11 @@
 		/obj/item/restraints/handcuffs/cable/zipties,
 		/obj/item/melee/baton/loaded,
 		/obj/item/borg/charger,
-		/obj/item/gun/energy/disabler/cyborg,
+		/obj/item/gun/energy/printer/taser,
+		/obj/item/gun/energy/printer/glock,
 		/obj/item/clothing/mask/gas/sechailer/cyborg,
-		/obj/item/extinguisher/mini)
-	emag_modules = list(/obj/item/gun/energy/laser/cyborg)
+		/obj/item/extinguisher/mini) //NSV13 replaced disabler with taser and (lethal) glock printer guns
+	emag_modules = list(/obj/item/gun/energy/printer) //NSV13 replaced energy gun with LMG
 	ratvar_modules = list(
 		/obj/item/clock_module/abscond,
 		/obj/item/clockwork/weapon/brass_spear,

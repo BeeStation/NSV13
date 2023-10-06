@@ -30,7 +30,7 @@
 		if(S.alignment == "nanotrasen")
 			candidate += S.name
 
-	candidate -= "Outpost 45"
+	candidate -= SSmapping.config.return_system
 	selected_system = pick(candidate)
 
 	brief = "Fleet Intelligence indicates that the Syndicate are preparing an invasion fleet to capture [selected_system], rally defences to repel the Armada by freeing up fleet assets and prepare to defend the system."

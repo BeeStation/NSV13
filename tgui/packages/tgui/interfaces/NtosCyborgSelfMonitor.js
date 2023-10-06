@@ -176,6 +176,15 @@ export const NtosCyborgSelfMonitorContent = (props, context) => {
                         onClick={() => act('toggleSensors')}
                       />
                     </LabeledList.Item>
+                    {/* NSV added manfiest to borg computer start */}
+                    <LabeledList.Item
+                      label={'Crew Manifest'}>
+                      <Button
+                        content="Open"
+                        onClick={() => act('crewmanifest')}
+                      />
+                    </LabeledList.Item>
+                    {/* NSV added manfiest to borg computer end */}
                     <LabeledList.Item
                       label={'Stored Photos (' + printerPictures + ')'}>
                       <Button

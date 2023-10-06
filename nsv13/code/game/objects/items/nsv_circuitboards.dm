@@ -438,3 +438,15 @@
 		/obj/item/stock_parts/manipulator = 1,
 		/obj/item/stack/sheet/glass = 1)
 	needs_anchored = FALSE
+
+//Atmospheric consoles
+/obj/item/circuitboard/computer/atmos_control/tank/nucleium_tank
+	name = "nucleium supply control (Computer Board)"
+	build_path = /obj/machinery/computer/atmos_control/tank/nucleium_tank
+
+//Bot navbeacon
+/obj/item/circuitboard/machine/navbeacon
+	name = "Bot Navigational Beacon"
+	icon_state = "science"
+	build_path = /obj/machinery/navbeacon
+	req_components = list()
