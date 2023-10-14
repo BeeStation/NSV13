@@ -231,7 +231,8 @@
 		if(moles > max_moles)
 			max_moles = moles
 	density = TRUE
-	flags_1 |= PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
+	if(!(flags_1 & ON_BORDER_1))//NSV but not border firelocks
+		flags_1 |= PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	T.ImmediateCalculateAdjacentTurfs() // alright lets put it back
 	return max_moles - min_moles > 20
 
@@ -344,10 +345,12 @@
 	layer = closingLayer
 	if(air_tight)
 		density = TRUE
-		flags_1 |= PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
+		if(!(flags_1 & ON_BORDER_1))//NSV but not border firelocks
+			flags_1 |= PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	sleep(open_speed)
 	density = TRUE
-	flags_1 |= PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
+	if(!(flags_1 & ON_BORDER_1))//NSV but not border firelocks
+		flags_1 |= PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	sleep(open_speed)
 	update_icon()
 	if(visible && !glass)
