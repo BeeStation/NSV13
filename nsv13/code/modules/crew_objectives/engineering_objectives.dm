@@ -69,8 +69,8 @@
 	explanation_text = "Maintain production of [target_amount] Watts in an engine until the end of the shift."
 
 /datum/objective/crew/power_generation/check_completion()
-	if(SD.last_power_produced >= target_amount)
+	if(SD?.last_power_produced >= target_amount)
 		return TRUE
-	if(RBMK.last_power_produced >= target_amount)
+	if(RBMK?.last_power_produced >= target_amount)
 		return TRUE
 	return FALSE
