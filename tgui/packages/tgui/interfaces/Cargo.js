@@ -92,6 +92,7 @@ const CargoStatus = (props, context) => {
     points,
     requestonly,
     can_send,
+    mail, // NSV13 - Added Mail Control
   } = data;
   return (
     <Section
@@ -127,6 +128,14 @@ const CargoStatus = (props, context) => {
                 Loaned to Centcom
               </Box>
             )}
+          </LabeledList.Item>
+        )}
+        {!requestonly && (
+          <LabeledList.Item label="Mail Status">
+            <Button.Checkbox
+              content="Accepting Mail"
+              checked={mail}
+              onClick={() => act('togglemail')} />
           </LabeledList.Item>
         )}
       </LabeledList>
