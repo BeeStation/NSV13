@@ -75,6 +75,7 @@ MASSIVE THANKS TO MONSTER860 FOR HELP WITH THIS. HE EXPLAINED PHYSICS AND MATH T
 
 /obj/vehicle/sealed/car/realistic/after_remove_occupant(mob/M)
 	M.set_focus(M)
+	M?.client.AdjustView()
 
 /obj/vehicle/sealed/car/realistic/proc/toggle_brakes()
 	brakes = !brakes
