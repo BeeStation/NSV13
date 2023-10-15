@@ -58,6 +58,8 @@
 
 /obj/machinery/door/Initialize(mapload)
 	. = ..()
+	if(!density)//NSV make it so prevent_click_under doesn't need density
+		flags_1 &= ~PREVENT_CLICK_UNDER_1
 	set_init_door_layer()
 	update_freelook_sight()
 	air_update_turf(1)
