@@ -17,3 +17,8 @@
 	display_name = "utility craft plush"
 	path = /obj/item/toy/plush/transport
 	cost = 1000
+
+/datum/gear/misc/miningplush
+	display_name = "mining craft plush"
+	path = /obj/item/toy/plush/transport/mining
+	cost = 1000
