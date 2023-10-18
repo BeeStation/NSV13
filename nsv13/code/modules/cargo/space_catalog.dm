@@ -29,6 +29,8 @@
 
 	nearby_traders = list()
 	for(var/datum/trader/T as() in SSstar_system.traders)
+		if(istype(T, /datum/trader/randy))
+			continue
 		if(T.system.sector != my_system.sector)
 			continue
 		if(my_system.dist(T.system) > TOO_FAR)
