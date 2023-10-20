@@ -78,8 +78,8 @@
 	data["flakrange"] = linked.get_flak_range(linked.last_target)
 	data["integrity"] = linked.obj_integrity
 	data["max_integrity"] = linked.max_integrity
-	if(istype(linked, /obj/structure/overmap/small_craft/transport))
-		var/obj/structure/overmap/small_craft/transport/small_ship = linked
+	if(istype(linked, /obj/structure/overmap/small_craft))
+		var/obj/structure/overmap/small_craft/small_ship = linked
 		var/obj/item/fighter_component/armour_plating/A = small_ship.loadout.get_slot(HARDPOINT_SLOT_ARMOUR)
 		data["has_quadrant"] = FALSE
 		data["armour_integrity"] = (A) ? A.obj_integrity : 0
@@ -165,8 +165,8 @@
 	data["flakrange"] = linked.get_flak_range(linked.last_target)
 	data["integrity"] = linked.obj_integrity
 	data["max_integrity"] = linked.max_integrity
-	if(istype(linked, /obj/structure/overmap/small_craft/transport))
-		var/obj/structure/overmap/small_craft/transport/small_ship = linked
+	if(istype(linked, /obj/structure/overmap/small_craft))
+		var/obj/structure/overmap/small_craft/small_ship = linked
 		var/obj/item/fighter_component/armour_plating/A = small_ship.loadout.get_slot(HARDPOINT_SLOT_ARMOUR)
 		data["has_quadrant"] = FALSE
 		data["armour_integrity"] = (A) ? A.obj_integrity : 0
