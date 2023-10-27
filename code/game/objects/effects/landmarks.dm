@@ -107,7 +107,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 
 /obj/effect/landmark/start/security_officer
 	name = "Military Police" //Nsv13 - Crayon eaters & MPs
-	icon_state = "Military Police"
+	icon_state = "Security Officer"
 
 /obj/effect/landmark/start/botanist
 	name = "Botanist"
@@ -249,7 +249,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 
 /obj/effect/landmark/start/depsec
 	name = "department_sec"
-	icon_state = "Military Police"
+	icon_state = "Security Officer"
 
 /obj/effect/landmark/start/depsec/Initialize(mapload)
 	. = ..()
