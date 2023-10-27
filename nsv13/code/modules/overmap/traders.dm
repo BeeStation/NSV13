@@ -54,7 +54,6 @@
 		TI.owner = src
 		yellow_pages_dat += "[TI.stock]x [TI.name] ([TI.price] ea.) - <i>[TI.desc]</i><br /><br />"
 	yellow_pages_dat += "</font>"
-	return FALSE
 
 /datum/trader_item
 	var/name = "Stonks"
@@ -226,6 +225,10 @@
 	//Pick 5 random items and construct fresh trader_items for it.
 	var/iter = 5
 	for(var/x in sold_items)
+		sold_items -= x
+		qdel(x)
+	for(var/x in stonks)
+		stonks -= x
 		qdel(x)
 	sold_items = list()
 	while(iter)
@@ -234,12 +237,17 @@
 		var/obj/item/a_gift/anything/generator = new
 		var/initialtype = generator.get_gift_type()
 		var/obj/item/soldtype = new initialtype
+		if(!soldtype) //spawned something that deleted itself, try again
+			log_runtime("Randy failed to spawn [initialtype]!")
+			qdel(item)
+			iter++
+			continue
 		item.unlock_path = initialtype
 		item.name = soldtype.name
 		item.desc = soldtype.desc
 		item.price = rand(1000, 100000000)
-		item.stock = 2
-		item.stock = rand(item.stock/2, item.stock*2)
+		item.stock = rand(1, 5)
+		item.owner = src
 		qdel(soldtype)
 		sold_items += item
 

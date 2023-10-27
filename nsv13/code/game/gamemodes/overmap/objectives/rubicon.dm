@@ -8,6 +8,19 @@
 	var/system_name
 	var/datum/star_system/target_system
 
+/datum/overmap_objective/clear_system/New(datum/star_system/passed_input)
+	.=..()
+	if(passed_input)
+		system_name = passed_input.name
+	if(!system_name)
+		for(var/datum/star_system/S in SSstar_system.neutral_zone_systems)
+			if(S.hidden)
+				continue
+			if(length(S.enemies_in_system))
+				system_name = S.name
+				break
+			continue
+
 /datum/overmap_objective/clear_system/instance()
 	.=..()
 	desc = "Defeat all enemies in the [system_name] system"
