@@ -189,7 +189,7 @@ Credit to TGMC for the interior sprites for all these!
 /obj/structure/overmap/small_craft/transport/sabre/syndicate
 	name = "\improper Syndicate Utility Vessel"
 	desc = "A boarding craft for rapid troop deployment. It contains a full combat medical bay for establishing FOBs."
-	icon = 'nsv13/icons/overmap/syndicate/syn_raptor.dmi'
+	icon = 'nsv13/icons/overmap/syndicate/syn_sabre.dmi'
 	req_one_access = list(ACCESS_SYNDICATE)
 	faction = "syndicate"
 	start_emagged = TRUE
