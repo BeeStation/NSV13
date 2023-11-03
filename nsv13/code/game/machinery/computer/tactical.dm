@@ -78,6 +78,14 @@
 	data["flakrange"] = linked.get_flak_range(linked.last_target)
 	data["integrity"] = linked.obj_integrity
 	data["max_integrity"] = linked.max_integrity
+	if(istype(linked, /obj/structure/overmap/small_craft))
+		var/obj/structure/overmap/small_craft/small_ship = linked
+		var/obj/item/fighter_component/armour_plating/A = small_ship.loadout.get_slot(HARDPOINT_SLOT_ARMOUR)
+		data["has_quadrant"] = FALSE
+		data["armour_integrity"] = (A) ? A.obj_integrity : 0
+		data["max_armour_integrity"] = (A) ? A.max_integrity : 100
+	else
+		data["has_quadrant"] = TRUE
 	data["quadrant_fs_armour_current"] = linked.armour_quadrants["forward_starboard"]["current_armour"]
 	data["quadrant_fs_armour_max"] = linked.armour_quadrants["forward_starboard"]["max_armour"]
 	data["quadrant_as_armour_current"] = linked.armour_quadrants["aft_starboard"]["current_armour"]
@@ -157,6 +165,14 @@
 	data["flakrange"] = linked.get_flak_range(linked.last_target)
 	data["integrity"] = linked.obj_integrity
 	data["max_integrity"] = linked.max_integrity
+	if(istype(linked, /obj/structure/overmap/small_craft))
+		var/obj/structure/overmap/small_craft/small_ship = linked
+		var/obj/item/fighter_component/armour_plating/A = small_ship.loadout.get_slot(HARDPOINT_SLOT_ARMOUR)
+		data["has_quadrant"] = FALSE
+		data["armour_integrity"] = (A) ? A.obj_integrity : 0
+		data["max_armour_integrity"] = (A) ? A.max_integrity : 100
+	else
+		data["has_quadrant"] = TRUE // I'm uncertain about whether or not we have ANY small crafts that have armor quadrants so I'm making it like this instead.
 	data["quadrant_fs_armour_current"] = linked.armour_quadrants["forward_starboard"]["current_armour"]
 	data["quadrant_fs_armour_max"] = linked.armour_quadrants["forward_starboard"]["max_armour"]
 	data["quadrant_as_armour_current"] = linked.armour_quadrants["aft_starboard"]["current_armour"]
