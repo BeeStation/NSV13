@@ -42,6 +42,8 @@
 /obj/structure/window/legacy_smooth()
 	//A little cludge here, since I don't know how it will work with slim windows. Most likely VERY wrong.
 	//this way it will only update full-tile ones
+	if(QDELETED(src))
+		return
 	. = ..()
 	if(!can_visually_connect())
 		icon_state = initial(icon_state)
@@ -58,6 +60,16 @@
 		else
 			I = image(icon, "[basestate][connections[i]]", dir = 1<<(i-1))
 		overlays += I
+
+	if(!fulltile)
+		return
+	var/ratio = obj_integrity / max_integrity
+	ratio = CEILING(ratio*4, 1) * 25
+	cut_overlay(crack_overlay)
+	if(ratio > 75)
+		return
+	crack_overlay = mutable_appearance('icons/obj/structures.dmi', "damage[ratio]", (layer+0.1)) //NSV13 - made layer in front of windows
+	add_overlay(crack_overlay)
 
 /obj/structure/window/proc/can_visually_connect_to(obj/structure/S)
 	return istype(S, src)
