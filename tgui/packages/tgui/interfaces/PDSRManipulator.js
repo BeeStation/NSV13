@@ -123,9 +123,9 @@ export const PDSRManipulator = (props, context) => {
             <br />
             Screen Integrity:
             <ProgressBar
-              value={((data.s_integrity / data.s_max_integrity) * 100) * 0.01}
+              value={data.s_integrity / data.s_max_integrity}
               range={{
-                good: [],
+                cyan: [0.50, Infinity],
                 average: [0.15, 0.50],
                 bad: [-Infinity, 0.15],
               }} />
@@ -134,10 +134,11 @@ export const PDSRManipulator = (props, context) => {
               value={data.s_stability}
               minValue={0}
               maxValue={100}
+              color={data.s_regen === 100 ? "blue" : null}
               range={{
-                good: [],
-                average: [0.33, 0.65],
-                bad: [-Infinity, 0.33],
+                cyan: [66, Infinity],
+                average: [33, 66],
+                bad: [-Infinity, 33],
               }} />
             Screen Hardening:
             <Slider
@@ -164,6 +165,14 @@ export const PDSRManipulator = (props, context) => {
               })} >
               {data.s_regen + ' %'}
             </Slider>
+            Screen Particle Density:
+            <Button
+              fluid
+              icon={data.s_density ? "shield" : "shield-alt"}
+              color={(data.s_active ? null : "grey") || (data.s_density ? "green" : "orange")}
+              content={data.s_density ? "High - General Projectile Deflection" : "Low - High-energy kinetics deflection."}
+              onClick={() => act('density')}
+            />
           </Section>
         </Section>
       </Window.Content>

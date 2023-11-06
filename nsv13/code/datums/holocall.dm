@@ -320,7 +320,7 @@
 	DELAY 50
 	SAY If you need to shut down the reactor, lower the nucleium injection rate slowly. You can cycle coolant in an emergency for a quick cooling boost.
 	DELAY 50
-	SAY The reaction can be terminated when the reactor core is under 100 Celsius. Ensure cooling is adequate to achieve this.
+	SAY The reaction can be terminated when the reactor core is under 200 Celsius. Ensure cooling is adequate to achieve this.
 	DELAY 50
 	SAY Finally. If your minimum input power ever starts to converge on the maximum, you are heading towards an emission. Rectify this immediately, or shut down the reactor safely.
 	DELAY 50

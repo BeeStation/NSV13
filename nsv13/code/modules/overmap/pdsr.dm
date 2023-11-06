@@ -9,8 +9,11 @@
 #define REACTOR_STATE_SHUTTING_DOWN 4
 #define REACTOR_STATE_EMISSION 5
 
+#define DENSITY_LOW 0 //! Deflects only heavy hits.
+#define DENSITY_HIGH 1 //! Deflects all hits.
+
 /obj/machinery/atmospherics/components/trinary/defence_screen_reactor
-	name = "mk I Prototype Defence Screen Reactor"
+	name = "mk II Prototype Defence Screen Reactor"
 	desc = "A highly experimental, unstable and highly illegal nucleium driven reactor for the generation of defensive screens."
 	icon = 'nsv13/icons/obj/machinery/pdsr.dmi'
 	icon_state = "idle"
@@ -46,9 +49,13 @@
 	var/last_coolant_time = 0 //Last time we called to flush coolant
 	var/flushing_coolant = 0 //Are we currently flushing coolant
 	var/emission_tracker = 0 //Used to track emission timers
+	///Time when our reactor was last shutdown.
+	var/powerdown_time = 0
+	///If this is already detonating
+	var/detonating = FALSE
 
 	//!Shield Vars
-	var/list/shield = list("integrity" = 0, "max_integrity" = 0, "stability" = 0)
+	var/list/shield = list("integrity" = 0, "max_integrity" = 0, "stability" = 0, "density" = DENSITY_HIGH)
 	var/power_input = 0 //How much power is currently allocated
 	var/screen_regen = 50 //Allocation to regenerate the !shields
 	var/screen_hardening = 50 //Allocation to strengthen the !shields
@@ -124,7 +131,7 @@
 			return
 
 		current_uptime ++
-		reaction_containment += 5
+		reaction_containment += 20 // ~5 seconds as opposed to 20 for core start.
 		if(reaction_containment >= 100)
 			reaction_containment = 100
 			if(reaction_injection_rate < 2.5)
@@ -145,6 +152,7 @@
 			say("Initiating Reaction - Injecting Nucleium.")
 			say("Reaction Initialized - [errors] runtimes supressed.")
 			reaction_temperature = 100 //Flash start to 100
+			shield["stability"] = 50 //begin at 50 during startup.
 			state = REACTOR_STATE_RUNNING
 
 	if(state == REACTOR_STATE_RUNNING)
@@ -206,14 +214,14 @@
 				else
 					say("Error: Reaction Prematurely Terminated - Inspect all systems for damage.")
 					state = REACTOR_STATE_IDLE
+					var/list/overload_candidate = list()
+					for(var/obj/machinery/defence_screen_relay/DSR in GLOB.machines)
+						if(DSR.powered() && DSR.overloaded == FALSE)
+							overload_candidate += DSR
 					for(var/I = 0, I < 3, I++) //Overload Three Relays
-						var/list/overload_candidate = list()
-						for(var/obj/machinery/defence_screen_relay/DSR in GLOB.machines)
-							if(DSR.powered() && DSR.overloaded == FALSE)
-								overload_candidate += DSR
-								if(overload_candidate.len > 0)
-									var/obj/machinery/defence_screen_relay/DSRC = pick(overload_candidate)
-									DSRC.overload()
+						if(overload_candidate.len > 0)
+							var/obj/machinery/defence_screen_relay/DSRC = pick_n_take(overload_candidate)
+							DSRC.overload()
 
 					depower_shield()
 					OM.take_quadrant_hit(rand(100, 200), "forward_port")
@@ -300,6 +308,7 @@
 			var/loss_function = ((382 * NUM_E **(0.0764 * reaction_containment)) / ((50 + NUM_E ** (0.0764 * reaction_containment)) ** 2)) * 4
 			reaction_containment += loss_function * (power_input / max_power_input)
 
+
 	if(reaction_containment > 100)
 		reaction_containment = 100
 
@@ -343,11 +352,7 @@
 		else
 			reaction_polarity -= 0.027
 
-	if(reaction_polarity > 1)
-		reaction_polarity = 1
-
-	if(reaction_polarity < -1)
-		reaction_polarity = -1
+	reaction_polarity = clamp(reaction_polarity, -1, 1)
 
 	var/polarity_function = abs(0.5 * (reaction_polarity ** 2)) //RECHECK THIS WHEN NOT DEAD
 	reaction_containment -= polarity_function
@@ -418,6 +423,7 @@
 	flushing_coolant = 0
 	reaction_energy_output = 0
 	emission_tracker = 0
+	powerdown_time = world.time
 	depower_shield()
 
 /obj/machinery/atmospherics/components/trinary/defence_screen_reactor/update_icon()
@@ -442,14 +448,18 @@
 
 //////Shield Procs//////
 
-/obj/machinery/atmospherics/components/trinary/defence_screen_reactor/proc/absorb_hit(damage)
+/obj/machinery/atmospherics/components/trinary/defence_screen_reactor/proc/absorb_hit(obj/item/projectile/proj)
+	var/damage = proj.damage
 	if(!active)
-		return FALSE //!shields not raised
+		return SHIELD_NOEFFECT //!shields not raised
+
+	if(shield["density"] == DENSITY_LOW && (proj.flag != "overmap_heavy" || proj.damage_type == BURN)) //Low density mode does not get hit by low impact projectiles, but also does not help vs. energy weapons.
+		return SHIELD_NOEFFECT
 
 	if(shield["integrity"] >= damage)
 		shield["integrity"] -= damage //Deduct from !shield
 		var/current_hit = world.time
-		if(current_hit <= last_hit + 10) //1 Second
+		if(current_hit <= last_hit + 1 SECONDS) //1 Second
 			shield["stability"] -= rand((damage / 10), (damage / 5)) //Rapid hits will reduce stability greatly
 
 		else
@@ -457,7 +467,9 @@
 
 		last_hit = current_hit //Set our last hit
 		check_stability()
-		return TRUE
+		return SHIELD_FORCE_DEFLECT
+
+	return SHIELD_NOEFFECT
 
 /obj/machinery/atmospherics/components/trinary/defence_screen_reactor/proc/check_stability()
 	if(shield["stability"] <= 0)
@@ -483,12 +495,16 @@
 			active = TRUE //Renable !shields
 
 	else if(active)
-		shield["stability"] += power_input / ((max_power_input * 1.5) - max(min_power_input, 0))
-		if(shield["stability"] > 100)
-			shield["stability"] = 100
 		var/hardening_allocation = max(((screen_hardening / 100) * reaction_energy_output), 0)
 		shield["max_integrity"] = hardening_allocation * (connected_relays * 10) //Each relay is worth 10 base
 		var/regen_allocation = max(((screen_regen / 100) * reaction_energy_output), 0)
+
+		var/stability_recovery = power_input / ((max_power_input * 1.5) - max(min_power_input, 0))
+		if(screen_regen == 100) //Stopping field emission entirely helps with stabilization.
+			stability_recovery *= 5
+		shield["stability"] += stability_recovery
+		if(shield["stability"] > 100)
+			shield["stability"] = 100
 		shield["integrity"] += regen_allocation
 		if(shield["integrity"] > shield["max_integrity"])
 			shield["integrity"] = shield["max_integrity"]
@@ -507,10 +523,26 @@
 	shield["stability"] = 0
 	active = FALSE
 
+/obj/machinery/atmospherics/components/trinary/defence_screen_reactor/ex_act(severity, target)
+	if(CHECK_BITFIELD(resistance_flags, INDESTRUCTIBLE))
+		return
+	if(QDELETED(src))
+		return
+	if(detonating)
+		return
+	detonating = TRUE
+	visible_message("<span class='boldwarning'>[src] destabilizes violently.</span>")
+	radiation_pulse(src, 5000)
+	explosion(get_turf(src), 5, 8, 0, 10, ignorecap = TRUE, flame_range = 10)
+	qdel(src)
+
+
+
+
 //////MAINFRAME CONSOLE//////
 
 /obj/machinery/computer/ship/defence_screen_mainframe_reactor //For controlling the reactor
-	name = "mk I Prototype Defence Screen Mainframe"
+	name = "mk II Prototype Defence Screen Mainframe"
 	desc = "The mainframe controller for the PDSR"
 	icon_screen = "idhos" //temp
 	req_access = list(ACCESS_ENGINE)
@@ -592,11 +624,7 @@
 	var/adjust = text2num(params["adjust"])
 	if(action == "injection_allocation")
 		if(adjust && isnum(adjust))
-			reactor.reaction_injection_rate = adjust
-			if(reactor.reaction_injection_rate > 25)
-				reactor.reaction_injection_rate = 25
-			if(reactor.reaction_injection_rate < 0)
-				reactor.reaction_injection_rate = 0
+			reactor.reaction_injection_rate = clamp(adjust, 0, 25)
 
 	switch(action)
 		if("polarity")
@@ -604,6 +632,9 @@
 			return
 
 		if("ignition")
+			if(world.time < reactor.powerdown_time + 25 SECONDS)
+				reactor.say("Realigning Emitters - Field Unavailable.")
+				return
 			if(reactor.state == REACTOR_STATE_IDLE)
 				if(reactor.power_input >= reactor.min_power_input)
 					reactor.say("Initiating Reaction - Charging Containment Field")
@@ -633,6 +664,7 @@
 				reactor.say("Error: Unable to comply - Reactor parameters outside safe shutdown limits")
 				return
 
+
 /obj/machinery/computer/ship/defence_screen_mainframe_reactor/ui_data(mob/user)
 	var/list/data = list()
 	data["r_temp"] = reactor.reaction_temperature
@@ -654,13 +686,13 @@
 	return data
 
 /obj/item/circuitboard/computer/defence_screen_mainframe_reactor
-	name = "mk I Prototype Defence Screen Mainframe (Computer Board)"
+	name = "mk II Prototype Defence Screen Mainframe (Computer Board)"
 	build_path = /obj/machinery/computer/ship/defence_screen_mainframe_reactor
 
 //////SCREEN MANIPULATOR//////
 
 /obj/machinery/computer/ship/defence_screen_mainframe_shield //For controlling the !shield
-	name = "mk I Prototype Defence Screen Manipulator"
+	name = "mk II Prototype Defence Screen Manipulator"
 	desc = "The screen manipulator for the PDSR"
 	icon_screen = "security" //temp
 	req_access = list(ACCESS_ENGINE)
@@ -764,18 +796,20 @@
 			reactor.adjust_tracker = world.time
 
 		if("power_allocation")
-			reactor.power_input = adjust
-			if(reactor.power_input > (reactor.max_power_input * 1.25))
-				reactor.power_input = reactor.max_power_input * 1.25
-
-			if(reactor.power_input < 0)
-				reactor.power_input = 0
+			reactor.power_input = clamp(adjust, 0, reactor.max_power_input * 1.25)
 
 			if(reactor.state == REACTOR_STATE_RUNNING && reactor.active)
 				if(world.time >= (reactor.adjust_tracker + 1 SECONDS))
 					reactor.shield["stability"] -= rand(3, 5)
 					reactor.check_stability()
 
+			reactor.adjust_tracker = world.time
+		if("density")
+			reactor.shield["density"] = !(reactor.shield["density"])
+			if(reactor.state == REACTOR_STATE_RUNNING && reactor.active)
+				if(world.time >= (reactor.adjust_tracker + 1 SECONDS))
+					reactor.shield["stability"] -= rand(5, 10)
+					reactor.check_stability()
 			reactor.adjust_tracker = world.time
 
 /obj/machinery/computer/ship/defence_screen_mainframe_shield/ui_data(mob/user)
@@ -789,6 +823,7 @@
 	data["s_integrity"] = reactor.shield["integrity"]
 	data["s_max_integrity"] = reactor.shield["max_integrity"]
 	data["s_stability"] = reactor.shield["stability"]
+	data["s_density"] = reactor.shield["density"]
 	data["records"] = reactor.records
 	data["available_power"] = 0
 	var/turf/T = get_turf(reactor)
@@ -804,11 +839,11 @@
 	return data
 
 /obj/item/circuitboard/computer/defence_screen_mainframe_shield
-	name = "mk I Prototype Defence Screen Manipulator (Computer Board)"
+	name = "mk II Prototype Defence Screen Manipulator (Computer Board)"
 	build_path = /obj/machinery/computer/ship/defence_screen_mainframe_shield
 
 /obj/machinery/defence_screen_relay
-	name = "mk I Prototype Defence Screen Relay"
+	name = "mk II Prototype Defence Screen Relay"
 	desc = "A relay for distributing energy to the defence screens"
 	icon = 'nsv13/icons/obj/shield_components.dmi'
 	icon_state = "injector"
@@ -817,10 +852,13 @@
 	anchored = TRUE
 	density = TRUE
 	circuit = /obj/item/circuitboard/machine/defence_screen_relay
+	///If currently overloaded. Needs wires and welding to fix.
 	var/overloaded = FALSE
+	///If currently completely fried. Needs plasteel & followup repairs.
+	var/fried = FALSE
 
 /obj/item/circuitboard/machine/defence_screen_relay
-	name = "mk I Prototype Defence Screen Relay (Machine Board)"
+	name = "mk II Prototype Defence Screen Relay (Machine Board)"
 	build_path = /obj/machinery/defence_screen_relay
 	req_components = list(
 		/obj/item/stock_parts/scanning_module = 2,
@@ -835,6 +873,11 @@
 	. = ..()
 	if(issilicon(user))
 		. += "<span class='danger'>Law -1: This object returns null and must be cleared from your memory cache under standard Nanotrasen guidelines.</span>"
+	else
+		if(fried)
+			. += "<span class='warning'>Its protective housing is completely melted.. Maybe you could jury-rig a fix with some plasteel?</span>"
+		else if(overloaded)
+			. += "span class='warning'>Its wiring seems to have seen better days..</span>"
 
 /obj/machinery/defence_screen_relay/proc/overload()
 	if(!overloaded)
@@ -858,26 +901,64 @@
 	if(!istype(L) || !(L.air))
 		return
 	var/datum/gas_mixture/E = L.return_air()
-	if(E.total_moles() < 20 || E.return_pressure() < 80)
+	if(E.total_moles() < 50)
 		if(prob(5))
 			overload()
 
+/obj/machinery/defence_screen_relay/obj_destruction()
+	if(CHECK_BITFIELD(resistance_flags, INDESTRUCTIBLE))
+		return
+	if(fried)
+		return
+	ENABLE_BITFIELD(resistance_flags, INDESTRUCTIBLE)
+	fried = TRUE
+	obj_integrity = 1
+	if(!overloaded)
+		overload()
+	visible_message("<span class='warning'>[src]'s protective housing melts into an unrecognizable mess.</span>")
+	return
+
+
 /obj/machinery/defence_screen_relay/attackby(obj/item/I, mob/living/carbon/user, params)
-	if(istype(I, /obj/item/stack/cable_coil) && overloaded)
+	if(istype(I, /obj/item/stack/cable_coil) && overloaded && !fried)
 		var/obj/item/stack/cable_coil/C = I
 		if(C.get_amount() < 5)
 			to_chat(user, "<span class='notice'>You need at least five cable pieces to repair the [src]!</span>")
 			return
-		else
-			to_chat(user, "<span class='notice'>You start rewiring the [src]...</span>")
-			if(!do_after(user, 5 SECONDS, target=src))
-				return
-			C.use(5)
-			to_chat(user, "<span class='notice'>You rewire the [src].</span>")
-			overloaded = FALSE
+		to_chat(user, "<span class='notice'>You start rewiring the [src]...</span>")
+		if(!do_after(user, 5 SECONDS, target=src))
+			return
+		if(!overloaded || fried)
+			return
+		if(!C.use(5))
+			return
+		to_chat(user, "<span class='notice'>You rewire the [src].</span>")
+		overloaded = FALSE
+		return
+
+	if(istype(I, /obj/item/stack/sheet/plasteel) && fried)
+		var/obj/item/stack/sheet/plasteel/emergency_fix = I
+		if(emergency_fix.get_amount() < 10)
+			to_chat(user, "<span class='notice'>You need at least ten plasteel sheets to have any chance at fixing this mess!</span>")
+			return
+		to_chat(user, "<span class='notice'>You start improvised housing repairs on [src]</span>")
+		if(!do_after(user, 8 SECONDS, target=src))
+			return
+		if(!fried)
+			return
+		if(!emergency_fix.use(10))
+			return
+		to_chat(user, "<span class='notice'>You repair [src]'s housing.. Hopefully that thing won't explode in your face.</span>")
+		fried = FALSE
+		obj_integrity = 1
+		DISABLE_BITFIELD(resistance_flags, INDESTRUCTIBLE)
+		return
 
 /obj/machinery/defence_screen_relay/welder_act(mob/living/user, obj/item/I)
 	. = ..()
+	if(fried)
+		to_chat(user, "<span class='warning'>You will need to replace this mess of a housing first before making any further repairs. Maybe some plasteel would help?</span>")
+		return
 	while(obj_integrity < max_integrity)
 		if(!do_after(user, 5, target = src))
 			return
@@ -911,6 +992,18 @@
 			settings(user)
 		else if(anchored)
 			to_chat(user, "<span class='warning'>The bomb is bolted to the floor!</span>")
+
+//OVERRIDE
+/obj/machinery/syndicatebomb/self_destruct/pdsr/try_detonate(ignore_active)
+	. = (payload in src) && (active || ignore_active)
+	if(.)
+		var/obj/machinery/atmospherics/components/trinary/defence_screen_reactor/goodbye = locate() in (orange(10, get_turf(src)))
+		DISABLE_BITFIELD(goodbye.resistance_flags, INDESTRUCTIBLE)
+		payload.detonate()
+
+
+#undef DENSITY_LOW
+#undef DENSITY_HIGH
 
 #undef REACTOR_STATE_IDLE
 #undef REACTOR_STATE_INITIALIZING

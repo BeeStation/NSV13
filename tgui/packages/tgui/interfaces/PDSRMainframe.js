@@ -137,11 +137,14 @@ export const PDSRMainframe = (props, context) => {
           <Section title="Reaction Statistics">
             Temperature:
             <ProgressBar
+              minvalue={0}
+              maxvalue={1000}
               value={data.r_temp}
               range={{
-                good: [],
-                average: [0.5, 0.75],
-                bad: [0.75, Infinity],
+                blue: [-Infinity, 30],
+                good: [30, 200],
+                average: [200, 600],
+                bad: [600, Infinity],
               }}>
               {toFixed(data.r_temp) + ' °C'}
             </ProgressBar>
