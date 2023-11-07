@@ -117,4 +117,5 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 //Fun tools
 #define SHIELD_NOEFFECT 0 //!Shield failed to absorb hit.
 #define SHIELD_ABSORB 1 //!Shield absorbed hit.
-#define SHIELD_FORCE_DEFLECT 2 //!Shield absorbed hit and is redirecting projectile.
+#define SHIELD_FORCE_DEFLECT 2 //!Shield absorbed hit and is redirecting projectile with slightly turned vector.
+#define SHIELD_FORCE_REFLECT 3 //!Shield absorbed hit and is redirecting projectile in reverse direction.

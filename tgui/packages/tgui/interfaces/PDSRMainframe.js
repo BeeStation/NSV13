@@ -126,6 +126,10 @@ export const PDSRMainframe = (props, context) => {
               fillValue={data.r_injection_rate}
               minValue={0}
               maxValue={25}
+              ranges={{
+                bad: [0, 5],
+                average: [20, 25],
+              }}
               step={1}
               stepPixelSize={27}
               onDrag={(e, value) => act('injection_allocation', {
@@ -140,11 +144,13 @@ export const PDSRMainframe = (props, context) => {
               minvalue={0}
               maxvalue={1000}
               value={data.r_temp}
-              range={{
-                blue: [-Infinity, 30],
-                good: [30, 200],
+              color={data.r_temp === 0 ? "default" : null}
+              ranges={{
+                blue: [25, 70],
+                good: [70, 175],
+                yellow: [175, 200],
                 average: [200, 600],
-                bad: [600, Infinity],
+                bad: [-Infinity, Infinity],
               }}>
               {toFixed(data.r_temp) + ' °C'}
             </ProgressBar>
@@ -161,7 +167,7 @@ export const PDSRMainframe = (props, context) => {
               value={data.r_energy_output}
               minValue={0}
               maxValue={50}
-              color="yellow" >
+              color={(data.r_energy_output === 0 && data.r_temp > 0) ? "red" : "yellow"} >
               {data.r_energy_output + ' GJ'}
             </ProgressBar>
           </Section>

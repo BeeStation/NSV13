@@ -70,7 +70,7 @@ export const PDSRManipulator = (props, context) => {
                         value={data.available_power}
                         minValue={0}
                         maxValue={data.r_max_power_input * 1.25}
-                        color="yellow">
+                        color={(data.r_temp !== 0 && !data.r_has_enough_power) ? "bad" : "yellow"}>
                         {data.available_power / 1e+6 + ' MW'}
                       </ProgressBar>
                     </LabeledList.Item>
@@ -81,7 +81,11 @@ export const PDSRManipulator = (props, context) => {
                         maxValue={data.r_max_power_input * 1.25}
                         step={1}
                         stepPixelSize={0.000004}
-                        color="white"
+                        ranges={{
+                          white: [data.r_min_power_input, data.r_max_power_input],
+                          yellow: [data.r_max_power_input, data.r_max_power_input * 1.25],
+                          red: [-Infinity, Infinity],
+                        }}
                         onDrag={(e, value) => act('power_allocation', {
                           adjust: value,
                         })}>
@@ -93,7 +97,7 @@ export const PDSRManipulator = (props, context) => {
                         value={data.r_max_power_input}
                         minValue={0}
                         maxValue={data.r_max_power_input}
-                        color="teal">
+                        color={data.r_relay_count === 0 ? "bad" : "teal"}>
                         {data.r_max_power_input / 1e+6 + ' MW'}
                       </ProgressBar>
                     </LabeledList.Item>
@@ -119,13 +123,13 @@ export const PDSRManipulator = (props, context) => {
             </Flex>
           </Section>
           <Section title="Screen Manipulation">
-            Screen Strength: {data.s_integrity}
+            Screen Strength: {data.s_integrity + ' | ' + data.s_max_integrity}
             <br />
             Screen Integrity:
             <ProgressBar
               value={data.s_integrity / data.s_max_integrity}
-              range={{
-                cyan: [0.50, Infinity],
+              ranges={{
+                teal: [0.50, Infinity],
                 average: [0.15, 0.50],
                 bad: [-Infinity, 0.15],
               }} />
@@ -134,9 +138,9 @@ export const PDSRManipulator = (props, context) => {
               value={data.s_stability}
               minValue={0}
               maxValue={100}
-              color={data.s_regen === 100 ? "blue" : null}
-              range={{
-                cyan: [66, Infinity],
+              color={(data.s_regen === 100 ? "blue" : null) || (data.r_temp === 0 ? "default" : null)}
+              ranges={{
+                teal: [66, Infinity],
                 average: [33, 66],
                 bad: [-Infinity, 33],
               }} />
@@ -168,9 +172,9 @@ export const PDSRManipulator = (props, context) => {
             Screen Particle Density:
             <Button
               fluid
-              icon={data.s_density ? "shield" : "shield-alt"}
-              color={(data.s_active ? null : "grey") || (data.s_density ? "green" : "orange")}
-              content={data.s_density ? "High - General Projectile Deflection" : "Low - High-energy kinetics deflection."}
+              icon="shield-alt"
+              color={(data.s_active ? null : "default") || (data.s_density ? "green" : "orange")}
+              content={data.s_density ? "High - Unspecialized Deflection" : "Low - High-Energy Kinetics Deflection"}
               onClick={() => act('density')}
             />
           </Section>

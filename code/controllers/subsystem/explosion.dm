@@ -415,6 +415,8 @@ SUBSYSTEM_DEF(explosions)
 			var/turf/T = locate(epicenter.x, epicenter.y, affecting_z)
 			if(!T)
 				continue
+			if(devastation_range - z_reduction <= 0 && heavy_impact_range - z_reduction <= 0 && light_impact_range - z_reduction <= 0) //NSV13 - explosions still relaying with 0-0-0 can cause REALLY weird behavior.
+				continue
 			SSexplosions.explode(T,
 				max(devastation_range - z_reduction, 0),
 				max(heavy_impact_range - z_reduction, 0),

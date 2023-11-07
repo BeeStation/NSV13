@@ -29,8 +29,14 @@ Bullet reactions
 					shake_everyone(5)
 				impact_sound_cooldown = TRUE
 				addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 0.5 SECONDS)
-			if(shield_result == SHIELD_FORCE_DEFLECT)
-				P.setAngle((P.Angle + rand(160, 200)) % 360)
+			if(shield_result == SHIELD_FORCE_DEFLECT || shield_result == SHIELD_FORCE_REFLECT)
+				switch(shield_result)
+					if(SHIELD_FORCE_DEFLECT)
+						P.setAngle((P.Angle + rand(25, 50) + (prob(50) ? 0 : 285)) % 360)
+					if(SHIELD_FORCE_REFLECT)
+						P.setAngle((P.Angle + rand(160, 200)) % 360)
+					else
+
 				P.faction = null //We go off the rails.
 				P.homing_target = null
 				P.homing = FALSE
