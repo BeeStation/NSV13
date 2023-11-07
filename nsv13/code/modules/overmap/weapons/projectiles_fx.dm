@@ -1,5 +1,5 @@
 
-///Special proj for hitting overmap hips only used by NSV projectiles.
+///Special proc for hitting overmap ships only used by NSV projectiles.
 /obj/item/projectile/proc/spec_overmap_hit(obj/structure/overmap/target)
 	return
 

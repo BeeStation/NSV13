@@ -173,7 +173,7 @@
 			state = REACTOR_STATE_RUNNING
 
 	if(state == REACTOR_STATE_RUNNING)
-		if(nuc_in >= reaction_injection_rate) //If we are running in nominal conditions...
+		if(nuc_in >= reaction_injection_rate && reaction_injection_rate >= 2.5) //If we are running in nominal conditions...
 			nucleium_input.adjust_moles(GAS_NUCLEIUM, -reaction_injection_rate)
 			//Handle reaction rate adjustments here
 			var/target_reaction_rate = ((0.5 + (1e-03 * (reaction_injection_rate ** 2))) + (current_uptime / 2000)) * 16
@@ -182,7 +182,7 @@
 			reaction_temperature += reaction_rate * 0.35 //Function goes
 			handle_polarity(TRUE)
 
-		else if(nuc_in < reaction_injection_rate) //If we are running without sufficient nucleium...
+		else //If we are running without sufficient nucleium...
 			if(nuc_in <= 0) //...and none at all
 				var/target_reaction_rate = 0
 				var/delta_reaction_rate = target_reaction_rate - reaction_rate
@@ -201,7 +201,7 @@
 				handle_polarity(TRUE)
 
 		if(reaction_rate > 5) //TEMP USE FUNCTIONS
-			reaction_energy_output = (reaction_rate + (reaction_injection_rate / 2)) * (2 - (current_uptime / 20000)) //FUNCTIONS
+			reaction_energy_output = (reaction_rate + (min(nuc_in, reaction_injection_rate) / 2)) * (2 - (current_uptime / 20000)) //FUNCTIONS
 			radiation_pulse(src, reaction_energy_output)
 
 		else

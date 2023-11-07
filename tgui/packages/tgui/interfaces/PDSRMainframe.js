@@ -127,8 +127,9 @@ export const PDSRMainframe = (props, context) => {
               minValue={0}
               maxValue={25}
               ranges={{
-                bad: [0, 5],
-                average: [20, 25],
+                default: [5, 20],
+                yellow: [2.5, Infinity],
+                bad: [-Infinity, 2.5],
               }}
               step={1}
               stepPixelSize={27}
@@ -159,7 +160,11 @@ export const PDSRMainframe = (props, context) => {
               value={data.r_reaction_rate}
               minValue={0}
               maxValue={25}
-              color="teal" >
+              color={data.r_temp === 0 ? "default" : null}
+              ranges={{
+                bad: [-Infinity, 5],
+                teal: [5, Infinity],
+              }}>
               {data.r_reaction_rate + ' mol/s'}
             </ProgressBar>
             Screen Capacity:
