@@ -24,7 +24,7 @@
 	icon = 'nsv13/icons/obj/custom_tiles.dmi'
 	icon_state = "durasteel_tile"
 	force = 6
-	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT*0.2*0.25, /datum/material/silver = MINERAL_MATERIAL_AMOUNT*0.15*0.25, /datum/material/titanium = MINERAL_MATERIAL_AMOUNT*0.65*0.25)
+	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT*0.05, /datum/material/silver = MINERAL_MATERIAL_AMOUNT*0.0375, /datum/material/titanium = MINERAL_MATERIAL_AMOUNT*0.1625)
 	throwforce = 10
 	flags_1 = CONDUCT_1
 	turf_type = /turf/open/floor/durasteel
@@ -135,7 +135,7 @@
 	icon = 'nsv13/icons/turf/dark_carpet.dmi'
 	icon_state = "dark_carpet_tile"
 	resistance_flags = FLAMMABLE
-	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT*0.2*0.25, /datum/material/silver = MINERAL_MATERIAL_AMOUNT*0.15*0.25, /datum/material/titanium = MINERAL_MATERIAL_AMOUNT*0.65*0.25)
+	materials = list(/datum/material/iron = MINERAL_MATERIAL_AMOUNT*0.05, /datum/material/silver = MINERAL_MATERIAL_AMOUNT*0.0375, /datum/material/titanium = MINERAL_MATERIAL_AMOUNT*0.1625)
 	turf_type = /turf/open/floor/carpet/ship
 
 /obj/item/stack/tile/carpet/ship/blue
