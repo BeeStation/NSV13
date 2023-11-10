@@ -166,13 +166,13 @@
 	if(!T)
 		return FALSE
 	for(var/atom/movable/AM in T)
-		if(AM.flags_1 & PREVENT_CLICK_UNDER_1 && AM.density && AM.layer > layer)
+		if(AM.flags_1 & PREVENT_CLICK_UNDER_1 && AM.layer > layer)//NSV make it so prevent_click_under doesn't need density
 			return TRUE
 	return FALSE
 
 /turf/IsObscured()
 	for(var/atom/movable/AM in src)
-		if(AM.flags_1 & PREVENT_CLICK_UNDER_1 && AM.density)
+		if(AM.flags_1 & PREVENT_CLICK_UNDER_1)//NSV make it so prevent_click_under doesn't need density
 			return TRUE
 	return FALSE
 
