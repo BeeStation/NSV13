@@ -27,7 +27,7 @@
 	M.dizziness = max(0,M.dizziness-5)
 	M.drowsyness = max(0,M.drowsyness-3)
 	M.AdjustSleeping(-40, FALSE)
-	SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "navy_coffee", /datum/mood_event/drink_navy_coffee)
+	SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, "navy_coffee", /datum/mood_event/drink_navy_coffee, M.faction)
 	..()
 	. = 1
 
