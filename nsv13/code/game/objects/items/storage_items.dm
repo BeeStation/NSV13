@@ -67,7 +67,7 @@
 	name = "\improper DIY plushbomb kit"
 
 /obj/item/storage/box/syndie_kit/plushie/PopulateContents()
-	new /obj/item/toy/plush/synlfighter(src)
+	new /obj/item/toy/plush/lfighter/synlfighter(src)
 	new /obj/item/kitchen/knife/combat/survival(src)
 	new /obj/item/grenade/syndieminibomb(src)
 	new /obj/item/screwdriver(src)
