@@ -44,21 +44,21 @@ export const PDSRManipulator = (props, context) => {
                     data={r_power_inputData}
                     rangeX={[0, r_power_inputData.length - 1]}
                     rangeY={[0, 30000000]}
-                    strokeColor="rgba(255, 255, 255, 1)"
+                    strokeColor="rgba(255, 255, 255, 0.8)"
                     fillColor="rgba(255, 255, 255, 0)" />
                   <Chart.Line
                     fillPositionedParent
                     data={r_max_power_inputData}
                     rangeX={[0, r_max_power_inputData.length - 1]}
                     rangeY={[0, 30000000]}
-                    strokeColor="rgba(0, 181, 173, 1)"
+                    strokeColor="rgba(0, 181, 173, 0.8)"
                     fillColor="rgba(0, 181, 173, 0)" />
                   <Chart.Line
                     fillPositionedParent
                     data={r_min_power_inputData}
                     rangeX={[0, r_min_power_inputData.length - 1]}
                     rangeY={[0, 30000000]}
-                    strokeColor="rgba(242, 113, 28, 1)"
+                    strokeColor="rgba(242, 113, 28, 0.8)"
                     fillColor="rgba(242, 113, 28, 0)" />
                 </Section>
               </Flex.Item>
