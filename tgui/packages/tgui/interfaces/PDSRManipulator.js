@@ -38,30 +38,31 @@ export const PDSRManipulator = (props, context) => {
           <Section title="Power Statistics">
             <Flex spacing={1}>
               <Flex.Item grow={1}>
-                <Section position="relative" height="100%">
+                <Section fill position="relative" height="100%">
                   <Chart.Line
                     fillPositionedParent
                     data={r_power_inputData}
                     rangeX={[0, r_power_inputData.length - 1]}
-                    rangeY={[0, data.r_max_power_input * 1.5]}
+                    rangeY={[0, 30000000]}
                     strokeColor="rgba(255, 255, 255, 1)"
                     fillColor="rgba(255, 255, 255, 0)" />
                   <Chart.Line
                     fillPositionedParent
                     data={r_max_power_inputData}
                     rangeX={[0, r_max_power_inputData.length - 1]}
-                    rangeY={[0, data.r_max_power_input * 1.5]}
+                    rangeY={[0, 30000000]}
                     strokeColor="rgba(0, 181, 173, 1)"
                     fillColor="rgba(0, 181, 173, 0)" />
                   <Chart.Line
                     fillPositionedParent
                     data={r_min_power_inputData}
                     rangeX={[0, r_min_power_inputData.length - 1]}
-                    rangeY={[0, data.r_max_power_input * 1.5]}
+                    rangeY={[0, 30000000]}
                     strokeColor="rgba(242, 113, 28, 1)"
                     fillColor="rgba(242, 113, 28, 0)" />
                 </Section>
               </Flex.Item>
+              <Flex.Item width="10px" />
               <Flex.Item width="280px">
                 <Section>
                   <LabeledList>

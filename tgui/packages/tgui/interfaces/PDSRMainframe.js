@@ -54,6 +54,7 @@ export const PDSRMainframe = (props, context) => {
                     fillColor="rgba(33, 133, 208, 0)" />
                 </Section>
               </Flex.Item>
+              <Flex.Item width="10px" />
               <Flex.Item width="280px">
                 <Section>
                   <LabeledList>

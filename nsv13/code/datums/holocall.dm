@@ -26,7 +26,7 @@
 	DELAY 20
 	PRESET /datum/preset_holoimage/corgi
 	NAME Burst Data
-	LANGUAGE /datum/language/eal
+	LANGUAGE /datum/language/machine
 	SAY START NTINTEL METADATA
 	SAY RECORDED 12-17-0000
 	SAY SECURITY CLASS UNCLASSIFIED
@@ -328,7 +328,7 @@
 	DELAY 50
 	SAY Do your duty. This tape should be destroyed after use. Shield technology does not exist. Glory to Nanotrasen.
 	NAME Burst Data
-	LANGUAGE /datum/language/eal
+	LANGUAGE /datum/language/machine
 	DELAY 20
 	SAY START METADATA
 	SAY RECORDED 5-25-0000
