@@ -175,6 +175,7 @@
 			H.throw_alert("nutrition", /atom/movable/screen/alert/etherealcharge, 3)
 			if(H.health > 10.5)
 				apply_damage(0.65, TOX, null, null, H)
+			brutemod = 1.9
 		else
 			H.throw_alert("nutrition", /atom/movable/screen/alert/etherealcharge, 4)
 			if(H.health > 10.5)
