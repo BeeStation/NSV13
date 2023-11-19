@@ -1106,6 +1106,16 @@
 	},
 /turf/open/floor/wood,
 /area/crew_quarters/bar/mess_hall)
+"eZ" = (
+/obj/machinery/computer/robotics{
+	dir = 1
+	},
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/obj/structure/extinguisher_cabinet/east,
+/turf/open/floor/carpet/ship/beige_carpet,
+/area/crew_quarters/heads/hor)
 "fa" = (
 /turf/open/floor/plasteel/stairs{
 	dir = 8
@@ -1342,6 +1352,9 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
+/obj/structure/table/reinforced,
+/obj/item/paper_bin,
+/obj/item/stamp/research_director,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/hor)
 "fS" = (
@@ -1832,7 +1845,6 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 8
 	},
@@ -1926,7 +1938,8 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/structure/disposalpipe/junction{
+/obj/structure/disposalpipe/sorting/mail{
+	sortType = 10;
 	dir = 8
 	},
 /turf/open/floor/monotile/steel,
@@ -2028,6 +2041,7 @@
 	c_tag = "AI Upload";
 	dir = 10
 	},
+/obj/item/aiModule/core/full/custom,
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
 "jb" = (
@@ -2748,14 +2762,14 @@
 /obj/effect/turf_decal/tile/ship/half/yellow{
 	dir = 8
 	},
-/obj/structure/disposalpipe/sorting/mail{
-	sortType = 5
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 9
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
@@ -3321,12 +3335,6 @@
 /turf/closed/wall/r_wall,
 /area/crew_quarters/heads/chief)
 "oX" = (
-/obj/machinery/computer/robotics{
-	dir = 8
-	},
-/obj/machinery/camera/autoname{
-	dir = 1
-	},
 /obj/machinery/light_switch/east,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/hor)
@@ -3503,7 +3511,6 @@
 	dir = 1
 	},
 /obj/machinery/firealarm/directional/west,
-/obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/tile/ship/blue{
 	dir = 8
 	},
@@ -3606,11 +3613,11 @@
 /obj/structure/railing/corner{
 	dir = 8
 	},
-/obj/structure/disposalpipe/sorting/mail{
-	dir = 4;
-	sortType = "5;10"
-	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 4
+	},
+/obj/structure/disposalpipe/sorting/mail{
+	sortType = 5;
 	dir = 4
 	},
 /turf/open/floor/monotile/steel,
@@ -3812,8 +3819,6 @@
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "rs" = (
-/obj/structure/table/reinforced,
-/obj/item/paper_bin,
 /obj/machinery/requests_console{
 	announcementConsole = 1;
 	department = "Research Director's Desk";
@@ -3825,7 +3830,7 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 8
 	},
-/obj/item/stamp/research_director,
+/obj/machinery/disposal/bin,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/hor)
 "rt" = (
@@ -4663,7 +4668,6 @@
 /obj/effect/turf_decal/tile/ship/green{
 	dir = 8
 	},
-/obj/structure/disposalpipe/segment,
 /obj/effect/turf_decal/tile/ship/yellow{
 	dir = 1
 	},
@@ -7668,14 +7672,14 @@
 /obj/effect/turf_decal/tile/ship/half/blue{
 	dir = 8
 	},
-/obj/structure/disposalpipe/sorting/mail{
-	sortType = 10
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 10
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
@@ -8466,7 +8470,6 @@
 /obj/machinery/computer/mecha{
 	dir = 1
 	},
-/obj/structure/extinguisher_cabinet/east,
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/crew_quarters/heads/hor)
@@ -8782,6 +8785,18 @@
 /obj/machinery/vending/hydronutrients,
 /turf/open/floor/monotile/steel,
 /area/hydroponics)
+"Nu" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/turf_decal/tile/ship/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/ship/yellow{
+	dir = 8
+	},
+/turf/open/floor/durasteel/alt,
+/area/hallway/nsv/deck1/hallway)
 "Nv" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 6
@@ -11150,7 +11165,6 @@
 /obj/effect/turf_decal/tile/ship/half/green{
 	dir = 8
 	},
-/obj/structure/disposalpipe/segment,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
@@ -40034,7 +40048,7 @@ ob
 Sx
 dE
 lZ
-dE
+Nu
 vl
 YL
 pK
@@ -40819,7 +40833,7 @@ cD
 Am
 rs
 oX
-Cx
+eZ
 Cx
 MS
 LU

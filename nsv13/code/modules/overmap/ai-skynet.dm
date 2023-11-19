@@ -1610,6 +1610,8 @@ Seek a ship thich we'll station ourselves around
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
 	var/list/ai_fighter_type = list()
 	var/ai_flags = AI_FLAG_DESTROYER
+	///Overmap bitflags
+	var/overmap_flags = NONE
 
 	var/list/holding_cargo = list() // list of objective datums. This station has cargo to deliver to the players as part of a courier objective
 	var/list/expecting_cargo = list() // list of objective datums. This station is expecting cargo delivered to them by the players as a part of a courier objective

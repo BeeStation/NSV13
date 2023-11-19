@@ -462,7 +462,7 @@ GLOBAL_LIST_EMPTY(created_baseturf_lists)
 // Removes all signs of lattice on the pos of the turf -Donkieyo
 /turf/proc/RemoveLattice()
 	var/obj/structure/lattice/L = locate(/obj/structure/lattice, src)
-	if(L && (L.flags_1 & INITIALIZED_1))
+	if(L && (L.flags_1 & INITIALIZED_1) && !istype(L, /obj/structure/lattice/catwalk/over/))//NSV but not "over" catwalks
 		qdel(L)
 
 /turf/proc/phase_damage_creatures(damage,mob/U = null)//>Ninja Code. Hurts and knocks out creatures on this turf //NINJACODE

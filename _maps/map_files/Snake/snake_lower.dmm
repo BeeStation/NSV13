@@ -566,7 +566,7 @@
 "ce" = (
 /obj/machinery/ammo_sorter{
 	dir = 8;
-	id = "atlas1";
+	id = "snake";
 	name = "AP shells"
 	},
 /obj/item/ship_weapon/ammunition/naval_artillery/ap,
@@ -765,7 +765,7 @@
 /turf/open/floor/plasteel,
 /area/security/brig)
 "cO" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos{
+/obj/machinery/atmospherics/components/unary/vent_pump/high_volume/siphon/atmos/air_output{
 	dir = 8
 	},
 /turf/open/floor/engine/air,
@@ -1812,7 +1812,8 @@
 /area/space/nearstation)
 "gK" = (
 /obj/machinery/computer/ammo_sorter{
-	dir = 1
+	dir = 1;
+	id = "snake"
 	},
 /obj/item/multitool,
 /turf/open/floor/engine,
@@ -3151,7 +3152,7 @@
 /turf/open/floor/engine,
 /area/nsv/weapons/fore)
 "ls" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/mix_output{
 	dir = 4
 	},
 /turf/open/floor/engine/airless,
@@ -3797,9 +3798,9 @@
 /turf/open/floor/plasteel/white,
 /area/science/lab)
 "nL" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/on/layer4{
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/mix_input{
 	dir = 8;
-	name = "Fuel Mix Injector"
+	piping_layer = 4
 	},
 /turf/open/floor/engine/airless,
 /area/engine/atmos)
@@ -4718,6 +4719,12 @@
 /obj/machinery/light_switch/north,
 /turf/open/floor/engine,
 /area/security/execution/transfer)
+"ru" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/nucleium_output{
+	dir = 1
+	},
+/turf/open/floor/engine/vacuum,
+/area/engine/atmos)
 "rv" = (
 /obj/machinery/light_switch/north,
 /turf/open/floor/plasteel/dark/side,
@@ -5400,7 +5407,7 @@
 "ui" = (
 /obj/machinery/ammo_sorter{
 	dir = 8;
-	id = "atlas1";
+	id = "snake";
 	name = "Standard Shells #2"
 	},
 /obj/item/ship_weapon/ammunition/naval_artillery,
@@ -6204,7 +6211,7 @@
 "wC" = (
 /obj/machinery/ammo_sorter{
 	dir = 8;
-	id = "atlas1";
+	id = "snake";
 	name = "Gunpowder #2"
 	},
 /obj/item/powder_bag,
@@ -6293,6 +6300,9 @@
 	dir = 4
 	},
 /obj/item/radio/intercom/directional/south,
+/obj/machinery/computer/atmos_control/tank/nucleium_tank{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
 "wV" = (
@@ -9238,6 +9248,12 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/engine/atmos)
+"GQ" = (
+/obj/machinery/atmospherics/components/unary/outlet_injector/atmos/nucleium_input{
+	dir = 1
+	},
+/turf/open/floor/engine/vacuum,
+/area/engine/atmos)
 "GS" = (
 /obj/structure/kitchenspike,
 /obj/machinery/camera/autoname,
@@ -11103,7 +11119,7 @@
 "MW" = (
 /obj/machinery/ammo_sorter{
 	dir = 8;
-	id = "atlas1";
+	id = "snake";
 	name = "Standard Shells #1"
 	},
 /obj/item/ship_weapon/ammunition/naval_artillery,
@@ -13075,12 +13091,16 @@
 /area/security/brig)
 "TL" = (
 /obj/machinery/light/small,
+/obj/machinery/air_sensor/atmos/nucleium_tank,
+/obj/machinery/portable_atmospherics/canister/nucleium{
+	filled = 0
+	},
 /turf/open/floor/engine/vacuum,
 /area/engine/atmos)
 "TP" = (
 /obj/machinery/ammo_sorter{
 	dir = 8;
-	id = "atlas1";
+	id = "snake";
 	name = "Gunpowder #1"
 	},
 /obj/item/powder_bag,
@@ -40506,7 +40526,7 @@ NS
 Ly
 IV
 hP
-Hg
+ru
 Hg
 ge
 ge
@@ -41020,7 +41040,7 @@ iB
 yL
 xe
 hP
-Hg
+GQ
 Hg
 ge
 oe

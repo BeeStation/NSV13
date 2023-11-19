@@ -1,0 +1,4 @@
+#define ATMOS_GAS_MONITOR_INPUT_NUCLEIUM "nucleium_in"
+#define ATMOS_GAS_MONITOR_OUTPUT_NUCLEIUM "nucleium_out"
+#define ATMOS_GAS_MONITOR_SENSOR_NUCLEIUM "nucleium_sensor"
+#define ATMOS_TANK_NUCLEUM		"nucleum=750;TEMP=293.15"

@@ -67,6 +67,11 @@
 		tactical = new /obj/machinery/computer/ship/tactical/internal(src)
 		tactical.linked = src
 
+	//Lets ships with gauss use them
+	if(weapon_types[FIRE_MODE_GAUSS])
+		var/datum/ship_weapon/GA = weapon_types[FIRE_MODE_GAUSS]
+		GA.allowed_roles = OVERMAP_USER_ROLE_GUNNER
+
 	//Override AMS
 	weapon_types[FIRE_MODE_AMS] = null //Resolve this later to be auto
 	weapon_types[FIRE_MODE_FLAK] = null //Resolve this later to be a toggle

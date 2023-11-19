@@ -457,6 +457,7 @@
 	missiles = 8
 	torpedoes = 0
 	combat_dice_type = /datum/combat_dice/cruiser
+	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/kadesh/Initialize(mapload)
 	. = ..()

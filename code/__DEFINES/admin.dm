@@ -76,6 +76,7 @@
 #define ADMIN_PUNISHMENT_TOE "Stub Toe (Once)"
 #define ADMIN_PUNISHMENT_TOEPLUS "Stub Toe (Always)"
 #define ADMIN_PUNISHMENT_CRYO "Force Cryo"
+#define ADMIN_PUNISHMENT_DOCK "Dock Pay" //NSV13
 
 #define AHELP_UNCLAIMED 1
 #define AHELP_ACTIVE 2

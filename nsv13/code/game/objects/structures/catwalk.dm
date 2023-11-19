@@ -9,13 +9,15 @@
 	canSmoothWith = null
 	obj_flags = CAN_BE_HIT
 	var/hatch_open = FALSE //To easily access wiring
+	var/plating_type = /obj/item/stack/tile/durasteel/mono_steel
 
 /obj/structure/lattice/catwalk/over/ship/light
 	color = "#ffffff"
-	icon_state = "catwalk_platedwhite"
+	plating_type = /obj/item/stack/tile/durasteel/mono_light
 
 /obj/structure/lattice/catwalk/over/ship/dark
- 	color = "#4c535b" //Curse you baystation
+	color = "#575757" //Curse you baystation
+	plating_type = /obj/item/stack/tile/durasteel/mono_dark
 
 /obj/structure/lattice/catwalk/over/ship/crowbar_act(mob/living/user, obj/item/I)
 	var/turf/T = get_turf(src)
@@ -38,13 +40,25 @@
 	if(hatch_open)
 		icon_state = "catwalk_hatch_open"
 		obj_flags &= ~(BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP) //Minecraft trap door.
+		flags_1 &= ~PREVENT_CLICK_UNDER_1
 		smooth = SMOOTH_FALSE
 		clear_smooth_overlays()
+		queue_smooth(src)
 	else
-		icon_state = initial(icon_state)
+		icon_state = ""
 		obj_flags |= (BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP)
+		flags_1 |= PREVENT_CLICK_UNDER_1
 		smooth = SMOOTH_TRUE
 		queue_smooth(src)
 
-/obj/structure/lattice/catwalk/over/ship/can_lay_cable()
-	return hatch_open
+
+/obj/structure/lattice/catwalk/over/ship/deconstruct()
+	new plating_type(get_turf(src))
+	. = ..()
+
+/obj/structure/lattice/catwalk/over/attackby(obj/item/C, mob/user, params)
+	if(resistance_flags & INDESTRUCTIBLE)
+		return
+	if(C.tool_behaviour == TOOL_WIRECUTTER)
+		to_chat(user, "<span class='notice'>Slicing [name] joints ...</span>")
+		deconstruct()
