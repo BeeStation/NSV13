@@ -13,13 +13,13 @@
 */
 /mob/living/carbon/human/proc/species_examine_font()
 	if((MOB_ROBOTIC in mob_biotypes))
-		return "<font color='#aaa9ad'>"
+		return "sc_robotic"
 	if(HAS_TRAIT(src, TRAIT_TOXINLOVER))
-		return "<font color='#00ffff'>"
+		return "sc_toxlover"
 	if(isethereal(src))
-		return "<font color='#e0d31d'>"
+		return "sc_ethereal"
 	if(isplasmaman(src))
-		return "<font color='#800080'>"
+		return "sc_plasmaman"
 	if(isgolem(src))
-		return "<font color='#8b4513'>"
-	return "<font color='#18d855'>"
+		return "sc_golem"
+	return "sc_normal"
