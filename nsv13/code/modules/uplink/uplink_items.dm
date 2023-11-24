@@ -23,3 +23,11 @@
 	cost = 20
 	cant_discount = TRUE
 	surplus = 0
+
+/datum/uplink_item/explosives/fighterplushie
+	name = "Plushie Bomb Kit"
+	desc = "A kit with all of the tools and items required to assemble your very own plushie bomb! \
+			Take out the unsuspecting Nanotrasen scum with a gift they'll never expect. \
+			Contains a Syndicate light fighter plush, syndicate minibomb, screwdriver and a survival knife"
+	item = /obj/item/storage/box/syndie_kit/plushie
+	cost = 8

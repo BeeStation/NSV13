@@ -63,3 +63,11 @@
 	new /obj/item/clothing/gloves/maid(src)
 	new /obj/item/clothing/under/costume/maid(src)
 
+/obj/item/storage/box/syndie_kit/plushie
+	name = "\improper DIY plushbomb kit"
+
+/obj/item/storage/box/syndie_kit/plushie/PopulateContents()
+	new /obj/item/toy/plush/lfighter/synlfighter(src)
+	new /obj/item/kitchen/knife/combat/survival(src)
+	new /obj/item/grenade/syndieminibomb(src)
+	new /obj/item/screwdriver(src)
