@@ -38,30 +38,31 @@ export const PDSRManipulator = (props, context) => {
           <Section title="Power Statistics">
             <Flex spacing={1}>
               <Flex.Item grow={1}>
-                <Section position="relative" height="100%">
+                <Section fill position="relative" height="100%">
                   <Chart.Line
                     fillPositionedParent
                     data={r_power_inputData}
                     rangeX={[0, r_power_inputData.length - 1]}
-                    rangeY={[0, data.r_max_power_input * 1.5]}
-                    strokeColor="rgba(255, 255, 255, 1)"
+                    rangeY={[0, 30000000]}
+                    strokeColor="rgba(255, 255, 255, 0.8)"
                     fillColor="rgba(255, 255, 255, 0)" />
                   <Chart.Line
                     fillPositionedParent
                     data={r_max_power_inputData}
                     rangeX={[0, r_max_power_inputData.length - 1]}
-                    rangeY={[0, data.r_max_power_input * 1.5]}
-                    strokeColor="rgba(0, 181, 173, 1)"
+                    rangeY={[0, 30000000]}
+                    strokeColor="rgba(0, 181, 173, 0.8)"
                     fillColor="rgba(0, 181, 173, 0)" />
                   <Chart.Line
                     fillPositionedParent
                     data={r_min_power_inputData}
                     rangeX={[0, r_min_power_inputData.length - 1]}
-                    rangeY={[0, data.r_max_power_input * 1.5]}
-                    strokeColor="rgba(242, 113, 28, 1)"
+                    rangeY={[0, 30000000]}
+                    strokeColor="rgba(242, 113, 28, 0.8)"
                     fillColor="rgba(242, 113, 28, 0)" />
                 </Section>
               </Flex.Item>
+              <Flex.Item width="10px" />
               <Flex.Item width="280px">
                 <Section>
                   <LabeledList>
@@ -70,7 +71,7 @@ export const PDSRManipulator = (props, context) => {
                         value={data.available_power}
                         minValue={0}
                         maxValue={data.r_max_power_input * 1.25}
-                        color="yellow">
+                        color={(data.r_temp !== 0 && !data.r_has_enough_power) ? "bad" : "yellow"}>
                         {data.available_power / 1e+6 + ' MW'}
                       </ProgressBar>
                     </LabeledList.Item>
@@ -81,7 +82,11 @@ export const PDSRManipulator = (props, context) => {
                         maxValue={data.r_max_power_input * 1.25}
                         step={1}
                         stepPixelSize={0.000004}
-                        color="white"
+                        ranges={{
+                          white: [data.r_min_power_input, data.r_max_power_input],
+                          yellow: [data.r_max_power_input, data.r_max_power_input * 1.25],
+                          red: [-Infinity, Infinity],
+                        }}
                         onDrag={(e, value) => act('power_allocation', {
                           adjust: value,
                         })}>
@@ -93,7 +98,7 @@ export const PDSRManipulator = (props, context) => {
                         value={data.r_max_power_input}
                         minValue={0}
                         maxValue={data.r_max_power_input}
-                        color="teal">
+                        color={data.r_relay_count === 0 ? "bad" : "teal"}>
                         {data.r_max_power_input / 1e+6 + ' MW'}
                       </ProgressBar>
                     </LabeledList.Item>
@@ -119,13 +124,13 @@ export const PDSRManipulator = (props, context) => {
             </Flex>
           </Section>
           <Section title="Screen Manipulation">
-            Screen Strength: {data.s_integrity}
+            Screen Strength: {data.s_integrity + ' | ' + data.s_max_integrity}
             <br />
             Screen Integrity:
             <ProgressBar
-              value={((data.s_integrity / data.s_max_integrity) * 100) * 0.01}
-              range={{
-                good: [],
+              value={data.s_integrity / data.s_max_integrity}
+              ranges={{
+                teal: [0.50, Infinity],
                 average: [0.15, 0.50],
                 bad: [-Infinity, 0.15],
               }} />
@@ -134,10 +139,11 @@ export const PDSRManipulator = (props, context) => {
               value={data.s_stability}
               minValue={0}
               maxValue={100}
-              range={{
-                good: [],
-                average: [0.33, 0.65],
-                bad: [-Infinity, 0.33],
+              color={(data.s_regen === 100 ? "blue" : null) || (data.r_temp === 0 ? "default" : null)}
+              ranges={{
+                teal: [66, Infinity],
+                average: [33, 66],
+                bad: [-Infinity, 33],
               }} />
             Screen Hardening:
             <Slider
@@ -164,6 +170,14 @@ export const PDSRManipulator = (props, context) => {
               })} >
               {data.s_regen + ' %'}
             </Slider>
+            Screen Particle Density:
+            <Button
+              fluid
+              icon="shield-alt"
+              color={(data.s_active ? null : "default") || (data.s_density ? "green" : "orange")}
+              content={data.s_density ? "High - Unspecialized Deflection" : "Low - High-Energy Kinetics Deflection"}
+              onClick={() => act('density')}
+            />
           </Section>
         </Section>
       </Window.Content>
