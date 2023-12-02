@@ -125,7 +125,7 @@
 			trigger_arm_animation()
 			missile_target.state++ //Next step!
 			missile_target.check_completion()
-			do_sparks(10, TRUE, missile_target)
+			do_sparks(4, TRUE, missile_target)
 			playsound(src, 'sound/items/welder.ogg', 100, 1)
 		if(/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing)
 			var/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/torpedo_target = entering
@@ -136,7 +136,7 @@
 			trigger_arm_animation()
 			torpedo_target.state++ //Next step!
 			torpedo_target.check_completion()
-			do_sparks(10, TRUE, torpedo_target)
+			do_sparks(4, TRUE, torpedo_target)
 			playsound(src, 'sound/items/welder.ogg', 100, 1)
 		else
 			CRASH("Please stop handing the missile assemblers invalid types as valid ammunition. Type: [entering.type]. ALL valid casings must be missile or torpedo types.")
@@ -177,7 +177,7 @@
 			missile_part.forceMove(missile_target)
 			held_components -= missile_part
 			missile_target.check_completion()
-			do_sparks(10, TRUE, missile_target)
+			do_sparks(4, TRUE, missile_target)
 			playsound(src, 'sound/machines/ping.ogg', 50, 0)
 		if(/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing)
 			var/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/torpedo_target = entering
@@ -195,7 +195,7 @@
 			torpedo_part.forceMove(torpedo_target)
 			held_components -= torpedo_part
 			torpedo_target.check_completion()
-			do_sparks(10, TRUE, torpedo_target)
+			do_sparks(4, TRUE, torpedo_target)
 			playsound(src, 'sound/machines/ping.ogg', 50, 0)
 		else
 			CRASH("Please stop handing the missile assemblers invalid types as valid ammunition. Type: [entering.type]. ALL valid casings must be missile or torpedo types.")
