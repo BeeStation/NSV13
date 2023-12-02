@@ -11,9 +11,9 @@
 	processing_flags = START_PROCESSING_MANUALLY //Does not process.
 	///Icon state the arm of this device will have
 	var/arm_icon_state = "welder3"
-	///An overlay for the machine that varies by its arm icon state. For some reason an item and not a overlay or any kind of effect.
-	var/obj/item/arm = null //This being an /obj makes me scream.
-	///List of valid munition types. This are SUPER DIRTY types. DO NOT TRUST THESE TYPES. If you are reading this, new coder, PLEASE keep a common ancestor if you want to access vars!!
+	///An overlay for the machine that varies by its arm icon state. For some reason an item and not an overlay or any kind of effect.
+	var/obj/item/arm = null //This being an /item makes me scream.
+	///List of valid munition types. These are SUPER DIRTY types. DO NOT TRUST THESE TYPES. If you are reading this, new coder, PLEASE keep a common ancestor if you want to access vars and have the things be basically the same!!
 	var/munition_types = list(/obj/item/ship_weapon/ammunition/missile/missile_casing, /obj/item/ship_weapon/ammunition/torpedo/torpedo_casing) //This is super bad but I don't feel like rewriting all of missile / torp casing code so it stays :)
 	///The target construction states of the missile
 	var/list/target_states = list(1, 7, 9)  //Who would magic number these even *after* having to reference them in machines too?? I am not cleaning up after you.. right now at least. -Delta
@@ -82,7 +82,7 @@
 
 /obj/machinery/missile_builder/Initialize(mapload)
 	. = ..()
-	arm = new /obj/item(src) //WHY IS THIS AN ITEM NOT AN OVERLAY or ANYTHING not /obj.
+	arm = new /obj/item(src) //WHY IS THIS AN ITEM (worse, basetype..) and not an overlay or something else that would make more sense?!
 	arm.icon = icon
 	arm.icon_state = arm_icon_state
 	vis_contents += arm
