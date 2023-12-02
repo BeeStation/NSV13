@@ -186,7 +186,7 @@
 				playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 0)
 				return
 			var/obj/item/ship_weapon/parts/missile/torpedo_part = held_components[1]
-			if(!(torpedo_part.fits_type && !istype(torpedo_target, torpedo_part.fits_type)) || torpedo_target.state != torpedo_part.target_state)
+			if((torpedo_part.fits_type && !istype(torpedo_target, torpedo_part.fits_type)) || torpedo_target.state != torpedo_part.target_state)
 				visible_message("<span class='notice'>[src] sighs.</span>")
 				playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 0)
 				return
