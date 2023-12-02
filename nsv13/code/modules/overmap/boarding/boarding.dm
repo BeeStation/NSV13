@@ -37,6 +37,10 @@
 		candidates = pollCandidatesForMob("Do you want to play as a boarding team member?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
 	//No candidates? Well! Guess you get to deal with some KNPCs :))))))
 	if(!length(candidates))
+		switch(faction_selection)
+			if("syndicate")
+				relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
+			else //No other special cases exist but this is a switch anyways to support them in the future (pirates have no tell)
 		return spawn_knpcs(amount, faction_selection)
 	return spawn_player_boarders(candidates, target, amount, faction_selection)
 
