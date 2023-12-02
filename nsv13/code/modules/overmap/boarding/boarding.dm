@@ -37,10 +37,6 @@
 		candidates = pollCandidatesForMob("Do you want to play as a boarding team member?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
 	//No candidates? Well! Guess you get to deal with some KNPCs :))))))
 	if(!length(candidates))
-		switch(faction_selection)
-			if("syndicate")
-				relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
-			else //No other special cases exist but this is a switch anyways to support them in the future (pirates have no tell)
 		return spawn_knpcs(amount, faction_selection)
 	return spawn_player_boarders(candidates, target, amount, faction_selection)
 
@@ -110,6 +106,11 @@
 	if(!LZ)
 		message_admins("KNPC boarder spawn aborted. This ship does not support KNPCs (add some patrol nodes!)")
 		throw EXCEPTION("KNPC boarder spawn aborted. This ship does not support KNPCs (add some patrol nodes!)")
+
+	switch(faction_selection)
+		if("syndicate")
+			relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
+		else //No other special cases exist but this is a switch anyways to support them in the future (pirates have no tell)
 
 	var/obj/structure/closet/supplypod/syndicate_odst/toLaunch = new()
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
