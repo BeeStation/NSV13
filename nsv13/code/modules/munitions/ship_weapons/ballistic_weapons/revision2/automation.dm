@@ -236,8 +236,8 @@
 			listofitems[path]["amount"]++
 		else
 			listofitems[path] = list("name" = C.name, "amount" = 1)
-		for(var/i in listofitems)
-			. += "<span class='notice'>[listofitems[i]["name"]] x[listofitems[i]["amount"]]</span>"
+	for(var/i in listofitems)
+		. += "<span class='notice'>[listofitems[i]["name"]] x[listofitems[i]["amount"]]</span>"
 
 /obj/machinery/missile_builder/assembler/attackby(obj/item/I, mob/living/user, params)
 	. = ..()
