@@ -723,6 +723,24 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	else
 		return null
 
+/obj/structure/overmap/proc/enable_dampeners(mob/user)
+	if(HAS_TRAIT(src, TRAIT_NODAMPENERS))
+		if(user)
+			to_chat(user, "<span class='danger'>WARNING: Inertia Dampeners Unavailable! Potential causes: Gravity above tolerance, malfunctions, damage, spontanious bluespace displacement.</span>")
+		return FALSE
+	inertial_dampeners = TRUE
+	return TRUE
+
+/obj/structure/overmap/proc/disable_dampeners(mob/user)
+	inertial_dampeners = FALSE
+	return TRUE
+
+/obj/structure/overmap/proc/toggle_dampeners(mob/user)
+	if(inertial_dampeners)
+		return disable_dampeners(user)
+	else
+		return enable_dampeners(user)
+
 /obj/structure/overmap/relaymove(mob/user, direction)
 	if(user != pilot || pilot.incapacitated())
 		return

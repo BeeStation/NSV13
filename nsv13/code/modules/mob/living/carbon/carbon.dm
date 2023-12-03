@@ -2,10 +2,10 @@
 // resides in it's own proc just in case we've already got a trait checked list
 /mob/living/proc/gravity_crush(gravity, harmlev = 1)
 	var/range
-	var/Oloss = gravity * rand(1, 1.3)
+	var/Oloss = gravity * (rand(10, 13) * 0.1) //Rand with min-maxbound only creates whole numbers.
 	switch(harmlev)
 		if(1) // high G (i.e hacked gravity generator)
-			range = rand(1, 25)
+			range = rand(3, 25) //Low intensity high-grav doesn't knock you out flat.
 		if(2) // Very high G (i.e fighter high G burns)
 			range = rand(1, 16)
 			Oloss *= 0.5
@@ -17,9 +17,9 @@
 
 	switch(range)
 		if(1 to 2)
-			losebreath += 0.8 + gravity/3
-		if(3 to 4)
 			Sleeping(10 + losebreath * 3)
+		if(3 to 4)
+			losebreath += 0.8 + gravity/3
 		if(5 to 7)
 			if(!IsKnockdown())
 				Knockdown(gravity * 5)
@@ -46,6 +46,18 @@
 					to_chat(src, "<span class='danger'>You struggle to catch a breath.</span>")
 
 /mob/living/carbon/handle_high_gravity(gravity)
-	if(HAS_TRAIT(src, TRAIT_GFORCE_WEAKNESS))
-		gravity_crush(gravity)
+	if(HAS_TRAIT(src, TRAIT_GFORCE_WEAKNESS) || gravity > GRAVITY_DAMAGE_TRESHOLD)
+		var/harmlev_level = 1
+		switch(gravity)
+			if(1 to 4) //A bunch of science journals say above ~4G gets not very fun but our game starts having grav damage at >3G, so low-intensity internal damage it is
+				harmlev_level = 1
+			if(4 to 8)
+				harmlev_level = 2
+			if(8 to INFINITY) //We're entering the bone zone of gravity.
+				harmlev_level = 3
+			else
+		var/effective_gravity = gravity
+		if(!HAS_TRAIT(src, TRAIT_GFORCE_WEAKNESS))
+			effective_gravity -= GRAVITY_DAMAGE_TRESHOLD //For non-grav-weak people, your gravity tolerance is substracted from the pain.
+		gravity_crush(effective_gravity, harmlev_level)
 	..()
