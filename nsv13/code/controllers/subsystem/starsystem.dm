@@ -645,7 +645,9 @@ Returns a faction datum by its name (case insensitive!)
 	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects) //Has to go through global overmaps due to anomalies not referencing their system - probably something to change one day.
 		if(LAZYFIND(affecting, OM))
 			continue
-		if(overmap_dist(src, OM) <= influence_range && OM.z == z)
+		if(OM.z != z)
+			continue
+		if(overmap_dist(src, OM) <= influence_range)
 			affecting += OM
 			grav_tracker[OM] = 0
 			cached_colours[OM] = OM.color //So that say, a yellow fighter doesnt get its paint cleared by redshifting
