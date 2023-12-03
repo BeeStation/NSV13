@@ -185,11 +185,6 @@ Returns a faction datum by its name (case insensitive!)
 		if(S == null || istype(S, /datum/star_system/random))
 			continue
 		var/list/adjusted_adjacency_list = S.initial_adjacencies.Copy() //Don't copy adjacency changes from wormholes or badmins
-		//Don't cache randomized systems in adjacency matrices.
-		for(var/system_name in adjusted_adjacency_list)
-			var/datum/star_system/SS = system_by_id(system_name)
-			if(istype(SS, /datum/star_system/random))
-				adjusted_adjacency_list.Remove(system_name)
 		/*var/list/adjusted_wormhole_connections = S.wormhole_connections.Copy() Not saving this right now, since wormholes spawn randomly
 		for(var/system_name in adjusted_wormhole_connections)
 			var/datum/star_system/SS = system_by_id(system_name)
