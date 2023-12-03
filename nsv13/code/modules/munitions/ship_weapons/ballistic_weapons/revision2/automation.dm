@@ -150,10 +150,12 @@
 	if(length(held_components) > 0)
 		var/obj/held_component = held_components[1]
 		if(held_component.type == entering.type) //Please do throw these hungry machines some components.
-			visible_message("<span class='notice'>[src] happily adds [entering] to its component storage.</span>")
+			var/obj/item/entering_item = entering
+			visible_message("<span class='notice'>[src] happily adds [entering_item] to its component storage.</span>")
 			playsound(src, 'sound/machines/ping.ogg', 50, 0)
-			entering.forceMove(src)
-			held_components += entering
+			entering_item.do_pickup_animation(src)
+			entering_item.forceMove(src)
+			held_components += entering_item
 			return
 	if(!(entering.type in munition_types))
 		visible_message("[src] shakes its arm melancholically.")
@@ -173,6 +175,8 @@
 				playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 0)
 				return
 			trigger_arm_animation()
+			do_item_attack_animation(missile_target, used_item = missile_part)
+
 			missile_target.state++ //Next step!
 			missile_part.forceMove(missile_target)
 			held_components -= missile_part
@@ -191,6 +195,8 @@
 				playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 0)
 				return
 			trigger_arm_animation()
+			do_item_attack_animation(torpedo_target, used_item = torpedo_part)
+
 			torpedo_target.state++ //Next step!
 			torpedo_part.forceMove(torpedo_target)
 			held_components -= torpedo_part
