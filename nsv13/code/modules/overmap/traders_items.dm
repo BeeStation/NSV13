@@ -188,7 +188,7 @@
 	desc = "Essential electronics for building most modern naval weapons."
 	price = 20000
 	stock = 2
-	unlock_path = /obj/item/circuitboard/machine/vls
+	unlock_path = /obj/item/ship_weapon/parts/firing_electronics
 	special_requirement = 500 //Kick their ass!!!
 
 /datum/trader_item/pdc_circuit
