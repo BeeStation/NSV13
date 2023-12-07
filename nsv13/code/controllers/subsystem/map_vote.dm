@@ -40,7 +40,7 @@
 		SELECT map_name, feedback.ending FROM ss13_round INNER JOIN [feedback] ON ss13_round.id=feedback.round_id
 	*/
 	var/datum/DBQuery/endings_query = SSdbcore.NewQuery("SELECT map_name, feedback.ending FROM [format_table_name("round")] INNER JOIN (" + \
-		"SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data') AS CHAR) AS ending FROM [format_table_name("feedback")] WHERE key_name='nsv_endings') AS feedback " + \
+		"SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data\[0\]') AS CHAR) AS ending FROM [format_table_name("feedback")] WHERE key_name='nsv_endings') AS feedback " + \
 		" ON [format_table_name("round")].id=feedback.round_id")
 
 	SSdbcore.QuerySelect(stability_query)
