@@ -147,6 +147,8 @@
 		return
 	if(!isobj(entering) || iseffect(entering))
 		return
+	if(entering.loc != source)
+		return
 	if(length(held_components) > 0)
 		var/obj/held_component = held_components[1]
 		if(held_component.type == entering.type) //Please do throw these hungry machines some components.
