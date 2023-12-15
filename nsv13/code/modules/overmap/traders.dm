@@ -4,6 +4,7 @@
 	var/shortname = "DM" //Used in Brazil.
 	var/list/stonks = list() //The trader's inventory.
 	var/list/sold_items = list()
+	var/list/special_offers = list() //Items locked behind points
 	var/faction_type = null //What faction does the dude belong to.
 	var/system_type = "unaligned" //In what systems do they spawn?
 	//Fluff / voice stuff
@@ -48,11 +49,20 @@
 	yellow_pages_dat += "<font size = \"2\">"
 	for(var/itemPath in sold_items)
 		var/datum/trader_item/TI = new itemPath()
-		TI.price = rand(TI.price/2, TI.price*4)
-		TI.stock = rand(TI.stock/2, TI.stock*2) //How much we got in stock boys
+		TI.price = round(rand(TI.price/2, TI.price*4))
+		TI.stock = round(rand(TI.stock/2, TI.stock*2)) //How much we got in stock boys
 		stonks += TI
 		TI.owner = src
 		yellow_pages_dat += "[TI.stock]x [TI.name] ([TI.price] ea.) - <i>[TI.desc]</i><br /><br />"
+	for(var/itemPath in special_offers)
+		var/datum/trader_item/TI = new itemPath()
+		if(system_type == SSstar_system.find_main_overmap().faction && F.tickets >= TI.special_requirement) //Right now we use faction tickets to unlock better items
+			TI.name = "SPECIAL OFFER! " + TI.name //Advertising is very important
+			TI.price = round(rand((2*TI.price)/3, TI.price*2)) //These will be more expensive by default already and have less chaotic prices
+			TI.stock = round(rand(TI.stock/2, TI.stock*2))
+			stonks += TI
+			TI.owner = src
+			yellow_pages_dat += "SPECIAL OFFER! [TI.stock]x [TI.name] ([TI.price] ea.) - <i>[TI.desc]</i><br /><br />"
 	yellow_pages_dat += "</font>"
 
 /datum/trader_item
@@ -62,6 +72,7 @@
 	var/unlock_path = null
 	var/stock = 1 //How many of these items are usually stocked, this is randomized
 	var/owner = null
+	var/special_requirement //How many tickets do we need to unlock this item in the store?
 
 /datum/trader_item/proc/on_purchase(obj/structure/overmap/OM)
 	return OM.send_supplypod(unlock_path)
@@ -138,7 +149,15 @@
 	faction_type = FACTION_ID_NT
 	system_type = "nanotrasen"
 	image = "https://cdn.discordapp.com/attachments/701841640897380434/764557336684527637/unknown.png"
-	sold_items = list(/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/c45, /datum/trader_item/pdc, /datum/trader_item/deck_gun_autorepair, /datum/trader_item/yellow_pages)
+	sold_items = list(/datum/trader_item/torpedo, \
+	/datum/trader_item/missile, \
+	/datum/trader_item/c45, \
+	/datum/trader_item/pdc, \
+	/datum/trader_item/pdc_circuit, \
+	/datum/trader_item/deck_gun_autorepair, \
+	/datum/trader_item/yellow_pages)
+	special_offers = list(/datum/trader_item/firing_electronics, \
+	/datum/trader_item/vls_circuit)
 
 /datum/trader/armsdealer/syndicate
 	name = "DonkCo Warcrime Emporium"
@@ -147,8 +166,20 @@
 	faction_type = FACTION_ID_SYNDICATE
 	system_type = "syndicate"
 	//Top tier trader with the best items available.
-	sold_items = list(/datum/trader_item/hellfire,/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/c20r, /datum/trader_item/c45, /datum/trader_item/stechkin, \
-		/datum/trader_item/pdc, /datum/trader_item/fighter/syndicate, /datum/trader_item/overmap_shields, /datum/trader_item/deck_gun_autoelevator, /datum/trader_item/yellow_pages)
+	sold_items = list(/datum/trader_item/hellfire, \
+	/datum/trader_item/torpedo, \
+	/datum/trader_item/missile, \
+	/datum/trader_item/c20r, \
+	/datum/trader_item/c45, \
+	/datum/trader_item/stechkin, \
+	/datum/trader_item/pdc, \
+	/datum/trader_item/pdc_circuit, \
+	/datum/trader_item/fighter/syndicate, \
+	/datum/trader_item/overmap_shields, \
+	/datum/trader_item/deck_gun_autoelevator, \
+	/datum/trader_item/yellow_pages)
+	special_offers = list(/datum/trader_item/firing_electronics, \
+	/datum/trader_item/vls_circuit)
 	station_type = /obj/structure/overmap/trader/syndicate
 	image = "https://cdn.discordapp.com/attachments/728055734159540244/764570187357093928/unknown.png"
 	greetings = list("You've made it pretty far in, huh? We won't tell if you're buying...", "Freedom isn't free, buy a gun to secure yours.", "Excercise your right to bear arms now!")
@@ -180,7 +211,13 @@
 	"CzanekCorp here. We got a new shipment in, you down for talking turkey?",\
 	"CzanekCorp, we got repairs and goods on a budget, you in?")
 	on_purchase = list("Yes, we know the tazers aren't the safest, but if you don't like 'em, stop buying 'em, eh?", "Good doing business with you. Good luck out there, killer.", "About time we got somebody who knows what they're doing. Here, free shipping!", "No refunds, no returns!")
-	sold_items = list(/datum/trader_item/ship_repair,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/taser, /datum/trader_item/taser_ammo, /datum/trader_item/yellow_pages)
+	sold_items = list(/datum/trader_item/ship_repair, \
+	/datum/trader_item/fighter/light, \
+	/datum/trader_item/fighter/heavy, \
+	/datum/trader_item/fighter/utility, \
+	/datum/trader_item/taser, \
+	/datum/trader_item/taser_ammo, \
+	/datum/trader_item/yellow_pages)
 	station_type = /obj/structure/overmap/trader/shipyard
 	image = "https://cdn.discordapp.com/attachments/701841640897380434/764540586732421120/unknown.png"
 
@@ -193,7 +230,14 @@
 	"Have you come to dig or pay?",\
 	"We got minerals for you, so long as you've got a deposit for us.")
 	on_purchase = list("Maybe next time, dig it up yourself lazy gits!", "Credits have been withdrawn, Supplies inbound.", "Czanek would approve of this.", "If you're too afraid to get these yourself, I'm almost scared to give them to you. But money is money.")
-	sold_items = list(/datum/trader_item/mining_point_card, /datum/trader_item/gold, /datum/trader_item/diamond, /datum/trader_item/uranium, /datum/trader_item/silver, /datum/trader_item/bluespace_crystal, /datum/trader_item/titanium, /datum/trader_item/yellow_pages)
+	sold_items = list(/datum/trader_item/mining_point_card, \
+	/datum/trader_item/gold, \
+	/datum/trader_item/diamond, \
+	/datum/trader_item/uranium, \
+	/datum/trader_item/silver, \
+	/datum/trader_item/bluespace_crystal, \
+	/datum/trader_item/titanium, \
+	/datum/trader_item/yellow_pages)
 	station_type = /obj/structure/overmap/trader
 	image = "https://cdn.discordapp.com/attachments/612668662977134592/859132739147792444/unknown.png"   //I don't wanna do this but I'm also not going to break the mold as to make it hopefully easier in future to fix.
 
@@ -210,7 +254,16 @@
 	desc = "Corporate approved aftermarket shipyard."
 	shortname = "MHE"
 	faction_type = FACTION_ID_NT
-	sold_items = list(/datum/trader_item/ship_repair/tier2, /datum/trader_item/flak,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/fighter/judgement, /datum/trader_item/fighter/prototype, /datum/trader_item/railgun_disk, /datum/trader_item/yellow_pages)
+	sold_items = list(/datum/trader_item/ship_repair/tier2, \
+	/datum/trader_item/flak, \
+	/datum/trader_item/fighter/light, \
+	/datum/trader_item/fighter/heavy, \
+	/datum/trader_item/fighter/utility, \
+	/datum/trader_item/fighter/judgement, \
+	/datum/trader_item/fighter/prototype, \
+	/datum/trader_item/railgun_disk, \
+	/datum/trader_item/yellow_pages)
+	special_offers = list(/datum/trader_item/ship_repair/tier3)
 	station_type = /obj/structure/overmap/trader/shipyard
 
 // HIM
