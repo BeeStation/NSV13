@@ -330,11 +330,8 @@ SUBSYSTEM_DEF(overmap_mode)
 	*/
 
 	var/datum/star_system/rubicon = SSstar_system.system_by_id("Rubicon")
-	if(get_active_player_count(TRUE,TRUE,FALSE) > 10)
-		if(length(rubicon.enemies_in_system))
-			mode.objectives += new /datum/overmap_objective/clear_system/rubicon
-		else //If Rubicon is empty we go to Dolos
-			mode.objectives += new /datum/overmap_objective/clear_system/dolos
+	if(get_active_player_count(TRUE,TRUE,FALSE) > 10 && length(rubicon.enemies_in_system)) //Make sure there are enemies to fight
+		mode.objectives += new /datum/overmap_objective/clear_system/rubicon
 	else
 		mode.objectives += new /datum/overmap_objective/tickets
 		for(var/datum/faction/F in SSstar_system.factions)
