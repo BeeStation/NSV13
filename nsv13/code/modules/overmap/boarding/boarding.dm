@@ -34,7 +34,7 @@
 
 	//20 or more players? You're allowed "real" boarders.
 	if(player_check >= min_players_for_ghosts) // Remove the low pop boarder camping
-		candidates = pollCandidatesForMob("Do you want to play as a boarding team member?", ROLE_OPERATIVE, null, ROLE_OPERATIVE, 10 SECONDS, src)
+		candidates = pollCandidatesForMob("Do you want to play as a boarding team member?", ROLE_OPERATIVE, /datum/role_preference/midround_ghost/boarder, 10 SECONDS, src)
 	//No candidates? Well! Guess you get to deal with some KNPCs :))))))
 	if(!length(candidates))
 		return spawn_knpcs(amount, faction_selection)

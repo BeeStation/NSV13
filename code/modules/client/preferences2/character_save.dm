@@ -71,6 +71,7 @@
 	var/list/equipped_gear = list()
 	var/joblessrole = BERANDOMJOB  //defaults to 1 for fewer assistants
 	var/uplink_spawn_loc = UPLINK_PDA
+	var/list/role_preferences_character = list()
 	//Nsv13 squads - we CM now
 	var/preferred_squad = "Able"
 	//NSV13 - Pilots
@@ -181,6 +182,11 @@
 	SAFE_READ_QUERY(39, medical_record)
 	//NSV13 - Stop
 
+	// Role prefs
+	var/role_preferences_character_tmp
+	SAFE_READ_QUERY(40, role_preferences_character_tmp) //NSV13 - Moved from 32 to 40 due to Roleplaying stuff
+	role_preferences_character = json_decode(role_preferences_character_tmp)
+
 
 	//Sanitize. Please dont put query reads below this point. Please.
 
@@ -261,6 +267,14 @@
 			job_preferences -= j
 
 	all_quirks = SANITIZE_LIST(all_quirks)
+	role_preferences_character = SANITIZE_LIST(role_preferences_character)
+	// Remove any invalid entries
+	for(var/preference in role_preferences_character)
+		var/path = text2path(preference)
+		var/datum/role_preference/entry = GLOB.role_preference_entries[path]
+		if(istype(entry) && entry.per_character)
+			continue
+		role_preferences_character -= preference
 
 	//NSV13 - Roleplay Stuff - Start
 	flavor_text = html_decode(strip_html(flavor_text))
@@ -373,7 +387,8 @@
 			silicon_flavor_text,
 			general_record,
 			security_record,
-			medical_record
+			medical_record,
+			role_preferences
 		) VALUES (
 			:slot,
 			:ckey,
@@ -414,7 +429,8 @@
 			:silicon_flavor_text,
 			:general_record,
 			:security_record,
-			:medical_record
+			:medical_record,
+			:role_preferences
 		)
 	"}, list(
 		// Now for the above but in a fucking monsterous list
@@ -457,7 +473,8 @@
 		"silicon_flavor_text" = silicon_flavor_text,
 		"general_record" = general_record,
 		"security_record" = security_record,
-		"medical_record" = medical_record
+		"medical_record" = medical_record,
+		"role_preferences" = json_encode(role_preferences_character)
 	))
 
 	if(!insert_query.warn_execute())

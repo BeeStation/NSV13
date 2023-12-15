@@ -716,7 +716,7 @@ Adding tasks is easy! Just define a datum for it.
 			var/target_location = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), OM.z)
 			var/obj/structure/overmap/selected_ship = pick(ship_list)
 			var/target_ghost
-			var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [initial(selected_ship.faction)] [initial(selected_ship.name)]?", ROLE_GHOSTSHIP, null, null, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
+			var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [initial(selected_ship.faction)] [initial(selected_ship.name)]?", ROLE_GHOSTSHIP, /datum/role_preference/midround_ghost/ghost_ship, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
 			if(LAZYLEN(candidates))
 				var/mob/dead/observer/C = pick(candidates)
 				target_ghost = C

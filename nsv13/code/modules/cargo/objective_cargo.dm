@@ -42,7 +42,7 @@
 /obj/structure/closet/crate/large/freight_objective/proc/poll_for_ghost_sentience()
 	for ( var/mob/living/simple_animal/M in contents )
 		if ( rand( 1, 20 ) == 20 ) // Random sentient mob event!
-			var/list/candidates = pollCandidatesForMob("Do you want to play as [M]?", ROLE_SENTIENCE, null, ROLE_SENTIENCE, 50, M, POLL_IGNORE_SENTIENCE_POTION)
+			var/list/candidates = pollCandidatesForMob("Do you want to play as [M]?", ROLE_SENTIENCE, null, ROLE_SENTIENCE, 50, M)
 			M.AIStatus = AI_ON // Keep the mob asleep unless the poll receives no candidates
 			if(LAZYLEN(candidates))
 				var/mob/dead/observer/C = pick(candidates)

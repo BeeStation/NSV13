@@ -659,7 +659,7 @@ SUBSYSTEM_DEF(overmap_mode)
 				if("Cancel")
 					return
 				if("Open")
-					var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [initial(target_ship.faction)] [initial(target_ship.name)]?", ROLE_GHOSTSHIP, null, null, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
+					var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [initial(target_ship.faction)] [initial(target_ship.name)]?", ROLE_GHOSTSHIP, /datum/role_preference/midround_ghost/ghost_ship, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
 					if(LAZYLEN(candidates))
 						var/mob/dead/observer/C = pick(candidates)
 						target_ghost = C

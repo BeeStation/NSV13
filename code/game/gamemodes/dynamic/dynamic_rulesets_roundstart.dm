@@ -7,9 +7,8 @@
 
 /datum/dynamic_ruleset/roundstart/traitor
 	name = "Traitors"
-	antag_flag = ROLE_TRAITOR
+	role_preference = /datum/role_preference/antagonist/traitor
 	antag_datum = /datum/antagonist/traitor
-	minimum_required_age = 0
 	protected_roles = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN)
 	restricted_roles = list(JOB_NAME_CYBORG)
 	required_candidates = 1
@@ -41,8 +40,8 @@
 
 /datum/dynamic_ruleset/roundstart/traitorbro
 	name = "Blood Brothers"
-	antag_flag = ROLE_BROTHER
-	antag_datum = /datum/antagonist/brother/
+	role_preference = /datum/role_preference/antagonist/blood_brother
+	antag_datum = /datum/antagonist/brother
 	protected_roles = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN)
 	restricted_roles = list(JOB_NAME_AI, JOB_NAME_CYBORG)
 	required_candidates = 2
@@ -66,7 +65,7 @@
 			var/mob/bro = pick_n_take(candidates)
 			assigned += bro.mind
 			team.add_member(bro.mind)
-			bro.mind.special_role = "brother"
+			bro.mind.special_role = ROLE_BROTHER
 			bro.mind.restricted_roles = restricted_roles
 		pre_brother_teams += team
 	return TRUE
@@ -89,7 +88,7 @@
 
 /datum/dynamic_ruleset/roundstart/changeling
 	name = "Changelings"
-	antag_flag = ROLE_CHANGELING
+	role_preference = /datum/role_preference/antagonist/changeling
 	antag_datum = /datum/antagonist/changeling
 	protected_roles = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN)
 	restricted_roles = list(JOB_NAME_AI, JOB_NAME_CYBORG)
@@ -126,7 +125,7 @@
 
 /datum/dynamic_ruleset/roundstart/heretics
 	name = "Heretics"
-	antag_flag = ROLE_HERETIC
+	role_preference = /datum/role_preference/antagonist/heretic
 	antag_datum = /datum/antagonist/heretic
 	protected_roles = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN)
 	restricted_roles = list(JOB_NAME_AI, JOB_NAME_CYBORG)
@@ -170,10 +169,9 @@
 // Dynamic is a wonderful thing that adds wizards to every round and then adds even more wizards during the round.
 /datum/dynamic_ruleset/roundstart/wizard
 	name = "Wizard"
-	antag_flag = ROLE_WIZARD
+	role_preference = /datum/role_preference/antagonist/wizard
 	antag_datum = /datum/antagonist/wizard
 	flags = HIGH_IMPACT_RULESET | NO_OTHER_ROUNDSTARTS_RULESET
-	minimum_required_age = 14
 	restricted_roles = list(JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN) // Just to be sure that a wizard getting picked won't ever imply a Captain or HoS not getting drafted
 	required_candidates = 1
 	weight = 2
@@ -214,9 +212,8 @@
 
 /datum/dynamic_ruleset/roundstart/bloodcult
 	name = "Blood Cult"
-	antag_flag = ROLE_CULTIST
+	role_preference = /datum/role_preference/antagonist/blood_cultist
 	antag_datum = /datum/antagonist/cult
-	minimum_required_age = 14
 	restricted_roles = list(JOB_NAME_AI, JOB_NAME_CYBORG, JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN, JOB_NAME_CHAPLAIN, JOB_NAME_HEADOFPERSONNEL)
 	required_candidates = 2
 	weight = 3
@@ -269,10 +266,9 @@
 
 /datum/dynamic_ruleset/roundstart/nuclear
 	name = "Nuclear Emergency"
-	antag_flag = ROLE_OPERATIVE
+	role_preference = /datum/role_preference/antagonist/nuclear_operative
 	antag_datum = /datum/antagonist/nukeop
 	var/datum/antagonist/antag_leader_datum = /datum/antagonist/nukeop/leader
-	minimum_required_age = 14
 	restricted_roles = list(JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN) // Just to be sure that a nukie getting picked won't ever imply a Captain or HoS not getting drafted
 	required_candidates = 5
 	weight = 3
@@ -295,8 +291,8 @@
 			break
 		var/mob/M = pick_n_take(candidates)
 		assigned += M.mind
-		M.mind.assigned_role = "Nuclear Operative"
-		M.mind.special_role = "Nuclear Operative"
+		M.mind.assigned_role = ROLE_OPERATIVE
+		M.mind.special_role = ROLE_OPERATIVE
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/nuclear/execute()
@@ -354,10 +350,8 @@
 /datum/dynamic_ruleset/roundstart/revs
 	name = "Revolution"
 	persistent = TRUE
-	antag_flag = ROLE_REV_HEAD
-	antag_flag_override = ROLE_REV
+	role_preference = /datum/role_preference/antagonist/revolutionary
 	antag_datum = /datum/antagonist/rev/head
-	minimum_required_age = 14
 	restricted_roles = list(JOB_NAME_AI, JOB_NAME_CYBORG, JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN, JOB_NAME_HEADOFPERSONNEL, JOB_NAME_CHIEFENGINEER, JOB_NAME_CHIEFMEDICALOFFICER, JOB_NAME_RESEARCHDIRECTOR, JOB_NAME_MASTERATARMS) //NSV13 - added MAA
 	required_candidates = 3
 	weight = 3
@@ -383,7 +377,7 @@
 		var/mob/M = pick_n_take(candidates)
 		assigned += M.mind
 		M.mind.restricted_roles = restricted_roles
-		M.mind.special_role = antag_flag
+		M.mind.special_role = ROLE_REV_HEAD
 	return TRUE
 
 /datum/dynamic_ruleset/roundstart/revs/execute()
@@ -437,7 +431,6 @@
 
 /datum/dynamic_ruleset/roundstart/extended
 	name = "Extended"
-	antag_flag = null
 	antag_datum = null
 	restricted_roles = list()
 	required_candidates = 0
@@ -486,7 +479,7 @@
 
 /datum/dynamic_ruleset/roundstart/devil
 	name = "Devil"
-	antag_flag = ROLE_DEVIL
+	role_preference = /datum/role_preference/antagonist/devil
 	antag_datum = /datum/antagonist/devil
 	restricted_roles = list(JOB_NAME_LAWYER, JOB_NAME_CURATOR, JOB_NAME_CHAPLAIN, JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN, JOB_NAME_AI, JOB_NAME_CYBORG, JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE)
 	required_candidates = 1
@@ -574,7 +567,7 @@
 
 /datum/dynamic_ruleset/roundstart/clockcult
 	name = "Clockwork Cult"
-	antag_flag = ROLE_SERVANT_OF_RATVAR
+	role_preference = /datum/role_preference/antagonist/clock_cultist
 	antag_datum = /datum/antagonist/servant_of_ratvar
 	restricted_roles = list(JOB_NAME_AI, JOB_NAME_CYBORG, JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE,JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN, JOB_NAME_CHAPLAIN, JOB_NAME_HEADOFPERSONNEL)
 	required_candidates = 4
@@ -636,7 +629,7 @@
 
 /datum/dynamic_ruleset/roundstart/incursion
 	name = "Incursion"
-	antag_flag = ROLE_INCURSION
+	role_preference = /datum/role_preference/antagonist/incursionist
 	antag_datum = /datum/antagonist/incursion
 	protected_roles = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE,JOB_NAME_CAPTAIN, JOB_NAME_HEADOFPERSONNEL, JOB_NAME_HEADOFSECURITY, JOB_NAME_CHIEFENGINEER, JOB_NAME_RESEARCHDIRECTOR, JOB_NAME_CHIEFMEDICALOFFICER)
 	restricted_roles = list(JOB_NAME_AI, JOB_NAME_CYBORG)
@@ -688,7 +681,7 @@
 
 /datum/dynamic_ruleset/roundstart/hivemind
 	name = "Assimilation"
-	antag_flag = ROLE_HIVE
+	role_preference = /datum/role_preference/antagonist/hivemind_host
 	antag_datum = /datum/antagonist/hivemind
 	protected_roles = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE,JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN)
 	restricted_roles = list(JOB_NAME_AI, JOB_NAME_CYBORG)
