@@ -24,7 +24,7 @@
 		display_name += "[compose_rank(src)]"
 	display_name += name
 	if(dna?.species && !skipface)
-		apparent_species = ", \an [dna.species.name]"
+		apparent_species = ", <span class='[species_examine_font()]'>\an [dna.species.name]</span>" //NSV13 - species name is colored depending on special conditions.
 	. = list("<span class='info'>*---------*\nThis is <EM>[!obscure_name ? display_name : "Unknown"][apparent_species]</EM>!")
 
 	//uniform
