@@ -107,6 +107,11 @@
 		message_admins("KNPC boarder spawn aborted. This ship does not support KNPCs (add some patrol nodes!)")
 		throw EXCEPTION("KNPC boarder spawn aborted. This ship does not support KNPCs (add some patrol nodes!)")
 
+	switch(faction_selection)
+		if("syndicate")
+			relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
+		else //No other special cases exist but this is a switch anyways to support them in the future (pirates have no tell)
+
 	var/obj/structure/closet/supplypod/syndicate_odst/toLaunch = new()
 	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
 	toLaunch.forceMove(shippingLane)
