@@ -455,7 +455,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 /obj/structure/overmap/small_craft/combat/light/syndicate //PVP MODE
 	name = "Syndicate Light Fighter"
 	desc = "The Syndicate's answer to Nanotrasen's light fighter craft, this fighter is designed to maintain aerial supremacy."
-	icon = 'nsv13/icons/overmap/syndicate/syn_viper.dmi'
+	icon = 'nsv13/icons/overmap/syndicate/syn_rapier.dmi'
 	req_one_access = ACCESS_SYNDICATE
 	faction = "syndicate"
 	start_emagged = TRUE
