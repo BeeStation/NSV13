@@ -170,11 +170,7 @@
 
 
 /datum/game_mode/cult/generate_report()
-	return "Some stations in your sector have reported evidence of blood sacrifice and strange magic. Ties to the Wizards' Federation have been proven not to exist, and many employees \
-			have disappeared; even Central Command employees light-years away have felt strange presences and at times hysterical compulsions. Interrogations point towards this being the work of \
-			the cult of Nar'Sie. If evidence of this cult is discovered aboard your station, extreme caution and extreme vigilance must be taken going forward, and all resources should be \
-			devoted to stopping this cult. Note that holy water seems to weaken and eventually return the minds of cultists that ingest it, and mindshield implants will prevent conversion \
-			altogether."
+	return "Kilka stacji w tym sektorze zgłosiło przypadki wystąpienia ofiar z krwi oraz nieznanej magii. Powiązania z Federacją Czarodzieji zostały wykluczone, a wielu pracowników zniknęło w nieznanych okolicznościach, nawet pracownicy Centrali lata świetlne dalej odczuwali dziwną obecność, a czasami doświadczali histerycznych konwulsji. Intensywne dochodzenie wskazuje na to, że może to być sprawka kultu Nar'Sie. Jeżeli odkryjecie jakieś dowody aktywności kultu, zachowajcie najwyższe środki ostrożności, a wszystkie możliwe zasoby skierujcie w celu jego zatrzymania. Woda święcona zdaje się osłabiać i ewentualnie nawracać umysły kultystów, którzy ją spożyli, a implanty typu 'mindshield' zapobiegają przekonwertowaniu na wiarę kultu."
 
 
 
@@ -182,17 +178,17 @@
 	var/list/round_credits = list()
 	var/len_before_addition
 
-	round_credits += "<center><h1>The Cult of Nar'Sie:</h1>"
+	round_credits += "<center><h1>Kult Nar'Sie:</h1>"
 	len_before_addition = round_credits.len
 	for(var/datum/mind/cultist in cult)
-		round_credits += "<center><h2>[cultist.name] as a cult fanatic</h2>"
+		round_credits += "<center><h2>[cultist.name] jako fanatyk kultu</h2>"
 
 	var/datum/objective/eldergod/summon_objective = locate() in main_cult.objectives
 	if(summon_objective && summon_objective.summoned)
-		round_credits += "<center><h2>Nar'Sie as the eldritch abomination</h2>"
+		round_credits += "<center><h2>Nar'Sie jako nadprzyrodzona abominacja</h2>"
 
 	if(len_before_addition == round_credits.len)
-		round_credits += list("<center><h2>The cultists have learned the danger of eldritch magic!</h2>", "<center><h2>They all disappeared!</h2>")
+		round_credits += list("<center><h2>Kultyści nauczyli się nadprzyrodzonej magii!</h2>", "<center><h2>Wszyscy znikneli!</h2>")
 		round_credits += "<br>"
 
 	round_credits += ..()

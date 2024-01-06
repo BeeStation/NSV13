@@ -63,8 +63,7 @@
 	return 1
 
 /datum/game_mode/devil/generate_report()
-	return "Infernal creatures have been seen nearby offering great boons in exchange for souls.  This is considered theft against Nanotrasen, as all employment contracts contain a lien on the \
-			employee's soul.  If anyone sells their soul in error, contact an attorney to overrule the sale.  Be warned that if the devil purchases enough souls, a gateway to hell may open."
+	return "W pobliżu stacji wykryto piekielne kreatury oferujące załodze wielkie korzyści w zamian za ich dusze. Chcemy uprzejmie przypomnieć, że sprzedaż duszy jest wliczana jako kradzież własności firmy Nanotrasen, wszyscy pracownicy zrzekli się posiadania duszy na rzecz Nanotrasen w umowie o pracę. Jeżeli ktokolwiek przez przypadek sprzeda swoją duszę, proszę skontaktować się z lokalnym prawnikiem, aby unieważnić umowę sprzedaży. Uwaga, piekielne stworzenia po uzyskaniu wystarczającej ilości dusz otworzą drzwi do piekła, zostaliście ostrzeżeni."
 
 /datum/game_mode/devil/proc/post_setup_finalize(datum/mind/devil)
 	add_devil(devil.current, ascendable = TRUE) //Devil gamemode devils are ascendable.
@@ -91,16 +90,16 @@
 	var/list/round_credits = list()
 	var/len_before_addition
 
-	round_credits += "<center><h1>The Tempting Devils:</h1>"
+	round_credits += "<center><h1>Kuszące Diabły:</h1>"
 	len_before_addition = round_credits.len
 	var/datum/antagonist/devil/devil_info
 	for(var/datum/mind/devil in devils)
 		devil_info = devil.has_antag_datum(/datum/antagonist/devil)
 		if(devil_info) // This should never fail, but better to be sure
-			round_credits += "<center><h2>[devil_info.truename] in the form of [devil.name]</h2>"
+			round_credits += "<center><h2>[devil_info.truename] w postaci [devil.name]</h2>"
 			devil_info = null
 	if(len_before_addition == round_credits.len)
-		round_credits += list("<center><h2>The devils were all utterly destroyed!</h2>", "<center><h2>The love of Space Jesus shines through!</h2>")
+		round_credits += list("<center><h2>Wszystkie diabły zostały kompletnie zniszczone!</h2>", "<center><h2>Miłość kosmicznego Jezusa znowu górą!</h2>")
 	round_credits += "<br>"
 
 	round_credits += ..()

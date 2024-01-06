@@ -61,7 +61,7 @@
 	return ..()
 
 /datum/game_mode/incursion/generate_report()
-	return "Intel suggests that the Syndicate have recently had high level meetings discussing your station, and are disgruntled due to recent classified events. A large terrorist force may wish to take the station by force."
+	return "Wywiad wskazuje, że Syndykat niedawno przeprowadził wysokiej rangi spotkania dotyczące waszej stacji i są niezadowoleni z niedawnych poufnych wydarzeń. Duża siła terrorystyczna może pragnąć zdobyć stację siłą."
 
 //===please merge heretics so these can be made not terrible===
 /datum/game_mode/proc/update_incursion_icons_added(datum/mind/incursion_mind)

@@ -3,6 +3,7 @@
 	typepath = /datum/round_event/floor_cluwne
 	max_occurrences = 1
 	min_players = 20
+	weight			= 10
 
 
 /datum/round_event/floor_cluwne/start()

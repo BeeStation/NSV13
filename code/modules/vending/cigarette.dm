@@ -1,8 +1,8 @@
 /obj/machinery/vending/cigarette
 	name = "\improper ShadyCigs Deluxe"
 	desc = "If you want to get cancer, might as well do it in style."
-	product_slogans = "Space cigs taste good like a cigarette should.;I'd rather toolbox than switch.;Smoke!;Don't believe the reports - smoke today!"
-	product_ads = "Probably not bad for you!;Don't believe the scientists!;It's good for you!;Don't quit, buy more!;Smoke!;Nicotine heaven.;Best cigarettes since 2150.;Award-winning cigs."
+	product_slogans = "Kosmiczne cygarety smakują tak dobrze jak powinny smakować.;Prędzej kogoś jebnę, niż rzucę.;Pal!;Nie wierz badaniom - pal już dziś!"
+	product_ads = "Prawdopodobnie nieszkodliwe dla ciebie!;Nie wierz naukowcom!;To dla ciebie dobre!;Nie odchodź, kup więcej!;Pal!;Nikotynowy raj.;Najlepsze papierosy od 2137.;Papierosy zgarniające nagrody."
 	icon_state = "cigs"
 	light_color = LIGHT_COLOR_CYAN
 	products = list(/obj/item/storage/fancy/cigarettes = 5,

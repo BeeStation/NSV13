@@ -45,7 +45,7 @@ GLOBAL_LIST_EMPTY(ckey_redirects)
 					addclientmessage(ckey,"<span class='adminnotice'>You have been allowed to bypass the whitelist</span>")
 			else
 				log_access("Failed Login: [key] - Not on whitelist")
-				return list("reason"="whitelist", "desc" = "\nReason: You are not on the white list for this server")
+				return list("reason"="whitelist", "desc" = "\nOdwiedź naszego Discorda, by dostać dostęp na serwer. Przydziel sobie rangę w rolach, napisz na forum lub skontakuj się z adminem")
 
 	//Guest Checking
 	if(!real_bans_only && !C && IS_GUEST_KEY(key))

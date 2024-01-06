@@ -1,7 +1,8 @@
 /datum/round_event_control/plasma_decon
 	name = "Plasma decontamination"
 	typepath = /datum/round_event/plasma_decon
-	max_occurrences = 0
+	max_occurrences = 1
+	weight = 10
 
 /datum/round_event/plasma_decon
 	announceWhen	= 1

@@ -3,7 +3,7 @@
 	typepath = /datum/round_event/anomaly/anomaly_bluespace
 
 	max_occurrences = 1
-	weight = 5
+	weight = 10
 
 /datum/round_event/anomaly/anomaly_bluespace
 	startWhen = 3
@@ -11,4 +11,4 @@
 	anomaly_path = /obj/effect/anomaly/bluespace
 
 /datum/round_event/anomaly/anomaly_bluespace/announce(fake)
-	priority_announce("Unstable bluespace anomaly detected on long range scanners. Expected location: [impact_area.name].", "Anomaly Alert", SSstation.announcer.get_rand_alert_sound())
+	priority_announce("Niestabilna anomalia bluespace zlokalizowana na skanerach dalekiego zasięgu. Spodziewana lokalizacja: [impact_area.name].", "Alarm: Anomalia", SSstation.announcer.get_rand_alert_sound())

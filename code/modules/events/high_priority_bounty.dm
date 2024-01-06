@@ -2,11 +2,11 @@
 	name = "High Priority Bounty"
 	typepath = /datum/round_event/high_priority_bounty
 	max_occurrences = 3
-	weight = 20
+	weight = 10
 	earliest_start = 10
 
 /datum/round_event/high_priority_bounty/announce(fake)
-	priority_announce("Central Command has issued a high-priority cargo bounty. Details have been sent to all bounty consoles.", "Nanotrasen Bounty Program", SSstation.announcer.get_rand_alert_sound())
+	priority_announce("Centralne dowództwo wydało priorytetowe oświadczenia o pożądanych towarach. Szczegóły zostały rozesłane do komputerów.", "Program Nagród Nanotrasenu", SSstation.announcer.get_rand_alert_sound())
 
 /datum/round_event/high_priority_bounty/start()
 	var/datum/bounty/B

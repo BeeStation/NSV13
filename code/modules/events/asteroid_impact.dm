@@ -2,8 +2,9 @@
 /datum/round_event_control/asteroid_impact
 	name = "Asteroid Impact (End Round)"
 	typepath = /datum/round_event/asteroid_impact
-	weight = -1
+	weight = 0
 	max_occurrences = 0
+	earliest_start = 60
 
 /datum/round_event/asteroid_impact
 	//Should be enough time to escape.

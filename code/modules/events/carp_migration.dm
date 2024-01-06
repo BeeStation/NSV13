@@ -1,7 +1,7 @@
 /datum/round_event_control/carp_migration
 	name = "Carp Migration"
 	typepath = /datum/round_event/carp_migration
-	weight = 15
+	weight = 10
 	min_players = 2
 	earliest_start = 10 MINUTES
 	max_occurrences = 6
@@ -23,7 +23,7 @@
 	startWhen = rand(40, 60)
 
 /datum/round_event/carp_migration/announce(fake)
-	priority_announce("Unknown biological entities have been detected near [station_name()], please stand-by.", "Lifesign Alert", SSstation.announcer.get_rand_alert_sound())
+	priority_announce("Wykryto nieznane formy życia w okolicy [station_name()], zaleca się ostrożność.", "Ostrzeżenie biologiczne", SSstation.announcer.get_rand_alert_sound())
 
 
 /datum/round_event/carp_migration/start()

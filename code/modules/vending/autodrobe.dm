@@ -4,8 +4,8 @@
 	icon_state = "theater"
 	icon_deny = "theater-deny"
 	req_access = list(ACCESS_THEATRE)
-	product_slogans = "Dress for success!;Suited and booted!;It's show time!;Why leave style up to fate? Use AutoDrobe!"
-	vend_reply = "Thank you for using AutoDrobe!"
+	product_slogans = "Szaty zdobią człowieka!;Skrojona i dopasowana!;Czas na pokaz!;Czemu pozostawiać styl losowi? Użyj AutoDrobe!"
+	vend_reply = "Dziękujemy za użycie AutoDrobe!"
 	light_color = LIGHT_COLOR_RED
 	products = list(/obj/item/clothing/suit/chickensuit = 1,
 					/obj/item/clothing/head/chicken = 1,

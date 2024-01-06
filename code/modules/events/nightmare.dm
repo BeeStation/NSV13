@@ -2,7 +2,8 @@
 	name = "Spawn Nightmare"
 	typepath = /datum/round_event/ghost_role/nightmare
 	max_occurrences = 1
-	min_players = 20
+	weight = 10
+	min_players = 15
 	dynamic_should_hijack = TRUE
 	cannot_spawn_after_shuttlecall = TRUE
 

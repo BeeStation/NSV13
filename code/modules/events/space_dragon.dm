@@ -2,9 +2,9 @@
 	name = "Spawn Space Dragon"
 	typepath = /datum/round_event/ghost_role/space_dragon
 	max_occurrences = 1
-	weight = 8
+	weight = 10
 	earliest_start = 50 MINUTES
-	min_players = 20
+	min_players = 15
 	dynamic_should_hijack = TRUE
 	cannot_spawn_after_shuttlecall = TRUE
 
@@ -14,7 +14,7 @@
 	announceWhen = 10
 
 /datum/round_event/ghost_role/space_dragon/announce(fake)
-	priority_announce("It appears a lifeform with magical traces is approaching [station_name()], please stand-by.", "Lifesign Alert", SSstation.announcer.get_rand_alert_sound())
+	priority_announce("Wygląda na to, że istota o migicznej sygnaturze zbliża się do [station_name()], Zachować ostrożność.", "Alarm biologiczny", SSstation.announcer.get_rand_alert_sound())
 
 /datum/round_event/ghost_role/space_dragon/spawn_role()
 	var/list/candidates = get_candidates(ROLE_SPACE_DRAGON, /datum/role_preference/midround_ghost/space_dragon)

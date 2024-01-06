@@ -1,7 +1,7 @@
 /datum/round_event_control/brain_trauma
 	name = "Spontaneous Brain Trauma"
 	typepath = /datum/round_event/brain_trauma
-	weight = 25
+	weight = 10
 	min_players = 20 //this shit ain't fun on a small crew
 
 /datum/round_event/brain_trauma

@@ -208,9 +208,9 @@
 		on = FALSE
 		update_icon()
 		playsound(src, 'sound/machines/cryo_warning.ogg', volume) // Bug the doctors.
-		var/msg = "Patient fully restored."
+		var/msg = "Pacjent w pełni wyleczony."
 		if(autoeject) // Eject if configured.
-			msg += " Auto ejecting patient now."
+			msg += " Automatyczne wypuszczanie w toku."
 			open_machine()
 		radio.talk_into(src, msg, radio_channel)
 		return

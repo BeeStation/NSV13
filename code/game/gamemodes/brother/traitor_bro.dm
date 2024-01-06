@@ -61,7 +61,7 @@
 	return ..()
 
 /datum/game_mode/traitor/bros/generate_report()
-	return "It's Syndicate recruiting season. Be alert for potential Syndicate infiltrators, but also watch out for disgruntled employees trying to defect. Unlike Nanotrasen, the Syndicate prides itself in teamwork and will only recruit pairs that share a brotherly trust."
+	return "W tym miesiącu wypada sezon rekrutacyjny Syndykatu. Bądźcie czujni na potencjalnych infiltratorów Syndykatu oraz niezadowolonych pracowników, którzy starają się uciec. W przeciwieństwie do Nanotrasenu, Syndykat szczyci się pracą zespołową i będzie rekrutował tylko te pary, które mają wspólne, braterskie zaufanie."
 
 /datum/game_mode/proc/update_brother_icons_added(datum/mind/brother_mind)
 	var/datum/atom_hud/antag/brotherhud = GLOB.huds[ANTAG_HUD_BROTHER]

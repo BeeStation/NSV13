@@ -1,8 +1,8 @@
 /obj/machinery/vending/mining
 	name = "\improper Miner Nutrition Vendor"
 	desc = "A vending machine which vends pre-packaged meals. Nothing gourmet, but it won't taste horrible."
-	product_slogans = "Stay in the Fight!;Get back out there, champ!;Remember, stay alive!;Your services are much appreciated!"
-	product_ads = "Keep up, keep going!; Stay alive with the new Menu-35!;Meals fit for a demon slayer!; Grab a bite, and make us proud!"
+	product_slogans = "Walcz dalej!;Wracaj tam, mistrzuniu!;Pamiętaj, pozostań przy życiu!;Twoje usługi są bardzo doceniane!"
+	product_ads = "Wstawaj, nie zatrzymuj się!; Pozostań przy życiu dzięki Menu-35!;Posiłki na miarę pogromcy demonów!; Weź gryza i spraw byśmy byli dumni!"
 	icon_state = "sustenance"
 	light_color = LIGHT_COLOR_BLUEGREEN
 	products = list(/obj/item/reagent_containers/food/snacks/donkpocket/warm = 8,

@@ -3,7 +3,7 @@
 	desc = "All the parts you need to build your own custom pc."
 	icon_state = "modularpc"
 	icon_deny = "modularpc-deny"
-	product_ads = "Get your gamer gear!;The best GPUs for all of your space-crypto needs!;The most robust cooling!;The finest RGB in space!"
+	product_ads = "Spraw sobie sprzęt prawdziwego gracza!;Najlepsze karty graficzne na wszystkie twoje krypto-kosmiczne potrzeby!;Robustne chłodzenie!;Najznakomitsze RGB w kosmosie!"
 	vend_reply = "Game on!"
 	light_color = LIGHT_COLOR_WHITE
 	products = list(/obj/item/modular_computer/laptop = 4,

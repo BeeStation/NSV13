@@ -5,7 +5,7 @@ GLOBAL_VAR_INIT(pirates_spawned, FALSE)
 	typepath = /datum/round_event/pirates
 	weight = 10
 	max_occurrences = 1
-	min_players = 20
+	min_players = 15
 	dynamic_should_hijack = TRUE
 	gamemode_blacklist = list("nuclear")
 	cannot_spawn_after_shuttlecall = TRUE
@@ -26,17 +26,17 @@ GLOBAL_VAR_INIT(pirates_spawned, FALSE)
 	var/payoff = 0
 	var/initial_send_time = world.time
 	var/response_max_time = 2 MINUTES
-	priority_announce("Incoming subspace communication. Secure channel opened at all communication consoles.", "Incoming Message", SSstation.announcer.get_rand_report_sound())
+	priority_announce("Nadchodzi wiadomość z podprzestrzeni. Kodowany kanał został otwarty na wszystkich stanowiskach do łączności.", "Nadchodząca wiadomość", SSstation.announcer.get_rand_report_sound())
 	var/datum/comm_message/threat = new
 	var/datum/bank_account/D = SSeconomy.get_dep_account(ACCOUNT_CAR)
 	if(D)
 		payoff = max(payoff_min, FLOOR(D.account_balance * 0.80, 1000))
 	ship_name = pick(strings(PIRATE_NAMES_FILE, "ship_names"))
 	threat.title = "Business proposition"
-	threat.content = "This is [ship_name]. Pay up [payoff] credits or you'll walk the plank."
+	threat.content = "Tutaj[ship_name]. Zapłaćcie [payoff] albo przejdziecie się po desce."
 	threat.possible_answers = list(
-		PIRATE_RESPONSE_PAY = "We'll pay.",
-		PIRATE_RESPONSE_NO_PAY = "No way.",
+		PIRATE_RESPONSE_PAY = "Zapłacimy.",
+		PIRATE_RESPONSE_NO_PAY = "NIe ma mowy.",
 	)
 	threat.answer_callback = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(pirates_answered), threat, payoff, ship_name, initial_send_time, response_max_time)
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(spawn_pirates), threat, FALSE), response_max_time)
@@ -44,7 +44,7 @@ GLOBAL_VAR_INIT(pirates_spawned, FALSE)
 
 /proc/pirates_answered(datum/comm_message/threat, payoff, ship_name, initial_send_time, response_max_time)
 	if(world.time > initial_send_time + response_max_time)
-		priority_announce("Too late to beg for mercy!",sender_override = ship_name)
+		priority_announce("Za późno by błagać o litość",sender_override = ship_name)
 		return
 	// Attempted to pay off
 	if(threat?.answered == PIRATE_RESPONSE_PAY)
@@ -53,9 +53,9 @@ GLOBAL_VAR_INIT(pirates_spawned, FALSE)
 			return
 		// Check if they can afford it
 		if(D.adjust_money(-payoff))
-			priority_announce("Thanks for the credits, landlubbers.", sound = SSstation.announcer.get_rand_alert_sound(), sender_override = ship_name)
+			priority_announce("Dzięki za kredyty, szczury lądowe.", sound = SSstation.announcer.get_rand_alert_sound(), sender_override = ship_name)
 		else
-			priority_announce("Trying to cheat us? You'll regret this!", sound = SSstation.announcer.get_rand_alert_sound(), sender_override = ship_name)
+			priority_announce("Próbujecie nas oszukać? Pożałujecie tego!", sound = SSstation.announcer.get_rand_alert_sound(), sender_override = ship_name)
 			spawn_pirates(threat, TRUE) // insta-spawn!
 
 /proc/spawn_pirates(datum/comm_message/threat, skip_answer_check)

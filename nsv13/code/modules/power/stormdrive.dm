@@ -971,10 +971,10 @@ Control Rods
 			var/obj/structure/overmap/OM = get_overmap()
 			OM?.stop_relay(CHANNEL_REACTOR_ALERT)
 			warning_state = 0
-			send_alert("Nuclear meltdown averted. Manual reactor inspection is strongly advised", override=TRUE)
+			send_alert("Zapobiegnięto awarii jądrowej. Zdecydowanie zaleca się ręczną inspekcję reaktora", override=TRUE)
 		return FALSE
 	if(heat >= reactor_temperature_critical)
-		send_alert("DANGER: Reactor core overheating. Nuclear meltdown imminent", override=TRUE)
+		send_alert("NIEBEZPIECZEŃSTWO: Rdzeń reaktora przegrzewa się. Ryzyko awarii jądrowej", override=TRUE)
 		warning_state = WARNING_STATE_OVERHEAT
 		var/sound = 'nsv13/sound/effects/ship/reactor/core_overheating.ogg'
 		var/obj/structure/overmap/OM = get_overmap()

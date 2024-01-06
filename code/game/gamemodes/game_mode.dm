@@ -485,7 +485,8 @@
 
 /datum/game_mode/proc/get_players_for_role(datum/antagonist/antag_datum, role_preference = null)
 	var/banning_key = ispath(antag_datum, /datum/antagonist) ? initial(antag_datum.banning_key) : null
-	var/req_hours = ispath(antag_datum, /datum/antagonist) ? initial(antag_datum.required_living_playtime) : 0
+	// var/req_hours = ispath(antag_datum, /datum/antagonist) ? initial(antag_datum.required_living_playtime) : 0
+	var/req_hours = 0
 	var/list/players = list()
 	var/list/candidates = list()
 	var/list/drafted = list()
@@ -569,7 +570,8 @@
 
 /datum/game_mode/proc/get_alive_non_antagonsist_players_for_role(datum/antagonist/antag_datum, role_preference, list/restricted_roles)
 	var/banning_key = ispath(antag_datum, /datum/antagonist) ? initial(antag_datum.banning_key) : null
-	var/req_hours = ispath(antag_datum, /datum/antagonist) ? initial(antag_datum.required_living_playtime) : 0
+	// var/req_hours = ispath(antag_datum, /datum/antagonist) ? initial(antag_datum.required_living_playtime) : 0
+	var/req_hours = 0
 	var/list/candidates = list()
 
 	for(var/mob/living/carbon/human/player in GLOB.player_list)

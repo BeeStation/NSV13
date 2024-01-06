@@ -107,9 +107,7 @@
 			SSticker.news_report = OPERATIVE_SKIRMISH
 
 /datum/game_mode/nuclear/generate_report()
-	return "One of Central Command's trading routes was recently disrupted by a raid carried out by the Gorlex Marauders. They seemed to only be after one ship - a highly-sensitive \
-			transport containing a nuclear fission explosive, although it is useless without the proper code and authorization disk. While the code was likely found in minutes, the only disk that \
-			can activate this explosive is on your station. Ensure that it is protected at all times, and remain alert for possible intruders."
+	return "Jeden ze szlaków handlowych Centrali został niedawno zaatakowany przez kosmicznych piratów. Szukali oni jednego statku - przewoził on broń atomową o dalekim rażeniu. Nasz wywiad ustalił, że po kilku transakcjach prawdopodobnie ładunek trafił w ręce Syndykatu. Sama bomba jest bezużyteczna bez kodu oraz dysku autoryzacyjnego. Kod został prawdopodobnie szybko znaleziony, lecz dysku nie było na pokładzie, a wasza stacja posiada jeden taki dysk. Istnieje możliwość, że spróbują oni zaatakować stację w celu jego zdobycia oraz użycia broni jądrowej na waszej stacji. Upewnijcie się, że dysk jest chroniony oraz bądźcie przygotowani na abordaż."
 
 /proc/is_nuclear_operative(mob/M)
 	return M?.mind?.has_antag_datum(/datum/antagonist/nukeop)
@@ -186,12 +184,12 @@
 	if((world.time-SSticker.round_start_time) < (FLUKEOPS_TIME_DELAY)) // If the nukies died super early, they're basically a massive disappointment
 		title_icon = "flukeops"
 
-	round_credits += "<center><h1>The [syndicate_name()] Operatives:</h1>"
+	round_credits += "<center><h1>Operatorzy [syndicate_name()]:</h1>"
 	len_before_addition = round_credits.len
 	for(var/datum/mind/operative in nuke_team.members)
-		round_credits += "<center><h2>[operative.name] as a nuclear operative</h2>"
+		round_credits += "<center><h2>[operative.name] jako specjalny operator Syndykatu</h2>"
 	if(len_before_addition == round_credits.len)
-		round_credits += list("<center><h2>The operatives blew themselves up!</h2>", "<center><h2>Their remains could not be identified!</h2>")
+		round_credits += list("<center><h2>Operatorzy Specjalni Syndykatu wylecieli w powietrze!</h2>", "<center><h2>Ich szczątki nie mogły zostać zidentyfikowane!</h2>")
 		round_credits += "<br>"
 
 	round_credits += ..()

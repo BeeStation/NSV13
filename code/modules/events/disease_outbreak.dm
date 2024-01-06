@@ -3,7 +3,7 @@
 	typepath = /datum/round_event/disease_outbreak
 	max_occurrences = 1
 	min_players = 10
-	weight = 5
+	weight = 10
 	earliest_start = 10 MINUTES
 
 /datum/round_event/disease_outbreak
@@ -15,7 +15,7 @@
 
 
 /datum/round_event/disease_outbreak/announce(fake)
-	priority_announce("Confirmed outbreak of level 7 viral biohazard aboard [station_name()]. All personnel must contain the outbreak.", "Biohazard Alert", ANNOUNCER_OUTBREAK7)
+	priority_announce("Potwierdzony wybuch poziomu 7 zagrożenia biologicznego wirusem na pokładzie [station_name()]. Cały personel ma za zadanie powstrzymać rozprzestrzenienie.", "Alarm pandemiczny", ANNOUNCER_OUTBREAK7)
 
 /datum/round_event/disease_outbreak/setup()
 	announceWhen = rand(15, 30)

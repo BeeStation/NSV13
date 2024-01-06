@@ -2,7 +2,7 @@
 	name = "Aurora Caelus"
 	typepath = /datum/round_event/aurora_caelus
 	max_occurrences = 1
-	weight = 1
+	weight = 10
 	earliest_start = 5 MINUTES
 
 /datum/round_event_control/aurora_caelus/canSpawnEvent(players, gamemode)
@@ -18,7 +18,7 @@
 	var/aurora_progress = 0 //this cycles from 1 to 8, slowly changing colors from gentle green to gentle blue
 
 /datum/round_event/aurora_caelus/announce()
-	priority_announce("[station_name()]: A harmless cloud of ions is approaching your station, and will exhaust their energy battering the hull. Nanotrasen has approved a short break for all employees to relax and observe this very rare event. During this time, starlight will be bright but gentle, shifting between quiet green and blue colors. Any staff who would like to view these lights for themselves may proceed to the area nearest to them with viewing ports to open space. We hope you enjoy the lights.",
+	priority_announce("[station_name()]: Nieszkodliwa chmura jonowa zbliża się do stacji i spowoduje wyładowania swojej energii obijając się o kadłub. Nanotrasen zezwala na krótką przerwę dla wszystkich pracowników by odprężyć się i obserwować to rzadkie wydarzenie. Podczas jego trwania jasne gwiezdne światło będzie mienić się kolorami niebieskim i zielonym. Personel chcący oglądać światła, może chcieć udać się do miejsc z których kosmos widoczny jest najbardziej. Życzymy wspaniałych wrażeń",
 	sound = 'sound/misc/notice2.ogg',
 	sender_override = "Nanotrasen Meteorology Division")
 	for(var/V in GLOB.player_list)
@@ -49,7 +49,7 @@
 		if(initial(A.dynamic_lighting) == DYNAMIC_LIGHTING_IFSTARLIGHT)
 			for(var/turf/open/space/S in A)
 				fade_to_black(S)
-	priority_announce("The aurora caelus event is now ending. Starlight conditions will slowly return to normal. When this has concluded, please return to your workplace and continue work as normal. Have a pleasant shift, [station_name()], and thank you for watching with us.",
+	priority_announce("Zorza kosmiczna właśnie się kończy. Właściwości światła gwiezdnego będą powoli wracać do normy. Gdy tak się stanie, prosimy powrócić do swoich miejsc pracy i kontynuować wykonywanie obowiązków. Życzymy udanej zmiany, [station_name()], i dziękujemy za wspólny seans.",
 	sound = 'sound/misc/notice2.ogg',
 	sender_override = "Nanotrasen Meteorology Division")
 

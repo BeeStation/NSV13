@@ -1,9 +1,9 @@
 /datum/round_event_control/zombie_outbreak
 	name = "Zombie Outbreak"
 	typepath = /datum/round_event/zombie_outbreak
-	weight = 5
+	weight = 10
 	max_occurrences = 1
-	min_players = 30
+	min_players = 15
 
 /datum/round_event/zombie_outbreak
 	fakeable = FALSE

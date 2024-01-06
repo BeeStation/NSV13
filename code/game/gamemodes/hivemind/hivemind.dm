@@ -15,9 +15,7 @@ GLOBAL_LIST_EMPTY(hivehosts)
 	reroll_friendly = 1
 
 	announce_span = "danger"
-	announce_text = "The hosts of several psionic hiveminds have infiltrated the station and are looking to assimilate the crew!\n\
-	<span class='danger'>Hosts</span>: Expand your hivemind and complete your objectives at all costs!\n\
-	<span class='notice'>Crew</span>: Prevent the hosts from getting into your mind!"
+	announce_text = "Otrzymaliśmy zgłoszenia aktywności psionicznej z okolic stacji, mamy podejrzenia, że ma to związek z przełamaniem zabezpieczeń na stacji badawczej \[ZMIENIONO\] w zeszłym miesiącu. Placówka trzymała inteligenty umysł zbiorowy posiadający paranormalne umiejętności, który prawdopodobnie uciekł. Umysł Zbiorowy jest wysoce niebezpieczny, potrafi on wchłaniać żyjące istoty do swojej struktury z łatwością, lecz zdaje się to nie mieć wpływu na personel z implantami typu 'mindshield'."
 
 	var/list/hosts = list()
 

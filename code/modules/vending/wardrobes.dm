@@ -10,8 +10,8 @@
 	name = "\improper SecDrobe"
 	desc = "A vending machine for security and security-related clothing!"
 	icon_state = "secdrobe"
-	product_ads = "Beat perps in style!;It's red so you can't see the blood!;You have the right to be fashionable!;Now you can be the fashion police you always wanted to be!"
-	vend_reply = "Thank you for using the SecDrobe!"
+	product_ads = "Bij opryszkow ze stylem!;Jest czerwone, więc nie zauważysz krwi!;Masz prawo do bycia modnym!;Teraz możesz być tak modnym ochroniarzem, jak zawsze chciałeś!"
+	vend_reply = "Dziękujemy za użycie SecDrobe!"
 	light_color = LIGHT_COLOR_RED
 	products = list(/obj/item/clothing/suit/hooded/wintercoat/security = 3,
 					/obj/item/storage/backpack/security = 3,
@@ -49,8 +49,8 @@
 	name = "\improper MediDrobe"
 	desc = "A vending machine rumoured to be capable of dispensing clothing for medical personnel."
 	icon_state = "medidrobe"
-	product_ads = "Make those blood stains look fashionable!!"
-	vend_reply = "Thank you for using the MediDrobe!"
+	product_ads = "Zrób z tych plam krwi szyk mody!!!!"
+	vend_reply = "Dziękujemy za użycie MediDrobe!"
 	light_color = LIGHT_COLOR_WHITE
 	products = list(/obj/item/clothing/accessory/pocketprotector = 4,
 					/obj/item/storage/backpack/duffelbag/med = 4,
@@ -85,8 +85,8 @@
 	name = "EngiDrobe"
 	desc = "A vending machine renowned for vending industrial grade clothing."
 	icon_state = "engidrobe"
-	product_ads = "Guaranteed to protect your feet from industrial accidents!;Afraid of radiation? Then wear yellow!"
-	vend_reply = "Thank you for using the EngiDrobe!"
+	product_ads = "Gwarantuje twoim stopom ochronę przed wypadkami w pracy!;Przerażony radiacją? W takim razie wskakuj w żółte!"
+	vend_reply = "Dziękujemy za użycie EngiDrobe!"
 	light_color = LIGHT_COLOR_YELLOW
 	products = list(/obj/item/clothing/accessory/pocketprotector = 3,
 					/obj/item/storage/backpack/duffelbag/engineering = 3,
@@ -112,8 +112,8 @@
 	name = "AtmosDrobe"
 	desc = "This relatively unknown vending machine delivers clothing for Atmospherics Technicians, an equally unknown job."
 	icon_state = "atmosdrobe"
-	product_ads = "Get your inflammable clothing right here!!!"
-	vend_reply = "Thank you for using the AtmosDrobe!"
+	product_ads = "Zdobądź swoje niepalnie ubranie tutaj!!!"
+	vend_reply = "Dziękujemy za użycie AtmosDrobe!"
 	light_color = LIGHT_COLOR_YELLOW
 	products = list(/obj/item/clothing/accessory/pocketprotector = 2,
 					/obj/item/storage/backpack/duffelbag/engineering = 2,
@@ -135,8 +135,8 @@
 	name = "CargoDrobe"
 	desc = "A highly advanced vending machine for buying cargo related clothing for free."
 	icon_state = "cargodrobe"
-	product_ads = "Upgraded Assistant Style! Pick yours today!;These shorts are comfy and easy to wear, get yours now!"
-	vend_reply = "Thank you for using the CargoDrobe!"
+	product_ads = "Ulepszony styl asystenta! Wybierz swój dziś!;Te szorty są wygodne i łatwe w noszeniu, załatw sobie takie!"
+	vend_reply = "Dziękujemy za użycie CargoDrobe!"
 	extra_price = 50
 	light_color = LIGHT_COLOR_YELLOW
 	products = list(/obj/item/clothing/suit/hooded/wintercoat/cargo = 3,
@@ -168,7 +168,7 @@
 	desc = "A vending machine designed to dispense clothing known only to roboticists."
 	icon_state = "robodrobe"
 	product_ads = "You turn me TRUE, use defines!;0110001101101100011011110111010001101000011001010111001101101000011001010111001001100101"
-	vend_reply = "Thank you for using the RoboDrobe!"
+	vend_reply = "Dziękujemy za użycie RoboDrobe!"
 	light_color = LIGHT_COLOR_WHITE
 	products = list(/obj/item/clothing/glasses/hud/diagnostic = 2,
 					/obj/item/reagent_containers/medspray/sterilizine = 3,
@@ -197,10 +197,10 @@
 
 /obj/machinery/vending/wardrobe/science_wardrobe
 	name = "SciDrobe"
-	desc = "A simple vending machine suitable to dispense well tailored science clothing. Endorsed by Space Cubans."
+	desc = "Tęsknisz za zapachem palonego plazmą mięsa? Kup swoje ubranie naukowca już dziś!;W 10% auksetyczny, więc nie musisz przejmować się utratą ręki!"
 	icon_state = "scidrobe"
 	product_ads = "Longing for the smell of plasma burnt flesh? Buy your science clothing now!;Made with 10% Auxetics, so you don't have to worry about losing your arm!"
-	vend_reply = "Thank you for using the SciDrobe!"
+	vend_reply = "Dziękujemy za użycie SciDrobe!"
 	light_color = LIGHT_COLOR_WHITE
 	products = list(/obj/item/clothing/accessory/pocketprotector = 3,
 					/obj/item/storage/backpack/science = 3,
@@ -225,8 +225,8 @@
 	name = "Hydrobe"
 	desc = "A machine with a catchy name. It dispenses botany related clothing and gear."
 	icon_state = "hydrobe"
-	product_ads = "Do you love soil? Then buy our clothes!;Get outfits to match your green thumb here!"
-	vend_reply = "Thank you for using the Hydrobe!"
+	product_ads = "Kochasz glebę? W takim razie kup nasze ubrania!;Dobierz tutaj swoje ubrania, by pasowały do twoich plonów!"
+	vend_reply = "Dziękujemy za użycie Hydrobe!"
 	light_color = LIGHT_COLOR_GREEN
 	products = list(/obj/item/storage/backpack/botany = 2,
 					/obj/item/storage/backpack/satchel/hyd = 2,
@@ -249,8 +249,8 @@
 	name = "CuraDrobe"
 	desc = "A lowstock vendor only capable of vending clothing for curators and librarians."
 	icon_state = "curadrobe"
-	product_ads = "Glasses for your eyes and literature for your soul, Curadrobe has it all!; Impress & enthrall your library guests with Curadrobe's extended line of pens!"
-	vend_reply = "Thank you for using the CuraDrobe!"
+	product_ads = "Okuary dla twoich oczu i literatura dla twej duszy, Curadrobe ma to wszystko!; Zaimponuj i oczaruj twoich bibliotekowych gości naszą rozszerzoną linią długopisów!"
+	vend_reply = "Dziękujemy za użycie CuraDrobe!"
 	light_color = LIGHT_COLOR_WHITE
 	products = list(//obj/item/clothing/under/rank/civilian/curator/skirt = 2, //NSV13 no skirts
 					/obj/item/pen = 4,
@@ -274,8 +274,8 @@
 	name = "BarDrobe"
 	desc = "A stylish vendor to dispense the most stylish bar clothing!"
 	icon_state = "bardrobe"
-	product_ads = "Guaranteed to prevent stains from spilled drinks!"
-	vend_reply = "Thank you for using the BarDrobe!"
+	product_ads = "Gwarantowana ochrona przed rozlanymi napojami!"
+	vend_reply = "Dziękujemy za użycie BarDrobe!"
 	light_color = LIGHT_COLOR_WHITE
 	products = list(/obj/item/clothing/head/that = 2,
 					/obj/item/radio/headset/headset_srv = 2,
@@ -308,8 +308,8 @@
 	name = "ChefDrobe"
 	desc = "This vending machine might not dispense meat, but it certainly dispenses chef related clothing."
 	icon_state = "chefdrobe"
-	product_ads = "Our clothes are guaranteed to protect you from food splatters!"
-	vend_reply = "Thank you for using the ChefDrobe!"
+	product_ads = "Nasze ubrania gwarantują ochronę przed wszelkimi plamami z jedzenia!"
+	vend_reply = "Dziękujemy za użycie ChefDrobe!"
 	products = list(/obj/item/clothing/under/suit/waiter = 2,
 					/obj/item/radio/headset/headset_srv = 2,
 					/obj/item/clothing/accessory/waistcoat = 2,
@@ -335,8 +335,8 @@
 	name = "JaniDrobe"
 	desc = "A self cleaning vending machine capable of dispensing clothing for janitors."
 	icon_state = "janidrobe"
-	product_ads = "Come and get your janitorial clothing, now endorsed by lizard janitors everywhere!"
-	vend_reply = "Thank you for using the JaniDrobe!"
+	product_ads = "Przyjdź i weź swoje ubrania woźnego, teraz uwielbianie przez jaszczurzych woźnych wszędzie!"
+	vend_reply = "Dziękujemy za użycie JaniDrobe!"
 	products = list(/obj/item/clothing/under/rank/civilian/janitor = 2,
 					//obj/item/clothing/under/rank/civilian/janitor/skirt = 2, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/janitor = 2,
@@ -368,8 +368,8 @@
 	name = "LawDrobe"
 	desc = "Objection! This wardrobe dispenses the rule of law... and lawyer clothing."
 	icon_state = "lawdrobe"
-	product_ads = "OBJECTION! Get the rule of law for yourself!"
-	vend_reply = "Thank you for using the LawDrobe!"
+	product_ads = "SPRZECIW! Weź prawo w swoje ręce!"
+	vend_reply = "Dziękujemy za użycie LawDrobe!"
 	products = list(/obj/item/clothing/under/rank/civilian/lawyer/bluesuit = 1,
 					//obj/item/clothing/under/rank/civilian/lawyer/bluesuit/skirt = 1, //NSV13 no skirts
 					/obj/item/clothing/suit/toggle/lawyer = 1,
@@ -406,8 +406,8 @@
 	name = "ChapDrobe"
 	desc = "This most blessed and holy machine vends clothing only suitable for chaplains to gaze upon."
 	icon_state = "chapdrobe"
-	product_ads = "Are you being bothered by cultists or pesky revenants? Then come and dress like the holy man!;Clothes for men of the cloth!"
-	vend_reply = "Thank you for using the ChapDrobe!"
+	product_ads = "Zaczepiają cie ci cholerni kultyści i zjawy? W takim razie ubierz się jak święty!;Sukna dla człowieka sukien!"
+	vend_reply = "Dziękujemy za użycie ChapDrobe!"
 	light_color = LIGHT_COLOR_WHITE
 	products = list(/obj/item/storage/backpack/cultpack = 1,
 					/obj/item/clothing/accessory/pocketprotector/cosmetology = 1,
@@ -446,8 +446,8 @@
 	name = "ChemDrobe"
 	desc = "A vending machine for dispensing chemistry related clothing."
 	icon_state = "chemdrobe"
-	product_ads = "Our clothes are 0.5% more resistant to acid spills! Get yours now!"
-	vend_reply = "Thank you for using the ChemDrobe!"
+	product_ads = "Nasze ubrania są o 0,5% bardziej odporne na kwas! Zdobądź je już teraz!"
+	vend_reply = "Dziękujemy za użycie ChemDrobe!"
 	products = list(/obj/item/clothing/under/rank/medical/chemist = 2,
 					//obj/item/clothing/under/rank/medical/chemist/skirt = 2, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/chemist = 2,
@@ -467,8 +467,8 @@
 	name = "GeneDrobe"
 	desc = "A machine for dispensing clothing related to genetics."
 	icon_state = "genedrobe"
-	product_ads = "Perfect for the mad scientist in you!"
-	vend_reply = "Thank you for using the GeneDrobe!"
+	product_ads = "Idealne dla takiego szalonego naukowca jak ty!"
+	vend_reply = "Dziękujemy za użycie GeneDrobe!"
 	products = list(/obj/item/clothing/under/rank/medical/geneticist = 2,
 					//obj/item/clothing/under/rank/medical/geneticist/skirt = 2, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/genetics = 2,
@@ -486,8 +486,8 @@
 	name = "ViroDrobe"
 	desc = "An unsterilized machine for dispending virology related clothing."
 	icon_state = "virodrobe"
-	product_ads = " Viruses getting you down? Then upgrade to sterilized clothing today!"
-	vend_reply = "Thank you for using the ViroDrobe"
+	product_ads = " Wirusy cie powalają? Przerzuć się w takim razie na wysterilizowane ubrania!"
+	vend_reply = "Dziękujemy za użycie ViroDrobe"
 	products = list(/obj/item/clothing/under/rank/medical/virologist = 2,
 					//obj/item/clothing/under/rank/medical/virologist/skirt = 2, //NSV13 no skirts
 					/obj/item/clothing/under/plasmaman/viro = 2,
@@ -510,7 +510,7 @@
 	desc = "A machine for all your detective needs, as long as you need clothes."
 	icon_state = "detdrobe"
 	product_ads = "Apply your brilliant deductive methods in style!"
-	vend_reply = "Thank you for using the DetDrobe!"
+	vend_reply = "Dziękujemy za użycie DetDrobe!"
 	products = list(/obj/item/clothing/under/rank/security/detective = 2,
 					//obj/item/clothing/under/rank/security/detective/skirt = 2, //NSV13 no skirts
 					/obj/item/clothing/shoes/sneakers/brown = 2,

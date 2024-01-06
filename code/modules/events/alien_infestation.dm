@@ -1,9 +1,9 @@
 /datum/round_event_control/alien_infestation
 	name = "Alien Infestation"
 	typepath = /datum/round_event/ghost_role/alien_infestation
-	weight = 5
+	weight = 10
 
-	min_players = 20 //NSV13 - increased to 20
+	min_players = 15 //NSV13 - increased to 20
 
 	dynamic_should_hijack = TRUE
 	cannot_spawn_after_shuttlecall = TRUE
@@ -41,7 +41,7 @@
 			living_aliens = TRUE
 
 	if(living_aliens || fake)
-		priority_announce("Unidentified lifesigns detected coming aboard [station_name()]. Secure any exterior access, including ducting and ventilation.", "Lifesign Alert", ANNOUNCER_ALIENS)
+		priority_announce("Wykryto niezidentyfikowane formy życia wkraczające na pokład [station_name()]. SZabezpieczyć wszelkie drogi zewnętrznego dostępu, jak również system wentylacji.", "Alarm biologiczny", ANNOUNCER_ALIENS)
 
 
 /datum/round_event/ghost_role/alien_infestation/spawn_role()

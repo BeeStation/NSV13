@@ -17,9 +17,9 @@ GLOBAL_LIST_EMPTY(announcement_systems)
 	circuit = /obj/item/circuitboard/machine/announcement_system
 
 	var/obj/item/radio/headset/radio
-	var/arrival = "%PERSON has signed up as %RANK. Welcome to %STNAME."
+	var/arrival = "%PERSON zarejestrował się jako %RANK. Welcome to %STNAME."
 	var/arrivalToggle = 1
-	var/newhead = "%PERSON, %RANK, is the department head."
+	var/newhead = "%PERSON, %RANK, jest głową departamentu."
 	var/newheadToggle = 1
 
 	var/greenlight = "Light_Green"
@@ -92,7 +92,7 @@ GLOBAL_LIST_EMPTY(announcement_systems)
 	else if(message_type == "AIWIPE" && newheadToggle)
 		message = CompileText("%PERSON has been moved to intelligence storage.", user, rank)
 	else if(message_type == "CRYOSTORAGE")
-		message = CompileText("%PERSON, %RANK has been moved to cryo storage.", user, rank)
+		message = CompileText("%PERSON, %RANK został przeniesiony do krio komory.", user, rank)
 	else if(message_type == "ARRIVALS_BROKEN")
 		message = "The arrivals shuttle has been damaged. Docking for repairs."
 

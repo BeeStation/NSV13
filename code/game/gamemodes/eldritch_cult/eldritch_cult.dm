@@ -65,15 +65,14 @@
 	return ..()
 
 /datum/game_mode/heretics/generate_report()
-	return "Cybersun Industries has announced that they have successfully raided a high-security library. The library contained a very dangerous book that was \
-	shown to posses anomalous properties. We suspect that the book has been copied over, Stay vigilant!"
+	return "CCybersun Industries ogłosiło, że z powodzeniem przeprowadziło rajd na wysoko zabezpieczoną bibliotekę. Biblioteka zawierała bardzo niebezpieczną książkę, której przypisuje się właściwości anormalne. Podejrzewamy, że książka została skopiowana. Bądźcie czujni"
 
 /datum/game_mode/heretics/generate_credit_text()
 	var/list/round_credits = list()
 
-	round_credits += "<center><h1>The Eldrich Cult:</h1>"
+	round_credits += "<center><h1>Kult Eldrich:</h1>"
 	for(var/datum/mind/M in culties)
-		round_credits += "<center><h2>[M.name] as a heretic</h2>"
+		round_credits += "<center><h2>[M.name] jako heretyk</h2>"
 
 	round_credits += ..()
 	return round_credits

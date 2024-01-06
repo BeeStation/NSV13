@@ -1,7 +1,7 @@
 /datum/round_event_control/heart_attack
 	name = "Random Heart Attack"
 	typepath = /datum/round_event/heart_attack
-	weight = 20
+	weight = 10
 	max_occurrences = 2
 	earliest_start = 10 MINUTES		//NSV13
 	min_players = 15				//NSV13

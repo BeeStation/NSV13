@@ -3,7 +3,7 @@
 	desc = "Old sweet water vending machine."
 	icon_state = "sovietsoda"
 	light_color = LIGHT_COLOR_TUNGSTEN
-	product_ads = "For Tsar and Country.;Have you fulfilled your nutrition quota today?;Very nice!;We are simple people, for this is all we eat.;If there is a person, there is a problem. If there is no person, then there is no problem."
+	product_ads = "Za Cara i kraj.;Czy dzisiaj wypełniłeś swój limit żywieniowy?;Bardzo łądnie!;Jesteśmy prostymi ludźmi, bo jesteśmy tym, co jemy.;Tam gdzie człowiek, tam problem. Tam gdzie nie ma człowieka, tam nie ma problemu."
 	products = list(/obj/item/reagent_containers/food/drinks/drinkingglass/filled/soda = 30)
 	contraband = list(/obj/item/reagent_containers/food/drinks/drinkingglass/filled/cola = 20)
 	refill_canister = /obj/item/vending_refill/sovietsoda

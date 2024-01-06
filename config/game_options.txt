@@ -1,4 +1,4 @@
-## HEALTH ###
+----## HEALTH ###
 
 ##Damage multiplier, effects both weapons and healing on all mobs. For example, 1.25 would result in 25% higher damage.
 DAMAGE_MULTIPLIER 1
@@ -16,7 +16,7 @@ REVIVAL_BRAIN_LIFE -1
 
 ## OOC DURING ROUND ###
 ## Comment this out if you want OOC to be automatically disabled during the round, it will be enabled during the lobby and after the round end results.
-#OOC_DURING_ROUND
+OOC_DURING_ROUND
 
 ## LOOC is now an in-game toggle
 
@@ -78,14 +78,14 @@ REOPEN_ROUNDSTART_SUICIDE_ROLES_COMMAND_REPORT
 
 
 ## ALERT LEVELS ###
-ALERT_GREEN Attention all hands. Set condition 3 throughout the ship. All non-essential personnel may leave their posts and pursue recreational activities.
-ALERT_BLUE_UPTO Attention all hands. Set condition 2 throughout the ship. Standard operational procedures are now in effect, all personnel must report to their posts.
-ALERT_BLUE_DOWNTO Attention all hands, stand down general quarters. Set condition 2 throughout the ship. All personnel may report back to their posts with the authorization of squad leaders.
-ALERT_RED_UPTO General quarters, general quarters. All hands man your battle stations!
-ALERT_RED_DOWNTO Attention all hands. Stand down defense condition zebra. Compartmental interlocks have now been lifted. General Quarters is still in effect.
-ALERT_ZEBRA_UPTO Attention all hands assume defense condition zebra. Compartmental interlocks have now been activated, prepare for incoming fire.
-ALERT_ZEBRA_DOWNTO ATTENTION: The automatic destruct sequence has been deactivated. Condition Zebra is now in effect.
-ALERT_DELTA DANGER: DANGER: The automatic destruct sequence is now activated. The ship will be scuttled imminently. All hands abandon ship.
+ALERT_GREEN Uwaga załogo, wprowadzono stan 3. na całym statku. Wszelki personel niezwiązany z przetrwaniem jednostki operacyjnej może opuścić stanowiska i korzystać z działań rekreacyjnych.
+ALERT_BLUE_UPTO Uwaga załogo, wprowadzono stan 2. na całym statku. Obowiązują teraz standardowe procedury operacyjne. Wszyscy członkowie załogi muszą stawić się na swoich stanowiskach.
+ALERT_BLUE_DOWNTO Uwaga załogo, zakończyć alarm bojowy. Wprowadzono stan 2. na całym statku. Cała załoga może wrócić na stanowiska za zezwoleniem liderów oddziałów.
+ALERT_RED_UPTO Alarm bojowy, alarm bojowy. Wszyscy do swoich stanowisk bojowych!
+ALERT_RED_DOWNTO Uwaga załogo, zakończyć stan obronny "Zebra". Blokady przedziałów zostały teraz zdjęte. Nadal obowiązuje alarm bojowy.
+ALERT_ZEBRA_UPTO Uwaga załogo, przyjąć stan obronny "Zebra". Blokady przedziałów zostały aktywowane. Przygotować się na nadchodzący ogień.
+ALERT_ZEBRA_DOWNTO ATTENTION: Sekwencja aautodestrukcji została dezaktywowana. Obowiązuje teraz stan obronny "Zebra".
+ALERT_DELTA DANGER: DANGER: Sekwencja autodestrukcji została aktywowana. Statek zostanie wkrótce wysadzony. Wszyscy natychmiast opuścić pokład.
 
 
 ## GAME MODES ###
@@ -101,32 +101,33 @@ NO_INTERCEPT_REPORT
 ## Set to 0 to disable that mode.
 
 ## Common gamemodes -- (80% total chance on lowpop, 32% on highpop)
-PROBABILITY TRAITOR 11
-PROBABILITY SECRET_EXTENDED 7
+PROBABILITY TRAITOR 1
+PROBABILITY SECRET_EXTENDED 0
 ## Common on highpop -- 11% chance
-PROBABILITY PVP 6 ## Change to 6 when PVP works again
-PROBABILITY BLOODLING 5
+PROBABILITY PVP 0 ## Change to 6 when PVP works again
+PROBABILITY BLOODLING 1
 ## Uncommon gamemodes -- 9% chance
-PROBABILITY REVOLUTION 5
-PROBABILITY INCURSION 5
+PROBABILITY REVOLUTION 1
+PROBABILITY INCURSION 1
 ## Rare gamemodes -- 7% chance
-PROBABILITY HERESY 4
-PROBABILITY CULT 4
-PROBABILITY ASSIMILATION 4
-PROBABILITY NUCLEAR 4
+PROBABILITY HERESY 1
+PROBABILITY CULT 1
+PROBABILITY ASSIMILATION 1
+PROBABILITY NUCLEAR 1
 ## Very rare gamemodes -- 4% chance
-PROBABILITY INTERNAL_AFFAIRS 2
+PROBABILITY INTERNAL_AFFAIRS 0
 ## Extremely rare gamemodes -- 1% or 2% chance
 PROBABILITY TRAITORCHAN 1
 PROBABILITY CLOCKCULT 1
 PROBABILITY CLOWNOPS 1
-PROBABILITY WIZARD 0.5
+PROBABILITY WIZARD 1
 ## Disabled gamemodes -- 0% chance, duh
-PROBABILITY GANG 0
+PROBABILITY GANG 1
+PROBABILITY OVERTHROW 1
 PROBABILITY METEOR 0
-PROBABILITY DEVIL 0
+PROBABILITY DEVIL 1
 PROBABILITY DEVIL_AGENTS 0
-PROBABILITY CHANGELING 0 #Try as I might, I just can't bring myself to re-enable this POS.
+PROBABILITY CHANGELING 1 #Try as I might, I just can't bring myself to re-enable this POS.
 PROBABILITY TRAITORBRO 0 #Everyone hates this anyways...
 
 ## Dynamic gamemode go brrr
@@ -161,6 +162,7 @@ CONTINUOUS HERESY
 CONTINUOUS ASSIMILATION
 CONTINUOUS PVP
 CONTINUOUS BLOODLING
+CONTINUOUS OVERTHROW
 
 #Prevents the death of round-ending antagonist rulesets ending the round immediately.
 
@@ -208,41 +210,41 @@ MAX_POP TRAITORCHAN -1
 MIN_POP DOUBLE_AGENTS 25
 MAX_POP DOUBLE_AGENTS -1
 
-MIN_POP NUCLEAR 0
+MIN_POP NUCLEAR 15
 MAX_POP NUCLEAR -1
 
-MIN_POP REVOLUTION 20
+MIN_POP REVOLUTION 15
 MAX_POP REVOLUTION -1
 
-MIN_POP CULT 20
+MIN_POP CULT 15
 MAX_POP CULT -1
 
 MIN_POP CHANGELING 15
 MAX_POP CHANGELING -1
 
-MIN_POP WIZARD 20
+MIN_POP WIZARD 15
 MAX_POP WIZARD -1
 
 MIN_POP METEOR 0
 MAX_POP METEOR -1
 
-MIN_POP DEVIL 20
+MIN_POP DEVIL 15
 MAX_POP DEVIL -1
 
 MIN_POP DEVIL_AGENTS 25
 MAX_POP DEVIL_AGENTS -1
 
-MIN_POP INCURSION 20
+MIN_POP INCURSION 15
 MAX_POP INCURSION -1
 
-MIN_POP GANG 30
+MIN_POP GANG 15
 MAX_POP GANG -1
 
 ## Setting at least one mode to be playable at 0/1 players is required.
 #MIN_POP EXTENDED 0
 #MAX_POP EXTENDED -1
 
-MIN_POP CLOCKCULT 32
+MIN_POP CLOCKCULT 22
 MAX_POP CLOCKCULT -1
 
 MIN_POP HERESY 15
@@ -250,8 +252,11 @@ MAX_POP HERESY -1
 
 MIN_POP DYNAMIC 10
 
-MIN_POP ASSIMILATION 0
+MIN_POP ASSIMILATION 15
 MAX_POP ASSIMILATION -1
+
+MIN_POP OVERTHROW 15
+MAX_POP OVERTHROW -1
 
 ## The amount of time it takes for the emergency shuttle to be called, from round start.
 SHUTTLE_REFUEL_DELAY 12000
@@ -322,7 +327,7 @@ EQUAL_JOB_WEIGHT
 DEFAULT_REP_VALUE 5
 
 ## Uncomment to allow players to see the set odds of different rounds in secret/random in the get server revision screen. This will NOT tell the current roundtype.
-#SHOW_GAME_TYPE_ODDS
+SHOW_GAME_TYPE_ODDS
 
 ## Uncomment to enable dynamic ruleset config file.
 DYNAMIC_CONFIG_ENABLED
@@ -331,7 +336,7 @@ DYNAMIC_CONFIG_ENABLED
 ## Comment this out to disable random events during the round.
 ALLOW_RANDOM_EVENTS
 
-## Multiplier for earliest start time of dangerous events.
+## Multiplier for earliest start time of dangerous events.S
 ## Set to 0 to make dangerous events avaliable from round start.
 EVENTS_MIN_TIME_MUL 1
 
@@ -350,11 +355,11 @@ ALLOW_AI_MULTICAM
 
 ## Secborg ###
 ## Uncomment to prevent the security cyborg module from being chosen
-#DISABLE_SECBORG
+DISABLE_SECBORG
 
 ## Peacekeeper Borg ###
 ## Uncomment to prevent the peacekeeper cyborg module from being chosen
-#DISABLE_PEACEBORG
+DISABLE_PEACEBORG
 
 ## AWAY MISSIONS ###
 
@@ -418,7 +423,7 @@ NEAR_DEATH_EXPERIENCE
 ## Set to 1 for "custom", silicons will start with the custom laws defined in silicon_laws.txt. (If silicon_laws.txt is empty, the AI will spawn with asimov and Custom boards will auto-delete.)
 ## Set to 2 for "random", silicons will start with a random lawset picked from random laws specified below.
 ## Set to 3 for "weighted random", using values in "silicon_weights.txt", a law will be selected, with weights specifed in that file.
-DEFAULT_LAWS 1
+DEFAULT_LAWS 2
 
 ## RANDOM LAWS ##
 ## ------------------------------------------------------------------------------------------
@@ -433,13 +438,13 @@ RANDOM_LAWS corporate
 RANDOM_LAWS maintain
 
 ## Quirky laws. Shouldn't cause too much harm
-#RANDOM_LAWS hippocratic
-#RANDOM_LAWS maintain
-#RANDOM_LAWS drone
-#RANDOM_LAWS liveandletlive
-#RANDOM_LAWS peacekeeper
-#RANDOM_LAWS reporter
-#RANDOM_LAWS hulkamania
+RANDOM_LAWS hippocratic
+RANDOM_LAWS maintain
+RANDOM_LAWS drone
+RANDOM_LAWS liveandletlive
+RANDOM_LAWS peacekeeper
+RANDOM_LAWS reporter
+RANDOM_LAWS hulkamania
 RANDOM_LAWS paladin
 RANDOM_LAWS robocop
 
@@ -451,7 +456,7 @@ RANDOM_LAWS robocop
 #RANDOM_LAWS ratvar
 
 ## meme laws. Honk
-#RANDOM_LAWS buildawall
+RANDOM_LAWS buildawall
 
 ## If weighted laws are selected (DEFAULT_LAWS = 3),
 ## then an AI's starting laws will be determined by the weights of these values
@@ -536,7 +541,7 @@ ROUNDSTART_RACES plasmaman
 ## Paywall Races
 ##-------------------------------------------------------------------------------------------
 ## Uncommenting races will restrict them behind the patreon paywall
-PAYWALL_RACES apid
+#PAYWALL_RACES apid
 ROUNDSTART_RACES apid
 
 
@@ -669,7 +674,7 @@ DISABLE_LOCAL_BANS
 
 ## OVERMAP MODES
 ## max pop 0 = unlimited
-OMODE_PROBABILITY ARMADA 0
+OMODE_PROBABILITY ARMADA 5
 OMODE_MIN_POP ARMADA 15
 OMODE_MAX_POP ARMADA 0
 
@@ -677,9 +682,9 @@ OMODE_PROBABILITY BOARDING 5
 OMODE_MIN_POP BOARDING 14
 OMODE_MAX_POP BOARDING 0
 
-OMODE_PROBABILITY COURIER 5
+OMODE_PROBABILITY COURIER 0
 OMODE_MIN_POP COURIER 0
-OMODE_MAX_POP COURIER 10
+OMODE_MAX_POP COURIER 0
 
 OMODE_PROBABILITY PVP 0
 OMODE_MIN_POP PVP 0

@@ -4,7 +4,7 @@
 
 	min_players = 10
 	max_occurrences = 5
-	weight = 20
+	weight = 10
 
 /datum/round_event/anomaly/anomaly_hallucination
 	startWhen = 10
@@ -12,4 +12,4 @@
 	anomaly_path = /obj/effect/anomaly/hallucination
 
 /datum/round_event/anomaly/anomaly_hallucination/announce(fake)
-	priority_announce("Hallucinatory event hitting the station. Expected location: [impact_area.name].", "Anomaly Alert")
+	priority_announce("Masowa halucynacja nawiedza stację. Spodziewana lokalizacja: [impact_area.name].", "Alarm: Anomalia")

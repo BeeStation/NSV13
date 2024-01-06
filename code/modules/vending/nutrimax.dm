@@ -1,8 +1,8 @@
 /obj/machinery/vending/hydronutrients
 	name = "\improper NutriMax"
 	desc = "A plant nutrients vendor."
-	product_slogans = "Aren't you glad you don't have to fertilize the natural way?;Now with 50% less stink!;Plants are people too!"
-	product_ads = "We like plants!;Don't you want some?;The greenest thumbs ever.;We like big plants.;Soft soil..."
+	product_slogans = "Nie jesteś zadowolony, że nie musisz nawozić w sposób naturalny?;Teraz tylko 50% smrodu!;Rośliny to też ludzie!"
+	product_ads = "Lubimy rośliny!;Nie chcesz trochę?;Najzieleńsze kciuki jakie się da.;Lubimy duże rośliny.;Miękka gleba..."
 	icon_state = "nutri"
 	icon_deny = "nutri-deny"
 	light_color = LIGHT_COLOR_GREEN

@@ -1,7 +1,7 @@
 /datum/round_event_control/ion_storm
 	name = "Ion Storm"
 	typepath = /datum/round_event/ion_storm
-	weight = 15
+	weight = 10
 	min_players = 2
 	can_malf_fake_alert = TRUE
 
@@ -26,7 +26,7 @@
 
 /datum/round_event/ion_storm/announce(fake)
 	if(prob(announceChance) || fake)
-		priority_announce("Ion storm detected near the station. Please check all AI-controlled equipment for errors.", "Anomaly Alert", ANNOUNCER_IONSTORM)
+		priority_announce("Burza jonowa wykryta w pobliżu stacji. Proszę poddać inspekcji wszelkie urządzenia kontrolowane przez sztuczną inteligencję.", "Alarm: Anomalia", ANNOUNCER_IONSTORM)
 
 
 /datum/round_event/ion_storm/start()

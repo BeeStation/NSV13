@@ -41,9 +41,7 @@
 	return ..()
 
 /datum/game_mode/wizard/generate_report()
-	return "A dangerous Wizards' Federation individual by the name of [pick(GLOB.wizard_first)] [pick(GLOB.wizard_second)] has recently escaped confinement from an unlisted prison facility. This \
-		man is a dangerous mutant with the ability to alter himself and the world around him by what he and his leaders believe to be magic. If this man attempts an attack on your station, \
-		his execution is highly encouraged, as is the preservation of his body for later study."
+	return "Bardzo niebezpieczny osobnik z Federacji Kosmicznych Czarodziejów zwący się [pick(GLOB.wizard_first)] [pick(GLOB.wizard_second)], uciekł niedawno z głęboko ukrytej placówki badawczej. Osobnik ten posiada wysokie umiejętności formowania swojego ciała oraz rzeczywistości na życzenie, niektórzy podejrzewają, że jest to sprawka magii. Jeżeli osobnik ten zaatakuje waszą stację, jego egzekucja jest wysoce zalecana, jak również zachowanie zwłok do dalszych badań."
 
 /datum/game_mode/wizard/are_special_antags_dead()
 	for(var/datum/mind/wizard in wizards)
@@ -68,7 +66,7 @@
 
 /datum/game_mode/wizard/special_report()
 	if(finished)
-		return "<div class='panel redborder'><span class='redtext big'>The wizard[(wizards.len>1)?"s":""] has been killed by the crew! The Space Wizards Federation has been taught a lesson they will not soon forget!</span></div>"
+		return "<div class='panel redborder'><span class='redtext big'>Czarodziej[(wizards.len>1)?"s":""] został zabity przez załogę! Federacja Kosmicznych Czarodziejów dostała lekcję i na pewno nie postawią tutaj nogi przez dłuższy czas!</span></div>"
 
 //returns whether the mob is a wizard (or apprentice)
 /proc/iswizard(mob/living/M)
@@ -78,14 +76,14 @@
 	var/list/round_credits = list()
 	var/len_before_addition
 
-	round_credits += "<center><h1>The Space Wizard Federation:</h1>"
+	round_credits += "<center><h1>federacja Kosmicznych Czaradzieji:</h1>"
 	len_before_addition = round_credits.len
 	for(var/datum/mind/wizard in wizards)
-		round_credits += "<center><h2>[wizard.name] as a master wizard</h2>"
+		round_credits += "<center><h2>[wizard.name] jako potężny czarodziej</h2>"
 	for(var/datum/mind/apprentice in apprentices)
-		round_credits += "<center><h2>[apprentice.name] as an eager apprentice</h2>"
+		round_credits += "<center><h2>[apprentice.name] jako zapalony uczeń szkoły magii</h2>"
 	if(len_before_addition == round_credits.len)
-		round_credits += list("<center><h2>The wizards have removed themselves from this realm of existance!</h2>", "<center><h2>We couldn't locate them!</h2>")
+		round_credits += list("<center><h2>Czarodzieje wymazali siebie z czasu i przestrzeni!</h2>", "<center><h2>Nie mogliśmy ich znaleść!</h2>")
 	round_credits += "<br>"
 
 	round_credits += ..()

@@ -3,7 +3,7 @@
 	typepath = /datum/round_event/anomaly/anomaly_pyro
 
 	max_occurrences = 5
-	weight = 20
+	weight = 10
 
 /datum/round_event/anomaly/anomaly_pyro
 	startWhen = 3
@@ -11,4 +11,4 @@
 	anomaly_path = /obj/effect/anomaly/pyro
 
 /datum/round_event/anomaly/anomaly_pyro/announce(fake)
-	priority_announce("Pyroclastic anomaly detected on long range scanners. Expected location: [impact_area.name].", "Anomaly Alert", SSstation.announcer.get_rand_alert_sound())
+	priority_announce("Anomalia piroklastyczna wykryta na skanerach długiego zasięgu. Spodziewany punkt uderzenia: [impact_area.name].", "Alarm: Anomalia", SSstation.announcer.get_rand_alert_sound())

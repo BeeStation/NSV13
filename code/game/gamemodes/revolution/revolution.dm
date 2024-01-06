@@ -190,9 +190,7 @@
 		return "<div class='panel redborder'><span class='redtext big'>The heads of staff managed to stop the revolution!</span></div>"
 
 /datum/game_mode/revolution/generate_report()
-	return "Employee unrest has spiked in recent weeks, with several attempted mutinies on heads of staff. Some crew have been observed using flashbulb devices to blind their colleagues, \
-		who then follow their orders without question and work towards dethroning departmental leaders. Watch for behavior such as this with caution. If the crew attempts a mutiny, you and \
-		your heads of staff are fully authorized to execute them using lethal weaponry - they will be later cloned and interrogated at Central Command."
+	return "W ostatnich czasach dostaliśmy raporty o zamieszkach ze strony naszych ukochanych pracowników, z kilkoma próbami buntu oraz zamachów na głowy departamentów. Z obserwacji wynika że kilkoro załogantów używa urządzeń typu 'flash' na swoich kolegach, którzy później wykonują ich rozkazy bez pytań. Ogranizują bunt i zamieszki by wyeliminować głowy departamentów. Zwracajcie szczególną uwagę na dziwne zachowania oraz losowe oślepianie załogantów. Jeżeli załoga spróbuje zorganizować rewoltę, macie pełne prawo do ekzegucji oraz użycia ostrej amunicji - zostaną później sklonowani w Centrali w celu przesłuchania."
 
 /datum/game_mode/revolution/extended
 	name = "extended_revolution"
@@ -226,14 +224,14 @@
 	var/list/round_credits = list()
 	var/len_before_addition
 
-	round_credits += "<center><h1>The Disgruntled Revolutionaries:</h1>"
+	round_credits += "<center><h1>Wkurwieni Rewolucjoniści:</h1>"
 	len_before_addition = round_credits.len
 	for(var/datum/mind/headrev in revolution.head_revolutionaries())
-		round_credits += "<center><h2>[headrev.name] as a revolutionary leader</h2>"
+		round_credits += "<center><h2>[headrev.name] jako lider rewolucji</h2>"
 	for(var/datum/mind/grunt in (revolution.members - revolution.head_revolutionaries()))
-		round_credits += "<center><h2>[grunt.name] as a grunt of the revolution</h2>"
+		round_credits += "<center><h2>[grunt.name] jako dzielny rewolucjonista</h2>"
 	if(len_before_addition == round_credits.len)
-		round_credits += list("<center><h2>The revolutionaries were all destroyed as martyrs!</h2>", "<center><h2>We couldn't identify their remains!</h2>")
+		round_credits += list("<center><h2>Wszyscy rewolucjoniści zgineli!</h2>", "<center><h2>Nie mogliśmy zidentyfikować ich zwłok!!</h2>")
 	round_credits += "<br>"
 
 	round_credits += ..()

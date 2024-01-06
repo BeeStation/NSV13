@@ -532,6 +532,17 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /turf/open/floor/plasteel,
 /area/security/brig)
+"cS" = (
+/obj/docking_port/stationary{
+	dheight = 1;
+	dwidth = 12;
+	height = 17;
+	id = "syndicate_s";
+	name = "south of ship";
+	width = 23
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "cY" = (
 /obj/machinery/light/small,
 /obj/machinery/suit_storage_unit/mining/eva,
@@ -2526,7 +2537,11 @@
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai)
 "pc" = (
-/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/window/reinforced{
+	dir = 1;
+	pixel_y = 1
+	},
+/obj/machinery/modular_fabricator/autolathe,
 /turf/open/floor/plating,
 /area/quartermaster/storage)
 "pd" = (
@@ -2640,6 +2655,17 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/apothecary)
+"pL" = (
+/obj/docking_port/stationary{
+	dheight = 1;
+	dwidth = 12;
+	height = 17;
+	id = "syndicate_ne";
+	name = "northeast of ship";
+	width = 23
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "pM" = (
 /obj/structure/rack,
 /turf/open/floor/carpet/orange,
@@ -4474,6 +4500,12 @@
 	},
 /turf/open/floor/plasteel,
 /area/science/test_area)
+"BA" = (
+/obj/structure/table,
+/obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/glass/fifty,
+/turf/open/floor/plasteel,
+/area/maintenance/fore)
 "BC" = (
 /obj/machinery/firealarm/directional/north,
 /turf/open/floor/plasteel/dark,
@@ -5093,6 +5125,17 @@
 	dir = 4
 	},
 /turf/open/floor/engine/airless,
+/area/space/nearstation)
+"Fk" = (
+/obj/docking_port/stationary{
+	dheight = 1;
+	dwidth = 12;
+	height = 17;
+	id = "syndicate_n";
+	name = "north of ship";
+	width = 23
+	},
+/turf/open/space/basic,
 /area/space/nearstation)
 "Fp" = (
 /obj/structure/cable{
@@ -6221,6 +6264,17 @@
 	},
 /turf/open/floor/plasteel,
 /area/security/brig)
+"KX" = (
+/obj/docking_port/stationary{
+	dheight = 1;
+	dwidth = 12;
+	height = 17;
+	id = "syndicate_nw";
+	name = "northwest of ship";
+	width = 23
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "KZ" = (
 /obj/effect/turf_decal/tile/ship/orange{
 	dir = 8
@@ -7097,6 +7151,17 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/plasteel/ridged/steel,
 /area/maintenance/department/engine)
+"Pb" = (
+/obj/docking_port/stationary{
+	dheight = 1;
+	dwidth = 12;
+	height = 17;
+	id = "syndicate_sw";
+	name = "southwest of ship";
+	width = 23
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "Pc" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -7799,6 +7864,17 @@
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/engine,
 /area/ai_monitored/security/armory)
+"To" = (
+/obj/docking_port/stationary{
+	dheight = 1;
+	dwidth = 12;
+	height = 17;
+	id = "syndicate_se";
+	name = "southeast of ship";
+	width = 23
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "Tr" = (
 /obj/machinery/portable_atmospherics/pump,
 /turf/open/floor/plating,
@@ -26273,7 +26349,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+Pb
 zQ
 zQ
 zQ
@@ -27422,7 +27498,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+KX
 zQ
 zQ
 zQ
@@ -42978,7 +43054,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+cS
 zQ
 zQ
 zQ
@@ -44385,7 +44461,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+Fk
 zQ
 zQ
 zQ
@@ -57035,7 +57111,7 @@ DU
 DU
 mJ
 Ht
-Oz
+BA
 xb
 DN
 yQ
@@ -60197,7 +60273,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+To
 zQ
 zQ
 zQ
@@ -60576,7 +60652,7 @@ zQ
 zQ
 zQ
 zQ
-zQ
+pL
 zQ
 zQ
 zQ

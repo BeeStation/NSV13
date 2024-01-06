@@ -1,7 +1,7 @@
 /datum/round_event_control/blob //god, we really need a "latest start" var, because blobs spawning an hour in is cringe
 	name = "Blob"
 	typepath = /datum/round_event/ghost_role/blob
-	weight = 5
+	weight = 10
 	max_occurrences = 1
 
 	min_players = 20
@@ -17,7 +17,7 @@
 	fakeable = TRUE
 
 /datum/round_event/ghost_role/blob/announce(fake)
-	priority_announce("Confirmed outbreak of level 5 biohazard aboard [station_name()]. All personnel must contain the outbreak.", "Biohazard Alert", ANNOUNCER_OUTBREAK5)
+	priority_announce("Potwierdzono wystąpienie zagrożenia biologicznego piątego poziomu na pokładzie [station_name()]. Cały personel ma za zadanie powstrzymać rozprzestrzenienie.", "Alarm biologiczny", ANNOUNCER_OUTBREAK5)
 
 /datum/round_event/ghost_role/blob/spawn_role()
 	if(!GLOB.blobstart.len)
