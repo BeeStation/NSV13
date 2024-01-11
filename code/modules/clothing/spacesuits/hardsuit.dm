@@ -630,7 +630,7 @@
 /obj/item/clothing/suit/space/hardsuit/medical/cmo
 	name = "chief medical officer's hardsuit"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/medical/cmo
-
+/* aquila edit start
 	//Research Director hardsuit
 /obj/item/clothing/head/helmet/space/hardsuit/rd
 	name = "prototype hardsuit helmet"
@@ -676,7 +676,7 @@
 /obj/item/clothing/suit/space/hardsuit/research_director/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/anti_artifact, INFINITY, FALSE, 100)
-
+*/ //aquila edit end
 	//Security hardsuit
 /obj/item/clothing/head/helmet/space/hardsuit/security
 	name = "security hardsuit helmet"

@@ -187,7 +187,7 @@
 	icon_state = "random_contraband"
 	never_random = TRUE
 	random_basetype = /obj/structure/sign/poster/contraband
-
+/* /aquila edit begins
 /obj/structure/sign/poster/contraband/free_tonto
 	name = "Free Tonto"
 	desc = "A salvaged shred of a much larger flag, colors bled together and faded from age."
@@ -282,7 +282,7 @@
 	name = "Lamarr"
 	desc = "This poster depicts Lamarr. Probably made by a traitorous Research Director."
 	icon_state = "poster19"
-
+*/
 /obj/structure/sign/poster/contraband/borg_fancy_1
 	name = "Borg Fancy"
 	desc = "Being fancy can be for any borg, just need a suit."
@@ -292,7 +292,7 @@
 	name = "Borg Fancy v2"
 	desc = "Borg Fancy, Now only taking the most fancy."
 	icon_state = "poster21"
-
+/*
 /obj/structure/sign/poster/contraband/kss13
 	name = "Kosmicheskaya Stantsiya 13 Does Not Exist"
 	desc = "A poster mocking CentCom's denial of the existence of the derelict station near Space Station 13."
@@ -420,7 +420,7 @@
 	name = "Bounty Hunters"
 	desc = "A poster advertising bounty hunting services. \"I hear you got a problem.\""
 	icon_state = "poster47"
-
+*/
 /obj/structure/sign/poster/official
 	poster_item_name = "motivational poster"
 	poster_item_desc = "An official Nanotrasen-issued poster to foster a compliant and obedient workforce. It comes with state-of-the-art adhesive backing, for easy pinning to any vertical surface."
@@ -431,7 +431,7 @@
 	random_basetype = /obj/structure/sign/poster/official
 	icon_state = "random_official"
 	never_random = TRUE
-
+/*
 /obj/structure/sign/poster/official/here_for_your_safety
 	name = "Here For Your Safety"
 	desc = "A poster glorifying the station's security force."
@@ -481,12 +481,12 @@
 	name = "Walk"
 	desc = "A poster instructing the viewer to walk instead of running."
 	icon_state = "poster10_legit"
-
+*/
 /obj/structure/sign/poster/official/state_laws
 	name = "State Laws"
 	desc = "A poster instructing cyborgs to state their laws."
 	icon_state = "poster11_legit"
-
+/*
 /obj/structure/sign/poster/official/love_ian
 	name = "Love Ian"
 	desc = "Ian is love, Ian is life."
@@ -606,7 +606,7 @@
 	name = "Carbon Dioxide"
 	desc = "This informational poster teaches the viewer what carbon dioxide is."
 	icon_state = "poster35_legit"
-
+*/ //aquila edit ends
 /obj/structure/sign/poster/official/moth1
 	name = "Safety Moth - Poisoning"
 	desc = "This informational poster uses Safety Moth(TM) to tell the viewer not to poison the station donuts. It's signed by 'AspEv'."
