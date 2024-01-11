@@ -192,6 +192,10 @@
 			var/mob/M = hearer
 			if(M.should_show_chat_message(virt, language, FALSE, is_heard = TRUE))
 				show_overhead_message_to += M
+			// AQ EDIT START
+			if(M?.client?.prefs.toggles2 & PREFTOGGLE_2_RADIO_SOUND)
+				playsound(M, 'aquila/sound/effects/radio.ogg', 50, 1, 1)
+			// AQ EDIT END
 		hearer.Hear(rendered, virt, language, message, frequency, spans, message_mods)
 	if(length(show_overhead_message_to))
 		create_chat_message(virt, language, show_overhead_message_to, message, spans, message_mods)
