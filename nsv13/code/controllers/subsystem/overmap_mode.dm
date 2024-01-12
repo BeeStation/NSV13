@@ -273,14 +273,18 @@ SUBSYSTEM_DEF(overmap_mode)
 	*/
 
 	var/text = "<b>[GLOB.station_name]</b>, <br>You have been assigned the following mission by <b>[capitalize(mode.starting_faction)]</b> and are expected to complete it with all due haste. Please ensure your crew is properly informed of your objectives and delegate tasks accordingly."
-	var/title = "Mission Briefing: [random_capital_letter()][random_capital_letter()][random_capital_letter()]-[GLOB.round_id]"
+	var/static/title = ""
+	if(!announced_objectives)
+		title += "Mission Briefing: [random_capital_letter()][random_capital_letter()][random_capital_letter()]-[GLOB.round_id]"
+	else //Add an extension if this isn't roundstart
+		title += "-Ext."
 
 	text = "[text] <br><br> [mode.brief] <br><br> Objectives:"
 
 	for(var/datum/overmap_objective/O in mode.objectives)
 		text = "[text] <br> - [O.brief]"
 
-		if ( !SSovermap_mode.announced_objectives ) // Prevents duplicate report spam when assigning additional objectives
+		if(!SSovermap_mode.announced_objectives)  // Prevents duplicate report spam when assigning additional objectives
 			O.print_objective_report()
 
 	print_command_report(text, title, TRUE)
@@ -325,10 +329,15 @@ SUBSYSTEM_DEF(overmap_mode)
 		mode.objectives += new /datum/overmap_objective/tickets
 	*/
 
-	if(get_active_player_count(TRUE,TRUE,FALSE) > 4)
+	var/datum/star_system/rubicon = SSstar_system.system_by_id("Rubicon")
+	if(get_active_player_count(TRUE,TRUE,FALSE) > 10 && length(rubicon.enemies_in_system)) //Make sure there are enemies to fight
 		mode.objectives += new /datum/overmap_objective/clear_system/rubicon
 	else
 		mode.objectives += new /datum/overmap_objective/tickets
+		for(var/datum/faction/F in SSstar_system.factions)
+			F.send_fleet(custom_difficulty = (mode.difficulty + 1)) //Extension is more challenging
+			escalation += 1
+			message_admins("Overmap difficulty has been increased by 1!")
 
 	instance_objectives()
 

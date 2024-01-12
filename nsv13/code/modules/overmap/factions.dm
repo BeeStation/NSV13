@@ -74,7 +74,7 @@ Set up relationships.
 	if(main_ship)
 		current_system = SSstar_system.ships[main_ship]["current_system"]
 	var/list/possible_spawns = list()
-	for(var/datum/star_system/starsys in SSstar_system.systems)
+	for(var/datum/star_system/starsys in SSstar_system.neutral_zone_systems) //Neutral zone to prevent overcrowding the Syndicate and friendly sectors
 		if(starsys != current_system && !starsys.hidden && (lowertext(starsys.alignment) == lowertext(src.name) || starsys.alignment == "unaligned" || starsys.alignment == "uncharted")) //Find one of our base systems and try to send a fleet out from there.
 			possible_spawns += starsys
 	if(!possible_spawns.len && !override)

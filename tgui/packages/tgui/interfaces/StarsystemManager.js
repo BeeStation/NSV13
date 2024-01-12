@@ -46,13 +46,17 @@ export const StarsystemManager = (props, context) => {
     return (
       <Section title={`${system.name}`}>
         <Button
-          content={"Send Fleet"}
+          content={"Send fleet"}
           icon={"hammer"}
           onClick={() => act('createFleet', { sys_id: system.sys_id })} />
         <Button
           content={"Create object"}
           icon={"sun"}
           onClick={() => act('createObject', { sys_id: system.sys_id })} />
+        <Button
+          content={"Hide/Unhide system"}
+          icon={"eye-slash"}
+          onClick={() => act('hideSystem', { sys_id: system.sys_id })} />
         <Button
           content={"Variables"}
           icon={"eye"}
