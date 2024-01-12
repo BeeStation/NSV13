@@ -1970,7 +1970,7 @@ Seek a ship thich we'll station ourselves around
 /obj/structure/overmap/proc/move_toward(atom/target, ram_target = FALSE, ignore_all_collisions = FALSE)
 	brakes = FALSE
 	move_mode = NORTH
-	inertial_dampeners = TRUE
+	enable_dampeners()
 	if(!target || QDELETED(target))
 		if(defense_target) //Maybe it's defending a ship, it'll still need to find its way home.
 			target = defense_target
@@ -2011,10 +2011,10 @@ Seek a ship thich we'll station ourselves around
 		if(blocked) //Time to do some evasive. Determine the object's direction to evade in the opposite direction.
 			if(blocked.velocity.a > 0)
 				move_mode = EAST //The ship should still drift forward / backwards, but in this case let's not accelerate into an asteroid shall we...
-				inertial_dampeners = FALSE
+				disable_dampeners()
 			if(blocked.velocity.a <= 0)
 				move_mode = WEST
-				inertial_dampeners = FALSE
+				disable_dampeners()
 			return
 
 

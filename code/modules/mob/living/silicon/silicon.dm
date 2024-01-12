@@ -498,7 +498,12 @@
 	return FALSE
 
 /mob/living/silicon/handle_high_gravity(gravity)
-	return
+	//NSV13 - silicons are not fully grav immune, only very resistant.
+	if(gravity <= GRAVITY_DAMAGE_TRESHOLD + 5) //5G additional tolerance. Magicnumber to avoid touching base defines.
+		return
+	gravity -= 5 //3 is base tolerance, this adds 5 onto it for the total of 8.
+	return ..()
+	//NSV13 end.
 
 /mob/living/silicon/rust_heretic_act()
 	adjustBruteLoss(500)

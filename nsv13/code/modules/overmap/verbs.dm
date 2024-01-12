@@ -26,7 +26,8 @@
 
 	if(!verb_check() || !can_brake())
 		return
-	inertial_dampeners = !inertial_dampeners
+	if(!toggle_dampeners(user = usr))
+		return
 	to_chat(usr, "<span class='notice'>Inertial assistance system [inertial_dampeners ? "ONLINE" : "OFFLINE"].</span>")
 
 /obj/structure/overmap/verb/toggle_move_mode()
