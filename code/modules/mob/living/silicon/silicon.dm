@@ -13,7 +13,7 @@
 	mob_biotypes = list(MOB_ROBOTIC)
 	flags_1 = PREVENT_CONTENTS_EXPLOSION_1
 	rad_flags = RAD_PROTECT_CONTENTS | RAD_NO_CONTAMINATE
-	deathsound = 'sound/voice/borg_deathsound.ogg'
+	deathsound = 'aquila/sound/voice/borg_deathsound.ogg' //AQUILA EDIT original was sound/voice/borg_deathsound.ogg
 	speech_span = SPAN_ROBOT
 	var/datum/ai_laws/laws = null//Now... THEY ALL CAN ALL HAVE LAWS
 	var/last_lawchange_announce = 0
