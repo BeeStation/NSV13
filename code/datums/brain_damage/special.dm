@@ -221,7 +221,7 @@
 		create_securitron()
 	if(owner.stat != CONSCIOUS)
 		if(prob(20))
-			owner.playsound_local(beepsky, 'sound/voice/beepsky/iamthelaw.ogg', 50)
+			owner.playsound_local(beepsky, 'aquila/sound/voice/beepsky/iamthelaw.ogg', 50) //AQUILA EDIT original was sound/voice/beepsky/iamthelaw.ogg
 		return
 	if(get_dist(owner, beepsky) <= 1)
 		owner.playsound_local(owner, 'sound/weapons/egloves.ogg', 50)
@@ -229,7 +229,7 @@
 		owner.take_bodypart_damage(0,0,rand(40, 70))
 		QDEL_NULL(beepsky)
 	if(prob(20) && get_dist(owner, beepsky) <= 8)
-		owner.playsound_local(beepsky, 'sound/voice/beepsky/criminal.ogg', 40)
+		owner.playsound_local(beepsky, 'aquila/sound/voice/beepsky/criminal.ogg', 40) //AQUILA EDIT original was sound/voice/beepsky/criminal.ogg
 	..()
 
 /obj/effect/hallucination/simple/securitron

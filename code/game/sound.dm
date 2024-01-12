@@ -286,10 +286,10 @@ distance_multiplier - Can be used to multiply the distance at which the sound is
 				soundin = pick('sound/weapons/gun_slide_lock_1.ogg', 'sound/weapons/gun_slide_lock_2.ogg', 'sound/weapons/gun_slide_lock_3.ogg', 'sound/weapons/gun_slide_lock_4.ogg', 'sound/weapons/gun_slide_lock_5.ogg')
 			if("revolver_spin")
 				soundin = pick('sound/weapons/revolverspin1.ogg', 'sound/weapons/revolverspin2.ogg', 'sound/weapons/revolverspin3.ogg')
-			if("law")
-				soundin = pick('sound/voice/beepsky/god.ogg', 'sound/voice/beepsky/iamthelaw.ogg', 'sound/voice/beepsky/secureday.ogg', 'sound/voice/beepsky/radio.ogg', 'sound/voice/beepsky/insult.ogg', 'sound/voice/beepsky/creep.ogg')
-			if("honkbot_e")
-				soundin = pick('sound/items/bikehorn.ogg', 'sound/items/AirHorn2.ogg', 'sound/misc/sadtrombone.ogg', 'sound/items/AirHorn.ogg', 'sound/effects/reee.ogg',  'sound/items/WEEOO1.ogg', 'sound/voice/beepsky/iamthelaw.ogg', 'sound/voice/beepsky/creep.ogg','sound/magic/Fireball.ogg' ,'sound/effects/pray.ogg', 'sound/voice/hiss1.ogg','sound/machines/buzz-sigh.ogg', 'sound/machines/ping.ogg', 'sound/weapons/flashbang.ogg', 'sound/weapons/bladeslice.ogg')
+			if("law") //AQUILA EDIT original was V V V('aquila/sound/voice/beepsky/god.ogg', 'aquila/sound/voice/beepsky/iamthelaw.ogg', 'aquila/sound/voice/beepsky/secureday.ogg', 'aquila/sound/voice/beepsky/radio.ogg', 'aquila/sound/voice/beepsky/insult.ogg', 'aquila/sound/voice/beepsky/creep.ogg') V V V
+				soundin = pick('aquila/sound/voice/beepsky/god.ogg', 'aquila/sound/voice/beepsky/iamthelaw.ogg', 'aquila/sound/voice/beepsky/secureday.ogg', 'aquila/sound/voice/beepsky/radio.ogg', 'aquila/sound/voice/beepsky/insult.ogg', 'aquila/sound/voice/beepsky/creep.ogg')
+			if("honkbot_e") //AQUILA EDIT																																			AQUILA EDIT original was V V V 'aquila/sound/voice/beepsky/iamthelaw.ogg', 'aquila/sound/voice/beepsky/creep.ogg V V V
+				soundin = pick('sound/items/bikehorn.ogg', 'sound/items/AirHorn2.ogg', 'sound/misc/sadtrombone.ogg', 'sound/items/AirHorn.ogg', 'sound/effects/reee.ogg',  'sound/items/WEEOO1.ogg', 'aquila/sound/voice/beepsky/iamthelaw.ogg', 'aquila/sound/voice/beepsky/creep.ogg','sound/magic/Fireball.ogg' ,'sound/effects/pray.ogg', 'sound/voice/hiss1.ogg','sound/machines/buzz-sigh.ogg', 'sound/machines/ping.ogg', 'sound/weapons/flashbang.ogg', 'sound/weapons/bladeslice.ogg')
 			if("goose")
 				soundin = pick('sound/creatures/goose1.ogg', 'sound/creatures/goose2.ogg', 'sound/creatures/goose3.ogg', 'sound/creatures/goose4.ogg')
 			if("smcalm")

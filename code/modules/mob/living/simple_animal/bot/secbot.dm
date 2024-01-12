@@ -398,7 +398,7 @@ Auto Patrol: []"},
 			target = C
 			oldtarget_name = C.name
 			speak("Level [threatlevel] infraction alert!")
-			playsound(loc, pick('sound/voice/beepsky/criminal.ogg', 'sound/voice/beepsky/justice.ogg', 'sound/voice/beepsky/freeze.ogg'), 50, FALSE)
+			playsound(loc, pick('aquila/sound/voice/beepsky/criminal.ogg', 'aquila/sound/voice/beepsky/justice.ogg', 'aquila/sound/voice/beepsky/freeze.ogg'), 50, FALSE) //AQUILA EDIT original was ('aquila/sound/voice/beepsky/criminal.ogg', 'aquila/sound/voice/beepsky/justice.ogg', 'aquila/sound/voice/beepsky/freeze.ogg')
 			visible_message("<b>[src]</b> points at [C.name]!")
 			mode = BOT_HUNT
 			INVOKE_ASYNC(src, PROC_REF(handle_automated_action))
