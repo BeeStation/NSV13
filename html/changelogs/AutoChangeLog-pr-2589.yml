@@ -1,0 +1,16 @@
+author: DeltaFire15
+delete-after: true
+changes:
+  - rscadd: Overmap singularities now have more impactful effects, including but not
+      limited to increased gravity inside nearby vessels, dampener interference, and
+      improved directional pull.
+  - rscadd: Full hardsuits now provide 1G gravity protection against damage, though
+      they do not improve movement.
+  - balance: Silicons will suffer from consistently very high gravity, starting at
+      above 8G.
+  - tweak: Some interactions with high gravity previously limited to grav-sensitive
+      individuals now are accessible to anyone, albeit at lower magnitude (generally
+      3G higher tolerance)
+  - bugfix: Starsystem persistence should now be slightly less volatile.
+  - config: The starsystem persistence config MUST be reset to the default starmap
+      for the fixes in this PR to apply correctly.
