@@ -184,13 +184,13 @@
 		char = t_in[i]
 
 		switch(text2ascii(char))
-			// A  .. Z
-			if(65 to 90)			//Uppercase Letters
+			// A  .. Z, Ą Ę Ś Ć etc. AQUILA EDIT START
+			if(65 to 90,260 to 260,262 to 262,280 to 280,321 to 321,323 to 323,211 to 211,346 to 346,379 to 379,377 to 377)			//Uppercase Letters
 				number_of_alphanumeric++
 				last_char_group = LETTERS_DETECTED
 
-			// a  .. z
-			if(97 to 122)			//Lowercase Letters
+			// a  .. z, ą ę ś ć etc.
+			if(97 to 122,261 to 261,263 to 263,281 to 281,322 to 322,324 to 324,243 to 243,347 to 347,380 to 380,378 to 378)			//Lowercase Letters /AQUILA EDIT END
 				if(last_char_group == NO_CHARS_DETECTED || last_char_group == SPACES_DETECTED || last_char_group == SYMBOLS_DETECTED) //start of a word
 					char = uppertext(char)
 				number_of_alphanumeric++
