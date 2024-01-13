@@ -5773,14 +5773,9 @@
 /turf/open/floor/monotile/dark,
 /area/space/nearstation)
 "nl" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
-	dir = 1
-	},
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/heads/captain)
+/obj/machinery/light/floor,
+/turf/open/floor/engine/airless,
+/area/space/nearstation)
 "nm" = (
 /obj/effect/turf_decal/delivery/white,
 /obj/machinery/light{
@@ -5811,8 +5806,11 @@
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
 "nr" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
+/obj/effect/turf_decal/bot_white,
+/obj/structure/ship_weapon/artillery_frame{
+	dir = 4;
+	pixel_x = -30;
+	pixel_y = -42
 	},
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
@@ -6936,6 +6934,12 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
+"Ew" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 4
+	},
+/turf/open/floor/engine/airless,
+/area/space/nearstation)
 "Ey" = (
 /obj/structure/overmap/small_craft/combat/light,
 /turf/open/floor/engine/airless,
@@ -7377,9 +7381,10 @@
 	name = "Air traffic control pod"
 	})
 "Kz" = (
-/obj/structure/fighter_frame,
-/obj/effect/turf_decal/ship/delivery/yellow,
-/turf/open/floor/monotile/dark/airless,
+/obj/effect/turf_decal/stripes/line{
+	dir = 9
+	},
+/turf/open/floor/engine/airless,
 /area/space/nearstation)
 "KD" = (
 /obj/structure/disposalpipe/segment,
@@ -7419,6 +7424,12 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
+"KV" = (
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark/airless,
+/area/space/nearstation)
 "Ld" = (
 /obj/effect/turf_decal/stripes/box,
 /obj/machinery/porta_turret/ai,
@@ -7491,6 +7502,15 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
+"LQ" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 1
+	},
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/turf/open/floor/carpet/ship,
+/area/crew_quarters/heads/captain)
 "Mb" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -7549,12 +7569,6 @@
 "Mu" = (
 /obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
 /turf/open/floor/engine/airless,
-/area/space/nearstation)
-"Mw" = (
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
 "MH" = (
 /obj/effect/turf_decal/ship/delivery{
@@ -8218,12 +8232,6 @@
 /obj/machinery/atmospherics/components/binary/dp_vent_pump,
 /turf/open/floor/plasteel/grid/steel,
 /area/hallway/nsv/deck1/hallway)
-"Vg" = (
-/obj/effect/turf_decal/stripes/corner{
-	dir = 4
-	},
-/turf/open/floor/engine/airless,
-/area/space/nearstation)
 "Vp" = (
 /obj/effect/turf_decal/bot_white,
 /obj/machinery/light/floor,
@@ -8392,6 +8400,11 @@
 /obj/effect/turf_decal/ship/borderfloor/gunmetal{
 	dir = 5
 	},
+/turf/open/floor/monotile/dark/airless,
+/area/space/nearstation)
+"Zh" = (
+/obj/structure/fighter_frame,
+/obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
 "Zm" = (
@@ -28891,7 +28904,7 @@ ie
 no
 hR
 iu
-Vg
+Ew
 ac
 ac
 ac
@@ -29149,7 +29162,7 @@ no
 ax
 ax
 iu
-Vg
+Ew
 ac
 ac
 ac
@@ -36835,7 +36848,7 @@ iC
 aQ
 bc
 kV
-nl
+LQ
 bJ
 bE
 xy
@@ -37631,7 +37644,7 @@ iC
 no
 ax
 iu
-Vg
+Ew
 ac
 ac
 ac
@@ -37889,7 +37902,7 @@ no
 ax
 ax
 iu
-Vg
+Ew
 ac
 ac
 ac
@@ -43765,10 +43778,10 @@ ax
 ax
 ax
 ax
+ax
 ac
 ax
 nJ
-ax
 ax
 ax
 ax
@@ -44020,16 +44033,16 @@ nJ
 ac
 qr
 ac
-Ne
+nl
 ac
-UW
+ac
+nr
 ac
 nJ
 lI
 lJ
 lJ
 lI
-ax
 ax
 iy
 iC
@@ -44279,10 +44292,10 @@ QF
 ax
 ax
 ax
-QF
+ax
+ac
 ax
 nJ
-ax
 ax
 ax
 ax
@@ -44535,12 +44548,12 @@ ac
 Mt
 ac
 ax
+nJ
 ac
-QF
 ac
-hA
-hA
-hA
+ac
+nJ
+ax
 hA
 hA
 hA
@@ -44792,17 +44805,17 @@ ax
 QF
 ax
 ax
+nJ
 ax
-QF
+ac
+ax
+nJ
 ax
 hA
-nr
+Kz
 bW
 aK
 hA
-nr
-bW
-aK
 iy
 iC
 dS
@@ -45049,17 +45062,17 @@ ac
 qr
 ac
 Ne
-ac
-UW
-ac
+nJ
+nJ
+nJ
+nJ
+nJ
+ax
 hA
 it
-Kz
+Zh
 af
 hA
-it
-Kz
-af
 iy
 iC
 dS
@@ -45306,17 +45319,17 @@ ax
 ac
 ax
 ax
+nJ
 ax
-ac
+ax
+Ne
+nJ
 ax
 hA
 it
 Mt
 af
 hA
-it
-Mt
-af
 iy
 iC
 dT
@@ -45563,17 +45576,17 @@ ac
 ax
 ac
 ax
-ac
+nJ
 ax
-ac
+ax
+ax
+nJ
+ax
 hA
 iu
 au
 ba
 hA
-iu
-au
-ba
 iy
 iC
 dT
@@ -49179,7 +49192,7 @@ ax
 ax
 ax
 ax
-Mw
+KV
 ax
 ax
 ax
