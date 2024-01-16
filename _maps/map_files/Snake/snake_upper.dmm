@@ -167,12 +167,9 @@
 /turf/open/floor/plasteel,
 /area/ai_monitored/security/armory)
 "aP" = (
-/obj/structure/lattice,
-/obj/machinery/camera/preset/toxins{
-	dir = 1
-	},
+/obj/structure/lattice/catwalk,
 /turf/open/space/basic,
-/area/science/test_area)
+/area/space/nearstation)
 "aT" = (
 /turf/closed/wall/r_wall,
 /area/maintenance/aft)
@@ -336,14 +333,15 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "bD" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "8;13"
+/obj/machinery/door/window/eastright{
+	name = "Launch Chamber";
+	req_one_access_txt = "8";
+	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
+/obj/machinery/button/massdriver{
+	id = "toxgun";
+	pixel_y = 24;
+	req_one_access_txt = "8"
 	},
 /turf/open/floor/plasteel,
 /area/science/test_area)
@@ -401,6 +399,15 @@
 /obj/machinery/camera/autoname,
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
+"ce" = (
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "8;13"
+	},
+/obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 4
+	},
+/turf/open/floor/plating,
+/area/science/test_area)
 "cj" = (
 /obj/machinery/light{
 	dir = 1
@@ -628,6 +635,14 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/security/brig)
+"dq" = (
+/obj/structure/lattice,
+/obj/machinery/camera/preset/toxins{
+	dir = 1
+	},
+/obj/structure/marker_beacon,
+/turf/open/space/basic,
+/area/science/test_area)
 "dr" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
@@ -694,6 +709,13 @@
 	},
 /obj/machinery/camera/autoname{
 	dir = 8
+	},
+/obj/machinery/computer/ship/viewscreen{
+	pixel_x = 32;
+	pixel_y = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 10
 	},
 /turf/open/floor/plasteel,
 /area/science/test_area)
@@ -1264,6 +1286,11 @@
 "hk" = (
 /turf/open/floor/plasteel,
 /area/quartermaster/miningdock)
+"hm" = (
+/obj/structure/lattice,
+/obj/structure/marker_beacon,
+/turf/open/space/basic,
+/area/space/nearstation)
 "hn" = (
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -1471,14 +1498,11 @@
 /turf/open/floor/carpet/royalblack,
 /area/crew_quarters/heads/chief)
 "ih" = (
-/obj/machinery/advanced_airlock_controller/directional/north,
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer2{
-	dir = 8
+/obj/machinery/mass_driver{
+	dir = 12;
+	id = "toxgun"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
-/turf/open/floor/plasteel,
+/turf/open/floor/plating,
 /area/science/test_area)
 "ij" = (
 /obj/machinery/conveyor{
@@ -2153,12 +2177,16 @@
 /turf/open/floor/plating,
 /area/maintenance/central)
 "mG" = (
-/obj/machinery/button/massdriver{
-	id = "toxgun";
-	pixel_y = 24;
-	req_one_access_txt = "8"
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "8;13"
 	},
-/turf/open/floor/plasteel,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/turf/open/floor/plating,
 /area/science/test_area)
 "mH" = (
 /obj/machinery/door/airlock/ship/station/mining/glass{
@@ -2440,15 +2468,10 @@
 /turf/open/floor/plasteel/dark,
 /area/ai_monitored/turret_protected/ai)
 "oF" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/computer/ship/viewscreen{
-	pixel_y = -26
-	},
+/obj/structure/chair,
 /turf/open/floor/plasteel,
 /area/science/test_area)
 "oI" = (
@@ -2754,14 +2777,17 @@
 /turf/open/floor/plating,
 /area/maintenance/aft)
 "qA" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 9
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 9
 	},
-/obj/machinery/airalarm/directional/south,
-/obj/machinery/light_switch/east,
+/obj/machinery/doppler_array/research/science{
+	dir = 8
+	},
+/obj/item/radio/intercom/directional/east,
+/obj/machinery/computer/security/telescreen/toxins{
+	dir = 1;
+	pixel_y = -32
+	},
 /turf/open/floor/plasteel,
 /area/science/test_area)
 "qC" = (
@@ -3770,14 +3796,8 @@
 /turf/open/floor/plasteel,
 /area/science/mixing)
 "wG" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "8;13"
-	},
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
-	},
-/turf/open/floor/plasteel,
-/area/science/test_area)
+/turf/open/floor/engine/airless,
+/area/space/nearstation)
 "wH" = (
 /obj/machinery/door/airlock/ship/medical/glass{
 	name = "Surgery";
@@ -4489,15 +4509,13 @@
 /turf/open/floor/engine,
 /area/ai_monitored/security/armory)
 "Bz" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
-	dir = 1
-	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 8
 	},
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
 /turf/open/floor/plasteel,
 /area/science/test_area)
 "BA" = (
@@ -4796,10 +4814,7 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
 "Df" = (
-/obj/machinery/door/poddoor{
-	id = "toxgun";
-	name = "Experimental Munitions Test Range Launcher"
-	},
+/obj/effect/spawner/structure/window/reinforced/shutter,
 /turf/open/floor/plating/airless,
 /area/science/test_area)
 "Dk" = (
@@ -4946,6 +4961,12 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/maintenance/central)
+"DX" = (
+/obj/machinery/light/small{
+	dir = 4
+	},
+/turf/open/floor/engine/airless,
+/area/maintenance/department/engine)
 "DY" = (
 /obj/effect/turf_decal/tile/ship/orange{
 	dir = 4
@@ -5639,12 +5660,14 @@
 /turf/open/floor/monotile/dark,
 /area/maintenance/department/engine)
 "HS" = (
-/obj/machinery/door/window/eastright{
-	dir = 1;
-	name = "Launch Chamber";
-	req_one_access_txt = "8"
+/obj/machinery/atmospherics/components/binary/dp_vent_pump/layer2{
+	dir = 8
 	},
-/turf/open/floor/plasteel,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/advanced_airlock_controller/directional/south,
+/turf/open/floor/plating,
 /area/science/test_area)
 "HU" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
@@ -6088,11 +6111,13 @@
 /turf/open/floor/plating/airless,
 /area/nsv/hanger/notkmcstupidhanger)
 "Ko" = (
-/obj/machinery/mass_driver{
-	dir = 8;
-	id = "toxgun"
+/obj/effect/turf_decal/stripes/line,
+/obj/machinery/light/small{
+	brightness = 3;
+	dir = 1
 	},
-/turf/open/floor/plating/airless,
+/obj/structure/closet/emcloset/anchored,
+/turf/open/floor/plating,
 /area/science/test_area)
 "Kr" = (
 /obj/structure/cable{
@@ -6378,14 +6403,8 @@
 /turf/open/floor/plasteel,
 /area/quartermaster/qm)
 "LF" = (
-/obj/machinery/computer/security/telescreen/toxins{
-	pixel_x = -32
-	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 4
-	},
-/obj/machinery/light{
-	dir = 8
 	},
 /turf/open/floor/plasteel,
 /area/science/test_area)
@@ -6496,8 +6515,11 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "Mh" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
 	},
 /turf/open/floor/plasteel,
 /area/science/test_area)
@@ -6981,6 +7003,11 @@
 /obj/item/ship_weapon/ammunition/torpedo/freight,
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"Of" = (
+/obj/structure/lattice,
+/obj/structure/marker_beacon,
+/turf/open/space/basic,
+/area/science/test_area)
 "Og" = (
 /obj/structure/closet{
 	name = "Evidence Closet"
@@ -7598,6 +7625,14 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/aft)
+"RG" = (
+/obj/machinery/door/poddoor{
+	id = "toxgun";
+	name = "Experimental Munitions Test Range Launcher"
+	},
+/obj/structure/fans/tiny,
+/turf/open/floor/plating,
+/area/science/test_area)
 "RI" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
@@ -7803,11 +7838,12 @@
 /turf/open/floor/plasteel/freezer,
 /area/crew_quarters/kitchen/coldroom)
 "SP" = (
-/obj/machinery/doppler_array/research/science{
-	dir = 8
+/obj/structure/table/reinforced,
+/obj/item/binoculars,
+/obj/machinery/airalarm/directional/west,
+/obj/machinery/light{
+	dir = 1
 	},
-/obj/item/radio/intercom/directional/west,
-/obj/item/radio/intercom/directional/north,
 /turf/open/floor/plasteel,
 /area/science/test_area)
 "SY" = (
@@ -8255,6 +8291,7 @@
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
+/obj/machinery/light_switch/east,
 /turf/open/floor/plasteel,
 /area/science/test_area)
 "VB" = (
@@ -16769,9 +16806,9 @@ zQ
 zQ
 zQ
 zQ
-zR
-zR
-zR
+zQ
+zQ
+zQ
 zQ
 zQ
 zQ
@@ -17026,9 +17063,9 @@ zQ
 zQ
 zQ
 zQ
-zR
-aP
-zR
+zQ
+zQ
+zQ
 zQ
 zQ
 zQ
@@ -17283,9 +17320,9 @@ zQ
 zQ
 zQ
 zQ
-kF
-aE
-kF
+zQ
+zQ
+zQ
 zQ
 zQ
 zQ
@@ -17540,9 +17577,9 @@ zQ
 zQ
 zQ
 zQ
-kF
-aE
-kF
+zQ
+zQ
+zQ
 zQ
 zQ
 zQ
@@ -17797,9 +17834,9 @@ zQ
 zQ
 zQ
 zQ
-kF
-aE
-kF
+zQ
+zQ
+zQ
 zQ
 zQ
 zQ
@@ -18054,9 +18091,9 @@ zQ
 zQ
 zQ
 zQ
-kF
-aE
-kF
+zQ
+zQ
+zQ
 zQ
 zQ
 zQ
@@ -18311,9 +18348,9 @@ zQ
 zQ
 zQ
 zQ
-kF
-aE
-kF
+zQ
+zQ
+zQ
 zQ
 zQ
 zQ
@@ -18568,9 +18605,9 @@ zQ
 zQ
 zQ
 zQ
-kF
-aE
-kF
+zQ
+zQ
+zQ
 zQ
 zQ
 zQ
@@ -18825,9 +18862,9 @@ zQ
 zQ
 zQ
 zQ
-kF
-aE
-kF
+zQ
+zQ
+zQ
 zQ
 zQ
 zQ
@@ -19082,9 +19119,9 @@ zQ
 zQ
 zQ
 zQ
-kF
-aE
-kF
+zQ
+zQ
+zQ
 zQ
 zQ
 zQ
@@ -19340,7 +19377,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -19597,7 +19634,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -19854,7 +19891,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -20111,7 +20148,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -20368,7 +20405,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -20625,7 +20662,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -20882,7 +20919,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -21139,7 +21176,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -21396,7 +21433,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -21653,7 +21690,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -21910,7 +21947,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -22167,7 +22204,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -22424,7 +22461,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -22681,7 +22718,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -22938,7 +22975,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -23195,7 +23232,7 @@ zQ
 zQ
 fL
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -23452,7 +23489,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -23709,7 +23746,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -23966,7 +24003,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -24223,7 +24260,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -24480,7 +24517,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -24737,7 +24774,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -24994,7 +25031,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -25251,7 +25288,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -25508,7 +25545,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -25765,7 +25802,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -26022,7 +26059,7 @@ zQ
 zQ
 zQ
 zQ
-mv
+zQ
 zQ
 zQ
 zQ
@@ -26269,17 +26306,17 @@ zQ
 zQ
 zQ
 zQ
+aP
+aP
+aP
+aP
+aP
+aP
+aP
 zQ
 zQ
 zQ
 zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-mv
 zQ
 zQ
 zQ
@@ -26526,17 +26563,17 @@ zQ
 zQ
 zQ
 zQ
+aP
+wG
+wG
+wG
+wG
+wG
+aP
 zQ
 zQ
 zQ
 zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-mv
 zQ
 zQ
 zQ
@@ -26783,17 +26820,17 @@ zQ
 zQ
 zQ
 zQ
+aP
+wG
+DX
+wG
+DX
+wG
+aP
 zQ
 zQ
 zQ
 zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-mv
 zQ
 zQ
 zQ
@@ -27040,17 +27077,17 @@ zQ
 zQ
 zQ
 zQ
-zQ
+aP
 BN
 BN
 kw
 BN
 BN
+aP
 zQ
 zQ
 zQ
 zQ
-mv
 zQ
 zQ
 zQ
@@ -27297,17 +27334,17 @@ zQ
 zQ
 zQ
 zQ
-zQ
+aP
 BN
 vy
 Yo
 Nx
 BN
+aP
 zQ
 zQ
 zQ
 zQ
-mv
 zQ
 zQ
 zQ
@@ -27554,20 +27591,20 @@ zQ
 zQ
 zQ
 zQ
-zQ
+aP
 BN
 Gw
 Yo
 Ys
 BN
+aP
 zQ
 zQ
-zQ
-zQ
-mv
 zQ
 zQ
 AN
+zQ
+zQ
 zQ
 zQ
 zQ
@@ -27821,10 +27858,10 @@ vs
 vs
 vs
 Gq
-Df
+Gq
+ce
 Gq
 Gq
-wG
 Gq
 mv
 zQ
@@ -27859,16 +27896,16 @@ zQ
 zQ
 zQ
 zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
+kF
+kF
+kF
+kF
+kF
+kF
+kF
+kF
+zR
+zR
 zQ
 zQ
 zQ
@@ -28082,50 +28119,50 @@ Ko
 HS
 Gq
 ih
-Gq
+RG
 mv
-HX
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
+mv
+hm
+mv
+mv
+mv
+mv
+hm
+mv
+mv
+mv
+mv
+hm
+mv
+mv
+mv
+mv
+hm
+mv
+mv
+mv
+mv
+hm
+mv
+mv
+mv
+mv
+hm
+mv
+mv
+mv
+mv
+hm
+aE
+aE
+aE
+aE
+Of
+aE
+aE
+aE
+dq
+zR
 zQ
 zQ
 zQ
@@ -28339,10 +28376,10 @@ Gq
 mG
 Gq
 bD
-Gq
+Df
 zQ
 mv
-HX
+mv
 zQ
 zQ
 zQ
@@ -28373,16 +28410,16 @@ zQ
 zQ
 zQ
 zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
-zQ
+kF
+kF
+kF
+kF
+kF
+kF
+kF
+kF
+zR
+zR
 zQ
 zQ
 zQ
@@ -28596,7 +28633,7 @@ SP
 Mh
 LF
 oF
-Gq
+Df
 zQ
 zQ
 HX

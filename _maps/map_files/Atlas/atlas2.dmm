@@ -365,9 +365,10 @@
 /turf/open/indestructible/sound/pool/end,
 /area/crew_quarters/bar/mess_hall)
 "bT" = (
-/obj/effect/spawner/lootdrop/maintenance/two,
-/obj/structure/table,
-/obj/item/screwdriver,
+/obj/structure/grille,
+/obj/structure/disposalpipe/trunk/multiz/down{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "bU" = (
@@ -1162,6 +1163,15 @@
 "ff" = (
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
+"fj" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/starboard)
 "fl" = (
 /obj/machinery/door/airlock/ship/public{
 	name = "Cold Room";
@@ -1773,6 +1783,9 @@
 	dir = 1
 	},
 /obj/effect/decal/cleanable/dirt/dust,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "ih" = (
@@ -2210,6 +2223,11 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/steel,
 /area/maintenance/nsv/deck1/port)
+"jK" = (
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/starboard)
 "jQ" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -2313,6 +2331,11 @@
 	},
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
+	},
+/obj/machinery/computer/ship/mineral_magnet{
+	density = 0;
+	req_access = null;
+	pixel_x = 32
 	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
@@ -3964,7 +3987,9 @@
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt/dust,
-/obj/item/trash/pistachios,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "sb" = (
@@ -5728,14 +5753,14 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/structure/disposalpipe/segment{
-	dir = 5
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 6
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
@@ -5887,6 +5912,10 @@
 /obj/structure/reagent_dispensers/watertank,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
+"AQ" = (
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plating,
+/area/maintenance/nsv/deck1/starboard)
 "AT" = (
 /obj/machinery/hydroponics/constructable,
 /obj/effect/turf_decal/tile/ship/half/green,
@@ -8046,8 +8075,10 @@
 /turf/open/floor/carpet/blue,
 /area/bridge/cic)
 "JX" = (
-/obj/structure/disposalpipe/trunk/multiz/down,
-/obj/structure/grille,
+/obj/structure/cable{
+	icon_state = "1-4"
+	},
+/obj/item/trash/pistachios,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "Ka" = (
@@ -10777,6 +10808,7 @@
 "WM" = (
 /obj/structure/closet/crate,
 /obj/effect/spawner/lootdrop/maintenance/four,
+/obj/item/screwdriver,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "WN" = (
@@ -10990,6 +11022,7 @@
 /obj/structure/closet/radiation,
 /obj/effect/decal/cleanable/greenglow,
 /obj/effect/decal/cleanable/dirt/dust,
+/obj/effect/spawner/lootdrop/maintenance/two,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "XH" = (
@@ -38595,7 +38628,7 @@ dK
 rA
 fw
 xx
-lr
+JX
 Ej
 FV
 Ph
@@ -38848,11 +38881,11 @@ GM
 GM
 GM
 GM
-JX
-Aa
 rV
-Ej
-GY
+Aa
+AQ
+jK
+fj
 WM
 MS
 Ph
