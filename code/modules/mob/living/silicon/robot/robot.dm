@@ -171,7 +171,7 @@
 
 	blacklisted_hats = typecacheof(blacklisted_hats)
 
-	playsound(loc, 'sound/voice/liveagain.ogg', 75, 1)
+	playsound(loc, 'aquila/sound/voice/dialup.ogg', 75, 1) //AQUILA EDIT
 	aicamera = new/obj/item/camera/siliconcam/robot_camera(src)
 	toner = tonermax
 	diag_hud_set_borgcell()

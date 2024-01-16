@@ -218,7 +218,7 @@
 	H.grab_ghost()
 	H.dna.features["ipc_screen"] = "BSOD"
 	H.update_body()
-	playsound(H, 'sound/voice/dialup.ogg', 25)
+	playsound(H, 'aquila/sound/voice/dialup.ogg', 25) //AQUILA EDIT tu był 20 sekundowy klip, panie zbaw nasze uszy
 	H.say("Reactivating [pick("core systems", "central subroutines", "key functions")]...")
 	sleep(3 SECONDS)
 	if(H.stat == DEAD)

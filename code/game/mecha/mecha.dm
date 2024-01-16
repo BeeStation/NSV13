@@ -820,7 +820,7 @@
 	update_icon()
 	playsound(src, 'sound/machines/windowdoor.ogg', 50, 1)
 	if(!internal_damage)
-		SEND_SOUND(occupant, sound('sound/mecha/nominal.ogg',volume=50))
+		SEND_SOUND(occupant, sound('aquila/sound/mecha/welcomebrigador.ogg',volume=50)) //AQUILA EDIT
 	AI.cancel_camera()
 	AI.controlled_mech = src
 	AI.remote_control = src
@@ -957,7 +957,7 @@
 		setDir(dir_in)
 		playsound(src, 'sound/machines/windowdoor.ogg', 50, 1)
 		if(!internal_damage)
-			SEND_SOUND(occupant, sound('sound/mecha/nominal.ogg',volume=50))
+			SEND_SOUND(occupant, sound('aquila/sound/mecha/welcomebrigador.ogg',volume=50)) //AQUILA EDIT
 		return 1
 	else
 		return 0
@@ -1013,7 +1013,7 @@
 	setDir(dir_in)
 	log_message("[mmi_as_oc] moved in as pilot.", LOG_MECHA)
 	if(!internal_damage)
-		SEND_SOUND(occupant, sound('sound/mecha/nominal.ogg',volume=50))
+		SEND_SOUND(occupant, sound('aquila/sound/mecha/welcomebrigador.ogg',volume=50)) //AQUILA EDIT
 	GrantActions(brainmob)
 	return TRUE
 

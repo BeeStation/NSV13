@@ -482,7 +482,7 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 	cost = 30
 	upgrade = TRUE
 	unlock_text = "<span class='notice'>Virus package compiled. Select a target mech at any time. <b>You must remain on the station at all times. Loss of signal will result in total system lockout.</b></span>"
-	unlock_sound = 'sound/mecha/nominal.ogg'
+	unlock_sound = 'aquila/sound/mecha/welcomebrigador.ogg' //AQUILA EDIT
 
 /datum/AI_Module/large/mecha_domination/upgrade(mob/living/silicon/ai/AI)
 	AI.can_dominate_mechs = TRUE //Yep. This is all it does. Honk!
