@@ -22,7 +22,7 @@
 		else
 			to_chat(M,"<span class='userdanger'>You can feel oil leaking from your headless neck.</span>")
 			//Because the Bleed() proc doesn't work for species without blood datums, just make oil like silicons
-			T = get_turf(src)
+			var/turf/T = get_turf(src)
 			var/obj/effect/decal/cleanable/oil/B = locate() in T.contents
 			if(!B)
 				B = new(T)

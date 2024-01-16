@@ -121,7 +121,7 @@ This file contains various storage items in this order:
 	item_state = "firstaid-robot"
 	lefthand_file = 'nsv13/icons/mob/inhands/equipment/medical_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/equipment/medical_righthand.dmi'
-	skin_type = null
+	skin_type = MEDBOT_SKIN_ROBOT
 
 /obj/item/storage/firstaid/fire/Initialize(mapload)
 	. = ..()
