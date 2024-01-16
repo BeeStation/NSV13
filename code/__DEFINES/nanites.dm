@@ -14,7 +14,7 @@
 
 ///Nanite Protocol types
 #define NANITE_PROTOCOL_REPLICATION "nanite_replication"
-#define NANITE_PROTOCOL_STORAGE "nanite_storage"
+//#define NANITE_PROTOCOL_STORAGE "nanite_storage" AQUILA EDIT
 
 ///Nanite extra settings types: used to help uis know what type an extra setting is
 #define NESTYPE_TEXT "text"

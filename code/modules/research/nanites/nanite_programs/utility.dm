@@ -247,7 +247,7 @@
 	rogue_types = list(/datum/nanite_program/aggressive_replication, /datum/nanite_program/necrotic)
 	var/spread_cooldown = 0
 
-/datum/nanite_program/spreading/active_effect()
+/*/datum/nanite_program/spreading/active_effect() AQUILA EDIT START
 	if(spread_cooldown < world.time)
 		return
 	spread_cooldown = world.time + 50
@@ -292,7 +292,7 @@
 		infectee.AddComponent(/datum/component/nanites, 5)
 		SEND_SIGNAL(infectee, COMSIG_NANITE_SYNC, nanites)
 		infectee.investigate_log("was infected by a nanite cluster by [key_name(host_mob)] at [AREACOORD(infectee)].", INVESTIGATE_NANITES)
-		to_chat(infectee, "<span class='warning'>You feel a tiny prick!</span>")
+		to_chat(infectee, "<span class='warning'>You feel a tiny prick!</span>")*/ //AQUILA EDIT END
 
 /datum/nanite_program/mitosis
 	name = "Mitosis"

@@ -280,11 +280,11 @@
 
 	nanite_volume = clamp(amount, 0, max_nanites)
 
-/datum/component/nanites/proc/set_max_volume(datum/source, amount)
+/*/datum/component/nanites/proc/set_max_volume(datum/source, amount) AQUILA EDIT
 	SIGNAL_HANDLER
 
 	max_nanites = max(1, max_nanites)
-
+*/ //AQUILA EDIT
 /datum/component/nanites/proc/set_cloud(datum/source, amount)
 	SIGNAL_HANDLER
 

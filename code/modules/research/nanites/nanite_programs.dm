@@ -48,8 +48,8 @@
 
 	//Extra settings
 	///Don't ever override this or I will come to your house and stand menacingly behind a bush
-	var/list/extra_settings = list()
-
+	//var/list/extra_settings = list() /AQUILA EDIT
+	var/list/datum/nanite_extra_setting/extra_settings = list() //Aquila Edit
 	//Rules
 	//Rules that automatically manage if the program's active without requiring separate sensor programs
 	var/list/datum/nanite_rule/rules = list()

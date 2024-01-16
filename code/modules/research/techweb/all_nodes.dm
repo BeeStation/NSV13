@@ -1195,7 +1195,7 @@
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000)
 	export_price = 5000
 
-/datum/techweb_node/nanite_smart
+/*/datum/techweb_node/nanite_smart //AQUILA EDIT START
 	id = "nanite_smart"
 	tech_tier = 2
 	display_name = "Smart Nanite Programming"
@@ -1203,7 +1203,7 @@
 	prereq_ids = list("nanite_base","robotics")
 	design_ids = list("purging_nanites", "metabolic_nanites", "stealth_nanites", "memleak_nanites","sensor_voice_nanites", "voice_nanites")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 500, TECHWEB_POINT_TYPE_NANITES = 500)
-	export_price = 4000
+	export_price = 4000 */ //AQUILA EDIT END
 
 /datum/techweb_node/nanite_mesh
 	id = "nanite_mesh"
@@ -1215,7 +1215,7 @@
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 500, TECHWEB_POINT_TYPE_NANITES = 500)
 	export_price = 5000
 
-/datum/techweb_node/nanite_bio
+/*/datum/techweb_node/nanite_bio //AQUILA EDIT START
 	id = "nanite_bio"
 	tech_tier = 3
 	display_name = "Biological Nanite Programming"
@@ -1274,7 +1274,7 @@
 	prereq_ids = list("nanite_harmonic", "alientech")
 	design_ids = list("spreading_nanites","mindcontrol_nanites","mitosis_nanites")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 3000, TECHWEB_POINT_TYPE_NANITES = 4000)
-	export_price = 15000
+	export_price = 15000 */ //AQUILA EDIT END
 
 ////////////////////////Alien technology////////////////////////
 /datum/techweb_node/alientech //AYYYYYYYYLMAOO tech
