@@ -104,6 +104,7 @@ GLOBAL_LIST_INIT(ai_core_display_screens, sortList(list(
 	"Murica",
 	"Nanotrasen",
 	"Not Malf",
+	"PapAI", // AQ EDIT
 	"Portrait",
 	"President",
 	"Random",
