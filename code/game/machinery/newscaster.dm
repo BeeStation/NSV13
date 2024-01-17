@@ -239,7 +239,7 @@ GLOBAL_LIST_EMPTY(allCasters)
 			icon_state = "newscaster_normal"
 			if(alert)
 				add_overlay("newscaster_alert")
-		set_light(1)
+		set_light(2, l_color = "#00aeffff") // AQ EDIT oryginał: set_light(1)
 	var/hp_percent = obj_integrity * 100 /max_integrity
 	switch(hp_percent)
 		if(75 to 100)
@@ -855,14 +855,14 @@ GLOBAL_LIST_EMPTY(allCasters)
 
 /obj/machinery/newscaster/proc/newsAlert(channel)
 	if(channel)
-		say("Breaking news from [channel]!")
+		say("Najnowsze wiadomości z [channel]!") // AQ EDIT tłumaczenie
 		alert = TRUE
 		update_icon()
 		addtimer(CALLBACK(src,PROC_REF(remove_alert)),alert_delay,TIMER_UNIQUE|TIMER_OVERRIDE)
-		playsound(loc, 'sound/machines/twobeep_high.ogg', 75, 1)
+		playsound(loc, 'aquila/sound/misc/ciu.ogg', 50, FALSE, 1) // AQ EDIT
 	else
-		say("Attention! Wanted issue distributed!")
-		playsound(loc, 'sound/machines/warning-buzzer.ogg', 75, 1)
+		say("UWAGA! OSZOBA POSZUKIWANA!") // AQ EDIT tłumaczenie
+		playsound(loc, 'aquila/sound/misc/rdr2_low_honor.ogg', 75, 1) // AQ EDIT
 
 
 /obj/item/newspaper

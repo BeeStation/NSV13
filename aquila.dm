@@ -6,6 +6,7 @@
 #include "aquila\code\datums\components\nanites.dm"
 #include "aquila\code\datums\martial\nanojutsu.dm"
 #include "aquila\code\datums\saymode.dm"
+#include "aquila\code\game\machinery\newscaster.dm"
 #include "aquila\code\game\objects\effects\contraband.dm"
 #include "aquila\code\game\objects\structures\barsigns.dm"
 #include "aquila\code\modules\cargo\packs.dm"
