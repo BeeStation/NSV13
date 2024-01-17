@@ -29,6 +29,7 @@
 	)
 	biohazard = 15 //still deals with the sick and injured, just less than a medical doctor
 
+
 /datum/outfit/job/brig_physician
 	name = JOB_NAME_BRIGPHYSICIAN
 	jobtype = /datum/job/brig_physician
@@ -49,5 +50,7 @@
 	satchel = /obj/item/storage/backpack/satchel/med
 	duffelbag = /obj/item/storage/backpack/duffelbag/med
 	box = /obj/item/storage/box/security
+
+	implants = list(/obj/item/implant/security_down) // AQ EDIT
 
 	chameleon_extras = /obj/item/gun/syringe
