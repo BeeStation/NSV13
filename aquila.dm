@@ -49,3 +49,4 @@
 #include "aquila\code\modules\research\nanites\program_disks.dm"
 #include "aquila\code\modules\research\techweb\all_nodes.dm"
 #include "aquila\code\modules\uplink\uplink_items.dm"
+#include "aquila\code\modules\vending\boozeomat.dm"

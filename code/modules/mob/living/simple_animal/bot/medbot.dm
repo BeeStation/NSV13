@@ -239,7 +239,7 @@ GLOBAL_VAR(medibot_unique_id_gen)
 	if(assess_patient(H))
 		last_found = world.time
 		if((last_newpatient_speak + 300) < world.time) //Don't spam these messages!
-			var/list/messagevoice = list("Hey, [H.name]! Hold on, I'm coming." = 'sound/voice/medbot/coming.ogg',"Wait [H.name]! I want to help!" = 'sound/voice/medbot/help.ogg',"[H.name], you appear to be injured!" = 'sound/voice/medbot/injured.ogg')
+			var/list/messagevoice = list("[H.name], jak się pan czuje?" = 'aquila/sound/voice/medbot/jak_sie_pan_czuje.ogg',"[H.name], piłeś?" = 'aquila/sound/voice/medbot/piles.ogg',"[H.name], odstaw te wina!" = 'aquila/sound/voice/medbot/wina.ogg') // AQUILA EDIT
 			var/message = pick(messagevoice)
 			speak(message)
 			playsound(src, messagevoice[message], 50, 0)
@@ -354,7 +354,7 @@ GLOBAL_VAR(medibot_unique_id_gen)
 				var/list/i_need_scissors = list('sound/voice/medbot/fuck_you.ogg', 'sound/voice/medbot/im_different.ogg', 'sound/voice/medbot/shindemashou.ogg') //some lines removed because they are very LRP/meta, doesn't fit with bee
 				playsound(src, pick(i_need_scissors), 70)
 			else
-				var/list/messagevoice = list("Radar, put a mask on!" = 'sound/voice/medbot/radar.ogg',"There's always a catch, and I'm the best there is." = 'sound/voice/medbot/catch.ogg',"I knew it, I should've been a plastic surgeon." = 'sound/voice/medbot/surgeon.ogg',"What kind of medbay is this? Everyone's dropping like flies." = 'sound/voice/medbot/flies.ogg',"Delicious!" = 'sound/voice/medbot/delicious.ogg', "Why are we still here? Just to suffer?" = 'sound/voice/medbot/why.ogg')
+				var/list/messagevoice = list("Pavulon już jest." = 'aquila/sound/voice/medbot/pawulon_jest.ogg',"Tu jeszcze troszeczke pavuloniku." = 'aquila/sound/voice/medbot/jeszcze_pawulon.ogg') // AQUILA EDIT
 				var/message = pick(messagevoice)
 				speak(message)
 				playsound(src, messagevoice[message], 50)
@@ -503,7 +503,7 @@ GLOBAL_VAR(medibot_unique_id_gen)
 		return
 
 	if(C.stat == DEAD || (HAS_TRAIT(C, TRAIT_FAKEDEATH)))
-		var/list/messagevoice = list("No! Stay with me!" = 'sound/voice/medbot/no.ogg',"Live, damnit! LIVE!" = 'sound/voice/medbot/live.ogg',"I...I've never lost a patient before. Not today, I mean." = 'sound/voice/medbot/lost.ogg')
+		var/list/messagevoice = list("Pavulonik już leci." = 'aquila/sound/voice/medbot/pawulon_leci.ogg',"Słuchaj, mam tysiąc za skóre." = 'aquila/sound/voice/medbot/nie_mam_czasu.ogg') // AQUILA EDIT
 		var/message = pick(messagevoice)
 		speak(message)
 		playsound(src, messagevoice[message], 50)
@@ -533,7 +533,7 @@ GLOBAL_VAR(medibot_unique_id_gen)
 		if(!treatment_method && emagged != 2) //If they don't need any of that they're probably cured!
 			if(C.maxHealth - C.health < heal_threshold)
 				to_chat(src, "<span class='notice'>[C] is healthy! Your programming prevents you from injecting anyone without at least [heal_threshold] damage of any one type ([heal_threshold + 5] for oxygen damage.)</span>")
-			var/list/messagevoice = list("All patched up!" = 'sound/voice/medbot/patchedup.ogg',"An apple a day keeps me away." = 'sound/voice/medbot/apple.ogg',"Feel better soon!" = 'sound/voice/medbot/feelbetter.ogg')
+			var/list/messagevoice = list("Pani doktor, pavulon się skończył." = 'aquila/sound/voice/medbot/pani_doktor.ogg') // AQUILA EDIT
 			var/message = pick(messagevoice)
 			speak(message)
 			playsound(src, messagevoice[message], 50)
@@ -587,7 +587,7 @@ GLOBAL_VAR(medibot_unique_id_gen)
 		drop_part(robot_arm, Tsec)
 
 	if(emagged && prob(25))
-		playsound(src, 'sound/voice/medbot/insult.ogg', 50)
+		playsound(src, 'aquila/sound/voice/medbot/malpiszon.ogg', 50) // AQUILA EDIT
 
 	do_sparks(3, TRUE, src)
 	..()
