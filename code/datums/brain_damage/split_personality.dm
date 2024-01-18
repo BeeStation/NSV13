@@ -158,7 +158,7 @@
 	return FALSE
 
 /mob/living/split_personality/emote(act, m_type = null, message = null, intentional = FALSE)
-	return
+	return FALSE // AQ EDIT
 
 ///////////////BRAINWASHING////////////////////
 

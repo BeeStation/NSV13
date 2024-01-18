@@ -8,17 +8,24 @@
 		act = copytext(act, 1, custom_param)
 
 	var/list/key_emotes = GLOB.emote_list[act]
-
+	// AQ EDIT start
 	if(!length(key_emotes))
 		if(intentional)
 			to_chat(src, "<span class='notice'>'[act]' emote does not exist. Say *help for a list.</span>")
-		return
+		return FALSE
+	var/silenced = FALSE
 	for(var/datum/emote/P in key_emotes)
+		if(!P.check_cooldown(src, intentional))
+			silenced = TRUE
+			continue
 		if(P.run_emote(src, param, m_type, intentional))
 			SEND_SIGNAL(src, COMSIG_MOB_EMOTE, P, act, m_type, message, intentional)
-			return
-	if(intentional)
+			return TRUE
+	if(intentional && !silenced)
 		to_chat(src, "<span class='notice'>Unusable emote '[act]'. Say *help for a list.</span>")
+	return FALSE
+	// AQ EDIT end
+
 
 /datum/emote/flip
 	key = "flip"

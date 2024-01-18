@@ -6,6 +6,7 @@
 #define CATEGORY_ROBOT "ROBOT"
 #define CATEGORY_OVERMAP "OVERMAP" //NSV13 - overmap controls
 #define CATEGORY_VEHICLE "VEHICLE" //NSV13 - realistic vehicles
+#define CATEGORY_EMOTE "EMOTE"
 
 #define WEIGHT_HIGHEST 0
 #define WEIGHT_CLIENT 10
@@ -16,4 +17,5 @@
 #define WEIGHT_LIVING 40
 #define WEIGHT_DEAD 50
 #define WEIGHT_ROBOT 60
+#define WEIGHT_EMOTE 70 // AQ EDIT -- Emote keybinds
 #define WEIGHT_LOWEST 999

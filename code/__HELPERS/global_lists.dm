@@ -55,6 +55,8 @@
 	for(var/path in subtypesof(/datum/surgery))
 		GLOB.surgeries_list += new path()
 	sortList(GLOB.surgeries_list)
+
+	init_keybindings() // AQ EDIT
 	GLOB.emote_list = init_emote_list()
 
 	// Hair Gradients - Initialise all /datum/sprite_accessory/hair_gradient into an list indexed by gradient-style name
