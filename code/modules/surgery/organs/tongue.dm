@@ -197,8 +197,10 @@
 	. = ..()
 	languages_possible = languages_possible_alien
 
+/* // AQ EDIT START
 /obj/item/organ/tongue/alien/handle_speech(datum/source, list/speech_args)
 	playsound(owner, "hiss", 25, 1, 1)
+*/ // AQ EDIT END
 
 /obj/item/organ/tongue/bee
 	name = "proboscis"
