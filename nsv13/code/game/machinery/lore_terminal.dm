@@ -12,7 +12,7 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 	var/access_tag = "ntcommon"  //Every subtype of this type will be readable by this console. Use this for away terms as seen here \/
 	var/list/entries = list() //Every entry that we've got.
 	var/in_use = FALSE //Stops sound spam
-	var/datum/looping_sound/computer_click/soundloop
+	var/datum/looping_sound/computer_click/soundloop_clicking // AQ EDIT
 
 /obj/machinery/computer/lore_terminal/command //Put sensitive information on this one
 	access_tag = "ntcommand"
@@ -24,12 +24,12 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 /obj/machinery/computer/lore_terminal/Initialize(mapload)
 	. = ..()
 	get_entries()
-	soundloop = new(src)
+	soundloop_clicking = new(src) // AQ EDIT
 
 /datum/looping_sound/computer_click
 	mid_sounds = list('nsv13/sound/effects/computer/scroll1.ogg','nsv13/sound/effects/computer/scroll2.ogg','nsv13/sound/effects/computer/scroll3.ogg','nsv13/sound/effects/computer/scroll5.ogg')
 	mid_length = 0.8 SECONDS
-	volume = 30
+	volume = 10 // AQ EDIT
 
 /obj/machinery/computer/lore_terminal/proc/get_entries()
 	for(var/X in GLOB.lore_terminal_controller.entries)
@@ -151,11 +151,11 @@ GLOBAL_DATUM_INIT(lore_terminal_controller, /datum/lore_controller, new)
 	clicks = clicks/3
 	var/loops = clicks/3 //Each click sound has 4 clicks in it, so we only need to click 1/4th of the time per character yeet.
 	addtimer(CALLBACK(src, PROC_REF(stop_clicking)), loops)
-	soundloop?.start()
+	soundloop_clicking?.start()
 
 
 /obj/machinery/computer/lore_terminal/proc/stop_clicking()
-	soundloop?.stop()
+	soundloop_clicking?.stop()
 	icon_state = "terminal"
 	in_use = FALSE
 

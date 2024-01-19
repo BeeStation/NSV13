@@ -431,6 +431,7 @@
 		busy = TRUE
 		use_power(power)
 		set_working_sprite()
+		soundloop?.start() // AQ EDIT
 		var/construction_time = max(being_built.construction_time, minimum_construction_time)
 		var/time = is_stack ? construction_time : (construction_time * coeff * multiplier) ** 0.8
 		time *= being_built.lathe_time_factor
@@ -490,6 +491,7 @@
 				new_item.set_custom_materials(picked_materials, 1 / multiplier) //Ensure we get the non multiplied amount
 	being_built = null
 	set_default_sprite()
+	soundloop?.stop() // AQ EDIT
 	busy = FALSE
 
 /obj/machinery/modular_fabricator/proc/set_default_sprite()

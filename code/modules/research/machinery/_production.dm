@@ -348,11 +348,13 @@
 	for(var/R in D.reagents_list)
 		reagents.remove_reagent(R, D.reagents_list[R]*amount)
 	busy = TRUE
+	soundloop.start() // AQ EDIT
 	if(production_animation)
 		flick(production_animation, src)
 	var/timecoeff = D.lathe_time_factor / efficiency_coeff
 	addtimer(CALLBACK(src, PROC_REF(reset_busy)), (30 * timecoeff * amount) ** 0.5)
 	addtimer(CALLBACK(src, PROC_REF(do_print), D.build_path, amount, efficient_mats, D.dangerous_construction), (32 * timecoeff * amount) ** 0.8)
+	addtimer(CALLBACK(soundloop, TYPE_PROC_REF(/datum/looping_sound,stop)), (32 * timecoeff * amount) ** 0.8) // AQ EDIT
 	return TRUE
 
 /obj/machinery/rnd/production/proc/eject_sheets(eject_sheet, eject_amt)

@@ -119,6 +119,7 @@
 			return
 		//emit some particles
 		for(var/obj/structure/particle_accelerator/particle_emitter/PE in connected_parts)
+			playsound(src, 'aquila/sound/machines/wubb.ogg', 50) // AQ EDIT
 			PE.emit_particle(strength)
 
 /obj/machinery/particle_accelerator/control_box/proc/part_scan()

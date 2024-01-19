@@ -34,11 +34,13 @@
 
 	if(machine_stat & (NOPOWER|BROKEN))
 		cut_overlays()
+		soundloop.stop() // AQ EDIT
 	else
 		cut_overlays()
 
 		var/L = min(round(lastgenlev/100000),11)
 		if(L != 0)
+			soundloop.start() // AQ EDIT
 			add_overlay(image('icons/obj/power.dmi', "teg-op[L]"))
 
 		if(hot_circ && cold_circ)

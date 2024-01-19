@@ -37,7 +37,9 @@
 
 /obj/machinery/computer/process()
 	if(machine_stat & (NOPOWER|BROKEN))
+		soundloop.stop() // AQ EDIT
 		return 0
+	soundloop.start() // AQ EDIT
 	return 1
 
 /obj/machinery/computer/ratvar_act()

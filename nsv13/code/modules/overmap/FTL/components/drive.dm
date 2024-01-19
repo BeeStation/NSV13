@@ -41,7 +41,7 @@
 	var/ftl_loop = 'nsv13/sound/effects/ship/FTL_loop.ogg'
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long_thirring.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
-	var/datum/looping_sound/advanced/ftl_drive/soundloop
+	var/datum/looping_sound/advanced/ftl_drive/soundloop_ftl // AQ EDIT
 	var/auto_spool_capable = FALSE // whether the drive is capable of auto spooling or not
 	var/auto_spool_enabled = FALSE // whether the drive is set to auto spool or not
 	var/lockout = FALSE //Used for our end round shenanigains
@@ -55,7 +55,7 @@
 	radio.keyslot = new radio_key
 	radio.listening = 0
 	radio.recalculateChannels()
-	soundloop = new(list(src), FALSE, FALSE, CHANNEL_FTL_MANIFOLD, TRUE)
+	soundloop_ftl = new(list(src), FALSE, FALSE, CHANNEL_FTL_MANIFOLD, TRUE)
 	STOP_PROCESSING(SSmachines, src)
 	return INITIALIZE_HINT_LATELOAD
 
@@ -65,7 +65,7 @@
 	get_pylons()
 
 /obj/machinery/computer/ship/ftl_core/Destroy()
-	QDEL_NULL(soundloop)
+	QDEL_NULL(soundloop_ftl)
 	QDEL_NULL(radio)
 	linked?.ftl_drive = null
 	pylons = null
@@ -128,7 +128,7 @@
 		visible_message("<span class='info'>Core fuel cycle starting.</span>")
 		active = TRUE
 		START_PROCESSING(SSmachines, src)
-		soundloop.start()
+		soundloop_ftl.start()
 		playsound(src, 'nsv13/sound/voice/ftl_spoolup.wav', 100, FALSE)
 		radio.talk_into(src, "FTL spoolup initiated.", radio_channel)
 		icon_state = "core_active"
@@ -359,7 +359,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 	if(progress <= 0)
 		return FALSE
 	progress = 0
-	soundloop.interrupt()
+	soundloop_ftl.interrupt()
 	jump_speed_pylon = initial(jump_speed_pylon)
 	if(shutdown_pylons)
 		for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
