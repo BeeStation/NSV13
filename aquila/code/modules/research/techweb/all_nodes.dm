@@ -1,3 +1,18 @@
+/*****************************\
+|********** MEDICAL **********|
+\*****************************/
+/datum/techweb_node/experimental_cloning
+	id = "experimental_cloning"
+	display_name = "Experimental Cloning"
+	description = "Attack of the clones."
+	prereq_ids = list("adv_surgery")
+	design_ids = list("clonecontrol_prototype", "clonepod_experimental")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+	export_price = 5000
+
+/*****************************\
+|*********** NANITE **********|
+\*****************************/
 /datum/techweb_node/experimental_cloning
 	id = "experimental_cloning"
 	display_name = "Experimental Cloning"
@@ -87,3 +102,55 @@
 	design_ids = list("kickstart_nanites", "factory_nanites", "tinker_nanites", "offline_nanites", "free_range_nanites", "zip_nanites")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 4000, TECHWEB_POINT_TYPE_NANITES = 4000)
 	export_price = 15000
+
+/*******************************\
+|*********** WEAPONS  **********|
+\*******************************/
+//najtańsze, słabe i kosztowne
+/datum/techweb_node/prototype_beam_weapons
+	id = "prototype_beam_weapons"
+	tech_tier = 1
+	starting_node = TRUE
+	display_name = "Prototype Beam Weapons"
+	description = "First generation energy based weapons, they use special lenses to focus light and turn it into high-energy weapon platform, expensive with inefficient energy usage."
+	design_ids = list("firstgenegun", "firstgenlasergun")
+//średnia półka
+/datum/techweb_node/improved_beam_weapons
+	id = "improved_beam_weapons"
+	tech_tier = 3
+	display_name = "Advanced Energy weapons"
+	description = "Improved beam weapons, using standardized alloys and better energy usage."
+	prereq_ids = list("prototype_beam_weapons", "weaponry", "electronic_weapons")
+	design_ids = list("lasergun", "energy_gun")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
+	export_price = 5000
+//powrót armatki laserowej
+/datum/techweb_node/powerful_beam_weapons
+	id = "powerful_beam_weapons"
+	tech_tier = 4
+	display_name = "Heavy Laser Weapons"
+	description = "Putting alloys to thier limits with improved energy entropy"
+	prereq_ids = list("improved_beam_weapons", "adv_engi", "adv_weaponry")
+	design_ids = list("lasercannon")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 4000)
+	export_price = 9000
+//taktyczny karabinek energetyczny
+/datum/techweb_node/tactical_beam_weapons
+	id = "tactical_beam_weapons"
+	tech_tier = 4
+	display_name = "Tactical Energy Weapons"
+	description = "Tactical application of beam weaponry."
+	prereq_ids = list("improved_beam_weapons", "adv_engi", "adv_weaponry")
+	design_ids = list("tacticalegun")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 3000)
+	export_price = 5000
+//bydle broni energetycznych
+/datum/techweb_node/destructive_beam_weapons
+	id = "destructive_beam_weapons"
+	tech_tier = 5
+	display_name = "High-frequency multilayered beam weapons"
+	description = "This is the closest we can get in making handheld particle lance, able to destroy even thickest of alloyed armors with extreme, high-frequency pulses."
+	prereq_ids = list("tactical_beam_weapons", "powerful_beam_weapons", "adv_weaponry", "explosive_weapons", "bluespace_power", "adv_beam_weapons") //gratulacje jak uda się to wynaleźć i runda dalej trwa
+	design_ids = list("pulsegun")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
+	export_price = 100 //jajko wielkanocne bo defacto Centrala i ich mało znani specjalisci od spraw wewnętrznych mają to

@@ -399,9 +399,9 @@
 ////////////////////////////////////////////DONK POCKETS////////////////////////////////////////////
 
 /obj/item/reagent_containers/food/snacks/donkpocket/random
-	name = "\improper Random Donk-pocket"
+	name = "\improper losowy pierożek"
 	icon_state = "random_donkpocket"
-	desc = "The food of choice for the seasoned coder (if you see this, contact DonkCo. as soon as possible)."
+	desc = "jedzenie wyboru dla zatwardziałego kodera(jeżeli to widzisz, skontaktuj się z DonkCo. jak najszybciej)."
 
 /obj/item/reagent_containers/food/snacks/donkpocket/random/Initialize()
 	var/list/donkblock = list(/obj/item/reagent_containers/food/snacks/donkpocket/warm,
@@ -418,10 +418,11 @@
 	new donk_type(loc)
 	return INITIALIZE_HINT_QDEL
 
-/obj/item/reagent_containers/food/snacks/donkpocket
-	name = "\improper Donk-pocket"
-	desc = "The food of choice for the seasoned traitor."
+/obj/item/reagent_containers/food/snacks/donkpocket //AQUILA EDIT BEGIN
+	name = "\improper pieróg"
+	desc = "jedzenie wyboru dla zatwardziałego dwuetatowca."
 	icon_state = "donkpocket"
+	icon = 'aquila/icons/obj/food/food.dmi'
 	list_reagents = list(/datum/reagent/consumable/nutriment = 4)
 	cooked_type = /obj/item/reagent_containers/food/snacks/donkpocket/warm
 	filling_color = "#CD853F"
@@ -429,8 +430,8 @@
 	foodtype = GRAIN
 
 /obj/item/reagent_containers/food/snacks/donkpocket/warm
-	name = "warm Donk-pocket"
-	desc = "The heated food of choice for the seasoned traitor."
+	name = "odgrzany pieróg"
+	desc = "jedzenie wyboru dla zatwardziałego dwuetatowca."
 	bonus_reagents = list(/datum/reagent/medicine/omnizine = 3) //The original donk pocket has the most omnizine, can't beat the original on everything...
 	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/medicine/omnizine = 3)
 	cooked_type = null
@@ -438,8 +439,8 @@
 	foodtype = GRAIN
 
 /obj/item/reagent_containers/food/snacks/donkpocket/dank
-	name = "\improper Dank-pocket"
-	desc = "The food of choice for the seasoned botanist."
+	name = "\improper spizgany pierożek"
+	desc = "bratku daj bucha, ale ta zerówka jest mocna."
 	icon_state = "dankpocket"
 	list_reagents = list(/datum/reagent/toxin/lipolicide = 3, /datum/reagent/drug/space_drugs = 3, /datum/reagent/consumable/nutriment = 4)
 	cooked_type = /obj/item/reagent_containers/food/snacks/donkpocket/dank/warm
@@ -448,8 +449,8 @@
 	foodtype = GRAIN | VEGETABLES
 
 /obj/item/reagent_containers/food/snacks/donkpocket/dank/warm
-	name = "\improper Dank-pocket"
-	desc = "The food of choice for the baked botanist."
+	name = "\improper ciepły spizgany pierożek"
+	desc = "kurde brachu ale jestem spizgany."
 	icon_state = "dankpocket"
 	bonus_reagents = list(/datum/reagent/medicine/omnizine = 1, /datum/reagent/drug/space_drugs = 2)
 	list_reagents = list(/datum/reagent/toxin/lipolicide = 3, /datum/reagent/drug/space_drugs = 3, /datum/reagent/consumable/nutriment = 4)
@@ -458,8 +459,8 @@
 	foodtype = GRAIN | VEGETABLES
 
 /obj/item/reagent_containers/food/snacks/donkpocket/spicy
-	name = "\improper Spicy-pocket"
-	desc = "The classic snack food, now with a heat-activated spicy flair."
+	name = "\improper ostry pierożek"
+	desc = "klasyczna przekąska, teraz z cieplejszym i pikantnym stylem."
 	icon_state = "donkpocketspicy"
 	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/consumable/capsaicin = 2)
 	cooked_type = /obj/item/reagent_containers/food/snacks/donkpocket/spicy/warm
@@ -468,16 +469,16 @@
 	foodtype = GRAIN
 
 /obj/item/reagent_containers/food/snacks/donkpocket/spicy/warm
-	name = "warm Spicy-pocket"
-	desc = "The classic snack food, now maybe a bit too spicy."
+	name = "ciepły ostry pierożek"
+	desc = "klasyczna przekąska, może teraz zbyt pikantna."
 	bonus_reagents = list(/datum/reagent/medicine/omnizine = 1, /datum/reagent/consumable/capsaicin = 3)
 	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/medicine/omnizine = 1, /datum/reagent/consumable/capsaicin = 2)
 	tastes = list("meat" = 2, "dough" = 2, "weird spices" = 2)
 	foodtype = GRAIN
 
 /obj/item/reagent_containers/food/snacks/donkpocket/teriyaki
-	name = "\improper Teriyaki-pocket"
-	desc = "An east-asian take on the classic stationside snack."
+	name = "\improper azjatycki pierożek"
+	desc = "wschodnioazjatyckie podejście na klasyczną przekąskę."
 	icon_state = "donkpocketteriyaki"
 	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/consumable/soysauce = 2)
 	cooked_type = /obj/item/reagent_containers/food/snacks/donkpocket/teriyaki/warm
@@ -486,16 +487,16 @@
 	foodtype = GRAIN
 
 /obj/item/reagent_containers/food/snacks/donkpocket/teriyaki/warm
-	name = "warm Teriyaki-pocket"
-	desc = "An east-asian take on the classic stationside snack, now steamy and warm."
+	name = "ciepły azjatycki pierożek"
+	desc = "wschodnioazjatyckie podejście na klasyczną przekąskę, teraz ciepłe i parujące."
 	bonus_reagents = list(/datum/reagent/medicine/omnizine = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/medicine/omnizine = 1, /datum/reagent/consumable/soysauce = 2)
 	tastes = list("meat" = 2, "dough" = 2, "soy sauce" = 2)
 	foodtype = GRAIN
 
 /obj/item/reagent_containers/food/snacks/donkpocket/pizza
-	name = "\improper Pizza-pocket"
-	desc = "Delicious, cheesy and surprisingly filling."
+	name = "\improper pizza-pieróg"
+	desc = "pyszny, serowy i zdumiewająco sycące."
 	icon_state = "donkpocketpizza"
 	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/consumable/tomatojuice = 2)
 	cooked_type = /obj/item/reagent_containers/food/snacks/donkpocket/pizza/warm
@@ -504,16 +505,16 @@
 	foodtype = GRAIN
 
 /obj/item/reagent_containers/food/snacks/donkpocket/pizza/warm
-	name = "warm Pizza-pocket"
-	desc = "Delicious, cheesy, and even better when hot."
+	name = "ciepły pizza-pieróg"
+	desc = "pyszny, serowy i jeszcze lepszy bo ciepły."
 	bonus_reagents = list(/datum/reagent/medicine/omnizine = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/medicine/omnizine = 1, /datum/reagent/consumable/tomatojuice = 2)
 	tastes = list("meat" = 2, "dough" = 2, "melty cheese"= 2)
 	foodtype = GRAIN
 
 /obj/item/reagent_containers/food/snacks/donkpocket/honk
-	name = "\improper Honk-pocket"
-	desc = "The award-winning donk-pocket that won the hearts of clowns and humans alike."
+	name = "\improper bananowy pierożek"
+	desc = "wielokrotnie nagradzane pierogi które podbiły serca klaunów oraz ludzi."
 	icon_state = "donkpocketbanana"
 	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/consumable/banana = 4)
 	cooked_type = /obj/item/reagent_containers/food/snacks/donkpocket/honk/warm
@@ -522,16 +523,16 @@
 	foodtype = GRAIN
 
 /obj/item/reagent_containers/food/snacks/donkpocket/honk/warm
-	name = "warm Honk-pocket"
-	desc = "The award-winning donk-pocket, now warm and toasty."
+	name = "ciepły bananowy pierożek"
+	desc = "wielokrotnie nagradzane pierogi które podbiły serca klaunów oraz ludzi, teraz ciepły."
 	bonus_reagents = list(/datum/reagent/medicine/omnizine = 1, /datum/reagent/consumable/laughter = 3)
 	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/medicine/omnizine = 1, /datum/reagent/consumable/banana = 4, /datum/reagent/consumable/laughter = 3)
 	tastes = list("dough" = 2, "children's antibiotics" = 1)
 	foodtype = GRAIN
 
 /obj/item/reagent_containers/food/snacks/donkpocket/berry
-	name = "\improper Berry-pocket"
-	desc = "A relentlessly sweet donk-pocket first created for use in Operation Dessert Storm."
+	name = "\improper jagodowy pierożek"
+	desc = "nieubłaganie słodkie pierogi."
 	icon_state = "donkpocketberry"
 	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/consumable/berryjuice = 3)
 	cooked_type = /obj/item/reagent_containers/food/snacks/donkpocket/berry/warm
@@ -540,16 +541,16 @@
 	foodtype = GRAIN
 
 /obj/item/reagent_containers/food/snacks/donkpocket/berry/warm
-	name = "warm Berry-pocket"
-	desc = "A relentlessly sweet donk-pocket, now warm and delicious."
+	name = "ciepły jagodowy pierożek"
+	desc = "nieubłaganie słodkie pierogi, teraz ciepłe i smaczne."
 	bonus_reagents = list(/datum/reagent/medicine/omnizine = 1)
 	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/medicine/omnizine = 1, /datum/reagent/consumable/berryjuice = 3)
 	tastes = list("dough" = 2, "warm jam" = 2)
 	foodtype = GRAIN
 
 /obj/item/reagent_containers/food/snacks/donkpocket/gondola
-	name = "\improper Gondola-pocket"
-	desc = "The choice to use real gondola meat in the recipe is controversial, to say the least." //Only a monster would craft this.
+	name = "\improper pierożek finlandzki"
+	desc = "decyzja o wykorzystaniu w przepisie prawdziwego mięsa gondol, jest co najmniej kontrowersyjna" //Only a monster would craft this.
 	icon_state = "donkpocketgondola"
 	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/tranquility = 5)
 	cooked_type = /obj/item/reagent_containers/food/snacks/donkpocket/gondola/warm
@@ -557,9 +558,9 @@
 	tastes = list("meat" = 2, "dough" = 2, "inner peace" = 1)
 	foodtype = GRAIN
 
-/obj/item/reagent_containers/food/snacks/donkpocket/gondola/warm
-	name = "warm Gondola-pocket"
-	desc = "The choice to use real gondola meat in the recipe is controversial, to say the least."
+/obj/item/reagent_containers/food/snacks/donkpocket/gondola/warm //AQUILA EDIT END
+	name = "ciepły pierożek finlandzki"
+	desc = "decyzja o wykorzystaniu w przepisie prawdziwego mięsa gondol, jest co najmniej kontrowersyjna."
 	bonus_reagents = list(/datum/reagent/medicine/omnizine = 1, /datum/reagent/tranquility = 5)
 	list_reagents = list(/datum/reagent/consumable/nutriment = 4, /datum/reagent/medicine/omnizine = 1, /datum/reagent/tranquility = 5)
 	tastes = list("meat" = 2, "dough" = 2, "inner peace" = 1)

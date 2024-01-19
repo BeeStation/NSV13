@@ -501,10 +501,11 @@
     for(var/i in 1 to 6)
         new donktype(src)
 
-/obj/item/storage/box/donkpockets
-	name = "box of donk-pockets"
-	desc = "<B>Instructions:</B> <I>Heat in microwave. Product will cool if not eaten within seven minutes.</I>"
+/obj/item/storage/box/donkpockets //AQUILA EDIT BEGIN
+	name = "karton pierogów"
+	desc = "<B>Instructions:</B> <I>Odgrzej w mikrofalówce. Produkt straci ciepło po siedmiu minutach.</I>"
 	icon_state = "donkpocketbox"
+	icon = 'aquila/icons/obj/storage.dmi'
 	illustration=null
 	var/donktype = /obj/item/reagent_containers/food/snacks/donkpocket
 	donktype = /obj/item/reagent_containers/food/snacks/donkpocket
@@ -515,40 +516,40 @@
 	STR.can_hold = typecacheof(list(/obj/item/reagent_containers/food/snacks/donkpocket))
 
 /obj/item/storage/box/donkpockets/donkpocketspicy
-	name = "box of spicy-flavoured donk-pockets"
+	name = "karton pierogów pikantnych"
 	icon_state = "donkpocketboxspicy"
 	donktype = /obj/item/reagent_containers/food/snacks/donkpocket/spicy
 
 /obj/item/storage/box/donkpockets/donkpocketteriyaki
-	name = "box of teriyaki-flavoured donk-pockets"
+	name = "karton pierogów azjatyckich"
 	icon_state = "donkpocketboxteriyaki"
 	donktype = /obj/item/reagent_containers/food/snacks/donkpocket/teriyaki
 
 /obj/item/storage/box/donkpockets/donkpocketpizza
-	name = "box of pizza-flavoured donk-pockets"
+	name = "karton pierogów włoskich"
 	icon_state = "donkpocketboxpizza"
 	donktype = /obj/item/reagent_containers/food/snacks/donkpocket/pizza
 
 /obj/item/storage/box/donkpockets/donkpocketgondola
-	name = "box of gondola-flavoured donk-pockets"
+	name = "karton pierogów finlandzkich"
 	icon_state = "donkpocketboxgondola"
 	donktype = /obj/item/reagent_containers/food/snacks/donkpocket/gondola
 
 /obj/item/storage/box/donkpockets/donkpocketgondolafinlandia
-	name = "laatikko gondolin makuisia donk-taskuja"
+	name = "laatikko gondolin makuisia pieróg-taskuja"
 	desc = "<B>Ohjeet:</B> <I>Lämmitä mikroaaltouunissa. Tuote jäähtyy, jos sitä ei syödä seitsemän minuutin kuluessa.</I>"
 	icon_state = "donkpocketboxgondola"
 	donktype = /obj/item/reagent_containers/food/snacks/donkpocket/gondola
 
 /obj/item/storage/box/donkpockets/donkpocketberry
-	name = "box of berry-flavoured donk-pockets"
+	name = "karton jagodowych pierogów"
 	icon_state = "donkpocketboxberry"
 	donktype = /obj/item/reagent_containers/food/snacks/donkpocket/berry
 
 /obj/item/storage/box/donkpockets/donkpockethonk
-	name = "box of banana-flavoured donk-pockets"
+	name = "karton bananowych pierogów"
 	icon_state = "donkpocketboxbanana"
-	donktype = /obj/item/reagent_containers/food/snacks/donkpocket/honk
+	donktype = /obj/item/reagent_containers/food/snacks/donkpocket/honk //AQUILA EDIT END
 
 /obj/item/storage/box/monkeycubes
 	name = "monkey cube box"

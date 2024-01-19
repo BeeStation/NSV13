@@ -22,6 +22,7 @@
 	tracer_type = /obj/effect/projectile/tracer/laser
 	muzzle_type = /obj/effect/projectile/muzzle/laser
 	impact_type = /obj/effect/projectile/impact/laser
+	hitscan = TRUE //AQUILA EDIT
 
 /obj/item/projectile/beam/laser/heavylaser
 	name = "heavy laser"
@@ -41,6 +42,7 @@
 
 /obj/item/projectile/beam/weak
 	damage = 12
+	hitscan = TRUE //AQUILA EDIT
 
 /obj/item/projectile/beam/weak/penetrator //laser gatling and centcom shuttle turret
 	damage = 15
@@ -51,6 +53,7 @@
 	damage = 0
 	nodamage = TRUE
 	martial_arts_no_deflect = TRUE
+	hitscan = TRUE //AQUILA EDIT
 
 /obj/item/projectile/beam/scatter
 	name = "laser pellet"
@@ -71,6 +74,7 @@
 	tracer_type = /obj/effect/projectile/tracer/xray
 	muzzle_type = /obj/effect/projectile/muzzle/xray
 	impact_type = /obj/effect/projectile/impact/xray
+	hitscan = TRUE //AQUILA EDIT
 
 /obj/item/projectile/beam/disabler
 	name = "disabler beam"
@@ -124,6 +128,7 @@
 	damage = 30
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/green_laser
 	light_color = LIGHT_COLOR_GREEN
+	hitscan = TRUE //AQUILA EDIT
 
 /obj/item/projectile/beam/emitter/singularity_pull()
 	return //don't want the emitters to miss
