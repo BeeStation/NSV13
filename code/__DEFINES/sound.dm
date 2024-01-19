@@ -39,6 +39,7 @@
 #define PICKUP_SOUND_VOLUME 40
 #define DROP_SOUND_VOLUME 50
 #define YEET_SOUND_VOLUME 90
+#define MUSIC_VOLUME 50 // AQUILA EDIT
 
 #define AMBIENCE_GENERIC "generic"
 #define AMBIENCE_HOLY "holy"
