@@ -195,6 +195,11 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	if(!operating)
 		SSmove_manager.stop_looping(convayable, SSconveyors)
 		return
+	//NSV13 - account for potentially changing location between sig send and reaching this.
+	if(convayable.loc != source)
+		SSmove_manager.stop_looping(convayable, SSconveyors)
+		return
+	//NSV13 end.
 	start_conveying(convayable)
 
 /obj/machinery/conveyor/proc/conveyable_exit(datum/source, atom/convayable, direction)
