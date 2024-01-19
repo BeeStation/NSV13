@@ -161,7 +161,7 @@
 	return FALSE
 
 
-/datum/emote/living/carbon/human/fart
+/*/datum/emote/living/carbon/human/fart //AQUILA EDIT
 	key = "fart"
 	key_third_person = "farts"
 	message = "farts"
@@ -172,7 +172,7 @@
 	if(!ishuman(user))
 		return
 	return 'sound/misc/fart1.ogg'
-
+*/ //AQUILA EDIT
 //Ayy lmao
 
 // Robotic Tongue emotes. Beep!
