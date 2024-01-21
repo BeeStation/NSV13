@@ -42,6 +42,7 @@
 #include "aquila\code\game\objects\structures\signs\signs_departments.dm"
 #include "aquila\code\game\objects\structures\signs\signs_maps.dm"
 #include "aquila\code\game\objects\structures\signs\signs_warning.dm"
+#include "aquila\code\game\objects\items\AI_modules.dm"
 #include "aquila\code\modules\cargo\packs.dm"
 #include "aquila\code\modules\client\preferences.dm"
 #include "aquila\code\modules\client\preferences_toggles.dm"
