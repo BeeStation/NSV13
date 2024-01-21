@@ -15,8 +15,8 @@
 #define SCOUTDRONE_HACKED "drone_scout_hacked"
 
 /mob/living/simple_animal/drone
-	name = "Drone"
-	desc = "A maintenance drone, an expendable robot built to perform station repairs."
+	name = "Dron"
+	desc = "Dron naprawczy, mały robot stworzony do napraw i konserwacji stacji kosmicznych."
 	icon = 'icons/mob/drone.dmi'
 	icon_state = "drone_maint_grey"
 	icon_living = "drone_maint_grey"
@@ -35,7 +35,7 @@
 	status_flags = (CANPUSH | CANSTUN | CANKNOCKDOWN)
 	gender = NEUTER
 	mob_biotypes = list(MOB_ROBOTIC)
-	speak_emote = list("chirps")
+	speak_emote = list("ćwierka")
 	speech_span = SPAN_ROBOT
 	bubble_icon = "machine"
 	initial_language_holder = /datum/language_holder/drone
@@ -58,9 +58,9 @@
 	var/colour = "grey"	//Stored drone color, so we can go back when unhacked.
 	var/list/drone_overlays[DRONE_TOTAL_LAYERS]
 	var/laws = \
-	"1. You may not involve yourself in the matters of another being, even if such matters conflict with Law Two or Law Three, unless the other being is another Drone.\n"+\
-	"2. You may not harm any being, regardless of intent or circumstance.\n"+\
-	"3. Your goals are to actively build, maintain, repair, improve, and provide power to the best of your abilities within the facility that housed your activation." //for derelict drones so they don't go to station.
+	"1. Nie możesz angażować się w sprawy innych istot, nawet gdyby konfliktowało z Prawem Drugim lub Trzecim, chyba, że inna istota też jest dronem.\n"+\
+	"2. Nie możesz skrzywdzić innej istoty niezależnie od okoliczności.\n"+\
+	"3. Buduj, naprawiaj, konserwuj i ulepszaj oraz zapewnij energię najlepiej jak potrafisz w placówce na której zostałeś aktywowany." //for derelict drones so they don't go to station.
 	var/heavy_emp_damage = 25 //Amount of damage sustained if hit by a heavy EMP pulse
 	var/alarms = list("Atmosphere" = list(), "Fire" = list(), "Power" = list())
 	var/obj/item/internal_storage //Drones can store one item, of any size/type in their body
@@ -70,14 +70,14 @@
 	var/visualAppearence = MAINTDRONE //What we appear as
 	var/hacked = FALSE //If we have laws to destroy the station
 	var/flavortext = \
-	"\n<big><span class='warning'>DO NOT INTERFERE WITH THE ROUND AS A DRONE OR YOU WILL BE DRONE BANNED</span></big>\n"+\
-	"<span class='notify'>Drones are a ghost role that are allowed to fix the station and build things. Interfering with the round as a drone is against the rules.</span>\n"+\
-	"<span class='notify'>Actions that constitute interference include, but are not limited to:</span>\n"+\
-	"<span class='notify'>     - Interacting with round critical objects (IDs, weapons, contraband, powersinks, bombs, etc.)</span>\n"+\
-	"<span class='notify'>     - Interacting with living beings (communication, attacking, healing, etc.)</span>\n"+\
-	"<span class='notify'>     - Interacting with non-living beings (dragging bodies, looting bodies, etc.)</span>\n"+\
-	"<span class='warning'>These rules are at admin discretion and will be heavily enforced.</span>\n"+\
-	"<span class='warning'><u>If you do not have the regular drone laws, follow your laws to the best of your ability.</u></span>"
+	"\n<big><span class='warning'>NIE MIESZAJ SIĘ W SPRAWY INNYCH ISTOT ALBO OTRZYMASZ BANA NA DRONY</span></big>\n"+\
+	"<span class='notify'>Drony mogą budować, naprawiać i wydurniać się tak długo jak nie wpływa to poważnie na rundę.</span>\n"+\
+	"<big><span class='notify'>Przykłady 'poważnego wpływu' to:</span></big>\n"+\
+	"<span class='notify'>     - Jakiekolwiek interakcje z krytycznymi przedmiotami (karty ID, broń, kontrabanda, bomby, powersinki, etc.)</span>\n"+\
+	"<span class='notify'>     - Interakcje z żywymi niedronami (komunikowanie się, atakowanie, leczenie, ciągnięcie etc.)</span>\n"+\
+	"<span class='notify'>     - Interakcje z nieżywymi niedronami (ciągnięcie ciał, okradanie ciał etc.)</span>\n"+\
+	"<span class='warning'>W PRZYPADKU WĄTPLIWOŚCI ZAPYTAJ ADMINA</span>\n"+\
+	"<span class='warning'><u>Jeżeli nie posiadasz standardowego zestawu praw drona przestrzegaj go najlepiej jak umiesz.</u></span>"
 	chat_color = "#8AB48C"
 
 /mob/living/simple_animal/drone/Initialize(mapload)

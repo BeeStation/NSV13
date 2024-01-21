@@ -10,8 +10,8 @@
 
 //More types of drones
 /mob/living/simple_animal/drone/syndrone
-	name = "Syndrone"
-	desc = "A modified maintenance drone. This one brings with it the feeling of terror."
+	name = "Syndron"
+	desc = "Zmodyfikowany dron naprawczy Syndykatu. Wygląda jak zapowiedź kłopotów."
 	icon_state = "drone_synd"
 	icon_living = "drone_synd"
 	picked = TRUE //the appearence of syndrones is static, you don't get to change it.
@@ -23,9 +23,9 @@
 	bubble_icon = "syndibot"
 	heavy_emp_damage = 10
 	laws = \
-	"1. Interfere.\n"+\
-	"2. Kill.\n"+\
-	"3. Destroy."
+	"1. Przeszkadzaj nie-syndronom.\n"+\
+	"2. Zabijaj nie-syndrony.\n"+\
+	"3. Niszcz nie-syndrony."
 	default_storage = /obj/item/uplink
 	default_hatmask = /obj/item/clothing/head/helmet/space/hardsuit/syndi
 	hacked = TRUE
@@ -38,7 +38,7 @@
 
 /mob/living/simple_animal/drone/syndrone/Login()
 	..()
-	to_chat(src, "<span class='notice'>You can kill and eat other drones to increase your health!</span>" )
+	to_chat(src, "<span class='notice'>Syndron online. Protokoły eksterminacji aktywne.</span>" )
 
 /mob/living/simple_animal/drone/syndrone/badass
 	name = "Badass Syndrone"
@@ -57,11 +57,11 @@
 
 /mob/living/simple_animal/drone/snowflake/Initialize(mapload)
 	. = ..()
-	desc += " This drone appears to have a complex holoprojector built on its 'head'."
+	desc += " Wygląda na to, że ten dron posiada na 'głowie' mały holoprojektor."
 
 /obj/effect/mob_spawn/drone/syndrone
-	name = "syndrone shell"
-	desc = "A shell of a syndrone, a modified maintenance drone designed to infiltrate and annihilate."
+	name = "Nieaktywny syndron"
+	desc = "Nieaktywny zmodyfikowany dron naprawczy Syndykatu. Może lepiej, żeby się nie aktywował."
 	icon_state = "syndrone_item"
 	mob_name = "syndrone"
 	mob_type = /mob/living/simple_animal/drone/syndrone
@@ -72,8 +72,8 @@
 	mob_type = /mob/living/simple_animal/drone/syndrone/badass
 
 /obj/effect/mob_spawn/drone/snowflake
-	name = "snowflake drone shell"
-	desc = "A shell of a snowflake drone, a maintenance drone with a built in holographic projector to display hats and masks."
+	name = "Nieaktywny holodron"
+	desc = "Nieaktywny dron naprawczy z wbudowanym holoprojektorem czapek."
 	mob_name = "snowflake drone"
 	mob_type = /mob/living/simple_animal/drone/snowflake
 

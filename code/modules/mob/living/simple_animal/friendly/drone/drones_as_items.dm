@@ -7,8 +7,8 @@
 
 //DRONE SHELL
 /obj/effect/mob_spawn/drone
-	name = "drone shell"
-	desc = "A shell of a maintenance drone, an expendable robot built to perform station repairs."
+	name = "Nieaktywny dron"
+	desc = "Nieaktywny dron naprawczy."
 	icon = 'icons/mob/drone.dmi'
 	icon_state = "drone_maint_hat"//yes reuse the _hat state.
 	layer = BELOW_MOB_LAYER
