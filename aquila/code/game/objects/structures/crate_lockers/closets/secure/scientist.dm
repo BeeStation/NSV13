@@ -1,0 +1,5 @@
+/obj/structure/closet/secure_closet/RD/PopulateContents()
+	..()
+	if(CONFIG_GET(number/roundstart_bluespace_miners))
+		for(var/i in 1 to CONFIG_GET(number/roundstart_bluespace_miners))
+			new /obj/item/circuitboard/machine/bluespace_miner(src)
