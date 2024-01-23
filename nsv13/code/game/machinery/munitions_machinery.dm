@@ -39,7 +39,8 @@
 					/obj/item/clothing/suit/hazardvest = 3,
 					/obj/item/clothing/suit/ship/munitions_jacket = 3,
 					/obj/item/clothing/shoes/jackboots = 5,
-					/obj/item/clothing/gloves/color/black = 5)
+					/obj/item/clothing/gloves/color/black = 5,
+					/obj/item/clothing/head/aquila/headband/orange = 5) //AQUILA EDIT
 	contraband = list(/obj/item/clothing/head/ship/rising_sun = 5)
 	premium = list(/obj/item/clothing/head/helmet/decktech = 3,
 					/obj/item/clothing/head/beret/ship/pilot = 3,

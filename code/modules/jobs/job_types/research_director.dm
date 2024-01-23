@@ -47,9 +47,10 @@
 	id = /obj/item/card/id/job/research_director
 	belt = /obj/item/modular_computer/tablet/pda/heads/research_director
 	ears = /obj/item/radio/headset/heads/research_director
-	uniform = /obj/item/clothing/under/rank/rnd/research_director
-	shoes = /obj/item/clothing/shoes/sneakers/brown
+	uniform = /obj/item/clothing/under/aquila/scientist/hlsci //AQUILA EDIT
+	shoes = /obj/item/clothing/shoes/aquila/laceup_brown //AQUILA EDIT
 	suit = /obj/item/clothing/suit/toggle/labcoat/research_director
+	glasses = /obj/item/clothing/glasses/regular //AQUILA EDIT
 	l_hand = /obj/item/clipboard
 	l_pocket = /obj/item/laser_pointer
 	backpack_contents = list(/obj/item/melee/classic_baton/police/telescopic=1)
@@ -64,6 +65,6 @@
 
 	l_hand = null
 	mask = /obj/item/clothing/mask/breath
-	suit = /obj/item/clothing/suit/space/hardsuit/research_director
+	suit = /obj/item/clothing/suit/space/hardsuit/aquila/hazard_suit
 	suit_store = /obj/item/tank/internals/oxygen
 	internals_slot = ITEM_SLOT_SUITSTORE

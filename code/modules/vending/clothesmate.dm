@@ -113,12 +113,19 @@
 		              /obj/item/clothing/suit/jacket/letterman_syndie = 1,
 		              /obj/item/clothing/under/costume/jabroni = 1,
 		              /obj/item/clothing/suit/vapeshirt = 1,
+					  /obj/item/clothing/under/costume/aquila/greaser = 4, //AQUILA EDIT START
+					  /obj/item/clothing/under/costume/aquila/greaser/snake = 4,
+					  /obj/item/clothing/under/costume/aquila/greaser/spider = 4,
+					  /obj/item/clothing/under/costume/aquila/greaser/cult = 4,
+					  /obj/item/clothing/suit/hooded/aquila/ghostcostume = 2, //AQUILA EDIT END
 		              /obj/item/clothing/under/costume/geisha = 1)
 	premium = list(/obj/item/clothing/under/suit/checkered = 1,
 		           /obj/item/clothing/suit/jacket/leather = 1,
 		           /obj/item/clothing/suit/jacket/leather/overcoat = 1,
 		           /obj/item/clothing/under/pants/mustangjeans = 1,
 		           /obj/item/clothing/neck/necklace/dope = 3,
+				   /obj/item/clothing/under/costume/aquila/galo = 2, //AQUILA EDIT
+				   /obj/item/clothing/under/costume/aquila/adidas = 3, //AQUILA EDIT
 		           /obj/item/clothing/suit/jacket/letterman_nanotrasen = 1)
 	refill_canister = /obj/item/vending_refill/clothing
 	default_price = 40

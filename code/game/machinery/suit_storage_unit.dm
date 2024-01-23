@@ -104,7 +104,7 @@
 	mask_type = /obj/item/clothing/mask/breath
 
 /obj/machinery/suit_storage_unit/rd
-	suit_type = /obj/item/clothing/suit/space/hardsuit/research_director
+	suit_type = /obj/item/clothing/suit/space/hardsuit/aquila/hazard_suit //AQUILA EDIT
 	mask_type = /obj/item/clothing/mask/breath
 
 /obj/machinery/suit_storage_unit/syndicate

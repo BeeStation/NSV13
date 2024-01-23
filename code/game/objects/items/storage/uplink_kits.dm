@@ -365,7 +365,8 @@
 
 /obj/item/storage/box/syndie_kit/imp_stealth/PopulateContents()
 	new /obj/item/implanter/stealth(src)
-
+	new /obj/item/clothing/head/aquila/headband/black/solid(src) //AQUILA EDIT
+	new /obj/item/clothing/under/aquila/metalgear(src) //AQUILA EDIT
 /obj/item/storage/box/syndie_kit/imp_radio
 	name = "syndicate radio implant box"
 

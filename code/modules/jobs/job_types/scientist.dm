@@ -36,9 +36,10 @@
 	id = /obj/item/card/id/job/scientist
 	belt = /obj/item/modular_computer/tablet/pda/science
 	ears = /obj/item/radio/headset/headset_sci
-	uniform = /obj/item/clothing/under/rank/rnd/scientist
-	shoes = /obj/item/clothing/shoes/sneakers/white
+	uniform = /obj/item/clothing/under/aquila/scientist/hlsci //AQUILA EDIT
+	shoes = /obj/item/clothing/shoes/aquila/laceup_brown //AQUILA EDIT
 	suit = /obj/item/clothing/suit/toggle/labcoat/science
+	glasses = /obj/item/clothing/glasses/regular //AQUILA EDIT
 
 	r_pocket = /obj/item/discovery_scanner
 
