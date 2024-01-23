@@ -200,7 +200,7 @@
 		current_button.appearance_cache = I.appearance
 
 /datum/action/item_action/toggle_light
-	name = "Toggle Light"
+	name = "Włącz/Wyłącz Światło"
 
 /datum/action/item_action/toggle_light/Trigger()
 	if(istype(target, /obj/item/modular_computer))
@@ -210,44 +210,44 @@
 	..()
 
 /datum/action/item_action/toggle_hood
-	name = "Toggle Hood"
+	name = "Załóż/Zdejmij Hełm"
 
 /datum/action/item_action/toggle_firemode
-	name = "Toggle Firemode"
+	name = "Zmień Tryb Ognia"
 
 /datum/action/item_action/rcl_col
-	name = "Change Cable Color"
+	name = "Zmień Kolor Przewodu"
 	icon_icon = 'icons/mob/actions/actions_items.dmi'
 	button_icon_state = "rcl_rainbow"
 
 /datum/action/item_action/rcl_gui
-	name = "Toggle Fast Wiring Gui"
+	name = "Włącz/Wyłącz Gui Szybkiego Okablowania"
 	icon_icon = 'icons/mob/actions/actions_items.dmi'
 	button_icon_state = "rcl_gui"
 
 /datum/action/item_action/startchainsaw
-	name = "Pull The Starting Cord"
+	name = "Pociągnij Linkę Rozruchową"
 
 /datum/action/item_action/toggle_computer_light
-	name = "Toggle Flashlight"
+	name = "Włącz/Wyłącz Światło Na Broni"
 
 /datum/action/item_action/toggle_gunlight
-	name = "Toggle Gunlight"
+	name = "Włącz/Wyłącz Światło Na Broni"
 
 /datum/action/item_action/toggle_mode
-	name = "Toggle Mode"
+	name = "Przełącz Tryb"
 
 /datum/action/item_action/toggle_barrier_spread
-	name = "Toggle Barrier Spread"
+	name = "Rozłóż/Złóż Barierę"
 
 /datum/action/item_action/equip_unequip_TED_Gun
-	name = "Equip/Unequip TED Gun"
+	name = "Aktywuj/Dezaktywuj TED Gun"
 
 /datum/action/item_action/toggle_paddles
-	name = "Toggle Paddles"
+	name = "Przełącz płetwy"
 
 /datum/action/item_action/set_internals
-	name = "Set Internals"
+	name = "Włącz/Wyłącz Zbiorniki Wewnętrzne"
 
 /datum/action/item_action/set_internals/UpdateButtonIcon(status_only = FALSE, force)
 	if(..()) //button available
@@ -257,19 +257,19 @@
 				button.icon_state = "template_active"
 
 /datum/action/item_action/pick_color
-	name = "Choose A Color"
+	name = "Wybierz Kolor"
 
 /datum/action/item_action/toggle_mister
-	name = "Toggle Mister"
+	name = "Przełącz Mister"
 
 /datum/action/item_action/activate_injector
-	name = "Activate Injector"
+	name = "Aktywuj Wstrzykiwacz"
 
 /datum/action/item_action/toggle_helmet_light
-	name = "Toggle Helmet Light"
+	name = "Włącz/Wyłącz Światło Hełmu"
 
 /datum/action/item_action/toggle_welding_screen
-	name = "Toggle Welding Screen"
+	name = "Załóż/Zdejmij Maskę Spawalniczą"
 
 /datum/action/item_action/toggle_welding_screen/Trigger()
 	var/obj/item/clothing/head/hardhat/weldhat/H = target
@@ -277,7 +277,7 @@
 		H.toggle_welding_screen(owner)
 
 /datum/action/item_action/toggle_welding_screen/plasmaman
-	name = "Toggle Welding Screen"
+	name = "Załóż/Zdejmij Maskę Spawalniczą"
 
 /datum/action/item_action/toggle_welding_screen/plasmaman/Trigger()
 	var/obj/item/clothing/head/helmet/space/plasmaman/H = target
@@ -294,8 +294,8 @@
 		H.toggle(owner)
 
 /datum/action/item_action/toggle_unfriendly_fire
-	name = "Toggle Friendly Fire \[ON\]"
-	desc = "Toggles if the club's blasts cause friendly fire."
+	name = "Włącz Ogień Przyjacielski"
+	desc = "Decyduje czy uderzenie maczugi zadaje obrażenia sojusznikom."
 	icon_icon = 'icons/mob/actions/actions_items.dmi'
 	button_icon_state = "vortex_ff_on"
 
@@ -308,10 +308,10 @@
 		var/obj/item/hierophant_club/H = target
 		if(H.friendly_fire_check)
 			button_icon_state = "vortex_ff_off"
-			name = "Toggle Friendly Fire \[OFF\]"
+			name = "Wyłącz Ogień Przyjacielski"
 		else
 			button_icon_state = "vortex_ff_on"
-			name = "Toggle Friendly Fire \[ON\]"
+			name = "Włącz Ogień Przyjacielski"
 	..()
 
 /datum/action/item_action/vortex_recall
@@ -338,28 +338,28 @@
 	var/scripture_index = 0 //the index of the scripture we're associated with
 
 /datum/action/item_action/toggle_helmet_flashlight
-	name = "Toggle Helmet Flashlight"
+	name = "Włącz/Wyłącz Latarkę Hełmu"
 
 /datum/action/item_action/toggle_helmet_mode
-	name = "Toggle Helmet Mode"
+	name = "Zmień Tryb Hełmu"
 
 /datum/action/item_action/toggle_beacon
-	name = "Toggle Hardsuit Locator Beacon"
+	name = "Włącz/wyłącz Lokalizator Kombinezonu"
 	icon_icon = 'icons/mob/actions.dmi'
 	button_icon_state = "toggle-transmission"
 
 /datum/action/item_action/toggle_beacon_hud
-	name = "Toggle Hardsuit Locator HUD"
+	name = "Włącz/wyłącz interfejs lokalizatora w kombinezonie"
 	icon_icon = 'icons/mob/actions.dmi'
 	button_icon_state = "toggle-hud"
 
 /datum/action/item_action/toggle_beacon_frequency
-	name = "Toggle Hardsuit Locator Frequency"
+	name = "Przełącz Częstotliwość Lokalizatora Kombinezonu"
 	icon_icon = 'icons/mob/actions.dmi'
 	button_icon_state = "change-code"
 
 /datum/action/item_action/crew_monitor
-	name = "Interface With Crew Monitor"
+	name = "Użyj Monitora Załogi"
 
 /datum/action/item_action/toggle
 
@@ -369,13 +369,13 @@
 	button.name = name
 
 /datum/action/item_action/halt
-	name = "HALT!"
+	name = "STÓJ!"
 
 /datum/action/item_action/toggle_voice_box
-	name = "Toggle Voice Box"
+	name = "Przełącz Syntezator Mowy"
 
 /datum/action/item_action/change
-	name = "Change"
+	name = "Zmień"
 
 /datum/action/item_action/nano_picket_sign
 	name = "Retext Nano Picket Sign"
@@ -390,26 +390,26 @@
 
 /datum/action/item_action/adjust/New(Target)
 	..()
-	name = "Adjust [target.name]"
+	name = "Ustaw [target.name]"
 	button.name = name
 
 /datum/action/item_action/switch_hud
-	name = "Switch HUD"
+	name = "Przełącz HUD"
 
 /datum/action/item_action/toggle_wings
-	name = "Toggle Wings"
+	name = "Zacznij/Przestań Używać Skrzydeł"
 
 /datum/action/item_action/toggle_human_head
-	name = "Toggle Human Head"
+	name = "Zacznij/Przestań Używać Ludzkiej Głowy"
 
 /datum/action/item_action/toggle_helmet
-	name = "Toggle Helmet"
+	name = "ZAłóż/Zdejmij Hełm"
 
 /datum/action/item_action/toggle_jetpack
-	name = "Toggle Jetpack"
+	name = "Włącz/Wyłącz Jetpack"
 
 /datum/action/item_action/jetpack_stabilization
-	name = "Toggle Jetpack Stabilization"
+	name = "Włącz/Wyłącz Stabilizację Jetpacka"
 
 /datum/action/item_action/jetpack_stabilization/IsAvailable()
 	var/obj/item/tank/jetpack/J = target
@@ -421,17 +421,17 @@
 	check_flags = AB_CHECK_CONSCIOUS
 
 /datum/action/item_action/hands_free/activate
-	name = "Activate"
+	name = "Aktywuj"
 
 /datum/action/item_action/hands_free/shift_nerves
 	name = "Shift Nerves"
 
 /datum/action/item_action/explosive_implant
 	check_flags = NONE
-	name = "Activate Explosive Implant"
+	name = "Aktywuj Implant Wybuchowy"
 
 /datum/action/item_action/toggle_research_scanner
-	name = "Toggle Research Scanner"
+	name = "Włącz/Wyłącz Skaner Badawczy"
 	icon_icon = 'icons/mob/actions/actions_items.dmi'
 	button_icon_state = "scan_mode"
 	var/active = FALSE
@@ -443,7 +443,7 @@
 			owner.research_scanner++
 		else
 			owner.research_scanner--
-		to_chat(owner, "<span class='notice'>[target] research scanner has been [active ? "activated" : "deactivated"].</span>")
+		to_chat(owner, "<span class='notice'>[target] skaner badawczy zostawł [active ? "aktywowany" : "deaktywowany"].</span>")
 		return 1
 
 /datum/action/item_action/toggle_research_scanner/Remove(mob/M)
@@ -453,8 +453,8 @@
 	..()
 
 /datum/action/item_action/instrument
-	name = "Use Instrument"
-	desc = "Use the instrument specified"
+	name = "Użyj Instrumentu"
+	desc = "Użyj wybranego instrumentu"
 
 /datum/action/item_action/instrument/Trigger()
 	if(istype(target, /obj/item/instrument))
@@ -464,7 +464,7 @@
 	return ..()
 
 /datum/action/item_action/activate_remote_view
-	name = "Activate Remote View"
+	name = "Aktywuj Zdalny Widok"
 	desc = "Activates the Remote View of your spy sunglasses."
 
 /datum/action/item_action/organ_action
@@ -478,17 +478,17 @@
 
 /datum/action/item_action/organ_action/toggle/New(Target)
 	..()
-	name = "Toggle [target.name]"
+	name = "Włącz/Wyłącz [target.name]"
 	button.name = name
 
 /datum/action/item_action/organ_action/use/New(Target)
 	..()
-	name = "Use [target.name]"
+	name = "Użyj [target.name]"
 	button.name = name
 
 /datum/action/item_action/cult_dagger
-	name = "Draw Blood Rune"
-	desc = "Use the ritual dagger to create a powerful blood rune"
+	name = "Narysuj Krawą Runę"
+	desc = "Użyj rytualnego sztyletu do narysowania potężnej krwawej runy"
 	icon_icon = 'icons/mob/actions/actions_cult.dmi'
 	button_icon_state = "draw"
 	buttontooltipstyle = "cult"
@@ -514,15 +514,15 @@
 		return
 	else
 		if (owner.get_num_arms() <= 0)
-			to_chat(owner, "<span class='warning'>You don't have any usable hands!</span>")
+			to_chat(owner, "<span class='warning'>Nie masz żadnych użytecznych rąk!</span>")
 		else
-			to_chat(owner, "<span class='warning'>Your hands are full!</span>")
+			to_chat(owner, "<span class='warning'>Masz zajęte ręce!</span>")
 
 
 ///MGS BOX!
 /datum/action/item_action/agent_box
-	name = "Deploy Box"
-	desc = "Find inner peace, here, in the box."
+	name = "Użyj Pudła"
+	desc = "Znajdź wewnętrzny spokój, tutaj, w pudełku."
 	check_flags = AB_CHECK_RESTRAINED|AB_CHECK_STUN|AB_CHECK_CONSCIOUS
 	background_icon_state = "bg_agent"
 	icon_icon = 'icons/mob/actions/actions_items.dmi'
@@ -543,7 +543,7 @@
 		return
 	//Box closing from here on out.
 	if(!isturf(owner.loc)) //Don't let the player use this to escape mechs/welded closets.
-		to_chat(owner, "<span class = 'notice'>You need more space to activate this implant.</span>")
+		to_chat(owner, "<span class='warning'>Potrzebujesz więcej miejsca do aktywowania implantu!</span>")
 		return
 	if(!COOLDOWN_FINISHED(src, box_cooldown))
 		return
@@ -675,21 +675,21 @@
 
 //Stickmemes
 /datum/action/item_action/stickmen
-	name = "Summon Stick Minions"
-	desc = "Allows you to summon faithful stickmen allies to aide you in battle."
+	name = "Przyzwij Patykowe Sługi"
+	desc = "Pozwala na przyzwanie wiernych patyczakowych sojuszników wspierających cię w walce."
 	icon_icon = 'icons/mob/actions/actions_minor_antag.dmi'
 	button_icon_state = "art_summon"
 
 //surf_ss13
 /datum/action/item_action/bhop
-	name = "Activate Jump Boots"
-	desc = "Activates the jump boot's internal propulsion system, allowing the user to dash over 4-wide gaps."
+	name = "Aktywuj Buty Skokowe"
+	desc = "Aktywuje wewnętrzne zasilanie butów skokowych, pozwalając użytkownikowi przemieszczać się nad szczelinami o 4m szerokości."
 	icon_icon = 'icons/mob/actions/actions_items.dmi'
 	button_icon_state = "jetboot"
 
 /datum/action/language_menu
-	name = "Language Menu"
-	desc = "Open the language menu to review your languages, their keys, and select your default language."
+	name = "Menu Języków"
+	desc = "Otwórz menu języków, żeby sprawdzić swoje języki, ich znaczniki oraz ustawić język domyślny."
 	button_icon_state = "language_menu"
 	check_flags = NONE
 
@@ -715,8 +715,8 @@
 
 //Small sprites
 /datum/action/small_sprite
-	name = "Toggle Giant Sprite"
-	desc = "Others will always see you as giant"
+	name = "Włącz/Wyłącz Gigantyczny Sprite"
+	desc = "Inni nadal będą widzieć cię jako giganta"
 	icon_icon = 'icons/mob/actions/actions_xeno.dmi'
 	button_icon_state = "smallqueen"
 	background_icon_state = "bg_alien"
@@ -764,8 +764,8 @@
 		small = FALSE
 
 /datum/action/item_action/storage_gather_mode
-	name = "Switch gathering mode"
-	desc = "Switches the gathering mode of a storage object."
+	name = "Zmień tryb zbierania"
+	desc = "Zmienia tryb zbierania obiektu przechowującego."
 	icon_icon = 'icons/mob/actions/actions_items.dmi'
 	button_icon_state = "storage_gather_switch"
 

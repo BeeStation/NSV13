@@ -2,18 +2,20 @@
 //this file is named weirdly so that positive traits are listed above negative ones
 
 /datum/quirk/alcohol_tolerance
-	name = "Alcohol Tolerance"
-	desc = "You become drunk more slowly and suffer fewer drawbacks from alcohol."
+	name = "Tolerancja Alkoholowa"
+	desc = "Upijasz się wolniej i masz mniej skutków negatywnych z picia alkoholu."
 	value = 1
 	mob_trait = TRAIT_ALCOHOL_TOLERANCE
-	gain_text = "<span class='notice'>You feel like you could drink a whole keg!</span>"
-	lose_text = "<span class='danger'>You don't feel as resistant to alcohol anymore. Somehow.</span>"
+	gain_text = "<span class='notice'>Czujesz jakbyś mógł wypić wannę amareny!</span>"
+	lose_text = "<span class='danger'>Nie czujesz się już tak samo odporny na alkohol. Jakimś cudem.</span>"
+	medical_record_text = "Pacjent wykazuje niespotykaną tolerancję na alkohol."
 
 /datum/quirk/apathetic
-	name = "Apathetic"
-	desc = "You just don't care as much as other people. That's nice to have in a place like this, I guess."
+	name = "Apatyczny"
+	desc = "Po prostu nie przejmujesz się tak bardzo jak inni. To chyba dobrze, w takim miejscu jak to."
 	value = 1
 	mood_quirk = TRUE
+	medical_record_text = "Pacjentowi podano Test Ewaluacji Apatii, jednak nie przejął się nim na tyle, żeby go uzupełnić."
 
 /datum/quirk/apathetic/add()
 	var/datum/component/mood/mood = quirk_holder.GetComponent(/datum/component/mood)
@@ -26,66 +28,72 @@
 		mood.mood_modifier += 0.2
 
 /datum/quirk/drunkhealing
-	name = "Drunken Resilience"
-	desc = "Nothing like a good drink to make you feel on top of the world. Whenever you're drunk, you slowly recover from injuries."
+	name = "Zdrowie Żula"
+	desc = "Nie ma nic lepszego do postawienia cię na nogi, niż szklaneczka czegoś mocnego. Kiedy jesteś pijany powoli odzyskujesz zdrowie."
 	value = 2
 	mob_trait = TRAIT_DRUNK_HEALING
-	gain_text = "<span class='notice'>You feel like a drink would do you good.</span>"
-	lose_text = "<span class='danger'>You no longer feel like drinking would ease your pain.</span>"
-	medical_record_text = "Patient has unusually efficient liver metabolism and can slowly regenerate wounds by drinking alcoholic beverages."
+	gain_text = "<span class='notice'>Czujesz, że napicie się czegoś nie byłoby takim złym pomysłem.</span>"
+	lose_text = "<span class='danger'>Czujesz, że alkohol nie jest rozwiązaniem.</span>"
+	medical_record_text = "Pacjent ma zaskakująco wydajny metabolizm i potafi powoli leczyć swoje rany poprzez spożywanie trunków alkoholowych."
 
 /datum/quirk/empath
-	name = "Empath"
-	desc = "Whether it's a sixth sense or careful study of body language, it only takes you a quick glance at someone to understand how they feel."
+	name = "Empatia"
+	desc = "Czy to przez szósty zmysł, czy dokładną obserwację języka ciała, jesteś w stanie określić jak się ktoś czuje zaledwie poprzez szybkie spojrzenie."
 	value = 2
 	mob_trait = TRAIT_EMPATH
-	gain_text = "<span class='notice'>You feel in tune with those around you.</span>"
-	lose_text = "<span class='danger'>You feel isolated from others.</span>"
+	gain_text = "<span class='notice'>Zaczynasz rozumieć otaczających cię ludzi.</span>"
+	lose_text = "<span class='danger'>Przestałeś rozumieć emocje innych.</span>"
+	medical_record_text = "Pacjent zwraca wiele uwagi i jest wrażliwy na cudze uczucia lub choruje na ESP. Potrzebne więcej badań."
 
 /datum/quirk/freerunning
-	name = "Freerunning"
-	desc = "You're great at quick moves! You can climb tables more quickly."
+	name = "Mistrz Parkour"
+	desc = "Jesteś mistrzem zręczności i szybkości! Wspinasz się na stoły szybciej."
 	value = 2
 	mob_trait = TRAIT_FREERUNNING
-	gain_text = "<span class='notice'>You feel lithe on your feet!</span>"
-	lose_text = "<span class='danger'>You feel clumsy again.</span>"
+	gain_text = "<span class='notice'>Czujesz, że mógłbyś zrobić salto!</span>"
+	lose_text = "<span class='danger'>Czujesz się niezdarnie.</span>"
+	medical_record_text = "Pacjent zdał testy sprawnościowe celująco."
 
 /datum/quirk/friendly
-	name = "Friendly"
-	desc = "You give the best hugs, especially when you're in the right mood."
+	name = "Przyjacielski"
+	desc = "Dajesz najlepsze przytulasy, zwłaszcza gdy sam czujesz się świetnie."
 	value = 1
 	mob_trait = TRAIT_FRIENDLY
-	gain_text = "<span class='notice'>You want to hug someone.</span>"
-	lose_text = "<span class='danger'>You no longer feel compelled to hug others.</span>"
+	gain_text = "<span class='notice'>Chcesz kogoś przytulić.</span>"
+	lose_text = "<span class='danger'>Nie ciągnie cię już do przytulania innych.</span>"
 	mood_quirk = TRUE
+	medical_record_text = "Pacjent wykazuje tendencję do przyjaznych kontaktów fizycznych oraz posiada rozwinięte kończyny górne. Wnoszę o przeniesienie przypadku do innego doktora."
 
 /datum/quirk/jolly
-	name = "Jolly"
-	desc = "You sometimes just feel happy, for no reason at all."
+	name = "Wesoły"
+	desc = "Czasami czujesz się szczęśliwszy bez powodu."
 	value = 1
 	mob_trait = TRAIT_JOLLY
 	mood_quirk = TRUE
 	process = TRUE
+	medical_record_text = "Pacjent produkuje endorfiny w ilościach zbyt dużych jak na aktualne warunki."
 
 /datum/quirk/jolly/on_process(delta_time)
 	if(DT_PROB(0.05, delta_time))
 		SEND_SIGNAL(quirk_holder, COMSIG_ADD_MOOD_EVENT, "jolly", /datum/mood_event/jolly)
 
 /datum/quirk/light_step
-	name = "Light Step"
-	desc = "You walk with a gentle step; stepping on sharp objects is quieter, less painful and you won't leave footprints behind you."
+	name = "Lekki krok"
+	desc = "Suniesz gładko po ziemi; kroki i chodzenie po szkle są cichsze oraz mniej bolesne."
 	value = 1
 	mob_trait = TRAIT_LIGHT_STEP
-	gain_text = "<span class='notice'>You walk with a little more litheness.</span>"
-	lose_text = "<span class='danger'>You start tromping around like a barbarian.</span>"
+	gain_text = "<span class='notice'>Twoje stopy wydają się być lekkie jak piórko.</span>"
+	lose_text = "<span class='danger'>Stompasz ciężko po ziemi jak barbarzyńca.</span>"
+	medical_record_text = "Pacjent wykazuje znaczną zręczność i umiejętności skradania."
 
 /datum/quirk/musician
-	name = "Musician"
-	desc = "You can tune handheld musical instruments to play melodies that clear certain negative effects and soothe the soul."
+	name = "Muzyk"
+	desc = "Potrafisz grać dźwięki, które leczą niektóre rany na duszy."
 	value = 1
 	mob_trait = TRAIT_MUSICIAN
-	gain_text = "<span class='notice'>You know everything about musical instruments.</span>"
-	lose_text = "<span class='danger'>You forget how musical instruments work.</span>"
+	gain_text = "<span class='notice'>Wiesz wszystko o instrumentach muzycznych.</span>"
+	lose_text = "<span class='danger'>Zapomniałeś jak działają instrumenty muzyczne.</span>"
+	medical_record_text = "Skany mózgu pacjenta wykazały znaczne rozwinięcie płatu odpowiedzialnego za poczucie rytmu."
 
 /datum/quirk/musician/on_spawn()
 	var/mob/living/carbon/human/H = quirk_holder
@@ -97,12 +105,12 @@
 	H.equip_in_one_of_slots(B, slots , qdel_on_fail = TRUE)
 
 /datum/quirk/multilingual
-	name = "Multilingual"
-	desc = "You spent a portion of your life learning to understand an additional language. You may or may not be able to speak it based on your anatomy."
+	name = "Poliglota"
+	desc = "Spędziłeś część swojego życia na nauce rozumienia dodatkowego języka. Możesz lub nie posługiwać się nim w zależności od twojej anatomii."
 	value = 1
 	mob_trait = TRAIT_MULTILINGUAL
-	gain_text = "<span class='notice'>You have learned to understand an additional language.</span>"
-	lose_text = "<span class='danger'>You have forgotten how to understand a language.</span>"
+	gain_text = "<span class='notice'>Nauczyłeś się rozumieć dodatkowy język.</span>"
+	lose_text = "<span class='danger'>Zapomniałeś jak rozumieć język.</span>"
 
 /datum/quirk/multilingual/on_spawn()
 	var/mob/living/carbon/human/H = quirk_holder
@@ -120,12 +128,13 @@
 //Credit To Yowii/Yoworii/Yorii for a much more streamlined method of language library building
 
 /datum/quirk/night_vision
-	name = "Night Vision"
-	desc = "You can see slightly more clearly in full darkness than most people."
+	name = "Noktowizja"
+	desc = "Widzisz w ciemności lepiej niż większość osób."
 	value = 1
 	mob_trait = TRAIT_NIGHT_VISION
-	gain_text = "<span class='notice'>The shadows seem a little less dark.</span>"
-	lose_text = "<span class='danger'>Everything seems a little darker.</span>"
+	gain_text = "<span class='notice'>Cienie wydają się mniej ciemne.</span>"
+	lose_text = "<span class='danger'>Wszystko wydaje się nagle bardziej przyciemnione.</span>"
+	medical_record_text = "Oczy pacjenta wykazują przystosowanie do ciemniejszego środowiska."
 
 /datum/quirk/night_vision/on_spawn()
 	var/mob/living/carbon/human/H = quirk_holder
@@ -135,12 +144,13 @@
 	eyes.Insert(H) //refresh their eyesight and vision
 
 /datum/quirk/photographer
-	name = "Photographer"
-	desc = "You know how to handle a camera, shortening the delay between each shot."
+	name = "Fotograf"
+	desc = "Wszędzie nosisz ze sobą swój aparat i album na zdjęcia, które potrafisz robić szybciej niż większość"
 	value = 1
 	mob_trait = TRAIT_PHOTOGRAPHER
-	gain_text = "<span class='notice'>You know everything about photography.</span>"
-	lose_text = "<span class='danger'>You forget how photo cameras work.</span>"
+	gain_text = "<span class='notice'>Wiesz wszystko o fotografii.</span>"
+	lose_text = "<span class='danger'>Zapomniałeś jak działa aparat.</span>"
+	medical_record_text = "Pacjent wskazał fotografię jako swój ulubiony sposób na odstresowanie."
 
 /datum/quirk/photographer/on_spawn()
 	var/mob/living/carbon/human/H = quirk_holder
@@ -156,24 +166,27 @@
 	H.regenerate_icons()
 
 /datum/quirk/selfaware
-	name = "Self-Aware"
-	desc = "You know your body well, and can accurately assess the extent of your wounds."
+	name = "Samoświadomy"
+	desc = "Dobrze znasz swoje ciało i potrafisz dokładnie stwierdzić rozmiar swoich urazów."
 	value = 2
 	mob_trait = TRAIT_SELF_AWARE
+	medical_record_text = "Pacjent wykazuje niepokojąco dokładne zdolności samodiagnostyczne."
 
 /datum/quirk/skittish
-	name = "Skittish"
-	desc = "You can conceal yourself in danger. Ctrl-shift-click a closed locker to jump into it, as long as you have access."
+	name = "Płochliwy"
+	desc = "Potrafisz szybko odciąć się od zagrożenia. Kliknij na zamkniętą szafkę przytrzymując ctrl + shift, żeby do niej wskoczyć, jeśli posiadasz do niej dostęp."
 	value = 2
 	mob_trait = TRAIT_SKITTISH
+	medical_record_text = "Pacjent wykazuje znaczną obawę przed zagrożeniem i często ze strachu ukrywa się w różnych pojemnikach."
 
 /datum/quirk/spiritual
-	name = "Spiritual"
-	desc = "You hold a spiritual belief, whether in God, nature or the arcane rules of the universe. You gain comfort from the presence of holy people, and believe that your prayers are more special than others."
+	name = "Uduchowiony"
+	desc = "Jesteś głęboko wierzący, czy to w Boga, czy prawa rządzące wszechświatem. Czujesz się komfortowo w otoczeniu świętych osób, a twoje modlitwy są częściej wysłuchiwane."
 	value = 1
 	mob_trait = TRAIT_SPIRITUAL
-	gain_text = "<span class='notice'>You have faith in a higher power.</span>"
-	lose_text = "<span class='danger'>You lose faith!</span>"
+	gain_text = "<span class='notice'>Wierzysz w siłę wyższą.</span>"
+	lose_text = "<span class='danger'>Straciłeś wiarę!</span>"
+	medical_record_text = "Pacjent wyraził wiarę w siłę wyższą."
 	process = TRUE
 
 /datum/quirk/spiritual/on_spawn()
@@ -193,12 +206,13 @@
 		SEND_SIGNAL(quirk_holder, COMSIG_CLEAR_MOOD_EVENT, "religious_comfort")
 
 /datum/quirk/tagger
-	name = "Tagger"
-	desc = "You're an experienced artist. While drawing graffiti, you can get twice as many uses out of drawing supplies."
+	name = "Graficiarz"
+	desc = "Jesteś doświadczonym artystą. Ludziom naprawdę podobają sie twoje rysunki, twoje przybory artystyczne mają dwa razy więcej użyć."
 	value = 1
 	mob_trait = TRAIT_TAGGER
-	gain_text = "<span class='notice'>You know how to tag walls efficiently.</span>"
-	lose_text = "<span class='danger'>You forget how to tag walls properly.</span>"
+	gain_text = "<span class='notice'>Masz ochotę walnąć taga na ścianie.</span>"
+	lose_text = "<span class='danger'>Tagowanie jednak ci się znudziło.</span>"
+	medical_record_text = "Pacjent był zamieszany w incydent z wąchaniem farby."
 
 /datum/quirk/tagger/on_spawn()
 	var/mob/living/carbon/human/H = quirk_holder
@@ -208,20 +222,20 @@
 	H.regenerate_icons()
 
 /datum/quirk/voracious
-	name = "Voracious"
-	desc = "Nothing gets between you and your food. You eat faster and can binge on junk food! Being fat suits you just fine."
+	name = "Żarłoczny"
+	desc = "Nic nie może stanąć między tobą, a jedzeniem. Jesz szybciej i możesz obżerać się śmieciowym żarciem! Bycie otyłym ci pasuje."
 	value = 1
 	mob_trait = TRAIT_VORACIOUS
-	gain_text = "<span class='notice'>You feel HONGRY.</span>"
-	lose_text = "<span class='danger'>You no longer feel HONGRY.</span>"
+	gain_text = "<span class='notice'>Czujesz się WYGŁODNIAŁY.</span>"
+	lose_text = "<span class='danger'>Już nie czujesz się WYGŁODNIAŁY.</span>"
 
 /datum/quirk/neet
-	name = "NEET"
-	desc = "For some reason you qualified for social welfare and you don't really care about your own personal hygiene." //NSV13 - kept hygiene
+	name = "Socjals"
+	desc = "Z jakiegoś powodu zakwalifikowałeś się do programu opieki społecznej i nie bardzo dbasz o własną higienę osobistą." //NSV13 - kept hygiene
 	value = 1
 	mob_trait = TRAIT_NEET
-	gain_text = "<span class='notice'>You feel useless to society.</span>"
-	lose_text = "<span class='danger'>You no longer feel useless to society.</span>"
+	gain_text = "<span class='notice'>czujesz się bezużyteczny dla społeczeństwa.</span>"
+	lose_text = "<span class='danger'>Już nie czujesz się bezużyteczny dla społeczeństwa.</span>"
 	mood_quirk = TRUE
 	process = TRUE
 

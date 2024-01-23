@@ -1,7 +1,7 @@
 //Contains the target item datums for Steal objectives.
 
 /datum/objective_item
-	var/name = "A silly bike horn! Honk!"
+	var/name = "Śmieszną trąbkę rowerową!  Honk!"
 	var/targetitem = /obj/item/bikehorn		//typepath of the objective item
 	var/difficulty = 9001							//vaguely how hard it is to do this objective
 	var/list/excludefromjob = list()				//If you don't want a job to get a certain objective (no captain stealing his own medal, etcetc)
@@ -26,49 +26,49 @@
 	return ..()
 
 /datum/objective_item/steal/caplaser
-	name = "the captain's antique laser gun."
+	name = "zabytkowy pistolet laserowy Kapitana."
 	targetitem = /obj/item/gun/energy/laser/captain
 	difficulty = 5
 	excludefromjob = list(JOB_NAME_CAPTAIN)
 
 /datum/objective_item/steal/hoslaser
-	name = "the head of security's personal glock, 'Winona'." //Nsv13 changed this because LASERS BAD
+	name = "osobisty glock Komendanta, 'Winona'."
 	targetitem = /obj/item/gun/ballistic/automatic/pistol/glock/security/hos
 	difficulty = 10
 	excludefromjob = list("Head Of Security")
 
 /datum/objective_item/steal/handtele
-	name = "a hand teleporter."
+	name = "ręczny teleporter."
 	targetitem = /obj/item/hand_tele
 	difficulty = 5
 	excludefromjob = list(JOB_NAME_CAPTAIN, JOB_NAME_RESEARCHDIRECTOR)
 
 /datum/objective_item/steal/jetpack
-	name = "the Captain's jetpack."
+	name = "jetpack Kapitana."
 	targetitem = /obj/item/tank/jetpack/oxygen/captain
 	difficulty = 5
 	excludefromjob = list(JOB_NAME_CAPTAIN)
 
 /datum/objective_item/steal/magboots
-	name = "the chief engineer's advanced magnetic boots."
+	name = "zaawansowane buty magnetyczne Szefa Inżynierii."
 	targetitem =  /obj/item/clothing/shoes/magboots/advance
 	difficulty = 5
 	excludefromjob = list(JOB_NAME_CHIEFENGINEER)
 
 /datum/objective_item/steal/capmedal
-	name = "the medal of captaincy."
+	name = "medal Kapitaństwa."
 	targetitem = /obj/item/clothing/accessory/medal/gold/captain
 	difficulty = 5
 	excludefromjob = list(JOB_NAME_CAPTAIN)
 
 /datum/objective_item/steal/hypo
-	name = "the hypospray."
+	name = "hypospray."
 	targetitem = /obj/item/reagent_containers/hypospray/CMO
 	difficulty = 5
 	excludefromjob = list(JOB_NAME_CHIEFMEDICALOFFICER)
 
 /datum/objective_item/steal/nukedisc
-	name = "the nuclear authentication disk."
+	name = "nuklearny dysk uwierzytelniający."
 	targetitem = /obj/item/disk/nuclear
 	difficulty = 5
 	excludefromjob = list(JOB_NAME_CAPTAIN)
@@ -77,24 +77,24 @@
 	return !N.fake
 
 /datum/objective_item/steal/riot
-	name = "a riot suit."
+	name = "strój do zamieszek."
 	targetitem = /obj/item/clothing/suit/armor/riot
 	difficulty = 3
 	excludefromjob = list(JOB_NAME_HEADOFSECURITY, JOB_NAME_WARDEN)
 
 /datum/objective_item/steal/reactive
-	name = "the reactive teleport armor."
+	name = "reakcyjną zbroję teleportującą (reactive teleport armor)."
 	targetitem = /obj/item/clothing/suit/armor/reactive/teleport
 	difficulty = 5
 	excludefromjob = list(JOB_NAME_RESEARCHDIRECTOR)
 
 /datum/objective_item/steal/documents
-	name = "any set of secret documents of any organization."
+	name = "tajne dokumenty dowolnej organizacji."
 	targetitem = /obj/item/documents //Any set of secret documents. Doesn't have to be NT's
 	difficulty = 5
 
 /datum/objective_item/steal/nuke_core
-	name = "the heavily radioactive plutonium core from the onboard self-destruct. Take care to wear the proper safety equipment when extracting the core!"
+	name = "wysoko radioaktywny rdzeń pulutonowy z pokładowego modułu autodestrukcji. Upewnij się, że jesteś ubrany w odpowiednie środki ochrony osobistej podczas pozyskiwania rdzenia!"
 	targetitem = /obj/item/nuke_core
 	difficulty = 15
 
@@ -103,7 +103,7 @@
 	..()
 
 /datum/objective_item/steal/supermatter
-	name = "a sliver of a supermatter crystal. Be sure to use the proper safety equipment when extracting the sliver!"
+	name = "odłamek kryształu supermaterii. Upewnij się, że jesteś ubrany w odpowiednie środki ochrony osobistej podczas pozyskiwania srebra!"
 	targetitem = /obj/item/nuke_core/supermatter_sliver
 	difficulty = 15
 
@@ -116,7 +116,7 @@
 
 //Items with special checks!
 /datum/objective_item/steal/plasma
-	name = "28 moles of plasma (full tank). Be sure to fill up the tank with additional plasma since it doesn't start full!"
+	name = "28 moli plazmy (pełen zbiornik). Upewnij się, że napełniłeś zbiornik dodatkową plazmą, gdyż nie zaczyna on pełny!"
 	targetitem = /obj/item/tank
 	difficulty = 3
 	excludefromjob = list(JOB_NAME_CHIEFENGINEER,JOB_NAME_RESEARCHDIRECTOR,JOB_NAME_STATIONENGINEER,JOB_NAME_SCIENTIST,JOB_NAME_ATMOSPHERICTECHNICIAN)
@@ -129,7 +129,7 @@
 
 
 /datum/objective_item/steal/functionalai
-	name = "a functional AI."
+	name = "działające AI."
 	targetitem = /obj/item/aicard
 	difficulty = 20 //beyond the impossible
 
@@ -140,7 +140,7 @@
 	return 0
 
 /datum/objective_item/steal/blueprints
-	name = "the station blueprints."
+	name = "plany statku."
 	targetitem = /obj/item/areaeditor/blueprints
 	difficulty = 10
 	excludefromjob = list(JOB_NAME_CHIEFENGINEER)
@@ -156,7 +156,7 @@
 	return FALSE
 
 /datum/objective_item/steal/slime
-	name = "an unused sample of slime extract."
+	name = "niewykorzystaną próbkę ekstraktu ze slime'a."
 	targetitem = /obj/item/slime_extract
 	difficulty = 3
 	excludefromjob = list(JOB_NAME_RESEARCHDIRECTOR,JOB_NAME_SCIENTIST)
@@ -167,19 +167,19 @@
 	return 0
 
 /datum/objective_item/steal/blackbox
-	name = "the blackbox."
+	name = "Czarną Skrzynkę (the blackbox)."
 	targetitem = /obj/item/blackbox
 	difficulty = 10
 	excludefromjob = list(JOB_NAME_CHIEFENGINEER,JOB_NAME_STATIONENGINEER,JOB_NAME_ATMOSPHERICTECHNICIAN)
 
 //Unique Objectives
 /datum/objective_item/unique/docs_red
-	name = "the \"Red\" secret documents."
+	name = "\"Czerwone\" tajne dokumenty."
 	targetitem = /obj/item/documents/syndicate/red
 	difficulty = 10
 
 /datum/objective_item/unique/docs_blue
-	name = "the \"Blue\" secret documents."
+	name = "\"Niebieskie\" tajne dokumenty."
 	targetitem = /obj/item/documents/syndicate/blue
 	difficulty = 10
 
@@ -196,37 +196,37 @@
 
 //Old ninja objectives.
 /datum/objective_item/special/pinpointer/nuke
-	name = "the captain's pinpointer."
+	name = "wskaźnik Kapitana."
 	targetitem = /obj/item/pinpointer
 	difficulty = 10
 
 /datum/objective_item/special/aegun
-	name = "an advanced energy gun."
+	name = "zaawansowany pistolet energetyczny (advanced energy gun)."
 	targetitem = /obj/item/gun/energy/e_gun/nuclear
 	difficulty = 10
 
 /datum/objective_item/special/ddrill
-	name = "a diamond drill."
+	name = "diamentowe wiertło."
 	targetitem = /obj/item/pickaxe/drill/diamonddrill
 	difficulty = 10
 
 /datum/objective_item/special/boh
-	name = "a bag of holding."
+	name = "torbę bez dna (bag of holding)."
 	targetitem = /obj/item/storage/backpack/holding
 	difficulty = 10
 
 /datum/objective_item/special/hypercell
-	name = "a hyper-capacity power cell."
+	name = "hiper-pojemną baterię."
 	targetitem = /obj/item/stock_parts/cell/hyper
 	difficulty = 5
 
 /datum/objective_item/special/laserpointer
-	name = "a laser pointer."
+	name = "wskaźnik laserowy."
 	targetitem = /obj/item/laser_pointer
 	difficulty = 5
 
 /datum/objective_item/special/corgimeat
-	name = "a piece of corgi meat."
+	name = "mięso corgiego."
 	targetitem = /obj/item/reagent_containers/food/snacks/meat/slab/corgi
 	difficulty = 5
 
@@ -243,7 +243,7 @@
 
 //Stack objectives get their own subtype
 /datum/objective_item/stack
-	name = "5 cardboard."
+	name = "5 jednostek tektury."
 	targetitem = /obj/item/stack/sheet/cardboard
 	difficulty = 9001
 
@@ -256,16 +256,16 @@
 	return found_amount>=target_amount
 
 /datum/objective_item/stack/diamond
-	name = "10 diamonds."
+	name = "10 diamentów."
 	targetitem = /obj/item/stack/sheet/mineral/diamond
 	difficulty = 10
 
 /datum/objective_item/stack/gold
-	name = "50 gold bars."
+	name = "50 sztabek złota."
 	targetitem = /obj/item/stack/sheet/mineral/gold
 	difficulty = 15
 
 /datum/objective_item/stack/uranium
-	name = "25 refined uranium bars."
+	name = "25 sztabek wzbogaconego uranu."
 	targetitem = /obj/item/stack/sheet/mineral/uranium
 	difficulty = 10
