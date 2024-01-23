@@ -54,7 +54,7 @@
 			if(PLAYER_READY_TO_PLAY)
 				output += "<p>\[ <b>Gotowy</b> | [LINKIFY_READY("Nie Gotowy", PLAYER_NOT_READY)] | [LINKIFY_READY("Obserwuj", PLAYER_READY_TO_OBSERVE)] \]</p>"
 			if(PLAYER_READY_TO_OBSERVE)
-				output += "<p>\[ [LINKIFY_READY("Gotowy", PLAYER_READY_TO_PLAY)] | [LINKIFY_READY("Nie Gotowy", PLAYER_NOT_READY)] | <b>Obserwuj</b> \]</p>"
+				output += "<p>\[ [LINKIFY_READY("Gotowy", PLAYER_READY_TO_PLAY)] | [LINKIFY_READY("Niegotowy", PLAYER_NOT_READY)] | <b>Obserwuj</b> \]</p>"
 	else
 		output += "<p><a href='byond://?src=[REF(src)];manifest=1'>Wyświetl listę graczy</a></p>"
 		output += "<p><a href='byond://?src=[REF(src)];late_join=1'>Dołącz do gry!</a></p>"
