@@ -885,7 +885,7 @@ GLOBAL_VAR_INIT(rpg_loot_items, FALSE)
 	var/icon_state_to_use = belt_icon_state || icon_state
 	if(greyscale_config_belt && greyscale_colors)
 		return mutable_appearance(SSgreyscale.GetColoredIconByType(greyscale_config_belt, greyscale_colors), icon_state_to_use)
-	return mutable_appearance('icons/obj/clothing/belt_overlays.dmi', icon_state_to_use)
+	return mutable_appearance('aquila/icons/obj/clothing/belt_overlays.dmi', icon_state_to_use) // AQUILA EDIT
 
 /obj/item/proc/update_slot_icon()
 	if(!ismob(loc))
