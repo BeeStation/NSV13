@@ -12,11 +12,11 @@
 		sound = SSstation.announcer.event_sounds[sound]
 
 	if(type == "Priority")
-		announcement += "<h1 class='alert'>Priority Announcement</h1>"
+		announcement += "<h1 class='alert'>Ogłoszenie Priorytetowe</h1>"
 		if (title && length(title) > 0)
 			announcement += "<br><h2 class='alert'>[html_encode(title)]</h2>"
 	else if(type == JOB_NAME_CAPTAIN)
-		announcement += "<h1 class='alert'>Captain Announces</h1>"
+		announcement += "<h1 class='alert'>Ogłoszenie Kapitana</h1>"
 		GLOB.news_network.SubmitArticle(html_encode(text), "Captain's Announcement", "Station Announcements", null)
 
 	else
@@ -75,7 +75,7 @@
 
 	SScommunications.send_message(M)
 
-/proc/minor_announce(message, title = "Attention:", alert, from, html_encode = TRUE)
+/proc/minor_announce(message, title = "Uwaga:", alert, from, html_encode = TRUE)
 	if(!message)
 		return
 

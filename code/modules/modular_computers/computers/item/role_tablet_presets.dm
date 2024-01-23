@@ -1,6 +1,6 @@
 /obj/item/modular_computer/tablet/pda/clown
 	name = "clown PDA"
-	desc = "A portable microcomputer by Thinktronic Systems, LTD. The surface is coated with polytetrafluoroethylene and banana drippings."
+	desc = "Przenośny minikomputer, wyprodukowany przez Thinktronic Systems, LTD. Powierzchnia została pokryta teflonem i resztkami bananów."
 	note = "Honk!"
 	default_disk = /obj/item/computer_hardware/hard_drive/role/virus/clown
 	icon_state = "pda-clown"
@@ -25,7 +25,7 @@
 
 /obj/item/modular_computer/tablet/pda/mime
 	name = "mime PDA"
-	desc = "A portable microcomputer by Thinktronic Systems, LTD. The hardware has been modified for compliance with the vows of silence."
+	desc = "Przenośny minikomputer, wyprodukowany przez Thinktronic Systems, LTD. Zmodyfikowane z myślą o ślubowaniu milczenia."
 	default_disk = /obj/item/computer_hardware/hard_drive/role/virus/mime
 	insert_type = /obj/item/toy/crayon/mime
 	init_ringer_on = FALSE
@@ -226,7 +226,7 @@
 
 /obj/item/modular_computer/tablet/pda/curator
 	name = "curator PDA"
-	desc = "A portable microcomputer by Thinktronic Systems, LTD. This model is a WGW-11-NTOS series e-reader."
+	desc = "Przenośny minikomputer, wyprodukowany przez Thinktronic Systems, LTD. Jest to model WGW-11 z serii e-reader."
 	note = "Congratulations, your station has chosen the Thinktronic 5290 WGW-11-NTOS Series E-reader and Personal Data Assistant!"
 	default_disk = /obj/item/computer_hardware/hard_drive/role/curator
 	icon_state = "pda-library"
@@ -236,7 +236,7 @@
 
 /obj/item/modular_computer/tablet/pda/clear
 	name = "clear PDA"
-	desc = "A portable microcomputer by Thinktronic Systems, LTD. This model is a special edition with a transparent case."
+	desc = "Przenośny minikomputer, wyprodukowany przez Thinktronic Systems, LTD. Specjalna edycja, z przezroczystą obudową."
 	note = "Congratulations, you have chosen the Thinktronic 5230-NTOS Personal Data Assistant Deluxe Special Max Turbo Limited Edition!"
 	icon_state = "pda-clear"
 

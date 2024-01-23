@@ -47,7 +47,7 @@
 /obj/structure/sign/poster
 	name = "poster"
 	var/original_name
-	desc = "A large piece of space-resistant printed paper."
+	desc = "Duży kawałek zadrukowanego papieru. Kosmo-Odporny."
 	icon = 'icons/obj/contraband.dmi'
 	layer = ABOVE_WINDOW_LAYER
 	anchored = TRUE
@@ -66,7 +66,7 @@
 	if(!ruined)
 		original_name = name // can't use initial because of random posters
 		name = "poster - [name]"
-		desc = "A large piece of space-resistant printed paper. [desc]"
+		desc = "Duży kawałek zadrukowanego papieru. Kosmo-Odporny. [desc]"
 
 /obj/structure/sign/poster/proc/randomise(base_type)
 	var/list/poster_types = subtypesof(base_type)
@@ -91,10 +91,10 @@
 	if(I.tool_behaviour == TOOL_WIRECUTTER)
 		I.play_tool_sound(src, 100)
 		if(ruined)
-			to_chat(user, "<span class='notice'>You remove the remnants of the poster.</span>")
+			to_chat(user, "<span class='notice'>Usuwasz resztki plakatu.</span>")
 			qdel(src)
 		else
-			to_chat(user, "<span class='notice'>You carefully remove the poster from the wall.</span>")
+			to_chat(user, "<span class='notice'>Ostrożnie zdejmujesz plakat ze ściany.</span>")
 			roll_and_drop(user.loc)
 
 /obj/structure/sign/poster/attack_hand(mob/user)
@@ -135,14 +135,14 @@
 	var/stuff_on_wall = 0
 	for(var/obj/O in contents) //Let's see if it already has a poster on it or too much stuff
 		if(istype(O, /obj/structure/sign/poster))
-			to_chat(user, "<span class='warning'>The wall is far too cluttered to place a poster!</span>")
+			to_chat(user, "<span class='warning'>Ściana jest zbyt zagracona, by umieścić plakat!</span>")
 			return
 		stuff_on_wall++
 		if(stuff_on_wall == 3)
-			to_chat(user, "<span class='warning'>The wall is far too cluttered to place a poster!</span>")
+			to_chat(user, "<span class='warning'>Ściana jest zbyt zagracona, by umieścić plakat!</span>")
 			return
 
-	to_chat(user, "<span class='notice'>You start placing the poster on the wall...</span>"	)
+	to_chat(user, "<span class='notice'>Kładziesz plakat na ścianie...</span>")
 
 	var/obj/structure/sign/poster/D = P.poster_structure
 
@@ -160,7 +160,7 @@
 			to_chat(user, "<span class='notice'>You place the poster!</span>")
 			return
 
-	to_chat(user, "<span class='notice'>The poster falls down!</span>")
+	to_chat(user, "<span class='notice'>Plakat spadł!</span>")
 	D.roll_and_drop(temp_loc)
 
 // Various possible posters follow

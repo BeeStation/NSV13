@@ -20,7 +20,7 @@
 	reroll_friendly = 1
 
 	announce_span = "danger"
-	announce_text = "There are Syndicate agents on the station!\n\
+	announce_text = "Agenci Syndykatu na Stacji!\n\
 	<span class='danger'>Traitors</span>: Accomplish your objectives.\n\
 	<span class='notice'>Crew</span>: Do not let the traitors succeed!"
 

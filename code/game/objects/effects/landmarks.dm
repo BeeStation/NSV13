@@ -66,127 +66,127 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	delete_after_roundstart = FALSE
 
 /obj/effect/landmark/start/janitor
-	name = "Janitor"
+	name = "Woźny"
 	icon_state = "Janitor"
 
 /obj/effect/landmark/start/cargo_technician
-	name = "Cargo Technician"
+	name = "Magazynier"
 	icon_state = "Cargo Technician"
 
 /obj/effect/landmark/start/bartender
-	name = "Bartender"
+	name = "Barman"
 	icon_state = "Bartender"
 
 /obj/effect/landmark/start/clown
-	name = "Clown"
+	name = "Klaun"
 	icon_state = "Clown"
 
 /obj/effect/landmark/start/mime
-	name = "Mime"
+	name = "Mim"
 	icon_state = "Mime"
 
 /obj/effect/landmark/start/quartermaster
-	name = "Quartermaster"
+	name = "Kwartermistrz"
 	icon_state = "Quartermaster"
 
 /obj/effect/landmark/start/atmospheric_technician
-	name = "Atmospheric Technician"
+	name = "Inżynier Atmosferyki"
 	icon_state = "Atmospheric Technician"
 
 /obj/effect/landmark/start/cook
-	name = "Cook"
+	name = "Kucharz"
 	icon_state = "Cook"
 
 /obj/effect/landmark/start/shaft_miner
-	name = "Shaft Miner"
+	name = "Górnik"
 	icon_state = "Shaft Miner"
 
 /obj/effect/landmark/start/exploration
-	name = "Exploration Crew"
+	name = "Odrywca"
 	icon_state = "Exploration Crew"
 
 /obj/effect/landmark/start/security_officer
-	name = "Military Police" //Nsv13 - Crayon eaters & MPs
+	name = "Policjant" //Nsv13 - Crayon eaters & MPs
 	icon_state = "Military Police" //Nsv13 - Crayon eaters & MPs
 
 /obj/effect/landmark/start/botanist
-	name = "Botanist"
+	name = "Botanik"
 	icon_state = "Botanist"
 
 /obj/effect/landmark/start/head_of_security
-	name = "Head of Security"
+	name = "Komendandt"
 	icon_state = "Head of Security"
 
 /obj/effect/landmark/start/captain
-	name = "Captain"
+	name = "Kapitan"
 	icon_state = "Captain"
 
 /obj/effect/landmark/start/detective
-	name = "Detective"
+	name = "Detektyw"
 	icon_state = "Detective"
 
 /obj/effect/landmark/start/warden
-	name = "Warden"
+	name = "Naczelnik"
 	icon_state = "Warden"
 
 /obj/effect/landmark/start/chief_engineer
-	name = "Chief Engineer"
+	name = "Główny Inżynier"
 	icon_state = "Chief Engineer"
 
 /obj/effect/landmark/start/head_of_personnel
-	name = "Head of Personnel"
+	name = "Kadrowy"
 	icon_state = "Head of Personnel"
 
 /obj/effect/landmark/start/librarian
-	name = "Curator"
+	name = "Bibliotekarz"
 	icon_state = "Curator"
 
 /obj/effect/landmark/start/lawyer
-	name = "Lawyer"
+	name = "Prawnik"
 	icon_state = "Lawyer"
 
 /obj/effect/landmark/start/station_engineer
-	name = "Station Engineer"
+	name = "Inżynier"
 	icon_state = "Station Engineer"
 
 /obj/effect/landmark/start/medical_doctor
-	name = "Medical Doctor"
+	name = "Lekarz"
 	icon_state = "Medical Doctor"
 
 /obj/effect/landmark/start/paramedic
-	name = "Paramedic"
+	name = "Ratownik Medyczny"
 	icon_state = "Medical Doctor"
 
 /obj/effect/landmark/start/scientist
-	name = "Scientist"
+	name = "Naukowiec"
 	icon_state = "Scientist"
 
 /obj/effect/landmark/start/chemist
-	name = "Chemist"
+	name = "Chemik"
 	icon_state = "Chemist"
 
 /obj/effect/landmark/start/roboticist
-	name = "Roboticist"
+	name = "Robotyk"
 	icon_state = "Roboticist"
 
 /obj/effect/landmark/start/research_director
-	name = "Research Director"
+	name = "Dyrektor Naukowy"
 	icon_state = "Research Director"
 
 /obj/effect/landmark/start/geneticist
-	name = "Geneticist"
+	name = "Genetyk"
 	icon_state = "Geneticist"
 
 /obj/effect/landmark/start/chief_medical_officer
-	name = "Chief Medical Officer"
+	name = "Ordynator"
 	icon_state = "Chief Medical Officer"
 
 /obj/effect/landmark/start/virologist
-	name = "Virologist"
+	name = "Wirolog"
 	icon_state = "Virologist"
 
 /obj/effect/landmark/start/chaplain
-	name = "Chaplain"
+	name = "Kapłan"
 	icon_state = "Chaplain"
 
 /obj/effect/landmark/start/cyborg
@@ -194,7 +194,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "Cyborg"
 
 /obj/effect/landmark/start/ai
-	name = "AI"
+	name = "SI Statku"
 	icon_state = "AI"
 	delete_after_roundstart = FALSE
 	var/primary_ai = TRUE
@@ -212,7 +212,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	latejoin_active = FALSE
 
 /obj/effect/landmark/start/brig_physician
-	name = "Brig Physician"
+	name = "Medyk Więzienny"
 
 /obj/effect/landmark/start/randommaint
 	name = "maintjobstart"
@@ -226,15 +226,15 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	J.spawn_positions += 1
 
 /obj/effect/landmark/start/randommaint/backalley_doc
-	name = "Barber"
+	name = "Fryzjer"
 	job = "Barber"
 
 /obj/effect/landmark/start/randommaint/magician
-	name = "Stage Magician"
+	name = "Magik"
 	job = "Stage Magician"
 
 /obj/effect/landmark/start/randommaint/psychiatrist
-	name = "Psychiatrist"
+	name = "Psychiatra"
 	job = "Psychiatrist"
 
 /obj/effect/landmark/start/randommaint/vip

@@ -130,82 +130,82 @@
 //------------------------------------- Job names -------------------------------------------
 //-------------------------------------------------------------------------------------------
 // Command
-#define JOB_NAME_CAPTAIN "Captain"
+#define JOB_NAME_CAPTAIN "Kapitan"
 
 // Service
-#define JOB_NAME_HEADOFPERSONNEL "Executive Officer" //NSV13 - XO
-#define JOB_NAME_ASSISTANT  "Midshipman" //NSV13 - Midshipmen
-#define JOB_NAME_BARTENDER  "Bartender"
-#define JOB_NAME_BOTANIST   "Botanist"
-#define JOB_NAME_COOK     "Cook"
-#define JOB_NAME_JANITOR  "Janitor"
-#define JOB_NAME_CURATOR  "Curator"
-#define JOB_NAME_LAWYER   "Lawyer"
-#define JOB_NAME_CHAPLAIN "Chaplain"
-#define JOB_NAME_MIME   "Mime"
-#define JOB_NAME_CLOWN  "Clown"
-#define JOB_NAME_STAGEMAGICIAN "Stage Magician" // gimmick
-#define JOB_NAME_BARBER "Barber" // gimmick
+#define JOB_NAME_HEADOFPERSONNEL "Kadrowy" //NSV13 - XO
+#define JOB_NAME_ASSISTANT  "Majtek" //NSV13 - Midshipmen
+#define JOB_NAME_BARTENDER  "Barman"
+#define JOB_NAME_BOTANIST   "Botanik"
+#define JOB_NAME_COOK     "Kucharz"
+#define JOB_NAME_JANITOR  "Woźny"
+#define JOB_NAME_CURATOR  "Bibliotekarz"
+#define JOB_NAME_LAWYER   "Prawnik"
+#define JOB_NAME_CHAPLAIN "Kapłan"
+#define JOB_NAME_MIME   "Mim"
+#define JOB_NAME_CLOWN  "Klaun"
+#define JOB_NAME_STAGEMAGICIAN "Magik" // gimmick
+#define JOB_NAME_BARBER "Fryzjer" // gimmick
 #define JOB_NAME_VIP    "VIP" // gimmick
 
 // Cargo
-#define JOB_NAME_QUARTERMASTER   "Quartermaster"
-#define JOB_NAME_CARGOTECHNICIAN "Cargo Technician"
-#define JOB_NAME_SHAFTMINER      "Shaft Miner"
+#define JOB_NAME_QUARTERMASTER   "Kwatermistrz"
+#define JOB_NAME_CARGOTECHNICIAN "Magazynier"
+#define JOB_NAME_SHAFTMINER      "Górnik"
 
 // Engineering
-#define JOB_NAME_CHIEFENGINEER   "Chief Engineer"
-#define JOB_NAME_STATIONENGINEER "Station Engineer"
-#define JOB_NAME_ATMOSPHERICTECHNICIAN "Atmospheric Technician"
+#define JOB_NAME_CHIEFENGINEER   "Główny Inżynier"
+#define JOB_NAME_STATIONENGINEER "Inżynier"
+#define JOB_NAME_ATMOSPHERICTECHNICIAN "Inżynier Atmosferyki"
 
 // Medical
-#define JOB_NAME_CHIEFMEDICALOFFICER "Chief Medical Officer"
-#define JOB_NAME_MEDICALDOCTOR "Medical Doctor"
-#define JOB_NAME_PARAMEDIC  "Paramedic"
-#define JOB_NAME_CHEMIST    "Chemist"
-#define JOB_NAME_VIROLOGIST "Virologist"
-#define JOB_NAME_GENETICIST "Geneticist"
-#define JOB_NAME_BRIGPHYSICIAN "Brig Physician"
-#define JOB_NAME_PSYCHIATRIST  "Psychiatrist" // gimmick
+#define JOB_NAME_CHIEFMEDICALOFFICER "Ordynator"
+#define JOB_NAME_MEDICALDOCTOR "Lekarz"
+#define JOB_NAME_PARAMEDIC  "Ratownik Medczyny"
+#define JOB_NAME_CHEMIST    "Chemik"
+#define JOB_NAME_VIROLOGIST "Wirolog"
+#define JOB_NAME_GENETICIST "Genetyk"
+#define JOB_NAME_BRIGPHYSICIAN "Medyk Więzienny"
+#define JOB_NAME_PSYCHIATRIST  "Psychiatra" // gimmick
 
 // R&D
-#define JOB_NAME_RESEARCHDIRECTOR "Research Director"
-#define JOB_NAME_SCIENTIST  "Scientist"
-#define JOB_NAME_ROBOTICIST "Roboticist"
-#define JOB_NAME_EXPLORATIONCREW "Exploration Crew"
+#define JOB_NAME_RESEARCHDIRECTOR "Dyrektor Naukowy"
+#define JOB_NAME_SCIENTIST  "Naukowiec"
+#define JOB_NAME_ROBOTICIST "Robotyk"
+#define JOB_NAME_EXPLORATIONCREW "Odkrywca"
 
 // Security
-#define JOB_NAME_HEADOFSECURITY "Head of Security"
-#define JOB_NAME_WARDEN "Warden"
-#define JOB_NAME_SECURITYOFFICER "Military Police" //NSV13 - MPs
-#define JOB_NAME_DETECTIVE "Detective"
-#define JOB_NAME_DEPUTY  "Deputy"
+#define JOB_NAME_HEADOFSECURITY "Komendant"
+#define JOB_NAME_WARDEN "Naczelnik"
+#define JOB_NAME_SECURITYOFFICER "Policjant" //NSV13 - MPs
+#define JOB_NAME_DETECTIVE "Detektyw"
+#define JOB_NAME_DEPUTY  "Aspirant"
 
 // NSV13 - Munitions etc
-#define JOB_NAME_MASTERATARMS "Master At Arms"
-#define JOB_NAME_BRIDGESTAFF "Bridge Staff"
-#define JOB_NAME_MUNITIONSTECHNICIAN "Munitions Technician"
+#define JOB_NAME_MASTERATARMS "Mistrz Broni"
+#define JOB_NAME_BRIDGESTAFF "Personel Mostka"
+#define JOB_NAME_MUNITIONSTECHNICIAN "Technik Amunicyjny"
 #define JOB_NAME_PILOT "Pilot"
-#define JOB_NAME_AIRTRAFFICCONTROLLER "Air Traffic Controller"
-#define JOB_NAME_DECKTECHNICIAN "Deck Technician"
+#define JOB_NAME_AIRTRAFFICCONTROLLER "Kontroler Lotów"
+#define JOB_NAME_DECKTECHNICIAN "Technik Pokładowy"
 
 // Silicon
-#define JOB_NAME_AI     "AI"
+#define JOB_NAME_AI     "SI Statku"
 #define JOB_NAME_CYBORG "Cyborg"
-#define JOB_NAME_PAI    "Personal AI"
+#define JOB_NAME_PAI    "Osobiste SI"
 
 // ERTs
-#define JOB_ERT_DEATHSQUAD      "Death Commando"
-#define JOB_ERT_COMMANDER       "Emergency Response Team Commander"
-#define JOB_ERT_OFFICER         "Security Response Officer"
-#define JOB_ERT_ENGINEER        "Engineering Response Officer"
-#define JOB_ERT_MEDICAL_DOCTOR  "Medical Response Officer"
-#define JOB_ERT_CHAPLAIN        "Religious Response Officer"
-#define JOB_ERT_JANITOR         "Janitorial Response Officer"
+#define JOB_ERT_DEATHSQUAD      "Komandos Śmierci"
+#define JOB_ERT_COMMANDER       "Dowódca Zespołu Reagowania Kryzysowego"
+#define JOB_ERT_OFFICER         "Oficer Reagowania Bezpieczeństwa"
+#define JOB_ERT_ENGINEER        "Oficer Reagowania Inżynieryjnego"
+#define JOB_ERT_MEDICAL_DOCTOR  "Oficer Reagowania Medycznego"
+#define JOB_ERT_CHAPLAIN        "Oficer Reagowania Religijnego"
+#define JOB_ERT_JANITOR         "Oficer Reafowania Sprzątającego"
 
 // CentCom
 #define JOB_CENTCOM_CENTRAL_COMMAND "Central Command"
-#define JOB_CENTCOM_OFFICIAL  "CentCom Official"
+#define JOB_CENTCOM_OFFICIAL  "Przedstawiciel Centralnego Dowództwa"
 #define JOB_CENTCOM_ADMIRAL   "Admiral"
 #define JOB_CENTCOM_COMMANDER "CentCom Commander"
 #define JOB_CENTCOM_VIP       "VIP Guest"
@@ -216,7 +216,7 @@
 #define JOB_CENTCOM_RESEARCH_OFFICER "Research Officer"
 
 // Misc & Off-Station
-#define JOB_NAME_GIMMICK "Gimmick" // gimmick
+#define JOB_NAME_GIMMICK "Cywilne" // gimmick
 #define JOB_NAME_KING    "King"
 #define JOB_NAME_PRISONER "Prisoner"
 #define JOB_SPACE_POLICE "Space Police"
