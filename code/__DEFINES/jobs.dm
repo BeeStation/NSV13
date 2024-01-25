@@ -133,7 +133,7 @@
 #define JOB_NAME_CAPTAIN "Kapitan"
 
 // Service
-#define JOB_NAME_HEADOFPERSONNEL "Kadrowy" //NSV13 - XO
+#define JOB_NAME_HEADOFPERSONNEL "Starszy Oficer" //NSV13 - XO
 #define JOB_NAME_ASSISTANT  "Majtek" //NSV13 - Midshipmen
 #define JOB_NAME_BARTENDER  "Barman"
 #define JOB_NAME_BOTANIST   "Botanik"
@@ -156,16 +156,16 @@
 // Engineering
 #define JOB_NAME_CHIEFENGINEER   "Główny Inżynier"
 #define JOB_NAME_STATIONENGINEER "Inżynier"
-#define JOB_NAME_ATMOSPHERICTECHNICIAN "Inżynier Atmosferyki"
+#define JOB_NAME_ATMOSPHERICTECHNICIAN "Technik Atmosferyki"
 
 // Medical
 #define JOB_NAME_CHIEFMEDICALOFFICER "Ordynator"
 #define JOB_NAME_MEDICALDOCTOR "Lekarz"
-#define JOB_NAME_PARAMEDIC  "Ratownik Medczyny"
+#define JOB_NAME_PARAMEDIC  "Sanitariusz"
 #define JOB_NAME_CHEMIST    "Chemik"
 #define JOB_NAME_VIROLOGIST "Wirolog"
 #define JOB_NAME_GENETICIST "Genetyk"
-#define JOB_NAME_BRIGPHYSICIAN "Medyk Więzienny"
+#define JOB_NAME_BRIGPHYSICIAN "Lekarz Więzienny"
 #define JOB_NAME_PSYCHIATRIST  "Psychiatra" // gimmick
 
 // R&D
@@ -183,7 +183,7 @@
 
 // NSV13 - Munitions etc
 #define JOB_NAME_MASTERATARMS "Mistrz Broni"
-#define JOB_NAME_BRIDGESTAFF "Personel Mostka"
+#define JOB_NAME_BRIDGESTAFF "Oficer Pokładowy"
 #define JOB_NAME_MUNITIONSTECHNICIAN "Technik Amunicyjny"
 #define JOB_NAME_PILOT "Pilot"
 #define JOB_NAME_AIRTRAFFICCONTROLLER "Kontroler Lotów"
@@ -192,16 +192,16 @@
 // Silicon
 #define JOB_NAME_AI     "SI Statku"
 #define JOB_NAME_CYBORG "Cyborg"
-#define JOB_NAME_PAI    "Osobiste SI"
+#define JOB_NAME_PAI    "Osobista SI"
 
 // ERTs
 #define JOB_ERT_DEATHSQUAD      "Komandos Śmierci"
 #define JOB_ERT_COMMANDER       "Dowódca Zespołu Reagowania Kryzysowego"
-#define JOB_ERT_OFFICER         "Oficer Reagowania Bezpieczeństwa"
-#define JOB_ERT_ENGINEER        "Oficer Reagowania Inżynieryjnego"
-#define JOB_ERT_MEDICAL_DOCTOR  "Oficer Reagowania Medycznego"
-#define JOB_ERT_CHAPLAIN        "Oficer Reagowania Religijnego"
-#define JOB_ERT_JANITOR         "Oficer Reafowania Sprzątającego"
+#define JOB_ERT_OFFICER         "Operator Kryzysowego Reagowania"
+#define JOB_ERT_ENGINEER        "Inżynier Kryzysowego Reagowania"
+#define JOB_ERT_MEDICAL_DOCTOR  "SAnitariusz Kryzysowego Reagowania"
+#define JOB_ERT_CHAPLAIN        "Kapelan Kryzysowego Reagowania"
+#define JOB_ERT_JANITOR         "Woźny Kryzysowego Reagowania"
 
 // CentCom
 #define JOB_CENTCOM_CENTRAL_COMMAND "Central Command"
