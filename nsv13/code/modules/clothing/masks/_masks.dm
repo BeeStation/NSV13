@@ -61,4 +61,4 @@
 /datum/looping_sound/gasmask
 	mid_sounds = list('nsv13/sound/effects/ship/reactor/gasmask.ogg')
 	mid_length = 3 SECONDS
-	volume = 30
+	volume = 20 // AQUILA EDIT
