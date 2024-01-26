@@ -114,3 +114,8 @@
 			if(isliving(A))
 				to_chat(A, "<span class='userdanger'>You're suddenly forced into a tiny, compressed space!</span>")
 		qdel(src)
+
+/obj/structure/closet/body_bag/Moved(atom/OldLoc, Dir) //AQUILA EDIT
+	. = ..()
+	if(has_gravity())
+		playsound(src, 'aquila/sound/effects/bodybagpull.ogg', 25, 0)

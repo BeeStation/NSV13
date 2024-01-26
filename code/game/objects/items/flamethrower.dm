@@ -189,6 +189,7 @@
 /obj/item/flamethrower/proc/flame_turf(turflist)
 	if(!lit || operating)
 		return
+	playsound(loc, 'aquila/sound/weapons/flamethrower.ogg', 100, 1)
 	operating = TRUE
 	var/turf/previousturf = get_turf(src)
 	for(var/turf/T in turflist)

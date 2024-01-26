@@ -44,3 +44,8 @@
 
 	user.audible_message("<span class='emote'><b>[user]</b> farts!</span>")
 	playsound(user, 'sound/misc/fart1.ogg', 50, TRUE)
+
+/datum/emote/living/carbon/human/cry/get_sound(mob/living/user)
+	if(!ishuman(user))
+		return
+	return 'aquila/sound/voice/human/cry.ogg'

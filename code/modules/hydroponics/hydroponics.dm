@@ -896,10 +896,12 @@
 	lastproduce = age
 	if(istype(myseed, /obj/item/seeds/replicapod))
 		to_chat(user, "<span class='notice'>You harvest from the [myseed.plantname].</span>")
+		playsound(loc, 'aquila/sound/effects/crop_harvest.ogg', 50, 1) //AQUILA EDIT
 	else if(myseed.getYield() <= 0)
 		to_chat(user, "<span class='warning'>You fail to harvest anything useful!</span>")
 	else
 		to_chat(user, "<span class='notice'>You harvest [myseed.getYield()] items from the [myseed.plantname].</span>")
+		playsound(loc, 'aquila/sound/effects/crop_harvest.ogg', 50, 1) //AQUILA EDIT
 	if(!myseed.get_gene(/datum/plant_gene/trait/repeated_harvest))
 		qdel(myseed)
 		myseed = null

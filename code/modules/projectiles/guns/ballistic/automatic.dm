@@ -350,4 +350,5 @@
 	fire_sound = 'sound/weapons/laser.ogg'
 	casing_ejector = FALSE
 	fire_rate = 2
-
+	empty_alarm_sound = 'sound/weapons/smg_empty_alarm.ogg' //AQUILA EDIT
+	empty_alarm = TRUE //AQUILA EDIT

@@ -53,4 +53,4 @@
 /datum/emote/silicon/warn
 	key = "warn"
 	message = "blares an alarm!"
-	sound = 'sound/machines/warning-buzzer.ogg'
+	sound = 'aquila/sound/machines/winerror.ogg' //AQUILA EDIT

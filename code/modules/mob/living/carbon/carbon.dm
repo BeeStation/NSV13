@@ -439,7 +439,7 @@
 	if(stun)
 		Paralyze(15)
 		Knockdown(90)
-
+	playsound(src, 'aquila/sound/voice/human/vomit.ogg', 50, 1) //AQUILA EDIT
 	playsound(get_turf(src), 'sound/effects/splat.ogg', 50, 1)
 	var/turf/T = get_turf(src)
 	if(!blood)

@@ -706,7 +706,8 @@
 /obj/mecha/proc/setInternalDamage(int_dam_flag)
 	internal_damage |= int_dam_flag
 	log_message("Internal damage of type [int_dam_flag].", LOG_MECHA)
-	SEND_SOUND(occupant, sound('sound/machines/warning-buzzer.ogg',wait=0))
+//	SEND_SOUND(occupant, sound('sound/machines/warning-buzzer.ogg',wait=0)) //AQUILA EDIT
+	SEND_SOUND(occupant, sound('aquila/sound/machines/winerror.ogg',wait=0)) //AQUILA EDIT
 	diag_hud_set_mechstat()
 	return
 

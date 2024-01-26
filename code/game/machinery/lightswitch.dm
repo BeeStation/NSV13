@@ -41,7 +41,8 @@
 	. = ..()
 
 	area.lightswitch = !area.lightswitch
-	play_click_sound("button")
+//	play_click_sound("button") AQUILA EDIT
+	playsound(usr.loc,'aquila/sound/effects/lightswitch.ogg', 100, 1) //AQUILA EDIT
 	area.update_icon()
 
 	for(var/obj/machinery/light_switch/L in area)

@@ -88,3 +88,8 @@
 		addtimer(CALLBACK(src, PROC_REF(ResetMoveDelay)), CONFIG_GET(number/movedelay/walk_delay) * move_speed_multiplier)
 	else
 		move_delay = FALSE
+
+/obj/structure/closet/cardboard/Moved(atom/OldLoc, Dir) //AQUILA EDIT
+	. = ..()
+	if(has_gravity())
+		playsound(src, 'sound/effects/footstep/crawl1.ogg', 30, 0)

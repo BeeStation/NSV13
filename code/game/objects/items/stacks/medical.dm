@@ -87,7 +87,8 @@
 			return
 
 	user.visible_message("<span class='green'>[user] applies [src] on [M].</span>", "<span class='green'>You apply [src] on [M].</span>")
-
+	if(heal_brute) //AQUILA EDIT
+		playsound(user.loc, 'aquila/sound/effects/suture.ogg', 100, 1) //AQUILA EDIT
 	if(affecting.heal_damage(heal_brute, heal_burn) || stop_bleeding)
 		C.update_damage_overlays()
 		use(1)

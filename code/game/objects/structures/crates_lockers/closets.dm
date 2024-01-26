@@ -573,3 +573,8 @@
 		var/custom_data = item.on_object_saved(depth++)
 		dat += "[custom_data ? ",\n[custom_data]" : ""]"
 	return dat
+
+/obj/structure/closet/Moved(atom/OldLoc, Dir) //AQUILA EDIT
+	. = ..()
+	if(has_gravity())
+		playsound(src, 'aquila/sound/effects/closetpull.ogg', 30, 0)

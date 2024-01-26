@@ -207,7 +207,8 @@
 						set_resting(FALSE)
 					else
 						INVOKE_ASYNC(src, TYPE_PROC_REF(/mob, emote), "me", 1, pick("grooms its fur.", "twitches its whiskers.", "shakes out its coat."))
-
+		else if(prob(10)) //AQUILA EDIT
+			playsound(loc, 'aquila/sound/misc/meow.ogg', 50, 1) //AQUILA EDIT
 	..()
 	if(next_scan_time <= world.time)
 		make_babies()
@@ -244,6 +245,7 @@
 		if(M && stat != DEAD)
 			new /obj/effect/temp_visual/heart(loc)
 			emote("me", 1, "purrs!")
+			playsound(loc, 'aquila/sound/misc/purr.ogg', 50, 1) //AQUILA EDIT
 			if(flags_1 & HOLOGRAM_1)
 				return
 			SEND_SIGNAL(M, COMSIG_ADD_MOOD_EVENT, src, /datum/mood_event/pet_animal, src)

@@ -262,6 +262,7 @@
 					if(!cell.use(actual / powerefficiency))
 						say("Not enough energy to complete operation!")
 						return
+					playsound(loc, 'aquila/sound/effects/dispenser.ogg', 50, 1) //AQUILA EDIT
 					R.add_reagent(reagent, actual)
 
 					work_animation()
