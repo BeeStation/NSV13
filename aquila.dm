@@ -58,6 +58,7 @@
 #include "aquila\code\game\objects\structures\signs\signs_maps.dm"
 #include "aquila\code\game\objects\structures\signs\signs_warning.dm"
 #include "aquila\code\game\objects\items\AI_modules.dm"
+#include "aquila\code\modules\admin\verbs\modify_metacoins.dm"
 #include "aquila\code\modules\cargo\packs.dm"
 #include "aquila\code\modules\client\preferences.dm"
 #include "aquila\code\modules\client\preferences_toggles.dm"
@@ -117,6 +118,7 @@
 #include "aquila\code\modules\power\generator.dm"
 #include "aquila\code\modules\power\smes.dm"
 #include "aquila\code\modules\reagents\chemistry\reagents\alcohol_reagents.dm"
+#include "aquila\code\modules\reagents\chemistry\reagents\other_reagents.dm"
 #include "aquila\code\modules\research\designs\medical_designs.dm"
 #include "aquila\code\modules\research\designs\nanite_designs.dm"
 #include "aquila\code\modules\research\designs\weapon_designs.dm"
@@ -156,3 +158,4 @@
 #include "aquila\code\modules\mob\living\carbon\monkey\monkey.dm"
 #include "aquila\code\modules\mob\living\simple_animal\hostile\gorilla\gorilla.dm"
 #include "aquila\code\modules\antagonists\role_preference\role_monkey.dm"
+

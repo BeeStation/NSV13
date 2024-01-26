@@ -71,6 +71,12 @@
 		body += "<a href='?_src_=holder;[HrefToken()];modantagtokens=zero;mob=[REF(M)]'>0</a>"
 		var/metabalance = M.client.get_metabalance()
 		body += "<br><b>[CONFIG_GET(string/metacurrency_name)]s</b>: [metabalance] "
+//AQ EDIT
+		body += "<a href='?_src_=holder;[HrefToken()];modmetacoins=add;mob=[REF(M)]'>+</a> "
+		body += "<a href='?_src_=holder;[HrefToken()];modmetacoins=subtract;mob=[REF(M)]'>-</a> "
+		body += "<a href='?_src_=holder;[HrefToken()];modmetacoins=set;mob=[REF(M)]'>=</a> "
+		body += "<a href='?_src_=holder;[HrefToken()];modmetacoins=zero;mob=[REF(M)]'>0</a>"
+//AQ EDIT END
 		var/full_version = "Unknown"
 		if(M.client.byond_version)
 			full_version = "[M.client.byond_version].[M.client.byond_build ? M.client.byond_build : "xxx"]"
