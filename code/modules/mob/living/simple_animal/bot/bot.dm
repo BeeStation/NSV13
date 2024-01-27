@@ -644,7 +644,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 	if(tries >= BOT_STEP_MAX_RETRIES) //Bot is trapped, so stop trying to patrol.
 		auto_patrol = 0
 		tries = 0
-		speak("Unable to start patrol.")
+		speak("Niezdolny do rozpoczęcia patrolu.")
 
 		return
 
@@ -660,7 +660,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 				return
 			mode = BOT_PATROL
 	else					// no patrol target, so need a new one
-		speak("Engaging patrol mode.")
+		speak("Uruchamianie trybu patrolowego.")
 		find_patrol_target()
 		tries++
 	return
@@ -711,7 +711,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 	else
 		auto_patrol = 0
 		mode = BOT_IDLE
-		speak("Disengaging patrol mode.")
+		speak("Wyłączanie trybu patrolowego.")
 
 /mob/living/simple_animal/bot/proc/get_next_patrol_target()
 	// search the beacon list for the next target in the list.
@@ -765,7 +765,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 			if(user_access.len != 0)
 				access_card.access = user_access + prev_access //Adds the user's access, if any.
 			mode = BOT_SUMMON
-			speak("Responding.", radio_channel)
+			speak("Zgłaszam się.", radio_channel)
 			calc_summon_path()
 
 		if("ejectpai")
@@ -824,7 +824,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 					return
 		set_path(get_path_to(src, summon_target, 150, id=access_card, exclude=avoid))
 		if(!path.len) //Cannot reach target. Give up and announce the issue.
-			speak("Summon command failed, destination unreachable.",radio_channel)
+			speak("Komenda przywołania zawiodła, cel nieosiągalny.",radio_channel)
 			bot_reset()
 
 /mob/living/simple_animal/bot/proc/summon_step()
@@ -1036,7 +1036,7 @@ Pass a positive integer as an argument to override a bot's default speed.
 
 /mob/living/simple_animal/bot/proc/ejectpairemote(mob/user)
 	if(bot_core.allowed(user) && paicard)
-		speak("Ejecting personality chip.", radio_channel)
+		speak("Odłączanie czipu osobowości.", radio_channel)
 		ejectpai(user)
 
 /mob/living/simple_animal/bot/Login()

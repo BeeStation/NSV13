@@ -26,7 +26,7 @@
 		if(C.confused < 10)
 			C.confused = 10
 		if(C.has_dna() && C.dna.check_mutation(HULK))
-			C.say(pick(";RAAAAAAAARGH!", ";HNNNNNNNNNGGGGGGH!", ";GWAAAAAAAARRRHHH!", "NNNNNNNNGGGGGGGGHH!", ";AAAAAAARRRGH!" ), forced = "hulk")
+			C.say(pick(GLOB.hulk_scream_phrases), forced = "hulk") // AQ EDIT
 		else if((C.status_flags & CANKNOCKDOWN) && !HAS_TRAIT(C, TRAIT_STUNIMMUNE))
 			addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living/carbon, do_jitter_animation), jitter), 5)
 

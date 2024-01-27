@@ -6,10 +6,10 @@
 	slot = ORGAN_SLOT_TONGUE
 	attack_verb = list("licked", "slobbered", "slapped", "frenched", "tongued")
 	var/list/languages_possible
-	var/say_mod = "says"
-	var/ask_mod = "asks"
-	var/yell_mod = "yells"
-	var/exclaim_mod = "exclaims"
+	var/say_mod = "mówi"
+	var/ask_mod = "pyta"
+	var/yell_mod = "krzyczy"
+	var/exclaim_mod = "woła"
 	var/liked_food = JUNKFOOD | FRIED
 	var/disliked_food = GROSS | RAW
 	var/toxic_food = TOXIC
@@ -60,7 +60,7 @@
 	name = "forked tongue"
 	desc = "A thin and long muscle typically found in reptilian races, apparently moonlights as a nose."
 	icon_state = "tonguelizard"
-	say_mod = "hisses"
+	say_mod = "syczy"
 	taste_sensitivity = 10 // combined nose + tongue, extra sensitive
 	modifies_speech = TRUE
 	disliked_food = GRAIN | DAIRY
@@ -88,7 +88,7 @@
 	name = "proboscis"
 	desc = "A freakish looking meat tube that apparently can take in liquids."
 	icon_state = "tonguefly"
-	say_mod = "buzzes"
+	say_mod = "brzęczy"
 	taste_sensitivity = 25 // you eat vomit, this is a mercy
 	modifies_speech = TRUE
 	liked_food = GROSS | MEAT | RAW | FRUIT
@@ -106,7 +106,7 @@
 	name = "superlingual matrix"
 	desc = "A mysterious structure that allows for instant communication between users. Pretty impressive until you need to eat something."
 	icon_state = "tongueayylmao"
-	say_mod = "gibbers"
+	say_mod = "bełkocze"
 	taste_sensitivity = 101 // ayys cannot taste anything.
 	modifies_speech = TRUE
 	var/mothership
@@ -158,7 +158,7 @@
 	name = "rotting tongue"
 	desc = "Between the decay and the fact that it's just lying there you doubt a tongue has ever seemed less sexy."
 	icon_state = "tonguezombie"
-	say_mod = "moans"
+	say_mod = "jęczy"
 	modifies_speech = TRUE
 	taste_sensitivity = 32
 	liked_food = GROSS | MEAT | RAW
@@ -183,7 +183,7 @@
 	name = "alien tongue"
 	desc = "According to leading xenobiologists the evolutionary benefit of having a second mouth in your mouth is \"that it looks badass\"."
 	icon_state = "tonguexeno"
-	say_mod = "hisses"
+	say_mod = "syczy"
 	taste_sensitivity = 10 // LIZARDS ARE ALIENS CONFIRMED
 	modifies_speech = TRUE // not really, they just hiss
 	var/static/list/languages_possible_alien = typecacheof(list(
@@ -206,7 +206,7 @@
 	name = "proboscis"
 	desc = "A freakish looking meat tube that apparently can take in liquids, this one smells slighlty like flowers."
 	icon_state = "tonguefly"
-	say_mod = "buzzes"
+	say_mod = "brzęczy"
 	taste_sensitivity = 5
 	liked_food = VEGETABLES | FRUIT
 	disliked_food = GROSS | DAIRY
@@ -216,7 +216,7 @@
 	name = "bone \"tongue\""
 	desc = "Apparently skeletons alter the sounds they produce through oscillation of their teeth, hence their characteristic rattling."
 	icon_state = "tonguebone"
-	say_mod = "rattles"
+	say_mod = "grzechocze"
 	attack_verb = list("bitten", "chattered", "chomped", "enamelled", "boned")
 	taste_sensitivity = 101 // skeletons cannot taste anything
 	modifies_speech = TRUE
@@ -252,7 +252,7 @@
 	desc = "A voice synthesizer that can interface with organic lifeforms."
 	status = ORGAN_ROBOTIC
 	icon_state = "tonguerobot"
-	say_mod = "states"
+	say_mod = "stwierdza"
 	attack_verb = list("beeped", "booped")
 	modifies_speech = TRUE
 	taste_sensitivity = 25 // not as good as an organic tongue
@@ -288,7 +288,7 @@
 	name = "electric discharger"
 	desc = "A sophisticated ethereal organ, capable of synthesising speech via electrical discharge."
 	icon_state = "electrotongue"
-	say_mod = "crackles"
+	say_mod = "trzeszczy"
 	attack_verb = list("shocked", "jolted", "zapped")
 	taste_sensitivity = 101 // Not a tongue, they can't taste shit
 	toxic_food = NONE
@@ -300,7 +300,7 @@
 /obj/item/organ/tongue/golem
 	name = "mineral tongue"
 	desc = "A strange tongue made out of some kind of mineral. It's smooth, but flexible."
-	say_mod = "rumbles"
+	say_mod = "dudni"
 	taste_sensitivity = 101 //They don't eat.
 	icon_state = "adamantine_cords"
 
@@ -311,7 +311,7 @@
 /obj/item/organ/tongue/golem/bananium
 	name = "bananium tongue"
 	desc = "It's a tongue made out of pure bananium."
-	say_mod = "honks"
+	say_mod = "trąbi"
 
 /obj/item/organ/tongue/golem/clockwork
 	name = "clockwork tongue"
@@ -321,7 +321,7 @@
 /obj/item/organ/tongue/cat
 	name = "cat tongue"
 	desc = "A rough tongue, full of small, boney spines all over it's surface."
-	say_mod = "says" //NSV13
+	say_mod = "mówi" //NSV13
 	disliked_food = VEGETABLES | SUGAR
 	liked_food = DAIRY | MEAT
 
@@ -342,7 +342,7 @@
 /obj/item/organ/tongue/moth
 	name = "mothic tongue"
 	desc = "It's long and noodly."
-	say_mod = "flutters"
+	say_mod = "trzepocze"
 	icon_state = "tonguemoth"
 	liked_food = VEGETABLES | DAIRY | CLOTH
 	disliked_food = FRUIT | GROSS
@@ -351,7 +351,7 @@
 /obj/item/organ/tongue/teratoma
 	name = "malformed tongue"
 	desc = "It's a tongue that looks off... Must be from a creature that shouldn't exist."
-	say_mod = "mumbles"
+	say_mod = "mamrocze"
 	icon_state = "tonguefly"
 	liked_food = JUNKFOOD | FRIED | GROSS | RAW
 
