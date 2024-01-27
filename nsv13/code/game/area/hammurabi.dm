@@ -7,48 +7,48 @@
 	has_gravity = TRUE
 
 /area/hammurabi/medbay
-	name = "Hammurabi sickbay"
+	name = "Izba Chorych Hammurabiego" //AQ EDIT
 	ambient_buzz = 'nsv13/sound/ambience/medbay.ogg'
 	icon_state = "medbay"
 
 /area/hammurabi/tcomms
-	name = "Hammurabi TE/LE/COMM core"
+	name = "Rdzeń TE/LE/KOMM Hammurabiego" //AQ EDIT
 	ambient_buzz = 'nsv13/sound/ambience/computer_core.ogg'
 	icon_state = "tcomsatcham"
 
 /area/hammurabi/bridge
-	name = "Hammurabi flight deck"
+	name = "Pokład Lotniczy Hammurabiego" //AQ EDIT
 	ambient_buzz = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "syndie-control"
 
 /area/hammurabi/armoury
-	name = "Hammurabi armoury"
+	name = "Zbrojownia Hammurabiego" //AQ EDIT
 	icon_state = "syndie-elite"
 
 /area/hammurabi/hangar
-	name = "Hammurabi hangar bay"
+	name = "Hangar Hammurabiego" //AQ EDIT
 	ambient_buzz = 'nsv13/sound/ambience/maintenance.ogg'
 	icon_state = "shuttlered"
 
 /area/hammurabi/bar
-	name = "Hammurabi bar"
+	name = "Bar Hammurabiego" //AQ EDIT
 	icon_state = "bar"
 
 /area/hammurabi/atc_tower
-	name = "Hammurabi ATC tower"
+	name = "Wieża ATC Hammurabiego" //AQ EDIT
 	icon_state = "shuttlered"
 
 /area/hammurabi/maintenance
-	name = "Hammurabi maintenance"
+	name = "Tunele Techniczne Hammurabiego" //AQ EDIT
 	ambient_buzz = 'nsv13/sound/ambience/maintenance.ogg'
 	icon_state = "maintcentral"
 
 /area/hammurabi/maintenance/secondary
-	name = "Hammurabi deck 2 maintenance"
+	name = "Drugi Pokład Techniczny Hammurabiego"  //AQ EDIT
 
 /area/hammurabi/maintenance/exterior
-	name = "Hammurabi exterior"
+	name = "Zewnątrz Hammurabiego" //AQ EDIT
 	icon_state = "space_near"
 
 /area/shuttle/syndicate/hammurabi
-	name = "Hammurabi elevator"
+	name = "Winda Hammurabiego" //AQ EDIT

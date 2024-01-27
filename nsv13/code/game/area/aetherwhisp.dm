@@ -1,45 +1,45 @@
 /area/engine/shield_generator
-	name = "Shield Generator"
+	name = "Generator Tarczy" //AQ EDIT
 	icon_state = "engine_smes"
 
 /area/engine/stormdrive
-	name = "Stormdrive Engine"
+	name = "Napęd Stormdrive" //AQ EDIT
 	icon_state = "engine_sm"
 
 /area/engine/stormdrive/monitor
-	name = "Stormdrive Engine Monitoring"
+	name = "Monitoring Napędu Stormdrive" //AQ EDIT
 	icon_state = "engine_sm"
 
 /area/security/main/warroom
-	name = "Security War Room"
+	name = "Pokój Narad Ochrony" //AQ EDIT
 
 /area/hallway/primary/central/hallway
-	name = "Hallway"
+	name = "Korytarz" //AQ EDIT
 
 /area/hallway/secondary/entry/arrivals
-	name = "Arrivals"
+	name = "Przyloty" //AQ EDIT
 
 /area/quartermaster/lobby
-	name = "Cargo"
+	name = "Zaopatrzenia" //AQ EDIT
 
 /area/science/computer_lab
-	name = "Computer Lab"
+	name = "Laboratorium Komputerowe" //AQ EDIT
 
 /area/bridge/secondary
-	name = "Battle Bridge"
+	name = "Mostek Bojowy" //AQ EDIT
 
 /area/nsv/atc
-	name = "Air Traffic Control"
+	name = "Centrum Kontroli Lotów" //AQ EDIT
 	icon_state = "hallP"
 
 /area/engine/armour_pump
-	name = "Armour Repair Pumps"
+	name = "Pompy Naprawcze pancerza" //AQ EDIT
 	icon_state = "armour_pumps"
 
 /area/crew_quarters/pool_party
-	name = "Pool Area"
+	name = "Basen"
 	icon_state = "bar"
 
 /area/crew_quarters/heads/xo
-	name = "Executive Officer's Office"
+	name = "Biuro Oficera Wykonawczego" //AQ EDIT
 	icon_state = "hop_office"

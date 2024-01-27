@@ -1,31 +1,31 @@
 /area/nsv/weapons/gauss/battery/deck1/port
-	name = "Gauss Battery Deck 1 Port"
+	name = "Bateria Gaussa Pierwszy Pokład Burta" //AQ EDIT
 
 /area/nsv/weapons/gauss/battery/deck1/starboard
-	name = "Gauss Battery Deck 1 Starboard"
+	name = "Bateria Gaussa Pierwszy Pokład Sterburta" //AQ EDIT
 
 /area/nsv/weapons/gauss/battery/deck2/port
-	name = "Gauss Battery Deck 2 Port"
+	name = "Bateria Gaussa Drugi Pokład Burta" //AQ EDIT
 
 /area/nsv/weapons/gauss/battery/deck2/starboard
-	name = "Gauss Battery Deck 2 Starboard"
+	name = "Bateria Gaussa Drugi Pokład Sterburta" //AQ EDIT
 
 /area/nsv/weapons/nuclear
-	name = "Nuclear Silo"
+	name = "Silos Nuklearny" //AQ EDIT
 
 /area/crew_quarters/bar/mess_hall
-	name = "Mess Hall"
+	name = "Stołówka" //AQ EDIT
 
 /area/crew_quarters/fitness/pool_area
-	name = "Pool"
+	name = "Basen" //AQ EDIT
 
 /area/crew_quarters/heads/xo
-	name = "Executive Officer's Office"
+	name = "Biuro Oficera Wykonawczego" //AQ EDIT
 	icon_state = "hop_office"
 
 /area/nsv/hanger/notkmcstupidhanger/hangar/squad_hangar
-	name = "Squad Hangar Bay"
+	name = "Hangary Drużynowe" //AQ EDIT
 
 /area/bridge/cic
-	name = "CIC"
+	name = "CIB" //AQ EDIT
 

@@ -2,34 +2,34 @@
 
 //say based modes like binary are in living/say.dm
 
-#define RADIO_CHANNEL_COMMON "Common"
+#define RADIO_CHANNEL_COMMON "Ogólny" //AQ EDIT START
 #define RADIO_KEY_COMMON ";"
 
-#define RADIO_CHANNEL_SECURITY "Security"
+#define RADIO_CHANNEL_SECURITY "Ochrona"
 #define RADIO_KEY_SECURITY "s"
 #define RADIO_TOKEN_SECURITY ":s"
 
-#define RADIO_CHANNEL_ENGINEERING "Engineering"
+#define RADIO_CHANNEL_ENGINEERING "Inżynieria"
 #define RADIO_KEY_ENGINEERING "e"
 #define RADIO_TOKEN_ENGINEERING ":e"
 
-#define RADIO_CHANNEL_COMMAND "Command"
+#define RADIO_CHANNEL_COMMAND "Dowództwo"
 #define RADIO_KEY_COMMAND "c"
 #define RADIO_TOKEN_COMMAND ":c"
 
-#define RADIO_CHANNEL_SCIENCE "Science"
+#define RADIO_CHANNEL_SCIENCE "Naukowy"
 #define RADIO_KEY_SCIENCE "n"
 #define RADIO_TOKEN_SCIENCE ":n"
 
-#define RADIO_CHANNEL_MEDICAL "Medical"
+#define RADIO_CHANNEL_MEDICAL "Medyczny"
 #define RADIO_KEY_MEDICAL "m"
 #define RADIO_TOKEN_MEDICAL ":m"
 
-#define RADIO_CHANNEL_SUPPLY "Supply"
+#define RADIO_CHANNEL_SUPPLY "Dostawy"
 #define RADIO_KEY_SUPPLY "u"
 #define RADIO_TOKEN_SUPPLY ":u"
 
-#define RADIO_CHANNEL_SERVICE "Service"
+#define RADIO_CHANNEL_SERVICE "Służba"
 #define RADIO_KEY_SERVICE "v"
 #define RADIO_TOKEN_SERVICE ":v"
 
@@ -39,34 +39,34 @@
 #define RADIO_KEY_EXPLORATION "q"
 #define RADIO_TOKEN_EXPLORATION ":q"
 */
-#define RADIO_CHANNEL_AI_PRIVATE "AI Private"
+#define RADIO_CHANNEL_AI_PRIVATE "Prywatny AI"
 #define RADIO_KEY_AI_PRIVATE "o"
 #define RADIO_TOKEN_AI_PRIVATE ":o"
 
-#define RADIO_CHANNEL_SYNDICATE "Syndicate"
+#define RADIO_CHANNEL_SYNDICATE "Syndykat"
 #define RADIO_KEY_SYNDICATE "t"
 #define RADIO_TOKEN_SYNDICATE ":t"
 
-#define RADIO_CHANNEL_CENTCOM "CentCom"
+#define RADIO_CHANNEL_CENTCOM "Centrala"
 #define RADIO_KEY_CENTCOM "y"
 #define RADIO_TOKEN_CENTCOM ":y"
 
-#define RADIO_CHANNEL_ATC "Air Traffic Control" //Nsv13 - Air traffic control chat
+#define RADIO_CHANNEL_ATC "Kontrola Lotów" //Nsv13 - Air traffic control chat
 #define RADIO_KEY_ATC "q"
 #define RADIO_TOKEN_ATC ":q"
 
-#define RADIO_CHANNEL_MUNITIONS "Munitions" //NSV13 - Munitions department
+#define RADIO_CHANNEL_MUNITIONS "Artyleryjny" //NSV13 - Munitions department
 #define RADIO_KEY_MUNITIONS "w"
 #define RADIO_TOKEN_MUNITIONS ":w"
 
-#define RADIO_CHANNEL_PIRATE "Space Pirate" //NSV13 - Space Pirates
+#define RADIO_CHANNEL_PIRATE "Kosmiczni Piraci" //NSV13 - Space Pirates
 #define RADIO_KEY_PIRATE "z"
 #define RADIO_TOKEN_PIRATE ":z"
 
-#define RADIO_CHANNEL_CTF_RED "Red Team"
-#define RADIO_CHANNEL_CTF_BLUE "Blue Team"
+#define RADIO_CHANNEL_CTF_RED "Czerwona Drużyna"
+#define RADIO_CHANNEL_CTF_BLUE "Niebieska Drużyna"
 
-#define RADIO_CHANNEL_UPLINK "Uplink"
+#define RADIO_CHANNEL_UPLINK "Łącze Nadrzędne" //AQ EDIT END
 #define RADIO_KEY_UPLINK "d"
 #define RADIO_TOKEN_UPLINK ":d"
 

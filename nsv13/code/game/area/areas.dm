@@ -1,5 +1,5 @@
 /client/var/last_ambience = null
-
+//AQUILA EDIT entire names and mood messages translated into polish
 /area
 	ambient_buzz = 'nsv13/sound/ambience/shipambience.ogg' //If you want an ambient sound to play on loop while theyre in a specific area, set this. Defaults to the classic "engine rumble"
 
@@ -30,290 +30,290 @@
 	ambientsounds = list()
 
 /area/crew_quarters/dorms/nsv/dorms_1
-	name = "Deck 2 Fore Quarters"
+	name = "Drugi Pokład Kwatery Dzioba"
 	icon_state = "Sleep"
 	area_flags = VALID_TERRITORY | BLOBS_ALLOWED
 
 /area/crew_quarters/dorms/nsv/dorms_2
-	name = "Deck 2 Aft Quarters"
+	name = "Drugi Pokład Kwatery Rufy"
 	icon_state = "Sleep"
 	area_flags = VALID_TERRITORY | BLOBS_ALLOWED
 
 /area/crew_quarters/dorms/nsv/state_room
-	name = "Corporate Stateroom"
+	name = "Kabina Korporacyjna"
 	icon_state = "Sleep"
 
 /area/crew_quarters/dorms/nsv/nature_deck
-	name = "Nature Deck"
+	name = "Pokład z Naturą"
 	icon_state = "hydro"
 	mood_bonus = 3
-	mood_message = "<span class='nicegreen'>It's beautiful in here!\n</span>"
+	mood_message = "<span class='nicegreen'>Jest tutaj pięknie!\n</span>"
 
 /area/medical/nsv/clinic
-	name = "Deck 2 Medical Clinic"
+	name = "Drugi Pokład Klinika Medyczna"
 	icon_state = "medbay"
 
 /area/medical/nsv/psychology
-	name = "Psychology Office"
+	name = "Gabinet Psychologa"
 	icon_state = "medbay"
 
 /area/medical/nsv/trauma
-	name = "Trauma Center"
+	name = "Ośrodek Leczenia Traumy"
 	icon_state = "medbay"
 
 /area/medical/nsv/plumbing
-	name = "Chemical Manufacturing"
+	name = "Produkcja Chemiczna"
 	icon_state = "chem"
 
 /area/science/nsv/astronomy
-	name = "Astrometrics Lab"
+	name = "Laboratorium Astrometryczne"
 	icon_state = "astrometrics"
 
 /area/nsv/engine/corridor
-	name = "Engineering Corridor"
+	name = "Korytarz Inżynieryjny"
 	icon_state = "aux_base_construction"
 
 /area/nsv/engine/engine_room/core
-	name = "Engine Core"
+	name = "Maszynownia"
 	icon_state = "engine_core"
 
 /area/nsv/engine/engine_room/auxiliary
-	name = "Engine Auxiliary Equipment"
+	name = "Wyposażenie Pomocnicze Silnika"
 	icon_state = "engine_foyer"
 
 /area/engine/atmos/port_atmos
-	name = "Port Atmospherics"
+	name = "Burta Atmosferyka"
 	icon_state = "atmos"
 
 /area/engine/atmos/starboard_atmos
-	name = "Starboard Atmospherics"
+	name = "Sterburta Atmosferyka"
 	icon_state = "atmos"
 
 /area/maintenance/nsv/ftlroom
-	name = "FTL Control Room"
+	name = "Pokój Kontroli Napędu Nadświetlnego"
 	icon_state = "ftl_room"
 
 /area/maintenance/nsv/turbolift/abandonedshaft
-	name = "Abandoned Elevator Shaft"
+	name = "Opuszczony Szyb Windy"
 	icon_state = "maint_bridge"
 
 /area/maintenance/nsv/deck1/airlock/forward/port
-	name = "Deck 1 Port Forward Airlock"
+	name = "Pierwszy Pokład Burta Przednie Śluzy"
 	icon_state = "maint_bridge"
 
 /area/maintenance/nsv/deck1/airlock/forward/starboard
-	name = "Deck 1 Starboard Forward Airlock"
+	name = "Pierwszy Pokład Sterburta Przednie Śluzy"
 	icon_state = "maint_bridge"
 
 /area/maintenance/nsv/deck1/airlock/aft/port
-	name = "Deck 1 Port Aft Airlock"
+	name = "Pierwszy Pokład Burta Bakburta Śluzy"
 	icon_state = "maint_bridge"
 
 /area/maintenance/nsv/deck1/airlock/aft/starboard
-	name = "Deck 1 Starboard Aft Airlock"
+	name = "Pierwszy Pokład Sterburta Bakburta Śluzy"
 	icon_state = "maint_bridge"
 
 /area/maintenance/nsv/deck1/port
-	name = "Deck 1 Port Maintenance"
+	name = "Pierwszy Pokład Burta Tunel Techniczny"
 	icon_state = "pmaint"
 
 /area/maintenance/nsv/deck1/central
-	name = "Deck 1 Central Maintenance"
+	name = "Pierwszy Pokład Centralny Tunel Techniczny"
 	icon_state = "maintcentral"
 
 /area/maintenance/nsv/deck1/starboard
-	name = "Deck 1 Starboard Maintenance"
+	name = "Pierwszy Pokład Sterburta Tunel Techniczny"
 	icon_state = "smaint"
 
 /area/maintenance/nsv/deck1/starboard/aft
-	name = "Deck 1 Starboard Aft Maintenance"
+	name = "Pierwszy Pokład Sterburta Bakburta Tunel Techniczny"
 	icon_state = "smaint"
 
 /area/maintenance/nsv/deck1/starboard/fore
-	name = "Deck 1 Starboard Fore Maintenance"
+	name = "Pierwszy Pokład Sterburta Dziób Tunel Techniczny"
 
 /area/maintenance/nsv/deck1/aft
-	name = "Deck 1 Aft Maintenance"
+	name = "Pierwszy Pokład Aft Tunel Techniczny"
 	icon_state = "amaint"
 
 /area/maintenance/nsv/deck1/port/aft
-	name = "Deck 1 Port Aft Maintenance"
+	name = "Pierwszy Pokład Burta Bakburta Tunel Techniczny"
 	icon_state = "pmaint"
 
 /area/maintenance/nsv/deck1/port/fore
-	name = "Deck 1 Port Fore Maintenance"
+	name = "Pierwszy Pokład Burta Dzioba Tunel Techniczny"
 	icon_state = "pmaint"
 
 /area/maintenance/nsv/deck2/port
-	name = "Deck 2 Port Maintenance"
+	name = "Drugi Pokład Tunel Techniczny"
 	icon_state = "pmaint"
 
 /area/maintenance/nsv/deck2/starboard
-	name = "Deck 2 Starboard Maintenance"
+	name = "Drugi Pokład Sterburta Tunel Techniczny"
 	icon_state = "smaint"
 
 /area/maintenance/nsv/deck2/airlock/forward/port
-	name = "Deck 2 Port Forward Airlock"
+	name = "Drugi Pokład Burta Przednie Śluzy"
 	icon_state = "maint_bridge"
 
 /area/maintenance/nsv/deck2/airlock/forward/starboard
-	name = "Deck 2 Starboard Forward Airlock"
+	name = "Drugi Pokład Sterburta Przednie Śluzy"
 	icon_state = "maint_bridge"
 
 /area/maintenance/nsv/deck2/airlock/aft/port
-	name = "Deck 2 Port Aft Airlock"
+	name = "Drugi Pokład Burta Bakburta Śluzy"
 	icon_state = "maint_bridge"
 
 /area/maintenance/nsv/deck2/airlock/aft/starboard
-	name = "Deck 2 Starboard Aft Airlock"
+	name = "Drugi Pokład Sterburta Bakburta Śluzy"
 	icon_state = "maint_bridge"
 
 /area/maintenance/nsv/deck2/frame1/port
-	name = "Deck 2 Frame 1 Port Maintenence"
+	name = "Drugi Pokład Pierwsza Rama Dziób Tunel Techniczny"
 	icon_state = "pmaint"
 
 /area/maintenance/nsv/deck2/frame1/starboard
-	name = "Deck 2 Frame 1 Starboard Maintenence"
+	name = "Drugi Pokład Pierwsza Rama Sterburta Tunel Techniczny"
 	icon_state = "smaint"
 
 /area/maintenance/nsv/deck2/frame1/central
-	name = "Deck 2 Frame 1 Central Maintenance"
+	name = "Drugi Pokład Pierwsza Rama Centralny Tunel Techniczny"
 	icon_state = "maintcentral"
 
 /area/maintenance/nsv/deck2/frame2/port
-	name = "Deck 2 Frame 2 Port Maintenance"
+	name = "Drugi Pokład Druga Rama Tunel Techniczny"
 	icon_state = "pmaint"
 
 /area/maintenance/nsv/deck2/frame2/starboard
-	name = "Deck 2 Frame 2 Starboard Maintenance"
+	name = "Drugi Pokład Druga Rama Sterburta Tunel Techniczny"
 	icon_state = "smaint"
 
 /area/maintenance/nsv/deck2/frame2/central
-	name = "Deck 2 Frame 2 Central Maintenance"
+	name = "Drugi Pokład Druga Rama Centralny Tunel Techniczny"
 	icon_state = "maintcentral"
 
 /area/maintenance/nsv/deck2/frame3/port
-	name = "Deck 2 Frame 3 Port Maintenence"
+	name = "Drugi Pokład Trzecia Rama Dziób Tunel Techniczny"
 	icon_state = "pmaint"
 
 /area/maintenance/nsv/deck2/frame3/starboard
-	name = "Deck 2 Frame 3 Starboard Maintenance"
+	name = "Drugi Pokład Trzecia Rama Sterburta Tunel Techniczny"
 	icon_state = "smaint"
 
 /area/maintenance/nsv/deck2/frame3/central
-	name = "Deck 2 Frame 3 Central Maintenance"
+	name = "Drugi Pokład Trzecia Rama Centralny Tunel Techniczny"
 	icon_state = "maintcentral"
 
 /area/maintenance/nsv/deck2/frame4/port
-	name = "Deck 2 Frame 4 Port Maintenance"
+	name = "Drugi Pokład Czwarta Rama Tunel Techniczny"
 	icon_state = "pmaint"
 
 /area/maintenance/nsv/deck2/frame4/starboard
-	name = "Deck 2 Frame 4 Starboard Maintenance"
+	name = "Drugi Pokład Czwarta Rama Sterburta Tunel Techniczny"
 	icon_state = "smaint"
 
 /area/maintenance/nsv/deck2/frame4/central
-	name = "Deck 2 Frame 4 Central Maintenance"
+	name = "Drugi Pokład Czwarta Rama Centralny Tunel Techniczny"
 	icon_state = "maintcentral"
 
 /area/maintenance/nsv/deck2/frame5/port
-	name = "Deck 2 Frame 5 Port Maintenance"
+	name = "Drugi Pokład Piąta Rama Burta Tunel Techniczny"
 	icon_state = "pmaint"
 
 /area/maintenance/nsv/deck2/frame5/starboard
-	name = "Deck 2 Frame 5 Starboard Maintenance"
+	name = "Drugi Pokład Piąta Rama Sterburta Tunel Techniczny"
 	icon_state = "smaint"
 
 /area/maintenance/nsv/deck2/frame5/central
-	name = "Deck 2 Frame 5 Central Maintenance"
+	name = "Drugi Pokład Piąta Rama Centralny Tunel Techniczny"
 	icon_state = "maintcentral"
 
 /area/maintenance/nsv/deck3/frame1/port
-	name = "Deck 3 Frame 1 Port Maintenance"
+	name = "Trzeci Pokład Pierwsza Rama Burta Tunel Techniczny"
 	icon_state = "pmaint"
 
 /area/maintenance/nsv/deck3/frame1/starboard
-	name = "Deck 3 Frame 1 Starboard Maintenance"
+	name = "Trzeci Pokład Pierwsza Rama Sterburta Tunel Techniczny"
 	icon_state = "smaint"
 
 /area/maintenance/nsv/deck3/frame2/port
-	name = "Deck 3 Frame 2 Port Maintenance"
+	name = "Trzeci Pokład Druga Rama Burta Tunel Techniczny"
 	icon_state = "pmaint"
 
 /area/maintenance/nsv/deck3/frame2/starboard
-	name = "Deck 3 Frame 2 Starboard Maintenance"
+	name = "Trzeci Pokład Druga Rama Sterburta Tunel Techniczny"
 	icon_state = "smaint"
 
 /area/maintenance/nsv/deck3/frame3/port
-	name = "Deck 3 Frame 3 Port Maintenence"
+	name = "Trzeci Pokład Trzecia Rama Burta Dziób Tunel Techniczny"
 	icon_state = "pmaint"
 
 /area/maintenance/nsv/deck3/frame3/starboard
-	name = "Deck 3 Frame 3 Starboard Maintenence"
+	name = "Trzeci Pokład Trzecia Rama Sterburta Tunel Techniczny"
 	icon_state = "smaint"
 
 /area/maintenance/nsv/deck3/frame3/central
-	name = "Deck 3 Frame 3 Central Maintenance"
+	name = "Trzeci Pokład Trzecia Rama Centralny Tunel Techniczny"
 	icon_state = "maintcentral"
 
 /area/maintenance/nsv/deck3/frame4/central
-	name = "Deck 3 Frame 4 Central Maintenance"
+	name = "Trzeci Pokład Czwarta Rama Centralny Tunel Techniczny"
 	icon_state = "maintcentral"
 
 /area/maintenance/nsv/bridge
-	name = "Fore Bridge Maintenance"
+	name = "Tunel Techniczny Dziobu Mostka"
 	icon_state = "maint_bridge"
 
 /area/maintenance/nsv/deck2/starboard/fore
-	name = "Deck 2 Starboard Fore Maintenance"
+	name = "Drugi Pokład Sterburta Dziób Tunel Techniczny"
 	icon_state = "smaint"
 
 /area/maintenance/nsv/deck2/starboard/aft
-	name = "Deck 2 Starboard Aft Maintenance"
+	name = "Drugi Pokład Sterburta Bakburta Tunel Techniczny"
 	icon_state = "amaint"
 
 /area/maintenance/nsv/deck2/port/fore
-	name = "Deck 2 Port Fore Maintenance"
+	name = "Drugi Pokład Burta Dzioba Tunel Techniczny"
 	icon_state = "pmaint"
 
 /area/maintenance/nsv/deck2/port/aft
-	name = "Deck 2 Port Aft Maintenance"
+	name = "Drugi Pokład Burta Bakburta Tunel Techniczny"
 	icon_state = "amaint"
 
 /area/maintenance/nsv/weapons
-	name = "Weapons Bay Maintenance"
+	name = "Tunel Techniczny Komory Uzbrojenia"
 	icon_state = "amaint"
 
 /area/maintenance/nsv/hangar
-	name = "Hangar Bay Maintenance"
+	name = "Tunel Techniczny Hangaru"
 	icon_state = "amaint"
 
 /area/maintenance/nsv/port_substation
-	name = "Port Substation"
+	name = "Podstacja Burty"
 	icon_state = "amaint"
 
 /area/maintenance/nsv/central_substation
-	name = "Central Substation"
+	name = "Centralna Podstacja"
 	icon_state = "amaint"
 
 /area/maintenance/nsv/starboard_substation
-	name = "Starboard Substation"
+	name = "Sterburta Podstacja"
 	icon_state = "amaint"
 
 /area/hallway/nsv/deck2/forward
-	name = "Deck 2 Forward Hallway"
+	name = "Drugi Pokład Dziób Korytarz"
 	icon_state = "hallF"
 
 /area/hallway/nsv/deck2/primary
-	name = "Deck 2 Primary Hallway"
+	name = "Drugi Pokład Główny Korytarz"
 	icon_state = "hallP"
 
 /area/hallway/nsv/deck1/aft
-	name = "Deck 1 Aft Hallway"
+	name = "Pierwszy Pokład Rufa Korytarz"
 	icon_state = "hallP"
 
 /area/hallway/nsv/deck2/aft
-	name = "Deck 2 Aft Hallway"
+	name = "Drugi Pokład Rufa Korytarz"
 	icon_state = "hallP"
 
 /area/maintenance/nsv/mining_ship
@@ -321,346 +321,346 @@
 	ambient_buzz = 'nsv13/sound/ambience/maintenance.ogg'
 
 /area/maintenance/nsv/mining_ship/central
-	name = "Rocinante maintenance"
+	name = "Tunele Techniczne Rocinante"
 	icon_state = "maintcentral"
 
 /area/maintenance/nsv/mining_ship/forward
-	name = "Rocinante forward maintenance"
+	name = "Tunele Techniczne Dziobu Rocinante"
 	icon_state = "maintcentral"
 
 /area/maintenance/nsv/mining_ship/aft
-	name = "Rocinante aft maintenance"
+	name = "Tunele Techinczne Rufy Rocinante"
 	icon_state = "maintcentral"
 
 /area/hallway/nsv/deck2/frame1/port
-	name = "Deck 2 Frame 1 Port Hallway"
+	name = "Drugi Pokład Pierwsza Rama Burta Korytarz"
 	icon_state = "hallF"
 
 /area/hallway/nsv/deck2/frame1/central
-	name = "Deck 2 Frame 1 Central Hallway"
+	name = "Drugi Pokład Pierwsza Rama Centralny Korytarz"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck2/frame1/starboard
-	name = "Deck 2 Frame 1 Starboard Hallway"
+	name = "Drugi Pokład Pierwsza Rama Sterburta Korytarz"
 	icon_state = "hallF"
 
 /area/hallway/nsv/deck2/frame2/port
-	name = "Deck 2 Frame 2 Port Hallway"
+	name = "Drugi Pokład Druga Rama Burta Korytarz"
 	icon_state = "hallP"
 
 /area/hallway/nsv/deck2/frame2/central
-	name = "Deck 2 Frame 2 Central Hallway"
+	name = "Drugi Pokład Druga Rama Centralny Korytarz"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck2/frame2/starboard
-	name = "Deck 2 Frame 2 Starboard Hallway"
+	name = "Drugi Pokład Druga Rama Sterburta Korytarz"
 	icon_state = "hallS"
 
 /area/hallway/nsv/deck2/frame3/port
-	name = "Deck 2 Frame 3 Port Hallway"
+	name = "Drugi Pokład Trzecia Rama Burta Korytarz"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck2/frame3/central
-	name = "Deck 2 Frame 3 Central Hallway"
+	name = "Drugi Pokład Trzecia Rama Centralny Korytarz"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck2/frame3/starboard
-	name = "Deck 2 Frame 3 Starboard Hallway"
+	name = "Drugi Pokład Trzecia Rama Sterburta Korytarz"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck2/frame4/port
-	name = "Deck 2 Frame 4 Port Hallway"
+	name = "Drugi Pokład Czwarta Rama Burta Korytarz"
 	icon_state = "hallP"
 
 /area/hallway/nsv/deck2/frame4/starboard
-	name = "Deck 2 Frame 4 Starboard Hallway"
+	name = "Drugi Pokład Czwarta Rama Sterburta Korytarz"
 	icon_state = "hallS"
 
 /area/hallway/nsv/deck2/frame4/central
-	name = "Deck 2 Frame 4 Central Hallway"
+	name = "Drugi Pokład Czwarta Rama Centralny Korytarz"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck2/frame5/port
-	name = "Deck 2 Frame 5 Port Hallway"
+	name = "Drugi Pokład Piąta Rama Burta Korytarz"
 	icon_state = "hallP"
 
 /area/hallway/nsv/deck2/frame5/starboard
-	name = "Deck 2 Frame 5 Starboard Hallway"
+	name = "Drugi Pokład Piąta Rama Sterburta Korytarz"
 	icon_state = "hallS"
 
 /area/hallway/nsv/deck2/frame5/central
-	name = "Deck 2 Frame 5 Central Hallway"
+	name = "Drugi Pokład Piąta Rama Centralny Korytarz"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck3/frame1/port
-	name = "Deck 3 Frame 1 Port Hallway"
+	name = "Trzeci Pokład Pierwsza Rama Burta Korytarz"
 	icon_state = "hallP"
 
 /area/hallway/nsv/deck3/frame1/starboard
-	name = "Deck 3 Frame 1 Starboard Hallway"
+	name = "Trzeci Pokład Pierwsza Rama Sterburta Korytarz"
 	icon_state = "hallS"
 
 /area/hallway/nsv/deck3/frame1/central
-	name = "Deck 3 Frame 1 Central Hallway"
+	name = "Trzeci Pokład Pierwsza Rama Centralny Korytarz"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck3/frame2/central
-	name = "Deck 2 Frame 2 Central Hallway"
+	name = "Drugi Pokład Druga Rama Centralny Korytarz"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck3/frame2/port
-	name = "Deck 2 Frame 2 Port Hallway"
+	name = "Drugi Pokład Druga Rama Burta Korytarz"
 	icon_state = "hallP"
 
 /area/hallway/nsv/deck3/frame2/starboard
-	name = "Deck 2 Frame 2 Starboard Hallway"
+	name = "Drugi Pokład Druga Rama Sterburta Korytarz"
 	icon_state = "hallS"
 
 /area/hallway/nsv/deck3/frame3/port
-	name = "Deck 3 Frame 3 Port Hallway"
+	name = "Trzeci Pokład Trzecia Rama Burta Korytarz"
 	icon_state = "hallP"
 
 /area/hallway/nsv/deck3/frame3/starboard
-	name = "Deck 3 Frame 3 Starboard Hallway"
+	name = "Trzeci Pokład Trzecia Rama Sterburta Korytarz"
 	icon_state = "hallS"
 
 /area/hallway/nsv/deck3/frame3/central
-	name = "Deck 3 Frame 3 Central Hallway"
+	name = "Trzeci Pokład Trzecia Rama Centralny Korytarz"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck3/frame4/central
-	name = "Deck 3 Frame 4 Central Hallway"
+	name = "Trzeci Pokład Czwarta Rama Centralny Korytarz"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck3/frame4/port
-	name = "Deck 3 Frame 4 Port Hallway"
+	name = "Trzeci Pokład Czwarta Rama Burta Korytarz"
 	icon_state = "hallP"
 
 /area/hallway/nsv/deck3/frame4/starboard
-	name = "Deck 3 Frame 4 Starboard Hallway"
+	name = "Trzeci Pokład Czwarta Rama Sterburta Korytarz"
 	icon_state = "hallS"
 
 /area/hallway/nsv/stairwell/lower
-	name = "Lower Stairwell"
+	name = "Dolne Schody"
 	icon_state = "hallS"
 
 /area/hallway/nsv/stairwell/upper
-	name = "Upper Stairwell"
+	name = "Górne Schody"
 	icon_state = "hallS"
 
 /area/hallway/nsv/deck1/hallway
-	name = "Deck 1 Primary Hallway"
+	name = "Pierwszy Pokład Główny Korytarz"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck1/frame1/central
-	name = "Deck 1 Frame 1 Central Hallway"
+	name = "Pierwszy Pokład Pierwsza Rama Centralny Korytarz"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck1/frame1/starboard
-	name = "Deck 1 Frame 1 Starboard Hallway"
+	name = "Pierwszy Pokład Pierwsza Rama Sterburta Korytarz"
 	icon_state = "hallS"
 
 /area/hallway/nsv/deck1/frame2/port
-	name = "Deck 1 Frame 2 Port Hallway"
+	name = "Pierwszy Pokład Druga Rama Burta Korytarz"
 	icon_state = "hallP"
 
 /area/hallway/nsv/deck1/frame2/central
-	name = "Deck 1 Frame 2 Central Hallway"
+	name = "Pierwszy Pokład Druga Rama Centralny Korytarz"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck1/frame2/starboard
-	name = "Deck 1 Frame 2 Starboard Hallway"
+	name = "Pierwszy Pokład Druga Rama Sterburta Korytarz"
 	icon_state = "hallS"
 
 /area/hallway/nsv/deck1/frame3/central
-	name = "Deck 1 Frame 3 Central Hallway"
+	name = "Pierwszy Pokład Trzecia Rama Centralny Korytarz"
 	icon_state = "hallC"
 
 /area/hallway/nsv/deck1/frame4/central
-	name = "Deck 1 Frame 4 Central Hallway"
+	name = "Pierwszy Pokład Czwarta Rama Centralny Korytarz"
 	icon_state = "hallC"
 
 /area/crew_quarters/nsv/observation
-	name = "Observation Lounge"
+	name = "Hol Obserwacyjny"
 	icon_state = "Sleep"
 
 /area/crew_quarters/nsv/officerquarters
-	name = "Bridge Officer's Quarters"
+	name = "Kwatery Oficerów Pokładowych"
 	icon_state = "Sleep"
 
 /area/nsv/hanger/deck3/starboard
-	name = "Deck 3 Starboard Hanger Bay"
+	name = "Trzeci Pokład Sterburta Hangar"
 	icon_state = "hallS"
 
 /area/nsv/hanger/notkmcstupidhanger/launchtube/left
-	name = "Launch Tubes 1 & 2"
+	name = "Wyrzutnie 1 & 2"
 	icon_state = "hallP"
 
 /area/nsv/hanger/notkmcstupidhanger/launchtube/right
-	name = "Launch Tubes 3 & 4"
+	name = "Wyrzutnie 3 & 4"
 	icon_state = "hallS"
 
 /area/nsv/hanger/notkmcstupidhanger/launchtube/left/airlock
-	name = "Hangar Airlock 1"
+	name = "Hangar Śluza 1"
 
 /area/nsv/hanger/notkmcstupidhanger/launchtube/right/airlock
-	name = "Hangar Airlock 2"
+	name = "Hangar Śluza 2"
 
 /area/nsv/hanger/notkmcstupidhanger/hangar
-	name = "Hangar Bay"
+	name = "Hangar"
 	icon_state = "hallC"
 
 /area/nsv/hanger/notkmcstupidhanger/pilot
-	name = "Pilot Lounge"
+	name = "Hol Pilotów"
 	icon_state = "shuttlered"
 
 /area/nsv/hanger/notkmcstupidhanger/atc
-	name = "Air Traffic Control"
+	name = "Kontrola Lotów"
 	icon_state = "shuttlered"
 
 /area/nsv/hanger/deck2/port
-	name = "Deck 2 Port Hanger Bay"
+	name = "Drugi Pokład Burta Hanger"
 	icon_state = "hallP"
 
 /area/nsv/hanger/deck2/starboard
-	name = "Deck 2 Starboard Hanger Bay"
+	name = "Drugi Pokład Sterburta Hanger"
 	icon_state = "hallS"
 
 /area/nsv/hanger/mining
-	name = "Mining Hangar Bay"
+	name = "Hangar Wydobywczy"
 	icon_state = "hallS"
 
 /area/nsv/weapons
-	name = "Weapons Bay"
+	name = "Komora Uzbrojenia"
 	icon_state = "weapons_bay"
 
 /area/nsv/weapons/ordnance
-	name = "Ordnance Handling Bay"
+	name = "Obsługa Uzbrojenia"
 	icon_state = "magazine"
 
 /area/nsv/weapons/gauss
-	name = "Gauss Bay"
+	name = "Komory Gaussa"
 	icon_state = "gauss"
 
 /area/nsv/weapons/port
-	name = "Port Weapons Bay"
+	name = "Burta Komora Uzbrojenia"
 	icon_state = "weapons_bay"
 
 /area/nsv/weapons/starboard
-	name = "Starboard Weapons Bay"
+	name = "Sterburta Komora Uzbrojenia"
 	icon_state = "weapons_bay"
 
 /area/nsv/weapons/fore
-	name = "Fore Weapons Bay"
+	name = "Fore Komora Uzbrojenia"
 	icon_state = "weapons_bay"
 
 /area/nsv/weapons/artillery
-	name = "Artillery Bay"
+	name = "Artyleria"
 	icon_state = "artillery"
 
 /area/nsv/weapons/access_corridor
-	name = "Munitions Access Corridor"
+	name = "Korytarz Dostępu Amunicji"
 	icon_state = "hallF"
 
 /area/nsv/magazine
-	name = "Ship's Magazine"
+	name = "Magazyn Statku"
 	icon_state = "magazine"
 
 /area/nsv/magazine/port
-	name = "Port Magazine"
+	name = "Burta Magazyn"
 	icon_state = "magazine"
 
 /area/nsv/magazine/starboard
-	name = "Starboard Magazine"
+	name = "Sterburta Magazyn"
 	icon_state = "magazine"
 
 /area/nsv/briefingroom
-	name = "Briefing Room"
+	name = "Sala Odpraw"
 	icon_state = "hallP"
 
 /area/nsv/crew_quarters/heads/maa
-	name = "Master At Arms' Office"
+	name = "Biuro Bosmanmata"
 	icon_state = "shuttlegrn"
 
 /area/nsv/squad
-	name = "Squad Equipment Room"
+	name = "Pokój Wyposażenia Drużyn"
 	icon_state = "shuttlegrn"
 
 /area/ai_monitored/records
-	name = "Records Room"
+	name = "Pomieszczenie Archiwum"
 	icon_state = "nuke_storage"
 
 /area/security/locker_room
-	name = "Security Locker Room"
+	name = "Szatnia Ochrony"
 	icon_state = "checkpoint1"
 
 /area/nsv/shuttle
 
 /area/nsv/shuttle/bridge
-	name = "Mining Shuttle Bridge"
+	name = "Mostek Promu Wydobywczego"
 	icon_state = "bridge"
 
 /area/nsv/shuttle/central
-	name = "Mining Shuttle"
+	name = "Prom Wydobywczy"
 	icon_state = "hallC"
 
 /area/nsv/shuttle/storage
-	name = "Mining Shuttle Equipment Storage"
+	name = "Składownia Sprzętu Promu Wydobywczego"
 	icon_state = "storage"
 
 /area/nsv/shuttle/atmospherics
-	name = "Mining Shuttle Maintenance"
+	name = "Atmosferyka Promu Wydobywczego"
 	icon_state = "atmos"
 
 /area/nsv/shuttle/airlock/aft
-	name = "Mining Shuttle Aft Airlock"
+	name = "Prom Wydobywczy Śluzy Rufa"
 	icon_state = "hallA"
 
 /area/nsv/shuttle/airlock/port
-	name = "Mining Shuttle Port Airlock"
+	name = "Śluzy Dzioba Promu Wydobywczego"
 	icon_state = "hallP"
 
 /area/nsv/shuttle/airlock/starboard
-	name = "Mining Shuttle Starboard Airlock"
+	name = "Śluzy Sterburta Promu Wydobywczego"
 	icon_state = "hallS"
 
 /area/nsv/shuttle/fob
 	has_gravity = STANDARD_GRAVITY //good luck trying to fit a gen here.
 
 /area/nsv/shuttle/fob/bridge
-	name = "Mining Shuttle Bridge"
+	name = "Mostek Bazy Górniczej"
 	icon_state = "bridge"
 
 /area/nsv/shuttle/fob/central
-	name = "Mining Shuttle"
+	name = "Prom Wydobywczy"
 	icon_state = "hallC"
 
 /area/nsv/shuttle/fob/storage
-	name = "Mining Shuttle Equipment Storage"
+	name = "Prom Wydobywczy Składownia Sprzętu Bazy"
 	icon_state = "storage"
 
 /area/nsv/shuttle/fob/atmospherics
-	name = "Mining Shuttle Maintenance"
+	name = "Prom Wydobywczy Tunel Techniczny"
 	icon_state = "atmos"
 
 /area/nsv/shuttle/fob/airlock/aft
-	name = "Mining Shuttle Aft Airlock"
+	name = "Prom Wydobywczy Śluzy Rufy"
 	icon_state = "hallA"
 
 /area/nsv/shuttle/fob/airlock/port
-	name = "Mining Shuttle Port Airlock"
+	name = "Prom Wydobywczy Śluzy Dzioba"
 	icon_state = "hallP"
 
 /area/nsv/shuttle/fob/airlock/starboard
-	name = "Mining Shuttle Starboard Airlock"
+	name = "Prom Wydobywczy Sterburta Śluzy"
 	icon_state = "hallS"
 
 /area/nsv/shuttle/fob/quarters
-	name = "Mining Shuttle Crew Quarters"
+	name = "Prom Wydobywczy Kwatery Załogi"
 	icon_state = "hallC"
 
 /area/nsv/shuttle/fob/lounge
-	name = "Mining Shuttle Lounge"
+	name = "Prom Wydobywczy Hol"
 	icon_state = "hallP"
 
 /area/nostromo
@@ -670,91 +670,91 @@
 	has_gravity = TRUE
 
 /area/nostromo/maintenance/exterior
-	name = "Rocinante exterior"
+	name = "Zewnętrze Rocinante"
 	icon_state = "space_near"
 
 /area/nostromo/maintenance/hangar
-	name = "Rocinante hangar bay"
+	name = "Hangar Rocinante"
 	icon_state = "hallS"
 
 /area/nostromo/medbay
-	name = "Rocinante sickbay"
+	name = "Izba Chorych Rocinante"
 	ambient_buzz = 'nsv13/sound/ambience/medbay.ogg'
 	icon_state = "medbay"
 
 /area/nostromo/science
-	name = "Rocinante science"
+	name = "Wydział Naukowy Rocinante"
 	ambient_buzz = 'nsv13/sound/ambience/computer_core.ogg'
 	icon_state = "toxlab"
 
 /area/nostromo/tcomms
-	name = "Rocinante TE/LE/COMM core"
+	name = "Rdzeń TE/LE/KOMM Rocinante"
 	ambient_buzz = 'nsv13/sound/ambience/computer_core.ogg'
 	icon_state = "tcomsatcham"
 
 /area/nostromo/bridge
-	name = "Rocinante flight deck"
+	name = "Pokład Nawigacyjny Rocinante"
 	ambient_buzz = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "bridge"
 
 /area/nostromo/hangar/port
-	name = "Rocinante port hangar deck"
+	name = "Pokład Burty Hangaru Rocinante"
 	ambient_buzz = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "hallP"
 
 /area/nostromo/hangar/starboard
-	name = "Rocinante starboard hangar deck"
+	name = "Pokład Sterburty Hangaru Rocinante"
 	ambient_buzz = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "hallS"
 
 /area/nostromo/engineering
-	name = "Rocinante engineering"
+	name = "Inżynieria Rocinante"
 	ambient_buzz = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "engine"
 
 /area/nostromo/engineering/atmospherics
-	name = "Rocinante engineering"
+	name = "Atmosferyka Rocinante"
 	ambient_buzz = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "atmos"
 
 /area/nostromo/galley
-	name = "Rocinante galley"
+	name = "Kuchnia Rocinante"
 	ambient_buzz = 'nsv13/sound/ambience/bridge.ogg'
 	icon_state = "kitchen"
 
 /area/nostromo/galley/coldroom
-	name = "Rocinante cold room"
+	name = "Chłodnia Rocinante"
 	icon_state = "kitchen_cold"
 
 /area/nostromo/crew_quarters
-	name = "Rocinante quarters"
+	name = "Kwatery Rocinante"
 	icon_state = "Sleep"
 	mood_bonus = 3
-	mood_message = "<span class='nicegreen'>There's no place like the dorms!\n</span>"
+	mood_message = "<span class='nicegreen'>Nie ma to jak kwatery!\n</span>"
 
 /area/nostromo/mining
-	name = "Rocinante mining dock"
+	name = "Dok Górniczy Rocinante"
 	icon_state = "mining"
 
 /area/nostromo/security
-	name = "Rocinante security"
+	name = "Ochrona Rocinante"
 	icon_state = "security"
 	ambience_index = AMBIENCE_DANGER
 
 /area/engine/engineering/reactor_core
-	name = "Nuclear Reactor Core"
+	name = "Rdzeń Reaktora Atomowego"
 	icon_state = "engine_core"
 
 /area/engine/engineering/reactor_control
-	name = "Reactor Control Room"
+	name = "Kontrola Reaktora"
 	icon_state = "reactor_control"
 
 /area/engine/engineering/ftl_room
-	name = "FTL Drive Core"
+	name = "Rdzeń Napędu Nadświetlnego"
 	icon_state = "ftl_room"
 
 /area/maintenance/nsv/bunker
-	name = "Nuclear Bunker"
+	name = "Schron Atomowy"
 	icon_state = "bunker"
 	ambientsounds = list('nsv13/sound/ambience/leit_motif.ogg','nsv13/sound/ambience/wind.ogg','nsv13/sound/ambience/ship_damage/creak1.ogg','nsv13/sound/ambience/ship_damage/creak2.ogg','nsv13/sound/ambience/ship_damage/creak3.ogg','nsv13/sound/ambience/ship_damage/creak4.ogg','nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg','nsv13/sound/ambience/ship_damage/creak7.ogg')
 	light_color = "#e69602"
