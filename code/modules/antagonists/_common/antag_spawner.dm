@@ -205,7 +205,7 @@
 	var/brainfirstname = pick(GLOB.first_names_male)
 	if(prob(50))
 		brainfirstname = pick(GLOB.first_names_female)
-	var/brainopslastname = pick(GLOB.last_names)
+	var/brainopslastname = human_last_name_random()
 	if(creator_op.nuke_team.syndicate_name)  //the brain inside the syndiborg has the same last name as the other ops.
 		brainopslastname = creator_op.nuke_team.syndicate_name
 	var/brainopsname = "[brainfirstname] [brainopslastname]"

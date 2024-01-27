@@ -499,9 +499,9 @@
 			var/firstspace = findtext(real_name, " ")
 			var/name_length = length(real_name)
 			if(!firstspace)	//we need a surname
-				real_name += " [pick(GLOB.last_names)]"
+				real_name += " [human_last_name_random()]"
 			else if(firstspace == name_length)
-				real_name += "[pick(GLOB.last_names)]"
+				real_name += "[human_last_name_random()]"
 
 	character.real_name = real_name
 	character.name = character.real_name

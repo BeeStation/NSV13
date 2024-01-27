@@ -140,7 +140,13 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 	if(lastname)
 		. += " [lastname]"
 	else
-		. += " [pick(GLOB.last_names)]"
+		// AQ EDIT START
+		//. += " [pick(GLOB.last_names)]"
+		if(gender == MALE)
+			. += " [pick(GLOB.last_names_male)]"
+		else
+			. += " [pick(GLOB.last_names_female)]"
+		// AQ EDIT END
 
 	if(unique && attempts < 10)
 		. = .(gender, TRUE, lastname, ++attempts)

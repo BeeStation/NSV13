@@ -47,9 +47,9 @@
 	if(random)
 		switch(rand(0,1))
 			if(0)
-				name = "ghost of [pick(GLOB.first_names_male)] [pick(GLOB.last_names)]"
+				name = "ghost of [pick(GLOB.first_names_male)] [pick(GLOB.last_names_male)]"
 			if(1)
-				name = "ghost of [pick(GLOB.first_names_female)] [pick(GLOB.last_names)]"
+				name = "ghost of [pick(GLOB.first_names_female)] [pick(GLOB.last_names_female)]"
 	AddComponent(/datum/component/tracking_beacon, "ghost", null, null, TRUE, "#9e4d91", TRUE, TRUE)
 
 /mob/living/simple_animal/hostile/retaliate/ghost/Destroy()

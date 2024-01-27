@@ -99,7 +99,7 @@
 		add_atom_colour("#FFD7A7", FIXED_COLOUR_PRIORITY)
 	switch(new_appearance)
 		if("Midshipman") //Nsv13 - Crayon eaters
-			name = "[pick(GLOB.first_names_male)] [pick(GLOB.last_names)]"
+			name = "[human_full_name_random(MALE)]" // AQ edit
 			desc = "A cardboat cutout of an assistant."
 			icon_state = "cutout_greytide"
 		if("Clown")
@@ -123,7 +123,7 @@
 			desc = "A cardboard cutout of a cultist."
 			icon_state = "cutout_cultist"
 		if("Clockwork Cultist")
-			name = "[pick(GLOB.first_names_male)] [pick(GLOB.last_names)]"
+			name = "[human_full_name_random(MALE)]" // AQ EDIT
 			desc = "A cardboard cutout of a servant of Ratvar."
 			icon_state = "cutout_servant"
 		if("Revolutionary")

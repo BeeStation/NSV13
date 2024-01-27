@@ -460,12 +460,15 @@ update_label("John Doe", "Clowny")
 			input_name = reject_bad_name(input_name)
 			if(!input_name)
 				// Invalid/blank names give a randomly generated one.
+				input_name = human_full_name_random()
+				/* // AQ EDIT START
 				if(user.gender == MALE)
 					input_name = "[pick(GLOB.first_names_male)] [pick(GLOB.last_names)]"
 				else if(user.gender == FEMALE)
 					input_name = "[pick(GLOB.first_names_female)] [pick(GLOB.last_names)]"
 				else
 					input_name = "[pick(GLOB.first_names)] [pick(GLOB.last_names)]"
+				*/ // AQ EDIT END
 
 			var/target_occupation = stripped_input(user, "What occupation would you like to put on this card?\nNote: This will not grant any access levels other than Maintenance.", "Agent card job assignment", assignment ? assignment : JOB_NAME_ASSISTANT, MAX_MESSAGE_LEN)
 			if(!target_occupation)

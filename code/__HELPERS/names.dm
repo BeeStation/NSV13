@@ -184,10 +184,15 @@ GLOBAL_DATUM(syndicate_code_response_regex, /regex)
 							if(prob(10))
 								. += pick(random_lizard_name(MALE),random_lizard_name(FEMALE))
 							else
+								// AQ EDIT START
+								. += human_full_name_random()
+								/*
 								var/new_name = pick(pick(GLOB.first_names_male,GLOB.first_names_female))
 								new_name += " "
 								new_name += pick(GLOB.last_names)
 								. += new_name
+								*/
+								// AQ EDIT END
 					if(2)
 						. += pick(get_all_jobs())//Returns a job.
 				safety -= 1

@@ -8,6 +8,7 @@
 #include "aquila\code\__DEFINES\sound.dm"
 #include "aquila\code\__DEFINES\traits.dm"
 #include "aquila\code\__DEFINES\wires.dm"
+#include "aquila\code\__HELPERS\names.dm"
 #include "aquila\code\controllers\subsystem\jukeboxes.dm"
 #include "aquila\code\controllers\subsystem\vote.dm"
 #include "aquila\code\datum\wires\wires_jukebox.dm"
