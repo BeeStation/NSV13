@@ -24,6 +24,25 @@
 					"<span class='warning'>You have a craving for bananas.</span>", "<span class='warning'>Your mind feels clouded.</span>")
 	stage5	= list("<span class='warning'>You feel like monkeying around.</span>")
 
+/datum/disease/transformation/jungle_fever/proc/init_monkey(var/mob/living/carbon/monkey/M)
+	M.ai_controller = new /datum/ai_controller/monkey/angry(M)
+	M.ventcrawler = VENTCRAWLER_ALWAYS
+
+/datum/disease/transformation/jungle_fever/after_add()
+	if(ismonkey(affected_mob))
+		init_monkey(affected_mob)
+	if(!affected_mob.mind && ismonkey(affected_mob))
+		var/list/candidates = pollGhostCandidates("Do you want to play as an infected monkey?", ROLE_MONKEY, /datum/role_preference/antagonist/monkey, 15 SECONDS, POLL_IGNORE_MONKEY)
+
+		if(QDELETED(src))
+			return
+
+		if(candidates.len > 0)
+			var/mob/dead/observer/ghost = pick(candidates)
+			affected_mob.key = ghost.key
+			affected_mob.sync_mind()
+			add_monkey(affected_mob.mind)
+
 /datum/disease/transformation/jungle_fever/do_disease_transformation(mob/living/carbon/affected_mob)
 	if(affected_mob.mind && !is_monkey(affected_mob.mind))
 		add_monkey(affected_mob.mind)
@@ -32,9 +51,9 @@
 			affected_mob.junglegorillize()
 		else
 			var/mob/living/carbon/monkey/M = affected_mob.monkeyize(TR_KEEPITEMS | TR_KEEPIMPLANTS | TR_KEEPVIRUS | TR_KEEPSE)
-			M.ventcrawler = VENTCRAWLER_ALWAYS
 			var/datum/atom_hud/H = GLOB.huds[DATA_HUD_MEDICAL_ADVANCED]
 			H.add_hud_to(M)
+			init_monkey(M)
 
 /datum/disease/transformation/jungle_fever/stage_act()
 	..()

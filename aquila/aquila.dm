@@ -82,6 +82,7 @@
 #include "code\modules\clothing\under\costume.dm"
 #include "code\modules\clothing\under\jobs\rnd.dm"
 #include "code\modules\clothing\under\syndicate.dm"
+#include "code\modules\events\monkey_uprising.dm"
 #include "code\modules\food_and_drinks\drinks\drinks.dm"
 #include "code\modules\food_and_drinks\food\snacks_pie.dm"
 #include "code\modules\food_and_drinks\recipes\drinks_recipes.dm"
