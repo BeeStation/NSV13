@@ -308,7 +308,7 @@
 	new /obj/item/clothing/glasses/meson(src)
 	new /obj/item/t_scanner/adv_mining_scanner/lesser(src)
 	new /obj/item/storage/bag/ore(src)
-	new /obj/item/clothing/suit/hooded/explorer(src)
+	new /obj/item/clothing/suit/space/hardsuit/mining(src)
 	new /obj/item/encryptionkey/headset_cargo(src)
 	new /obj/item/clothing/mask/gas/explorer(src)
 	new /obj/item/card/id/pass/mining_access_card(src)

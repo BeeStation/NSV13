@@ -338,6 +338,14 @@
 					/obj/item/clothing/head/helmet/sec)
 	crate_name = "armor crate"
 
+/datum/supply_pack/security/hardsuit
+	name = "Security Hardsuit Crate"
+	desc = "Contains two robust security hardsuits. Requires Security access to open."
+	cost = 2500
+	contains = list(/obj/item/clothing/suit/space/hardsuit/security,
+					/obj/item/clothing/suit/space/hardsuit/security,)
+	crate_name = "security hardsuit crate"
+
 /* /datum/supply_pack/security/disabler NOT AVAILABLE - NSV
 	name = "Disabler Crate"
 	desc = "Three stamina-draining disabler weapons. Requires Security access to open."
