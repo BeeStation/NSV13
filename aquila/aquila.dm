@@ -53,6 +53,7 @@
 #include "code\game\objects\items\devices\scanners.dm"
 #include "code\game\objects\items\dna_injector.dm"
 #include "code\game\objects\items\flamethrower.dm"
+#include "code\game\objects\items\implants\implant_explosive.dm"
 #include "code\game\objects\items\implants\implant_security.dm"
 #include "code\game\objects\items\inducer.dm"
 #include "code\game\objects\items\manuals.dm"

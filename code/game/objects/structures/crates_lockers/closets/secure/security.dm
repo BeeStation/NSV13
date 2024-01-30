@@ -29,6 +29,7 @@
 	new /obj/item/computer_hardware/hard_drive/role/captain(src)
 	new /obj/item/storage/box/silver_ids(src)
 	new /obj/item/restraints/handcuffs/cable/zipties(src)
+	new /obj/item/storage/box/engimp(src) // aquila edit
 
 	// prioritized items
 	new /obj/item/card/id/departmental_budget/civ(src)

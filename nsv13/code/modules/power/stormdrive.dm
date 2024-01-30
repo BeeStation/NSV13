@@ -1196,6 +1196,7 @@ Control Rods
 	empulse(src, 25, 50)
 	radiation_pulse(src, 10000, 1)
 	src.atmos_spawn_air("o2=750;plasma=200;nucleium=100;TEMP=5000")
+	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_STROMDRIVE_EXPLOSION) // AQ edit
 
 	for(var/mob/living/M in GLOB.alive_mob_list)
 		if(shares_overmap(src, M))
