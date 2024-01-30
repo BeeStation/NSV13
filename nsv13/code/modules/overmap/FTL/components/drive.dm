@@ -55,7 +55,7 @@
 	radio.keyslot = new radio_key
 	radio.listening = 0
 	radio.recalculateChannels()
-	soundloop_ftl = new(list(src), FALSE, FALSE, CHANNEL_FTL_MANIFOLD, TRUE)
+	soundloop_ftl = new(src, FALSE, FALSE, CHANNEL_FTL_MANIFOLD, TRUE)
 	STOP_PROCESSING(SSmachines, src)
 	return INITIALIZE_HINT_LATELOAD
 

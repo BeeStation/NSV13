@@ -32,6 +32,11 @@
 				qdel(S)
 			else
 				S.be_replaced()
+	//NSV13 - stop runtiming
+	if(registered_z)
+		SSmobs.clients_by_zlevel[registered_z] -= src
+		registered_z = null
+	//NSV13 end
 	if(ranged_ability)
 		ranged_ability.remove_ranged_ability(src)
 	if(buckled)

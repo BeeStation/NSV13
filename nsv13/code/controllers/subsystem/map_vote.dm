@@ -33,14 +33,14 @@
 
 	/* From the feedback table, for any entry with the key 'nsv_endings', get the round ID and extract the type of ending from the JSON data.
 		This is a text string. Current values (2023/02/17) are "succeeded", "evacuated", and "failed". Call this result "feedback".
-		(SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data') AS CHAR) AS ending FROM ss13_feedback WHERE key_name='nsv_endings') AS feedback
+		(SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data[0]') AS CHAR) AS ending FROM ss13_feedback WHERE key_name='nsv_endings') AS feedback
 
 		Take the round ID and compare it with the data from the round table to get the map name. This gives us one row per round where we
 		recorded the ending with the map name and the ending type. The ending type string includes quotation marks.
 		SELECT map_name, feedback.ending FROM ss13_round INNER JOIN [feedback] ON ss13_round.id=feedback.round_id
 	*/
 	var/datum/DBQuery/endings_query = SSdbcore.NewQuery("SELECT map_name, feedback.ending FROM [format_table_name("round")] INNER JOIN (" + \
-		"SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data') AS CHAR) AS ending FROM [format_table_name("feedback")] WHERE key_name='nsv_endings') AS feedback " + \
+		"SELECT round_id, CAST(JSON_EXTRACT(JSON, '$.data\[0\]') AS CHAR) AS ending FROM [format_table_name("feedback")] WHERE key_name='nsv_endings') AS feedback " + \
 		" ON [format_table_name("round")].id=feedback.round_id")
 
 	SSdbcore.QuerySelect(stability_query)

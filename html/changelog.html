@@ -56,6 +56,39 @@
 		-->
 		<div class="commit sansserif">
 
+			<h2 class="date">19 January 2024</h2>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="refactor">The Torp and Missile factory automation machinery has been rewritten almost entirely to make it less clunky and more fun.</li>
+				<li class="rscadd">Automated Assemblers will now pick up components of the last manually inserted type if they pass in front of them!</li>
+				<li class="bugfix">The Thirring Drive Core sound loop you have never heard before works now!</li>
+				<li class="bugfix">The client_by_z list shouldn't be getting flooded with nulls anymore.</li>
+			</ul>
+
+			<h2 class="date">13 January 2024</h2>
+			<h3 class="author">Bokkiewokkie updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added the option to get another ticket objective if Rubicon is already cleared</li>
+				<li class="tweak">Increased Rubicon objective player requirement to 10</li>
+				<li class="tweak">Mission briefing names will now be consistent in a round</li>
+				<li class="balance">Fleets will now be stronger after the main mission is done</li>
+				<li class="admin">Added button to hide/unhide a system on the starsystem manager</li>
+				<li class="admin">Automatically unhides systems selected for the "clear system" objective</li>
+			</ul>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Overmap singularities now have more impactful effects, including but not limited to increased gravity inside nearby vessels, dampener interference, and improved directional pull.</li>
+				<li class="rscadd">Full hardsuits now provide 1G gravity protection against damage, though they do not improve movement.</li>
+				<li class="balance">Silicons will suffer from consistently very high gravity, starting at above 8G.</li>
+				<li class="tweak">Some interactions with high gravity previously limited to grav-sensitive individuals now are accessible to anyone, albeit at lower magnitude (generally 3G higher tolerance)</li>
+				<li class="bugfix">Starsystem persistence should now be slightly less volatile.</li>
+				<li class="config">The starsystem persistence config MUST be reset to the default starmap for the fixes in this PR to apply correctly.</li>
+			</ul>
+			<h3 class="author">covertcorvid updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">fixed the database query for the round endings</li>
+			</ul>
+
 			<h2 class="date">03 January 2024</h2>
 			<h3 class="author">Bokkiewokkie updated:</h3>
 			<ul class="changes bgimages16">
@@ -114,58 +147,6 @@
 			<ul class="changes bgimages16">
 				<li class="config">Made repo config client version match the server</li>
 				<li class="server">Increased max recommended client version to 515.1608</li>
-			</ul>
-
-			<h2 class="date">24 November 2023</h2>
-			<h3 class="author">Bokkiewokkie updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added Syndicate light fighter plushie</li>
-				<li class="rscadd">Added DIY fighter plush bomb kit traitor item</li>
-			</ul>
-
-			<h2 class="date">10 November 2023</h2>
-			<h3 class="author">DuskLight9978 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added dock pay smite</li>
-				<li class="admin">new dock pay smite</li>
-			</ul>
-			<h3 class="author">Harranhall updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added a vignette that appears momentarily when your laws are changed as AI.</li>
-				<li class="imageadd">added the "law_change" fullscreen vignette.</li>
-			</ul>
-			<h3 class="author">Ikalpo updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">You can now recycle nanoweave carpet tiles</li>
-				<li class="bugfix">Fixed the amount that NSV materials cost in ORMs and lathes</li>
-				<li class="rscadd">Plated catwalks can now be created with rods and monotiles</li>
-				<li class="bugfix">Fixed being able to interact with objects under catwalks</li>
-				<li class="bugfix">Fixed plated catwalks being destroyed when pulling up a floor tile under them</li>
-				<li class="imageadd">Plated catwalks have new sprites to smooth better</li>
-				<li class="imagedel">Got rid of the dumb non-smoothed sprite when a plated catwalk is closed</li>
-				<li class="bugfix">Fixes techfloor grid tiles not showing up in the ctrl-click menu for plasteel tiles</li>
-			</ul>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixed window damage overlay</li>
-				<li class="bugfix">Fixed a runtime in the power generation objective when there is no storm drive or AGCNR</li>
-			</ul>
-			<h3 class="author">dmapi update updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="server">updates dmapi</li>
-			</ul>
-			<h3 class="author">itsmeow updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="server">Update to Python 3.11.2, Node 18.14.2, Inferno 8, Typescript 4.9, Yarn 3.4</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added Flight Lead fighter colorizer</li>
-				<li class="bugfix">Ammo sorters on snake now start linked</li>
-				<li class="bugfix">Prevents a failsafe from triggering every time the snake is loaded</li>
-				<li class="rscadd">Ghost controlled ships can now use gauss</li>
-				<li class="rscadd">Added coffee machines to PVP ships</li>
-				<li class="tweak">Syndicate coffee drinkers now get a altered mood event</li>
 			</ul>
 		</div>
 

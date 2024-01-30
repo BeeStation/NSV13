@@ -125,7 +125,10 @@ GLOBAL_LIST_INIT(traits_by_type, list(
 		"TRAIT_DOOR_PRYER" = TRAIT_DOOR_PRYER,
 		"TRAIT_FISH_SAFE_STORAGE" = TRAIT_FISH_SAFE_STORAGE,
 		"TRAIT_FISH_CASE_COMPATIBILE" = TRAIT_FISH_CASE_COMPATIBILE
-		)
+		),
+	/obj/structure/overmap = list(
+		"TRAIT_NODAMPENERS" = TRAIT_NODAMPENERS
+		),
 	))
 
 /// value -> trait name, generated on use from trait_by_type global
