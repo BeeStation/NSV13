@@ -11,7 +11,7 @@
 
 /datum/objective/crew/integrity/update_explanation_text()
 	. = ..()
-	explanation_text = "Ensure the station's integrity rating is at least [target_amount]% when the shift ends."
+	explanation_text = "Zapenij ocenę integralności stacji na poziomie [target_amount]% kiedy zmiana dobiegnie końca."
 
 /datum/objective/crew/integrity/check_completion()
 	var/datum/station_state/end_state = new /datum/station_state()
@@ -23,7 +23,7 @@
 		return ..()
 
 /datum/objective/crew/poly
-	explanation_text = "Make sure Poly keeps his headset, and stays alive until the end of the shift."
+	explanation_text = "Dopilnuj by Polly zachowała swój zestaw słuchawkowy i pozostanie żywa do końca zmiany."
 	jobs = "chiefengineer"
 
 /datum/objective/crew/poly/check_completion()

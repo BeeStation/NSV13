@@ -1,7 +1,7 @@
 /*				MEDICAL OBJECTIVES				*/
 
 /datum/objective/crew/morgue //Ported from old Hippie
-	explanation_text = "Ensure the Medbay has been cleaned of any corpses when the shift ends."
+	explanation_text = "Upewnij się, że Medbay został oczyszczony ze wszystkich zwłok do końca zmiany."
 	jobs = "chiefmedicalofficer,geneticist,medicaldoctor"
 
 /datum/objective/crew/morgue/check_completion()
@@ -15,7 +15,7 @@
 	return TRUE
 
 /datum/objective/crew/paramedicmorgue
-	explanation_text = "Ensure that no corpses remain outside of Medbay when the shift ends."
+	explanation_text = "Upewnij się, że żadne zwłoki nie leżą poza Medbayem pod koniec zmiany."
 	jobs = "paramedic"
 
 /datum/objective/crew/paramedicmorgue/check_completion()
@@ -42,7 +42,7 @@
 
 /datum/objective/crew/chems/update_explanation_text()
 	. = ..()
-	explanation_text = "Have [initial(chempath.name)] in your bloodstream when the shift ends."
+	explanation_text = "Miej [initial(chempath.name)] w swoim krwioobiegu pod koniec rundy."
 
 /datum/objective/crew/chems/check_completion()
 	if(owner.current)
@@ -68,7 +68,7 @@
 
 /datum/objective/crew/druglordchem/update_explanation_text()
 	. = ..()
-	explanation_text = "Have at least [target_amount] pills containing at least [chemamount] units of [initial(chempath.name)] when the shift ends."
+	explanation_text = "Posiadaj [target_amount] tabletek zawierających przynajmniej [chemamount] jednostek [initial(chempath.name)] kiedy skończy się zmiana."
 
 /datum/objective/crew/druglordchem/check_completion()
 	var/pillcount = target_amount
@@ -83,7 +83,7 @@
 		return ..()
 
 /datum/objective/crew/noinfections
-	explanation_text = "Make sure there are no crew members with harmful diseases at the end of the shift."
+	explanation_text = "Upewnij się, że pod koniec zmiany nie ma członków załogi zarażonych szkodliwymi chorobami."
 	jobs = "virologist"
 
 /datum/objective/crew/noinfections/check_completion()

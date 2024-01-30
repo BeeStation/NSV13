@@ -1,9 +1,9 @@
 /*				SECURITY OBJECTIVES				*/
 
 /datum/objective/crew/enjoyyourstay
-	explanation_text = "Welcome aboard. Enjoy your stay."
+	explanation_text = "Witamy na pokładzie. Miłego pobytu."
 	jobs = "headofsecurity,securityofficer,warden,detective"
-	var/list/edglines = list("Welcome aboard. Enjoy your stay.", "You signed up for this.", "Abandon hope.", "The tide's gonna stop eventually.", "Hey, someone's gotta do it.", "No, you can't resign.", "Security is a mission, not an intermission.")
+	var/list/edglines = list("Witamy na pokładzie. Miłego pobytu.", "Pisałeś się na to.", "Porzuć nadzieję.", "Fala kiedyś się w końcu zatrzyma.", "Hej, ktoś to musi robić.", "Nie, nie możesz zrezygnować.", "Ochrona to misja. Nie do obijania permisja.")
 
 /datum/objective/crew/enjoyyourstay/New()
 	. = ..()
@@ -11,7 +11,7 @@
 
 /datum/objective/crew/enjoyyourstay/update_explanation_text()
 	. = ..()
-	explanation_text = "Enforce Space Law to the best of your ability, and survive. [pick(edglines)]"
+	explanation_text = "Egzekwuj kosmiczne prawo tak dobrze, jak potrafisz i przetrwaj. [pick(edglines)]"
 
 /datum/objective/crew/enjoyyourstay/check_completion()
 	if(owner?.current)
@@ -20,7 +20,7 @@
 	return ..()
 
 /datum/objective/crew/nomanleftbehind
-	explanation_text = "Ensure no prisoners are left in the brig when the shift ends."
+	explanation_text = "Upewnij się, że żaden więzień nie został w skrzydle więziennym do końca zmiany."
 	jobs = "warden,securityofficer"
 
 /datum/objective/crew/nomanleftbehind/check_completion()
@@ -32,7 +32,7 @@
 	return TRUE
 
 /datum/objective/crew/justicemed
-	explanation_text = "Ensure there are no dead bodies in the security wing when the shift ends."
+	explanation_text = "Upewnij się, że w skrzydle Ochrony nie ma żadnych zwłok do końca zmiany."
 	jobs = "brigphysician"
 
 /datum/objective/crew/justicemed/check_completion()

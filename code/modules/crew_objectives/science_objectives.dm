@@ -6,12 +6,12 @@
 
 /datum/objective/crew/cyborgs/New()
 	. = ..()
-	target_amount = rand(3,10)
+	target_amount = rand(3,5)
 	update_explanation_text()
 
 /datum/objective/crew/cyborgs/update_explanation_text()
 	. = ..()
-	explanation_text = "Ensure there are at least [target_amount] functioning cyborgs when the shift ends."
+	explanation_text = "Zapewnij przynajmniej [target_amount] funkcjonujących cyborgów pod koniec zmiany."
 
 /datum/objective/crew/cyborgs/check_completion()
 	var/borgcount = target_amount

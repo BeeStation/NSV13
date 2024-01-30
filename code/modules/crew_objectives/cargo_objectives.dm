@@ -1,7 +1,7 @@
 /*				CARGO OBJECTIVES				*/
 
 /datum/objective/crew/petsplosion
-	explanation_text = "Ensure there are at least (If you see this, yell on GitHub) pets on the station by the end of the shift. Interpret this as you wish."
+	explanation_text = "Upewnij się, że na stacji jest przynajmniej (If you see this, yell on GitHub) zwierząt przed końcem zmiany. Zinterpretuj to sobie jak chcesz ( ͡° ͜ʖ ͡°)."
 	jobs = "quartermaster,cargotechnician"
 
 /datum/objective/crew/petsplosion/New()
@@ -11,7 +11,7 @@
 
 /datum/objective/crew/petsplosion/update_explanation_text()
 	. = ..()
-	explanation_text = "Ensure there are at least [target_amount] pets on the station by the end of the shift. Interpret this as you wish."
+	explanation_text = "Upewnij się, że na stacji jest przynajmniej [target_amount] zwierząt przed końcem zmiany. Zinterpretuj to sobie jak chcesz ( ͡° ͜ʖ ͡°)."
 
 /datum/objective/crew/petsplosion/check_completion()
 	var/petcount = target_amount
@@ -40,7 +40,7 @@
 
 /datum/objective/crew/points/update_explanation_text()
 	. = ..()
-	explanation_text = "Make sure the station has at least [target_amount] station credits at the end of the shift."
+	explanation_text = "Upewnij się, że na stacji jest przynajmniej [target_amount] kredytów przed końcem zmiany."
 
 /datum/objective/crew/points/check_completion()
 	if(SSshuttle.points >= target_amount)
@@ -71,7 +71,7 @@
 
 /datum/objective/crew/fatstacks/update_explanation_text()
 	. = ..()
-	explanation_text = "Have at least [target_amount] mining points on your ID at the end of the shift."
+	explanation_text = "Miej przynajmniej [target_amount] punktów górniczych na swoim koncie ID przed końcem zmiany."
 
 /datum/objective/crew/fatstacks/check_completion()
 	if(owner?.current)

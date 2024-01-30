@@ -15,7 +15,7 @@
 
 /datum/objective/crew/druglordbot/update_explanation_text()
 	. = ..()
-	explanation_text = "Have at least [target_amount] harvested plants containing [initial(chempath.name)] when the shift ends."
+	explanation_text = "Zbierz przynajmniej [target_amount] roślin zawierających [initial(chempath.name)] przed koncem zmiany."
 
 /datum/objective/crew/druglordbot/check_completion()
 	var/pillcount = target_amount
@@ -46,7 +46,7 @@
 
 /datum/objective/crew/foodhoard/update_explanation_text()
 	. = ..()
-	explanation_text = "Personally deliver at least [target_amount] [initial(foodpath.name)]s to CentCom."
+	explanation_text = "Osobiście dostarcz przynajmniej [target_amount] [initial(foodpath.name)] do Centrali."
 
 /datum/objective/crew/foodhoard/check_completion()
 	if(owner.current && owner.current.check_contents_for(foodpath) && SSshuttle.emergency.shuttle_areas[get_area(owner.current)])
@@ -113,7 +113,7 @@
 
 /datum/objective/crew/clean/update_explanation_text()
 	. = ..()
-	explanation_text = "Ensure that the"
+	explanation_text = "Upewnij się, że"
 	for(var/i in 1 to areas.len)
 		var/area/A = areas[i]
 		explanation_text += " [A]"
@@ -121,7 +121,7 @@
 			explanation_text += ","
 		if(i == areas.len - 1)
 			explanation_text += "and"
-	explanation_text += " [(areas.len ==1) ? "is completely" : "are [(areas.len == 2) ? "completely" : "all"]"] clean at the end of the shift."
+	explanation_text += " [(areas.len ==1) ? "jest całkowicie" : "są [(areas.len == 2) ? "całkowicie" : "wszystkie"]"] czyste do pod koniec zmiany."
 	if(hardmode)
 		explanation_text += " Chop-chop."
 
@@ -142,7 +142,7 @@
 
 /datum/objective/crew/exterminator/update_explanation_text()
 	. = ..()
-	explanation_text = "Ensure that there are no more than [target_amount] living mice on the station when the round ends."
+	explanation_text = "Upewnij się, że nie więcej niż [target_amount] żywych myszy biega po stacji pod koniec zmiany."
 
 /datum/objective/crew/exterminator/check_completion()
 	var/num_mice = 0
@@ -154,7 +154,7 @@
 	return ..()
 
 /datum/objective/crew/lostkeys
-	explanation_text = "Don't lose the janicart keys. Have them with you when the shift ends."
+	explanation_text = "Nie zgub kluczyków do swojego wózka. Miej je do końca zmiany."
 	jobs = "janitor"
 
 /datum/objective/crew/lostkeys/check_completion()
@@ -173,7 +173,7 @@
 
 /datum/objective/crew/slipster/update_explanation_text()
 	. = ..()
-	explanation_text = "Slip at least [target_amount] different people with your PDA, and have it on you at the end of the shift."
+	explanation_text = "Poślizgnij przynajmniej [target_amount] różnych osób za pomocą twojego PDA i zachowaj je do końca zmiany."
 
 /datum/objective/crew/slipster/check_completion()
 	var/list/uniqueslips = list()
@@ -197,7 +197,7 @@
 
 /datum/objective/crew/shoethief/update_explanation_text()
 	. = ..()
-	explanation_text = "Steal at least [target_amount] pair\s of shoes, and have them in your bag at the end of the shift. Bonus points if they are stolen from crewmembers instead of ClothesMates."
+	explanation_text = "Ukradnij przynajmniej [target_amount] par butów i miej je w plecaku do końca zmiany. Bonusowe punkty jeśli zostały ukradzione załodze, a nie z automatów na ubrania."
 
 /datum/objective/crew/shoethief/check_completion()
 	var/list/shoes = list()
@@ -210,7 +210,7 @@
 	return ..()
 
 /datum/objective/crew/vow //ported from old Hippie
-	explanation_text = "Never break your vow of silence."
+	explanation_text = "Nigdy nie złam przysięgi milczenia."
 	jobs = "mime"
 
 /datum/objective/crew/vow/check_completion()
@@ -221,7 +221,7 @@
 	return TRUE
 
 /datum/objective/crew/nothingreallymatterstome
-	explanation_text = "Have a Bottle of Nothing with you at the end of the shift."
+	explanation_text = "Zachowaj Buletkę Niczego (Bottle of Nothing) do końca zmiany."
 	jobs = "mime"
 
 /datum/objective/crew/nothingreallymatterstome/check_completion()
@@ -230,7 +230,7 @@
 	return ..()
 
 /datum/objective/crew/nullrod
-	explanation_text = "Don't lose your nullrod. You can still transform it into another item."
+	explanation_text = "Nie zgub swojego atrybutu - nullroda. Możesz dalej przetransformować ją w inny przedmiot."
 	jobs = "chaplain"
 
 /datum/objective/crew/nullrod/check_completion()
@@ -253,7 +253,7 @@
 
 /datum/objective/crew/reporter/update_explanation_text()
 	. = ..()
-	explanation_text = "Publish at least [target_amount] articles containing at least [charcount] characters."
+	explanation_text = "Opublikuj przynajmniej [target_amount] artukułów z [charcount]. znakami."
 
 /datum/objective/crew/reporter/check_completion()
 	if(owner?.current)
@@ -283,7 +283,7 @@
 
 /datum/objective/crew/pwrgame/update_explanation_text()
 	. = ..()
-	explanation_text = "Get your grubby hands on a [initial(targettidegarb.name)]."
+	explanation_text = "Połóż swoje chytre rączki na [initial(targettidegarb.name)]."
 
 /datum/objective/crew/pwrgame/check_completion()
 	if(owner?.current)
@@ -293,7 +293,7 @@
 	return ..()
 
 /datum/objective/crew/promotion //ported from Goon
-	explanation_text = "Have a non-assistant ID registered to you at the end of the shift."
+	explanation_text = "Miej ID zarejestrowane na inną profesję niż asystent pod koniec zmiany."
 	jobs = "assistant"
 
 /datum/objective/crew/promotion/check_completion()
@@ -308,7 +308,7 @@
 	return ..()
 
 /datum/objective/crew/justicecrew
-	explanation_text = "Ensure there are no members of security in the prison wing when the shift ends."
+	explanation_text = "Upewnij się, że pod koniec zmiany w skrzydle więziennym nie ma żadnych członków Ochrony."
 	jobs = "lawyer"
 
 /datum/objective/crew/justicecrew/check_completion()
