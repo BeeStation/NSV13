@@ -28,6 +28,7 @@
 	var/starmap_path = CONFIG_DIRECTORY + "/" + STARMAP_FILE //NSV13 - What starmap should this map load?
 	var/return_system = "Outpost 45" //NSV13 - Which system are we jumping back to when the round ends?
 	var/mine_traits = null
+	var/has_gulag = FALSE // AQ EDIT
 
 	//NSV13 - special mapvote things
 	var/map_description = "No data"
@@ -240,6 +241,9 @@
 		log_world("map_link missing from json!")	// NSV Changes end
 
 	allow_night_lighting = json["allow_night_lighting"] != FALSE
+
+	if("has_gulag" in json)						// AQ EDIT
+		has_gulag = json["has_gulag"]			//
 
 	defaulted = FALSE
 	return TRUE

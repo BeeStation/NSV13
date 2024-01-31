@@ -322,6 +322,10 @@ SUBSYSTEM_DEF(mapping)
 		INIT_ANNOUNCE("WARNING: An unknown minetype '[config.minetype]' was set! This is being ignored! Update the maploader code!")
 	*/
 ///NSV13 END
+// AQUILA GULAG
+	if(config.has_gulag)
+		LoadGroup(FailedZs, "Gulag", "map_files/Mining/nsv13", "gulag.dmm", default_traits = ZTRAITS_SPACE, orbital_body_type = /datum/orbital_object/z_linked/beacon/gulag)
+// AQUILA END
 #endif
 
 	if(LAZYLEN(FailedZs))	//but seriously, unless the server's filesystem is messed up this will never happen
