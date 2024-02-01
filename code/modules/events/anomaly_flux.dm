@@ -2,8 +2,8 @@
 	name = "Anomaly: Hyper-Energetic Flux"
 	typepath = /datum/round_event/anomaly/anomaly_flux
 
-	min_players = 40
-	max_occurrences = 5
+	min_players = 15
+	max_occurrences = 1
 	weight = 5
 
 /datum/round_event/anomaly/anomaly_flux

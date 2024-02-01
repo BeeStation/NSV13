@@ -2,6 +2,7 @@
 	name = "Spontaneous Brain Trauma"
 	typepath = /datum/round_event/brain_trauma
 	weight = 10
+	max_occurrences = 5
 	min_players = 20 //this shit ain't fun on a small crew
 
 /datum/round_event/brain_trauma
