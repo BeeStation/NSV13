@@ -74,15 +74,18 @@
 		var/mob/M = loc
 		M.update_inv_head()
 
-/obj/item/clothing/head/compile_monkey_icon()
+/obj/item/clothing/head/compile_monkey_icon() // AQ EDIT - made it support multiple icon_states per item
+	var/identity = "[type]_[icon_state]" //Allows using multiple icon states for piece of clothing
 	//If the icon, for this type of item, is already made by something else, don't make it again
-	if(GLOB.monkey_icon_cache[type])
-		monkey_icon = GLOB.monkey_icon_cache[type]
+	if(GLOB.monkey_icon_cache[identity])
+		monkey_icon = GLOB.monkey_icon_cache[identity]
 		return
-
+	var/icon_to_mod = 'icons/mob/clothing/head.dmi'
+	if(worn_icon)
+		icon_to_mod = worn_icon
 	//Start with two sides for the front
-	var/icon/main = icon('icons/mob/clothing/head.dmi', icon_state) //This takes the icon and uses the worn version of the icon
-	var/icon/sub = icon('icons/mob/clothing/head.dmi', icon_state)
+	var/icon/main = icon(icon_to_mod, icon_state) //This takes the icon and uses the worn version of the icon
+	var/icon/sub = icon(icon_to_mod, icon_state)
 
 	//merge the sub side with the main, after masking off the middle pixel line
 	var/icon/mask = new('icons/mob/monkey.dmi', "monkey_mask_right") //masking
@@ -93,7 +96,7 @@
 	main.Blend(sub, ICON_OVERLAY)
 
 	//handle side icons
-	sub = icon('icons/mob/clothing/head.dmi', icon_state, dir = EAST)
+	sub = icon(icon_to_mod, icon_state, dir = EAST)
 	main.Insert(sub, dir = EAST)
 	sub.Flip(WEST)
 	main.Insert(sub, dir = WEST)
@@ -103,4 +106,4 @@
 
 	//Finished
 	monkey_icon = main
-	GLOB.monkey_icon_cache[type] = icon(monkey_icon)
+	GLOB.monkey_icon_cache[identity] = icon(monkey_icon)

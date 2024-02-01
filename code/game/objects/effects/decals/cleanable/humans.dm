@@ -9,17 +9,12 @@
 
 /obj/effect/decal/cleanable/blood/replace_decal(obj/effect/decal/cleanable/blood/C)
 	C.add_blood_DNA(return_blood_DNA())
-	if (bloodiness)
-		if (C.bloodiness < MAX_SHOE_BLOODINESS)
-			C.bloodiness += bloodiness
+	C.add_bloodiness(bloodiness) // AQ EDIT
 	return ..()
 
-/obj/effect/decal/cleanable/blood/old
-	name = "dried blood"
-	desc = "Looks like it's been here a while.  Eew."
-	bloodiness = 0
-	icon_state = "floor1-old"
+/obj/effect/decal/cleanable/blood/old // AQ EDIT
 	var/list/disease = list()
+	is_old = TRUE
 
 /obj/effect/decal/cleanable/blood/old/Initialize(mapload, list/datum/disease/diseases)
 	add_blood_DNA(list("Non-human DNA" = random_blood_type())) // Needs to happen before ..()
@@ -41,6 +36,7 @@
 /obj/effect/decal/cleanable/blood/splatter
 	icon_state = "gibbl1"
 	random_icon_states = list("gibbl1", "gibbl2", "gibbl3", "gibbl4", "gibbl5")
+	is_slippery = TRUE // AQ EDIT
 
 /obj/effect/decal/cleanable/blood/tracks
 	name = "tracks"
@@ -48,13 +44,15 @@
 	icon_state = "tracks"
 	random_icon_states = null
 
-/obj/effect/decal/cleanable/trail_holder //not a child of blood on purpose
-	name = "blood"
+/obj/effect/decal/cleanable/blood/trail_holder // AQ EDIT - made a child of blood
+	name = "bloody trails"
 	icon = 'icons/effects/blood.dmi'
+	icon_state = null //rendered through overlays
+	random_icon_states = null
 	desc = "Your instincts say you shouldn't be following these."
 	var/list/existing_dirs = list()
 
-/obj/effect/decal/cleanable/trail_holder/can_bloodcrawl_in()
+/obj/effect/decal/cleanable/blood/trail_holder/can_bloodcrawl_in()
 	return TRUE
 
 /obj/effect/decal/cleanable/blood/gibs
@@ -66,6 +64,7 @@
 	random_icon_states = list("gib1", "gib2", "gib3", "gib4", "gib5", "gib6")
 	mergeable_decal = FALSE
 	turf_loc_check = FALSE
+	is_slippery = TRUE // AQ EDIT
 
 	var/already_rotting = FALSE
 		///Information about the diseases our streaking spawns
@@ -73,17 +72,10 @@
 
 /obj/effect/decal/cleanable/blood/gibs/Initialize(mapload, list/datum/disease/diseases)
 	. = ..()
+	name = "rotten [name]"
+	//AddComponent(/datum/component/rot/gibs)
 	reagents.add_reagent(/datum/reagent/liquidgibs, 5)
 	RegisterSignal(src, COMSIG_MOVABLE_PIPE_EJECTING, PROC_REF(on_pipe_eject))
-	if(already_rotting)
-		start_rotting(rename=FALSE)
-	else
-		addtimer(CALLBACK(src, PROC_REF(start_rotting)), 2 MINUTES)
-
-/obj/effect/decal/cleanable/blood/gibs/proc/start_rotting(rename=TRUE)
-	if(rename)
-		name = "rotting [initial(name)]"
-		desc += " They smell terrible."
 
 /obj/effect/decal/cleanable/blood/gibs/replace_decal(obj/effect/decal/cleanable/C)
 	return FALSE //Never fail to place us
@@ -154,11 +146,8 @@
 	random_icon_states = list("gibmid1", "gibmid2", "gibmid3")
 
 /obj/effect/decal/cleanable/blood/gibs/old
-	name = "old rotting gibs"
-	desc = "Space Jesus, why didn't anyone clean this up? They smell terrible."
-	bloodiness = 0
-	already_rotting = TRUE
 	var/list/disease = list()
+	is_old = TRUE
 
 /obj/effect/decal/cleanable/blood/gibs/old/Initialize(mapload, list/datum/disease/diseases)
 	. = ..()
@@ -194,10 +183,9 @@
 /obj/effect/decal/cleanable/blood/footprints
 	name = "footprints"
 	icon = 'icons/effects/footprints.dmi'
-	icon_state = "nothingwhatsoever"
-	desc = "WHOSE FOOTPRINTS ARE THESE?"
-	icon_state = "blood1"
+	icon_state = null //rendered through overlays // AQ EDIT
 	random_icon_states = null
+	desc = "WHOSE FOOTPRINTS ARE THESE?"
 	blood_state = BLOOD_STATE_HUMAN //the icon state to load images from
 	var/entered_dirs = 0
 	var/exited_dirs = 0
@@ -235,12 +223,14 @@
 		if(entered_dirs & Ddir)
 			var/image/bloodstep_overlay = GLOB.bloody_footprints_cache["entered-[blood_state]-[Ddir]"]
 			if(!bloodstep_overlay)
-				GLOB.bloody_footprints_cache["entered-[blood_state]-[Ddir]"] = bloodstep_overlay = image(icon, "[blood_state]1", dir = Ddir)
+				bloodstep_overlay = image(icon, "[blood_state]1", dir = Ddir)
+				GLOB.bloody_footprints_cache["entered-[blood_state]-[Ddir]"] = bloodstep_overlay
 			add_overlay(bloodstep_overlay)
 		if(exited_dirs & Ddir)
 			var/image/bloodstep_overlay = GLOB.bloody_footprints_cache["exited-[blood_state]-[Ddir]"]
 			if(!bloodstep_overlay)
-				GLOB.bloody_footprints_cache["exited-[blood_state]-[Ddir]"] = bloodstep_overlay = image(icon, "[blood_state]2", dir = Ddir)
+				bloodstep_overlay = image(icon, "[blood_state]2", dir = Ddir)
+				GLOB.bloody_footprints_cache["exited-[blood_state]-[Ddir]"] = bloodstep_overlay
 			add_overlay(bloodstep_overlay)
 
 	alpha = BLOODY_FOOTPRINT_BASE_ALPHA+bloodiness

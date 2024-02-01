@@ -114,7 +114,7 @@
 	return held_item.GetID()
 
 /mob/living/carbon/human/IsAdvancedToolUser()
-	if(HAS_TRAIT(src, TRAIT_MONKEYLIKE))
+	if(HAS_TRAIT(src, TRAIT_DISCOORDINATED)) // AQ EDIT (TRAIT_MONKEYLIKE -> TRAIT DISCOORDINATED)
 		return FALSE
 	return TRUE//Humans can use guns and such
 

@@ -228,15 +228,20 @@
 /obj/item/clothing/under/rank
 	dying_key = DYE_REGISTRY_UNDER
 
-/obj/item/clothing/under/compile_monkey_icon()
+/obj/item/clothing/under/compile_monkey_icon() // AQ EDIT - made it support multiple icon_states per item
+	var/identity = "[type]_[icon_state]" //Allows using multiple icon states for piece of clothing
 	//If the icon, for this type of clothing, is already made by something else, don't make it again
-	if(GLOB.monkey_icon_cache[type])
-		monkey_icon = GLOB.monkey_icon_cache[type]
+	if(GLOB.monkey_icon_cache[identity])
+		monkey_icon = GLOB.monkey_icon_cache[identity]
 		return
 
+	var/icon_to_mod = 'icons/mob/clothing/uniform.dmi'
+	if(worn_icon)
+		icon_to_mod = worn_icon
+
 	//Start with a base and align it with the mask
-	var/icon/base = icon('icons/mob/clothing/uniform.dmi', icon_state, SOUTH) //This takes the icon and uses the worn version of the icon
-	var/icon/back = icon('icons/mob/clothing/uniform.dmi', icon_state, NORTH) //Awkard but, we have to manually insert the back
+	var/icon/base = icon(icon_to_mod, icon_state, SOUTH) //This takes the icon and uses the worn version of the icon
+	var/icon/back = icon(icon_to_mod, icon_state, NORTH) //Awkard but, we have to manually insert the back
 	back.Shift(SOUTH, 2) //Allign with masks
 	base.Shift(SOUTH, 2)
 
@@ -292,4 +297,4 @@
 
 	//Finished!
 	monkey_icon = base
-	GLOB.monkey_icon_cache[type] = icon(monkey_icon) //Don't create a reference to monkey icon
+	GLOB.monkey_icon_cache[identity] = icon(monkey_icon) //Don't create a reference to monkey icon

@@ -73,3 +73,11 @@
 				/obj/item/reagent_containers/food/drinks/soda_cans/mocnyfull,
 				/obj/item/reagent_containers/food/drinks/soda_cans/mocnyfull,
 				/obj/item/reagent_containers/food/drinks/soda_cans/mocnyfull)
+
+/datum/supply_pack/science/monkey_helmets
+	name = "Monkey Mind Magnification Helmet Crate"
+	desc = "Some research is best done with monkeys, yet sometimes they're just too dumb to complete more complicated tasks. These helmets should help."
+	cost = 1500
+	contains = list(/obj/item/clothing/head/monkey_sentience_helmet,
+					/obj/item/clothing/head/monkey_sentience_helmet)
+	crate_name = "monkey mind magnification crate"

@@ -158,7 +158,7 @@
 
 /datum/status_effect/bloody_eye/on_apply()
 	to_chat(owner, "<span class='warning'>KILLKILLKILL</span>")
-	ADD_TRAIT(owner,TRAIT_MONKEYLIKE,type)
+	ADD_TRAIT(owner,TRAIT_DISCOORDINATED,type) // AQ EDIT (TRAIT_MONKEYLIKE -> TRAIT DISCOORDINATED)
 	ADD_TRAIT(owner,TRAIT_NOCRITDAMAGE,type)
 	ADD_TRAIT(owner,TRAIT_NOSOFTCRIT,type)
 	ADD_TRAIT(owner,TRAIT_NOHARDCRIT,type)
@@ -176,7 +176,7 @@
 	owner.clear_fullscreen("brute")
 	owner.adjustOxyLoss(25,0)
 	owner.remove_movespeed_modifier(type)
-	REMOVE_TRAIT(owner,TRAIT_MONKEYLIKE,type)
+	REMOVE_TRAIT(owner,TRAIT_DISCOORDINATED,type) // AQ EDIT (TRAIT_MONKEYLIKE -> TRAIT DISCOORDINATED)
 	REMOVE_TRAIT(owner,TRAIT_NOCRITDAMAGE,type)
 	REMOVE_TRAIT(owner,TRAIT_NOSOFTCRIT,type)
 	REMOVE_TRAIT(owner,TRAIT_NOHARDCRIT,type)

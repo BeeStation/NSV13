@@ -770,7 +770,7 @@
 					temp += max((B.bloodiness**2)/800,1)
 				new /obj/effect/temp_visual/cult/turf/floor(get_turf(B))
 				qdel(B)
-		for(var/obj/effect/decal/cleanable/trail_holder/TH in view(2, T))
+		for(var/obj/effect/decal/cleanable/blood/trail_holder/TH in view(2, T))
 			qdel(TH)
 		var/obj/item/clothing/shoes/shoecheck = user.shoes
 		if(shoecheck && shoecheck.bloody_shoes[/datum/reagent/blood])

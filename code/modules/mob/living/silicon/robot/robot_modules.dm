@@ -274,6 +274,11 @@
 	R.SetLockdown(TRUE)
 	R.anchored = TRUE
 	R.logevent("Chassis configuration has been set to [name].")
+	// AQ EDIT START
+	var/datum/effect_system/smoke_spread/smoke = new
+	smoke.set_up(1, R.loc)
+	smoke.start()
+	// AQ EDIT END
 	sleep(1)
 	for(var/i in 1 to 4)
 		playsound(R, pick('sound/items/drill_use.ogg', 'sound/items/jaws_cut.ogg', 'sound/items/jaws_pry.ogg', 'sound/items/welder.ogg', 'sound/items/ratchet.ogg'), 80, 1, -1)
@@ -609,6 +614,17 @@
 		"Bro" = list(SKIN_ICON_STATE = "brobot"),
 		"Kent" = list(SKIN_ICON_STATE = "kent", SKIN_LIGHT_KEY = "medical", SKIN_HAT_OFFSET = 3),
 		"Tophat" = list(SKIN_ICON_STATE = "tophat", SKIN_LIGHT_KEY = NONE, SKIN_HAT_OFFSET = INFINITY),
+		// AQ EDIT START
+		"Hydrobot" = list(SKIN_ICON_STATE = "hydrobot"),
+		"Booty" = list(SKIN_ICON_STATE = "booty-blue"),
+		"Marina" = list(SKIN_ICON_STATE = "marinaSV"),
+		"Sleek" = list(SKIN_ICON_STATE = "sleekservice"),
+		"Servbot" = list(SKIN_ICON_STATE = "servbot"),
+		"Kodiak" = list(SKIN_ICON_STATE = "kodiak-service"),
+		"Lloyd" = list(SKIN_ICON_STATE = "lloyd"),
+		"Noble" = list(SKIN_ICON_STATE = "noble-srv"),
+		"Roomba" = list(SKIN_ICON_STATE = "zoomba_service")
+		// AQ EDIT END
 	)
 	//NSV13 - Borg Skin Framework - Stop
 
@@ -660,6 +676,19 @@
 		"Lavaland Miner" = list(SKIN_ICON_STATE = "miner"),
 		"Asteroid Miner" = list(SKIN_ICON_STATE = "minerOLD", SKIN_LIGHT_KEY = "miner"),
 		"Spider Miner" = list(SKIN_ICON_STATE = "spidermin"),
+		// AQ EDIT START
+		"Ancient Miner" = list(SKIN_ICON_STATE = "minerbot"),
+		"Droid Miner" = list(SKIN_ICON_STATE = "droid-miner"),
+		"MarinaMN" = list(SKIN_ICON_STATE = "marinaMN"),
+		"Sleekminer" = list(SKIN_ICON_STATE = "sleekminer"),
+		"Servbot" = list(SKIN_ICON_STATE = "servbot-miner"),
+		"Kodiak" = list(SKIN_ICON_STATE = "kodiak-miner"),
+		"Ishimura" = list(SKIN_ICON_STATE = "ishimura"),
+		"NobleH" = list(SKIN_ICON_STATE = "noble-suph"),
+		"Noble" = list(SKIN_ICON_STATE = "noble-sup"),
+		"Wall-e" = list(SKIN_ICON_STATE = "wall-a"),
+		"Roomba" = list(SKIN_ICON_STATE = "zoomba_miner"),
+		// AQ EDIT END
 	)
 	//NSV13 - Borg Skin Framework - Stop
 
