@@ -3,3 +3,4 @@
 	min_val = 0
 
 /datum/config_entry/flag/bsminer_researchable
+

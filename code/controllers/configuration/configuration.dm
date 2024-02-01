@@ -22,6 +22,7 @@
 
 	var/motd
 
+	var/static/regex/rp_filter_regex // AQ EDIT - RP filter
 	var/static/regex/ic_filter_regex
 	var/static/regex/ooc_filter_regex
 
@@ -420,6 +421,7 @@
 	protected_cids = json_decode(jsonfile)
 
 /datum/controller/configuration/proc/LoadChatFilter()
+	var/list/roleplay_filter = list() // AQ EDIT
 	var/list/in_character_filter = list()
 	var/list/ooc_filter = list()
 
@@ -429,6 +431,10 @@
 
 	if(!fexists("[directory]/in_character_filter.txt"))
 		log_config("Error 404: in_character_filter.txt not found!")
+		return
+
+	if(!fexists("[directory]/roleplay_filter.txt")) // AQ EDIT
+		log_config("Error 404: roleplay_filter.txt not found!")
 		return
 
 	log_config("Loading config file ooc_filter.txt...")
@@ -443,7 +449,6 @@
 
 	ooc_filter_regex = ooc_filter.len ? regex("\\b([jointext(ooc_filter, "|")])\\b", "i") : null
 
-
 	log_config("Loading config file in_character_filter.txt...")
 
 	for(var/line in world.file2list("[directory]/in_character_filter.txt"))
@@ -454,6 +459,23 @@
 		in_character_filter += REGEX_QUOTE(line)
 
 	ic_filter_regex = in_character_filter.len ? regex("\\b([jointext(in_character_filter, "|")])\\b", "i") : null
+	// AQ EDIT START - RP filter
+
+	log_config("Loading config file roleplay_filter.txt...")
+
+	for(var/line in world.file2list("[directory]/roleplay_filter.txt"))
+		if(!line)
+			continue
+		if(findtextEx(line,"#",1,2))
+			continue
+		if(findtextEx(line,"$",1,2))
+			roleplay_filter += "\\b[REGEX_QUOTE(copytext(line, 2))]\\b"
+			continue
+		roleplay_filter += REGEX_QUOTE(line)
+
+	rp_filter_regex = roleplay_filter.len ? regex("([jointext(roleplay_filter, "|")])", "i") : null
+
+	// AQ EDIT END
 
 //NSV13 - donator code
 /datum/controller/configuration/proc/LoadDonators()

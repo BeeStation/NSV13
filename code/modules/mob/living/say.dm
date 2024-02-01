@@ -89,6 +89,12 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		//The filter doesn't act on the sanitized message, but the raw message.
 		ic_blocked = TRUE
 
+	// AQ EDIT
+	var/rp_acceptable = TRUE
+	if(client && !forced && RP_FILTER_CHECK(message))
+		rp_acceptable = FALSE
+	// AQ EDIT END
+
 	if(sanitize)
 		message = trim(copytext_char(sanitize(message), 1, MAX_MESSAGE_LEN))
 	if(!message || message == "")
@@ -98,6 +104,11 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 		//The filter warning message shows the sanitized message though.
 		to_chat(src, "<span class='warning'>That message contained a word prohibited in IC chat! Consider reviewing the server rules.\n<span replaceRegex='show_filtered_ic_chat'>\"[message]\"</span></span>")
 		return
+
+	if(!rp_acceptable) // AQ EDIT
+		// So unfunny you get brain damage from saying it
+		to_chat(src, "<span class='warning'>Poczułeś takie zażenowanie po swojej wypowiedzi, że czujesz, jak topi ci się mózg.</span>")
+		src.adjustOrganLoss(ORGAN_SLOT_BRAIN, 10) // bruh to death
 
 	var/list/message_mods = list()
 	var/original_message = message

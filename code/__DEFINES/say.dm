@@ -94,6 +94,8 @@
 #define CHAT_FILTER_CHECK(T) (CONFIG_GET(flag/ic_filter_enabled) && config.ic_filter_regex && findtext(T, config.ic_filter_regex))
 // Is something in the OOC chat filter?
 #define OOC_FILTER_CHECK(T) (CONFIG_GET(flag/ooc_filter_enabled) && config.ooc_filter_regex && findtext(T, config.ooc_filter_regex))
+// AQ EDIT - RP filter; gives drain bamage.
+#define RP_FILTER_CHECK(T) (CONFIG_GET(flag/rp_filter_enabled) && config.rp_filter_regex && findtext(T, config.rp_filter_regex))
 
 // Audio/Visual Flags. Used to determine what sense are required to notice a message.
 #define MSG_VISUAL (1<<0)
