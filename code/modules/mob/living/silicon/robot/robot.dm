@@ -251,6 +251,7 @@
 			"Miner" = /obj/item/robot_module/miner,
 			"Janitor" = /obj/item/robot_module/janitor,
 			"Service" = /obj/item/robot_module/butler,
+			"Borgi" = /obj/item/robot_module/borgi, // AQ EDIT
 		) //NSV13 - Cargo and Munition Borgs
 		if(!CONFIG_GET(flag/disable_peaceborg))
 			GLOB.cyborg_module_list["Peacekeeper"] = /obj/item/robot_module/peacekeeper
