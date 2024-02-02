@@ -331,7 +331,6 @@
 /turf/template_noop,
 /area/maintenance/nsv/deck2/starboard)
 "aW" = (
-/obj/structure/closet/secure_closet/genpop,
 /obj/structure/window/reinforced{
 	dir = 1;
 	pixel_y = 1
@@ -340,7 +339,9 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/item/clothing/under/rank/prisoner,
+/obj/structure/closet/secure_closet/brig{
+	id = "isolation"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/security/brig)
 "aY" = (
@@ -1162,12 +1163,8 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
 "dI" = (
-/obj/item/poster/random_contraband,
-/obj/item/poster/random_contraband,
-/obj/item/poster/random_contraband,
 /obj/structure/closet/secure_closet/genpop,
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/item/clothing/under/rank/prisoner,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "dJ" = (
@@ -1176,9 +1173,6 @@
 	},
 /obj/structure/closet/secure_closet/genpop,
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/item/poster/random_contraband,
-/obj/item/poster/random_contraband,
-/obj/item/clothing/under/rank/prisoner,
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "dK" = (
@@ -1963,11 +1957,13 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "fN" = (
-/obj/structure/cable{
-	icon_state = "2-8";
-	tag = ""
-	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
+/obj/machinery/button/door{
+	id = "gaussgang_atlas";
+	name = "public gauss access";
+	req_one_access_txt = "69";
+	pixel_y = 32
+	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "fO" = (
@@ -3863,6 +3859,10 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
+/obj/structure/cable{
+	icon_state = "2-8";
+	tag = ""
+	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/gauss/battery/deck2/port)
 "kY" = (
@@ -3894,7 +3894,7 @@
 	pixel_x = -6
 	},
 /turf/open/floor/monotile/dark,
-/area/nsv/weapons/gauss/battery/deck2/port)
+/area/security/brig)
 "ld" = (
 /obj/machinery/light{
 	dir = 4
@@ -5009,7 +5009,6 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "os" = (
-/obj/structure/closet/secure_closet/genpop,
 /obj/structure/window/reinforced{
 	dir = 1;
 	pixel_y = 1
@@ -5019,7 +5018,9 @@
 	id = "atlas_perma";
 	pixel_x = -32
 	},
-/obj/item/clothing/under/rank/prisoner,
+/obj/structure/closet/secure_closet/brig{
+	id = "isolation"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/security/brig)
 "ot" = (
@@ -5569,6 +5570,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 5
+	},
+/obj/structure/cable{
+	icon_state = "1-4"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
@@ -6183,11 +6187,11 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 10
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/gauss/battery/deck2/port)
@@ -11039,14 +11043,18 @@
 /turf/open/floor/monotile/steel,
 /area/quartermaster/miningoffice)
 "Hc" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "2-8";
+	tag = ""
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/gauss/battery/deck2/port)
@@ -11203,15 +11211,6 @@
 "HA" = (
 /turf/open/floor/monotile/dark,
 /area/science)
-"HB" = (
-/obj/machinery/button/door{
-	id = "gaussgang_atlas";
-	name = "public gauss access";
-	req_one_access_txt = "69";
-	pixel_x = -25
-	},
-/turf/closed/wall/r_wall,
-/area/nsv/weapons/gauss/battery/deck2/port)
 "HC" = (
 /obj/structure/guncase/shotgun{
 	gun_category = /obj/item/gun/ballistic/shotgun/riot;
@@ -11863,14 +11862,8 @@
 	},
 /area/nsv/hanger/notkmcstupidhanger)
 "JM" = (
-/obj/effect/turf_decal/tile/ship/half/red{
-	dir = 8
-	},
 /obj/structure/closet/secure_closet/genpop,
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/item/poster/random_contraband,
-/obj/item/poster/random_contraband,
-/obj/item/clothing/under/rank/prisoner,
 /obj/machinery/requests_console{
 	department = "Brig";
 	departmentType = 5;
@@ -14114,7 +14107,7 @@
 	},
 /obj/machinery/light,
 /turf/open/floor/monotile/dark,
-/area/nsv/weapons/gauss/battery/deck2/port)
+/area/security/brig)
 "Qp" = (
 /obj/machinery/light/small{
 	dir = 8
@@ -14613,9 +14606,6 @@
 /turf/open/floor/durasteel/alt,
 /area/hallway/secondary/exit/departure_lounge)
 "RF" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
@@ -15466,13 +15456,14 @@
 /turf/open/floor/monotile/steel,
 /area/security/brig)
 "Ul" = (
-/obj/structure/closet/secure_closet/genpop,
 /obj/structure/window/reinforced{
 	dir = 1;
 	pixel_y = 1
 	},
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/item/clothing/under/rank/prisoner,
+/obj/structure/closet/secure_closet/brig{
+	id = "isolation"
+	},
 /turf/open/floor/plasteel/techmaint,
 /area/security/brig)
 "Um" = (
@@ -50516,7 +50507,7 @@ OU
 fz
 Rg
 lb
-HB
+dC
 fN
 Hc
 wh
@@ -52564,11 +52555,11 @@ kH
 oD
 oD
 aB
-wl
-wl
-wl
-wl
-wl
+kH
+WN
+WN
+WN
+WN
 cw
 qv
 dT
