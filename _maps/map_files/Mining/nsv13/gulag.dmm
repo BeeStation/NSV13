@@ -23,6 +23,7 @@
 	pixel_y = 32
 	},
 /obj/effect/turf_decal/stripes/line,
+/obj/structure/gulag_beacon,
 /turf/open/floor/plasteel/techmaint,
 /area/mine/laborcamp)
 "aT" = (
@@ -53,11 +54,11 @@
 /turf/closed/mineral,
 /area/space/nearstation)
 "bW" = (
-/obj/effect/spawner/structure/window,
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
 	},
+/obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/mine/laborcamp)
 "ci" = (
@@ -382,13 +383,15 @@
 /turf/open/floor/plating/asteroid,
 /area/space/nearstation)
 "jH" = (
-/obj/effect/spawner/structure/window,
-/obj/machinery/door/firedoor/border_only{
-	dir = 1
+/obj/docking_port/stationary{
+	dwidth = 2;
+	height = 6;
+	id = "laborcamp_away";
+	name = "labor camp dock";
+	width = 12
 	},
-/obj/machinery/door/firedoor/border_only,
-/turf/open/floor/plating,
-/area/mine/laborcamp)
+/turf/open/floor/plating/airless,
+/area/space/nearstation)
 "jN" = (
 /obj/machinery/light/small{
 	dir = 1
@@ -445,7 +448,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
-/obj/effect/spawner/structure/window/reinforced/shutter,
+/obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/mine/laborcamp)
 "ld" = (
@@ -453,7 +456,9 @@
 /turf/open/floor/plasteel/freezer,
 /area/mine/laborcamp)
 "lX" = (
-/obj/machinery/power/smes/engineering,
+/obj/machinery/power/smes/engineering{
+	charge = 5e+006
+	},
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
 	},
@@ -633,10 +638,6 @@
 /obj/effect/turf_decal/bot,
 /turf/open/floor/plasteel/grid/steel,
 /area/mine/laborcamp)
-"qF" = (
-/obj/effect/spawner/structure/window/reinforced/shutter,
-/turf/open/floor/plating,
-/area/mine/laborcamp/security)
 "qU" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -680,10 +681,6 @@
 	},
 /turf/open/floor/plating/asteroid/airless,
 /area/space/nearstation)
-"rn" = (
-/obj/machinery/light,
-/turf/open/floor/plating/asteroid/airless,
-/area/lavaland/surface/outdoors/explored)
 "rt" = (
 /obj/machinery/conveyor_switch/oneway{
 	id = "gulag"
@@ -1497,14 +1494,15 @@
 /turf/open/floor/plasteel,
 /area/mine/laborcamp)
 "NE" = (
-/obj/effect/spawner/structure/window/reinforced/shutter,
 /obj/structure/curtain,
+/obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/mine/laborcamp)
 "NK" = (
 /mob/living/simple_animal/bot/secbot/beepsky{
 	desc = "Powered by the tears and sweat of laborers.";
-	name = "Prison Ofitser"
+	name = "Prison Ofitser";
+	on = 0
 	},
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -1756,22 +1754,15 @@
 /turf/open/floor/plasteel/freezer,
 /area/mine/laborcamp)
 "Uh" = (
-/obj/machinery/power/rtg,
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
+/obj/machinery/power/rtg/advanced,
 /turf/open/floor/plating,
 /area/mine/laborcamp)
 "UI" = (
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
-"UP" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/machinery/light,
-/turf/open/floor/plating/asteroid/airless,
-/area/mine/laborcamp)
 "Vw" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
@@ -1909,7 +1900,7 @@
 /area/mine/laborcamp)
 "Zs" = (
 /obj/effect/turf_decal/stripes/line,
-/obj/structure/gulag_beacon,
+/obj/machinery/computer/shuttle_flight/labor/one_way,
 /turf/open/floor/plasteel/techmaint,
 /area/mine/laborcamp)
 "Zz" = (
@@ -34198,7 +34189,7 @@ pL
 GF
 XT
 XT
-pL
+mP
 XT
 XT
 XG
@@ -34698,7 +34689,7 @@ XG
 XG
 XG
 XG
-rn
+js
 XT
 NO
 QI
@@ -34956,7 +34947,7 @@ XG
 XG
 XG
 XG
-pL
+mP
 Fx
 Fx
 Fx
@@ -35465,8 +35456,8 @@ XG
 rX
 XG
 XG
+XG
 rc
-io
 io
 Eu
 io
@@ -35722,9 +35713,9 @@ XG
 XG
 XG
 XG
+XG
 Ak
 Br
-Wu
 Wu
 Wu
 Wu
@@ -35734,7 +35725,7 @@ KZ
 XT
 hT
 Da
-jH
+mP
 cw
 Sw
 gA
@@ -35979,9 +35970,9 @@ XG
 XG
 hw
 XG
+XG
 Ak
 ak
-UI
 UI
 UI
 UI
@@ -36236,9 +36227,9 @@ XG
 XG
 XG
 XG
+XG
 Ak
 ak
-UI
 UI
 UI
 UI
@@ -36248,7 +36239,7 @@ UI
 XT
 rY
 aT
-jH
+mP
 cw
 Sw
 IL
@@ -36493,9 +36484,9 @@ XG
 XG
 rX
 rX
+XG
 Ak
 ak
-UI
 UI
 UI
 UI
@@ -36750,6 +36741,7 @@ XG
 XG
 XG
 XG
+XG
 Ak
 ak
 UI
@@ -36757,8 +36749,7 @@ UI
 UI
 UI
 UI
-UI
-UI
+jH
 AJ
 tl
 DV
@@ -36777,7 +36768,7 @@ Jb
 pl
 wP
 EQ
-pL
+mP
 XG
 XG
 XG
@@ -37007,9 +36998,9 @@ XG
 hw
 XG
 XG
+XG
 Ak
 ak
-UI
 UI
 UI
 UI
@@ -37264,9 +37255,9 @@ XG
 hw
 XG
 XG
+XG
 Ak
 ak
-UI
 UI
 UI
 UI
@@ -37521,9 +37512,9 @@ XG
 XG
 XG
 XG
+XG
 Ak
 ak
-UI
 UI
 UI
 UI
@@ -37548,7 +37539,7 @@ Jb
 yK
 wP
 EQ
-pL
+mP
 XG
 XG
 XG
@@ -37778,9 +37769,9 @@ XG
 rX
 XG
 XG
+XG
 Ak
 ak
-UI
 UI
 UI
 UI
@@ -38035,9 +38026,9 @@ XG
 rX
 rX
 XG
+XG
 Ak
 ak
-UI
 UI
 UI
 UI
@@ -38292,9 +38283,9 @@ XG
 XG
 XG
 XG
+XG
 Ak
 ak
-UI
 UI
 UI
 UI
@@ -38319,7 +38310,7 @@ Jb
 mY
 uW
 EQ
-pL
+mP
 XG
 XG
 XG
@@ -38549,15 +38540,15 @@ XG
 XG
 XG
 XG
+XG
 Ak
-ak
-UI
-UI
-UI
-UI
-UI
-UI
-UI
+Rj
+OM
+OM
+OM
+OM
+OM
+OM
 NE
 yJ
 mv
@@ -38806,15 +38797,15 @@ rX
 XG
 XG
 XG
-Ak
-ak
-UI
-UI
-UI
-UI
-UI
-UI
-UI
+XG
+ux
+io
+io
+io
+io
+io
+io
+XT
 XT
 XT
 ld
@@ -39063,15 +39054,15 @@ rX
 XG
 XG
 XG
-Ak
-Rj
-OM
-OM
-OM
-OM
-OM
-OM
-UP
+XG
+XG
+XG
+XG
+XG
+XG
+XG
+XG
+XT
 XT
 Xa
 Dc
@@ -39320,14 +39311,14 @@ XG
 XG
 XG
 XG
-ux
-io
-io
-io
-io
-io
-io
-io
+XG
+XG
+XG
+XG
+XG
+XG
+XG
+XG
 XT
 XT
 XT
@@ -40362,9 +40353,9 @@ la
 XT
 LG
 LG
-qF
-qF
-qF
+SD
+SD
+SD
 LG
 rX
 rX
