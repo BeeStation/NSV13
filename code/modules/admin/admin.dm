@@ -860,6 +860,18 @@
 	message_admins("<span class='adminnotice'>[key_name_admin(usr)] toggled guests game entering [!new_guest_ban ? "" : "dis"]allowed.</span>")
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Toggle Guests", "[!new_guest_ban ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
+// Aquila edit start
+
+/datum/admins/proc/reloadwhitelist()
+	set category = "Server"
+	set desc="Reloads the whitelist from file"
+	set name="Reload Whitelist"
+	load_whitelist()
+	log_admin("[key_name(usr)] reloaded whitelist from file.")
+	message_admins("<span class='adminnotice'>[key_name_admin(usr)] reloaded whitelist from file.</span>")
+
+// Aquila edit end
+
 /datum/admins/proc/output_ai_laws()
 	var/ai_number = 0
 	for(var/i in GLOB.silicon_mobs)

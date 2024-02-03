@@ -141,6 +141,7 @@ GLOBAL_PROTECT(admin_verbs_server)
 	/datum/admins/proc/delay,
 	/datum/admins/proc/delay_round_end,
 	/datum/admins/proc/toggleaban,
+	/datum/admins/proc/reloadwhitelist, // aquila edit
 	/client/proc/everyone_random,
 	/datum/admins/proc/toggleAI,
 	/client/proc/cmd_admin_delete,		/*delete an instance/object/mob/etc*/
