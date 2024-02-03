@@ -106,7 +106,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/landmark)
 	icon_state = "Exploration Crew"
 
 /obj/effect/landmark/start/security_officer
-	name = "Policjant" //Nsv13 - Crayon eaters & MPs
+	name = "Żandarm" //Nsv13 - Crayon eaters & MPs
 	icon_state = "Military Police" //Nsv13 - Crayon eaters & MPs
 
 /obj/effect/landmark/start/botanist

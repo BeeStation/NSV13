@@ -5,6 +5,7 @@
 #define CONTRACT_REVIVE "revive"
 #define CONTRACT_FRIEND "friend"
 #define CONTRACT_KNOWLEDGE "knowledge"
+#define CONTRACT_PLEASURE "pleasure" // AQ EDIT
 #define CONTRACT_UNWILLING "unwilling"
 
 #define BANE_SALT "salt"

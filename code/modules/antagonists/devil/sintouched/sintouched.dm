@@ -5,6 +5,7 @@
 #define SIN_WRATH "wrath"
 #define SIN_ENVY "envy"
 #define SIN_PRIDE "pride"
+#define SIN_LUST "lust" // AQ EDIT
 
 /datum/antagonist/sintouched
 	name = "sintouched"
@@ -13,7 +14,7 @@
 	banning_key = UNBANNABLE_ANTAGONIST
 	var/sin
 
-	var/static/list/sins = list(SIN_ACEDIA,SIN_GLUTTONY,SIN_GREED,SIN_SLOTH,SIN_WRATH,SIN_ENVY,SIN_PRIDE)
+	var/static/list/sins = list(SIN_ACEDIA,SIN_GLUTTONY,SIN_GREED,SIN_SLOTH,SIN_WRATH,SIN_ENVY,SIN_PRIDE,SIN_LUST)
 
 /datum/antagonist/sintouched/New()
 	. = ..()
@@ -21,7 +22,7 @@
 
 /datum/antagonist/sintouched/proc/forge_objectives()
 	var/datum/objective/sintouched/O
-	switch(sin)//traditional seven deadly sins... except lust.
+	switch(sin)//traditional seven deadly sins... except lust. // AQ EDIT - not anymore
 		if(SIN_ACEDIA)
 			O = new /datum/objective/sintouched/acedia
 		if(SIN_GLUTTONY)
@@ -36,6 +37,8 @@
 			O = new /datum/objective/sintouched/envy
 		if(SIN_PRIDE)
 			O = new /datum/objective/sintouched/pride
+		if(SIN_LUST) // AQ EDIT
+			O = new /datum/objective/sintouched/lust
 	objectives += O
 
 /datum/antagonist/sintouched/on_gain()
@@ -86,3 +89,4 @@
 #undef SIN_PRIDE
 #undef SIN_SLOTH
 #undef SIN_WRATH
+#undef SIN_LUST
