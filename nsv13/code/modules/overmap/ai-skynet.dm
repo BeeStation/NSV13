@@ -255,7 +255,7 @@ Adding tasks is easy! Just define a datum for it.
 				current_system.mission_sector = TRUE
 	if(!hide_movements && !current_system.hidden)
 		if((alignment == "syndicate") || (alignment == "pirate"))
-			mini_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
+			mini_announce("Sygnatury napędu Typhoon wykryte w [current_system]", "White Rapids EAS")
 	for(var/obj/structure/overmap/OM in current_system.system_contents)
 		//Boarding ships don't want to go to brasil
 		if(OM.mobs_in_ship?.len && OM.reserved_z)
@@ -341,7 +341,7 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/solgov/earth/defeat()
 	. = ..() //If you lose sol...game over man, game over.
-	priority_announce("SolGov command do you read?! Requesting immediate assistance, we have a foothold situation, repeat, a foothold sit##----///", "White Rapids Fleet Command")
+	priority_announce("Dowództwo SolGov, odbieracie nas?! Wzywamy natychniastowe wsparcie, jesteśmy w obliczu desantu, powtarzam, desan##----///", "White Rapids Fleet Command")
 	SSticker.mode.check_finished(TRUE)
 	SSticker.force_ending = TRUE
 
@@ -806,7 +806,7 @@ Adding tasks is easy! Just define a datum for it.
 	name = "\improper Tortuga Raiders raiding fleet"
 	destroyer_types = list(/obj/structure/overmap/spacepirate/ai, /obj/structure/overmap/spacepirate/ai/boarding)
 	audio_cues = list()
-	taunts = list("Avast! A fine hold of loot sails our way", "Prepare the boarding crews, they've got enough loot for us all!")
+	taunts = list("Hej ho! Pokaźny łup płynie w naszą stronę", "Przygotujcie grupę abordażową, mają wystarczająco łupu dla nas wszystkich!")
 	size = FLEET_DIFFICULTY_MEDIUM
 
 /datum/fleet/pirate/tortuga

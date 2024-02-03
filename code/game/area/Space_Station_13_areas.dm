@@ -1091,11 +1091,11 @@ NOTE: there are two lists of areas in the end of this file: centcom and station 
 	name = "Izba Edukacji Więźniów"
 
 /area/security/nuke_storage
-	name = "Krypta"
+	name = "Skarbiec"
 	icon_state = "nuke_storage"
 
 /area/ai_monitored/nuke_storage
-	name = "Krypta"
+	name = "Skarbiec"
 	icon_state = "nuke_storage"
 
 /area/security/checkpoint

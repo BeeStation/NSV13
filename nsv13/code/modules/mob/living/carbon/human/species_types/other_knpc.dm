@@ -19,17 +19,17 @@
 	move_delay = 10
 	action_delay = 10
 	taunts = list(
-		"Braaaaains...",
+		"Móóóóózgiii...",
 		"Hnngg...",
 		"Urghhhhh..."
 	)
 	call_lines = list(
-		"Braaaaains...",
+		"Móóóóózgiii...",
 		"Hnngg...",
 		"Urghhhhh..."
 	)
 	response_lines = list(
-		"Braaaaains...",
+		"Móóóóózgiii...",
 		"Hnngg...",
 		"Urghhhhh..."
 	)
@@ -45,15 +45,15 @@
 	move_delay = 2
 	action_delay = 2
 	taunts = list(
-		"Unit has become aware",
-		"Unit has seen the enemy",
-		"Unit has engaged the target"
+		"Jednostka zaalarmowana",
+		"Jednostka dostrzegła przeciwnika",
+		"Jednostka wchodzi w kontakt z przeciwnikiem"
 	)
 	call_lines = list(
-		"Unit has requested additional assets"
+		"Jednostka wzywa dodatkowe siły"
 	)
 	response_lines = list(
-		"Unit has recieved additional asset request"
+		"Jednostka otrzymała dodatkowe siły"
 	)
 
 /mob/living/carbon/human/ai_boarder/boarding_droid/Initialize(mapload)

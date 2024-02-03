@@ -7,7 +7,7 @@ GLOBAL_LIST_EMPTY(announcement_systems)
 	icon = 'icons/obj/machines/telecomms.dmi'
 	icon_state = "AAS_On"
 
-	verb_say = "coldly states"
+	verb_say = "ozięble stwierdza"
 	verb_ask = "queries"
 	verb_exclaim = "alarms"
 

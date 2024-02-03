@@ -16,17 +16,17 @@
 /mob/living/carbon/human/ai_boarder/assistant/felinid
 	outfit = list(/datum/outfit/maid, /datum/outfit/maid/knpc_pistol, /datum/outfit/maid/knpc_smg)
 	taunts = list(
-		"Tee hee!~ UwU",
-		"Nya. I'm youw boawderw. Pwepawe to be pawned!",
-		"Hiss!"
+		"tii hii!~ UwU",
+		"Nja, Jestem tłoim abołdarzystłom. Przygotuj się na zastłałw!",
+		"Mrrr!"
 	)
 	call_lines = list(
-		"I nyeed backuwp!",
-		"Fwends, come hewe!"
+		"Płotrzebuje wspłarcia!",
+		"Przyłacie, chłodzcie tłutaj!"
 	)
 	response_lines = list(
-		"Nya~? What's ovew hewe?",
-		"Be wight thewe! =^.^="
+		"Nja~? Cło tam łiest?",
+		"Złaraz tłam błędę! =^.^="
 	)
 
 	faction = list("Syndicate","Pirate")

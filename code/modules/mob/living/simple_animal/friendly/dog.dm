@@ -500,7 +500,7 @@ GLOBAL_LIST_INIT(strippable_corgi_items, create_strippable_list(list(
 							INVOKE_ASYNC(src, TYPE_PROC_REF(/mob, emote), "me", 1, "stares at [movement_target.loc]'s [movement_target] with a sad puppy-face")
 
 		if(prob(1))
-			INVOKE_ASYNC(src, TYPE_PROC_REF(/mob, emote), "me", 1, pick("dances around.","chases its tail!"))
+			INVOKE_ASYNC(src, TYPE_PROC_REF(/mob, emote), "me", 1, pick("tanczy wokół.","goni swój ogon!"))
 			spawn(0)
 				for(var/i in list(1,2,4,8,4,2,1,2,4,8,4,2,1,2,4,8,4,2))
 					setDir(i)

@@ -134,9 +134,9 @@
 		var/repeal = (authorized.len < old_len)
 		var/remaining = max(0, auth_need - authorized.len)
 		if(authorized.len && remaining)
-			minor_announce("[remaining] authorizations needed until shuttle is launched early.", null, alert)
+			minor_announce("[remaining] autoryzacji potrzebnych do szybszego startu promu.", null, alert)
 		if(repeal)
-			minor_announce("Early launch authorization revoked, [remaining] authorizations needed.")
+			minor_announce("Cofnięto zezwolenie na wcześniejszy start, [remaining] potrzebnych autoryzacji.")
 			log_game("Early launch authorization revoked, [remaining] authorizations needed.")
 	acted_recently += user
 

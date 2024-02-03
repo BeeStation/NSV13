@@ -53,11 +53,11 @@ GLOBAL_LIST_INIT(pecking_order, world.file2list("config/ranks/pecking_order.txt"
 			theirClout = I
 	//We live in a clout based society :(
 	if(myClout == theirClout)
-		return "<span class='notice'>You are the same rank as them.</span>"
+		return "<span class='notice'>Masz tę samą rangę.</span>"
 	if(myClout > theirClout)
-		return "<span class='boldnotice'>You outrank them as a [theirRank].</span>"
+		return "<span class='boldnotice'>Przewyższasz jego rangę [theirRank].</span>"
 	if(myClout < theirClout)
-		return "<span class='boldwarning'>They outrank you as a [myRank].</span>"
+		return "<span class='boldwarning'>Przewyższa cię rangą jako [myRank].</span>"
 	return "<span class='warning'>You've forgotten how ranks work.</span>"
 
 /**

@@ -245,17 +245,17 @@ SUBSYSTEM_DEF(overmap_mode)
 					var/datum/star_system/S = SSstar_system.return_system
 					if(length(OM.current_system?.enemies_in_system))
 						if(objective_reminder_stacks == 3)
-							priority_announce("Auto-recall to [S.name] will occur once you are out of combat.", "[mode.reminder_origin]")
+							priority_announce("Automatyczny powrót do [S.name] nastąpi kiedy zakończycie walkę.", "[mode.reminder_origin]")
 						return // Don't send them home while there are enemies to kill
 					switch(objective_reminder_stacks) //Less Stacks Here, Prevent The Post-Round Stalling
 						if(1)
-							priority_announce("Auto-recall to [S.name] will occur in [(mode.objective_reminder_interval * 2) / 600] Minutes.", "[mode.reminder_origin]")
+							priority_announce("Automatyczny powrót do [S.name] nastąpi za [(mode.objective_reminder_interval * 2) / 600] minut.", "[mode.reminder_origin]")
 
 						if(2)
-							priority_announce("Auto-recall to [S.name] will occur in [(mode.objective_reminder_interval * 1) / 600] Minutes.", "[mode.reminder_origin]")
+							priority_announce("Automatyczny powrót do [S.name] nastąpi za [(mode.objective_reminder_interval * 1) / 600] minut.", "[mode.reminder_origin]")
 
 						else
-							priority_announce("Auto-recall to [S.name] activated, additional objective aborted.", "[mode.reminder_origin]")
+							priority_announce("Automatyczny powrót do [S.name] aktywowany, dodatkowe cele odrzucone.", "[mode.reminder_origin]")
 							mode.victory()
 
 /datum/controller/subsystem/overmap_mode/proc/start_reminder()
@@ -380,11 +380,11 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	//Reminder messages
 	var/reminder_origin = "Naval Command"
-	var/reminder_one = "This is Centcomm to all vessels assigned to patrol the Rosetta Cluster, please continue on your mission"
-	var/reminder_two = "This is Centcomm to all vessels assigned to patrol the Rosetta Cluster, your inactivity has been noted and will not be tolerated."
-	var/reminder_three = "This is Centcomm to all vessels assigned to patrol the Rosetta Cluster, we are not paying you to idle in space during your assigned mission"
-	var/reminder_four = "This is Centcomm to the vessel currently assigned to the Rosetta Cluster, you are expected to fulfill your assigned mission"
-	var/reminder_five = "This is Centcomm, due to your slow pace, a Syndicate Interdiction fleet has tracked you down, prepare for combat!"
+	var/reminder_one = "Tu Centrala do wszystkich statków przydzielonych do patrolu Gromady Rosetta, prosimy kontynuować misję"
+	var/reminder_two = "Tu Centrala do wszystkich statków przydzielonych do patrolu Gromady Rosetta, wasza nieaktywność została zauważona i nie będzie tolerowana."
+	var/reminder_three = "Tu Centrala do wszystkich statków przydzielonych do patrolu Gromady Rosetta, nie płacimy wam za dryfowanie w kosmosie podczas wykonywania przydzielonej misji"
+	var/reminder_four = "Tu Centrala do wszystkich statków obecnie przydzielonych do patrolu Gromady Rosetta, jesteście zobowiązani do wykonania przydzielonej misji"
+	var/reminder_five = "Tu Centrala, ze względu na wasze wolne tempo namierzyła was flota Syndykatu. Przygotujcie się na walkę!"
 
 /datum/overmap_gamemode/New()
 	objectives = list(
@@ -419,7 +419,7 @@ SUBSYSTEM_DEF(overmap_mode)
 		target = OM.current_system
 	else
 		target = SSstar_system.ships[OM]["target_system"]
-	priority_announce("Attention all ships throughout the fleet, assume DEFCON 1. A Syndicate invasion force has been spotted in [target]. All fleets must return to allied space and assist in the defense.") //need a faction message
+	priority_announce("Uwaga wszystkie statki we flocie, przyjąć DEFCON 1. Siły desantowe Syndykatu dostrzeżone w [target]. Wszystkie floty muszą powrócić w sojuszniczą przestrzeń i pomóc w obronie.") //need a faction message
 	var/datum/fleet/F = new /datum/fleet/interdiction() //need a fleet
 	target.fleets += F
 	F.current_system = target
@@ -472,16 +472,16 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/datum/star_system/S = SSstar_system.return_system
 	S.hidden = FALSE
 	if(!SSovermap_mode.round_extended)	//If we haven't yet extended the round, let us vote!
-		priority_announce("Mission Complete - Vote Pending") //TEMP get better words
+		priority_announce("Misja wykonana - głosowanie w toku") //TEMP get better words
 		SSvote.initiate_vote("Press On Or Return Home?", "Centcomm", forced=TRUE, popup=FALSE)
 	else	//Begin FTL return jump
 		var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
 		if(!length(OM.current_system?.enemies_in_system))
-			priority_announce("Mission Complete - Returning to [S.name]") //TEMP get better words
+			priority_announce("Misja wykonana - wracamy do [S.name]") //TEMP get better words
 			OM.force_return_jump()
 
 /datum/overmap_gamemode/proc/defeat() //Override this if defeat is to be called based on an objective
-	priority_announce("Mission Critical Failure - Standby for carbon asset liquidation")
+	priority_announce("Całkowita porażka misji - Oczekujcie na sterylizacje statku z materii żywej")
 	SSticker.mode.check_finished(TRUE)
 	SSticker.force_ending = TRUE
 

@@ -2,23 +2,23 @@
 /mob/living/carbon/human/ai_boarder/syndicate //PARENT - DO NOT USE
 	faction = list("Syndicate")
 	taunts = list(
-		"DEATH TO NANOTRASEN!!",
-		"FOR ABASSI!",
-		"Eat this!",
-		"Weakling!",
-		"You're going home in a coffin kid!",
-		"Engaging the enemy!"
+		"ŚMIERĆ NANOTRASENOWI!!",
+		"ZA ABASSI!",
+		"Żryj to!",
+		"Słabeusze!",
+		"Wracasz do domu w trumnie, dzieciaku!",
+		"Walczę z przeciwnikiem!"
 	)
 	call_lines = list(
-		"Enemy spotted! Need backup in",
-		"OPFOR sighted in",
-		"Requesting Support to"
+		"Przeciwnik dostrzeżony! Potrzebne wsparcie w",
+		"OPFOR spostrzeżony w",
+		"Wzywam wsparcie do"
 	)
 	response_lines = list(
-		"Copy that, en route.",
-		"On my way!",
-		"Loud and clear, coming!",
-		"Ooh rah!"
+		"Przyjąłem, w drodze.",
+		"Jestem w drodze!",
+		"Głośno i wyraźnie, nadciągam!",
+		"Ura!"
 	)
 	outfit = /datum/outfit/syndicate
 

@@ -1,10 +1,10 @@
 /mob/living/carbon/human/ai_boarder/space_pirate
 	faction = list("Pirate")
 	taunts = list(
-		"YARRR!!!!",
+		"ARRR!!!!",
 		"YAR HAR!!!",
-		"HO HO HO AND A BOTTLE O' RUM!",
-		"DIE LANDLUBBER!!"
+		"CIEPŁA KREW POLEJE SIĘ STRUGAMI!",
+		"WYSKAKUJ Z AQUILOSÓW!!"
 	)
 	outfit = /datum/outfit/space_pirate/knpc_pistol
 

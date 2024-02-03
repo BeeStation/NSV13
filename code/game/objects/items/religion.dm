@@ -82,7 +82,7 @@
 	lefthand_file = 'icons/mob/inhands/equipment/banners_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/banners_righthand.dmi'
 	job_loyalties = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_HEADOFSECURITY, JOB_NAME_BRIGPHYSICIAN, JOB_NAME_DEPUTY)
-	warcry = "EVERYONE DOWN ON THE GROUND!!"
+	warcry = "WSZYSCY NA ZIEMIĘ!!"
 
 /obj/item/banner/security/mundane
 	inspiration_available = FALSE
@@ -103,7 +103,7 @@
 	lefthand_file = 'icons/mob/inhands/equipment/banners_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/banners_righthand.dmi'
 	job_loyalties = list(JOB_NAME_MEDICALDOCTOR, JOB_NAME_CHEMIST, JOB_NAME_GENETICIST, JOB_NAME_VIROLOGIST, JOB_NAME_PARAMEDIC, JOB_NAME_CHIEFMEDICALOFFICER)
-	warcry = "No wounds cannot be healed!"
+	warcry = "Nie ma ran nie do uleczenia!"
 
 /obj/item/banner/medical/mundane
 	inspiration_available = FALSE
@@ -132,7 +132,7 @@
 	lefthand_file = 'icons/mob/inhands/equipment/banners_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/banners_righthand.dmi'
 	job_loyalties = list(JOB_NAME_SCIENTIST, JOB_NAME_ROBOTICIST, JOB_NAME_RESEARCHDIRECTOR)
-	warcry = "For Cuban Pete!"
+	warcry = "Za Aitlera!"
 
 /obj/item/banner/science/mundane
 	inspiration_available = FALSE
@@ -156,7 +156,7 @@
 	lefthand_file = 'icons/mob/inhands/equipment/banners_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/banners_righthand.dmi'
 	job_loyalties = list(JOB_NAME_CARGOTECHNICIAN, JOB_NAME_SHAFTMINER, JOB_NAME_QUARTERMASTER)
-	warcry = "Hail Cargonia!"
+	warcry = "Wiwat Cargonia!"
 
 /obj/item/banner/cargo/mundane
 	inspiration_available = FALSE
@@ -177,7 +177,7 @@
 	lefthand_file = 'icons/mob/inhands/equipment/banners_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/banners_righthand.dmi'
 	job_loyalties = list(JOB_NAME_STATIONENGINEER, JOB_NAME_ATMOSPHERICTECHNICIAN, JOB_NAME_CHIEFENGINEER)
-	warcry = "All hail lord Singuloth!!"
+	warcry = "Wiwat lordzie Stormdrivus!!"
 
 /obj/item/banner/engineering/mundane
 	inspiration_available = FALSE
@@ -198,7 +198,7 @@
 	desc = "The banner of Command, a staunch and ancient line of bueraucratic kings and queens."
 	//No icon state here since the default one is the NT banner
 	job_loyalties = list(JOB_NAME_CAPTAIN, JOB_NAME_HEADOFPERSONNEL, JOB_NAME_CHIEFENGINEER, JOB_NAME_HEADOFSECURITY, JOB_NAME_RESEARCHDIRECTOR, JOB_NAME_CHIEFMEDICALOFFICER, JOB_NAME_MASTERATARMS) //NSV13 - added MAA
-	warcry = "Hail Nanotrasen!"
+	warcry = "Wiwat Nanotrasen!"
 
 /obj/item/banner/command/mundane
 	inspiration_available = FALSE

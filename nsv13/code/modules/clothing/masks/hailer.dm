@@ -29,15 +29,15 @@ GLOBAL_LIST_EMPTY(sechailers)
 
 /obj/item/clothing/mask/gas/sechailer/proc/dispatch(mob/user)
 	if(world.time < last_dispatch + dispatch_cooldown)
-		to_chat(user, "<span class='notice'>Dispatch radio broadcasting systems are recharging.</span>")
+		to_chat(user, "<span class='notice'>Trwa ładowanie systemów radiofonii dyspozytorskiej.</span>")
 		return FALSE
 	var/list/options = list()
-	for(var/option in list("401 (murder)", "101 (resisting arrest)", "210 (breaking and entering)", "206 (riot)", "302 (assault on an officer)")) //Just hardcoded for now!
+	for(var/option in list("401 (morderstwo)", "101 (stawianie oporu)", "210 (włamanie i wtargnięcie)", "206 (zamieszki)", "302 (napaść na oficera)")) //Just hardcoded for now!
 		options[option] = image(icon = 'nsv13/icons/effects/aiming.dmi', icon_state = option)
 	var/message = show_radial_menu(user, user, options)
 	if(!message)
 		return FALSE
-	radio.talk_into(src, "Dispatch, code [message] in progress in [get_area(user)], requesting assistance.", radio_channel)
+	radio.talk_into(src, "Centrala, kod [message] w [get_area(user)], potrzebne wsparcie.", radio_channel)
 	last_dispatch = world.time
 	for(var/atom/movable/hailer in GLOB.sechailers)
 		if(hailer.loc &&ismob(hailer.loc))

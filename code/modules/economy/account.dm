@@ -76,15 +76,15 @@
 		var/datum/bank_account/D = SSeconomy.get_dep_account(account_department)
 		if(D)
 			if(!transfer_money(D, money_to_transfer))
-				bank_card_talk("ERROR: Payday aborted, departmental funds insufficient.")
+				bank_card_talk("BŁĄD: Wypłata odrzucona, niewystarczające środki w budżecie departamentu.")
 				return FALSE
 			else
-				bank_card_talk("Payday processed, account now holds $[account_balance].")
+				bank_card_talk("Wypłata przyjęta, na koncie znajduje się teraz $[account_balance].")
 				//The bonus only resets once it goes through.
 				if(paycheck_bonus > 0) //And we're not getting rid of debt
 					paycheck_bonus = 0
 				return TRUE
-	bank_card_talk("ERROR: Payday aborted, unable to contact departmental account.")
+	bank_card_talk("BŁĄD: Wypłata odrzucona, brak połączenia z kontem departamentu.")
 	return FALSE
 
 /datum/bank_account/proc/bank_card_talk(message, force)

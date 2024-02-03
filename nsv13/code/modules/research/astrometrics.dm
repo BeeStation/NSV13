@@ -99,7 +99,7 @@ Clean override of the navigation computer to provide scan functionality.
 			scan_target = selected_system
 			say("Initiating scan of: [scan_target]")
 			playsound(src, 'nsv13/sound/voice/scan_start.wav', 100, FALSE)
-			radio.talk_into(src, "Initiating scan of: [scan_target]", channel)
+			radio.talk_into(src, "Rozpoczynanie skanowania: [scan_target]", channel)
 		if("scan_anomaly")
 			var/obj/effect/overmap_anomaly/target = locate(params["anomaly_id"])
 			if(!istype(target))
@@ -108,7 +108,7 @@ Clean override of the navigation computer to provide scan functionality.
 			scan_goal = scan_goal_anomaly
 			scan_target = target
 			say("Initiating scan of: [scan_target]")
-			radio.talk_into(src, "Initiating scan of: [scan_target]", channel)
+			radio.talk_into(src, "Rozpoczynanie skanowania: [scan_target]", channel)
 		if("cancel_scan")
 			if(!scan_target)
 				return
@@ -132,7 +132,7 @@ Clean override of the navigation computer to provide scan functionality.
 /obj/machinery/computer/ship/navigation/astrometrics/proc/finish_scan()
 	say("Scan of [scan_target] complete!")
 	playsound(src, 'nsv13/sound/voice/scanning_complete.wav', 100, FALSE)
-	radio.talk_into(src, "Scan of [scan_target] complete!", channel)
+	radio.talk_into(src, "Skan [scan_target] zakończony!", channel)
 	linked.scanned += scan_target
 	SEND_SIGNAL(linked, COMSIG_ANOMALY_SCANNED)
 	if(istype(scan_target, /obj/effect/overmap_anomaly))

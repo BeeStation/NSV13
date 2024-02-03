@@ -136,7 +136,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 */
 
 /obj/machinery/computer/ship/ftl_computer/proc/announce_jump()
-	radio.talk_into(src, "TRACKING: FTL signature detected. Tracking information updated.",radio_channel)
+	radio.talk_into(src, "Śledzenie: Sygnatura FTL wykryta. Informacje śledzące zaktualizowane.",radio_channel)
 	for(var/list/L in tracking)
 		var/obj/structure/overmap/target = L["ship"]
 		var/datum/star_system/target_system = SSstar_system.ships[target]["target_system"]
@@ -271,7 +271,7 @@ A way for syndies to track where the player ship is going in advance, so they ca
 	if(ftl_state == FTL_STATE_IDLE)
 		playsound(src, 'nsv13/sound/effects/computer/hum3.ogg', 100, 1)
 		playsound(src, 'nsv13/sound/voice/ftl_spoolup.wav', 100, FALSE)
-		radio.talk_into(src, "FTL spoolup initiated.", radio_channel)
+		radio.talk_into(src, "Rozgrzewanie FTL zainicjowane.", radio_channel)
 		icon_state = "ftl_charging"
 		ftl_state = FTL_STATE_SPOOLING
 

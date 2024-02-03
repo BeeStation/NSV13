@@ -100,9 +100,9 @@ Set up relationships.
 	F.assemble(starsys)
 	if(!F.hide_movements && !starsys.hidden)
 		if((F.alignment == "nanotrasen") || (F.alignment == "solgov"))
-			mini_announce("A White Rapids fleet has been assigned to [starsys]", "White Rapids Fleet Command")
+			mini_announce("Flota White Rapids została przydzielona do [starsys]", "White Rapids Fleet Command")
 		else
-			mini_announce("Typhoon drive signatures detected in [starsys]", "White Rapids EAS")
+			mini_announce("Sygnatury napędu Typhoon wykryte w [starsys]", "White Rapids EAS")
 	F.faction = src
 	if(!force && id == FACTION_ID_SYNDICATE && !SSstar_system.neutral_zone_systems.Find(F.current_system))	//If it isn't forced, it got spawned by the midround processing. If we didn't already spawn in the neutral zone, we head to a random system there and occupy it.
 		var/list/possible_occupation_targets = list()

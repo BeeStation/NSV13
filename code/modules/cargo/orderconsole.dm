@@ -359,9 +359,9 @@
 			SSshuttle.shoppinglist += SO
 
 	if(self_paid)
-		say("Order processed. The price will be charged to [account.account_holder]'s bank account on delivery.")
+		say("Zamówienie przyjęte. Przy dostawie kosztami zostanie obciążone konto [account.account_holder].")
 	if(requestonly && message_cooldown < world.time)
-		var/message = amount == 1 ? "A new order has been requested." : "[amount] order has been requested."
+		var/message = amount == 1 ? "Nowe zamówienie zostało złożone." : "[amount] zamówień zostało złożonych."
 		radio.talk_into(src, message, RADIO_CHANNEL_SUPPLY)
 		message_cooldown = world.time + 30 SECONDS
 	. = TRUE

@@ -499,7 +499,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	new /obj/effect/temp_visual/fading_overmap(get_turf(src), name, icon, icon_state)
 	for(var/obj/structure/overmap/OM in enemies) //If target's in enemies, return
 		var/sound = pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_2.ogg')
-		var/message = "<span class='warning'>ATTENTION: [src]'s reactor is going supercritical. Destruction imminent.</span>"
+		var/message = "<span class='warning'>UWAGA: Reaktor [src] osiąga stan krytyczny. Destrukcja nieunikniona.</span>"
 		OM?.tactical?.relay_sound(sound, message)
 		OM.enemies -= src //Stops AI from spamming ships that are already dead
 	overmap_explode(linked_areas)
@@ -843,7 +843,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(world.time < next_maneuvre)
 		to_chat(pilot, "<span class='notice'>Engines on cooldown to prevent overheat</span>")
 		return FALSE
-	relay('nsv13/sound/effects/ship/afterburner.ogg', message="<span class='warning'>You feel the ship lurch suddenly.</span>", loop=FALSE)
+	relay('nsv13/sound/effects/ship/afterburner.ogg', message="<span class='warning'>Czujesz, że statek się nagle przechyla.</span>", loop=FALSE)
 	if(helm && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
 		playsound(helm, sound, 100, 1)
