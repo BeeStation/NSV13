@@ -2096,10 +2096,10 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 9
+	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 9
+	dir = 4
 	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
@@ -2468,6 +2468,10 @@
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/captain)
 "iE" = (
+/obj/structure/rack,
+/obj/effect/spawner/lootdrop/aimodule_harmful,
+/obj/effect/spawner/lootdrop/aimodule_neutral,
+/obj/effect/spawner/lootdrop/aimodule_harmless,
 /turf/open/floor/durasteel/lino,
 /area/ai_monitored/nuke_storage)
 "iF" = (
@@ -2666,6 +2670,7 @@
 	dir = 1
 	},
 /obj/structure/table/glass,
+/obj/machinery/cell_charger,
 /turf/open/floor/durasteel/alt,
 /area/hallway/nsv/deck1/hallway)
 "jf" = (
@@ -2958,10 +2963,16 @@
 /turf/open/floor/plating,
 /area/bridge/cic)
 "kc" = (
-/obj/effect/turf_decal/ship/delivery/yellow,
-/obj/machinery/ore_silo,
-/turf/open/floor/monotile/dark,
-/area/ai_monitored/nuke_storage)
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 6
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/maintenance/department/science/xenobiology)
 "ke" = (
 /obj/effect/turf_decal/tile/ship/brown{
 	dir = 1
@@ -3162,6 +3173,8 @@
 /obj/structure/window/reinforced{
 	dir = 4
 	},
+/obj/effect/spawner/lootdrop/aimodule_harmful,
+/obj/effect/spawner/lootdrop/aimodule_harmful,
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
 "kM" = (
@@ -7019,12 +7032,6 @@
 /obj/effect/turf_decal/tile/ship/half/neutral{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 6
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 6
-	},
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
 "yj" = (
@@ -8001,18 +8008,9 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
 "BK" = (
-/obj/structure/closet/secure_closet/freezer/money,
-/obj/item/storage/belt/champion,
-/obj/item/stack/sheet/mineral/gold,
-/obj/item/stack/sheet/mineral/gold,
-/obj/effect/turf_decal/ship/delivery/yellow,
-/obj/item/crowbar/brass{
-	desc = "A crowbar made out of pure gold. It feels extremely cold to the touch.";
-	materials = list(/datum/material/gold=50);
-	name = "golden crowbar"
-	},
 /obj/item/circuitboard/machine/protolathe,
-/turf/open/floor/monotile/dark,
+/obj/structure/rack,
+/turf/open/floor/durasteel/lino,
 /area/ai_monitored/nuke_storage)
 "BL" = (
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
@@ -9358,11 +9356,8 @@
 /turf/open/floor/monotile/steel,
 /area/science/xenobiology)
 "Gh" = (
-/obj/machinery/nuclearbomb/selfdestruct{
-	name = "ship self destruct terminal"
-	},
-/obj/effect/turf_decal/ship/delivery/yellow,
-/turf/open/floor/monotile/dark,
+/obj/machinery/ore_silo,
+/turf/open/floor/durasteel/lino,
 /area/ai_monitored/nuke_storage)
 "Gi" = (
 /obj/structure/disposalpipe/segment{
@@ -11720,6 +11715,10 @@
 	},
 /obj/structure/window/reinforced/spawner/north,
 /obj/structure/window/reinforced,
+/obj/effect/spawner/lootdrop/aimodule_harmless,
+/obj/effect/spawner/lootdrop/aimodule_neutral,
+/obj/effect/spawner/lootdrop/aimodule_neutral,
+/obj/effect/spawner/lootdrop/aimodule_neutral,
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/ai_upload)
 "NG" = (
@@ -12861,8 +12860,8 @@
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/chief)
 "RN" = (
-/obj/effect/spawner/lootdrop/two_percent_xeno_egg_spawner,
 /obj/structure/alien/weeds,
+/obj/effect/spawner/lootdrop/xenobiology_fun_spawner,
 /turf/open/floor/engine,
 /area/science/xenobiology)
 "RQ" = (
@@ -13325,12 +13324,6 @@
 /turf/open/floor/durasteel/alt,
 /area/medical/medbay)
 "TK" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 9
-	},
 /turf/open/floor/plating{
 	icon_state = "platingdmg2"
 	},
@@ -13439,6 +13432,9 @@
 /area/maintenance/department/science/xenobiology)
 "Ub" = (
 /obj/machinery/light/small,
+/obj/machinery/nuclearbomb/selfdestruct{
+	name = "ship self destruct terminal"
+	},
 /turf/open/floor/durasteel/lino,
 /area/ai_monitored/nuke_storage)
 "Uc" = (
@@ -13451,6 +13447,15 @@
 /area/crew_quarters/kitchen)
 "Ud" = (
 /obj/structure/extinguisher_cabinet/south,
+/obj/structure/closet/secure_closet/freezer/money,
+/obj/item/storage/belt/champion,
+/obj/item/stack/sheet/mineral/gold,
+/obj/item/crowbar/brass{
+	desc = "A crowbar made out of pure gold. It feels extremely cold to the touch.";
+	materials = list(/datum/material/gold=50);
+	name = "golden crowbar"
+	},
+/obj/item/stack/sheet/mineral/gold,
 /turf/open/floor/durasteel/lino,
 /area/ai_monitored/nuke_storage)
 "Uf" = (
@@ -14434,12 +14439,8 @@
 /obj/effect/turf_decal/tile/ship/half/neutral{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 9
-	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
 	},
@@ -14705,6 +14706,12 @@
 "YI" = (
 /obj/effect/turf_decal/tile/ship/half/neutral{
 	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 9
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/science/xenobiology)
@@ -39361,8 +39368,8 @@ DX
 gu
 wU
 CT
-kc
-iE
+CT
+Gh
 jw
 JF
 Xh
@@ -39618,7 +39625,7 @@ JV
 tp
 Th
 CT
-Gh
+CT
 Ub
 jw
 PG
@@ -39875,7 +39882,7 @@ MH
 tp
 Nf
 CT
-BK
+CT
 Ud
 jw
 PG
@@ -40133,7 +40140,7 @@ tp
 Gu
 dp
 Hx
-iE
+BK
 jw
 PG
 Xh
@@ -55814,8 +55821,8 @@ ZI
 mK
 Tf
 xO
-HV
-ly
+kc
+Xs
 Ua
 NO
 OJ
@@ -56071,7 +56078,7 @@ Tf
 Tf
 Tf
 fT
-ly
+Lo
 TK
 pb
 JZ
