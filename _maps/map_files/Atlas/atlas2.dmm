@@ -2963,16 +2963,9 @@
 /turf/open/floor/plating,
 /area/bridge/cic)
 "kc" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 6
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 6
-	},
-/turf/open/floor/plating{
-	icon_state = "panelscorched"
-	},
-/area/maintenance/department/science/xenobiology)
+/obj/machinery/ore_silo,
+/turf/open/floor/durasteel/lino,
+/area/ai_monitored/nuke_storage)
 "ke" = (
 /obj/effect/turf_decal/tile/ship/brown{
 	dir = 1
@@ -3677,8 +3670,10 @@
 /obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 8
 	},
-/obj/machinery/light{
-	dir = 8
+/obj/machinery/camera{
+	c_tag = "Xenobiology Lab - Freezer";
+	network = list("ss13","rd","xeno");
+	dir = 4
 	},
 /turf/open/floor/circuit/telecomms,
 /area/science/xenobiology)
@@ -6712,6 +6707,9 @@
 	external_pressure_bound = 120;
 	name = "server vent"
 	},
+/obj/machinery/light{
+	dir = 8
+	},
 /turf/open/floor/circuit/telecomms,
 /area/science/xenobiology)
 "xi" = (
@@ -8008,10 +8006,16 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/port)
 "BK" = (
-/obj/item/circuitboard/machine/protolathe,
-/obj/structure/rack,
-/turf/open/floor/durasteel/lino,
-/area/ai_monitored/nuke_storage)
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 6
+	},
+/turf/open/floor/plating{
+	icon_state = "panelscorched"
+	},
+/area/maintenance/department/science/xenobiology)
 "BL" = (
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
 	name = "Smoking lounge access";
@@ -9000,10 +9004,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
-/obj/effect/landmark/start/head_of_personnel{
-	icon_state = "Executive Officer";
-	name = "Executive Officer"
-	},
+/obj/effect/landmark/start/head_of_personnel,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/xo)
 "Fd" = (
@@ -9356,7 +9357,8 @@
 /turf/open/floor/monotile/steel,
 /area/science/xenobiology)
 "Gh" = (
-/obj/machinery/ore_silo,
+/obj/item/circuitboard/machine/protolathe,
+/obj/structure/rack,
 /turf/open/floor/durasteel/lino,
 /area/ai_monitored/nuke_storage)
 "Gi" = (
@@ -12394,6 +12396,7 @@
 	pixel_x = -7;
 	pixel_y = 3
 	},
+/obj/item/extrapolator,
 /turf/open/floor/monotile/light,
 /area/medical/virology)
 "Qb" = (
@@ -39369,7 +39372,7 @@ gu
 wU
 CT
 CT
-Gh
+kc
 jw
 JF
 Xh
@@ -40140,7 +40143,7 @@ tp
 Gu
 dp
 Hx
-BK
+Gh
 jw
 PG
 Xh
@@ -55821,7 +55824,7 @@ ZI
 mK
 Tf
 xO
-kc
+BK
 Xs
 Ua
 NO
