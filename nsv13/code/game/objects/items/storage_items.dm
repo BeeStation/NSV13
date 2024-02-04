@@ -123,7 +123,7 @@ This file contains various storage items in this order:
 	righthand_file = 'nsv13/icons/mob/inhands/equipment/medical_righthand.dmi'
 	skin_type = MEDBOT_SKIN_ROBOT
 
-/obj/item/storage/firstaid/fire/Initialize(mapload)
+/obj/item/storage/firstaid/robot/Initialize(mapload)
 	. = ..()
 	icon_state = pick("firstaid-robot","firstaid-robotalt")
 
