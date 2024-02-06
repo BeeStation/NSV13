@@ -53,11 +53,11 @@ and clear when youre done! if you dont i will use :newspaper2: on you
 	var/area/holodeck/linked
 
 	///what program is loaded right now or is about to be loaded
-	var/program = "offline"
+	var/program = "recreational-offline"
 	var/last_program
 
 	///the default program loaded by this holodeck when spawned and when deactivated
-	var/offline_program = "offline"
+	var/offline_program = "recreational-offline"
 
 	///stores all of the unrestricted holodeck map templates that this computer has access to
 	var/list/program_cache
