@@ -761,7 +761,7 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/wolfpack
 	name = "\improper unidentified Syndicate fleet"
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/submarine)
+	destroyer_types = list(/obj/structure/overmap/syndicate/submarine/ai)
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser, /obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/destroyer)
 	audio_cues = list()
 	hide_movements = TRUE
@@ -831,7 +831,7 @@ Adding tasks is easy! Just define a datum for it.
 
 /datum/fleet/earthbuster
 	name = "\proper Syndicate Armada" //Fleet spawned if the players are too inactive. Set course...FOR EARTH.
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/conflagration, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/conflagration, /obj/structure/overmap/syndicate/ai/assault_cruiser, /obj/structure/overmap/syndicate/ai/gunboat, /obj/structure/overmap/syndicate/submarine/ai, /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate)
 	size = FLEET_DIFFICULTY_VERY_HARD
 	allow_difficulty_scaling = FALSE
 	taunts = list("We're coming for Sol, and you can't stop us. All batteries fire at will.", "Lay down your arms now, you're outnumbered.", "All hands, assume assault formation. Begin bombardment.")
@@ -853,7 +853,7 @@ Adding tasks is easy! Just define a datum for it.
 /datum/fleet/interdiction/stealth	//More fun for badmins
 	name = "\improper unidentified Syndicate heavy fleet"
 	hide_movements = TRUE
-	destroyer_types = list(/obj/structure/overmap/syndicate/ai/submarine, /obj/structure/overmap/syndicate/ai/conflagration, /obj/structure/overmap/syndicate/ai/assault_cruiser)
+	destroyer_types = list(/obj/structure/overmap/syndicate/submarine/ai, /obj/structure/overmap/syndicate/ai/conflagration, /obj/structure/overmap/syndicate/ai/assault_cruiser)
 
 /datum/fleet/interdiction/light	//The syndicate can spawn these randomly (though rare). Be caareful! But, at least they aren't that scary.
 	name = "\improper Syndicate light interdiction fleet"

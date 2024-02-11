@@ -64,21 +64,16 @@
 	role = PVP_SHIP
 	armor = list("overmap_light" = 99, "overmap_medium" = 55, "overmap_heavy" = 30)
 
-/obj/structure/overmap/syndicate/pvp/submarine
+/obj/structure/overmap/syndicate/submarine/starter
 	name = "SSV Krypton"
-	icon = 'nsv13/icons/overmap/syndicate/submarine.dmi'
-	icon_state = "submarine"
-	mass = MASS_MEDIUM
-	sprite_size = 48
 	damage_states = TRUE
-	pixel_z = -32
-	pixel_w = -32
-	max_integrity = 700 //Max health
+	obj_integrity = 700
+	max_integrity = 700 //More health than AI ships, but this is still designed for stealth
 	integrity_failure = 700
-	collision_positions = list(new /datum/vector2d(-15,59), new /datum/vector2d(-19,22), new /datum/vector2d(-15,-39), new /datum/vector2d(-7,-62), new /datum/vector2d(6,-63), new /datum/vector2d(17,-35), new /datum/vector2d(22,22), new /datum/vector2d(9,49), new /datum/vector2d(-1,58))
-	role = PVP_SHIP
-	use_armor_quadrants = FALSE //No magic repair machine for you
-	cloak_factor = 100 //Magic cloak number
+	role = MAIN_OVERMAP
+	starting_system = "Staging"
+	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
+	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
 //AI Versions
 
@@ -418,7 +413,7 @@
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
-/obj/structure/overmap/syndicate/ai/submarine //A big box of tank which is hard to take down, and lethal up close.
+/obj/structure/overmap/syndicate/submarine //A sneaky cloaked missile ship, launches disabling barrages of EMP torpedoes.
 	name = "Aspala Class Sub-spacemarine"
 	desc = "A highly advanced Syndicate cruiser which can mask its sensor signature drastically."
 	icon = 'nsv13/icons/overmap/new/syndicate/cruiser.dmi'
@@ -430,21 +425,27 @@
 	bound_height = 128
 	bound_width = 128
 	integrity_failure = 500
-	missiles = 10
-	torpedoes = 10 //Torp boat!
-	shots_left = 10
 	armor = list("overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
-	ai_flags = AI_FLAG_DESTROYER
 	cloak_factor = 100 //Not a perfect cloak, mind you.
-	combat_dice_type = /datum/combat_dice/destroyer
-	torpedo_type = /obj/item/projectile/guided_munition/torpedo/disruptor
-	possible_interior_maps = list()
 
-/obj/structure/overmap/syndicate/ai/submarine/Initialize(mapload)
+/obj/structure/overmap/syndicate/submarine/Initialize(mapload)
 	. = ..()
 	handle_cloak(TRUE)
 
-/obj/structure/overmap/syndicate/ai/submarine/apply_weapons()
+/obj/structure/overmap/syndicate/submarine/ai
+	ai_controlled = TRUE
+	ai_flags = AI_FLAG_DESTROYER
+	missiles = 10
+	torpedoes = 10 //Torp boat!
+	shots_left = 10
+	obj_integrity = 500
+	max_integrity = 500
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/disruptor
+	possible_interior_maps = list()
+	armor = list("overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
+	combat_dice_type = /datum/combat_dice/destroyer
+
+/obj/structure/overmap/syndicate/submarine/ai/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/light_cannon/integrated(src)
 	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher/burst_disruptor(src)
 	weapon_types[FIRE_MODE_RAILGUN] = null
