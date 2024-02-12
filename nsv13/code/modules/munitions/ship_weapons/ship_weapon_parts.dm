@@ -31,7 +31,7 @@
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
 
 /obj/item/ship_weapon/parts/loading_tray/Initialize(mapload)
-	..()
+	. = ..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
 /**
