@@ -191,14 +191,14 @@
 	tech_tier = 4
 
 /datum/techweb_node/xenoorgan_biotech
-    id = "xenoorgan_bio"
-    display_name = "Xeno-organ Biology"
-    description = "Plasmaman, Ethereals, Lizardpeople... What makes our non-human crewmembers tick?"
-    prereq_ids = list("adv_biotech")
-    design_ids = list("limbdesign_felinid", "limbdesign_lizard", "limbdesign_plasmaman", "limbdesign_ethereal", "limbdesign_moth", "limbdesign_apid")
-    research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 6500)
-    export_price = 9000
-	tech_tier = 3
+	id = "xenoorgan_bio"
+	display_name = "Xeno-organ Biology"
+	description = "Plasmaman, Ethereals, Lizardpeople... What makes our non-human crewmembers tick?"
+	prereq_ids = list("adv_biotech")
+	design_ids = list("limbdesign_felinid", "limbdesign_lizard", "limbdesign_plasmaman", "limbdesign_ethereal", "limbdesign_moth", "limbdesign_apid")
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 6500)
+	export_price = 9000
+	tech_tier = 1
 
 //Vehicle Hardpoint tech
 /datum/techweb_node/vehicle_start
@@ -261,4 +261,3 @@
 	design_ids = list("borg_upgrade_muniapp")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 5000
-	tech_tier = 3
