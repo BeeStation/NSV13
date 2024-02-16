@@ -846,7 +846,7 @@ GLOBAL_DATUM_INIT(ahelp_tickets, /datum/admin_help_tickets, new)
 		else
 			final = "[msg] - All admins stealthed\[[english_list(stealthmins)]\], AFK\[[english_list(afkmins)]\], or lacks +BAN\[[english_list(powerlessmins)]\]! Total: [allmins.len] "
 		send2tgs(source,final)
-		SStopic.crosscomms_send("ahelp", final, source)
+		SStopic.crosscomms_send_async("ahelp", final, source)
 
 
 /proc/send2tgs(msg,msg2)
