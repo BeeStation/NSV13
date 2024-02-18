@@ -42,7 +42,7 @@
 	var/ftl_start = 'nsv13/sound/effects/ship/FTL_long_thirring.ogg'
 	var/ftl_exit = 'nsv13/sound/effects/ship/freespace2/warp_close.wav'
 	var/datum/looping_sound/advanced/ftl_drive/soundloop
-	var/auto_spool_capable = FALSE // whether the drive is capable of auto spooling or not
+	var/auto_spool_capable = TRUE // whether the drive is capable of auto spooling or not
 	var/auto_spool_enabled = FALSE // whether the drive is set to auto spool or not
 	var/lockout = FALSE //Used for our end round shenanigains
 
@@ -361,7 +361,7 @@ Preset classes of FTL drive with pre-programmed behaviours
 	progress = 0
 	soundloop.interrupt()
 	jump_speed_pylon = initial(jump_speed_pylon)
-	if(shutdown_pylons)
+	if(shutdown_pylons && !auto_spool_enabled)
 		for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
 			if(P.pylon_state == PYLON_STATE_OFFLINE || P.pylon_state == PYLON_STATE_SHUTDOWN)
 				continue
