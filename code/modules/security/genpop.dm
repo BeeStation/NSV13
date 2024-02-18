@@ -9,7 +9,7 @@
 	icon_state = "turnstile_map" //ADD ICON
 	power_channel = AREA_USAGE_ENVIRON
 	density = TRUE
-	pass_flags_self = PASSTRANSPARENT | PASSGRILLE | PASSSTRUCTURE
+	pass_flags_self = PASSGLASS | PASSGRILLE | PASSSTRUCTURE
 	obj_integrity = 600
 	max_integrity = 600
 	integrity_failure = 0.35
@@ -48,11 +48,10 @@
 	if(state == TURNSTILE_SHELL && !anchored)
 		. += "<span class='notice'>The turnstile frame is empty and unsecured, ready to be sliced through <b>welding</b>.</span>"
 
-//Executive officer's line variant. For rule of cool.
-/*/obj/machinery/turnstile/xo
+//Executive officer's line variant. For rule of cool. NSV13 We're cool
+/obj/machinery/turnstile/xo
 	name = "\improper XO line turnstile"
 	req_one_access = list(ACCESS_BRIG, ACCESS_HEADS)
-*/
 
 /obj/structure/closet/secure_closet/genpop
 	name = "Prisoner locker"
@@ -596,7 +595,7 @@
 	var/obj/item/card/id/id = new /obj/item/card/id/prisoner(get_turf(src), desired_sentence * 0.1, desired_crime, desired_name)
 	Radio.talk_into(src, "Prisoner [id.registered_name] has been incarcerated for [desired_sentence / 600 ] minutes.")
 	var/obj/item/paper/paperwork = new /obj/item/paper(get_turf(src))
-	paperwork.add_raw_text("<h1 id='record-of-incarceration'>Record Of Incarceration:</h1> <hr> <h2 id='name'>Name: </h2> <p>[desired_name]</p> <h2 id='crime'>Crime: </h2> <p>[desired_crime]</p> <h2 id='sentence-min'>Sentence (Min)</h2> <p>[desired_sentence/600]</p> <h2 id='description'>Description </h2> <p>[desired_details]</p> <p>Nanotrasen Disciplinary council.</p>")
+	paperwork.add_raw_text("<h1 id='record-of-incarceration'>Record Of Incarceration:</h1> <hr> <h2 id='name'>Name: </h2> <p>[desired_name]</p> <h2 id='crime'>Crime: </h2> <p>[desired_crime]</p> <h2 id='sentence-min'>Sentence (Min)</h2> <p>[desired_sentence/600]</p> <h2 id='description'>Description </h2> <p>[desired_details]</p> <p>WhiteRapids Military Council, disciplinary authority.</p>") //NSV13 Nanotrasen replaced with WhiteRapids
 	paperwork.update_appearance()
 	desired_name = null
 	desired_details = null

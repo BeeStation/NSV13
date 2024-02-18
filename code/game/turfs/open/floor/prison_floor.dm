@@ -5,7 +5,7 @@
 	desc = "Prison break-proof!"
 	icon = 'icons/turf/prisonfloor.dmi'
 	icon_state = "prisonfloor4"
-	max_integrity = 500
+	//max_integrity = 500 //NSV13 Our floors don't have max integrity yet
 	holodeck_compatible = TRUE
 	thermal_conductivity = 0.025
 	heat_capacity = INFINITY
