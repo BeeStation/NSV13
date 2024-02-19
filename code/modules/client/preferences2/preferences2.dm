@@ -228,6 +228,7 @@
 			general_record,
 			security_record,
 			medical_record,
+			is_syndicate,
 			role_preferences
 		FROM [format_table_name("characters")] WHERE
 			ckey=:ckey
@@ -251,4 +252,7 @@
 
 /datum/preferences/proc/check_usable_slots()
 	for(var/datum/character_save/CS as anything in character_saves)
+		if(CS.is_syndicate) //NSV13 - Don't lock the Syndicate character slot :)
+			CS.slot_locked = FALSE
+			continue
 		CS.slot_locked = (CS.slot_number > max_usable_slots)

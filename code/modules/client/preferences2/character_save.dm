@@ -85,6 +85,8 @@
 	var/security_record = ""
 	var/medical_record = ""
 	//NSV13 - Roleplaying Stuff - End
+	//NSV13 - Syndicate character
+	var/is_syndicate = FALSE
 
 /datum/character_save/New()
 	real_name = get_default_name()
@@ -180,11 +182,13 @@
 	SAFE_READ_QUERY(38, security_record)
 
 	SAFE_READ_QUERY(39, medical_record)
+
+	SAFE_READ_QUERY(40, is_syndicate)
 	//NSV13 - Stop
 
 	// Role prefs
 	var/role_preferences_character_tmp
-	SAFE_READ_QUERY(40, role_preferences_character_tmp) //NSV13 - Moved from 32 to 40 due to Roleplaying stuff
+	SAFE_READ_QUERY(41, role_preferences_character_tmp) //NSV13 - Moved from 32 to 41 due to custom extra stuff
 	role_preferences_character = json_decode(role_preferences_character_tmp)
 
 
@@ -388,6 +392,7 @@
 			general_record,
 			security_record,
 			medical_record,
+			is_syndicate,
 			role_preferences
 		) VALUES (
 			:slot,
@@ -430,6 +435,7 @@
 			:general_record,
 			:security_record,
 			:medical_record,
+			:is_syndicate,
 			:role_preferences
 		)
 	"}, list(
@@ -474,6 +480,7 @@
 		"general_record" = general_record,
 		"security_record" = security_record,
 		"medical_record" = medical_record,
+		"is_syndicate" = is_syndicate,
 		"role_preferences" = json_encode(role_preferences_character)
 	))
 

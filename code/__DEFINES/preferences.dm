@@ -187,4 +187,4 @@
 #define PREFERENCE_TAG_PREFERRED_SYNDIE_ROLE	"27" //NSV13 - syndicate crew role
 
 // True value of max save slots (3 is default, 8 is byond member, +1 to either if you have the extra slot loadout entry). Potential max is 9
-#define TRUE_MAX_SAVE_SLOTS 9
+#define TRUE_MAX_SAVE_SLOTS 10 //NSV13 changed max slots to 10 for extra Syndicate slot

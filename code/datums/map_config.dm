@@ -27,6 +27,7 @@
 	var/list/omode_whitelist = list() //NSV13 - Whitelisted overmap modes - ie add modes
 	var/starmap_path = CONFIG_DIRECTORY + "/" + STARMAP_FILE //NSV13 - What starmap should this map load?
 	var/return_system = "Outpost 45" //NSV13 - Which system are we jumping back to when the round ends?
+	var/faction = "Station" //NSV13 - Faction the ship is fighting for, used for jobs. Station is NT
 	var/mine_traits = null
 
 	//NSV13 - special mapvote things
@@ -191,6 +192,8 @@
 		starmap_path = json["starmap_path"]
 	if("return_system" in json)
 		starmap_path = json["return_system"]
+	if("faction" in json)
+		faction = json["faction"]
 	if("map_description" in json)
 		map_description = json["map_description"]
 	if("manufacturer" in json)

@@ -74,6 +74,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/action_buttons_screen_locs = list()
 	//Nsv13 - Syndicate role select
 	var/preferred_syndie_role = CONQUEST_ROLE_GRUNT
+	//NSV13 Syndicate character, like the active char but for Syndicate ships/Galactic Conquest.
+	var/datum/character_save/syndicate_character
 	//NSV13 - AI Custom Holographic Form - Start
 	var/icon/custom_holoform_icon
 	var/list/cached_holoform_icons
@@ -92,6 +94,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		var/datum/character_save/CS = new()
 		CS.slot_number = i
 		character_saves[i] = CS
+		if(i = 10) //NSV13 Syndicate character slot
+			CS.is_syndicate = TRUE
+			syndicate_character = CS
 
 	UI_style = GLOB.available_ui_styles[1]
 	if(istype(C))
@@ -207,8 +212,9 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<a href='?_src_=prefs;preference=sec_dept;task=input'><b>Preferred Security/Midshipman Department:</b> [active_character.preferred_security_department]</a><BR>"//NSV13 added Midshipmen
 			dat += "<a href='?_src_=prefs;preference=pilot_role;task=input'><b>Preferred Pilot Role:</b> [active_character.preferred_pilot_role]</a><br>" //Nsv13
 
-			dat += "<b>Syndicate Crew Preferences:</b><BR>"//Nsv13
-			dat += "<a href='?_src_=prefs;preference=syndiecrew;task=input'><b>Preferred Syndicate Role:</b> [preferred_syndie_role]</a><br>" //Nsv13
+			if(is_syndicate) //NSV13
+				dat += "<b>Syndicate Crew Preferences:</b><BR>"
+				dat += "<a href='?_src_=prefs;preference=syndiecrew;task=input'><b>Preferred Syndicate Role:</b> [preferred_syndie_role]</a><br>"
 
 			dat += "<b>Squad Preferences:</b><BR>"
 			dat += "<a href='?_src_=prefs;preference=squad;task=input'><b>Preferred GQ Squad:</b> [active_character.preferred_squad]</a><br>" //Nsv13 squads - we CM now.

@@ -19,25 +19,32 @@ SUBSYSTEM_DEF(job)
 	var/spare_id_safe_code = ""
 
 	//NSV13 - rearranged CoC, renamed HoP to XO, added MAA
-	// Cap > XO > HoS > MAA > CE > CMO > RD
+	// Cap > XO > HoS > MAA > CE > CMO > RD > BS
 	var/list/chain_of_command = list(
-		"Captain" = 1,				//Not used yet but captain is first in chain_of_command
-		"Executive Officer" = 2,	//NSV13 - renamed HoP to XO
-		"Head of Security" = 3,
-		"Master At Arms" = 4,
-		"Chief Engineer" = 5,
-		"Chief Medical Officer" = 6,
-		"Research Director" = 7,
-		"Bridge Staff" = 8)
+		JOB_NAME_CAPTAIN = 1,				//Not used yet but captain is first in chain_of_command
+		JOB_NAME_HEADOFPERSONNEL = 2,
+		JOB_NAME_HEADOFSECURITY = 3,
+		JOB_NAME_MASTERATARMS = 4,
+		JOB_NAME_CHIEFENGINEER = 5,
+		JOB_NAME_CHIEFMEDICALOFFICER = 6,
+		JOB_NAME_RESEARCHDIRECTOR = 7,
+		JOB_NAME_BRIDGESTAFF = 8)
 
 	//Crew Objective stuff
 	var/list/crew_obj_list = list()
 	var/list/crew_obj_jobs = list()
 
+	//NSV13 - Syndicate jobs, these are the same in function as the regular jobs
+	var/list/syn_occupations = list()
+	var/list/datum/job/syn_name_occupations = list()
+	var/list/syn_type_occupations = list()
+
 /datum/controller/subsystem/job/Initialize(timeofday)
 	SSmapping.HACK_LoadMapConfig()
 	if(!occupations.len)
 		SetupOccupations()
+	if(!syn_occupations)
+		SetupOccupations("Syndicate")
 	if(CONFIG_GET(flag/load_jobs_from_txt))
 		LoadJobs()
 	if(CONFIG_GET(flag/show_ranks)) //NSV13 - load job-rank mappings
@@ -71,7 +78,9 @@ SUBSYSTEM_DEF(job)
 		JobDebug("Overflow role set to : [new_overflow_role]")
 
 /datum/controller/subsystem/job/proc/SetupOccupations(faction = "Station")
-	occupations = list()
+	var/joblist = list() //NSV13 start - used for faction-specific joblists
+	var/job_names = list()
+	var/job_types = list() //NSV13 end
 	var/list/all_jobs = subtypesof(/datum/job)
 	if(!all_jobs.len)
 		to_chat(world, "<span class='boldannounce'>Error setting up jobs, no job datums found.</span>")
@@ -88,9 +97,19 @@ SUBSYSTEM_DEF(job)
 		if(!job.map_check())	//Even though we initialize before mapping, this is fine because the config is loaded at new
 			testing("Removed [job.type] due to map config")
 			continue
-		occupations += job
-		name_occupations[job.title] = job
-		type_occupations[J] = job
+		joblist += job //NSV13 start - used for faction-specific joblists
+		job_names[job.title] = job
+		job_types[J] = job
+
+	switch(faction) //NSV13 start add Syndie occupation list
+		if("Station")
+			occupations = joblist
+			name_occupations = job_names
+			type_occupations = job_types
+		if("Syndicate")
+			syn_occupations |= joblist
+			syn_name_occupations = job_names
+			syn_type_occupations = job_types //NSV13 end
 
 	return 1
 
@@ -98,12 +117,16 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/GetJob(rank)
 	if(!occupations.len)
 		SetupOccupations()
-	return name_occupations[rank]
+	if(!syn_occupations.len) //NSV13 start - added Syndicate jobs
+		SetupOccupations("Syndicate")
+	return name_occupations[rank] || syn_name_occupations[rank] //NSV13 end
 
 /datum/controller/subsystem/job/proc/GetJobType(jobtype)
 	if(!occupations.len)
 		SetupOccupations()
-	return type_occupations[jobtype]
+	if(!syn_occupations.len) //NSV13 start - added Syndicate jobs
+		SetupOccupations("Syndicate")
+	return type_occupations[jobtype] || syn_type_occupations[jobtype] //NSV13 end
 
 /datum/controller/subsystem/job/proc/AssignRole(mob/dead/new_player/player, rank, latejoin = FALSE)
 	JobDebug("Running AR, Player: [player], Rank: [rank], LJ: [latejoin]")
@@ -161,7 +184,8 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/proc/GiveRandomJob(mob/dead/new_player/player)
 	JobDebug("GRJ Giving random job, Player: [player]")
 	. = FALSE
-	for(var/datum/job/job in shuffle(occupations))
+	var/list/available_jobs = (occupations + syn_occupations) //NSV13 start - Add syndicate jobs
+	for(var/datum/job/job in shuffle(available_jobs)) //NSV13 end - replaced occupations with available_jobs
 		if(!job)
 			continue
 
@@ -169,6 +193,9 @@ SUBSYSTEM_DEF(job)
 			continue
 
 		if(job.title in GLOB.command_positions) //If you want a command position, select it!
+			continue
+
+		if(job.faction != SSmapping.config.faction) //NSV13 - Check if this faction is currently available on the main ship
 			continue
 
 		if(QDELETED(player))
@@ -204,6 +231,7 @@ SUBSYSTEM_DEF(job)
 			player.mind.special_role = null
 			SSpersistence.antag_rep_change[player.ckey] = 0
 	SetupOccupations()
+	SetupOccupations("Syndicate")
 	unassigned = list()
 	return
 
@@ -598,7 +626,8 @@ SUBSYSTEM_DEF(job)
 			log_runtime("Error in /datum/controller/subsystem/job/proc/LoadJobs: Failed to locate job of title [J.title] in jobs.txt")
 
 /datum/controller/subsystem/job/proc/HandleFeedbackGathering()
-	for(var/datum/job/job in occupations)
+	var/available_jobs = occupations + syn_occupations //NSV13 start - Added syndie jobs
+	for(var/datum/job/job in available_jobs) //NSV13 end
 		var/high = 0 //high
 		var/medium = 0 //medium
 		var/low = 0 //low
@@ -656,8 +685,11 @@ SUBSYSTEM_DEF(job)
 /datum/controller/subsystem/job/Recover()
 	set waitfor = FALSE
 	var/oldjobs = SSjob.occupations
+	var/oldsynjobs = SSjob.syn_occupations
 	sleep(20)
 	for (var/datum/job/J in oldjobs)
+		INVOKE_ASYNC(src, PROC_REF(RecoverJob), J)
+	for (var/datum/job/J in oldsynjobs)
 		INVOKE_ASYNC(src, PROC_REF(RecoverJob), J)
 
 /datum/controller/subsystem/job/proc/RecoverJob(datum/job/J)
