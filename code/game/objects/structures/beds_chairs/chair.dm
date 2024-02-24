@@ -231,11 +231,15 @@
 	name = "corporate chair"
 	desc = "It looks professional."
 	icon_state = "comfychair_corp"
+	buildstackamount = 1
+	item_chair = null
 
 /obj/structure/chair/fancy/shuttle
 	name = "shuttle seat"
 	desc = "A comfortable, secure seat. It has a more sturdy looking buckling system for smoother flights."
 	icon_state = "shuttle_chair"
+	buildstackamount = 1
+	item_chair = null
 
 /obj/structure/chair/fancy/plastic
 	name = "plastic chair"
@@ -333,6 +337,14 @@
 	buildstackamount = 5
 	item_chair = null
 	icon_state = "officechair_dark"
+
+/obj/structure/chair/office/relaymove(mob/user, direction)
+	if(!direction)
+		return FALSE
+	if(direction == dir)
+		return
+	setDir(direction)
+	return FALSE
 
 /obj/structure/chair/office/Moved()
 	. = ..()
