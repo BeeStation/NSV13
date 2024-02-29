@@ -316,6 +316,7 @@
 /obj/item/circuitboard/machine/gauss_turret
 	name = "gauss gun turret (circuitboard)"
 	build_path = /obj/machinery/ship_weapon/gauss_gun
+	req_components = list()
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
 /obj/item/circuitboard/machine/gauss_turret/Destroy(force=FALSE)
