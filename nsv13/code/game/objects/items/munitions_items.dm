@@ -140,20 +140,9 @@
 	icon_state = "muniband"
 
 
-///////BOX////////
-/obj/item/storage/box/radiokey/mun
-	name = "box of munitions radio keys"
-	desc = "Grants access to munitions and supply radio."
-	radio_key = /obj/item/encryptionkey/munitions_tech
-
-/obj/item/storage/box/radiokey/pilot
-	name = "box of pilot radio keys"
-	desc = "Grants access to air traffic control and munitions radio."
-	radio_key = /obj/item/encryptionkey/pilot
-
 ///////ATC STICKS///////
 /obj/item/flashlight/atc_wavy_sticks //I dont know what theyre actually called :)
-	name = "Aircraft sigalling sticks"
+	name = "Aircraft signalling sticks"
 	desc = "A large set of fluorescent sticks used to direct aircraft around the hangar bay."
 	icon = 'nsv13/icons/objects/lighting.dmi'
 	icon_state = "wavystick"
