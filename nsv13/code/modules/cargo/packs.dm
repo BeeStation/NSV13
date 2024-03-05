@@ -818,6 +818,16 @@
 					/obj/item/reagent_containers/glass/bottle/sacid)
 	crate_name = "Chemical Supply Crate - Chalcogens"
 
+/datum/supply_pack/medical/robotic_firstaid
+	name = "Synthethic Treatment Kits Crate"
+	desc = "Contains three robotic first aid kits for all of your synthetic repairing needs. Tools, radioactive disinfectant and system cleaner medipens included."
+	contains = list(/obj/item/storage/firstaid/robot,
+					/obj/item/storage/firstaid/robot,
+					/obj/item/storage/firstaid/robot)
+	cost = 1400
+	small_item = TRUE
+	crate_name = "synthethic treatment kits crate"
+
 /datum/supply_pack/materials/plasma_canister //Purely used for the Serendipity's plasma caster
 	name = "Phoron Canister"
 	desc = "A single can of phoron gas, for all your plasma needs!"
