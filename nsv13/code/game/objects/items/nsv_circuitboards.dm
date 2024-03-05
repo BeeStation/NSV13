@@ -410,7 +410,7 @@
 
 // Laser AMS
 /obj/item/circuitboard/machine/laser_ams
-	name = "laser anti missile system (circuitboard)"
+	name = "laser AMS (circuitboard)"
 	build_path = /obj/machinery/ship_weapon/energy/ams
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	req_components = list(
