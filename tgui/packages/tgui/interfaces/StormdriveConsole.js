@@ -271,7 +271,7 @@ export const StormdriveConsole = (props, context) => {
                         {toFixed((data.pluoxium/data.total_moles) * 100) + ' %'}
                       </ProgressBar>
                     </LabeledList.Item>
-                    <LabeledList.Item label="Nucleum">
+                    <LabeledList.Item label="Nucleium">
                       <ProgressBar
                         value={(data.nucleium/data.total_moles) * 100}
                         minValue={0}
