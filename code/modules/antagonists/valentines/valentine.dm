@@ -5,6 +5,7 @@
 	prevent_roundtype_conversion = FALSE
 	var/datum/mind/date
 	count_against_dynamic_roll_chance = FALSE
+	banning_key = UNBANNABLE_ANTAGONIST
 
 /datum/antagonist/valentine/proc/forge_objectives()
 	var/datum/objective/protect/protect_objective = new /datum/objective/protect

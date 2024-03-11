@@ -45,6 +45,7 @@
 
 #include "achievement_validation.dm"
 #include "anchored_mobs.dm"
+#include "async.dm"
 #include "check_adjustable_clothing.dm"
 #include "component_tests.dm"
 #include "connect_loc.dm"
@@ -57,8 +58,10 @@
 #include "create_and_destroy.dm"
 #endif
 
+#include "antag_datums.dm"
 #include "dynamic_ruleset_sanity.dm"
 #include "keybinding_init.dm"
+#include "gamemode_sanity.dm"
 #include "reagent_id_typos.dm"
 #include "reagent_recipe_collisions.dm"
 #include "spawn_humans.dm"

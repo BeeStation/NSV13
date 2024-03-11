@@ -273,14 +273,18 @@ SUBSYSTEM_DEF(overmap_mode)
 	*/
 
 	var/text = "<b>[GLOB.station_name]</b>, <br>You have been assigned the following mission by <b>[capitalize(mode.starting_faction)]</b> and are expected to complete it with all due haste. Please ensure your crew is properly informed of your objectives and delegate tasks accordingly."
-	var/title = "Mission Briefing: [random_capital_letter()][random_capital_letter()][random_capital_letter()]-[GLOB.round_id]"
+	var/static/title = ""
+	if(!announced_objectives)
+		title += "Mission Briefing: [random_capital_letter()][random_capital_letter()][random_capital_letter()]-[GLOB.round_id]"
+	else //Add an extension if this isn't roundstart
+		title += "-Ext."
 
 	text = "[text] <br><br> [mode.brief] <br><br> Objectives:"
 
 	for(var/datum/overmap_objective/O in mode.objectives)
 		text = "[text] <br> - [O.brief]"
 
-		if ( !SSovermap_mode.announced_objectives ) // Prevents duplicate report spam when assigning additional objectives
+		if(!SSovermap_mode.announced_objectives)  // Prevents duplicate report spam when assigning additional objectives
 			O.print_objective_report()
 
 	print_command_report(text, title, TRUE)
@@ -306,6 +310,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	for(var/datum/overmap_objective/O in mode.objectives)
 		O.ignore_check = TRUE //We no longer care about checking these objective against completion
 
+	/* This doesn't work and I don't have the time to refactor all of it right now so on the TODO pile it goes!
 	var/list/extension_pool = subtypesof(/datum/overmap_objective)
 	var/players = get_active_player_count(TRUE, TRUE, FALSE) //Number of living, non-AFK players including non-humanoids
 	for(var/datum/overmap_objective/O in extension_pool)
@@ -322,6 +327,17 @@ SUBSYSTEM_DEF(overmap_mode)
 	else
 		message_admins("No additional objective candidates! Defaulting to tickets")
 		mode.objectives += new /datum/overmap_objective/tickets
+	*/
+
+	var/datum/star_system/rubicon = SSstar_system.system_by_id("Rubicon")
+	if(get_active_player_count(TRUE,TRUE,FALSE) > 10 && length(rubicon.enemies_in_system)) //Make sure there are enemies to fight
+		mode.objectives += new /datum/overmap_objective/clear_system/rubicon
+	else
+		mode.objectives += new /datum/overmap_objective/tickets
+		for(var/datum/faction/F in SSstar_system.factions)
+			F.send_fleet(custom_difficulty = (mode.difficulty + 1)) //Extension is more challenging
+			escalation += 1
+			message_admins("Overmap difficulty has been increased by 1!")
 
 	instance_objectives()
 
@@ -501,7 +517,7 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_objective/custom
 	name = "Custom"
 
-/datum/overmap_objective/custom/New(var/passed_input) //Receive the string and make it brief/desc
+/datum/overmap_objective/custom/New(passed_input) //Receive the string and make it brief/desc
 	.=..()
 	desc = passed_input
 	brief = passed_input
@@ -560,7 +576,7 @@ SUBSYSTEM_DEF(overmap_mode)
 				message_admins("Post Initilisation Overmap Gamemode Changes Not Currently Supported") //SoonTM
 				return
 			var/list/gamemode_pool = subtypesof(/datum/overmap_gamemode)
-			var/datum/overmap_gamemode/S = input("Select Overmap Gamemode", "Change Overmap Gamemode") as null|anything in gamemode_pool
+			var/datum/overmap_gamemode/S = input(usr, "Select Overmap Gamemode", "Change Overmap Gamemode") as null|anything in gamemode_pool
 			if(isnull(S))
 				return
 			if(SSovermap_mode.mode_initialised)
@@ -572,11 +588,14 @@ SUBSYSTEM_DEF(overmap_mode)
 				message_admins("[key_name_admin(usr)] has changed the overmap gamemode to [initial(S.name)]")
 			return
 		if("add_objective")
-			var/list/objectives_pool = subtypesof(/datum/overmap_objective)
-			var/datum/overmap_objective/S = input("Select objective to add", "Add Objective") as null|anything in objectives_pool
+			var/list/objectives_pool = (subtypesof(/datum/overmap_objective) - /datum/overmap_objective/custom)
+			var/datum/overmap_objective/S = input(usr, "Select objective to add", "Add Objective") as null|anything in objectives_pool
 			if(isnull(S))
 				return
-			SSovermap_mode.mode.objectives += new S()
+			var/extra
+			if(ispath(S,/datum/overmap_objective/clear_system))
+				extra = input(usr, "Select a target system", "Select System") as null|anything in SSstar_system.systems
+			SSovermap_mode.mode.objectives += new S(extra)
 			SSovermap_mode.instance_objectives()
 			return
 		if("add_custom_objective")
@@ -649,7 +668,7 @@ SUBSYSTEM_DEF(overmap_mode)
 				if("Cancel")
 					return
 				if("Open")
-					var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [initial(target_ship.faction)] [initial(target_ship.name)]?", ROLE_GHOSTSHIP, null, null, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
+					var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [initial(target_ship.faction)] [initial(target_ship.name)]?", ROLE_GHOSTSHIP, /datum/role_preference/midround_ghost/ghost_ship, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
 					if(LAZYLEN(candidates))
 						var/mob/dead/observer/C = pick(candidates)
 						target_ghost = C

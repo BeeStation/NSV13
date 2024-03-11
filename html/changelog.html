@@ -56,220 +56,71 @@
 		-->
 		<div class="commit sansserif">
 
-			<h2 class="date">21 September 2023</h2>
-			<h3 class="author">BlueHNT updated:</h3>
+			<h2 class="date">23 February 2024</h2>
+			<h3 class="author">Bokkiewokkie updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Added new Ju Jitsu move</li>
-				<li class="tweak">Tweaked Ju Jitsu</li>
+				<li class="bugfix">Replaced Tycoon's redundant torpedo tubes</li>
+			</ul>
+
+			<h2 class="date">19 February 2024</h2>
+			<h3 class="author">PestoVerde322, XeonMations updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added the ability to choose the direction of any office chair you are sitting in by moving</li>
+				<li class="bugfix">Shuttle chairs and Corporate chairs are now impossible to pick up and transformed into normal Fancy chairs.</li>
+			</ul>
+
+			<h2 class="date">16 February 2024</h2>
+			<h3 class="author">PowerfulBacon updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fixes the round not rebooting properly.</li>
+				<li class="code_imp">Adds in a task library for asynchronous behaviour handling.</li>
+			</ul>
+
+			<h2 class="date">19 January 2024</h2>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="refactor">The Torp and Missile factory automation machinery has been rewritten almost entirely to make it less clunky and more fun.</li>
+				<li class="rscadd">Automated Assemblers will now pick up components of the last manually inserted type if they pass in front of them!</li>
+				<li class="bugfix">The Thirring Drive Core sound loop you have never heard before works now!</li>
+				<li class="bugfix">The client_by_z list shouldn't be getting flooded with nulls anymore.</li>
+			</ul>
+
+			<h2 class="date">13 January 2024</h2>
+			<h3 class="author">Bokkiewokkie updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added the option to get another ticket objective if Rubicon is already cleared</li>
+				<li class="tweak">Increased Rubicon objective player requirement to 10</li>
+				<li class="tweak">Mission briefing names will now be consistent in a round</li>
+				<li class="balance">Fleets will now be stronger after the main mission is done</li>
+				<li class="admin">Added button to hide/unhide a system on the starsystem manager</li>
+				<li class="admin">Automatically unhides systems selected for the "clear system" objective</li>
 			</ul>
 			<h3 class="author">DeltaFire15 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Overmap objects with players should be a bit less likely to get stuck in nullspace.</li>
+				<li class="rscadd">Overmap singularities now have more impactful effects, including but not limited to increased gravity inside nearby vessels, dampener interference, and improved directional pull.</li>
+				<li class="rscadd">Full hardsuits now provide 1G gravity protection against damage, though they do not improve movement.</li>
+				<li class="balance">Silicons will suffer from consistently very high gravity, starting at above 8G.</li>
+				<li class="tweak">Some interactions with high gravity previously limited to grav-sensitive individuals now are accessible to anyone, albeit at lower magnitude (generally 3G higher tolerance)</li>
+				<li class="bugfix">Starsystem persistence should now be slightly less volatile.</li>
+				<li class="config">The starsystem persistence config MUST be reset to the default starmap for the fixes in this PR to apply correctly.</li>
 			</ul>
-			<h3 class="author">Ikalpo updated:</h3>
+			<h3 class="author">covertcorvid updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">fixed VLS eating torps that get unloaded</li>
-			</ul>
-			<h3 class="author">bruhlookatthisdood updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixes snake atmospherics having wrong injector and vent types in fuel mix chamber</li>
-				<li class="bugfix">Fixes snake atmospherics having wrong vent type in air chamber</li>
-				<li class="bugfix">Fixes snake atmospherics's nucleium chamber missing sensor, canister, vent, and injector</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">FLARE added to Tycoon</li>
-				<li class="rscadd">Added lift button to Gladius mining hanger</li>
-				<li class="bugfix">fixed Gladius cell lockers not being genpop lockers</li>
+				<li class="bugfix">fixed the database query for the round endings</li>
 			</ul>
 
-			<h2 class="date">01 September 2023</h2>
+			<h2 class="date">03 January 2024</h2>
 			<h3 class="author">Bokkiewokkie updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed return vote spamming with the comms console</li>
-				<li class="bugfix">Fixed forced return jumps not jumping while the ship was in transit</li>
-				<li class="refactor">Refactored some starsystem code which determines the system to make a return jump to</li>
-				<li class="admin">Added the ability for the return system to be changed on runtime</li>
-				<li class="config">The return jump target system is now changeable in the map config</li>
+				<li class="imageadd">Changed Syndicate small craft color scheme to be more red</li>
+				<li class="code_imp">Renamed syndicate sabre and rapier sprite files</li>
 			</ul>
+
+			<h2 class="date">29 December 2023</h2>
 			<h3 class="author">DeltaFire15 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">FTL Pylons are now not doomed to run out of nucleium even when supplied.</li>
-				<li class="bugfix">FTL Pylons with closed shielding now actually have an increasing nucleium demand..</li>
-				<li class="tweak">FTL Pylons need multiple cycles of failed power to shut down (to prevent power code oddities)</li>
-				<li class="balance">FTL Pylons now also output plasma when they are running, instead of only when booting (why did they not?)</li>
-				<li class="code_imp">Improves various other bits and pieces of code related to FTL Pylons that do not need individual mention</li>
-			</ul>
-			<h3 class="author">SerynEngi updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added wire nodes for all Sec Dept. doors and windows on the Galactica</li>
-				<li class="rscadd">Added an breathing air tank dispenser to atmos storage on the Galactica</li>
-				<li class="rscadd">Added 4 borg chargers to the lower deck of the Galactica in various locations.</li>
-				<li class="bugfix">Added disposals output to gulag torp disposal pipe in munitions on the galactica.</li>
-				<li class="bugfix">Fixed a couple mapping issues with the Galactica Xenobio</li>
-				<li class="bugfix">Corrected Sec Dept. Airlock permissions on the Galactica</li>
-				<li class="bugfix">Properly connected PDSR output piping</li>
-				<li class="balance">Increased radiation emission from Particle Accelerator particles and plutonium sludge.</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Ecto Sniffer has a cooldown for radio messages, and can now send visible_messages</li>
-			</ul>
-
-			<h2 class="date">25 August 2023</h2>
-			<h3 class="author">BlueHNT updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added Glock AP magazine and ammo box</li>
-				<li class="rscadd">Added Glock I magazine and ammo box</li>
-				<li class="rscadd">Added Glock-related designs to proto-lathe</li>
-			</ul>
-			<h3 class="author">Bokkiewokkie updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added an emag effect to plasma constrictors</li>
-				<li class="tweak">Combined Stormdrive RCC and plasma constrictor tech into one</li>
-				<li class="bugfix">Fixed constrictors not pixel shifting on different layers</li>
-				<li class="bugfix">Made it possible for constrictors to be rotated</li>
-				<li class="code_imp">Moved plasma constrictors into their own file</li>
-				<li class="bugfix">Fixed VV menu not showing new turfs after deleting a turf</li>
-				<li class="bugfix">Fixed admins adding components not logging the object it was added to</li>
-			</ul>
-			<h3 class="author">Ikalpo updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixed the holomap not working when inside objects</li>
-				<li class="tweak">The holomap cursor now shows the location of your camera</li>
-			</ul>
-			<h3 class="author">SerynEngi updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Added normal armor to all overmap ships.</li>
-			</ul>
-			<h3 class="author">bruhlookatthisdood updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">torpedo crate comes with torpedo warheads now</li>
-				<li class="bugfix">fixed borg crew manifest button overlapping</li>
-			</ul>
-			<h3 class="author">cacogen, Profakos updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Modifying a navigation beacon's codes list or location name now correctly updates the associated global lists</li>
-				<li class="refactor">Refactored navigational beacons, making them constructable, deconstructable, and generally easier to use</li>
-			</ul>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Make gun deletion actually pass in a source to UnregisterSignal</li>
-			</ul>
-
-			<h2 class="date">18 August 2023</h2>
-			<h3 class="author">BlueHNT updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="balance">rebalanced MP16 burst by giving it a burst</li>
-			</ul>
-			<h3 class="author">Bokkiewokkie updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added secborg ballistic guns</li>
-				<li class="rscdel">Removed secborg laser guns</li>
-				<li class="config">Enables secborg module researching</li>
-			</ul>
-			<h3 class="author">SerynEngi updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Rebuild Atlas atmospherics for ease of use.</li>
-			</ul>
-			<h3 class="author">bruhlookatthisdood updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">simplemods can no longer drive tugs</li>
-				<li class="bugfix">APNW can be set to zero now.</li>
-			</ul>
-
-			<h2 class="date">11 August 2023</h2>
-			<h3 class="author">BetaCentari updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Tweaked some aspects of the Whisp</li>
-				<li class="rscadd">added xeno artifact area in Science on Whisp</li>
-				<li class="rscadd">added more doors to Whisp engineering for better pathing</li>
-				<li class="rscadd">added Z-Locks. Everywhere. On Whisp.</li>
-			</ul>
-			<h3 class="author">BlueHNT updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixed snake disposal issues</li>
-				<li class="bugfix">fixed snake conquest issues</li>
-				<li class="tweak">Tweaked Warden's round start equipment</li>
-				<li class="rscadd">Added MP armor crate</li>
-				<li class="rscadd">Added 1911 crates (Single, Triple, 6Magazine + 2Ammobox)</li>
-				<li class="tweak">Added ballistic helmets to ballistic armor shipment</li>
-				<li class="bugfix">fixed Prisoner Management Console</li>
-				<li class="bugfix">fixed Gulag teleporter build values</li>
-			</ul>
-			<h3 class="author">Bobbanz1 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added the Coffee Addict quirk, it works similar to the smoker quirk but makes you addicted to coffee instead!</li>
-				<li class="rscadd">Added the Naval Coffee Addict quirk, it works similar to the smoker quirk but makes you addicted to naval coffee instead, better stock up on coffee cartridges!</li>
-			</ul>
-			<h3 class="author">DrSirKnight updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added the syndicate maid kit for 20 TC</li>
-				<li class="bugfix">Syndicate maid gloves now show up when equipped</li>
-				<li class="bugfix">Syndicate maid apron now shows up when added to an outfit</li>
-				<li class="balance">Makes felinids less vulnerable to ear damage</li>
-				<li class="rscadd">Added a maid outfit to the torp shop</li>
-				<li class="rscadd">Added the black skirt to the torp shop</li>
-				<li class="bugfix">Fixes suitbox slowdown not being removed for certain occasions</li>
-			</ul>
-			<h3 class="author">SerynEngi updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added backpacks, spare IDs and several other items to the HomeOne</li>
-				<li class="bugfix">Removed access requirements from various things on the HomeOne</li>
-				<li class="bugfix">Added Cargo Accept/Reject stamps, Xenobio Console, and tiny-fans to the HOS office doors on the Hammerhead</li>
-				<li class="bugfix">Removed heavy firelocks from the Hammerhead's Hangar</li>
-				<li class="bugfix">Placed supply piping properly on layer 2 and the scrubber network on layer 4 on the Hammerhead</li>
-				<li class="bugfix">Minor atmos adjustments throughout the map on the Hammerhead</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Target ships from the boarding gamemode will no longer be targeted by AI fleets</li>
-				<li class="tweak">Trader station UI now autoupdate</li>
-				<li class="bugfix">fixes a issue where SolGov fleets would threaten allied ships</li>
-			</ul>
-
-			<h2 class="date">04 August 2023</h2>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixed prisoner console not giving brief</li>
-			</ul>
-
-			<h2 class="date">28 July 2023</h2>
-			<h3 class="author">BlueHNT updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixed a typo</li>
-			</ul>
-			<h3 class="author">Bobbanz1, KasparoVy, Fikou, Seris02, GoldenAlpharex, Serijas for the Cyborg sprites, Reco201 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added a new cyborg module: Cargo Cyborgs! Paperwork experts and aces at delivery, they'll truly complement the Silicon gameplay by finally allowing you to scratch that forms-filling itch you had for so long!</li>
-				<li class="bugfix">Fixed cyborgs re-generating a bunch of icons every time they'd pick a model, with more optimizations to that to come.</li>
-				<li class="rscadd">Cargo Borgs now come equip with a export scanner.</li>
-				<li class="rscadd">Added a new cyborg upgrade to Engineering borgs which allows them to perform some munitions work!</li>
-				<li class="refactor">refactored the borg icon stuff to allow for easier implementation of other skins for borg modules</li>
-				<li class="balance">Cargoborgs upgraded clamp can now carry two wrapped crates instead of one.</li>
-			</ul>
-			<h3 class="author">Bokkiewokkie updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixed holomaps breaking when deleted</li>
-			</ul>
-			<h3 class="author">Nabski updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="imageadd">Renault has a dopey walk animation now, god bless.</li>
-			</ul>
-			<h3 class="author">SerynEngi updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="balance">Increased bullet armor values of all standard armor and armored hardsuits.</li>
-				<li class="balance">Decreased laser armor values of all standard armor and armored hardsuits.</li>
-				<li class="rscadd">Added request consoles to various locations within Medical, Munitions, and Engineering on the Tycoon</li>
-				<li class="bugfix">Corrected atmos and power connection near the Stormdrive on the Tycoon</li>
-				<li class="bugfix">Corrected department budget draw for request consoles on the Tycoon</li>
-			</ul>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Squad manager PDA program is once again restricted to heads</li>
-				<li class="rscadd">Add limit on number of VLS shots fired at once to AMS control console</li>
-				<li class="rscdel">Removed arrivals shuttles</li>
-				<li class="tweak">Late joiners will now spawn near the cryostasis pods</li>
+				<li class="bugfix">Syndicate AI boarders no longer silently breach your hull.</li>
+				<li class="bugfix">Thirring Drive Pylons should no longer be able to get stuck in the "shutting down" state.</li>
 			</ul>
 		</div>
 

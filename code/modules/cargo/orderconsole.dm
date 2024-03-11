@@ -99,6 +99,9 @@
 	if(SSshuttle.supplyBlocked)
 		message = blockade_warning
 	data["message"] = message
+	// NSV13 - Mail Control - Start
+	data["mail"] = SSshuttle.supply.send_mail
+	// NSV13 - Mail Control - Stop
 	//NSV13 - Cargo Sleaker UI - Start
 	var/cart_list = list()
 	for(var/datum/supply_order/order in SSshuttle.shoppinglist)
@@ -285,6 +288,12 @@
 		if("toggleprivate")
 			self_paid = !self_paid
 			. = TRUE
+		// NSV13 - Mail Control - Start
+		if("togglemail")
+			var/accepting_mail = SSshuttle.supply.send_mail
+			SSshuttle.supply.send_mail = !accepting_mail
+			. = TRUE
+		// NSV13 - Mail Control - Stop
 	if(.)
 		post_signal("supply")
 

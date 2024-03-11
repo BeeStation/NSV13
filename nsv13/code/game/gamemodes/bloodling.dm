@@ -2,7 +2,8 @@
 	name = "bloodling"
 	config_tag = "bloodling"
 	report_type = "bloodling"
-	antag_flag = ROLE_BLOODLING
+	role_preference = /datum/role_preference/antagonist/bloodling
+	antag_datum = /datum/antagonist/bloodling
 	false_report_weight = 10
 	restricted_jobs = list("AI", "Cyborg")
 	protected_jobs = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN, JOB_NAME_BRIGPHYSICIAN)
@@ -108,19 +109,21 @@ Helper proc to spawn the lil' blood alien creature in a vent! Adapted from alien
 	if(master) //There's already a master
 		return
 	if(bloodlings.len < bloodling_amount)
-		if(ROLE_BLOODLING in character.client.prefs.be_special)
-			if(!is_banned_from(character.ckey, list(ROLE_BLOODLING, ROLE_SYNDICATE)) && !QDELETED(character))
-				if(age_check(character.client))
-					if(!(character.job in restricted_jobs))
-						if(!master) //Make him the master
-							master = spawn_bloodling()
-							if(!master)
-								return FALSE //yeah okay your shit map doesn't support bloodling RIP
-							master.key = character.client.ckey
-							bloodlings += master.mind
-							qdel(character) //Bye!
-						//Otherwise, make him a new thrall...
-						character.mind.add_antag_datum(/datum/antagonist/changeling/bloodling_thrall)
+		if(!QDELETED(character) && character.client?.should_include_for_role(
+			banning_key = initial(antag_datum.banning_key),
+			role_preference_key = role_preference,
+			req_hours = initial(antag_datum.required_living_playtime),
+		))
+			if(!(character.job in restricted_jobs))					if(!(character.job in restricted_jobs))
+				if(!master) //Make him the master
+					master = spawn_bloodling()
+					if(!master)
+						return FALSE //yeah okay your shit map doesn't support bloodling RIP
+					master.key = character.client.ckey
+					bloodlings += master.mind
+					qdel(character) //Bye!
+				//Otherwise, make him a new thrall...
+				character.mind.add_antag_datum(/datum/antagonist/changeling/bloodling_thrall)
 
 
 /datum/game_mode/bloodling/generate_report()

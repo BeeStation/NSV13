@@ -1252,6 +1252,7 @@
 	update_freelook_sight()
 	sleep(door_animation_speed) //Nsv13 - SPEEDY DOORS
 	density = FALSE
+	flags_1 &= ~PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	air_update_turf(1)
 	sleep(1)
 	layer = OPEN_DOOR_LAYER
@@ -1298,10 +1299,14 @@
 	layer = CLOSED_DOOR_LAYER
 	if(air_tight)
 		density = TRUE
+		if(!(flags_1 & ON_BORDER_1))//NSV but not border firelocks
+			flags_1 |= PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 		air_update_turf(1)
 	sleep(1)
 	if(!air_tight)
 		density = TRUE
+		if(!(flags_1 & ON_BORDER_1))//NSV but not border firelocks
+			flags_1 |= PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 		air_update_turf(1)
 	sleep(door_animation_speed) //Nsv13 - SPEEDY DOORS
 	if(!safe)

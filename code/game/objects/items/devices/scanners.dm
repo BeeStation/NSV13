@@ -359,7 +359,7 @@ GENE SCANNER
 		else if(S.mutantstomach != initial(S.mutantstomach))
 			mutant = TRUE
 
-		to_chat(user, "<span class='info'>Species: [S.name][mutant ? "-derived mutant" : ""]</span>")
+		to_chat(user, "<span class='info'>Species: <span class='[H.species_examine_font()]'>[S.name][mutant ? "-derived mutant" : ""]</span></span>") //NSV13 - species name is colored depending on special conditions.
 	to_chat(user, "<span class='info'>Body temperature: [round(M.bodytemperature-T0C,0.1)] &deg;C ([round(M.bodytemperature*1.8-459.67,0.1)] &deg;F)</span>")
 
 	// Time of death

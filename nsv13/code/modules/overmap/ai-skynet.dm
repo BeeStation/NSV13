@@ -716,7 +716,7 @@ Adding tasks is easy! Just define a datum for it.
 			var/target_location = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), OM.z)
 			var/obj/structure/overmap/selected_ship = pick(ship_list)
 			var/target_ghost
-			var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [initial(selected_ship.faction)] [initial(selected_ship.name)]?", ROLE_GHOSTSHIP, null, null, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
+			var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [initial(selected_ship.faction)] [initial(selected_ship.name)]?", ROLE_GHOSTSHIP, /datum/role_preference/midround_ghost/ghost_ship, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
 			if(LAZYLEN(candidates))
 				var/mob/dead/observer/C = pick(candidates)
 				target_ghost = C
@@ -1970,7 +1970,7 @@ Seek a ship thich we'll station ourselves around
 /obj/structure/overmap/proc/move_toward(atom/target, ram_target = FALSE, ignore_all_collisions = FALSE)
 	brakes = FALSE
 	move_mode = NORTH
-	inertial_dampeners = TRUE
+	enable_dampeners()
 	if(!target || QDELETED(target))
 		if(defense_target) //Maybe it's defending a ship, it'll still need to find its way home.
 			target = defense_target
@@ -2011,10 +2011,10 @@ Seek a ship thich we'll station ourselves around
 		if(blocked) //Time to do some evasive. Determine the object's direction to evade in the opposite direction.
 			if(blocked.velocity.a > 0)
 				move_mode = EAST //The ship should still drift forward / backwards, but in this case let's not accelerate into an asteroid shall we...
-				inertial_dampeners = FALSE
+				disable_dampeners()
 			if(blocked.velocity.a <= 0)
 				move_mode = WEST
-				inertial_dampeners = FALSE
+				disable_dampeners()
 			return
 
 

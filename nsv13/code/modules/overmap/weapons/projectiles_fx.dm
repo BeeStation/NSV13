@@ -1,3 +1,8 @@
+
+///Special proc for hitting overmap ships only used by NSV projectiles.
+/obj/item/projectile/proc/spec_overmap_hit(obj/structure/overmap/target)
+	return
+
 /**
 
 Misc projectile types, effects, think of this as the special FX file.
@@ -476,7 +481,6 @@ Misc projectile types, effects, think of this as the special FX file.
 	if(!check_faction(target))
 		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 	if(isovermap(target)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
-		spec_overmap_hit(target)
 		return BULLET_ACT_HIT
 	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
 	if(isprojectile(target) && P.faction != faction && !P.nodamage) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
@@ -493,9 +497,6 @@ Misc projectile types, effects, think of this as the special FX file.
 	else
 		return FALSE
 	return BULLET_ACT_HIT
-
-/obj/item/projectile/guided_munition/proc/spec_overmap_hit(obj/structure/overmap/target)
-	return
 
 /obj/item/projectile/guided_munition/torpedo/disruptor/spec_overmap_hit(obj/structure/overmap/target)
 	if(length(target.occupying_levels))

@@ -1,3 +1,25 @@
+/obj/effect/mob_spawn/human/syndicate
+	name = "Syndicate Operative"
+	roundstart = FALSE
+	death = FALSE
+	icon = 'icons/obj/machines/sleeper.dmi'
+	icon_state = "sleeper_s"
+	outfit = /datum/outfit/syndicate_empty
+	assignedrole = "Space Syndicate"	//I know this is really dumb, but Syndicate operative is nuke ops
+
+/datum/outfit/syndicate_empty
+	name = "Syndicate Operative Empty"
+	uniform = /obj/item/clothing/under/syndicate
+	shoes = /obj/item/clothing/shoes/combat
+	gloves = /obj/item/clothing/gloves/combat
+	ears = /obj/item/radio/headset/syndicate/alt
+	back = /obj/item/storage/backpack
+	implants = list(/obj/item/implant/weapons_auth)
+	id = /obj/item/card/id/syndicate
+
+/datum/outfit/syndicate_empty/post_equip(mob/living/carbon/human/H)
+	H.faction |= FACTION_SYNDICATE
+
 /datum/outfit/syndicate_empty/boarding/captain
 	name = "Syndicate Captain (Boarding)"
 	id = /obj/item/card/id/syndicate/nuke_leader

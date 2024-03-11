@@ -49,10 +49,12 @@
 		sys_inf["visited"] = 0
 		sys_inf["hidden"] = (SS.sector != current_sector)
 		var/label = ""
+		if(SS.hidden)
+			label += " HIDDEN"
 		if(SS.is_hypergate)
 			label += " HYPERGATE"
 		if(SS.is_capital && !label)
-			label = "CAPITAL"
+			label = " CAPITAL"
 		if(SS.trader && SS.sector != 3) //Use shortnames in brazil for readability
 			label = " [SS.trader.name]"
 		if(SS.trader && SS.sector == 3) //Use shortnames in brazil for readability
@@ -220,6 +222,11 @@
 				usr.client.debug_variables(target)
 			if(command == "Delete")
 				usr.client.cmd_admin_delete(target)
+		if("hideSystem")
+			var/datum/star_system/target = locate(params["sys_id"])
+			if(!istype(target))
+				return
+			target.hidden = !target.hidden
 		if("systemVV")
 			var/datum/star_system/target = locate(params["sys_id"])
 			if(!istype(target))

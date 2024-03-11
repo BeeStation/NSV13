@@ -55,7 +55,7 @@
 	radio.keyslot = new radio_key
 	radio.listening = 0
 	radio.recalculateChannels()
-	soundloop = new(list(src), FALSE, FALSE, CHANNEL_FTL_MANIFOLD, TRUE)
+	soundloop = new(src, FALSE, FALSE, CHANNEL_FTL_MANIFOLD, TRUE)
 	STOP_PROCESSING(SSmachines, src)
 	return INITIALIZE_HINT_LATELOAD
 
@@ -363,6 +363,8 @@ Preset classes of FTL drive with pre-programmed behaviours
 	jump_speed_pylon = initial(jump_speed_pylon)
 	if(shutdown_pylons)
 		for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P as() in pylons)
+			if(P.pylon_state == PYLON_STATE_OFFLINE || P.pylon_state == PYLON_STATE_SHUTDOWN)
+				continue
 			P.set_state(PYLON_STATE_SHUTDOWN)
 	cooldown = TRUE
 	addtimer(CALLBACK(src, PROC_REF(post_cooldown), auto_spool_enabled), FTL_COOLDOWN)

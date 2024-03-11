@@ -205,15 +205,16 @@
 	var/mutable_appearance/c_screen
 
 
-/obj/machinery/shield_generator/proc/absorb_hit(damage)
+/obj/machinery/shield_generator/proc/absorb_hit(obj/item/projectile/proj)
+	var/damage = proj.damage
 	if(!active)
-		return FALSE //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
+		return SHIELD_NOEFFECT //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
 
 	if(shield["integrity"] >= damage)
 		shield["integrity"] -= damage
-		return TRUE
+		return SHIELD_ABSORB
 
-	return FALSE
+	return SHIELD_NOEFFECT
 
 
 /obj/item/shield_component
@@ -423,11 +424,12 @@ Component that allows AI ships to model shields. Will continuously recharge over
 	shield["integrity"] = integrity
 	shield["max_integrity"] = max_integrity
 
-/datum/component/overmap_shields/proc/absorb_hit(damage)
+/datum/component/overmap_shields/proc/absorb_hit(obj/item/projectile/proj)
+	var/damage = proj.damage
 	if(!active)
-		return FALSE //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
+		return SHIELD_NOEFFECT //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
 	if(shield["integrity"] >= damage)
 		shield["integrity"] -= damage
-		return TRUE
-	return FALSE
+		return SHIELD_ABSORB
+	return SHIELD_NOEFFECT
 

@@ -715,23 +715,15 @@ The reactor CHEWS through moderator. It does not do this slowly. Be very careful
 	var/datum/radio_frequency/radio_connection
 	var/on = FALSE
 
-/obj/machinery/computer/reactor/pump/AltClick(mob/user)
+/obj/machinery/computer/reactor/pump/interact(mob/living/user)
 	. = ..()
-	var/newPressure = input(user, "Set new output pressure (kPa)", "Remote pump control", null) as num
+	var/newPressure = input(user, "Set new output pressure (kPa)", "Remote pump control", null) as null|num
 	if(!newPressure)
 		return
 	newPressure = clamp(newPressure, 0, MAX_OUTPUT_PRESSURE) //Number sanitization is not handled in the pumps themselves, only during their ui_act which this doesn't use.
 	signal(on, newPressure)
 
-/obj/machinery/computer/reactor/attack_robot(mob/user)
-	. = ..()
-	attack_hand(user)
-
-/obj/machinery/computer/reactor/attack_ai(mob/user)
-	. = ..()
-	attack_hand(user)
-
-/obj/machinery/computer/reactor/pump/attack_hand(mob/living/user)
+/obj/machinery/computer/reactor/pump/AltClick(mob/user)
 	. = ..()
 	if(!is_operational)
 		return FALSE

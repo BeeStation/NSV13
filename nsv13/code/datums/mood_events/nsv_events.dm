@@ -43,6 +43,11 @@
 	mood_change = 10
 	timeout = 10 MINUTES
 
+/datum/mood_event/drink_navy_coffee/add_effects(list/faction)
+	if("Syndicate" in faction)
+		description = "<span class='nicegreen'><b>THAT SHIT TASTED FUCKING DELICIOUS LET'S GO FUCK SOME NANOTRASEN SHIPS UP, NAVY FOR LIFE WOOOOOO!!</b></span>\n"
+
+
 /datum/mood_event/cheers
 	description = "<span class='nicegreen'>Cheers! ¡Salud! Kanpai! Prost! Skål! Santé! Sláinte! Saúde!</span>\n"
 	mood_change = 3

@@ -18,17 +18,32 @@ Bullet reactions
 /obj/structure/overmap/bullet_act(obj/item/projectile/P)
 	if(istype(P, /obj/item/projectile/beam/overmap/aiming_beam))
 		return
-	if(shields && shields.absorb_hit(P.damage))
-		var/damage_sound = pick('nsv13/sound/effects/ship/damage/shield_hit.ogg', 'nsv13/sound/effects/ship/damage/shield_hit2.ogg')
-		if(!impact_sound_cooldown)
-			new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src)
-			relay(damage_sound)
-			if(P.damage >= 15) //Flak begone
-				shake_everyone(5)
-			impact_sound_cooldown = TRUE
-			addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 0.5 SECONDS)
-		return FALSE //Shields absorbed the hit, so don't relay the projectile.
+	if(shields)
+		var/shield_result = shields.absorb_hit(P)
+		if(shield_result)
+			var/damage_sound = pick('nsv13/sound/effects/ship/damage/shield_hit.ogg', 'nsv13/sound/effects/ship/damage/shield_hit2.ogg')
+			if(!impact_sound_cooldown)
+				new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src)
+				relay(damage_sound)
+				if(P.damage >= 15) //Flak begone
+					shake_everyone(5)
+				impact_sound_cooldown = TRUE
+				addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 0.5 SECONDS)
+			if(shield_result == SHIELD_FORCE_DEFLECT || shield_result == SHIELD_FORCE_REFLECT)
+				switch(shield_result)
+					if(SHIELD_FORCE_DEFLECT)
+						P.setAngle((P.Angle + rand(25, 50) + (prob(50) ? 0 : 285)) % 360)
+					if(SHIELD_FORCE_REFLECT)
+						P.setAngle((P.Angle + rand(160, 200)) % 360)
+					else
 
+				P.faction = null //We go off the rails.
+				P.homing_target = null
+				P.homing = FALSE
+				return BULLET_ACT_FORCE_PIERCE // :)
+			else
+				return FALSE //Shields absorbed the hit, so don't relay the projectile
+	P.spec_overmap_hit(src)
 	var/relayed_type = P.relay_projectile_type ? P.relay_projectile_type : P.type
 	relay_damage(relayed_type)
 	if(!use_armour_quadrants)
