@@ -650,12 +650,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<br>"
 
 			dat += "<b>Income Updates:</b> <a href='?_src_=prefs;preference=income_pings'>[(chat_toggles & CHAT_BANKCARD) ? "Allowed" : "Muted"]</a><br>"
+			dat += "</td>" // left box closed
 
+			// right box
+			dat += "<td width='400px' height='300px' valign='top'>"
 			dat += "<h2>TGUI Settings</h2>"
 			dat += "<b>Monitor Lock:</b> <a href='?_src_=prefs;preference=tgui_lock'>[(toggles2 & PREFTOGGLE_2_LOCKED_TGUI) ? "Primary" : "All"]</a><br>"
 			dat += "<b>Window Style:</b> <a href='?_src_=prefs;preference=tgui_fancy'>[(toggles2 & PREFTOGGLE_2_FANCY_TGUI) ? "Fancy (Borderless)" : "System Window"]</a><br>"
 			dat += "<br>"
-		//	dat += "</td>" // left box closed //NSV13 - Unknown what this does
 			dat += "<h3>TGUI Input</h3>"
 			dat += "<b>Input Engine:</b> <a href='?_src_=prefs;preference=tgui_input'>[(toggles2 & PREFTOGGLE_2_TGUI_INPUT) ? "TGUI" : "Classic"]</a><br>"
 			dat += "<b>Button Size:</b> <a href='?_src_=prefs;preference=tgui_big_buttons'>[(toggles2 & PREFTOGGLE_2_BIG_BUTTONS) ? "Large" : "Small"]</a><br>"
@@ -666,9 +668,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>Say Theme:</b> <a href='?_src_=prefs;preference=tgui_say_light'>[(toggles2 & PREFTOGGLE_2_SAY_LIGHT_THEME) ? "Light" : "Dark"]</a><br>"
 			dat += "<b>Radio Prefixes:</b> <a href='?_src_=prefs;preference=tgui_say_radio_prefix'>[(toggles2 & PREFTOGGLE_2_SAY_SHOW_PREFIX) ? "Show" : "Hidden"]</a><br>"
 
-			dat += "<h2>Graphics Settings</h2>"
-			// right box
-			dat += "<td width='400px' height='300px' valign='top'>"
 			dat += "<h2>Graphics Settings</h2>"
 			dat += "<b>FPS:</b> <a href='?_src_=prefs;preference=clientfps;task=input'>[clientfps]</a><br>"
 
