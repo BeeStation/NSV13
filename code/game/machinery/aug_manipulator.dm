@@ -8,7 +8,8 @@
 	max_integrity = 200
 	var/obj/item/bodypart/storedpart
 	var/initial_icon_state
-	var/static/list/style_list_icons = list("standard" = 'icons/mob/augmentation/augments.dmi', "engineer" = 'icons/mob/augmentation/augments_engineer.dmi', "security" = 'icons/mob/augmentation/augments_security.dmi', "mining" = 'icons/mob/augmentation/augments_mining.dmi')
+	var/static/list/style_list_icons = list("standard" = 'icons/mob/augmentation/augments.dmi', "engineer" = 'icons/mob/augmentation/augments_engineer.dmi', "security" = 'icons/mob/augmentation/augments_security.dmi', "mining" = 'icons/mob/augmentation/augments_mining.dmi', "veymed" = 'icons/mob/augmentation/veymed.dmi')
+
 
 /obj/machinery/aug_manipulator/examine(mob/user)
 	. = ..()
