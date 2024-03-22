@@ -1,5 +1,11 @@
 // Radios use a large variety of predefined frequencies.
 
+// ------------------------------------------------------------------------------------
+//
+// If you update these PLEASE update [[tgui\packages\tgui-say\constants\index.tsx]]
+//
+// ------------------------------------------------------------------------------------
+
 //say based modes like binary are in living/say.dm
 
 #define RADIO_CHANNEL_COMMON "Common"

@@ -209,8 +209,10 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	GLOB.clients += src
 	GLOB.directory[ckey] = src
 
-		// Instantiate tgui panel
-	tgui_panel = new(src)
+	// Instantiate tgui panel
+	tgui_panel = new(src, "browseroutput")
+
+	tgui_say = new(src, "tgui_say")
 
 	GLOB.ahelp_tickets.ClientLogin(src)
 	GLOB.interviews.client_login(src)
@@ -339,6 +341,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 	// Initialize tgui panel
 	tgui_panel.Initialize()
+
+	tgui_say.initialize()
 
 	if(alert_mob_dupe_login && !holder)
 		var/dupe_login_message = "Your ComputerID has already logged in with another key this round, please log out of this one NOW or risk being banned!"
