@@ -167,6 +167,6 @@
 		return OM.check_overmap_elegibility(ignore_position = TRUE)
 	return ..()
 
-/turf/open/floor/engine/nucleum
-	name = "Nucleum Floor"
-	initial_gas_mix = ATMOS_TANK_NUCLEUM
+/turf/open/floor/engine/nucleium
+	name = "Nucleium Floor"
+	initial_gas_mix = ATMOS_TANK_NUCLEIUM
