@@ -38,7 +38,7 @@
 
 /datum/config_entry/can_vv_get(var_name)
 	. = ..()
-	if(var_name == NAMEOF_STATIC(src, config_entry_value) || var_name == NAMEOF_STATIC(src, default))
+	if(var_name == NAMEOF(src, config_entry_value) || var_name == NAMEOF(src, default))
 		. &= !(protection & CONFIG_ENTRY_HIDDEN)
 
 /datum/config_entry/vv_edit_var(var_name, var_value)
