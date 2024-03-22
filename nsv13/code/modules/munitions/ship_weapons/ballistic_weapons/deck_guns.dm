@@ -837,6 +837,7 @@
 		return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/ship_weapon/deck_turret/LateInitialize()
+	. = ..()
 	link_via_id()
 
 /obj/machinery/ship_weapon/deck_turret/RefreshParts()//using this proc to create the parts instead

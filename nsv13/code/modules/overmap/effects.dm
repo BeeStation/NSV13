@@ -24,11 +24,6 @@
 	anchored = TRUE
 
 /obj/effect/particle_effect/phoron_explosion/Initialize(mapload)
-	..()
-	return INITIALIZE_HINT_LATELOAD
-
-/obj/effect/particle_effect/phoron_explosion/LateInitialize()
+	. = ..()
 	QDEL_IN(src, 1.5 SECONDS)
 
-/obj/effect/particle_effect/phoron_explosion/Destroy()
-	return ..()

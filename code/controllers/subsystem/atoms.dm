@@ -132,7 +132,8 @@ SUBSYSTEM_DEF(atoms)
 				qdeleted = TRUE
 			else
 				BadInitializeCalls[the_type] |= BAD_INIT_NO_HINT
-
+	if(qdeleted) //you are GONE (nsv13, but fine to replace in update)
+		return TRUE
 	if(!A)	//possible harddel
 		qdeleted = TRUE
 	else if(!(A.flags_1 & INITIALIZED_1))

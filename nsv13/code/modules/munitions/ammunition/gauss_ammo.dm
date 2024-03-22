@@ -36,9 +36,6 @@
 	var/goal = 45 SECONDS
 	var/ready = FALSE
 
-/obj/machinery/gauss_dispenser/Initialize(mapload)
-	. = ..()
-
 /obj/machinery/gauss_dispenser/RefreshParts()
 	progress_rate = 0 SECONDS
 	for(var/obj/item/stock_parts/S in component_parts)

@@ -31,8 +31,7 @@
 	bound_x = -64
 
 /obj/machinery/ship_weapon/torpedo_launcher/cargo/Initialize(mapload)
-	..()
-
+	. = ..()
 	if(!linked_dradis)
 		if(launcher_id) //If mappers set an ID
 			for(var/obj/machinery/computer/ship/dradis/minor/cargo/W in GLOB.machines)

@@ -39,7 +39,7 @@
 	var/output_path = /obj/machinery/ship_weapon/deck_turret
 
 /obj/structure/ship_weapon/artillery_frame/Initialize(mapload)
-	..()
+	. = ..()
 	LAZYINITLIST(contents)
 
 /obj/structure/ship_weapon/artillery_frame/examine(mob/user)

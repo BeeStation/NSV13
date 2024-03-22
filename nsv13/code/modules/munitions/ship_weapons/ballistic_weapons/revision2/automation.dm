@@ -345,7 +345,7 @@
 	var/list/linked_sorters = list()
 
 /obj/machinery/computer/ammo_sorter/Initialize(mapload, obj/item/circuitboard/C)
-	..()
+	. = ..()
 	if(mapload)
 		return INITIALIZE_HINT_LATELOAD
 
