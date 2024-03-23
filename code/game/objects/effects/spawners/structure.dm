@@ -102,7 +102,7 @@ again.
 //Alarm grilles for prison wing
 /obj/effect/spawner/structure/window/reinforced/prison
 	name = "prison window spawner"
-	spawn_list = list(/obj/structure/grille/prison, /obj/structure/window/reinforced/fulltile)
+	spawn_list = list(/obj/machinery/door/firedoor/window, /obj/structure/grille/prison, /obj/structure/window/reinforced/fulltile) //NSV13, adds window firedoors to window spawners
 
 //reinforced shutter
 /obj/effect/spawner/structure/window/reinforced/shutter
