@@ -8,7 +8,7 @@
 	max_integrity = 200
 	var/obj/item/bodypart/storedpart
 	var/initial_icon_state
-	var/static/list/style_list_icons = list("standard" = 'icons/mob/augmentation/augments.dmi', "engineer" = 'icons/mob/augmentation/augments_engineer.dmi', "security" = 'icons/mob/augmentation/augments_security.dmi', "mining" = 'icons/mob/augmentation/augments_mining.dmi', "veymed female" = 'icons/mob/augmentation/veymed.dmi', "veymed male" = 'icons/mob/augmentation/veymedm.dmi', "shellguard" = 'icons/mob/augmentation/shellguard.dmi', "xion" = 'icons/mob/augmentation/xion.dmi', "zeng-hu" = 'icons/mob/augmentation/zenghu.dmi', "ward-takahashi" = 'icons/mob/augmentation/wardtakahashi.dmi', "bishop" = 'icons/mob/augmentation/bishop.dmi')
+	var/static/list/style_list_icons = list("standard" = 'icons/mob/augmentation/augments.dmi', "engineer" = 'icons/mob/augmentation/augments_engineer.dmi', "security" = 'icons/mob/augmentation/augments_security.dmi', "mining" = 'icons/mob/augmentation/augments_mining.dmi', "veymed female" = 'icons/mob/augmentation/veymed.dmi', "veymed male" = 'icons/mob/augmentation/veymedm.dmi', "shellguard" = 'icons/mob/augmentation/shellguard.dmi', "xion" = 'icons/mob/augmentation/xion.dmi', "zeng-hu" = 'icons/mob/augmentation/zenghu.dmi', "ward-takahashi" = 'icons/mob/augmentation/wardtakahashi.dmi', "bishop" = 'icons/mob/augmentation/bishop.dmi')  //NSV13 added extra sprites 
 
 
 /obj/machinery/aug_manipulator/examine(mob/user)
