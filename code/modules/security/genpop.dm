@@ -1,4 +1,4 @@
-//From NSV13
+//From NSV13, ported to BeeStation, and back to NSV13
 //Credit to oraclestation for the idea! This just a recode...
 // Recode CanAllowThrough() at some point, it won't allow ridden vehicles
 
@@ -48,7 +48,7 @@
 	if(state == TURNSTILE_SHELL && !anchored)
 		. += "<span class='notice'>The turnstile frame is empty and unsecured, ready to be sliced through <b>welding</b>.</span>"
 
-//Executive officer's line variant. For rule of cool. NSV13 We're cool
+//Executive officer's line variant. For rule of cool. NSV13 We use this
 /obj/machinery/turnstile/xo
 	name = "\improper XO line turnstile"
 	req_one_access = list(ACCESS_BRIG, ACCESS_HEADS)

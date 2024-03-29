@@ -3,3 +3,6 @@
 
 /// Module is compatible with Cargo Cyborg Module
 #define BORG_MODULE_CARGO (BORG_MODULE_ENGINEERING<<1)
+
+// Medbot first aid kit skin
+#define MEDBOT_SKIN_ROBOT "robot"
