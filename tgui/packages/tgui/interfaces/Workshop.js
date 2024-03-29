@@ -23,8 +23,7 @@ export const Workshop = (props, context) => {
               onClick={() =>
                 act('load_program', {
                   id: def_program.id,
-                })
-              }
+                })}
             />
           ))}
         </Section>

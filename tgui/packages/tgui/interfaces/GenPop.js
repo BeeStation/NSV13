@@ -44,13 +44,13 @@ export const GenPop = (props, context) => {
 
   const getProcessedTime = () => {
     return (
-      (time +
+      (time
         // Back to major crime (9000)
-        (attemptedMod ? (time >= 36000 ? -27000 : -3000) : 0) +
+        + (attemptedMod ? (time >= 36000 ? -27000 : -3000) : 0)
         // Set to 36000 if a crime over 900 deciseconds was repeated.
-        (elevatedMod ? (time >= 9000 ? 360000 - time : 3000) : 0)) *
+        + (elevatedMod ? (time >= 9000 ? 360000 - time : 3000) : 0))
       // Resisting arrest applies to everything at the end
-      (resistedMod ? 1.2 : 1)
+      * (resistedMod ? 1.2 : 1)
     );
   };
 
