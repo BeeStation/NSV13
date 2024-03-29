@@ -13,6 +13,21 @@
 	pixel_x = -17
 	volatility = 3 //Very volatile.
 	explode_when_hit = TRUE //Yeah, this can't ever end well for you.
+	var/claimable_gulag_points = 50
+
+/obj/item/ship_weapon/ammunition/missile/examine(mob/user)
+	. = ..()
+	if(claimable_gulag_points)
+		. += "<span class='notice'>It has [claimable_gulag_points] unclaimed gulag reward points!</span>"
+
+/obj/item/ship_weapon/ammunition/missile/attackby(obj/item/I, mob/living/user, params)
+	. = ..()
+	if(istype(I, /obj/item/card/id/gulag))
+		var/obj/item/card/id/gulag/P = I
+		P.points += claimable_gulag_points
+		to_chat(user, "<span class='boldnotice'>You claim [claimable_gulag_points] from [src]... Your balance is now: [P.points]</span>")
+		//This one's been claimed!
+		claimable_gulag_points = 0
 
 /obj/item/ship_weapon/ammunition/missile/examine(mob/user)
 	. = ..()

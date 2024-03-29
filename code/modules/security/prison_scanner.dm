@@ -46,8 +46,8 @@
 	. = ..()
 	if(!linked_id)
 		to_chat(user, "<span class='warning'>No linked account!</span>")
-	else if(!istype(O, /obj/item/reagent_containers/food/snacks/donut) && !istype(O, /obj/item/toy/plush)) //NSV13 Lets torps be scanned as well
-		to_chat(user, "<span class='warning'>Invalid item! Only scan donuts, plushes, or torpedoes made in the workshop!</span>")
+	else if(!istype(O, /obj/item/reagent_containers/food/snacks/donut) && !istype(O, /obj/item/toy/plush))
+		to_chat(user, "<span class='warning'>Invalid item! Only scan donuts or plushes made in the workshop!</span>")
 	else
 		if(O.obj_flags & SCANNED)
 			to_chat(user, "<span class='warning'>The [O.name] has been scanned already!</span>")
