@@ -399,6 +399,42 @@
 		/obj/item/stock_parts/cell = 5,
 		/obj/item/stack/ore/bluespace_crystal = 5)
 
+// Laser AMS
+/obj/item/circuitboard/machine/laser_ams
+	name = "laser AMS (circuitboard)"
+	build_path = /obj/machinery/ship_weapon/energy/ams
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+	req_components = list(
+		/obj/item/stack/sheet/glass = 5,
+		/obj/item/stock_parts/micro_laser = 5,
+		/obj/item/stock_parts/capacitor = 5,
+		/obj/item/stock_parts/cell = 5,
+		/obj/item/stack/ore/bluespace_crystal = 5)
+
+// Phase Cannon
+/obj/item/circuitboard/machine/phase_cannon
+	name = "phase cannon (circuitboard)"
+	build_path = /obj/machinery/ship_weapon/energy/beam
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+	req_components = list(
+		/obj/item/stack/sheet/glass = 5,
+		/obj/item/stock_parts/micro_laser = 5,
+		/obj/item/stock_parts/capacitor = 5,
+		/obj/item/stock_parts/cell = 5,
+		/obj/item/stack/ore/bluespace_crystal = 5)
+
+// Burst Phaser
+/obj/item/circuitboard/machine/burst_phaser
+	name = "burst phaser MK2 (circuitboard)"
+	build_path = /obj/machinery/ship_weapon/energy
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+	req_components = list(
+		/obj/item/stack/sheet/glass = 3,
+		/obj/item/stock_parts/micro_laser = 3,
+		/obj/item/stock_parts/capacitor = 3,
+		/obj/item/stock_parts/cell = 3,
+		/obj/item/stack/ore/bluespace_crystal = 3)
+
 // Smelter and console
 /obj/item/circuitboard/machine/processing_unit
 	name = "furnace (Machine Board)"
