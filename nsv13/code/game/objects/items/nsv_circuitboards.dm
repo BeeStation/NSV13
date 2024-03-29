@@ -201,11 +201,6 @@
 	build_path = /obj/machinery/computer/deckgun
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-/obj/item/circuitboard/computer/deckgun/Destroy(force=FALSE)
-	if(!force)
-		return QDEL_HINT_LETMELIVE
-	return ..()
-
 /obj/item/circuitboard/machine/deck_gun
 	name = "deck gun core (Machine Board)"
 	req_components = list(
@@ -214,11 +209,6 @@
 	build_path = /obj/machinery/deck_turret
 	needs_anchored = FALSE
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
-
-/obj/item/circuitboard/machine/deck_gun/Destroy(force=FALSE)
-	if(!force)
-		return QDEL_HINT_LETMELIVE
-	return ..()
 
 /obj/item/circuitboard/machine/deck_gun/powder
 	name = "deck gun powder gate (Machine Board)"
