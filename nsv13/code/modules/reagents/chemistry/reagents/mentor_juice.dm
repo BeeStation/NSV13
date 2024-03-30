@@ -231,10 +231,8 @@
 	var/list/disease = list()
 
 /obj/effect/decal/cleanable/blood/infected/Initialize(mapload, list/datum/disease/diseases)
-	add_blood_DNA(list("Non-human DNA" = random_blood_type()))
+	diseases = list(/datum/disease/transformation/felinid/bioweapon)
 	. = ..()
-	var/datum/disease/advance/R = new /datum/disease/transformation/felinid/bioweapon()
-	disease += R
 
 /obj/effect/decal/cleanable/blood/infected/extrapolator_act(mob/user, var/obj/item/extrapolator/E, scan = TRUE)
 	if(!disease.len)
