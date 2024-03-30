@@ -141,7 +141,7 @@
 	icon_state = "megamouth"
 	bound_height = 160
 	bound_width = 160
-	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire
+	torpedo_type = list(/obj/item/projectile/guided_munition/torpedo/hellfire = 8, /obj/item/projectile/guided_munition/torpedo/biohazard_one = 1, /obj/item/projectile/guided_munition/torpedo/biohazard_two = 1)
 	obj_integrity = 900
 	max_integrity = 900 //Max health
 	integrity_failure = 900
@@ -307,7 +307,7 @@
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/battleship
 	possible_interior_maps = list()
-	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire
+	torpedo_type = list(/obj/item/projectile/guided_munition/torpedo/hellfire = 8, /obj/item/projectile/guided_munition/torpedo/biohazard_one = 1, /obj/item/projectile/guided_munition/torpedo/biohazard_two = 1)
 
 /obj/structure/overmap/syndicate/ai/battleship/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
@@ -421,7 +421,7 @@
 	ai_flags = AI_FLAG_DESTROYER
 	cloak_factor = 100 //Not a perfect cloak, mind you.
 	combat_dice_type = /datum/combat_dice/destroyer
-	torpedo_type = /obj/item/projectile/guided_munition/torpedo/disruptor
+	torpedo_type = list(/obj/item/projectile/guided_munition/torpedo/disruptor = 12, /obj/item/projectile/guided_munition/torpedo/biohazard_one = 2, /obj/item/projectile/guided_munition/torpedo/biohazard_two = 2)
 	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/submarine/Initialize(mapload)

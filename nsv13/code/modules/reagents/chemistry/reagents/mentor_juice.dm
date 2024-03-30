@@ -21,7 +21,7 @@
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
 	var/obj/item/organ/tongue/nT
 	var/obj/item/organ/tongue/T
-	can_synth = TRUE
+	chem_flags = CHEMICAL_RNG_FUN|CHEMICAL_GOAL_CHEMIST_BLOODSTREAM|CHEMICAL_GOAL_CHEMIST_DRUG
 	var/old_sayverb
 
 /datum/reagent/furranium/reaction_mob(mob/living/carbon/human/M, method=INJECT, reac_volume)
@@ -52,7 +52,7 @@
 				to_chat(M, "You find yourself unable to suppress the desire to howl!")
 				M.emote("awoo", intentional = FALSE)
 			if(prob(20))
-				var/list/seen = view(7, M) - M //Sound and sight checkers
+				var/list/seen = oview(7, M) //Sound and sight checkers
 				for(var/victim in seen)
 					if(isanimal(victim) || !isliving(victim))
 						seen -= victim
@@ -60,14 +60,15 @@
 					to_chat(M, "You notice [pick(seen)]'s bulge [pick("OwO!", "uwu!")]")
 		if(16)
 			T = M.getorganslot(ORGAN_SLOT_TONGUE)
-			var/obj/item/organ/tongue/nT = new /obj/item/organ/tongue/fluffy
-			if(T)
-				T.Remove(M)
-				T.moveToNullspace()//To valhalla
-			nT.Insert(M)
-			to_chat(M, "<span class='big warning'>Your tongue feels... weally fwuffy!!</span>")
-			old_sayverb = M.verb_say
-			M.verb_say = "meows"
+			if(!istype(T, /obj/item/organ/tongue/fluffy))
+				var/obj/item/organ/tongue/nT = new /obj/item/organ/tongue/fluffy
+				if(T)
+					T.Remove(M)
+					T.moveToNullspace()//To valhalla
+				nT.Insert(M)
+				to_chat(M, "<span class='big warning'>Your tongue feels... weally fwuffy!!</span>")
+				old_sayverb = M.verb_say
+				M.verb_say = "meows"
 		if(17 to INFINITY)
 			if(prob(5))
 				to_chat(M, "You find yourself unable to suppress the desire to meow!")
@@ -76,7 +77,7 @@
 				to_chat(M, "You find yourself unable to suppress the desire to howl!")
 				M.emote("awoo", intentional = FALSE)
 			if(prob(5))
-				var/list/seen = view(7, M) - M //Sound and sight checkers
+				var/list/seen = oview(7, M)//Sound and sight checkers
 				for(var/victim in seen)
 					if(isanimal(victim) || !isliving(victim))
 						seen -= victim
@@ -85,12 +86,11 @@
 	..()
 
 /datum/reagent/furranium/on_mob_delete(mob/living/carbon/M)
-	if(current_cycle < 45) //Better get that out of you quick!
+	if(current_cycle < 45 && T) //Better get that out of you quick!
 		nT = M.getorganslot(ORGAN_SLOT_TONGUE)
 		nT.Remove(M)
 		qdel(nT)
-		if(T)
-			T.Insert(M)
+		T.Insert(M)
 		to_chat(M, "<span class='notice'>You feel your tongue.... unfluffify...?</span>")
 		M.verb_say = old_sayverb
 		M.say("Pleh!")
@@ -153,3 +153,123 @@
 
 /datum/emote/living/awoo/get_sound(mob/living/user)
 	return 'nsv13/sound/voice/cursed/awoo.ogg'
+
+
+//My escape from this madness
+/datum/emote/living/weh
+	key = "weh"
+	key_third_person = "lets out a weh"
+	message = "lets out a weh!"
+	emote_type = EMOTE_AUDIBLE
+	vary = TRUE
+
+/datum/emote/living/weh/can_run_emote(mob/user, status_check = TRUE, intentional)
+	. = ..()
+	if(. && iscarbon(user))
+		var/mob/living/carbon/C = user
+		if(intentional && !istype(C.getorganslot(ORGAN_SLOT_TONGUE), /obj/item/organ/tongue/fluffy) && !islizard(C))
+			return FALSE
+		return !C.silent
+
+/datum/emote/living/weh/get_sound(mob/living/user)
+	return 'nsv13/sound/voice/cursed/weh.ogg'
+
+
+//On today's menu, bioweapons.
+
+/obj/item/projectile/guided_munition/torpedo/biohazard_one
+	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_biohazard_torpedo/one
+	damage = 150
+	obj_integrity = 80
+	max_integrity = 80
+
+/obj/item/projectile/guided_munition/torpedo/biohazard_two
+	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_biohazard_torpedo/two
+	damage = 150
+	obj_integrity = 80
+	max_integrity = 80
+
+/obj/item/projectile/bullet/delayed_prime/relayed_biohazard_torpedo
+	icon_state = "torpedo"
+	name = "torpedo"
+	penetration_fuze = 3
+	damage = 25
+	var/decal_type = null
+
+/obj/item/projectile/bullet/delayed_prime/relayed_biohazard_torpedo/fuze_trigger_value(atom/target)
+	if(isclosedturf(target))
+		return 1
+	return 0
+
+/obj/item/projectile/bullet/delayed_prime/relayed_biohazard_torpedo/is_valid_to_release(atom/newloc)
+	if(penetration_fuze > 0 || !isopenturf(newloc))
+		return FALSE
+	return TRUE
+
+/obj/item/projectile/bullet/delayed_prime/relayed_biohazard_torpedo/one
+	decal_type = /obj/effect/decal/cleanable/blood/infected
+
+/obj/item/projectile/bullet/delayed_prime/relayed_biohazard_torpedo/two
+	decal_type = /obj/effect/decal/cleanable/greenglow/fun_trust_me
+
+/obj/item/projectile/bullet/delayed_prime/relayed_biohazard_torpedo/release_payload(atom/detonation_location)
+	var/turf/detonation_turf = get_turf(detonation_location)
+	explosion(detonation_turf, 0, 0, 5, 8)
+	var/list/inrange_turfs = RANGE_TURFS(4, detonation_turf)
+	for(var/turf/T as() in inrange_turfs)
+		if(isgroundlessturf(T))	//Should those kinds of turfs be able to get waste from this? Hmm, I dunno.
+			continue
+		if(isclosedturf(T) || is_blocked_turf(T, TRUE))	//Definitely not on closed turfs, for now also not on ones blocked by stuff to not make it agonizing.. unless?
+			continue
+		if(locate(decal_type) in T)	//No stacking.
+			continue
+		if(!prob(70))
+			continue
+		new decal_type(T)
+
+/obj/effect/decal/cleanable/blood/infected
+	var/list/disease = list()
+
+/obj/effect/decal/cleanable/blood/infected/Initialize(mapload, list/datum/disease/diseases)
+	add_blood_DNA(list("Non-human DNA" = random_blood_type()))
+	. = ..()
+	var/datum/disease/advance/R = new /datum/disease/transformation/felinid/bioweapon()
+	disease += R
+
+/obj/effect/decal/cleanable/blood/infected/extrapolator_act(mob/user, var/obj/item/extrapolator/E, scan = TRUE)
+	if(!disease.len)
+		return FALSE
+	if(scan)
+		E.scan(src, disease, user)
+	else
+		E.extrapolate(src, disease, user)
+	return TRUE
+
+/obj/effect/decal/cleanable/blood/infected/ex_act(severity, target)
+	if(severity != EXPLODE_DEVASTATE)
+		return
+	qdel(src)
+
+/datum/disease/transformation/felinid/bioweapon
+	name = "Unshackled Nano-Feline Assimilative Toxoplasmosis"
+	spread_text = "On contact, Bloodborne"
+	stage_prob = 2
+	spread_flags = DISEASE_SPREAD_BLOOD|DISEASE_SPREAD_CONTACT_FLUIDS|DISEASE_SPREAD_CONTACT_SKIN
+
+/obj/effect/decal/cleanable/greenglow/fun_trust_me
+
+/obj/effect/decal/cleanable/greenglow/fun_trust_me/Initialize(mapload, list/datum/disease/diseases)
+	. = ..()
+	reagents.add_reagent(/datum/reagent/furranium, 25)
+
+//Override
+/obj/effect/decal/cleanable/greenglow/fun_trust_me/on_entered(datum/source, atom/movable/AM)
+	if(!iscarbon(AM))
+		return
+	var/mob/living/carbon/C = AM
+	reagents.trans_to(C, 1, 5, method = TOUCH, round_robin = TRUE)
+
+/obj/effect/decal/cleanable/greenglow/fun_trust_me/ex_act(severity, target)
+	if(severity != EXPLODE_DEVASTATE)
+		return
+	qdel(src)
