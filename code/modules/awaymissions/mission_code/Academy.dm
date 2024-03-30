@@ -33,7 +33,7 @@
 
 /obj/item/paper/fluff/awaymissions/academy/console_maint
 	name = "Console Maintenance"
-	info = "We're upgrading to the latest mainframes for our consoles, the shipment should be in before spring break is over!"
+	default_raw_text = "We're upgrading to the latest mainframes for our consoles, the shipment should be in before spring break is over!"
 
 /obj/item/paper/fluff/awaymissions/academy/class/automotive
 	name = "Automotive Repair 101"
@@ -46,34 +46,32 @@
 
 /obj/item/paper/fluff/awaymissions/academy/grade/aplus
 	name = "Summoning Midterm Exam"
-	info = "Grade: A+ Educator's Notes: Excellent form."
+	default_raw_text = "Grade: A+ Educator's Notes: Excellent form."
 
 /obj/item/paper/fluff/awaymissions/academy/grade/bminus
 	name = "Summoning Midterm Exam"
-	info = "Grade: B- Educator's Notes: Keep applying yourself, you're showing improvement."
+	default_raw_text = "Grade: B- Educator's Notes: Keep applying yourself, you're showing improvement."
 
 /obj/item/paper/fluff/awaymissions/academy/grade/dminus
 	name = "Summoning Midterm Exam"
-	info = "Grade: D- Educator's Notes: SEE ME AFTER CLASS."
+	default_raw_text = "Grade: D- Educator's Notes: SEE ME AFTER CLASS."
 
 /obj/item/paper/fluff/awaymissions/academy/grade/failure
 	name = "Pyromancy Evaluation"
-	info = "Current Grade: F. Educator's Notes: No improvement shown despite multiple private lessons.  Suggest additional tutelage."
+	default_raw_text = "Current Grade: F. Educator's Notes: No improvement shown despite multiple private lessons.  Suggest additional tutelage."
 
+/// The immobile, close pulling singularity seen in the academy away mission
+/obj/anomaly/singularity/academy
+	move_self = FALSE
 
-/obj/singularity/academy
-	dissipate = 0
-	move_self = 0
-	grav_pull = 1
+/obj/anomaly/singularity/academy/Initialize(mapload)
+	. = ..()
+	var/datum/component/singularity/singularity = singularity_component.resolve()
+	singularity?.grav_pull = TRUE
 
-/obj/singularity/academy/admin_investigate_setup()
-	return
-
-/obj/singularity/academy/process(delta_time)
-	eat()
+/obj/anomaly/singularity/academy/process(delta_time)
 	if(DT_PROB(0.5, delta_time))
 		mezzer()
-
 
 /obj/item/clothing/glasses/meson/truesight
 	name = "The Lens of Truesight"
@@ -92,7 +90,7 @@
 	var/mob/living/current_wizard = null
 	var/next_check = 0
 	var/cooldown = 600
-	var/faction = ROLE_WIZARD
+	var/faction = FACTION_WIZARD
 	var/braindead_check = 0
 
 /obj/structure/academy_wizard_spawner/New()
@@ -127,7 +125,7 @@
 
 	if(!current_wizard)
 		return
-	var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as Wizard Academy Defender?", ROLE_WIZARD, null, ROLE_WIZARD, 50, current_wizard)
+	var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as Wizard Academy Defender?", ROLE_WIZARD, /datum/role_preference/midround_ghost/wizard, 10 SECONDS, current_wizard)
 
 	if(LAZYLEN(candidates))
 		var/mob/dead/observer/C = pick(candidates)
@@ -135,6 +133,7 @@
 		current_wizard.ghostize(FALSE) // on the off chance braindead defender gets back in
 		current_wizard.key = C.key
 	else
+		current_wizard.playable_bantype = ROLE_WIZARD
 		current_wizard.ghostize(FALSE,SENTIENCE_FORCE)
 
 /obj/structure/academy_wizard_spawner/proc/summon_wizard()
@@ -209,7 +208,7 @@
 		roll_in_progress = TRUE
 		var/turf/T = get_turf(src)
 		T.visible_message("<span class='userdanger'>[src] flares briefly.</span>")
-		addtimer(CALLBACK(src, .proc/effect, user, .), 1 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(effect), user, .), 1 SECONDS)
 
 /obj/item/dice/d20/fate/equipped(mob/user, slot)
 	if(!ishuman(user) || !user.mind || (user.mind in SSticker.mode.wizards))
@@ -224,7 +223,7 @@
 		if(1)
 			//Dust
 			T.visible_message("<span class='userdanger'>[user] turns to dust!</span>")
-			user.hellbound = TRUE
+			user.sethellbound()
 			user.dust()
 		if(2)
 			//Death
@@ -261,7 +260,7 @@
 		if(8)
 			//Fueltank Explosion
 			T.visible_message("<span class='userdanger'>An explosion bursts into existence around [user]!</span>")
-			explosion(get_turf(user),-1,0,2, flame_range = 2)
+			explosion(get_turf(user),-1,0,2, flame_range = 2, magic = TRUE)
 		if(9)
 			//Cold
 			var/datum/disease/D = new /datum/disease/cold()
@@ -315,7 +314,7 @@
 			A.setup_master(user)
 			servant_mind.transfer_to(H)
 
-			var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as [user.real_name] Servant?", ROLE_WIZARD, null, ROLE_WIZARD, 50, H)
+			var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as [user.real_name] Servant?", ROLE_WIZARD, /datum/role_preference/midround_ghost/wizard, 10 SECONDS, H)
 			if(LAZYLEN(candidates))
 				var/mob/dead/observer/C = pick(candidates)
 				message_admins("[ADMIN_LOOKUPFLW(C)] was spawned as Dice Servant")

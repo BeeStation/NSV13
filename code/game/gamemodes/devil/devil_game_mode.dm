@@ -2,14 +2,14 @@
 	name = "devil"
 	config_tag = "devil"
 	report_type = "devil"
-	antag_flag = ROLE_DEVIL
+	role_preference = /datum/role_preference/antagonist/devil
+	antag_datum = /datum/antagonist/devil
 	false_report_weight = 1
-	protected_jobs = list("Lawyer", "Curator", "Chaplain", "Head of Security", "Captain", "AI", "Cyborg", "Military Police", "Warden", "Detective") //Nsv13 - Crayon eaters & MPs
+	protected_jobs = list(JOB_NAME_LAWYER, JOB_NAME_CURATOR, JOB_NAME_CHAPLAIN, JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN, JOB_NAME_AI, JOB_NAME_CYBORG, JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE)
 	required_players = 0
 	required_enemies = 1
 	recommended_enemies = 4
 	reroll_friendly = 1
-	enemy_minimum_age = 0
 	title_icon = "devil"
 
 	allowed_special = list(/datum/special_role/traitor)
@@ -27,7 +27,7 @@
 	if(CONFIG_GET(flag/protect_roles_from_antagonist))
 		restricted_jobs += protected_jobs
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+		restricted_jobs += JOB_NAME_ASSISTANT
 	if(CONFIG_GET(flag/protect_heads_from_antagonist))
 		restricted_jobs += GLOB.command_positions
 
@@ -42,7 +42,7 @@
 	for(var/j = 0, j < num_devils, j++)
 		if (!antag_candidates.len)
 			break
-		var/datum/mind/devil = antag_pick(antag_candidates, ROLE_DEVIL)
+		var/datum/mind/devil = antag_pick(antag_candidates, /datum/role_preference/antagonist/devil)
 		devils += devil
 		devil.special_role = traitor_name
 		devil.restricted_roles = restricted_jobs

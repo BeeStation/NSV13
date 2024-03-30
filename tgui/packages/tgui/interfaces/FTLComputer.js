@@ -4,7 +4,7 @@ import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
 import { Box, Button, Section, ProgressBar, Knob } from '../components';
 import { Window } from '../layouts';
-
+// legacy FTL drive computer
 export const FTLComputer = (props, context) => {
   const { act, data } = useBackend(context);
   return (
@@ -32,7 +32,7 @@ export const FTLComputer = (props, context) => {
             <ProgressBar
               value={(data.progress/data.goal * 100)* 0.01}
               ranges={{
-                good: [0.95, Infinity],
+                good: [0.9, Infinity],
                 average: [0.15, 0.9],
                 bad: [-Infinity, 0.15],
               }} />

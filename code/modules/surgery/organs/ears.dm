@@ -81,7 +81,7 @@
 	if(ears)
 		ears.adjustEarDamage(ddmg, ddeaf)
 		if(ears.deaf)
-			SEND_SOUND(src, sound(null)) //NSV13 - stop current sounds when you go deaf
+			SEND_SOUND(src, sound(null))
 
 /mob/proc/minimumDeafTicks()
 
@@ -95,7 +95,7 @@
 	name = "cat ears"
 	icon = 'icons/obj/clothing/hats.dmi'
 	icon_state = "kitty"
-	bang_protect = -2
+	bang_protect = -1 // NSV13 - Allows felinids to man munitions without requiring earmuffs and the muni helmet
 
 /obj/item/organ/ears/cat/Insert(mob/living/carbon/human/H, special = 0, drop_if_replaced = TRUE)
 	..()

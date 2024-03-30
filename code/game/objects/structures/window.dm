@@ -14,6 +14,7 @@
 	CanAtmosPass = ATMOS_PASS_PROC
 	rad_insulation = RAD_VERY_LIGHT_INSULATION
 	rad_flags = RAD_PROTECT_CONTENTS
+	pass_flags_self = PASSGLASS
 	var/ini_dir = null
 	var/state = WINDOW_OUT_OF_FRAME
 	var/reinf = FALSE
@@ -65,9 +66,16 @@
 	real_explosion_block = explosion_block
 	explosion_block = EXPLOSION_BLOCK_PROC
 
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_EXIT = PROC_REF(on_exit),
+	)
+
+	if (flags_1 & ON_BORDER_1)
+		AddElement(/datum/element/connect_loc, loc_connections)
+
 /obj/structure/window/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/simple_rotation,ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS ,null,CALLBACK(src, .proc/can_be_rotated),CALLBACK(src,.proc/after_rotation))
+	AddComponent(/datum/component/simple_rotation,ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS ,null,CALLBACK(src, PROC_REF(can_be_rotated)),CALLBACK(src, PROC_REF(after_rotation)))
 
 /obj/structure/window/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	switch(the_rcd.mode)
@@ -104,13 +112,15 @@
 	else
 		..(FULLTILE_WINDOW_DIR)
 
-/obj/structure/window/CanPass(atom/movable/mover, turf/target)
-	if(istype(mover) && (mover.pass_flags & PASSGLASS))
-		return 1
+/obj/structure/window/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
+	if(.)
+		return
 	if(dir == FULLTILE_WINDOW_DIR)
 		return 0	//full tile window, you can't move into it!
-	if(get_dir(loc, target) == dir)
-		return !density
+	var/attempted_dir = get_dir(loc, target)
+	if(attempted_dir == dir)
+		return
 	if(istype(mover, /obj/structure/window))
 		var/obj/structure/window/W = mover
 		if(!valid_window_location(loc, W.ini_dir))
@@ -121,14 +131,21 @@
 			return FALSE
 	else if(istype(mover, /obj/machinery/door/window) && !valid_window_location(loc, mover.dir))
 		return FALSE
-	return 1
+	else if(attempted_dir != dir)
+		return TRUE
 
-/obj/structure/window/CheckExit(atom/movable/O, turf/target)
-	if(istype(O) && (O.pass_flags & PASSGLASS))
-		return 1
-	if(get_dir(O.loc, target) == dir)
-		return 0
-	return 1
+/obj/structure/window/proc/on_exit(datum/source, atom/movable/leaving, direction)
+	SIGNAL_HANDLER
+
+	if (istype(leaving) && (leaving.pass_flags & PASSGLASS))
+		return
+
+	if (fulltile)
+		return
+
+	if(direction == dir && density)
+		leaving.Bump(src)
+		return COMPONENT_ATOM_BLOCK_EXIT
 
 /obj/structure/window/attack_tk(mob/user)
 	user.changeNext_move(CLICK_CD_MELEE)
@@ -187,17 +204,17 @@
 			if(reinf)
 				if(state == WINDOW_SCREWED_TO_FRAME || state == WINDOW_IN_FRAME)
 					to_chat(user, "<span class='notice'>You begin to [state == WINDOW_SCREWED_TO_FRAME ? "unscrew the window from":"screw the window to"] the frame...</span>")
-					if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src, .proc/check_state_and_anchored, state, anchored)))
+					if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src, PROC_REF(check_state_and_anchored), state, anchored)))
 						state = (state == WINDOW_IN_FRAME ? WINDOW_SCREWED_TO_FRAME : WINDOW_IN_FRAME)
 						to_chat(user, "<span class='notice'>You [state == WINDOW_IN_FRAME ? "unfasten the window from":"fasten the window to"] the frame.</span>")
 				else if(state == WINDOW_OUT_OF_FRAME)
 					to_chat(user, "<span class='notice'>You begin to [anchored ? "unscrew the frame from":"screw the frame to"] the floor...</span>")
-					if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src, .proc/check_state_and_anchored, state, anchored)))
+					if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src, PROC_REF(check_state_and_anchored), state, anchored)))
 						setAnchored(!anchored)
 						to_chat(user, "<span class='notice'>You [anchored ? "fasten the frame to":"unfasten the frame from"] the floor.</span>")
 			else //if we're not reinforced, we don't need to check or update state
 				to_chat(user, "<span class='notice'>You begin to [anchored ? "unscrew the window from":"screw the window to"] the floor...</span>")
-				if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src, .proc/check_anchored, anchored)))
+				if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src, PROC_REF(check_anchored), anchored)))
 					setAnchored(!anchored)
 					to_chat(user, "<span class='notice'>You [anchored ? "fasten the window to":"unfasten the window from"] the floor.</span>")
 			return
@@ -206,7 +223,7 @@
 		else if(I.tool_behaviour == TOOL_CROWBAR && reinf && (state == WINDOW_OUT_OF_FRAME || state == WINDOW_IN_FRAME))
 			to_chat(user, "<span class='notice'>You begin to lever the window [state == WINDOW_OUT_OF_FRAME ? "into":"out of"] the frame...</span>")
 			I.play_tool_sound(src, 75)
-			if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src, .proc/check_state_and_anchored, state, anchored)))
+			if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src, PROC_REF(check_state_and_anchored), state, anchored)))
 				state = (state == WINDOW_OUT_OF_FRAME ? WINDOW_IN_FRAME : WINDOW_OUT_OF_FRAME)
 				to_chat(user, "<span class='notice'>You pry the window [state == WINDOW_IN_FRAME ? "into":"out of"] the frame.</span>")
 			return
@@ -214,9 +231,8 @@
 		else if(I.tool_behaviour == TOOL_WRENCH && !anchored)
 			I.play_tool_sound(src, 75)
 			to_chat(user, "<span class='notice'> You begin to disassemble [src]...</span>")
-			if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src, .proc/check_state_and_anchored, state, anchored)))
-				var/obj/item/stack/sheet/G = new glass_type(user.loc, glass_amount)
-				G.add_fingerprint(user)
+			if(I.use_tool(src, user, decon_speed, extra_checks = CALLBACK(src, PROC_REF(check_state_and_anchored), state, anchored)))
+				new glass_type(user.loc, glass_amount, TRUE, user)
 				playsound(src, 'sound/items/Deconstruct.ogg', 50, 1)
 				to_chat(user, "<span class='notice'>You successfully disassemble [src].</span>")
 				qdel(src)
@@ -467,6 +483,30 @@
 	name = "frosted window"
 	icon_state = "fwindow"
 
+/obj/structure/window/depleteduranium
+	name = "depleted uranium window"
+	desc = "A window made out of depleted uranium. It looks perfect for radiation shielding!"
+	icon_state = "duwindow"
+	reinf = TRUE
+	heat_resistance = 50000
+	armor = list("melee" = 45, "bullet" = 20, "laser" = 0, "energy" = 0, "bomb" = 60, "bio" = 100, "rad" = 100, "fire" = 100, "acid" = 100, "stamina" = 0)
+	max_integrity = 500
+	explosion_block = 2
+	glass_type = /obj/item/stack/sheet/mineral/uranium
+	rad_insulation = RAD_FULL_INSULATION
+
+/obj/structure/window/depleteduranium/spawner/east
+	dir = EAST
+
+/obj/structure/window/depleteduranium/spawner/west
+	dir = WEST
+
+/obj/structure/window/depleteduranium/spawner/north
+	dir = NORTH
+
+/obj/structure/window/depleteduranium/unanchored
+	anchored = FALSE
+
 /* Full Tile Windows (more obj_integrity) */
 
 /obj/structure/window/fulltile
@@ -477,10 +517,25 @@
 	fulltile = TRUE
 	flags_1 = PREVENT_CLICK_UNDER_1
 	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile)
+	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile, /obj/structure/window/depleteduranium/fulltile)
 	glass_amount = 2
 
 /obj/structure/window/fulltile/unanchored
+	anchored = FALSE
+
+/obj/structure/window/depleteduranium/fulltile
+	icon = 'icons/obj/smooth_structures/du_window.dmi'
+	icon_state = "duwindow"
+	dir = FULLTILE_WINDOW_DIR
+	max_integrity = 500
+	fulltile = TRUE
+	flags_1 = PREVENT_CLICK_UNDER_1
+	smooth = SMOOTH_TRUE
+	rad_insulation = RAD_FULL_INSULATION
+	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile, /obj/structure/window/depleteduranium/fulltile)
+	glass_amount = 2
+
+/obj/structure/window/depleteduranium/fulltile/unanchored
 	anchored = FALSE
 
 /obj/structure/window/plasma/fulltile
@@ -491,7 +546,7 @@
 	fulltile = TRUE
 	flags_1 = PREVENT_CLICK_UNDER_1
 	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile)
+	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile, /obj/structure/window/depleteduranium/fulltile)
 	glass_amount = 2
 
 /obj/structure/window/plasma/fulltile/unanchored
@@ -518,7 +573,7 @@
 	fulltile = TRUE
 	flags_1 = PREVENT_CLICK_UNDER_1
 	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile)
+	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile, /obj/structure/window/depleteduranium/fulltile)
 	level = 3
 	glass_amount = 2
 
@@ -532,7 +587,7 @@
 	fulltile = TRUE
 	flags_1 = PREVENT_CLICK_UNDER_1
 	smooth = SMOOTH_TRUE
-	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile)
+	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile, /obj/structure/window/depleteduranium/fulltile)
 	level = 3
 	glass_amount = 2
 
@@ -540,7 +595,7 @@
 	icon = 'icons/obj/smooth_structures/rice_window.dmi'
 	icon_state = "ice_window"
 	max_integrity = 150
-	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile)
+	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile, /obj/structure/window/depleteduranium/fulltile)
 	level = 3
 	glass_amount = 2
 
@@ -621,7 +676,7 @@
 	var/static/mutable_appearance/torn = mutable_appearance('icons/obj/smooth_structures/paperframes.dmi',icon_state = "torn", layer = ABOVE_OBJ_LAYER - 0.1)
 	var/static/mutable_appearance/paper = mutable_appearance('icons/obj/smooth_structures/paperframes.dmi',icon_state = "paper", layer = ABOVE_OBJ_LAYER - 0.1)
 
-/obj/structure/window/paperframe/Initialize()
+/obj/structure/window/paperframe/Initialize(mapload)
 	. = ..()
 	update_icon()
 

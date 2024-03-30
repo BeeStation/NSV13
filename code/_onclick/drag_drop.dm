@@ -74,7 +74,7 @@
 	var/obj/item/H = get_active_held_item()
 	if(H)
 		. = H.canItemMouseDown(object, location, params)
-	else if(src.overmap_ship && (src.overmap_ship.gunner == src) || (GetComponent(/datum/component/overmap_gunning))) //NSV13 - let us mouse-down if we're a gunner
+	else if(src.overmap_ship && (src.overmap_ship.gunner == src || (GetComponent(/datum/component/overmap_gunning)))) //NSV13 - let us mouse-down if we're a ship operator
 		. = src.overmap_ship
 
 /obj/item/proc/CanItemAutoclick(object, location, params)
@@ -132,7 +132,6 @@
 			middragatom = null
 	if(active_mousedown_item)
 		active_mousedown_item.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
-
 
 /* NSV13 - don't need this sice we defined it on /datum
 /obj/item/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)

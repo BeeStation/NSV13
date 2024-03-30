@@ -139,10 +139,13 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	Show()
 
 /obj/effect/hallucination/simple/Moved(atom/OldLoc, Dir)
+	. = ..()
+	if(!loc)
+		return
 	Show()
 
 /obj/effect/hallucination/simple/Destroy()
-	if(target.client)
+	if(target?.client)
 		target.client.images.Remove(current_image)
 	active = FALSE
 	return ..()
@@ -212,7 +215,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	STOP_PROCESSING(SSobj, src)
 	qdel(flood_turfs)
 	flood_turfs = list()
-	if(target.client)
+	if(target?.client)
 		target.client.images.Remove(flood_images)
 	qdel(flood_images)
 	flood_images = list()
@@ -302,7 +305,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 		target.client.images |= fakerune
 	target.playsound_local(wall,'sound/effects/meteorimpact.ogg', 150, 1)
 	bubblegum = new(wall, target)
-	addtimer(CALLBACK(src, .proc/bubble_attack, landing), 10)
+	addtimer(CALLBACK(src, PROC_REF(bubble_attack), landing), 10)
 
 /datum/hallucination/oh_yeah/proc/bubble_attack(turf/landing)
 	var/charged = FALSE //only get hit once
@@ -323,7 +326,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	qdel(src)
 
 /datum/hallucination/oh_yeah/Destroy()
-	if(target.client)
+	if(target?.client)
 		target.client.images.Remove(fakebroken)
 		target.client.images.Remove(fakerune)
 	QDEL_NULL(fakebroken)
@@ -346,10 +349,10 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 			for(var/i in 1 to rand(5, 10))
 				target.playsound_local(source, 'sound/weapons/laser.ogg', 25, 1)
 				if(prob(50))
-					addtimer(CALLBACK(target, /mob/.proc/playsound_local, source, 'sound/weapons/sear.ogg', 25, 1), rand(5,10))
+					addtimer(CALLBACK(target, TYPE_PROC_REF(/mob, playsound_local), source, 'sound/weapons/sear.ogg', 25, 1), rand(5,10))
 					hits++
 				else
-					addtimer(CALLBACK(target, /mob/.proc/playsound_local, source, 'sound/weapons/effects/searwall.ogg', 25, 1), rand(5,10))
+					addtimer(CALLBACK(target, TYPE_PROC_REF(/mob, playsound_local), source, 'sound/weapons/effects/searwall.ogg', 25, 1), rand(5,10))
 				sleep(rand(CLICK_CD_RANGE, CLICK_CD_RANGE + 6))
 				if(hits >= 4 && prob(70))
 					target.playsound_local(source, get_sfx("bodyfall"), 25, 1)
@@ -359,10 +362,10 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 			for(var/i in 1 to rand(5, 10))
 				target.playsound_local(source, 'sound/weapons/taser2.ogg', 25, 1)
 				if(prob(50))
-					addtimer(CALLBACK(target, /mob/.proc/playsound_local, source, 'sound/weapons/tap.ogg', 25, 1), rand(5,10))
+					addtimer(CALLBACK(target, TYPE_PROC_REF(/mob, playsound_local), source, 'sound/weapons/tap.ogg', 25, 1), rand(5,10))
 					hits++
 				else
-					addtimer(CALLBACK(target, /mob/.proc/playsound_local, source, 'sound/weapons/effects/searwall.ogg', 25, 1), rand(5,10))
+					addtimer(CALLBACK(target, TYPE_PROC_REF(/mob, playsound_local), source, 'sound/weapons/effects/searwall.ogg', 25, 1), rand(5,10))
 				sleep(rand(CLICK_CD_RANGE, CLICK_CD_RANGE + 6))
 				if(hits >= 3 && prob(70))
 					target.playsound_local(source, get_sfx("bodyfall"), 25, 1)
@@ -380,10 +383,10 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 			for(var/i in 1 to rand(3, 6))
 				target.playsound_local(source, "sound/weapons/gunshot.ogg", 25, TRUE)
 				if(prob(60))
-					addtimer(CALLBACK(target, /mob/.proc/playsound_local, source, 'sound/weapons/pierce.ogg', 25, 1), rand(5,10))
+					addtimer(CALLBACK(target, TYPE_PROC_REF(/mob, playsound_local), source, 'sound/weapons/pierce.ogg', 25, 1), rand(5,10))
 					hits++
 				else
-					addtimer(CALLBACK(target, /mob/.proc/playsound_local, source, "ricochet", 25, 1), rand(5,10))
+					addtimer(CALLBACK(target, TYPE_PROC_REF(/mob, playsound_local), source, "ricochet", 25, 1), rand(5,10))
 				sleep(rand(CLICK_CD_RANGE, CLICK_CD_RANGE + 6))
 				if(hits >= 2 && prob(80))
 					target.playsound_local(source, get_sfx("bodyfall"), 25, 1)
@@ -533,7 +536,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 				A = image('icons/mob/monkey.dmi',H,"monkey1")
 				A.name = "Monkey ([rand(1,999)])"
 			if("carp")//Carp
-				A = image('icons/mob/animal.dmi',H,"carp")
+				A = image('icons/mob/carp.dmi',H,"carp")
 				A.name = "Space Carp"
 			if("corgi")//Corgi
 				A = image('icons/mob/pets.dmi',H,"corgi")
@@ -559,7 +562,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 
 /datum/hallucination/delusion/Destroy()
 	for(var/image/I in delusions)
-		if(target.client)
+		if(target?.client)
 			target.client.images.Remove(I)
 	return ..()
 
@@ -600,7 +603,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	QDEL_IN(src, duration)
 
 /datum/hallucination/self_delusion/Destroy()
-	if(target.client)
+	if(target?.client)
 		target.client.images.Remove(delusion)
 	return ..()
 
@@ -650,10 +653,10 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 		target.playsound_local(get_turf(airlock), 'sound/machines/boltsup.ogg',30,0,3)
 	qdel(src)
 
-/obj/effect/hallucination/fake_door_lock/CanPass(atom/movable/mover, turf/_target)
+/obj/effect/hallucination/fake_door_lock/CanAllowThrough(atom/movable/mover, turf/_target)
+	. = ..()
 	if(mover == target && airlock.density)
 		return FALSE
-	return TRUE
 
 /datum/hallucination/chat
 
@@ -707,10 +710,10 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	feedback_details += "Type: [is_radio ? "Radio" : "Talk"], Source: [person.real_name], Message: [message]"
 
 	// Display message
-	if (!is_radio && !target.client?.prefs.chat_on_map)
+	if (!is_radio && !(target.client?.prefs.toggles & PREFTOGGLE_RUNECHAT_GLOBAL))
 		var/image/speech_overlay = image('icons/mob/talk.dmi', person, "default0", layer = ABOVE_MOB_LAYER)
-		INVOKE_ASYNC(GLOBAL_PROC, /proc/flick_overlay, speech_overlay, list(target.client), 30)
-	if (target.client?.prefs.chat_on_map)
+		INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(flick_overlay), speech_overlay, list(target.client), 30)
+	if (target.client?.prefs.toggles & PREFTOGGLE_RUNECHAT_GLOBAL)
 		create_chat_message(person, understood_language, list(target), chosen, spans)
 	to_chat(target, message)
 	qdel(src)
@@ -1022,7 +1025,7 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 					target.halitem.icon_state = "stunbaton"
 					target.halitem.name = "Stun Baton"
 				if(5) //emag
-					target.halitem.icon = 'icons/obj/card.dmi'
+					target.halitem.icon = 'nsv13/icons/obj/card.dmi' //NSV13 - old style
 					target.halitem.icon_state = "emag"
 					target.halitem.name = "Cryptographic Sequencer"
 				if(6) //flashbang
@@ -1081,39 +1084,61 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 /obj/effect/hallucination/danger/lava
 	name = "lava"
 
+/obj/effect/hallucination/danger/lava/Initialize(mapload, _target)
+	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
 /obj/effect/hallucination/danger/lava/show_icon()
 	image = image('icons/turf/floors/lava.dmi',src,"smooth",TURF_LAYER)
 	if(target.client)
 		target.client.images += image
 
-/obj/effect/hallucination/danger/lava/Crossed(atom/movable/AM)
+/obj/effect/hallucination/danger/lava/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+
 	if(AM == target)
-		target.adjustStaminaLoss(20)
+		INVOKE_ASYNC(target, TYPE_PROC_REF(/mob/living/carbon, adjustStaminaLoss), 20)
 		new /datum/hallucination/fire(target)
 
 /obj/effect/hallucination/danger/chasm
 	name = "chasm"
+
+/obj/effect/hallucination/danger/chasm/Initialize(mapload, _target)
+	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/effect/hallucination/danger/chasm/show_icon()
 	image = image('icons/turf/floors/Chasms.dmi',src,"smooth",TURF_LAYER)
 	if(target.client)
 		target.client.images += image
 
-/obj/effect/hallucination/danger/chasm/Crossed(atom/movable/AM)
+/obj/effect/hallucination/danger/chasm/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+
 	if(AM == target)
 		if(istype(target, /obj/effect/dummy/phased_mob))
 			return
 		to_chat(target, "<span class='userdanger'>You fall into the chasm!</span>")
 		target.Paralyze(40)
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/to_chat, target, "<span class='notice'>It's surprisingly shallow.</span>"), 15)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(to_chat), target, "<span class='notice'>It's surprisingly shallow.</span>"), 15)
 		QDEL_IN(src, 30)
 
 /obj/effect/hallucination/danger/anomaly
 	name = "flux wave anomaly"
 
-/obj/effect/hallucination/danger/anomaly/Initialize()
+/obj/effect/hallucination/danger/anomaly/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/effect/hallucination/danger/anomaly/process(delta_time)
 	if(DT_PROB(45, delta_time))
@@ -1128,7 +1153,9 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	if(target.client)
 		target.client.images += image
 
-/obj/effect/hallucination/danger/anomaly/Crossed(atom/movable/AM)
+/obj/effect/hallucination/danger/anomaly/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+
 	if(AM == target)
 		new /datum/hallucination/shock(target)
 
@@ -1228,13 +1255,13 @@ GLOBAL_LIST_INIT(hallucination_list, list(
 	if(target.client)
 		target.client.images |= shock_image
 		target.client.images |= electrocution_skeleton_anim
-	addtimer(CALLBACK(src, .proc/reset_shock_animation), 40)
+	addtimer(CALLBACK(src, PROC_REF(reset_shock_animation)), 40)
 	target.playsound_local(get_turf(src), "sparks", 100, 1)
 	target.staminaloss += 50
 	target.Stun(40)
 	target.jitteriness += 1000
 	target.do_jitter_animation(target.jitteriness)
-	addtimer(CALLBACK(src, .proc/shock_drop), 20)
+	addtimer(CALLBACK(src, PROC_REF(shock_drop)), 20)
 
 /datum/hallucination/shock/proc/reset_shock_animation()
 	if(target.client)

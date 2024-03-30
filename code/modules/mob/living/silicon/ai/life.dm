@@ -123,7 +123,7 @@
 		AIarea = get_area(src)
 		if(AIarea)
 			for (var/obj/machinery/power/apc/APC in AIarea)
-				if (!(APC.stat & BROKEN))
+				if (!(APC.machine_stat & BROKEN))
 					theAPC = APC
 					break
 		if (!theAPC)
@@ -172,7 +172,7 @@
 	blind_eyes(1)
 	update_sight()
 	to_chat(src, "You've lost power!")
-	addtimer(CALLBACK(src, .proc/start_RestorePowerRoutine), 20)
+	addtimer(CALLBACK(src, PROC_REF(start_RestorePowerRoutine)), 20)
 
 #undef POWER_RESTORATION_OFF
 #undef POWER_RESTORATION_START

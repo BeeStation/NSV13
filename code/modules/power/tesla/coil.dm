@@ -24,10 +24,16 @@
 /obj/machinery/power/tesla_coil/power
 	circuit = /obj/item/circuitboard/machine/tesla_coil/power
 
-/obj/machinery/power/tesla_coil/Initialize()
+/obj/machinery/power/tesla_coil/Initialize(mapload)
 	. = ..()
 	wires = new /datum/wires/tesla_coil(src)
 	linked_techweb = SSresearch.science_tech
+
+/obj/machinery/power/tesla_coil/Destroy()
+	QDEL_NULL(wires)
+	linked_techweb = null //This shouldn't harddel even if not nulled but let's be tidy
+	return ..()
+
 
 /obj/machinery/power/tesla_coil/RefreshParts()
 	var/power_multiplier = 0
@@ -89,7 +95,7 @@
 			D.adjust_money(min(power_produced, 1))
 		if(istype(linked_techweb))
 			linked_techweb.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, min(power_produced, 1)) // x4 coils = ~240/m point bonus for R&D
-		addtimer(CALLBACK(src, .proc/reset_shocked), 10)
+		addtimer(CALLBACK(src, PROC_REF(reset_shocked)), 10)
 		tesla_buckle_check(power)
 	else
 		..()
@@ -126,8 +132,9 @@
 		if(D)
 			D.adjust_money(min(power_produced, 3))
 		if(istype(linked_techweb))
-			linked_techweb.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, min(power_produced, 3)) // x4 coils with a pulse per second or so = ~720/m point bonus for R&D
-		addtimer(CALLBACK(src, .proc/reset_shocked), 10)
+			linked_techweb.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, min(power_produced, 3)*2)
+			linked_techweb.add_point_type(TECHWEB_POINT_TYPE_DISCOVERY, min(power_produced, 3)*2) // x4 coils with a pulse per second or so = ~744/m point bonus for R&D
+		addtimer(CALLBACK(src, PROC_REF(reset_shocked)), 10)
 		tesla_buckle_check(power)
 	else
 		..()

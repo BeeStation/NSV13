@@ -1,7 +1,7 @@
 /datum/job/deck_tech
-	title = "Deck Technician"
+	title = JOB_NAME_DECKTECHNICIAN
 	flag = DECK_TECHNICIAN
-	department_head = list("Master At Arms")
+	department_head = list(JOB_NAME_MASTERATARMS)
 	department_flag = ENGSEC
 	faction = "Station"
 	total_positions = 2
@@ -23,7 +23,7 @@
 	departments = DEPARTMENT_MUNITIONS
 
 /datum/outfit/job/deck_tech
-	name = "Deck Technician"
+	name = JOB_NAME_DECKTECHNICIAN
 	jobtype = /datum/job/deck_tech
 
 	belt = /obj/item/storage/belt/utility/full/engi
@@ -32,12 +32,13 @@
 	suit = /obj/item/clothing/suit/hazardvest
 	head = /obj/item/clothing/head/helmet/decktech
 	gloves = /obj/item/clothing/gloves/color/brown
-	l_pocket = /obj/item/pda
+	id = /obj/item/card/id/deck_technician
+	l_pocket = /obj/item/modular_computer/tablet/pda/munition
 
 	backpack = /obj/item/storage/backpack/munitions
 	satchel = /obj/item/storage/backpack/satchel/munitions
 	duffelbag = /obj/item/storage/backpack/duffelbag/munitions
 
 /obj/effect/landmark/start/deck_tech
-	name = "Deck Technician"
+	name = JOB_NAME_DECKTECHNICIAN
 	icon_state = "Deck Technician"

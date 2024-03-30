@@ -3,7 +3,7 @@
 	show_name_in_check_antagonists = TRUE
 	var/objective_verb = "Kill"
 	var/datum/mind/summoner
-	job_rank = ROLE_ALIEN
+	banning_key = ROLE_SLAUGHTER_DEMON
 	show_in_antagpanel = FALSE
 	show_to_ghosts = TRUE
 
@@ -19,7 +19,7 @@
 	if(summoner)
 		var/datum/objective/assassinate/new_objective = new /datum/objective/assassinate
 		new_objective.owner = owner
-		new_objective.target = summoner
+		new_objective.set_target(summoner)
 		new_objective.explanation_text = "[objective_verb] [summoner.name], the one who summoned you."
 		objectives += new_objective
 		log_objective(owner, new_objective.explanation_text)

@@ -42,6 +42,8 @@
 /obj/structure/window/legacy_smooth()
 	//A little cludge here, since I don't know how it will work with slim windows. Most likely VERY wrong.
 	//this way it will only update full-tile ones
+	if(QDELETED(src))
+		return
 	. = ..()
 	if(!can_visually_connect())
 		icon_state = initial(icon_state)
@@ -58,6 +60,16 @@
 		else
 			I = image(icon, "[basestate][connections[i]]", dir = 1<<(i-1))
 		overlays += I
+
+	if(!fulltile)
+		return
+	var/ratio = obj_integrity / max_integrity
+	ratio = CEILING(ratio*4, 1) * 25
+	cut_overlay(crack_overlay)
+	if(ratio > 75)
+		return
+	crack_overlay = mutable_appearance('icons/obj/structures.dmi', "damage[ratio]", (layer+0.1)) //NSV13 - made layer in front of windows
+	add_overlay(crack_overlay)
 
 /obj/structure/window/proc/can_visually_connect_to(obj/structure/S)
 	return istype(S, src)
@@ -224,5 +236,77 @@
 	return
 
 
+/obj/structure/grille
+	var/list/connections = list("0", "0", "0", "0")
+	var/list/other_connections = list("0", "0", "0", "0")
+
+/obj/structure/grille/legacy_smooth()
+	. = ..()
+	if(!can_visually_connect())
+		icon_state = initial(icon_state)
+		return
+	icon_state = ""
+	update_connections()
+	var/basestate = initial(icon_state)
+	overlays.Cut()
+
+	var/image/I = null
+	for(var/i = 1 to 4)
+		if(other_connections[i] != "0")
+			I = image(icon, "[basestate]_other[connections[i]]", dir = 1<<(i-1))
+		else
+			I = image(icon, "[basestate][connections[i]]", dir = 1<<(i-1))
+		overlays += I
+
+/obj/structure/grille/proc/can_visually_connect_to(obj/structure/S)
+	return istype(S, src)
+
+/obj/structure/grille/proc/can_visually_connect()
+	return anchored
+
+/obj/structure/grille/proc/update_connections()
+	var/list/dirs = list()
+	var/list/other_dirs = list()
+
+	for(var/obj/structure/grille/S in orange(src, 1))
+		if(can_visually_connect_to(S))
+			if(S.can_visually_connect())
+				dirs += get_dir(src, S)
+
+	if(!can_visually_connect())
+		connections = list("0", "0", "0", "0")
+		other_connections = list("0", "0", "0", "0")
+		return FALSE
+
+	for(var/direction in GLOB.cardinals)
+		var/turf/T = get_step(src, direction)
+		var/success = 0
+		for(var/b_type in canSmoothWith)
+			if(istype(T, b_type))
+				success = 1
+				if(success)
+					break
+			if(success)
+				break
+		if(!success)
+			for(var/obj/O in T)
+				for(var/b_type in canSmoothWith)
+					if(istype(O, b_type))
+						success = 1
+						for(var/obj/structure/S in T)
+							if(istype(S, src))
+								success = 0
+					if(success)
+						break
+				if(success)
+					break
+
+		if(success)
+			dirs += get_dir(src, T)
+			other_dirs += get_dir(src, T)
+
+	connections = dirs_to_corner_states(dirs)
+	other_connections = dirs_to_corner_states(other_dirs)
+	return TRUE
 #undef CAN_SMOOTH_FULL
 #undef CAN_SMOOTH_HALF

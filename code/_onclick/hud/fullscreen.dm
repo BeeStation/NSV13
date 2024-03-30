@@ -29,7 +29,7 @@
 
 	if(animated)
 		animate(screen, alpha = 0, time = animated)
-		addtimer(CALLBACK(src, .proc/clear_fullscreen_after_animate, screen), animated, TIMER_CLIENT_TIME)
+		addtimer(CALLBACK(src, PROC_REF(clear_fullscreen_after_animate), screen), animated, TIMER_CLIENT_TIME)
 	else
 		if(client)
 			client.screen -= screen
@@ -109,6 +109,11 @@
 	icon_state = "blackimageoverlay"
 	layer = BLIND_LAYER
 	plane = FULLSCREEN_PLANE
+
+/atom/movable/screen/fullscreen/law_change
+    icon_state = "law_change"
+    layer = BLIND_LAYER
+    plane = FULLSCREEN_PLANE
 
 /atom/movable/screen/fullscreen/curse
 	icon_state = "curse"

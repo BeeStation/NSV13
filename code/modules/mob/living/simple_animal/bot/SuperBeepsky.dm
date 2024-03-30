@@ -24,7 +24,7 @@
 	desc = "The Syndicate sends their regards."
 	emagged = 2
 	noloot = TRUE
-	faction = list(ROLE_SYNDICATE)
+	faction = list(FACTION_SYNDICATE)
 
 /mob/living/simple_animal/bot/secbot/grievous/nullcrate/ComponentInitialize()
 	. = ..()
@@ -35,14 +35,14 @@
 	playsound(src, 'sound/weapons/blade1.ogg', 50, TRUE)
 	return BULLET_ACT_BLOCK
 
-/mob/living/simple_animal/bot/secbot/grievous/Crossed(atom/movable/AM)
-	..()
+/mob/living/simple_animal/bot/secbot/grievous/on_entered(datum/source, atom/movable/AM)
+	. = ..()
 	if(ismob(AM) && AM == target)
 		visible_message("[src] flails his swords and cuts [AM]!")
 		playsound(src,'sound/effects/beepskyspinsabre.ogg',100,TRUE,-1)
-		stun_attack(AM)
+		INVOKE_ASYNC(src, PROC_REF(stun_attack), AM)
 
-/mob/living/simple_animal/bot/secbot/grievous/Initialize()
+/mob/living/simple_animal/bot/secbot/grievous/Initialize(mapload)
 	. = ..()
 	weapon = new baton_type(src)
 	weapon.attack_self(src)
@@ -63,7 +63,7 @@
 	weapon.attack(C, src)
 	playsound(src, 'sound/weapons/blade1.ogg', 50, TRUE, -1)
 	if(C.stat == DEAD)
-		addtimer(CALLBACK(src, /atom/.proc/update_icon), 2)
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_icon)), 2)
 		back_to_idle()
 
 
@@ -73,7 +73,7 @@
 	switch(mode)
 		if(BOT_IDLE)		// idle
 			update_icon()
-			walk_to(src,0)
+			SSmove_manager.stop_looping(src)
 			look_for_perp()	// see if any criminals are in range
 			if(!mode && auto_patrol)	// still idle, and set to patrol
 				mode = BOT_START_PATROL	// switch to patrol mode
@@ -82,7 +82,7 @@
 			playsound(src,'sound/effects/beepskyspinsabre.ogg',100,TRUE,-1)
 			// general beepsky doesn't give up so easily, jedi scum
 			if(frustration >= 20)
-				walk_to(src,0)
+				SSmove_manager.stop_looping(src)
 				back_to_idle()
 				return
 			if(target)		// make sure target exists
@@ -93,7 +93,7 @@
 					return
 				else								// not next to perp
 					var/turf/olddist = get_dist(src, target)
-					walk_to(src, target,1,4)
+					SSmove_manager.move_to(src, target, 1, 4)
 					if((get_dist(src, target)) >= (olddist))
 						frustration++
 					else
@@ -119,7 +119,7 @@
 		if((C.name == oldtarget_name) && (world.time < last_found + 100))
 			continue
 
-		threatlevel = C.assess_threat(judgment_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
+		threatlevel = C.assess_threat(judgment_criteria, weaponcheck=CALLBACK(src, PROC_REF(check_for_weapons)))
 
 		if(!threatlevel)
 			continue
@@ -134,7 +134,7 @@
 			icon_state = "grievous-c"
 			visible_message("<b>[src]</b> points at [C.name]!")
 			mode = BOT_HUNT
-			INVOKE_ASYNC(src, .proc/handle_automated_action)
+			INVOKE_ASYNC(src, PROC_REF(handle_automated_action))
 			break
 		else
 			continue
@@ -142,7 +142,6 @@
 
 /mob/living/simple_animal/bot/secbot/grievous/explode()
 
-	walk_to(src,0)
 	visible_message("<span class='boldannounce'>[src] lets out a huge cough as it blows apart!</span>")
 	var/atom/Tsec = drop_location()
 

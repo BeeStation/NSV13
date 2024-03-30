@@ -66,8 +66,14 @@
 	src.faction = faction
 	animate(src, alpha = 255, time = rand(0, 2 SECONDS))
 
-/obj/effect/temp_visual/flak/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
-	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
+/obj/effect/temp_visual/flak/proc/on_entered(datum/source, atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
+	SIGNAL_HANDLER
+
 	if(!isprojectile(AM) && !istype(AM, /obj/structure/overmap))
 		return
 	//Distance from the "center" of the flak effect.
@@ -95,7 +101,7 @@
 /obj/item/projectile/bullet/flak/Initialize(mapload, range=10)
 	. = ..()
 	steps_left = range
-	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/check_range)
+	RegisterSignal(src, COMSIG_MOVABLE_MOVED, PROC_REF(check_range))
 
 /obj/item/projectile/bullet/flak/proc/explode()
 	if(exploded)
@@ -124,7 +130,7 @@
 	if(steps_left <= 0)
 		explode()
 
-/obj/item/projectile/guided_munition/Crossed(atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
+/obj/item/projectile/guided_munition/on_entered(datum/source, atom/movable/AM) //Here, we check if the bullet that hit us is from a friendly ship. If it's from an enemy ship, we explode as we've been flak'd down.
 	. = ..()
 
 	if(!isprojectile(AM))

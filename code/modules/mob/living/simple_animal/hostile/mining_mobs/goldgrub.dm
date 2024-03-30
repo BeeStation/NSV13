@@ -30,7 +30,7 @@
 	var/chase_time = 100
 	var/will_burrow = TRUE
 
-/mob/living/simple_animal/hostile/asteroid/goldgrub/Initialize()
+/mob/living/simple_animal/hostile/asteroid/goldgrub/Initialize(mapload)
 	. = ..()
 	var/i = rand(1,3)
 	while(i)
@@ -48,7 +48,7 @@
 			retreat_distance = 10
 			minimum_distance = 10
 			if(will_burrow)
-				addtimer(CALLBACK(src, .proc/Burrow), chase_time)
+				addtimer(CALLBACK(src, PROC_REF(Burrow)), chase_time)
 
 /mob/living/simple_animal/hostile/asteroid/goldgrub/AttackingTarget()
 	if(istype(target, /obj/item/stack/ore))

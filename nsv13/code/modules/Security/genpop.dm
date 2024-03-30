@@ -12,17 +12,20 @@
 	icon_state = "turnstile_map"
 	power_channel = AREA_USAGE_ENVIRON
 	density = TRUE
+	pass_flags_self = PASSGLASS | LETPASSTHROW | PASSGRILLE | PASSSTRUCTURE
 	obj_integrity = 250
 	max_integrity = 250
+	integrity_failure = 74
 	//Robust! It'll be tough to break...
 	armor = list("melee" = 50, "bullet" = 20, "laser" = 0, "energy" = 80, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 90, "acid" = 50, "stamina" = 0)
 	anchored = TRUE
-	use_power = FALSE
 	idle_power_usage = 2
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	layer = OPEN_DOOR_LAYER
 	//Seccies and brig phys may always pass, either way.
 	req_one_access = list(ACCESS_BRIG, ACCESS_BRIGPHYS, ACCESS_PRISONER)
+	//Cooldown so we don't shock a million times a second
+	COOLDOWN_DECLARE(shock_cooldown)
 
 //Executive officer's line variant. For rule of cool.
 /obj/machinery/turnstile/xo
@@ -102,29 +105,88 @@
 	else
 		return ..()
 
-/obj/machinery/turnstile/Initialize()
+
+/obj/machinery/turnstile/Initialize(mapload)
 	. = ..()
 	icon_state = "turnstile"
+	//Attach a signal handler to the turf below for when someone passes through.
+	//Signal automatically gets unattached and reattached when we're moved.
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
-/obj/machinery/turnstile/CanAtmosPass(turf/T)
-	return TRUE
-
-/obj/machinery/turnstile/CanPass(atom/movable/mover, turf/target)
-	if(istype(mover) && (mover.pass_flags & PASSGLASS))
-		return TRUE
-	if(!isliving(mover))
-		return TRUE
-	var/allowed = allowed(mover)
-	//Sec can drag you out unceremoniously.
-	if(!allowed && mover.pulledby)
-		allowed = allowed(mover.pulledby)
-	if(get_dir(loc, target) == dir || allowed) //Make sure looking at appropriate border
+/obj/machinery/turnstile/proc/on_entered(datum/source, atom/movable/arrived, atom/old_loc, list/atom/old_locs)
+	SIGNAL_HANDLER
+	if(istype(arrived, /mob))
 		flick("operate", src)
 		playsound(src,'sound/items/ratchet.ogg',50,0,3)
+
+///Handle movables (especially mobs) bumping into us.
+/obj/machinery/turnstile/Bumped(atom/movable/movable)
+	. = ..()
+	if(!istype(movable, /mob)) //just let non-mobs bump
+		return
+	if(machine_stat & BROKEN) //try to shock mobs if we're broken
+		try_shock(movable)
+		return
+	//pretend to be an airlock if a mob bumps us
+	//(which means they tried to move through but didn't have access)
+	flick("deny", src)
+	playsound(src,'sound/machines/deniedbeep.ogg',50,0,3)
+
+///Shock attacker if we're broken
+/obj/machinery/turnstile/attackby(obj/item/item, mob/user, params)
+	. = ..()
+	if(machine_stat & BROKEN)
+		try_shock(user)
+
+/obj/machinery/turnstile/welder_act(mob/living/user, obj/item/I)
+	//Shamelessly copied airlock code
+	. = TRUE //Never attack it with a welding tool
+	if(!I.tool_start_check(user, amount=0))
+		return
+	if(obj_integrity >= max_integrity)
+		to_chat(user, "<span class='notice'>The turnstile doesn't need repairing.</span>")
+		return
+	user.visible_message("[user] is welding the turnstile.", \
+				"<span class='notice'>You begin repairing the turnstile...</span>", \
+				"<span class='italics'>You hear welding.</span>")
+	if(I.use_tool(src, user, 40, volume=50))
+		obj_integrity = max_integrity
+		set_machine_stat(machine_stat & ~BROKEN)
+		user.visible_message("[user.name] has repaired [src].", \
+							"<span class='notice'>You finish repairing the turnstile.</span>")
+		update_icon()
+		return
+
+/obj/machinery/turnstile/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
+	if(. == TRUE)
+		return TRUE //Allow certain things declared with pass_flags_self through wihout side effects
+	if(machine_stat & BROKEN)
+		return FALSE
+	if(get_dir(loc, target) == dir) //Always let people through in one direction
+		return TRUE
+	var/allowed = allowed(mover)
+	//Everyone with access (including released prisoners) can drag you out.
+	if(!allowed && mover.pulledby)
+		allowed = allowed(mover.pulledby)
+	if(allowed)
+		return TRUE
+	return FALSE
+
+///Shock user if we can
+/obj/machinery/turnstile/proc/try_shock(mob/user)
+	if(machine_stat & NOPOWER)		// unpowered, no shock
+		return FALSE
+	if(!COOLDOWN_FINISHED(src, shock_cooldown)) //Don't shock in very short succession to avoid stuff getting out of hand.
+		return FALSE
+	COOLDOWN_START(src, shock_cooldown, 0.5 SECONDS)
+	do_sparks(5, TRUE, src)
+	if(electrocute_mob(user, power_source = get_area(src), source = src, dist_check = TRUE))
 		return TRUE
 	else
-		flick("deny", src)
-		playsound(src,'sound/machines/deniedbeep.ogg',50,0,3)
 		return FALSE
 
 //Officer interface.
@@ -160,7 +222,7 @@
 	name = "Prisoner Management Interface (circuit)"
 	build_path = /obj/machinery/genpop_interface
 
-/obj/machinery/genpop_interface/Initialize()
+/obj/machinery/genpop_interface/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -169,11 +231,11 @@
 	Radio.set_frequency(FREQ_SECURITY)
 
 /obj/machinery/genpop_interface/update_icon()
-	if(stat & (NOPOWER))
+	if(machine_stat & (NOPOWER))
 		icon_state = "frame"
 		return
 
-	if(stat & (BROKEN))
+	if(machine_stat & (BROKEN))
 		set_picture("ai_bsod")
 		return
 	set_picture("genpop")
@@ -219,8 +281,8 @@
 	if(world.time < next_print)
 		to_chat(user, "<span class='warning'>[src]'s ID printer is on cooldown.</span>")
 		return FALSE
-	investigate_log("[key_name(user)] created a prisoner ID with sentence: [desired_sentence] for [desired_sentence] min", INVESTIGATE_RECORDS)
-	user.log_message("[key_name(user)] created a prisoner ID with sentence: [desired_sentence] for [desired_sentence] min", LOG_ATTACK)
+	investigate_log("[key_name(user)] created a prisoner ID with sentence: [desired_sentence / 60] for [desired_sentence / 60] min", INVESTIGATE_RECORDS)
+	user.log_message("[key_name(user)] created a prisoner ID with sentence: [desired_sentence / 60] for [desired_sentence / 60] min", LOG_ATTACK)
 
 	if(desired_crime)
 		var/datum/data/record/R = find_record("name", desired_name, GLOB.data_core.general)
@@ -233,9 +295,10 @@
 			playsound(loc, 'sound/machines/ping.ogg', 50, 1)
 
 	var/obj/item/card/id/id = new /obj/item/card/id/prisoner(get_turf(src), desired_sentence, desired_crime, desired_name)
-	Radio.talk_into(src, "Prisoner [id.registered_name] has been incarcerated for [desired_sentence] minutes.", FREQ_SECURITY)
+	Radio.talk_into(src, "Prisoner [id.registered_name] has been incarcerated for [desired_sentence / 60 ] minutes.", FREQ_SECURITY)
 	var/obj/item/paper/paperwork = new /obj/item/paper(get_turf(src))
-	paperwork.info = "<h1 id='record-of-incarceration'>Record Of Incarceration:</h1> <hr> <h2 id='name'>Name: </h2> <p>[desired_name]</p> <h2 id='crime'>Crime: </h2> <p>[desired_crime]</p> <h2 id='sentence-min'>Sentence (Min)</h2> <p>[desired_sentence/60]</p> <p>WhiteRapids Military Council, disciplinary authority</p>"
+	paperwork.add_raw_text("<h1 id='record-of-incarceration'>Record Of Incarceration:</h1> <hr> <h2 id='name'>Name: </h2> <p>[desired_name]</p> <h2 id='crime'>Crime: </h2> <p>[desired_crime]</p> <h2 id='sentence-min'>Sentence (Min)</h2> <p>[desired_sentence/60]</p> <p>WhiteRapids Military Council, disciplinary authority</p>")
+	paperwork.update_appearance()
 	desired_sentence = 60
 	desired_crime = null
 	desired_name = null
@@ -290,7 +353,16 @@
 			desired_sentence = preset_time MINUTES
 			desired_sentence /= 10
 			desired_crime = preset_crime
-
+		if("adjust_time")
+			var/obj/item/card/id/prisoner/id = locate(params["id"])
+			if(!istype(id))
+				return
+			if(id.access == ACCESS_PRISONER)
+				return
+			var/value = text2num(params["adjust"])
+			if(value && isnum(value))
+				id.sentence += value
+				id.sentence = clamp(id.sentence,0,MAX_TIMER)
 		if("release")
 			var/obj/item/card/id/prisoner/id = locate(params["id"])
 			if(!istype(id))
@@ -318,7 +390,7 @@ GLOBAL_LIST_EMPTY(prisoner_ids)
 	if(_sentence)
 		sentence = _sentence
 		if(!_name)
-			registered_name = "Prisoner WR-DELPHIC#[rand(0, 10000)]"
+			registered_name = "Prisoner WR-ROSETTA#[rand(0, 10000)]"
 		else
 			registered_name = _name
 		update_label(registered_name, "Convict")

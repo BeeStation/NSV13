@@ -331,7 +331,7 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 	var/detonation_timer
 	var/next_announce
 
-/obj/machinery/doomsday_device/Initialize()
+/obj/machinery/doomsday_device/Initialize(mapload)
 	. = ..()
 	countdown = new(src)
 
@@ -431,8 +431,8 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 	for(var/obj/machinery/door/D in GLOB.airlocks)
 		if(!is_station_level(D.z))
 			continue
-		INVOKE_ASYNC(D, /obj/machinery/door.proc/hostile_lockdown, owner)
-		addtimer(CALLBACK(D, /obj/machinery/door.proc/disable_lockdown), 900)
+		INVOKE_ASYNC(D, TYPE_PROC_REF(/obj/machinery/door, hostile_lockdown), owner)
+		addtimer(CALLBACK(D, TYPE_PROC_REF(/obj/machinery/door, disable_lockdown)), 900)
 
 	var/obj/machinery/computer/communications/C = locate() in GLOB.machines
 	if(C)
@@ -440,7 +440,8 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 
 	minor_announce("Hostile runtime detected in door controllers. Isolation lockdown protocols are now in effect. Please remain calm.","Network Alert:", TRUE)
 	to_chat(owner, "<span class='danger'>Lockdown initiated. Network reset in 90 seconds.</span>")
-	addtimer(CALLBACK(GLOBAL_PROC, .proc/minor_announce,
+	owner.log_message("activated malf module [name]", LOG_GAME)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(minor_announce),
 		"Automatic system reboot complete. Have a secure day.",
 		"Network reset:"), 900)
 
@@ -588,7 +589,8 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 	ranged_ability_user.playsound_local(ranged_ability_user, "sparks", 50, 0)
 	attached_action.adjust_uses(-1)
 	target.audible_message("<span class='userdanger'>You hear a loud electrical buzzing sound coming from [target]!</span>")
-	addtimer(CALLBACK(attached_action, /datum/action/innate/ai/ranged/overload_machine.proc/detonate_machine, target), 50) //kaboom!
+	caller.log_message("activated malf module [name]", LOG_GAME)
+	addtimer(CALLBACK(attached_action, TYPE_PROC_REF(/datum/action/innate/ai/ranged/overload_machine, detonate_machine), target), 50) //kaboom!
 	remove_ranged_ability("<span class='danger'>Overcharging machine...</span>")
 	return TRUE
 
@@ -635,7 +637,8 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 	ranged_ability_user.playsound_local(ranged_ability_user, 'sound/misc/interference.ogg', 50, 0)
 	attached_action.adjust_uses(-1)
 	target.audible_message("<span class='userdanger'>You hear a loud electrical buzzing sound coming from [target]!</span>")
-	addtimer(CALLBACK(attached_action, /datum/action/innate/ai/ranged/override_machine.proc/animate_machine, target), 50) //kabeep!
+	caller.log_message("activated malf module [name]", LOG_GAME)
+	addtimer(CALLBACK(attached_action, TYPE_PROC_REF(/datum/action/innate/ai/ranged/override_machine, animate_machine), target), 50) //kabeep!
 	remove_ranged_ability("<span class='danger'>Sending override signal...</span>")
 	return TRUE
 
@@ -669,7 +672,7 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 	if(!owner_AI.can_place_transformer(src))
 		return
 	active = TRUE
-	if(alert(owner, "Are you sure you want to place the machine here?", "Are you sure?", "Yes", "No") == "No")
+	if(alert(owner, "Are you sure you want to place the machine here?", "Are you sure?", "Yes", "No") != "Yes")
 		active = FALSE
 		return
 	if(!owner_AI.can_place_transformer(src))
@@ -710,7 +713,7 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 		I.loc = T
 		client.images += I
 		I.icon_state = "[success ? "green" : "red"]Overlay" //greenOverlay and redOverlay for success and failure respectively
-		addtimer(CALLBACK(src, .proc/remove_transformer_image, client, I, T), 30)
+		addtimer(CALLBACK(src, PROC_REF(remove_transformer_image), client, I, T), 30)
 	if(!success)
 		to_chat(src, "<span class='warning'>[alert_msg]</span>")
 	return success
@@ -763,7 +766,7 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 	for(var/obj/machinery/light/L in GLOB.machines)
 		if(is_station_level(L.z))
 			L.no_emergency = TRUE
-			INVOKE_ASYNC(L, /obj/machinery/light/.proc/update, FALSE)
+			INVOKE_ASYNC(L, TYPE_PROC_REF(/obj/machinery/light, update), FALSE)
 		CHECK_TICK
 	to_chat(owner, "<span class='notice'>Emergency light connections severed.</span>")
 	owner.playsound_local(owner, 'sound/effects/light_flicker.ogg', 50, FALSE)
@@ -860,7 +863,41 @@ GLOBAL_LIST_INIT(blacklisted_malf_machines, typecacheof(list(
 
 /datum/AI_Module/large/eavesdrop/upgrade(mob/living/silicon/ai/AI)
 	if(AI.eyeobj)
-		AI.eyeobj.relay_speech = TRUE
+		AI.eyeobj.set_relay_speech(TRUE)
+
+
+//Fake Alert: Overloads a random number of lights across the station. Three uses.
+/datum/AI_Module/small/fake_alert
+	module_name = "Fake Alert"
+	mod_pick_name = "fake_alert"
+	description = "Assess the most probable threats to the station, and send a distracting fake alert by hijacking the station's alert and threat identification systems."
+	cost = 20
+	power_type = /datum/action/innate/ai/fake_alert
+	unlock_text = "<span class='notice'>You gain control of the station's alert system.</span>"
+	unlock_sound = "sparks"
+
+/datum/action/innate/ai/fake_alert
+	name = "Fake Alert"
+	desc = "Scare the crew with a fake alert."
+	button_icon_state = "fake_alert"
+	uses = 1
+
+/datum/action/innate/ai/fake_alert/Activate()
+	var/list/events_to_chose = list()
+	for(var/datum/round_event_control/E in SSevents.control)
+		if(!E.can_malf_fake_alert)
+			continue
+		events_to_chose[E.name] = E
+	var/chosen_event = input(owner,"Send fake alert","Fake Alert") in events_to_chose
+	if (!chosen_event)
+		return FALSE
+	var/datum/round_event_control/event_control = events_to_chose[chosen_event]
+	if (!event_control)
+		return FALSE
+	var/datum/round_event/event_announcement = new event_control.typepath()
+	event_announcement.kill()
+	event_announcement.announce(TRUE)
+	return TRUE
 
 
 //Fake Alert: Overloads a random number of lights across the station. Three uses.

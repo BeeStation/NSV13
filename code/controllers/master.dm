@@ -7,6 +7,11 @@
   *
  **/
 
+//Init the debugger datum first so we can debug Master
+//You might wonder why not just create the debugger datum global in its own file, since its loaded way earlier than this DM file
+//Well for whatever reason then the Master gets created first and then the debugger when doing that
+//So thats why this code lives here now, until someone finds out how Byond inits globals
+GLOBAL_REAL(Debugger, /datum/debugger) = new
 //This is the ABSOLUTE ONLY THING that should init globally like this
 GLOBAL_REAL(Master, /datum/controller/master) = new
 
@@ -80,15 +85,27 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	var/list/_subsystems = list()
 	subsystems = _subsystems
 	if (Master != src)
-		if (istype(Master))
+		if (istype(Master)) //If there is an existing MC take over his stuff and delete it
 			Recover()
 			qdel(Master)
+			Master = src
 		else
-			var/list/subsytem_types = subtypesof(/datum/controller/subsystem)
-			sortTim(subsytem_types, /proc/cmp_subsystem_init)
-			for(var/I in subsytem_types)
-				_subsystems += new I
-		Master = src
+			//Code used for first master on game boot or if existing master got deleted
+			Master = src
+			var/list/subsystem_types = subtypesof(/datum/controller/subsystem)
+			sortTim(subsystem_types, GLOBAL_PROC_REF(cmp_subsystem_init))
+			//Find any abandoned subsystem from the previous master (if there was any)
+			var/list/existing_subsystems = list()
+			for(var/global_var in global.vars)
+				if (istype(global.vars[global_var], /datum/controller/subsystem))
+					existing_subsystems += global.vars[global_var]
+			//Either init a new SS or if an existing one was found use that
+			for(var/I in subsystem_types)
+				var/ss_idx = existing_subsystems.Find(I)
+				if (ss_idx)
+					_subsystems += existing_subsystems[ss_idx]
+				else
+					_subsystems += new I
 
 	if(!GLOB)
 		new /datum/controller/global_vars
@@ -100,7 +117,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 
 /datum/controller/master/Shutdown()
 	processing = FALSE
-	sortTim(subsystems, /proc/cmp_subsystem_init)
+	sortTim(subsystems, GLOBAL_PROC_REF(cmp_subsystem_init))
 	reverseRange(subsystems)
 	for(var/datum/controller/subsystem/ss in subsystems)
 		log_world("Shutting down [ss.name] subsystem...")
@@ -119,7 +136,8 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	var/delay = 50 * ++Master.restart_count
 	Master.restart_timeout = world.time + delay
 	Master.restart_clear = world.time + (delay * 2)
-	Master.processing = FALSE //stop ticking this one
+	if (Master) //Can only do this if master hasn't been deleted
+		Master.processing = FALSE //stop ticking this one
 	try
 		new/datum/controller/master()
 	catch
@@ -186,13 +204,13 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	to_chat(world, "<span class='boldannounce'>Initializing subsystems...</span>")
 
 	// Sort subsystems by init_order, so they initialize in the correct order.
-	sortTim(subsystems, /proc/cmp_subsystem_init)
+	sortTim(subsystems, GLOBAL_PROC_REF(cmp_subsystem_init))
 
 	var/start_timeofday = REALTIMEOFDAY
 	// Initialize subsystems.
 	current_ticklimit = CONFIG_GET(number/tick_limit_mc_init)
 	for (var/datum/controller/subsystem/SS in subsystems)
-		if (SS.flags & SS_NO_INIT)
+		if (SS.flags & SS_NO_INIT || SS.initialized) //Don't init SSs with the correspondig flag or if they already are initialzized
 			continue
 		SS.Initialize(REALTIMEOFDAY)
 		CHECK_TICK
@@ -207,7 +225,7 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 		SetRunLevel(1)
 
 	// Sort subsystems by display setting for easy access.
-	sortTim(subsystems, /proc/cmp_subsystem_display)
+	sortTim(subsystems, GLOBAL_PROC_REF(cmp_subsystem_display))
 	// Set world options.
 	world.fps = CONFIG_GET(number/fps)
 	var/initialized_tod = REALTIMEOFDAY
@@ -289,9 +307,9 @@ GLOBAL_REAL(Master, /datum/controller/master) = new
 	queue_tail = null
 	//these sort by lower priorities first to reduce the number of loops needed to add subsequent SS's to the queue
 	//(higher subsystems will be sooner in the queue, adding them later in the loop means we don't have to loop thru them next queue add)
-	sortTim(tickersubsystems, /proc/cmp_subsystem_priority)
+	sortTim(tickersubsystems, GLOBAL_PROC_REF(cmp_subsystem_priority))
 	for(var/I in runlevel_sorted_subsystems)
-		sortTim(runlevel_sorted_subsystems, /proc/cmp_subsystem_priority)
+		sortTim(I, GLOBAL_PROC_REF(cmp_subsystem_priority))
 		I += tickersubsystems
 
 	var/cached_runlevel = current_runlevel

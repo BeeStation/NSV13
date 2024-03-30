@@ -69,6 +69,8 @@
 		playsound(loc, 'sound/voice/liveagain.ogg', 75, 1)
 
 	R.revive()
+	R.logevent("WARN -- System recovered from unexpected shutdown.")
+	R.logevent("System brought online.")
 
 /obj/item/borg/upgrade/vtec
 	name = "cyborg VTEC module"
@@ -134,6 +136,7 @@
 			return FALSE
 
 		R.ionpulse = TRUE
+		R.toggle_ionpulse() //Enabled by default
 
 /obj/item/borg/upgrade/thrusters/deactivate(mob/living/silicon/robot/R, user = usr)
 	. = ..()
@@ -263,9 +266,9 @@
 		for(var/obj/item/mop/cyborg/M in R.module.modules)
 			R.module.remove_module(M, TRUE)
 
-	var/obj/item/mop/advanced/cyborg/A = new /obj/item/mop/advanced/cyborg(R.module)
-	R.module.basic_modules += A
-	R.module.add_module(A, FALSE, TRUE)
+		var/obj/item/mop/advanced/cyborg/A = new /obj/item/mop/advanced/cyborg(R.module)
+		R.module.basic_modules += A
+		R.module.add_module(A, FALSE, TRUE)
 
 /obj/item/borg/upgrade/amop/deactivate(mob/living/silicon/robot/R, user = usr)
 	. = ..()
@@ -290,6 +293,8 @@
 			return FALSE
 
 		R.SetEmagged(1)
+		R.logevent("WARN: hardware installed with missing security certificate!") //A bit of fluff to hint it was an illegal tech item
+		R.logevent("WARN: root privleges granted to PID [num2hex(rand(1,65535), -1)][num2hex(rand(1,65535), -1)].") //random eight digit hex value. Two are used because rand(1,4294967295) throws an error
 
 		return TRUE
 
@@ -355,8 +360,8 @@
 		deactivate_sr()
 
 /obj/item/borg/upgrade/selfrepair/dropped()
-	. = ..()
-	addtimer(CALLBACK(src, .proc/check_dropped), 1)
+	..()
+	addtimer(CALLBACK(src, PROC_REF(check_dropped)), 1)
 
 /obj/item/borg/upgrade/selfrepair/proc/check_dropped()
 	if(loc != cyborg)
@@ -443,26 +448,21 @@
 /obj/item/borg/upgrade/hypospray/action(mob/living/silicon/robot/R, user = usr)
 	. = ..()
 	if(.)
-		for(var/obj/item/reagent_containers/borghypo/H in R.module.modules)
-			if(H.accepts_reagent_upgrades)
-				for(var/re in additional_reagents)
-					H.add_reagent(re)
+		///NSV13 - Borg Hypospray Update - Start
+		for(var/obj/item/reagent_containers/borghypo/medical/H in R.module.modules)
+			H.upgrade_hypo()
 
 /obj/item/borg/upgrade/hypospray/deactivate(mob/living/silicon/robot/R, user = usr)
 	. = ..()
 	if (.)
-		for(var/obj/item/reagent_containers/borghypo/H in R.module.modules)
-			if(H.accepts_reagent_upgrades)
-				for(var/re in additional_reagents)
-					H.del_reagent(re)
+		for(var/obj/item/reagent_containers/borghypo/medical/H in R.module.modules)
+			H.remove_hypo_upgrade()
 
 /obj/item/borg/upgrade/hypospray/expanded
 	name = "medical cyborg expanded hypospray"
 	desc = "An upgrade to the Medical module's hypospray, allowing it \
 		to treat a wider range of conditions and problems."
-	additional_reagents = list(/datum/reagent/medicine/mannitol, /datum/reagent/medicine/oculine, /datum/reagent/medicine/inacusiate,
-		/datum/reagent/medicine/mutadone, /datum/reagent/medicine/haloperidol, /datum/reagent/medicine/oxandrolone, /datum/reagent/medicine/sal_acid, /datum/reagent/medicine/rezadone,
-		/datum/reagent/medicine/pen_acid)
+	///NSV13 - Borg Hypospray Update - Stop
 
 /obj/item/borg/upgrade/piercing_hypospray
 	name = "cyborg piercing hypospray"
@@ -693,6 +693,12 @@
 	new_module = /obj/item/robot_module/security
 	module_flags = BORG_MODULE_SECURITY
 
+/obj/item/borg/upgrade/transform/borgi
+	name = "borg module picker (Borgi)"
+	desc = "Allows you to to turn a cyborg into a weapon to surpass Ian-gear."
+	icon_state = "cyborg_upgrade3"
+	new_module = /obj/item/robot_module/borgi
+
 /obj/item/borg/upgrade/transform/security/action(mob/living/silicon/robot/R, user = usr)
 	if(CONFIG_GET(flag/disable_secborg))
 		to_chat(user, "<span class='warning'>Nanotrasen policy disallows the use of weapons of mass destruction.</span>")
@@ -781,10 +787,10 @@
 				R.module.basic_modules += nmodule
 				R.module.add_module(nmodule, FALSE, TRUE)
 
+		///NSV13 - Borg Hypospray Update - Start
 		for(var/obj/item/reagent_containers/borghypo/borgshaker/H in R.module.modules)
-			for(var/re in additional_reagents)
-				H.add_reagent(re)
-
+			H.upgrade_hypo()
+		///NSV13 - Borg Hypospray Update - Stop
 		if(hat && R.hat_offset != INFINITY && !R.hat)
 			var/obj/item/equipt = new hat(src)
 			if (equipt )
@@ -798,9 +804,10 @@
 			var/dmod = locate(module) in R.module.modules
 			if (dmod)
 				R.module.remove_module(dmod, TRUE)
+		///NSV13 - Borg Hypospray Update - Start
 		for(var/obj/item/reagent_containers/borghypo/borgshaker/H in R.module.modules)
-			for(var/re in additional_reagents)
-				H.del_reagent(re)
+			H.remove_hypo_upgrade()
+		///NSV13 - Borg Hypospray Update - Stop
 
 /obj/item/borg/upgrade/speciality/kitchen
 	name = "Cook Speciality"

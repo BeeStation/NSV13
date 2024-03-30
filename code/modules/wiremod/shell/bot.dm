@@ -11,7 +11,7 @@
 	density = FALSE
 	light_range = FALSE
 
-/obj/structure/bot/Initialize()
+/obj/structure/bot/Initialize(mapload)
 	. = ..()
 	AddComponent( \
 		/datum/component/shell, \
@@ -27,7 +27,7 @@
 	/// Called when attack_hand is called on the shell.
 	var/datum/port/output/signal
 
-/obj/item/circuit_component/bot/Initialize()
+/obj/item/circuit_component/bot/Initialize(mapload)
 	. = ..()
 	signal = add_output_port("Signal", PORT_TYPE_SIGNAL)
 
@@ -36,7 +36,7 @@
 	return ..()
 
 /obj/item/circuit_component/bot/register_shell(atom/movable/shell)
-	RegisterSignal(shell, COMSIG_ATOM_ATTACK_HAND, .proc/on_attack_hand)
+	RegisterSignal(shell, COMSIG_ATOM_ATTACK_HAND, PROC_REF(on_attack_hand))
 
 /obj/item/circuit_component/bot/unregister_shell(atom/movable/shell)
 	UnregisterSignal(shell, COMSIG_ATOM_ATTACK_HAND)

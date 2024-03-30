@@ -10,6 +10,10 @@
 	layer = BELOW_MOB_LAYER//icon draw layer
 	infra_luminosity = 15 //byond implementation is bugged.
 	force = 5
+	light_system = MOVABLE_LIGHT
+	light_on = FALSE
+	light_power = 1
+	light_range = 5
 	var/ruin_mecha = FALSE //if the mecha starts on a ruin, don't automatically give it a tracking beacon to prevent metagaming.
 	var/can_move = 0 //time of next allowed movement
 	var/mob/living/carbon/occupant = null
@@ -119,7 +123,7 @@
 
 /obj/item/radio/mech //this has to go somewhere
 
-/obj/mecha/Initialize()
+/obj/mecha/Initialize(mapload)
 	. = ..()
 	events = new
 	icon_state += "-open"
@@ -436,9 +440,6 @@
 			occupant.fire_stacks += 1
 		occupant.IgniteMob()
 
-/obj/mecha/proc/drop_item()//Derpfix, but may be useful in future for engineering exosuits.
-	return
-
 /obj/mecha/Hear(message, atom/movable/speaker, message_language, raw_message, radio_freq, list/spans, list/message_mods = list())
 	. = ..()
 	if(speaker == occupant)
@@ -447,7 +448,7 @@
 		for(var/mob/M as() in hearers(7,src))
 			if(M.client)
 				speech_bubble_recipients.Add(M.client)
-		INVOKE_ASYNC(GLOBAL_PROC, /proc/flick_overlay, image('icons/mob/talk.dmi', src, "machine[say_test(raw_message)]",MOB_LAYER+1), speech_bubble_recipients, 30)
+		INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(flick_overlay), image('icons/mob/talk.dmi', src, "machine[say_test(raw_message)]",MOB_LAYER+1), speech_bubble_recipients, 30)
 
 /obj/mecha/emag_act(mob/user)
 	. = ..()
@@ -460,7 +461,7 @@
 	dna_lock = null
 	equipment_disabled = TRUE
 	log_message("System emagged detected", LOG_MECHA, color="red")
-	addtimer(CALLBACK(src, /obj/mecha/proc/restore_equipment), 15 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/obj/mecha, restore_equipment)), 15 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
 ////////////////////////////
 ///// Action processing ////
@@ -541,7 +542,7 @@
 	if(.)
 		return
 
-	var/atom/backup = get_spacemove_backup()
+	var/atom/backup = get_spacemove_backup(movement_dir)
 	if(backup && movement_dir)
 		if(isturf(backup)) //get_spacemove_backup() already checks if a returned turf is solid, so we can just go
 			return TRUE
@@ -1166,10 +1167,11 @@ GLOBAL_VAR_INIT(year_integer, text2num(year)) // = 2013???
 	take_damage(500,  BRUTE)
 
 /obj/mecha/lighteater_act(obj/item/light_eater/light_eater)
+	..()
 	if(!lights_power)
 		return
 	lights = FALSE
 	lights_power = 0
-	set_light(0)
+	set_light_on(FALSE)
 	visible_message(src, "<span class='danger'>The lights on [src] short out!</span>")
 	playsound(src, 'sound/items/welder.ogg', 50, 1)

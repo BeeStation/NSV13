@@ -6,20 +6,12 @@
 	var/coverage_goal = 500
 
 /datum/station_goal/station_shield/get_report()
-	return {"The ship is located in a zone full of space debris.
-			 We have a prototype shielding system you must deploy to reduce collision-related accidents.
-
-			 You can order the satellites and control systems at cargo.
-			 "} //NSV13
-
-
-/datum/station_goal/station_shield/on_report()
-	//Unlock
-	var/datum/supply_pack/P = SSshuttle.supply_packs[/datum/supply_pack/engineering/shield_sat]
-	P.special_enabled = TRUE
-
-	P = SSshuttle.supply_packs[/datum/supply_pack/engineering/shield_sat_control]
-	P.special_enabled = TRUE
+	return list(
+		"<blockquote>The ship is located in a zone full of space debris.",
+		"We have a prototype shielding system you must deploy to reduce collision-related accidents.",
+		"",
+		"You can order the satellites and control systems at cargo.</blockquote>",
+	).Join("\n") //NSV13 - The Shippening
 
 /datum/station_goal/station_shield/check_completion()
 	if(..())
@@ -103,7 +95,7 @@
 	var/static/gid = 0
 	var/id = 0
 
-/obj/machinery/satellite/Initialize()
+/obj/machinery/satellite/Initialize(mapload)
 	. = ..()
 	id = gid++
 

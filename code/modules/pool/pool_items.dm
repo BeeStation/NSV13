@@ -6,13 +6,10 @@
 	damtype = STAMINA
 	w_class = WEIGHT_CLASS_BULKY
 	block_sound = 'sound/weapons/tap.ogg'
-	block_level = 1
-	block_upgrade_walk = 0
-	block_power = 0
-	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
 	attack_verb = list("wacked")
 
-/obj/item/pool/Initialize()
+
+/obj/item/pool/Initialize(mapload)
 	. = ..()
 	//Pick a random color
 	add_atom_colour(pick(COLOR_YELLOW, COLOR_LIME, COLOR_RED, COLOR_BLUE_LIGHT, COLOR_CYAN, COLOR_MAGENTA), FIXED_COLOUR_PRIORITY)
@@ -52,7 +49,7 @@
 /obj/item/pool/pool_noodle/attack(mob/target, mob/living/carbon/human/user)
 	. = ..()
 	if(ISWIELDED(src) && prob(50))
-		INVOKE_ASYNC(src, .proc/jedi_spin, user)
+		INVOKE_ASYNC(src, PROC_REF(jedi_spin), user)
 
 /obj/item/pool/pool_noodle/proc/jedi_spin(mob/living/user) //rip complex code, but this fucked up blocking
 	user.emote("flip")

@@ -27,7 +27,7 @@
 
 	var/list/atmos_overlay_types //gas IDs of current active gas overlays
 
-/turf/open/Initialize()
+/turf/open/Initialize(mapload)
 	if(!blocks_air)
 		air = new(2500,src)
 		air.copy_from_turf(src)
@@ -50,7 +50,11 @@
 	if(!giver)
 		return FALSE
 	if(SSair.thread_running())
-		SSair.deferred_airs += list(list(giver, air, moles / giver.total_moles()))
+		var giver_moles = giver.total_moles()
+		if(giver_moles > 0)
+			SSair.deferred_airs += list(list(giver, air, moles / giver_moles))
+		else
+			SSair.deferred_airs += list(list(giver, air, 0))
 	else
 		giver.transfer_to(air, moles)
 		update_visuals()
@@ -70,7 +74,11 @@
 	if(!taker || !return_air()) // shouldn't transfer from space
 		return FALSE
 	if(SSair.thread_running())
-		SSair.deferred_airs += list(list(air, taker, moles / air.total_moles()))
+		var air_moles = air.total_moles()
+		if(air_moles > 0)
+			SSair.deferred_airs += list(list(air, taker, moles / air_moles))
+		else
+			SSair.deferred_airs += list(list(air, taker, 0))
 	else
 		air.transfer_to(taker, moles)
 		update_visuals()
@@ -253,20 +261,23 @@
 /atom/movable/var/last_high_pressure_movement_air_cycle = 0
 
 /atom/movable/proc/experience_pressure_difference(pressure_difference, direction, pressure_resistance_prob_delta = 0, throw_target)
+	set waitfor = FALSE
+	if(SEND_SIGNAL(src, COMSIG_MOVABLE_PRE_PRESSURE_PUSH) & COMSIG_MOVABLE_BLOCKS_PRESSURE)
+		return
+
 	var/const/PROBABILITY_OFFSET = 40
 	var/const/PROBABILITY_BASE_PRECENT = 10
 	var/max_force = sqrt(pressure_difference)*(MOVE_FORCE_DEFAULT / 5)
-	set waitfor = 0
 	var/move_prob = 100
 	//NSV13 - depressurzation does not drag things upwards - caused infinite loops with objects being sucked out, then falling through openspace.
 	if(direction == UP)
 		last_high_pressure_movement_air_cycle = SSair.times_fired
 		return //By all that is holy STOP deathlooping tiles.
 	//NSV13 end.
-	if (pressure_resistance > 0)
+	if(pressure_resistance > 0)
 		move_prob = (pressure_difference/pressure_resistance*PROBABILITY_BASE_PRECENT)-PROBABILITY_OFFSET
 	move_prob += pressure_resistance_prob_delta
-	if (move_prob > PROBABILITY_OFFSET && prob(move_prob) && (move_resist != INFINITY) && (!anchored && (max_force >= (move_resist * MOVE_FORCE_PUSH_RATIO))) || (anchored && (max_force >= (move_resist * MOVE_FORCE_FORCEPUSH_RATIO))))
+	if(move_prob > PROBABILITY_OFFSET && prob(move_prob) && (move_resist != INFINITY) && (!anchored && (max_force >= (move_resist * MOVE_FORCE_PUSH_RATIO))) || (anchored && (max_force >= (move_resist * MOVE_FORCE_FORCEPUSH_RATIO))))
 		var/move_force = max_force * CLAMP(move_prob, 0, 100) / 100
 		if(move_force > 6000)
 			// WALLSLAM HELL TIME OH BOY

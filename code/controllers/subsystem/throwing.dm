@@ -72,7 +72,7 @@ SUBSYSTEM_DEF(throwing)
 /datum/thrownthing/New(thrownthing, target, init_dir, maxrange, speed, thrower, diagonals_first, force, callback, target_zone)
 	. = ..()
 	src.thrownthing = thrownthing
-	RegisterSignal(thrownthing, COMSIG_PARENT_QDELETING, .proc/on_thrownthing_qdel)
+	RegisterSignal(thrownthing, COMSIG_PARENT_QDELETING, PROC_REF(on_thrownthing_qdel))
 	src.target_turf = get_turf(target)
 	if(target_turf != target)
 		src.initial_target = WEAKREF(target)
@@ -89,7 +89,7 @@ SUBSYSTEM_DEF(throwing)
 /datum/thrownthing/Destroy()
 	SSthrowing.processing -= thrownthing
 	SSthrowing.currentrun -= thrownthing
-	thrownthing.throwing = null
+	thrownthing?.throwing = null
 	thrownthing = null
 	thrower = null
 	initial_target = null
@@ -120,6 +120,8 @@ SUBSYSTEM_DEF(throwing)
 	if(dist_travelled) //to catch sneaky things moving on our tile while we slept
 		for(var/atom/movable/obstacle as anything in get_turf(thrownthing))
 			if (obstacle == thrownthing || (obstacle == thrower && !ismob(thrownthing)))
+				continue
+			if(obstacle.pass_flags_self & LETPASSTHROW)
 				continue
 			if (obstacle == actual_target || (obstacle.density && !(obstacle.flags_1 & ON_BORDER_1)))
 				finalize(TRUE, obstacle)

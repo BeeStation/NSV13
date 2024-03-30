@@ -9,7 +9,7 @@
 	name = "Syndicate mutineer"
 	roundend_category = "syndicate mutineers"
 	antagpanel_category = "Syndicate Mutineers"
-	job_rank = ROLE_TRAITOR // simply use the traitor preference & jobban settings
+	banning_key = ROLE_OVERTHROW
 	var/datum/team/overthrow/team
 	var/static/list/possible_useful_items
 
@@ -65,27 +65,19 @@
 // CLOWNMUT removal and HUD creation/being given
 /datum/antagonist/overthrow/apply_innate_effects()
 	..()
-	if(owner.assigned_role == "Clown")
-		var/mob/living/carbon/human/traitor_mob = owner.current
-		if(traitor_mob && istype(traitor_mob))
-			if(!silent)
-				to_chat(traitor_mob, "Your training has allowed you to overcome your clownish nature, allowing you to wield weapons without harming yourself.")
-			traitor_mob.dna.remove_mutation(CLOWNMUT)
+	handle_clown_mutation(owner.current, "Your training has allowed you to overcome your clownish nature, allowing you to wield weapons without harming yourself.")
 	update_overthrow_icons_added()
 
 // The opposite
 /datum/antagonist/overthrow/remove_innate_effects()
 	update_overthrow_icons_removed()
-	if(owner.assigned_role == "Clown")
-		var/mob/living/carbon/human/traitor_mob = owner.current
-		if(traitor_mob && istype(traitor_mob))
-			traitor_mob.dna.add_mutation(CLOWNMUT)
+	handle_clown_mutation(owner.current, removing=FALSE)
 	..()
 
 /datum/antagonist/overthrow/get_admin_commands()
 	. = ..()
-	.["Give storage with random item"] = CALLBACK(src,.proc/equip_overthrow)
-	.["Give overthrow boss equip"] = CALLBACK(src,.proc/equip_initial_overthrow_agent)
+	.["Give storage with random item"] = CALLBACK(src,PROC_REF(equip_overthrow))
+	.["Give overthrow boss equip"] = CALLBACK(src,PROC_REF(equip_initial_overthrow_agent))
 
 // Dynamically creates the HUD for the team if it doesn't exist already, inserting it into the global huds list, and assigns it to the user. The index is saved into a var owned by the team datum.
 /datum/antagonist/overthrow/proc/update_overthrow_icons_added(datum/mind/traitor_mind)

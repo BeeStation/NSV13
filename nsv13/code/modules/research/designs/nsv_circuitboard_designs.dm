@@ -28,6 +28,16 @@
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING|DEPARTMENTAL_FLAG_MUNITIONS
 
+//Broadside Packer Table
+/datum/design/board/broadside_packer
+	name = "Machine Design (Broadside Shell Packer)"
+	desc = "Allows for the construction of a broadside shell packer."
+	id = "broadside_packer"
+	build_path = /obj/item/circuitboard/machine/broadside_shell_packer
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200)
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
 //FTL Navigation Console
 /datum/design/board/navigation
 	name = "Computer Design (FTL Navigation console)"
@@ -85,3 +95,38 @@
 	build_path = /obj/item/circuitboard/computer/astrometrics
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE
+
+//Autoinjector
+/datum/design/board/autoinjector
+	name = "Machine Design (Autoinjector Printer)"
+	desc = "Allows for the construction of circuit boards used to build a new autoinjector printer"
+	id = "autoinjector"
+	build_path = /obj/item/circuitboard/machine/autoinject_printer
+	category = list("Medical Machinery")
+	departmental_flags = DEPARTMENTAL_FLAG_MEDICAL
+
+/datum/design/board/refillable_chem_dispenser
+	name = "Machine Design (Refillable Chem Dispenser Board)"
+	desc = "The circuit board for a refillable chem dispenser."
+	id = "refillable_chem_dispenser"
+	build_path = /obj/item/circuitboard/machine/refillable_chem_dispenser
+	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_MEDICAL
+	category = list ("Medical Machinery")
+
+//GLORIOUS COFFEEMAKER
+/datum/design/board/coffeemaker
+	name = "Machine Design (Coffeemaker)"
+	desc = "The circuit board for a coffeemaker."
+	id = "coffeemaker"
+	build_path = /obj/item/circuitboard/machine/coffeemaker
+	category = list("Misc. Machinery")
+	departmental_flags = DEPARTMENTAL_FLAG_SERVICE | DEPARTMENTAL_FLAG_ENGINEERING | DEPARTMENTAL_FLAG_SCIENCE
+
+/datum/design/board/navbeacon
+	name = "Machine Design (Bot Navigational Beacon)"
+	desc = "The circuit board for a beacon that aids bot navigation."
+	id = "botnavbeacon"
+	build_type = IMPRINTER
+	build_path = /obj/item/circuitboard/machine/navbeacon
+	category = list ("Research Machinery")
+	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING

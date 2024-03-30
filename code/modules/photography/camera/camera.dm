@@ -9,8 +9,11 @@
 	item_state = "camera"
 	lefthand_file = 'icons/mob/inhands/misc/devices_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/misc/devices_righthand.dmi'
-	light_color = LIGHT_COLOR_WHITE
+	light_system = MOVABLE_LIGHT //Used as a flash here.
+	light_range = 8
+	light_color = COLOR_WHITE
 	light_power = FLASH_LIGHT_POWER
+	light_on = FALSE
 	w_class = WEIGHT_CLASS_SMALL
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_NECK
@@ -35,6 +38,7 @@
 	var/picture_size_y_max = 4
 	var/can_customise = TRUE
 	var/default_picture_name
+
 
 /obj/item/camera/attack_self(mob/user)
 	if(!disk)
@@ -98,9 +102,9 @@
 	if(istype(user))
 		if(isAI(user) && !GLOB.cameranet.checkTurfVis(T))
 			return FALSE
-		else if(user.client && !(get_turf(target) in get_hear(user.client.view, user)))
+		else if(user.client && !(T in get_hear(user.client.view, get_turf(user))))
 			return FALSE
-		else if(!(get_turf(target) in get_hear(world.view, user)))
+		else if(!(T in get_hear(world.view, get_turf(user))))
 			return FALSE
 	else					//user is an atom
 		if(!(user in viewers(world.view, get_turf(target))))
@@ -130,11 +134,11 @@
 	var/mob/living/carbon/human/H = user
 	if (HAS_TRAIT(H, TRAIT_PHOTOGRAPHER))
 		realcooldown *= 0.5
-	addtimer(CALLBACK(src, .proc/cooldown), realcooldown)
+	addtimer(CALLBACK(src, PROC_REF(cooldown)), realcooldown)
 
 	icon_state = state_off
 
-	INVOKE_ASYNC(src, .proc/captureimage, target, user, flag, picture_size_x - 1, picture_size_y - 1)
+	INVOKE_ASYNC(src, PROC_REF(captureimage), target, user, flag, picture_size_x - 1, picture_size_y - 1)
 
 
 /obj/item/camera/proc/cooldown()
@@ -150,7 +154,8 @@
 
 /obj/item/camera/proc/captureimage(atom/target, mob/user, flag, size_x = 1, size_y = 1)
 	if(flash_enabled)
-		flash_lighting_fx(8, light_power, light_color)
+		set_light_on(TRUE)
+		addtimer(CALLBACK(src, PROC_REF(flash_end)), FLASH_LIGHT_DURATION, TIMER_OVERRIDE|TIMER_UNIQUE)
 	blending = TRUE
 	var/turf/target_turf = get_turf(target)
 	if(!isturf(target_turf))
@@ -158,7 +163,7 @@
 		return FALSE
 	size_x = CLAMP(size_x, 0, CAMERA_PICTURE_SIZE_HARD_LIMIT)
 	size_y = CLAMP(size_y, 0, CAMERA_PICTURE_SIZE_HARD_LIMIT)
-	var/list/desc = list("This is a photo of an area of [size_x+1] meters by [size_y+1] meters.")
+	var/list/desc = list("This is a photo of an area of [(2*size_x)+1] meters by [(2*size_y)+1] meters.")
 	var/list/mobs_spotted = list()
 	var/list/dead_spotted = list()
 	var/ai_user = isAI(user)
@@ -166,7 +171,7 @@
 	var/list/viewlist = (user && user.client)? getviewsize(user.client.view) : getviewsize(world.view)
 	var/viewr = max(viewlist[1], viewlist[2]) + max(size_x, size_y)
 	var/viewc = user.client? user.client.eye : target
-	seen = get_hear(viewr, viewc)
+	seen = get_hear(viewr, get_turf(viewc))
 	var/list/turfs = list()
 	var/list/mobs = list()
 	var/blueprints = FALSE
@@ -177,19 +182,22 @@
 			T = SSmapping.get_turf_below(T)
 			if(!T)
 				break
-		
+
 		if(T && ((ai_user && GLOB.cameranet.checkTurfVis(placeholder)) || (placeholder in seen)))
 			turfs += T
 			for(var/mob/M in T)
 				mobs += M
 			if(locate(/obj/item/areaeditor/blueprints) in T)
 				blueprints = TRUE
-	for(var/i in mobs)
-		var/mob/M = i
+	for(var/mob/M in mobs)
+		// No describing invisible stuff (except ghosts)!
+		if((M.invisibility >= SEE_INVISIBLE_LIVING || M.alpha <= 50) && !isobserver(M))
+			continue
 		mobs_spotted += M
 		if(M.stat == DEAD)
 			dead_spotted += M
-		desc += M.get_photo_description(src)
+		// |=, let's not spam "You can also see a ... thing? 8 times"
+		desc |= M.get_photo_description(src)
 
 	var/psize_x = (size_x * 2 + 1) * world.icon_size
 	var/psize_y = (size_y * 2 + 1) * world.icon_size
@@ -203,6 +211,11 @@
 	var/datum/picture/P = new("picture", desc.Join(" "), mobs_spotted, dead_spotted, temp, null, psize_x, psize_y, blueprints)
 	after_picture(user, P, flag)
 	blending = FALSE
+
+
+/obj/item/camera/proc/flash_end()
+	set_light_on(FALSE)
+
 
 /obj/item/camera/proc/after_picture(mob/user, datum/picture/picture, proximity_flag)
 	printpicture(user, picture)

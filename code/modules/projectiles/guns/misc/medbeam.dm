@@ -5,6 +5,7 @@
 	icon_state = "chronogun"
 	item_state = "chronogun"
 	w_class = WEIGHT_CLASS_NORMAL
+	requires_wielding = FALSE
 
 	var/mob/living/current_target
 	var/last_check = 0
@@ -16,7 +17,7 @@
 
 	weapon_weight = WEAPON_MEDIUM
 
-/obj/item/gun/medbeam/Initialize()
+/obj/item/gun/medbeam/Initialize(mapload)
 	. = ..()
 	START_PROCESSING(SSobj, src)
 
@@ -53,7 +54,7 @@
 	current_target = target
 	active = TRUE
 	current_beam = new(user,current_target,time=6000,beam_icon_state="medbeam",btype=/obj/effect/ebeam/medical)
-	INVOKE_ASYNC(current_beam, /datum/beam.proc/Start)
+	INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 
 	SSblackbox.record_feedback("tally", "gun_fired", 1, type)
 
@@ -130,6 +131,6 @@
 /obj/item/gun/medbeam/mech
 	mounted = 1
 
-/obj/item/gun/medbeam/mech/Initialize()
+/obj/item/gun/medbeam/mech/Initialize(mapload)
 	. = ..()
 	STOP_PROCESSING(SSobj, src) //Mech mediguns do not process until installed, and are controlled by the holder obj

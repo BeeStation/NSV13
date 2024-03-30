@@ -113,7 +113,7 @@
 	. = ..()
 	set_nutrition(SLIME_DEFAULT_NUTRITION)
 	if(transformeffects & SLIME_EFFECT_LIGHT_PINK)
-		set_playable()
+		set_playable(ROLE_SENTIENCE)
 
 /mob/living/simple_animal/slime/Destroy()
 	set_target(null)
@@ -129,7 +129,8 @@
 	coretype = text2path("/obj/item/slime_extract/[sanitizedcolour]")
 	regenerate_icons()
 
-/mob/living/simple_animal/slime/proc/update_name()
+/mob/living/simple_animal/slime/update_name()
+	. = ..()
 	if(slime_name_regex.Find(name))
 		number = rand(1, 1000)
 		name = "[colour] [is_adult ? "adult" : "baby"] slime ([number])"
@@ -172,7 +173,6 @@
 		if(health <= 0)
 			mod += 2
 	add_movespeed_modifier(MOVESPEED_ID_SLIME_HEALTHMOD, TRUE, 100, multiplicative_slowdown = mod, override = TRUE)
-	update_health_hud()
 
 /mob/living/simple_animal/slime/update_health_hud()
 	if(hud_used)
@@ -241,7 +241,7 @@
 	return 2
 
 /mob/living/simple_animal/slime/get_stat_tab_status()
-	var/list/tab_data = list()
+	var/list/tab_data = ..()
 	if(!docile)
 		tab_data["Nutrition"] = GENERATE_STAT_TEXT("[nutrition]/[get_max_nutrition()]")
 	if(amount_grown >= SLIME_EVOLUTION_THRESHOLD)
@@ -261,11 +261,11 @@
 		amount = -abs(amount)
 	return ..() //Heals them
 
-/mob/living/simple_animal/slime/bullet_act(obj/item/projectile/Proj)
+/mob/living/simple_animal/slime/bullet_act(obj/item/projectile/Proj, def_zone, piercing_hit = FALSE)
 	attacked += 10
 	if((Proj.damage_type == BURN))
 		adjustBruteLoss(-abs(Proj.damage)) //fire projectiles heals slimes.
-		Proj.on_hit(src)
+		Proj.on_hit(src, 0, piercing_hit)
 	else
 		. = ..(Proj)
 	. = . || BULLET_ACT_BLOCK
@@ -283,7 +283,7 @@
 			Feedon(Food)
 	return ..()
 
-/mob/living/simple_animal/slime/doUnEquip(obj/item/W, was_thrown = FALSE)
+/mob/living/simple_animal/slime/doUnEquip(obj/item/W, was_thrown = FALSE, silent = FALSE)
 	return
 
 /mob/living/simple_animal/slime/start_pulling(atom/movable/AM, state, force = move_force, supress_message = FALSE)
@@ -492,7 +492,7 @@
 	if(user)
 		step_away(src,user,15)
 
-	addtimer(CALLBACK(src, .proc/slime_move, user), 3)
+	addtimer(CALLBACK(src, PROC_REF(slime_move), user), 3)
 
 /mob/living/simple_animal/slime/proc/slime_move(mob/user)
 	if(user)
@@ -549,7 +549,7 @@
 	if(old_target && !SLIME_CARES_ABOUT(old_target))
 		UnregisterSignal(old_target, COMSIG_PARENT_QDELETING)
 	if(Target)
-		RegisterSignal(Target, COMSIG_PARENT_QDELETING, .proc/clear_memories_of, override = TRUE)
+		RegisterSignal(Target, COMSIG_PARENT_QDELETING, PROC_REF(clear_memories_of), override = TRUE)
 
 /mob/living/simple_animal/slime/proc/set_leader(new_leader)
 	var/old_leader = Leader
@@ -557,19 +557,19 @@
 	if(old_leader && !SLIME_CARES_ABOUT(old_leader))
 		UnregisterSignal(old_leader, COMSIG_PARENT_QDELETING)
 	if(Leader)
-		RegisterSignal(Leader, COMSIG_PARENT_QDELETING, .proc/clear_memories_of, override = TRUE)
+		RegisterSignal(Leader, COMSIG_PARENT_QDELETING, PROC_REF(clear_memories_of), override = TRUE)
 
 /mob/living/simple_animal/slime/proc/add_friendship(new_friend, amount = 1)
 	if(!Friends[new_friend])
 		Friends[new_friend] = 0
 	Friends[new_friend] += amount
 	if(new_friend)
-		RegisterSignal(new_friend, COMSIG_PARENT_QDELETING, .proc/clear_memories_of, override = TRUE)
+		RegisterSignal(new_friend, COMSIG_PARENT_QDELETING, PROC_REF(clear_memories_of), override = TRUE)
 
 /mob/living/simple_animal/slime/proc/set_friendship(new_friend, amount = 1)
 	Friends[new_friend] = amount
 	if(new_friend)
-		RegisterSignal(new_friend, COMSIG_PARENT_QDELETING, .proc/clear_memories_of, override = TRUE)
+		RegisterSignal(new_friend, COMSIG_PARENT_QDELETING, PROC_REF(clear_memories_of), override = TRUE)
 
 /mob/living/simple_animal/slime/proc/remove_friend(friend)
 	Friends -= friend

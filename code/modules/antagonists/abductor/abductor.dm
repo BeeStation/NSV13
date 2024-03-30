@@ -4,7 +4,7 @@
 	name = "Abductor"
 	roundend_category = "abductors"
 	antagpanel_category = "Abductor"
-	job_rank = ROLE_ABDUCTOR
+	banning_key = ROLE_ABDUCTOR
 	show_in_antagpanel = FALSE //should only show subtypes
 	show_to_ghosts = TRUE
 	var/datum/team/abductor_team/team
@@ -120,7 +120,7 @@
 
 /datum/antagonist/abductor/get_admin_commands()
 	. = ..()
-	.["Equip"] = CALLBACK(src,.proc/admin_equip)
+	.["Equip"] = CALLBACK(src,PROC_REF(admin_equip))
 
 /datum/antagonist/abductor/proc/admin_equip(mob/admin)
 	if(!ishuman(owner.current))
@@ -179,6 +179,7 @@
 	name = "Abductee"
 	roundend_category = "abductees"
 	antagpanel_category = "Abductee"
+	banning_key = UNBANNABLE_ANTAGONIST
 
 /datum/antagonist/abductee/on_gain()
 	give_objective()
@@ -195,8 +196,6 @@
 
 /datum/antagonist/abductee/proc/give_objective()
 	var/mob/living/carbon/human/H = owner.current
-	if(istype(H))
-		H.gain_trauma_type(BRAIN_TRAUMA_MILD, TRAUMA_RESILIENCE_LOBOTOMY)
 	var/objtype = (prob(75) ? /datum/objective/abductee/random : pick(subtypesof(/datum/objective/abductee/) - /datum/objective/abductee/random))
 	var/datum/objective/abductee/O = new objtype()
 	objectives += O
@@ -228,11 +227,11 @@
 /datum/objective/experiment/check_completion()
 	for(var/obj/machinery/abductor/experiment/E in GLOB.machines)
 		if(!istype(team, /datum/team/abductor_team))
-			return FALSE
+			return ..()
 		var/datum/team/abductor_team/T = team
 		if(E.team_number == T.team_number)
-			return E.points >= target_amount
-	return FALSE
+			return (E.points >= target_amount) || ..()
+	return ..()
 
 /datum/antagonist/proc/update_abductor_icons_added(datum/mind/alien_mind,hud_type)
 	var/datum/atom_hud/antag/hud = GLOB.huds[ANTAG_HUD_ABDUCTOR]

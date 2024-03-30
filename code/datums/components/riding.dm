@@ -24,9 +24,9 @@
 /datum/component/riding/Initialize()
 	if(!ismovableatom(parent))
 		return COMPONENT_INCOMPATIBLE
-	RegisterSignal(parent, COMSIG_MOVABLE_BUCKLE, .proc/vehicle_mob_buckle)
-	RegisterSignal(parent, COMSIG_MOVABLE_UNBUCKLE, .proc/vehicle_mob_unbuckle)
-	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, .proc/vehicle_moved)
+	RegisterSignal(parent, COMSIG_MOVABLE_BUCKLE, PROC_REF(vehicle_mob_buckle))
+	RegisterSignal(parent, COMSIG_MOVABLE_UNBUCKLE, PROC_REF(vehicle_mob_unbuckle))
+	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(vehicle_moved))
 
 /datum/component/riding/proc/vehicle_mob_unbuckle(datum/source, mob/living/M, force = FALSE)
 	SIGNAL_HANDLER
@@ -141,8 +141,8 @@
 //BUCKLE HOOKS
 /datum/component/riding/proc/restore_position(mob/living/buckled_mob)
 	if(buckled_mob)
-		buckled_mob.pixel_x = 0
-		buckled_mob.pixel_y = 0
+		buckled_mob.pixel_x = buckled_mob.base_pixel_x //NSV13
+		buckled_mob.pixel_y = buckled_mob.base_pixel_y //NSV13
 		if(buckled_mob.client)
 			buckled_mob.client.view_size.resetToDefault()
 
@@ -187,7 +187,7 @@
 		to_chat(user, "<span class='notice'>You'll need the keys in one of your hands to [drive_verb] [AM].</span>")
 
 /datum/component/riding/proc/Unbuckle(atom/movable/M)
-	addtimer(CALLBACK(parent, /atom/movable/.proc/unbuckle_mob, M), 0, TIMER_UNIQUE)
+	addtimer(CALLBACK(parent, TYPE_PROC_REF(/atom/movable, unbuckle_mob), M), 0, TIMER_UNIQUE)
 
 /datum/component/riding/proc/Process_Spacemove(direction)
 	var/atom/movable/AM = parent
@@ -207,7 +207,7 @@
 
 /datum/component/riding/human/Initialize()
 	. = ..()
-	RegisterSignal(parent, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, .proc/on_host_unarmed_melee)
+	RegisterSignal(parent, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, PROC_REF(on_host_unarmed_melee))
 
 /datum/component/riding/human/vehicle_mob_unbuckle(datum/source, mob/living/M, force = FALSE)
 	var/mob/living/carbon/human/H = parent
@@ -316,7 +316,7 @@
 	M.visible_message("<span class='warning'>[M] is thrown clear of [AM]!</span>", \
 					"<span class='warning'>You're thrown clear of [AM]!</span>")
 	M.throw_at(target, 14, 5, AM)
-	M.Knockdown(60)
+	M.Paralyze(60) //NSV13 - readded borg spin stuns
 
 /datum/component/riding/proc/equip_buckle_inhands(mob/living/carbon/human/user, amount_required = 1, riding_target_override = null)
 	var/atom/movable/AM = parent
@@ -362,7 +362,7 @@
 
 /obj/item/riding_offhand/dropped()
 	selfdeleting = TRUE
-	. = ..()
+	..()
 
 /obj/item/riding_offhand/equipped()
 	if(loc != rider && loc != parent)
@@ -376,3 +376,28 @@
 		if(rider in AM.buckled_mobs)
 			AM.unbuckle_mob(rider)
 	. = ..()
+
+//tamed riding
+/datum/component/riding/tamed/Initialize()
+	. = ..()
+	if(istype(parent, /mob/living/simple_animal))
+		var/mob/living/simple_animal/S = parent
+		override_allow_spacemove = S.spacewalk
+		RegisterSignal(parent, COMSIG_MOB_DEATH, PROC_REF(handle_mortality))
+
+/datum/component/riding/tamed/proc/handle_mortality()
+	qdel(src)
+
+/datum/component/riding/tamed/vehicle_mob_buckle(datum/source, mob/living/M, force = FALSE)
+	if(istype(parent, /mob/living/simple_animal))
+		var/mob/living/simple_animal/S = parent
+		M.spacewalk = S.spacewalk
+		S.toggle_ai(AI_OFF)
+	..()
+
+/datum/component/riding/tamed/vehicle_mob_unbuckle(datum/source, mob/living/M, force = FALSE)
+	M.spacewalk = FALSE
+	if(istype(parent, /mob/living/simple_animal))
+		var/mob/living/simple_animal/S = parent
+		S.toggle_ai(AI_ON)
+	..()

@@ -81,6 +81,7 @@
 	trash = /obj/item/grown/bananapeel/mimanapeel
 	filling_color = "#FFFFEE"
 	distill_reagent = /datum/reagent/consumable/ethanol/silencer
+	discovery_points = 300
 
 /obj/item/grown/bananapeel/mimanapeel
 	seed = /obj/item/seeds/banana/mime
@@ -113,6 +114,7 @@
 	tastes = list("banana" = 1)
 	wine_power = 60
 	wine_flavor = "slippery hypercubes"
+	discovery_points = 300
 
 /obj/item/grown/bananapeel/bluespace
 	seed = /obj/item/seeds/banana/bluespace
@@ -127,4 +129,4 @@
 
 /obj/item/grown/bananapeel/specialpeel/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/slippery, 40)
+	AddComponent(/datum/component/slippery, 40, null, 20, TRUE) //NSV13 - re-added stun and accidents

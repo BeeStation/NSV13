@@ -2,7 +2,7 @@
 
 // Trackers for when player ships arrive/leave a system
 /datum/component/nsv_mission_arrival_in_system/Initialize()
-	RegisterSignal(parent, COMSIG_SHIP_ARRIVED, .proc/activate_missions)
+	RegisterSignal(parent, COMSIG_SHIP_ARRIVED, PROC_REF(activate_missions))
 
 /datum/component/nsv_mission_arrival_in_system/proc/activate_missions()
 	var/obj/structure/overmap/ship = parent
@@ -12,7 +12,7 @@
 
 
 /datum/component/nsv_mission_departure_from_system/Initialize()
-	RegisterSignal(parent, COMSIG_SHIP_DEPARTED, .proc/deactivate_missions)
+	RegisterSignal(parent, COMSIG_SHIP_DEPARTED, PROC_REF(deactivate_missions))
 
 
 /datum/component/nsv_mission_departure_from_system/proc/deactivate_missions()
@@ -24,7 +24,7 @@
 
 // Reports the death of a ship to kill ship missions
 /datum/component/nsv_mission_killships/Initialize()
-	RegisterSignal(parent, COMSIG_SHIP_KILLED, .proc/report_kill)
+	RegisterSignal(parent, COMSIG_SHIP_KILLED, PROC_REF(report_kill))
 
 /datum/component/nsv_mission_killships/proc/report_kill()
 	var/obj/structure/overmap/ship = parent
@@ -40,8 +40,8 @@
 	var/datum/nsv_mission/cargo/parent_mission
 
 /datum/component/nsv_mission_cargo_label/Initialize()
-	RegisterSignal(parent, COMSIG_CARGO_REGISTER, .proc/register_cargo)
-	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, .proc/display_examine)
+	RegisterSignal(parent, COMSIG_CARGO_REGISTER, PROC_REF(register_cargo))
+	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(display_examine))
 
 /datum/component/nsv_mission_cargo_label/proc/display_examine(datum/source, mob/user, text)
 	text += "<span class='warning'>This item is tagged as cargo, and needs to be delivered to [parent_mission.delivery_target]. <B>Opening this crate will reduce payout!</B></span>\n"
@@ -55,11 +55,11 @@
 	var/cargo_state = CARGO_INTACT
 
 /datum/component/nsv_mission_cargo/Initialize()
-	RegisterSignal(parent, COMSIG_CARGO_DELIVERED, .proc/deliver_cargo)
-	RegisterSignal(parent, COMSIG_CARGO_REGISTER, .proc/register_cargo)
-	RegisterSignal(parent, COMSIG_CARGO_TAMPERED, .proc/cargo_tampered)
-	RegisterSignal(parent, COMSIG_PARENT_QDELETING , .proc/cargo_destroyed) // Called just before Destroy()
-	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, .proc/display_examine)
+	RegisterSignal(parent, COMSIG_CARGO_DELIVERED, PROC_REF(deliver_cargo))
+	RegisterSignal(parent, COMSIG_CARGO_REGISTER, PROC_REF(register_cargo))
+	RegisterSignal(parent, COMSIG_CARGO_TAMPERED, PROC_REF(cargo_tampered))
+	RegisterSignal(parent, COMSIG_PARENT_QDELETING , PROC_REF(cargo_destroyed)) // Called just before Destroy()
+	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(display_examine))
 
 
 /datum/component/nsv_mission_cargo/proc/display_examine(datum/source, mob/user, text)

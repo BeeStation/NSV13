@@ -56,7 +56,7 @@
 	//Iterate upwards.
 	var/i = 0
 	while(isturf(temp))
-		. += temp
+		. += temp.z	//NSV13 - stop reverting my multiz fixes.
 		i ++
 		if(i >= max_z_range)
 			break
@@ -65,7 +65,7 @@
 	temp = center_turf.below()
 	i = 0
 	while(isturf(temp))
-		. += temp
+		. += temp.z	//NSV13 - stop reverting my multiz fixes.
 		i ++
 		if(i >= max_z_range)
 			break
@@ -80,3 +80,10 @@
 		var/total_dist = raw_dist + z_dist
 		return total_dist
 	return INFINITY
+
+//NSV13
+/proc/get_level_trait(z)
+	if(SSmapping.level_trait(z, ZTRAIT_STATION))
+		return ZTRAIT_STATION
+	if(SSmapping.level_trait(z, ZTRAIT_SYNDIE_SHIP))
+		return ZTRAIT_SYNDIE_SHIP

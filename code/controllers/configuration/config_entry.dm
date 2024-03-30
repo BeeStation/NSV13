@@ -38,11 +38,11 @@
 
 /datum/config_entry/can_vv_get(var_name)
 	. = ..()
-	if(var_name == NAMEOF(src, config_entry_value) || var_name == NAMEOF(src, default))
+	if(var_name == NAMEOF_STATIC(src, config_entry_value) || var_name == NAMEOF_STATIC(src, default))
 		. &= !(protection & CONFIG_ENTRY_HIDDEN)
 
 /datum/config_entry/vv_edit_var(var_name, var_value)
-	var/static/list/banned_edits = list(NAMEOF(src, name), NAMEOF(src, vv_VAS), NAMEOF(src, default), NAMEOF(src, resident_file), NAMEOF(src, protection), NAMEOF(src, abstract_type), NAMEOF(src, modified), NAMEOF(src, dupes_allowed))
+	var/static/list/banned_edits = list(NAMEOF_STATIC(src, name), NAMEOF_STATIC(src, vv_VAS), NAMEOF_STATIC(src, default), NAMEOF_STATIC(src, resident_file), NAMEOF_STATIC(src, protection), NAMEOF_STATIC(src, abstract_type), NAMEOF_STATIC(src, modified), NAMEOF_STATIC(src, dupes_allowed))
 	if(var_name == NAMEOF(src, config_entry_value))
 		if(protection & CONFIG_ENTRY_LOCKED)
 			return FALSE
@@ -78,7 +78,7 @@
 	var/auto_trim = TRUE
 
 /datum/config_entry/string/vv_edit_var(var_name, var_value)
-	return var_name != "auto_trim" && ..()
+	return var_name != NAMEOF(src, auto_trim) && ..()
 
 /datum/config_entry/string/ValidateAndSet(str_val)
 	if(!VASProcCallGuard(str_val))
@@ -105,7 +105,7 @@
 	return FALSE
 
 /datum/config_entry/number/vv_edit_var(var_name, var_value)
-	var/static/list/banned_edits = list("max_val", "min_val", "integer")
+	var/static/list/banned_edits = list(NAMEOF_STATIC(src, max_val), NAMEOF_STATIC(src, min_val), NAMEOF_STATIC(src, integer))
 	return !(var_name in banned_edits) && ..()
 
 /datum/config_entry/flag
@@ -117,6 +117,19 @@
 		return FALSE
 	config_entry_value = text2num(trim(str_val)) != 0
 	return TRUE
+
+/// List config entry, used for configuring a list of strings
+/datum/config_entry/str_list
+	abstract_type = /datum/config_entry/str_list
+	config_entry_value = list()
+	dupes_allowed = TRUE
+
+/datum/config_entry/str_list/ValidateAndSet(str_val)
+	if (!VASProcCallGuard(str_val))
+		return FALSE
+	str_val = trim(str_val)
+	if (length(str_val))
+		config_entry_value += str_val
 
 /datum/config_entry/number_list
 	abstract_type = /datum/config_entry/number_list
@@ -197,4 +210,4 @@
 	return FALSE
 
 /datum/config_entry/keyed_list/vv_edit_var(var_name, var_value)
-	return var_name != "splitter" && ..()
+	return var_name != NAMEOF(src, splitter) && ..()

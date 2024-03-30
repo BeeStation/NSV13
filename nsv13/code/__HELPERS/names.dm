@@ -38,3 +38,9 @@ var/list/ship_name_suffix = list("slayer","blazer","bringer","slapper","twirler"
 	var/name = ""
 	name = pick(ship_name_prefix) + pick(ship_name_suffix)
 	return capitalize(name)
+
+/proc/generate_fighter_name()
+	var/name = ""
+	name = pick(GLOB.fighter_noun) + " of " + "[pick(0,1) ? pick(GLOB.fighter_moon) : pick(GLOB.fighter_planet)]"
+	return name
+ 

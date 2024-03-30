@@ -7,7 +7,7 @@
 	var/can_cancel = TRUE											//Can cancel this surgery after step 1 with cautery
 	var/list/target_mobtypes = list(/mob/living/carbon/human)		//Acceptable Species
 	var/location = BODY_ZONE_CHEST									//Surgery location
-	var/requires_bodypart_type = BODYPART_ORGANIC					//Prevents you from performing an operation on incorrect limbs. 0 for any limb type
+	var/requires_bodypart_type = BODYTYPE_ORGANIC					//Prevents you from performing an operation on incorrect limbs. 0 for any limb type
 	var/list/possible_locs = list() 								//Multiple locations
 	var/ignore_clothes = FALSE										//This surgery ignores clothes
 	var/mob/living/carbon/target									//Operation target mob
@@ -20,15 +20,21 @@
 	var/requires_tech = FALSE										//handles techweb-oriented surgeries, previously restricted to the /advanced subtype (You still need to add designs)
 	var/replaced_by													//type; doesn't show up if this type exists. Set to /datum/surgery if you want to hide a "base" surgery (useful for typing parents IE healing.dm just make sure to null it out again)
 
-/datum/surgery/New(surgery_target, surgery_location, surgery_bodypart)
+//NSV13 - Surgery QoL - Start
+/datum/surgery/New(atom/surgery_target, surgery_location, surgery_bodypart)
 	..()
-	if(surgery_target)
-		target = surgery_target
-		target.surgeries += src
-		if(surgery_location)
-			location = surgery_location
-		if(surgery_bodypart)
-			operated_bodypart = surgery_bodypart
+	if(!surgery_target)
+		return
+	target = surgery_target
+	target.surgeries += src
+	if(surgery_location)
+		location = surgery_location
+	if(!surgery_bodypart)
+		return
+	operated_bodypart = surgery_bodypart
+
+	SEND_SIGNAL(surgery_target, COMSIG_MOB_SURGERY_STARTED, src, surgery_location, surgery_bodypart)
+//NSV13 - Surgery QoL - Stop
 
 /datum/surgery/Destroy()
 	if(target)
@@ -59,30 +65,42 @@
 	if(iscyborg(user))
 		var/mob/living/silicon/robot/R = user
 		var/obj/item/surgical_processor/SP = locate() in R.module.modules
-		if(!SP || (replaced_by in SP.advanced_surgeries))
-			return .
-		if(type in SP.advanced_surgeries)
-			return TRUE
+		if(!isnull(SP))
+			if(replaced_by in SP.advanced_surgeries)
+				return FALSE
+			if(type in SP.advanced_surgeries)
+				return TRUE
 
+	if(iscarbon(user))
+		var/mob/living/carbon/C = user
+		var/obj/item/organ/cyberimp/brain/linkedsurgery/IMP = C.getorganslot(ORGAN_SLOT_BRAIN_SURGICAL_IMPLANT )
+		if(!isnull(IMP))
+			if(replaced_by in IMP.advanced_surgeries)
+				return FALSE
+			if(type in IMP.advanced_surgeries)
+				return TRUE
 
 	var/turf/T = get_turf(target)
 	var/obj/structure/table/optable/table = locate(/obj/structure/table/optable, T)
 	if(table)
 		if(!table.computer)
 			return .
-		if(table.computer.stat & (NOPOWER|BROKEN) || (replaced_by in table.computer.advanced_surgeries))
+		if(table.computer.machine_stat & (NOPOWER|BROKEN))
 			return .
+		if(replaced_by in table.computer.advanced_surgeries)
+			return FALSE
 		if(type in table.computer.advanced_surgeries)
 			return TRUE
 
 	var/obj/machinery/stasis/the_stasis_bed = locate(/obj/machinery/stasis, T)
 	if(the_stasis_bed?.op_computer)
-		if(the_stasis_bed.op_computer.stat & (NOPOWER|BROKEN))
+		if(the_stasis_bed.op_computer.machine_stat & (NOPOWER|BROKEN))
 			return .
 		if(replaced_by in the_stasis_bed.op_computer.advanced_surgeries)
 			return FALSE
 		if(type in the_stasis_bed.op_computer.advanced_surgeries)
 			return TRUE
+
 
 /datum/surgery/proc/next_step(mob/user, intent)
 	if(step_in_progress)
@@ -129,16 +147,22 @@
 	if(iscyborg(user))
 		var/mob/living/silicon/robot/R = user
 		var/obj/item/surgical_processor/SP = locate() in R.module.modules
-		if(!SP)
-			return FALSE
-		if(type in SP.advanced_surgeries)
-			return TRUE
+		if(!isnull(SP))
+			if(type in SP.advanced_surgeries)
+				return TRUE
+
+	if(iscarbon(user))
+		var/mob/living/carbon/C = user
+		var/obj/item/organ/cyberimp/brain/linkedsurgery/IMP = C.getorganslot(ORGAN_SLOT_BRAIN_SURGICAL_IMPLANT )
+		if(!isnull(IMP))
+			if(type in IMP.advanced_surgeries)
+				return TRUE
 
 	var/turf/T = get_turf(target)
 	var/obj/structure/table/optable/table = locate(/obj/structure/table/optable, T)
 	if(!table || !table.computer)
 		return FALSE
-	if(table.computer.stat & (NOPOWER|BROKEN))
+	if(table.computer.machine_stat & (NOPOWER|BROKEN))
 		return FALSE
 	if(type in table.computer.advanced_surgeries)
 		return TRUE
@@ -156,7 +180,7 @@
 	icon_state = "datadisk1"
 	materials = list(/datum/material/iron=300, /datum/material/glass=100)
 
-/obj/item/disk/surgery/debug/Initialize()
+/obj/item/disk/surgery/debug/Initialize(mapload)
 	. = ..()
 	surgeries = list()
 	var/list/req_tech_surgeries = subtypesof(/datum/surgery)

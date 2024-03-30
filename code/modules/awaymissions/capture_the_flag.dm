@@ -35,7 +35,7 @@
 	QDEL_NULL(reset)
 	return ..()
 
-/obj/item/ctf/Initialize()
+/obj/item/ctf/Initialize(mapload)
 	. = ..()
 	if(!reset)
 		reset = new reset_path(get_turf(src))
@@ -71,7 +71,6 @@
 		if(!user.dropItemToGround(src))
 			return
 	anchored = FALSE
-	pickup(user)
 	if(!user.put_in_active_hand(src))
 		dropped(user)
 		return
@@ -177,8 +176,17 @@
 
 	var/static/arena_reset = FALSE
 	var/static/list/people_who_want_to_play = list()
+	var/static/list/allowed_species = list(
+		/datum/species/lizard,
+		/datum/species/moth,
+		/datum/species/human/felinid,
+		/datum/species/ipc,
+		/datum/species/oozeling,
+		/datum/species/ethereal,
+		/datum/species/apid,
+	)
 
-/obj/machinery/capture_the_flag/Initialize()
+/obj/machinery/capture_the_flag/Initialize(mapload)
 	. = ..()
 	GLOB.poi_list |= src
 
@@ -272,7 +280,7 @@
 		var/turf/T = get_turf(body)
 		new /obj/effect/ctf/ammo(T)
 		recently_dead_ckeys += body.ckey
-		addtimer(CALLBACK(src, .proc/clear_cooldown, body.ckey), respawn_cooldown, TIMER_UNIQUE)
+		addtimer(CALLBACK(src, PROC_REF(clear_cooldown), body.ckey), respawn_cooldown, TIMER_UNIQUE)
 		body.dust()
 
 /obj/machinery/capture_the_flag/proc/clear_cooldown(var/ckey)
@@ -280,8 +288,9 @@
 
 /obj/machinery/capture_the_flag/proc/spawn_team_member(client/new_team_member)
 	var/mob/living/carbon/human/M = new/mob/living/carbon/human(get_turf(src))
-	new_team_member.prefs.copy_to(M)
-	M.set_species(/datum/species/human)
+	new_team_member.prefs.active_character.copy_to(M)
+	if(!(M.dna.species.type in allowed_species))
+		M.set_species(/datum/species/human) //default to human if not whitelisted
 	M.key = new_team_member.key
 	M.faction += team
 	M.equipOutfit(ctf_gear)
@@ -395,8 +404,8 @@
 	mag_type = /obj/item/ammo_box/magazine/m50/ctf
 
 /obj/item/gun/ballistic/automatic/pistol/deagle/ctf/dropped()
-	. = ..()
-	addtimer(CALLBACK(src, .proc/floor_vanish), 1)
+	..()
+	addtimer(CALLBACK(src, PROC_REF(floor_vanish)), 1)
 
 /obj/item/gun/ballistic/automatic/pistol/deagle/ctf/proc/floor_vanish()
 	if(isturf(loc))
@@ -411,19 +420,21 @@
 /obj/item/projectile/bullet/ctf
 	damage = 0
 
-/obj/item/projectile/bullet/ctf/prehit(atom/target)
+/obj/item/projectile/bullet/ctf/prehit_pierce(atom/target)
 	if(is_ctf_target(target))
 		damage = 60
+		return PROJECTILE_PIERCE_NONE	/// hey uhh don't hit anyone behind them
 	. = ..()
 
 /obj/item/gun/ballistic/automatic/laser/ctf
 	mag_type = /obj/item/ammo_box/magazine/recharge/ctf
 	desc = "This looks like it could really hurt in melee."
 	force = 50
+	full_auto = TRUE //Rule of cool.
 
 /obj/item/gun/ballistic/automatic/laser/ctf/dropped()
-	. = ..()
-	addtimer(CALLBACK(src, .proc/floor_vanish), 1)
+	..()
+	addtimer(CALLBACK(src, PROC_REF(floor_vanish)), 1)
 
 /obj/item/gun/ballistic/automatic/laser/ctf/proc/floor_vanish()
 	if(isturf(loc))
@@ -433,8 +444,8 @@
 	ammo_type = /obj/item/ammo_casing/caseless/laser/ctf
 
 /obj/item/ammo_box/magazine/recharge/ctf/dropped()
-	. = ..()
-	addtimer(CALLBACK(src, .proc/floor_vanish), 1)
+	..()
+	addtimer(CALLBACK(src, PROC_REF(floor_vanish)), 1)
 
 /obj/item/ammo_box/magazine/recharge/ctf/proc/floor_vanish()
 	if(isturf(loc))
@@ -447,9 +458,10 @@
 	damage = 0
 	icon_state = "omnilaser"
 
-/obj/item/projectile/beam/ctf/prehit(atom/target)
+/obj/item/projectile/beam/ctf/prehit_pierce(atom/target)
 	if(is_ctf_target(target))
 		damage = 150
+		return PROJECTILE_PIERCE_NONE		/// hey uhhh don't hit anyone behind them
 	. = ..()
 
 /proc/is_ctf_target(atom/target)
@@ -622,9 +634,15 @@
 /obj/effect/ctf/ammo/Initialize(mapload)
 	..()
 	QDEL_IN(src, AMMO_DROP_LIFETIME)
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
-/obj/effect/ctf/ammo/Crossed(atom/movable/AM)
-	reload(AM)
+/obj/effect/ctf/ammo/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+
+	INVOKE_ASYNC(src, PROC_REF(reload), AM)
 
 /obj/effect/ctf/ammo/Bump(atom/movable/AM)
 	reload(AM)

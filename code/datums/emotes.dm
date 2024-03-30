@@ -12,6 +12,7 @@
 	var/message_AI = "" //Message displayed if the user is an AI
 	var/message_monkey = "" //Message displayed if the user is a monkey
 	var/message_ipc = "" // Message to display if the user is an IPC
+	var/message_insect = "" //Message to display if the user is a moth, apid or flyperson
 	var/message_simple = "" //Message to display if the user is a simple_animal
 	var/message_param = "" //Message to display if a param was given
 	var/emote_type = EMOTE_VISIBLE //Whether the emote is visible or audible
@@ -59,11 +60,12 @@
 
 	user.log_message(msg, LOG_EMOTE)
 
+	var/space = should_have_space_before_emote(html_decode(msg)[1]) ? " " : "" //NSV13 - RADIO EMOTES I THINK
 	var/end = copytext(msg, length(message))
 	if(!(end in list("!", ".", "?", ":", "\"", "-")))
 		msg += "."
 
-	var/dchatmsg = "<b>[user]</b> [msg]"
+	var/dchatmsg = "<b>[user]</b>[space][msg]" //NSV13 - RADIO EMOTES I THINK
 
 	var/tmp_sound = get_sound(user)
 	if(tmp_sound && (!only_forced_audio || !intentional))
@@ -77,9 +79,18 @@
 			M.show_message("[FOLLOW_LINK(M, user)] [dchatmsg]")
 
 	if(emote_type == EMOTE_AUDIBLE)
-		user.audible_message(msg, audible_message_flags = list(CHATMESSAGE_EMOTE = TRUE))
+		user.audible_message(msg, audible_message_flags = list(CHATMESSAGE_EMOTE = TRUE), separation = space) //NSV13 - RADIO EMOTES I THINK
 	else
-		user.visible_message(msg, visible_message_flags = list(CHATMESSAGE_EMOTE = TRUE))
+		user.visible_message(msg, visible_message_flags = list(CHATMESSAGE_EMOTE = TRUE), separation = space) //NSV13 - RADIO EMOTES I THINK
+
+	//NSV13 - AI QoL - Start
+	var/obj/effect/overlay/holo_pad_hologram/hologram = GLOB.hologram_impersonators[user]
+	if(hologram)
+		if(emote_type & (EMOTE_AUDIBLE | EMOTE_VISIBLE))
+			hologram.audible_message(msg, deaf_message = "<span class='emote'>You see how <b>[user]</b> [msg]</span>", audible_message_flags = list(CHATMESSAGE_EMOTE = TRUE))
+		else if(emote_type & EMOTE_VISIBLE)
+			hologram.visible_message(msg, visible_message_flags = list(CHATMESSAGE_EMOTE = TRUE))
+	//NSV13 - AI QoL - Stop
 
 /datum/emote/proc/get_sound(mob/living/user)
 	return sound //by default just return this var.
@@ -111,6 +122,8 @@
 		. = message_monkey
 	else if(isipc(user) && message_ipc)
 		. = message_ipc
+	else if((ismoth(user) || isapid(user) || isflyperson(user)) && message_insect)
+		. = message_insect
 	else if(isanimal(user) && message_simple)
 		. = message_simple
 
@@ -176,3 +189,15 @@
 
 	visible_message(text, visible_message_flags = list(CHATMESSAGE_EMOTE = TRUE))
 
+/** NSV13
+ * Returns a boolean based on whether or not the string contains a comma or an apostrophe,
+ * to be used for emotes to decide whether or not to have a space between the name of the user
+ * and the emote.
+ *
+ * Requires the message to be HTML decoded beforehand. Not doing it here for performance reasons.
+ *
+ * Returns TRUE if there should be a space, FALSE if there shouldn't.
+ */
+/proc/should_have_space_before_emote(string)
+	var/static/regex/no_spacing_emote_characters = regex(@"(,|')")
+	return no_spacing_emote_characters.Find(string) ? FALSE : TRUE

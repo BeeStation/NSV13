@@ -2,11 +2,12 @@
 
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Section, ProgressBar, Knob } from '../components';
+import { Box, Button, Section, ProgressBar, Knob, LabeledList } from '../components';
 import { Window } from '../layouts';
 
 export const FighterControls = (props, context) => {
   const { act, data } = useBackend(context);
+  const [settingsVisible, setSettingsVisible] = useLocalState(context, 'settings', false);
   return (
     <Window
       resizable
@@ -86,33 +87,47 @@ export const FighterControls = (props, context) => {
             maxValue={data.max_countermeasures} />
           <br />
           <br />
-          Armour:
-          <ProgressBar
-            value={(data.armour_integrity / data.max_armour_integrity * 100) * 0.01}
-            ranges={{
-              good: [0.9, Infinity],
-              average: [0.15, 0.9],
-              bad: [-Infinity, 0.15],
-            }} />
-          <br />
-          Hull:
-          <ProgressBar
-            value={(data.obj_integrity / data.max_integrity * 100) * 0.01}
-            ranges={{
-              good: [0.9, Infinity],
-              average: [0.15, 0.9],
-              bad: [-Infinity, 0.15],
-            }} />
+          <LabeledList>
+            <LabeledList.Item label="Armour">
+              <ProgressBar
+                value={(data.armour_integrity / data.max_armour_integrity * 100) * 0.01}
+                ranges={{
+                  good: [0.9, Infinity],
+                  average: [0.15, 0.9],
+                  bad: [-Infinity, 0.15],
+                }} />
+            </LabeledList.Item>
+            <LabeledList.Item label="Hull">
+              <ProgressBar
+                value={(data.obj_integrity / data.max_integrity * 100) * 0.01}
+                ranges={{
+                  good: [0.9, Infinity],
+                  average: [0.15, 0.9],
+                  bad: [-Infinity, 0.15],
+                }} />
+            </LabeledList.Item>
+          </LabeledList>
         </Section>
         {!!data.ftl_capable && (
           <Section title="FTL Drive:">
+            Tracking: {data.ftl_target ? data.ftl_target : "None"}
+            <br />
+            <br />
             <Button
               content={data.ftl_active ? "Stop Spooling" : "Begin Spooling"}
+              width="150px"
               icon="server"
               onClick={() => act('toggle_ftl')} />
             <Button
+              content={"Deploy Tether"}
+              width="150px"
+              icon="anchor"
+              color={data.ftl_target ? "good" : "orange"}
+              onClick={() => act('anchor_ftl')} />
+            <Button
               content="Return"
               width="150px"
+              icon="forward"
               onClick={() => act('return_jump')} />
             <ProgressBar
               value={(data.ftl_spool_progress / data.ftl_spool_time * 100) * 0.01}
@@ -122,9 +137,13 @@ export const FighterControls = (props, context) => {
                 bad: [-Infinity, 0.15],
               }} />
           </Section>
-
         )}
-        <Section title="Controls:">
+        <Section title="Controls:" buttons={
+          <Button
+            icon={settingsVisible ? 'times' : 'cog'}
+            selected={settingsVisible}
+            onClick={() => setSettingsVisible(!settingsVisible)} />
+        }>
           <Button
             width="150px"
             content="DRADIS"
@@ -134,7 +153,7 @@ export const FighterControls = (props, context) => {
             width="150px"
             content="Docking mode"
             icon={data.docking_mode ? "anchor" : "times"}
-            color={data.docking_mode ? "good" : null}
+            color={(data.docking_cooldown && "orange") || (data.docking_mode ? "good" : null)}
             onClick={() => act('docking_mode')} />
           <Button
             width="150px"
@@ -197,42 +216,53 @@ export const FighterControls = (props, context) => {
             color={data.ignition ? "good" : "bad"}
             onClick={() => act('ignition')} />
         </Section>
-        {!!data.maintenance_mode && (
-          <Fragment>
-            <Section title="Loaded Modules:">
-              {Object.keys(data.hardpoints).map(key => {
-                let value = data.hardpoints[key];
-                return (
-                  <Fragment key={key}>
-                    <Section title={`${value.name}`}>
-                      <Button
-                        content={`Eject`}
-                        icon="eject"
-                        onClick={() => act('eject_hardpoint', { id: value.id })} />
-                      <Button
-                        content={`Dump contents`}
-                        icon="download"
-                        onClick={() => act('dump_hardpoint', { id: value.id })} />
-                    </Section>
-                  </Fragment>);
-              })}
-            </Section>
-            <Section title="Occupants:">
-              {Object.keys(data.occupants_info).map(key => {
-                let value = data.occupants_info[key];
-                return (
-                  <Fragment key={key}>
-                    <Section title={`${value.name}`}>
+        {!!settingsVisible && (
+          <Section title="Settings:">
+            <Button
+              content={"Set Name"}
+              onClick={() => act('set_name')} />
+            <Button
+              content={"Maintenance"}
+              onClick={() => act('toggle_maintenance')} />
+            <br />
+            {!!data.maintenance_mode && (
+              <Section title="Loaded Modules:">
+                <LabeledList>
+                  {Object.keys(data.hardpoints).map(key => {
+                    let value = data.hardpoints[key];
+                    return (
+                      <LabeledList.Item key={key} label={`${value.name}`}>
+                        <Button
+                          content={`Eject`}
+                          icon="eject"
+                          onClick={() => act('eject_hardpoint', { id: value.id })} />
+                        <Button
+                          content={`Dump contents`}
+                          icon="download"
+                          onClick={() => act('dump_hardpoint', { id: value.id })} />
+                      </LabeledList.Item>
+                    );
+                  })}
+                </LabeledList>
+              </Section>
+            )}
+            <br />
+            {/*             <Section title="Occupants:">
+              <LabeledList>
+                {Object.keys(data.occupants_info).map(key => {
+                  let value = data.occupants_info[key];
+                  return (
+                    <LabeledList.Item label={`${value.name}`}>
                       <Button
                         fluid
                         content={`Eject (${value.afk})`}
                         icon="eject"
                         onClick={() => act('kick', { id: value.id })} />
-                    </Section>
-                  </Fragment>);
-              })}
-            </Section>
-          </Fragment>
+                    </LabeledList.Item>);
+                })}
+              </LabeledList>
+            </Section> */}
+          </Section>
         )}
       </Window.Content>
     </Window>

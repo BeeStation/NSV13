@@ -11,6 +11,7 @@
 	equip_delay_other = 70
 	resistance_flags = FIRE_PROOF
 
+
 /obj/item/clothing/shoes/magboots/verb/toggle()
 	set name = "Toggle Magboots"
 	set category = "Object"
@@ -51,6 +52,7 @@
 	magboot_state = "advmag"
 	slowdown_active = SHOES_SLOWDOWN
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | ACID_PROOF
+	investigate_flags = ADMIN_INVESTIGATE_TARGET
 
 /obj/item/clothing/shoes/magboots/syndie
 	desc = "Reverse-engineered magnetic boots that have a heavy magnetic pull. Property of Gorlex Marauders."
@@ -94,20 +96,20 @@
 		if (A != user && A.lying)
 			A.adjustBruteLoss(rand(10,13))
 			to_chat(A,"<span class='userdanger'>[user]'s magboots press down on you, crushing you!</span>")
-			INVOKE_ASYNC(A, /mob.proc/emote, "scream")
+			INVOKE_ASYNC(A, TYPE_PROC_REF(/mob, emote), "scream")
 
 /obj/item/clothing/shoes/magboots/crushing/attack_self(mob/user)
 	. = ..()
 	if (magpulse)
-		RegisterSignal(user, COMSIG_MOVABLE_MOVED,.proc/crush)
+		RegisterSignal(user, COMSIG_MOVABLE_MOVED,PROC_REF(crush))
 	else
 		UnregisterSignal(user,COMSIG_MOVABLE_MOVED)
 
 /obj/item/clothing/shoes/magboots/crushing/equipped(mob/user,slot)
 	. = ..()
 	if (slot == ITEM_SLOT_FEET && magpulse)
-		RegisterSignal(user, COMSIG_MOVABLE_MOVED,.proc/crush)
+		RegisterSignal(user, COMSIG_MOVABLE_MOVED,PROC_REF(crush))
 
 /obj/item/clothing/shoes/magboots/crushing/dropped(mob/user)
-	. = ..()
+	..()
 	UnregisterSignal(user,COMSIG_MOVABLE_MOVED)

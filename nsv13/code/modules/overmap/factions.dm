@@ -17,7 +17,9 @@
 	var/list/fleet_types = list()
 	var/list/randomspawn_only_fleet_types = list()	//These fleets only get spawned randomly, not by say, missions.
 	var/next_fleet_spawn = 0 //Factions spawn fleets more frequently when they're doing well with tickets.
-	var/fleet_spawn_rate = 20 MINUTES //By default, 1 / 10 minutes.
+	var/fleet_spawn_rate = 10 MINUTES //By default, 1 / 5 minutes.
+	var/spawn_rate_jitter = 3 MINUTES
+	var/minimum_spawn_interval = 5 MINUTES
 
 /**
 Procs for handling factions winning / losing
@@ -59,25 +61,21 @@ Set up relationships.
 	for(var/datum/faction/F in relationships)
 		if(relationships[F] <= RELATIONSHIP_ENEMIES)
 			F.gain_influence(value)
-	//SSstar_system.check_completion()
 
 /datum/faction/proc/gain_influence(value)
 	tickets += value
-	//SSstar_system.check_completion()
 
 /datum/faction/proc/send_fleet(datum/star_system/override=null, custom_difficulty=null, force=FALSE)
-	 //if(SSstar_system.check_completion() || !fleet_types || !force && (world.time < next_fleet_spawn)) - Why are we checking completion this here?
 	if(!fleet_types || !force && (world.time < next_fleet_spawn))
 		return
-	next_fleet_spawn = world.time + fleet_spawn_rate
+	next_fleet_spawn = world.time + max(fleet_spawn_rate + rand(-spawn_rate_jitter, spawn_rate_jitter), minimum_spawn_interval)
 	var/datum/star_system/current_system //Dont spawn enemies where theyre currently at
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects) //The ship doesnt start with a system assigned by default
-		if(OM.role != MAIN_OVERMAP)
-			continue
-		current_system = SSstar_system.ships[OM]["current_system"]
+	var/obj/structure/overmap/main_ship = SSstar_system.find_main_overmap()
+	if(main_ship)
+		current_system = SSstar_system.ships[main_ship]["current_system"]
 	var/list/possible_spawns = list()
-	for(var/datum/star_system/starsys in SSstar_system.systems)
-		if(starsys != current_system && !starsys.hidden && (lowertext(starsys.alignment) == lowertext(src.name) || starsys.alignment == "unaligned")) //Find one of our base systems and try to send a fleet out from there.
+	for(var/datum/star_system/starsys in SSstar_system.neutral_zone_systems) //Neutral zone to prevent overcrowding the Syndicate and friendly sectors
+		if(starsys != current_system && !starsys.hidden && (lowertext(starsys.alignment) == lowertext(src.name) || starsys.alignment == "unaligned" || starsys.alignment == "uncharted")) //Find one of our base systems and try to send a fleet out from there.
 			possible_spawns += starsys
 	if(!possible_spawns.len && !override)
 		message_admins("Failed to spawn a [name] fleet because that faction doesn't own a single system :(")
@@ -101,10 +99,10 @@ Set up relationships.
 		F.size = custom_difficulty
 	F.assemble(starsys)
 	if(!F.hide_movements && !starsys.hidden)
-		if(F.alignment == "nanotrasen")
-			mini_announce("A White Rapids fleet has been assigned to [current_system]", "White Rapids Fleet Command")
+		if((F.alignment == "nanotrasen") || (F.alignment == "solgov"))
+			mini_announce("A White Rapids fleet has been assigned to [starsys]", "White Rapids Fleet Command")
 		else
-			mini_announce("Typhoon drive signatures detected in [current_system]", "White Rapids EAS")
+			mini_announce("Typhoon drive signatures detected in [starsys]", "White Rapids EAS")
 	F.faction = src
 	if(!force && id == FACTION_ID_SYNDICATE && !SSstar_system.neutral_zone_systems.Find(F.current_system))	//If it isn't forced, it got spawned by the midround processing. If we didn't already spawn in the neutral zone, we head to a random system there and occupy it.
 		var/list/possible_occupation_targets = list()
@@ -138,7 +136,7 @@ Set up relationships.
 	for(var/client/C in GLOB.clients)
 		if(!C.mob || !SSmapping.level_trait(C.mob.z, ZTRAIT_BOARDABLE))
 			continue
-		SSmedals.UnlockMedal(MEDAL_CREW_COMPETENT,C)
+		C.give_award(/datum/award/achievement/misc/crew_competent)
 	priority_announce("Attention [station_name()]. You have completed your assigned patrol and are now eligible for a crew transfer. \
 	Your navigational computers have been programmed with the coordinates of the nearest starbase where you may claim your allotted shore leave. \
 	You are under no obligation to remain in this sector, and you have been taken off of active patrol status. If you wish to continue with exploratory missions or other activities you are free to do so.", "Naval Command")

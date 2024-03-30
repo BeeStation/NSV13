@@ -40,7 +40,7 @@
 	loot = list(/obj/effect/mob_spawn/human/corpse/syndicatesoldier)
 	atmos_requirements = list("min_oxy" = 5, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 1, "min_co2" = 0, "max_co2" = 5, "min_n2" = 0, "max_n2" = 0)
 	unsuitable_atmos_damage = 15
-	faction = list(ROLE_SYNDICATE)
+	faction = list(FACTION_SYNDICATE)
 	check_friendly_fire = 1
 	status_flags = CANPUSH
 	del_on_death = TRUE
@@ -62,7 +62,7 @@
 	speed = 1
 	spacewalk = TRUE
 
-/mob/living/simple_animal/hostile/syndicate/space/Initialize()
+/mob/living/simple_animal/hostile/syndicate/space/Initialize(mapload)
 	. = ..()
 	set_light(4)
 
@@ -97,7 +97,7 @@
 	projectile_deflect_chance = 50
 	hardattacks = TRUE
 
-/mob/living/simple_animal/hostile/syndicate/melee/space/Initialize()
+/mob/living/simple_animal/hostile/syndicate/melee/space/Initialize(mapload)
 	. = ..()
 	set_light(4)
 
@@ -120,7 +120,7 @@
 	status_flags = 0
 	var/obj/effect/light_emitter/red_energy_sword/sord
 
-/mob/living/simple_animal/hostile/syndicate/melee/sword/Initialize()
+/mob/living/simple_animal/hostile/syndicate/melee/sword/Initialize(mapload)
 	. = ..()
 	set_light(2)
 
@@ -139,7 +139,7 @@
 	speed = 1
 	spacewalk = TRUE
 
-/mob/living/simple_animal/hostile/syndicate/melee/sword/space/Initialize()
+/mob/living/simple_animal/hostile/syndicate/melee/sword/space/Initialize(mapload)
 	. = ..()
 	sord = new(src)
 	set_light(4)
@@ -184,7 +184,7 @@
 	speed = 1
 	spacewalk = TRUE
 
-/mob/living/simple_animal/hostile/syndicate/ranged/space/Initialize()
+/mob/living/simple_animal/hostile/syndicate/ranged/space/Initialize(mapload)
 	. = ..()
 	set_light(4)
 
@@ -217,7 +217,7 @@
 	speed = 1
 	spacewalk = TRUE
 
-/mob/living/simple_animal/hostile/syndicate/ranged/smg/space/Initialize()
+/mob/living/simple_animal/hostile/syndicate/ranged/smg/space/Initialize(mapload)
 	. = ..()
 	set_light(4)
 
@@ -247,7 +247,7 @@
 	speed = 1
 	spacewalk = TRUE
 
-/mob/living/simple_animal/hostile/syndicate/ranged/shotgun/space/Initialize()
+/mob/living/simple_animal/hostile/syndicate/ranged/shotgun/space/Initialize(mapload)
 	. = ..()
 	set_light(4)
 
@@ -287,18 +287,18 @@
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	attacktext = "cuts"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
-	faction = list(ROLE_SYNDICATE)
+	faction = list(FACTION_SYNDICATE)
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	minbodytemp = 0
 	mob_size = MOB_SIZE_TINY
 	movement_type = FLYING
-	limb_destroyer = 1
+	limb_destroyer = TRUE
 	speak_emote = list("states")
 	bubble_icon = "syndibot"
 	gold_core_spawnable = HOSTILE_SPAWN
 	del_on_death = TRUE
 	deathmessage = "is smashed into pieces!"
 
-/mob/living/simple_animal/hostile/viscerator/Initialize()
+/mob/living/simple_animal/hostile/viscerator/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/swarming)

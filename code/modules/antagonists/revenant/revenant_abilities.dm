@@ -10,12 +10,21 @@
 	if(modifiers["alt"])
 		AltClickNoInteract(src, A)
 		return
-
+	
+	if(modifiers["ctrl"])
+		CtrlClickOn(A)
+		return
+	
 	if(ishuman(A))
 		if(A in drained_mobs)
 			to_chat(src, "<span class='revenwarning'>[A]'s soul is dead and empty.</span>" )
 		else if(in_range(src, A))
 			Harvest(A)
+
+	if(isturf(A))
+		var/turf/T = A
+		if(T == get_turf(src))
+			T.check_z_travel(src)
 
 
 //Harvest; activated by clicking the target, will try to drain their essence.
@@ -119,6 +128,22 @@
 	boldnotice = "revenboldnotice"
 	holy_check = TRUE
 
+/obj/effect/proc_holder/spell/self/revenant_phase_shift
+	name = "Phase Shift"
+	desc = "Shift in and out of your corporeal form"
+	panel = "Revenant Abilities"
+	action_icon = 'icons/mob/actions/actions_revenant.dmi'
+	action_icon_state = "r_phase"
+	action_background_icon_state = "bg_revenant"
+	clothes_req = FALSE
+	charge_max = 0
+
+/obj/effect/proc_holder/spell/self/revenant_phase_shift/cast(mob/user = usr)
+	if(!isrevenant(user))
+		return FALSE
+	var/mob/living/simple_animal/revenant/revenant = user
+	revenant.phase_shift()
+
 /obj/effect/proc_holder/spell/aoe_turf/revenant
 	clothes_req = 0
 	action_icon = 'icons/mob/actions/actions_revenant.dmi'
@@ -131,7 +156,7 @@
 	var/unlock_amount = 100 //How much essence it costs to unlock
 	var/cast_amount = 50 //How much essence it costs to use
 
-/obj/effect/proc_holder/spell/aoe_turf/revenant/Initialize()
+/obj/effect/proc_holder/spell/aoe_turf/revenant/Initialize(mapload)
 	. = ..()
 	if(locked)
 		name = "[initial(name)] ([unlock_amount]SE)"
@@ -195,7 +220,7 @@
 /obj/effect/proc_holder/spell/aoe_turf/revenant/overload/cast(list/targets, mob/living/simple_animal/revenant/user = usr)
 	if(attempt_cast(user))
 		for(var/turf/T in targets)
-			INVOKE_ASYNC(src, .proc/overload, T, user)
+			INVOKE_ASYNC(src, PROC_REF(overload), T, user)
 
 /obj/effect/proc_holder/spell/aoe_turf/revenant/overload/proc/overload(turf/T, mob/user)
 	for(var/obj/machinery/light/L in T)
@@ -206,7 +231,7 @@
 		s.set_up(4, 0, L)
 		s.start()
 		new /obj/effect/temp_visual/revenant(get_turf(L))
-		addtimer(CALLBACK(src, .proc/overload_shock, L, user), 20)
+		addtimer(CALLBACK(src, PROC_REF(overload_shock), L, user), 20)
 
 /obj/effect/proc_holder/spell/aoe_turf/revenant/overload/proc/overload_shock(obj/machinery/light/L, mob/user)
 	if(!L.on) //wait, wait, don't shock me
@@ -236,7 +261,7 @@
 /obj/effect/proc_holder/spell/aoe_turf/revenant/defile/cast(list/targets, mob/living/simple_animal/revenant/user = usr)
 	if(attempt_cast(user))
 		for(var/turf/T in targets)
-			INVOKE_ASYNC(src, .proc/defile, T)
+			INVOKE_ASYNC(src, PROC_REF(defile), T)
 
 /obj/effect/proc_holder/spell/aoe_turf/revenant/defile/proc/defile(turf/T)
 	for(var/obj/effect/blessing/B in T)
@@ -252,10 +277,10 @@
 		floor.make_plating(1)
 	if(T.type == /turf/closed/wall && prob(15))
 		new /obj/effect/temp_visual/revenant(T)
-		T.ChangeTurf(/turf/closed/wall/rust)
+		T.AddElement(/datum/element/rust)
 	if(T.type == /turf/closed/wall/r_wall && prob(10))
 		new /obj/effect/temp_visual/revenant(T)
-		T.ChangeTurf(/turf/closed/wall/r_wall/rust)
+		T.AddElement(/datum/element/rust)
 	for(var/obj/effect/decal/cleanable/food/salt/salt in T)
 		new /obj/effect/temp_visual/revenant(T)
 		qdel(salt)
@@ -287,7 +312,7 @@
 /obj/effect/proc_holder/spell/aoe_turf/revenant/malfunction/cast(list/targets, mob/living/simple_animal/revenant/user = usr)
 	if(attempt_cast(user))
 		for(var/turf/T in targets)
-			INVOKE_ASYNC(src, .proc/malfunction, T, user)
+			INVOKE_ASYNC(src, PROC_REF(malfunction), T, user)
 
 /obj/effect/proc_holder/spell/aoe_turf/revenant/malfunction/proc/malfunction(turf/T, mob/user)
 	for(var/mob/living/simple_animal/bot/bot in T)
@@ -333,7 +358,7 @@
 /obj/effect/proc_holder/spell/aoe_turf/revenant/blight/cast(list/targets, mob/living/simple_animal/revenant/user = usr)
 	if(attempt_cast(user))
 		for(var/turf/T in targets)
-			INVOKE_ASYNC(src, .proc/blight, T, user)
+			INVOKE_ASYNC(src, PROC_REF(blight), T, user)
 
 /obj/effect/proc_holder/spell/aoe_turf/revenant/blight/proc/blight(turf/T, mob/user)
 	for(var/mob/living/mob in T)

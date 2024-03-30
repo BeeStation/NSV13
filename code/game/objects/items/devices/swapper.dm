@@ -58,7 +58,7 @@
 		var/mob/holder = linked_swapper.loc
 		to_chat(holder, "<span class='notice'>[linked_swapper] starts buzzing.</span>")
 	next_use = world.time + cooldown //only the one used goes on cooldown
-	addtimer(CALLBACK(src, .proc/swap, user), 25)
+	addtimer(CALLBACK(src, PROC_REF(swap), user), 25)
 
 /obj/item/swapper/examine(mob/user)
 	. = ..()
@@ -107,8 +107,8 @@
 	var/target_B = B.drop_location()
 
 	//TODO: add a sound effect or visual effect
-	if(do_teleport(A, target_B, forceMove = TRUE, channel = TELEPORT_CHANNEL_QUANTUM))
-		do_teleport(B, target_A, forceMove = TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
+	if(do_teleport(A, target_B, channel = TELEPORT_CHANNEL_QUANTUM))
+		do_teleport(B, target_A, channel = TELEPORT_CHANNEL_QUANTUM)
 		if(ismob(B))
 			var/mob/M = B
 			to_chat(M, "<span class='warning'>[linked_swapper] activates, and you find yourself somewhere else.</span>")

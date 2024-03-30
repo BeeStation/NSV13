@@ -463,7 +463,7 @@ Control Rods
 	var/area/AR = get_area(src)
 	AR.ambient_buzz = 'nsv13/sound/ambience/shipambience.ogg'
 
-/obj/machinery/atmospherics/components/binary/stormdrive_reactor/Initialize()
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/Initialize(mapload)
 	. = ..()
 	radio = new(src)
 	radio.keyslot = new radio_key
@@ -487,6 +487,13 @@ Control Rods
 	gas_records["nucleium"] = list()
 
 /////// REACTOR START PROCS ////////
+
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/bullet_act(obj/item/projectile/energy/accelerated_particle/P, def_zone, piercing_hit = FALSE)
+	if(istype(P))
+		heat += P.energy
+		try_start()
+	else
+		. = ..()
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/try_start()
 
@@ -515,6 +522,8 @@ Control Rods
 		AR.ambient_buzz = 'nsv13/sound/ambience/engineering.ogg'
 		if(reaction_rate <= 0)
 			reaction_rate = 5
+		SSblackbox.record_feedback("tally", "engine_stats", 1, "started")
+		SSblackbox.record_feedback("tally", "engine_stats", 1, "stormdrive")
 		return TRUE
 	return FALSE
 
@@ -938,6 +947,14 @@ Control Rods
 			step_towards(M,src)
 			M.Knockdown(40)
 
+/obj/machinery/atmospherics/components/binary/stormdrive_reactor/relaymove(mob/user)
+	if(user.incapacitated())
+		return
+	if(prob(40))
+		audible_message("<span class='danger'>CLANG, clang!</span>")
+	shake_animation(3)
+	playsound(src, 'sound/effects/clang.ogg', 45, 1)
+
 //////// OTHER PROCS ////////
 
 /obj/machinery/atmospherics/components/binary/stormdrive_reactor/proc/send_alert(message, override=FALSE)
@@ -988,12 +1005,22 @@ Control Rods
 						if(prob(25))
 							L.flicker()
 			if(prob(1))
-				for(var/obj/machinery/light/L in orange(10, src))
-					if(prob(25))
-						L.burn_out()
+				var/list/light_candidates = list()
+				for(var/obj/machinery/light/L in orange(12, src))
+					light_candidates += L
+
+				for(var/I = 0, I < 3, I++)
+					if(length(light_candidates))
+						var/obj/machinery/light/OL = pick_n_take(light_candidates)
+						var/fate = rand(1, 100)
+						switch(fate)
+							if(1 to 25)
+								OL.burn_out()
+							if(26 to 35)
+								OL.break_light_tube()
 					else
-						L.flicker()
-			if(prob(0.01))
+						break
+			if(prob(0.02))
 				for(var/obj/machinery/power/grounding_rod/R in orange(5, src))
 					R.take_damage(rand(25, 50))
 				tesla_zap(src, 5, 1000)
@@ -1004,9 +1031,22 @@ Control Rods
 					if(prob(50) && shares_overmap(src, L))
 						L.flicker()
 			if(prob(5))
+				var/list/light_candidates = list()
 				for(var/obj/machinery/light/L in orange(12, src))
-					L.burn_out() //If there are even any left by this stage
-			if(prob(0.1))
+					light_candidates += L
+
+				for(var/I = 0, I < 5, I++)
+					if(length(light_candidates))
+						var/obj/machinery/light/OL = pick_n_take(light_candidates)
+						var/fate = rand(1, 100)
+						switch(fate)
+							if(1 to 25)
+								OL.burn_out()
+							if(25 to 35)
+								OL.break_light_tube()
+					else
+						break
+			if(prob(0.2))
 				for(var/obj/machinery/power/grounding_rod/R in orange(8, src))
 					R.take_damage(rand(25, 75))
 				tesla_zap(src, 8, 2000)
@@ -1107,7 +1147,7 @@ Control Rods
 	send_alert("ERROR IN MODULE FISSREAC0 AT ADDRESS 0x12DF. CONTROL RODS HAVE FAILED. IMMEDIATE INTERVENTION REQUIRED.", override=TRUE)
 	warning_state = WARNING_STATE_MELTDOWN
 	var/sound = 'nsv13/sound/effects/ship/reactor/meltdown.ogg'
-	addtimer(CALLBACK(src, .proc/meltdown), 18 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(meltdown)), 18 SECONDS)
 	var/obj/structure/overmap/OM = get_overmap()
 	OM?.relay(sound, null, loop=FALSE, channel = CHANNEL_REACTOR_ALERT)
 	reactor_end_times = TRUE
@@ -1136,6 +1176,8 @@ Control Rods
 		sleep(10)
 		icon_state = "broken"
 		reactor_end_times = FALSE //We don't need this anymore
+		SSblackbox.record_feedback("tally", "engine_stats", 1, "failed")
+		SSblackbox.record_feedback("tally", "engine_stats", 1, "stormdrive")
 	else
 		warning_state = WARNING_STATE_NONE
 		reactor_end_times = FALSE
@@ -1252,7 +1294,7 @@ Control Rods
 		return
 	. = ..() //parent should call ui_interact
 
-/obj/machinery/computer/ship/reactor_control_computer/Initialize()
+/obj/machinery/computer/ship/reactor_control_computer/Initialize(mapload)
 	. = ..()
 	new /obj/item/book/manual/wiki/stormdrive(get_turf(src))
 	return INITIALIZE_HINT_LATELOAD
@@ -1268,17 +1310,12 @@ Control Rods
 		return
 	if(!reactor)
 		return
-	var/adjust = text2num(params["adjust"])
-	if(action == "control_rod_percent")
-		if(adjust && isnum(adjust))
-			reactor.control_rod_percent = adjust
-			if(reactor.control_rod_percent > 100)
-				reactor.control_rod_percent = 100
-				return
-			if(reactor.control_rod_percent < 0)
-				reactor.control_rod_percent = 0
-				return
 	switch(action)
+		if("control_rod_percent")
+			var/adjust = text2num(params["adjust"])
+			adjust = CLAMP(adjust, 0, 100)
+			reactor.control_rod_percent = adjust
+			reactor.update_icon()
 		if("rods_1")
 			reactor.control_rod_percent = 0
 			message_admins("[key_name(usr)] has fully raised reactor control rods in [get_area(usr)] [ADMIN_JMP(usr)]")
@@ -1379,128 +1416,11 @@ Control Rods
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
 /datum/techweb_node/stormdrive_reactor_control
-	id = "sd_r_c_c"
-	display_name = "Seegson RBMK RCC"
-	description = "Seegson's latest and greatest (within your budget range) reactor control design!"
+	id = "sd_rcc+cons"
+	display_name = "Seegson Storm Drive Machinery"
+	description = "Seegson's latest and greatest (within your budget range) reactor control and plasma constriction designs!"
 	prereq_ids = list("adv_engi", "adv_power")
-	design_ids = list("sd_r_c_c")
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
-	export_price = 5000
-
-////// Magnetic Constrictors//////
-
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor //This heats the plasma up to acceptable levels for use in the reactor.
-	name = "magnetic constrictor"
-	desc = "A large magnet which is capable of pressurizing plasma into a more energetic state. It is able to self-regulate its plasma input valve, as long as plasma is supplied to it."
-	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
-	icon_state = "constrictor"
-	density = TRUE
-	circuit = /obj/item/circuitboard/machine/magnetic_constrictor
-	layer = OBJ_LAYER
-	pipe_flags = PIPING_ONE_PER_TURF
-	active_power_usage = 200
-	var/constriction_rate = 0 //SSAtmos is 4x faster than SSMachines aka the reactor
-	var/max_output_pressure = 0
-
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor/on_construction()
-	var/obj/item/circuitboard/machine/thermomachine/board = circuit
-	if(board)
-		piping_layer = board.pipe_layer
-	..(dir, piping_layer)
-
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor/RefreshParts()
-	var/A
-	for(var/obj/item/stock_parts/capacitor/C in component_parts)
-		A += C.rating
-	constriction_rate = 0.9 + (0.1 * A)
-	var/B
-	for(var/obj/item/stock_parts/manipulator/M in component_parts)
-		B += M.rating
-	max_output_pressure = 100 + (100 * B)
-
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor/attack_hand(mob/user)
-	. = ..()
-	if(panel_open)
-		to_chat(user, "<span class='notice'>You must turn close the panel on [src] before turning it on.</span>")
-		return
-	to_chat(user, "<span class='notice'>You press [src]'s power button.</span>")
-	on = !on
-	update_icon()
-
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/simple_rotation,ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS )
-
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor/process_atmos()
-	..()
-	if(!on)
-		return
-	var/datum/gas_mixture/air1 = airs[1]
-	var/datum/gas_mixture/air2 = airs[2]
-	var/output_starting_pressure = air2.return_pressure()
-	if(output_starting_pressure >= max_output_pressure)
-		return
-	var/plasma_moles = air1.get_moles(GAS_PLASMA)
-	var/plasma_transfer_moles = min(constriction_rate, plasma_moles)
-	air2.adjust_moles(GAS_CONSTRICTED_PLASMA, plasma_transfer_moles)
-	air2.set_temperature(air1.return_temperature())
-	air1.adjust_moles(GAS_PLASMA, -plasma_transfer_moles)
-	update_parents()
-
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor/crowbar_act(mob/user, obj/item/I)
-	default_deconstruction_crowbar(I)
-	return TRUE
-
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor/screwdriver_act(mob/user, obj/item/I)
-	if(..())
-		return TRUE
-	if(on)
-		to_chat(user, "<span class='notice'>You must turn off [src] before opening the panel.</span>")
-		return FALSE
-	panel_open = !panel_open
-	I.play_tool_sound(src)
-	to_chat(user, "<span class='notice'>You [panel_open?"open":"close"] the panel on [src].</span>")
-	update_icon()
-	return TRUE
-
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor/update_icon()
-	cut_overlays()
-	if(panel_open)
-		icon_state = "constrictor_screw"
-	else if(on)
-		icon_state = "constrictor_active"
-	else
-		icon_state = "constrictor"
-
-/obj/item/circuitboard/machine/magnetic_constrictor
-	name = "Magnetic Constrictor (Machine Board)"
-	build_path = /obj/machinery/atmospherics/components/binary/magnetic_constrictor
-	var/pipe_layer = PIPING_LAYER_DEFAULT
-	req_components = list(
-		/obj/item/stock_parts/capacitor = 1,
-		/obj/item/stock_parts/manipulator = 1)
-
-/obj/item/circuitboard/machine/magnetic_constrictor/attackby(obj/item/I, mob/user, params)
-	if(I.tool_behaviour == TOOL_MULTITOOL)
-		pipe_layer = (pipe_layer >= PIPING_LAYER_MAX) ? PIPING_LAYER_MIN : (pipe_layer + 1)
-		to_chat(user, "<span class='notice'>You change the circuitboard to layer [pipe_layer].</span>")
-		return
-	. = ..()
-
-/datum/design/board/magnetic_constrictor
-	name = "Machine Design (Magnetic Constrictor Board)"
-	desc = "The circuit board for a Magnetic Constrictor."
-	id = "mag_cons"
-	build_path = /obj/item/circuitboard/machine/magnetic_constrictor
-	category = list("Engineering Machinery")
-	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
-
-/datum/techweb_node/magnetic_constrictor
-	id = "mag_cons"
-	display_name = "Magnetic Constriction of Plasma"
-	description = "Beating plasma into submission - a guide."
-	prereq_ids = list("adv_engi", "adv_power")
-	design_ids = list("mag_cons")
+	design_ids = list("sd_r_c_c", "mag_cons")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
 
@@ -1521,14 +1441,16 @@ Control Rods
 /obj/machinery/portable_atmospherics/canister/constricted_plasma
 	name = "constricted plasma canister"
 	desc = "Highly volatile plasma which has been magnetically constricted. The fuel which nuclear storm drives run off of."
-	icon_state = "orange"
 	gas_type = GAS_CONSTRICTED_PLASMA
+	greyscale_config = /datum/greyscale_config/canister/hazard
+	greyscale_colors = "#aa18c7#000000"
 
 /obj/machinery/portable_atmospherics/canister/nucleium
 	name = "nucleium canister"
 	desc = "A waste plasma biproduct produced in the Stormdrive, used in quantum waveform generation."
-	icon_state = "miasma"
 	gas_type = GAS_NUCLEIUM
+	greyscale_colors = "#66C88F#000000"
+	greyscale_config = /datum/greyscale_config/canister/hazard
 
 /datum/weather/nuclear_fallout
 	name = "nuclear fallout"
@@ -1590,6 +1512,14 @@ Control Rods
 	.=..()
 	freq_shift = rand(1, 10) / 10
 	code_shift = rand(1, 10) / 10
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
+/obj/effect/anomaly/stormdrive/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+	return
 
 /obj/effect/anomaly/stormdrive/attackby(obj/item/I, mob/user, params) //Not going to make this easy
 	if(I.tool_behaviour == TOOL_ANALYZER)
@@ -1621,7 +1551,7 @@ Control Rods
 		var/temperature = env.return_temperature() + 25 //Not super spicy
 		atmos_spawn_air("nucleium=15;TEMP=[temperature]")
 
-/obj/effect/anomaly/stormdrive/sheer/Crossed(mob/living/M)
+/obj/effect/anomaly/stormdrive/sheer/on_entered(datum/source, mob/living/M)
 	radiation_pulse(src, 125)
 
 /obj/effect/anomaly/stormdrive/sheer/Bump(mob/living/M)
@@ -1655,7 +1585,7 @@ Control Rods
 		for(var/mob/living/M in orange(2, src))
 			mobShock(M)
 
-/obj/effect/anomaly/stormdrive/surge/Crossed(mob/living/M)
+/obj/effect/anomaly/stormdrive/surge/on_entered(datum/source, mob/living/M)
 	mobShock(M)
 
 /obj/effect/anomaly/stormdrive/surge/Bump(mob/living/M)
@@ -1719,7 +1649,7 @@ Control Rods
 				var/atom/target = get_edge_target_turf(AM, get_dir(src, get_step_away(AM, src)))
 				AM.throw_at(target, 4, 2)
 
-/obj/effect/anomaly/stormdrive/squall/Crossed(mob/living/M)
+/obj/effect/anomaly/stormdrive/squall/on_entered(datum/source, mob/living/M)
 	polarise(M)
 
 /obj/effect/anomaly/stormdrive/squall/Bump(mob/living/M)
@@ -1736,7 +1666,7 @@ Control Rods
 		A.visible_message("<span class='danger'>The space around [A] begins to shimmer!</span>", \
 		"<span class='userdanger'>Your head swims as space appears to bend around you!</span>",
 		"<span class='italics'>You feel space shift slightly in your vicinity.</span>")
-		addtimer(CALLBACK(src, .proc/equalise, A), 5 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(equalise), A), 5 SECONDS)
 
 /obj/effect/anomaly/stormdrive/squall/proc/equalise(mob/living/A)
 	var/list/throwlist = orange(6, A)
@@ -1800,7 +1730,7 @@ Control Rods
 	icon_state = "crate"
 	w_class = WEIGHT_CLASS_GIGANTIC
 
-/obj/item/stormdrive_core/Initialize()
+/obj/item/stormdrive_core/Initialize(mapload)
 	.=..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
@@ -1814,9 +1744,11 @@ Control Rods
 	extended_desc = "This program connects to specially calibrated sensors to provide information on the status of the storm drive."
 	requires_ntnet = TRUE
 	transfer_access = ACCESS_CONSTRUCTION
+	category = PROGRAM_CATEGORY_ENGI
 	network_destination = "storm drive monitoring system"
 	size = 2
 	tgui_id = "NtosStormdriveMonitor"
+	program_icon = "atom"
 	var/active = TRUE //Easy process throttle
 	var/obj/machinery/atmospherics/components/binary/stormdrive_reactor/reactor //Our reactor.
 
@@ -1846,7 +1778,7 @@ Control Rods
 	if(istype(computer))
 		computer.update_icon()
 
-/datum/computer_file/program/stormdrive_monitor/run_program(mob/living/user)
+/datum/computer_file/program/stormdrive_monitor/on_start(mob/living/user)
 	. = ..(user)
 	//No reactor? Go find one then.
 	if(!reactor)
@@ -1861,7 +1793,7 @@ Control Rods
 	..()
 
 /datum/computer_file/program/stormdrive_monitor/ui_data()
-	var/list/data = get_header_data()
+	var/list/data = list()
 	data["heat"] = reactor.heat
 	data["rod_integrity"] = reactor.control_rod_integrity
 	data["control_rod_percent"] = reactor.control_rod_percent

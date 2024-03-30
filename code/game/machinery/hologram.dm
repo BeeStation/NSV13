@@ -60,7 +60,7 @@ Possible to do for anyone motivated enough:
 	var/offset = FALSE
 	var/on_network = TRUE
 
-/obj/machinery/holopad/Initialize()
+/obj/machinery/holopad/Initialize(mapload)
 	. = ..()
 	become_hearing_sensitive()
 
@@ -83,7 +83,7 @@ Possible to do for anyone motivated enough:
 /obj/machinery/holopad/tutorial/attack_hand(mob/user)
 	if(!istype(user))
 		return
-	if(user.incapacitated() || !is_operational())
+	if(user.incapacitated() || !is_operational)
 		return
 	if(replay_mode)
 		replay_stop()
@@ -96,7 +96,7 @@ Possible to do for anyone motivated enough:
 	if(!replay_mode && (disk && disk.record))
 		replay_start()
 
-/obj/machinery/holopad/Initialize()
+/obj/machinery/holopad/Initialize(mapload)
 	. = ..()
 	if(on_network)
 		holopads += src
@@ -124,9 +124,9 @@ Possible to do for anyone motivated enough:
 
 /obj/machinery/holopad/power_change()
 	if (powered())
-		stat &= ~NOPOWER
+		set_machine_stat(machine_stat & ~NOPOWER)
 	else
-		stat |= NOPOWER
+		set_machine_stat(machine_stat | NOPOWER)
 		if(replay_mode)
 			replay_stop()
 		if(record_mode)
@@ -182,7 +182,7 @@ Possible to do for anyone motivated enough:
 	if(!istype(user))
 		return
 
-	if(outgoing_call || user.incapacitated() || !is_operational())
+	if(outgoing_call || user.incapacitated() || !is_operational)
 		return
 
 	user.set_machine(src)
@@ -243,7 +243,7 @@ Possible to do for anyone motivated enough:
 	if(..() || isAI(usr))
 		return
 	add_fingerprint(usr)
-	if(!is_operational())
+	if(!is_operational)
 		return
 	if (href_list["AIrequest"])
 		if(last_request + 200 < world.time)
@@ -353,7 +353,7 @@ Possible to do for anyone motivated enough:
 			if(!istype(AI))
 				AI = null
 
-			if(!is_operational() || !validate_user(master))
+			if(!is_operational || !validate_user(master))
 				clear_holo(master)
 
 	if(outgoing_call)
@@ -384,7 +384,7 @@ Possible to do for anyone motivated enough:
 	if(!istype(AI))
 		AI = null
 
-	if(is_operational() && (!AI || AI.eyeobj.loc == loc))//If the projector has power and client eye is on it
+	if(is_operational && (!AI || AI.eyeobj.loc == loc))//If the projector has power and client eye is on it
 		if (AI && istype(AI.current, /obj/machinery/holopad))
 			to_chat(user, "<span class='danger'>ERROR:</span> \black Image feed in progress.")
 			return
@@ -392,6 +392,7 @@ Possible to do for anyone motivated enough:
 		var/obj/effect/overlay/holo_pad_hologram/Hologram = new(loc)//Spawn a blank effect at the location.
 		if(AI)
 			Hologram.icon = AI.holo_icon
+			Hologram.Impersonation = AI // NSV13 - EDIT - Puts the AI core as the impersonated mob so that the examine proc can be redirected
 		else	//make it like real life
 			Hologram.icon = user.icon
 			Hologram.icon_state = user.icon_state
@@ -401,10 +402,10 @@ Possible to do for anyone motivated enough:
 			Hologram.add_atom_colour("#77abff", FIXED_COLOUR_PRIORITY)
 			Hologram.Impersonation = user
 
-		Hologram.mouse_opacity = MOUSE_OPACITY_TRANSPARENT//So you can't click on it.
+		//Hologram.mouse_opacity = MOUSE_OPACITY_TRANSPARENT//So you can't click on it. //NSV13 - EDIT - Making holograms clickable/examinable
 		Hologram.layer = FLY_LAYER//Above all the other objects/mobs. Or the vast majority of them.
 		Hologram.setAnchored(TRUE)//So space wind cannot drag it.
-		Hologram.name = "[user.name] (Hologram)"//If someone decides to right click.
+		Hologram.name = user.name // NSV13 - Make the name exact, so that the double-emotes are less jarring in the chat
 		Hologram.set_light(2)	//hologram lighting
 		move_hologram()
 
@@ -511,7 +512,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 	else
 		return FALSE
 
-/obj/machinery/holopad/proc/move_hologram(mob/living/user, turf/new_turf)
+/obj/machinery/holopad/proc/move_hologram(mob/living/user, turf/new_turf, direction) //NSV13 - AI Custom Holographic Form
 	if(LAZYLEN(masters) && masters[user])
 		var/obj/effect/overlay/holo_pad_hologram/holo = masters[user]
 		var/transfered = FALSE
@@ -522,7 +523,11 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 			else
 				transfered = TRUE
 		//All is good.
-		holo.forceMove(new_turf)
+		holo.abstract_move(new_turf)
+		//NSV13 - AI Custom Holographic Form - Start
+		if(direction)
+			holo.setDir(direction)
+		//NSV13 - AI Custom Holographic Form - Stop
 		if(!transfered)
 			update_holoray(user,new_turf)
 	return TRUE
@@ -648,7 +653,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 		if(HOLORECORD_SOUND)
 			playsound(src,entry[2],50,1)
 		if(HOLORECORD_DELAY)
-			addtimer(CALLBACK(src,.proc/replay_entry,entry_number+1),entry[2])
+			addtimer(CALLBACK(src,PROC_REF(replay_entry),entry_number+1),entry[2])
 			return
 		if(HOLORECORD_LANGUAGE)
 			var/datum/language_holder/holder = replay_holo.get_language_holder()

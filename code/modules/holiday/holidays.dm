@@ -181,6 +181,7 @@
 	begin_month = APRIL
 
 /datum/holiday/april_fools/celebrate()
+	SSjob.set_overflow_role(JOB_NAME_CLOWN)
 	SSticker.login_music = 'sound/ambience/clown.ogg'
 	for(var/mob/dead/new_player/P in GLOB.mob_list)
 		if(P.client)
@@ -527,7 +528,7 @@ Since Ramadan is an entire month that lasts 29.5 days on average, the start and 
 	return "Have a merry Christmas!"
 
 /datum/holiday/xmas/celebrate()
-	SSticker.OnRoundstart(CALLBACK(src, .proc/roundstart_celebrate))
+	SSticker.OnRoundstart(CALLBACK(src, PROC_REF(roundstart_celebrate)))
 	GLOB.maintenance_loot += list(
 		/obj/item/toy/xmas_cracker = 3,
 		/obj/item/clothing/head/santa = 1,

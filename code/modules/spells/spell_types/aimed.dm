@@ -118,7 +118,7 @@
 	invocation_type = "shout"
 	range = 20
 	cooldown_min = 40 //10 deciseconds reduction per rank
-	projectile_type = /obj/item/projectile/magic/aoe/fireball
+	projectile_type = /obj/item/projectile/magic/fireball
 	base_icon_state = "fireball"
 	action_icon_state = "fireball0"
 	sound = 'sound/magic/fireball.ogg'
@@ -151,7 +151,7 @@
 
 /obj/effect/proc_holder/spell/aimed/spell_cards/on_activation(mob/M)
 	QDEL_NULL(lockon_component)
-	lockon_component = M.AddComponent(/datum/component/lockon_aiming, 5, typecacheof(list(/mob/living)), 1, null, CALLBACK(src, .proc/on_lockon_component))
+	lockon_component = M.AddComponent(/datum/component/lockon_aiming, 5, typecacheof(list(/mob/living)), 1, null, CALLBACK(src, PROC_REF(on_lockon_component)))
 
 /obj/effect/proc_holder/spell/aimed/spell_cards/proc/on_lockon_component(list/locked_weakrefs)
 	if(!length(locked_weakrefs))

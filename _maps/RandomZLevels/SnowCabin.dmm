@@ -73,7 +73,7 @@
 /turf/open/floor/wood/cold,
 /area/awaymission/cabin/lumbermill)
 "am" = (
-/obj/structure/chair/comfy{
+/obj/structure/chair/fancy/comfy{
 	color = "#B22222";
 	dir = 8
 	},
@@ -388,7 +388,6 @@
 	anchored = 1;
 	density = 1;
 	desc = "Generates power from lava!";
-	dir = 2;
 	icon = 'icons/obj/atmospherics/pipes/simple.dmi';
 	icon_state = "turbine";
 	name = "geothermal generator"
@@ -456,9 +455,7 @@
 /turf/open/floor/plasteel/freezer,
 /area/awaymission/cabin)
 "bl" = (
-/obj/machinery/vending/autodrobe{
-	req_access_txt = "0"
-	},
+/obj/machinery/vending/autodrobe,
 /turf/open/floor/wood,
 /area/awaymission/cabin)
 "bm" = (
@@ -615,9 +612,7 @@
 /turf/open/floor/wood,
 /area/awaymission/cabin)
 "bN" = (
-/obj/machinery/vending/boozeomat{
-	req_access_txt = "0"
-	},
+/obj/machinery/vending/boozeomat,
 /turf/open/floor/wood,
 /area/awaymission/cabin)
 "bO" = (
@@ -1082,7 +1077,7 @@
 /obj/effect/turf_decal/weather/snow/corner{
 	dir = 1
 	},
-/obj/structure/chair/comfy/shuttle{
+/obj/structure/chair/fancy/shuttle{
 	desc = "A comfortable, secure seat. It has a more sturdy looking buckling system, for making it harder to get dragged into the ring.";
 	name = "announcer seat"
 	},
@@ -1133,12 +1128,11 @@
 /area/awaymission/cabin/snowforest/sovietsurface)
 "dm" = (
 /obj/structure/table/reinforced,
-/obj/item/pda/syndicate{
-	background_color = "#0039A6";
-	default_cartridge = /obj/item/cartridge/virus/mime;
+/obj/item/modular_computer/tablet/pda/syndicate{
+	default_disk = /obj/item/computer_hardware/hard_drive/role/virus/mime;
 	desc = "A portable microcomputer by Thinktronic Systems, LTD. Seems like it may have useful information on it.";
-	name = "soviet PDA";
-	note = "<b>TRANSLATED TO GALACTIC COMMON:</b><br>My partner has left to help those Nanotrasen fucks three days ago. They said that a distress signal came from down south and they had to check it out. How fucking long does it take to investigate a mining outpost? Either those Nanotrasen fuckers betrayed us or something really did go wrong. Either way, I'm leaving before this becomes an issue for me and anyone else here. That dumb idiot."
+	name = "soviet tablet";
+	note = "TRANSLATED TO GALACTIC COMMON: My partner has left to help those Nanotrasen fucks three days ago. They said that a distress signal came from down south and they had to check it out. How fucking long does it take to investigate a mining outpost? Either those Nanotrasen fuckers betrayed us or something really did go wrong. Either way, I'm leaving before this becomes an issue for me and anyone else here. That dumb idiot."
 	},
 /turf/open/floor/plating/snowed/temperatre,
 /area/awaymission/cabin/snowforest/sovietsurface)
@@ -1200,8 +1194,7 @@
 	desc = "It's a polar bear, in space, but not actually in space. It's actually on a planet. This is a planet.";
 	melee_damage = 15;
 	name = "fat space polar bear";
-	speed = 3;
-	wander = 1
+	speed = 3
 	},
 /turf/open/floor/plating/snowed/temperatre,
 /area/awaymission/cabin/snowforest/sovietsurface)
@@ -1362,8 +1355,7 @@
 	desc = "It's a polar bear, in space, but not actually in space. It's actually on a planet. This is a planet.";
 	melee_damage = 15;
 	name = "fat space polar bear";
-	speed = 3;
-	wander = 1
+	speed = 3
 	},
 /turf/open/floor/plating/snowed/temperatre,
 /area/awaymission/cabin/snowforest/sovietsurface)
@@ -1562,7 +1554,7 @@
 /turf/open/floor/wood/cold,
 /area/awaymission/cabin/lumbermill)
 "eB" = (
-/obj/structure/chair/sofa/right,
+/obj/structure/chair/fancy/sofa/old/right,
 /turf/open/floor/wood,
 /area/awaymission/cabin/caves/mountain)
 "eC" = (
@@ -1656,7 +1648,7 @@
 /turf/open/floor/plating/asteroid/snow,
 /area/awaymission/cabin/snowforest)
 "eP" = (
-/obj/structure/chair/sofa,
+/obj/structure/chair/fancy/sofa/old,
 /turf/open/floor/wood,
 /area/awaymission/cabin/caves/mountain)
 "eQ" = (
@@ -1801,19 +1793,17 @@
 /turf/open/floor/wood/cold,
 /area/awaymission/cabin/lumbermill)
 "fg" = (
-/obj/structure/chair/sofa/left,
+/obj/structure/chair/fancy/sofa/old/left,
 /turf/open/floor/wood,
 /area/awaymission/cabin/caves/mountain)
 "fh" = (
 /obj/structure{
-	alpha = 255;
 	anchored = 1;
 	desc = "It is a ghostly cat.";
 	icon = 'icons/mob/mob.dmi';
 	icon_state = "catghost";
 	layer = 3;
 	max_integrity = 66666;
-	mouse_opacity = 1;
 	name = "Cat"
 	},
 /turf/open/floor/wood,
@@ -2454,8 +2444,7 @@
 /area/awaymission/cabin/caves/mountain)
 "gt" = (
 /obj/structure/sign/poster/contraband/pwr_game{
-	pixel_x = 32;
-	
+	pixel_x = 32
 	},
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/engine,
@@ -2585,7 +2574,6 @@
 	},
 /obj/effect/turf_decal/tile/blue,
 /obj/item/reagent_containers/food/snacks/egg/rainbow{
-	anchored = 0;
 	desc = "Was an egg really worth this much effort?";
 	name = "easter egg"
 	},
@@ -2753,7 +2741,6 @@
 	alpha = 0;
 	color = "#000000";
 	desc = "EXAMINING THAT WAS A MISTAKE!";
-	height = 0;
 	icon_state = "7";
 	id = "TheRealSecretPlace";
 	light_range = 10;
@@ -3275,8 +3262,7 @@
 /area/awaymission/cabin/caves/sovietcave)
 "io" = (
 /obj/structure/extinguisher_cabinet{
-	pixel_x = -24;
-	
+	pixel_x = -24
 	},
 /turf/open/floor/wood,
 /area/awaymission/cabin)
@@ -4733,7 +4719,7 @@
 	name = "wooden box"
 	},
 /obj/item/paper{
-	info = "Moving these crates through a tunnel that isn't even finished yet is really annoying. It's such a pain in the ass to haul even a single crate to the cabin. It made sense to haul food and other goods however these are fake fucking trophies. Why do they even need these fake artifacts for some asshole's trophy case? We'll just leave the crates in the cave that has all those bones inside. Fuck it.";
+	default_raw_text = "Moving these crates through a tunnel that isn't even finished yet is really annoying. It's such a pain in the ass to haul even a single crate to the cabin. It made sense to haul food and other goods however these are fake fucking trophies. Why do they even need these fake artifacts for some asshole's trophy case? We'll just leave the crates in the cave that has all those bones inside. Fuck it.";
 	name = "Shipment Delivery Note"
 	},
 /turf/open/floor/plating/asteroid/snow,
@@ -4855,7 +4841,6 @@
 /mob/living/simple_animal/hostile/bear/russian{
 	desc = "He'll hold the line against you!";
 	light_range = 3;
-	melee_damage = 30;
 	name = "Artyom";
 	speak = list("Blyat!","Rawr!","GRR!","Growl!");
 	wander = 0
@@ -5234,12 +5219,11 @@
 /area/awaymission/cabin/caves)
 "nb" = (
 /obj/effect/turf_decal/weather/snow,
-/obj/item/pda/syndicate{
-	background_color = "#0039A6";
-	default_cartridge = /obj/item/cartridge/virus/clown;
+/obj/item/modular_computer/tablet/pda/syndicate{
+	default_disk = /obj/item/computer_hardware/hard_drive/role/virus/clown;
 	desc = "A portable microcomputer by Thinktronic Systems, LTD. Seems like it may have useful information on it.";
-	name = "soviet PDA";
-	note = "<b>TRANSLATED TO GALACTIC COMMON:</b><br>DO NOT GO SOUTH."
+	name = "soviet tablet";
+	note = "TRANSLATED TO GALACTIC COMMON: DO NOT GO SOUTH."
 	},
 /obj/effect/decal/remains/human{
 	color = "#72e4fa"
@@ -5321,7 +5305,6 @@
 "no" = (
 /obj/structure/ladder/unbreakable{
 	desc = "Finally.";
-	height = 0;
 	icon_state = "ladder10";
 	id = "whyisitcalledladder10andnotladder1";
 	name = "Freedom"
@@ -5364,7 +5347,6 @@
 /obj/structure/ladder/unbreakable{
 	desc = "Who left the grate open?";
 	height = 1;
-	icon = 'icons/obj/structures.dmi';
 	icon_state = "ladder01";
 	id = "dealwentoffwithoutahitchBRO";
 	name = "Grate";
@@ -5437,7 +5419,6 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/ladder/unbreakable{
 	desc = "Yeah, I'll just go back to jail instead of this. It's not like there is an escape out of here, right?";
-	height = 0;
 	icon_state = "ladder10";
 	id = "dealwentoffwithoutahitchBRO";
 	name = "Sewer Ladder"
@@ -5539,9 +5520,7 @@
 	},
 /area/awaymission/cabin/caves/sovietcave)
 "nN" = (
-/obj/machinery/light/small{
-	dir = 2
-	},
+/obj/machinery/light/small,
 /turf/open/floor/wood,
 /area/awaymission/cabin)
 "nO" = (

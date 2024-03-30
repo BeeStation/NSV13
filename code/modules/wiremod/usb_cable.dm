@@ -16,9 +16,9 @@
 	STOP_PROCESSING(SSobj, src)
 	return ..()
 
-/obj/item/usb_cable/Initialize()
+/obj/item/usb_cable/Initialize(mapload)
 	. = ..()
-	RegisterSignal(src, COMSIG_MOVABLE_MOVED, .proc/on_moved)
+	RegisterSignal(src, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
 
 /obj/item/usb_cable/examine(mob/user)
 	. = ..()
@@ -38,17 +38,17 @@
 	if (.)
 		return
 
-	if (prob(1))
-		balloon_alert(user, "wrong way, god damnit")
+	if(prob(1))
+		balloon_alert(user, "Wrong way, god damnit.")
 		return TRUE
 
 	var/signal_result = SEND_SIGNAL(target, COMSIG_ATOM_USB_CABLE_TRY_ATTACH, src, user)
 
 	var/last_attached_circuit = attached_circuit
-	if (signal_result & COMSIG_USB_CABLE_CONNECTED_TO_CIRCUIT)
-		if (isnull(attached_circuit))
+	if(signal_result & COMSIG_USB_CABLE_CONNECTED_TO_CIRCUIT)
+		if(isnull(attached_circuit))
 			CRASH("Producers of COMSIG_USB_CABLE_CONNECTED_TO_CIRCUIT must set attached_circuit")
-		balloon_alert(user, "connected to circuit\nconnect to a port")
+		balloon_alert(user, "You connected the circuit.")
 
 		playsound(src, 'sound/machines/pda_button1.ogg', 20, TRUE)
 
@@ -69,7 +69,7 @@
 		else if (ismachinery(target))
 			connection_description = "machine"
 
-		balloon_alert(user, "connected to [connection_description]")
+		balloon_alert(user, "You connect [src] to [connection_description].")
 		playsound(src, 'sound/items/screwdriver2.ogg', 20, TRUE)
 
 		return TRUE
@@ -84,9 +84,9 @@
 	return OXYLOSS
 
 /obj/item/usb_cable/proc/register_circuit_signals()
-	RegisterSignal(attached_circuit, COMSIG_MOVABLE_MOVED, .proc/on_moved)
-	RegisterSignal(attached_circuit, COMSIG_PARENT_QDELETING, .proc/on_circuit_qdeling)
-	RegisterSignal(attached_circuit.shell, COMSIG_MOVABLE_MOVED, .proc/on_moved)
+	RegisterSignal(attached_circuit, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
+	RegisterSignal(attached_circuit, COMSIG_PARENT_QDELETING, PROC_REF(on_circuit_qdeling))
+	RegisterSignal(attached_circuit.shell, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
 
 /obj/item/usb_cable/proc/unregister_circuit_signals(obj/item/integrated_circuit/old_circuit)
 	UnregisterSignal(attached_circuit, list(

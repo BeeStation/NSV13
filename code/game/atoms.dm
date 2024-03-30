@@ -11,6 +11,9 @@
 	appearance_flags = TILE_BOUND
 	var/level = 2
 
+	/// pass_flags that we are. If any of this matches a pass_flag on a moving thing, by default, we let them through.
+	var/pass_flags_self = NONE
+
 	///If non-null, overrides a/an/some in all cases
 	var/article
 
@@ -77,6 +80,12 @@
 	var/list/custom_materials
 	///Bitfield for how the atom handles materials.
 	var/material_flags = NONE
+	///Light systems, both shouldn't be active at the same time.
+	var/light_system = STATIC_LIGHT
+	///Boolean variable for toggleable lights. Has no effect without the proper light_system, light_range and light_power values.
+	var/light_on = TRUE
+	///Bitflags to determine lighting-related atom properties.
+	var/light_flags = NONE
 
 	var/flags_ricochet = NONE
 	///When a projectile tries to ricochet off this atom, the projectile ricochet chance is multiplied by this
@@ -89,6 +98,11 @@
 	/// Last color calculated for the the chatmessage overlays
 	var/chat_color
 
+	///The config type to use for greyscaled sprites. Both this and greyscale_colors must be assigned to work.
+	var/greyscale_config
+	///A string of hex format colors to be used by greyscale sprites, ex: "#0054aa#badcff"
+	var/greyscale_colors
+
 	///Mobs that are currently do_after'ing this atom, to be cleared from on Destroy()
 	var/list/targeted_by
 
@@ -98,6 +112,14 @@
 	/// Lazylist of all messages currently on this atom
 	var/list/chat_messages
 
+	///LazyList of all balloon alerts currently on this atom
+	var/list/balloon_alerts
+
+	///Default X pixel offset NSV13
+	var/base_pixel_x
+
+	///Default Y pixel offset NSV13
+	var/base_pixel_y
 /**
   * Called when an atom is created in byond (built in engine proc)
   *
@@ -165,11 +187,14 @@
 	if(loc)
 		SEND_SIGNAL(loc, COMSIG_ATOM_CREATED, src) /// Sends a signal that the new atom `src`, has been created at `loc`
 
+	if(greyscale_config && greyscale_colors)
+		update_greyscale()
+
 	//atom color stuff
 	if(color)
 		add_atom_colour(color, FIXED_COLOUR_PRIORITY)
 
-	if (light_power && light_range)
+	if (light_system == STATIC_LIGHT && light_power && light_range)
 		update_light()
 
 	if (opacity && isturf(loc))
@@ -225,9 +250,9 @@
   */
 /atom/Destroy()
 	if(alternate_appearances)
-		for(var/K in alternate_appearances)
-			var/datum/atom_hud/alternate_appearance/AA = alternate_appearances[K]
-			AA.remove_from_hud(src)
+		for(var/current_alternate_appearance in alternate_appearances)
+			var/datum/atom_hud/alternate_appearance/selected_alternate_appearance = alternate_appearances[current_alternate_appearance]
+			selected_alternate_appearance.remove_from_hud(src)
 
 	if(reagents)
 		QDEL_NULL(reagents)
@@ -236,16 +261,16 @@
 
 	LAZYCLEARLIST(overlays)
 	LAZYCLEARLIST(priority_overlays)
-	LAZYCLEARLIST(managed_overlays)
+	LAZYNULL(managed_overlays)
+
+	QDEL_NULL(light)
+	QDEL_NULL(ai_controller)
 
 	for(var/i in targeted_by)
 		var/mob/M = i
 		LAZYREMOVE(M.do_afters, src)
 
 	targeted_by = null
-
-	QDEL_NULL(light)
-	QDEL_NULL(ai_controller)
 
 	return ..()
 
@@ -259,13 +284,30 @@
 		return FALSE
 	if((P.flag in list("bullet", "bomb")) && P.ricochet_incidence_leeway)
 		if((a_incidence_s < 90 && a_incidence_s < 90 - P.ricochet_incidence_leeway) || (a_incidence_s > 270 && a_incidence_s -270 > P.ricochet_incidence_leeway))
-			return
+			return FALSE
 	var/new_angle_s = SIMPLIFY_DEGREES(face_angle + incidence_s)
 	P.setAngle(new_angle_s)
 	return TRUE
 
 ///Can the mover object pass this atom, while heading for the target turf
 /atom/proc/CanPass(atom/movable/mover, turf/target)
+	SHOULD_CALL_PARENT(TRUE)
+	SHOULD_BE_PURE(TRUE)
+	if(mover.movement_type & PHASING)
+		return TRUE
+	. = CanAllowThrough(mover, target)
+	// This is cheaper than calling the proc every time since most things dont override CanPassThrough
+	if(!mover.generic_canpass)
+		return mover.CanPassThrough(src, target, .)
+
+/// Returns true or false to allow the mover to move through src
+/atom/proc/CanAllowThrough(atom/movable/mover, turf/target)
+	SHOULD_CALL_PARENT(TRUE)
+	//SHOULD_BE_PURE(TRUE)
+	if(mover.pass_flags & pass_flags_self)
+		return TRUE
+	if(mover.throwing && (pass_flags_self & LETPASSTHROW))
+		return TRUE
 	return !density
 
 /**
@@ -430,12 +472,13 @@
 /atom/proc/is_drainable()
 	return reagents && (reagents.flags & DRAINABLE)
 
+/// Is this atom grindable to get reagents
+/atom/proc/is_grindable()
+	return reagents && (reagents.flags & ABSOLUTELY_GRINDABLE)
+
 /// Are you allowed to drop this atom
 /atom/proc/AllowDrop()
 	return FALSE
-
-/atom/proc/CheckExit()
-	return 1
 
 ///Is this atom within 1 tile of another atom
 /atom/proc/HasProximity(atom/movable/AM as mob|obj)
@@ -458,13 +501,18 @@
 	return protection // Pass the protection value collected here upwards
 
 /**
-  * React to a hit by a projectile object
-  *
-  * Default behaviour is to send the COMSIG_ATOM_BULLET_ACT and then call on_hit() on the projectile
-  */
-/atom/proc/bullet_act(obj/item/projectile/P, def_zone)
+ * React to a hit by a projectile object
+ *
+ * Default behaviour is to send the [COMSIG_ATOM_BULLET_ACT] and then call [on_hit][/obj/projectile/proc/on_hit] on the projectile
+ *
+ * @params
+ * P - projectile
+ * def_zone - zone hit
+ * piercing_hit - is this hit piercing or normal?
+ */
+/atom/proc/bullet_act(obj/item/projectile/P, def_zone, piercing_hit = FALSE)
 	SEND_SIGNAL(src, COMSIG_ATOM_BULLET_ACT, P, def_zone)
-	. = P.on_hit(src, 0, def_zone)
+	. = P.on_hit(src, 0, def_zone, piercing_hit)
 
 ///Return true if we're inside the passed in atom
 /atom/proc/in_contents_of(container)//can take class or object instance as argument
@@ -516,6 +564,7 @@
 		if(reagents.flags & TRANSPARENT)
 			. += "It contains:"
 			if(length(reagents.reagent_list))
+				//-------- Reagent checks ---------
 				if(user.can_see_reagents()) //Show each individual reagent
 					for(var/datum/reagent/R in reagents.reagent_list)
 						. += "[R.volume] units of [R.name]"
@@ -524,6 +573,25 @@
 					for(var/datum/reagent/R in reagents.reagent_list)
 						total_volume += R.volume
 					. += "[total_volume] units of various reagents"
+				//-------- Beer goggles ---------
+				if(user.can_see_boozepower())
+					var/total_boozepower = 0
+					var/list/taste_list = list()
+
+					// calculates the total booze power from all 'ethanol' reagents
+					for(var/datum/reagent/consumable/ethanol/B in reagents.reagent_list)
+						total_boozepower += B.volume * max(B.boozepwr, 0) // minus booze power is reversed to light drinkers, but is actually 0 to normal drinkers.
+
+					// gets taste results from all reagents
+					for(var/datum/reagent/R in reagents.reagent_list)
+						if(istype(R, /datum/reagent/consumable/ethanol/fruit_wine) && !(user.stat == DEAD) && !(HAS_TRAIT(src, TRAIT_BARMASTER)) ) // taste of fruit wine is mysterious, but can be known by ghosts/some special bar master trait holders
+							taste_list += "<br/>   - unexplored taste of the winery (from [R.name])"
+						else
+							taste_list += "<br/>   - [R.taste_description] (from [R.name])"
+					if(reagents.total_volume)
+						. += "<span class='notice'>Booze Power: total [total_boozepower], average [round(total_boozepower/reagents.total_volume, 0.1)] ([get_boozepower_text(total_boozepower/reagents.total_volume, user)])</span>"
+						. += "<span class='notice'>It would taste like: [english_list(taste_list, comma_text="", and_text="")].</span>"
+				//-------------------------------
 			else
 				. += "Nothing."
 		else if(reagents.flags & AMOUNT_VISIBLE)
@@ -534,31 +602,98 @@
 
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)
 
+/**
+ * Updates the appearence of the icon
+ *
+ * Mostly delegates to update_name, update_desc, and update_icon
+ *
+ * Arguments:
+ * - updates: A set of bitflags dictating what should be updated. Defaults to [ALL]
+ */
+/atom/proc/update_appearance(updates=ALL)
+	SHOULD_NOT_SLEEP(TRUE)
+	SHOULD_CALL_PARENT(TRUE)
+
+	. = NONE
+	updates &= ~SEND_SIGNAL(src, COMSIG_ATOM_UPDATE_APPEARANCE, updates)
+	if(updates & UPDATE_NAME)
+		. |= update_name(updates)
+	if(updates & UPDATE_DESC)
+		. |= update_desc(updates)
+	if(updates & UPDATE_ICON)
+		. |= update_icon(updates)
+
+/// Updates the name of the atom
+/atom/proc/update_name(updates=ALL)
+	SHOULD_CALL_PARENT(TRUE)
+	return SEND_SIGNAL(src, COMSIG_ATOM_UPDATE_NAME, updates)
+
+/// Updates the description of the atom
+/atom/proc/update_desc(updates=ALL)
+	SHOULD_CALL_PARENT(TRUE)
+	return SEND_SIGNAL(src, COMSIG_ATOM_UPDATE_DESC, updates)
+
 /// Updates the icon of the atom
-/atom/proc/update_icon()
+/atom/proc/update_icon(updates=ALL)
 	SIGNAL_HANDLER
 
-	// I expect we're going to need more return flags and options in this proc
-	var/signalOut = SEND_SIGNAL(src, COMSIG_ATOM_UPDATE_ICON)
-	if(!(signalOut & COMSIG_ATOM_NO_UPDATE_ICON_STATE))
+	. = NONE
+	updates &= ~SEND_SIGNAL(src, COMSIG_ATOM_UPDATE_ICON, updates)
+	if(updates & UPDATE_ICON_STATE)
 		update_icon_state()
-	if(!(signalOut & COMSIG_ATOM_NO_UPDATE_OVERLAYS))
-		var/list/new_overlays = update_overlays()
+		. |= UPDATE_ICON_STATE
+
+	if(updates & UPDATE_OVERLAYS)
+		if(LAZYLEN(managed_vis_overlays))
+			SSvis_overlays.remove_vis_overlay(src, managed_vis_overlays)
+
+		var/list/new_overlays = update_overlays(updates)
 		if(managed_overlays)
 			cut_overlay(managed_overlays)
 			managed_overlays = null
 		if(length(new_overlays))
-			managed_overlays = new_overlays
+			if (length(new_overlays) == 1)
+				managed_overlays = new_overlays[1]
+			else
+				managed_overlays = new_overlays
 			add_overlay(new_overlays)
+		. |= UPDATE_OVERLAYS
+
+	. |= SEND_SIGNAL(src, COMSIG_ATOM_UPDATED_ICON, updates, .)
 
 /// Updates the icon state of the atom
 /atom/proc/update_icon_state()
+	SHOULD_CALL_PARENT(TRUE)
+	return SEND_SIGNAL(src, COMSIG_ATOM_UPDATE_ICON_STATE)
 
 /// Updates the overlays of the atom
 /atom/proc/update_overlays()
 	SHOULD_CALL_PARENT(TRUE)
 	. = list()
 	SEND_SIGNAL(src, COMSIG_ATOM_UPDATE_OVERLAYS, .)
+
+/// Handles updates to greyscale value updates.
+/// The colors argument can be either a list or the full color string.
+/// Child procs should call parent last so the update happens after all changes.
+/atom/proc/set_greyscale(list/colors, new_config)
+	SHOULD_CALL_PARENT(TRUE)
+	if(istype(colors))
+		colors = colors.Join("")
+	if(!isnull(colors) && greyscale_colors != colors) // If you want to disable greyscale stuff then give a blank string
+		greyscale_colors = colors
+
+	if(!isnull(new_config) && greyscale_config != new_config)
+		greyscale_config = new_config
+
+	update_greyscale()
+
+/// Checks if this atom uses the GAGS system and if so updates the icon
+/atom/proc/update_greyscale()
+	SHOULD_CALL_PARENT(TRUE)
+	if(greyscale_colors && greyscale_config)
+		icon = SSgreyscale.GetColoredIconByType(greyscale_config, greyscale_colors)
+	update_atom_colour()
+	smooth_icon(src)
 
 /**
   * An atom we are buckled or is contained within us has tried to move
@@ -592,8 +727,9 @@
   * default behaviour is to send the COMSIG_ATOM_BLOB_ACT signal
   */
 /atom/proc/blob_act(obj/structure/blob/B)
-	SEND_SIGNAL(src, COMSIG_ATOM_BLOB_ACT, B)
-	return
+	if(SEND_SIGNAL(src, COMSIG_ATOM_BLOB_ACT, B) & COMPONENT_CANCEL_BLOB_ACT)
+		return FALSE
+	return TRUE
 
 /atom/proc/fire_act(exposed_temperature, exposed_volume)
 	SEND_SIGNAL(src, COMSIG_ATOM_FIRE_ACT, exposed_temperature, exposed_volume)
@@ -612,7 +748,7 @@
 /atom/proc/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
 	SEND_SIGNAL(src, COMSIG_ATOM_HITBY, AM, skipcatch, hitpush, blocked, throwingdatum)
 	if(density && !has_gravity(AM)) //thrown stuff bounces off dense stuff in no grav, unless the thrown stuff ends up inside what it hit(embedding, bola, etc...).
-		addtimer(CALLBACK(src, .proc/hitby_react, AM), 2)
+		addtimer(CALLBACK(src, PROC_REF(hitby_react), AM), 2)
 
 /**
   * We have have actually hit the passed in atom
@@ -695,7 +831,7 @@
   *
   * Default behaviour is to send COMSIG_ATOM_SING_PULL and return
   */
-/atom/proc/singularity_pull(obj/singularity/S, current_size)
+/atom/proc/singularity_pull(obj/anomaly/singularity/S, current_size)
 	SEND_SIGNAL(src, COMSIG_ATOM_SING_PULL, S, current_size)
 
 
@@ -745,7 +881,11 @@
   * Called when lighteater is called on this.
   */
 /atom/proc/lighteater_act(obj/item/light_eater/light_eater)
-	return
+	SHOULD_CALL_PARENT(TRUE)
+	SEND_SIGNAL(src,COMSIG_ATOM_LIGHTEATER_ACT)
+	for(var/datum/light_source/light_source in light_sources)
+		if(light_source.source_atom != src)
+			light_source.source_atom.lighteater_act(light_eater)
 
 /**
   * Respond to the eminence clicking on our atom
@@ -812,7 +952,7 @@
 	var/list/things = src_object.contents()
 	var/datum/progressbar/progress = new(user, things.len, src)
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
-	while (do_after(user, 10, TRUE, src, FALSE, CALLBACK(STR, /datum/component/storage.proc/handle_mass_item_insertion, things, src_object, user, progress)))
+	while (do_after(user, 10, TRUE, src, FALSE, CALLBACK(STR, TYPE_PROC_REF(/datum/component/storage, handle_mass_item_insertion), things, src_object, user, progress)))
 		stoplag(1)
 	qdel(progress)
 	to_chat(user, "<span class='notice'>You dump as much of [src_object.parent]'s contents into [STR.insert_preposition]to [src] as you can.</span>")
@@ -821,6 +961,7 @@
 	if(user.active_storage) //refresh the HUD to show the transfered contents
 		user.active_storage.close(user)
 		user.active_storage.show_to(user)
+	src_object.update_icon()
 	return TRUE
 
 ///Get the best place to dump the items contained in the source storage item?
@@ -870,6 +1011,11 @@
 /atom/proc/setDir(newdir)
 	SEND_SIGNAL(src, COMSIG_ATOM_DIR_CHANGE, dir, newdir)
 	dir = newdir
+
+/// Attempts to turn to the given direction. May fail if anchored/unconscious/etc.
+/atom/proc/try_face(newdir)
+	setDir(newdir)
+	return TRUE
 
 ///Handle melee attack by a mech
 /atom/proc/mech_melee_attack(obj/mecha/M)
@@ -951,7 +1097,7 @@
 		flags_1 |= ADMIN_SPAWNED_1
 	. = ..()
 	switch(var_name)
-		if("color")
+		if(NAMEOF(src, color))
 			add_atom_colour(color, ADMIN_COLOUR_PRIORITY)
 
 /**
@@ -972,6 +1118,8 @@
 	VV_DROPDOWN_OPTION(VV_HK_TRIGGER_EXPLOSION, "Explosion")
 	VV_DROPDOWN_OPTION(VV_HK_EDIT_FILTERS, "Edit Filters")
 	VV_DROPDOWN_OPTION(VV_HK_ADD_AI, "Add AI controller")
+	if(greyscale_colors)
+		VV_DROPDOWN_OPTION(VV_HK_MODIFY_GREYSCALE, "Modify greyscale colors")
 
 /atom/vv_do_topic(list/href_list)
 	. = ..()
@@ -998,20 +1146,27 @@
 							valid_id = TRUE
 						if(!valid_id)
 							to_chat(usr, "<span class='warning'>A reagent with that ID doesn't exist!</span>")
+
 				if("Choose from a list")
 					chosen_id = input(usr, "Choose a reagent to add.", "Choose a reagent.") as null|anything in subtypesof(/datum/reagent)
+
 				if("I'm feeling lucky")
 					chosen_id = pick(subtypesof(/datum/reagent))
+
 			if(chosen_id)
 				var/amount = input(usr, "Choose the amount to add.", "Choose the amount.", reagents.maximum_volume) as num
+
 				if(amount)
 					reagents.add_reagent(chosen_id, amount)
 					log_admin("[key_name(usr)] has added [amount] units of [chosen_id] to [src]")
 					message_admins("<span class='notice'>[key_name(usr)] has added [amount] units of [chosen_id] to [src]</span>")
+
 	if(href_list[VV_HK_TRIGGER_EXPLOSION] && check_rights(R_FUN))
 		usr.client.cmd_admin_explosion(src)
+
 	if(href_list[VV_HK_TRIGGER_EMP] && check_rights(R_FUN))
 		usr.client.cmd_admin_emp(src)
+
 	if(href_list[VV_HK_MODIFY_TRANSFORM] && check_rights(R_VAREDIT))
 		var/result = input(usr, "Choose the transformation to apply","Transform Mod") as null|anything in list("Scale","Translate","Rotate")
 		var/matrix/M = transform
@@ -1030,13 +1185,23 @@
 				var/angle = input(usr, "Choose angle to rotate","Transform Mod") as null|num
 				if(!isnull(angle))
 					transform = M.Turn(angle)
-	if(href_list[VV_HK_AUTO_RENAME] && check_rights(R_VAREDIT))
+
+	if(href_list[VV_HK_AUTO_RENAME] && check_rights(R_ADMIN))
 		var/newname = input(usr, "What do you want to rename this to?", "Automatic Rename") as null|text
 		if(newname)
 			vv_auto_rename(newname)
 	if(href_list[VV_HK_ADD_AI])
 		if(!check_rights(R_VAREDIT))
 			return
+		var/result = input(usr, "Choose the AI controller to apply to this atom WARNING: Not all AI works on all atoms.", "AI controller") as null|anything in subtypesof(/datum/ai_controller)
+		if(!result)
+			return
+		ai_controller = new result(src)
+
+	if(href_list[VV_HK_MODIFY_TRAITS] && check_rights(R_VAREDIT))
+		usr.client.holder.modify_traits(src)
+
+	if(href_list[VV_HK_ADD_AI] && check_rights(R_VAREDIT))
 		var/result = input(usr, "Choose the AI controller to apply to this atom WARNING: Not all AI works on all atoms.", "AI controller") as null|anything in subtypesof(/datum/ai_controller)
 		if(!result)
 			return
@@ -1063,33 +1228,34 @@
 	name = newname
 
 /**
-  * An atom has entered this atom's contents
-  *
-  * Default behaviour is to send the COMSIG_ATOM_ENTERED
-  */
-/atom/Entered(atom/movable/AM, atom/oldLoc)
-	SEND_SIGNAL(src, COMSIG_ATOM_ENTERED, AM, oldLoc)
+ * An atom has entered this atom's contents
+ *
+ * Default behaviour is to send the [COMSIG_ATOM_ENTERED]
+ */
+/atom/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
+	SEND_SIGNAL(src, COMSIG_ATOM_ENTERED, arrived, old_loc, old_locs)
 
 /**
-  * An atom is attempting to exit this atom's contents
-  *
-  * Default behaviour is to send the COMSIG_ATOM_EXIT
-  *
-  * Return value should be set to FALSE if the moving atom is unable to leave,
-  * otherwise leave value the result of the parent call
-  */
-/atom/Exit(atom/movable/AM, atom/newLoc)
-	. = ..()
-	if(SEND_SIGNAL(src, COMSIG_ATOM_EXIT, AM, newLoc) & COMPONENT_ATOM_BLOCK_EXIT)
+ * An atom is attempting to exit this atom's contents
+ *
+ * Default behaviour is to send the [COMSIG_ATOM_EXIT]
+ */
+/atom/Exit(atom/movable/leaving, direction)
+	// Don't call `..()` here, otherwise `Uncross()` gets called.
+	// See the doc comment on `Uncross()` to learn why this is bad.
+
+	if(SEND_SIGNAL(src, COMSIG_ATOM_EXIT, leaving, direction) & COMPONENT_ATOM_BLOCK_EXIT)
 		return FALSE
 
+	return TRUE
+
 /**
-  * An atom has exited this atom's contents
-  *
-  * Default behaviour is to send the COMSIG_ATOM_EXITED
-  */
-/atom/Exited(atom/movable/AM, atom/newLoc)
-	SEND_SIGNAL(src, COMSIG_ATOM_EXITED, AM, newLoc)
+ * An atom has exited this atom's contents
+ *
+ * Default behaviour is to send the [COMSIG_ATOM_EXITED]
+ */
+/atom/Exited(atom/movable/gone, direction)
+	SEND_SIGNAL(src, COMSIG_ATOM_EXITED, gone, direction)
 
 ///Return atom temperature
 /atom/proc/return_temperature()
@@ -1209,15 +1375,19 @@
 			log_game(log_text)
 		if(LOG_MECHA)
 			log_mecha(log_text)
+		//NSV13 START - RADIO EMOTES
+		if(LOG_RADIO_EMOTE)
+			log_radio_emote(log_text)
+		//NSV13 END
 		else
 			stack_trace("Invalid individual logging type: [message_type]. Defaulting to [LOG_GAME] (LOG_GAME).")
 			log_game(log_text)
 
 /// Helper for logging chat messages or other logs with arbitrary inputs (e.g. announcements)
-/atom/proc/log_talk(message, message_type, tag=null, log_globally=TRUE, forced_by=null)
+/atom/proc/log_talk(message, message_type, tag=null, log_globally=TRUE, forced_by=null, custom_say_emote = null) //NSV13
 	var/prefix = tag ? "([tag]) " : ""
 	var/suffix = forced_by ? " FORCED by [forced_by]" : ""
-	log_message("[prefix]\"[message]\"[suffix]", message_type, log_globally=log_globally)
+	log_message("[prefix][custom_say_emote ? "*[custom_say_emote]*, " : ""]\"[message]\"[suffix]", message_type, log_globally=log_globally) //NSV13 - Custom Say Emotes
 
 /// Helper for logging of messages with only one sender and receiver
 /proc/log_directed_talk(atom/source, atom/target, message, message_type, tag)
@@ -1270,7 +1440,7 @@
 
 /atom/proc/update_filters()
 	filters = null
-	filter_data = sortTim(filter_data, /proc/cmp_filter_data_priority, TRUE)
+	filter_data = sortTim(filter_data, GLOBAL_PROC_REF(cmp_filter_data_priority), TRUE)
 	for(var/f in filter_data)
 		var/list/data = filter_data[f]
 		var/list/arguments = data.Copy()
@@ -1372,3 +1542,21 @@
 /atom/proc/InitializeAIController()
 	if(ai_controller)
 		ai_controller = new ai_controller(src)
+
+///Setter for the "base_pixel_x" var to append behavior related to it's changing NSV13
+/atom/proc/set_base_pixel_x(var/new_value)
+	if(base_pixel_x == new_value)
+		return
+	. = base_pixel_x
+	base_pixel_x = new_value
+
+	pixel_x = pixel_x + base_pixel_x - .
+
+///Setter for the "base_pixel_y" var to append behavior related to it's changing NSV13
+/atom/proc/set_base_pixel_y(new_value)
+	if(base_pixel_y == new_value)
+		return
+	. = base_pixel_y
+	base_pixel_y = new_value
+
+	pixel_y = pixel_y + base_pixel_y - .

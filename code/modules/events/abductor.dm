@@ -1,9 +1,9 @@
 /datum/round_event_control/abductor
 	name = "Abductors"
 	typepath = /datum/round_event/ghost_role/abductor
-	weight = 12
+	weight = 9
 	max_occurrences = 1
-	min_players = 20
+	min_players = 24
 	earliest_start = 8 MINUTES //not particularly dangerous, gives abductors time to do their objective
 	dynamic_should_hijack = TRUE
 	gamemode_blacklist = list("nuclear","wizard","revolution")
@@ -15,7 +15,7 @@
 	fakeable = FALSE //Nothing to fake here
 
 /datum/round_event/ghost_role/abductor/spawn_role()
-	var/list/mob/dead/observer/candidates = get_candidates(ROLE_ABDUCTOR, null, ROLE_ABDUCTOR)
+	var/list/mob/dead/observer/candidates = get_candidates(ROLE_ABDUCTOR, /datum/role_preference/midround_ghost/abductor)
 
 	if(candidates.len < 2)
 		return NOT_ENOUGH_PLAYERS

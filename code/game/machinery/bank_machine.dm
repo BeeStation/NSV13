@@ -10,7 +10,7 @@
 	var/minimum_time_between_warnings = 400
 	var/syphoning_credits = 0
 
-/obj/machinery/computer/bank_machine/Initialize()
+/obj/machinery/computer/bank_machine/Initialize(mapload)
 	. = ..()
 	radio = new(src)
 	radio.subspace_transmission = TRUE
@@ -41,7 +41,7 @@
 /obj/machinery/computer/bank_machine/process(delta_time)
 	..()
 	if(siphoning)
-		if (stat & (BROKEN|NOPOWER))
+		if (machine_stat & (BROKEN|NOPOWER))
 			say("Insufficient power. Halting siphon.")
 			end_syphon()
 			ui_update()

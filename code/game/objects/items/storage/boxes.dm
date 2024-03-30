@@ -17,6 +17,7 @@
  *		Replacement light boxes.
  *		Action Figure Boxes
  *		Various paper bags.
+ *		Encrpytion key boxes.
  *
  *		For syndicate call-ins see uplink_kits.dm
  */
@@ -31,6 +32,8 @@
 	resistance_flags = FLAMMABLE
 	var/foldable = /obj/item/stack/sheet/cardboard
 	var/illustration = "writing"
+	drop_sound = 'sound/items/handling/cardboardbox_drop.ogg'
+	pickup_sound =  'sound/items/handling/cardboardbox_pickup.ogg'
 
 /obj/item/storage/box/Initialize(mapload)
 	. = ..()
@@ -70,9 +73,37 @@
 	user.put_in_hands(I)
 
 /obj/item/storage/box/attackby(obj/item/W, mob/user, params)
-	if(istype(W, /obj/item/stack/packageWrap))
+	if(istype(W, /obj/item/stack/package_wrap))
 		return 0
 	return ..()
+
+//Locker overloading issue solving boxes
+/obj/item/storage/box/suitbox
+	name = "compression box of invisible outfits"
+	desc = "a box with bluespace compression technology that nanotrasen has approved, but this is extremely heavy... If you're glued with this box, pull out of the contents and fold the box."
+	w_class = WEIGHT_CLASS_HUGE
+	item_flags = SLOWS_WHILE_IN_HAND
+	slowdown = 4
+	drag_slowdown = 4 // do not steal by dragging
+	/* Note for the compression box:
+		Do not put any box (or suit) into this box, or it will allow infinite storage.
+		non-storage items are only legit for this box. (suits are storage too, so, no.)
+		nor it will allow a glitch when you can access different boxes at the same time.
+		examples exist in `closets/secure/security.dm` */
+
+/obj/item/storage/box/suitbox/wardrobe // for `wardrobe.dm`
+	name = "compression box of crew outfits"
+	var/list/repeated_items = list( // just as a sample
+		/obj/item/clothing/under/color/blue,
+		/obj/item/clothing/under/color/jumpskirt/blue,
+		/obj/item/clothing/shoes/sneakers/brown
+	)
+	var/max_repetition = 2
+
+/obj/item/storage/box/suitbox/wardrobe/PopulateContents()
+	for(var/i in 1 to max_repetition)
+		for(var/O in repeated_items)
+			new O(src)
 
 //Mime spell boxes
 
@@ -503,6 +534,12 @@
 	icon_state = "donkpocketboxgondola"
 	donktype = /obj/item/reagent_containers/food/snacks/donkpocket/gondola
 
+/obj/item/storage/box/donkpockets/donkpocketgondolafinlandia
+	name = "laatikko gondolin makuisia donk-taskuja"
+	desc = "<B>Ohjeet:</B> <I>Lämmitä mikroaaltouunissa. Tuote jäähtyy, jos sitä ei syödä seitsemän minuutin kuluessa.</I>"
+	icon_state = "donkpocketboxgondola"
+	donktype = /obj/item/reagent_containers/food/snacks/donkpocket/gondola
+
 /obj/item/storage/box/donkpockets/donkpocketberry
 	name = "box of berry-flavoured donk-pockets"
 	icon_state = "donkpocketboxberry"
@@ -567,14 +604,14 @@
 
 /obj/item/storage/box/PDAs/PopulateContents()
 	for(var/i in 1 to 4)
-		new /obj/item/pda(src)
-	new /obj/item/cartridge/head(src)
+		new /obj/item/modular_computer/tablet/pda(src)
+	new /obj/item/computer_hardware/hard_drive/role/head(src)
 
-	var/newcart = pick(	/obj/item/cartridge/engineering,
-						/obj/item/cartridge/security,
-						/obj/item/cartridge/medical,
-						/obj/item/cartridge/signal/toxins,
-						/obj/item/cartridge/quartermaster)
+	var/newcart = pick(	/obj/item/computer_hardware/hard_drive/role/engineering,
+						/obj/item/computer_hardware/hard_drive/role/security,
+						/obj/item/computer_hardware/hard_drive/role/medical,
+						/obj/item/computer_hardware/hard_drive/role/signal/toxins,
+						/obj/item/computer_hardware/hard_drive/role/cargo_technician)
 	new newcart(src)
 
 /obj/item/storage/box/silver_ids
@@ -603,15 +640,15 @@
 	new /obj/item/card/id/prisoner/seven(src)
 
 /obj/item/storage/box/seccarts
-	name = "box of PDA security cartridges"
-	desc = "A box full of PDA cartridges used by Security."
+	name = "box of PDA security job disks"
+	desc = "A box full of PDA job disks used by Security."
 	icon_state = "secbox"
 	illustration = "pda"
 
 /obj/item/storage/box/seccarts/PopulateContents()
-	new /obj/item/cartridge/detective(src)
+	new /obj/item/computer_hardware/hard_drive/role/detective(src)
 	for(var/i in 1 to 6)
-		new /obj/item/cartridge/security(src)
+		new /obj/item/computer_hardware/hard_drive/role/security(src)
 
 /obj/item/storage/box/firingpins
 	name = "box of standard firing pins"
@@ -723,6 +760,8 @@
 	item_state = "zippo"
 	w_class = WEIGHT_CLASS_TINY
 	slot_flags = ITEM_SLOT_BELT
+	drop_sound = 'sound/items/handling/matchbox_drop.ogg'
+	pickup_sound =  'sound/items/handling/matchbox_pickup.ogg'
 
 /obj/item/storage/box/matches/ComponentInitialize()
 	. = ..()
@@ -979,7 +1018,7 @@
 	illustration = "fruit"
 	var/theme_name
 
-/obj/item/storage/box/ingredients/Initialize()
+/obj/item/storage/box/ingredients/Initialize(mapload)
 	. = ..()
 	if(theme_name)
 		name = "[name] ([theme_name])"
@@ -1232,7 +1271,7 @@
 		/obj/item/stack/sheet/mineral/uranium=50,\
 		/obj/item/stack/sheet/mineral/plasma=50,\
 		/obj/item/stack/sheet/mineral/diamond=50,\
-		/obj/item/stack/sheet/bluespace_crystal=50,\
+		/obj/item/stack/ore/bluespace_crystal/refined=50,\
 		/obj/item/stack/sheet/mineral/bananium=50,\
 		/obj/item/stack/sheet/plastic/fifty=1,\
 		/obj/item/stack/sheet/runed_metal/fifty=1,\
@@ -1264,7 +1303,7 @@
 /obj/item/storage/box/debugtools/PopulateContents()
 	var/static/items_inside = list(
 		/obj/item/flashlight/emp/debug=1,\
-		/obj/item/pda=1,\
+		/obj/item/modular_computer/tablet/pda=1,\
 		/obj/item/modular_computer/tablet/preset/advanced=1,\
 		/obj/item/storage/belt/military/abductor/full=1,\
 		/obj/item/geiger_counter=1,\
@@ -1298,3 +1337,75 @@
 		new /obj/item/clothing/accessory/armband/deputy(src)
 		new /obj/item/card/id/pass/deputy(src)
 
+/obj/item/storage/box/radiokey
+	name = "box of generic radio keys"
+	desc = "You shouldn't be seeing this. Ahelp."
+	icon_state = "radiobox"
+	var/radio_key = /obj/item/encryptionkey
+
+/obj/item/storage/box/radiokey/PopulateContents()
+	for(var/i in 1 to 7)
+		new radio_key(src)
+
+/obj/item/storage/box/radiokey/com
+	name = "box of command staff's radio keys"
+	desc = "A spare radio key for each command staff, plus an amplification key and a generic command key."
+	icon_state = "radiobox_gold"
+
+/obj/item/storage/box/radiokey/com/PopulateContents()
+	new /obj/item/encryptionkey/heads/rd(src)
+	new /obj/item/encryptionkey/heads/hos(src)
+	new /obj/item/encryptionkey/heads/ce(src)
+	new /obj/item/encryptionkey/heads/cmo(src)
+	new /obj/item/encryptionkey/heads/hop(src)
+	new /obj/item/encryptionkey/heads/master_at_arms(src) //NSV13 - added MAA
+	new /obj/item/encryptionkey/headset_com(src)
+	new /obj/item/encryptionkey/amplification(src)
+
+/obj/item/storage/box/radiokey/sci
+	name = "box of science radio keys"
+	desc = "For SCIENCE!"
+	radio_key = /obj/item/encryptionkey/headset_sci
+
+/obj/item/storage/box/radiokey/sec
+	name = "box of security radio keys"
+	desc = "Grants access to the station's security radio."
+	radio_key = /obj/item/encryptionkey/headset_sec
+
+/obj/item/storage/box/radiokey/eng
+	name = "box of engineering radio keys"
+	desc = "Dooms you to listen to Poly for all eternity."
+	radio_key = /obj/item/encryptionkey/headset_eng
+
+/obj/item/storage/box/radiokey/med
+	name = "box of medical radio keys"
+	desc = "9 out of 10 doctors reccomend."
+	radio_key = /obj/item/encryptionkey/headset_med
+
+/obj/item/storage/box/radiokey/srv
+	name = "box of service radio keys"
+	desc = "The channel for servants."
+	radio_key = /obj/item/encryptionkey/headset_service
+
+/obj/item/storage/box/radiokey/car
+	name = "box of cargo tech radio keys"  // qm can always buy mining conscript
+	desc = "Slaves you to the quartermaster."
+	radio_key = /obj/item/encryptionkey/headset_cargo
+
+/obj/item/storage/box/radiokey/cap  // admin spawn
+	name = "glorious box of captain's radio keys"
+	desc = "All-access radio."
+	icon_state = "radiobox_gold"
+	radio_key = /obj/item/encryptionkey/heads/captain
+
+/obj/item/storage/box/radiokey/clown  // honk
+	name = "\improper H.O.N.K. CO fake encryption keys"
+	desc = "Totally prank your friends with these realistic encryption keys!"
+
+/obj/item/storage/box/radiokey/clown/PopulateContents()
+	new /obj/item/encryptionkey/heads/rd/fake(src)
+	new /obj/item/encryptionkey/heads/hos/fake(src)
+	new /obj/item/encryptionkey/heads/ce/fake(src)
+	new /obj/item/encryptionkey/heads/cmo/fake(src)
+	new /obj/item/encryptionkey/heads/hop/fake(src)
+	new /obj/item/encryptionkey/heads/master_at_arms/fake(src) //NSV13 - added MAA

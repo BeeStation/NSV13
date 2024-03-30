@@ -45,7 +45,7 @@
 	name = "Officer Pipsqueak"
 	desc = "It's Officer Beep O'sky's smaller, just-as aggressive cousin, Pipsqueak."
 
-/mob/living/simple_animal/bot/secbot/beepsky/jr/Initialize()
+/mob/living/simple_animal/bot/secbot/beepsky/jr/Initialize(mapload)
 	. = ..()
 	resize = 0.8
 	update_transform()
@@ -64,7 +64,7 @@
 	desc = "It's Officer Pingsky! Delegated to satellite guard duty for harbouring anti-human sentiment."
 	radio_channel = RADIO_CHANNEL_AI_PRIVATE
 
-/mob/living/simple_animal/bot/secbot/Initialize()
+/mob/living/simple_animal/bot/secbot/Initialize(mapload)
 	. = ..()
 	update_icon()
 	var/datum/job/detective/J = new/datum/job/detective
@@ -74,6 +74,10 @@
 	//SECHUD
 	var/datum/atom_hud/secsensor = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
 	secsensor.add_hud_to(src)
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /mob/living/simple_animal/bot/secbot/update_icon()
 	if(mode == BOT_HUNT)
@@ -90,7 +94,7 @@
 	target = null
 	oldtarget_name = null
 	anchored = FALSE
-	walk_to(src,0)
+	SSmove_manager.stop_looping(src)
 	last_found = world.time
 
 /mob/living/simple_animal/bot/secbot/set_custom_texts()
@@ -153,7 +157,7 @@ Auto Patrol: []"},
 
 /mob/living/simple_animal/bot/secbot/proc/retaliate(mob/living/carbon/human/H)
 	var/judgment_criteria = judgment_criteria()
-	threatlevel = H.assess_threat(judgment_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
+	threatlevel = H.assess_threat(judgment_criteria, weaponcheck=CALLBACK(src, PROC_REF(check_for_weapons)))
 	threatlevel += 6
 	if(threatlevel >= 4)
 		target = H
@@ -234,7 +238,7 @@ Auto Patrol: []"},
 	playsound(src, 'sound/weapons/cablecuff.ogg', 30, TRUE, -2)
 	C.visible_message("<span class='danger'>[src] is trying to put zipties on [C]!</span>",\
 						"<span class='userdanger'>[src] is trying to put zipties on you!</span>")
-	addtimer(CALLBACK(src, .proc/attempt_handcuff, C), 60)
+	addtimer(CALLBACK(src, PROC_REF(attempt_handcuff), C), 60)
 
 /mob/living/simple_animal/bot/secbot/proc/attempt_handcuff(mob/living/carbon/C)
 	if( !on || !Adjacent(C) || !isturf(C.loc) ) //if he's in a closet or not adjacent, we cancel cuffing.
@@ -253,17 +257,17 @@ Auto Patrol: []"},
 	var/judgment_criteria = judgment_criteria()
 	playsound(src, 'sound/weapons/egloves.ogg', 50, TRUE, -1)
 	icon_state = "[initial(icon_state)]-c"
-	addtimer(CALLBACK(src, /atom/.proc/update_icon), 2)
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_icon)), 2)
 	var/threat = 5
 	if(ishuman(C))
 		C.stuttering = 5
 		C.Paralyze(100)
 		var/mob/living/carbon/human/H = C
-		threat = H.assess_threat(judgment_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
+		threat = H.assess_threat(judgment_criteria, weaponcheck=CALLBACK(src, PROC_REF(check_for_weapons)))
 	else
 		C.Paralyze(100)
 		C.stuttering = 5
-		threat = C.assess_threat(judgment_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
+		threat = C.assess_threat(judgment_criteria, weaponcheck=CALLBACK(src, PROC_REF(check_for_weapons)))
 
 	log_combat(src,C,"stunned")
 	if(declare_arrests)
@@ -280,7 +284,7 @@ Auto Patrol: []"},
 
 		if(BOT_IDLE)		// idle
 
-			walk_to(src,0)
+			SSmove_manager.stop_looping(src)
 			look_for_perp()	// see if any criminals are in range
 			if(!mode && auto_patrol)	// still idle, and set to patrol
 				mode = BOT_START_PATROL	// switch to patrol mode
@@ -289,7 +293,7 @@ Auto Patrol: []"},
 
 			// if can't reach perp for long enough, go idle
 			if(frustration >= 8)
-				walk_to(src,0)
+				SSmove_manager.stop_looping(src)
 				back_to_idle()
 				return
 
@@ -304,7 +308,7 @@ Auto Patrol: []"},
 
 				else								// not next to perp
 					var/turf/olddist = get_dist(src, target)
-					walk_to(src, target,1,4)
+					SSmove_manager.move_to(src, target, 1, 4)
 					if((get_dist(src, target)) >= (olddist))
 						frustration++
 					else
@@ -366,13 +370,13 @@ Auto Patrol: []"},
 	target = null
 	last_found = world.time
 	frustration = 0
-	INVOKE_ASYNC(src, .proc/handle_automated_action)
+	INVOKE_ASYNC(src, PROC_REF(handle_automated_action))
 
 /mob/living/simple_animal/bot/secbot/proc/back_to_hunt()
 	anchored = FALSE
 	frustration = 0
 	mode = BOT_HUNT
-	INVOKE_ASYNC(src, .proc/handle_automated_action)
+	INVOKE_ASYNC(src, PROC_REF(handle_automated_action))
 // look for a criminal in view of the bot
 
 /mob/living/simple_animal/bot/secbot/proc/look_for_perp()
@@ -385,7 +389,7 @@ Auto Patrol: []"},
 		if((C.name == oldtarget_name) && (world.time < last_found + 100))
 			continue
 
-		threatlevel = C.assess_threat(judgment_criteria, weaponcheck=CALLBACK(src, .proc/check_for_weapons))
+		threatlevel = C.assess_threat(judgment_criteria, weaponcheck=CALLBACK(src, PROC_REF(check_for_weapons)))
 
 		if(!threatlevel)
 			continue
@@ -397,7 +401,7 @@ Auto Patrol: []"},
 			playsound(loc, pick('sound/voice/beepsky/criminal.ogg', 'sound/voice/beepsky/justice.ogg', 'sound/voice/beepsky/freeze.ogg'), 50, FALSE)
 			visible_message("<b>[src]</b> points at [C.name]!")
 			mode = BOT_HUNT
-			INVOKE_ASYNC(src, .proc/handle_automated_action)
+			INVOKE_ASYNC(src, PROC_REF(handle_automated_action))
 			break
 		else
 			continue
@@ -408,8 +412,6 @@ Auto Patrol: []"},
 	return FALSE
 
 /mob/living/simple_animal/bot/secbot/explode()
-
-	walk_to(src,0)
 	visible_message("<span class='boldannounce'>[src] blows apart!</span>")
 	var/atom/Tsec = drop_location()
 
@@ -435,14 +437,15 @@ Auto Patrol: []"},
 		target = user
 		mode = BOT_HUNT
 
-/mob/living/simple_animal/bot/secbot/Crossed(atom/movable/AM)
+/mob/living/simple_animal/bot/secbot/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+
 	if(has_gravity() && ismob(AM) && target)
 		var/mob/living/carbon/C = AM
 		if(!istype(C) || !C || in_range(src, target))
 			return
 		knockOver(C)
 		return
-	..()
 
 /obj/machinery/bot_core/secbot
 	req_access = list(ACCESS_SECURITY)

@@ -5,7 +5,7 @@
 /datum/game_mode/traitor/bros
 	name = "traitor+brothers"
 	config_tag = "traitorbro"
-	restricted_jobs = list("AI", "Cyborg")
+	restricted_jobs = list(JOB_NAME_AI, JOB_NAME_CYBORG)
 
 	announce_span = "danger"
 	announce_text = "There are Syndicate agents and Blood Brothers on the station!\n\
@@ -23,11 +23,11 @@
 	if(CONFIG_GET(flag/protect_roles_from_antagonist))
 		restricted_jobs += protected_jobs
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+		restricted_jobs += JOB_NAME_ASSISTANT
 	if(CONFIG_GET(flag/protect_heads_from_antagonist))
 		restricted_jobs += GLOB.command_positions
 
-	var/list/datum/mind/possible_brothers = get_players_for_role(ROLE_BROTHER)
+	var/list/datum/mind/possible_brothers = get_players_for_role(/datum/antagonist/brother, /datum/role_preference/antagonist/blood_brother)
 
 	var/num_teams = team_amount
 	var/bsc = CONFIG_GET(number/brother_scaling_coeff)
@@ -40,7 +40,7 @@
 		var/datum/team/brother_team/team = new
 		var/team_size = prob(10) ? min(3, possible_brothers.len) : 2
 		for(var/k = 1 to team_size)
-			var/datum/mind/bro = antag_pick(possible_brothers, ROLE_BROTHER)
+			var/datum/mind/bro = antag_pick(possible_brothers, /datum/role_preference/antagonist/blood_brother)
 			possible_brothers -= bro
 			antag_candidates -= bro
 			team.add_member(bro)

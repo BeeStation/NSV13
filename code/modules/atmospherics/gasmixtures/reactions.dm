@@ -9,7 +9,7 @@
 			continue
 		reaction = new r
 		. += reaction
-	sortTim(., /proc/cmp_gas_reactions)
+	sortTim(., GLOBAL_PROC_REF(cmp_gas_reactions))
 
 /proc/cmp_gas_reactions(list/datum/gas_reaction/a, list/datum/gas_reaction/b) // compares lists of reactions by the maximum priority contained within the list
 	if (!length(a) || !length(b))
@@ -249,79 +249,6 @@
 
 	return cached_results["fire"] ? REACTING : NO_REACTION
 
-//NSV13 constricted plasma combustion - acts identical to a plasma fire
-/datum/gas_reaction/constricted_plasmafire
-	priority = -3 //fire should ALWAYS be last, but plasma fires happen after tritium fires
-	name = "Constricted Plasma Combustion"
-	id = "constricted_plasmafire"
-
-/datum/gas_reaction/constricted_plasmafire/init_reqs()
-	min_requirements = list(
-		"TEMP" = FIRE_MINIMUM_TEMPERATURE_TO_EXIST,
-		GAS_CONSTRICTED_PLASMA = MINIMUM_MOLE_COUNT,
-		GAS_O2 = MINIMUM_MOLE_COUNT
-	)
-
-/datum/gas_reaction/constricted_plasmafire/react(datum/gas_mixture/air, datum/holder)
-	var/energy_released = 0
-	var/old_heat_capacity = air.heat_capacity()
-	var/temperature = air.return_temperature()
-	var/list/cached_results = air.reaction_results
-	cached_results["fire"] = 0
-	var/turf/open/location = isturf(holder) ? holder : null
-
-	//Handle plasma burning
-	var/plasma_burn_rate = 0
-	var/oxygen_burn_rate = 0
-	//more plasma released at higher temperatures
-	var/temperature_scale = 0
-	//to make tritium
-	var/super_saturation = FALSE
-
-	if(temperature > PLASMA_UPPER_TEMPERATURE)
-		temperature_scale = 1
-	else
-		temperature_scale = (temperature-PLASMA_MINIMUM_BURN_TEMPERATURE)/(PLASMA_UPPER_TEMPERATURE-PLASMA_MINIMUM_BURN_TEMPERATURE)
-	if(temperature_scale > 0)
-		oxygen_burn_rate = OXYGEN_BURN_RATE_BASE - temperature_scale
-		if(air.get_moles(GAS_O2) / air.get_moles(GAS_CONSTRICTED_PLASMA) > SUPER_SATURATION_THRESHOLD) //supersaturation. Form Tritium.
-			super_saturation = TRUE
-		if(air.get_moles(GAS_O2) > air.get_moles(GAS_CONSTRICTED_PLASMA)*PLASMA_OXYGEN_FULLBURN)
-			plasma_burn_rate = (air.get_moles(GAS_CONSTRICTED_PLASMA)*temperature_scale)/PLASMA_BURN_RATE_DELTA
-		else
-			plasma_burn_rate = (temperature_scale*(air.get_moles(GAS_O2)/PLASMA_OXYGEN_FULLBURN))/PLASMA_BURN_RATE_DELTA
-
-		if(plasma_burn_rate > MINIMUM_HEAT_CAPACITY)
-			plasma_burn_rate = min(plasma_burn_rate,air.get_moles(GAS_CONSTRICTED_PLASMA),air.get_moles(GAS_O2)/oxygen_burn_rate) //Ensures matter is conserved properly
-			air.set_moles(GAS_CONSTRICTED_PLASMA, QUANTIZE(air.get_moles(GAS_CONSTRICTED_PLASMA) - plasma_burn_rate))
-			air.set_moles(GAS_O2, QUANTIZE(air.get_moles(GAS_O2) - (plasma_burn_rate * oxygen_burn_rate)))
-			if (super_saturation)
-				air.adjust_moles(GAS_TRITIUM, plasma_burn_rate)
-			else
-				air.adjust_moles(GAS_CO2, plasma_burn_rate)
-
-			energy_released += FIRE_PLASMA_ENERGY_RELEASED * (plasma_burn_rate)
-
-			cached_results["fire"] += (plasma_burn_rate)*(1+oxygen_burn_rate)
-
-	if(energy_released > 0)
-		var/new_heat_capacity = air.heat_capacity()
-		if(new_heat_capacity > MINIMUM_HEAT_CAPACITY)
-			air.set_temperature((temperature*old_heat_capacity + energy_released)/new_heat_capacity)
-
-	//let the floor know a fire is happening
-	if(istype(location))
-		temperature = air.return_temperature()
-		if(temperature > FIRE_MINIMUM_TEMPERATURE_TO_EXIST)
-			location.hotspot_expose(temperature, CELL_VOLUME)
-			for(var/I in location)
-				var/atom/movable/item = I
-				item.temperature_expose(air, temperature, CELL_VOLUME)
-			location.temperature_expose(air, temperature, CELL_VOLUME)
-
-	return cached_results["fire"] ? REACTING : NO_REACTION
-
-
 /datum/gas_reaction/genericfire
 	priority = -4 // very last reaction //NSV13 - changed from -3 to give room for constricted plasmafire
 	name = "Combustion"
@@ -381,7 +308,7 @@
 			fuels[fuel] *= oxidation_ratio
 	fuels += oxidizers
 	var/list/fire_products = GLOB.gas_data.fire_products
-	var/list/fire_enthalpies = GLOB.gas_data.fire_enthalpies
+	var/list/fire_enthalpies = GLOB.gas_data.enthalpies
 	for(var/fuel in fuels + oxidizers)
 		var/amt = fuels[fuel]
 		if(!burn_results[fuel])
@@ -554,7 +481,7 @@
 	air.adjust_moles(GAS_NITROUS, -reaction_efficency)
 	air.adjust_moles(GAS_PLASMA, -2*reaction_efficency)
 
-	SSresearch.science_tech.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, min((reaction_efficency**2)*BZ_RESEARCH_SCALE,BZ_RESEARCH_MAX_AMOUNT))
+	SSresearch.science_tech.add_point_type(TECHWEB_POINT_TYPE_DISCOVERY, min((reaction_efficency**2)*BZ_RESEARCH_SCALE,BZ_RESEARCH_MAX_AMOUNT)*0.5)
 
 	if(energy_released > 0)
 		var/new_heat_capacity = air.heat_capacity()
@@ -588,6 +515,7 @@
 	air.adjust_moles(GAS_NITRYL, -heat_scale)
 	air.adjust_moles(GAS_TRITIUM, -heat_scale)
 	SSresearch.science_tech.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, STIMULUM_RESEARCH_AMOUNT*max(stim_energy_change,0))
+	SSresearch.science_tech.add_point_type(TECHWEB_POINT_TYPE_DISCOVERY, STIMULUM_RESEARCH_AMOUNT*max(stim_energy_change,0)*0.5)
 	if(stim_energy_change)
 		var/new_heat_capacity = air.heat_capacity()
 		if(new_heat_capacity > MINIMUM_HEAT_CAPACITY)
@@ -615,39 +543,12 @@
 	air.adjust_moles(GAS_N2, -20*nob_formed)
 	air.adjust_moles(GAS_HYPERNOB, nob_formed)
 	SSresearch.science_tech.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, nob_formed*NOBLIUM_RESEARCH_AMOUNT)
+	SSresearch.science_tech.add_point_type(TECHWEB_POINT_TYPE_DISCOVERY, nob_formed*NOBLIUM_RESEARCH_AMOUNT*0.5)
 
 	if (nob_formed)
 		var/new_heat_capacity = air.heat_capacity()
 		if(new_heat_capacity > MINIMUM_HEAT_CAPACITY)
 			air.set_temperature(max(((air.return_temperature()*old_heat_capacity - energy_taken)/new_heat_capacity),TCMB))
-
-
-/datum/gas_reaction/miaster	//dry heat sterilization: clears out pathogens in the air
-	priority = -10 //after all the heating from fires etc. is done
-	name = "Dry Heat Sterilization"
-	id = "sterilization"
-
-/* NSV13 - Stolen Datum
-/datum/gas_reaction/miaster/init_reqs()
-	min_requirements = list(
-		"TEMP" = FIRE_MINIMUM_TEMPERATURE_TO_EXIST+70,
-		GAS_MIASMA = MINIMUM_MOLE_COUNT
-	)
-
-/datum/gas_reaction/miaster/react(datum/gas_mixture/air, datum/holder)
-	// As the name says it, it needs to be dry
-	if(air.get_moles(GAS_H2O)/air.total_moles() > 0.1)
-		return
-
-	//Replace miasma with oxygen
-	var/cleaned_air = min(air.get_moles(GAS_MIASMA), 20 + (air.return_temperature() - FIRE_MINIMUM_TEMPERATURE_TO_EXIST - 70) / 20)
-	air.adjust_moles(GAS_MIASMA, -cleaned_air)
-	air.adjust_moles(GAS_O2, cleaned_air)
-
-	//Possibly burning a bit of organic matter through maillard reaction, so a *tiny* bit more heat would be understandable
-	air.set_temperature(air.return_temperature() + cleaned_air * 0.002)
-	SSresearch.science_tech.add_point_type(TECHWEB_POINT_TYPE_DEFAULT, cleaned_air*MIASMA_RESEARCH_AMOUNT)//Turns out the burning of miasma is kinda interesting to scientists
-*/
 
 /datum/gas_reaction/stim_ball
 	priority = 7

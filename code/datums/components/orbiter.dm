@@ -17,16 +17,12 @@
 
 	begin_orbit(orbiter, radius, clockwise, rotation_speed, rotation_segments, pre_rotation)
 
-/datum/component/orbiter/PostTransfer()
-	if(!isatom(parent) || isarea(parent))
-		return COMPONENT_INCOMPATIBLE
-
 /datum/component/orbiter/RegisterWithParent()
 	var/atom/target = parent
 
 	target.orbiters = src
-	if(ismovableatom(target))
-		tracker = new(target, CALLBACK(src, .proc/move_react))
+	if(ismovable(target))
+		tracker = new(target, CALLBACK(src, PROC_REF(move_react)))
 
 /datum/component/orbiter/UnregisterFromParent()
 	var/atom/target = parent
@@ -35,7 +31,7 @@
 
 /datum/component/orbiter/Destroy()
 	var/atom/master = parent
-	master.orbiters = null
+	master?.orbiters = null
 	for(var/i in orbiters)
 		end_orbit(i)
 	orbiters = null
@@ -51,7 +47,7 @@
 /datum/component/orbiter/PostTransfer()
 	if(!isatom(parent) || isarea(parent) || !get_turf(parent))
 		return COMPONENT_INCOMPATIBLE
-	move_react()
+	move_react(parent)
 
 /datum/component/orbiter/proc/begin_orbit(atom/movable/orbiter, radius, clockwise, rotation_speed, rotation_segments, pre_rotation)
 	if(orbiter.orbiting)
@@ -61,7 +57,7 @@
 			orbiter.orbiting.end_orbit(orbiter)
 	orbiters[orbiter] = TRUE
 	orbiter.orbiting = src
-	RegisterSignal(orbiter, COMSIG_MOVABLE_MOVED, .proc/orbiter_move_react)
+	RegisterSignal(orbiter, COMSIG_MOVABLE_MOVED, PROC_REF(orbiter_move_react))
 	SEND_SIGNAL(parent, COMSIG_ATOM_ORBIT_BEGIN, orbiter)
 	var/matrix/initial_transform = matrix(orbiter.transform)
 	orbiters[orbiter] = initial_transform
@@ -81,7 +77,7 @@
 
 	orbiter.SpinAnimation(rotation_speed, -1, clockwise, rotation_segments, parallel = FALSE)
 
-	orbiter.forceMove(get_turf(parent))
+	orbiter.abstract_move(get_turf(parent))
 	to_chat(orbiter, "<span class='notice'>Now orbiting [parent].</span>")
 
 /datum/component/orbiter/proc/end_orbit(atom/movable/orbiter, refreshing=FALSE)
@@ -110,11 +106,10 @@
 		qdel(src)
 
 	var/atom/curloc = master.loc
-	for(var/i in orbiters)
-		var/atom/movable/thing = i
-		if(QDELETED(thing) || thing.loc == newturf)
+	for(var/atom/movable/movable_orbiter as anything in orbiters)
+		if(QDELETED(movable_orbiter) || movable_orbiter.loc == newturf)
 			continue
-		thing.forceMove(newturf)
+		movable_orbiter.abstract_move(newturf)
 		if(CHECK_TICK && master.loc != curloc)
 			// We moved again during the checktick, cancel current operation
 			break

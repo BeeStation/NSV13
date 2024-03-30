@@ -73,7 +73,7 @@ Starting Materials
 	var/material_tier = 0 //The selected tier recipe producing RR
 	var/apnw_id = null //The ID by which we identify our child devices - These should match the child devices and follow the formula: 1 - Main Ship, 2 - Secondary Ship, 3 - Syndie PvP Ship
 
-/obj/machinery/armour_plating_nanorepair_well/Initialize()
+/obj/machinery/armour_plating_nanorepair_well/Initialize(mapload)
 	.=..()
 	return INITIALIZE_HINT_LATELOAD
 
@@ -84,7 +84,7 @@ Starting Materials
 		1000000, FALSE, /obj/item/stack, null, null, FALSE)
 
 	OM = get_overmap()
-	addtimer(CALLBACK(src, .proc/handle_linking), 10 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(handle_linking)), 30 SECONDS)
 
 /obj/machinery/armour_plating_nanorepair_well/examine(mob/user)
 	.=..()
@@ -108,7 +108,7 @@ Starting Materials
 			update_icon()
 			return FALSE
 
-		if(is_operational())
+		if(is_operational)
 			handle_repair_resources()
 			handle_repair_efficiency()
 			update_icon()
@@ -354,18 +354,14 @@ Starting Materials
 /obj/machinery/armour_plating_nanorepair_well/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return
-	if(!(in_range(src, usr) | IsAdminGhost(usr)))
+	if(!(in_range(src, usr) || IsAdminGhost(usr)))
 		return
 	var/adjust = text2num(params["adjust"])
 	if(action == "power_allocation")
-		if(adjust && isnum(adjust))
+		if(isnum(adjust))
 			power_allocation = adjust
-			if(power_allocation > maximum_power_allocation)
-				power_allocation = maximum_power_allocation
-				return
-			if(power_allocation < 0)
-				power_allocation = 0
-				return
+			adjust = CLAMP(adjust, 0, maximum_power_allocation)
+			return
 	switch(action)
 		if("iron")
 			if(material_tier != 0)

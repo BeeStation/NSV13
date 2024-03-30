@@ -20,13 +20,14 @@
 	var/map_pad_id = "" as text //what's my name
 	var/map_pad_link_id = "" as text //who's my friend
 
-/obj/machinery/quantumpad/Initialize()
+/obj/machinery/quantumpad/Initialize(mapload)
 	. = ..()
 	wires = new /datum/wires/quantum_pad(src)
 	if(map_pad_id)
 		mapped_quantum_pads[map_pad_id] = src
 
 /obj/machinery/quantumpad/Destroy()
+	QDEL_NULL(wires)
 	mapped_quantum_pads -= map_pad_id
 	return ..()
 
@@ -116,7 +117,7 @@
 		to_chat(user, "<span class='warning'>Target pad is busy. Please wait.</span>")
 		return
 
-	if(target_pad.stat & NOPOWER)
+	if(target_pad.machine_stat & NOPOWER)
 		to_chat(user, "<span class='warning'>Target pad is not responding to ping.</span>")
 		return
 	add_fingerprint(user)
@@ -145,11 +146,11 @@
 			if(!src || QDELETED(src))
 				teleporting = FALSE
 				return
-			if(stat & NOPOWER)
+			if(machine_stat & NOPOWER)
 				to_chat(user, "<span class='warning'>[src] is unpowered!</span>")
 				teleporting = FALSE
 				return
-			if(!target_pad || QDELETED(target_pad) || target_pad.stat & NOPOWER)
+			if(!target_pad || QDELETED(target_pad) || target_pad.machine_stat & NOPOWER)
 				to_chat(user, "<span class='warning'>Linked pad is not responding to ping. Teleport aborted.</span>")
 				teleporting = FALSE
 				return
@@ -181,7 +182,7 @@
 					else if(!isobserver(ROI))
 						continue
 
-				do_teleport(ROI, get_turf(target_pad),null,TRUE,null,null,null,null,TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
+				do_teleport(ROI, get_turf(target_pad),null,null,null,null,null,TRUE, channel = TELEPORT_CHANNEL_QUANTUM)
 				CHECK_TICK
 
 /obj/machinery/quantumpad/proc/initMappedLink()
@@ -193,4 +194,4 @@
 
 /obj/item/paper/guides/quantumpad
 	name = "Quantum Pad For Dummies"
-	info = "<center><b>Dummies Guide To Quantum Pads</b></center><br><br><center>Do you hate the concept of having to use your legs, let alone <i>walk</i> to places? Well, with the Quantum Pad (tm), never again will the fear of cardio keep you from going places!<br><br><c><b>How to set up your Quantum Pad(tm)</b></center><br><br>1.Unscrew the Quantum Pad(tm) you wish to link.<br>2. Use your multi-tool to cache the buffer of the Quantum Pad(tm) you wish to link.<br>3. Apply the multi-tool to the secondary Quantum Pad(tm) you wish to link to the first Quantum Pad(tm)<br><br><center>If you followed these instructions carefully, your Quantum Pad(tm) should now be properly linked together for near-instant movement across the station! Bear in mind that this is technically a one-way teleport, so you'll need to do the same process with the secondary pad to the first one if you wish to travel between both.</center>"
+	default_raw_text = "<center><b>Dummies Guide To Quantum Pads</b></center><br><br><center>Do you hate the concept of having to use your legs, let alone <i>walk</i> to places? Well, with the Quantum Pad (tm), never again will the fear of cardio keep you from going places!<br><br><c><b>How to set up your Quantum Pad(tm)</b></center><br><br>1.Unscrew the Quantum Pad(tm) you wish to link.<br>2. Use your multi-tool to cache the buffer of the Quantum Pad(tm) you wish to link.<br>3. Apply the multi-tool to the secondary Quantum Pad(tm) you wish to link to the first Quantum Pad(tm)<br><br><center>If you followed these instructions carefully, your Quantum Pad(tm) should now be properly linked together for near-instant movement across the station! Bear in mind that this is technically a one-way teleport, so you'll need to do the same process with the secondary pad to the first one if you wish to travel between both.</center>"

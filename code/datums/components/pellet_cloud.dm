@@ -44,6 +44,7 @@
 	/// for if we're an ammo casing being fired
 	var/mob/living/shooter
 
+
 /datum/component/pellet_cloud/Initialize(projectile_type=/obj/item/shrapnel, magnitude=5)
 	if(!isammocasing(parent) && !isgrenade(parent) && !islandmine(parent))
 		return COMPONENT_INCOMPATIBLE
@@ -66,17 +67,17 @@
 	return ..()
 
 /datum/component/pellet_cloud/RegisterWithParent()
-	RegisterSignal(parent, COMSIG_PARENT_PREQDELETED, .proc/nullspace_parent)
+	RegisterSignal(parent, COMSIG_PARENT_PREQDELETED, PROC_REF(nullspace_parent))
 	if(isammocasing(parent))
-		RegisterSignal(parent, COMSIG_PELLET_CLOUD_INIT, .proc/create_casing_pellets)
+		RegisterSignal(parent, COMSIG_PELLET_CLOUD_INIT, PROC_REF(create_casing_pellets))
 	else if(isgrenade(parent))
-		RegisterSignal(parent, COMSIG_GRENADE_ARMED, .proc/grenade_armed)
-		RegisterSignal(parent, COMSIG_GRENADE_PRIME, .proc/create_blast_pellets)
+		RegisterSignal(parent, COMSIG_GRENADE_ARMED, PROC_REF(grenade_armed))
+		RegisterSignal(parent, COMSIG_GRENADE_PRIME, PROC_REF(create_blast_pellets))
 	else if(islandmine(parent))
-		RegisterSignal(parent, COMSIG_MINE_TRIGGERED, .proc/create_blast_pellets)
+		RegisterSignal(parent, COMSIG_MINE_TRIGGERED, PROC_REF(create_blast_pellets))
 
 /datum/component/pellet_cloud/UnregisterFromParent()
-	UnregisterSignal(parent, list(COMSIG_PARENT_PREQDELETED, COMSIG_PELLET_CLOUD_INIT, COMSIG_GRENADE_PRIME, COMSIG_GRENADE_ARMED, COMSIG_MOVABLE_MOVED, COMSIG_MOVABLE_UNCROSSED, COMSIG_MINE_TRIGGERED, COMSIG_ITEM_DROPPED))
+	UnregisterSignal(parent, list(COMSIG_PARENT_PREQDELETED, COMSIG_PELLET_CLOUD_INIT, COMSIG_GRENADE_PRIME, COMSIG_GRENADE_ARMED, COMSIG_MOVABLE_MOVED, COMSIG_MINE_TRIGGERED, COMSIG_ITEM_DROPPED))
 
 /**
   * create_casing_pellets() is for directed pellet clouds for ammo casings that have multiple pellets (buckshot and scatter lasers for instance)
@@ -100,13 +101,13 @@
 			else //Smart spread
 				spread = round((i / num_pellets - 0.5) * distro)
 
-		RegisterSignal(shell.BB, COMSIG_PROJECTILE_SELF_ON_HIT, .proc/pellet_hit)
-		RegisterSignal(shell.BB, list(COMSIG_PROJECTILE_RANGE_OUT, COMSIG_PARENT_QDELETING), .proc/pellet_range)
+		RegisterSignal(shell.BB, COMSIG_PROJECTILE_SELF_ON_HIT, PROC_REF(pellet_hit))
+		RegisterSignal(shell.BB, list(COMSIG_PROJECTILE_RANGE_OUT, COMSIG_PARENT_QDELETING), PROC_REF(pellet_range))
 		pellets += shell.BB
 		var/turf/current_loc = get_turf(user)
 		if(!istype(targloc) || !istype(current_loc))
 			return
-		INVOKE_ASYNC(shell, /obj/item/ammo_casing.proc/throw_proj, target, targloc, shooter, params, spread)
+		INVOKE_ASYNC(shell, TYPE_PROC_REF(/obj/item/ammo_casing, throw_proj), target, targloc, shooter, params, spread)
 		if(i != num_pellets)
 			shell.newshot()
 
@@ -121,7 +122,7 @@
 	var/atom/A = parent
 
 	if(isgrenade(parent)) // handle_martyrs can reduce the radius and thus the number of pellets we produce if someone dives on top of a frag grenade
-		INVOKE_ASYNC(src, .proc/handle_martyrs, lanced_by) // note that we can modify radius in this proc
+		INVOKE_ASYNC(src, PROC_REF(handle_martyrs), lanced_by) // note that we can modify radius in this proc
 
 	if(radius < 1)
 		return
@@ -131,7 +132,7 @@
 
 	for(var/T in all_the_turfs_were_gonna_lacerate)
 		var/turf/shootat_turf = T
-		INVOKE_ASYNC(src, .proc/pew, shootat_turf)
+		INVOKE_ASYNC(src, PROC_REF(pew), shootat_turf)
 
 /**
   * handle_martyrs() is used for grenades that shoot shrapnel to check if anyone threw themselves/were thrown on top of the grenade, thus absorbing a good chunk of the shrapnel
@@ -179,7 +180,7 @@
 		pellet_delta -= round(pellets_absorbed * 0.5)
 
 		if(martyr.stat != DEAD && martyr.client)
-			RegisterSignal(martyr, COMSIG_PARENT_QDELETING, .proc/on_target_qdel, override=TRUE)
+			RegisterSignal(martyr, COMSIG_PARENT_QDELETING, PROC_REF(on_target_qdel), override=TRUE)
 
 		for(var/i in 1 to round(pellets_absorbed * 0.5))
 			pew(martyr)
@@ -196,7 +197,7 @@
 	hits++
 	targets_hit[target]++
 	if(targets_hit[target] == 1)
-		RegisterSignal(target, COMSIG_PARENT_QDELETING, .proc/on_target_qdel, override=TRUE)
+		RegisterSignal(target, COMSIG_PARENT_QDELETING, PROC_REF(on_target_qdel), override=TRUE)
 	UnregisterSignal(P, list(COMSIG_PARENT_QDELETING, COMSIG_PROJECTILE_RANGE_OUT, COMSIG_PROJECTILE_SELF_ON_HIT))
 	if(terminated == num_pellets)
 		finalize()
@@ -220,11 +221,11 @@
 	P.original = target
 	P.fired_from = parent
 	P.firer = parent // don't hit ourself that would be really annoying
-	P.permutated += parent // don't hit the target we hit already with the flak
+	P.impacted = list(parent = TRUE) // don't hit the target we hit already with the flak
 	P.suppressed = SUPPRESSED_VERY // set the projectiles to make no message so we can do our own aggregate message
 	P.preparePixelProjectile(target, parent)
-	RegisterSignal(P, COMSIG_PROJECTILE_SELF_ON_HIT, .proc/pellet_hit)
-	RegisterSignal(P, list(COMSIG_PROJECTILE_RANGE_OUT, COMSIG_PARENT_QDELETING), .proc/pellet_range)
+	RegisterSignal(P, COMSIG_PROJECTILE_SELF_ON_HIT, PROC_REF(pellet_hit))
+	RegisterSignal(P, list(COMSIG_PROJECTILE_RANGE_OUT, COMSIG_PARENT_QDELETING), PROC_REF(pellet_range))
 	pellets += P
 	P.fire()
 
@@ -254,9 +255,12 @@
 	if(ismob(nade.loc))
 		shooter = nade.loc
 	LAZYINITLIST(bodies)
-	RegisterSignal(parent, COMSIG_ITEM_DROPPED, .proc/grenade_dropped)
-	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, .proc/grenade_moved)
-	RegisterSignal(parent, COMSIG_MOVABLE_UNCROSSED, .proc/grenade_uncrossed)
+	RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(grenade_dropped))
+	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(grenade_moved))
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_EXITED =PROC_REF(grenade_uncrossed),
+	)
+	AddComponent(/datum/component/connect_loc_behalf, parent, loc_connections)
 
 /// Someone dropped the grenade, so set them to the shooter in case they're on top of it when it goes off
 /datum/component/pellet_cloud/proc/grenade_dropped(obj/item/nade, mob/living/slick_willy)
@@ -271,14 +275,14 @@
 
 	LAZYCLEARLIST(bodies)
 	for(var/mob/living/L in get_turf(parent))
-		RegisterSignal(L, COMSIG_PARENT_QDELETING, .proc/on_target_qdel, override=TRUE)
+		RegisterSignal(L, COMSIG_PARENT_QDELETING, PROC_REF(on_target_qdel), override=TRUE)
 		bodies += L
 
 /// Someone who was originally "under" the grenade has moved off the tile and is now eligible for being a martyr and "covering" it
-/datum/component/pellet_cloud/proc/grenade_uncrossed(datum/source, atom/movable/AM)
+/datum/component/pellet_cloud/proc/grenade_uncrossed(datum/source, atom/movable/gone, direction)
 	SIGNAL_HANDLER
 
-	bodies -= AM
+	bodies -= gone
 
 /// Our grenade or landmine or caseless shell or whatever tried deleting itself, so we intervene and nullspace it until we're done here
 /datum/component/pellet_cloud/proc/nullspace_parent()

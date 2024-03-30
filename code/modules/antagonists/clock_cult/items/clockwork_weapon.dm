@@ -21,7 +21,7 @@
 	var/obj/effect/proc_holder/spell/targeted/summon_spear/SS
 
 /obj/item/clockwork/weapon/pickup(mob/user)
-	. = ..()
+	..()
 	user.mind.RemoveSpell(SS)
 	if(is_servant_of_ratvar(user))
 		SS = new
@@ -56,7 +56,7 @@
 	force += force_buff
 	. = ..()
 	force -= force_buff
-	if(!QDELETED(target) && target.stat != DEAD && !is_servant_of_ratvar(target) && !target.anti_magic_check(major=FALSE))
+	if(!QDELETED(target) && target.stat != DEAD && !is_servant_of_ratvar(target) && !target.anti_magic_check(magic=FALSE,holy=TRUE,major=FALSE))
 		hit_effect(target, user)
 
 /obj/item/clockwork/weapon/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
@@ -66,7 +66,7 @@
 	if(isliving(hit_atom))
 		var/mob/living/target = hit_atom
 		if(!.)
-			if(!target.anti_magic_check() && !is_servant_of_ratvar(target))
+			if(!target.anti_magic_check(magic=FALSE,holy=TRUE) && !is_servant_of_ratvar(target))
 				hit_effect(target, throwingdatum.thrower, TRUE)
 
 /obj/item/clockwork/weapon/proc/hit_effect(mob/living/target, mob/living/user, thrown=FALSE)
@@ -123,7 +123,7 @@
 
 	target.emp_act(EMP_LIGHT)
 	new /obj/effect/temp_visual/emp/pulse(target.loc)
-	addtimer(CALLBACK(src, .proc/send_message, user), 30 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(send_message), user), 30 SECONDS)
 	to_chat(user, "<span class='brass'>You strike [target] with an electromagnetic pulse!</span>")
 	playsound(user, 'sound/magic/lightningshock.ogg', 40)
 
@@ -138,7 +138,7 @@
 	var/obj/mecha/target = O
 	target.emp_act(EMP_HEAVY)
 	new /obj/effect/temp_visual/emp/pulse(target.loc)
-	addtimer(CALLBACK(src, .proc/send_message, user), 20 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(send_message), user), 20 SECONDS)
 	to_chat(user, "<span class='brass'>You strike [target] with an electromagnetic pulse!</span>")
 	playsound(user, 'sound/magic/lightningshock.ogg', 40)
 
@@ -155,7 +155,7 @@
 
 /obj/item/gun/ballistic/bow/clockwork/shoot_live_shot(mob/living/user, pointblank, atom/pbtarget, message)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/recharge_bolt), recharge_time)
+	addtimer(CALLBACK(src, PROC_REF(recharge_bolt)), recharge_time)
 
 /obj/item/gun/ballistic/bow/clockwork/attack_self(mob/living/user)
 	if (chambered)

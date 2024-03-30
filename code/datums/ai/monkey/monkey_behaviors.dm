@@ -73,7 +73,7 @@
 	. = ..()
 	if(controller.blackboard[BB_MONKEY_PICKPOCKETING]) //We are pickpocketing, don't do ANYTHING!!!!
 		return
-	INVOKE_ASYNC(src, .proc/attempt_pickpocket, controller)
+	INVOKE_ASYNC(src, PROC_REF(attempt_pickpocket), controller)
 
 /datum/ai_behavior/monkey_equip/pickpocket/proc/attempt_pickpocket(datum/ai_controller/controller)
 	var/obj/item/target = controller.blackboard[BB_MONKEY_PICKUPTARGET]
@@ -132,7 +132,7 @@
 			break
 
 	if(target)
-		walk_away(living_pawn, target, MONKEY_ENEMY_VISION, 5)
+		SSmove_manager.move_away(living_pawn, target, max_dist = MONKEY_ENEMY_VISION, delay = 5)
 	else
 		finish_action(controller, TRUE)
 
@@ -166,7 +166,7 @@
 /datum/ai_behavior/monkey_attack_mob/finish_action(datum/ai_controller/controller, succeeded)
 	. = ..()
 	var/mob/living/living_pawn = controller.pawn
-	walk(living_pawn, 0)
+	SSmove_manager.stop_looping(living_pawn)
 	controller.blackboard[BB_MONKEY_CURRENT_ATTACK_TARGET] = null
 
 /// attack using a held weapon otherwise bite the enemy, then if we are angry there is a chance we might calm down a little
@@ -261,7 +261,7 @@
 	controller.current_movement_target = disposal
 
 	if(living_pawn.Adjacent(disposal))
-		INVOKE_ASYNC(src, .proc/try_disposal_mob, controller, attack_target_key, disposal_target_key) //put him in!
+		INVOKE_ASYNC(src, PROC_REF(try_disposal_mob), controller, attack_target_key, disposal_target_key) //put him in!
 	else //This means we might be getting pissed!
 		return
 

@@ -10,7 +10,7 @@
 /obj/item/alienartifact/examine(mob/user)
 	. = ..()
 	var/mob/living/L = user
-	if(istype(L) && L.mind?.assigned_role != "Curator")
+	if(istype(L) && L.mind?.assigned_role != JOB_NAME_CURATOR)
 		return
 	for(var/datum/artifact_effect/effect in effects)
 		for(var/verb in effect.effect_act_descs)
@@ -23,7 +23,7 @@
 	. = ..()
 	AddComponent(/datum/component/gps, "[scramble_message_replace_chars("#########", 100)]", TRUE)
 
-/obj/item/alienartifact/Initialize()
+/obj/item/alienartifact/Initialize(mapload)
 	. = ..()
 	effects = list()
 	for(var/i in 1 to pick(1, 500; 2, 70; 3, 20; 1))
@@ -63,7 +63,7 @@
 	teleport_restriction = TELEPORT_ALLOW_NONE
 	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
 
-/area/tear_in_reality/Initialize()
+/area/tear_in_reality/Initialize(mapload)
 	. = ..()
 	mood_message = "<span class='warning'>[scramble_message_replace_chars("###### ### #### ###### #######", 100)]!</span>"
 
@@ -92,6 +92,8 @@
 	if(requires_processing)
 		STOP_PROCESSING(SSobj, src)
 
+	return ..()
+
 //===================
 // Chaos Throw
 //===================
@@ -101,7 +103,7 @@
 	effect_act_descs = list("thrown")
 
 /datum/artifact_effect/throwchaos/register_signals(source)
-	RegisterSignal(source, COMSIG_MOVABLE_PRE_THROW, .proc/throw_thing_randomly)
+	RegisterSignal(source, COMSIG_MOVABLE_PRE_THROW, PROC_REF(throw_thing_randomly))
 
 /datum/artifact_effect/throwchaos/proc/throw_thing_randomly(datum/source, list/arguments)
 	if(prob(40))
@@ -136,7 +138,7 @@
 	effect_act_descs = list("examined")
 
 /datum/artifact_effect/inducespasm/register_signals(source)
-	RegisterSignal(source, COMSIG_PARENT_EXAMINE, .proc/do_effect)
+	RegisterSignal(source, COMSIG_PARENT_EXAMINE, PROC_REF(do_effect))
 
 /datum/artifact_effect/inducespasm/proc/do_effect(datum/source, mob/observer, list/examine_text)
 	if(ishuman(observer))
@@ -154,8 +156,7 @@
 /atom/movable/proximity_monitor_holder/Initialize(mapload, datum/proximity_monitor/_monitor, datum/callback/_callback)
 	monitor = _monitor
 	callback = _callback
-
-	monitor.hasprox_receiver = src
+	monitor?.hasprox_receiver = src
 
 /atom/movable/proximity_monitor_holder/HasProximity(atom/movable/AM)
 	return callback.Invoke(AM)
@@ -174,7 +175,7 @@
 	if(monitor_holder)
 		QDEL_NULL(monitor_holder)
 	var/datum/proximity_monitor/monitor = new(source, 3, FALSE)
-	monitor_holder = new(null, monitor, CALLBACK(src, .proc/HasProximity))
+	monitor_holder = new(null, monitor, CALLBACK(src, PROC_REF(HasProximity)))
 
 /datum/artifact_effect/projreflect/Destroy()
 	QDEL_NULL(monitor_holder)
@@ -199,7 +200,7 @@
 	source.CanAtmosPass = ATMOS_PASS_NO
 
 /datum/artifact_effect/airfreeze/register_signals(source)
-	RegisterSignal(source, COMSIG_MOVABLE_MOVED, .proc/updateAir)
+	RegisterSignal(source, COMSIG_MOVABLE_MOVED, PROC_REF(updateAir))
 
 /datum/artifact_effect/airfreeze/proc/updateAir(atom/source, atom/oldLoc)
 	if(isturf(oldLoc))
@@ -232,7 +233,7 @@
 	var/next_use_world_time = 0
 
 /datum/artifact_effect/gravity_well/register_signals(source)
-	RegisterSignal(source, COMSIG_ITEM_ATTACK_SELF, .proc/suck)
+	RegisterSignal(source, COMSIG_ITEM_ATTACK_SELF, PROC_REF(suck))
 
 /datum/artifact_effect/gravity_well/proc/suck(datum/source, mob/warper)
 	if(world.time < next_use_world_time)
@@ -280,7 +281,7 @@ GLOBAL_LIST_EMPTY(destabliization_exits)
 /obj/effect/landmark/destabilization_loc
 	name = "destabilization spawn"
 
-/obj/effect/landmark/destabilization_loc/Initialize()
+/obj/effect/landmark/destabilization_loc/Initialize(mapload)
 	..()
 	GLOB.destabilization_spawns += get_turf(src)
 	return INITIALIZE_HINT_QDEL
@@ -324,7 +325,7 @@ GLOBAL_LIST_EMPTY(destabliization_exits)
 
 /datum/artifact_effect/reality_destabilizer/proc/destabilize(atom/movable/AM)
 	//Banish to the void
-	addtimer(CALLBACK(src, .proc/restabilize, AM, get_turf(AM)), rand(10 SECONDS, 90 SECONDS))
+	addtimer(CALLBACK(src, PROC_REF(restabilize), AM, get_turf(AM)), rand(10 SECONDS, 90 SECONDS))
 	//Forcemove to ignore teleport checks
 	AM.forceMove(pick(GLOB.destabilization_spawns))
 	contained_things += AM
@@ -351,7 +352,7 @@ GLOBAL_LIST_EMPTY(destabliization_exits)
 	var/next_use_world_time = 0
 
 /datum/artifact_effect/warp/register_signals(source)
-	RegisterSignal(source, COMSIG_ITEM_ATTACK_SELF, .proc/teleport)
+	RegisterSignal(source, COMSIG_ITEM_ATTACK_SELF, PROC_REF(teleport))
 
 /datum/artifact_effect/warp/proc/teleport(datum/source, mob/warper)
 	if(world.time < next_use_world_time)
@@ -371,7 +372,7 @@ GLOBAL_LIST_EMPTY(destabliization_exits)
 	signal_types = list(COMSIG_ITEM_PICKUP)
 
 /datum/artifact_effect/curse/register_signals(source)
-	RegisterSignal(source, COMSIG_ITEM_PICKUP, .proc/curse)
+	RegisterSignal(source, COMSIG_ITEM_PICKUP, PROC_REF(curse))
 
 /datum/artifact_effect/curse/proc/curse(datum/source, mob/taker)
 	var/mob/living/carbon/human/H = taker
@@ -396,7 +397,6 @@ GLOBAL_LIST_EMPTY(destabliization_exits)
 	var/static/list/valid_outputs = list(
 		/datum/gas/bz = 3,
 		/datum/gas/hypernoblium = 1,
-		// /datum/gas/miasma = 3, //NSV13 - no miasma
 		/datum/gas/plasma = 3,
 		/datum/gas/tritium = 2,
 		/datum/gas/nitryl = 1
@@ -451,7 +451,7 @@ GLOBAL_LIST_EMPTY(destabliization_exits)
 	if(world.time < next_world_time)
 		return
 	var/turf/T = get_turf(source_object)
-	for(var/datum/light_source/light_source in T.affecting_lights)
+	for(var/datum/light_source/light_source in T.light_sources)
 		var/atom/movable/AM = light_source.source_atom
 		//Starts at light but gets stronger the longer it is in light.
 		AM.lighteater_act()
@@ -473,7 +473,7 @@ GLOBAL_LIST_EMPTY(destabliization_exits)
 	cooldown = rand(5 MINUTES, 15 MINUTES)
 
 /datum/artifact_effect/insanity_pulse/register_signals(source)
-	RegisterSignal(source, COMSIG_ITEM_ATTACK_SELF, .proc/pulse)
+	RegisterSignal(source, COMSIG_ITEM_ATTACK_SELF, PROC_REF(pulse))
 
 /datum/artifact_effect/insanity_pulse/proc/pulse(datum/source, mob/living/pulser)
 	if(!istype(pulser))

@@ -15,7 +15,7 @@
 	var/devastation_range = 0
 	var/list/attached_detonators = list()
 
-/obj/item/grenade/exploration/Initialize()
+/obj/item/grenade/exploration/Initialize(mapload)
 	. = ..()
 	plastic_overlay = mutable_appearance(icon, "[item_state]2", HIGH_OBJ_LAYER)
 
@@ -75,6 +75,8 @@
 
 /obj/item/grenade/exploration/prime(mob/living/lanced_by)
 	. = ..()
+	if(!.)
+		return
 	var/turf/location
 	if(target)
 		if(!QDELETED(target))
@@ -117,7 +119,7 @@
 	for(var/obj/item/grenade/exploration/exploration in linked_explosives)
 		var/turf/T2 = get_turf(exploration.target)
 		if(T2.get_virtual_z_level() == T.get_virtual_z_level() && get_dist(exploration.target, user) <= range)
-			addtimer(CALLBACK(exploration, /obj/item/grenade/exploration.proc/prime), 10)
+			addtimer(CALLBACK(exploration, TYPE_PROC_REF(/obj/item/grenade/exploration, prime)), 10)
 			explosives_trigged ++
 	to_chat(user, "<span class='notice'>[explosives_trigged] explosives triggered.</span>")
 

@@ -2,7 +2,7 @@
 
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Button, Section } from '../components';
+import { Box, Button, LabeledList, Section, Table } from '../components';
 import { NtosWindow } from '../layouts';
 
 export const NtosSquadManager = (props, context) => {
@@ -10,30 +10,18 @@ export const NtosSquadManager = (props, context) => {
   return (
     <NtosWindow
       resizable
-      width={850}
+      width={750}
       height={800}>
       <NtosWindow.Content scrollable>
         {Object.keys(data.squads_info).map(key => {
           let value = data.squads_info[key];
           return (
-            <Section title={`${value.name}`} key={key} buttons={
+            <Section title={`${value.name} - ${value.role}`} key={key} buttons={
               <Fragment>
                 <Button
                   content="Message"
                   icon="reply"
                   onClick={() => act('message', { squad_id: value.id })} />
-                <Button
-                  content={value.primary_objective}
-                  color={value.primary_objective ? "good" : "average"}
-                  icon="bullseye"
-                  tooltip="Set a primary objective for this squad."
-                  onClick={() => act('primary_objective', { squad_id: value.id })} />
-                <Button
-                  content={value.secondary_objective}
-                  icon="dot-circle"
-                  color={value.secondary_objective ? "good" : "average"}
-                  tooltip="Set a secondary objective for this squad."
-                  onClick={() => act('secondary_objective', { squad_id: value.id })} />
                 <Button
                   content={value.access_enabled ? "Full Access" : "No Access"}
                   color={value.access_enabled ? "good" : "average"}
@@ -46,106 +34,107 @@ export const NtosSquadManager = (props, context) => {
                   color={value.weapons_clearance ? "bad" : "good"}
                   tooltip="Toggle whether a squad has access to light arms in the squad vendors. Assault weapons available from the warden."
                   onClick={() => act('toggle_beararms', { squad_id: value.id })} />
-                <Button
-                  content={value.hidden ? "No Autofill" : "Autofill"}
-                  icon={value.hidden ? "eye-slash" : "eye"}
-                  color={value.hidden ? "bad" : "good"}
-                  tooltip="Enable autofill for this squad for new crewmates joining the shift."
-                  onClick={() => act('toggle_hidden', { squad_id: value.id })} />
-                <Button
-                  content="Print Lanyard"
-                  tooltip="Print a lanyard to let someone join a squad. Have them click it in hand, and they'll join the squad!"
-                  icon="print"
-                  color="good"
-                  onClick={() => act('print_pass', { squad_id: value.id })} />
               </Fragment>
             }>
               <p>{value.desc}</p>
-              <Section key={key} title={value.squad_leader_name + " (SL)"} buttons={
-                <Fragment>
+              <Table tableLayout="auto">
+                <Table.Row>
+                  <Table.Cell width="50%">
+                    <Section title="Primary Orders" buttons={
+                      <Button
+                        content="Change"
+                        color={value.role ? "good" : "average"}
+                        icon="bullseye"
+                        tooltip="Set a primary objective for this squad."
+                        onClick={() => act('primary_objective', { squad_id: value.id })} />
+                    }>
+                      {!!value.role && value.role}
+                    </Section>
+                  </Table.Cell>
+                  <Table.Cell width="50%">
+                    <Section title="Secondary Orders" buttons={
+                      <Button
+                        content="Change"
+                        icon="dot-circle"
+                        color={value.secondary_objective ? "good" : "average"}
+                        tooltip="Set a secondary objective for this squad."
+                        onClick={() => act('secondary_objective', { squad_id: value.id })} />
+                    }>
+                      {!!value.secondary_objective && value.secondary_objective}
+                    </Section>
+                  </Table.Cell>
+                </Table.Row>
+              </Table>
+              <Section title="Members" buttons={
+                <>
                   <Button
-                    content="Reassign"
-                    icon={"user-cog"}
-                    onClick={() => act('reassign', { id: value.squad_leader_id })} />
+                    content={value.hidden ? "No Autofill" : "Autofill"}
+                    icon={value.hidden ? "eye-slash" : "eye"}
+                    color={value.hidden ? "bad" : "good"}
+                    tooltip="Enable autofill for this squad for new crewmates joining the shift."
+                    onClick={() => act('toggle_hidden', { squad_id: value.id })} />
                   <Button
-                    content="Transfer"
-                    icon={"arrows-alt"}
-                    onClick={() => act('transfer', { id: value.squad_leader_id })} />
-                </Fragment>
-              } />
-              <Section title="Sergeants:">
-                {Object.keys(value.sergeants).map(key => {
-                  let member = value.sergeants[key];
-                  return (
-                    <Section key={key} title={member.name} buttons={
-                      <Fragment>
-                        <Button
-                          content="Reassign"
-                          icon={"user-cog"}
-                          onClick={() => act('reassign', { id: member.id })} />
-                        <Button
-                          content="Transfer"
-                          icon={"arrows-alt"}
-                          onClick={() => act('transfer', { id: member.id })} />
-                      </Fragment>
-                    } />);
-                })}
+                    content="Print Lanyard"
+                    tooltip="Print a lanyard to let someone join a squad. Have them click it in hand, and they'll join the squad!"
+                    icon="print"
+                    color="good"
+                    onClick={() => act('print_pass', { squad_id: value.id })} />
+                </>
+              }>
+                <Table>
+                  <Table.Row header>
+                    <Table.Cell width="50%">
+                      Leader
+                    </Table.Cell>
+                    <Table.Cell width="50%">
+                      Roster
+                    </Table.Cell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.Cell width="50%">
+                      {!!value.squad_leader_id && (
+                        <LabeledList>
+                          <LabeledList.Item label={value.squad_leader_name}>
+                            <Button
+                              content="Demote"
+                              icon={"user-cog"}
+                              onClick={() => act('demote_leader', { id: value.squad_leader_id })} />
+                            <Button
+                              content="Transfer"
+                              icon={"arrows-alt"}
+                              onClick={() => act('transfer', { id: value.squad_leader_id })} />
+                          </LabeledList.Item>
+                        </LabeledList>
+                      )}
+                    </Table.Cell>
+                    <Table.Cell width="50%">
+                      <Section>
+                        {Object.keys(value.members).map(key => {
+                          let member = value.members[key];
+                          return (
+                            <LabeledList key={key}>
+                              {!!member.name && (
+                                <LabeledList.Item label={member.name}>
+                                  <Button
+                                    content="Promote"
+                                    icon={"user-cog"}
+                                    onClick={() => act('set_leader', { id: member.id })} />
+                                  <Button
+                                    content="Transfer"
+                                    icon={"arrows-alt"}
+                                    onClick={() => act('transfer', { id: member.id })} />
+                                </LabeledList.Item>
+                              )}
+                            </LabeledList>
+                          );
+                        })}
+                      </Section>
+                    </Table.Cell>
+                  </Table.Row>
+                </Table>
               </Section>
-              <Section title="Engineers:">
-                {Object.keys(value.engineers).map(key => {
-                  let member = value.engineers[key];
-                  return (
-                    <Section key={key} title={member.name} buttons={
-                      <Fragment>
-                        <Button
-                          content="Reassign"
-                          icon={"user-cog"}
-                          onClick={() => act('reassign', { id: member.id })} />
-                        <Button
-                          content="Transfer"
-                          icon={"arrows-alt"}
-                          onClick={() => act('transfer', { id: member.id })} />
-                      </Fragment>
-                    } />);
-                })}
-              </Section>
-              <Section title="Medics:">
-                {Object.keys(value.medics).map(key => {
-                  let member = value.medics[key];
-                  return (
-                    <Section key={key} title={member.name} buttons={
-                      <Fragment>
-                        <Button
-                          content="Reassign"
-                          icon={"user-cog"}
-                          onClick={() => act('reassign', { id: member.id })} />
-                        <Button
-                          content="Transfer"
-                          icon={"arrows-alt"}
-                          onClick={() => act('transfer', { id: member.id })} />
-                      </Fragment>
-                    } />);
-                })}
-              </Section>
-              <Section title="Grunts:">
-                {Object.keys(value.grunts).map(key => {
-                  let member = value.grunts[key];
-                  return (
-                    <Section key={key} title={member.name} buttons={
-                      <Fragment>
-                        <Button
-                          content="Reassign"
-                          icon={"user-cog"}
-                          onClick={() => act('reassign', { id: member.id })} />
-                        <Button
-                          content="Transfer"
-                          icon={"arrows-alt"}
-                          onClick={() => act('transfer', { id: member.id })} />
-                      </Fragment>
-                    } />);
-                })}
-              </Section>
-            </Section>);
+            </Section>
+          );
         })}
       </NtosWindow.Content>
     </NtosWindow>

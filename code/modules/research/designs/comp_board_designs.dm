@@ -21,7 +21,15 @@
 	build_path = /obj/item/circuitboard/computer/arcade/orion_trail
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_ALL
-	
+
+/datum/design/board/amputation_adventure
+	name = "Computer Design (Mediborg's Amputation Adventure)"
+	desc = "Allows for the construction of circuit boards used to build a new Mediborg's Amputation Adventure machine."
+	id = "arcade_amputation"
+	build_path = /obj/item/circuitboard/computer/arcade/amputation
+	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_ALL
+
 /datum/design/board/amputation_adventure
 	name = "Computer Design (Mediborg's Amputation Adventure)"
 	desc = "Allows for the construction of circuit boards used to build a new Mediborg's Amputation Adventure machine."
@@ -184,11 +192,11 @@
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_ENGINEERING
 
-/datum/design/board/prisonmanage
+/datum/design/board/prisonmanage // NSV13 modified - fix
 	name = "Computer Design (Prisoner Management Console)"
 	desc = "Allows for the construction of circuit boards used to build a prisoner management console."
 	id = "prisonmanage"
-	build_path = /obj/item/circuitboard/computer/prisoner
+	build_path = /obj/item/circuitboard/computer/prisoner/management
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_SECURITY
 

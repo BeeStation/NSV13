@@ -21,7 +21,7 @@
 	for(var/mob/living/carbon/target in targets)
 		if(target.anti_magic_check())
 			continue
-		if(!target.dna)
+		if(!target.has_dna())
 			continue
 		for(var/A in mutations)
 			target.dna.add_mutation(A)
@@ -29,7 +29,7 @@
 			ADD_TRAIT(target, A, GENETICS_SPELL)
 		active_on += target
 		if(duration < charge_max)
-			addtimer(CALLBACK(src, .proc/remove, target), duration, TIMER_OVERRIDE|TIMER_UNIQUE)
+			addtimer(CALLBACK(src, PROC_REF(remove), target), duration, TIMER_OVERRIDE|TIMER_UNIQUE)
 
 /obj/effect/proc_holder/spell/targeted/genetic/Destroy()
 	. = ..()
@@ -38,7 +38,7 @@
 
 /obj/effect/proc_holder/spell/targeted/genetic/proc/remove(mob/living/carbon/target)
 	active_on -= target
-	if(!QDELETED(target))
+	if(!QDELETED(target) && target.has_dna())
 		for(var/A in mutations)
 			target.dna.remove_mutation(A)
 		for(var/A in traits)

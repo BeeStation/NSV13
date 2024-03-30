@@ -66,12 +66,16 @@
 #define RADIO_CHANNEL_CTF_RED "Red Team"
 #define RADIO_CHANNEL_CTF_BLUE "Blue Team"
 
+#define RADIO_CHANNEL_UPLINK "Uplink"
+#define RADIO_KEY_UPLINK "d"
+#define RADIO_TOKEN_UPLINK ":d"
 
 #define MIN_FREE_FREQ 1201 // -------------------------------------------------
 // Frequencies are always odd numbers and range from 1201 to 1599.
 
 #define FREQ_SYNDICATE 1213  //!  Nuke op comms frequency, dark brown
-#define FREQ_PIRATE 1214 //! NSV13 - Space Pirates, PURPLE
+#define FREQ_PIRATE 1211 //! NSV13 - Space Pirates, PURPLE
+#define FREQ_UPLINK 1214   //!  Dummy channel for headset uplink
 #define FREQ_CTF_RED 1215  //!  CTF red team comms frequency, red
 #define FREQ_CTF_BLUE 1217  //!  CTF blue team comms frequency, blue
 #define FREQ_ATC 1237  //! NSV13 - Air traffic control comms frequency, grey
@@ -95,7 +99,7 @@
 // This represents 1/8th of the available spectrum.
 
 #define FREQ_ATMOS_STORAGE 1441
-#define FREQ_NAV_BEACON 1445
+// #define FREQ_NAV_BEACON 1445 - NSV13 - Removed during the Murder of Navbeacons
 #define FREQ_AI_PRIVATE 1447  //! AI private comms frequency, magenta
 #define FREQ_PRESSURE_PLATE 1447
 #define FREQ_AIRLOCK_CONTROL 1449
@@ -122,6 +126,7 @@
 #define RADIO_ATMOSIA "atmosia"
 #define RADIO_AIRLOCK "airlock"
 #define RADIO_MAGNETS "magnets"
+#define RADIO_XENOA "xenoa_radio"
 
 #define DEFAULT_SIGNALER_CODE 30
 

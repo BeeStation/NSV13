@@ -1,20 +1,36 @@
 #define MAX_ADMINBANS_PER_ADMIN 1
 #define MAX_ADMINBANS_PER_HEADMIN 3
 
+/// Process global ban types
+/proc/check_role_ban(ban_cache, role)
+	if(role in GLOB.antagonist_bannable_roles)
+		if((BAN_ROLE_ALL_ANTAGONISTS in ban_cache) || ("Syndicate" in ban_cache)) // Legacy "Syndicate" ban
+			return TRUE
+	if(role in GLOB.forced_bannable_roles)
+		if(BAN_ROLE_FORCED_ANTAGONISTS in ban_cache)
+			return TRUE
+	if(role in GLOB.ghost_role_bannable_roles)
+		if((BAN_ROLE_ALL_GHOST in ban_cache) || ("Lavaland" in ban_cache)) // Legacy "Lavaland" ban
+			return TRUE
+	return role in ban_cache
+
 //checks client ban cache or DB ban table if ckey is banned from one or more roles
 //doesn't return any details, use only for if statements
 /proc/is_banned_from(player_ckey, list/roles)
-	if(!player_ckey)
+	if(!player_ckey || isnull(roles) || (islist(roles) && !length(roles)))
 		return
+	player_ckey = ckey(player_ckey)
 	var/client/C = GLOB.directory[player_ckey]
 	if(C)
 		if(!C.ban_cache)
 			build_ban_cache(C)
 		if(islist(roles))
 			for(var/R in roles)
-				if(R in C.ban_cache)
+				if(!R)
+					continue
+				if(check_role_ban(C.ban_cache, R))
 					return TRUE //they're banned from at least one role, no need to keep checking
-		else if(roles in C.ban_cache)
+		else if(check_role_ban(C.ban_cache, roles))
 			return TRUE
 	else
 		var/values = list(
@@ -135,7 +151,7 @@
 	var/datum/browser/panel = new(usr, "banpanel", "Banning Panel", 910, panel_height)
 	panel.add_stylesheet("admin_panelscss", 'html/admin/admin_panels.css')
 	panel.add_stylesheet("banpanelcss", 'html/admin/banpanel.css')
-	if(usr.client.prefs.tgui_fancy) //some browsers (IE8) have trouble with unsupported css3 elements and DOM methods that break the panel's functionality, so we won't load those if a user is in no frills tgui mode since that's for similar compatability support
+	if(usr.client.prefs.toggles2 & PREFTOGGLE_2_FANCY_TGUI) //some browsers (IE8) have trouble with unsupported css3 elements and DOM methods that break the panel's functionality, so we won't load those if a user is in no frills tgui mode since that's for similar compatability support
 		panel.add_stylesheet("admin_panelscss3", 'html/admin/admin_panels_css3.css')
 		panel.add_script("banpaneljs", 'html/admin/banpanel.js')
 	var/list/output = list("<form method='get' action='?src=[REF(src)]'>[HrefTokenFormField()]")
@@ -222,11 +238,11 @@
 			Location
 			<br>
 			<label class='inputlabel radio'>Local
-			<input class='redact_incompatible' type='radio' id='servban' name='radioservban' value='local'[isnull(global_ban) ? " checked" : ""]>
+			<input class='redact_incompatible' type='radio' id='servban' name='radioservban' value='local'[isnull(global_ban) ? " checked" : ""] disabled='[CONFIG_GET(flag/disable_local_bans) ? "true" : "false"]'>
 			<div class='inputbox'></div></label>
 			<br>
 			<label class='inputlabel radio'>Global
-			<input class='redact_force_checked' type='radio' id='servban' name='radioservban' value='global'[(global_ban) ? " checked" : ""]>
+			<input class='redact_force_checked' type='radio' id='servban' name='radioservban' value='global'[(global_ban) ? " checked" : "" ] disabled='[CONFIG_GET(flag/disable_local_bans) ? "true" : "false"]'>
 			<div class='inputbox'></div></label>
 		</div>
 		<div class='column'>
@@ -275,14 +291,14 @@
 				banned_from += query_get_banned_roles.item[1]
 			qdel(query_get_banned_roles)
 		var/break_counter = 0
-		output += "<div class='row'><div class='column'><label class='rolegroup command'><input type='checkbox' name='Command' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_dep\")'" : ""]>Command</label><div class='content'>"
+		output += "<div class='row'><div class='column'><label class='rolegroup command'><input type='checkbox' name='Command' class='hidden' [(usr.client.prefs.toggles2 & PREFTOGGLE_2_FANCY_TGUI) ? " onClick='toggle_checkboxes(this, \"_dep\")'" : ""]>Command</label><div class='content'>"
 		//all heads are listed twice so have a javascript call to toggle both their checkboxes when one is pressed
 		//for simplicity this also includes the captain even though it doesn't do anything
 		for(var/job in GLOB.command_positions)
 			if(break_counter > 0 && (break_counter % 3 == 0))
 				output += "<br>"
 			output += {"<label class='inputlabel checkbox'>[job]
-						<input type='checkbox' id='[job]_com' name='[job]' class='Command' value='1'[usr.client.prefs.tgui_fancy ? " onClick='toggle_head(this, \"_dep\")'" : ""]>
+						<input type='checkbox' id='[job]_com' name='[job]' class='Command' value='1'[(usr.client.prefs.toggles2 & PREFTOGGLE_2_FANCY_TGUI) ? " onClick='toggle_head(this, \"_dep\")'" : ""]>
 						<div class='inputbox[(job in banned_from) ? " banned" : ""]'></div></label>
 			"}
 			break_counter++
@@ -295,9 +311,9 @@
 							"Supply" = GLOB.supply_positions)
 		for(var/department in job_lists)
 			//the first element is the department head so they need the same javascript call as above
-			output += "<div class='column'><label class='rolegroup [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
+			output += "<div class='column'><label class='rolegroup [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [(usr.client.prefs.toggles2 & PREFTOGGLE_2_FANCY_TGUI) ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
 			output += {"<label class='inputlabel checkbox'>[job_lists[department][1]]
-						<input type='checkbox' id='[job_lists[department][1]]_dep' name='[job_lists[department][1]]' class='[department]' value='1'[usr.client.prefs.tgui_fancy ? " onClick='toggle_head(this, \"_com\")'" : ""]>
+						<input type='checkbox' id='[job_lists[department][1]]_dep' name='[job_lists[department][1]]' class='[department]' value='1'[(usr.client.prefs.toggles2 & PREFTOGGLE_2_FANCY_TGUI) ? " onClick='toggle_head(this, \"_com\")'" : ""]>
 						<div class='inputbox[(job_lists[department][1] in banned_from) ? " banned" : ""]'></div></label>
 			"}
 			break_counter = 1
@@ -312,9 +328,9 @@
 			output += "</div></div>"
 		//departments/groups that don't have command staff would throw a javascript error since there's no corresponding reference for toggle_head()
 		var/list/headless_job_lists = list("Silicon" = GLOB.nonhuman_positions,
-										"Abstract" = list("Appearance", "Emote", "OOC", "DSAY"))
+										"Abstract" = list("Appearance", "Emote", "OOC", "DSAY", "Mapvote")) // NSV13 - added Mapvote ban
 		for(var/department in headless_job_lists)
-			output += "<div class='column'><label class='rolegroup [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
+			output += "<div class='column'><label class='rolegroup [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [(usr.client.prefs.toggles2 & PREFTOGGLE_2_FANCY_TGUI) ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
 			break_counter = 0
 			for(var/job in headless_job_lists[department])
 				if(break_counter > 0 && (break_counter % 3 == 0))
@@ -325,18 +341,16 @@
 				"}
 				break_counter++
 			output += "</div></div>"
-		var/list/long_job_lists = list(("Civilian" = GLOB.civilian_positions | "Gimmick"),
-									"Ghost and Other Roles" = list(ROLE_BRAINWASHED, ROLE_DEATHSQUAD, ROLE_DRONE, ROLE_LAVALAND, ROLE_MIND_TRANSFER, ROLE_POSIBRAIN, ROLE_SENTIENCE),
-									"Antagonist Positions" = list(ROLE_ABDUCTOR, ROLE_ALIEN, ROLE_BLOB,
-									ROLE_BROTHER, ROLE_CHANGELING, ROLE_CULTIST, ROLE_HERETIC,
-									ROLE_DEVIL, ROLE_INTERNAL_AFFAIRS, ROLE_MALF,
-									ROLE_MONKEY, ROLE_NINJA, ROLE_OPERATIVE,
-									ROLE_SERVANT_OF_RATVAR,
-									ROLE_OVERTHROW, ROLE_REV, ROLE_REVENANT,
-									ROLE_REV_HEAD, ROLE_SYNDICATE,
-									ROLE_TRAITOR, ROLE_WIZARD, ROLE_HIVE, ROLE_GANG, ROLE_TERATOMA)) //ROLE_REV_HEAD is excluded from this because rev jobbans are handled by ROLE_REV
+		var/list/long_job_lists = list(
+			"Civilian" = GLOB.civilian_positions | JOB_NAME_GIMMICK,
+			"Antagonist Positions" = list(BAN_ROLE_ALL_ANTAGONISTS) + GLOB.antagonist_bannable_roles,
+			"Forced Antagonist Positions" = list(BAN_ROLE_FORCED_ANTAGONISTS) + GLOB.forced_bannable_roles,
+			"Ghost Roles" = list(BAN_ROLE_ALL_GHOST) + GLOB.ghost_role_bannable_roles,
+			"Other" = GLOB.other_bannable_roles,
+		)
+
 		for(var/department in long_job_lists)
-			output += "<div class='column'><label class='rolegroup long [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [usr.client.prefs.tgui_fancy ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
+			output += "<div class='column'><label class='rolegroup long [ckey(department)]'><input type='checkbox' name='[department]' class='hidden' [(usr.client.prefs.toggles2 & PREFTOGGLE_2_FANCY_TGUI) ? " onClick='toggle_checkboxes(this, \"_com\")'" : ""]>[department]</label><div class='content'>"
 			break_counter = 0
 			for(var/job in long_job_lists[department])
 				if(break_counter > 0 && (break_counter % 10 == 0))
@@ -422,9 +436,12 @@
 		applies_to_admins = TRUE
 	switch(href_list["radioservban"])
 		if("local")
-			global_ban = FALSE
-			if(redact)
-				error_state += "Suppressed bans must be global."
+			if(CONFIG_GET(flag/disable_local_bans))
+				global_ban = TRUE
+			else
+				global_ban = FALSE
+				if(redact)
+					error_state += "Suppressed bans must be global."
 		if("global")
 			global_ban = TRUE
 	switch(href_list["radioduration"])
@@ -816,7 +833,7 @@
 		to_chat(usr, "<span class='danger'>Failed to establish database connection.</span>")
 		return
 	var/target = ban_target_string(player_key, player_ip, player_cid)
-	if(alert(usr, "Please confirm unban of [target] from [role].", "Unban confirmation", "Yes", "No") == "No")
+	if(alert(usr, "Please confirm unban of [target] from [role].", "Unban confirmation", "Yes", "No") != "Yes")
 		return
 	var/kn = key_name(usr)
 	var/kna = key_name_admin(usr)

@@ -4,6 +4,7 @@
 	var/shortname = "DM" //Used in Brazil.
 	var/list/stonks = list() //The trader's inventory.
 	var/list/sold_items = list()
+	var/list/special_offers = list() //Items locked behind points
 	var/faction_type = null //What faction does the dude belong to.
 	var/system_type = "unaligned" //In what systems do they spawn?
 	//Fluff / voice stuff
@@ -28,6 +29,7 @@
 	var/obj/structure/overmap/current_location = null
 	var/datum/star_system/system = null
 	var/max_missions = 5
+	var/yellow_pages_dat = ""
 
 /datum/trader/New()
 	. = ..()
@@ -42,12 +44,26 @@
 	for(var/datum/trader_item/item in stonks)
 		qdel(item)
 	stonks = list() //Reset our stores of supplies
+	var/datum/faction/F = SSstar_system.faction_by_id(faction_type)
+	yellow_pages_dat += "<h3>[F ? F.name : "neutral"]-aligned station [name] at [system.name]</h3>"
+	yellow_pages_dat += "<font size = \"2\">"
 	for(var/itemPath in sold_items)
 		var/datum/trader_item/TI = new itemPath()
-		TI.price = rand(TI.price/2, TI.price*4)
-		TI.stock = rand(TI.stock/2, TI.stock*2) //How much we got in stock boys
+		TI.price = round(rand(TI.price/2, TI.price*4))
+		TI.stock = round(rand(TI.stock/2, TI.stock*2)) //How much we got in stock boys
 		stonks += TI
-	return FALSE
+		TI.owner = src
+		yellow_pages_dat += "[TI.stock]x [TI.name] ([TI.price] ea.) - <i>[TI.desc]</i><br /><br />"
+	for(var/itemPath in special_offers)
+		var/datum/trader_item/TI = new itemPath()
+		if(system_type == SSstar_system.find_main_overmap().faction && F.tickets >= TI.special_requirement) //Right now we use faction tickets to unlock better items
+			TI.name = "SPECIAL OFFER! " + TI.name //Advertising is very important
+			TI.price = round(rand((2*TI.price)/3, TI.price*2)) //These will be more expensive by default already and have less chaotic prices
+			TI.stock = round(rand(TI.stock/2, TI.stock*2))
+			stonks += TI
+			TI.owner = src
+			yellow_pages_dat += "SPECIAL OFFER! [TI.stock]x [TI.name] ([TI.price] ea.) - <i>[TI.desc]</i><br /><br />"
+	yellow_pages_dat += "</font>"
 
 /datum/trader_item
 	var/name = "Stonks"
@@ -55,9 +71,11 @@
 	var/price = 1000 //What's the going rate for this item? The prices are slightly randomized.
 	var/unlock_path = null
 	var/stock = 1 //How many of these items are usually stocked, this is randomized
+	var/owner = null
+	var/special_requirement //How many tickets do we need to unlock this item in the store?
 
 /datum/trader_item/proc/on_purchase(obj/structure/overmap/OM)
-	OM.send_supplypod(unlock_path)
+	return OM.send_supplypod(unlock_path)
 
 /obj/structure/overmap/proc/send_supplypod(unlock_path, var/obj/structure/overmap/courier, isInitialized)
 	RETURN_TYPE(/atom/movable)
@@ -70,6 +88,9 @@
 			landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
 
 		if ( !landingzone ) // Main overmap may or may not have a warehouse
+			landingzone = GLOB.areas_by_type[/area/quartermaster]
+
+		if ( !landingzone ) // Main overmap may or may not have a cargobay
 			if(!OM.linked_areas.len)
 				OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
 				if(length(OM?.linked_areas))
@@ -128,7 +149,15 @@
 	faction_type = FACTION_ID_NT
 	system_type = "nanotrasen"
 	image = "https://cdn.discordapp.com/attachments/701841640897380434/764557336684527637/unknown.png"
-	sold_items = list(/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/c45, /datum/trader_item/pdc, /datum/trader_item/deck_gun_autorepair)
+	sold_items = list(/datum/trader_item/torpedo, \
+	/datum/trader_item/missile, \
+	/datum/trader_item/c45, \
+	/datum/trader_item/pdc, \
+	/datum/trader_item/pdc_circuit, \
+	/datum/trader_item/deck_gun_autorepair, \
+	/datum/trader_item/yellow_pages)
+	special_offers = list(/datum/trader_item/firing_electronics, \
+	/datum/trader_item/vls_circuit)
 
 /datum/trader/armsdealer/syndicate
 	name = "DonkCo Warcrime Emporium"
@@ -137,8 +166,20 @@
 	faction_type = FACTION_ID_SYNDICATE
 	system_type = "syndicate"
 	//Top tier trader with the best items available.
-	sold_items = list(/datum/trader_item/hellfire,/datum/trader_item/torpedo, /datum/trader_item/missile, /datum/trader_item/c20r, /datum/trader_item/c45, /datum/trader_item/stechkin, \
-		/datum/trader_item/pdc, /datum/trader_item/fighter/syndicate, /datum/trader_item/overmap_shields, /datum/trader_item/deck_gun_autoelevator)
+	sold_items = list(/datum/trader_item/hellfire, \
+	/datum/trader_item/torpedo, \
+	/datum/trader_item/missile, \
+	/datum/trader_item/c20r, \
+	/datum/trader_item/c45, \
+	/datum/trader_item/stechkin, \
+	/datum/trader_item/pdc, \
+	/datum/trader_item/pdc_circuit, \
+	/datum/trader_item/fighter/syndicate, \
+	/datum/trader_item/overmap_shields, \
+	/datum/trader_item/deck_gun_autoelevator, \
+	/datum/trader_item/yellow_pages)
+	special_offers = list(/datum/trader_item/firing_electronics, \
+	/datum/trader_item/vls_circuit)
 	station_type = /obj/structure/overmap/trader/syndicate
 	image = "https://cdn.discordapp.com/attachments/728055734159540244/764570187357093928/unknown.png"
 	greetings = list("You've made it pretty far in, huh? We won't tell if you're buying...", "Freedom isn't free, buy a gun to secure yours.", "Excercise your right to bear arms now!")
@@ -148,6 +189,13 @@
 	// 	/datum/nsv_mission/kill_ships/system/syndicate=3,
 	// 	/datum/nsv_mission/kill_ships/syndicate=1)
 	max_missions = 6
+
+/datum/trader/armsdealer/syndicate/attempt_purchase(datum/trader_item/item, mob/living/carbon/user)
+	. = ..()
+	if(!.)
+		return
+	if(!user.last_overmap || user.last_overmap.faction != "syndicate")
+		SSovermap_mode.modify_threat_elevation(TE_SYNDISHOP_PENALTY)	//How to get a hitsquad sent at you: Buy hellfire weapons from the Syndicate.
 
 /datum/trader/armsdealer/syndicate/New()
 	. = ..()
@@ -159,11 +207,17 @@
 	desc = "Ship construction deeds done cheap (for a price)"
 	shortname = "CZC"
 	faction_type = FACTION_ID_NT
-	greetings = list("Welcome to CzanekCorp, we take cash, credit, and charge. What’cha need?",\
+	greetings = list("Welcome to CzanekCorp, we take cash, credit, and charge. What'cha need?",\
 	"CzanekCorp here. We got a new shipment in, you down for talking turkey?",\
 	"CzanekCorp, we got repairs and goods on a budget, you in?")
-	on_purchase = list("Yes, we know the tazers aren’t the safest, but if you don’t like ‘em, stop buying ‘em, eh?", "Good doing business with you. Good luck out there, killer.", "About time we got somebody who knows what they’re doing. Here, free shipping!", "No refunds, no returns!")
-	sold_items = list(/datum/trader_item/ship_repair,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/taser, /datum/trader_item/taser_ammo )
+	on_purchase = list("Yes, we know the tazers aren't the safest, but if you don't like 'em, stop buying 'em, eh?", "Good doing business with you. Good luck out there, killer.", "About time we got somebody who knows what they're doing. Here, free shipping!", "No refunds, no returns!")
+	sold_items = list(/datum/trader_item/ship_repair, \
+	/datum/trader_item/fighter/light, \
+	/datum/trader_item/fighter/heavy, \
+	/datum/trader_item/fighter/utility, \
+	/datum/trader_item/taser, \
+	/datum/trader_item/taser_ammo, \
+	/datum/trader_item/yellow_pages)
 	station_type = /obj/structure/overmap/trader/shipyard
 	image = "https://cdn.discordapp.com/attachments/701841640897380434/764540586732421120/unknown.png"
 
@@ -176,16 +230,40 @@
 	"Have you come to dig or pay?",\
 	"We got minerals for you, so long as you've got a deposit for us.")
 	on_purchase = list("Maybe next time, dig it up yourself lazy gits!", "Credits have been withdrawn, Supplies inbound.", "Czanek would approve of this.", "If you're too afraid to get these yourself, I'm almost scared to give them to you. But money is money.")
-	sold_items = list(/datum/trader_item/mining_point_card, /datum/trader_item/gold, /datum/trader_item/diamond, /datum/trader_item/uranium, /datum/trader_item/silver, /datum/trader_item/bluespace_crystal, /datum/trader_item/titanium )
-	station_type = /obj/structure/overmap/trader/
+	sold_items = list(/datum/trader_item/mining_point_card, \
+	/datum/trader_item/gold, \
+	/datum/trader_item/diamond, \
+	/datum/trader_item/uranium, \
+	/datum/trader_item/silver, \
+	/datum/trader_item/bluespace_crystal, \
+	/datum/trader_item/titanium, \
+	/datum/trader_item/yellow_pages)
+	station_type = /obj/structure/overmap/trader
 	image = "https://cdn.discordapp.com/attachments/612668662977134592/859132739147792444/unknown.png"   //I don't wanna do this but I'm also not going to break the mold as to make it hopefully easier in future to fix.
+
+/datum/trader/shallowstone/independent
+	name = "Marvin's Mineral Emporium"
+	desc = "Ready to supply everyone with the finest stones and gems!"
+	shortname = "MME"
+	faction_type = FACTION_ID_UNALIGNED
+	greetings = list("Take a look around, our stores are open to anyone!",\
+	"How goes it fellow space dwellers? Care for some of the best ore in the Rosetta Cluster?")
 
 /datum/trader/minsky
 	name = "Minsky Heavy Engineering"
 	desc = "Corporate approved aftermarket shipyard."
 	shortname = "MHE"
 	faction_type = FACTION_ID_NT
-	sold_items = list(/datum/trader_item/ship_repair/tier2, /datum/trader_item/flak,/datum/trader_item/fighter/light,/datum/trader_item/fighter/heavy,/datum/trader_item/fighter/utility, /datum/trader_item/fighter/judgement, /datum/trader_item/fighter/prototype)
+	sold_items = list(/datum/trader_item/ship_repair/tier2, \
+	/datum/trader_item/flak, \
+	/datum/trader_item/fighter/light, \
+	/datum/trader_item/fighter/heavy, \
+	/datum/trader_item/fighter/utility, \
+	/datum/trader_item/fighter/judgement, \
+	/datum/trader_item/fighter/prototype, \
+	/datum/trader_item/railgun_disk, \
+	/datum/trader_item/yellow_pages)
+	special_offers = list(/datum/trader_item/ship_repair/tier3)
 	station_type = /obj/structure/overmap/trader/shipyard
 
 // HIM
@@ -200,6 +278,10 @@
 	//Pick 5 random items and construct fresh trader_items for it.
 	var/iter = 5
 	for(var/x in sold_items)
+		sold_items -= x
+		qdel(x)
+	for(var/x in stonks)
+		stonks -= x
 		qdel(x)
 	sold_items = list()
 	while(iter)
@@ -208,14 +290,22 @@
 		var/obj/item/a_gift/anything/generator = new
 		var/initialtype = generator.get_gift_type()
 		var/obj/item/soldtype = new initialtype
+		if(!soldtype) //spawned something that deleted itself, try again
+			log_runtime("Randy failed to spawn [initialtype]!")
+			qdel(item)
+			iter++
+			continue
 		item.unlock_path = initialtype
 		item.name = soldtype.name
 		item.desc = soldtype.desc
 		item.price = rand(1000, 100000000)
-		item.stock = 2
-		item.stock = rand(item.stock/2, item.stock*2)
+		item.stock = rand(1, 5)
+		item.owner = src
 		qdel(soldtype)
 		sold_items += item
+
+	var/datum/trader_item/yellow_pages/pages = new
+	sold_items += pages
 
 	stonks = sold_items
 
@@ -241,7 +331,7 @@
 	data["greeting"] = greeting
 	data["desc"] = desc
 	data["image"] = image
-	data["theme"] = (faction_type == FACTION_ID_NT) ? "ntos" : "syndicate"
+	data["theme"] = (faction_type == FACTION_ID_NT || faction_type == FACTION_ID_UNALIGNED) ? "ntos" : "syndicate"
 	data["items_info"] = items_info
 	data["next_restock"] = "Stock: (Restocking in [round((next_restock-world.time)/600)] minutes)"
 	//Syndies use syndie budget, NT use NT cargo budget
@@ -252,12 +342,12 @@
 	var/datum/bank_account/D = SSeconomy.get_dep_account(account)
 	if(D)
 		data["points"] = "$[D.account_balance]"
-	// Extra information about what missions this station is tracking 
+	// Extra information about what missions this station is tracking
 	var/list/holding_cargo_info = list()
-	for ( var/datum/overmap_objective/cargo/O in current_location.holding_cargo ) 
+	for ( var/datum/overmap_objective/cargo/O in current_location.holding_cargo )
 		var/list/item_info = list()
-		item_info[ "name" ] = O.name 
-		item_info[ "brief" ] = O.brief 
+		item_info[ "name" ] = O.name
+		item_info[ "brief" ] = O.brief
 		item_info[ "id" ] = "\ref[O]"
 		holding_cargo_info[++holding_cargo_info.len] = item_info
 	data[ "holding_cargo" ] = holding_cargo_info
@@ -343,6 +433,7 @@
 	if(item.stock <= 0)
 		stonks -= item
 		qdel(item)
+	return TRUE
 
 /datum/trader/ui_state(mob/user)
 	return GLOB.not_incapacitated_state
@@ -355,3 +446,4 @@
 	assets.send(user)
 	ui = new(user, src, "Trader")
 	ui.open()
+	ui.set_autoupdate(TRUE) // Current balance and stock updates

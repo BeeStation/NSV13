@@ -24,7 +24,7 @@ Currently only used by Fighters, which assign themselves to a lance when in the 
 	if(!lance_leader)
 		lance_leader = new_member
 	new_member.current_lance = src
-	RegisterSignal(new_member, COMSIG_PARENT_QDELETING , .proc/remove_member, new_member)
+	RegisterSignal(new_member, COMSIG_PARENT_QDELETING , PROC_REF(remove_member), new_member)
 	member_count++
 
 

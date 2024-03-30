@@ -17,13 +17,9 @@
 		return FALSE
 
 	emittersemicd = TRUE
-	addtimer(CALLBACK(src, .proc/emittercool), emittercd)
+	addtimer(CALLBACK(src, PROC_REF(emittercool)), emittercd)
 	mobility_flags = MOBILITY_FLAGS_DEFAULT
 	density = TRUE
-	if(istype(card.loc, /obj/item/pda))
-		var/obj/item/pda/P = card.loc
-		P.pai = null
-		P.visible_message("<span class='notice'>[src] ejects itself from [P]!</span>")
 	if(isliving(card.loc))
 		var/mob/living/L = card.loc
 		if(!L.temporarilyRemoveItemFromInventory(card))
@@ -34,7 +30,7 @@
 	if(client)
 		client.perspective = EYE_PERSPECTIVE
 		client.eye = src
-	set_light(0)
+	set_light_on(FALSE)
 	icon_state = "[chassis]"
 	held_state = "[chassis]"
 	visible_message("<span class='boldnotice'>[src] folds out its holochassis emitter and forms a holoshell around itself!</span>")
@@ -46,9 +42,9 @@
 /mob/living/silicon/pai/proc/fold_in(force = FALSE)
 	emittersemicd = TRUE
 	if(!force)
-		addtimer(CALLBACK(src, .proc/emittercool), emittercd)
+		addtimer(CALLBACK(src, PROC_REF(emittercool)), emittercd)
 	else
-		addtimer(CALLBACK(src, .proc/emittercool), emitteroverloadcd)
+		addtimer(CALLBACK(src, PROC_REF(emittercool)), emitteroverloadcd)
 	icon_state = "[chassis]"
 	if(!holoform)
 		. = fold_out(force)
@@ -63,7 +59,7 @@
 	forceMove(card)
 	mobility_flags = NONE
 	density = FALSE
-	set_light(0)
+	set_light_on(FALSE)
 	holoform = FALSE
 	set_resting(resting)
 
@@ -93,11 +89,11 @@
 	return FALSE
 
 /mob/living/silicon/pai/proc/toggle_integrated_light()
-	if(!light_range)
-		set_light(brightness_power)
+	if(!light_on)
+		set_light_on(TRUE)
 		to_chat(src, "<span class='notice'>You enable your integrated light.</span>")
 	else
-		set_light(0)
+		set_light_on(FALSE)
 		to_chat(src, "<span class='notice'>You disable your integrated light.</span>")
 
 /mob/living/silicon/pai/mob_try_pickup(mob/living/user)

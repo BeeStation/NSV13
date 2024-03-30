@@ -24,7 +24,7 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 
 	var/destroyed = FALSE
 
-/obj/structure/destructible/clockwork/massive/celestial_gateway/Initialize()
+/obj/structure/destructible/clockwork/massive/celestial_gateway/Initialize(mapload)
 	. = ..()
 	GLOB.celestial_gateway = src
 
@@ -46,7 +46,7 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 		M.forceMove(safe_place)
 	STOP_PROCESSING(SSobj, src)
 	. = ..()
-	INVOKE_ASYNC(src, .proc/explode_reebe)
+	INVOKE_ASYNC(src, PROC_REF(explode_reebe))
 
 /obj/structure/destructible/clockwork/massive/celestial_gateway/proc/explode_reebe()
 	for(var/i in 1 to 30)
@@ -105,15 +105,15 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 	for(var/datum/mind/M in GLOB.servants_of_ratvar)
 		SEND_SOUND(M.current, s)
 		to_chat(M, "<span class='big_brass'>The Ark has been activated, you will be transported soon!</span>")
-	addtimer(CALLBACK(GLOBAL_PROC, .proc/hierophant_message, "Invoke 'Clockwork Armaments' using your Clockwork Slab to get powerful armour and weapons.", "Nezbere", "nezbere", FALSE, FALSE), 10)
-	addtimer(CALLBACK(src, .proc/announce_gateway), 300)
-	addtimer(CALLBACK(src, .proc/recall_sound), 270)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(hierophant_message), "Invoke 'Clockwork Armaments' using your Clockwork Slab to get powerful armour and weapons.", "Nezbere", "nezbere", FALSE, FALSE), 10)
+	addtimer(CALLBACK(src, PROC_REF(announce_gateway)), 300)
+	addtimer(CALLBACK(src, PROC_REF(recall_sound)), 270)
 
 /obj/structure/destructible/clockwork/massive/celestial_gateway/proc/begin_mass_recall()
 	if(recalled)
 		return
-	INVOKE_ASYNC(src, .proc/recall_sound)
-	addtimer(CALLBACK(src, .proc/mass_recall), 30)
+	INVOKE_ASYNC(src, PROC_REF(recall_sound))
+	addtimer(CALLBACK(src, PROC_REF(mass_recall)), 30)
 
 /obj/structure/destructible/clockwork/massive/celestial_gateway/proc/recall_sound()
 	for(var/datum/mind/M in GLOB.servants_of_ratvar)
@@ -127,7 +127,7 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 	set_security_level(SEC_LEVEL_DELTA)
 	mass_recall(TRUE)
 	var/grace_time = GLOB.narsie_breaching ? 0 : 1800
-	addtimer(CALLBACK(src, .proc/begin_assault), grace_time)
+	addtimer(CALLBACK(src, PROC_REF(begin_assault)), grace_time)
 	priority_announce("Massive [Gibberish("bluespace", 100)] anomaly detected on all frequencies. All crew are directed to \
 	@!$, [text2ratvar("PURGE ALL UNTRUTHS")] <&. the anomalies and destroy their source to prevent further damage to corporate property. This is \
 	not a drill.[grace_period ? " Estimated time of appearance: [grace_time/10] seconds. Use this time to prepare for an attack on [station_name()]." : ""]"\
@@ -161,12 +161,12 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 	for(var/i in 1 to 100)
 		var/turf/T = get_random_station_turf()
 		GLOB.clockwork_portals += new /obj/effect/portal/wormhole/clockcult(T, null, 0, null, FALSE)
-	addtimer(CALLBACK(src, .proc/begin_activation), 2400)
+	addtimer(CALLBACK(src, PROC_REF(begin_activation)), 2400)
 
 /obj/structure/destructible/clockwork/massive/celestial_gateway/proc/begin_activation()
 	icon_state = "clockwork_gateway_active"
 	sound_to_playing_players(volume = 25, channel = CHANNEL_JUSTICAR_ARK, S = sound('sound/effects/clockcult_gateway_active.ogg', TRUE))
-	addtimer(CALLBACK(src, .proc/begin_ratvar_arrival), 2400)
+	addtimer(CALLBACK(src, PROC_REF(begin_ratvar_arrival)), 2400)
 	START_PROCESSING(SSobj, src)
 	phase_messages = list(
 		"<span class='warning'>You hear other-worldly sounds from the north.</span>",
@@ -178,7 +178,7 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 /obj/structure/destructible/clockwork/massive/celestial_gateway/proc/begin_ratvar_arrival()
 	sound_to_playing_players(volume = 30, channel = CHANNEL_JUSTICAR_ARK, S = sound('sound/effects/clockcult_gateway_closing.ogg', TRUE))
 	icon_state = "clockwork_gateway_closing"
-	addtimer(CALLBACK(src, .proc/ratvar_approaches), 1200)
+	addtimer(CALLBACK(src, PROC_REF(ratvar_approaches)), 1200)
 	phase_messages = list(
 		"<span class='warning'>You hear otherworldly sounds from the north.</span>",
 		"<span class='brass'>The Celestial Gateway is feeding into the bluespace rift!</span>",
@@ -204,30 +204,41 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 	QDEL_IN(src, 3)
 	sleep(3)
 	var/turf/center_station = SSmapping.get_station_center()
-	new /obj/singularity/ratvar(center_station)
+	new /obj/eldritch/ratvar(center_station)
 	if(GLOB.narsie_breaching)
-		new /obj/singularity/narsie/large/cult(GLOB.narsie_arrival)
+		new /obj/eldritch/narsie(GLOB.narsie_arrival)
 	flee_reebe(TRUE)
 
 //=========Ratvar==========
 GLOBAL_VAR(cult_ratvar)
 
-/obj/singularity/ratvar
+#define RATVAR_CONSUME_RANGE 12
+#define RATVAR_GRAV_PULL 10
+#define RATVAR_SINGULARITY_SIZE 11
+
+/obj/eldritch/ratvar
 	name = "ratvar, the Clockwork Justicar"
 	desc = "Oh, that's ratvar!"
 	icon = 'icons/effects/512x512.dmi'
 	icon_state = "ratvar"
-	is_real = FALSE
 	density = FALSE
-	current_size = STAGE_SIX
-	allowed_size = STAGE_SIX
 	pixel_x = -236
 	pixel_y = -256
 	var/range = 1
 	var/ratvar_target
 	var/next_attack_tick
 
-/obj/singularity/ratvar/Initialize(mapload, starting_energy = 50)
+/obj/eldritch/ratvar/Initialize(mapload, starting_energy = 50)
+	singularity = WEAKREF(AddComponent(
+		/datum/component/singularity, \
+		bsa_targetable = FALSE, \
+		consume_callback = CALLBACK(src, PROC_REF(consume)), \
+		consume_range = RATVAR_CONSUME_RANGE, \
+		disregard_failed_movements = TRUE, \
+		grav_pull = RATVAR_GRAV_PULL, \
+		roaming = TRUE,\
+		singularity_size = RATVAR_SINGULARITY_SIZE, \
+	))
 	log_game("!!! RATVAR HAS RISEN. !!!")
 	GLOB.cult_ratvar = src
 	. = ..()
@@ -235,14 +246,14 @@ GLOBAL_VAR(cult_ratvar)
 	SEND_SOUND(world, 'sound/effects/ratvar_reveal.ogg')
 	to_chat(world, "<span class='ratvar'>The bluespace veil gives way to Ratvar, his light shall shine upon all mortals!</span>")
 	UnregisterSignal(src, COMSIG_ATOM_BSA_BEAM)
-	INVOKE_ASYNC(GLOBAL_PROC, /proc/trigger_clockcult_victory, src)
+	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(trigger_clockcult_victory), src)
 	check_gods_battle()
 
 //tasty
-/obj/singularity/ratvar/process(delta_time)
-	eat()
+/obj/eldritch/ratvar/process(delta_time)
+	var/datum/component/singularity/singularity_component = singularity.resolve()
 	if(ratvar_target)
-		target = ratvar_target
+		singularity_component?.target = ratvar_target
 		if(get_dist(src, ratvar_target) < 5)
 			if(next_attack_tick < world.time)
 				next_attack_tick = world.time + rand(50, 100)
@@ -260,34 +271,23 @@ GLOBAL_VAR(cult_ratvar)
 						to_chat(M, "<span class='userdanger'>You feel a stabbing pain in your chest... This can't be happening!</span>")
 						M.current?.dust()
 				return
-	move()
 
-/obj/singularity/ratvar/eat()
-	for(var/turf/T as() in spiral_range_turfs(range, src))
-		if(!T || !isturf(loc))
-			continue
-		T.ratvar_act()
-		for(var/thing in T)
-			if(isturf(loc) && thing != src)
-				var/atom/movable/X = thing
-				consume(X)
-			CHECK_TICK
-	if(range < 20)
-		range ++
-	return
-
-/obj/singularity/ratvar/consume(atom/A)
+/obj/eldritch/ratvar/consume(atom/A)
 	A.ratvar_act()
 
-/obj/singularity/ratvar/Bump(atom/A)
+/obj/eldritch/ratvar/Bump(atom/A)
 	var/turf/T = get_turf(A)
 	if(T == loc)
 		T = get_step(A, A.dir) //please don't slam into a window like a bird, Ratvar
 	forceMove(T)
 
-/obj/singularity/ratvar/attack_ghost(mob/user)
+/obj/eldritch/ratvar/attack_ghost(mob/user)
 	. = ..()
 	var/mob/living/simple_animal/drone/D = new /mob/living/simple_animal/drone/cogscarab(get_turf(src))
 	D.flags_1 |= (flags_1 & ADMIN_SPAWNED_1)
 	D.key = user.key
 	add_servant_of_ratvar(D, silent=TRUE)
+
+#undef RATVAR_CONSUME_RANGE
+#undef RATVAR_GRAV_PULL
+#undef RATVAR_SINGULARITY_SIZE

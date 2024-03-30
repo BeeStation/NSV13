@@ -18,14 +18,14 @@
 	. += "<span class='notice'>It has <b>[uses]</b> uses of foam remaining.</span>"
 
 /obj/machinery/ai_slipper/power_change()
-	if(stat & BROKEN)
+	if(machine_stat & BROKEN)
 		return
 	else
 		if(powered())
-			stat &= ~NOPOWER
+			set_machine_stat(machine_stat & ~NOPOWER)
 		else
-			stat |= NOPOWER
-		if((stat & (NOPOWER|BROKEN)) || cooldown_time > world.time || !uses)
+			set_machine_stat(machine_stat | NOPOWER)
+		if((machine_stat & (NOPOWER|BROKEN)) || cooldown_time > world.time || !uses)
 			icon_state = "ai-slipper0"
 		else
 			icon_state = "ai-slipper1"
@@ -45,4 +45,4 @@
 	to_chat(user, "<span class='notice'>You activate [src]. It now has <b>[uses]</b> uses of foam remaining.</span>")
 	cooldown = world.time + cooldown_time
 	power_change()
-	addtimer(CALLBACK(src, .proc/power_change), cooldown_time)
+	addtimer(CALLBACK(src, PROC_REF(power_change)), cooldown_time)

@@ -25,7 +25,7 @@
 	name = "lipstick"
 	icon_state = "random_lipstick"
 
-/obj/item/lipstick/random/Initialize()
+/obj/item/lipstick/random/Initialize(mapload)
 	. = ..()
 	icon_state = "lipstick"
 	colour = pick("red","purple","lime","black","green","blue","white")
@@ -137,7 +137,7 @@
 		if(location == BODY_ZONE_PRECISE_MOUTH)
 			if(user.a_intent == INTENT_HELP)
 				if(H.gender == MALE)
-					INVOKE_ASYNC(src, .proc/new_facial_hairstyle, H, user, mirror)
+					INVOKE_ASYNC(src, PROC_REF(new_facial_hairstyle), H, user, mirror)
 					return
 				else
 					return
@@ -169,7 +169,7 @@
 
 		else if(location == BODY_ZONE_HEAD)
 			if(user.a_intent == INTENT_HELP)
-				INVOKE_ASYNC(src, .proc/new_hairstyle, H, user)
+				INVOKE_ASYNC(src, PROC_REF(new_hairstyle), H, user)
 				return
 			else
 				if(!(HAIR in H.dna.species.species_traits))

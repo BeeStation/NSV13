@@ -8,13 +8,15 @@
 
 /obj/item/grenade/flashbang/prime(mob/living/lanced_by)
 	. = ..()
+	if(!.)
+		return
 	update_mob()
 	var/flashbang_turf = get_turf(src)
 	if(!flashbang_turf)
 		return
 	do_sparks(rand(5, 9), FALSE, src)
 	playsound(flashbang_turf, 'sound/weapons/flashbang.ogg', 100, TRUE, 8, 0.9)
-	new /obj/effect/dummy/lighting_obj (flashbang_turf, LIGHT_COLOR_WHITE, (flashbang_range + 2), 4, 2)
+	new /obj/effect/dummy/lighting_obj (flashbang_turf, flashbang_range + 2, 4, COLOR_WHITE, 2)
 	for(var/mob/living/M in viewers(flashbang_range, flashbang_turf))
 		flash(get_turf(M), M)
 	for(var/mob/living/M in hearers(flashbang_range, flashbang_turf))
@@ -33,7 +35,7 @@
 
 	if(M.flash_act(intensity = 1, affect_silicon = 1))
 		if(distance_proportion)
-			M.Paralyze(20 * distance_proportion)
+			M.Paralyze(100 * distance_proportion) //NSV13 - longer paralyze
 			M.Knockdown(200 * distance_proportion)
 	else
 		M.flash_act(intensity = 2)
@@ -45,14 +47,14 @@
 	var/distance = max(0,get_dist(get_turf(src),T))
 	M.show_message("<span class='warning'>BANG</span>", MSG_AUDIBLE)
 	if(!distance || loc == M || loc == M.loc)	//Stop allahu akbarring rooms with this.
-		M.Paralyze(20)
+		M.Paralyze(100) //NSV13 - made flashbangs stronger
 		M.Knockdown(200)
 		M.soundbang_act(1, 200, 10, 15)
 	else
 		if(distance <= 1)
-			M.Paralyze(5)
+			M.Paralyze(15) //NSV13 - readded paralyze
 			M.Knockdown(30)
-			
+
 		var/distance_proportion = max(1 - (distance / flashbang_range), 0)
 		if(distance_proportion)
 			M.soundbang_act(1, 200 * distance_proportion, rand(0, 5))
@@ -74,6 +76,10 @@
 	shrapnel_radius = 12
 
 /obj/item/grenade/stingbang/prime(mob/living/lanced_by)
+	if(dud_flags)
+		active = FALSE
+		update_icon()
+		return FALSE
 	if(iscarbon(loc))
 		var/mob/living/carbon/C = loc
 		var/obj/item/bodypart/B = C.get_holding_bodypart_of_item(src)
@@ -140,6 +146,8 @@
 /obj/item/grenade/primer/prime(mob/living/lanced_by)
 	shrapnel_radius = round(rots / rots_per_mag)
 	. = ..()
+	if(!.)
+		return
 	qdel(src)
 
 /obj/item/grenade/primer/stingbang

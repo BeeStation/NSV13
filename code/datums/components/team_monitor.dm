@@ -105,8 +105,8 @@ GLOBAL_LIST_EMPTY(tracker_beacons)
 
 	attached_beacon = _attached_beacon
 
-	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/parent_equipped)
-	RegisterSignal(parent, COMSIG_ITEM_DROPPED, .proc/parent_dequpped)
+	RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(parent_equipped))
+	RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(parent_dequpped))
 
 	get_matching_beacons()
 	add_tracker_hud(team_frequency, src)
@@ -193,7 +193,7 @@ GLOBAL_LIST_EMPTY(tracker_beacons)
 	var/matrix/rotationMatrix = matrix()
 	rotationMatrix.Scale(1.5)
 	rotationMatrix.Translate(0, -distance)
-	rotationMatrix.Turn(Get_Angle(target_turf, parent_turf))
+	rotationMatrix.Turn(get_angle(target_turf, parent_turf))
 	animate(screen, transform = rotationMatrix, time = 2)
 
 //===========
@@ -225,14 +225,14 @@ GLOBAL_LIST_EMPTY(tracker_beacons)
 //===========
 
 /datum/component/team_monitor/proc/show_hud(mob/target)
-	updating = target
 	//Our hud is disabled
-	if(!hud_visible)
+	if(!hud_visible || !target)
 		return
+	updating = target
 	//Start processing to update in weird situations
 	START_PROCESSING(SSprocessing, src)
 	//Register parent signal
-	RegisterSignal(target, COMSIG_MOVABLE_MOVED, .proc/parent_moved)
+	RegisterSignal(target, COMSIG_MOVABLE_MOVED, PROC_REF(parent_moved))
 	//Mob doesnt have a hud, dont add hud arrows
 	if(!target.hud_used)
 		return
@@ -251,6 +251,8 @@ GLOBAL_LIST_EMPTY(tracker_beacons)
 	updating = null
 	//Stop processing
 	STOP_PROCESSING(SSprocessing, src)
+	if(!target)
+		return
 	//UnRegister parent signal
 	UnregisterSignal(target, COMSIG_MOVABLE_MOVED)
 	//Remove our arrows
@@ -383,11 +385,11 @@ GLOBAL_LIST_EMPTY(tracker_beacons)
 
 	//Register tracking signal
 	if(always_update)
-		RegisterSignal(parent, COMSIG_MOVABLE_MOVED, .proc/update_position)
+		RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(update_position))
 	else
 		//Reigster equipping signals
-		RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/parent_equipped)
-		RegisterSignal(parent, COMSIG_ITEM_DROPPED, .proc/parent_dequpped)
+		RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(parent_equipped))
+		RegisterSignal(parent, COMSIG_ITEM_DROPPED, PROC_REF(parent_dequpped))
 
 	//Set our visibility on the tracking network
 	toggle_visibility(_visible)
@@ -434,7 +436,7 @@ GLOBAL_LIST_EMPTY(tracker_beacons)
 	if(item.slot_flags & slot) //Was equipped to a valid slot for this item?
 		updating = equipper
 		toggle_visibility(TRUE)
-		RegisterSignal(updating, COMSIG_MOVABLE_MOVED, .proc/update_position)
+		RegisterSignal(updating, COMSIG_MOVABLE_MOVED, PROC_REF(update_position))
 	else
 		toggle_visibility(FALSE)
 		if(updating)

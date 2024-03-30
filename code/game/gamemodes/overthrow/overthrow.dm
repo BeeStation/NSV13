@@ -3,8 +3,9 @@
 	name = "overthrow"
 	config_tag = "overthrow"
 	report_type = "overthrow"
-	antag_flag = ROLE_OVERTHROW
-	restricted_jobs = list("Military Police", "Warden", "Detective", "AI", "Cyborg","Captain", "Executive Officer", "Head of Security", "Chief Engineer", "Research Director", "Chief Medical Officer", "Master At Arms") //NSV13 - renamed HoP to XO, added MAA  //Nsv13 - Crayon eaters & MPs
+	role_preference = /datum/role_preference/antagonist/traitor // use traitor role pref
+	antag_datum = /datum/antagonist/overthrow
+	restricted_jobs = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_AI, JOB_NAME_CYBORG,JOB_NAME_CAPTAIN, JOB_NAME_HEADOFPERSONNEL, JOB_NAME_HEADOFSECURITY, JOB_NAME_CHIEFENGINEER, JOB_NAME_RESEARCHDIRECTOR, JOB_NAME_CHIEFMEDICALOFFICER, JOB_NAME_MASTERATARMS) //NSV13 - added MAA
 	required_players = 20 // the core idea is of a swift, bloodless coup, so it shouldn't be as chaotic as revs.
 	required_enemies = 2 // minimum two teams, otherwise it's just nerfed revs.
 	recommended_enemies = 4
@@ -21,14 +22,14 @@
 		restricted_jobs += protected_jobs
 
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
-		restricted_jobs += "Midshipman" //Nsv13 - Crayon eaters
+		restricted_jobs += JOB_NAME_ASSISTANT
 
 	var/sleeping_agents = required_enemies + round(num_players()*0.05) // At 100 players, it'd be 2 + 5 = 7 teams existing.
 
 	for (var/i in 1 to sleeping_agents)
 		if (!antag_candidates.len)
 			break
-		var/datum/mind/sleeping_agent = antag_pick(antag_candidates, ROLE_OVERTHROW)
+		var/datum/mind/sleeping_agent = antag_pick(antag_candidates, /datum/role_preference/antagonist/traitor)
 		antag_candidates -= sleeping_agent
 		initial_agents += sleeping_agent
 		sleeping_agent.restricted_roles = restricted_jobs

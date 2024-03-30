@@ -25,15 +25,16 @@
 	hitsound = "swing_hit"
 	armour_penetration = 50
 	var/active = 0
+	var/saber_color
 
-/obj/item/holo/esword/green/Initialize()
+/obj/item/holo/esword/green/Initialize(mapload)
 	. = ..()
-	item_color = "green"
+	saber_color = "green"
 
 
-/obj/item/holo/esword/red/Initialize()
+/obj/item/holo/esword/red/Initialize(mapload)
 	. = ..()
-	item_color = "red"
+	saber_color = "red"
 
 /obj/item/holo/esword/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
 	if(active)
@@ -43,15 +44,15 @@
 /obj/item/holo/esword/attack(target as mob, mob/user as mob)
 	..()
 
-/obj/item/holo/esword/Initialize()
+/obj/item/holo/esword/Initialize(mapload)
 	. = ..()
-	item_color = pick("red","blue","green","purple")
+	saber_color = pick("red","blue","green","purple")
 
 /obj/item/holo/esword/attack_self(mob/living/user as mob)
 	active = !active
 	if (active)
 		force = 30
-		icon_state = "sword[item_color]"
+		icon_state = "sword[saber_color]"
 		w_class = WEIGHT_CLASS_BULKY
 		hitsound = 'sound/weapons/blade1.ogg'
 		playsound(user, 'sound/weapons/saberon.ogg', 20, 1)
@@ -171,7 +172,7 @@
 	. = ..()
 	if(.)
 		return
-	if(user.stat || stat & (NOPOWER|BROKEN))
+	if(user.stat || machine_stat & (NOPOWER|BROKEN))
 		to_chat(user, "<span class='warning'>This device is not powered!</span>")
 		return
 
@@ -222,11 +223,11 @@
 
 /obj/item/paper/fluff/holodeck/trek_diploma
 	name = "paper - Starfleet Academy Diploma"
-	info = {"<h2>Starfleet Academy</h2></br><p>Official Diploma</p></br>"}
+	default_raw_text = {"<h2>Starfleet Academy</h2></br><p>Official Diploma</p></br>"}
 
 /obj/item/paper/fluff/holodeck/disclaimer
 	name = "Holodeck Disclaimer"
-	info = "Bruises sustained in the holodeck can be healed simply by sleeping."
+	default_raw_text = "Bruises sustained in the holodeck can be healed simply by sleeping."
 
 /obj/vehicle/ridden/scooter/skateboard/pro/holodeck
 	name = "holographic skateboard"

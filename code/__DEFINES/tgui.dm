@@ -10,7 +10,7 @@
 /// Maximum number of windows that can be suspended/reused
 #define TGUI_WINDOW_SOFT_LIMIT 5
 /// Maximum number of open windows
-#define TGUI_WINDOW_HARD_LIMIT 9
+#define TGUI_WINDOW_HARD_LIMIT 20 //NSV13 - Increases the Window Limit to 20
 
 /// Maximum ping timeout allowed to detect zombie windows
 #define TGUI_PING_TIMEOUT 4 SECONDS
@@ -46,7 +46,7 @@
 /**
  * Maximum time allocated for sending a telemetry packet.
  */
-#define TGUI_TELEMETRY_RESPONSE_WINDOW 30 SECONDS
+#define TGUI_TELEMETRY_RESPONSE_WINDOW 2 MINUTES
 
 /// Telemetry statuses
 #define TGUI_TELEMETRY_STAT_NOT_REQUESTED 0 //Not Yet Requested

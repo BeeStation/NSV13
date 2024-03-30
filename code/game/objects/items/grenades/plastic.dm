@@ -20,9 +20,13 @@
 	var/can_attach_mob = FALSE
 	var/full_damage_on_mobs = FALSE
 
-/obj/item/grenade/plastic/Initialize()
+/obj/item/grenade/plastic/Initialize(mapload)
 	. = ..()
 	plastic_overlay = mutable_appearance(icon, "[item_state]2", HIGH_OBJ_LAYER)
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/item/grenade/plastic/ComponentInitialize()
 	. = ..()
@@ -57,6 +61,8 @@
 
 /obj/item/grenade/plastic/prime(mob/living/lanced_by)
 	. = ..()
+	if(!.)
+		return
 	var/turf/location
 	var/density_check = FALSE
 	if(target)
@@ -83,9 +89,11 @@
 /obj/item/grenade/plastic/receive_signal()
 	prime()
 
-/obj/item/grenade/plastic/Crossed(atom/movable/AM)
+/obj/item/grenade/plastic/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+
 	if(nadeassembly)
-		nadeassembly.Crossed(AM)
+		nadeassembly.on_entered(source, AM)
 
 /obj/item/grenade/plastic/on_found(mob/finder)
 	if(nadeassembly)
@@ -136,7 +144,7 @@
 		target.add_overlay(plastic_overlay, TRUE)
 		if(!nadeassembly)
 			to_chat(user, "<span class='notice'>You plant the bomb. Timer counting down from [det_time].</span>")
-			addtimer(CALLBACK(src, .proc/prime), det_time*10)
+			addtimer(CALLBACK(src, PROC_REF(prime)), det_time*10)
 		else
 			qdel(src)	//How?
 
@@ -182,7 +190,7 @@
 	var/open_panel = 0
 	can_attach_mob = TRUE
 
-/obj/item/grenade/plastic/c4/Initialize()
+/obj/item/grenade/plastic/c4/Initialize(mapload)
 	. = ..()
 	wires = new /datum/wires/explosive/c4(src)
 
@@ -213,7 +221,11 @@
 
 /obj/item/grenade/plastic/c4/prime(mob/living/lanced_by)
 	if(QDELETED(src))
-		return
+		return FALSE
+	if(dud_flags)
+		active = FALSE
+		update_icon()
+		return FALSE
 
 	. = ..()
 	var/turf/location

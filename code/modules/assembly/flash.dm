@@ -55,13 +55,13 @@
 	charges_left ++
 	icon_state = "flashbulb"
 	if(charges_left < max_charges)
-		addtimer(CALLBACK(src, .proc/recharge), charge_time, TIMER_UNIQUE)
+		addtimer(CALLBACK(src, PROC_REF(recharge)), charge_time, TIMER_UNIQUE)
 		recharging = TRUE
 
 /obj/item/flashbulb/recharging/use_flashbulb()
 	. = ..()
 	if(!recharging)
-		addtimer(CALLBACK(src, .proc/recharge), charge_time, TIMER_UNIQUE)
+		addtimer(CALLBACK(src, PROC_REF(recharge)), charge_time, TIMER_UNIQUE)
 		recharging = TRUE
 
 /obj/item/flashbulb/recharging/revolution
@@ -84,7 +84,10 @@
 	w_class = WEIGHT_CLASS_TINY
 	materials = list(/datum/material/iron = 300, /datum/material/glass = 300)
 	light_color = LIGHT_COLOR_WHITE
+	light_system = MOVABLE_LIGHT //Used as a flash here.
+	light_range = FLASH_LIGHT_RANGE
 	light_power = FLASH_LIGHT_POWER
+	light_on = FALSE
 	var/flashing_overlay = "flash-f"
 	var/last_used = 0 //last world.time it was used.
 	var/cooldown = 20
@@ -98,13 +101,14 @@
 /obj/item/assembly/flash/handheld/strong
 	bulb = /obj/item/flashbulb/recharging/revolution
 
-/obj/item/assembly/flash/Initialize()
+/obj/item/assembly/flash/Initialize(mapload)
 	. = ..()
 	bulb = new bulb
 
 /obj/item/assembly/flash/examine(mob/user)
 	. = ..()
 	. += "[bulb ? "The bulb looks like it can handle just about [bulb.charges_left] more uses.\nIt looks like you can cut out the flashbulb with a pair of wirecutters." : "The device has no bulb installed."]"
+
 
 /obj/item/assembly/flash/suicide_act(mob/living/user)
 	if(!bulb)
@@ -132,7 +136,7 @@
 	if(flash)
 		add_overlay(flashing_overlay)
 		attached_overlays += flashing_overlay
-		addtimer(CALLBACK(src, /atom/.proc/update_icon), 5)
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_icon)), 5)
 	if(holder)
 		holder.update_icon()
 
@@ -156,6 +160,7 @@
 	return TRUE
 
 /obj/item/assembly/flash/proc/burn_out() //Made so you can override it if you want to have an invincible flash from R&D or something.
+	bulb.charges_left = 0
 	if(!burnt_out)
 		burnt_out = TRUE
 		update_icon()
@@ -216,11 +221,17 @@
 			bulb.charges_left ++
 	last_trigger = world.time
 	playsound(src, 'sound/weapons/flash.ogg', 100, TRUE)
-	flash_lighting_fx(FLASH_LIGHT_RANGE, light_power, light_color)
+	set_light_on(TRUE)
+	addtimer(CALLBACK(src, PROC_REF(flash_end)), FLASH_LIGHT_DURATION, TIMER_OVERRIDE|TIMER_UNIQUE)
 	update_icon(TRUE)
 	if(user && !clown_check(user))
 		return FALSE
 	return TRUE
+
+
+/obj/item/assembly/flash/proc/flash_end()
+	set_light_on(FALSE)
+
 
 /obj/item/assembly/flash/proc/flash_carbon(mob/living/carbon/M, mob/user, power = 15, targeted = TRUE, generic_message = FALSE)
 	if(!istype(M))
@@ -348,7 +359,7 @@
 		to_chat(real_arm.owner, "<span class='warning'>Your photon projector implant overheats and deactivates!</span>")
 		real_arm.Retract()
 	overheat = TRUE
-	addtimer(CALLBACK(src, .proc/cooldown), flashcd * 2)
+	addtimer(CALLBACK(src, PROC_REF(cooldown)), flashcd * 2)
 
 /obj/item/assembly/flash/armimplant/try_use_flash(mob/user = null)
 	if(overheat)
@@ -357,7 +368,7 @@
 			to_chat(real_arm.owner, "<span class='warning'>Your photon projector is running too hot to be used again so quickly!</span>")
 		return FALSE
 	overheat = TRUE
-	addtimer(CALLBACK(src, .proc/cooldown), flashcd)
+	addtimer(CALLBACK(src, PROC_REF(cooldown)), flashcd)
 	playsound(src, 'sound/weapons/flash.ogg', 100, TRUE)
 	update_icon(1)
 	return TRUE

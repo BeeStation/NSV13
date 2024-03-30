@@ -6,8 +6,8 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 		/obj/item/disk/nuclear,
 		/obj/machinery/nuclearbomb,
 		/obj/item/beacon,
-		/obj/singularity/narsie,
-		/obj/singularity/wizard,
+		/obj/eldritch/narsie,
+		/obj/tear_in_reality,
 		/obj/machinery/teleport/station,
 		/obj/machinery/teleport/hub,
 		/obj/machinery/quantumpad,
@@ -25,6 +25,7 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 		/obj/machinery/syndicatebomb,
 		/obj/item/hilbertshotel,
 		/obj/item/swapper,
+		/obj/item/mail,
 		/obj/docking_port
 	)))
 
@@ -43,6 +44,10 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 
 	//Export categories for this run, this is set by console sending the shuttle.
 	var/export_categories = EXPORT_CARGO
+	// NSV13 - Mail Control - Start
+	// Switch used to toggle between the ship being open to receiving mail, or not.
+	var/send_mail = TRUE
+	// NSV13 - Mail Control - Stop
 
 /obj/docking_port/mobile/supply/register()
 	. = ..()
@@ -70,6 +75,10 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 
 /obj/docking_port/mobile/supply/initiate_docking()
 	if(getDockedId() == "supply_away") // Buy when we leave home.
+		// NSV13 - Mail Control - Start
+		if(send_mail)
+			create_mail()
+		// NSV13 - Mail Control - Stop
 		buy()
 	. = ..() // Fly/enter transit.
 	if(. != DOCKING_SUCCESS)
@@ -181,7 +190,7 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 				matched_bounty = TRUE
 			if(!AM.anchored || istype(AM, /obj/mecha))
 				export_item_and_contents(AM, export_categories , dry_run = FALSE, external_report = ex)
-			else
+			else if(!ismachinery(AM))
 				//Exports the contents of things but not the item itself, so you can have conveyor belt that won't get sold
 				export_contents(AM, export_categories , dry_run = FALSE, external_report = ex)
 
@@ -201,3 +210,22 @@ GLOBAL_LIST_INIT(blacklisted_cargo_types, typecacheof(list(
 
 	SSshuttle.centcom_message = msg
 	investigate_log("Shuttle contents sold for [D.account_balance - presale_points] credits. Contents: [ex.exported_atoms ? ex.exported_atoms.Join(",") + "." : "none."] Message: [SSshuttle.centcom_message || "none."]", INVESTIGATE_CARGO)
+
+
+//	Generates a box of mail depending on our exports and imports.
+//	Applied in the cargo shuttle sending/arriving, by building the crate if the round is ready to introduce mail based on the economy subsystem.
+// Then, fills the mail crate with mail, by picking applicable crew who can recieve mail at the time to sending.
+
+/obj/docking_port/mobile/supply/proc/create_mail()
+	//Early return if there's no mail waiting to prevent taking up a slot.
+	if(!SSeconomy.mail_waiting)
+		return
+	//spawn crate
+	var/list/empty_turfs = list()
+	for(var/area/shuttle/shuttle_area in shuttle_areas)
+		for(var/turf/open/floor/T in shuttle_area)
+			if(is_blocked_turf(T))
+				continue
+			empty_turfs += T
+		if (empty_turfs)
+			new /obj/structure/closet/crate/mail/economy(pick(empty_turfs))

@@ -9,7 +9,7 @@
 		return
 	if(!linked_bug)
 		user.audible_message("<span class='warning'>[src] lets off a shrill beep!</span>")
-	if("spypopup_map" in user.client.screen_maps) //alright, the popup this object uses is already IN use, so the window is open. no point in doing any other work here, so we're good.
+	if(user.client.screen_maps["spypopup_map"]) //alright, the popup this object uses is already IN use, so the window is open. no point in doing any other work here, so we're good.
 		return
 	user.client.setup_popup("spypopup", 3, 3, 2)
 	user.client.register_map_obj(linked_bug.cam_screen)
@@ -23,7 +23,7 @@
 		user.client.close_popup("spypopup")
 
 /obj/item/clothing/glasses/sunglasses/spy/dropped(mob/user)
-	. = ..()
+	..()
 	user.client.close_popup("spypopup")
 
 /obj/item/clothing/glasses/sunglasses/spy/ui_action_click(mob/user)
@@ -50,9 +50,9 @@
 	var/cam_range = 1
 	var/datum/movement_detector/tracker
 
-/obj/item/clothing/accessory/spy_bug/Initialize()
+/obj/item/clothing/accessory/spy_bug/Initialize(mapload)
 	. = ..()
-	tracker = new /datum/movement_detector(src, CALLBACK(src, .proc/update_view))
+	tracker = new /datum/movement_detector(src, CALLBACK(src, PROC_REF(update_view)))
 
 	cam_screen = new
 	cam_screen.name = "screen"
@@ -75,9 +75,9 @@
 /obj/item/clothing/accessory/spy_bug/Destroy()
 	if(linked_glasses)
 		linked_glasses.linked_bug = null
-	qdel(cam_screen)
+	QDEL_NULL(cam_screen)
 	QDEL_LIST(cam_plane_masters)
-	qdel(tracker)
+	QDEL_NULL(tracker)
 	return ..()
 
 /obj/item/clothing/accessory/spy_bug/proc/update_view()//this doesn't do anything too crazy, just updates the vis_contents of its screen obj
@@ -94,7 +94,7 @@
 	name = "Espionage For Dummies"
 	color = "#FFFF00"
 	desc = "An eye gougingly yellow pamphlet with a badly designed image of a detective on it. the subtext says \" The Latest Way To Violate Privacy Guidelines!\" "
-	info = @{"
+	default_raw_text = @{"
 Thank you for your purchase of the Nerd Co SpySpeks <small>tm</small>, this paper will be your quick-start guide to violating the privacy of your crewmates in three easy steps!<br><br>Step One: Nerd Co SpySpeks <small>tm</small> upon your face. <br>
 Step Two: Place the included "ProfitProtektor <small>tm</small>" camera assembly in a place of your choosing - make sure to make heavy use of it's inconspicous design!
 Step Three: Press the "Activate Remote View" Button on the side of your SpySpeks <small>tm</small> to open a movable camera display in the corner of your vision, it's just that easy!<br><br><br><center><b>TROUBLESHOOTING</b><br></center>

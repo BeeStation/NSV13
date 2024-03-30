@@ -11,17 +11,26 @@
 	var/ship_type = pick(GLOB.boardable_ship_types)
 	target_ship = instance_overmap(ship_type)
 	target_ship.block_deletion = TRUE
-	RegisterSignal(target_ship, COMSIG_SHIP_BOARDED, .proc/check_completion, target_ship)
-	RegisterSignal(target_ship, COMSIG_SHIP_RELEASE_BOARDING, .proc/release_boarding, target_ship)
+	target_ship.essential = TRUE
+	RegisterSignal(target_ship, COMSIG_SHIP_BOARDED, PROC_REF(check_completion), target_ship)
+	RegisterSignal(target_ship, COMSIG_SHIP_RELEASE_BOARDING, PROC_REF(release_boarding), target_ship)
 	target_ship.ai_load_interior(SSstar_system.find_main_overmap())
 	// give it a name
 	var/ship_name = generate_ship_name()
 	target_ship.name = ship_name
 	// give it a home
 	var/list/candidates = list()
-	for(var/datum/star_system/random/S in SSstar_system.systems)
-		if(!S.hidden)
-			candidates += S
+	for(var/datum/star_system/S in SSstar_system.systems)
+		// Is this even in a reasonable location?
+		if(S.hidden || (S.sector != 2) || S.get_info()?["Black hole"])
+			continue
+		// Don't put it where it will immediately get shot
+		if((S.alignment != target_ship.faction) && (S.alignment != "unaligned") && (S.alignment != "uncharted"))
+			continue
+		// This shouldn't be needed with the faction check, but don't put it in the spawn location
+		if(S == SSstar_system.system_by_id(SSovermap_mode.mode.starting_system))
+			continue
+		candidates += S
 	target_system = pick(candidates)
 	brief = "Capture the syndicate vessel [target_ship] in [target_system] by boarding it, defeating the enemies therein, and modifying its IFF codes."
 	target_system.add_ship(target_ship)
@@ -42,7 +51,7 @@
 		var/datum/star_system/finish = fastest_route[i]
 		distance += start.dist(finish)
 	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
-	var/travel_time = (distance / (OM.ftl_drive.jump_speed_factor*10)) SECONDS // Time spent flying
+	var/travel_time = (distance / (OM.ftl_drive.get_jump_speed() * 10)) SECONDS // Time spent flying
 	travel_time += 2 MINUTES * length(fastest_route) // Time spent spooling FTL drive
 	travel_time *= 1.2 // Time spent lolligagging
 	SSovermap_mode.mode.objective_reminder_interval = max((travel_time / 5), SSovermap_mode.mode.objective_reminder_interval)
@@ -52,6 +61,7 @@
 	if (target_ship.faction == SSovermap_mode.mode.starting_faction)
 		status = 1
 		target_ship.block_deletion = FALSE
+		target_ship.essential = FALSE
 		UnregisterSignal(target_ship, COMSIG_SHIP_BOARDED)
 		UnregisterSignal(target_ship, COMSIG_SHIP_RELEASE_BOARDING)
 

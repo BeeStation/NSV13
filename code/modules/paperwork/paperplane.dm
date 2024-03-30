@@ -24,10 +24,8 @@
 
 /obj/item/origami/paperplane/update_icon()
 	cut_overlays()
-	var/list/stamped = internalPaper.stamped
-	if(stamped)
-		for(var/S in stamped)
-			add_overlay("paperplane_[S]")
+	for(var/stamp in internalPaper.stamp_cache)
+		add_overlay("paperplane_[stamp]")
 
 /obj/item/origami/paperplane/attack_self(mob/user)
 	to_chat(user, "<span class='notice'>You unfold [src].</span>")
@@ -62,7 +60,7 @@
 		if(C.can_catch_item(TRUE))
 			var/datum/action/innate/origami/origami_action = locate() in C.actions
 			if(origami_action?.active) //if they're a master of origami and have the ability turned on, force throwmode on so they'll automatically catch the plane.
-				C.throw_mode_on()
+				C.throw_mode_on(THROW_MODE_TOGGLE)
 
 	if(..() || !ishuman(hit_atom))//if the plane is caught or it hits a nonhuman
 		return

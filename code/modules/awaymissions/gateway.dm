@@ -14,7 +14,7 @@ GLOBAL_DATUM(the_gateway, /obj/machinery/gateway/centerstation)
 	var/list/linked = list()
 	var/can_link = FALSE	//Is this the centerpiece?
 
-/obj/machinery/gateway/Initialize()
+/obj/machinery/gateway/Initialize(mapload)
 	randomspawns = GLOB.awaydestinations
 	update_icon()
 	if(!istype(src, /obj/machinery/gateway/centerstation) && !istype(src, /obj/machinery/gateway/centeraway))
@@ -76,7 +76,7 @@ GLOBAL_DATUM(the_gateway, /obj/machinery/gateway/centerstation)
 /obj/machinery/gateway/safe_throw_at(atom/target, range, speed, mob/thrower, spin = TRUE, diagonals_first = FALSE, datum/callback/callback, force = MOVE_FORCE_STRONG)
 	return
 
-/obj/machinery/gateway/centerstation/Initialize()
+/obj/machinery/gateway/centerstation/Initialize(mapload)
 	. = ..()
 	if(!GLOB.the_gateway)
 		GLOB.the_gateway = src
@@ -107,7 +107,7 @@ GLOBAL_DATUM(the_gateway, /obj/machinery/gateway/centerstation)
 	icon_state = "offcenter"
 
 /obj/machinery/gateway/centerstation/process()
-	if((stat & (NOPOWER)) && use_power)
+	if((machine_stat & (NOPOWER)) && use_power)
 		if(active)
 			toggleoff()
 		return
@@ -177,7 +177,7 @@ GLOBAL_DATUM(the_gateway, /obj/machinery/gateway/centerstation)
 	can_link = TRUE
 
 
-/obj/machinery/gateway/centeraway/Initialize()
+/obj/machinery/gateway/centeraway/Initialize(mapload)
 	. = ..()
 	update_icon()
 	stationgate = locate(/obj/machinery/gateway/centerstation)
@@ -239,7 +239,7 @@ GLOBAL_DATUM(the_gateway, /obj/machinery/gateway/centerstation)
 /obj/machinery/gateway/centeraway/admin
 	desc = "A mysterious gateway built by unknown hands, this one seems more compact."
 
-/obj/machinery/gateway/centeraway/admin/Initialize()
+/obj/machinery/gateway/centeraway/admin/Initialize(mapload)
 	. = ..()
 	if(stationgate && !stationgate.awaygate)
 		stationgate.awaygate = src
@@ -249,17 +249,17 @@ GLOBAL_DATUM(the_gateway, /obj/machinery/gateway/centerstation)
 
 
 /obj/item/paper/fluff/gateway
-	info = "Congratulations,<br><br>Your station has been selected to carry out the Gateway Project.<br><br>The equipment will be shipped to you at the start of the next quarter.<br> You are to prepare a secure location to house the equipment as outlined in the attached documents.<br><br>--Nanotrasen Bluespace Research"
+	default_raw_text = "Congratulations,<br><br>Your station has been selected to carry out the Gateway Project.<br><br>The equipment will be shipped to you at the start of the next quarter.<br> You are to prepare a secure location to house the equipment as outlined in the attached documents.<br><br>--Nanotrasen Bluespace Research"
 	name = "Confidential Correspondence, Pg 1"
 
 /obj/item/paper/fluff/itemnotice
-	info = "Notice: Over the last few weeks there have been increased reports of surplus, trash items such as wrappers being found in Bluespace Capsule Products. In the event this encampment has any such item, please dispose of them within a wastebin or the provided bonfire, especially if such items include frivolous, frankly embarassing things. We apologise for the inconvienence. Thank you. -- Nanotrasen BS Productions"
+	default_raw_text = "Notice: Over the last few weeks there have been increased reports of surplus, trash items such as wrappers being found in Bluespace Capsule Products. In the event this encampment has any such item, please dispose of them within a wastebin or the provided bonfire, especially if such items include frivolous, frankly embarassing things. We apologise for the inconvienence. Thank you. -- Nanotrasen BS Productions"
 	name = "Surplus Item Removal Notice"
 
 /obj/item/paper/fluff/encampmentwelcome
-	info = "Welcome! If you are reading this, then you have bought and deployed the new line of bluespace capsule shelters, the mining encampment! This capsule provides standard shelter equipment and more, such as an expanded food vendor, floor safe, restroom, suit storage, spare equipment, and a personal requisitions vendor! The outside has even been lined with basalt tiles, just so no rocks get in the way of the cozy courtyard! We hope you stay safe, and enjoy the amenities! - Nanotrasen BS Productions"
+	default_raw_text = "Welcome! If you are reading this, then you have bought and deployed the new line of bluespace capsule shelters, the mining encampment! This capsule provides standard shelter equipment and more, such as an expanded food vendor, floor safe, restroom, suit storage, spare equipment, and a personal requisitions vendor! The outside has even been lined with basalt tiles, just so no rocks get in the way of the cozy courtyard! We hope you stay safe, and enjoy the amenities! - Nanotrasen BS Productions"
 	name = "Welcome!"
 
 /obj/item/paper/fluff/shuttlenotice
-	info = "To the acting captain of Nanotrasen Research Station SS13, Due to the nature of your emergency, we sadly had to expedite the process of constructing this shuttle, and as such it does not follow standard sanitary regulations. We appreciate your purchase, and apologise for the inconvienence. Thank you, and have a safe flight! -- Nanotrasen BS Productions Engineering Team"
+	default_raw_text = "To the acting captain of Nanotrasen Research Station SS13, Due to the nature of your emergency, we sadly had to expedite the process of constructing this shuttle, and as such it does not follow standard sanitary regulations. We appreciate your purchase, and apologise for the inconvienence. Thank you, and have a safe flight! -- Nanotrasen BS Productions Engineering Team"
 	name = "Shuttle Notice"

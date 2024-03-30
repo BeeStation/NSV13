@@ -15,7 +15,7 @@
 	var/faction = list("hostile")
 	var/spawner_type = /datum/component/spawner
 
-/obj/structure/spawner/Initialize()
+/obj/structure/spawner/Initialize(mapload)
 	. = ..()
 	AddComponent(spawner_type, mob_types, spawn_time, faction, spawn_text, max_mobs)
 
@@ -31,7 +31,7 @@
 	icon_state = "syndbeacon"
 	spawn_text = "warps in from"
 	mob_types = list(/mob/living/simple_animal/hostile/syndicate/ranged)
-	faction = list(ROLE_SYNDICATE)
+	faction = list(FACTION_SYNDICATE)
 
 /obj/structure/spawner/skeleton
 	name = "bone pit"

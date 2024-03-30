@@ -91,7 +91,7 @@
 		if(iscyborg(user)) //Cyborg modules that include drinks automatically refill themselves, but drain the borg's cell
 			var/mob/living/silicon/robot/bro = user
 			bro.cell.use(30)
-			addtimer(CALLBACK(reagents, /datum/reagents.proc/add_reagent, refill, trans), 600)
+			addtimer(CALLBACK(reagents, TYPE_PROC_REF(/datum/reagents, add_reagent), refill, trans), 600)
 
 	else if(target.is_drainable()) //A dispenser. Transfer FROM it TO us.
 		if (!is_refillable())
@@ -215,6 +215,7 @@
 /obj/item/reagent_containers/food/drinks/coffee
 	name = "robust coffee"
 	desc = "Careful, the beverage you're about to enjoy is extremely hot."
+	icon = 'nsv13/icons/obj/coffee.dmi' //NSV13 - COFFEE ICON
 	icon_state = "coffee"
 	list_reagents = list(/datum/reagent/consumable/coffee = 30)
 	spillable = TRUE
@@ -283,7 +284,7 @@
 	var/amount
 	list_reagents = null
 
-/obj/item/reagent_containers/food/drinks/beer/almost_empty/Initialize()
+/obj/item/reagent_containers/food/drinks/beer/almost_empty/Initialize(mapload)
 	. = ..()
 	amount = rand(1,4)
 	reagents.add_reagent(/datum/reagent/consumable/ethanol/beer, amount)
@@ -376,6 +377,10 @@
 				name = "grape juice box"
 				desc = "Tasty grape juice in a fun little container. Non-alcoholic!"
 				foodtype = FRUIT
+			if(/datum/reagent/consumable/pineapplejuice)
+				icon_state = "pineapplebox"
+				name = "pineapple juice box"
+				desc = "Why would you even want this?"
 			if(/datum/reagent/consumable/milk/chocolate_milk)
 				icon_state = "chocolatebox"
 				name = "carton of chocolate milk"
@@ -540,7 +545,7 @@
 	list_reagents = list(/datum/reagent/consumable/lemon_lime = 30)
 	foodtype = FRUIT
 
-/obj/item/reagent_containers/food/drinks/soda_cans/lemon_lime/Initialize()
+/obj/item/reagent_containers/food/drinks/soda_cans/lemon_lime/Initialize(mapload)
 	. = ..()
 	name = "lemon-lime soda"
 

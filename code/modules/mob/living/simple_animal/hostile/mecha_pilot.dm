@@ -40,7 +40,7 @@
 	spawn_mecha_type = null
 	search_objects = 2
 
-/mob/living/simple_animal/hostile/syndicate/mecha_pilot/no_mech/Initialize()
+/mob/living/simple_animal/hostile/syndicate/mecha_pilot/no_mech/Initialize(mapload)
 	. = ..()
 	wanted_objects = typecacheof(/obj/mecha/combat, TRUE)
 
@@ -60,7 +60,7 @@
 	faction = list("nanotrasen")
 
 
-/mob/living/simple_animal/hostile/syndicate/mecha_pilot/Initialize()
+/mob/living/simple_animal/hostile/syndicate/mecha_pilot/Initialize(mapload)
 	. = ..()
 	if(spawn_mecha_type)
 		var/obj/mecha/M = new spawn_mecha_type (get_turf(src))
@@ -113,7 +113,7 @@
 	ranged = 0
 	minimum_distance = 1
 
-	walk(M,0)//end any lingering movement loops, to prevent the haunted mecha bug
+	SSmove_manager.stop_looping(src)//end any lingering movement loops, to prevent the haunted mecha bug
 
 //Checks if a mecha is valid for theft
 /mob/living/simple_animal/hostile/syndicate/mecha_pilot/proc/is_valid_mecha(obj/mecha/M)
@@ -232,13 +232,13 @@
 					if(mecha.defense_action && mecha.defense_action.owner && !mecha.defense_mode)
 						mecha.leg_overload_mode = 0
 						mecha.defense_action.Activate(TRUE)
-						addtimer(CALLBACK(mecha.defense_action, /datum/action/innate/mecha/mech_defense_mode.proc/Activate, FALSE), 100) //10 seconds of defense, then toggle off
+						addtimer(CALLBACK(mecha.defense_action, TYPE_PROC_REF(/datum/action/innate/mecha/mech_defense_mode, Activate), FALSE), 100) //10 seconds of defense, then toggle off
 
 				else if(prob(retreat_chance))
 					//Speed boost if possible
 					if(mecha.overload_action && mecha.overload_action.owner && !mecha.leg_overload_mode)
 						mecha.overload_action.Activate(TRUE)
-						addtimer(CALLBACK(mecha.overload_action, /datum/action/innate/mecha/mech_defense_mode.proc/Activate, FALSE), 100) //10 seconds of speeeeed, then toggle off
+						addtimer(CALLBACK(mecha.overload_action, TYPE_PROC_REF(/datum/action/innate/mecha/mech_defense_mode, Activate), FALSE), 100) //10 seconds of speeeeed, then toggle off
 
 					retreat_distance = 50
 					addtimer(VARSET_CALLBACK(src, retreat_distance, 0), 100)
@@ -289,6 +289,6 @@
 
 /mob/living/simple_animal/hostile/syndicate/mecha_pilot/Goto(target, delay, minimum_distance)
 	if(mecha)
-		walk_to(mecha, target, minimum_distance, mecha.step_in)
+		SSmove_manager.move_to(mecha, target, minimum_distance, mecha.step_in)
 	else
 		..()

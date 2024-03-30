@@ -21,7 +21,7 @@
 	var/seasonal_hats = TRUE //If TRUE, and there are no default hats, different holidays will grant different hats
 	var/static/list/possible_seasonal_hats //This is built automatically in build_seasonal_hats() but can also be edited by admins!
 
-/obj/effect/mob_spawn/drone/Initialize()
+/obj/effect/mob_spawn/drone/Initialize(mapload)
 	. = ..()
 	var/area/A = get_area(src)
 	if(A)
@@ -47,17 +47,11 @@
 /obj/effect/mob_spawn/drone/attack_ghost(mob/user)
 	if(is_banned_from(user.ckey, ROLE_DRONE) || QDELETED(src) || QDELETED(user))
 		return
-	if(CONFIG_GET(flag/use_age_restriction_for_jobs))
-		if(!isnum_safe(user.client.player_age)) //apparently what happens when there's no DB connected. just don't let anybody be a drone without admin intervention
-			return
-		if(user.client.player_age < DRONE_MINIMUM_AGE)
-			to_chat(user, "<span class='danger'>You're too new to play as a drone! Please try again in [DRONE_MINIMUM_AGE - user.client.player_age] days.</span>")
-			return
 	if(!SSticker.mode)
 		to_chat(user, "Can't become a drone before the game has started.")
 		return
 	var/be_drone = alert("Become a drone? (Warning, You can no longer be cloned!)",,"Yes","No")
-	if(be_drone == "No" || QDELETED(src) || !isobserver(user))
+	if(be_drone != "Yes" || QDELETED(src) || !isobserver(user))
 		return
 	var/mob/living/simple_animal/drone/D = new mob_type(get_turf(loc))
 	if(!D.default_hatmask && seasonal_hats && possible_seasonal_hats.len)

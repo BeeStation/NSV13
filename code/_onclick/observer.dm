@@ -20,7 +20,7 @@
 					update_parallax_contents()
 	// Otherwise jump
 	else if(A.loc)
-		forceMove(get_turf(A))
+		abstract_move(get_turf(A))
 		update_parallax_contents()
 
 /mob/dead/observer/ClickOn(var/atom/A, var/params)
@@ -62,7 +62,7 @@
 			return TRUE
 		else if(IsAdminGhost(user))
 			attack_ai(user)
-		else if(user.client.prefs.inquisitive_ghost)
+		else if(user.client.prefs.toggles2 & PREFTOGGLE_2_GHOST_INQUISITIVENESS)
 			user.examinate(src)
 	return FALSE
 
@@ -78,14 +78,14 @@
 
 /obj/machinery/gateway/centerstation/attack_ghost(mob/user)
 	if(awaygate)
-		user.forceMove(awaygate.loc)
+		user.abstract_move(awaygate.loc)
 	else
 		to_chat(user, "[src] has no destination.")
 	return ..()
 
 /obj/machinery/gateway/centeraway/attack_ghost(mob/user)
 	if(stationgate)
-		user.forceMove(stationgate.loc)
+		user.abstract_move(stationgate.loc)
 	else
 		to_chat(user, "[src] has no destination.")
 	return ..()
@@ -99,4 +99,4 @@
 		power_station.teleporter_console.target_ref = null
 		return ..()
 
-	user.forceMove(get_turf(target))
+	user.abstract_move(get_turf(target))

@@ -2,7 +2,8 @@
 	name = "Nuclear Operative"
 	roundend_category = "syndicate operatives" //just in case
 	antagpanel_category = "NukeOp"
-	job_rank = ROLE_OPERATIVE
+	banning_key = ROLE_OPERATIVE
+	required_living_playtime = 8
 	antag_moodlet = /datum/mood_event/focused
 	show_to_ghosts = TRUE
 	hijack_speed = 2 //If you can't take out the station, take the shuttle instead.
@@ -25,7 +26,7 @@
 	var/mob/living/M = mob_override || owner.current
 	update_synd_icons_added(M)
 	ADD_TRAIT(owner, TRAIT_DISK_VERIFIER, NUKEOP_TRAIT)
-	M.remove_quirk(/datum/quirk/nonviolent)
+	M.remove_all_quirks()
 
 /datum/antagonist/nukeop/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/M = mob_override || owner.current
@@ -70,7 +71,7 @@
 
 /datum/antagonist/nukeop/proc/assign_nuke()
 	if(nuke_team && !nuke_team.tracked_nuke)
-		nuke_team.memorized_code = random_nukecode()
+		nuke_team.memorized_code = random_code(5)
 		var/obj/machinery/nuclearbomb/syndicate/nuke = locate() in GLOB.nuke_list
 		if(nuke)
 			nuke_team.tracked_nuke = nuke
@@ -88,6 +89,7 @@
 /datum/antagonist/nukeop/proc/give_alias()
 	if(nuke_team && nuke_team.syndicate_name)
 		var/mob/living/carbon/human/H = owner.current
+		H.set_species(/datum/species/human) //NSV13 allows players with a non-human species in their prefs to get a human name in Galactic Conquest.
 		if(istype(H)) // Reinforcements get a real name
 			var/chosen_name = H.dna.species.random_name(H.gender,0,nuke_team.syndicate_name)
 			H.fully_replace_character_name(H.real_name,chosen_name)
@@ -143,15 +145,15 @@
 	nuke_team = new_team
 
 /datum/antagonist/nukeop/admin_add(datum/mind/new_owner,mob/admin)
-	new_owner.assigned_role = ROLE_SYNDICATE
+	new_owner.assigned_role = ROLE_OPERATIVE
 	new_owner.add_antag_datum(src)
 	message_admins("[key_name_admin(admin)] has nuke op'ed [key_name_admin(new_owner)].")
 	log_admin("[key_name(admin)] has nuke op'ed [key_name(new_owner)].")
 
 /datum/antagonist/nukeop/get_admin_commands()
 	. = ..()
-	.["Send to base"] = CALLBACK(src,.proc/admin_send_to_base)
-	.["Tell code"] = CALLBACK(src,.proc/admin_tell_code)
+	.["Send to base"] = CALLBACK(src,PROC_REF(admin_send_to_base))
+	.["Tell code"] = CALLBACK(src,PROC_REF(admin_tell_code))
 
 /datum/antagonist/nukeop/proc/admin_send_to_base(mob/admin)
 	owner.current.forceMove(pick(GLOB.nukeop_start))
@@ -177,14 +179,14 @@
 /datum/antagonist/nukeop/leader/memorize_code()
 	..()
 	if(nuke_team?.memorized_code)
-		var/obj/item/paper/P = new
-		P.info = "The nuclear authorization code is: <b>[nuke_team.memorized_code]</b>"
-		P.name = "nuclear bomb code"
+		var/obj/item/paper/nuke_code_paper = new
+		nuke_code_paper.add_raw_text("The nuclear authorization code is: <b>[nuke_team.memorized_code]</b>")
+		nuke_code_paper.name = "nuclear bomb code"
 		var/mob/living/carbon/human/H = owner.current
 		if(!istype(H))
-			P.forceMove(get_turf(H))
+			nuke_code_paper.forceMove(get_turf(H))
 		else
-			H.put_in_hands(P, TRUE)
+			H.put_in_hands(nuke_code_paper, TRUE)
 			H.update_icons()
 
 /datum/antagonist/nukeop/leader/give_alias()
@@ -200,7 +202,7 @@
 	to_chat(owner, "<B>If you feel you are not up to this task, give your ID to another operative.</B>")
 	to_chat(owner, "<B>In your hand you will find a special item capable of triggering a greater challenge for your team. Examine it carefully and consult with your fellow operatives before activating it.</B>")
 	owner.announce_objectives()
-	addtimer(CALLBACK(src, .proc/nuketeam_name_assign), 1)
+	addtimer(CALLBACK(src, PROC_REF(nuketeam_name_assign)), 1)
 	owner.current.client?.tgui_panel?.give_antagonist_popup("Nuclear Operative Team Leader",
 		"Destroy the station with a nuclear explosive by leading your team.")
 
@@ -240,7 +242,7 @@
 
 /datum/antagonist/nukeop/lone/assign_nuke()
 	if(nuke_team && !nuke_team.tracked_nuke)
-		nuke_team.memorized_code = random_nukecode()
+		nuke_team.memorized_code = random_code(5)
 		var/obj/machinery/nuclearbomb/selfdestruct/nuke = locate() in GLOB.nuke_list
 		if(nuke)
 			nuke_team.tracked_nuke = nuke

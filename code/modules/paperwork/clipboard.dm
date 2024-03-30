@@ -27,7 +27,7 @@
 	user.visible_message("<span class='suicide'>[user] begins putting [user.p_their()] head into the clip of \the [src]! It looks like [user.p_theyre()] trying to commit suicide!</span>")
 	return BRUTELOSS//the clipboard's clip is very strong. industrial duty. can kill a man easily.
 
-/obj/item/clipboard/Initialize()
+/obj/item/clipboard/Initialize(mapload)
 	update_icon()
 	. = ..()
 
@@ -173,3 +173,12 @@
 				paper.rename()
 				update_icon()
 				. = TRUE
+
+//NSV13 - Clipboard Stuff - Start
+/**
+ * This is a simple proc to handle calling update_icon() upon receiving the top paper's `COMSIG_ATOM_UPDATE_APPEARANCE`.
+ */
+/obj/item/clipboard/proc/on_top_paper_change()
+	SIGNAL_HANDLER
+	update_appearance()
+//NSV13 - Clipboard Stuff - Stop

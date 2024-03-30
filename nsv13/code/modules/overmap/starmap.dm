@@ -11,13 +11,17 @@
 
 /obj/machinery/computer/ship/navigation
 	name = "\improper FTL Navigation console"
-	desc = "A computer which can interface with the FTL drive to allow the ship to travel vast distances in space."
+	desc = "A computer which can interface with the Thirring Drive to allow the ship to travel vast distances in space."
 	icon_screen = "ftl"
 	var/datum/star_system/selected_system = null
 	var/screen = STARMAP
 	var/can_control_ship = TRUE
-	var/current_sector = 2
+	var/current_sector = SECTOR_NEUTRAL
 	circuit = /obj/item/circuitboard/computer/ship/navigation
+
+/obj/machinery/computer/ship/navigation/LateInitialize()
+	addtimer(CALLBACK(src, PROC_REF(has_overmap)), 15 SECONDS)
+
 
 /obj/machinery/computer/ship/navigation/can_interact(mob/user) //Override this code to allow people to use consoles when flying the ship.
 	if(user in linked?.operators)
@@ -71,13 +75,13 @@
 			. = TRUE
 		if("jump")
 			if(linked.ftl_drive.lockout)
-				visible_message("<span class='warning'>[icon2html(src, viewers(src))] Unable to comply. Invalid authkey to unlock remove override code.</span>")
+				to_chat(usr, "<span class='warning'>[icon2html(src, viewers(src))] Unable to comply. Invalid authkey to unlock remove override code.</span>")
 				return
 			linked.ftl_drive.jump(selected_system)
 			. = TRUE
 		if("cancel_jump")
 			if(linked.ftl_drive.lockout)
-				visible_message("<span class='warning'>[icon2html(src, viewers(src))] Unable to comply. Invalid authkey to unlock remove override code.</span>")
+				to_chat(usr, "<span class='warning'>[icon2html(src, viewers(src))] Unable to comply. Invalid authkey to unlock remove override code.</span>")
 				return
 			if(linked.ftl_drive.cancel_ftl())
 				linked.stop_relay(CHANNEL_IMPORTANT_SHIP_ALERT)
@@ -96,10 +100,13 @@
 	var/datum/star_system/current_system = info["current_system"]
 	SSstar_system.update_pos(linked)
 	if(linked.ftl_drive)
-		data["ftl_progress"] = linked.ftl_drive.progress
-		if(linked.ftl_drive.ftl_state == FTL_STATE_READY)
-			data["ftl_progress"] = linked.ftl_drive.spoolup_time
-		data["ftl_goal"] = linked.ftl_drive.spoolup_time //TODO
+		if(istype(linked.ftl_drive))
+			data["ftl_progress"] = linked.ftl_drive.progress
+			data["ftl_goal"] = linked.ftl_drive.req_charge
+		else // yes this is so bad I know but I don't want to rework a legacy system that is probably EoL, so this'll do for now
+			var/obj/machinery/computer/ship/ftl_computer/bodge = linked.ftl_drive
+			data["ftl_progress"] = bodge.progress
+			data["ftl_goal"] = bodge.spoolup_time
 	data["travelling"] = FALSE
 	switch(screen)
 		if(0) // ship information
@@ -142,15 +149,16 @@
 				system_list["is_current"] = (system == current_system)
 				system_list["alignment"] = system.alignment
 				system_list["visited"] = is_visited(system)
+				system_list["hidden"] = FALSE
 				var/label = ""
 				if(system.is_hypergate)
 					label += " HYPERGATE"
 				if(system.is_capital && !label)
-					label = "CAPITAL"
-				if(system.trader && system.sector != 3) //Use shortnames in brazil for readability
-					label = " [system.trader.name]"
-				if(system.trader && system.sector == 3) //Use shortnames in brazil for readability
-					label = " [system.trader.shortname]"
+					label += "CAPITAL"
+				if(system.trader && system.sector != SECTOR_NEUTRAL) //Use shortnames in brazil for readability
+					label += " [system.trader.name]"
+				if(system.trader && system.sector == SECTOR_NEUTRAL) //Use shortnames in brazil for readability
+					label += " [system.trader.shortname]"
 				if(system.mission_sector)
 					label += " OCCUPIED"
 				if(system.objective_sector)

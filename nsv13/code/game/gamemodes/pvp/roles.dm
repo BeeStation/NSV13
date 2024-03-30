@@ -53,14 +53,14 @@
 /datum/antagonist/nukeop/syndi_crew
 	name = "Syndicate crew"
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew
-	job_rank = ROLE_SYNDI_CREW
+	banning_key = ROLE_SYNDI_CREW
 	tips = "galactic_conquest"
 	give_objectives = FALSE //Their objective is to win the game
 
 /datum/antagonist/nukeop/syndi_crew/greet()
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0)
 	to_chat(owner, "<span class='notice'>You are a crewman aboard a Syndicate vessel!</span>")
-	to_chat(owner, "<span class='warning'>Ensure the destruction of [station_name()], no matter what. Eliminate Nanotrasen's presence in the Abassi ridge before they can establish a foothold. The fleet is counting on you!</span>")
+	to_chat(owner, "<span class='warning'>Ensure the destruction of [station_name()], no matter what. Eliminate Nanotrasen's presence in the Abassi Ridge before they can establish a foothold. The fleet is counting on you!</span>")
 	owner.announce_objectives()
 
 
@@ -128,7 +128,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 /obj/item/card/id/syndi_crew/captain
 	name = "\improper Captain's ID"
 	access = list(ACCESS_MAINT_TUNNELS, ACCESS_SYNDICATE, ACCESS_SYNDICATE_LEADER, ACCESS_SYNDICATE_ENGINEERING, ACCESS_SYNDICATE_REQUISITIONS, ACCESS_SYNDICATE_MARINE_ARMOURY)
-	assignment = "Captain"
+	assignment = JOB_NAME_CAPTAIN
 
 /obj/item/card/id/syndi_crew/admiral
 	name = "\improper Strategist's ID"
@@ -155,7 +155,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 /obj/item/card/id/syndi_crew/pilot
 	name = "\improper Pilot's ID"
-	assignment = "Pilot"
+	assignment = JOB_NAME_PILOT
 
 /obj/item/card/id/syndi_crew/marine_sergeant
 	name = "\improper Marine Sergeant's ID"
@@ -167,11 +167,16 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 
 /obj/item/card/id/syndi_crew/marine
 	name = "\improper Marine's ID"
-	assignment = "Midshipman"
+	assignment = JOB_NAME_ASSISTANT
 
 //Syndicate crew outfits
 
 /datum/outfit/syndicate/no_crystals/syndi_crew/post_equip(mob/living/carbon/human/H)
+	var/obj/item/radio/R = H.ears
+	R.set_frequency(FREQ_SYNDICATE)
+	R.freqlock = TRUE
+	if(command_radio)
+		R.command = TRUE
 	H.faction += "Syndicate"
 	var/obj/item/card/id/W = H.wear_id
 	implants = list(/obj/item/implant/weapons_auth)
@@ -211,7 +216,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ops.ogg',100,0)
 	to_chat(owner, "<span class='notice'>You are a [title] in the Syndicate navy. Your ship is a highly advanced modular battlecruiser, choose a ship loadout wisely, and consult with your crew! <br> You are second only to the <b>admiral</b>, but you have autonomy over the ship unless otherwise ordered.</span>")
 	to_chat(owner, "<span class='warning'>Diminish Nanotrasen's presence in this sector by destroying NT fleets and claiming systems with your lighthouse beacon. Destruction of the [station_name()] via superstructure crit or nuclear detonation are also options. For Abassi!</span>")
-	addtimer(CALLBACK(src, .proc/nuketeam_name_assign), 1)
+	addtimer(CALLBACK(src, PROC_REF(nuketeam_name_assign)), 1)
 	owner.announce_objectives()
 
 //Syndicate crew roles, defined in order of priority.
@@ -225,7 +230,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 /datum/antagonist/nukeop/syndi_crew/strategist
 	name = "Syndicate Strategist"
 	nukeop_outfit = /datum/outfit/syndicate/no_crystals/syndi_crew/strategist
-	job_rank = ROLE_SYNDI_CREW
+	banning_key = ROLE_SYNDI_CREW
 
 /datum/outfit/syndicate/no_crystals/syndi_crew/strategist
 	name = "Syndicate Strategist"
@@ -263,7 +268,6 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	name = "Syndicate Requisitions Officer's Jacket"
 	desc = "A suit worn by the man who decides whether the ship has enough budget to buy another fighter because you exploded yours."
 	icon_state = "syndicate_requisitions"
-	item_color = "syndicate_requisitions"
 
 /datum/outfit/syndicate/no_crystals/syndi_crew/requisitions
 	name = "Syndicate requisitions officer"
@@ -379,10 +383,10 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 /datum/antagonist/nukeop/syndi_crew/clown
 	name = "Syndicate Clown"
 	nukeop_outfit = /datum/outfit/syndicate/clownop/no_crystals/jojo_reference
-	job_rank = ROLE_SYNDI_CREW
+	banning_key = ROLE_SYNDI_CREW
 
 /datum/antagonist/nukeop/syndi_crew/clown/give_alias()
-	owner.current.fully_replace_character_name(owner.current.real_name,owner.current.client.prefs.custom_names["clown"])
+	owner.current.fully_replace_character_name(owner.current.real_name, owner.current.client.prefs.active_character.custom_names["clown"])
 
 /datum/outfit/syndicate/clownop/no_crystals/jojo_reference
 	name = "Syndicate Clown (Jojo Reference)"
@@ -417,12 +421,10 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 /obj/item/clothing/suit/space/syndicate/odst/marine
 	icon_state = "syndiemarine"
 	item_state = "syndiemarine"
-	item_color = "syndiemarine"
 
 /obj/item/clothing/head/helmet/space/syndicate/odst/marine
 	icon_state = "syndiemarine"
 	item_state = "syndiemarine"
-	item_color = "syndiemarine"
 
 /datum/antagonist/nukeop/syndi_crew/marine
 	name = "Syndicate Marine"

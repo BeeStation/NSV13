@@ -76,7 +76,7 @@ Nothing else in the console has ID requirements.
 				linked_imprinter = D
 				D.linked_console = src
 
-/obj/machinery/computer/rdconsole/Initialize()
+/obj/machinery/computer/rdconsole/Initialize(mapload)
 	. = ..()
 	stored_research = SSresearch.science_tech
 	stored_research.consoles_accessing[src] = TRUE
@@ -160,6 +160,7 @@ Nothing else in the console has ID requirements.
 			var/i = stored_research.research_logs.len
 			stored_research.research_logs += null
 			stored_research.research_logs[++i] = list(TN.display_name, price["General Research"], logname, "[get_area(src)] ([src.x],[src.y],[src.z])")
+			SEND_GLOBAL_SIGNAL(COMSIG_GLOB_NEW_RESEARCH, id)
 			return TRUE
 		else
 			say("Failed to research node: Internal database error!")
@@ -313,7 +314,7 @@ Nothing else in the console has ID requirements.
 		node_cache[compressed_id] = list(
 			"name" = node.display_name,
 			"description" = node.description,
-			"tech_tier" = node.tech_tier,
+			"node_tier" = node.tech_tier,
 		)
 		if (LAZYLEN(node.prereq_ids))
 			node_cache[compressed_id]["prereq_ids"] = list()
@@ -527,7 +528,7 @@ Nothing else in the console has ID requirements.
 	req_access = null
 	req_access_txt = "29"
 
-/obj/machinery/computer/rdconsole/robotics/Initialize()
+/obj/machinery/computer/rdconsole/robotics/Initialize(mapload)
 	. = ..()
 	if(circuit)
 		circuit.name = "R&D Console - Robotics (Computer Board)"

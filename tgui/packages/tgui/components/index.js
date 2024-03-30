@@ -5,6 +5,8 @@
  */
 
 export { AnimatedNumber } from './AnimatedNumber';
+export { Autofocus } from './Autofocus';
+export { Blink } from './Blink';
 export { BlockQuote } from './BlockQuote';
 export { Box } from './Box';
 export { Button } from './Button';
@@ -22,6 +24,7 @@ export { Grid } from './Grid';
 export { Icon } from './Icon';
 export { InfinitePlane } from './InfinitePlane';
 export { Input } from './Input';
+export { KeyListener } from './KeyListener'; // NSV13 - KeyListener
 export { Knob } from './Knob';
 export { LabeledControls } from './LabeledControls';
 export { LabeledList } from './LabeledList';
@@ -31,9 +34,11 @@ export { Map } from './Map';
 export { NoticeBox } from './NoticeBox';
 export { NumberInput } from './NumberInput';
 export { OrbitalMapComponent } from './OrbitalMapComponent';
+export { OrbitalMapSvg } from './OrbitalMapSvg';
 export { ProgressBar } from './ProgressBar';
 export { ScrollableBox } from './ScrollableBox';
 export { Popper } from './Popper';
+export { RestrictedInput } from './RestrictedInput';
 export { Section } from './Section';
 export { Slider } from './Slider';
 export { Stack } from './Stack';

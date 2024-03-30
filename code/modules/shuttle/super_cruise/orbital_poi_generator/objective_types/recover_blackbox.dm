@@ -4,8 +4,8 @@
 	//The blackbox required to recover.
 	var/obj/item/blackbox/objective/linked_blackbox
 	//Relatively easy mission.
-	min_payout = 50000	//10k credits for sci/sec/eng, 5k for ser / civ
-	max_payout = 100000	//20k credits for sci/sec/eng, 10k for serv / civ
+	min_payout = 5000
+	max_payout = 20000
 
 /datum/orbital_objective/recover_blackbox/generate_objective_stuff(turf/chosen_turf)
 	generated = TRUE
@@ -52,7 +52,7 @@
 	if(!ismovableatom(parent))
 		return COMPONENT_INCOMPATIBLE
 	linked_obj = _linked_obj
-	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SELF, .proc/attack_self)
+	RegisterSignal(parent, COMSIG_ITEM_ATTACK_SELF, PROC_REF(attack_self))
 
 /datum/component/recoverable/proc/attack_self(mob/user)
 	var/atom/movable/pA = parent

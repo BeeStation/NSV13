@@ -5,15 +5,16 @@
  */
 
 import { BooleanLike, classes, pureComponentHooks } from 'common/react';
-import { createVNode, InfernoNode } from 'inferno';
+import { createVNode } from 'inferno';
 import { ChildFlags, VNodeFlags } from 'inferno-vnode-flags';
 import { CSS_COLORS } from '../constants';
+import type { Inferno } from 'inferno';
 
 export interface BoxProps {
   [key: string]: any;
   as?: string;
   className?: string | BooleanLike;
-  children?: InfernoNode;
+  children?: Inferno.InfernoNode;
   position?: string | BooleanLike;
   overflow?: string | BooleanLike;
   overflowX?: string | BooleanLike;
@@ -38,6 +39,7 @@ export interface BoxProps {
   bold?: BooleanLike;
   italic?: BooleanLike;
   nowrap?: BooleanLike;
+  preserveWhitespace?: BooleanLike; // NSV13 - Roleplaying Flavor Text
   m?: string | BooleanLike;
   mx?: string | BooleanLike;
   my?: string | BooleanLike;
@@ -163,6 +165,7 @@ const styleMapperByPropName = {
   bold: mapBooleanPropTo('font-weight', 'bold'),
   italic: mapBooleanPropTo('font-style', 'italic'),
   nowrap: mapBooleanPropTo('white-space', 'nowrap'),
+  preserveWhitespace: mapBooleanPropTo('white-space', 'pre-wrap'), // NSV13 - Roleplaying Flavor Text
   // Margins
   m: mapDirectionalUnitPropTo('margin', halfUnit, [
     'top', 'bottom', 'left', 'right',
@@ -208,7 +211,7 @@ const styleMapperByPropName = {
 };
 
 export const computeBoxProps = (props: BoxProps) => {
-  const computedProps: HTMLAttributes<any> = {};
+  const computedProps: Inferno.HTMLAttributes<any> = {};
   const computedStyles = {};
   // Compute props
   for (let propName of Object.keys(props)) {

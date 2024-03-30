@@ -12,7 +12,6 @@
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = ITEM_SLOT_BACK
 	throwforce = 5
-	block_upgrade_walk = 1
 	throw_speed = 4
 	armour_penetration = 10
 	materials = list(/datum/material/iron=1150, /datum/material/glass=2075)
@@ -20,13 +19,14 @@
 	attack_verb = list("smashed", "crushed", "cleaved", "chopped", "pulped")
 	sharpness = IS_SHARP
 	actions_types = list(/datum/action/item_action/toggle_light)
+	light_system = MOVABLE_LIGHT
+	light_range = 5
+	light_on = FALSE
 	var/list/trophies = list()
 	var/charged = TRUE
 	var/charge_time = 15
 	var/detonation_damage = 50
 	var/backstab_bonus = 30
-	var/light_on = FALSE
-	var/brightness_on = 5
 
 /obj/item/kinetic_crusher/ComponentInitialize()
 	. = ..()
@@ -97,7 +97,7 @@
 		D.fire()
 		charged = FALSE
 		update_icon()
-		addtimer(CALLBACK(src, .proc/Recharge), charge_time)
+		addtimer(CALLBACK(src, PROC_REF(Recharge)), charge_time)
 		return
 	if(proximity_flag && isliving(target))
 		var/mob/living/L = target
@@ -134,16 +134,9 @@
 		playsound(src.loc, 'sound/weapons/kenetic_reload.ogg', 60, 1)
 
 /obj/item/kinetic_crusher/ui_action_click(mob/user, actiontype)
-	light_on = !light_on
+	set_light_on(!light_on)
 	playsound(user, 'sound/weapons/empty.ogg', 100, TRUE)
-	update_brightness(user)
 	update_icon()
-
-/obj/item/kinetic_crusher/proc/update_brightness(mob/user = null)
-	if(light_on)
-		set_light(brightness_on)
-	else
-		set_light(0)
 
 /obj/item/kinetic_crusher/update_icon()
 	..()
@@ -350,7 +343,7 @@
 			continue
 		playsound(L, 'sound/magic/fireball.ogg', 20, 1)
 		new /obj/effect/temp_visual/fire(L.loc)
-		addtimer(CALLBACK(src, .proc/pushback, L, user), 1) //no free backstabs, we push AFTER module stuff is done
+		addtimer(CALLBACK(src, PROC_REF(pushback), L, user), 1) //no free backstabs, we push AFTER module stuff is done
 		L.adjustFireLoss(bonus_value, forced = TRUE)
 
 /obj/item/crusher_trophy/tail_spike/proc/pushback(mob/living/target, mob/living/user)
@@ -414,7 +407,7 @@
 
 /obj/item/crusher_trophy/blaster_tubes/on_mark_detonation(mob/living/target, mob/living/user)
 	deadly_shot = TRUE
-	addtimer(CALLBACK(src, .proc/reset_deadly_shot), 300, TIMER_UNIQUE|TIMER_OVERRIDE)
+	addtimer(CALLBACK(src, PROC_REF(reset_deadly_shot)), 300, TIMER_UNIQUE|TIMER_OVERRIDE)
 
 /obj/item/crusher_trophy/blaster_tubes/proc/reset_deadly_shot()
 	deadly_shot = FALSE
@@ -427,17 +420,11 @@
 	denied_type = /obj/item/crusher_trophy/vortex_talisman
 
 /obj/item/crusher_trophy/vortex_talisman/effect_desc()
-	return "mark detonation to create a barrier you can pass"
+	return "mark detonation to create a homing hierophant chaser" //Wall was way too cheesy and allowed miners to be nearly invincible while dumb mob AI just rubbed its face on the wall.
 
 /obj/item/crusher_trophy/vortex_talisman/on_mark_detonation(mob/living/target, mob/living/user)
-	var/turf/T = get_turf(user)
-	new /obj/effect/temp_visual/hierophant/wall/crusher(T, user) //a wall only you can pass!
-	var/turf/otherT = get_step(T, turn(user.dir, 90))
-	if(otherT)
-		new /obj/effect/temp_visual/hierophant/wall/crusher(otherT, user)
-	otherT = get_step(T, turn(user.dir, -90))
-	if(otherT)
-		new /obj/effect/temp_visual/hierophant/wall/crusher(otherT, user)
-
-/obj/effect/temp_visual/hierophant/wall/crusher
-	duration = 75
+	if(isliving(target)) //living
+		var/obj/effect/temp_visual/hierophant/chaser/C = new(get_turf(user), user, target, 3, TRUE)
+		C.damage = 10 // Weaker because there is no cooldown
+		C.monster_damage_boost = FALSE
+		log_combat(user, target, "fired a chaser at", src)

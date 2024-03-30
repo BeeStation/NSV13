@@ -79,7 +79,7 @@
 	transform = matrix()*0.75
 	animate(src, transform = matrix()*1.5, time = duration)
 	deltimer(timerid)
-	timerid = addtimer(CALLBACK(src, .proc/burst), duration, TIMER_STOPPABLE)
+	timerid = addtimer(CALLBACK(src, PROC_REF(burst)), duration, TIMER_STOPPABLE)
 
 /obj/effect/temp_visual/resonance/Destroy()
 	if(res)
@@ -119,7 +119,7 @@
 	layer = ABOVE_ALL_MOB_LAYER
 	duration = 4
 
-/obj/effect/temp_visual/resonance_crush/Initialize()
+/obj/effect/temp_visual/resonance_crush/Initialize(mapload)
 	. = ..()
 	transform = matrix()*1.5
 	animate(src, transform = matrix()*0.1, alpha = 50, time = 4)

@@ -5,7 +5,7 @@
 	icon_state = "install_package"
 	materials = list(/datum/material/iron = 10000)
 	w_class = WEIGHT_CLASS_BULKY
-	result_path = /obj/structure/chair/shuttlecraft_chair
+	result_path = /obj/structure/chair/shuttlecraft_chair/shifted
 	pixel_shift = -10
 
 /obj/structure/chair/shuttlecraft_chair
@@ -25,15 +25,14 @@
 	item_chair = null
 	layer = OBJ_LAYER
 
+/obj/structure/chair/shuttlecraft_chair/shifted
+
 /obj/structure/chair/shuttlecraft_chair/Initialize(mapload, ndir, building)
 	. = ..()
 	if(building)
 		setDir(ndir)
-
-/obj/structure/chair/shuttlecraft_chair/Initialize()
 	armrest = GetArmrest()
 	armrest.layer = ABOVE_MOB_LAYER
-	return ..()
 
 /obj/structure/chair/shuttlecraft_chair/proc/GetArmrest()
 	return mutable_appearance('nsv13/icons/obj/structures/shuttlecraft_seat.dmi', "belt")
@@ -58,7 +57,7 @@
 
 /obj/structure/chair/shuttlecraft_chair/examine(mob/user)
 	. = ..()
-	. += "<span class='notice'>Alt-click to fold the chair up or down.].</span>"
+	. += "<span class='notice'>Alt-click to fold the chair up or down.</span>"
 
 /obj/structure/chair/shuttlecraft_chair/attack_paw(mob/user)
 	return attack_hand(user)
@@ -84,7 +83,7 @@
 	else
 		icon_state = "seat_up"
 
-/obj/structure/chair/shuttlecraft_chair/Initialize()
+/obj/structure/chair/shuttlecraft_chair/shifted/Initialize(mapload)
     . = ..()
     var/datum/component/riding/D = LoadComponent(/datum/component/riding)
     D.set_riding_offsets(RIDING_OFFSET_ALL, list(TEXT_NORTH = list(0, -10), TEXT_SOUTH = list(0, 10), TEXT_EAST = list(-10, 0), TEXT_WEST = list(10, 0)))

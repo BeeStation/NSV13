@@ -1,4 +1,4 @@
-/datum/overmap_objective/cargo/donation/munitions 
+/datum/overmap_objective/cargo/donation/munitions
 	name = "Donate munitions"
 	desc = "Donate munitions"
 	var/list/possible_munitions = list(
@@ -9,8 +9,8 @@
 	)
 	crate_name = "Surplus Munitions crate"
 
-/datum/overmap_objective/cargo/donation/munitions/New() 
+/datum/overmap_objective/cargo/donation/munitions/New()
 	var/picked = pick( possible_munitions )
-	var/datum/freight_type/object/C = new /datum/freight_type/object( picked )
+	var/datum/freight_type/single/object/C = new( picked )
 	C.target = rand( 6, 12 )
-	freight_types += C
+	freight_type_group = new( list( C ) )

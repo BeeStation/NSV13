@@ -96,8 +96,12 @@
 	update_icon()
 	update_overlay()
 
-/obj/structure/peacekeeper_barricade/Initialize()
+/obj/structure/peacekeeper_barricade/Initialize(mapload)
 	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_EXIT = PROC_REF(on_exit),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 	update_icon()
 
 /obj/structure/peacekeeper_barricade/examine(mob/user)
@@ -121,41 +125,26 @@
 			C.Stun(20) //Leaping into barbed wire is VERY bad
 	..()
 
-/obj/structure/peacekeeper_barricade/CheckExit(atom/movable/O, turf/target)
+/obj/structure/peacekeeper_barricade/proc/on_exit(datum/source, atom/movable/leaving, direction)
+	SIGNAL_HANDLER
+
 	if(closed || !anchored)
-		return TRUE
-	if(istype(O, /obj/item/projectile))
-		var/obj/item/projectile/S = O
-		if(get_turf(S.firer) == get_turf(src)) //This is a pretty safe bet to say that they're allowed to shoot through us.
-			return TRUE
-		var/edir = get_dir(S.starting,target)
-		if(!(edir in GLOB.cardinals)) //Sometimes shit can come in from odd angles, so we need to strip out diagonals
-			switch(edir)
-				if(NORTHEAST)
-					edir = EAST
-				if(NORTHWEST)
-					edir = WEST
-				if(SOUTHEAST)
-					edir = EAST
-				if(SOUTHWEST)
-					edir = WEST
-		if(dir & edir) //In other words, theyre shooting the way that we're facing. So that means theyre behind us, and are allowed.
-			return TRUE
-		else
-			return FALSE
+		return 0
+	if(istype(leaving, /obj/item/projectile))
+		return 0 //who cares lol
 
-	if(O.throwing)
-		if(is_wired && iscarbon(O)) //Leaping mob against barbed wire fails
-			if(get_dir(loc, target) & dir)
-				return FALSE
-		return TRUE
+	if(leaving.throwing)
+		if(is_wired && iscarbon(leaving)) //Leaping mob against barbed wire fails
+			if(direction & dir)
+				return COMPONENT_ATOM_BLOCK_EXIT
+		return 0
 
-	if(get_dir(loc, target) & dir)
-		return FALSE
+	if(direction & dir)
+		return COMPONENT_ATOM_BLOCK_EXIT
 	else
-		return TRUE
+		return 0
 
-/obj/structure/peacekeeper_barricade/CanPass(atom/movable/mover, turf/target)
+/obj/structure/peacekeeper_barricade/CanAllowThrough(atom/movable/mover, turf/target)
 	. = ..()
 	if(closed)
 		return TRUE
@@ -232,17 +221,15 @@
 	//	climbable = FALSE
 		return FALSE
 
-	if(istype(I, /obj/item/wirecutters))
+	if(I.tool_behaviour == TOOL_WIRECUTTER)
 		if(!is_wired)
 			return
 
 		user.visible_message("<span class='notice'>[user] starts to remove the barbed wire on [src].</span>",
 		"<span class='notice'>You begin removing the barbed wire on [src].</span>")
-
-		if(!do_after(user, 20, target=src))
+		if(!I.use_tool(src, user, 20, volume=25))
 			return
 
-		playsound(loc, 'sound/items/wirecutter.ogg', 25, 1)
 		user.visible_message("<span class='notice'>[user] removes the barbed wire on [src].</span>",
 		"<span class='notice'>You remove the barbed wire on [src].</span>")
 		overlays -= wired_overlay
@@ -254,8 +241,7 @@
 		climbable = TRUE
 		new /obj/item/stack/barbed_wire(loc)
 
-	if(istype(I, /obj/item/weldingtool))
-		var/obj/item/weldingtool/WT = I
+	if(I.tool_behaviour == TOOL_WELDER)
 		if(obj_integrity <= max_integrity * 0.3)
 			to_chat(user, "<span class='warning'>[src] has sustained too much structural damage to be repaired.</span>")
 			return
@@ -264,30 +250,24 @@
 			to_chat(user, "<span class='warning'>[src] doesn't need repairs.</span>")
 			return
 
-		if(!WT.use())
+		if(!I.tool_start_check(user, 1))
 			return
 
 		user.visible_message("<span class='notice'>[user] begins repairing damage to [src].</span>",
 		"<span class='notice'>You begin repairing the damage to [src].</span>")
-		playsound(loc, 'sound/items/welder2.ogg', 25, 1)
 
-		var/old_loc = loc
-		if(!do_after(user, 50, target=src) || old_loc != loc)
+		if(!I.use_tool(src, user, 50, 1, volume=25))
 			return
 
 		user.visible_message("<span class='notice'>[user] repairs some damage on [src].</span>",
 		"<span class='notice'>You repair [src].</span>")
 		obj_integrity += 150
 		update_health()
-		playsound(loc, 'sound/items/welder2.ogg', 25, 1)
 
 	switch(build_state)
 		if(2) //Fully constructed step. Use screwdriver to remove the protection panels to reveal the bolts
-			if(istype(I, /obj/item/screwdriver))
-
-				playsound(loc, 'sound/items/screwdriver.ogg', 25, 1)
-
-				if(!do_after(user, 10, src))
+			if(I.tool_behaviour == TOOL_SCREWDRIVER)
+				if(!I.use_tool(src, user, 10, volume=25))
 					return
 
 				user.visible_message("<span class='notice'>[user] removes [src]'s protection panel.</span>",
@@ -295,10 +275,8 @@
 				build_state = 1
 				return FALSE
 		if(1) //Protection panel removed step. Screwdriver to put the panel back, wrench to unsecure the anchor bolts
-			if(istype(I, /obj/item/screwdriver))
-
-				playsound(loc, 'sound/items/screwdriver.ogg', 25, 1)
-				if(!do_after(user, 10, target=src))
+			if(I.tool_behaviour == TOOL_SCREWDRIVER)
+				if(!I.use_tool(src, user, 10, volume=25))
 					return
 
 				user.visible_message("<span class='notice'>[user] set [src]'s protection panel back.</span>",
@@ -306,10 +284,8 @@
 				build_state = 2
 				return FALSE
 
-			else if(istype(I, /obj/item/wrench))
-
-				playsound(loc, 'sound/items/ratchet.ogg', 25, 1)
-				if(!do_after(user, 10, src))
+			else if(I.tool_behaviour == TOOL_WRENCH)
+				if(!I.use_tool(src, user, 10, volume=25))
 					return
 
 				user.visible_message("<span class='notice'>[user] loosens [src]'s anchor bolts.</span>",
@@ -319,14 +295,13 @@
 				update_icon() //unanchored changes layer
 				return FALSE
 		if(0) //Anchor bolts loosened step. Apply crowbar to unseat the panel and take apart the whole thing. Apply wrench to resecure anchor bolts
-			if(istype(I, /obj/item/wrench))
+			if(I.tool_behaviour == TOOL_WRENCH)
 				for(var/obj/structure/peacekeeper_barricade/B in loc)
 					if(B != src && B.dir == dir)
 						to_chat(user, "<span class='warning'>There's already a barricade here.</span>")
 						return
 
-				playsound(loc, 'sound/items/ratchet.ogg', 25, 1)
-				if(!do_after(user, 10, src))
+				if(!I.use_tool(src, user, 10, volume=25))
 					return
 
 				user.visible_message("<span class='notice'>[user] secures [src]'s anchor bolts.</span>",
@@ -336,18 +311,16 @@
 				update_icon() //unanchored changes layer
 				return FALSE
 
-			else if(istype(I, /obj/item/crowbar))
+			else if(I.tool_behaviour == TOOL_CROWBAR)
 
 				user.visible_message("<span class='notice'>[user] starts unseating [src]'s panels.</span>",
 				"<span class='notice'>You start unseating [src]'s panels.</span>")
 
-				playsound(loc, 'sound/items/crowbar.ogg', 25, 1)
-				if(!do_after(user, 50, src))
+				if(!I.use_tool(src, user, 50, volume=25))
 					return
 
 				user.visible_message("<span class='notice'>[user] takes [src]'s panels apart.</span>",
 				"<span class='notice'>You take [src]'s panels apart.</span>")
-				playsound(loc, 'sound/items/deconstruct.ogg', 25, 1)
 				destroy_structure(TRUE) //Note : Handles deconstruction too !
 				return FALSE
 	. = ..()
@@ -449,6 +422,11 @@
 	set category = "Object"
 	set src in oview(1)
 
+	if(!isliving(usr))
+		return FALSE
+	var/mob/living/living_user = usr
+	if(!Adjacent(living_user) || living_user.incapacitated())
+		return FALSE
 	if(anchored)
 		to_chat(usr, "<span class='warning'>It is fastened to the floor, you can't rotate it!</span>")
 		return FALSE
@@ -461,6 +439,11 @@
 	set category = "Object"
 	set src in oview(1)
 
+	if(!isliving(usr))
+		return FALSE
+	var/mob/living/living_user = usr
+	if(!Adjacent(living_user) || living_user.incapacitated())
+		return FALSE
 	if(anchored)
 		to_chat(usr, "<span class='warning'>It is fastened to the floor, you can't rotate it!</span>")
 		return FALSE

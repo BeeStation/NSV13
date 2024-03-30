@@ -165,7 +165,7 @@
 	if (.)
 		to_chat(user, "<span class='notice'>The uplink vibrates quietly, connecting to nearby agents...</span>")
 
-		var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you want to play as the Contractor Support Unit for [user.real_name]?", ROLE_PAI, null, FALSE, 100, POLL_IGNORE_CONTRACTOR_SUPPORT)
+		var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you want to play as the Contractor Support Unit for [user.real_name]?", ROLE_CONTRACTOR_SUPPORT_UNIT, null, 10 SECONDS)
 
 		if(LAZYLEN(candidates))
 			var/mob/dead/observer/C = pick(candidates)
@@ -184,7 +184,7 @@
 	uniform = /obj/item/clothing/under/chameleon
 	suit = /obj/item/clothing/suit/chameleon
 	back = /obj/item/storage/backpack
-	belt = /obj/item/pda/chameleon
+	belt = /obj/item/modular_computer/tablet/pda/chameleon
 	mask = /obj/item/clothing/mask/cigarette/syndicate
 	shoes = /obj/item/clothing/shoes/chameleon/noslip
 	ears = /obj/item/radio/headset/chameleon

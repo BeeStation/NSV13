@@ -31,14 +31,14 @@
 		return FALSE
 
 	var/new_frame = round(overlay_frames * (count/max_ammo) + 1)
-	if (new_frame == last_frame) 
+	if (new_frame == last_frame)
 		return FALSE
 	last_frame = new_frame
 	cut_overlays()
 
 	if (count >= max_ammo)
 		return FALSE
-	
+
 	add_overlay(icon("[icon]","[overlay_name]",frame = new_frame))
 	return TRUE
 
@@ -55,11 +55,21 @@
 	caliber = "mm30.12"
 	max_ammo = 300
 
+/obj/item/ammo_box/magazine/internal/boltaction/pdc
+	max_ammo = 3
+	ammo_type = /obj/item/ammo_casing/pdc
+	caliber = "mm30.12"
+
 /obj/item/ammo_casing/pdc
 	name = "30.12x82mm bullet casing"
 	desc = "A 30.12x82mm bullet casing."
 	projectile_type = /obj/item/projectile/bullet/pdc_round
 	caliber = "mm30.12"
+
+/obj/item/ammo_casing/pdc/fire_casing(atom/target, mob/living/user, params, distro, quiet, zone_override, spread, spread_mult, atom/fired_from)
+	if(istype(fired_from, /obj/item/gun/ballistic/rifle/boltaction/pdc)) // Overrides the damage for pdcrifle because overmap pdc only deals 15 dmg
+		BB.damage = 50
+	. = ..()
 
 /obj/item/ammo_box/magazine/nsv/flak
 	name = "40mm flak rounds"

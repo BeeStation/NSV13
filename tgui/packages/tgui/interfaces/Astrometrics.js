@@ -14,6 +14,8 @@ export const Astrometrics = (props, context) => {
   const screen = data.screen;
   let scan_target = data.scan_target;
 
+  const handleSystemAction = (system) => act('select_system', { star_id: system.star_id });
+
   return (
     <Window
       resizable
@@ -53,7 +55,7 @@ export const Astrometrics = (props, context) => {
               </Section>
             </Fragment>
           )}
-          {screen === 1 && drawStarmap(props, context)}
+          {screen === 1 && drawStarmap(props, context, handleSystemAction)}
           {screen === 2 && (
             <Fragment>
               <Button
@@ -109,7 +111,7 @@ export const Astrometrics = (props, context) => {
                   if (value.scannable) {
                     if (scan_target !== value.name) {
                       return (
-                        <Section title={value.name}>
+                        <Section title={value.name} key={key}>
                           Available research: {value.points}
                           <Button key={key}
                             content="Scan"
@@ -121,7 +123,7 @@ export const Astrometrics = (props, context) => {
                     }
                     else {
                       return (
-                        <Section title={value.name}>
+                        <Section title={value.name} key={key}>
                           Available research: {value.points}
                           <Button key={key}
                             content="Stop scan"
@@ -134,7 +136,7 @@ export const Astrometrics = (props, context) => {
                   }
                   else {
                     return (
-                      <Section title={value.name}>
+                      <Section title={value.name} key={key}>
                         <Button key={key}
                           content="Info"
                           icon="search"

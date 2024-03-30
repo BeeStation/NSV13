@@ -68,6 +68,7 @@
 	icon_aggro = "watcher"
 	icon_dead = "watcher_dead"
 	pixel_x = -10
+	base_pixel_x = -10
 	throw_message = "bounces harmlessly off of"
 	melee_damage = 15
 	attacktext = "impales"
@@ -81,7 +82,7 @@
 	loot = list()
 	butcher_results = list(/obj/item/stack/ore/diamond = 2, /obj/item/stack/sheet/sinew = 2, /obj/item/stack/sheet/bone = 1)
 
-/mob/living/simple_animal/hostile/asteroid/basilisk/watcher/random/Initialize()
+/mob/living/simple_animal/hostile/asteroid/basilisk/watcher/random/Initialize(mapload)
 	. = ..()
 	if(prob(1))
 		if(prob(75))
@@ -99,6 +100,7 @@
 	icon_dead = "watcher_magmawing_dead"
 	maxHealth = 215 //Compensate for the lack of slowdown on projectiles with a bit of extra health
 	health = 215
+	light_system = MOVABLE_LIGHT
 	light_range = 3
 	light_power = 2.5
 	light_color = LIGHT_COLOR_LAVA

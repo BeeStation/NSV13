@@ -27,7 +27,7 @@
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON | INTERACT_MACHINE_REQUIRES_SILICON | INTERACT_MACHINE_OPEN
 	air_tight = TRUE
 	open_speed = 2
-	req_access = list(ACCESS_ENGINE)
+	req_one_access = list(ACCESS_ENGINE, ACCESS_ATMOSPHERICS)
 	processing_flags = START_PROCESSING_MANUALLY
 	var/emergency_close_timer = 0
 	var/nextstate = null
@@ -36,9 +36,10 @@
 	var/list/access_log
 	var/process_ticker //Ratelimit process to one check ~5 process ticks
 
-/obj/machinery/door/firedoor/Initialize()
+/obj/machinery/door/firedoor/Initialize(mapload)
 	. = ..()
 	CalculateAffectingAreas()
+	UpdateAdjacencyFlags()
 
 /obj/machinery/door/firedoor/examine(mob/user)
 	. = ..()
@@ -57,6 +58,24 @@
 	for(var/I in affecting_areas)
 		var/area/A = I
 		LAZYADD(A.firedoors, src)
+
+/obj/machinery/door/firedoor/proc/UpdateAdjacencyFlags()
+	var/turf/T = get_turf(src)
+	if(flags_1 & ON_BORDER_1)
+		for(var/t in T.atmos_adjacent_turfs)
+			if(get_dir(loc, t) == dir)
+				var/turf/open/T2 = t
+				if(T2 in T.atmos_adjacent_turfs)
+					T.atmos_adjacent_turfs[T2] |= ATMOS_ADJACENT_FIRELOCK
+				if(T in T2.atmos_adjacent_turfs)
+					T2.atmos_adjacent_turfs[T] |= ATMOS_ADJACENT_FIRELOCK
+	else
+		for(var/t in T.atmos_adjacent_turfs)
+			var/turf/open/T2 = t
+			if(T2 in T.atmos_adjacent_turfs)
+				T.atmos_adjacent_turfs[T2] |= ATMOS_ADJACENT_FIRELOCK
+			if(T in T2.atmos_adjacent_turfs)
+				T2.atmos_adjacent_turfs[T] |= ATMOS_ADJACENT_FIRELOCK
 
 /obj/machinery/door/firedoor/closed
 	icon_state = "door_closed"
@@ -81,7 +100,7 @@
 	if(panel_open || operating)
 		return
 	//NSV13 - allow bump to open if powered
-	if(welded || (stat & NOPOWER))
+	if(welded || (machine_stat & NOPOWER))
 		return
 	if(ismob(AM))
 		var/mob/user = AM
@@ -102,10 +121,10 @@
 
 /obj/machinery/door/firedoor/power_change()
 	if(powered(power_channel))
-		stat &= ~NOPOWER
-		INVOKE_ASYNC(src, .proc/latetoggle)
+		set_machine_stat(machine_stat & ~NOPOWER)
+		INVOKE_ASYNC(src, PROC_REF(latetoggle))
 	else
-		stat |= NOPOWER
+		set_machine_stat(machine_stat | NOPOWER)
 
 /obj/machinery/door/firedoor/attack_hand(mob/user)
 	. = ..()
@@ -114,7 +133,7 @@
 
 	//NSV13 - allow manual operation of unpowered firelocks
 	if (!welded && !operating)
-		if (stat & NOPOWER)
+		if (machine_stat & NOPOWER)
 			user.visible_message("[user] tries to open \the [src] manually.",
 						 "You operate the manual lever on \the [src].")
 			if (!do_after(user, 30, TRUE, src))
@@ -144,7 +163,7 @@
 	if(operating)
 		return
 
-	if(istype(C, /obj/item/pda))
+	if(istype(C, /obj/item/modular_computer/tablet/pda))
 		var/attack_verb = pick("smushes","rubs","smashes","presses","taps")
 		visible_message("<span class='warning'>[user] [attack_verb] \the [C] against [src]\s card reader.</span>", "<span class='warning'>You [attack_verb] \the [C] against [src]\s card reader. It doesn't do anything.</span>", "You hear plastic click against metal.")
 		return
@@ -181,7 +200,7 @@
 	return ..()
 
 /obj/machinery/door/firedoor/try_to_activate_door(obj/item/I, mob/user)
-	if(!density)
+	if(!density || welded)
 		return
 
 	if(isidcard(I))
@@ -232,7 +251,7 @@
 		return
 
 	if(density)
-		if(!(stat & NOPOWER))
+		if(!(machine_stat & NOPOWER))
 			LAZYADD(access_log, "MOTOR_ERR:|MOTOR CONTROLLER REPORTED BACKDRIVE|T_OFFSET:[DisplayTimeText(world.time - SSticker.round_start_time)]")
 			if(length(access_log) > 20) //Unless this is getting spammed this shouldn't happen.
 				access_log.Remove(access_log[1])
@@ -268,7 +287,7 @@
 
 /obj/machinery/door/firedoor/attack_ai(mob/user)
 	add_fingerprint(user)
-	if(welded || operating || stat & NOPOWER)
+	if(welded || operating || machine_stat & NOPOWER)
 		return TRUE
 	if(density)
 		open()
@@ -404,7 +423,7 @@
 
 
 /obj/machinery/door/firedoor/proc/latetoggle()
-	if(operating || stat & NOPOWER || !nextstate)
+	if(operating || machine_stat & NOPOWER || !nextstate)
 		return
 	switch(nextstate)
 		if(FIREDOOR_OPEN)
@@ -419,6 +438,21 @@
 	flags_1 = ON_BORDER_1
 	CanAtmosPass = ATMOS_PASS_PROC
 	assemblytype = /obj/structure/firelock_frame/border
+	opacity = FALSE
+	var/ini_dir
+
+/obj/machinery/door/firedoor/border_only/Initialize(mapload, loc, set_dir)
+	. = ..()
+	if(set_dir)
+		setDir(set_dir)
+	ini_dir = dir
+	air_update_turf(1)
+
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_EXIT = PROC_REF(on_exit),
+	)
+
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/machinery/door/firedoor/border_only/Destroy()
 	density = FALSE
@@ -427,12 +461,13 @@
 
 /obj/machinery/door/firedoor/border_only/closed
 	icon_state = "door_closed"
-	opacity = TRUE
+	opacity = 1
 	density = TRUE
 
 /obj/machinery/door/firedoor/border_only/close()
 	if(density)
 		return TRUE
+	set_opacity(1)
 	if(operating || welded)
 		return
 	var/turf/T1 = get_turf(src)
@@ -481,27 +516,36 @@
 		return 0 // not big enough to matter
 	return start_point.air.return_pressure() < 20 ? -1 : 1
 
-/obj/machinery/door/firedoor/border_only/CanPass(atom/movable/mover, turf/target)
-	if(istype(mover) && (mover.pass_flags & PASSGLASS))
-		return TRUE
-	if(get_dir(loc, target) == dir) //Make sure looking at appropriate border
-		return !density
-	else
+/obj/machinery/door/firedoor/border_only/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
+	if(!(get_dir(loc, target) == dir)) //Make sure looking at appropriate border
 		return TRUE
 
-/obj/machinery/door/firedoor/border_only/CheckExit(atom/movable/mover as mob|obj, turf/target)
-	if(istype(mover) && (mover.pass_flags & PASSGLASS))
+/obj/machinery/door/firedoor/border_only/proc/on_exit(datum/source, atom/movable/leaving, direction)
+	SIGNAL_HANDLER
+
+	if(direction == dir && density)
+		leaving.Bump(src)
+		return COMPONENT_ATOM_BLOCK_EXIT
+
+//NSV13 - knpcs can into firelock
+/obj/machinery/door/firedoor/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
+	if(istype(caller) && (caller.pass_flags & pass_flags_self))
 		return TRUE
-	if(get_dir(loc, target) == dir)
-		return !density
-	else
+	if(!density)
 		return TRUE
+	if(welded)
+		return FALSE
+	if(!hasPower())
+		return isknpc(caller)
+	return TRUE
 
 /obj/machinery/door/firedoor/border_only/CanAtmosPass(turf/T)
 	if(get_dir(loc, T) == dir)
 		return !density
 	else
-		return TRUE
+		return 1
+//NSV13 end
 
 /obj/machinery/door/firedoor/heavy
 	name = "heavy firelock"
@@ -774,7 +818,7 @@
 
 /obj/structure/firelock_frame/border/ComponentInitialize()
 	. = ..()
-	AddComponent(/datum/component/simple_rotation, ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS, null, CALLBACK(src, .proc/can_be_rotated))
+	AddComponent(/datum/component/simple_rotation, ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS, null, CALLBACK(src, PROC_REF(can_be_rotated)))
 
 /obj/structure/firelock_frame/border/proc/can_be_rotated(mob/user, rotation_type)
 	if (anchored)

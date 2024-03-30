@@ -166,9 +166,10 @@
 			A.setDir(turn(A.dir, 90))
 			var/turf/T = get_step(A, A.dir)
 			var/turf/S = D.loc
-			if ((S && isturf(S) && S.Exit(D)) && (T && isturf(T) && T.Enter(A)))
+			var/direction = get_dir(D, A)
+			if ((S && isturf(S) && S.Exit(D, direction)) && (T && isturf(T) && T.Enter(A)))
 				D.forceMove(T)
-				D.setDir(get_dir(D, A))
+				D.setDir(direction)
 		else
 			return 0
 
@@ -194,7 +195,7 @@
 		if (T && isturf(T))
 			if (!D.stat)
 				D.emote("scream")
-			D.throw_at(T, 10, 4, A, TRUE, TRUE, callback = CALLBACK(D, /mob/living/carbon/human.proc/Paralyze, 20))
+			D.throw_at(T, 10, 4, A, TRUE, TRUE, callback = CALLBACK(D, TYPE_PROC_REF(/mob/living/carbon/human, Paralyze), 20))
 	log_combat(A, D, "has thrown with wrestling")
 	return 0
 
@@ -240,35 +241,35 @@
 
 			if (get_dist(A, D) > 1)
 				to_chat(A, "[D] is too far away!")
-				A.pixel_x = 0
-				A.pixel_y = 0
-				D.pixel_x = 0
-				D.pixel_y = 0
+				A.pixel_x = A.base_pixel_x
+				A.pixel_y = A.base_pixel_y
+				D.pixel_x = D.base_pixel_x
+				D.pixel_y = D.base_pixel_y
 				return 0
 
 			if (!isturf(A.loc) || !isturf(D.loc))
 				to_chat(A, "You can't slam [D] here!")
-				A.pixel_x = 0
-				A.pixel_y = 0
-				D.pixel_x = 0
-				D.pixel_y = 0
+				A.pixel_x = A.base_pixel_x
+				A.pixel_y = A.base_pixel_y
+				D.pixel_x = D.base_pixel_x
+				D.pixel_y = D.base_pixel_y
 				return 0
 		else
 			if (A)
-				A.pixel_x = 0
-				A.pixel_y = 0
+				A.pixel_x = A.base_pixel_x
+				A.pixel_y = A.base_pixel_y
 			if (D)
-				D.pixel_x = 0
-				D.pixel_y = 0
+				D.pixel_x = D.base_pixel_x
+				D.pixel_y = D.base_pixel_y
 			return 0
 
 		sleep(1)
 
 	if (A && D)
-		A.pixel_x = 0
-		A.pixel_y = 0
-		D.pixel_x = 0
-		D.pixel_y = 0
+		A.pixel_x = A.base_pixel_x
+		A.pixel_y = A.base_pixel_y
+		D.pixel_x = D.base_pixel_x
+		D.pixel_y = D.base_pixel_y
 
 		if (get_dist(A, D) > 1)
 			to_chat(A, "[D] is too far away!")
@@ -329,7 +330,7 @@
 			A.setDir(turn(A.dir, 90))
 
 		A.forceMove(D.loc)
-		addtimer(CALLBACK(src, .proc/CheckStrikeTurf, A, T), 4)
+		addtimer(CALLBACK(src, PROC_REF(CheckStrikeTurf), A, T), 4)
 
 		D.visible_message("<span class='danger'><B>[A] headbutts [D]!</B></span>", \
 						"<span class='userdanger'>[A] headbutts you!</span>", null, COMBAT_MESSAGE_RANGE)
@@ -378,7 +379,7 @@
 		A.forceMove(ST)
 		A.visible_message("<span class='danger'><B>[A] climbs onto [surface]!</B></span>", \
 						"<span class='danger'><B>You climb onto [surface]!</B></span>")
-		A.pixel_y = 10
+		A.pixel_y = A.base_pixel_y + 10
 		falling = 1
 		sleep(10)
 
@@ -386,7 +387,7 @@
 		// These are necessary because of the sleep call.
 
 		if ((falling == 0 && get_dist(A, D) > 1) || (falling == 1 && get_dist(A, D) > 2)) // We climbed onto stuff.
-			A.pixel_y = 0
+			A.pixel_y = A.base_pixel_y
 			if (falling == 1)
 				A.visible_message("<span class='danger'><B>...and dives head-first into the ground, ouch!</B></span>", \
 								"<span class='userdanger'>...and dive head-first into the ground, ouch!</span>")
@@ -396,7 +397,7 @@
 			return 0
 
 		if (!isturf(A.loc) || !isturf(D.loc))
-			A.pixel_y = 0
+			A.pixel_y = A.base_pixel_y
 			to_chat(A, "You can't drop onto [D] from here!")
 			return 0
 
@@ -423,11 +424,11 @@
 
 		D.Paralyze(40)
 
-		A.pixel_y = 0
+		A.pixel_y = A.base_pixel_y
 
 	else
 		if (A)
-			A.pixel_y = 0
+			A.pixel_y = A.base_pixel_y
 	log_combat(A, D, "leg-dropped")
 	return
 
@@ -462,9 +463,9 @@
 	return
 
 /obj/item/storage/belt/champion/wrestling/dropped(mob/user)
+	..()
 	if(!ishuman(user))
 		return
 	var/mob/living/carbon/human/H = user
 	if(H.get_item_by_slot(ITEM_SLOT_BELT) == src)
 		style.remove(H)
-	return

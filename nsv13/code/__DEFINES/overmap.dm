@@ -10,29 +10,37 @@
 #define FIRE_MODE_RAILGUN 6
 #define FIRE_MODE_GAUSS 7
 #define FIRE_MODE_PDC 8
+#define FIRE_MODE_BROADSIDE 9
+#define FIRE_MODE_PHORON 10
 
+//Base Armor Values
 
+#define OM_ARMOR list("melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
 
 //Deprecated / legacy weapons.
 
 
-#define FIRE_MODE_FLAK 9
-#define FIRE_MODE_MISSILE 10
-#define FIRE_MODE_FIGHTER_SLOT_ONE 11
-#define FIRE_MODE_FIGHTER_SLOT_TWO 12
+#define FIRE_MODE_FLAK 11
+#define FIRE_MODE_MISSILE 12
+#define FIRE_MODE_FIGHTER_SLOT_ONE 13
+#define FIRE_MODE_FIGHTER_SLOT_TWO 14
 
 //Special cases
 
-#define FIRE_MODE_RED_LASER 13
-#define FIRE_MODE_BLUE_LASER 14
-#define FIRE_MODE_HYBRID_RAIL 15
+#define FIRE_MODE_RED_LASER 15
+#define FIRE_MODE_LASER_PD 16
+#define FIRE_MODE_BLUE_LASER 17
+#define FIRE_MODE_HYBRID_RAIL 18
 
-#define MAX_POSSIBLE_FIREMODE 15 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
-
+#define MAX_POSSIBLE_FIREMODE 18 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
 
 //Weapon classes for AIs
 #define WEAPON_CLASS_LIGHT 1
 #define WEAPON_CLASS_HEAVY 2
+
+// AMS targeting modes for STS
+#define AMS_LOCKED_TARGETS "Locked Targets"
+#define AMS_PAINTED_TARGETS "Painted Targets"
 
 //Northeast, Northwest, Southeast, Southwest
 #define ARMOUR_FORWARD_PORT "forward_port"
@@ -48,6 +56,8 @@
 #define AI_GUARD 4
 
 #define isovermap(A) (istype(A, /obj/structure/overmap))
+#define isasteroid(A) (istype(A, /obj/structure/overmap/asteroid))
+#define isanomaly(A) (istype(A, /obj/effect/overmap_anomaly))
 
 //Assigning player ships goes here
 
@@ -71,9 +81,11 @@
 #define CLOAK_TEMPORARY_LOSS 2 //Cloak handling. When you fire a weapon, you temporarily lose your cloak, and AIs can target you.
 
 GLOBAL_LIST_INIT(overmap_objects, list())
+GLOBAL_LIST_INIT(overmap_anomalies, list())
 GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace2/impacts/boom_1.wav','nsv13/sound/effects/ship/freespace2/impacts/boom_2.wav','nsv13/sound/effects/ship/freespace2/impacts/boom_3.wav','nsv13/sound/effects/ship/freespace2/impacts/boom_4.wav','nsv13/sound/effects/ship/freespace2/impacts/m_hit.wav','nsv13/sound/effects/ship/freespace2/impacts/subhit.wav','nsv13/sound/effects/ship/freespace2/impacts/subhit2.wav','nsv13/sound/effects/ship/damage/consolehit.ogg','nsv13/sound/effects/ship/damage/consolehit2.ogg','nsv13/sound/effects/ship/damage/consolehit3.ogg','nsv13/sound/effects/ship/damage/consolehit4.ogg','nsv13/sound/effects/ship/damage/shiphit.ogg','nsv13/sound/effects/ship/damage/shiphit2.ogg','nsv13/sound/effects/ship/damage/shiphit3.ogg','nsv13/sound/effects/ship/damage/shiphit4.ogg','nsv13/sound/effects/ship/damage/torpedo_hit.ogg','nsv13/sound/effects/ship/damage/explosionfar_2.ogg','nsv13/sound/effects/ship/damage/explosionfar_3.ogg','nsv13/sound/effects/ship/damage/explosionfar_4.ogg','nsv13/sound/effects/ship/damage/explosionfar_5.ogg','nsv13/sound/effects/ship/damage/explosionfar_6.ogg'))
 
 //Unique identifiers for each faction. Keep this updated when you make a new faction.
+#define FACTION_ID_UNALIGNED 0
 #define FACTION_ID_NT 1
 #define FACTION_ID_SYNDICATE 2
 #define FACTION_ID_SOLGOV 3
@@ -89,3 +101,21 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 #define INTERIOR_READY 2
 #define INTERIOR_DELETING 3
 #define INTERIOR_DELETED 4
+
+//Overmap flags
+#define OVERMAP_FLAG_ZLEVEL_CARRIER (1<<0) //! This overmap is meant to carry a z with it, prompting restoration in certain cases.
+
+//Ship mass
+#define MASS_TINY 1 //1 Player - Fighters
+#define MASS_SMALL 2 //2-5 Players - FoB/Mining Ship
+#define MASS_MEDIUM 3 //10-20 Players - Small Capital Ships
+#define MASS_MEDIUM_LARGE 5 //10-20 Players - Small Capital Ships
+#define MASS_LARGE 7 //20-40 Players - Medium Capital Ships
+#define MASS_TITAN 150 //40+ Players - Large Capital Ships
+#define MASS_IMMOBILE 200 //Things that should not be moving. See: stations
+
+//Fun tools
+#define SHIELD_NOEFFECT 0 //!Shield failed to absorb hit.
+#define SHIELD_ABSORB 1 //!Shield absorbed hit.
+#define SHIELD_FORCE_DEFLECT 2 //!Shield absorbed hit and is redirecting projectile with slightly turned vector.
+#define SHIELD_FORCE_REFLECT 3 //!Shield absorbed hit and is redirecting projectile in reverse direction.

@@ -135,7 +135,7 @@
 	return 0
 
 /obj/effect/sliding_puzzle/proc/elements_in_order()
-	return sortTim(elements,cmp=/proc/cmp_xy_desc)
+	return sortTim(elements,cmp=GLOBAL_PROC_REF(cmp_xy_desc))
 
 /obj/effect/sliding_puzzle/proc/get_base_icon()
 	var/icon/I = new('icons/obj/puzzle.dmi')
@@ -201,6 +201,7 @@
 	icon_state = "puzzle_pillar"
 	anchored = FALSE
 	density = TRUE
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	var/id = 0
 	var/obj/effect/sliding_puzzle/source
 	var/icon/puzzle_icon

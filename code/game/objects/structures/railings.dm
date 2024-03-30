@@ -14,13 +14,12 @@
 	density = FALSE
 	climbable = FALSE
 
-/obj/structure/railing/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/simple_rotation,ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS ,null,CALLBACK(src, .proc/can_be_rotated),CALLBACK(src,.proc/after_rotation))
-
-/obj/structure/railing/Initialize()
+/obj/structure/railing/Initialize(mapload)
 	. = ..()
 	ini_dir = dir
+
+	AddComponent(/datum/component/simple_rotation, ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS ,null,CALLBACK(src, PROC_REF(can_be_rotated)),CALLBACK(src, PROC_REF(after_rotation)))
+	init_connect_loc_element()
 
 /obj/structure/railing/attackby(obj/item/I, mob/living/user, params)
 	add_fingerprint(user)
@@ -60,7 +59,7 @@
 	if(flags_1&NODECONSTRUCT_1)
 		return
 	to_chat(user, "<span class='notice'>You begin to [anchored ? "unfasten the railing from":"fasten the railing to"] the floor...</span>")
-	if(I.use_tool(src, user, volume = 75, extra_checks = CALLBACK(src, .proc/check_anchored, anchored)))
+	if(I.use_tool(src, user, 1 SECONDS, volume = 75, extra_checks = CALLBACK(src, PROC_REF(check_anchored), anchored)))
 		setAnchored(!anchored)
 		to_chat(user, "<span class='notice'>You [anchored ? "fasten the railing to":"unfasten the railing from"] the floor.</span>")
 	return TRUE
@@ -76,15 +75,37 @@
 	..()
 	return TRUE
 
-/obj/structure/railing/CheckExit(atom/movable/mover, turf/target)
-	..()
-	if(get_dir(loc, target) & dir)
-		var/checking = UNSTOPPABLE | FLYING | FLOATING
-		return !density || mover.movement_type & checking || mover.move_force >= MOVE_FORCE_EXTREMELY_STRONG
-	return TRUE
+/obj/structure/railing/proc/init_connect_loc_element()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_EXIT = PROC_REF(on_exit),
+	)
 
-/obj/structure/railing/corner/CheckExit()
-	return 1
+	AddElement(/datum/element/connect_loc, loc_connections)
+
+/obj/structure/railing/proc/on_exit(datum/source, atom/movable/leaving, direction)
+	SIGNAL_HANDLER
+
+	if(!(direction & dir))
+		return
+
+	if (!density)
+		return
+
+	if (leaving.throwing)
+		return
+
+	if (leaving.movement_type & (FLYING | FLOATING))
+		return
+
+	if (leaving.move_force >= MOVE_FORCE_EXTREMELY_STRONG)
+		return
+
+	leaving.Bump(src)
+	return COMPONENT_ATOM_BLOCK_EXIT
+
+// Corner railings don't block anything, so they don't create the element.
+/obj/structure/railing/corner/init_connect_loc_element()
+	return
 
 /obj/structure/railing/proc/can_be_rotated(mob/user,rotation_type)
 	if(anchored)
@@ -106,3 +127,15 @@
 	air_update_turf(1)
 	ini_dir = dir
 	add_fingerprint(user)
+
+//NSV13 - railings don't completely block the turf for A* purposes
+/obj/structure/railing/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
+	. = ..()
+	if(.)
+		return
+	if(!(dir in dir_to_cardinal_dirs(to_dir)))
+		return TRUE
+	if(isknpc(caller))	//They can climb
+		return TRUE
+	return FALSE
+//NSV13 end

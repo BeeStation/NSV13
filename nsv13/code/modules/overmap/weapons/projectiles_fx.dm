@@ -1,3 +1,8 @@
+
+///Special proc for hitting overmap ships only used by NSV projectiles.
+/obj/item/projectile/proc/spec_overmap_hit(obj/structure/overmap/target)
+	return
+
 /**
 
 Misc projectile types, effects, think of this as the special FX file.
@@ -24,7 +29,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 60
 	range = 255
 	speed = 1.85
-	movement_type = FLYING | UNSTOPPABLE
+	movement_type = FLYING
+	projectile_piercing = ALL
 
 /obj/item/projectile/bullet/mac_round
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
@@ -35,29 +41,30 @@ Misc projectile types, effects, think of this as the special FX file.
 	//Not easily stopped.
 	obj_integrity = 300
 	max_integrity = 300
+	can_home = TRUE
 	homing_turn_speed = 2.5
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	relay_projectile_type =  /obj/item/projectile/bullet/mac_relayed_round
 	var/homing_benefit_time = 0 SECONDS //NAC shells have a very slight homing effect.
-	var/base_movement_type	//Our base move type for when we gain unstoppability from hitting tiny ships.
+	var/base_piercing_type	//Our base move type for when we gain unstoppability from hitting tiny ships.
 
-/obj/item/projectile/bullet/mac_round/prehit(atom/target)
+/obj/item/projectile/bullet/mac_round/prehit_pierce(atom/target)
 	if(isovermap(target))
 		var/obj/structure/overmap/OM = target
 		if(OM.mass <= MASS_TINY)
-			movement_type |= UNSTOPPABLE //Small things don't stop us.
+			projectile_piercing = ALL
 		else
-			movement_type = base_movement_type
+			projectile_piercing = base_piercing_type
 	. = ..()
 
-/obj/item/projectile/bullet/mac_round/Initialize()
+/obj/item/projectile/bullet/mac_round/Initialize(mapload)
 	. = ..()
-	base_movement_type = movement_type
+	base_piercing_type = projectile_piercing
 	if(homing_benefit_time)
-		addtimer(CALLBACK(src, .proc/stop_homing), homing_benefit_time)
+		addtimer(CALLBACK(src, PROC_REF(stop_homing)), homing_benefit_time)
 	else
-		addtimer(CALLBACK(src, .proc/stop_homing), 0.2 SECONDS)	//Because all deck guns apparently have slight homing.
+		addtimer(CALLBACK(src, PROC_REF(stop_homing)), 0.2 SECONDS)	//Because all deck guns apparently have slight homing.
 
 /obj/item/projectile/bullet/proc/stop_homing()
 	homing = FALSE
@@ -66,7 +73,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 250
 	armour_penetration = 70
 	icon_state = "railgun_ap"
-	movement_type = FLYING | UNSTOPPABLE //Railguns punch straight through your ship
+	movement_type = FLYING
+	projectile_piercing = ALL //Railguns punch straight through your ship
 
 /obj/item/projectile/bullet/mac_round/magneton
 	speed = 1.5
@@ -106,7 +114,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "uh oh this isn't supposed to exist!"
 	range = 255
 	speed = 1.85
-	movement_type = FLYING | UNSTOPPABLE
+	movement_type = FLYING
+	projectile_piercing = ALL
 	damage = 45		//It's on a z now, lets not instakill people / objects this happens to hit.
 	var/penetration_fuze = 1	//Will pen through this many things considered valid for reducing this before arming. Can overpenetrate if it happens to pen through windows or other things with not enough resistance.
 
@@ -244,6 +253,36 @@ Misc projectile types, effects, think of this as the special FX file.
 	for(var/i = 1; i <= 13; i++)
 		new /mob/living/simple_animal/hostile/viscerator(detonation_turf)	//MANHACKS!1!!
 
+/obj/item/projectile/bullet/delayed_prime/relayed_plushtorp
+	damage = 0
+	icon_state = "torpedo"
+	name = "emotional support torpedo"
+	speed = 3
+	penetration_fuze = 2
+	hitsound = 'sound/items/toysqueak1.ogg'
+	hitsound_wall = 'sound/items/toysqueak3.ogg'
+
+/obj/item/projectile/bullet/delayed_prime/relayed_plushtorp/fuze_trigger_value(atom/target)
+	if(isclosedturf(target))
+		return 1
+	return 0
+
+/obj/item/projectile/bullet/delayed_prime/relayed_plushtorp/is_valid_to_release(atom/newloc)
+	if(penetration_fuze > 0 || !isopenturf(newloc))
+		return FALSE
+	return TRUE
+
+/obj/item/projectile/bullet/delayed_prime/relayed_plushtorp/release_payload(atom/detonation_location)
+	var/turf/detonation_turf = detonation_location
+	new /obj/effect/dummy/lighting_obj(detonation_turf, LIGHT_COLOR_WHITE, 9, 4, 2)
+	for(var/mob/living/L in viewers(7, detonation_turf))
+		L.flash_act(affect_silicon = TRUE)
+	var/list/throwat_turfs = RANGE_TURFS(6, detonation_turf) - RANGE_TURFS(5, detonation_turf)
+	var/list/plushtypes = subtypesof(/obj/item/toy/plush)
+	for(var/i = 1; i<= 8, i++)
+		var/plushpath = pick(plushtypes)
+		var/obj/item/toy/plush/plushie = new plushpath(detonation_turf)
+		plushie.throw_at(pick(throwat_turfs), 7, 2, spin = TRUE)
 
 /obj/item/projectile/bullet/railgun_slug
 	icon_state = "mac"
@@ -297,10 +336,20 @@ Misc projectile types, effects, think of this as the special FX file.
 	spread = 90
 	flag = "overmap_medium"
 
+/obj/item/projectile/bullet/prototype_bsa
+	icon_state = "proto_bsa"
+	name = "Prototype BSA Round"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	speed = 0.7
+	damage = 325
+	spread = 1
+	armour_penetration = 30
+	flag = "overmap_heavy"
+
 /obj/item/projectile/guided_munition
 	obj_integrity = 50
 	max_integrity = 50
-	density = TRUE
+	can_home = TRUE
 	armor = list("overmap_light" = 10, "overmap_medium" = 0, "overmap_heavy" = 0)
 
 /obj/item/projectile/guided_munition/torpedo
@@ -350,19 +399,50 @@ Misc projectile types, effects, think of this as the special FX file.
 	shotdown_effect_type = /obj/effect/temp_visual/nuke_impact
 	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_incendiary_torpedo
 
+/obj/item/projectile/guided_munition/torpedo/hellfire/player_version
+	damage = 300	//A bit less initial damage to compensate for the /guaranteed/ hellburn effect dealing hefty damage.
+
+/obj/item/projectile/guided_munition/torpedo/plushtide
+	name = "emotional support torpedo"
+	damage = 0
+	obj_integrity = 400
+	max_integrity = 400
+	homing_turn_speed = 40
+	speed = 2
+	hitsound = 'sound/items/toysqueak1.ogg'
+	hitsound_wall = 'sound/items/toysqueak3.ogg'
+	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_plushtorp
+
+/obj/item/projectile/guided_munition/torpedo/plushtide/detonate(atom/target)
+	return	//Lets be sure
+
 /obj/item/projectile/guided_munition/torpedo/disruptor
 	icon_state = "torpedo_disruptor"
 	name = "disruption torpedo"
 	damage = 140	//Lower damage, does some special stuff when it hits a target.
+	var/ai_disruption = 30
+	var/ai_disruption_cap = 120
+
+//Player-accessible version of the above. Weaker because reverse engineered ~~and balance~~
+/obj/item/projectile/guided_munition/torpedo/disruptor/prototype
+	name = "prototype disruption torpedo"
+	ai_disruption = 15 //Do you like stuncombat? Well the AI doesn't.
+	ai_disruption_cap = 30 //Very effective if applied spaced out over time against damage-resistant ships.
 
 //What you get from an incomplete torpedo.
 /obj/item/projectile/guided_munition/torpedo/dud
 	icon_state = "torpedo_dud"
 	damage = 0
+	can_home = FALSE
 
-/obj/item/projectile/guided_munition/Initialize()
+/obj/item/projectile/guided_munition/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/windup), 1 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(windup)), 1 SECONDS)
+
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/item/projectile/guided_munition/proc/windup()
 	valid_angle = 360 //Torpedoes "wind up" to hit their target
@@ -401,7 +481,6 @@ Misc projectile types, effects, think of this as the special FX file.
 	if(!check_faction(target))
 		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 	if(isovermap(target)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
-		spec_overmap_hit(target)
 		return BULLET_ACT_HIT
 	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
 	if(isprojectile(target) && P.faction != faction && !P.nodamage) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
@@ -419,15 +498,13 @@ Misc projectile types, effects, think of this as the special FX file.
 		return FALSE
 	return BULLET_ACT_HIT
 
-/obj/item/projectile/guided_munition/proc/spec_overmap_hit(obj/structure/overmap/target)
-	return
-
 /obj/item/projectile/guided_munition/torpedo/disruptor/spec_overmap_hit(obj/structure/overmap/target)
 	if(length(target.occupying_levels))
 		return	//Detonate is gonna handle this for us.
 
 	if(target.ai_controlled)
-		target.disruption += 30
+		if(target.disruption <= ai_disruption_cap)
+			target.disruption = min(target.disruption + ai_disruption, ai_disruption_cap)
 		return
 
 	if(istype(target, /obj/structure/overmap/small_craft))
@@ -436,6 +513,14 @@ Misc projectile types, effects, think of this as the special FX file.
 
 	//Neither of these? I guess just some visibility penalty it is.
 	target.add_sensor_profile_penalty(150, 10 SECONDS)
+
+/obj/item/projectile/guided_munition/torpedo/hellfire/spec_overmap_hit(obj/structure/overmap/target)
+	if(length(target.occupying_levels))
+		return //Ship with internal zs, let them burn
+	if(target.ai_controlled || istype(target, /obj/structure/overmap/small_craft))
+		target.hullburn += 60	//hullburn DoT for AIs. Player Fighters get it too, did you expect to just eat one of these?
+		target.hullburn_power = max(target.hullburn_power, 6)
+
 
 /obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
 	. = ..()
@@ -479,6 +564,12 @@ Misc projectile types, effects, think of this as the special FX file.
 	muzzle_type = /obj/effect/projectile/muzzle/disabler
 	impact_type = /obj/effect/projectile/impact/disabler
 
+/obj/item/projectile/beam/laser/phaser/pd
+	name = "point defense phaser"
+	damage = 60 // Doesn't scale with power input, but fires fairly quickly especially when upgraded
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "pdphaser"
+
 /obj/item/projectile/beam/laser/point_defense
 	name = "laser pointer"
 	damage = 30
@@ -495,3 +586,21 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/beam/laser/phaser
 	damage = 30
 	flag = "overmap_medium"
+
+/obj/item/projectile/bullet/broadside
+	name = "broadside shell"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "broadside"
+	damage = 125
+	obj_integrity = 500
+	flag = "overmap_heavy"
+	spread = 15
+	speed = 1
+
+/obj/item/projectile/bullet/broadside/plasma
+	name = "plasma-packed broadside shell"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "broadside_plasma"
+	damage = 175
+	armour_penetration = 10
+	speed = 0.4

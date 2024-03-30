@@ -20,6 +20,8 @@
 	set name = "Config/Launch Supplypod"
 	set desc = "Configure and launch a CentCom supplypod full of whatever your heart desires!"
 	set category = "Adminbus"
+	if(!check_rights(R_SPAWN))
+		return
 	new /datum/centcom_podlauncher(usr)//create the datum
 
 //Variables declared to change how items in the launch bay are picked and launched. (Almost) all of these are changed in the ui_act proc
@@ -344,7 +346,7 @@
 			if (temp_pod.effectShrapnel == TRUE) //If already doing custom damage, set back to default (no shrapnel)
 				temp_pod.effectShrapnel = FALSE
 			else
-				var/shrapnelInput = input("Please enter the type of pellet cloud you'd like to create on landing (Can be any projectile!)", "Projectile Typepath",  0) in sortList(subtypesof(/obj/item/projectile), /proc/cmp_typepaths_asc)
+				var/shrapnelInput = input("Please enter the type of pellet cloud you'd like to create on landing (Can be any projectile!)", "Projectile Typepath",  0) in sortList(subtypesof(/obj/item/projectile), GLOBAL_PROC_REF(cmp_typepaths_asc))
 				if (isnull(shrapnelInput))
 					return
 				var/shrapnelMagnitude = input("Enter the magnitude of the pellet cloud. This is usually a value around 1-5. Please note that Ryll-Ryll has asked me to tell you that if you go too crazy with the projectiles you might crash the server. So uh, be gentle!", "Shrapnel Magnitude", 0) as null|num

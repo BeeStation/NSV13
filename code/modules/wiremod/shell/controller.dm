@@ -14,7 +14,7 @@
 	righthand_file = 'icons/mob/inhands/misc/devices_righthand.dmi'
 	light_range = FALSE
 
-/obj/item/controller/Initialize()
+/obj/item/controller/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/shell, list(
 		new /obj/item/circuit_component/controller()
@@ -29,7 +29,7 @@
 	var/datum/port/output/alt
 	var/datum/port/output/right
 
-/obj/item/circuit_component/controller/Initialize()
+/obj/item/circuit_component/controller/Initialize(mapload)
 	. = ..()
 	signal = add_output_port("Signal", PORT_TYPE_SIGNAL)
 	alt = add_output_port("Alternate Signal", PORT_TYPE_SIGNAL)
@@ -42,8 +42,8 @@
 	return ..()
 
 /obj/item/circuit_component/controller/register_shell(atom/movable/shell)
-	RegisterSignal(shell, COMSIG_ITEM_ATTACK_SELF, .proc/send_trigger)
-	RegisterSignal(shell, COMSIG_CLICK_ALT, .proc/send_alternate_signal)
+	RegisterSignal(shell, COMSIG_ITEM_ATTACK_SELF, PROC_REF(send_trigger))
+	RegisterSignal(shell, COMSIG_CLICK_ALT, PROC_REF(send_alternate_signal))
 
 /obj/item/circuit_component/controller/unregister_shell(atom/movable/shell)
 	UnregisterSignal(shell, list(
@@ -58,7 +58,7 @@
 	SIGNAL_HANDLER
 	if(!user.Adjacent(source))
 		return
-	source.balloon_alert(user, "clicked primary button")
+	source.balloon_alert(user, "Clicked the primary button.")
 	playsound(source, get_sfx("terminal_type"), 25, FALSE)
 	signal.set_output(COMPONENT_SIGNAL)
 
@@ -69,14 +69,15 @@
 	SIGNAL_HANDLER
 	if(!user.Adjacent(source))
 		return
-	source.balloon_alert(user, "clicked alternate button")
+	source.balloon_alert(user, "Clicked the alternate button.")
 	playsound(source, get_sfx("terminal_type"), 25, FALSE)
 	alt.set_output(COMPONENT_SIGNAL)
+	return COMPONENT_INTERCEPT_ALT
 
 /obj/item/circuit_component/controller/proc/send_right_signal(atom/source, mob/user)
 	SIGNAL_HANDLER
 	if(!user.Adjacent(source))
 		return
-	source.balloon_alert(user, "clicked extra button")
+	source.balloon_alert(user, "Clicked the extra button.")
 	playsound(source, get_sfx("terminal_type"), 25, FALSE)
 	right.set_output(COMPONENT_SIGNAL)

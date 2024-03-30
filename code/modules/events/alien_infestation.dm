@@ -3,7 +3,7 @@
 	typepath = /datum/round_event/ghost_role/alien_infestation
 	weight = 5
 
-	min_players = 10
+	min_players = 20 //NSV13 - increased to 20
 
 	dynamic_should_hijack = TRUE
 	cannot_spawn_after_shuttlecall = TRUE
@@ -19,7 +19,7 @@
 			return FALSE
 
 /datum/round_event/ghost_role/alien_infestation
-	announceWhen	= 400
+	announceWhen	= 300 //NSV13 - changed from 400 to 300
 
 	minimum_required = 1
 	role_name = "alien larva"
@@ -62,7 +62,7 @@
 		message_admins("An event attempted to spawn an alien but no suitable vents were found. Shutting down.")
 		return MAP_ERROR
 
-	var/list/candidates = get_candidates(ROLE_ALIEN, null, ROLE_ALIEN)
+	var/list/candidates = get_candidates(ROLE_ALIEN, /datum/role_preference/midround_ghost/xenomorph)
 
 	if(!candidates.len)
 		return NOT_ENOUGH_PLAYERS

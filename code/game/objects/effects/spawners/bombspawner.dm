@@ -1,5 +1,4 @@
-//#define CELSIUS_TO_KELVIN(T_K)	((T_K) + T0C)
-// NSV13 - we use this define elsewhere so it goes in a define file
+#define CELSIUS_TO_KELVIN(T_K)	((T_K) + T0C)
 
 #define OPTIMAL_TEMP_K_PLA_BURN_SCALE(PRESSURE_P,PRESSURE_O,TEMP_O)	(((PRESSURE_P) * GLOB.gas_data.specific_heats[GAS_PLASMA]) / (((PRESSURE_P) * GLOB.gas_data.specific_heats[GAS_PLASMA] + (PRESSURE_O) * GLOB.gas_data.specific_heats[GAS_O2]) / PLASMA_UPPER_TEMPERATURE - (PRESSURE_O) * GLOB.gas_data.specific_heats[GAS_O2] / CELSIUS_TO_KELVIN(TEMP_O)))
 #define OPTIMAL_TEMP_K_PLA_BURN_RATIO(PRESSURE_P,PRESSURE_O,TEMP_O)	(CELSIUS_TO_KELVIN(TEMP_O) * PLASMA_OXYGEN_FULLBURN * (PRESSURE_P) / (PRESSURE_O))
@@ -14,7 +13,7 @@
 	var/pressure_o = 10 * ONE_ATMOSPHERE	//tank pressures
 	var/assembly_type
 
-/obj/effect/spawner/newbomb/Initialize()
+/obj/effect/spawner/newbomb/Initialize(mapload)
 	. = ..()
 	var/obj/item/transfer_valve/V = new(src.loc)
 	var/obj/item/tank/internals/plasma/PT = new(V)
@@ -40,7 +39,7 @@
 
 	return INITIALIZE_HINT_QDEL
 
-/obj/effect/spawner/newbomb/timer/syndicate/Initialize()
+/obj/effect/spawner/newbomb/timer/syndicate/Initialize(mapload)
 	temp_p = (OPTIMAL_TEMP_K_PLA_BURN_SCALE(pressure_p, pressure_o, temp_o)/2 + OPTIMAL_TEMP_K_PLA_BURN_RATIO(pressure_p, pressure_o, temp_o)/2) - T0C
 	. = ..()
 
@@ -60,8 +59,7 @@
 	assembly_type = /obj/item/assembly/signaler
 
 
-//NSV13 - moved to __DEFINES/nsv13.dm
-//#undef CELSIUS_TO_KELVIN
+#undef CELSIUS_TO_KELVIN
 
 #undef OPTIMAL_TEMP_K_PLA_BURN_SCALE
 #undef OPTIMAL_TEMP_K_PLA_BURN_RATIO

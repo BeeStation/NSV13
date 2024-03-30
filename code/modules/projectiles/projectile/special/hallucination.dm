@@ -28,7 +28,7 @@
 		hal_target.client.images += fake_icon
 
 /obj/item/projectile/hallucination/Destroy()
-	if(hal_target.client)
+	if(hal_target?.client)
 		hal_target.client.images -= fake_icon
 	QDEL_NULL(fake_icon)
 	return ..()
@@ -100,7 +100,7 @@
 			layer = ABOVE_MOB_LAYER
 	hal_target.client.images += blood
 	animate(blood, pixel_x = target_pixel_x, pixel_y = target_pixel_y, alpha = 0, time = 5)
-	addtimer(CALLBACK(src, .proc/cleanup_blood), 5)
+	addtimer(CALLBACK(src, PROC_REF(cleanup_blood)), 5)
 
 /obj/item/projectile/hallucination/proc/cleanup_blood(image/blood)
 	hal_target.client.images -= blood
@@ -168,10 +168,10 @@
 /obj/item/projectile/hallucination/taser/hal_apply_effect()
 	hal_target.Paralyze(100)
 	hal_target.stuttering += 20
-	if(hal_target.dna && hal_target.dna.check_mutation(HULK))
+	if(hal_target.has_dna() && hal_target.dna.check_mutation(HULK))
 		hal_target.say(pick(";RAAAAAAAARGH!", ";HNNNNNNNNNGGGGGGH!", ";GWAAAAAAAARRRHHH!", "NNNNNNNNGGGGGGGGHH!", ";AAAAAAARRRGH!" ), forced = "hulk")
 	else if((hal_target.status_flags & CANKNOCKDOWN) && !HAS_TRAIT(hal_target, TRAIT_STUNIMMUNE))
-		addtimer(CALLBACK(hal_target, /mob/living/carbon.proc/do_jitter_animation, 20), 5)
+		addtimer(CALLBACK(hal_target, TYPE_PROC_REF(/mob/living/carbon, do_jitter_animation), 20), 5)
 
 /obj/item/projectile/hallucination/disabler
 	name = "disabler beam"

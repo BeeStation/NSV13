@@ -28,7 +28,7 @@
 	icon_state = "datadisk2"
 	max_blueprints = 5
 
-/obj/item/disk/design_disk/overmap_shields/Initialize()
+/obj/item/disk/design_disk/overmap_shields/Initialize(mapload)
 	. = ..()
 	var/datum/design/shield_fan/A = new
 	var/datum/design/shield_capacitor/B = new
@@ -200,20 +200,21 @@
 	var/regenPriority = 50
 	var/maxHealthPriority = 50 //50/50 split
 	var/max_power_input = 1.5e+7 //15 MW theoretical maximum. This much power means your shield is going to be insanely good.
-	var/active = FALSE; //Are we projecting out our shields? This lets you offline the shields for a recharge period so that they become useful again.
+	var/active = FALSE; //Are we projecting out our shields? This lets you offline the shields for a recharge period so that they become useful again. This function needs a rework as there is no penalty for shields collapsing, and recharge rate is linear.
 	var/obj/structure/cable/cable = null //Connected cable
 	var/mutable_appearance/c_screen
 
 
-/obj/machinery/shield_generator/proc/absorb_hit(damage)
+/obj/machinery/shield_generator/proc/absorb_hit(obj/item/projectile/proj)
+	var/damage = proj.damage
 	if(!active)
-		return FALSE //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
+		return SHIELD_NOEFFECT //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
 
 	if(shield["integrity"] >= damage)
 		shield["integrity"] -= damage
-		return TRUE
+		return SHIELD_ABSORB
 
-	return FALSE
+	return SHIELD_NOEFFECT
 
 
 /obj/item/shield_component
@@ -242,14 +243,14 @@
 
 
 //Constructor of objects of class shield_generator. No params
-/obj/machinery/shield_generator/Initialize()
+/obj/machinery/shield_generator/Initialize(mapload)
 	. = ..()
 	var/obj/structure/overmap/ours = get_overmap()
 	ours?.shields = src
 	c_screen = mutable_appearance(src.icon, "screen_on")
 	add_overlay(c_screen)
 	if(!ours)
-		addtimer(CALLBACK(src, .proc/try_find_overmap), 20 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(try_find_overmap)), 20 SECONDS)
 
 /obj/machinery/shield_generator/Destroy()
 	cut_overlay(c_screen)
@@ -282,7 +283,13 @@
 //Every tick, the shield generator updates its stats based on the amount of power it's being allowed to chug.
 /obj/machinery/shield_generator/process()
 	if(!powered() || power_input <= 0 || !try_use_power(power_input))
-		depower_shield()
+		if(shield["integrity"] > 0) //If we lose power, the shield integrity steadily drains
+			shield["integrity"] -= 2
+			active = FALSE
+
+		if(shield["integrity"] <= 0) //Reset if no juice remaining
+			depower_shield()
+
 		return FALSE
 	c_screen.alpha = 255
 	var/megawatts = power_input / 1e+6 //I'm lazy.
@@ -352,14 +359,11 @@
 	desired.Scale(resize_x,resize_y)
 	desired.Turn(overmap.angle)
 	transform = desired
-	RegisterSignal(overmap, COMSIG_MOVABLE_MOVED, .proc/track)
-
-/obj/effect/temp_visual/overmap_shield_hit/proc/track(datum/source)
-	// SIGNAL_HANDLER -- we can't use the Signal handler because parallax updating (called later down the proc chain) uses callback datums which call admin proc wrapping (contains stoplag()) for some reason, uncomment the handler if this is ever fixed/changed
-	doMove(get_turf(source))
+	overmap.vis_contents += src
 
 /obj/effect/temp_visual/overmap_shield_hit/Destroy()
-	UnregisterSignal(overmap, COMSIG_MOVABLE_MOVED)
+	overmap?.vis_contents -= src
+	overmap = null
 	return ..()
 
 /obj/machinery/shield_generator/ui_act(action, params)
@@ -420,11 +424,12 @@ Component that allows AI ships to model shields. Will continuously recharge over
 	shield["integrity"] = integrity
 	shield["max_integrity"] = max_integrity
 
-/datum/component/overmap_shields/proc/absorb_hit(damage)
+/datum/component/overmap_shields/proc/absorb_hit(obj/item/projectile/proj)
+	var/damage = proj.damage
 	if(!active)
-		return FALSE //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
+		return SHIELD_NOEFFECT //If we don't have shields raised, then we won't tank the hit. This allows you to micro the shields back to health.
 	if(shield["integrity"] >= damage)
 		shield["integrity"] -= damage
-		return TRUE
-	return FALSE
+		return SHIELD_ABSORB
+	return SHIELD_NOEFFECT
 

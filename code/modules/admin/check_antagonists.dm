@@ -106,7 +106,7 @@
 		else
 			sections += T.antag_listing_entry()
 
-	sortTim(all_antagonists, /proc/cmp_antag_category)
+	sortTim(all_antagonists, GLOBAL_PROC_REF(cmp_antag_category))
 
 	var/current_category
 	var/list/current_section = list()
@@ -142,7 +142,7 @@
 		dat += "Replacement Game Mode: <B>[SSticker.mode.replacementmode.name]</B><BR>"
 	else
 		dat += "Current Game Mode: <B>[SSticker.mode.name]</B><BR>"
-	dat += "Round Duration: <B>[DisplayTimeText(world.time - SSticker.round_start_time)]</B><BR>"
+	dat += "Round Duration: <B>[time2text(world.timeofday - SSticker.round_start_timeofday, "hh:mm:ss", 0)]</B><BR>"
 	dat += "<B>Emergency shuttle</B><BR>"
 	if(EMERGENCY_IDLE_OR_RECALLED)
 		dat += "<a href='?_src_=holder;[HrefToken()];call_shuttle=1'>Call Shuttle</a><br>"

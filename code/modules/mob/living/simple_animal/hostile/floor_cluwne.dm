@@ -49,7 +49,7 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 	hud_possible = list(ANTAG_HUD)
 	mobchatspan = "rainbow"
 
-/mob/living/simple_animal/hostile/floor_cluwne/Initialize()
+/mob/living/simple_animal/hostile/floor_cluwne/Initialize(mapload)
 	. = ..()
 	access_card = new /obj/item/card/id(src)
 	access_card.access = get_all_accesses()//THERE IS NO ESCAPE
@@ -76,7 +76,8 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 	playsound(src.loc, 'sound/items/bikehorn.ogg', 50, 1)
 
 
-/mob/living/simple_animal/hostile/floor_cluwne/CanPass(atom/A, turf/target)
+/mob/living/simple_animal/hostile/floor_cluwne/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
 	return TRUE
 
 
@@ -130,9 +131,9 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 /mob/living/simple_animal/hostile/floor_cluwne/Goto(target, delay, minimum_distance)
 	var/area/A = get_area(current_victim.loc)
 	if(!manifested && !is_type_in_typecache(A, invalid_area_typecache) && is_station_level(current_victim.z))
-		walk_to(src, target, minimum_distance, delay)
+		SSmove_manager.move_to(src, target, minimum_distance, delay)
 	else
-		walk_to(src,0)
+		SSmove_manager.stop_looping(src)
 
 
 /mob/living/simple_animal/hostile/floor_cluwne/FindTarget()
@@ -190,7 +191,7 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 		mobility_flags &= ~MOBILITY_MOVE
 		update_mobility()
 		cluwnehole = new(src.loc)
-		addtimer(CALLBACK(src, /mob/living/simple_animal/hostile/floor_cluwne/.proc/Appear), MANIFEST_DELAY)
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/floor_cluwne, Appear)), MANIFEST_DELAY)
 	else
 		layer = GAME_PLANE
 		invisibility = INVISIBILITY_OBSERVER
@@ -262,7 +263,7 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 				to_chat(H, "<i>yalp ot tnaw I</i>")
 				Appear()
 				manifested = FALSE
-				addtimer(CALLBACK(src, /mob/living/simple_animal/hostile/floor_cluwne/.proc/Manifest), 1)
+				addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/floor_cluwne, Manifest)), 1)
 
 		if(STAGE_TORMENT)
 
@@ -315,7 +316,7 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 				H.reagents.add_reagent("mercury", 3)
 				Appear()
 				manifested = FALSE
-				addtimer(CALLBACK(src, /mob/living/simple_animal/hostile/floor_cluwne/.proc/Manifest), 2)
+				addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/floor_cluwne, Manifest)), 2)
 				for(var/obj/machinery/light/L in range(8, H))
 					L.flicker()
 
@@ -334,12 +335,12 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 							forceMove(H.loc)
 				to_chat(H, "<span class='userdanger'>You feel the floor closing in on your feet!</span>")
 				H.Paralyze(300)
-				INVOKE_ASYNC(H, /mob.proc/emote, "scream")
+				INVOKE_ASYNC(H, TYPE_PROC_REF(/mob, emote), "scream")
 				H.adjustBruteLoss(10)
 				manifested = TRUE
 				Manifest()
 				if(!eating)
-					addtimer(CALLBACK(src, /mob/living/simple_animal/hostile/floor_cluwne/.proc/Grab, H), 50, TIMER_OVERRIDE|TIMER_UNIQUE)
+					addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/floor_cluwne, Grab), H), 50, TIMER_OVERRIDE|TIMER_UNIQUE)
 					for(var/turf/open/O in RANGE_TURFS(6, src))
 						O.MakeSlippery(TURF_WET_LUBE, 20)
 						playsound(src, 'sound/effects/meteorimpact.ogg', 30, 1)
@@ -366,7 +367,7 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 			H.invisibility = INVISIBILITY_OBSERVER
 			H.density = FALSE
 			H.anchored = TRUE
-			addtimer(CALLBACK(src, /mob/living/simple_animal/hostile/floor_cluwne/.proc/Kill, H), 100, TIMER_OVERRIDE|TIMER_UNIQUE)
+			addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/floor_cluwne, Kill), H), 100, TIMER_OVERRIDE|TIMER_UNIQUE)
 			visible_message("<span class='danger'>[src] pulls [H] under!</span>")
 			to_chat(H, "<span class='userdanger'>[src] drags you underneath the floor!</span>")
 		else
@@ -431,7 +432,7 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 	duration = 600
 	randomdir = FALSE
 
-/obj/effect/temp_visual/fcluwne_manifest/Initialize()
+/obj/effect/temp_visual/fcluwne_manifest/Initialize(mapload)
 	. = ..()
 	playsound(src, 'sound/misc/floor_cluwne_emerge.ogg', 100, 1)
 	flick("fcluwne_manifest",src)
@@ -440,7 +441,7 @@ GLOBAL_VAR_INIT(floor_cluwnes, 0)
 	name = "floor cluwne"
 	desc = "If you have this, tell a coder or admin!"
 
-/obj/effect/dummy/floorcluwne_orbit/Initialize()
+/obj/effect/dummy/floorcluwne_orbit/Initialize(mapload)
 	. = ..()
 	GLOB.floor_cluwnes++
 	name += " ([GLOB.floor_cluwnes])"

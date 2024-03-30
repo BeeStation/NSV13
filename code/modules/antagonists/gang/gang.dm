@@ -2,7 +2,7 @@
 	name = "Gangster"
 	roundend_category = "gangsters"
 	can_coexist_with_others = FALSE
-	job_rank = ROLE_GANG
+	banning_key = ROLE_GANG
 	antagpanel_category = "Gang"
 	var/hud_type = "gangster"
 	var/message_name = "Gangster"
@@ -39,14 +39,11 @@
 	if(!gang)
 		create_team()
 	..()
-	var/mob/living/carbon/human/H = owner.current
-	if(istype(H))
-		if(owner.assigned_role == "Clown")
-			to_chat(owner, "Your training has allowed you to overcome your clownish nature, allowing you to wield weapons without harming yourself.")
-			H.dna.remove_mutation(CLOWNMUT)
+	handle_clown_mutation(owner.current, "Your training has allowed you to overcome your clownish nature, allowing you to wield weapons without harming yourself.")
 	add_to_gang()
 
 /datum/antagonist/gang/on_removal()
+	handle_clown_mutation(owner.current, removing=FALSE)
 	remove_from_gang()
 	..()
 
@@ -103,8 +100,8 @@
 // Admin commands
 /datum/antagonist/gang/get_admin_commands()
 	. = ..()
-	.["Promote"] = CALLBACK(src,.proc/admin_promote)
-	.["Set Influence"] = CALLBACK(src, .proc/admin_adjust_influence)
+	.["Promote"] = CALLBACK(src,PROC_REF(admin_promote))
+	.["Set Influence"] = CALLBACK(src, PROC_REF(admin_adjust_influence))
 
 /datum/antagonist/gang/admin_add(datum/mind/new_owner,mob/admin)
 	var/new_or_existing = input(admin, "Which gang do you want to be assigned to the user?", "Gangs") as null|anything in list("New","Existing")
@@ -233,9 +230,9 @@
 /datum/antagonist/gang/boss/get_admin_commands()
 	. = ..()
 	. -= "Promote"
-	.["Take gangtool"] = CALLBACK(src,.proc/admin_take_gangtool)
-	.["Give gangtool"] = CALLBACK(src,.proc/admin_give_gangtool)
-	.["Demote"] = CALLBACK(src,.proc/admin_demote)
+	.["Take gangtool"] = CALLBACK(src,PROC_REF(admin_take_gangtool))
+	.["Give gangtool"] = CALLBACK(src,PROC_REF(admin_give_gangtool))
+	.["Demote"] = CALLBACK(src,PROC_REF(admin_demote))
 
 /datum/antagonist/gang/boss/proc/demote()
 	var/old_gang = gang
@@ -317,7 +314,7 @@
 				CJ.add_antag_datum(bossdatum, src)
 				bossdatum.equip_gang()
 	next_point_time = world.time + INFLUENCE_INTERVAL
-	addtimer(CALLBACK(src, .proc/handle_territories), INFLUENCE_INTERVAL)
+	addtimer(CALLBACK(src, PROC_REF(handle_territories)), INFLUENCE_INTERVAL)
 
 /datum/team/gang/Destroy()
 	GLOB.gangs -= src
@@ -394,7 +391,7 @@
 	message += "Your gang now has <b>[influence] influence</b>.<BR>"
 
 	message_gangtools(message)
-	addtimer(CALLBACK(src, .proc/handle_territories), INFLUENCE_INTERVAL)
+	addtimer(CALLBACK(src, PROC_REF(handle_territories)), INFLUENCE_INTERVAL)
 
 
 /datum/team/gang/proc/total_claimable_territories()

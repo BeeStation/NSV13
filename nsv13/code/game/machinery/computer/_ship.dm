@@ -13,7 +13,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	var/sound_cooldown = 10 SECONDS //For big warnings like enemies firing on you, that we don't want repeating over and over
 	var/list/ui_users = list()
 
-/obj/machinery/computer/ship/Initialize()
+/obj/machinery/computer/ship/Initialize(mapload)
 	. = ..()
 	return INITIALIZE_HINT_LATELOAD
 
@@ -28,7 +28,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	if(sound)
 		playsound(src, sound, 100, 1)
 		can_sound = FALSE
-		addtimer(CALLBACK(src, .proc/reset_sound), sound_cooldown)
+		addtimer(CALLBACK(src, PROC_REF(reset_sound)), sound_cooldown)
 
 /obj/machinery/computer/ship/proc/reset_sound()
 	can_sound = TRUE
@@ -50,7 +50,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Unable to locate thrust parameters, no registered ship stored in microprocessor.</span>")
 		return FALSE
-	if((position == "pilot" || position == "gunner") && linked.ai_controlled)
+	if((position & (OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER)) && linked.ai_controlled)
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Automated flight protocols are still active. Unable to comply.</span>")
@@ -59,6 +59,26 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	if(!position)
 		return TRUE
 	ui_users += user
+	if(linked.mass < MASS_SMALL)
+		to_chat(user, "<span class='notice'>Small craft use directional keys (WASD in hotkey mode) to accelerate/decelerate in a given direction and the mouse to change the direction of craft.\
+					Mouse 1 will fire the selected weapon (if applicable).</span>")
+		to_chat(user, "<span class='warning'>=Hotkeys=</span>")
+		to_chat(user, "<span class='notice'> Use <b>tab</b> to activate hotkey mode, then:</span>")
+		to_chat(user, "<span class='notice'>Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
+					Press <b>Space</b> to cycle fire modes. \
+					Press <b>X</b> to cycle inertial dampners. \
+					Press <b>Alt<b> to cycle the handbrake.</span>")
+
+	else
+		to_chat(user, "<span class='notice'>Large craft use the up and down arrow keys (W & S in hotkey mode) to accelerate/decelerate craft. Use the left and right arrow keys (A & D) to rotate the craft. \
+					Mouse 1 will fire the selected weapon (if applicable).</span>")
+		to_chat(user, "<span class='warning'>=Hotkeys=</span>")
+		to_chat(user, "<span class='notice'> Use <b>tab</b> to activate hotkey mode, then:</span>")
+		to_chat(user, "<span class='notice'> Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
+						Press <b>C</b> to cycle between mouse and keyboard steering. \
+						Press <b>X</b> to cycle inertial dampners. \
+						Press <b>Alt<b> to cycle the handbrake.</span>")
+
 	return linked.start_piloting(user, position)
 
 /obj/machinery/computer/ship/ui_close(mob/user)
@@ -66,10 +86,10 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	return ..()
 
 /obj/machinery/computer/ship/Destroy()
-	if(linked)
-		for(var/mob/living/M in ui_users)
-			linked.stop_piloting(M)
-	return ..()
+	. = ..()
+	for(var/mob/living/M in ui_users)
+		ui_close(M)
+		linked?.stop_piloting(M)
 
 //Viewscreens for regular crew to watch combat
 /obj/machinery/computer/ship/viewscreen
@@ -83,17 +103,23 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	density = FALSE
 	anchored = TRUE
 	req_access = null
+	var/obj/machinery/computer/ship/dradis/minor/internal_dradis
+
+/obj/machinery/computer/ship/viewscreen/Initialize(mapload)
+	. = ..()
+	internal_dradis = new(src)
 
 /obj/machinery/computer/ship/viewscreen/examine(mob/user)
 	. = ..()
-	if(!has_overmap())
+	if(!linked)
 		return
 	if(isobserver(user))
 		var/mob/dead/observer/O = user
 		O.ManualFollow(linked)
 		return
 	playsound(src, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-	linked.start_piloting(user, "observer")
+	linked.observe_ship(user)
+	internal_dradis.attack_hand(user)
 
 /obj/machinery/computer/ship/viewscreen/ui_interact(mob/user)
 	if(!has_overmap())
@@ -103,4 +129,4 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		O.ManualFollow(linked)
 		return
 	playsound(src, 'nsv13/sound/effects/computer/hum.ogg', 100, 1)
-	linked.start_piloting(user, "observer")
+	linked.start_piloting(user, OVERMAP_USER_ROLE_OBSERVER)

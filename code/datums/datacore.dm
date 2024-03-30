@@ -133,36 +133,40 @@
 			manifest_inject(N.new_character, N.client)
 		CHECK_TICK
 
-/datum/datacore/proc/manifest_modify(name, assignment)
+/datum/datacore/proc/manifest_modify(name, assignment, hudstate)
 	var/datum/data/record/foundrecord = find_record("name", name, GLOB.data_core.general)
 	if(foundrecord)
 		foundrecord.fields["rank"] = assignment
+		foundrecord.fields["hud"] = hudstate
 
 /datum/datacore/proc/get_manifest()
 	var/list/manifest_out = list()
 	var/list/departments = list(
-		"Command" = GLOB.command_positions,
-		"Security" = GLOB.security_positions,
-		"Engineering" = GLOB.engineering_positions,
-		"Medical" = GLOB.medical_positions,
-		"Science" = GLOB.science_positions,
-		"Supply" = GLOB.supply_positions,
-		"Civilian" = GLOB.civilian_positions | GLOB.gimmick_positions,
-		"Silicon" = GLOB.nonhuman_positions,
-		"Munitions" = GLOB.munitions_positions//NSV ADDED DEPARTMENTS
+		"Command" = GLOB.command_positions_hud,
+		"Very Important People" = GLOB.important_positions_hud,
+		"Security" = GLOB.security_positions_hud,
+		"Engineering" = GLOB.engineering_positions_hud,
+		"Medical" = GLOB.medical_positions_hud,
+		"Science" = GLOB.science_positions_hud,
+		"Supply" = GLOB.supply_positions_hud,
+		"Civilian" = GLOB.civilian_positions_hud,
+		"Munitions" = GLOB.munitions_positions_hud, //NSV ADDED DEPARTMENTS
+		"Silicon" = GLOB.nonhuman_positions // this is something that doesn't work. need to fix.
 	)
 	for(var/datum/data/record/t in GLOB.data_core.general)
 		var/name = t.fields["name"]
 		var/rank = t.fields["rank"]
+		var/hud = t.fields["hud"]
 		var/has_department = FALSE
 		for(var/department in departments)
-			var/list/jobs = departments[department]
-			if(rank in jobs)
+			var/list/jobs_hud = departments[department]
+			if(hud in jobs_hud)
 				if(!manifest_out[department])
 					manifest_out[department] = list()
 				manifest_out[department] += list(list(
 					"name" = name,
 					"rank" = rank
+					// note: `"hud" = hud` is not needed. that is used to sort, not used to display. check `if(hud in jobs_hud)`
 				))
 				has_department = TRUE
 				if(department != "Command") //List heads in both command and their own department.
@@ -244,14 +248,26 @@
 		G.fields["id"]			= id
 		G.fields["name"]		= H.real_name
 		G.fields["rank"]		= assignment
+		G.fields["hud"]			= get_hud_by_jobname(assignment)
 		G.fields["age"]			= H.age
 		G.fields["species"]	= H.dna.species.name
 		G.fields["fingerprint"]	= rustg_hash_string(RUSTG_HASH_MD5, H.dna.uni_identity)
 		G.fields["p_stat"]		= "Active"
 		G.fields["m_stat"]		= "Stable"
-		G.fields["sex"]			= H.gender
+		G.fields["sex"] 		= H.dna.features["body_model"] //NSV13
+		switch(H.gender)
+			if(MALE, FEMALE)
+				G.fields["gender"] = capitalize(H.gender)
+			if(PLURAL)
+				G.fields["gender"] = "Other"
 		G.fields["photo_front"]	= photo_front
 		G.fields["photo_side"]	= photo_side
+		//NSV13 - Roleplaying Records General Records - Start
+		if(C?.prefs?.active_character?.general_record)
+			G.fields["past_records"] = C.prefs.active_character.general_record
+		else
+			G.fields["past_records"] = ""
+		//NSV13 - Roleplaying Records General Records - Stop
 		general += G
 
 		//Medical Record
@@ -269,6 +285,12 @@
 		M.fields["cdi"]			= "None"
 		M.fields["cdi_d"]		= "No diseases have been diagnosed at the moment."
 		M.fields["notes"]		= "No notes."
+		//NSV13 - Roleplaying Records Medical Records - Start
+		if(C?.prefs?.active_character?.medical_record)
+			M.fields["past_records"] = C.prefs.active_character.medical_record
+		else
+			M.fields["past_records"] = ""
+		//NSV13 - Roleplaying Records Medical Records - Stop
 		medical += M
 
 		//Security Record
@@ -279,6 +301,12 @@
 		S.fields["citation"]	= list()
 		S.fields["crim"]		= list()
 		S.fields["notes"]		= "No notes."
+		//NSV13 - Roleplaying Records Security Records - Start
+		if(C?.prefs?.active_character?.security_record)
+			S.fields["past_records"] = C.prefs.active_character.security_record
+		else
+			S.fields["past_records"] = ""
+		//NSV13 - Roleplaying Records Security Records - Stop
 		security += S
 
 		//Locked Record
@@ -287,7 +315,12 @@
 		L.fields["name"]		= H.real_name
 		L.fields["rank"] 		= H.mind.assigned_role
 		L.fields["age"]			= H.age
-		L.fields["sex"]			= H.gender
+		L.fields["sex"]			= H.dna.features["body_model"] //NSV13
+		switch(H.gender)
+			if(MALE, FEMALE)
+				L.fields["gender"] = capitalize(H.gender)
+			if(PLURAL)
+				L.fields["gender"] = "Other"
 		L.fields["blood_type"]	= H.dna.blood_type
 		L.fields["b_dna"]		= H.dna.unique_enzymes
 		L.fields["identity"]	= H.dna.uni_identity
@@ -300,9 +333,9 @@
 
 /datum/datacore/proc/get_id_photo(mob/living/carbon/human/H, client/C, show_directions = list(SOUTH))
 	var/datum/job/J = SSjob.GetJob(H.mind.assigned_role)
-	var/datum/preferences/P
+	var/datum/character_save/CS
 	if(!C)
 		C = H.client
 	if(C)
-		P = C.prefs
-	return get_flat_human_icon(null, J, P, DUMMY_HUMAN_SLOT_MANIFEST, show_directions)
+		CS = C.prefs.active_character
+	return get_flat_human_icon(null, J, CS, DUMMY_HUMAN_SLOT_MANIFEST, show_directions)

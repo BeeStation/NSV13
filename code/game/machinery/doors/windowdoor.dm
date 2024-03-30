@@ -12,9 +12,11 @@
 	armor = list("melee" = 20, "bullet" = 50, "laser" = 50, "energy" = 50, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 70, "acid" = 100, "stamina" = 0)
 	visible = FALSE
 	flags_1 = ON_BORDER_1
-	opacity = 0
+	opacity = FALSE
+	pass_flags_self = PASSGLASS
 	CanAtmosPass = ATMOS_PASS_PROC
 	interaction_flags_machine = INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON | INTERACT_MACHINE_REQUIRES_SILICON | INTERACT_MACHINE_OPEN
+	network_id = NETWORK_DOOR_AIRLOCKS
 	var/obj/item/electronics/airlock/electronics = null
 	var/reinf = 0
 	var/shards = 2
@@ -36,9 +38,12 @@
 	if(cable)
 		debris += new /obj/item/stack/cable_coil(src, cable)
 
-/obj/machinery/door/window/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/ntnet_interface)
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_EXIT = PROC_REF(on_exit),
+	)
+
+	AddElement(/datum/element/connect_loc, loc_connections)
+	RegisterSignal(src, COMSIG_COMPONENT_NTNET_RECEIVE, PROC_REF(ntnet_receive))
 
 /obj/machinery/door/window/Destroy()
 	density = FALSE
@@ -88,20 +93,19 @@
 	if( operating || !density )
 		return
 	add_fingerprint(user)
-	if(!requiresID())
-		user = null
-
-	if(allowed(user))
+	// Cutting WIRE_IDSCAN disables normal entry... or it would, if we could hack windowdoors.
+	if(!id_scan_hacked() && allowed(user))
 		open_and_close()
 	else
 		do_animate("deny")
 	return
 
-/obj/machinery/door/window/CanPass(atom/movable/mover, turf/target)
-	if(istype(mover) && (mover.pass_flags & PASSGLASS))
-		return 1
+/obj/machinery/door/window/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
+	if(.)
+		return
 	if(get_dir(loc, target) == dir) //Make sure looking at appropriate border
-		return !density
+		return
 	if(istype(mover, /obj/structure/window))
 		var/obj/structure/window/W = mover
 		if(!valid_window_location(loc, W.ini_dir))
@@ -113,7 +117,7 @@
 	else if(istype(mover, /obj/machinery/door/window) && !valid_window_location(loc, mover.dir))
 		return FALSE
 	else
-		return 1
+		return TRUE
 
 /obj/machinery/door/window/CanAtmosPass(turf/T)
 	if(get_dir(loc, T) == dir)
@@ -125,13 +129,15 @@
 /obj/machinery/door/window/CanAStarPass(obj/item/card/id/ID, to_dir)
 	return !density || (dir != to_dir) || (check_access(ID) && hasPower())
 
-/obj/machinery/door/window/CheckExit(atom/movable/mover as mob|obj, turf/target)
-	if(istype(mover) && (mover.pass_flags & PASSGLASS))
-		return 1
-	if(get_dir(loc, target) == dir)
-		return !density
-	else
-		return 1
+/obj/machinery/door/window/proc/on_exit(datum/source, atom/movable/leaving, direction)
+	SIGNAL_HANDLER
+
+	if(istype(leaving) && (leaving.pass_flags & PASSGLASS))
+		return
+
+	if(direction == dir && density)
+		leaving.Bump(src)
+		return COMPONENT_ATOM_BLOCK_EXIT
 
 /obj/machinery/door/window/open(forced=FALSE)
 	if (operating) //doors can still open when emag-disabled
@@ -310,9 +316,10 @@
 			flick("[base_state]deny", src)
 
 /obj/machinery/door/window/check_access_ntnet(datum/netdata/data)
-	return !requiresID() || ..()
+	// Cutting WIRE_IDSCAN grants remote access... or it would, if we could hack windowdoors.
+	return id_scan_hacked() || ..()
 
-/obj/machinery/door/window/ntnet_receive(datum/netdata/data)
+/obj/machinery/door/window/proc/ntnet_receive(datum/source, datum/netdata/data)
 	// Check if the airlock is powered.
 	if(!hasPower())
 		return
@@ -321,13 +328,10 @@
 	if(is_jammed())
 		return
 
-	// Check packet access level.
-	if(!check_access_ntnet(data))
-		return
 
 	// Handle received packet.
-	var/command = lowertext(data.data["data"])
-	var/command_value = lowertext(data.data["data_secondary"])
+	var/command = data.data["data"]
+	var/command_value = data.data["data_secondary"]
 	switch(command)
 		if("open")
 			if(command_value == "on" && !density)
@@ -337,11 +341,11 @@
 				return
 
 			if(density)
-				INVOKE_ASYNC(src, .proc/open)
+				INVOKE_ASYNC(src, PROC_REF(open))
 			else
-				INVOKE_ASYNC(src, .proc/close)
+				INVOKE_ASYNC(src, PROC_REF(close))
 		if("touch")
-			INVOKE_ASYNC(src, .proc/open_and_close)
+			INVOKE_ASYNC(src, PROC_REF(open_and_close))
 
 /obj/machinery/door/window/brigdoor
 	name = "secure door"
@@ -406,7 +410,7 @@
 		var/previouscolor = color
 		color = "#960000"
 		animate(src, color = previouscolor, time = 8)
-		addtimer(CALLBACK(src, /atom/proc/update_atom_colour), 8)
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_atom_colour)), 8)
 
 /obj/machinery/door/window/clockwork/ratvar_act()
 	return FALSE

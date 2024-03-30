@@ -6,7 +6,8 @@
 	name = "Changeling"
 	roundend_category  = "changelings"
 	antagpanel_category = "Changeling"
-	job_rank = ROLE_CHANGELING
+	banning_key = ROLE_CHANGELING
+	required_living_playtime = 4
 	antag_moodlet = /datum/mood_event/focused
 	hijack_speed = 0.5
 	var/you_are_greet = TRUE
@@ -82,7 +83,7 @@
 	create_initial_profile()
 	if(give_objectives)
 		forge_objectives()
-	remove_clownmut()
+	handle_clown_mutation(owner.current, "You have evolved beyond your clownish nature, allowing you to wield weapons without harming yourself.")
 	owner.current.grant_all_languages(FALSE, FALSE, TRUE)	//Grants omnitongue. We are able to transform our body after all.
 	. = ..()
 
@@ -95,24 +96,17 @@
 			B.organ_flags |= ORGAN_VITAL
 			B.decoy_override = FALSE
 	remove_changeling_powers()
+	handle_clown_mutation(owner.current, removing=FALSE)
 	. = ..()
-
-/datum/antagonist/changeling/proc/remove_clownmut()
-	if (owner)
-		var/mob/living/carbon/human/H = owner.current
-		if(istype(H) && owner.assigned_role == "Clown")
-			to_chat(H, "You have evolved beyond your clownish nature, allowing you to wield weapons without harming yourself.")
-			H.dna.remove_mutation(CLOWNMUT)
 
 /datum/antagonist/changeling/proc/reset_properties()
 	changeling_speak = 0
 	chosen_sting = null
-	geneticpoints = initial(geneticpoints)
+	mimicing = ""
 	sting_range = initial(sting_range)
 	chem_recharge_rate = initial(chem_recharge_rate)
 	chem_charges = min(chem_charges, chem_storage)
 	chem_recharge_slowdown = initial(chem_recharge_slowdown)
-	mimicing = ""
 
 /datum/antagonist/changeling/proc/remove_changeling_powers()
 	if(ishuman(owner.current) || ismonkey(owner.current))
@@ -120,6 +114,7 @@
 		for(var/datum/action/changeling/p in purchasedpowers)
 			purchasedpowers -= p
 			p.Remove(owner.current)
+			geneticpoints += p.dna_cost
 
 	//MOVE THIS
 	if(owner.current.hud_used?.lingstingdisplay)
@@ -186,6 +181,7 @@
 		to_chat(owner.current, "We lack the energy to evolve new abilities right now.")
 		return
 
+	log_game("[sting_name] purchased by [owner.current.ckey]/[owner.current.name] the [owner.current.job] for [thepower.dna_cost] GP, [geneticpoints] GP remaining.")
 	geneticpoints -= thepower.dna_cost
 	purchasedpowers += thepower
 	thepower.on_purchase(owner.current)//Grant() is ran in this proc, see changeling_powers.dm
@@ -202,6 +198,7 @@
 		reset_powers()
 		canrespec = 0
 		SSblackbox.record_feedback("tally", "changeling_power_purchase", 1, "Readapt")
+		log_game("Genetic powers refunded by [owner.current.ckey]/[owner.current.name] the [owner.current.job], [geneticpoints] GP remaining.")
 		return 1
 	else
 		to_chat(owner.current, "<span class='danger'>You lack the power to readapt your evolutions!</span>")
@@ -230,14 +227,15 @@
 			return TRUE
 	return FALSE
 
-/datum/antagonist/changeling/proc/can_absorb_dna(mob/living/carbon/human/target, var/verbose=1)
+/datum/antagonist/changeling/proc/can_absorb_dna(mob/living/carbon/human/target, verbose=TRUE)
 	var/mob/living/carbon/user = owner.current
-	if(isipc(target))
-		to_chat(user, "<span class='warning'>We cannot absorb mechanical entities!</span>")
-		return
 	if(!istype(user))
 		return
 	if(!target)
+		return
+	if(isipc(target))
+		if(verbose)
+			to_chat(user, "<span class='warning'>We cannot absorb mechanical entities!</span>")
 		return
 	if(NO_DNA_COPY in target.dna.species.species_traits)
 		if(verbose)
@@ -281,19 +279,25 @@
 	prof.socks = H.socks
 
 	if(H.wear_id?.GetID())
-		prof.id_icon = "hud[ckey(H.wear_id.GetJobName())]"
+		var/obj/item/card/id/I = H.wear_id.GetID()
+		if(istype(I))
+			prof.id_job_name = I.assignment
+			prof.id_hud_state = I.hud_state
 
 	var/list/slots = list("head", "wear_mask", "back", "wear_suit", "w_uniform", "shoes", "belt", "gloves", "glasses", "ears", "wear_id", "s_store")
 	for(var/slot in slots)
 		if(slot in H.vars)
-			var/obj/item/I = H.vars[slot]
+			var/obj/item/clothing/I = H.vars[slot]
 			if(!I)
 				continue
 			prof.name_list[slot] = I.name
 			prof.appearance_list[slot] = I.appearance
 			prof.flags_cover_list[slot] = I.flags_cover
-			prof.item_color_list[slot] = I.item_color
 			prof.item_state_list[slot] = I.item_state
+			prof.lefthand_file_list[slot] = I.lefthand_file
+			prof.righthand_file_list[slot] = I.righthand_file
+			prof.worn_icon_list[slot] = I.worn_icon
+			prof.worn_icon_state_list[slot] = I.worn_icon_state
 			prof.exists_list[slot] = 1
 		else
 			continue
@@ -338,8 +342,8 @@
 	if(isipc(C))
 		C.set_species(/datum/species/human)
 		var/replacementName = random_unique_name(C.gender)
-		if(C.client.prefs.custom_names["human"])
-			C.fully_replace_character_name(C.real_name, C.client.prefs.custom_names["human"])
+		if(C.client.prefs.active_character.custom_names["human"])
+			C.fully_replace_character_name(C.real_name, C.client.prefs.active_character.custom_names["human"])
 		else
 			C.fully_replace_character_name(C.real_name, replacementName)
 	if(ishuman(C))
@@ -364,7 +368,6 @@
 /datum/antagonist/changeling/greet()
 	if (you_are_greet)
 		to_chat(owner.current, "<span class='boldannounce'>You are [changelingID], a changeling! You have absorbed and taken the form of a human.</span>")
-	to_chat(owner.current, "<span class='boldannounce'>Use say \"[MODE_TOKEN_CHANGELING] message\" to communicate with your fellow changelings.</span>")
 	to_chat(owner.current, "<b>You must complete the following tasks:</b>")
 	owner.current.playsound_local(get_turf(owner.current), 'sound/ambience/antag/ling_aler.ogg', 100, FALSE, pressure_affected = FALSE, use_reverb = FALSE)
 
@@ -416,36 +419,41 @@
 		objectives += destroy_objective
 		log_objective(owner, destroy_objective.explanation_text)
 	else
-		if(prob(70))
-			var/datum/objective/assassinate/kill_objective = new
-			kill_objective.owner = owner
-			if(team_mode) //No backstabbing while in a team
-				kill_objective.find_target_by_role(role = ROLE_CHANGELING, role_type = TRUE, invert = TRUE)
+		if(GLOB.joined_player_list.len >= CONFIG_GET(number/min_pop_kill_objectives)) //nsv13 - No kill objectives on low pop
+			if(prob(70))
+				var/datum/objective/assassinate/kill_objective = new
+				kill_objective.owner = owner
+				if(team_mode) //No backstabbing while in a team
+					kill_objective.find_target_by_role(role = ROLE_CHANGELING, role_type = TRUE, invert = TRUE)
+				else
+					kill_objective.find_target()
+				objectives += kill_objective
+				log_objective(owner, kill_objective.explanation_text)
 			else
-				kill_objective.find_target()
-			objectives += kill_objective
-			log_objective(owner, kill_objective.explanation_text)
-		else
-			var/datum/objective/maroon/maroon_objective = new
-			maroon_objective.owner = owner
-			if(team_mode)
-				maroon_objective.find_target_by_role(role = ROLE_CHANGELING, role_type = TRUE, invert = TRUE)
-			else
-				maroon_objective.find_target()
-			objectives += maroon_objective
-			log_objective(owner, maroon_objective.explanation_text)
+				var/datum/objective/maroon/maroon_objective = new
+				maroon_objective.owner = owner
+				if(team_mode)
+					maroon_objective.find_target_by_role(role = ROLE_CHANGELING, role_type = TRUE, invert = TRUE)
+				else
+					maroon_objective.find_target()
+				objectives += maroon_objective
+				log_objective(owner, maroon_objective.explanation_text)
 
-			if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
-				var/datum/objective/escape/escape_with_identity/identity_theft = new
-				identity_theft.owner = owner
-				identity_theft.target = maroon_objective.target
-				identity_theft.update_explanation_text()
-				objectives += identity_theft
-				log_objective(owner, identity_theft.explanation_text)
-				escape_objective_possible = FALSE
+				if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
+					var/datum/objective/escape/escape_with_identity/identity_theft = new
+					identity_theft.owner = owner
+					if(identity_theft.is_valid_target(maroon_objective.target))
+						identity_theft.set_target(maroon_objective.target)
+						identity_theft.update_explanation_text()
+						objectives += identity_theft
+						log_objective(owner, identity_theft.explanation_text)
+						escape_objective_possible = FALSE
+					else
+						qdel(identity_theft) //nsv13 end
 
 	if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
-		if(prob(50))
+		//nsv13 - No (almost neccessarily) kill objectives on low pop
+		if(prob(50) || (GLOB.joined_player_list.len <= CONFIG_GET(number/min_pop_kill_objectives)))
 			var/datum/objective/escape/escape_objective = new
 			escape_objective.owner = owner
 			objectives += escape_objective
@@ -478,7 +486,7 @@
 /datum/antagonist/changeling/get_admin_commands()
 	. = ..()
 	if(stored_profiles.len && (owner.current.real_name != first_prof.name))
-		.["Transform to initial appearance."] = CALLBACK(src,.proc/admin_restore_appearance)
+		.["Transform to initial appearance."] = CALLBACK(src,PROC_REF(admin_restore_appearance))
 
 /datum/antagonist/changeling/proc/admin_restore_appearance(mob/admin)
 	if(!stored_profiles.len || !iscarbon(owner.current))
@@ -502,15 +510,19 @@
 	var/list/appearance_list = list()
 	var/list/flags_cover_list = list()
 	var/list/exists_list = list()
-	var/list/item_color_list = list()
 	var/list/item_state_list = list()
+	var/list/lefthand_file_list = list()
+	var/list/righthand_file_list = list()
+	var/list/worn_icon_list = list()
+	var/list/worn_icon_state_list = list()
 
 	var/underwear
 	var/undershirt
 	var/socks
 
 	/// ID HUD icon associated with the profile
-	var/id_icon
+	var/id_job_name
+	var/id_hud_state
 
 /datum/changelingprofile/Destroy()
 	qdel(dna)
@@ -525,12 +537,16 @@
 	newprofile.appearance_list = appearance_list.Copy()
 	newprofile.flags_cover_list = flags_cover_list.Copy()
 	newprofile.exists_list = exists_list.Copy()
-	newprofile.item_color_list = item_color_list.Copy()
 	newprofile.item_state_list = item_state_list.Copy()
+	newprofile.lefthand_file_list = lefthand_file_list.Copy()
+	newprofile.righthand_file_list = righthand_file_list.Copy()
+	newprofile.worn_icon_list = worn_icon_list.Copy()
+	newprofile.worn_icon_state_list = worn_icon_state_list.Copy()
 	newprofile.underwear = underwear
 	newprofile.undershirt = undershirt
 	newprofile.socks = socks
-	newprofile.id_icon = id_icon
+	newprofile.id_job_name = id_job_name
+	newprofile.id_hud_state = id_hud_state
 
 /datum/antagonist/changeling/xenobio
 	name = "Xenobio Changeling"

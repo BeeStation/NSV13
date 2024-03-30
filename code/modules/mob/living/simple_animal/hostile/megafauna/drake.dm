@@ -45,6 +45,7 @@ Difficulty: Medium
 	move_to_delay = 5
 	ranged = TRUE
 	pixel_x = -16
+	base_pixel_x = -16
 	crusher_loot = list(/obj/structure/closet/crate/necropolis/dragon, /obj/item/crusher_trophy/tail_spike)
 	loot = list(/obj/structure/closet/crate/necropolis/dragon)
 	butcher_results = list(/obj/item/stack/ore/diamond = 5, /obj/item/stack/sheet/sinew = 5, /obj/item/stack/sheet/bone = 30)
@@ -52,8 +53,9 @@ Difficulty: Medium
 	var/swooping = NONE
 	var/player_cooldown = 0
 	gps_name = "Fiery Signal"
-	medal_type = BOSS_MEDAL_DRAKE
-	score_type = DRAKE_SCORE
+	achievement_type = /datum/award/achievement/boss/drake_kill
+	crusher_achievement_type = /datum/award/achievement/boss/drake_crusher
+	score_achievement_type = /datum/award/score/drake_score
 	deathmessage = "collapses into a pile of bones, its flesh sloughing away."
 	deathsound = 'sound/magic/demon_dies.ogg'
 	do_footstep = TRUE
@@ -147,7 +149,7 @@ Difficulty: Medium
 /mob/living/simple_animal/hostile/megafauna/dragon/proc/lava_swoop(var/amount = 30)
 	if(health < maxHealth * 0.5)
 		return swoop_attack(lava_arena = TRUE, swoop_cooldown = 60)
-	INVOKE_ASYNC(src, .proc/lava_pools, amount)
+	INVOKE_ASYNC(src, PROC_REF(lava_pools), amount)
 	swoop_attack(FALSE, target, 1000) // longer cooldown until it gets reset below
 	SLEEP_CHECK_DEATH(0)
 	fire_cone()
@@ -166,7 +168,7 @@ Difficulty: Medium
 		var/increment = 360 / spiral_count
 		for(var/j = 1 to spiral_count)
 			var/list/turfs = line_target(j * increment + i * increment / 2, range, src)
-			INVOKE_ASYNC(src, .proc/fire_line, turfs)
+			INVOKE_ASYNC(src, PROC_REF(fire_line), turfs)
 		SLEEP_CHECK_DEATH(25)
 	SetRecoveryTime(30)
 
@@ -233,15 +235,15 @@ Difficulty: Medium
 	playsound(get_turf(src),'sound/magic/fireball.ogg', 200, 1)
 	SLEEP_CHECK_DEATH(0)
 	if(prob(50) && meteors)
-		INVOKE_ASYNC(src, .proc/fire_rain)
+		INVOKE_ASYNC(src, PROC_REF(fire_rain))
 	var/range = 15
 	var/list/turfs = list()
 	turfs = line_target(-40, range, at)
-	INVOKE_ASYNC(src, .proc/fire_line, turfs)
+	INVOKE_ASYNC(src, PROC_REF(fire_line), turfs)
 	turfs = line_target(0, range, at)
-	INVOKE_ASYNC(src, .proc/fire_line, turfs)
+	INVOKE_ASYNC(src, PROC_REF(fire_line), turfs)
 	turfs = line_target(40, range, at)
-	INVOKE_ASYNC(src, .proc/fire_line, turfs)
+	INVOKE_ASYNC(src, PROC_REF(fire_line), turfs)
 
 /mob/living/simple_animal/hostile/megafauna/dragon/proc/line_target(var/offset, var/range, var/atom/at = target)
 	if(!at)
@@ -385,7 +387,7 @@ Difficulty: Medium
 		return FALSE
 	return ..()
 
-/mob/living/simple_animal/hostile/megafauna/dragon/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, list/visible_message_flags)
+/mob/living/simple_animal/hostile/megafauna/dragon/visible_message(message, self_message, blind_message, vision_distance = DEFAULT_MESSAGE_RANGE, list/ignored_mobs, list/visible_message_flags, separation = " ") //NSV13
 	if(swooping & SWOOP_INVULNERABLE) //to suppress attack messages without overriding every single proc that could send a message saying we got hit
 		return
 	return ..()
@@ -417,7 +419,7 @@ Difficulty: Medium
 
 /obj/effect/temp_visual/lava_warning/Initialize(mapload, var/reset_time = 10)
 	. = ..()
-	INVOKE_ASYNC(src, .proc/fall, reset_time)
+	INVOKE_ASYNC(src, PROC_REF(fall), reset_time)
 	src.alpha = 63.75
 	animate(src, alpha = 255, time = duration)
 
@@ -485,7 +487,7 @@ Difficulty: Medium
 
 /obj/effect/temp_visual/dragon_flight/Initialize(mapload, negative)
 	. = ..()
-	INVOKE_ASYNC(src, .proc/flight, negative)
+	INVOKE_ASYNC(src, PROC_REF(flight), negative)
 
 /obj/effect/temp_visual/dragon_flight/proc/flight(negative)
 	if(negative)
@@ -521,7 +523,7 @@ Difficulty: Medium
 	duration = 9
 	pixel_z = 270
 
-/obj/effect/temp_visual/fireball/Initialize()
+/obj/effect/temp_visual/fireball/Initialize(mapload)
 	. = ..()
 	animate(src, pixel_z = 0, time = duration)
 
@@ -537,7 +539,7 @@ Difficulty: Medium
 
 /obj/effect/temp_visual/target/Initialize(mapload, list/flame_hit)
 	. = ..()
-	INVOKE_ASYNC(src, .proc/fall, flame_hit)
+	INVOKE_ASYNC(src, PROC_REF(fall), flame_hit)
 
 /obj/effect/temp_visual/target/proc/fall(list/flame_hit)
 	var/turf/T = get_turf(src)
@@ -614,7 +616,7 @@ Difficulty: Medium
 /mob/living/simple_animal/hostile/megafauna/dragon/space_dragon/grant_achievement(medaltype,scoretype)
 	return
 
-/mob/living/simple_animal/hostile/megafauna/dragon/space_dragon/Initialize()
+/mob/living/simple_animal/hostile/megafauna/dragon/space_dragon/Initialize(mapload)
 	var/obj/effect/proc_holder/spell/aoe_turf/repulse/spacedragon/repulse_action = new /obj/effect/proc_holder/spell/aoe_turf/repulse/spacedragon(src)
 	repulse_action.action.Grant(src)
 	mob_spell_list += repulse_action
@@ -626,7 +628,7 @@ Difficulty: Medium
 	var/range = 20
 	var/list/turfs = list()
 	turfs = line_target(0, range, at)
-	INVOKE_ASYNC(src, .proc/fire_line, turfs)
+	INVOKE_ASYNC(src, PROC_REF(fire_line), turfs)
 
 /mob/living/simple_animal/hostile/megafauna/dragon/space_dragon/OpenFire()
 	if(swooping)

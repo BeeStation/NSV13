@@ -44,7 +44,7 @@
 	var/door_anim_time = 2.0 // set to 0 to make the door not animate at all
 /obj/structure/closet/Initialize(mapload)
 	if(mapload && !opened)		// if closed, any item at the crate's loc is put in the contents
-		addtimer(CALLBACK(src, .proc/take_contents), 0)
+		addtimer(CALLBACK(src, PROC_REF(take_contents)), 0)
 	. = ..()
 	update_icon()
 	PopulateContents()
@@ -59,7 +59,7 @@
 
 /obj/structure/closet/update_icon()
 	if(istype(src, /obj/structure/closet/supplypod))
-		return . = ..()
+		return ..()
 	cut_overlays()
 	if(!opened)
 		layer = OBJ_LAYER
@@ -107,7 +107,7 @@
 			animate(door_obj, transform = M, icon_state = door_state, layer = door_layer, time = world.tick_lag, flags = ANIMATION_END_NOW)
 		else
 			animate(transform = M, icon_state = door_state, layer = door_layer, time = world.tick_lag)
-	addtimer(CALLBACK(src,.proc/end_door_animation),door_anim_time,TIMER_UNIQUE|TIMER_OVERRIDE)
+	addtimer(CALLBACK(src,PROC_REF(end_door_animation)),door_anim_time,TIMER_UNIQUE|TIMER_OVERRIDE)
 
 /obj/structure/closet/proc/end_door_animation()
 	is_animating_door = FALSE
@@ -137,10 +137,10 @@
 		if(HAS_TRAIT(L, TRAIT_SKITTISH))
 			. += "<span class='notice'>Ctrl-Shift-click [src] to jump inside.</span>"
 
-/obj/structure/closet/CanPass(atom/movable/mover, turf/target)
+/obj/structure/closet/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
 	if(wall_mounted)
 		return TRUE
-	return !density
 
 /obj/structure/closet/proc/can_open(mob/living/user)
 	if(welded || locked)
@@ -203,7 +203,9 @@
 		return FALSE
 
 /obj/structure/closet/proc/insertion_allowed(atom/movable/AM)
-	if(ismob(AM))
+	if(iseffect(AM))
+		return FALSE
+	else if(ismob(AM))
 		if(!isliving(AM)) //let's not put ghosts or camera mobs inside closets...
 			return FALSE
 		var/mob/living/L = AM
@@ -221,8 +223,6 @@
 		L.stop_pulling()
 
 	else if(istype(AM, /obj/structure/closet))
-		return FALSE
-	else if(istype(AM, /obj/item/ship_weapon/ammunition/torpedo))
 		return FALSE
 	else if(isobj(AM))
 		if((!allow_dense && AM.density) || AM.anchored || AM.has_buckled_mobs())
@@ -343,25 +343,24 @@
 	if(!isturf(O.loc))
 		return
 
-	var/actuallyismob = 0
+	var/actuallyismob = FALSE
 	if(isliving(O))
-		actuallyismob = 1
+		actuallyismob = TRUE
 	else if(!isitem(O))
 		return
 	var/turf/T = get_turf(src)
-	var/list/targets = list(O, src)
 	add_fingerprint(user)
-	user.visible_message("<span class='warning'>[user] [actuallyismob ? "tries to ":""]stuff [O] into [src].</span>", \
-				 	 	"<span class='warning'>You [actuallyismob ? "try to ":""]stuff [O] into [src].</span>", \
-				 	 	"<span class='italics'>You hear clanging.</span>")
+	user.visible_message("<span class='warning'>[user] [actuallyismob ? "tries to " : ""]stuff [O] into [src].</span>", \
+						"<span class='warning'>You [actuallyismob ? "try to " : ""]stuff [O] into [src].</span>", \
+						"<span class='italics'>You hear clanging.</span>")
 	if(actuallyismob)
-		if(do_after_mob(user, targets, 40))
+		if(do_mob(user, O, 4 SECONDS))
 			user.visible_message("<span class='notice'>[user] stuffs [O] into [src].</span>", \
-							 	 "<span class='notice'>You stuff [O] into [src].</span>", \
-							 	 "<span class='italics'>You hear a loud metal bang.</span>")
+								"<span class='notice'>You stuff [O] into [src].</span>", \
+								"<span class='italics'>You hear a loud metal bang.</span>")
 			var/mob/living/L = O
 			if(!issilicon(L))
-				L.Paralyze(40)
+				L.Paralyze(4 SECONDS)
 			if(istype(src, /obj/structure/closet/supplypod/extractionpod))
 				O.forceMove(src)
 			else
@@ -369,7 +368,7 @@
 				close()
 	else
 		O.forceMove(T)
-	return 1
+	return TRUE
 
 /obj/structure/closet/relaymove(mob/user)
 	if(user.stat || !isturf(loc) || !isliving(user))
@@ -418,9 +417,9 @@
 // Objects that try to exit a locker by stepping were doing so successfully,
 // and due to an oversight in turf/Enter() were going through walls.  That
 // should be independently resolved, but this is also an interesting twist.
-/obj/structure/closet/Exit(atom/movable/AM)
+/obj/structure/closet/Exit(atom/movable/leaving, direction)
 	open()
-	if(AM.loc == src)
+	if(leaving.loc == src)
 		return 0
 	return 1
 

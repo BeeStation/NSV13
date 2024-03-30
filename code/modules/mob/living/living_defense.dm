@@ -45,14 +45,14 @@
 /mob/living/proc/on_hit(obj/item/projectile/P)
 	return BULLET_ACT_HIT
 
-/mob/living/bullet_act(obj/item/projectile/P, def_zone)
+/mob/living/bullet_act(obj/item/projectile/P, def_zone, piercing_hit = FALSE)
 	SEND_SIGNAL(src, COMSIG_ATOM_BULLET_ACT, P, def_zone)
 	var/armor = run_armor_check(def_zone, P.flag, "","",P.armour_penetration)
 	if(!P.nodamage)
 		apply_damage(P.damage, P.damage_type, def_zone, armor)
 		if(P.dismemberment)
 			check_projectile_dismemberment(P, def_zone)
-	return P.on_hit(src, armor)? BULLET_ACT_HIT : BULLET_ACT_BLOCK
+	return P.on_hit(src, armor, piercing_hit)? BULLET_ACT_HIT : BULLET_ACT_BLOCK
 
 /mob/living/proc/check_projectile_dismemberment(obj/item/projectile/P, def_zone)
 	return 0
@@ -359,7 +359,7 @@
 
 
 	if (client)
-		SSmedals.UnlockMedal(MEDAL_SINGULARITY_DEATH,client)
+		client.give_award(/datum/award/achievement/misc/singularity_death, client.mob)
 
 
 	investigate_log("([key_name(src)]) has been consumed by the singularity.", INVESTIGATE_ENGINES) //Oh that's where the clown ended up!
@@ -375,8 +375,8 @@
 		if((GLOB.cult_narsie.souls == GLOB.cult_narsie.soul_goal) && (GLOB.cult_narsie.resolved == FALSE))
 			GLOB.cult_narsie.resolved = TRUE
 			sound_to_playing_players('sound/machines/alarm.ogg')
-			addtimer(CALLBACK(GLOBAL_PROC, .proc/cult_ending_helper, 1), 120)
-			addtimer(CALLBACK(GLOBAL_PROC, .proc/ending_helper), 270)
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(cult_ending_helper), 1), 120)
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(ending_helper)), 270)
 	if(client)
 		makeNewConstruct(/mob/living/simple_animal/hostile/construct/harvester, src, cultoverride = TRUE)
 	else
@@ -396,7 +396,7 @@
 /mob/living/proc/flash_act(intensity = 1, override_blindness_check = 0, affect_silicon = 0, visual = 0, type = /atom/movable/screen/fullscreen/flash)
 	if(get_eye_protection() < intensity && (override_blindness_check || !(HAS_TRAIT(src, TRAIT_BLIND))))
 		overlay_fullscreen("flash", type)
-		addtimer(CALLBACK(src, .proc/clear_fullscreen, "flash", 25), 25)
+		addtimer(CALLBACK(src, PROC_REF(clear_fullscreen), "flash", 25), 25)
 		return TRUE
 	return FALSE
 
@@ -424,3 +424,16 @@
 		return TRUE
 	else
 		return FALSE
+
+/mob/living/proc/sethellbound()
+	if(mind)
+		mind.hellbound = TRUE
+		med_hud_set_status()
+		return TRUE
+	return FALSE
+
+/mob/living/proc/ishellbound()
+	return mind?.hellbound
+
+/mob/living/proc/force_hit_projectile(obj/item/projectile/projectile)
+	return FALSE

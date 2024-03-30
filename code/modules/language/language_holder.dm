@@ -151,8 +151,8 @@ Key procs
 
 /// Checks if you can speak the language. Tongue limitations should be supplied as an argument.
 /datum/language_holder/proc/can_speak_language(language)
-	var/atom/movable/ouratom = get_atom()
-	var/tongue = ouratom.could_speak_language(language)
+	var/atom/movable/our_atom = get_atom()
+	var/tongue = our_atom.could_speak_language(language)
 	if((omnitongue || tongue) && has_language(language, TRUE))
 		return TRUE
 	return FALSE
@@ -327,17 +327,20 @@ Key procs
 								/datum/language/draconic = list(LANGUAGE_ATOM),
 								/datum/language/moffic = list(LANGUAGE_ATOM),
 								/datum/language/calcic = list(LANGUAGE_ATOM),
-								/datum/language/voltaic = list(LANGUAGE_ATOM))
+								/datum/language/voltaic = list(LANGUAGE_ATOM),
+								/datum/language/apidite = list(LANGUAGE_ATOM))
 	spoken_languages = list(/datum/language/common = list(LANGUAGE_ATOM),
 							/datum/language/uncommon = list(LANGUAGE_ATOM),
 							/datum/language/machine = list(LANGUAGE_ATOM),
 							/datum/language/draconic = list(LANGUAGE_ATOM),
 							/datum/language/moffic = list(LANGUAGE_ATOM),
 							/datum/language/calcic = list(LANGUAGE_ATOM),
-							/datum/language/voltaic = list(LANGUAGE_ATOM))
+							/datum/language/voltaic = list(LANGUAGE_ATOM),
+							/datum/language/apidite = list(LANGUAGE_ATOM))
 
-/datum/language_holder/moth
+/datum/language_holder/moth //nsv13
 	understood_languages = list(/datum/language/common = list(LANGUAGE_ATOM),
+								/datum/language/voltaic = list(LANGUAGE_ATOM),
 								/datum/language/moffic = list(LANGUAGE_ATOM))
 	spoken_languages = list(/datum/language/common = list(LANGUAGE_ATOM),
 							/datum/language/moffic = list(LANGUAGE_ATOM))
@@ -350,9 +353,11 @@ Key procs
 
 /datum/language_holder/ethereal
 	understood_languages = list(/datum/language/common = list(LANGUAGE_ATOM),
-								/datum/language/voltaic = list(LANGUAGE_ATOM))
+								/datum/language/voltaic = list(LANGUAGE_ATOM),
+								/datum/language/moffic = list(LANGUAGE_ATOM)) //NSV13 - added moffic
 	spoken_languages = list(/datum/language/common = list(LANGUAGE_ATOM),
-							/datum/language/voltaic = list(LANGUAGE_ATOM))
+							/datum/language/voltaic = list(LANGUAGE_ATOM),
+							/datum/language/moffic = list(LANGUAGE_ATOM)) //NSV13 - added moffic
 
 /datum/language_holder/golem
 	understood_languages = list(/datum/language/common = list(LANGUAGE_ATOM),
@@ -393,13 +398,6 @@ Key procs
 								/datum/language/shadowtongue = list(LANGUAGE_ATOM))
 	spoken_languages = list(/datum/language/common = list(LANGUAGE_ATOM),
 							/datum/language/shadowtongue = list(LANGUAGE_ATOM))
-
-/datum/language_holder/squid
-	understood_languages = list(/datum/language/common = list(LANGUAGE_ATOM),
-								/datum/language/rlyehian = list(LANGUAGE_ATOM))
-	spoken_languages = list(/datum/language/common = list(LANGUAGE_ATOM),
-							/datum/language/rlyehian = list(LANGUAGE_ATOM))
-
 /datum/language_holder/empty
 	understood_languages = list()
 	spoken_languages = list()

@@ -4,6 +4,7 @@
 	var/expire_time
 	var/min_clean_strength = CLEAN_WEAK
 
+
 /datum/component/infective/Initialize(list/datum/disease/_diseases, expire_in)
 	if(islist(_diseases))
 		diseases = _diseases
@@ -17,20 +18,25 @@
 		QDEL_IN(src, expire_in)
 	if(!ismovableatom(parent))
 		return COMPONENT_INCOMPATIBLE
-	RegisterSignal(parent, COMSIG_COMPONENT_CLEAN_ACT, .proc/clean)
-	RegisterSignal(parent, COMSIG_MOVABLE_BUCKLE, .proc/try_infect_buckle)
-	RegisterSignal(parent, COMSIG_MOVABLE_BUMP, .proc/try_infect_collide)
-	RegisterSignal(parent, COMSIG_MOVABLE_CROSSED, .proc/try_infect_crossed)
-	RegisterSignal(parent, COMSIG_MOVABLE_IMPACT_ZONE, .proc/try_infect_impact_zone)
-	RegisterSignal(parent, COMSIG_ATOM_EXTRAPOLATOR_ACT, .proc/extrapolation)
+
+	var/static/list/disease_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(try_infect_crossed),
+	)
+	AddComponent(/datum/component/connect_loc_behalf, parent, disease_connections)
+
+	RegisterSignal(parent, COMSIG_COMPONENT_CLEAN_ACT, PROC_REF(clean))
+	RegisterSignal(parent, COMSIG_MOVABLE_BUCKLE, PROC_REF(try_infect_buckle))
+	RegisterSignal(parent, COMSIG_MOVABLE_BUMP, PROC_REF(try_infect_collide))
+	RegisterSignal(parent, COMSIG_MOVABLE_IMPACT_ZONE, PROC_REF(try_infect_impact_zone))
+	RegisterSignal(parent, COMSIG_ATOM_EXTRAPOLATOR_ACT, PROC_REF(extrapolation))
 	if(isitem(parent))
-		RegisterSignal(parent, COMSIG_ITEM_ATTACK_ZONE, .proc/try_infect_attack_zone)
-		RegisterSignal(parent, COMSIG_ITEM_ATTACK, .proc/try_infect_attack)
-		RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, .proc/try_infect_equipped)
+		RegisterSignal(parent, COMSIG_ITEM_ATTACK_ZONE, PROC_REF(try_infect_attack_zone))
+		RegisterSignal(parent, COMSIG_ITEM_ATTACK, PROC_REF(try_infect_attack))
+		RegisterSignal(parent, COMSIG_ITEM_EQUIPPED, PROC_REF(try_infect_equipped))
 		if(istype(parent, /obj/item/reagent_containers/food/snacks))
-			RegisterSignal(parent, COMSIG_FOOD_EATEN, .proc/try_infect_eat)
+			RegisterSignal(parent, COMSIG_FOOD_EATEN, PROC_REF(try_infect_eat))
 	else if(istype(parent, /obj/effect/decal/cleanable/blood/gibs))
-		RegisterSignal(parent, COMSIG_GIBS_STREAK, .proc/try_infect_streak)
+		RegisterSignal(parent, COMSIG_GIBS_STREAK, PROC_REF(try_infect_streak))
 
 /datum/component/infective/proc/try_infect_eat(datum/source, mob/living/eater, mob/living/feeder)
 	SIGNAL_HANDLER
@@ -95,11 +101,11 @@
 		var/obj/item/I = parent
 		I.permeability_coefficient = old_permeability
 
-/datum/component/infective/proc/try_infect_crossed(datum/source, atom/movable/M)
+/datum/component/infective/proc/try_infect_crossed(datum/source, atom/movable/arrived, atom/old_loc, list/atom/old_locs)
 	SIGNAL_HANDLER
 
-	if(isliving(M))
-		try_infect(M, BODY_ZONE_PRECISE_L_FOOT)
+	if(isliving(arrived))
+		try_infect(arrived, BODY_ZONE_PRECISE_L_FOOT)
 
 /datum/component/infective/proc/try_infect_streak(datum/source, list/directions, list/output_diseases)
 	SIGNAL_HANDLER
@@ -116,4 +122,4 @@
 	if(scan)
 		E.scan(source, diseases, user)
 	else
-		INVOKE_ASYNC(E, /obj/item/extrapolator.proc/extrapolate, source, diseases, user)
+		INVOKE_ASYNC(E, TYPE_PROC_REF(/obj/item/extrapolator, extrapolate), source, diseases, user)

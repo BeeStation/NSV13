@@ -45,8 +45,9 @@
 	bound_height = 96
 	bound_width = 96
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
-/obj/structure/overmap/nanotrasen/missile_cruiser //This has nothing to do with missiles
-	name = "caracal class missile frigate"
+
+/obj/structure/overmap/nanotrasen/frigate //This has nothing to do with missiles
+	name = "caracal class frigate"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
 	icon_state = "frigate"
 	mass = MASS_SMALL
@@ -145,6 +146,25 @@
 	weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/burst_phaser(src)
 	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
 
+/obj/structure/overmap/nanotrasen/serendipity
+	name = "DLV Serendipity"
+	desc = "a serendipity class exploration and research vessel"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/serendipity.dmi'
+	icon_state = "serendipity"
+	mass = MASS_SMALL
+	obj_integrity = 500
+	max_integrity = 500
+	integrity_failure = 500
+	sprite_size = 48
+	damage_states = FALSE
+	bound_height = 32
+	bound_width = 32
+	obj_integrity = 1250
+	max_integrity = 1250
+	integrity_failure = 1250
+	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
+	plasma_caster = TRUE
+
 //Player Versions
 // deletion_behavior = DAMAGE_STARTS_COUNTDOWN
 // starting_system = "Staging"
@@ -157,15 +177,15 @@
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
-/obj/structure/overmap/nanotrasen/missile_cruiser/starter/shrike //TEMP UNTIL WE DIVERSIFY TYPES MORE
+/obj/structure/overmap/nanotrasen/frigate/starter/shrike //TEMP UNTIL WE DIVERSIFY TYPES MORE
 	icon_state = "shrike"
 
-/obj/structure/overmap/nanotrasen/missile_cruiser/starter/shrike/apply_weapons()
+/obj/structure/overmap/nanotrasen/frigate/starter/shrike/apply_weapons()
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
 	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
 	weapon_types[FIRE_MODE_HYBRID_RAIL] = new /datum/ship_weapon/hybrid_railgun(src)
 
-/obj/structure/overmap/nanotrasen/missile_cruiser/starter //Currently assigned to Jeppison and Atlas
+/obj/structure/overmap/nanotrasen/frigate/starter //Currently assigned to Jeppison and Atlas
 	role = MAIN_OVERMAP
 	obj_integrity = 1000
 	max_integrity = 1000
@@ -174,15 +194,21 @@
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
-/obj/structure/overmap/nanotrasen/patrol_cruiser/starter //NOT IN CYCLE
+/obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to the Snake
 	role = MAIN_OVERMAP
+	obj_integrity = 1000
 	max_integrity = 1000
 	integrity_failure = 1000
+	bound_width = 64
+	bound_height = 64
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+	broadside = TRUE
 
-/obj/structure/overmap/nanotrasen/heavy_cruiser/starter //NOT IN CYCLE
+/obj/structure/overmap/nanotrasen/heavy_cruiser/starter //Currently assigned to Hammerhead
+	icon = 'nsv13/icons/overmap/new/nanotrasen/heavy_cruiser.dmi'
+	icon_state = "heavy_cruiser"
 	role = MAIN_OVERMAP
 	obj_integrity = 1400
 	max_integrity = 1400
@@ -190,6 +216,14 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 20)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+	broadside = TRUE
+
+/obj/structure/overmap/nanotrasen/heavy_cruiser/starter/apply_weapons()
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_BROADSIDE] = new /datum/ship_weapon/broadside(src)
+
 /obj/structure/overmap/nanotrasen/carrier/starter //NOT CURRENTLY ASSIGNED
 	role = MAIN_OVERMAP
 	obj_integrity = 2000
@@ -216,6 +250,21 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 25)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+
+/obj/structure/overmap/nanotrasen/serendipity/starter
+	role = MAIN_OVERMAP
+	obj_integrity = 1200
+	max_integrity = 1200
+	integrity_failure = 1200
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
+	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+
+/obj/structure/overmap/nanotrasen/serendipity/starter/apply_weapons()
+	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
+	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
+	weapon_types[FIRE_MODE_PHORON] = new /datum/ship_weapon/plasma_caster(src)
 
 //AI Versions
 
@@ -262,7 +311,7 @@
 	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/battleship
 
-/obj/structure/overmap/nanotrasen/missile_cruiser/ai
+/obj/structure/overmap/nanotrasen/frigate/ai
 	ai_controlled = TRUE
 	ai_flags = AI_FLAG_DESTROYER
 	torpedoes = 10 //it's vago, alright?
@@ -328,3 +377,6 @@
 /obj/structure/overmap/nanotrasen/ai/fighter/apply_weapons()
 	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+
+
+

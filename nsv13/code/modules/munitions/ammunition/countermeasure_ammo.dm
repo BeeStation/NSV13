@@ -22,24 +22,21 @@
 	pixel_x = -80
 	pixel_y = -80
 
-/obj/effect/temp_visual/countermeasure_cloud/Crossed(obj/item/projectile/guided_munition/B)
+/obj/effect/temp_visual/countermeasure_cloud/Initialize(mapload)
 	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
+/obj/effect/temp_visual/countermeasure_cloud/proc/on_entered(datum/source, obj/item/projectile/guided_munition/B)
+	SIGNAL_HANDLER
+
 	if(istype(B, /obj/item/projectile/guided_munition/torpedo) || istype(B, /obj/item/projectile/guided_munition/missile))
 		if(prob(50))
 			B.explode() //Kaboom on the chaff
 		else
 			B.homing = FALSE //Confused by the chaff
-
-/obj/structure/overmap/small_craft/verb/countermeasure()
-	set name = "Deploy Countermeasures"
-	set category = "Ship"
-	set src = usr.loc
-	set waitfor = FALSE
-
-	if(!verb_check())
-		return
-
-	fire_countermeasure()
 
 /obj/structure/overmap/small_craft/proc/fire_countermeasure()
 	var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)

@@ -5,7 +5,7 @@
 	var/list/obj/item/storage/backpack/holding/matching = typecache_filter_list(W.GetAllContents(), typecacheof(/obj/item/storage/backpack/holding))
 	matching -= A
 	if(istype(W, /obj/item/storage/backpack/holding) || matching.len)
-		INVOKE_ASYNC(src, .proc/recursive_insertion, W, user)
+		INVOKE_ASYNC(src, PROC_REF(recursive_insertion), W, user)
 		return
 	. = ..()
 
@@ -27,6 +27,6 @@
 	log_game("[key_name(user)] detonated a bag of holding at [loc_name(loccheck)].")
 
 	user.gib(TRUE, TRUE, TRUE)
-	new/obj/singularity/boh_tear(loccheck)
+	new/obj/boh_tear(loccheck)
 	qdel(A)
 

@@ -3,16 +3,18 @@
 	typepath = /datum/round_event/create_special_antag
 	auto_add = FALSE
 	//Antagonist data
-	var/antagonist_datum = /datum/antagonist/special
+	var/datum/antagonist/antagonist_datum = /datum/antagonist/special
 	var/antag_name	//The datum of the antag E.G. /datum/antagonist/special/undercover
-	var/preference_type = ROLE_TRAITOR
-	var/protected_jobs = list("Military Police", "Warden", "Detective", "Head of Security", "Executive Officer", "Chief Medical Officer", "Chief Engineer", "Research Director", "Captain", "Master At Arms") //NSV13 - MPs, XO, MAA
+	var/preference_type = /datum/role_preference/antagonist/traitor
+	var/banning_key = BAN_ROLE_ALL_ANTAGONISTS
+	var/protected_jobs = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_HEADOFSECURITY, JOB_NAME_HEADOFPERSONNEL, JOB_NAME_CHIEFMEDICALOFFICER, JOB_NAME_CHIEFENGINEER, JOB_NAME_RESEARCHDIRECTOR, JOB_NAME_CAPTAIN, JOB_NAME_MASTERATARMS) //NSV13 - MPs, XO, MAA
 
 /datum/round_event_control/spawn_special_antagonist/runEvent()
 	var/datum/round_event/create_special_antag/E = new /datum/round_event/create_special_antag
 	E.antag_datum = antagonist_datum
 	E.role_name = antag_name
 	E.preference_type = preference_type
+	E.banning_key = banning_key
 	E.protected_jobs = protected_jobs
 	E.current_players = get_active_player_count(alive_check = 1, afk_check = 1, human_check = 1)
 	E.control = src
@@ -34,15 +36,16 @@
 /datum/round_event/create_special_antag
 	fakeable = FALSE
 	var/role_name
-	var/antag_datum	//The datum of the antag E.G. /datum/antagonist/special/undercover
-	var/preference_type = ROLE_TRAITOR
-	var/protected_jobs = list("Military Police", "Warden", "Detective", "Head of Security", "Executive Officer", "Chief Medical Officer", "Chief Engineer", "Research Director", "Captain", "Master At Arms") //NSV13 - XO, MAA, MP
+	var/datum/antagonist/antag_datum	//The datum of the antag E.G. /datum/antagonist/special/undercover
+	var/banning_key = BAN_ROLE_ALL_ANTAGONISTS
+	var/preference_type = /datum/role_preference/antagonist/traitor
+	var/protected_jobs = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_DETECTIVE, JOB_NAME_HEADOFSECURITY, JOB_NAME_HEADOFPERSONNEL, JOB_NAME_CHIEFMEDICALOFFICER, JOB_NAME_CHIEFENGINEER, JOB_NAME_RESEARCHDIRECTOR, JOB_NAME_CAPTAIN, JOB_NAME_MASTERATARMS) //NSV13 - XO, MAA, MP
 
 /datum/round_event/create_special_antag/start()
 	for(var/mob/living/carbon/human/H in shuffle(GLOB.player_list))
-		if(!H.client || !(preference_type in H.client.prefs.be_special) || !(H.client.prefs.allow_midround_antag))
+		if(!H.client)
 			continue
-		if(is_banned_from(H, list(preference_type)))
+		if(!H.client.should_include_for_role(initial(antag_datum.banning_key), preference_type))
 			continue
 		if(H.stat == DEAD)
 			continue

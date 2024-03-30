@@ -25,8 +25,34 @@
 
 /obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=gunner, ai_aim=FALSE) //"Lateral" means that your ship doesnt have to face the target
 	var/datum/ship_weapon/SW = weapon_types[mode]
+	if(ghost_controlled) //Hook in our ghost ship functions
+		if(!SW.special_fire_proc)
+			var/uses_main_shot = FALSE
+			if(SW.weapon_class > WEAPON_CLASS_LIGHT)
+				if(shots_left <= 0)
+					if(!ai_resupply_scheduled)
+						ai_resupply_scheduled = TRUE
+						addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
+					return FALSE
+				else if(light_shots_left <= 0)
+					spawn(150)
+						light_shots_left = initial(light_shots_left) // make them reload like real people, sort of
+					return FALSE
+
+			if(SW.weapon_class > WEAPON_CLASS_LIGHT)
+				uses_main_shot = TRUE
+			else
+				uses_main_shot = FALSE
+
+			if(uses_main_shot)
+				shots_left --
+			else
+				light_shots_left --
+
 	if(weapon_safety)
 		return FALSE
+	if(mode == FIRE_MODE_AMS)
+		ams_shots_fired = 0
 	if(SW?.fire(target, ai_aim=ai_aim))
 		return TRUE
 	else
@@ -34,35 +60,22 @@
 			if(world.time < SW.next_firetime) //Silence, SPAM.
 				return FALSE
 			to_chat(user_override, SW.failure_alert)
-	return FALSE
-
-/obj/structure/overmap/verb/cycle_firemode()
-	set name = "Switch firemode"
-	set category = "Ship"
-	set src = usr.loc
-	if(usr != gunner)
-		return
-
-	var/stop = fire_mode
-	fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapon_types.len + 1)
-
-	for(fire_mode; fire_mode != stop; fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapon_types.len + 1))
-		if(swap_to(fire_mode))
-			return TRUE
-
-	// No other weapons available, go with whatever we had before
-	fire_mode = stop
 
 /obj/structure/overmap/proc/get_max_firemode()
 	if(mass < MASS_MEDIUM) //Small craft dont get a railgun
 		return FIRE_MODE_TORPEDO
 	return FIRE_MODE_MAC
 
+/obj/structure/overmap/proc/select_weapon(number)
+	if(number > 0 && number <= length(weapon_numkeys_map))
+		swap_to(weapon_numkeys_map[number])
+		return TRUE
+
 /obj/structure/overmap/proc/swap_to(what=FIRE_MODE_ANTI_AIR)
 	if(!weapon_types[what])
 		return FALSE
 	var/datum/ship_weapon/SW = weapon_types[what]
-	if(!SW.selectable)
+	if(!(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
 		return FALSE
 	fire_mode = what
 	if(world.time > switchsound_cooldown)
@@ -76,14 +89,11 @@
 	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
 		if(torpedoes <= 0)
 			return FALSE
-		var/obj/structure/overmap/OM = target
 		if(isovermap(target))
 			ai_aim = FALSE // This is a homing projectile
 		var/launches = min(torpedoes, burst)
 
-		fire_projectile(torpedo_type, target, homing = TRUE, speed=3, lateral = TRUE, ai_aim = ai_aim)
-		if(isovermap(OM) && OM.dradis)
-			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+		fire_projectile(torpedo_type, target, speed=3, lateral = TRUE, ai_aim = ai_aim)
 		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
 		relay_to_nearby(pick(SW.overmap_firing_sounds))
 
@@ -94,17 +104,13 @@
 
 /obj/structure/overmap/proc/fire_torpedo_burst(atom/target, ai_aim = FALSE, burst = 1)
 	set waitfor = FALSE
-	var/obj/structure/overmap/OM = target
 	for(var/cycle = 1; cycle <= burst; cycle++)
 		sleep(3)
 		if(QDELETED(src))	//We might get shot.
 			return
 		if(QDELETED(target))
-			OM = null
 			target = null
-		fire_projectile(torpedo_type, target, homing = TRUE, speed=3, lateral = TRUE, ai_aim = ai_aim)
-		if(isovermap(OM) && OM.dradis)
-			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+		fire_projectile(torpedo_type, target, speed=3, lateral = TRUE, ai_aim = ai_aim)
 		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
 		relay_to_nearby(pick(SW.overmap_firing_sounds))
 
@@ -118,9 +124,7 @@
 		var/obj/structure/overmap/OM = target
 		if(istype(OM))
 			ai_aim = FALSE // This is a homing projectile
-		fire_projectile(/obj/item/projectile/guided_munition/missile, target, homing = TRUE, lateral = FALSE, ai_aim = ai_aim)
-		if(istype(OM, /obj/structure/overmap) && OM.dradis)
-			OM.dradis?.relay_sound('nsv13/sound/effects/fighters/launchwarning.ogg')
+		fire_projectile(/obj/item/projectile/guided_munition/missile, target, lateral = FALSE, ai_aim = ai_aim)
 		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_MISSILE]
 		relay_to_nearby(pick(SW.overmap_firing_sounds))
 		return TRUE

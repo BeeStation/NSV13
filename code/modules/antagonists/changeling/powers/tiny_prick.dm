@@ -137,22 +137,26 @@
 
 /datum/action/changeling/sting/false_armblade/sting_action(mob/user, mob/target)
 	log_combat(user, target, "stung", object="false armblade sting")
+	..()
 
+	//Activate after 5 to 10 seconds
+	addtimer(CALLBACK(src, PROC_REF(grow_fake), target), rand(5 SECONDS, 10 SECONDS))
+	return TRUE
+
+/datum/action/changeling/sting/false_armblade/proc/grow_fake(mob/target)
 	var/obj/item/held = target.get_active_held_item()
 	if(held && !target.dropItemToGround(held))
-		to_chat(user, "<span class='warning'>[held] is stuck to [target.p_their()] hand, you cannot grow a false armblade over it!</span>")
 		return
-	..()
+
 	if(ismonkey(target))
-		to_chat(user, "<span class='notice'>Our genes cry out as we sting [target.name]!</span>")
+		return
 
 	var/obj/item/melee/arm_blade/false/blade = new(target,1)
 	target.put_in_hands(blade)
 	target.visible_message("<span class='warning'>A grotesque blade forms around [target.name]\'s arm!</span>", "<span class='userdanger'>Your arm twists and mutates, transforming into a horrific monstrosity!</span>", "<span class='italics'>You hear organic matter ripping and tearing!</span>")
 	playsound(target, 'sound/effects/blobattack.ogg', 30, 1)
 
-	addtimer(CALLBACK(src, .proc/remove_fake, target, blade), 600)
-	return TRUE
+	addtimer(CALLBACK(src, PROC_REF(remove_fake), target, blade), 600)
 
 /datum/action/changeling/sting/false_armblade/proc/remove_fake(mob/target, obj/item/melee/arm_blade/false/blade)
 	playsound(target, 'sound/effects/blobattack.ogg', 30, 1)
@@ -225,7 +229,7 @@
 
 /datum/action/changeling/sting/LSD/sting_action(mob/user, mob/living/carbon/target)
 	log_combat(user, target, "stung", "LSD sting")
-	addtimer(CALLBACK(src, .proc/hallucination_time, target), rand(300,600))
+	addtimer(CALLBACK(src, PROC_REF(hallucination_time), target), rand(300,600))
 	return TRUE
 
 /datum/action/changeling/sting/LSD/proc/hallucination_time(mob/living/carbon/target)

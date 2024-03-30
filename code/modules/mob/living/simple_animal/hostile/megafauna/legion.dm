@@ -31,10 +31,13 @@ Difficulty: Medium
 	var/size = 5
 	var/charging = FALSE
 	gps_name = "Echoing Signal"
-	medal_type = BOSS_MEDAL_LEGION
-	score_type = LEGION_SCORE
+	achievement_type = /datum/award/achievement/boss/legion_kill
+	crusher_achievement_type = /datum/award/achievement/boss/legion_crusher
+	score_achievement_type = /datum/award/score/legion_score
 	pixel_y = -90
+	base_pixel_y = -90
 	pixel_x = -75
+	base_pixel_x = -75
 	loot = list(/obj/item/stack/sheet/bone = 3)
 	vision_range = 13
 	wander = FALSE
@@ -91,7 +94,7 @@ Difficulty: Medium
 	minimum_distance = 0
 	set_varspeed(0)
 	charging = TRUE
-	addtimer(CALLBACK(src, .proc/reset_charge), 50)
+	addtimer(CALLBACK(src, PROC_REF(reset_charge)), 50)
 
 /mob/living/simple_animal/hostile/megafauna/legion/GiveTarget(new_target)
 	. = ..()

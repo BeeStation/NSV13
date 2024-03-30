@@ -78,7 +78,7 @@
 	flak_battery_amount = 2
 	combat_dice_type = /datum/combat_dice/cruiser
 
-/obj/structure/overmap/nanotrasen/solgov/ai/interdictor/Initialize()
+/obj/structure/overmap/nanotrasen/solgov/ai/interdictor/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/interdiction)
 
@@ -128,6 +128,7 @@
 /obj/structure/overmap/nanotrasen/solgov/proc/apply_medium_ai_weapons()
 	weapon_types[ FIRE_MODE_RED_LASER ] = new /datum/ship_weapon/burst_phaser( src )
 	weapon_types[ FIRE_MODE_BLUE_LASER ] = new /datum/ship_weapon/phaser( src )
+	weapon_types[ FIRE_MODE_LASER_PD ] = new /datum/ship_weapon/phaser_pd( src )
 	weapon_types[ FIRE_MODE_AMS_LASER ] = new /datum/ship_weapon/laser_ams( src )
 
 	// Need to enable the AI ship's countermeasures mode so they can actually use laser ams
@@ -141,7 +142,7 @@
 /obj/structure/overmap/nanotrasen/solgov/apply_weapons()
 	// Solgov do not need Nanotrasen weapons registered on roundstart. This bloats the ship's weapon_types and makes cycling via spacebar take much longer
 	// . = ..()
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 
 /obj/structure/overmap/nanotrasen/solgov/carrier/ai/apply_weapons() // Kmc why didn't you use /solgov/ai for your ship childtypes
 	apply_medium_ai_weapons()

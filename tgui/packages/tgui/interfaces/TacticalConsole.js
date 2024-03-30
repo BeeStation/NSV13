@@ -2,7 +2,7 @@
 
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Box, Button, Section, ProgressBar, Knob, Flex, Tabs, LabeledList } from '../components';
+import { Button, Section, ProgressBar, LabeledList } from '../components';
 import { Window } from '../layouts';
 
 export const TacticalConsole = (props, context) => {
@@ -11,7 +11,7 @@ export const TacticalConsole = (props, context) => {
   return (
     <Window
       resizable
-      theme="retro"
+      theme="nanotrasen"
       width={560}
       height={600}>
       <Window.Content scrollable>
@@ -27,44 +27,58 @@ export const TacticalConsole = (props, context) => {
                 }} />
             </Section>
             <Section title="Armour:">
-              <LabeledList>
-                <LabeledList.Item label="Forward Port">
-                  <ProgressBar
-                    value={(data.quadrant_fp_armour_current / data.quadrant_fp_armour_max)}
-                    ranges={{
-                      good: [0.66, Infinity],
-                      average: [0.33, 0.66],
-                      bad: [-Infinity, 0.33],
-                    }} />
-                </LabeledList.Item>
-                <LabeledList.Item label="Forward Starboard">
-                  <ProgressBar
-                    value={(data.quadrant_fs_armour_current / data.quadrant_fs_armour_max)}
-                    ranges={{
-                      good: [0.66, Infinity],
-                      average: [0.33, 0.66],
-                      bad: [-Infinity, 0.33],
-                    }} />
-                </LabeledList.Item>
-                <LabeledList.Item label="Aft Port">
-                  <ProgressBar
-                    value={(data.quadrant_ap_armour_current / data.quadrant_ap_armour_max)}
-                    ranges={{
-                      good: [0.66, Infinity],
-                      average: [0.33, 0.66],
-                      bad: [-Infinity, 0.33],
-                    }} />
-                </LabeledList.Item>
-                <LabeledList.Item label="Aft Starboard">
-                  <ProgressBar
-                    value={(data.quadrant_as_armour_current / data.quadrant_as_armour_max)}
-                    ranges={{
-                      good: [0.66, Infinity],
-                      average: [0.33, 0.66],
-                      bad: [-Infinity, 0.33],
-                    }} />
-                </LabeledList.Item>
-              </LabeledList>
+              {data.has_quadrant && (
+                <LabeledList>
+                  <LabeledList.Item label="Forward Port" labelColor="#ffffff">
+                    <ProgressBar
+                      value={(data.quadrant_fp_armour_current / data.quadrant_fp_armour_max)}
+                      ranges={{
+                        good: [0.66, Infinity],
+                        average: [0.33, 0.66],
+                        bad: [-Infinity, 0.33],
+                      }} />
+                  </LabeledList.Item>
+                  <LabeledList.Item label="Forward Starboard" labelColor="#ffffff">
+                    <ProgressBar
+                      value={(data.quadrant_fs_armour_current / data.quadrant_fs_armour_max)}
+                      ranges={{
+                        good: [0.66, Infinity],
+                        average: [0.33, 0.66],
+                        bad: [-Infinity, 0.33],
+                      }} />
+                  </LabeledList.Item>
+                  <LabeledList.Item label="Aft Port" labelColor="#ffffff">
+                    <ProgressBar
+                      value={(data.quadrant_ap_armour_current / data.quadrant_ap_armour_max)}
+                      ranges={{
+                        good: [0.66, Infinity],
+                        average: [0.33, 0.66],
+                        bad: [-Infinity, 0.33],
+                      }} />
+                  </LabeledList.Item>
+                  <LabeledList.Item label="Aft Starboard" labelColor="#ffffff">
+                    <ProgressBar
+                      value={(data.quadrant_as_armour_current / data.quadrant_as_armour_max)}
+                      ranges={{
+                        good: [0.66, Infinity],
+                        average: [0.33, 0.66],
+                        bad: [-Infinity, 0.33],
+                      }} />
+                  </LabeledList.Item>
+                </LabeledList>
+              ) || (
+                <LabeledList>
+                  <LabeledList.Item label="Integrity" labelColor="#ffffff">
+                    <ProgressBar
+                      value={(data.armour_integrity / data.max_armour_integrity * 100) * 0.01}
+                      ranges={{
+                        good: [0.9, Infinity],
+                        average: [0.15, 0.9],
+                        bad: [-Infinity, 0.15],
+                      }} />
+                  </LabeledList.Item>
+                </LabeledList>
+              )}
             </Section>
           </Section>
           <Section title="Armaments:">
@@ -74,7 +88,7 @@ export const TacticalConsole = (props, context) => {
                 return (
                   <Fragment key={key}>
                     {!!value.maxammo && (
-                      <LabeledList.Item label={`${value.name}`} labelColor="#000000">
+                      <LabeledList.Item label={`${value.name}`} labelColor="#ffffff">
                         <ProgressBar
                           value={(value.ammo/value.maxammo * 100)* 0.01}
                           ranges={{
@@ -89,8 +103,15 @@ export const TacticalConsole = (props, context) => {
             </LabeledList>
           </Section>
           <Section title="Tracking:">
-            {Object.keys(data.ships).map((key, newCurrent) => {
-              let value = data.ships[key];
+            {!data.no_gun_cam && (
+              <Button
+                width="100%"
+                fluid
+                content={"Toggle Gun Camera"}
+                icon="bullseye"
+                onClick={() => act('toggle_gun_camera')} />)}
+            {Object.keys(data.painted_targets).map((key, newCurrent) => {
+              let value = data.painted_targets[key];
               const [current, setCurrent] = useLocalState(context, 'fs_current', true);
               const [hidden, setHidden] = useLocalState(context, 'fs_hidden', true);
 
@@ -169,10 +190,16 @@ export const TacticalConsole = (props, context) => {
                       </Section>
                       <Button
                         fluid
-                        content={`Target ${value.name}`}
+                        content={data.target_name === value.name ? `Stop Targeting ${value.name}` : `Target ${value.name}`}
                         icon="bullseye"
                         onClick={() =>
-                          act('target_ship', { target: value.name })} />
+                          act('lock_ship', { target: value.name })} />
+                      <Button
+                        fluid
+                        content={`Stop Tracking ${value.name}`}
+                        icon="bullseye"
+                        onClick={() =>
+                          act('dump_lock', { target: value.name })} />
                     </Section>
                   )}
                 </Fragment>);

@@ -15,13 +15,15 @@
 	icon_dead = "mook_dead"
 	mob_biotypes = list(MOB_ORGANIC, MOB_HUMANOID)
 	pixel_x = -16
+	base_pixel_x = -16
 	maxHealth = 45
 	health = 45
 	melee_damage = 30
 	pixel_y = -8
+	base_pixel_y = -8
 	ranged = TRUE
 	ranged_cooldown_time = 10
-	pass_flags = LETPASSTHROW
+	pass_flags_self = LETPASSTHROW
 	robust_searching = TRUE
 	stat_attack = UNCONSCIOUS
 	attack_sound = 'sound/weapons/rapierhit.ogg'
@@ -32,12 +34,12 @@
 
 	do_footstep = TRUE
 
-/mob/living/simple_animal/hostile/jungle/mook/CanPass(atom/movable/O)
+/mob/living/simple_animal/hostile/jungle/mook/CanAllowThrough(atom/movable/O)
+	. = ..()
 	if(istype(O, /mob/living/simple_animal/hostile/jungle/mook))
 		var/mob/living/simple_animal/hostile/jungle/mook/M = O
 		if(M.attack_state == MOOK_ATTACK_ACTIVE && M.throwing)
 			return TRUE
-	return ..()
 
 /mob/living/simple_animal/hostile/jungle/mook/death()
 	desc = "A deceased primitive. Upon closer inspection, it was suffering from severe cellular degeneration and its garments are machine made..."//Can you guess the twist
@@ -67,12 +69,12 @@
 /mob/living/simple_animal/hostile/jungle/mook/proc/WarmupAttack(forced_slash_combo = FALSE)
 	if(attack_state == MOOK_ATTACK_NEUTRAL && target)
 		attack_state = MOOK_ATTACK_WARMUP
-		walk(src,0)
+		SSmove_manager.stop_looping(src)
 		update_icons()
 		if(prob(50) && get_dist(src,target) <= 3 || forced_slash_combo)
-			addtimer(CALLBACK(src, .proc/SlashCombo), ATTACK_INTERMISSION_TIME)
+			addtimer(CALLBACK(src, PROC_REF(SlashCombo)), ATTACK_INTERMISSION_TIME)
 			return
-		addtimer(CALLBACK(src, .proc/LeapAttack), ATTACK_INTERMISSION_TIME + rand(0,3))
+		addtimer(CALLBACK(src, PROC_REF(LeapAttack)), ATTACK_INTERMISSION_TIME + rand(0,3))
 		return
 	attack_state = MOOK_ATTACK_RECOVERY
 	ResetNeutral()
@@ -82,9 +84,9 @@
 		attack_state = MOOK_ATTACK_ACTIVE
 		update_icons()
 		SlashAttack()
-		addtimer(CALLBACK(src, .proc/SlashAttack), 3)
-		addtimer(CALLBACK(src, .proc/SlashAttack), 6)
-		addtimer(CALLBACK(src, .proc/AttackRecovery), 9)
+		addtimer(CALLBACK(src, PROC_REF(SlashAttack)), 3)
+		addtimer(CALLBACK(src, PROC_REF(SlashAttack)), 6)
+		addtimer(CALLBACK(src, PROC_REF(AttackRecovery)), 9)
 
 /mob/living/simple_animal/hostile/jungle/mook/proc/SlashAttack()
 	if(target && !stat && attack_state == MOOK_ATTACK_ACTIVE)
@@ -111,7 +113,7 @@
 		playsound(src, 'sound/weapons/thudswoosh.ogg', 25, 1)
 		playsound(src, 'sound/voice/mook_leap_yell.ogg', 100, 1)
 		var/target_turf = get_turf(target)
-		throw_at(target_turf, 7, 1, src, FALSE, callback = CALLBACK(src, .proc/AttackRecovery))
+		throw_at(target_turf, 7, 1, src, FALSE, callback = CALLBACK(src, PROC_REF(AttackRecovery)))
 		return
 	attack_state = MOOK_ATTACK_RECOVERY
 	ResetNeutral()
@@ -130,11 +132,11 @@
 				if(isliving(target))
 					var/mob/living/L = target
 					if(L.incapacitated() && L.stat != DEAD)
-						addtimer(CALLBACK(src, .proc/WarmupAttack, TRUE), ATTACK_INTERMISSION_TIME)
+						addtimer(CALLBACK(src, PROC_REF(WarmupAttack), TRUE), ATTACK_INTERMISSION_TIME)
 						return
-			addtimer(CALLBACK(src, .proc/WarmupAttack), ATTACK_INTERMISSION_TIME)
+			addtimer(CALLBACK(src, PROC_REF(WarmupAttack)), ATTACK_INTERMISSION_TIME)
 			return
-		addtimer(CALLBACK(src, .proc/ResetNeutral), ATTACK_INTERMISSION_TIME)
+		addtimer(CALLBACK(src, PROC_REF(ResetNeutral)), ATTACK_INTERMISSION_TIME)
 
 /mob/living/simple_animal/hostile/jungle/mook/proc/ResetNeutral()
 	if(attack_state == MOOK_ATTACK_RECOVERY)
@@ -215,7 +217,9 @@
 	icon_state = "mook_leap_cloud"
 	layer = BELOW_MOB_LAYER
 	pixel_x = -16
+	base_pixel_x = -16
 	pixel_y = -16
+	base_pixel_y = -16
 	duration = 10
 
 #undef MOOK_ATTACK_NEUTRAL

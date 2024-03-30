@@ -38,8 +38,8 @@
 	pixel_y = -74
 	bound_x = -64
 
-/obj/machinery/ship_weapon/torpedo_launcher/Initialize()
-	..()
+/obj/machinery/ship_weapon/torpedo_launcher/Initialize(mapload)
+	. = ..()
 	component_parts = list()
 	component_parts += new/obj/item/ship_weapon/parts/firing_electronics
 
@@ -77,11 +77,8 @@
 	// We have different sprites and behaviors for each torpedo
 	var/obj/item/ship_weapon/ammunition/torpedo/T = chambered
 	if(T)
-		if(istype(T, /obj/item/projectile/guided_munition/torpedo/dud)) //Some brainlet MAA loaded an incomplete torp
-			linked.fire_projectile(T.projectile_type, target, homing = FALSE, lateral=TRUE)
-		else
-			var/obj/item/projectile/P = linked.fire_projectile(T.projectile_type, target, homing = TRUE, lateral = TRUE)
-			if(T.contents.len)
-				for(var/atom/movable/AM in T.contents)
-					to_chat(AM, "<span class='warning'>You feel slightly nauseous as you're shot out into space...</span>")
-					AM.forceMove(P)
+		var/obj/item/projectile/P = linked.fire_projectile(T.projectile_type, target, lateral = TRUE)
+		if(T.contents.len)
+			for(var/atom/movable/AM in T.contents)
+				to_chat(AM, "<span class='warning'>You feel slightly nauseous as you're shot out into space...</span>")
+				AM.forceMove(P)

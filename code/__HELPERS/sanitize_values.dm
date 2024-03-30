@@ -7,6 +7,14 @@
 			return number
 	return default
 
+/// Return `float` if it is in the range `min to max`, otherwise `default`
+/proc/sanitize_float(number, min=0, max=1, accuracy=0.1, default=0)
+	if(isnum_safe(number))
+		number = round(number, accuracy)
+		if(min <= number && number <= max)
+			return number
+	return default
+
 /// Return `text` if it is text, otherwise `default`
 /proc/sanitize_text(text, default="")
 	if(istext(text))
@@ -35,15 +43,10 @@
 /// Return `gender` if it is a valid gender, otherwise `default`. No I did not mean to offend you. -qwerty
 /proc/sanitize_gender(gender,neuter=0,plural=0, default="male")
 	switch(gender)
-		if(MALE, FEMALE)
+		if(MALE, FEMALE, PLURAL)
 			return gender
 		if(NEUTER)
 			if(neuter)
-				return gender
-			else
-				return default
-		if(PLURAL)
-			if(plural)
 				return gender
 			else
 				return default

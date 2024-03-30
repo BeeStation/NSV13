@@ -19,7 +19,7 @@
 	var/eat_victim_items = TRUE
 	var/item_recycle_sound = 'sound/items/welder.ogg'
 
-/obj/machinery/recycler/Initialize()
+/obj/machinery/recycler/Initialize(mapload)
 	AddComponent(/datum/component/material_container, list(/datum/material/iron, /datum/material/glass, /datum/material/copper, /datum/material/silver, /datum/material/plasma, /datum/material/gold, /datum/material/diamond, /datum/material/plastic, /datum/material/uranium, /datum/material/bananium, /datum/material/titanium, /datum/material/bluespace), INFINITY, FALSE, null, null, null, TRUE)
 	AddComponent(/datum/component/butchering, 1, amount_produced,amount_produced/5)
 	. = ..()
@@ -44,7 +44,7 @@
 /obj/machinery/recycler/examine(mob/user)
 	. = ..()
 	. += "<span class='notice'>Reclaiming <b>[amount_produced]%</b> of materials salvaged.</span>"
-	. += "The power light is [(stat & NOPOWER) ? "off" : "on"].\n"+\
+	. += "The power light is [(machine_stat & NOPOWER) ? "off" : "on"].\n"+\
 	"The safety-mode light is [safety_mode ? "on" : "off"].\n"+\
 	"The safety-sensors status light is [obj_flags & EMAGGED ? "off" : "on"]."
 
@@ -79,14 +79,14 @@
 
 /obj/machinery/recycler/update_icon()
 	..()
-	var/is_powered = !(stat & (BROKEN|NOPOWER))
+	var/is_powered = !(machine_stat & (BROKEN|NOPOWER))
 	if(safety_mode)
 		is_powered = FALSE
 	icon_state = icon_name + "[is_powered]" + "[(blood ? "bld" : "")]" // add the blood tag at the end
 
 /obj/machinery/recycler/Bumped(atom/movable/AM)
 
-	if(stat & (BROKEN|NOPOWER))
+	if(machine_stat & (BROKEN|NOPOWER))
 		return
 	if(!anchored)
 		return
@@ -158,7 +158,7 @@
 	safety_mode = TRUE
 	update_icon()
 	L.forceMove(loc)
-	addtimer(CALLBACK(src, .proc/reboot), SAFETY_COOLDOWN)
+	addtimer(CALLBACK(src, PROC_REF(reboot)), SAFETY_COOLDOWN)
 
 /obj/machinery/recycler/proc/reboot()
 	playsound(src, 'sound/machines/ping.ogg', 50, 0)
@@ -204,6 +204,6 @@
 
 /obj/item/paper/guides/recycler
 	name = "paper - 'garbage duty instructions'"
-	info = "<h2>New Assignment</h2> You have been assigned to collect garbage from trash bins, located around the station. The crewmembers will put their trash into it and you will collect the said trash.<br><br>There is a recycling machine near your closet, inside maintenance; use it to recycle the trash for a small chance to get useful minerals. Then deliver these minerals to cargo or engineering. You are our last hope for a clean station, do not screw this up!"
+	default_raw_text = "<h2>New Assignment</h2> You have been assigned to collect garbage from trash bins, located around the station. The crewmembers will put their trash into it and you will collect the said trash.<br><br>There is a recycling machine near your closet, inside maintenance; use it to recycle the trash for a small chance to get useful minerals. Then deliver these minerals to cargo or engineering. You are our last hope for a clean station, do not screw this up!"
 
 #undef SAFETY_COOLDOWN

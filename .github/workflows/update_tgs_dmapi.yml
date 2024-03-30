@@ -8,8 +8,8 @@ on:
 jobs:
   update-dmapi:
     runs-on: ubuntu-latest
-    name: Update the TGS DMAPI
     if: github.repository == 'BeeStation/NSV13'
+    name: Update the TGS DMAPI
     steps:
     - name: Clone
       uses: actions/checkout@v2

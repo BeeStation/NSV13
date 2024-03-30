@@ -245,9 +245,9 @@
 
 /obj/item/paper/fluff/bee_objectives
 	name = "Objectives of a Bee Liberation Front Operative"
-	info = "<b>Objective #1</b>. Liberate all bees on the NT transport vessel 2416/B. <b>Success!</b>  <br><b>Objective #2</b>. Escape alive. <b>Failed.</b>"
+	default_raw_text = "<b>Objective #1</b>. Liberate all bees on the NT transport vessel 2416/B. <b>Success!</b>  <br><b>Objective #2</b>. Escape alive. <b>Failed.</b>"
 
-/obj/machinery/syndicatebomb/shuttle_loan/Initialize()
+/obj/machinery/syndicatebomb/shuttle_loan/Initialize(mapload)
 	. = ..()
 	setAnchored(TRUE)
 	timer_set = rand(480, 600) //once the supply shuttle docks (after 5 minutes travel time), players have between 3-5 minutes to defuse the bomb
@@ -256,10 +256,10 @@
 
 /obj/item/paper/fluff/cargo/bomb
 	name = "hastly scribbled note"
-	info = "GOOD LUCK!"
+	default_raw_text = "GOOD LUCK!"
 
 /obj/item/paper/fluff/cargo/bomb/allyourbase
-	info = "Somebody set us up the bomb!"
+	default_raw_text = "Somebody set us up the bomb!"
 
 #undef HIJACK_SYNDIE
 #undef RUSKY_PARTY

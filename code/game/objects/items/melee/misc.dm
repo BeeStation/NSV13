@@ -38,8 +38,6 @@
 	lefthand_file = 'icons/mob/inhands/antag/changeling_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/antag/changeling_righthand.dmi'
 	w_class = WEIGHT_CLASS_HUGE
-	block_upgrade_walk = 1
-	block_level = 1
 	block_flags = BLOCKING_ACTIVE | BLOCKING_NASTY
 	force = 20
 	throwforce = 10
@@ -47,7 +45,7 @@
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "tore", "ripped", "diced", "cut")
 	sharpness = IS_SHARP
 
-/obj/item/melee/synthetic_arm_blade/Initialize()
+/obj/item/melee/synthetic_arm_blade/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/butchering, 60, 80) //very imprecise
 
@@ -74,7 +72,7 @@
 	materials = list(/datum/material/iron = 1000)
 
 
-/obj/item/melee/sabre/Initialize()
+/obj/item/melee/sabre/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/butchering, 30, 95, 5) //fast and effective, but as a sword, it might damage the results.
 
@@ -120,8 +118,8 @@
 		var/speedbase = abs((4 SECONDS) / limbs_to_dismember.len)
 		for(bodypart in limbs_to_dismember)
 			i++
-			addtimer(CALLBACK(src, .proc/suicide_dismember, user, bodypart), speedbase * i)
-	addtimer(CALLBACK(src, .proc/manual_suicide, user), (5 SECONDS) * i)
+			addtimer(CALLBACK(src, PROC_REF(suicide_dismember), user, bodypart), speedbase * i)
+	addtimer(CALLBACK(src, PROC_REF(manual_suicide), user), (5 SECONDS) * i)
 	return MANUAL_SUICIDE
 
 /obj/item/melee/sabre/proc/suicide_dismember(mob/living/user, obj/item/bodypart/affecting)
@@ -165,7 +163,6 @@
 	item_state = "classic_baton"
 	lefthand_file = 'icons/mob/inhands/equipment/security_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/security_righthand.dmi'
-	block_upgrade_walk = 1
 	slot_flags = ITEM_SLOT_BELT
 	force = 12 //9 hit crit
 	w_class = WEIGHT_CLASS_NORMAL
@@ -173,7 +170,9 @@
 	var/cooldown_check = 0 // Used interally, you don't want to modify
 
 	var/cooldown = 20 // Default wait time until can stun again.
-	var/stun_time_silicon = (5 SECONDS) // If enabled, how long do we stun silicons.
+	var/knockdown_time_carbon = 0 //NSV13 - added knockdown times
+	var/stun_time_carbon = 0 //NSV13 - readded stun time variable
+	var/stun_time_silicon_multiplier = 0.6 //NSV13 - Multiplier for stunning silicons; if enabled, is 60% of human stun time.
 	var/stamina_damage = 55 // Do we deal stamina damage.
 	var/affect_silicon = FALSE // Does it stun silicons.
 	var/on_sound // "On" sound, played when switching between able to stun or not.
@@ -234,6 +233,11 @@
 //Police Baton
 /obj/item/melee/classic_baton/police
 	name = "police baton"
+	// NSV13 - added stun and knockdown, removed stamina, added silicon effects
+	stun_time_carbon = (3 SECONDS)
+	knockdown_time_carbon = (6 SECONDS)
+	stamina_damage = 0
+	affect_silicon = TRUE
 
 /obj/item/melee/classic_baton/police/attack(mob/living/target, mob/living/user)
 	if(!on)
@@ -244,6 +248,9 @@
 	if((HAS_TRAIT(user, TRAIT_CLUMSY)) && prob(50))
 		to_chat(user, "<span class ='danger'>You hit yourself over the head.</span>")
 		user.adjustStaminaLoss(stamina_damage)
+		//NSV13 - added stamina and knockdown
+		user.Paralyze(stun_time_carbon * force)
+		user.Knockdown(knockdown_time_carbon * force)
 
 		additional_effects_carbon(user) // user is the target here
 		if(ishuman(user))
@@ -259,7 +266,7 @@
 				var/list/desc = get_silicon_stun_description(target, user)
 
 				target.flash_act(affect_silicon = TRUE)
-				target.Paralyze(stun_time_silicon)
+				target.Paralyze(stun_time_carbon * stun_time_silicon_multiplier) //NSV13 - silicon stun is a multiplier
 				additional_effects_silicon(target, user)
 
 				user.visible_message(desc["visible"], desc["local"])
@@ -295,6 +302,7 @@
 			playsound(get_turf(src), on_stun_sound, 75, 1, -1)
 			additional_effects_carbon(target, user)
 			if((user.zone_selected == BODY_ZONE_HEAD) || (user.zone_selected == BODY_ZONE_CHEST))
+				target.Paralyze(stun_time_carbon) //NSV13 - readded stuns
 				target.apply_damage(stamina_damage, STAMINA, BODY_ZONE_CHEST, def_check)
 				log_combat(user, target, "stunned", src)
 				target.visible_message(desc["visiblestun"], desc["localstun"])
@@ -332,7 +340,7 @@
 //Telescopic Baton
 /obj/item/melee/classic_baton/police/telescopic
 	name = "telescopic baton"
-	desc = "A compact and harmless personal defense weapon. Can be concealed when folded."
+	desc = "A compact and harmless personal defense weapon. Sturdy enough to knock the feet out from under attackers and robust enough to disarm with a quick strike to the hand"
 	icon = 'icons/obj/items_and_weapons.dmi'
 	icon_state = "telebaton_0"
 	lefthand_file = 'icons/mob/inhands/weapons/melee_lefthand.dmi'
@@ -413,7 +421,7 @@
 	item_flags = NONE
 	force = 5
 	on = FALSE
-	var/knockdown_time_carbon = (1.5 SECONDS) // Knockdown length for carbons.
+	knockdown_time_carbon = (1.5 SECONDS) // NSV13 - Moved back to parent item
 	var/stamina_damage_non_target = 55
 	var/stamina_damage_target = 85
 	var/target_confusion = 4 SECONDS
@@ -493,7 +501,7 @@
 				var/list/desc = get_silicon_stun_description(target, user)
 
 				target.flash_act(affect_silicon = TRUE)
-				target.Paralyze(stun_time_silicon)
+				target.Paralyze(stun_time_carbon * stun_time_silicon_multiplier) //NSV13 - silicon stun is a multiplier
 				additional_effects_silicon(target, user)
 
 				user.visible_message(desc["visible"], desc["local"])
@@ -555,7 +563,7 @@
 				to_chat(user, wait_desc)
 
 /obj/item/melee/classic_baton/contractor_baton/pickup(mob/user)
-	. = ..()
+	..()
 	if(!owner_data)
 		var/datum/antagonist/traitor/traitor_data = user.mind.has_antag_datum(/datum/antagonist/traitor)
 		if(traitor_data)
@@ -587,7 +595,7 @@
 	owner.visible_message("<span class='danger'>[hitby] evaporates in midair!</span>")
 	return TRUE
 
-/obj/item/melee/supermatter_sword/Initialize()
+/obj/item/melee/supermatter_sword/Initialize(mapload)
 	. = ..()
 	shard = new /obj/machinery/power/supermatter_crystal(src)
 	qdel(shard.countdown)
@@ -664,7 +672,7 @@
 	T.visible_message("<span class='danger'>[T] smacks into [src] and rapidly flashes to ash.</span>",\
 	"<span class='italics'>You hear a loud crack as you are washed with a wave of heat.</span>")
 	shard.Consume()
-	CALCULATE_ADJACENT_TURFS(T)
+	T.ImmediateCalculateAdjacentTurfs()
 
 /obj/item/melee/supermatter_sword/add_blood_DNA(list/blood_dna)
 	return FALSE
@@ -706,7 +714,7 @@
 			to_chat(user, "<span class='notice'>You yank [I] towards yourself.</span>")
 			log_combat(user, target, "disarmed", src)
 			if(!user.get_inactive_held_item())
-				user.throw_mode_on()
+				user.throw_mode_on(THROW_MODE_TOGGLE)
 				user.swap_hand()
 				I.throw_at(user, 10, 2)
 
@@ -732,17 +740,16 @@
 	w_class = WEIGHT_CLASS_SMALL
 	item_flags = NONE
 	force = 0
-	block_upgrade_walk = 1
 	attack_verb = list("hit", "poked")
 	var/obj/item/reagent_containers/food/snacks/sausage/held_sausage
 	var/static/list/ovens
 	var/on = FALSE
 	var/datum/beam/beam
 
-/obj/item/melee/roastingstick/Initialize()
+/obj/item/melee/roastingstick/Initialize(mapload)
 	. = ..()
-	if (!ovens)
-		ovens = typecacheof(list(/obj/singularity, /obj/machinery/power/supermatter_crystal, /obj/structure/bonfire))
+	if(!ovens)
+		ovens = typecacheof(list(/obj/anomaly, /obj/machinery/power/supermatter_crystal, /obj/structure/bonfire))
 
 /obj/item/melee/roastingstick/attack_self(mob/user)
 	on = !on
@@ -805,13 +812,13 @@
 
 /obj/item/melee/roastingstick/afterattack(atom/target, mob/user, proximity)
 	. = ..()
-	if (!on)
+	if(!on)
 		return
-	if (is_type_in_typecache(target, ovens))
-		if (held_sausage && held_sausage.roasted)
+	if(is_type_in_typecache(target, ovens))
+		if(held_sausage && held_sausage.roasted)
 			to_chat("Your [held_sausage] has already been cooked.")
 			return
-		if (istype(target, /obj/singularity) && get_dist(user, target) < 10)
+		if(istype(target, /obj/anomaly) && get_dist(user, target) < 10)
 			to_chat(user, "You send [held_sausage] towards [target].")
 			playsound(src, 'sound/items/rped.ogg', 50, 1)
 			beam = user.Beam(target,icon_state="rped_upgrade",time=100)
@@ -845,7 +852,6 @@
 	slot_flags = ITEM_SLOT_BELT
 	force = 0
 	throwforce = 0
-	block_upgrade_walk = 1
 	w_class = WEIGHT_CLASS_NORMAL
 	attack_verb = list("repelled")
 	var/cooldown = 0

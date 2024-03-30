@@ -30,7 +30,7 @@
 			set_opacity(0) //if we were blocking view, we aren't now because we're fading out
 		stoplag()
 
-/obj/effect/particle_effect/smoke/Initialize()
+/obj/effect/particle_effect/smoke/Initialize(mapload)
 	. = ..()
 	create_reagents(500)
 	START_PROCESSING(SSobj, src)
@@ -42,7 +42,7 @@
 
 /obj/effect/particle_effect/smoke/proc/kill_smoke()
 	STOP_PROCESSING(SSobj, src)
-	INVOKE_ASYNC(src, .proc/fade_out)
+	INVOKE_ASYNC(src, PROC_REF(fade_out))
 	QDEL_IN(src, 10)
 
 /obj/effect/particle_effect/smoke/process()
@@ -64,7 +64,7 @@
 	if(C.smoke_delay)
 		return 0
 	C.smoke_delay++
-	addtimer(CALLBACK(src, .proc/remove_smoke_delay, C), 10)
+	addtimer(CALLBACK(src, PROC_REF(remove_smoke_delay), C), 10)
 	return 1
 
 /obj/effect/particle_effect/smoke/proc/remove_smoke_delay(mob/living/carbon/C)
@@ -132,13 +132,6 @@
 		M.adjustOxyLoss(1)
 		M.emote("cough")
 		return 1
-
-/obj/effect/particle_effect/smoke/bad/CanPass(atom/movable/mover, turf/target)
-	if(istype(mover, /obj/item/projectile/beam))
-		var/obj/item/projectile/beam/B = mover
-		B.damage = (B.damage/2)
-	return 1
-
 
 
 /datum/effect_system/smoke_spread/bad

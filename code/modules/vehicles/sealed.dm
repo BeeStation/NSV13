@@ -3,9 +3,10 @@
 	var/enter_delay = 20
 	var/mouse_pointer
 
-/obj/vehicle/sealed/CanPass(atom/movable/mover, turf/target)
+/obj/vehicle/sealed/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
 	if(mover in buckled_mobs)
-		return 1
+		return TRUE
 
 /obj/vehicle/sealed/generate_actions()
 	. = ..()
@@ -24,10 +25,10 @@
 		mob_try_enter(M)
 	return ..()
 
-/obj/vehicle/sealed/Exited(atom/movable/AM, atom/newLoc)
+/obj/vehicle/sealed/Exited(atom/movable/gone, direction)
 	. = ..()
-	if(ismob(AM))
-		remove_occupant(AM)
+	if(ismob(gone))
+		remove_occupant(gone)
 
 /obj/vehicle/sealed/proc/mob_try_enter(mob/M)
 	if(!istype(M))
@@ -45,6 +46,9 @@
 /obj/vehicle/sealed/proc/mob_enter(mob/M, silent = FALSE)
 	if(!istype(M))
 		return FALSE
+	if(!M.IsAdvancedToolUser()) //NSV13 - simple mobs cant get in car anymore
+		to_chat(M, "<span class='warning'>You don't have the dexterity to climb in [src]!</span>")
+		return
 	if(!silent)
 		M.visible_message("<span class='notice'>[M] climbs into \the [src]!</span>")
 	M.forceMove(src)

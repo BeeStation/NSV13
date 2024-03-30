@@ -1,5 +1,5 @@
 /obj/machinery/ship_weapon/railgun
-	name = "NT-STC4 coaxial railgun"
+	name = "\improper NT-STC4 coaxial railgun"
 	desc = "A railgun which fires directly out of the front of the ship, its projectiles are entirely unguided, so the firing solution must be perfect."
 	icon = 'nsv13/icons/obj/railgun.dmi'
 	icon_state = "OBC"
@@ -33,7 +33,7 @@
 /obj/machinery/ship_weapon/railgun/west
 	dir = WEST
 
-/obj/machinery/ship_weapon/railgun/Initialize()
+/obj/machinery/ship_weapon/railgun/Initialize(mapload)
 	..()
 	apply_default_parts()
 

@@ -82,6 +82,8 @@
 	icon_state = "bluespace"
 	color = "#003300"
 	light_color = "#003300"
+	light_system = MOVABLE_LIGHT
+	light_range = 3
 	var/lon_range = 3
 	var/resurrections = 0
 	var/datum/mind/mind
@@ -97,7 +99,6 @@
 	active_phylacteries++
 	GLOB.poi_list |= src
 	START_PROCESSING(SSobj, src)
-	set_light(lon_range)
 	if(initial(SSticker.mode.round_ends_with_antag_death))
 		SSticker.mode.round_ends_with_antag_death = FALSE
 
@@ -115,7 +116,7 @@
 		return
 
 	if(!mind.current || (mind.current && mind.current.stat == DEAD))
-		addtimer(CALLBACK(src, .proc/rise), respawn_time, TIMER_UNIQUE)
+		addtimer(CALLBACK(src, PROC_REF(rise)), respawn_time, TIMER_UNIQUE)
 
 /obj/item/phylactery/proc/rise()
 	if(mind.current && mind.current.stat != DEAD)

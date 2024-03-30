@@ -15,29 +15,35 @@ Bullet reactions
 		if(M.client)
 			shake_with_inertia(M, severity, 1)
 
-/obj/structure/overmap/proc/e()
-	while(1)
-		stoplag(1)
-		add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
-
-/obj/structure/overmap/proc/f()
-	add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
-
-
 /obj/structure/overmap/bullet_act(obj/item/projectile/P)
 	if(istype(P, /obj/item/projectile/beam/overmap/aiming_beam))
 		return
-	if(shields && shields.absorb_hit(P.damage))
-		var/damage_sound = pick('nsv13/sound/effects/ship/damage/shield_hit.ogg', 'nsv13/sound/effects/ship/damage/shield_hit2.ogg')
-		if(!impact_sound_cooldown)
-			add_overlay(new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src))
-			relay(damage_sound)
-			if(P.damage >= 15) //Flak begone
-				shake_everyone(5)
-			impact_sound_cooldown = TRUE
-			addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 0.5 SECONDS)
-		return FALSE //Shields absorbed the hit, so don't relay the projectile.
+	if(shields)
+		var/shield_result = shields.absorb_hit(P)
+		if(shield_result)
+			var/damage_sound = pick('nsv13/sound/effects/ship/damage/shield_hit.ogg', 'nsv13/sound/effects/ship/damage/shield_hit2.ogg')
+			if(!impact_sound_cooldown)
+				new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src)
+				relay(damage_sound)
+				if(P.damage >= 15) //Flak begone
+					shake_everyone(5)
+				impact_sound_cooldown = TRUE
+				addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 0.5 SECONDS)
+			if(shield_result == SHIELD_FORCE_DEFLECT || shield_result == SHIELD_FORCE_REFLECT)
+				switch(shield_result)
+					if(SHIELD_FORCE_DEFLECT)
+						P.setAngle((P.Angle + rand(25, 50) + (prob(50) ? 0 : 285)) % 360)
+					if(SHIELD_FORCE_REFLECT)
+						P.setAngle((P.Angle + rand(160, 200)) % 360)
+					else
 
+				P.faction = null //We go off the rails.
+				P.homing_target = null
+				P.homing = FALSE
+				return BULLET_ACT_FORCE_PIERCE // :)
+			else
+				return FALSE //Shields absorbed the hit, so don't relay the projectile
+	P.spec_overmap_hit(src)
 	var/relayed_type = P.relay_projectile_type ? P.relay_projectile_type : P.type
 	relay_damage(relayed_type)
 	if(!use_armour_quadrants)
@@ -63,16 +69,16 @@ Bullet reactions
 	proj.def_zone = "chest"
 	proj.original = pickedgoal
 	spawn()
-		proj.fire(Get_Angle(pickedstart,pickedgoal))
+		proj.fire(get_angle(pickedstart,pickedgoal))
 		proj.set_pixel_speed(4)
 
 /obj/structure/overmap/small_craft/relay_damage(proj_type)
 	return
 
-/obj/structure/overmap/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1)
+/obj/structure/overmap/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, bypasses_shields = FALSE)
 	var/blocked = FALSE
 	var/damage_sound = pick(GLOB.overmap_impact_sounds)
-	if(shields && shields.absorb_hit(damage_amount))
+	if(!bypasses_shields && shields && shields.absorb_hit(damage_amount))
 		blocked = TRUE
 		damage_sound = pick('nsv13/sound/effects/ship/damage/shield_hit.ogg', 'nsv13/sound/effects/ship/damage/shield_hit2.ogg')
 		if(!impact_sound_cooldown)
@@ -85,9 +91,9 @@ Bullet reactions
 		addtimer(VARSET_CALLBACK(src, impact_sound_cooldown, FALSE), 1 SECONDS)
 	if(blocked)
 		return FALSE
-	SEND_SIGNAL(src, COMSIG_ATOM_DAMAGE_ACT, damage_amount) //Trigger to update our list of armour plates without making the server cry.
 	if(CHECK_BITFIELD(overmap_deletion_traits, DAMAGE_STARTS_COUNTDOWN) && !(CHECK_BITFIELD(overmap_deletion_traits, DAMAGE_DELETES_UNOCCUPIED) && !has_occupants())) //Code for handling "superstructure crit" countdown
 		if(obj_integrity <= damage_amount || structure_crit) //Superstructure crit! They would explode otherwise, unable to withstand the hit.
+			SEND_SIGNAL(src, COMSIG_ATOM_DAMAGE_ACT, damage_amount) //Sending the comsig here because we do not call parent in this case.
 			obj_integrity = 10 //Automatically set them to 10 HP, so that the hit isn't totally ignored. Say if we have a nuke dealing 1800 DMG (the ship's full health) this stops them from not taking damage from it, as it's more DMG than we can handle.
 			handle_crit(damage_amount)
 			return FALSE
@@ -190,7 +196,7 @@ Bullet reactions
 		for(var/M in mobs_in_ship)
 			if(!locate(M) in operators)
 				if(isliving(M))
-					start_piloting(M, "observer") //Make sure everyone sees the ship is exploding
+					start_piloting(M, OVERMAP_USER_ROLE_OBSERVER) //Make sure everyone sees the ship is exploding
 				else
 					if(istype(M, /mob/dead/observer))
 						var/mob/dead/observer/D = M
@@ -251,11 +257,11 @@ Bullet reactions
 /obj/effect/temp_visual/explosion_telegraph/New(loc, damage_amount)
 	. = ..()
 
-/obj/effect/temp_visual/explosion_telegraph/Initialize()
+/obj/effect/temp_visual/explosion_telegraph/Initialize(mapload)
 	. = ..()
 	set_light(4)
 	for(var/mob/M in orange(src, 3))
-		if(isliving(M) && (M.client?.prefs.toggles & SOUND_AMBIENCE) && M.can_hear_ambience())
+		if(isliving(M) && (M.client?.prefs.toggles & PREFTOGGLE_SOUND_AMBIENCE) && M.can_hear_ambience())
 			to_chat(M, "<span class='userdanger'>You hear a loud creak coming from above you. Take cover!</span>")
 			SEND_SOUND(M, pick('nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg'))
 

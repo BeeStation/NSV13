@@ -21,6 +21,9 @@ have ways of interacting with a specific mob and control it.
 		BB_MONKEY_GUN_WORKED = TRUE,
 		BB_MONKEY_NEXT_HUNGRY = 0
 	)
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
 
 /datum/ai_controller/monkey/angry
 
@@ -37,37 +40,38 @@ have ways of interacting with a specific mob and control it.
 	blackboard[BB_MONKEY_NEXT_HUNGRY] = world.time + rand(0, 300)
 
 	var/mob/living/living_pawn = new_pawn
-	RegisterSignal(new_pawn, COMSIG_PARENT_ATTACKBY, .proc/on_attackby)
-	RegisterSignal(new_pawn, COMSIG_ATOM_ATTACK_HAND, .proc/on_attack_hand)
-	RegisterSignal(new_pawn, COMSIG_ATOM_ATTACK_PAW, .proc/on_attack_paw)
-	RegisterSignal(new_pawn, COMSIG_ATOM_ATTACK_ANIMAL, .proc/on_attack_animal)
-	RegisterSignal(new_pawn, COMSIG_MOB_ATTACK_ALIEN, .proc/on_attack_alien)
-	RegisterSignal(new_pawn, COMSIG_ATOM_BULLET_ACT, .proc/on_bullet_act)
-	RegisterSignal(new_pawn, COMSIG_ATOM_HITBY, .proc/on_hitby)
-	RegisterSignal(new_pawn, COMSIG_MOVABLE_CROSSED, .proc/on_Crossed)
-	RegisterSignal(new_pawn, COMSIG_LIVING_START_PULL, .proc/on_startpulling)
-	RegisterSignal(new_pawn, COMSIG_LIVING_TRY_SYRINGE, .proc/on_try_syringe)
-	RegisterSignal(new_pawn, COMSIG_ATOM_HULK_ATTACK, .proc/on_attack_hulk)
-	RegisterSignal(new_pawn, COMSIG_CARBON_CUFF_ATTEMPTED, .proc/on_attempt_cuff)
-	RegisterSignal(new_pawn, COMSIG_MOB_MOVESPEED_UPDATED, .proc/update_movespeed)
-	RegisterSignal(new_pawn, COMSIG_FOOD_EATEN, .proc/on_eat)
+	RegisterSignal(new_pawn, COMSIG_PARENT_ATTACKBY, PROC_REF(on_attackby))
+	RegisterSignal(new_pawn, COMSIG_ATOM_ATTACK_HAND, PROC_REF(on_attack_hand))
+	RegisterSignal(new_pawn, COMSIG_ATOM_ATTACK_PAW, PROC_REF(on_attack_paw))
+	RegisterSignal(new_pawn, COMSIG_ATOM_ATTACK_ANIMAL, PROC_REF(on_attack_animal))
+	RegisterSignal(new_pawn, COMSIG_MOB_ATTACK_ALIEN, PROC_REF(on_attack_alien))
+	RegisterSignal(new_pawn, COMSIG_ATOM_BULLET_ACT, PROC_REF(on_bullet_act))
+	RegisterSignal(new_pawn, COMSIG_ATOM_HITBY, PROC_REF(on_hitby))
+	RegisterSignal(new_pawn, COMSIG_LIVING_START_PULL, PROC_REF(on_startpulling))
+	RegisterSignal(new_pawn, COMSIG_LIVING_TRY_SYRINGE, PROC_REF(on_try_syringe))
+	RegisterSignal(new_pawn, COMSIG_ATOM_HULK_ATTACK, PROC_REF(on_attack_hulk))
+	RegisterSignal(new_pawn, COMSIG_CARBON_CUFF_ATTEMPTED, PROC_REF(on_attempt_cuff))
+	RegisterSignal(new_pawn, COMSIG_MOB_MOVESPEED_UPDATED, PROC_REF(update_movespeed))
+	RegisterSignal(new_pawn, COMSIG_FOOD_EATEN, PROC_REF(on_eat))
 
 	movement_delay = living_pawn.cached_multiplicative_slowdown
+	AddComponent(/datum/component/connect_loc_behalf, new_pawn, loc_connections)
 	return ..() //Run parent at end
 
 /datum/ai_controller/monkey/UnpossessPawn(destroy)
 	UnregisterSignal(pawn, list(COMSIG_PARENT_ATTACKBY, COMSIG_ATOM_ATTACK_HAND, COMSIG_ATOM_ATTACK_PAW, COMSIG_ATOM_BULLET_ACT, COMSIG_ATOM_HITBY, COMSIG_LIVING_START_PULL,\
 	COMSIG_LIVING_TRY_SYRINGE, COMSIG_ATOM_HULK_ATTACK, COMSIG_CARBON_CUFF_ATTEMPTED, COMSIG_MOB_MOVESPEED_UPDATED, COMSIG_ATOM_ATTACK_ANIMAL, COMSIG_MOB_ATTACK_ALIEN))
+	qdel(GetComponent(/datum/component/connect_loc_behalf))
 	return ..() //Run parent at end
 
 // Stops sentient monkeys from being knocked over like weak dunces.
 /datum/ai_controller/monkey/on_sentience_gained()
 	. = ..()
-	UnregisterSignal(pawn, COMSIG_MOVABLE_CROSSED)
+	qdel(GetComponent(/datum/component/connect_loc_behalf))
 
 /datum/ai_controller/monkey/on_sentience_lost()
 	. = ..()
-	RegisterSignal(pawn, COMSIG_MOVABLE_CROSSED)
+	AddComponent(/datum/component/connect_loc_behalf, pawn, loc_connections)
 
 /datum/ai_controller/monkey/able_to_run()
 	. = ..()
@@ -161,10 +165,8 @@ have ways of interacting with a specific mob and control it.
 	if(DT_PROB(25, delta_time) && (living_pawn.mobility_flags & MOBILITY_MOVE) && isturf(living_pawn.loc) && !living_pawn.pulledby)
 		var/move_dir = pick(GLOB.alldirs)
 		living_pawn.Move(get_step(living_pawn, move_dir), move_dir)
-	else if(DT_PROB(5, delta_time))
-		INVOKE_ASYNC(living_pawn, /mob.proc/emote, pick("screech"))
 	else if(DT_PROB(1, delta_time))
-		INVOKE_ASYNC(living_pawn, /mob.proc/emote, pick("scratch","jump","roll","tail"))
+		INVOKE_ASYNC(living_pawn, TYPE_PROC_REF(/mob, emote), pick("scratch","jump","roll","tail"))
 
 ///Reactive events to being hit
 /datum/ai_controller/monkey/proc/retaliate(mob/living/L)
@@ -216,7 +218,7 @@ have ways of interacting with a specific mob and control it.
 			var/mob/living/carbon/human/H = thrown_by
 			retaliate(H)
 
-/datum/ai_controller/monkey/proc/on_Crossed(datum/source, atom/movable/arrived, atom/old_loc, list/atom/old_locs)
+/datum/ai_controller/monkey/proc/on_entered(datum/source, atom/movable/arrived, atom/old_loc, list/atom/old_locs)
 	SIGNAL_HANDLER
 	var/mob/living/living_pawn = pawn
 	if(!IS_DEAD_OR_INCAP(living_pawn) && isliving(arrived))

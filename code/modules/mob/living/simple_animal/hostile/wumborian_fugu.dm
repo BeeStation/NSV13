@@ -18,6 +18,7 @@
 	maxHealth = 50
 	health = 50
 	pixel_x = -16
+	base_pixel_x = -16
 	obj_damage = 0
 	melee_damage = 0
 	attacktext = "chomps"
@@ -34,7 +35,7 @@
 	loot = list(/obj/item/fugu_gland{layer = ABOVE_MOB_LAYER})
 	hardattacks = TRUE
 
-/mob/living/simple_animal/hostile/asteroid/fugu/Initialize()
+/mob/living/simple_animal/hostile/asteroid/fugu/Initialize(mapload)
 	. = ..()
 	E = new
 	E.Grant(src)
@@ -89,11 +90,11 @@
 	F.environment_smash = ENVIRONMENT_SMASH_WALLS
 	F.mob_size = MOB_SIZE_LARGE
 	F.speed = 1
-	addtimer(CALLBACK(F, /mob/living/simple_animal/hostile/asteroid/fugu/proc/Deflate), 100)
+	addtimer(CALLBACK(F, TYPE_PROC_REF(/mob/living/simple_animal/hostile/asteroid/fugu, Deflate)), 100)
 
 /mob/living/simple_animal/hostile/asteroid/fugu/proc/Deflate()
 	if(wumbo)
-		walk(src, 0)
+		SSmove_manager.stop_looping(src)
 		wumbo = 0
 		icon_state = "Fugu0"
 		obj_damage = 0

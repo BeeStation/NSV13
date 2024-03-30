@@ -54,7 +54,7 @@
 	var/lose_patience_timer_id //id for a timer to call LoseTarget(), used to stop mobs fixating on a target they can't reach
 	var/lose_patience_timeout = 300 //30 seconds by default, so there's no major changes to AI behaviour, beyond actually bailing if stuck forever
 
-/mob/living/simple_animal/hostile/Initialize()
+/mob/living/simple_animal/hostile/Initialize(mapload)
 	. = ..()
 	wanted_objects = typecacheof(wanted_objects)
 
@@ -66,7 +66,7 @@
 /mob/living/simple_animal/hostile/Life()
 	. = ..()
 	if(!.) //dead
-		walk(src, 0) //stops walking
+		SSmove_manager.stop_looping(src)
 		return 0
 
 /mob/living/simple_animal/hostile/handle_automated_action()
@@ -89,7 +89,7 @@
 /mob/living/simple_animal/hostile/handle_automated_movement()
 	. = ..()
 	if(dodging && target && in_melee && isturf(loc) && isturf(target.loc))
-		var/datum/cb = CALLBACK(src,.proc/sidestep)
+		var/datum/cb = CALLBACK(src,PROC_REF(sidestep))
 		if(sidestep_per_cycle > 1) //For more than one just spread them equally - this could changed to some sensible distribution later
 			var/sidestep_delay = SSnpcpool.wait / sidestep_per_cycle
 			for(var/i in 1 to sidestep_per_cycle)
@@ -229,7 +229,7 @@
 				return FALSE
 			if(P.has_cover &&!P.raised) //Don't attack invincible turrets
 				return FALSE
-			if(P.stat & BROKEN) //Or turrets that are already broken
+			if(P.machine_stat & BROKEN) //Or turrets that are already broken
 				return FALSE
 			return TRUE
 
@@ -250,7 +250,7 @@
 //What we do after closing in
 /mob/living/simple_animal/hostile/proc/MeleeAction(patience = TRUE)
 	if(rapid_melee > 1)
-		var/datum/callback/cb = CALLBACK(src, .proc/CheckAndAttack)
+		var/datum/callback/cb = CALLBACK(src, PROC_REF(CheckAndAttack))
 		var/delay = SSnpcpool.wait / rapid_melee
 		for(var/i in 1 to rapid_melee)
 			addtimer(cb, (i - 1)*delay)
@@ -280,11 +280,11 @@
 			if(!target.Adjacent(target_from) && ranged_cooldown <= world.time) //But make sure they're not in range for a melee attack and our range attack is off cooldown
 				OpenFire(target)
 		if(!Process_Spacemove()) //Drifting
-			walk(src,0)
+			SSmove_manager.stop_looping(src)
 			return 1
 		if(retreat_distance != null) //If we have a retreat distance, check if we need to run from our target
 			if(target_distance <= retreat_distance) //If target's closer than our retreat distance, run
-				walk_away(src,target,retreat_distance,move_to_delay)
+				SSmove_manager.move_away(src, target, retreat_distance, move_to_delay)
 			else
 				Goto(target,move_to_delay,minimum_distance) //Otherwise, get to our minimum distance so we chase them
 		else
@@ -317,7 +317,7 @@
 		approaching_target = TRUE
 	else
 		approaching_target = FALSE
-	walk_to(src, target, minimum_distance, delay)
+	SSmove_manager.move_to(src, target, minimum_distance, delay)
 
 /mob/living/simple_animal/hostile/adjustHealth(amount, updating_health = TRUE, forced = FALSE)
 	. = ..()
@@ -340,7 +340,7 @@
 /mob/living/simple_animal/hostile/proc/Aggro()
 	vision_range = aggro_vision_range
 	if(target && emote_taunt.len && prob(taunt_chance))
-		INVOKE_ASYNC(src, /mob.proc/emote, "me", 1, "[pick(emote_taunt)] at [target].")
+		INVOKE_ASYNC(src, TYPE_PROC_REF(/mob, emote), "me", 1, "[pick(emote_taunt)] at [target].")
 		taunt_chance = max(taunt_chance-7,2)
 
 
@@ -353,7 +353,7 @@
 	GiveTarget(null)
 	approaching_target = FALSE
 	in_melee = FALSE
-	walk(src, 0)
+	SSmove_manager.stop_looping(src)
 	LoseAggro()
 
 //////////////END HOSTILE MOB TARGETTING AND AGGRESSION////////////
@@ -391,7 +391,7 @@
 
 
 	if(rapid > 1)
-		var/datum/callback/cb = CALLBACK(src, .proc/Shoot, A)
+		var/datum/callback/cb = CALLBACK(src, PROC_REF(Shoot), A)
 		for(var/i in 1 to rapid)
 			addtimer(cb, (i - 1)*rapid_fire_delay)
 	else
@@ -529,7 +529,7 @@
 /mob/living/simple_animal/hostile/proc/GainPatience()
 	if(lose_patience_timeout)
 		LosePatience()
-		lose_patience_timer_id = addtimer(CALLBACK(src, .proc/LoseTarget), lose_patience_timeout, TIMER_STOPPABLE)
+		lose_patience_timer_id = addtimer(CALLBACK(src, PROC_REF(LoseTarget)), lose_patience_timeout, TIMER_STOPPABLE)
 
 
 /mob/living/simple_animal/hostile/proc/LosePatience()
@@ -540,7 +540,7 @@
 /mob/living/simple_animal/hostile/proc/LoseSearchObjects()
 	search_objects = 0
 	deltimer(search_objects_timer_id)
-	search_objects_timer_id = addtimer(CALLBACK(src, .proc/RegainSearchObjects), search_objects_regain_time, TIMER_STOPPABLE)
+	search_objects_timer_id = addtimer(CALLBACK(src, PROC_REF(RegainSearchObjects)), search_objects_regain_time, TIMER_STOPPABLE)
 
 
 /mob/living/simple_animal/hostile/proc/RegainSearchObjects(value)
@@ -601,4 +601,4 @@
 		UnregisterSignal(target, COMSIG_PARENT_QDELETING)
 	target = new_target
 	if(target)
-		RegisterSignal(target, COMSIG_PARENT_QDELETING, .proc/handle_target_del)
+		RegisterSignal(target, COMSIG_PARENT_QDELETING, PROC_REF(handle_target_del))

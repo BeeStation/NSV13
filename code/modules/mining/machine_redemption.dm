@@ -15,8 +15,6 @@
 	processing_flags = START_PROCESSING_MANUALLY
 
 	layer = BELOW_OBJ_LAYER
-
-	var/obj/item/card/id/inserted_id
 	var/points = 0
 	var/sheet_per_ore = 1
 	var/point_upgrade = 1
@@ -162,7 +160,7 @@
 
 	if(!console_notify_timer)
 		// gives 5 seconds for a load of ores to be sucked up by the ORM before it sends out request console notifications. This should be enough time for most deposits that people make
-		console_notify_timer = addtimer(CALLBACK(src, .proc/send_console_message), 5 SECONDS)
+		console_notify_timer = addtimer(CALLBACK(src, PROC_REF(send_console_message)), 5 SECONDS)
 
 /obj/machinery/mineral/ore_redemption/default_unfasten_wrench(mob/user, obj/item/I)
 	. = ..()
@@ -339,7 +337,9 @@
 				return
 			var/alloy_id = params["id"]
 			var/datum/design/alloy = stored_research.isDesignResearchedID(alloy_id)
-			if((check_access(inserted_id) || allowed(usr)) && alloy)
+			var/mob/M = usr
+			var/obj/item/card/id/I = M.get_idcard(TRUE)
+			if((check_access(I) || allowed(usr)) && alloy)
 				var/smelt_amount = can_smelt_alloy(alloy)
 				var/desired = 0
 				if (params["sheets"])

@@ -71,3 +71,38 @@
 
 /proc/pathflatten(path)
 	return replacetext(path, "/", "_")
+
+/// Returns the md5 of a file at a given path.
+/proc/md5filepath(path)
+	. = md5(file(path))
+
+/// Save file as an external file then md5 it.
+/// Used because md5ing files stored in the rsc sometimes gives incorrect md5 results.
+/proc/md5asfile(file)
+	var/static/notch = 0
+	// its importaint this code can handle md5filepath sleeping instead of hard blocking, if it's converted to use rust_g.
+	var/filename = "tmp/md5asfile.[world.realtime].[world.timeofday].[world.time].[world.tick_usage].[notch]"
+	notch = WRAP(notch+1, 0, 2**15)
+	fcopy(file, filename)
+	. = md5filepath(filename)
+	fdel(filename)
+
+/** NSV13 - Sanitizes a filepath.
+ * Sanitizes the name of each node in the path.
+ *
+ * Im case you are wondering when to use this proc and when to use SANITIZE_FILENAME,
+ *
+ * You use SANITIZE_FILENAME to sanitize the name of a file [e.g. example.txt]
+ *
+ * You use sanitize_filepath sanitize the path of a file [e.g. root/node/example.txt]
+ *
+ * If you use SANITIZE_FILENAME to sanitize a file path things will break.
+ */
+/proc/sanitize_filepath(path)
+	. = ""
+	var/delimiter = "/" //Very much intentionally hardcoded
+	var/list/all_nodes = splittext(path, delimiter)
+	for(var/node in all_nodes)
+		if(.)
+			. += delimiter // Add the delimiter before each successive node.
+		. += SANITIZE_FILENAME(node)

@@ -7,23 +7,11 @@
 	name = "beanbag slug"
 	damage = 5
 	stamina = 55
+	paralyze = 10 //NSV13 - added paralyze
 
 /obj/item/projectile/bullet/incendiary/shotgun
 	name = "incendiary slug"
 	damage = 20
-
-/obj/item/projectile/bullet/sleepy
-	name = "soporific slug"
-	damage = 0
-
-/obj/item/projectile/bullet/sleepy/on_hit(atom/target, blocked = FALSE)
-	if((blocked != 100) && ishuman(target))
-		var/mob/living/L = target
-		if(L.confused)
-			L.Sleeping(50)
-		else
-			L.confused = 80
-	return ..()
 
 /obj/item/projectile/bullet/incendiary/shotgun/dragonsbreath
 	name = "dragonsbreath pellet"
@@ -54,7 +42,7 @@
 		var/atom/throw_target = get_edge_target_turf(M, get_dir(src, get_step_away(M, src)))
 		M.safe_throw_at(throw_target, 3, 2)
 
-/obj/item/projectile/bullet/shotgun_meteorslug/Initialize()
+/obj/item/projectile/bullet/shotgun_meteorslug/Initialize(mapload)
 	. = ..()
 	SpinAnimation()
 
@@ -103,7 +91,7 @@
 	tile_dropoff = 0.55		//Come on it does 6 damage don't be like that.
 	damage = 6
 
-/obj/item/projectile/bullet/pellet/shotgun_improvised/Initialize()
+/obj/item/projectile/bullet/pellet/shotgun_improvised/Initialize(mapload)
 	. = ..()
 	range = rand(1, 8)
 

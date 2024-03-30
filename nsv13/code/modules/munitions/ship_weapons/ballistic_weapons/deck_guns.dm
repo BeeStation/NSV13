@@ -1,3 +1,7 @@
+#define NAC_MIN_POWDER_LOAD 0.5 // Min powder, equivelant to 25%
+#define NAC_NORMAL_POWDER_LOAD 2 // "100%" powder
+#define NAC_MAX_POWDER_LOAD 10 // Max powder, or 500%
+
 /obj/machinery/ship_weapon/deck_turret
 	name = "\improper M4-15 'Hood' deck turret"
 	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload. Use a multitool on it to re-register loading aparatus."
@@ -8,9 +12,9 @@
 	pixel_x = -43
 	pixel_y = -64
 	bound_width = 96
-	bound_height = 128
+	bound_height = 96
 	bound_x = -32
-	bound_y = -64
+	bound_y = -32
 	semi_auto = TRUE
 	max_ammo = 1
 	obj_integrity = 500
@@ -80,7 +84,7 @@
 	. = ..()
 	//Ensure that the lazyloaded shells come pre-packed
 	for(var/obj/item/ship_weapon/ammunition/naval_artillery/shell in ammo)
-		shell.speed = 2
+		shell.speed = NAC_NORMAL_POWDER_LOAD
 
 /obj/machinery/ship_weapon/deck_turret/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
@@ -101,7 +105,8 @@
 /obj/machinery/ship_weapon/deck_turret/animate_projectile(atom/target, lateral=TRUE)
 	var/obj/item/ship_weapon/ammunition/naval_artillery/T = chambered
 	if(T)
-		linked.fire_projectile(T.projectile_type, target,speed=T.speed, homing=TRUE, lateral=weapon_type.lateral)
+		var/obj/item/projectile/proj = linked.fire_projectile(T.projectile_type, target,speed=T.speed, lateral=weapon_type.lateral)
+		T.handle_shell_modifiers(proj)
 
 /obj/machinery/ship_weapon/deck_turret/proc/rack_load(atom/movable/A)
 	if(length(ammo) < max_ammo && istype(A, ammo_type))
@@ -237,11 +242,12 @@
 			O.forceMove(loc)
 		else
 			qdel(circuit, force)
-	. = ..()
+	return ..()
 
 /obj/machinery/deck_turret/multitool_act(mob/living/user, obj/item/I)
-	. = ..()
+	..()
 	update_parts()
+	return TRUE
 
 /obj/machinery/deck_turret/attackby(obj/item/I, mob/user, params)
 	if(default_unfasten_wrench(user, I))
@@ -249,7 +255,7 @@
 	if(default_deconstruction_screwdriver(user, icon_state, icon_state, I))
 		update_icon()
 		return
-	. = ..()
+	return ..()
 
 /obj/machinery/deck_turret/crowbar_act(mob/living/user, obj/item/I)
 	if(default_deconstruction_crowbar(I))
@@ -340,10 +346,10 @@
 	var/volatility = 1 //Gunpowder is volatile...
 	var/power = 0.5
 
-/obj/item/powder_bag/Initialize()
+/obj/item/powder_bag/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
-	AddComponent(/datum/component/volatile, volatility)
+	AddComponent(/datum/component/volatile, volatility, TRUE)
 
 /obj/item/powder_bag/plasma
 	name = "plasma-based projectile accelerant"
@@ -351,6 +357,223 @@
 	icon_state = "spicypowder"
 	power = 1
 	volatility = 3 //DANGEROUSLY VOLATILE. Can send the entire magazine up in smoke.
+
+/obj/item/powder_bag/hungry
+	name = "gunpowder bag" // full name is built in update_name()
+	desc = "Cute!"
+	icon_state  = "hungrypowder"
+	power = 1
+	volatility = 3
+	var/is_evolving = FALSE // async my beloved
+	var/Elevel = 1
+	var/energy = 0
+	var/next_evolve = 15
+	var/devour_chance = 0 // chance to eat feeder, increases with each evolution level
+	var/devouring = FALSE
+	// enraged related variables
+	var/enraged = FALSE
+	var/mob/living/target
+	var/satisfied_until // we don't attack anyone until we've passed this timestamp
+	var/satisfaction_duration = 5 MINUTES
+
+/obj/item/powder_bag/hungry/Initialize(mapload)
+	. = ..()
+	if(!mapload)
+		playsound(src, 'sound/items/eatfood.ogg', 100, 1)
+	update_state()
+
+	var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
+	VC.explosion_scale = 0.5
+
+/obj/item/powder_bag/hungry/proc/update_state()
+	var/prefix
+	switch(Elevel)
+		if(0 to 3)
+			prefix = "famished"
+		if(4 to 6)
+			prefix = "ravenous"
+			icon_state = "hungrypowder_wobble"
+		if(7 to 9)
+			prefix = "starving"
+		if(10 to 12)
+			prefix = "malnourished"
+			icon_state = "hungrypowder_fastwobble"
+		if(13 to 15)
+			prefix = "hungry"
+		if(16 to 18)
+			prefix = "peckish"
+		if(19 to 21)
+			prefix = "well-fed"
+			icon_state = "hungrypowder_shake"
+		if(22 to 24)
+			prefix = "stuffed"
+		if(25 to 27)
+			prefix = "gluttonized"
+		else
+			prefix = "enraged"
+			icon_state = "hungrypowder_shakeflash"
+			SpinAnimation(20, 1, pick(0, 1))
+			if(!enraged)
+				enraged = TRUE
+				START_PROCESSING(SSobj, src)
+	name = "[prefix] [initial(name)]"
+
+/obj/item/powder_bag/hungry/attackby(obj/item/I, mob/living/user)
+	if(!istype(I, /obj/item/reagent_containers/food/snacks))
+		return ..()
+	if(!istype(user, /mob/living/carbon/human))
+		to_chat(user, "<span class='info'>\The [src] is too lonely to eat right now.</span>")
+		return
+	if(!do_after(user, 7, TRUE, src))
+		return
+	if(is_evolving || devouring)
+		to_chat(user, "<span class='info'>\The [src] can't eat right now.</span>")
+		return
+	var/obj/item/reagent_containers/food/snacks/F = I
+	var/list/food_reagents = F.reagents.reagent_list + F.bonus_reagents
+	var/datum/reagent/toxin/plasma/plasma = locate() in food_reagents
+	if(plasma)
+		// Too spicy for Mr Bag's taste
+		playsound(loc, 'sound/items/eatfood.ogg', 100, 1)
+		visible_message("<span class='danger'>\The [src] begins to expand!</span>")
+		var/delay = max(50 - plasma.volume, 5)
+		var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
+		addtimer(CALLBACK(VC, TYPE_PROC_REF(/datum/component/volatile/, explode)), delay)
+		Shake(10, 10, delay)
+		return
+	var/nutri = 0
+	// loop instead of locate() so we can catch subtypes too
+	for(var/datum/reagent/consumable/nutriment/N in food_reagents)
+		nutri += N.volume
+	if(!nutri)
+		to_chat(user, "<span class='info'>\The [F] is not nutritious enough!</span>")
+		return
+	visible_message("<span class='notice'>\The [src] takes a huge bite out of [F]!</span>")
+	energy += nutri * 2
+	qdel(F)
+	if(energy >= next_evolve)
+		evolve(user)
+	playsound(loc, 'sound/items/eatfood.ogg', 100, 1)
+
+/obj/item/powder_bag/hungry/proc/evolve(mob/living/feeder)
+	set waitfor = FALSE
+	is_evolving = TRUE
+	while(energy >= next_evolve)
+		Elevel++
+		power += 2
+		volatility += 2
+		next_evolve = max(round(next_evolve ** 1.015, 1), next_evolve + initial(next_evolve))
+
+		update_state() // we update state on every iteration so we can't jump over any switch ranges
+
+		devour_chance++
+		if(feeder && prob(devour_chance))
+			devour_chance = max(devour_chance - 10, 1)
+			playsound(feeder, 'sound/effects/tendril_destroyed.ogg', 100, 0)
+			visible_message("<span class='danger'>\The [src] twitches violently as it begins to rapidly roll towards [feeder]!</span>")
+			sleep(20)
+			var/turf/T = get_turf(src)
+			if(T != loc)
+				forceMove(T)
+			var/dist = rand(3, 5)
+			var/turf/FT
+			for(var/i in 1 to dist)
+				T = get_turf(src)
+				FT = get_turf(feeder)
+				if(FT.z != z)
+					break
+				if(get_dist(T, FT) < 2)
+					devour(feeder, 5, FALSE)
+					feeder = null
+					sleep(10)
+					break
+				else
+					var/turf/step = get_step_towards(T, FT)
+					Move(step, get_dir(T, step))
+					var/static/list/messagepool = list("HELLO", "HI!!", "HENLO!", "PERSON", "YAY", "HUNGRY", "FOOD", "MMMMM", "YES", "PLAY") // (HE IS A VERY GOOD BOY)
+					say(pick(messagepool))
+					sleep(1)
+			if(feeder) // How could be so naive? There is no escape
+				say("SAD")
+				playsound(feeder, 'sound/effects/tendril_destroyed.ogg', 100, 0)
+				feeder = null
+	// update our component
+	var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
+	VC.volatility = volatility
+
+	visible_message("<span class='warning'>\The [src] gurgles happily.</span>")
+	new /obj/effect/temp_visual/heart(loc) // :)
+	is_evolving = FALSE
+
+/// Keep in mind that this is a blocking call by default
+/obj/item/powder_bag/hungry/proc/devour(mob/living/target, consumeTime = 26, checkEvolve = TRUE, growSize = TRUE)
+	devouring = TRUE
+	forceMove(get_turf(target))
+	visible_message("<span class='danger'>\The [src] wraps around and begins to devour [target]. Cute!</span>")
+	target.Stun(100 + consumeTime, TRUE, TRUE)
+	target.notransform = TRUE
+	target.anchored = TRUE
+	if(target.stat != DEAD)
+		INVOKE_ASYNC(target, TYPE_PROC_REF(/mob, emote), "scream")
+	SpinAnimation(20, 1, pick(0, 1), parallel = FALSE) // he does tricks!
+	var/segsleep = consumeTime * 0.5
+	sleep(segsleep)
+	say("NOM")
+	sleep(segsleep)
+	energy = max((next_evolve - energy) * 2, energy)
+	if(isplasmaman(target))
+		visible_message("<span class='danger'>\The [src] doesn't look very well..</span>")
+		var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
+		addtimer(CALLBACK(VC, TYPE_PROC_REF(/datum/component/volatile/, explode)), 20)
+		Shake(10, 10, 20)
+	var/list/inventoryItems = target.get_equipped_items(TRUE)
+	target.unequip_everything()
+	target.gib(TRUE, TRUE, TRUE)
+	for(var/atom/movable/AM as() in inventoryItems)
+		var/throwdir = pick(GLOB.alldirs)
+		AM.throw_at(get_step(src, throwdir), rand(1, 3), 2)
+	if(growSize)
+		transform.Scale(1.1)
+	devouring = FALSE
+	if(checkEvolve)
+		evolve()
+
+/obj/item/powder_bag/hungry/process(delta_time)
+	if(!enraged)
+		return PROCESS_KILL
+	if(satisfied_until > world.time || devouring)
+		return
+	if(target)
+		if(target.z != z || get_dist(src, target) > 8)
+			target = null
+	else
+		var/closest_dist = 100
+		for(var/mob/living/L in orange(8, src))
+			var/dist = get_dist(src, L)
+			if(dist < closest_dist || (target.stat == DEAD && L.stat != DEAD)) // Pick the closest ALIVE mob to us, otherwise pick the closest dead one
+				target = L
+				closest_dist = dist
+		if(!target)
+			return
+	if(get_dist(src, target) <= 1)
+		INVOKE_ASYNC(src, PROC_REF(devour), target)
+		satisfied_until = world.time + satisfaction_duration
+	else if(!throwing)
+		throw_at(target, 10, 2)
+
+/obj/item/powder_bag/hungry/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+	if(!enraged)
+		return ..()
+	if(target && hit_atom == target && !devouring)
+		INVOKE_ASYNC(src, PROC_REF(devour), target)
+		satisfied_until = world.time + satisfaction_duration
+		return
+	return ..()
+
+/obj/item/powder_bag/hungry/examine(mob/user)
+	. = ..()
+	if(enraged)
+		. += "<span class='notice'>It appears to be <font color=red><i><b>very</b></i></font> agitated.</span>"
 
 /obj/item/ship_weapon/ammunition/naval_artillery //Huh gee this sure looks familiar don't it...
 	name = "\improper FTL-13 Naval Artillery Round"
@@ -369,14 +592,12 @@
 	var/armed = FALSE //Do it do the big boom?
 	var/speed = 0.5 //Needs powder to increase speed.
 
-/obj/item/ship_weapon/ammunition/naval_artillery/attack_hand(mob/user)
-	return FALSE
+/obj/item/ship_weapon/ammunition/naval_artillery/armed //This is literally just for mail.
+	armed = TRUE
 
-/obj/item/ship_weapon/ammunition/torpedo/attack_hand(mob/user)
-	return FALSE
-
-/obj/item/ship_weapon/ammunition/missile/attack_hand(mob/user)
-	return FALSE
+// Handles shell powder load damage modifiers
+/obj/item/ship_weapon/ammunition/naval_artillery/proc/handle_shell_modifiers(obj/item/projectile/proj)
+	return
 
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball
 	name = "cannon ball"
@@ -409,6 +630,12 @@
 	icon_state = "torpedo_ap"
 	projectile_type = /obj/item/projectile/bullet/mac_round/ap
 
+
+/obj/item/ship_weapon/ammunition/naval_artillery/ap/handle_shell_modifiers(obj/item/projectile/proj)
+	if(speed >= NAC_NORMAL_POWDER_LOAD)
+		proj.damage = proj.damage * CLAMP(log(10, speed * 5), 1, 2) // at 2 speed (or 100% powder load), damage mod is 1, logarithmically scaling up/down based on powder load
+	proj.armour_penetration = proj.armour_penetration * CLAMP(sqrt(speed * 0.5), 0.5, 3)
+
 /obj/item/ship_weapon/ammunition/naval_artillery/homing
 	name = "FTL-1301 Magneton Naval Artillery Round"
 	desc = "A specialist artillery shell which can home in on a target using its hull's innate magnetism, while less accurate than torpedoes, these shells are still a very viable option."
@@ -429,9 +656,8 @@
 	. = ..()
 	. += "[(armed) ? "<span class='userdanger'>The shell is currently armed and ready to fire. </span>" : "<span class ='notice'>The shell must be armed before firing. </span>"]"
 
-/obj/item/ship_weapon/ammunition/missile/CtrlClick(mob/user)
-	. = ..()
-	to_chat(user,"<span class='warning'>[src] is far too cumbersome to carry, and dragging it around might set it off! Load it onto a munitions trolley.</span>")
+/obj/item/ship_weapon/ammunition/naval_artillery/attack_hand(mob/user)
+	return FALSE
 
 /obj/machinery/deck_turret/payload_gate
 	name = "payload loading gate"
@@ -446,6 +672,8 @@
 
 /obj/machinery/deck_turret/payload_gate/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()
+	if(!isliving(user))
+		return FALSE
 	if(get_dist(user, src) > 1)
 		return FALSE
 	if(shell)
@@ -454,11 +682,12 @@
 	if(loading)
 		to_chat(user, "<span class='notice'>[src] is already being loaded...</span>")
 		return FALSE
-	if(ammo_type && istype(A, ammo_type))
-		if(get_dist(A, src) > 1)
-			load_delay = 10.4 SECONDS
-		load(A, user)
-		load_delay = 7.2 SECONDS
+	if(!ammo_type || !istype(A, ammo_type))
+		return FALSE
+	if(get_dist(A, src) > 1)
+		load_delay = 10.4 SECONDS
+	load(A, user)
+	load_delay = 7.2 SECONDS
 
 /obj/machinery/deck_turret/payload_gate/proc/load(obj/item/A, mob/user)
 	var/temp = load_delay
@@ -478,13 +707,20 @@
 			playsound(src.loc, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	loading = FALSE
 
+///Updates state if the moved out obj was the loaded shell
+/obj/machinery/deck_turret/payload_gate/Exited(src)
+	. = ..()
+	if(src == shell)
+		icon_state = initial(icon_state)
+		loaded = FALSE
+		shell = null
+
+///Shorthand for moving shell to turf
 /obj/machinery/deck_turret/payload_gate/proc/unload()
-	icon_state = initial(icon_state)
-	loaded = FALSE
 	if(!shell)
-		return
-	shell.forceMove(get_turf(src))
-	shell = null
+		return FALSE
+	//Will call payload_gate.Exited which handles the actual unloading
+	return shell.forceMove(get_turf(src))
 
 /obj/machinery/deck_turret/payload_gate/proc/feed()
 	if(!shell)
@@ -494,11 +730,11 @@
 	playsound(src.loc, 'nsv13/sound/effects/ship/freespace2/m_load.wav', 100, 1)
 
 /obj/machinery/deck_turret/payload_gate/proc/chamber(obj/machinery/deck_turret/powder_gate/source)
-	if(!shell)
+	if(!shell || !source?.bag)
 		return FALSE
 	shell.speed += source.bag.power
 	shell.name = "Packed [initial(shell.name)]"
-	shell.speed = CLAMP(shell.speed, 0, 10)
+	shell.speed = CLAMP(shell.speed, NAC_MIN_POWDER_LOAD, NAC_MAX_POWDER_LOAD)
 	source.pack()
 	return TRUE
 
@@ -541,7 +777,7 @@
 	dir = EAST
 	pixel_x = -30
 	pixel_y = -42
-	bound_width = 128
+	bound_width = 96
 	bound_height = 96
 	bound_x = -32
 	bound_y = -32
@@ -550,9 +786,9 @@
 	dir = WEST
 	pixel_x = -63
 	pixel_y = -42
-	bound_width = 128
+	bound_width = 96
 	bound_height = 96
-	bound_x = -64
+	bound_x = -32
 	bound_y = -32
 
 //MEGADETH TURRET
@@ -573,7 +809,7 @@
 	dir = EAST
 	pixel_x = -30
 	pixel_y = -42
-	bound_width = 128
+	bound_width = 96
 	bound_height = 96
 	bound_x = -32
 	bound_y = -32
@@ -582,14 +818,14 @@
 	dir = WEST
 	pixel_x = -63
 	pixel_y = -42
-	bound_width = 128
+	bound_width = 96
 	bound_height = 96
-	bound_x = -64
+	bound_x = -32
 	bound_y = -32
 
 /obj/machinery/ship_weapon/deck_turret/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/RefreshParts), world.tick_lag)
+	addtimer(CALLBACK(src, PROC_REF(RefreshParts)), world.tick_lag)
 
 	core = locate(/obj/machinery/deck_turret) in SSmapping.get_turf_below(src)
 	if(!core)
@@ -598,7 +834,11 @@
 	core.turret = src
 	core.update_parts()
 	if(id)
-		addtimer(CALLBACK(src, .proc/link_via_id), 10 SECONDS)
+		return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/ship_weapon/deck_turret/LateInitialize()
+	. = ..()
+	link_via_id()
 
 /obj/machinery/ship_weapon/deck_turret/RefreshParts()//using this proc to create the parts instead
 	. = ..()//because otherwise you'd need to put them in the machine frame to rebuild using a board
@@ -617,13 +857,11 @@
 			component_parts += new /obj/item/assembly/igniter
 
 /obj/machinery/ship_weapon/deck_turret/proc/link_via_id()
-	for(var/obj/machinery/deck_turret/core in GLOB.machines)
-		if(!istype(core))
-			continue
-		if(core.id && core.id == id)
-			core.turret = src
-			src.core = core
-			core.update_parts()
+	for(var/obj/machinery/deck_turret/C in GLOB.machines)
+		if(istype(C) && C?.id == id)
+			C.turret = src
+			core = C
+			C.update_parts()
 
 /obj/machinery/ship_weapon/deck_turret/setDir()
 	. = ..()
@@ -632,27 +870,27 @@
 			pixel_x = -43
 			pixel_y = -32
 			bound_width = 96
-			bound_height = 128
+			bound_height = 96
 			bound_x = -32
 			bound_y = -32
 		if(SOUTH)
 			pixel_x = -43
 			pixel_y = -64
 			bound_width = 96
-			bound_height = 128
+			bound_height = 96
 			bound_x = -32
-			bound_y = -64
+			bound_y = -32
 		if(EAST)
 			pixel_x = -30
 			pixel_y = -42
-			bound_width = 128
+			bound_width = 96
 			bound_height = 96
 			bound_x = -32
 			bound_y = -32
 		if(WEST)
 			pixel_x = -63
 			pixel_y = -42
-			bound_width = 128
+			bound_width = 96
 			bound_height = 96
-			bound_x = -64
+			bound_x = -32
 			bound_y = -32

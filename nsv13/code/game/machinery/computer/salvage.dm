@@ -26,12 +26,16 @@
 	name = "Mining EWAR Telemetry Scrambler (Circuit Board)"
 	build_path = /obj/machinery/computer/ship/salvage/mining
 
-/obj/machinery/computer/ship/salvage/Initialize()
+/obj/machinery/computer/ship/salvage/Initialize(mapload)
 	. = ..()
 	radio = new(src)
 	radio.keyslot = new radio_key
 	radio.listening = 0
 	radio.recalculateChannels()
+
+/obj/machinery/computer/ship/salvage/Destroy()
+	QDEL_NULL(radio)
+	. = ..()
 
 /obj/machinery/computer/ship/salvage/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -49,7 +53,10 @@
 	data["salvage_target_integrity"] = (linked.active_boarding_target) ? linked.active_boarding_target.obj_integrity  : 0
 	data["salvage_target_max_integrity"] = (linked.active_boarding_target) ? linked.active_boarding_target.max_integrity  : 100
 	var/list/ships = list()
-	for(var/obj/structure/overmap/OM in GLOB.overmap_objects)
+	if(!linked?.current_system)
+		data["ships"] = ships
+		return data
+	for(var/obj/structure/overmap/OM in linked.current_system.system_contents)
 		if(OM.z != linked?.z || OM.interior_mode != INTERIOR_EXCLUSIVE || OM.is_sensor_visible(linked) <= SENSOR_VISIBILITY_FAINT || OM == linked.active_boarding_target)
 			continue
 		ships[++ships.len] = list("name"=OM.name, "desc"=OM.desc, "id"="\ref[OM]")
@@ -72,6 +79,9 @@
 				return FALSE
 			if(!OM)
 				radio.talk_into(src, "Detection of target systems failed.", radio_channel)
+				return FALSE
+			if(OM.ghost_controlled)
+				radio.talk_into(src, "EWAR scrambling unable to achieve positive lock, aborting process.", radio_channel)
 				return FALSE
 			if(!can_salvage)
 				radio.talk_into(src, "EWAR scrambling equipment is starting up or shutting down. Try again later.", radio_channel)

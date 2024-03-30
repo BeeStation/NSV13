@@ -16,6 +16,7 @@
 	mouse_drag_pointer = MOUSE_ACTIVE_POINTER
 	throwforce = 10
 	blocks_emissive = EMISSIVE_BLOCK_GENERIC
+	pass_flags_self = PASSMOB
 
 	var/lighting_alpha = LIGHTING_PLANE_ALPHA_VISIBLE
 	var/datum/mind/mind
@@ -144,7 +145,7 @@
 	var/research_scanner = FALSE
 
 	/// Is the mob throw intent on
-	var/in_throw_mode = 0
+	var/throw_mode = THROW_MODE_DISABLED
 
 	/// What job does this mob have
 	var/job = null//Living
@@ -220,3 +221,16 @@
 
 	///Override for sound_environments. If this is set the user will always hear a specific type of reverb (Instead of the area defined reverb)
 	var/sound_environment_override = SOUND_ENVIRONMENT_NONE
+
+	///Currently possesses a typing indicator icon
+	var/typing_indicator = FALSE
+
+	//NSV13 - CHANGES START HERE
+	///Is the mob pixel shifted?
+	var/is_shifted
+
+	///Is the mob actively shifting?
+	var/shifting
+
+	///Takes the four cardinal direction defines. Any atoms moving into this atom's tile will be allowed to from the added directions.
+	var/passthroughable = NONE

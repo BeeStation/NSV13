@@ -225,7 +225,7 @@
 		used = FALSE
 		return FALSE
 	// IMPORTANT - if we're debugging, the user gets thrown into the stand
-	var/list/mob/dead/observer/candidates = debug_mode ? list(user) : pollGhostCandidates("Do you want to play as the [mob_name] of [user.real_name]?", ROLE_HOLOPARASITE, null, FALSE, 100, POLL_IGNORE_HOLOPARASITE)
+	var/list/mob/dead/observer/candidates = debug_mode ? list(user) : pollGhostCandidates("Do you want to play as the [mob_name] of [user.real_name]?", ROLE_HOLOPARASITE, null, 10 SECONDS)
 	if(LAZYLEN(candidates))
 		var/mob/dead/observer/C = pick(candidates)
 		var/mob/living/simple_animal/hostile/guardian/G = new(user, theme, guardian_color)
@@ -235,9 +235,9 @@
 		G.summoner = user.mind
 		G.key = C.key
 		G.mind.enslave_mind_to_creator(user)
-		G.RegisterSignal(user, COMSIG_MOVABLE_MOVED, /mob/living/simple_animal/hostile/guardian.proc/OnMoved)
-		G.RegisterSignal(user, COMSIG_LIVING_REVIVE, /mob/living/simple_animal/hostile/guardian.proc/Reviveify)
-		G.RegisterSignal(user.mind, COMSIG_MIND_TRANSFER_TO, /mob/living/simple_animal/hostile/guardian.proc/OnMindTransfer)
+		G.RegisterSignal(user, COMSIG_MOVABLE_MOVED, TYPE_PROC_REF(/mob/living/simple_animal/hostile/guardian, OnMoved))
+		G.RegisterSignal(user, COMSIG_LIVING_REVIVE, TYPE_PROC_REF(/mob/living/simple_animal/hostile/guardian, Reviveify))
+		G.RegisterSignal(user.mind, COMSIG_MIND_TRANSFER_TO, TYPE_PROC_REF(/mob/living/simple_animal/hostile/guardian, OnMindTransfer))
 		var/datum/antagonist/guardian/S = new
 		S.stats = saved_stats
 		S.summoner = user.mind
@@ -285,7 +285,7 @@
 	var/allowspecial = FALSE
 	var/debug_mode = FALSE
 
-/obj/item/guardiancreator/Initialize()
+/obj/item/guardiancreator/Initialize(mapload)
 	. = ..()
 	builder = new(mob_name, theme, failure_message, max_points, allowspecial, debug_mode)
 

@@ -56,18 +56,18 @@
 
 /datum/brain_trauma/special/ghost_control/on_gain()
 	owner._AddComponent(list(/datum/component/deadchat_control, "democracy", list(
-			 "up" = CALLBACK(GLOBAL_PROC, .proc/_step, owner, NORTH),
-			 "down" = CALLBACK(GLOBAL_PROC, .proc/_step, owner, SOUTH),
-			 "left" = CALLBACK(GLOBAL_PROC, .proc/_step, owner, WEST),
-			 "right" = CALLBACK(GLOBAL_PROC, .proc/_step, owner, EAST)), 120))
+			 "up" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), owner, NORTH),
+			 "down" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), owner, SOUTH),
+			 "left" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), owner, WEST),
+			 "right" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), owner, EAST)), 120))
 	..()
-	
+
 /datum/brain_trauma/special/ghost_control/on_lose()
 	var/datum/component/deadchat_control/D = owner.GetComponent(/datum/component/deadchat_control)
 	if(D)
 		D.RemoveComponent()
 	..()
-	
+
 
 /datum/brain_trauma/special/bluespace_prophet
 	name = "Bluespace Prophecy"
@@ -121,7 +121,7 @@
 	var/obj/effect/hallucination/simple/bluespace_stream/linked_to
 	var/mob/living/carbon/seer
 
-/obj/effect/hallucination/simple/bluespace_stream/Initialize()
+/obj/effect/hallucination/simple/bluespace_stream/Initialize(mapload)
 	. = ..()
 	QDEL_IN(src, 300)
 
@@ -141,30 +141,6 @@
 		if(do_teleport(user, get_turf(linked_to), no_effects = TRUE))
 			user.visible_message("<span class='warning'>[user] [slip_in_message].</span>", null, null, null, user)
 			user.visible_message("<span class='warning'>[user] [slip_out_message].</span>", "<span class='notice'>...and find your way to the other side.</span>")
-
-/datum/brain_trauma/special/psychotic_brawling
-	name = "Violent Psychosis"
-	desc = "Patient fights in unpredictable ways, ranging from helping his target to hitting them with brutal strength."
-	scan_desc = "violent psychosis"
-	gain_text = "<span class='warning'>You feel unhinged...</span>"
-	lose_text = "<span class='notice'>You feel more balanced.</span>"
-	var/datum/martial_art/psychotic_brawling/psychotic_brawling
-
-/datum/brain_trauma/special/psychotic_brawling/on_gain()
-	..()
-	psychotic_brawling = new(null)
-	if(!psychotic_brawling.teach(owner, TRUE))
-		to_chat(owner, "<span class='notice'>But your martial knowledge keeps you grounded.</span>")
-		qdel(src)
-
-/datum/brain_trauma/special/psychotic_brawling/on_lose()
-	..()
-	psychotic_brawling.remove(owner)
-	QDEL_NULL(psychotic_brawling)
-
-/datum/brain_trauma/special/psychotic_brawling/bath_salts
-	name = "Chemical Violent Psychosis"
-	clonable = FALSE
 
 /datum/brain_trauma/special/tenacity
 	name = "Tenacity"
@@ -204,7 +180,7 @@
 /datum/brain_trauma/special/death_whispers/proc/whispering()
 	ADD_TRAIT(owner, TRAIT_SIXTHSENSE, TRAUMA_TRAIT)
 	active = TRUE
-	addtimer(CALLBACK(src, .proc/cease_whispering), rand(50, 300))
+	addtimer(CALLBACK(src, PROC_REF(cease_whispering)), rand(50, 300))
 
 /datum/brain_trauma/special/death_whispers/proc/cease_whispering()
 	REMOVE_TRAIT(owner, TRAIT_SIXTHSENSE, TRAUMA_TRAIT)

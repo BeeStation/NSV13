@@ -32,7 +32,7 @@
 		return TRUE
 	if(M.stat == DEAD)
 		return FALSE
-	var/amc = M.anti_magic_check()
+	var/amc = M.anti_magic_check(magic=FALSE,holy=TRUE)
 	if(amc)
 		return FALSE
 	if(HAS_TRAIT(M, TRAIT_NODEATH))
@@ -53,7 +53,7 @@
 				if(M.mind)
 					M.mind.grab_ghost(TRUE)
 				else
-					var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as a [M.name], an inactive clock cultist?", ROLE_SERVANT_OF_RATVAR, null, ROLE_SERVANT_OF_RATVAR, 50, M)
+					var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as a [M.name], an inactive clock cultist?", ROLE_SERVANT_OF_RATVAR, /datum/role_preference/antagonist/clock_cultist, 7.5 SECONDS, M)
 					if(LAZYLEN(candidates))
 						var/mob/dead/observer/C = pick(candidates)
 						message_admins("[key_name_admin(C)] has taken control of ([key_name_admin(M)]) to replace an AFK player.")
@@ -73,7 +73,7 @@
 		else
 			visible_message("<span class='neovgre'>\The [src] fails to heal [M]!</span>", "<span class='neovgre'>There is insufficient vitality to heal your wounds!</span>")
 	else
-		if(M.anti_magic_check())
+		if(M.anti_magic_check(magic=FALSE,holy=TRUE))
 			return
 		if(is_convertable_to_clockcult(M) && !GLOB.gateway_opening)
 			visible_message("<span class='neovgre'>\The [src] refuses to siphon [M]'s vitality, their mind has great potential!</span>")

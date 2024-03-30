@@ -13,7 +13,7 @@
 	pressure_resistance = 200
 
 
-/obj/structure/alien/resin/flower_bud_enemy/Initialize()
+/obj/structure/alien/resin/flower_bud_enemy/Initialize(mapload)
 	. = ..()
 	var/list/anchors = list()
 	anchors += locate(x-2,y+2,z)
@@ -24,7 +24,7 @@
 	for(var/turf/T in anchors)
 		var/datum/beam/B = Beam(T, "vine", time=INFINITY, maxdistance=5, beam_type=/obj/effect/ebeam/vine)
 		B.sleep_time = 10 //these shouldn't move, so let's slow down updates to 1 second (any slower and the deletion of the vines would be too slow)
-	addtimer(CALLBACK(src, .proc/bear_fruit), growth_time)
+	addtimer(CALLBACK(src, PROC_REF(bear_fruit)), growth_time)
 
 /obj/structure/alien/resin/flower_bud_enemy/proc/bear_fruit()
 	visible_message("<span class='danger'>the plant has borne fruit!</span>")
@@ -37,8 +37,16 @@
 	mouse_opacity = MOUSE_OPACITY_ICON
 	desc = "A thick vine, painful to the touch."
 
+/obj/effect/ebeam/vine/Initialize(mapload)
+	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
-/obj/effect/ebeam/vine/Crossed(atom/movable/AM)
+/obj/effect/ebeam/vine/proc/on_entered(datum/source, atom/movable/AM)
+	SIGNAL_HANDLER
+
 	if(isliving(AM))
 		var/mob/living/L = AM
 		if(!("vines" in L.faction))

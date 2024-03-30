@@ -21,7 +21,7 @@
 	var/scan_state = "" //Holder for the image we display when we're pinged by a mining scanner
 	var/defer_change = 0
 
-/turf/closed/mineral/Initialize()
+/turf/closed/mineral/Initialize(mapload)
 	if (!canSmoothWith)
 		canSmoothWith = list(/turf/closed/mineral, /turf/closed/indestructible)
 	var/matrix/M = new
@@ -89,7 +89,7 @@
 	if(defer_change) // TODO: make the defer change var a var for any changeturf flag
 		flags = CHANGETURF_DEFER_CHANGE
 	ScrapeAway(null, flags)
-	addtimer(CALLBACK(src, .proc/AfterChange), 1, TIMER_UNIQUE)
+	addtimer(CALLBACK(src, PROC_REF(AfterChange)), 1, TIMER_UNIQUE)
 	playsound(src, 'sound/effects/break_stone.ogg', 50, 1) //beautiful destruction
 
 /turf/closed/mineral/attack_animal(mob/living/simple_animal/user)
@@ -144,7 +144,7 @@
 		//Currently, Adamantine won't spawn as it has no uses. -Durandan
 	var/mineralChance = 13
 
-/turf/closed/mineral/random/Initialize()
+/turf/closed/mineral/random/Initialize(mapload)
 
 	mineralSpawnChanceList = typelist("mineralSpawnChanceList", mineralSpawnChanceList)
 
@@ -423,7 +423,7 @@
 	var/activated_name = null
 	var/mutable_appearance/activated_overlay
 
-/turf/closed/mineral/gibtonite/Initialize()
+/turf/closed/mineral/gibtonite/Initialize(mapload)
 	det_time = rand(8,10) //So you don't know exactly when the hot potato will explode
 	. = ..()
 
@@ -499,7 +499,7 @@
 	if(defer_change)
 		flags = CHANGETURF_DEFER_CHANGE
 	ScrapeAway(null, flags)
-	addtimer(CALLBACK(src, .proc/AfterChange), 1, TIMER_UNIQUE)
+	addtimer(CALLBACK(src, PROC_REF(AfterChange)), 1, TIMER_UNIQUE)
 
 
 /turf/closed/mineral/gibtonite/volcanic

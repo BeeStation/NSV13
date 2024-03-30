@@ -1,4 +1,4 @@
-/obj/singularity/factory
+/obj/anomaly/singularity/factory
 	name = "tear in the fabric of reality"
 	desc = "Your own comprehension of reality starts bending as you stare this."
 	icon = 'icons/effects/96x96.dmi'
@@ -9,7 +9,7 @@
 	move_self = 0
 	grav_pull = 1
 
-/obj/singularity/factory/admin_investigate_setup()
+/obj/anomaly/singularity/factory/admin_investigate_setup()
 	return
 
 //AREAS//
@@ -114,11 +114,10 @@
 	ambientsounds = list('sound/ambience/ambiatm1.ogg','sound/ambience/ambitech.ogg','sound/ambience/ambitech2.ogg','sound/ambience/ambitech3.ogg','sound/ambience/ambiatmos.ogg','sound/ambience/ambiatmos2.ogg','sound/ambience/signal.ogg','sound/ambience/ambidanger.ogg','sound/ambience/ambidanger2.ogg','sound/ambience/ambiruin2.ogg')
 
 /area/awaymission/factory/factoryduring/down/levelthree/engine
-	name = "The old reality engine"
+	name = "The reality engine"
 	mood_bonus = 1
 	mood_message = "<span class='nicegreen'>Uhm... Ok?... I guess...\n</span>"
 	ambientsounds = list('sound/ambience/singulambience.ogg','sound/ambience/ambisin1.ogg','sound/ambience/ambisin2.ogg','sound/ambience/ambisin3.ogg','sound/ambience/ambisin4.ogg','sound/ambience/antag/assimilation.ogg','sound/ambience/ambidanger.ogg','sound/ambience/ambidanger2.ogg')
-	name = "The reality engine"
 
 /area/awaymission/factory/factoryduring/down/leveltwo
 	name = "The old Factory - middle level"
@@ -425,7 +424,7 @@
 	var/cooldown = 0
 	var/static/list/idle_sounds
 
-/mob/living/simple_animal/hostile/psycho/regular/Initialize()
+/mob/living/simple_animal/hostile/psycho/regular/Initialize(mapload)
 	. = ..()
 	idle_sounds = list('sound/creatures/psycidle1.ogg','sound/creatures/psycidle2.ogg','sound/creatures/psycidle3.ogg')
 
@@ -469,7 +468,7 @@
 	speed = 0
 	loot = list(/obj/effect/mob_spawn/human/corpse/psychost/muzzle)
 
-/mob/living/simple_animal/hostile/psycho/muzzle/Initialize()
+/mob/living/simple_animal/hostile/psycho/muzzle/Initialize(mapload)
 	. = ..()
 	idle_sounds = list('sound/creatures/psychidle.ogg','sound/creatures/psychidle2.ogg')
 
@@ -521,7 +520,7 @@
 		cooldown = world.time + 300
 		playsound(get_turf(src), chosen_sound, 70, TRUE, 0)
 
-/mob/living/simple_animal/hostile/psycho/trap/Initialize()
+/mob/living/simple_animal/hostile/psycho/trap/Initialize(mapload)
 	. = ..()
 	idle_sounds = list('sound/creatures/psychidle.ogg','sound/creatures/psychidle2.ogg')
 
@@ -534,7 +533,7 @@
 		playsound(src, chosen_sound, 50, FALSE)
 	if(health < maxHealth)
 		playsound(src, 'sound/machines/beep.ogg', 80, FALSE)
-		addtimer(CALLBACK(src, .proc/death), 200)
+		addtimer(CALLBACK(src, PROC_REF(death)), 200)
 
 /mob/living/simple_animal/hostile/psycho/trap/AttackingTarget()
 	var/list/possible_sounds = list('sound/creatures/psychhead.ogg','sound/creatures/psychhead2.ogg')
@@ -581,7 +580,7 @@
 	loot = list(/obj/effect/mob_spawn/human/corpse/heavy)
 	var/cooldown = 0
 
-/mob/living/simple_animal/hostile/syndicate/factory/heavy/Initialize()
+/mob/living/simple_animal/hostile/syndicate/factory/heavy/Initialize(mapload)
 	..()
 
 /mob/living/simple_animal/hostile/syndicate/factory/heavy/Aggro()
@@ -601,7 +600,7 @@
 	if(!(simple_mob_flags & SILENCE_RANGED_MESSAGE))
 		visible_message("<span class='danger'><b>[src]</b> [ranged_message] at [A]!</span>")
 	if(rapid > 1)
-		var/datum/callback/cb = CALLBACK(src, .proc/Shoot, A)
+		var/datum/callback/cb = CALLBACK(src, PROC_REF(Shoot), A)
 		for(var/i in 1 to rapid)
 			addtimer(cb, (i - 1)*rapid_fire_delay)
 	else
@@ -660,7 +659,7 @@
 		var/chosen_sound = pick(possible_sounds)
 		playsound(get_turf(src), chosen_sound, 50, TRUE, 0)
 		visible_message("<span class='danger'>[src] primes the grenade!.</span>")
-		addtimer(CALLBACK(src, .proc/prime), det_time)
+		addtimer(CALLBACK(src, PROC_REF(prime)), det_time)
 
 /mob/living/simple_animal/hostile/zombie_suicide/proc/prime()
 	explosion(src,0, 2, 3, flame_range = 3)
@@ -674,7 +673,7 @@
 /obj/item/grenade/syndieminibomb/concussion/frag/activated
 	det_time = 30
 
-/obj/item/grenade/syndieminibomb/concussion/frag/activated/Initialize()
+/obj/item/grenade/syndieminibomb/concussion/frag/activated/Initialize(mapload)
 	..()
 	preprime()
 
@@ -777,7 +776,7 @@
 	move_to_delay = 20
 	ranged_cooldown = 300
 	ranged_cooldown_time = 300
-	INVOKE_ASYNC(src, .proc/explosion, src.loc, 0, 3, 4, null, null, FALSE, 2)
+	INVOKE_ASYNC(src, PROC_REF(explosion), src.loc, 0, 3, 4, null, null, FALSE, 2)
 	..()
 
 //GUNS//

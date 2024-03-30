@@ -12,18 +12,21 @@ GLOBAL_LIST(admin_antag_list)
 	var/can_coexist_with_others = TRUE			//Whether or not the person will be able to have more than one datum
 	var/list/typecache_datum_blacklist = list()	//List of datums this type can't coexist with
 	var/delete_on_mind_deletion = TRUE
-	var/job_rank
+	/// The ROLE_X key used for this antagonist.
+	var/banning_key
+	/// Required living playtime to be included in the rolling for this antagonist
+	var/required_living_playtime = 0
 	var/give_objectives = TRUE //Should the default objectives be generated?
 	var/replace_banned = TRUE //Should replace jobbanned player with ghosts if granted.
 	var/list/objectives = list()
 	var/delay_roundend = TRUE
 	var/antag_memory = ""//These will be removed with antag datum
 	var/antag_moodlet //typepath of moodlet that the mob will gain with their status
-	
+
 	var/can_elimination_hijack = ELIMINATION_NEUTRAL //If these antags are alone when a shuttle elimination happens.
 	/// If above 0, this is the multiplier for the speed at which we hijack the shuttle. Do not directly read, use hijack_speed().
 	var/hijack_speed = 0
-
+	var/count_against_dynamic_roll_chance = TRUE
 	//Antag panel properties
 	var/show_in_antagpanel = TRUE	//This will hide adding this antag type in antag panel, use only for internal subtypes that shouldn't be added directly but still show if possessed by mind
 	var/antagpanel_category = "Uncategorized"	//Antagpanel will display these together, REQUIRED
@@ -77,7 +80,7 @@ GLOBAL_LIST(admin_antag_list)
 	if(old_body.stat != DEAD && !LAZYLEN(old_body.mind?.antag_datums))
 		old_body.remove_from_current_living_antags()
 	apply_innate_effects(new_body)
-	if(new_body.stat != DEAD)
+	if(count_against_dynamic_roll_chance && new_body.stat != DEAD)
 		new_body.add_to_current_living_antags()
 
 //This handles the application of antag huds/special abilities
@@ -106,20 +109,20 @@ GLOBAL_LIST(admin_antag_list)
 	give_antag_moodies()
 	if(is_banned(owner.current) && replace_banned)
 		replace_banned_player()
-	else if(owner.current.client?.holder && (CONFIG_GET(flag/auto_deadmin_antagonists) || owner.current.client.prefs?.toggles & DEADMIN_ANTAGONIST))
+	else if(owner.current.client?.holder && (CONFIG_GET(flag/auto_deadmin_antagonists) || owner.current.client.prefs?.toggles & PREFTOGGLE_DEADMIN_ANTAGONIST))
 		owner.current.client.holder.auto_deadmin()
-	if(owner.current.stat != DEAD)
+	if(count_against_dynamic_roll_chance && owner.current.stat != DEAD && owner.current.client)
 		owner.current.add_to_current_living_antags()
 
 /datum/antagonist/proc/is_banned(mob/M)
 	if(!M)
 		return FALSE
-	. = (is_banned_from(M.ckey, list(ROLE_SYNDICATE, job_rank)) || QDELETED(M))
+	. = (is_banned_from(M.ckey, banning_key) || QDELETED(M))
 
 /datum/antagonist/proc/replace_banned_player()
 	set waitfor = FALSE
 
-	var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as a [name]?", "[name]", null, job_rank, 50, owner.current)
+	var/list/mob/dead/observer/candidates = pollCandidatesForMob("Do you want to play as a [name]?", banning_key, null, 7.5 SECONDS, owner.current, ignore_category = FALSE)
 	if(LAZYLEN(candidates))
 		var/mob/dead/observer/C = pick(candidates)
 		to_chat(owner, "Your mob has been taken over by a ghost! Appeal your job ban if you want to avoid this in the future!")
@@ -127,6 +130,7 @@ GLOBAL_LIST(admin_antag_list)
 		owner.current.ghostize(FALSE)
 		owner.current.key = C.key
 	else
+		owner.current.playable_bantype = banning_key
 		owner.current.ghostize(FALSE,SENTIENCE_FORCE)
 
 ///Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
@@ -221,14 +225,6 @@ GLOBAL_LIST(admin_antag_list)
 /datum/antagonist/proc/antag_panel_data()
 	return ""
 
-/datum/antagonist/proc/enabled_in_preferences(datum/mind/M)
-	if(job_rank)
-		if(M.current && M.current.client && (job_rank in M.current.client.prefs.be_special))
-			return TRUE
-		else
-			return FALSE
-	return TRUE
-
 // List if ["Command"] = CALLBACK(), user will be appeneded to callback arguments on execution
 /datum/antagonist/proc/get_admin_commands()
 	. = list()
@@ -316,11 +312,11 @@ GLOBAL_LIST(admin_antag_list)
 
 // Handles adding and removing the clumsy mutation from clown antags. Gets called in apply/remove_innate_effects
 /datum/antagonist/proc/handle_clown_mutation(mob/living/mob_override, message, removing = TRUE)
-	var/mob/living/carbon/human/H = mob_override
-	if(H && istype(H) && owner.assigned_role == "Clown")
+	var/mob/living/carbon/C = mob_override
+	if(C && istype(C) && C.has_dna() && owner.assigned_role == JOB_NAME_CLOWN)
 		if(removing) // They're a clown becoming an antag, remove clumsy
-			H.dna.remove_mutation(CLOWNMUT)
+			C.dna.remove_mutation(CLOWNMUT)
 			if(!silent && message)
-				to_chat(H, "<span class='boldnotice'>[message]</span>")
+				to_chat(C, "<span class='boldnotice'>[message]</span>")
 		else
-			H.dna.add_mutation(CLOWNMUT) // We're removing their antag status, add back clumsy
+			C.dna.add_mutation(CLOWNMUT) // We're removing their antag status, add back clumsy

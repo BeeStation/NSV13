@@ -40,7 +40,7 @@ RLD
 	var/datum/component/remote_materials/silo_mats //remote connection to the silo
 	var/silo_link = FALSE //switch to use internal or remote storage
 
-/obj/item/construction/Initialize()
+/obj/item/construction/Initialize(mapload)
 	. = ..()
 	spark_system = new /datum/effect_system/spark_spread
 	spark_system.set_up(5, 0, src)
@@ -240,9 +240,11 @@ RLD
 /obj/item/construction/rcd/proc/get_airlock_image(airlock_type)
 	var/obj/machinery/door/airlock/proto = airlock_type
 	var/ic = initial(proto.icon)
+	var/co = initial(proto.color) //NSV13 allows airlocks with color vars (mining airlocks) to be colored
 	var/mutable_appearance/MA = mutable_appearance(ic, "closed")
 	if(!initial(proto.glass))
 		MA.overlays += "fill_closed"
+	MA.color = co //NSV13 colors airlocks
 	//Not scaling these down to button size because they look horrible then, instead just bumping up radius.
 	return MA
 
@@ -255,7 +257,7 @@ RLD
 		"SOUTH" = image(icon = 'icons/mob/radial.dmi', icon_state = "csouth"),
 		"WEST" = image(icon = 'icons/mob/radial.dmi', icon_state = "cwest")
 		)
-	var/computerdirs = show_radial_menu(user, src, computer_dirs, custom_check = CALLBACK(src, .proc/check_menu, user), require_near = TRUE, tooltips = TRUE)
+	var/computerdirs = show_radial_menu(user, src, computer_dirs, custom_check = CALLBACK(src, PROC_REF(check_menu), user), require_near = TRUE, tooltips = TRUE)
 	if(!check_menu(user))
 		return
 	switch(computerdirs)
@@ -267,7 +269,7 @@ RLD
 			computer_dir = 2
 		if("WEST")
 			computer_dir = 8
-
+/* NSV13 We don't use these airlocks. See nsv13/code/game/object/items/RCD.dm for NSV airlocks
 /obj/item/construction/rcd/proc/change_airlock_setting(mob/user)
 	if(!user)
 		return
@@ -314,13 +316,13 @@ RLD
 		"External Maintenance" = get_airlock_image(/obj/machinery/door/airlock/maintenance/external/glass)
 	)
 
-	var/airlockcat = show_radial_menu(user, src, solid_or_glass_choices, custom_check = CALLBACK(src, .proc/check_menu, user), require_near = TRUE, tooltips = TRUE)
+	var/airlockcat = show_radial_menu(user, src, solid_or_glass_choices, custom_check = CALLBACK(src, PROC_REF(check_menu), user), require_near = TRUE, tooltips = TRUE)
 	if(!check_menu(user))
 		return
 	switch(airlockcat)
 		if("Solid")
 			if(advanced_airlock_setting == 1)
-				var/airlockpaint = show_radial_menu(user, src, solid_choices, radius = 42, custom_check = CALLBACK(src, .proc/check_menu, user), require_near = TRUE, tooltips = TRUE)
+				var/airlockpaint = show_radial_menu(user, src, solid_choices, radius = 42, custom_check = CALLBACK(src, PROC_REF(check_menu), user), require_near = TRUE, tooltips = TRUE)
 				if(!check_menu(user))
 					return
 				switch(airlockpaint)
@@ -365,7 +367,7 @@ RLD
 
 		if("Glass")
 			if(advanced_airlock_setting == 1)
-				var/airlockpaint = show_radial_menu(user, src , glass_choices, radius = 42, custom_check = CALLBACK(src, .proc/check_menu, user), require_near = TRUE, tooltips = TRUE)
+				var/airlockpaint = show_radial_menu(user, src , glass_choices, radius = 42, custom_check = CALLBACK(src, PROC_REF(check_menu), user), require_near = TRUE, tooltips = TRUE)
 				if(!check_menu(user))
 					return
 				switch(airlockpaint)
@@ -404,7 +406,7 @@ RLD
 		else
 			airlock_type = /obj/machinery/door/airlock
 			airlock_glass = FALSE
-
+*/
 /obj/item/construction/rcd/proc/rcd_create(atom/A, mob/user)
 	var/list/rcd_results = A.rcd_vals(user, src)
 	if(!rcd_results)
@@ -422,7 +424,7 @@ RLD
 					return TRUE
 	qdel(rcd_effect)
 
-/obj/item/construction/rcd/Initialize()
+/obj/item/construction/rcd/Initialize(mapload)
 	. = ..()
 	airlock_electronics = new(src)
 	airlock_electronics.name = "Access Control"
@@ -461,7 +463,7 @@ RLD
 		choices += list(
 			"Change Window Type" = image(icon = 'icons/mob/radial.dmi', icon_state = "windowtype")
 		)
-	var/choice = show_radial_menu(user, src, choices, custom_check = CALLBACK(src, .proc/check_menu, user), require_near = TRUE, tooltips = TRUE)
+	var/choice = show_radial_menu(user, src, choices, custom_check = CALLBACK(src, PROC_REF(check_menu), user), require_near = TRUE, tooltips = TRUE)
 	if(!check_menu(user))
 		return
 	switch(choice)
@@ -515,7 +517,7 @@ RLD
 		buzz loudly!</b></span>","<span class='danger'><b>[src] begins \
 		vibrating violently!</b></span>")
 	// 5 seconds to get rid of it
-	addtimer(CALLBACK(src, .proc/detonate_pulse_explode), 50)
+	addtimer(CALLBACK(src, PROC_REF(detonate_pulse_explode)), 50)
 
 /obj/item/construction/rcd/proc/detonate_pulse_explode()
 	explosion(src, 0, 0, 3, 1, flame_range = 1)
@@ -528,7 +530,7 @@ RLD
 		cut_overlays()	//To prevent infinite stacking of overlays
 		add_overlay("[icon_state]_charge[ratio]")
 
-/obj/item/construction/rcd/Initialize()
+/obj/item/construction/rcd/Initialize(mapload)
 	. = ..()
 	update_icon()
 
@@ -820,7 +822,7 @@ RLD
 				machinery_data["cost"][A] = initial(M.rcd_cost)
 				machinery_data["delay"][A] = initial(M.rcd_delay)
 
-	var/choice = show_radial_menu(user, src, choices, custom_check = CALLBACK(src, .proc/check_menu, user), require_near = TRUE, tooltips = TRUE)
+	var/choice = show_radial_menu(user, src, choices, custom_check = CALLBACK(src, PROC_REF(check_menu), user), require_near = TRUE, tooltips = TRUE)
 	if(!check_menu(user))
 		return
 

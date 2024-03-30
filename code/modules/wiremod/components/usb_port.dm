@@ -26,9 +26,9 @@
 		circuit_components += circuit_component
 
 /datum/component/usb_port/RegisterWithParent()
-	RegisterSignal(parent, COMSIG_ATOM_USB_CABLE_TRY_ATTACH, .proc/on_atom_usb_cable_try_attach)
-	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, .proc/on_moved)
-	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, .proc/on_examine)
+	RegisterSignal(parent, COMSIG_ATOM_USB_CABLE_TRY_ATTACH, PROC_REF(on_atom_usb_cable_try_attach))
+	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
+	RegisterSignal(parent, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine))
 
 	for(var/obj/item/circuit_component/component as anything in circuit_components)
 		component.register_usb_parent(parent)
@@ -72,7 +72,7 @@
 /datum/component/usb_port/proc/attach_circuit_components(obj/item/integrated_circuit/circuitboard)
 	for(var/obj/item/circuit_component/component as anything in circuit_components)
 		circuitboard.add_component(component)
-		RegisterSignal(component, COMSIG_CIRCUIT_COMPONENT_REMOVED, .proc/on_circuit_component_removed)
+		RegisterSignal(component, COMSIG_CIRCUIT_COMPONENT_REMOVED, PROC_REF(on_circuit_component_removed))
 
 /datum/component/usb_port/proc/on_examine(datum/source, mob/user, list/examine_text)
 	SIGNAL_HANDLER
@@ -93,15 +93,15 @@
 	var/atom/atom_parent = parent
 
 	if (!isnull(attached_circuit))
-		atom_parent.balloon_alert(user, "usb already connected")
+		atom_parent.balloon_alert(user, "There is a USB already connected.")
 		return COMSIG_CANCEL_USB_CABLE_ATTACK
 
 	if (isnull(connecting_cable.attached_circuit))
-		connecting_cable.balloon_alert(user, "connect to a shell first")
+		connecting_cable.balloon_alert(user, "Connect to a shell first!")
 		return COMSIG_CANCEL_USB_CABLE_ATTACK
 
 	if (!IN_GIVEN_RANGE(connecting_cable.attached_circuit, parent, USB_CABLE_MAX_RANGE))
-		connecting_cable.balloon_alert(user, "too far away")
+		connecting_cable.balloon_alert(user, "You are too far away.")
 		return COMSIG_CANCEL_USB_CABLE_ATTACK
 
 	usb_cable_ref = WEAKREF(connecting_cable)
@@ -113,10 +113,10 @@
 
 	usb_cable_beam = atom_parent.Beam(attached_circuit.shell, "usb_cable_beam", 'icons/obj/wiremod.dmi')
 
-	RegisterSignal(attached_circuit, COMSIG_CIRCUIT_SHELL_REMOVED, .proc/on_circuit_shell_removed)
-	RegisterSignal(attached_circuit, COMSIG_PARENT_QDELETING, .proc/on_circuit_deleting)
-	RegisterSignal(attached_circuit.shell, COMSIG_MOVABLE_MOVED, .proc/on_moved)
-	RegisterSignal(attached_circuit.shell, COMSIG_PARENT_EXAMINE, .proc/on_examine_shell)
+	RegisterSignal(attached_circuit, COMSIG_CIRCUIT_SHELL_REMOVED, PROC_REF(on_circuit_shell_removed))
+	RegisterSignal(attached_circuit, COMSIG_PARENT_QDELETING, PROC_REF(on_circuit_deleting))
+	RegisterSignal(attached_circuit.shell, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
+	RegisterSignal(attached_circuit.shell, COMSIG_PARENT_EXAMINE, PROC_REF(on_examine_shell))
 
 	return COMSIG_USB_CABLE_ATTACHED
 

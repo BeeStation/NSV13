@@ -144,6 +144,9 @@
 #define ATMOS_PASS_PROC -1 //ask CanAtmosPass()
 #define ATMOS_PASS_DENSITY -2 //just check density
 
+#define ATMOS_ADJACENT_ANY					(1<<0)
+#define ATMOS_ADJACENT_FIRELOCK				(1<<1)
+
 #define CANATMOSPASS(A, O) ( A.CanAtmosPass == ATMOS_PASS_PROC ? A.CanAtmosPass(O) : ( A.CanAtmosPass == ATMOS_PASS_DENSITY ? !A.density : A.CanAtmosPass ) )
 #define CANVERTICALATMOSPASS(A, O) ( A.CanAtmosPassVertical == ATMOS_PASS_PROC ? A.CanAtmosPass(O, TRUE) : ( A.CanAtmosPassVertical == ATMOS_PASS_DENSITY ? !A.density : A.CanAtmosPassVertical ) )
 
@@ -164,7 +167,8 @@
 #define ATMOS_TANK_AIRMIX			"o2=2644;n2=10580;TEMP=293.15"
 
 //LAVALAND
-#define LAVALAND_EQUIPMENT_EFFECT_PRESSURE 90 //! what pressure you have to be under to increase the effect of equipment meant for lavaland
+#define MAXIMUM_LAVALAND_EQUIPMENT_EFFECT_PRESSURE 90 //! what pressure you have to be under to increase the effect of equipment meant for lavaland
+#define MINIMUM_LAVALAND_EQUIPMENT_EFFECT_PRESSURE 25 //! what pressure you have to be over to increase the effect of equipment meant for lavaland
 #define LAVALAND_DEFAULT_ATMOS		"o2=14;n2=5;co2=13;TEMP=300"
 
 //ATMOS MIX IDS
@@ -251,8 +255,8 @@
 //MULTIPIPES
 //IF YOU EVER CHANGE THESE CHANGE SPRITES TO MATCH.
 #define PIPING_LAYER_MIN 1
-#define PIPING_LAYER_MAX 3
-#define PIPING_LAYER_DEFAULT 2
+#define PIPING_LAYER_MAX 5
+#define PIPING_LAYER_DEFAULT 3
 #define PIPING_LAYER_P_X 5
 #define PIPING_LAYER_P_Y 5
 #define PIPING_LAYER_LCHANGE 0.05
@@ -275,7 +279,6 @@
 #define GAS_BZ					"bz"
 #define GAS_STIMULUM			"stim"
 #define GAS_PLUOXIUM			"pluox"
-//#define GAS_MIASMA				"miasma" //NSV13 - no miasma
 #define GAS_CONSTRICTED_PLASMA  "constricted_plasma" //NSV13
 #define GAS_NUCLEIUM			"nucleium" //NSV13
 
@@ -291,16 +294,17 @@
 		T.pixel_y = (PipingLayer - PIPING_LAYER_DEFAULT) * PIPING_LAYER_P_Y;\
 	}
 
+#define PIPING_FORWARD_SHIFT(T, PipingLayer, more_shift) \
+	if(T.dir & (NORTH|SOUTH)) {									\
+		T.pixel_y += more_shift * (PipingLayer - PIPING_LAYER_DEFAULT);\
+	}																		\
+	if(T.dir & (EAST|WEST)) {										\
+		T.pixel_x += more_shift * (PipingLayer - PIPING_LAYER_DEFAULT);\
+	}
+
 #define PIPING_LAYER_DOUBLE_SHIFT(T, PipingLayer) \
 	T.pixel_x = (PipingLayer - PIPING_LAYER_DEFAULT) * PIPING_LAYER_P_X;\
 	T.pixel_y = (PipingLayer - PIPING_LAYER_DEFAULT) * PIPING_LAYER_P_Y;
-
-#ifdef TESTING
-GLOBAL_LIST_INIT(atmos_adjacent_savings, list(0,0))
-#define CALCULATE_ADJACENT_TURFS(T) if (SSadjacent_air.queue[T]) { GLOB.atmos_adjacent_savings[1] += 1 } else { GLOB.atmos_adjacent_savings[2] += 1; SSadjacent_air.queue[T] = 1 }
-#else
-#define CALCULATE_ADJACENT_TURFS(T) SSadjacent_air.queue[T] = 1
-#endif
 
 GLOBAL_LIST_INIT(pipe_paint_colors, sortList(list(
 		"amethyst" = rgb(130,43,255), //supplymain
@@ -316,10 +320,6 @@ GLOBAL_LIST_INIT(pipe_paint_colors, sortList(list(
 		"violet" = rgb(64,0,128),
 		"yellow" = rgb(255,198,0)
 )))
-
-//ROT MIASMA
-#define MIASMA_CORPSE_MOLES 0.02
-#define MIASMA_GIBS_MOLES 0.005
 
 //PIPENET UPDATE STATUS
 #define PIPENET_UPDATE_STATUS_DORMANT 0

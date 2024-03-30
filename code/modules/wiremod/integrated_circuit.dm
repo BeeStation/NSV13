@@ -44,11 +44,11 @@
 	/// Y position of the examined component
 	var/examined_rel_y = 0
 
-/obj/item/integrated_circuit/Initialize()
+/obj/item/integrated_circuit/Initialize(mapload)
 	. = ..()
-	RegisterSignal(src, COMSIG_ATOM_USB_CABLE_TRY_ATTACH, .proc/on_atom_usb_cable_try_attach)
+	RegisterSignal(src, COMSIG_ATOM_USB_CABLE_TRY_ATTACH, PROC_REF(on_atom_usb_cable_try_attach))
 
-/obj/item/integrated_circuit/loaded/Initialize()
+/obj/item/integrated_circuit/loaded/Initialize(mapload)
 	. = ..()
 	cell = new /obj/item/stock_parts/cell/high(src)
 
@@ -88,7 +88,7 @@
 		return
 
 	if(istype(I, /obj/item/card/id))
-		balloon_alert(user, "owner id set for [I]")
+		balloon_alert(user, "Owner ID has been set for [I].")
 		owner_id = WEAKREF(I)
 		return
 
@@ -113,7 +113,7 @@
 	remove_current_shell()
 	on = TRUE
 	shell = new_shell
-	RegisterSignal(shell, COMSIG_PARENT_QDELETING, .proc/remove_current_shell)
+	RegisterSignal(shell, COMSIG_PARENT_QDELETING, PROC_REF(remove_current_shell))
 	for(var/obj/item/circuit_component/attached_component as anything in attached_components)
 		attached_component.register_shell(shell)
 		// Their input ports may be updated with user values, but the outputs haven't updated
@@ -165,7 +165,7 @@
 	to_add.rel_y = rand(COMPONENT_MIN_RANDOM_POS, COMPONENT_MAX_RANDOM_POS)
 	to_add.parent = src
 	attached_components += to_add
-	RegisterSignal(to_add, COMSIG_MOVABLE_MOVED, .proc/component_move_handler)
+	RegisterSignal(to_add, COMSIG_MOVABLE_MOVED, PROC_REF(component_move_handler))
 	SStgui.update_uis(src)
 
 	if(shell)
@@ -394,7 +394,7 @@
 				if(PORT_TYPE_STRING)
 					port.set_input(copytext(user_input, 1, PORT_MAX_STRING_LENGTH))
 				if(PORT_TYPE_SIGNAL)
-					balloon_alert(usr, "triggered [port.name]")
+					balloon_alert(usr, "Triggered [port.name].")
 					port.set_input(COMPONENT_SIGNAL)
 			. = TRUE
 		if("get_component_value")
@@ -412,7 +412,7 @@
 				value = port.convert_value(port.output_value)
 			else if(isnull(value))
 				value = "null"
-			balloon_alert(usr, "[port.name] value: [value]")
+			balloon_alert(usr, "[port.name] value: [value].")
 			. = TRUE
 		if("set_display_name")
 			var/new_name = params["display_name"]
@@ -442,7 +442,7 @@
 			. = TRUE
 
 /obj/item/integrated_circuit/proc/on_atom_usb_cable_try_attach(datum/source, obj/item/usb_cable/usb_cable, mob/user)
-	usb_cable.balloon_alert(user, "circuit needs to be in a compatible shell")
+	usb_cable.balloon_alert(user, "The circuit needs to be in a compatible shell.")
 	return COMSIG_CANCEL_USB_CABLE_ATTACK
 
 #undef WITHIN_RANGE

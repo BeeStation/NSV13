@@ -8,13 +8,12 @@ SUBSYSTEM_DEF(traumas)
 	var/list/phobia_turfs
 	var/list/phobia_species
 
-#define PHOBIA_FILE "phobia.json"
-
 /datum/controller/subsystem/traumas/Initialize()
 	//phobia types is to pull from randomly for brain traumas, e.g. conspiracies is for special assignment only
-	phobia_types = sortList(list("spiders", "space", "security", "clowns", "greytide", "lizards",
-						"skeletons", "snakes", "robots", "doctors", "authority", "the supernatural",
-						"aliens", "strangers", "birds", "falling", "anime"))
+	//5 is the default weight, lower it for more punishing phobias
+	phobia_types = sortList(list("spiders" = 5, "space" = 2, "security" = 5, "clowns" = 5, "greytide" = 5, "lizards" = 5,
+						"skeletons" = 5, "snakes" = 5, "robots" = 4, "doctors" = 4, "authority" = 5, "the supernatural" = 5,
+						"aliens" = 5, "strangers" = 5, "birds" = 5, "falling" = 5, "anime" = 5))
 
 	phobia_words = list("spiders"   = strings(PHOBIA_FILE, "spiders"),
 						"space"     = strings(PHOBIA_FILE, "space"),
@@ -65,7 +64,7 @@ SUBSYSTEM_DEF(traumas)
 
 					  "clowns"    = typecacheof(list(/obj/item/clothing/under/rank/civilian/clown, /obj/item/clothing/shoes/clown_shoes,
 												 /obj/item/clothing/mask/gas/clown_hat, /obj/item/instrument/bikehorn,
-												 /obj/item/pda/clown, /obj/item/grown/bananapeel)),
+												 /obj/item/modular_computer/tablet/pda/clown, /obj/item/grown/bananapeel)),
 
 					  "greytide"  = typecacheof(list(/obj/item/clothing/under/color/grey, /obj/item/melee/baton/cattleprod,
 												 /obj/item/spear, /obj/item/clothing/mask/gas/old)),
@@ -112,7 +111,7 @@ SUBSYSTEM_DEF(traumas)
 						/obj/item/melee/cultblade, /obj/item/cult_bastard, /obj/item/restraints/legcuffs/bola/cult,
 						/obj/item/clothing/suit/cultrobes, /obj/item/clothing/suit/space/hardsuit/cult,
 						/obj/item/clothing/suit/hooded/cultrobes, /obj/item/clothing/head/hooded/cult_hoodie, /obj/effect/rune,
-						/obj/item/stack/sheet/runed_metal, /obj/machinery/door/airlock/cult, /obj/singularity/narsie,
+						/obj/item/stack/sheet/runed_metal, /obj/machinery/door/airlock/cult, /obj/eldritch/narsie,
 						/obj/item/soulstone, /obj/item/clockwork,
 						/obj/item/stack/tile/brass,
 						/obj/machinery/door/airlock/clockwork,
@@ -140,7 +139,7 @@ SUBSYSTEM_DEF(traumas)
 					   "anime" = typecacheof(list(/obj/item/clothing/under/costume/schoolgirl, /obj/item/katana, /obj/item/reagent_containers/food/snacks/sashimi, /obj/item/reagent_containers/food/snacks/chawanmushi,
 					   /obj/item/reagent_containers/food/drinks/bottle/sake, /obj/item/throwing_star, /obj/item/clothing/head/kitty/genuine, /obj/item/clothing/suit/space/space_ninja,
 					   /obj/item/clothing/mask/gas/space_ninja, /obj/item/clothing/shoes/space_ninja, /obj/item/clothing/gloves/space_ninja, /obj/item/vibro_weapon,
-					   /obj/item/nullrod/scythe/vibro, /obj/item/energy_katana, /obj/item/toy/katana, /obj/item/nullrod/claymore/katana, /obj/structure/window/paperframe, /obj/structure/mineral_door/paperframe))
+					   /obj/item/nullrod/scythe/vibro, /obj/item/energy_katana, /obj/item/toy/katana, /obj/item/nullrod/claymore/katana, /obj/item/katana/weak/curator, /obj/structure/window/paperframe, /obj/structure/mineral_door/paperframe))
 						)
 
 	phobia_turfs = list("space" = typecacheof(list(/turf/open/space, /turf/open/floor/holofloor/space, /turf/open/floor/fakespace)),
@@ -162,5 +161,3 @@ SUBSYSTEM_DEF(traumas)
 						 )
 
 	return ..()
-
-#undef PHOBIA_FILE

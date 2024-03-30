@@ -12,7 +12,7 @@
 /obj/structure/plasticflaps/opaque
 	opacity = TRUE
 
-/obj/structure/plasticflaps/Initialize()
+/obj/structure/plasticflaps/Initialize(mapload)
 	. = ..()
 	alpha = 0
 	SSvis_overlays.add_vis_overlay(src, icon, icon_state, ABOVE_MOB_LAYER, plane, dir, add_appearance_flags = RESET_ALPHA) //you see mobs under it, but you hit them like they are above it
@@ -31,7 +31,7 @@
 	var/action = anchored ? "unscrews [src] from" : "screws [src] to"
 	var/uraction = anchored ? "unscrew [src] from " : "screw [src] to"
 	user.visible_message("<span class='warning'>[user] [action] the floor.</span>", "<span class='notice'>You start to [uraction] the floor...</span>", "You hear rustling noises.")
-	if(W.use_tool(src, user, 100, volume=100, extra_checks = CALLBACK(src, .proc/check_anchored_state, anchored)))
+	if(W.use_tool(src, user, 100, volume=100, extra_checks = CALLBACK(src, PROC_REF(check_anchored_state), anchored)))
 		setAnchored(!anchored)
 		to_chat(user, "<span class='notice'> You [anchored ? "unscrew" : "screw"] [src] from the floor.</span>")
 		return TRUE
@@ -45,8 +45,7 @@
 			if(anchored)
 				return TRUE
 			to_chat(user, "<span class='notice'>You cut apart [src].</span>")
-			var/obj/item/stack/sheet/plastic/five/P = new(loc)
-			P.add_fingerprint(user)
+			new /obj/item/stack/sheet/plastic/five(loc, null, TRUE, user)
 			qdel(src)
 			return TRUE
 		else
@@ -70,7 +69,9 @@
 		return CanAStarPass(ID, to_dir, caller.pulling)
 	return TRUE //diseases, stings, etc can pass
 
-/obj/structure/plasticflaps/CanPass(atom/movable/A, turf/T)
+/obj/structure/plasticflaps/CanAllowThrough(atom/movable/A, turf/T)
+	. = ..()
+
 	if(istype(A) && (A.pass_flags & PASSGLASS))
 		return prob(60)
 
@@ -94,14 +95,13 @@
 			return TRUE
 		if((M.mobility_flags & MOBILITY_STAND) && !M.ventcrawler && M.mob_size != MOB_SIZE_TINY)	//If your not laying down, or a ventcrawler or a small creature, no pass.
 			return FALSE
-	return ..()
 
 /obj/structure/plasticflaps/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))
 		new /obj/item/stack/sheet/plastic/five(loc)
 	qdel(src)
 
-/obj/structure/plasticflaps/Initialize()
+/obj/structure/plasticflaps/Initialize(mapload)
 	. = ..()
 	air_update_turf(TRUE)
 

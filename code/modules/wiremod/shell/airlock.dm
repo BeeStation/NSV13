@@ -2,7 +2,7 @@
 	name = "circuit airlock"
 	autoclose = FALSE
 
-/obj/machinery/door/airlock/shell/Initialize()
+/obj/machinery/door/airlock/shell/Initialize(mapload)
 	. = ..()
 	AddComponent( \
 		/datum/component/shell, \
@@ -50,7 +50,7 @@
 	/// Called when the airlock is touched
 	var/datum/port/output/trigger_port
 
-/obj/item/circuit_component/airlock/Initialize()
+/obj/item/circuit_component/airlock/Initialize(mapload)
 	. = ..()
 	// Input Signals
 	bolt = add_input_port("Bolt", PORT_TYPE_SIGNAL)
@@ -88,10 +88,10 @@
 	. = ..()
 	if(istype(shell, /obj/machinery/door/airlock))
 		attached_airlock = shell
-		RegisterSignal(shell, COMSIG_AIRLOCK_SET_BOLT, .proc/on_airlock_set_bolted)
-		RegisterSignal(shell, COMSIG_AIRLOCK_OPEN, .proc/on_airlock_open)
-		RegisterSignal(shell, COMSIG_AIRLOCK_CLOSE, .proc/on_airlock_closed)
-		RegisterSignal(shell, COMSIG_AIRLOCK_TOUCHED, .proc/on_airlock_touched)
+		RegisterSignal(shell, COMSIG_AIRLOCK_SET_BOLT, PROC_REF(on_airlock_set_bolted))
+		RegisterSignal(shell, COMSIG_AIRLOCK_OPEN, PROC_REF(on_airlock_open))
+		RegisterSignal(shell, COMSIG_AIRLOCK_CLOSE, PROC_REF(on_airlock_closed))
+		RegisterSignal(shell, COMSIG_AIRLOCK_TOUCHED, PROC_REF(on_airlock_touched))
 
 /obj/item/circuit_component/airlock/unregister_shell(atom/movable/shell)
 	attached_airlock = null
@@ -140,6 +140,6 @@
 	if(COMPONENT_TRIGGERED_BY(unbolt, port))
 		attached_airlock.unbolt()
 	if(COMPONENT_TRIGGERED_BY(open, port) && attached_airlock.density)
-		INVOKE_ASYNC(attached_airlock, /obj/machinery/door/airlock.proc/open)
+		INVOKE_ASYNC(attached_airlock, TYPE_PROC_REF(/obj/machinery/door/airlock, open))
 	if(COMPONENT_TRIGGERED_BY(close, port) && !attached_airlock.density)
-		INVOKE_ASYNC(attached_airlock, /obj/machinery/door/airlock.proc/close)
+		INVOKE_ASYNC(attached_airlock, TYPE_PROC_REF(/obj/machinery/door/airlock, close))

@@ -102,7 +102,7 @@
 		T = get_step(T, dir_to_target)
 	playsound(src,'sound/magic/demon_attack1.ogg', 200, 1)
 	visible_message("<span class='boldwarning'>[src] prepares to charge!</span>")
-	addtimer(CALLBACK(src, .proc/legionnaire_charge_2, dir_to_target, 0), 5)
+	addtimer(CALLBACK(src, PROC_REF(legionnaire_charge_2), dir_to_target, 0), 5)
 
 /mob/living/simple_animal/hostile/asteroid/elite/legionnaire/proc/legionnaire_charge_2(var/move_dir, var/times_ran)
 	if(times_ran >= 4)
@@ -130,7 +130,7 @@
 		L.safe_throw_at(throwtarget, 10, 1, src)
 		L.Paralyze(20)
 		L.adjustBruteLoss(50)
-	addtimer(CALLBACK(src, .proc/legionnaire_charge_2, move_dir, (times_ran + 1)), 2)
+	addtimer(CALLBACK(src, PROC_REF(legionnaire_charge_2), move_dir, (times_ran + 1)), 2)
 
 /mob/living/simple_animal/hostile/asteroid/elite/legionnaire/proc/head_detach(target)
 	ranged_cooldown = world.time + 10
@@ -156,7 +156,7 @@
 
 /mob/living/simple_animal/hostile/asteroid/elite/legionnaire/proc/onHeadDeath()
 	myhead = null
-	addtimer(CALLBACK(src, .proc/regain_head), 50)
+	addtimer(CALLBACK(src, PROC_REF(regain_head)), 50)
 
 /mob/living/simple_animal/hostile/asteroid/elite/legionnaire/proc/regain_head()
 	has_head = TRUE
@@ -249,13 +249,23 @@
 	light_color = LIGHT_COLOR_RED
 	var/mob/living/simple_animal/hostile/asteroid/elite/legionnaire/myowner = null
 
+/obj/structure/legionnaire_bonfire/Initialize(mapload)
+	. = ..()
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
-/obj/structure/legionnaire_bonfire/Entered(atom/movable/mover, turf/target)
+/obj/structure/legionnaire_bonfire/proc/on_entered(datum/source, atom/movable/mover)
+	SIGNAL_HANDLER
+
+	if(isobj(mover))
+		var/obj/object = mover
+		object.fire_act(1000, 500)
 	if(isliving(mover))
 		var/mob/living/L = mover
 		L.adjust_fire_stacks(3)
 		L.IgniteMob()
-	. = ..()
 
 /obj/structure/legionnaire_bonfire/Destroy()
 	if(myowner != null)
@@ -267,7 +277,7 @@
 	duration = 10
 	color = rgb(0,0,0)
 
-/obj/effect/temp_visual/dragon_swoop/legionnaire/Initialize()
+/obj/effect/temp_visual/dragon_swoop/legionnaire/Initialize(mapload)
 	. = ..()
 	transform *= 0.33
 

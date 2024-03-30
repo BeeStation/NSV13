@@ -77,7 +77,7 @@
 
 	log_directed_talk(mob, H, input, LOG_ADMIN, "reply")
 	message_admins("[key_name_admin(src)] replied to [key_name_admin(H)]'s [sender] message with: \"[input]\"")
-	to_chat(H, "You hear something crackle in your ears for a moment before a voice speaks.  \"Please stand by for a message from [sender == "Syndicate" ? "your benefactor" : "Central Command"].  Message as follows[sender == "Syndicate" ? ", agent." : ":"] <span class='bold'>[input].</span> Message ends.\"")
+	to_chat(H, "You hear something crackle in your ears for a moment before a voice speaks.  \"Please stand by for a message from [sender == "Syndicate" ? "your benefactor" : JOB_CENTCOM_CENTRAL_COMMAND].  Message as follows[sender == "Syndicate" ? ", agent." : ":"] <span class='bold'>[input].</span> Message ends.\"")
 
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Headset Message") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
@@ -205,8 +205,8 @@
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Godmode", "[M.status_flags & GODMODE ? "Enabled" : "Disabled"]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 
-/proc/cmd_admin_mute(whom, mute_type, automute = 0)
-	if(!whom)
+/proc/cmd_admin_mute(whom, mute_type, automute = FALSE)
+	if(!whom || !mute_type)
 		return
 
 	var/muteunmute
@@ -238,7 +238,7 @@
 			mute_string = "everything"
 			feedback_string = "Everything"
 		else
-			return
+			CRASH("mute_type in cmd_admin_mute was invalid: [mute_type]")
 
 	var/client/C
 	if(istype(whom, /client))
@@ -253,12 +253,14 @@
 		P = C.prefs
 	else
 		P = GLOB.preferences_datums[whom]
+
 	if(!P)
 		return
 
 	if(automute)
 		if(!CONFIG_GET(flag/automute_on))
 			return
+
 	else
 		if(!check_rights())
 			return
@@ -268,14 +270,17 @@
 		P.muted |= mute_type
 		log_admin("SPAM AUTOMUTE: [muteunmute] [key_name(whom)] from [mute_string]")
 		message_admins("SPAM AUTOMUTE: [muteunmute] [key_name_admin(whom)] from [mute_string].")
+
 		if(C)
 			to_chat(C, "You have been [muteunmute] from [mute_string] by the SPAM AUTOMUTE system. Contact an admin.")
+
 		SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Auto Mute [feedback_string]", "1")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 		return
 
 	if(P.muted & mute_type)
 		muteunmute = "unmuted"
 		P.muted &= ~mute_type
+
 	else
 		muteunmute = "muted"
 		P.muted |= mute_type
@@ -284,6 +289,7 @@
 	message_admins("[key_name_admin(usr)] has [muteunmute] [key_name_admin(whom)] from [mute_string].")
 	if(C)
 		to_chat(C, "You have been [muteunmute] from [mute_string] by [key_name(usr, include_name = FALSE)].")
+
 	SSblackbox.record_feedback("nested tally", "admin_toggle", 1, list("Mute [feedback_string]", "[P.muted & mute_type]")) //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 
@@ -294,7 +300,7 @@
 		for(var/mob/M in GLOB.player_list)
 			if(M.stat != DEAD)
 				continue	//we are not dead!
-			if(!(ROLE_ALIEN in M.client.prefs.be_special))
+			if(!M.client?.should_include_for_role(ROLE_ALIEN, /datum/role_preference/midround_ghost/xenomorph))
 				continue	//we don't want to be an alium
 			if(M.client.is_afk())
 				continue	//we are afk
@@ -425,13 +431,14 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	if(record_found)//If they have a record we can determine a few things.
 		new_character.real_name = record_found.fields["name"]
-		new_character.gender = record_found.fields["sex"]
+		new_character.gender = record_found.fields["gender"]
 		new_character.age = record_found.fields["age"]
 		new_character.hardset_dna(record_found.fields["identity"], record_found.fields["enzymes"], record_found.fields["name"], record_found.fields["blood_type"], new record_found.fields["species"], record_found.fields["features"], null)
 	else
-		var/datum/preferences/A = new()
-		A.copy_to(new_character)
-		A.real_name = G_found.real_name
+		var/datum/character_save/CS = new()
+		CS.randomise()
+		CS.pref_species.random_name(CS.gender, TRUE)
+		CS.copy_to(new_character)
 		new_character.dna.update_dna_identity()
 
 	new_character.name = new_character.real_name
@@ -441,7 +448,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	else
 		new_character.mind_initialize()
 	if(!new_character.mind.assigned_role)
-		new_character.mind.assigned_role = "Midshipman" //Nsv13 - Crayon eaters//If they somehow got a null assigned role.
+		new_character.mind.assigned_role = JOB_NAME_ASSISTANT//If they somehow got a null assigned role.
 
 	new_character.key = G_found.key
 
@@ -467,7 +474,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 			new_character.forceMove(pick(GLOB.wizardstart))
 			var/datum/antagonist/wizard/A = new_character.mind.has_antag_datum(/datum/antagonist/wizard,TRUE)
 			A.equip_wizard()
-		if(ROLE_SYNDICATE)
+		if(ROLE_OPERATIVE)
 			new_character.forceMove(pick(GLOB.nukeop_start))
 			var/datum/antagonist/nukeop/N = new_character.mind.has_antag_datum(/datum/antagonist/nukeop,TRUE)
 			N.equip_op()
@@ -482,9 +489,9 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 		else//They may also be a cyborg or AI.
 			switch(new_character.mind.assigned_role)
-				if("Cyborg")//More rigging to make em' work and check if they're traitor.
+				if(JOB_NAME_CYBORG)//More rigging to make em' work and check if they're traitor.
 					new_character = new_character.Robotize(TRUE)
-				if("AI")
+				if(JOB_NAME_AI)
 					new_character = new_character.AIize()
 				else
 					SSjob.EquipRank(new_character, new_character.mind.assigned_role, 1)//Or we simply equip them.
@@ -635,7 +642,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 	if ((devastation != -1) || (heavy != -1) || (light != -1) || (flash != -1) || (flames != -1))
 		if ((devastation > 20) || (heavy > 20) || (light > 20) || (flames > 20))
-			if (alert(src, "Are you sure you want to do this? It will laaag.", "Confirmation", "Yes", "No") == "No")
+			if (alert(src, "Are you sure you want to do this? It will laaag.", "Confirmation", "Yes", "No") != "Yes")
 				return
 
 		explosion(O, devastation, heavy, light, flash, null, null,flames)
@@ -679,7 +686,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		return
 
 	var/confirm = alert(src, "Drop a brain?", "Confirm", "Yes", "No","Cancel")
-	if(confirm == "Cancel")
+	if(confirm == "Cancel" || !confirm)
 		return
 	//Due to the delay here its easy for something to have happened to the mob
 	if(!M)
@@ -796,7 +803,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 
 	var/notifyplayers = alert(src, "Do you want to notify the players?", "Options", "Yes", "No", "Cancel")
-	if(notifyplayers == "Cancel")
+	if(notifyplayers == "Cancel" || !notifyplayers)
 		return
 
 	if(SSticker.HasRoundStarted())
@@ -881,7 +888,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	for(var/datum/atom_hud/antag/H in GLOB.huds) // add antag huds
 		(adding_hud) ? H.add_hud_to(usr) : H.remove_hud_from(usr)
 
-	if(prefs.toggles & COMBOHUD_LIGHTING)
+	if(prefs.toggles & PREFTOGGLE_COMBOHUD_LIGHTING)
 		if(adding_hud)
 			mob.lighting_alpha = LIGHTING_PLANE_ALPHA_INVISIBLE
 		else
@@ -915,7 +922,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!holder)
 		return
 
-	var/weather_type = input("Choose a weather", "Weather")  as null|anything in sortList(subtypesof(/datum/weather), /proc/cmp_typepaths_asc)
+	var/weather_type = input("Choose a weather", "Weather")  as null|anything in sortList(subtypesof(/datum/weather), GLOBAL_PROC_REF(cmp_typepaths_asc))
 	if(!weather_type)
 		return
 
@@ -1079,7 +1086,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!check_rights(R_ADMIN) || !check_rights(R_FUN))
 		return
 
-	var/list/punishment_list = list(ADMIN_PUNISHMENT_ENTRAPPED, ADMIN_PUNISHMENT_LIGHTNING, ADMIN_PUNISHMENT_BRAINDAMAGE, ADMIN_PUNISHMENT_GIB, ADMIN_PUNISHMENT_BSA, ADMIN_PUNISHMENT_FIREBALL, ADMIN_PUNISHMENT_ROD, ADMIN_PUNISHMENT_SUPPLYPOD_QUICK, ADMIN_PUNISHMENT_SUPPLYPOD, ADMIN_PUNISHMENT_MAZING, ADMIN_PUNISHMENT_FLOORCLUWNE, ADMIN_PUNISHMENT_CLUWNE, ADMIN_PUNISHMENT_IMMERSE, ADMIN_PUNISHMENT_GHOST, ADMIN_PUNISHMENT_DEMOCRACY, ADMIN_PUNISHMENT_ANARCHY, ADMIN_PUNISHMENT_TOE, ADMIN_PUNISHMENT_TOEPLUS) //NSV13 added "Entrapped"
+	var/list/punishment_list = list(ADMIN_PUNISHMENT_LIGHTNING, ADMIN_PUNISHMENT_BRAINDAMAGE, ADMIN_PUNISHMENT_GIB, ADMIN_PUNISHMENT_BSA, ADMIN_PUNISHMENT_FIREBALL, ADMIN_PUNISHMENT_ROD, ADMIN_PUNISHMENT_SUPPLYPOD_QUICK, ADMIN_PUNISHMENT_SUPPLYPOD, ADMIN_PUNISHMENT_MAZING, ADMIN_PUNISHMENT_FLOORCLUWNE, ADMIN_PUNISHMENT_CLUWNE, ADMIN_PUNISHMENT_IMMERSE, ADMIN_PUNISHMENT_GHOST, ADMIN_PUNISHMENT_DEMOCRACY, ADMIN_PUNISHMENT_ANARCHY, ADMIN_PUNISHMENT_TOE, ADMIN_PUNISHMENT_TOEPLUS, ADMIN_PUNISHMENT_CRYO, ADMIN_PUNISHMENT_ENTRAPPED, ADMIN_PUNISHMENT_DOCK) //NSV13 - added entrapped + Dock
 	if(istype(target, /mob/living/carbon))
 		punishment_list += ADMIN_PUNISHMENT_NUGGET
 	var/punishment = input("Choose a punishment", "DIVINE SMITING") as null|anything in sortList(punishment_list)
@@ -1092,7 +1099,33 @@ Traitors and the like can also be revived with the previous role mostly intact.
 			for(var/turf/T in (orange(1, target) - target.loc))
 				new /obj/item/ship_weapon/ammunition/naval_artillery/cannonball/admin(T)
 			target.playsound_local(get_turf(target), 'sound/magic/clockwork/invoke_general.ogg', 200, pressure_affected = FALSE)
-			to_chat(target, "<span class='narsiesmall'>Entrapped.</span>") //NSV13 end
+			to_chat(target, "<span class='narsiesmall'>Entrapped.</span>")
+		if(ADMIN_PUNISHMENT_DOCK)
+			if(!iscarbon(target))
+				to_chat(usr,"<span class='warning'>This must be used on a carbon mob.</span>")
+				return
+			var/mob/living/carbon/dude = target
+			var/obj/item/card/id/card = dude.get_idcard(TRUE)
+			if(!card)
+				to_chat(usr,"<span class='warning'>[dude] does not have an ID card on!</span>")
+				return
+			if(!card.registered_account)
+				to_chat(usr,"<span class='warning'>[dude] does not have an ID card with an account!</span>")
+				return
+			if(card.registered_account.account_balance == 0)
+				to_chat(usr, "<span class='warning'>ID Card lacks any funds. No pay to dock.</span>")
+				return
+			var/new_cost = input("How much pay are we docking? Current balance: [card.registered_account.account_balance] credits.","BUDGET CUTS") as num|null
+			if(!new_cost)
+				return
+			if(!(card.registered_account.has_money(new_cost)))
+				to_chat(usr, "<span class='warning'>ID Card lacked funds. Emptying account.</span>")
+				card.registered_account.bank_card_talk("[new_cost] credits deducted from your account based on performance review.")
+				card.registered_account.account_balance = 0
+			else
+				card.registered_account.account_balance = card.registered_account.account_balance - new_cost
+				card.registered_account.bank_card_talk("[new_cost] credits deducted from your account based on performance review.")
+			SEND_SOUND(target, 'sound/machines/buzz-sigh.ogg') //NSV13 end
 		if(ADMIN_PUNISHMENT_LIGHTNING)
 			var/turf/T = get_step(get_step(target, NORTH), NORTH)
 			T.Beam(target, icon_state="lightning[rand(1,12)]", time = 5)
@@ -1197,17 +1230,20 @@ Traitors and the like can also be revived with the previous role mostly intact.
 
 		if(ADMIN_PUNISHMENT_DEMOCRACY)
 			target._AddComponent(list(/datum/component/deadchat_control, DEMOCRACY_MODE, list(
-			 "up" = CALLBACK(GLOBAL_PROC, .proc/_step, target, NORTH),
-			 "down" = CALLBACK(GLOBAL_PROC, .proc/_step, target, SOUTH),
-			 "left" = CALLBACK(GLOBAL_PROC, .proc/_step, target, WEST),
-			 "right" = CALLBACK(GLOBAL_PROC, .proc/_step, target, EAST)), 40))
+			 "up" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, NORTH),
+			 "down" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, SOUTH),
+			 "left" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, WEST),
+			 "right" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, EAST)), 40))
 
 		if(ADMIN_PUNISHMENT_ANARCHY)
 			target._AddComponent(list(/datum/component/deadchat_control, ANARCHY_MODE, list(
-			 "up" = CALLBACK(GLOBAL_PROC, .proc/_step, target, NORTH),
-			 "down" = CALLBACK(GLOBAL_PROC, .proc/_step, target, SOUTH),
-			 "left" = CALLBACK(GLOBAL_PROC, .proc/_step, target, WEST),
-			 "right" = CALLBACK(GLOBAL_PROC, .proc/_step, target, EAST)), 10))
+			 "up" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, NORTH),
+			 "down" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, SOUTH),
+			 "left" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, WEST),
+			 "right" = CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(_step), target, EAST)), 10))
+
+		if(ADMIN_PUNISHMENT_CRYO)
+			forcecryo(target)
 
 	punish_log(target, punishment)
 
@@ -1339,3 +1375,15 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	var/turf/T = get_turf(usr)
 	new /mob/living/carbon/human(T)
 	log_admin("[key_name(usr)] spawned a mindless human.")
+
+/client/proc/cmd_admin_send_pda_msg()
+	set name = "Send PDA Message"
+	set category = "Adminbus"
+
+	if(!check_rights(R_ADMIN))
+		return
+	var/obj/machinery/telecomms/message_server/server
+	for(var/obj/machinery/telecomms/message_server/S in GLOB.telecomms_list)
+		server = S
+		break
+	tgui_send_admin_pda(usr, null, server, theme = "admin", allow_send_all = TRUE)

@@ -38,10 +38,10 @@
 	var/alive_fish = 0
 	var/dead_fish = 0
 
-/obj/structure/aquarium/Initialize()
+/obj/structure/aquarium/Initialize(mapload)
 	. = ..()
 	update_icon()
-	RegisterSignal(src,COMSIG_PARENT_ATTACKBY, .proc/feed_feedback)
+	RegisterSignal(src,COMSIG_PARENT_ATTACKBY, PROC_REF(feed_feedback))
 
 
 /obj/structure/aquarium/proc/request_layer(layer_type)

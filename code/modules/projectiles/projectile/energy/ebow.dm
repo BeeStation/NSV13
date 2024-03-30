@@ -2,12 +2,12 @@
 /obj/item/projectile/energy/bolt //ebow bolts
 	name = "bolt"
 	icon_state = "cbbolt"
-	damage = 15
+	damage = 8 //NSV13 - set damage back to 8
 	damage_type = TOX
 	nodamage = FALSE
-	stamina = 60
+	//NSV13 - removed stamina and knockdown, added paralyze
+	paralyze = 100
 	eyeblur = 10
-	knockdown = 10
 	slur = 5
 
 /obj/item/projectile/energy/bolt/radbolt
@@ -22,7 +22,7 @@
 	knockdown = 0
 	irradiate = 400
 
-/obj/item/projectile/energy/bolt/radbolt/Initialize()
+/obj/item/projectile/energy/bolt/radbolt/Initialize(mapload)
 	. = ..()
 	create_reagents(30, NO_REACT)
 	reagents.add_reagent(/datum/reagent/toxin/polonium, 10)

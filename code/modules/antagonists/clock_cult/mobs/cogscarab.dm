@@ -28,7 +28,7 @@ GLOBAL_LIST_INIT(cogscarabs, list())
 	discovery_points = 2000
 
 //No you can't go wielding guns like that.
-/mob/living/simple_animal/drone/cogscarab/Initialize()
+/mob/living/simple_animal/drone/cogscarab/Initialize(mapload)
 	. = ..()
 	ADD_TRAIT(src, TRAIT_NOGUNS, "cogscarab")
 	GLOB.cogscarabs += src
@@ -43,6 +43,11 @@ GLOBAL_LIST_INIT(cogscarabs, list())
 		var/turf/T = get_turf(pick(GLOB.servant_spawns))
 		try_warp_servant(src, T, FALSE)
 	. = ..()
+
+/mob/living/simple_animal/drone/cogscarab/force_hit_projectile(obj/item/projectile/projectile)
+	if(isliving(projectile.fired_from) && is_servant_of_ratvar(projectile.fired_from))
+		return FALSE
+	return TRUE
 
 //====Shell====
 
@@ -60,16 +65,11 @@ GLOBAL_LIST_INIT(cogscarabs, list())
 /obj/effect/mob_spawn/drone/cogscarab/attack_ghost(mob/user)
 	if(is_banned_from(user.ckey, ROLE_SERVANT_OF_RATVAR) || QDELETED(src) || QDELETED(user))
 		return
-	if(CONFIG_GET(flag/use_age_restriction_for_jobs))
-		if(!isnum(user.client.player_age)) //apparently what happens when there's no DB connected. just don't let anybody be a drone without admin intervention
-			if(user.client.player_age < 14)
-				to_chat(user, "<span class='danger'>You're too new to play as a drone! Please try again in [14 - user.client.player_age] days.</span>")
-				return
 	if(!SSticker.mode)
 		to_chat(user, "Can't become a cogscarab before the game has started.")
 		return
 	var/be_drone = alert("Become a cogscarab? (Warning, You can no longer be cloned!)",,"Yes","No")
-	if(be_drone == "No" || QDELETED(src) || !isobserver(user))
+	if(be_drone != "Yes" || QDELETED(src) || !isobserver(user))
 		return
 	var/mob/living/simple_animal/drone/D = new mob_type(get_turf(loc))
 	if(!D.default_hatmask && seasonal_hats && possible_seasonal_hats.len)

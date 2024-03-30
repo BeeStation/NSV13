@@ -6,7 +6,7 @@
 	anchored = TRUE
 	var/popped = FALSE
 
-/obj/effect/fun_balloon/Initialize()
+/obj/effect/fun_balloon/Initialize(mapload)
 	. = ..()
 	SSobj.processing |= src
 
@@ -53,7 +53,7 @@
 		bodies += M
 
 	var/question = "Would you like to be [group_name]?"
-	var/list/candidates = pollCandidatesForMobs(question, ROLE_PAI, null, FALSE, 100, bodies)
+	var/list/candidates = pollCandidatesForMobs(question, ROLE_SENTIENCE, null, 10 SECONDS, bodies)
 	while(LAZYLEN(candidates) && LAZYLEN(bodies))
 		var/mob/dead/observer/C = pick_n_take(candidates)
 		var/mob/living/body = pick_n_take(bodies)
@@ -92,7 +92,7 @@
 	icon_state = "syndballoon"
 	anchored = TRUE
 
-/obj/effect/station_crash/Initialize()
+/obj/effect/station_crash/Initialize(mapload)
 	..()
 	for(var/S in SSshuttle.stationary)
 		var/obj/docking_port/stationary/SM = S
@@ -110,7 +110,7 @@
 	timeleft = 0
 	var/list/warp_points = list()
 
-/obj/effect/forcefield/arena_shuttle/Initialize()
+/obj/effect/forcefield/arena_shuttle/Initialize(mapload)
 	. = ..()
 	for(var/obj/effect/landmark/shuttle_arena_safe/exit in GLOB.landmarks_list)
 		warp_points += exit

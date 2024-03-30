@@ -83,13 +83,13 @@
 
 	var/list/saved_recipes = list()
 
-/obj/machinery/chem_dispenser/Initialize()
+/obj/machinery/chem_dispenser/Initialize(mapload)
 	. = ..()
-	dispensable_reagents = sortList(dispensable_reagents, /proc/cmp_reagents_asc)
+	dispensable_reagents = sortList(dispensable_reagents, GLOBAL_PROC_REF(cmp_reagents_asc))
 	if(emagged_reagents)
-		emagged_reagents = sortList(emagged_reagents, /proc/cmp_reagents_asc)
+		emagged_reagents = sortList(emagged_reagents, GLOBAL_PROC_REF(cmp_reagents_asc))
 	if(upgrade_reagents)
-		upgrade_reagents = sortList(upgrade_reagents, /proc/cmp_reagents_asc)
+		upgrade_reagents = sortList(upgrade_reagents, GLOBAL_PROC_REF(cmp_reagents_asc))
 	update_icon()
 
 /obj/machinery/chem_dispenser/Destroy()
@@ -108,7 +108,7 @@
 
 /obj/machinery/chem_dispenser/process(delta_time)
 	if (recharge_counter >= 8)
-		if(!is_operational())
+		if(!is_operational)
 			return
 		var/usedpower = cell.give(recharge_amount)
 		if(usedpower)
@@ -237,7 +237,7 @@
 			replace_beaker(usr)
 			. = TRUE
 
-	if(!is_operational())
+	if(!is_operational)
 		return
 
 	switch(action)
@@ -314,7 +314,7 @@
 			var/name = stripped_input(usr,"Name","What do you want to name this recipe?", "Recipe", MAX_NAME_LEN)
 			if(!usr.canUseTopic(src, !issilicon(usr)))
 				return
-			if(saved_recipes[name] && alert("\"[name]\" already exists, do you want to overwrite it?",, "Yes", "No") == "No")
+			if(saved_recipes[name] && alert("\"[name]\" already exists, do you want to overwrite it?",, "Yes", "No") != "Yes")
 				return
 			if(name && recording_recipe)
 				for(var/reagent in recording_recipe)
@@ -415,7 +415,7 @@
 	if(istype(user) && user.canUseTopic(src, BE_CLOSE, FALSE, NO_TK))
 		replace_beaker(user)
 
-/obj/machinery/chem_dispenser/drinks/Initialize()
+/obj/machinery/chem_dispenser/drinks/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/simple_rotation, ROTATION_ALTCLICK | ROTATION_CLOCKWISE)
 
@@ -472,6 +472,7 @@
 		/datum/reagent/consumable/pwr_game,
 		/datum/reagent/consumable/shamblers,
 		/datum/reagent/consumable/sugar,
+		/datum/reagent/consumable/pineapplejuice,
 		/datum/reagent/consumable/orangejuice,
 		/datum/reagent/consumable/grenadine,
 		/datum/reagent/consumable/limejuice,
@@ -493,7 +494,7 @@
 	flags_1 = NODECONSTRUCT_1
 	circuit = /obj/item/circuitboard/machine/chem_dispenser/drinks/fullupgrade
 
-/obj/machinery/chem_dispenser/drinks/fullupgrade/Initialize()
+/obj/machinery/chem_dispenser/drinks/fullupgrade/Initialize(mapload)
 	. = ..()
 	dispensable_reagents |= emagged_reagents //adds emagged reagents
 
@@ -519,6 +520,7 @@
 		/datum/reagent/consumable/ethanol/hcider,
 		/datum/reagent/consumable/ethanol/creme_de_menthe,
 		/datum/reagent/consumable/ethanol/creme_de_cacao,
+		/datum/reagent/consumable/ethanol/creme_de_coconut,
 		/datum/reagent/consumable/ethanol/triple_sec,
 		/datum/reagent/consumable/ethanol/sake,
 		/datum/reagent/consumable/ethanol/applejack
@@ -538,7 +540,7 @@
 	flags_1 = NODECONSTRUCT_1
 	circuit = /obj/item/circuitboard/machine/chem_dispenser/drinks/beer/fullupgrade
 
-/obj/machinery/chem_dispenser/drinks/beer/fullupgrade/Initialize()
+/obj/machinery/chem_dispenser/drinks/beer/fullupgrade/Initialize(mapload)
 	. = ..()
 	dispensable_reagents |= emagged_reagents //adds emagged reagents
 
@@ -602,7 +604,7 @@
 	flags_1 = NODECONSTRUCT_1
 	circuit = /obj/item/circuitboard/machine/chem_dispenser/fullupgrade
 
-/obj/machinery/chem_dispenser/fullupgrade/Initialize()
+/obj/machinery/chem_dispenser/fullupgrade/Initialize(mapload)
 	. = ..()
 	dispensable_reagents |= emagged_reagents //adds emagged reagents
 

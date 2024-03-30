@@ -6,11 +6,13 @@
 	name = "Bluespace Artillery"
 
 /datum/station_goal/bluespace_cannon/get_report()
-	return {"Our military presence is inadequate in your sector.
-	 We need you to construct BSA-[rand(1,99)] Artillery position aboard your ship.
-
-	 Base parts are available for shipping via cargo.
-	 -Nanotrasen Naval Command"} //NSV13
+	return list(
+		"<blockquote>Our military presence is inadequate in your sector.",
+		"We need you to construct BSA-[rand(1,99)] Artillery position aboard your ship.",
+		"",
+		"Base parts are available for shipping via cargo.",
+		"-Nanotrasen Naval Command</blockquote>",
+	).Join("\n") //NSV13
 
 /datum/station_goal/bluespace_cannon/on_report()
 	//Unlock BSA parts
@@ -21,7 +23,7 @@
 	if(..())
 		return TRUE
 	var/obj/machinery/bsa/full/B = locate()
-	if(B && !B.stat)
+	if(B && !B.machine_stat)
 		return TRUE
 	return FALSE
 
@@ -327,7 +329,7 @@
 	if(!cannon)
 		notice = "No Cannon Exists!"
 		return
-	if(cannon.stat)
+	if(cannon.machine_stat)
 		notice = "Cannon unpowered!"
 		return
 	notice = null

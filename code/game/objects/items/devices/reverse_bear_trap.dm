@@ -22,10 +22,10 @@
 	var/datum/looping_sound/reverse_bear_trap/soundloop
 	var/datum/looping_sound/reverse_bear_trap_beep/soundloop2
 
-/obj/item/reverse_bear_trap/Initialize()
+/obj/item/reverse_bear_trap/Initialize(mapload)
 	. = ..()
-	soundloop = new(list(src))
-	soundloop2 = new(list(src))
+	soundloop = new(src)
+	soundloop2 = new(src)
 
 /obj/item/reverse_bear_trap/Destroy()
 	QDEL_NULL(soundloop)
@@ -43,7 +43,7 @@
 		soundloop.stop()
 		soundloop2.stop()
 		to_chat(loc, "<span class='userdanger'>*ding*</span>")
-		addtimer(CALLBACK(src, .proc/snap), 2)
+		addtimer(CALLBACK(src, PROC_REF(snap)), 2)
 
 /obj/item/reverse_bear_trap/attack_hand(mob/user)
 	if(iscarbon(user))

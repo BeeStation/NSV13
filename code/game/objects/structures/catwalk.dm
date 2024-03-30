@@ -6,7 +6,8 @@
 	number_of_rods = 2
 	smooth = SMOOTH_TRUE
 	canSmoothWith = null
-	obj_flags = CAN_BE_HIT | BLOCK_Z_FALL
+	obj_flags = CAN_BE_HIT | BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP
+	flags_1 = PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	//Negates the effect of space and openspace.
 	//Shouldn't be placed above anything else.
 	FASTDMM_PROP(\
@@ -27,9 +28,9 @@
 	if(C.tool_behaviour == TOOL_WELDER)
 		if(!C.tool_start_check(user, amount=0))
 			return FALSE
-		balloon_alert(user, "You start slicing through outer plating")
+		balloon_alert(user, "You start slicing through the outer plating..")
 		if(C.use_tool(src, user, 25, volume=100))
-			balloon_alert(user, "[src] sliced off")
+			balloon_alert(user, "You slice [src].")
 			deconstruct()
 			return TRUE
 
@@ -44,7 +45,7 @@
 
 /obj/structure/lattice/catwalk/deconstruct()
 	var/turf/T = loc
-	if(!istype(src, /obj/structure/lattice/catwalk/over/ship)) // NSV13 - don't cut cables if the catwalk goes *over* the cables
+	if(!istype(src, /obj/structure/lattice/catwalk/over)) // NSV13 - don't cut cables if the catwalk goes *over* the cables
 		for(var/obj/structure/cable/C in T)
 			C.deconstruct()
 	..()

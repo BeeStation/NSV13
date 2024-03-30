@@ -5,15 +5,15 @@
 	tally = -1 // Don't count staging
 	target = 1
 
-	var/minimum_jumps = 8
-	var/maximum_jumps = 13
+	var/minimum_jumps = 6
+	var/maximum_jumps = 10
 
 /datum/overmap_objective/perform_jumps/instance()
 	.=..()
 	target = rand(minimum_jumps, maximum_jumps) // Doing this in instance in case people want different numbers of them
 	desc = "Perform [target] FTL jumps"
 	brief = "Perform [target] FTL jumps"
-	RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_SHIP_ARRIVED, .proc/register_jump)
+	RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_SHIP_ARRIVED, PROC_REF(register_jump))
 
 /datum/overmap_objective/perform_jumps/proc/register_jump()
 	tally ++

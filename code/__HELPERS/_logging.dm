@@ -35,9 +35,16 @@
 	SEND_TEXT(world.log, text)
 #endif
 
-#ifdef REFERENCE_TRACKING_LOG
+#if defined(REFERENCE_DOING_IT_LIVE)
+#define log_reftracker(msg) log_harddel("## REF SEARCH [msg]")
+
+/proc/log_harddel(text)
+	WRITE_LOG(GLOB.harddel_log, text)
+
+#elif defined(REFERENCE_TRACKING) // Doing it locally
 #define log_reftracker(msg) log_world("## REF SEARCH [msg]")
-#else
+
+#else //Not tracking at all
 #define log_reftracker(msg)
 #endif
 
@@ -131,6 +138,12 @@
 	if (CONFIG_GET(flag/log_say))
 		WRITE_LOG(GLOB.world_game_log, "SAY: [text]")
 
+//NSV13 START - RADIO EMOTES
+/proc/log_radio_emote(text)
+	if (CONFIG_GET(flag/log_emote))
+		WRITE_LOG(GLOB.world_game_log, "RADIOEMOTE: [text]")
+//NSV13 END
+
 /proc/log_ooc(text)
 	if (CONFIG_GET(flag/log_ooc))
 		WRITE_LOG(GLOB.world_game_log, "OOC: [text]")
@@ -189,9 +202,9 @@
 	if (CONFIG_GET(flag/log_job_debug))
 		WRITE_LOG(GLOB.world_job_debug_log, "JOB: [text]")
 
-/proc/log_href_exploit(atom/user)
-	WRITE_LOG(GLOB.href_exploit_attempt_log, "HREF: [key_name(user)] has potentially attempted an href exploit.")
-	message_admins("[key_name_admin(user)] has potentially attempted an href exploit.")
+/proc/log_href_exploit(atom/user, data = "")
+	WRITE_LOG(GLOB.href_exploit_attempt_log, "HREF: [key_name(user)] has potentially attempted an href exploit.[data]")
+	message_admins("[key_name_admin(user)] has potentially attempted an href exploit.[data]")
 
 /* Log to both DD and the logfile. */
 /proc/log_world(text)

@@ -18,7 +18,7 @@ GLOBAL_LIST_EMPTY(blob_nodes)
 	layer = FLY_LAYER
 
 	pass_flags = PASSBLOB
-	faction = list(ROLE_BLOB)
+	faction = list(FACTION_BLOB)
 	lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
 	hud_type = /datum/hud/blob_overmind
 	var/obj/structure/blob/core/blob_core = null // The blob overmind's core
@@ -117,7 +117,7 @@ GLOBAL_LIST_EMPTY(blob_nodes)
 		set_security_level("delta")
 		max_blob_points = INFINITY
 		blob_points = INFINITY
-		addtimer(CALLBACK(src, .proc/victory), 450)
+		addtimer(CALLBACK(src, PROC_REF(victory)), 450)
 	else if(!free_strain_rerolls && (last_reroll_time + BLOB_REROLL_TIME<world.time))
 		to_chat(src, "<b><span class='big'><font color=\"#EE4000\">You have gained another free strain re-roll.</font></span></b>")
 		free_strain_rerolls = 1
@@ -145,7 +145,7 @@ GLOBAL_LIST_EMPTY(blob_nodes)
 		if(!(Ablob.area_flags & BLOBS_ALLOWED))
 			continue
 
-		if(!(ROLE_BLOB in L.faction))
+		if(!(FACTION_BLOB in L.faction))
 			playsound(L, 'sound/effects/splat.ogg', 50, 1)
 			L.death()
 			new/mob/living/simple_animal/hostile/blob/blobspore(T)
@@ -239,8 +239,11 @@ GLOBAL_LIST_EMPTY(blob_nodes)
 
 	if (!message)
 		return
-
-	src.log_talk(message, LOG_SAY)
+	if(CHAT_FILTER_CHECK(message))
+		to_chat(usr, "<span class='warning'>Your message contains forbidden words.</span>")
+		return
+	message = treat_message_min(message)
+	src.log_talk(message, LOG_SAY, tag="blob")
 
 	var/message_a = say_quote(message)
 	var/rendered = "<span class='big'><font color=\"#EE4000\"><b>\[Blob Telepathy\] [name](<font color=\"[blobstrain.color]\">[blobstrain.name]</font>)</b> [message_a]</font></span>"
@@ -268,6 +271,9 @@ GLOBAL_LIST_EMPTY(blob_nodes)
 			tab_data["Time Before Manual Placement"] = GENERATE_STAT_TEXT("[max(round((manualplace_min_time - world.time)*0.1, 0.1), 0)]")
 		tab_data["Time Before Automatic Placement"] = GENERATE_STAT_TEXT("[max(round((autoplace_max_time - world.time)*0.1, 0.1), 0)]")
 	return tab_data
+
+/mob/camera/blob/canZMove(direction, turf/target)
+	return !placed
 
 /mob/camera/blob/Move(NewLoc, Dir = 0)
 	if(placed)

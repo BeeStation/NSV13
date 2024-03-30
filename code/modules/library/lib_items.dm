@@ -158,7 +158,7 @@
 /obj/structure/bookcase/manuals/medical
 	name = "medical manuals bookcase"
 
-/obj/structure/bookcase/manuals/medical/Initialize()
+/obj/structure/bookcase/manuals/medical/Initialize(mapload)
 	. = ..()
 	new /obj/item/book/manual/wiki/medical_cloning(src)
 	update_icon()
@@ -167,7 +167,7 @@
 /obj/structure/bookcase/manuals/engineering
 	name = "engineering manuals bookcase"
 
-/obj/structure/bookcase/manuals/engineering/Initialize()
+/obj/structure/bookcase/manuals/engineering/Initialize(mapload)
 	. = ..()
 	new /obj/item/book/manual/wiki/engineering_construction(src)
 	new /obj/item/book/manual/wiki/engineering_hacking(src)
@@ -180,7 +180,7 @@
 /obj/structure/bookcase/manuals/research_and_development
 	name = "\improper R&D manuals bookcase"
 
-/obj/structure/bookcase/manuals/research_and_development/Initialize()
+/obj/structure/bookcase/manuals/research_and_development/Initialize(mapload)
 	. = ..()
 	new /obj/item/book/manual/wiki/research_and_development(src)
 	update_icon()
@@ -197,6 +197,8 @@
 	throw_speed = 1
 	throw_range = 5
 	w_class = WEIGHT_CLASS_NORMAL		 //upped to three because books are, y'know, pretty big. (and you could hide them inside eachother recursively forever)
+	drop_sound = 'sound/items/handling/book_drop.ogg'
+	pickup_sound =  'sound/items/handling/book_pickup.ogg'
 	attack_verb = list("bashed", "whacked", "educated")
 	resistance_flags = FLAMMABLE
 	var/dat				//Actual page content

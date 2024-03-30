@@ -19,12 +19,12 @@
 
 	START_PROCESSING(SSmood, src)
 
-	RegisterSignal(parent, COMSIG_ADD_MOOD_EVENT, .proc/add_event)
-	RegisterSignal(parent, COMSIG_CLEAR_MOOD_EVENT, .proc/clear_event)
-	RegisterSignal(parent, COMSIG_ENTER_AREA, .proc/check_area_mood)
+	RegisterSignal(parent, COMSIG_ADD_MOOD_EVENT, PROC_REF(add_event))
+	RegisterSignal(parent, COMSIG_CLEAR_MOOD_EVENT, PROC_REF(clear_event))
+	RegisterSignal(parent, COMSIG_MOVABLE_ENTERED_AREA, PROC_REF(check_area_mood))
 
-	RegisterSignal(parent, COMSIG_MOB_HUD_CREATED, .proc/modify_hud)
-	RegisterSignal(parent, COMSIG_HUMAN_VOID_MASK_ACT, .proc/direct_sanity_drain)
+	RegisterSignal(parent, COMSIG_MOB_HUD_CREATED, PROC_REF(modify_hud))
+	RegisterSignal(parent, COMSIG_HUMAN_VOID_MASK_ACT, PROC_REF(direct_sanity_drain))
 	var/mob/living/owner = parent
 	if(owner.hud_used)
 		modify_hud()
@@ -34,6 +34,7 @@
 /datum/component/mood/Destroy()
 	STOP_PROCESSING(SSmood, src)
 	unmodify_hud()
+	QDEL_LIST_ASSOC_VAL(mood_events)
 	return ..()
 
 /datum/component/mood/proc/print_mood(mob/user)
@@ -193,10 +194,13 @@
 		if(9)
 			setSanity(sanity+0.6*delta_time, maximum=SANITY_MAXIMUM)
 	HandleNutrition(owner)
-	HandleHygiene(owner)
+	HandleHygiene(owner) // NSV13 - kept hygiene
 
 /datum/component/mood/proc/setSanity(amount, minimum=SANITY_INSANE, maximum=SANITY_GREAT)
 	var/mob/living/owner = parent
+
+	if(owner.stat == DEAD) // deadman can't feel mood
+		return
 
 	if(amount == sanity)
 		return
@@ -264,7 +268,7 @@
 			clear_event(null, category)
 		else
 			if(the_event.timeout)
-				addtimer(CALLBACK(src, .proc/clear_event, null, category), the_event.timeout, TIMER_UNIQUE|TIMER_OVERRIDE)
+				the_event.timer = addtimer(CALLBACK(src, PROC_REF(clear_event), null, category), the_event.timeout, TIMER_STOPPABLE|TIMER_UNIQUE|TIMER_OVERRIDE)
 			return 0 //Don't have to update the event.
 	the_event = new type(src, param)
 
@@ -273,7 +277,7 @@
 	update_mood()
 
 	if(the_event.timeout)
-		addtimer(CALLBACK(src, .proc/clear_event, null, category), the_event.timeout, TIMER_UNIQUE|TIMER_OVERRIDE)
+		addtimer(CALLBACK(src, PROC_REF(clear_event), null, category), the_event.timeout, TIMER_UNIQUE|TIMER_OVERRIDE)
 
 /datum/component/mood/proc/clear_event(datum/source, category)
 	SIGNAL_HANDLER
@@ -312,8 +316,8 @@
 	screen_obj_sanity = new
 	hud.infodisplay += screen_obj
 	hud.infodisplay += screen_obj_sanity
-	RegisterSignal(hud, COMSIG_PARENT_QDELETING, .proc/unmodify_hud)
-	RegisterSignal(screen_obj, COMSIG_CLICK, .proc/hud_click)
+	RegisterSignal(hud, COMSIG_PARENT_QDELETING, PROC_REF(unmodify_hud))
+	RegisterSignal(screen_obj, COMSIG_CLICK, PROC_REF(hud_click))
 
 /datum/component/mood/proc/unmodify_hud(datum/source)
 	SIGNAL_HANDLER
@@ -367,6 +371,7 @@
 		if(0 to NUTRITION_LEVEL_STARVING)
 			add_event(null, "nutrition", /datum/mood_event/decharged)
 
+/// NSV13 - kept hygiene
 /datum/component/mood/proc/HandleHygiene(mob/living/carbon/human/H)
 	if(H.has_quirk(/datum/quirk/neet))
 		return //Neets don't care.
@@ -383,7 +388,9 @@
 /datum/component/mood/proc/check_area_mood(datum/source, var/area/A)
 	SIGNAL_HANDLER
 
-	if(A.mood_bonus)
+	var/mob/living/owner = parent
+
+	if(A.mood_check(owner))
 		if(get_event("area"))	//walking between areas that give mood bonus should first clear the bonus from the previous one
 			clear_event(null, "area")
 		add_event(null, "area", /datum/mood_event/area, list(A.mood_bonus, A.mood_message))

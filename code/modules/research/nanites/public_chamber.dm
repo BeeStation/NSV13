@@ -18,7 +18,7 @@
 	var/busy_icon_state
 	var/message_cooldown = 0
 
-/obj/machinery/public_nanite_chamber/Initialize()
+/obj/machinery/public_nanite_chamber/Initialize(mapload)
 	. = ..()
 	occupant_typecache = GLOB.typecache_living
 
@@ -33,9 +33,9 @@
 	update_icon()
 
 /obj/machinery/public_nanite_chamber/proc/inject_nanites(mob/living/attacker)
-	if(stat & (NOPOWER|BROKEN))
+	if(machine_stat & (NOPOWER|BROKEN))
 		return
-	if((stat & MAINT) || panel_open)
+	if((machine_stat & MAINT) || panel_open)
 		return
 	if(!occupant || busy)
 		return
@@ -45,9 +45,9 @@
 
 	//TODO OMINOUS MACHINE SOUNDS
 	set_busy(TRUE, "[initial(icon_state)]_raising")
-	addtimer(CALLBACK(src, .proc/set_busy, TRUE, "[initial(icon_state)]_active"),20)
-	addtimer(CALLBACK(src, .proc/set_busy, TRUE, "[initial(icon_state)]_falling"),60)
-	addtimer(CALLBACK(src, .proc/complete_injection, locked_state, attacker),80)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "[initial(icon_state)]_active"),20)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "[initial(icon_state)]_falling"),60)
+	addtimer(CALLBACK(src, PROC_REF(complete_injection), locked_state, attacker),80)
 
 /obj/machinery/public_nanite_chamber/proc/complete_injection(locked_state, mob/living/attacker)
 	//TODO MACHINE DING
@@ -61,9 +61,9 @@
 	occupant.AddComponent(/datum/component/nanites, 75, cloud_id)
 
 /obj/machinery/public_nanite_chamber/proc/change_cloud(mob/living/attacker)
-	if(stat & (NOPOWER|BROKEN))
+	if(machine_stat & (NOPOWER|BROKEN))
 		return
-	if((stat & MAINT) || panel_open)
+	if((machine_stat & MAINT) || panel_open)
 		return
 	if(!occupant || busy)
 		return
@@ -72,9 +72,9 @@
 	locked = TRUE
 
 	set_busy(TRUE, "[initial(icon_state)]_raising")
-	addtimer(CALLBACK(src, .proc/set_busy, TRUE, "[initial(icon_state)]_active"),20)
-	addtimer(CALLBACK(src, .proc/set_busy, TRUE, "[initial(icon_state)]_falling"),40)
-	addtimer(CALLBACK(src, .proc/complete_cloud_change, locked_state, attacker),60)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "[initial(icon_state)]_active"),20)
+	addtimer(CALLBACK(src, PROC_REF(set_busy), TRUE, "[initial(icon_state)]_falling"),40)
+	addtimer(CALLBACK(src, PROC_REF(complete_cloud_change), locked_state, attacker),60)
 
 /obj/machinery/public_nanite_chamber/proc/complete_cloud_change(locked_state, mob/living/attacker)
 	locked = locked_state
@@ -88,10 +88,10 @@
 /obj/machinery/public_nanite_chamber/update_icon()
 	cut_overlays()
 
-	if((stat & MAINT) || panel_open)
+	if((machine_stat & MAINT) || panel_open)
 		add_overlay("maint")
 
-	else if(!(stat & (NOPOWER|BROKEN)))
+	else if(!(machine_stat & (NOPOWER|BROKEN)))
 		if(busy || locked)
 			add_overlay("red")
 			if(locked)
@@ -156,7 +156,7 @@
 
 	. = TRUE
 
-	addtimer(CALLBACK(src, .proc/try_inject_nanites, attacker), 30) //If someone is shoved in give them a chance to get out before the injection starts
+	addtimer(CALLBACK(src, PROC_REF(try_inject_nanites), attacker), 30) //If someone is shoved in give them a chance to get out before the injection starts
 
 /obj/machinery/public_nanite_chamber/proc/try_inject_nanites(mob/living/attacker)
 	if(occupant)

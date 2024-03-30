@@ -15,7 +15,7 @@
 	/// The output of the signal
 	var/datum/port/output/output
 
-/obj/item/circuit_component/delay/Initialize()
+/obj/item/circuit_component/delay/Initialize(mapload)
 	. = ..()
 	delay_amount = add_input_port("Delay", PORT_TYPE_NUMBER, FALSE)
 	trigger = add_input_port("Trigger", PORT_TYPE_SIGNAL)
@@ -39,6 +39,6 @@
 	var/delay = delay_amount.input_value
 	if(delay > COMP_DELAY_MIN_VALUE)
 		// Convert delay into deciseconds
-		addtimer(CALLBACK(output, /datum/port/output.proc/set_output, trigger.input_value), delay*10)
+		addtimer(CALLBACK(output, TYPE_PROC_REF(/datum/port/output, set_output), trigger.input_value), delay*10)
 	else
 		output.set_output(trigger.input_value)

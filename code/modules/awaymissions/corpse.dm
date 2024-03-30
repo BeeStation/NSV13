@@ -28,9 +28,11 @@
 	var/mob_color //Change the mob's color
 	var/assignedrole
 	var/show_flavour = TRUE
-	var/banType = ROLE_LAVALAND
+	var/banType
 	var/ghost_usable = TRUE
 	var/use_cooldown = FALSE
+	/// If this should ignore admins disabling ghost roles (like lavaland roles), since it's actually an antagonist.
+	var/is_antagonist = FALSE
 
 //ATTACK GHOST IGNORING PARENT RETURN VALUE
 /obj/effect/mob_spawn/attack_ghost(mob/user)
@@ -42,6 +44,10 @@
 	if(!uses)
 		to_chat(user, "<span class='warning'>This spawner is out of charges!</span>")
 		return
+	if(!SSticker.HasRoundStarted())
+		return
+	if(!user?.client?.can_take_ghost_spawner(banType, use_cooldown, is_ghost_role = !is_antagonist, is_admin_spawned = flags_1 & ADMIN_SPAWNED_1))
+		return
 	if(is_banned_from(user.key, banType))
 		to_chat(user, "<span class='warning'>You are jobanned!</span>")
 		return
@@ -51,7 +57,7 @@
 		to_chat(user, "<span class='warning'>You have died recently, you must wait [(user.client.next_ghost_role_tick - world.time)/10] seconds until you can use a ghost spawner.</span>")
 		return
 	var/ghost_role = alert("Become [mob_name]? (Warning, You can no longer be cloned!)",,"Yes","No")
-	if(ghost_role == "No" || !loc)
+	if(ghost_role != "Yes" || !loc)
 		return
 	log_game("[key_name(user)] became [mob_name]")
 	create(ckey = user.ckey)
@@ -142,8 +148,8 @@
 	var/disable_pda = TRUE
 	var/disable_sensors = TRUE
 	//All of these only affect the ID that the outfit has placed in the ID slot
-	var/id_job = null			//Such as "Clown" or "Chef." This just determines what the ID reads as, not their access
-	var/id_access = null		//This is for access. See access.dm for which jobs give what access. Use "Captain" if you want it to be all access.
+	var/id_job = null			//Such as JOB_NAME_CLOWN or "Chef." This just determines what the ID reads as, not their access
+	var/id_access = null		//This is for access. See access.dm for which jobs give what access. Use JOB_NAME_CAPTAIN if you want it to be all access.
 	var/id_access_list = null	//Allows you to manually add access to an ID card.
 	assignedrole = "Ghost Role"
 
@@ -173,7 +179,7 @@
 	var/facial_hair_style
 	var/skin_tone
 
-/obj/effect/mob_spawn/human/Initialize()
+/obj/effect/mob_spawn/human/Initialize(mapload)
 	if(ispath(outfit))
 		outfit = new outfit()
 	if(!outfit)
@@ -213,14 +219,14 @@
 		H.equipOutfit(outfit)
 		if(disable_pda)
 			// We don't want corpse PDAs to show up in the messenger list.
-			var/obj/item/pda/PDA = locate(/obj/item/pda) in H
+			var/obj/item/modular_computer/tablet/pda/PDA = locate(/obj/item/modular_computer/tablet/pda) in H
 			if(PDA)
-				PDA.toff = TRUE
+				PDA.messenger_invisible = TRUE
 		if(disable_sensors)
 			// Using crew monitors to find corpses while creative makes finding certain ruins too easy.
 			var/obj/item/clothing/under/C = H.w_uniform
 			if(istype(C))
-				C.sensor_mode = NO_SENSORS
+				C.update_sensors(NO_SENSORS)
 
 	var/obj/item/card/id/W = H.wear_id
 	if(W)
@@ -266,7 +272,7 @@
 	var/mob/living/silicon/ai/spawned/M = new(loc) //spawn new AI at landmark as var M
 	M.name = src.name
 	M.real_name = src.name
-	M.aiPDA.toff = TRUE //turns the AI's PDA messenger off, stopping it showing up on player PDAs
+	M.modularInterface.messenger_invisible = TRUE //turns the AI's PDA messenger off, stopping it showing up on player PDAs
 	M.death() //call the AI's death proc
 	qdel(src)
 
@@ -307,7 +313,7 @@
 ///////////Civilians//////////////////////
 
 /obj/effect/mob_spawn/human/corpse/assistant
-	name = "Midshipman" //Nsv13 - Crayon eaters
+	name = JOB_NAME_ASSISTANT
 	outfit = /datum/outfit/job/assistant
 
 /obj/effect/mob_spawn/human/corpse/assistant/beesease_infection
@@ -321,16 +327,16 @@
 
 /obj/effect/mob_spawn/human/corpse/cargo_tech
 	name = "Cargo Tech"
-	outfit = /datum/outfit/job/cargo_tech
+	outfit = /datum/outfit/job/cargo_technician
 
 /obj/effect/mob_spawn/human/cook
-	name = "Cook"
+	name = JOB_NAME_COOK
 	outfit = /datum/outfit/job/cook
 
 
 /obj/effect/mob_spawn/human/doctor
 	name = "Doctor"
-	outfit = /datum/outfit/job/doctor
+	outfit = /datum/outfit/job/medical_doctor
 
 
 /obj/effect/mob_spawn/human/doctor/alive
@@ -347,7 +353,7 @@
 /obj/effect/mob_spawn/human/doctor/alive/equip(mob/living/carbon/human/H)
 	..()
 	// Remove radio and PDA so they wouldn't annoy station crew.
-	var/list/del_types = list(/obj/item/pda, /obj/item/radio/headset)
+	var/list/del_types = list(/obj/item/modular_computer/tablet/pda, /obj/item/radio/headset)
 	for(var/del_type in del_types)
 		var/obj/item/I = locate(del_type) in H
 		qdel(I)
@@ -360,15 +366,15 @@
 	outfit = /datum/outfit/job/engineer/gloved/rig
 
 /obj/effect/mob_spawn/human/clown
-	name = "Clown"
+	name = JOB_NAME_CLOWN
 	outfit = /datum/outfit/job/clown
 
 /obj/effect/mob_spawn/human/scientist
-	name = "Scientist"
+	name = JOB_NAME_SCIENTIST
 	outfit = /datum/outfit/job/scientist
 
 /obj/effect/mob_spawn/human/miner
-	name = "Shaft Miner"
+	name = JOB_NAME_SHAFTMINER
 	outfit = /datum/outfit/job/miner
 
 /obj/effect/mob_spawn/human/miner/rig
@@ -385,7 +391,7 @@
 
 /obj/effect/mob_spawn/human/bartender
 	name = "Space Bartender"
-	id_job = "Bartender"
+	id_job = JOB_NAME_BARTENDER
 	id_access_list = list(ACCESS_BAR)
 	outfit = /datum/outfit/spacebartender
 
@@ -399,8 +405,19 @@
 	short_desc = "You are a space bartender!"
 	flavour_text = "Time to mix drinks and change lives. Smoking space drugs makes it easier to understand your patrons' odd dialect."
 	assignedrole = "Space Bartender"
-	id_job = "Bartender"
+	id_job = JOB_NAME_BARTENDER
 	use_cooldown = TRUE
+
+/obj/effect/mob_spawn/human/bartender/alive/beach
+	assignedrole = "Beach Bartender"
+	banType = ROLE_BEACH_BUM
+	outfit = /datum/outfit/spacebartender/beach
+
+/datum/outfit/spacebartender/beach/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	..()
+	if(visualsOnly)
+		return
+	H.dna.add_mutation(STONER)
 
 /datum/outfit/spacebartender
 	name = "Space Bartender"
@@ -410,6 +427,14 @@
 	suit = /obj/item/clothing/suit/armor/vest
 	glasses = /obj/item/clothing/glasses/sunglasses/advanced/reagent
 	id = /obj/item/card/id
+
+/datum/outfit/spacebartender/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	..()
+
+	if(visualsOnly)
+		return
+
+	ADD_TRAIT(H, TRAIT_SOMMELIER, ROUNDSTART_TRAIT)
 
 /obj/effect/mob_spawn/human/beach
 	outfit = /datum/outfit/beachbum
@@ -426,6 +451,7 @@
 	flavour_text = "Ch'yea. You came here, like, on spring break, hopin' to pick up some bangin' hot chicks, y'knaw?"
 	assignedrole = "Beach Bum"
 	use_cooldown = TRUE
+	banType = ROLE_BEACH_BUM
 
 /obj/effect/mob_spawn/human/beach/alive/lifeguard
 	short_desc = "You're a spunky lifeguard!"
@@ -459,7 +485,7 @@
 
 /datum/outfit/nanotrasenbridgeofficercorpse
 	name = "Bridge Officer Corpse"
-	ears = /obj/item/radio/headset/headset_bridge
+	ears = /obj/item/radio/headset/heads/xo
 	uniform = /obj/item/clothing/under/rank/centcom/officer
 	suit = /obj/item/clothing/suit/armor/bulletproof
 	shoes = /obj/item/clothing/shoes/sneakers/black
@@ -484,7 +510,7 @@
 	gloves = /obj/item/clothing/gloves/combat
 	shoes = /obj/item/clothing/shoes/combat/swat
 	r_pocket = /obj/item/lighter
-	id = /obj/item/card/id/job/hos
+	id = /obj/item/card/id/job/head_of_security
 
 
 /obj/effect/mob_spawn/human/nanotrasensoldier
@@ -502,30 +528,7 @@
 	mask = /obj/item/clothing/mask/gas/sechailer/swat
 	head = /obj/item/clothing/head/helmet/swat/nanotrasen
 	back = /obj/item/storage/backpack/security
-	id = /obj/item/card/id/job/sec
-
-
-/obj/effect/mob_spawn/human/commander/alive
-	death = FALSE
-	roundstart = FALSE
-	mob_name = "\improper Nanotrasen Commander"
-	name = "sleeper"
-	icon = 'icons/obj/machines/sleeper.dmi'
-	icon_state = "sleeper"
-	short_desc = "You are a Nanotrasen Commander!"
-	use_cooldown = TRUE
-
-/obj/effect/mob_spawn/human/nanotrasensoldier/alive
-	death = FALSE
-	roundstart = FALSE
-	mob_name = "Private Security Officer"
-	name = "sleeper"
-	icon = 'icons/obj/machines/sleeper.dmi'
-	icon_state = "sleeper"
-	faction = "nanotrasenprivate"
-	short_desc = "You are a Nanotrasen Private Security Officer!"
-	use_cooldown = TRUE
-
+	id = /obj/item/card/id/job/security_officer
 
 /////////////////Spooky Undead//////////////////////
 
@@ -541,29 +544,15 @@
 	icon = 'icons/effects/blood.dmi'
 	icon_state = "remains"
 	short_desc = "By unknown powers, your skeletal remains have been reanimated!"
-	flavour_text = "Walk this mortal plain and terrorize all living adventurers who dare cross your path."
+	flavour_text = "Walk this mortal plane and terrorize all living adventurers who dare cross your path."
 	assignedrole = "Skeleton"
 	use_cooldown = TRUE
+	banType = ROLE_SKELETAL_REMAINS
 
 /obj/effect/mob_spawn/human/skeleton/alive/equip(mob/living/carbon/human/H)
 	var/obj/item/implant/exile/implant = new/obj/item/implant/exile(H)
 	implant.implant(H)
 	H.set_species(/datum/species/skeleton)
-
-/obj/effect/mob_spawn/human/zombie
-	name = "rotting corpse"
-	mob_name = "zombie"
-	mob_species = /datum/species/zombie
-	assignedrole = "Zombie"
-
-/obj/effect/mob_spawn/human/zombie/alive
-	death = FALSE
-	roundstart = FALSE
-	icon = 'icons/effects/blood.dmi'
-	icon_state = "remains"
-	short_desc = "By unknown powers, your rotting remains have been resurrected!"
-	flavour_text = "Walk this mortal plain and terrorize all living adventurers who dare cross your path."
-	use_cooldown = TRUE
 
 /obj/effect/mob_spawn/human/abductor
 	name = "abductor"
@@ -575,25 +564,6 @@
 	name = "Abductor Corpse"
 	uniform = /obj/item/clothing/under/color/grey
 	shoes = /obj/item/clothing/shoes/combat
-
-
-//For ghost bar.
-/obj/effect/mob_spawn/human/alive/space_bar_patron
-	name = "Bar cryogenics"
-	mob_name = "Bar patron"
-	random = TRUE
-	permanent = TRUE
-	uses = -1
-	outfit = /datum/outfit/spacebartender
-	assignedrole = "Space Bar Patron"
-
-//ATTACK HAND IGNORING PARENT RETURN VALUE
-/obj/effect/mob_spawn/human/alive/space_bar_patron/attack_hand(mob/user)
-	var/despawn = alert("Return to cryosleep? (Warning, Your mob will be deleted!)",,"Yes","No")
-	if(despawn == "No" || !loc || !Adjacent(user))
-		return
-	user.visible_message("<span class='notice'>[user.name] climbs back into cryosleep...</span>")
-	qdel(user)
 
 /datum/outfit/cryobartender
 	name = "Cryogenic Bartender"

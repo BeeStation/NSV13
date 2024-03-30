@@ -9,16 +9,22 @@ GLOBAL_LIST_EMPTY(radial_menus)
 	plane = ABOVE_HUD_PLANE
 	var/datum/radial_menu/parent
 
+/atom/movable/screen/radial/Destroy()
+	if(parent)
+		parent.elements -= src
+		UnregisterSignal(parent, COMSIG_PARENT_QDELETING)
+	. = ..()
+
 /atom/movable/screen/radial/proc/set_parent(new_value)
 	if(parent)
 		UnregisterSignal(parent, COMSIG_PARENT_QDELETING)
 	parent = new_value
 	if(parent)
-		RegisterSignal(parent, COMSIG_PARENT_QDELETING, .proc/handle_parent_del)
+		RegisterSignal(parent, COMSIG_PARENT_QDELETING, PROC_REF(handle_parent_del))
 
 /atom/movable/screen/radial/proc/handle_parent_del()
 	SIGNAL_HANDLER
-	set_parent(null)
+	qdel(src) // No reason for us to exist if our parent menu's gone and we don't have a new one
 
 /atom/movable/screen/radial/slice
 	icon_state = "radial_slice"
@@ -60,6 +66,11 @@ GLOBAL_LIST_EMPTY(radial_menus)
 /atom/movable/screen/radial/center/Click(location, control, params)
 	if(usr.client == parent.current_user)
 		parent.finished = TRUE
+
+/atom/movable/screen/radial/center/Destroy()
+	if(parent)
+		parent.close_button = null
+	return ..()
 
 /datum/radial_menu
 	/// List of choice IDs
@@ -216,6 +227,9 @@ GLOBAL_LIST_EMPTY(radial_menus)
 	else
 		if(istext(choices_values[choice_id]))
 			E.name = choices_values[choice_id]
+		else if(ispath(choices_values[choice_id],/atom))
+			var/atom/A = choices_values[choice_id]
+			E.name = initial(A.name)
 		else
 			var/atom/movable/AM = choices_values[choice_id] //Movables only
 			E.name = AM.name
@@ -308,6 +322,7 @@ GLOBAL_LIST_EMPTY(radial_menus)
 		stoplag(1)
 
 /datum/radial_menu/Destroy()
+	QDEL_LIST(elements)
 	Reset()
 	hide()
 	QDEL_NULL(custom_check_callback)

@@ -29,7 +29,7 @@
 		know it'll be worth it.</span>")
 	icon_state = "slots2"
 	playsound(src, 'sound/lavaland/cursed_slot_machine.ogg', 50, 0)
-	addtimer(CALLBACK(src, .proc/determine_victor, user), 50)
+	addtimer(CALLBACK(src, PROC_REF(determine_victor), user), 50)
 
 /obj/structure/cursed_slot_machine/proc/determine_victor(mob/living/user)
 	icon_state = "slots1"
@@ -53,9 +53,9 @@
 	anchored = FALSE
 	density = TRUE
 
-/obj/structure/cursed_money/Initialize()
+/obj/structure/cursed_money/Initialize(mapload)
 	. = ..()
-	addtimer(CALLBACK(src, .proc/collapse), 600)
+	addtimer(CALLBACK(src, PROC_REF(collapse)), 600)
 
 /obj/structure/cursed_money/proc/collapse()
 	visible_message("<span class='warning'>[src] falls in on itself, \
@@ -85,7 +85,8 @@
 	icon = 'icons/mob/blob.dmi'
 	color = rgb(145, 150, 0)
 
-/obj/effect/gluttony/CanPass(atom/movable/mover, turf/target)//So bullets will fly over and stuff.
+/obj/effect/gluttony/CanAllowThrough(atom/movable/mover, turf/target)//So bullets will fly over and stuff.
+	. = ..()
 	if(ishuman(mover))
 		var/mob/living/carbon/human/H = mover
 		if(H.nutrition >= NUTRITION_LEVEL_FAT)
@@ -95,8 +96,6 @@
 			to_chat(H, "<span class='warning'>You're repulsed by even looking at [src]. Only a pig could force themselves to go through it.</span>")
 	if(istype(mover, /mob/living/simple_animal/hostile/morph))
 		return TRUE
-	else
-		return FALSE
 
 /obj/structure/mirror/magic/pride //Pride's mirror: Used in the Pride ruin.
 	name = "pride's mirror"

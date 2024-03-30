@@ -8,6 +8,7 @@
 	move_resist = MOVE_FORCE_VERY_STRONG
 	layer = OPEN_DOOR_LAYER
 	power_channel = AREA_USAGE_ENVIRON
+	pass_flags_self = PASSDOORS
 	max_integrity = 350
 	armor = list("melee" = 30, "bullet" = 30, "laser" = 20, "energy" = 20, "bomb" = 10, "bio" = 100, "rad" = 100, "fire" = 80, "acid" = 70, "stamina" = 0)
 	CanAtmosPass = ATMOS_PASS_DENSITY
@@ -55,8 +56,10 @@
 		return TRUE
 	return ..()
 
-/obj/machinery/door/Initialize()
+/obj/machinery/door/Initialize(mapload)
 	. = ..()
+	if(!density)//NSV make it so prevent_click_under doesn't need density
+		flags_1 &= ~PREVENT_CLICK_UNDER_1
 	set_init_door_layer()
 	update_freelook_sight()
 	air_update_turf(1)
@@ -67,6 +70,15 @@
 	//doors only block while dense though so we have to use the proc
 	real_explosion_block = explosion_block
 	explosion_block = EXPLOSION_BLOCK_PROC
+	if(red_alert_access)
+		RegisterSignal(SSdcs, COMSIG_GLOB_SECURITY_ALERT_CHANGE, PROC_REF(handle_alert))
+
+/obj/machinery/door/proc/handle_alert(datum/source, new_alert)
+	SIGNAL_HANDLER
+	if(new_alert >= SEC_LEVEL_RED)
+		visible_message("<span class='notice'>[src] whirs as it automatically lifts access requirements!</span>")
+		playsound(src, 'sound/machines/boltsup.ogg', 50, TRUE)
+
 
 /obj/machinery/door/proc/set_init_door_layer()
 	if(density)
@@ -132,24 +144,35 @@
 	. = ..()
 	move_update_air(T)
 
-/obj/machinery/door/CanPass(atom/movable/mover, turf/target)
+/obj/machinery/door/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
+	if(.)
+		return
+	// Snowflake handling for PASSGLASS.
 	if(istype(mover) && (mover.pass_flags & PASSGLASS))
 		return !opacity
-	return (mover.pass_flags & PASSDOOR) || !density //nsv13 - bloodling passdoor
+	return (mover.pass_flags & PASSDOOR) //nsv13 - bloodling passdoor
 
-/obj/machinery/door/proc/bumpopen(mob/user)
-	if(operating)
+/// Helper method for bumpopen() and try_to_activate_door(). Don't override.
+/obj/machinery/door/proc/activate_door_base(mob/user, can_close_door)
+	add_fingerprint(user)
+	if(operating || (obj_flags & EMAGGED))
 		return
-	src.add_fingerprint(user)
-	if(!src.requiresID())
-		user = null
-
-	if(density && !(obj_flags & EMAGGED))
-		if(allowed(user))
+	// Cutting WIRE_IDSCAN disables normal entry
+	if(!id_scan_hacked() && allowed(user))
+		if(density)
 			open()
 		else
-			do_animate("deny")
-	return
+			if(!can_close_door)
+				return FALSE
+			close()
+		return TRUE
+	if(density)
+		do_animate("deny")
+
+/// Handles a door getting "bumped" by a mob/living.
+/obj/machinery/door/proc/bumpopen(mob/user)
+	activate_door_base(user, FALSE)
 
 /obj/machinery/door/attack_hand(mob/user)
 	. = ..()
@@ -158,24 +181,18 @@
 	return try_to_activate_door(null, user)
 
 /obj/machinery/door/attack_tk(mob/user)
-	if(requiresID() && !allowed(null))
+	// allowed(null) will always return false, unless the door is all-access.
+	// So unless we've cut the id-scan wire, TK won't go through at all - not even showing an animation.
+	// But if we *have* cut the wire, this eventually falls through to attack_hand(), which calls try_to_activate_door(),
+	// which will fail because the door won't work if the wire is cut! Catch-22.
+	// Basically, TK won't work unless the door is all-access.
+	if(!id_scan_hacked() && !allowed())
 		return
 	..()
 
+/// Handles door activation via clicks, through attackby().
 /obj/machinery/door/proc/try_to_activate_door(obj/item/I, mob/user)
-	add_fingerprint(user)
-	if(operating || (obj_flags & EMAGGED))
-		return
-	if(!requiresID())
-		user = null //so allowed(user) always succeeds
-	if(allowed(user))
-		if(density)
-			open()
-		else
-			close()
-		return TRUE
-	if(density)
-		do_animate("deny")
+	return activate_door_base(user, TRUE)
 
 /obj/machinery/door/allowed(mob/M)
 	if(emergency)
@@ -204,6 +221,7 @@
 	var/max_moles = min_moles
 	// okay this is a bit hacky. First, we set density to 0 and recalculate our adjacent turfs
 	density = FALSE
+	flags_1 &= ~PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	T.ImmediateCalculateAdjacentTurfs()
 	// then we use those adjacent turfs to figure out what the difference between the lowest and highest pressures we'd be holding is
 	for(var/turf/open/T2 in T.atmos_adjacent_turfs)
@@ -215,6 +233,8 @@
 		if(moles > max_moles)
 			max_moles = moles
 	density = TRUE
+	if(!(flags_1 & ON_BORDER_1))//NSV but not border firelocks
+		flags_1 |= PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	T.ImmediateCalculateAdjacentTurfs() // alright lets put it back
 	return max_moles - min_moles > 20
 
@@ -253,12 +273,12 @@
 	if (. & EMP_PROTECT_SELF)
 		return
 	if(prob(20/severity) && (istype(src, /obj/machinery/door/airlock) || istype(src, /obj/machinery/door/window)) )
-		INVOKE_ASYNC(src, .proc/open)
+		INVOKE_ASYNC(src, PROC_REF(open))
 	if(prob(severity*10 - 20))
 		if(secondsElectrified == MACHINE_NOT_ELECTRIFIED)
 			secondsElectrified = MACHINE_ELECTRIFIED_PERMANENT
 			LAZYADD(shockedby, "\[[time_stamp()]\]EM Pulse")
-			addtimer(CALLBACK(src, .proc/unelectrify), 300)
+			addtimer(CALLBACK(src, PROC_REF(unelectrify)), 300)
 
 /obj/machinery/door/proc/unelectrify()
 	secondsElectrified = MACHINE_NOT_ELECTRIFIED
@@ -282,7 +302,7 @@
 			else
 				flick("doorc1", src)
 		if("deny")
-			if(!stat)
+			if(!machine_stat)
 				flick("door_deny", src)
 
 
@@ -296,6 +316,7 @@
 	set_opacity(0)
 	sleep(open_speed)
 	density = FALSE
+	flags_1 &= ~PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	sleep(open_speed)
 	layer = initial(layer)
 	update_icon()
@@ -326,8 +347,12 @@
 	layer = closingLayer
 	if(air_tight)
 		density = TRUE
+		if(!(flags_1 & ON_BORDER_1))//NSV but not border firelocks
+			flags_1 |= PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	sleep(open_speed)
 	density = TRUE
+	if(!(flags_1 & ON_BORDER_1))//NSV but not border firelocks
+		flags_1 |= PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	sleep(open_speed)
 	update_icon()
 	if(visible && !glass)
@@ -377,13 +402,15 @@
 		close()
 
 /obj/machinery/door/proc/autoclose_in(wait)
-	addtimer(CALLBACK(src, .proc/autoclose), wait, TIMER_UNIQUE | TIMER_NO_HASH_WAIT | TIMER_OVERRIDE)
+	addtimer(CALLBACK(src, PROC_REF(autoclose)), wait, TIMER_UNIQUE | TIMER_NO_HASH_WAIT | TIMER_OVERRIDE)
 
-/obj/machinery/door/proc/requiresID()
-	return 1
+/// Is the ID Scan wire cut, or has the AI disabled it?
+/// This has a variety of non-uniform effects - it doesn't simply grant access.
+/obj/machinery/door/proc/id_scan_hacked()
+	return FALSE
 
 /obj/machinery/door/proc/hasPower()
-	return !(stat & NOPOWER)
+	return !(machine_stat & NOPOWER)
 
 /obj/machinery/door/proc/update_freelook_sight()
 	if(!glass && GLOB.cameranet)
@@ -407,11 +434,11 @@
 	return
 
 /obj/machinery/door/proc/hostile_lockdown(mob/origin)
-	if(!stat) //So that only powered doors are closed.
+	if(!machine_stat) //So that only powered doors are closed.
 		close() //Close ALL the doors!
 
 /obj/machinery/door/proc/disable_lockdown()
-	if(!stat) //Opens only powered doors.
+	if(!machine_stat) //Opens only powered doors.
 		open() //Open everything!
 
 /obj/machinery/door/ex_act(severity, target)

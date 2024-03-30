@@ -39,9 +39,9 @@
 	if((start_eject + 30) < world.time)
 		start_eject = world.time
 		playsound(src, 'sound/machines/warning-buzzer.ogg', 50, 0, 0)
-		addtimer(CALLBACK(src, .proc/expel_holder, H, TRUE), 20)
+		addtimer(CALLBACK(src, PROC_REF(expel_holder), H, TRUE), 20)
 	else
-		addtimer(CALLBACK(src, .proc/expel_holder, H), 20)
+		addtimer(CALLBACK(src, PROC_REF(expel_holder), H), 20)
 
 /obj/structure/disposaloutlet/proc/expel_holder(obj/structure/disposalholder/H, playsound=FALSE)
 	if(playsound)
@@ -50,15 +50,9 @@
 	if(!H)
 		return
 
-	var/turf/T = get_turf(src)
+	pipe_eject(H, dir, TRUE, target, eject_range, throw_range)
 
-	for(var/A in H)
-		var/atom/movable/AM = A
-		AM.forceMove(T)
-		AM.pipe_eject(dir)
-		AM.throw_at(target, eject_range, 1)
-
-	H.vent_gas(T)
+	H.vent_gas(loc)
 	qdel(H)
 
 /obj/structure/disposaloutlet/welder_act(mob/living/user, obj/item/I)

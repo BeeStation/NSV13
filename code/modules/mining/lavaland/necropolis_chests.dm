@@ -17,9 +17,9 @@
 	/// var to check if it got opened by a key
 	var/spawned_loot = FALSE
 
-/obj/structure/closet/crate/necropolis/tendril/Initialize()
+/obj/structure/closet/crate/necropolis/tendril/Initialize(mapload)
 	. = ..()
-	RegisterSignal(src, COMSIG_PARENT_ATTACKBY, .proc/try_spawn_loot)
+	RegisterSignal(src, COMSIG_PARENT_ATTACKBY, PROC_REF(try_spawn_loot))
 
 /obj/structure/closet/crate/necropolis/tendril/proc/try_spawn_loot(datum/source, obj/item/item, mob/user, params) ///proc that handles key checking and generating loot
 	SIGNAL_HANDLER
@@ -93,7 +93,7 @@
 	icon_state = "datadisk1"
 	var/modkit_design = /datum/design/unique_modkit
 
-/obj/item/disk/design_disk/modkit_disc/Initialize()
+/obj/item/disk/design_disk/modkit_disc/Initialize(mapload)
 	. = ..()
 	blueprints[1] = new modkit_design
 
@@ -156,11 +156,17 @@
 	icon = 'icons/obj/lavaland/artefacts.dmi'
 	icon_state = "asclepius_dormant"
 	block_upgrade_walk = 1
-	block_level = 2
+	block_level = 1
 	block_power = 40 //blocks very well to encourage using it. Just because you're a pacifist doesn't mean you can't defend yourself
 	block_flags = null //not active, so it's null
 	var/activated = FALSE
 	var/usedHand
+
+/obj/item/rod_of_asclepius/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text, damage, attack_type)
+	if(!activated)
+		return FALSE
+	return ..()
+
 
 /obj/item/rod_of_asclepius/attack_self(mob/user)
 	if(activated)
@@ -283,10 +289,14 @@
 		return
 
 	if(wisp.loc == src)
-		to_chat(user, "<span class='notice'>You release the wisp. It begins to bob around your head.</span>")
-		icon_state = "lantern"
-		wisp.orbit(user, 20)
-		SSblackbox.record_feedback("tally", "wisp_lantern", 1, "Freed")
+		if(COOLDOWN_FINISHED(wisp,wisp_tired))
+			to_chat(user, "<span class='notice'>You release the wisp. It begins to bob around your head.</span>")
+			icon_state = "lantern"
+			wisp.orbit(user, 20)
+			wisp.set_light_on(TRUE)
+			SSblackbox.record_feedback("tally", "wisp_lantern", 1, "Freed")
+		else
+			to_chat(user,"<span class='warning'>The wisp is tired, let it rest for bit longer.</span>")
 
 	else
 		to_chat(user, "<span class='notice'>You return the wisp to the lantern.</span>")
@@ -294,9 +304,14 @@
 		wisp.forceMove(src)
 		SSblackbox.record_feedback("tally", "wisp_lantern", 1, "Returned")
 
-/obj/item/wisp_lantern/Initialize()
+/obj/item/wisp_lantern/lighteater_act(obj/item/light_eater/light_eater)
+	. = ..()
+	wisp.lighteater_act(light_eater)
+
+/obj/item/wisp_lantern/Initialize(mapload)
 	. = ..()
 	wisp = new(src)
+	wisp.home = src
 
 /obj/item/wisp_lantern/Destroy()
 	if(wisp)
@@ -311,15 +326,21 @@
 	desc = "Happy to light your way."
 	icon = 'icons/obj/lighting.dmi'
 	icon_state = "orb"
+	light_system = MOVABLE_LIGHT
 	light_range = 7
+	light_flags = LIGHT_ATTACHED
 	layer = ABOVE_ALL_MOB_LAYER
+	var/obj/item/wisp_lantern/home
 	var/sight_flags = SEE_MOBS
 	var/lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_VISIBLE
+	COOLDOWN_DECLARE(wisp_tired)
+	var/time
 
 /obj/effect/wisp/orbit(atom/thing, radius, clockwise, rotation_speed, rotation_segments, pre_rotation, lockinorbit)
 	. = ..()
 	if(ismob(thing))
-		RegisterSignal(thing, COMSIG_MOB_UPDATE_SIGHT, .proc/update_user_sight)
+		RegisterSignal(thing, COMSIG_MOB_UPDATE_SIGHT, PROC_REF(update_user_sight))
+		RegisterSignal(thing, COMSIG_ATOM_LIGHTEATER_ACT, PROC_REF(on_lighteater_act))
 		var/mob/being = thing
 		being.update_sight()
 		to_chat(thing, "<span class='notice'>The wisp enhances your vision.</span>")
@@ -328,6 +349,7 @@
 	. = ..()
 	if(ismob(orbits.parent))
 		UnregisterSignal(orbits.parent, COMSIG_MOB_UPDATE_SIGHT)
+		UnregisterSignal(orbits.parent, COMSIG_ATOM_LIGHTEATER_ACT)
 		to_chat(orbits.parent, "<span class='notice'>Your vision returns to normal.</span>")
 
 /obj/effect/wisp/proc/update_user_sight(mob/user)
@@ -337,17 +359,33 @@
 	if(!isnull(lighting_alpha))
 		user.lighting_alpha = min(user.lighting_alpha, lighting_alpha)
 
+/obj/effect/wisp/proc/on_lighteater_act(obj/item/light_eater/light_eater)
+	SIGNAL_HANDLER
+	src.lighteater_act(light_eater)
+
+/obj/effect/wisp/lighteater_act(obj/item/light_eater/light_eater)
+	. = ..()
+	if(home)
+		src.forceMove(home)
+		COOLDOWN_START(src,wisp_tired, 5 MINUTES)
+		home.icon_state = "lantern-blue"
+		set_light_on(FALSE)
+	else
+		stop_orbit()
+		qdel(src)
+
 // Relic water bottle
 /obj/item/reagent_containers/glass/waterbottle/relic
+	name = "ancient bottle of unknown reagent"
 	desc = "A bottle of water filled with unknown liquids. It seems to be radiating some kind of energy."
 	flip_chance = 100 // FLIPP
 	list_reagents = list()
 
-/obj/item/reagent_containers/glass/waterbottle/relic/Initialize()
+/obj/item/reagent_containers/glass/waterbottle/relic/Initialize(mapload)
 	var/reagents = volume
 	while(reagents)
 		var/newreagent = rand(1, min(reagents, 30))
-		list_reagents += list(get_unrestricted_random_reagent_id() = newreagent)
+		list_reagents += list(get_random_reagent_id(CHEMICAL_RNG_FUN) = newreagent)
 		reagents -= newreagent
 	. = ..()
 
@@ -411,7 +449,7 @@
 	icon_state = "red_cube"
 	teleport_color = "#FD3F48"
 
-/obj/item/warp_cube/red/Initialize()
+/obj/item/warp_cube/red/Initialize(mapload)
 	. = ..()
 	if(!linked)
 		var/obj/item/warp_cube/blue = new(src.loc)
@@ -505,7 +543,7 @@
 	actions_types = list(/datum/action/item_action/immortality)
 	var/cooldown = 0
 
-/obj/item/immortality_talisman/Initialize()
+/obj/item/immortality_talisman/Initialize(mapload)
 	. = ..()
 	AddComponent(/datum/component/anti_magic, TRUE, TRUE)
 
@@ -545,7 +583,7 @@
 
 	can_destroy = FALSE
 
-	addtimer(CALLBACK(src, .proc/unvanish, user), 10 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(unvanish), user), 10 SECONDS)
 
 /obj/effect/immortality_talisman/proc/unvanish(mob/user)
 	user.status_flags &= ~GODMODE
@@ -588,7 +626,7 @@
 	name = "paradox bag"
 	desc = "Somehow, it's in two places at once."
 
-/obj/item/shared_storage/red/Initialize()
+/obj/item/shared_storage/red/Initialize(mapload)
 	. = ..()
 	var/datum/component/storage/STR = AddComponent(/datum/component/storage/concrete)
 	STR.max_w_class = WEIGHT_CLASS_NORMAL
@@ -645,6 +683,7 @@
 	reagent_state = LIQUID
 	process_flags = ORGANIC | SYNTHETIC
 	color = "#FFEBEB"
+	chem_flags = CHEMICAL_RNG_FUN | CHEMICAL_RNG_BOTANY
 
 /datum/reagent/flightpotion/reaction_mob(mob/living/M, method=TOUCH, reac_volume, show_message = 1)
 	if(iscarbon(M) && M.stat != DEAD)
@@ -746,7 +785,6 @@
 	attack_verb_on = list("cleaved", "swiped", "slashed", "chopped")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	hitsound_on = 'sound/weapons/bladeslice.ogg'
-	block_upgrade_walk = 1
 	w_class = WEIGHT_CLASS_BULKY
 	sharpness = IS_SHARP
 	faction_bonus_force = 45
@@ -851,7 +889,7 @@
 	var/summon_cooldown = 0
 	var/list/mob/dead/observer/spirits
 
-/obj/item/melee/ghost_sword/Initialize()
+/obj/item/melee/ghost_sword/Initialize(mapload)
 	. = ..()
 	spirits = list()
 	START_PROCESSING(SSobj, src)
@@ -943,7 +981,7 @@
 	switch(random)
 		if(1)
 			to_chat(user, "<span class='danger'>Your appearance morphs to that of a very small humanoid ash dragon! You get to look like a freak without the cool abilities.</span>")
-			H.dna.features = list("mcolor" = "A02720", "tail_lizard" = "Dark Tiger", "tail_human" = "None", "snout" = "Sharp", "horns" = "Curled", "ears" = "None", "wings" = "None", "frills" = "None", "spines" = "Long", "body_markings" = "Dark Tiger Body", "legs" = "Digitigrade Legs")
+			H.dna.features = list("body_size" = "Normal", "mcolor" = "A02720", "tail_lizard" = "Dark Tiger", "tail_human" = "None", "snout" = "Sharp", "horns" = "Curled", "ears" = "None", "wings" = "None", "frills" = "None", "spines" = "Long", "body_markings" = "Dark Tiger Body", "legs" = "Digitigrade Legs")
 			H.eye_color = "fee5a3"
 			H.set_species(/datum/species/lizard)
 		if(2)
@@ -1058,7 +1096,7 @@
 /obj/item/mayhem/attack_self(mob/user)
 	for(var/mob/living/carbon/human/H in range(7,user))
 		var/obj/effect/mine/pickup/bloodbath/B = new(H)
-		INVOKE_ASYNC(B, /obj/effect/mine/pickup/bloodbath/.proc/mineEffect, H)
+		INVOKE_ASYNC(B, TYPE_PROC_REF(/obj/effect/mine/pickup/bloodbath, mineEffect), H)
 	to_chat(user, "<span class='notice'>You shatter the bottle!</span>")
 	playsound(user.loc, 'sound/effects/glassbr1.ogg', 100, 1)
 	message_admins("<span class='adminnotice'>[ADMIN_LOOKUPFLW(user)] has activated a bottle of mayhem!</span>")
@@ -1179,17 +1217,20 @@
 
 /obj/item/hierophant_club/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
+	if(user.mind.martial_art.no_guns) 
+		to_chat(user, "<span class='warning'>To use this weapon would bring dishonor to the clan.</span>")
+		return
 	var/turf/T = get_turf(target)
 	if(!T || timer > world.time)
 		return
 	calculate_anger_mod(user)
 	timer = world.time + CLICK_CD_MELEE //by default, melee attacks only cause melee blasts, and have an accordingly short cooldown
 	if(proximity_flag)
-		INVOKE_ASYNC(src, .proc/aoe_burst, T, user)
+		INVOKE_ASYNC(src, PROC_REF(aoe_burst), T, user)
 		log_combat(user, target, "fired 3x3 blast at", src)
 	else
 		if(ismineralturf(target) && get_dist(user, target) < 6) //target is minerals, we can hit it(even if we can't see it)
-			INVOKE_ASYNC(src, .proc/cardinal_blasts, T, user)
+			INVOKE_ASYNC(src, PROC_REF(cardinal_blasts), T, user)
 			timer = world.time + cooldown_time
 		else if(user in viewers(5, get_turf(target))) //if the target is in view, hit it
 			timer = world.time + cooldown_time
@@ -1200,12 +1241,12 @@
 				C.monster_damage_boost = FALSE
 				log_combat(user, target, "fired a chaser at", src)
 			else
-				INVOKE_ASYNC(src, .proc/cardinal_blasts, T, user) //otherwise, just do cardinal blast
+				INVOKE_ASYNC(src, PROC_REF(cardinal_blasts), T, user) //otherwise, just do cardinal blast
 				log_combat(user, target, "fired cardinal blast at", src)
 		else
 			to_chat(user, "<span class='warning'>That target is out of range!</span>" )
 			timer = world.time
-	INVOKE_ASYNC(src, .proc/prepare_icon_update)
+	INVOKE_ASYNC(src, PROC_REF(prepare_icon_update))
 
 /obj/item/hierophant_club/proc/calculate_anger_mod(mob/user) //we get stronger as the user loses health
 	chaser_cooldown = initial(chaser_cooldown)
@@ -1248,7 +1289,7 @@
 			user.visible_message("<span class='hierophant_warning'>[user] starts fiddling with [src]'s pommel...</span>", \
 			"<span class='notice'>You start detaching the hierophant beacon...</span>")
 			timer = world.time + 51
-			INVOKE_ASYNC(src, .proc/prepare_icon_update)
+			INVOKE_ASYNC(src, PROC_REF(prepare_icon_update))
 			if(do_after(user, 50, target = user) && !beacon)
 				var/turf/T = get_turf(user)
 				playsound(T,'sound/magic/blind.ogg', 200, 1, -4)
@@ -1260,7 +1301,7 @@
 				<span class='notice'>You can remove the beacon to place it again by striking it with the club.</span>")
 			else
 				timer = world.time
-				INVOKE_ASYNC(src, .proc/prepare_icon_update)
+				INVOKE_ASYNC(src, PROC_REF(prepare_icon_update))
 		else
 			to_chat(user, "<span class='warning'>You need to be on solid ground to detach the beacon!</span>")
 		return
@@ -1277,7 +1318,7 @@
 	user.update_action_buttons_icon()
 	user.visible_message("<span class='hierophant_warning'>[user] starts to glow faintly...</span>")
 	timer = world.time + 50
-	INVOKE_ASYNC(src, .proc/prepare_icon_update)
+	INVOKE_ASYNC(src, PROC_REF(prepare_icon_update))
 	beacon.icon_state = "hierophant_tele_on"
 	var/obj/effect/temp_visual/hierophant/telegraph/edge/TE1 = new /obj/effect/temp_visual/hierophant/telegraph/edge(user.loc)
 	var/obj/effect/temp_visual/hierophant/telegraph/edge/TE2 = new /obj/effect/temp_visual/hierophant/telegraph/edge(beacon.loc)
@@ -1289,7 +1330,7 @@
 			to_chat(user, "<span class='warning'>The beacon is blocked by something, preventing teleportation!</span>")
 			user.update_action_buttons_icon()
 			timer = world.time
-			INVOKE_ASYNC(src, .proc/prepare_icon_update)
+			INVOKE_ASYNC(src, PROC_REF(prepare_icon_update))
 			beacon.icon_state = "hierophant_tele_off"
 			return
 		new /obj/effect/temp_visual/hierophant/telegraph(T, user)
@@ -1301,7 +1342,7 @@
 			if(user)
 				user.update_action_buttons_icon()
 			timer = world.time
-			INVOKE_ASYNC(src, .proc/prepare_icon_update)
+			INVOKE_ASYNC(src, PROC_REF(prepare_icon_update))
 			if(beacon)
 				beacon.icon_state = "hierophant_tele_off"
 			return
@@ -1310,7 +1351,7 @@
 			to_chat(user, "<span class='warning'>The beacon is blocked by something, preventing teleportation!</span>")
 			user.update_action_buttons_icon()
 			timer = world.time
-			INVOKE_ASYNC(src, .proc/prepare_icon_update)
+			INVOKE_ASYNC(src, PROC_REF(prepare_icon_update))
 			beacon.icon_state = "hierophant_tele_off"
 			return
 		user.log_message("teleported self from [AREACOORD(source)] to [beacon]", LOG_GAME)
@@ -1323,7 +1364,7 @@
 			var/obj/effect/temp_visual/hierophant/blast/B = new /obj/effect/temp_visual/hierophant/blast(t, user, TRUE) //but absolutely will hurt enemies
 			B.damage = 30
 		for(var/mob/living/L in hearers(1, source))
-			INVOKE_ASYNC(src, .proc/teleport_mob, source, L, T, user) //regardless, take all mobs near us along
+			INVOKE_ASYNC(src, PROC_REF(teleport_mob), source, L, T, user) //regardless, take all mobs near us along
 		sleep(6) //at this point the blasts detonate
 		if(beacon)
 			beacon.icon_state = "hierophant_tele_off"
@@ -1331,7 +1372,7 @@
 		qdel(TE1)
 		qdel(TE2)
 		timer = world.time
-		INVOKE_ASYNC(src, .proc/prepare_icon_update)
+		INVOKE_ASYNC(src, PROC_REF(prepare_icon_update))
 	if(beacon)
 		beacon.icon_state = "hierophant_tele_off"
 	teleporting = FALSE
@@ -1372,7 +1413,7 @@
 	B.damage = HIEROPHANT_CLUB_CARDINAL_DAMAGE
 	B.monster_damage_boost = FALSE
 	for(var/d in GLOB.cardinals)
-		INVOKE_ASYNC(src, .proc/blast_wall, T, d, user)
+		INVOKE_ASYNC(src, PROC_REF(blast_wall), T, d, user)
 
 /obj/item/hierophant_club/proc/blast_wall(turf/T, dir, mob/living/user) //make a wall of blasts blast_range tiles long
 	if(!T)

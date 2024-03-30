@@ -4,6 +4,7 @@
 	var/unique_enzymes
 	var/uni_identity
 	var/blood_type
+	var/datum/species/original_species = /datum/species/human
 	var/datum/species/species = new /datum/species/human //The type of mutant race the player is if applicable (i.e. potato-man)
 	var/list/features = list("FFF") //first value is mutant color
 	var/real_name //Stores the real name of the person who originally got this dna datum. Used primarely for changelings,
@@ -16,15 +17,17 @@
 	var/default_mutation_genes[DNA_MUTATION_BLOCKS] //List of the default genes from this mutation to allow DNA Scanner highlighting
 	var/stability = 100
 	var/scrambled = FALSE //Did we take something like mutagen? In that case we cant get our genes scanned to instantly cheese all the powers.
+	var/current_body_size = BODY_SIZE_NORMAL //This is a size multiplier, it starts at "1".
 
 /datum/dna/New(mob/living/new_holder)
 	if(istype(new_holder))
 		holder = new_holder
+		original_species = species.type
 
 /datum/dna/Destroy()
 	if(iscarbon(holder))
 		var/mob/living/carbon/cholder = holder
-		if(cholder.dna == src)
+		if(cholder?.dna == src)
 			cholder.dna = null
 	holder = null
 
@@ -37,19 +40,24 @@
 
 	return ..()
 
-/datum/dna/proc/transfer_identity(mob/living/carbon/destination, transfer_SE = 0)
+/datum/dna/proc/transfer_identity(mob/living/carbon/human/destination, transfer_SE = FALSE)
 	if(!istype(destination))
 		return
 	destination.dna.unique_enzymes = unique_enzymes
 	destination.dna.uni_identity = uni_identity
 	destination.dna.blood_type = blood_type
 	destination.set_species(species.type, icon_update=0)
+	destination.dna.original_species = original_species
 	destination.dna.features = features.Copy()
 	destination.dna.real_name = real_name
 	destination.dna.temporary_mutations = temporary_mutations.Copy()
+	destination.flavour_text = destination.client.prefs.active_character.flavor_text //Update the flavor_text to use new dna text //NSV13
 	if(transfer_SE)
 		destination.dna.mutation_index = mutation_index
 		destination.dna.default_mutation_genes = default_mutation_genes
+		for(var/datum/mutation/M as() in mutations)
+			if(!istype(M, RACEMUT))
+				destination.dna.add_mutation(M, M.class)
 
 /datum/dna/proc/copy_dna(datum/dna/new_dna)
 	new_dna.unique_enzymes = unique_enzymes
@@ -59,14 +67,16 @@
 	new_dna.blood_type = blood_type
 	new_dna.features = features.Copy()
 	new_dna.species = new species.type
+	new_dna.original_species = original_species
 	new_dna.real_name = real_name
+	new_dna.update_body_size() //Must come after features.Copy()
 	new_dna.mutations = mutations.Copy()
 
 //See mutation.dm for what 'class' does. 'time' is time till it removes itself in decimals. 0 for no timer
 /datum/dna/proc/add_mutation(mutation, class = MUT_OTHER, time)
 	var/mutation_type = mutation
-	if(istype(mutation, /datum/mutation/human))
-		var/datum/mutation/human/HM = mutation
+	if(istype(mutation, /datum/mutation))
+		var/datum/mutation/HM = mutation
 		mutation_type = HM.type
 	if(get_mutation(mutation_type))
 		return
@@ -85,7 +95,7 @@
 /datum/dna/proc/remove_mutation_group(list/group, list/classes = list(MUT_NORMAL, MUT_EXTRA, MUT_OTHER), mutadone = FALSE)
 	if(!group)
 		return
-	for(var/datum/mutation/human/HM in group)
+	for(var/datum/mutation/HM as() in group)
 		if((HM.class in classes) && !(HM.mutadone_proof && mutadone))
 			force_lose(HM)
 
@@ -93,7 +103,13 @@
 	. = ""
 	var/list/L = new /list(DNA_UNI_IDENTITY_BLOCKS)
 
-	L[DNA_GENDER_BLOCK] = construct_block((holder.gender!=MALE)+1, 2)
+	switch(holder.gender)
+		if(MALE)
+			L[DNA_GENDER_BLOCK] = construct_block(G_MALE, 3)
+		if(FEMALE)
+			L[DNA_GENDER_BLOCK] = construct_block(G_FEMALE, 3)
+		else
+			L[DNA_GENDER_BLOCK] = construct_block(G_PLURAL, 3)
 	if(ishuman(holder))
 		var/mob/living/carbon/human/H = holder
 		if(!GLOB.hair_styles_list.len)
@@ -124,16 +140,13 @@
 	default_mutation_genes.Cut()
 	shuffle_inplace(mutations_temp)
 	if(ismonkey(holder))
-		if(istype(holder, /mob/living/carbon/monkey/tumor))
-			mutations |= new RACEMUT(MUT_OTHER)
-		else
-			mutations |= new RACEMUT(MUT_NORMAL)
-			mutation_index[RACEMUT] = GET_SEQUENCE(RACEMUT)
+		mutations |= new RACEMUT(MUT_NORMAL)
+		mutation_index[RACEMUT] = GET_SEQUENCE(RACEMUT)
 	else
 		mutation_index[RACEMUT] = create_sequence(RACEMUT, FALSE)
 	default_mutation_genes[RACEMUT] = mutation_index[RACEMUT]
 	for(var/i in 2 to DNA_MUTATION_BLOCKS)
-		var/datum/mutation/human/M = mutations_temp[i]
+		var/datum/mutation/M = mutations_temp[i]
 		mutation_index[M.type] = create_sequence(M.type, FALSE, M.difficulty)
 		default_mutation_genes[M.type] = mutation_index[M.type]
 	shuffle_inplace(mutation_index)
@@ -149,7 +162,7 @@
 //Used to create a chipped gene sequence
 /proc/create_sequence(mutation, active, difficulty)
 	if(!difficulty)
-		var/datum/mutation/human/A = GET_INITIALIZED_MUTATION(mutation) //leaves the possibility to change difficulty mid-round
+		var/datum/mutation/A = GET_INITIALIZED_MUTATION(mutation) //leaves the possibility to change difficulty mid-round
 		if(!A)
 			return
 		difficulty = A.difficulty
@@ -186,26 +199,32 @@
 		if(DNA_EYE_COLOR_BLOCK)
 			setblock(uni_identity, blocknumber, sanitize_hexcolor(H.eye_color))
 		if(DNA_GENDER_BLOCK)
-			setblock(uni_identity, blocknumber, construct_block((H.gender!=MALE)+1, 2))
+			switch(H.gender)
+				if(MALE)
+					setblock(uni_identity, blocknumber, construct_block(G_MALE, 3))
+				if(FEMALE)
+					setblock(uni_identity, blocknumber, construct_block(G_FEMALE, 3))
+				else
+					setblock(uni_identity, blocknumber, construct_block(G_PLURAL, 3))
 		if(DNA_FACIAL_HAIR_STYLE_BLOCK)
 			setblock(uni_identity, blocknumber, construct_block(GLOB.facial_hair_styles_list.Find(H.facial_hair_style), GLOB.facial_hair_styles_list.len))
 		if(DNA_HAIR_STYLE_BLOCK)
 			setblock(uni_identity, blocknumber, construct_block(GLOB.hair_styles_list.Find(H.hair_style), GLOB.hair_styles_list.len))
 
 //Please use add_mutation or activate_mutation instead
-/datum/dna/proc/force_give(datum/mutation/human/HM)
+/datum/dna/proc/force_give(datum/mutation/HM)
 	if(holder && HM)
 		if(HM.class == MUT_NORMAL)
-			set_se(1, HM)
+			set_se(TRUE, HM)
 		. = HM.on_acquiring(holder)
 		if(.)
 			qdel(HM)
 		update_instability()
 
 //Use remove_mutation instead
-/datum/dna/proc/force_lose(datum/mutation/human/HM)
+/datum/dna/proc/force_lose(datum/mutation/HM)
 	if(holder && (HM in mutations))
-		set_se(0, HM)
+		set_se(FALSE, HM)
 		. = HM.on_losing(holder)
 		update_instability(FALSE)
 		return
@@ -218,7 +237,7 @@
 
 /datum/dna/proc/update_instability(alert=TRUE)
 	stability = 100
-	for(var/datum/mutation/human/M in mutations)
+	for(var/datum/mutation/M as() in mutations)
 		if(M.class == MUT_EXTRA)
 			stability -= M.instability * GET_MUTATION_STABILIZER(M)
 	if(holder)
@@ -275,6 +294,20 @@
 	return
 
 /////////////////////////// DNA MOB-PROCS //////////////////////
+/datum/dna/proc/update_body_size()
+	if(!holder || !features["body_size"])
+		return
+
+	var/desired_size = GLOB.body_sizes[features["body_size"]]
+
+	if(desired_size == current_body_size)
+		return
+
+	var/change_multiplier = desired_size / current_body_size
+	var/translate = ((change_multiplier-1) * 32) * 0.5
+	holder.transform = holder.transform.Scale(change_multiplier)
+	holder.transform = holder.transform.Translate(0, translate)
+	current_body_size = desired_size
 
 /mob/proc/set_species(datum/species/mrace, icon_update = 1)
 	return
@@ -307,14 +340,13 @@
 			var/species_holder = initial(mrace.species_language_holder)
 			language_holder = new species_holder(src)
 		update_atom_languages()
+		if(icon_update)
+			update_mutations_overlay()// no lizard with human hulk overlay please.
 
 /mob/living/carbon/human/set_species(datum/species/mrace, icon_update = TRUE, pref_load = FALSE)
 	..()
 	if(icon_update)
-		update_body()
 		update_hair()
-		update_body_parts()
-		update_mutations_overlay()// no lizard with human hulk overlay please.
 
 
 /mob/proc/has_dna()
@@ -356,12 +388,11 @@
 	if(mrace || newfeatures || ui)
 		update_body()
 		update_hair()
-		update_body_parts()
+		update_body_parts(TRUE)
 		update_mutations_overlay()
 
 	if(LAZYLEN(mutations))
-		for(var/M in mutations)
-			var/datum/mutation/human/HM = M
+		for(var/datum/mutation/HM as() in mutations)
 			if(HM.allow_transfer || force_transfer_mutations)
 				dna.force_give(new HM.type(HM.class, copymut=HM)) //using force_give since it may include exotic mutations that otherwise wont be handled properly
 
@@ -375,7 +406,13 @@
 /mob/living/carbon/proc/updateappearance(icon_update=1, mutcolor_update=0, mutations_overlay_update=0)
 	if(!has_dna())
 		return
-	gender = (deconstruct_block(getblock(dna.uni_identity, DNA_GENDER_BLOCK), 2)-1) ? FEMALE : MALE
+	switch(deconstruct_block(getblock(dna.uni_identity, DNA_GENDER_BLOCK), 3))
+		if(G_MALE)
+			set_gender(MALE, TRUE)
+		if(G_FEMALE)
+			set_gender(FEMALE, TRUE)
+		else
+			set_gender(PLURAL, TRUE)
 
 /mob/living/carbon/human/updateappearance(icon_update=1, mutcolor_update=0, mutations_overlay_update=0)
 	..()
@@ -390,7 +427,7 @@
 		update_body()
 		update_hair()
 		if(mutcolor_update)
-			update_body_parts()
+			update_body_parts(TRUE)
 		if(mutations_overlay_update)
 			update_mutations_overlay()
 
@@ -409,7 +446,7 @@
 	update_mutations_overlay()
 
 /datum/dna/proc/check_block(mutation)
-	var/datum/mutation/human/HM = get_mutation(mutation)
+	var/datum/mutation/HM = get_mutation(mutation)
 	if(check_block_string(mutation))
 		if(!HM)
 			. = add_mutation(mutation, MUT_NORMAL)
@@ -418,7 +455,7 @@
 
 //Return the active mutation of a type if there is one
 /datum/dna/proc/get_mutation(A)
-	for(var/datum/mutation/human/HM in mutations)
+	for(var/datum/mutation/HM as() in mutations)
 		if(HM.type == A)
 			return HM
 
@@ -430,7 +467,7 @@
 /datum/dna/proc/is_gene_active(mutation)
 	return (mutation_index[mutation] == GET_SEQUENCE(mutation))
 
-/datum/dna/proc/set_se(on=TRUE, datum/mutation/human/HM)
+/datum/dna/proc/set_se(on=TRUE, datum/mutation/HM)
 	if(!HM || !(HM.type in mutation_index) || (LAZYLEN(mutation_index) < DNA_MUTATION_BLOCKS))
 		return
 	. = TRUE
@@ -445,8 +482,8 @@
 	if(!mutation)
 		return FALSE
 	var/mutation_type = mutation
-	if(istype(mutation, /datum/mutation/human))
-		var/datum/mutation/human/M = mutation
+	if(istype(mutation, /datum/mutation))
+		var/datum/mutation/M = mutation
 		mutation_type = M.type
 	if(!mutation_in_sequence(mutation_type)) //cant activate what we dont have, use add_mutation
 		return FALSE
@@ -474,8 +511,8 @@
 /datum/dna/proc/mutation_in_sequence(mutation)
 	if(!mutation)
 		return
-	if(istype(mutation, /datum/mutation/human))
-		var/datum/mutation/human/HM = mutation
+	if(istype(mutation, /datum/mutation))
+		var/datum/mutation/HM = mutation
 		if(HM.type in mutation_index)
 			return TRUE
 	else if(mutation in mutation_index)
@@ -499,7 +536,7 @@
 	if(quality & MINOR_NEGATIVE)
 		mutations += GLOB.not_good_mutations
 	var/list/possible = list()
-	for(var/datum/mutation/human/A in mutations)
+	for(var/datum/mutation/A as() in mutations)
 		if((!sequence || dna.mutation_in_sequence(A.type)) && !dna.get_mutation(A.type))
 			possible += A.type
 	if(exclude_monkey)
@@ -508,7 +545,7 @@
 		var/mutation = pick(possible)
 		. = dna.activate_mutation(mutation)
 		if(scrambled)
-			var/datum/mutation/human/HM = dna.get_mutation(mutation)
+			var/datum/mutation/HM = dna.get_mutation(mutation)
 			if(HM)
 				HM.scrambled = TRUE
 		return TRUE
@@ -564,7 +601,7 @@
 
 /////////////////////////// DNA HELPER-PROCS
 
-/mob/living/carbon/human/proc/something_horrible(ignore_stability)
+/mob/living/carbon/proc/something_horrible(ignore_stability)
 	if(!has_dna()) //shouldn't ever happen anyway so it's just in really weird cases
 		return
 	if(!ignore_stability && (dna.stability > 0))
@@ -575,7 +612,7 @@
 	if(prob(max(70-instability,0)))
 		switch(rand(0,10)) //not complete and utter death
 			if(0)
-				monkeyize()
+				teratomize()
 			if(1)
 				gain_trauma(/datum/brain_trauma/severe/paralysis/paraplegic)
 				new/obj/vehicle/ridden/wheelchair(get_turf(src)) //don't buckle, because I can't imagine to plethora of things to go through that could otherwise break
@@ -586,7 +623,9 @@
 				to_chat(src, "<span class='notice'>Oh, I actually feel quite alright!</span>")
 			if(4)
 				to_chat(src, "<span class='notice'>Oh, I actually feel quite alright!</span>") //you thought
-				physiology.damage_resistance = -20000
+				if(ishuman(src))
+					var/mob/living/carbon/human/H = src
+					H.physiology.damage_resistance = -20000
 			if(5)
 				to_chat(src, "<span class='notice'>Oh, I actually feel quite alright!</span>")
 				reagents.add_reagent(/datum/reagent/aslimetoxin, 10)
@@ -600,7 +639,7 @@
 				for(var/obj/item/organ/O in internal_organs) //make sure we dont get an implant or cavity item
 					elligible_organs += O
 				vomit(20, TRUE)
-				if(elligible_organs.len)
+				if(length(elligible_organs))
 					var/obj/item/organ/O = pick(elligible_organs)
 					O.Remove(src)
 					visible_message("<span class='danger'>[src] vomits up their [O.name]!</span>", "<span class='danger'>You vomit up your [O.name]!</span>") //no "vomit up your the heart"
@@ -620,6 +659,7 @@
 			if(2)
 				death()
 				petrify(INFINITY)
+				ghostize(FALSE) //NSV13 - Ethereal Crystalization
 			if(3)
 				if(prob(95))
 					var/obj/item/bodypart/BP = get_bodypart(pick(BODY_ZONE_CHEST,BODY_ZONE_HEAD))
@@ -633,16 +673,16 @@
 				visible_message("<span class='warning'>[src]'s skin melts off!</span>", "<span class='boldwarning'>Your skin melts off!</span>")
 				spawn_gibs()
 				set_species(/datum/species/skeleton)
-				if(prob(90))
-					addtimer(CALLBACK(src, .proc/death), 30)
+				if(prob(90) && !QDELETED(src))
+					addtimer(CALLBACK(src, PROC_REF(death)), 30)
 					if(mind)
 						mind.hasSoul = FALSE
 			if(5)
 				to_chat(src, "<span class='phobia'>LOOK UP!</span>")
-				addtimer(CALLBACK(src, .proc/something_horrible_mindmelt), 30)
+				addtimer(CALLBACK(src, PROC_REF(something_horrible_mindmelt)), 30)
 
 
-/mob/living/carbon/human/proc/something_horrible_mindmelt()
+/mob/living/carbon/proc/something_horrible_mindmelt()
 	if(!HAS_TRAIT(src, TRAIT_BLIND))
 		var/obj/item/organ/eyes/eyes = locate(/obj/item/organ/eyes) in internal_organs
 		if(!eyes)
@@ -650,4 +690,4 @@
 		eyes.Remove(src)
 		qdel(eyes)
 		visible_message("<span class='notice'>[src] looks up and their eyes melt away!</span>", "<span class='userdanger'>I understand now.</span>")
-		addtimer(CALLBACK(src, .proc/adjustOrganLoss, ORGAN_SLOT_BRAIN, 200), 20)
+		addtimer(CALLBACK(src, PROC_REF(adjustOrganLoss), ORGAN_SLOT_BRAIN, 200), 20)

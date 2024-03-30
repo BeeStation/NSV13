@@ -18,7 +18,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
     var/ruinSpawned = FALSE
     var/mysteryRoom
 
-/obj/item/hilbertshotel/Initialize()
+/obj/item/hilbertshotel/Initialize(mapload)
     . = ..()
     //Load templates
     hotelRoomTemp = new()
@@ -222,10 +222,10 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
     explosion_block = INFINITY
     var/obj/item/hilbertshotel/parentSphere
 
-/turf/open/space/bluespace/Entered(atom/movable/A)
+/turf/open/space/bluespace/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
     . = ..()
-    A.forceMove(get_turf(parentSphere))
-    do_sparks(3, FALSE, get_turf(A))
+    arrived.forceMove(get_turf(parentSphere))
+    do_sparks(3, FALSE, get_turf(arrived))
 
 /turf/closed/indestructible/hoteldoor
     name = "Hotel Door"
@@ -327,11 +327,11 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
     else
         return ..(T)
 
-/area/hilbertshotel/Entered(atom/movable/AM)
+/area/hilbertshotel/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
     . = ..()
-    if(istype(AM, /obj/item/hilbertshotel))
-        relocate(AM)
-    var/list/obj/item/hilbertshotel/hotels = AM.GetAllContents(/obj/item/hilbertshotel)
+    if(istype(arrived, /obj/item/hilbertshotel))
+        relocate(arrived)
+    var/list/obj/item/hilbertshotel/hotels = arrived.GetAllContents(/obj/item/hilbertshotel)
     for(var/obj/item/hilbertshotel/H in hotels)
         if(parentSphere == H)
             relocate(H)
@@ -354,10 +354,10 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
         to_chat(M, "<span class='danger'>[H] almost implodes in upon itself, but quickly rebounds, shooting off into a random point in space!</span>")
     H.forceMove(targetturf)
 
-/area/hilbertshotel/Exited(atom/movable/AM)
+/area/hilbertshotel/Exited(atom/movable/gone, direction)
     . = ..()
-    if(ismob(AM))
-        var/mob/M = AM
+    if(ismob(gone))
+        var/mob/M = gone
         if(M.mind)
             var/stillPopulated = FALSE
             var/list/currentLivingMobs = GetAllContents(/mob/living) //Got to catch anyone hiding in anything
@@ -406,16 +406,16 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
     var/roomNumber
     var/obj/item/hilbertshotel/parentSphere
 
-/obj/item/abstracthotelstorage/Entered(atom/movable/AM, atom/oldLoc)
+/obj/item/abstracthotelstorage/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
     . = ..()
-    if(ismob(AM))
-        var/mob/M = AM
+    if(ismob(arrived))
+        var/mob/M = arrived
         M.notransform = TRUE
 
-/obj/item/abstracthotelstorage/Exited(atom/movable/AM, atom/newLoc)
+/obj/item/abstracthotelstorage/Exited(atom/movable/gone, direction)
     . = ..()
-    if(ismob(AM))
-        var/mob/M = AM
+    if(ismob(gone))
+        var/mob/M = gone
         M.notransform = FALSE
 
 //Space Ruin stuff
@@ -465,14 +465,15 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 	back = /obj/item/storage/backpack/satchel/leather
 	suit = /obj/item/clothing/suit/toggle/labcoat
 	use_cooldown = TRUE
+	banType = ROLE_HOTEL_STAFF
 
 /obj/item/paper/crumpled/docslogs
 	name = "Research Logs"
 
-/obj/item/paper/crumpled/docslogs/Initialize()
+/obj/item/paper/crumpled/docslogs/Initialize(mapload)
 	. = ..()
 	GLOB.hhmysteryRoomNumber = rand(1, SHORT_REAL_LIMIT)
-	info = {"<h4><center>Research Logs</center></h4>
+	default_raw_text = {"<h4><center>Research Logs</center></h4>
 	I might just be onto something here!<br>
 	The strange space-warping properties of bluespace have been known about for awhile now, but I might be on the verge of discovering a new way of harnessing it.<br>
 	It's too soon to say for sure, but this might be the start of something quite important!<br>
@@ -498,7 +499,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 
 /obj/item/paper/crumpled/robertsworkjournal
 	name = "Work Journal"
-	info = {"<h4>First Week!</h4>
+	default_raw_text = {"<h4>First Week!</h4>
 	First week on the new job. It's a secretarial position, but hey, whatever pays the bills. Plus it seems like some interesting stuff goes on here.<br>
 	Doc says its best that I don't openly talk about his research with others, I guess he doesn't want it getting out or something. I've caught myself slipping a few times when talking to others, it's hard not to brag about something this cool!<br>
 	I'm not really sure why I'm choosing to journal this. Doc seems to log everything. He says it's incase he discovers anything important.<br>
@@ -524,7 +525,7 @@ GLOBAL_VAR_INIT(hhmysteryRoomNumber, 1337)
 
 /obj/item/paper/crumpled/bloody/docsdeathnote
 	name = "note"
-	info = {"This is it isn't it?<br>
+	default_raw_text = {"This is it isn't it?<br>
 	No one's coming to help, that much has become clear.<br>
 	Sure, it's lonely, but do I have much choice? At least I brought the analyzer with me, they shouldn't be able to find me without it.<br>
 	Who knows who's waiting for me out there. Its either die out there in their hands, or die a slower, slightly more comfortable death in here.<br>

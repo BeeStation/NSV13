@@ -17,6 +17,7 @@
 	req_one_access_txt = ""
 	account_type = ACCOUNT_SYN
 	circuit = /obj/item/circuitboard/computer/cargo/express/syndicate
+	cargo_landingzone = /area/quartermaster/pvp //Without this, any crates that are sent to cargo bay LZ will land in NT cargo instead.
 
 /obj/machinery/computer/cargo/express/syndicate/emag_act(mob/living/user)
 	to_chat(user, "<span class='warning'>The Syndicate would probably have you killed if you tried to interfere with this console...</span>")
@@ -69,7 +70,7 @@
 /obj/effect/landmark/start/nukeop/syndi_crew
 	name = "Syndicate crew"
 
-/obj/effect/landmark/start/nukeop/syndi_crew/Initialize()
+/obj/effect/landmark/start/nukeop/syndi_crew/Initialize(mapload)
 	..()
 	GLOB.syndi_crew_spawns += loc
 	return INITIALIZE_HINT_QDEL
@@ -77,7 +78,7 @@
 /obj/effect/landmark/start/nukeop/syndi_crew_leader
 	name = "Syndicate captain"
 
-/obj/effect/landmark/start/nukeop/syndi_crew_leader/Initialize()
+/obj/effect/landmark/start/nukeop/syndi_crew_leader/Initialize(mapload)
 	..()
 	GLOB.syndi_crew_leader_spawns += loc
 	return INITIALIZE_HINT_QDEL
@@ -97,8 +98,8 @@
 	layer = 4
 	var/faction_type = FACTION_ID_SYNDICATE
 	var/alignment = "syndicate"
-	var/points_per_capture = 50 //How many points does capturing one system net you? Since it's 1000 points to win, this will take a loooot of captures to outright win as syndies.
-	var/time_left = 300 //5 min
+	var/points_per_capture = 100 //How many points does capturing one system net you? Since it's 1000 points to win, this will take a bunch of captures to outright win.
+	var/time_left = 150 //2.5 min
 	var/active = FALSE
 	var/next_activation = 0
 	var/activation_delay = 7 MINUTES //How long until we can activate it again?
@@ -134,16 +135,16 @@
 	ours.send_fleet(override=capturing, force=TRUE)
 	ours.gain_influence(points_per_capture)
 
-/obj/machinery/conquest_beacon/Initialize()
+/obj/machinery/conquest_beacon/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/conquest_beacon/LateInitialize()
 	. = ..()
-	addtimer(CALLBACK(src, .proc/add_to_ship), 5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(add_to_ship)), 5 SECONDS)
 
 /obj/machinery/conquest_beacon/proc/add_to_ship()
-	RegisterSignal(get_overmap(), COMSIG_FTL_STATE_CHANGE, .proc/deactivate)
+	RegisterSignal(get_overmap(), COMSIG_FTL_STATE_CHANGE, PROC_REF(deactivate))
 
 /obj/machinery/conquest_beacon/proc/deactivate()
 	set_active(FALSE)
@@ -195,8 +196,8 @@
 	req_one_access = list(ACCESS_CAPTAIN)
 	faction_type = FACTION_ID_NT
 	alignment = "nanotrasen"
-	activation_delay = 13 MINUTES
-	time_left = 120
+	activation_delay = 3 MINUTES
+	time_left = 60 //NT can capture faster because they don't get a fleet to support
 
 /obj/machinery/conquest_beacon/nanotrasen/capture_system()
 	set_active(FALSE, TRUE)
@@ -266,7 +267,7 @@
 
 /datum/ship_loadout/interceptor
 	name = "Experimental Engine Modifications"
-	desc = "Scans have identified an experimental speed-enhancing manifold as well as a prototype FTL drive modification in the powergrid. Activate it to vastly increase ship maneuverability and transit speed whilst also allowing the FTL computer to automatically spool itself between jumps. This module will allow you to reach targets much more quickly, and increase your maneuverability and speed substantially, though no excess power will be left for structural reinforcement."
+	desc = "Scans have identified an experimental speed-enhancing manifold as well as a prototype Thirring Drive modification in the powergrid. Activate it to vastly increase ship maneuverability and transit speed whilst also allowing the FTL computer to automatically spool itself between jumps. This module will allow you to reach targets much more quickly, and increase your maneuverability and speed substantially, though no excess power will be left for structural reinforcement."
 
 /datum/ship_loadout/interceptor/apply(obj/structure/overmap/OM)
 	if(!OM)
@@ -276,7 +277,7 @@
 	OM.side_maxthrust *= 1.5
 	OM.speed_limit *= 1.5
 	OM.max_angular_acceleration *= 1.5
-	OM.ftl_drive.auto_spool = TRUE //Lazy sods, but yes this is a very valid option if you want to annoy NT.
+	OM.ftl_drive.auto_spool_enabled = TRUE //Lazy sods, but yes this is a very valid option if you want to annoy NT.
 	return TRUE
 
 /obj/item/ship_loadout_selector
@@ -288,7 +289,7 @@
 	req_one_access_txt = "150"
 	var/list/loadouts = list()
 
-/obj/item/ship_loadout_selector/Initialize()
+/obj/item/ship_loadout_selector/Initialize(mapload)
 	. = ..()
 	for(var/theType in typecacheof(/datum/ship_loadout))
 		loadouts += new theType
@@ -337,13 +338,14 @@
 /obj/effect/landmark/trader_drop_point
 	name = "Trader sending target"
 
-/obj/effect/landmark/trader_drop_point/Initialize()
+/obj/effect/landmark/trader_drop_point/Initialize(mapload)
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/effect/landmark/trader_drop_point/LateInitialize()
 	..()
-	addtimer(CALLBACK(src, .proc/add_to_ship), 1 MINUTES)
+	// addtimer(CALLBACK(src, PROC_REF(add_to_ship)), 1 MINUTES)
+	add_to_ship() // I don't understand why we're delaying this
 
 /obj/effect/landmark/trader_drop_point/proc/add_to_ship()
 	LAZYADD(get_overmap()?.trader_beacons, src)
@@ -430,3 +432,31 @@
 	network = list("syndicate")
 
 /obj/machinery/camera/syndicate/autoname
+	var/number = 0
+/obj/machinery/camera/syndicate/autoname/Initialize(mapload)
+	..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/camera/syndicate/autoname/LateInitialize()
+	. = ..()
+	number = 1
+	var/area/A = get_area(src)
+	if(A)
+		for(var/obj/machinery/camera/syndicate/autoname/C in GLOB.machines)
+			if(C == src)
+				continue
+			var/area/CA = get_area(C)
+			if(CA.type == A.type)
+				if(C.number)
+					number = max(number, C.number+1)
+		c_tag = "[A.name] #[number]"
+
+/obj/item/radio/intercom/syndicate //An intercom for syndicate AIs.
+	name = "syndicate intercom"
+	syndie = 1
+	freqlock = 1
+
+/obj/item/radio/intercom/syndicate/Initialize(mapload)
+	. = ..()
+	set_frequency(FREQ_SYNDICATE)
+

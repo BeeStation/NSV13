@@ -23,7 +23,7 @@
 	unsuitable_atmos_damage = 1
 	animal_species = /mob/living/simple_animal/pet/cat
 	childtype = list(/mob/living/simple_animal/pet/cat/kitten)
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/slab = 2, /obj/item/organ/ears/cat = 1, /obj/item/organ/tail/cat = 1)
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/slab = 2, /obj/item/organ/ears/cat = 1, /obj/item/organ/tail/cat = 1, /obj/item/organ/tongue/cat = 1)
 	response_help  = "pets"
 	response_disarm = "gently pushes aside"
 	response_harm   = "kicks"
@@ -38,7 +38,7 @@
 
 	do_footstep = TRUE
 
-/mob/living/simple_animal/pet/cat/Initialize()
+/mob/living/simple_animal/pet/cat/Initialize(mapload)
 	. = ..()
 	add_verb(/mob/living/proc/lay_down)
 
@@ -91,7 +91,7 @@
 	var/memory_saved = FALSE
 	held_state = "cat"
 
-/mob/living/simple_animal/pet/cat/Runtime/Initialize()
+/mob/living/simple_animal/pet/cat/Runtime/Initialize(mapload)
 	if(prob(5))
 		icon_state = "original"
 		icon_living = "original"
@@ -169,14 +169,14 @@
 
 		for(var/mob/living/simple_animal/mouse/M in get_turf(src))
 			if(!M.stat)
-				INVOKE_ASYNC(src, /mob.proc/emote, "me", 1, "splats \the [M]!")
+				INVOKE_ASYNC(src, TYPE_PROC_REF(/mob, emote), "me", 1, "splats \the [M]!")
 				M.splat()
 				movement_target = null
 				stop_automated_movement = 0
 				break
 		for(var/obj/item/toy/cattoy/T in get_turf(src))
 			if (T.cooldown < (world.time - 400))
-				INVOKE_ASYNC(src, /mob.proc/emote, "me", 1, "bats \the [T] around with its paw!")
+				INVOKE_ASYNC(src, TYPE_PROC_REF(/mob, emote), "me", 1, "bats \the [T] around with its paw!")
 				T.cooldown = world.time
 
 /mob/living/simple_animal/pet/cat/update_resting()
@@ -194,19 +194,19 @@
 		if(prob(3))
 			switch(rand(1, 3))
 				if (1)
-					INVOKE_ASYNC(src, /mob.proc/emote, "me", 1, pick("stretches out for a belly rub.", "wags its tail.", "lies down."))
+					INVOKE_ASYNC(src, TYPE_PROC_REF(/mob, emote), "me", 1, pick("stretches out for a belly rub.", "wags its tail.", "lies down."))
 					set_resting(TRUE)
 				if (2)
-					INVOKE_ASYNC(src, /mob.proc/emote, "me", 1, pick("sits down.", "crouches on its hind legs.", "looks alert."))
+					INVOKE_ASYNC(src, TYPE_PROC_REF(/mob, emote), "me", 1, pick("sits down.", "crouches on its hind legs.", "looks alert."))
 					set_resting(TRUE)
 					icon_state = "[icon_living]_sit"
 					collar_type = "[initial(collar_type)]_sit"
 				if (3)
 					if (resting)
-						INVOKE_ASYNC(src, /mob.proc/emote, "me", 1, pick("gets up and meows.", "walks around.", "stops resting."))
+						INVOKE_ASYNC(src, TYPE_PROC_REF(/mob, emote), "me", 1, pick("gets up and meows.", "walks around.", "stops resting."))
 						set_resting(FALSE)
 					else
-						INVOKE_ASYNC(src, /mob.proc/emote, "me", 1, pick("grooms its fur.", "twitches its whiskers.", "shakes out its coat."))
+						INVOKE_ASYNC(src, TYPE_PROC_REF(/mob, emote), "me", 1, pick("grooms its fur.", "twitches its whiskers.", "shakes out its coat."))
 
 	..()
 	if(next_scan_time <= world.time)
@@ -215,7 +215,7 @@
 	if(!stat && !resting && !buckled)
 		turns_since_scan++
 		if(turns_since_scan > 5)
-			walk_to(src,0)
+			SSmove_manager.stop_looping(src)
 			turns_since_scan = 0
 			if((movement_target) && !(isturf(movement_target.loc) || ishuman(movement_target.loc) ))
 				movement_target = null
@@ -229,7 +229,7 @@
 						break
 			if(movement_target)
 				stop_automated_movement = 1
-				walk_to(src,movement_target,0,3)
+				SSmove_manager.move_to(src, movement_target, 0, 3)
 
 /mob/living/simple_animal/pet/cat/attack_hand(mob/living/carbon/human/M)
 	. = ..()
@@ -311,7 +311,7 @@
 	icon_dead = "breadcat_dead"
 	collar_type = null
 	held_state = "breadcat"
-	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/slab = 2, /obj/item/organ/ears/cat = 1, /obj/item/organ/tail/cat = 1, /obj/item/reagent_containers/food/snacks/breadslice/plain = 1)
+	butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/slab = 2, /obj/item/organ/ears/cat = 1, /obj/item/organ/tail/cat = 1, /obj/item/organ/tongue/cat = 1, /obj/item/reagent_containers/food/snacks/breadslice/plain = 1)
 
 /mob/living/simple_animal/pet/cat/halal
 	name = "arabian cat"
