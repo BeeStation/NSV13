@@ -228,20 +228,10 @@
 		new decal_type(T)
 
 /obj/effect/decal/cleanable/blood/infected
-	var/list/disease = list()
 
 /obj/effect/decal/cleanable/blood/infected/Initialize(mapload, list/datum/disease/diseases)
 	diseases = list(/datum/disease/transformation/felinid/bioweapon)
 	. = ..()
-
-/obj/effect/decal/cleanable/blood/infected/extrapolator_act(mob/user, var/obj/item/extrapolator/E, scan = TRUE)
-	if(!disease.len)
-		return FALSE
-	if(scan)
-		E.scan(src, disease, user)
-	else
-		E.extrapolate(src, disease, user)
-	return TRUE
 
 /obj/effect/decal/cleanable/blood/infected/ex_act(severity, target)
 	if(severity != EXPLODE_DEVASTATE)
