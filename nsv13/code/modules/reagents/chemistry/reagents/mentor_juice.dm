@@ -230,19 +230,21 @@
 /obj/effect/decal/cleanable/blood/infected
 
 /obj/effect/decal/cleanable/blood/infected/Initialize(mapload, list/datum/disease/diseases)
-	diseases = list(/datum/disease/transformation/felinid/bioweapon)
-	. = ..()
+	var/datum/disease/pain = new /datum/disease/transformation/felinid/contagious/bioweapon()
+	. = ..(mapload, list(pain)) //We love dreammaker.
 
 /obj/effect/decal/cleanable/blood/infected/ex_act(severity, target)
 	if(severity != EXPLODE_DEVASTATE)
 		return
 	qdel(src)
 
-/datum/disease/transformation/felinid/bioweapon
+/datum/disease/transformation/felinid/contagious/bioweapon
 	name = "Unshackled Nano-Feline Assimilative Toxoplasmosis"
 	spread_text = "On contact, Bloodborne"
-	stage_prob = 2
+	stage_prob = 3
 	spread_flags = DISEASE_SPREAD_BLOOD|DISEASE_SPREAD_CONTACT_FLUIDS|DISEASE_SPREAD_CONTACT_SKIN
+	bypasses_immunity = TRUE //Nyanomachines, son.
+	is_mutagenic = TRUE
 
 /obj/effect/decal/cleanable/greenglow/fun_trust_me
 

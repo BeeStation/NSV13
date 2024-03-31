@@ -183,7 +183,7 @@
 	var/list/scanned = list() //list of scanned overmap anomalies
 	var/reserved_z = 0 //The Z level we were spawned on, and thus inhabit. This can be changed if we "swap" positions with another ship.
 	var/list/occupying_levels = list() //Refs to the z-levels we own for setting parallax and that, or for admins to debug things when EVERYTHING INEVITABLY BREAKS
-	var/torpedo_type = list(/obj/item/projectile/guided_munition/torpedo = 20, /obj/item/projectile/guided_munition/torpedo/biohazard_one = 1, /obj/item/projectile/guided_munition/torpedo/biohazard_two = 1)
+	var/torpedo_type = list(/obj/item/projectile/guided_munition/torpedo = 90, /obj/item/projectile/guided_munition/torpedo/biohazard_one = 5, /obj/item/projectile/guided_munition/torpedo/biohazard_two = 5, /obj/item/projectile/guided_munition/torpedo/plushtide = 2)
 	var/next_maneuvre = 0 //When can we pull off a fancy trick like boost or kinetic turn?
 	var/flak_battery_amount = 0
 	var/broadside = FALSE //Whether the ship is allowed to have broadside cannons or not
