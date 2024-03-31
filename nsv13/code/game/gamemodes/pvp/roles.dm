@@ -26,6 +26,7 @@
 	if(!ui)
 		ui = new(user, src, "SyndieJobSelect")
 		ui.open()
+		ui.set_autoupdate(TRUE)
 
 /datum/syndicate_job_menu/ui_data(mob/user)
 	var/list/data = list()
@@ -63,6 +64,22 @@
 	to_chat(owner, "<span class='warning'>Ensure the destruction of [station_name()], no matter what. Eliminate Nanotrasen's presence in the Abassi Ridge before they can establish a foothold. The fleet is counting on you!</span>")
 	owner.announce_objectives()
 
+/datum/antagonist/nukeop/syndi_crew/give_alias() //Hijacking you to actually give us a custom character!
+	if(!istype(owner.current, /mob/dead/new_player))
+		log_runtime("Syndicate crew failed to spawn for [owner]. Wrong type: [owner.current.type]")
+		return
+	var/mob/dead/new_player/N = owner.current
+	N.client.prefs.active_character = N.client.prefs.syndicate_character
+	N.new_character = N.create_character()
+	N.transfer_character()
+
+/datum/antagonist/nukeop/syndi_crew/equip_op()
+	if(!ishuman(owner.current))
+		log_runtime("Syndicate crew failed to equip for [owner]. Wrong type: [owner.current.type]")
+		return
+	var/mob/living/carbon/human/H = owner.current
+	H.equipOutfit(nukeop_outfit)
+	return TRUE
 
 /**
 Singleton to handle conquest roles. This exists to populate the roles list and nothing else.

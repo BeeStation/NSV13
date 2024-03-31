@@ -203,7 +203,7 @@
 	set_active(FALSE, TRUE)
 	var/datum/faction/ours = SSstar_system.faction_by_id(faction_type)
 	var/reporters = "WhiteRapids EAS"
-	if(faction_type = FACTION_ID_SYNDICATE)
+	if(faction_type == FACTION_ID_SYNDICATE)
 		reporters = "Syndicate Command"
 	priority_announce("\proper [capturing] has been succesfully captured by [get_overmap()]!", reporters)
 	capturing.owner = alignment
@@ -223,7 +223,7 @@
 		if(alert(user, "Activate the [src]? Sending the transmission will take two minutes and permanently mark the system as captured!","Confirm","Yes","No")=="No")
 			return
 		capturing = get_overmap().current_system
-		if(capturing.alignment == alignment || (faction_type == FACTION_ID_NT && (capturing.alignment == "solgov" || capturing.alignment = "whiterapids"))) //Todo: add federation check here.
+		if(capturing.alignment == alignment || (faction_type == FACTION_ID_NT && (capturing.alignment == "solgov" || capturing.alignment == "whiterapids"))) //Todo: add federation check here.
 			to_chat(user, "<span class='sciradio'>You can't claim systems that your faction already owns...</span>")
 			return
 		next_activation = world.time + activation_delay

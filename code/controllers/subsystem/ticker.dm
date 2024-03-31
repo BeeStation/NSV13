@@ -434,8 +434,8 @@ SUBSYSTEM_DEF(ticker)
 			if(player.mind.assigned_role == JOB_NAME_CAPTAIN)
 				captainless = FALSE
 				spare_id_candidates += N
-			else if(captainless && (player.mind.assigned_role in GLOB.command_positions) && !(is_banned_from(N.ckey, JOB_NAME_CAPTAIN)))
-				if(!enforce_coc)
+			else if(captainless && (player.mind.assigned_role in SSjob.chain_of_command) && !(is_banned_from(N.ckey, JOB_NAME_CAPTAIN))) //NSV13 made this check for presence in COC instead of command positions
+				if(!enforce_coc && (player.mind.assigned_role in GLOB.command_positions)) // NSV13 moved '&& (player.mind.assigned_role in GLOB.command_positions)' from the check above to allow bridgies to be pickked when using chain of command.
 					spare_id_candidates += N
 				else
 					var/spare_id_priority = SSjob.chain_of_command[player.mind.assigned_role]
@@ -491,7 +491,6 @@ SUBSYSTEM_DEF(ticker)
 			m = pick(randomtips)
 		else if(memetips.len)
 			m = pick(memetips)
-
 	if(m)
 		to_chat(world, "<span class='purple'><b>Tip of the round: </b>[html_encode(m)]</span>")
 

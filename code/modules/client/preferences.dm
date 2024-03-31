@@ -94,7 +94,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		var/datum/character_save/CS = new()
 		CS.slot_number = i
 		character_saves[i] = CS
-		if(i = 10) //NSV13 Syndicate character slot
+		if(i == TRUE_MAX_SAVE_SLOTS) //NSV13 Syndicate character slot is the last one
 			CS.is_syndicate = TRUE
 			syndicate_character = CS
 
@@ -161,6 +161,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				name = CS.real_name
 				if(!name)
 					name = "Character [CS.slot_number]"
+				if(CS.is_syndicate)
+					name += " (Syndicate)"
 				if(CS.slot_locked)
 					dat += "<a style='white-space:nowrap;' class='linkOff'>[name] (Locked)</a> "
 				else
@@ -212,7 +214,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<a href='?_src_=prefs;preference=sec_dept;task=input'><b>Preferred Security/Midshipman Department:</b> [active_character.preferred_security_department]</a><BR>"//NSV13 added Midshipmen
 			dat += "<a href='?_src_=prefs;preference=pilot_role;task=input'><b>Preferred Pilot Role:</b> [active_character.preferred_pilot_role]</a><br>" //Nsv13
 
-			if(is_syndicate) //NSV13
+			if(active_character.is_syndicate) //NSV13
 				dat += "<b>Syndicate Crew Preferences:</b><BR>"
 				dat += "<a href='?_src_=prefs;preference=syndiecrew;task=input'><b>Preferred Syndicate Role:</b> [preferred_syndie_role]</a><br>"
 
