@@ -387,16 +387,9 @@
 	else
 		to_chat(user, "<span class='info'>You don't think it would be wise to touch this right now.</span>")
 
-
-#undef PYLON_STATE_OFFLINE
-#undef PYLON_STATE_STARTING
-#undef PYLON_STATE_WARMUP
-#undef PYLON_STATE_SPOOLING
-#undef PYLON_STATE_ACTIVE
-#undef PYLON_STATE_SHUTDOWN
-
 #undef MAX_WASTE_OUTPUT_PRESSURE
 #undef MAX_WASTE_STORAGE_PRESSURE
+#undef WASTE_GAS_HEAT
 
 #undef PYLON_ACTIVE_EXPONENT
 #undef POWER_FAIL_TOLERANCE

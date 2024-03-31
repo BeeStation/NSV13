@@ -232,6 +232,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), world.maxz)) //Plop them bang in the center of the system.
 	var/obj/structure/overmap/OM = new _path(exit) //Ship'll pick up the info it needs, so just domp eet at the exit turf.
 	OM.reserved_z = world.maxz
+	OM.overmap_flags |= OVERMAP_FLAG_ZLEVEL_CARRIER
 	OM.current_system = SSstar_system.find_system(OM)
 	if(OM.role == MAIN_OVERMAP) //If we're the main overmap, we'll cheat a lil' and apply our status to all of the Zs under "station"
 		for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
@@ -721,6 +722,24 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return 90 - ATAN2(dx, dy)
 	else
 		return null
+
+/obj/structure/overmap/proc/enable_dampeners(mob/user)
+	if(HAS_TRAIT(src, TRAIT_NODAMPENERS))
+		if(user)
+			to_chat(user, "<span class='danger'>WARNING: Inertia Dampeners Unavailable! Potential causes: Gravity above tolerance, malfunctions, damage, spontanious bluespace displacement.</span>")
+		return FALSE
+	inertial_dampeners = TRUE
+	return TRUE
+
+/obj/structure/overmap/proc/disable_dampeners(mob/user)
+	inertial_dampeners = FALSE
+	return TRUE
+
+/obj/structure/overmap/proc/toggle_dampeners(mob/user)
+	if(inertial_dampeners)
+		return disable_dampeners(user)
+	else
+		return enable_dampeners(user)
 
 /obj/structure/overmap/relaymove(mob/user, direction)
 	if(user != pilot || pilot.incapacitated())

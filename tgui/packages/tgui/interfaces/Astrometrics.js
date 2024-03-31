@@ -111,7 +111,7 @@ export const Astrometrics = (props, context) => {
                   if (value.scannable) {
                     if (scan_target !== value.name) {
                       return (
-                        <Section title={value.name}>
+                        <Section title={value.name} key={key}>
                           Available research: {value.points}
                           <Button key={key}
                             content="Scan"
@@ -123,7 +123,7 @@ export const Astrometrics = (props, context) => {
                     }
                     else {
                       return (
-                        <Section title={value.name}>
+                        <Section title={value.name} key={key}>
                           Available research: {value.points}
                           <Button key={key}
                             content="Stop scan"
@@ -136,7 +136,7 @@ export const Astrometrics = (props, context) => {
                   }
                   else {
                     return (
-                      <Section title={value.name}>
+                      <Section title={value.name} key={key}>
                         <Button key={key}
                           content="Info"
                           icon="search"

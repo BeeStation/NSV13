@@ -7,6 +7,7 @@
 	smooth = SMOOTH_TRUE
 	canSmoothWith = null
 	obj_flags = CAN_BE_HIT | BLOCK_Z_OUT_DOWN | BLOCK_Z_IN_UP
+	flags_1 = PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	//Negates the effect of space and openspace.
 	//Shouldn't be placed above anything else.
 	FASTDMM_PROP(\
@@ -44,7 +45,7 @@
 
 /obj/structure/lattice/catwalk/deconstruct()
 	var/turf/T = loc
-	if(!istype(src, /obj/structure/lattice/catwalk/over/ship)) // NSV13 - don't cut cables if the catwalk goes *over* the cables
+	if(!istype(src, /obj/structure/lattice/catwalk/over)) // NSV13 - don't cut cables if the catwalk goes *over* the cables
 		for(var/obj/structure/cable/C in T)
 			C.deconstruct()
 	..()

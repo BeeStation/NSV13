@@ -26,7 +26,7 @@
 	DELAY 20
 	PRESET /datum/preset_holoimage/corgi
 	NAME Burst Data
-	LANGUAGE /datum/language/eal
+	LANGUAGE /datum/language/machine
 	SAY START NTINTEL METADATA
 	SAY RECORDED 12-17-0000
 	SAY SECURITY CLASS UNCLASSIFIED
@@ -320,7 +320,7 @@
 	DELAY 50
 	SAY If you need to shut down the reactor, lower the nucleium injection rate slowly. You can cycle coolant in an emergency for a quick cooling boost.
 	DELAY 50
-	SAY The reaction can be terminated when the reactor core is under 100 Celsius. Ensure cooling is adequate to achieve this.
+	SAY The reaction can be terminated when the reactor core is under 200 Celsius. Ensure cooling is adequate to achieve this.
 	DELAY 50
 	SAY Finally. If your minimum input power ever starts to converge on the maximum, you are heading towards an emission. Rectify this immediately, or shut down the reactor safely.
 	DELAY 50
@@ -328,7 +328,7 @@
 	DELAY 50
 	SAY Do your duty. This tape should be destroyed after use. Shield technology does not exist. Glory to Nanotrasen.
 	NAME Burst Data
-	LANGUAGE /datum/language/eal
+	LANGUAGE /datum/language/machine
 	DELAY 20
 	SAY START METADATA
 	SAY RECORDED 5-25-0000

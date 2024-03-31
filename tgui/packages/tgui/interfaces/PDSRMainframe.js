@@ -54,6 +54,7 @@ export const PDSRMainframe = (props, context) => {
                     fillColor="rgba(33, 133, 208, 0)" />
                 </Section>
               </Flex.Item>
+              <Flex.Item width="10px" />
               <Flex.Item width="280px">
                 <Section>
                   <LabeledList>
@@ -126,6 +127,11 @@ export const PDSRMainframe = (props, context) => {
               fillValue={data.r_injection_rate}
               minValue={0}
               maxValue={25}
+              ranges={{
+                default: [5, 20],
+                yellow: [2.5, Infinity],
+                bad: [-Infinity, 2.5],
+              }}
               step={1}
               stepPixelSize={27}
               onDrag={(e, value) => act('injection_allocation', {
@@ -137,11 +143,16 @@ export const PDSRMainframe = (props, context) => {
           <Section title="Reaction Statistics">
             Temperature:
             <ProgressBar
+              minvalue={0}
+              maxvalue={1000}
               value={data.r_temp}
-              range={{
-                good: [],
-                average: [0.5, 0.75],
-                bad: [0.75, Infinity],
+              color={data.r_temp === 0 ? "default" : null}
+              ranges={{
+                blue: [25, 70],
+                good: [70, 175],
+                yellow: [175, 200],
+                average: [200, 600],
+                bad: [-Infinity, Infinity],
               }}>
               {toFixed(data.r_temp) + ' °C'}
             </ProgressBar>
@@ -150,7 +161,11 @@ export const PDSRMainframe = (props, context) => {
               value={data.r_reaction_rate}
               minValue={0}
               maxValue={25}
-              color="teal" >
+              color={data.r_temp === 0 ? "default" : null}
+              ranges={{
+                bad: [-Infinity, 5],
+                teal: [5, Infinity],
+              }}>
               {data.r_reaction_rate + ' mol/s'}
             </ProgressBar>
             Screen Capacity:
@@ -158,7 +173,7 @@ export const PDSRMainframe = (props, context) => {
               value={data.r_energy_output}
               minValue={0}
               maxValue={50}
-              color="yellow" >
+              color={(data.r_energy_output === 0 && data.r_temp > 0) ? "red" : "yellow"} >
               {data.r_energy_output + ' GJ'}
             </ProgressBar>
           </Section>

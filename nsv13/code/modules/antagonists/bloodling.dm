@@ -283,6 +283,7 @@ Infestation! If given a human, it makes them a changeling thrall. If given any o
 	var/antag_hud_type = ANTAG_HUD_BLOODLING
 	var/antag_hud_name = "bloodling_thrall"
 	var/component_type = /datum/component/bloodling
+	banning_key = ROLE_BLOODLING
 
 /datum/antagonist/bloodling/greet()
 	to_chat(owner.current, "<span class='boldannounce'>We are the master!</span>")
@@ -813,7 +814,7 @@ Depending on what creature the entity gives life to, this can be EXTREMELY stron
 		refund_biomass(user, biomass_cost)
 		return FALSE
 
-	var/list/candidates = pollCandidatesForMob("Do you want to play as a bloodling minion?", ROLE_SENTIENCE, null, ROLE_SENTIENCE, 50, M, POLL_IGNORE_SENTIENCE_POTION) // see poll_ignore.dm
+	var/list/candidates = pollCandidatesForMob("Do you want to play as a bloodling minion?", ROLE_SENTIENCE, null, ROLE_SENTIENCE, 50, M) // see poll_ignore.dm
 	if(LAZYLEN(candidates))
 		var/mob/dead/observer/C = pick(candidates)
 		var/datum/component/bloodling/B = user.GetComponent(/datum/component/bloodling)

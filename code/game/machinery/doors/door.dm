@@ -58,6 +58,8 @@
 
 /obj/machinery/door/Initialize(mapload)
 	. = ..()
+	if(!density)//NSV make it so prevent_click_under doesn't need density
+		flags_1 &= ~PREVENT_CLICK_UNDER_1
 	set_init_door_layer()
 	update_freelook_sight()
 	air_update_turf(1)
@@ -219,6 +221,7 @@
 	var/max_moles = min_moles
 	// okay this is a bit hacky. First, we set density to 0 and recalculate our adjacent turfs
 	density = FALSE
+	flags_1 &= ~PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	T.ImmediateCalculateAdjacentTurfs()
 	// then we use those adjacent turfs to figure out what the difference between the lowest and highest pressures we'd be holding is
 	for(var/turf/open/T2 in T.atmos_adjacent_turfs)
@@ -230,6 +233,8 @@
 		if(moles > max_moles)
 			max_moles = moles
 	density = TRUE
+	if(!(flags_1 & ON_BORDER_1))//NSV but not border firelocks
+		flags_1 |= PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	T.ImmediateCalculateAdjacentTurfs() // alright lets put it back
 	return max_moles - min_moles > 20
 
@@ -311,6 +316,7 @@
 	set_opacity(0)
 	sleep(open_speed)
 	density = FALSE
+	flags_1 &= ~PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	sleep(open_speed)
 	layer = initial(layer)
 	update_icon()
@@ -341,8 +347,12 @@
 	layer = closingLayer
 	if(air_tight)
 		density = TRUE
+		if(!(flags_1 & ON_BORDER_1))//NSV but not border firelocks
+			flags_1 |= PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	sleep(open_speed)
 	density = TRUE
+	if(!(flags_1 & ON_BORDER_1))//NSV but not border firelocks
+		flags_1 |= PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
 	sleep(open_speed)
 	update_icon()
 	if(visible && !glass)

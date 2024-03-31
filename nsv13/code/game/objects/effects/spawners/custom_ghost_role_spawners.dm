@@ -29,7 +29,7 @@
 	. = ..()
 	var/area/A = get_area(src)
 	if(A)
-		notify_ghosts("A Syndicate Crewmember is about to thaw from cryo on \the [A.name].", source = src, action=NOTIFY_ATTACK, flashwindow = FALSE, ignore_key = POLL_IGNORE_SYNDICATE)
+		notify_ghosts("A Syndicate Crewmember is about to thaw from cryo on \the [A.name].", source = src, action=NOTIFY_ATTACK, flashwindow = FALSE)
 
 /obj/effect/mob_spawn/human/nsv13/nt_prisoner/
 	name = "a prisoner stasis pod"

@@ -16,7 +16,7 @@
 			if("Cancel")
 				return
 			if("Open")
-				var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [src.faction] [src.name]?", ROLE_GHOSTSHIP, null, null, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
+				var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [src.faction] [src.name]?", ROLE_GHOSTSHIP, /datum/role_preference/midround_ghost/ghost_ship, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
 				if(LAZYLEN(candidates))
 					var/mob/dead/observer/C = pick(candidates)
 					target_ghost = C
@@ -67,6 +67,11 @@
 		tactical = new /obj/machinery/computer/ship/tactical/internal(src)
 		tactical.linked = src
 
+	//Lets ships with gauss use them
+	if(weapon_types[FIRE_MODE_GAUSS])
+		var/datum/ship_weapon/GA = weapon_types[FIRE_MODE_GAUSS]
+		GA.allowed_roles = OVERMAP_USER_ROLE_GUNNER
+
 	//Override AMS
 	weapon_types[FIRE_MODE_AMS] = null //Resolve this later to be auto
 	weapon_types[FIRE_MODE_FLAK] = null //Resolve this later to be a toggle
@@ -78,6 +83,10 @@
 	ghost.real_name = src.name
 	ghost.hud_type = /datum/hud //Mostly blank hud
 	ghost.key = target.key
+
+	//More or less a modified version of how the morph antag gets the antag datum.
+	if(ghost.mind)
+		ghost.mind.add_antag_datum(/datum/antagonist/ghost_ship)
 
 	//Allows player to hear hails
 	mobs_in_ship += ghost

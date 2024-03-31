@@ -1,11 +1,17 @@
 /datum/star_system/proc/add_ship(obj/structure/overmap/OM, turf/target_turf)
 	if(!system_contents.Find(OM))
 		system_contents += OM	//Lets be safe while I cast some black magic.
+	var/did_restore_system = FALSE
 	if(!occupying_z && OM.z) //Does this system have a physical existence? if not, we'll set this now so that any inbound ships jump to the same Z-level that we're on.
 		if(!SSmapping.level_trait(OM.z, ZTRAIT_OVERMAP))
 			occupying_z = OM.get_reserved_z()
 		else
 			occupying_z = OM.z
+		did_restore_system = TRUE
+	else if(!occupying_z && ((OM.overmap_flags & OVERMAP_FLAG_ZLEVEL_CARRIER) || length(OM.mobs_in_ship))) //If someone is inside, or we always want it loaded, load it.
+		occupying_z = OM.get_reserved_z()
+		did_restore_system = TRUE
+	if(did_restore_system)
 		if(fleets.len)
 			for(var/datum/fleet/F in fleets)
 				if(!F.current_system)
@@ -218,7 +224,10 @@
 	var/datum/star_system/curr = SSstar_system.ships[src]["current_system"]
 	SEND_SIGNAL(src, COMSIG_SHIP_DEPARTED) // Let missions know we have left the system
 	curr.remove_ship(src)
-	var/speed = (curr.dist(target_system) / (ftl_drive.get_jump_speed() * 10)) //TODO: FTL drive speed upgrades.
+	var/drive_speed = ftl_drive.get_jump_speed()
+	if(drive_speed <= 0) //Assumption: If we got into this proc with speed 0, we want it to jump anyways, as it should be caught before otherwise. Using very slow speed in this case.
+		drive_speed = 1 //Div-by-0s are not fun.
+	var/speed = (curr.dist(target_system) / (drive_speed * 10)) //TODO: FTL drive speed upgrades.
 	SSstar_system.ships[src]["to_time"] = world.time + speed MINUTES
 	SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 	if(role == MAIN_OVERMAP) //Scuffed please fix

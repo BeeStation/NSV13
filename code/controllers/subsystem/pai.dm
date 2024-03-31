@@ -149,8 +149,10 @@ SUBSYSTEM_DEF(pai)
 		for(var/mob/dead/observer/G in GLOB.player_list)
 			if(!G.key || !G.client)
 				continue
-			if(!(ROLE_PAI in G.client.prefs.be_special))
-				continue
+			//NSV13 - Disabled until Beemerge, I don't know what to put here without porting from another PR so WEH
+			//if(!(ROLE_PAI in G.client.prefs.be_special))
+			//	continue
+			//NSV13 - Stop
 			to_chat(G, "<span class='ghostalert'>[user] is requesting a pAI personality! Use the pAI button to submit yourself as one.</span>")
 		addtimer(CALLBACK(src, PROC_REF(spam_again)), spam_delay)
 	var/list/available = list()

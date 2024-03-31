@@ -196,6 +196,7 @@
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to the Snake
 	role = MAIN_OVERMAP
+	obj_integrity = 1000
 	max_integrity = 1000
 	integrity_failure = 1000
 	bound_width = 64

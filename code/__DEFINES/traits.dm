@@ -403,3 +403,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_SUIT_SENSORS "suit_sensors"
 ///Mob is tracked by nanites, and on glob suit sensors list
 #define TRAIT_NANITE_SENSORS "nanite_sensors"
+
+//NSV13 traits
+#define TRAIT_NODAMPENERS "nodampeners" //! Prevents a ship with this trait from using dampeners.
+	#define TRAIT_SOURCE_OVERMAP_BLACKHOLE "overmap_singularity"
+//NSV13 traits end

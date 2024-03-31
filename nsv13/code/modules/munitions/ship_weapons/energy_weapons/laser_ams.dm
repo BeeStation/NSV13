@@ -5,6 +5,7 @@
 	icon_state = "missile_cannon"
 	fire_mode = FIRE_MODE_AMS_LASER //Shot automatically
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
+	circuit = /obj/item/circuitboard/machine/laser_ams
 	bound_width = 64
 	pixel_x = -32
 	pixel_y = -32

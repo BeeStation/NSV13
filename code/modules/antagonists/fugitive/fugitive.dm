@@ -2,6 +2,7 @@
 /datum/antagonist/fugitive
 	name = "Fugitive"
 	roundend_category = "Fugitive"
+	banning_key = ROLE_FUGITIVE
 	silent = TRUE //greet called by the event
 	show_in_antagpanel = FALSE
 	prevent_roundtype_conversion = FALSE
