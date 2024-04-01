@@ -175,6 +175,10 @@ SUBSYSTEM_DEF(overmap_mode)
 	mode.objectives = objective_pool
 	instance_objectives()
 
+	if(SSmapping.config.faction == "syndicate")
+		mode.starting_faction = "syndicate"
+		mode.starting_system = "Rubicon"
+
 	var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
 	if(MO)
 		var/datum/star_system/target = SSstar_system.system_by_id(mode.starting_system)
