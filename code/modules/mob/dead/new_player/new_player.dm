@@ -444,6 +444,9 @@
 	spawning = 1
 	close_spawn_windows()
 
+	if(SSmapping.config.faction == "syndicate") //NSV13, make them syndies if we have a syndicate crew
+		client.prefs.active_character = client.prefs.syndicate_character
+
 	var/mob/living/carbon/human/H = new(loc)
 
 	var/frn = CONFIG_GET(flag/force_random_names)
@@ -510,8 +513,6 @@
 /mob/dead/new_player/proc/check_preferences()
 	if(!client)
 		return FALSE //Not sure how this would get run without the mob having a client, but let's just be safe.
-	if(SSmapping.config.faction == "syndicate") //NSV13, make them syndies if we have a syndicate crew
-		client.prefs.active_character = client.prefs.syndicate_character
 	if(client.prefs.active_character.joblessrole != RETURNTOLOBBY)
 		return TRUE
 	// If they have antags enabled, they're potentially doing this on purpose instead of by accident. Notify admins if so.
