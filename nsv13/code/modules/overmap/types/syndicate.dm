@@ -75,6 +75,20 @@
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
+/obj/structure/overmap/syndicate/frigate/starter
+	name = "SSV Vago"
+	role = MAIN_OVERMAP
+	mass = MASS_SMALL
+	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
+	icon_state = "syn_frigate"
+	sprite_size = 48
+	obj_integrity = 1000
+	max_integrity = 1000
+	integrity_failure = 1000
+	starting_system = "Staging"
+	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
+	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+
 //AI Versions
 
 /obj/structure/overmap/syndicate/ai/Initialize(mapload)
