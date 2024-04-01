@@ -444,9 +444,6 @@
 	spawning = 1
 	close_spawn_windows()
 
-	if(SSmapping.config.faction == "syndicate") //NSV13, make them syndies if we have a syndicate crew
-		client.prefs.active_character = client.prefs.syndicate_character
-
 	var/mob/living/carbon/human/H = new(loc)
 
 	var/frn = CONFIG_GET(flag/force_random_names)
