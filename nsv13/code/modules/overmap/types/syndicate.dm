@@ -421,7 +421,7 @@
 	ai_flags = AI_FLAG_DESTROYER
 	cloak_factor = 100 //Not a perfect cloak, mind you.
 	combat_dice_type = /datum/combat_dice/destroyer
-	torpedo_type = list(/obj/item/projectile/guided_munition/torpedo/disruptor = 12, /obj/item/projectile/guided_munition/torpedo/biohazard_one = 2, /obj/item/projectile/guided_munition/torpedo/biohazard_two = 2)
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/disruptor
 	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/submarine/Initialize(mapload)
@@ -631,3 +631,10 @@
 	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
 
 
+//This is some mildly cursed effectively modularization code so I don't have to solve merge conflicts :)
+
+/obj/structure/overmap/syndicate/ai/submarine
+	torpedo_type = list(/obj/item/projectile/guided_munition/torpedo/disruptor = 12, /obj/item/projectile/guided_munition/torpedo/biohazard_one = 2, /obj/item/projectile/guided_munition/torpedo/biohazard_two = 2)
+
+/obj/structure/overmap/syndicate/submarine/ai
+	torpedo_type = list(/obj/item/projectile/guided_munition/torpedo/disruptor = 12, /obj/item/projectile/guided_munition/torpedo/biohazard_one = 2, /obj/item/projectile/guided_munition/torpedo/biohazard_two = 2)
