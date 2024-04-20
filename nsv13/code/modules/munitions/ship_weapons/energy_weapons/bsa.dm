@@ -205,6 +205,7 @@
 	impact_type = /obj/effect/projectile/impact/bsa
 	movement_type = FLYING
 	projectile_piercing = ALL
+	relay_projectile_type = /obj/item/projectile/beam/laser/heavylaser/bsa/relayed
 
 /obj/effect/projectile/muzzle/bsa
 	alpha = 0
@@ -216,3 +217,13 @@
 /obj/effect/projectile/impact/bsa
 	name = "bsa"
 	icon_state = "bsa_impact"
+
+/obj/item/projectile/beam/laser/heavylaser/bsa/relayed
+	projectile_piercing = PASSGLASS|PASSGRILLE|PASSTABLE
+
+/obj/item/projectile/beam/laser/heavylaser/bsa/relayed/on_hit(atom/target, blocked)
+	. = ..()
+	if(isliving(target))
+		var/mob/living/goodbye = target
+		goodbye.dust(TRUE, FALSE)
+	explosion(get_turf(target), 6, 8, 9, 12, ignorecap = TRUE, flame_range = 6) //I have to keep myself from letting it just truncate ships because thats a bit annoying to fix for the receiving side, even if accurate to appearance.

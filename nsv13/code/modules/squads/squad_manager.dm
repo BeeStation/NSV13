@@ -52,7 +52,7 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 // Try to find a squad that's not already tasked that can do the job
 /datum/squad_manager/proc/assign_squad(role)
 	var/datum/squad/assigned = role_squad_map[role]
-	if(assigned && length(assigned.members))
+	if(istype(assigned) && length(assigned.members))
 		assigned.lowpop_retasked = TRUE
 		assigned.access_enabled = TRUE // They won't be much help without this
 		return
