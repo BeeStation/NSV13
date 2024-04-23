@@ -193,7 +193,7 @@ export const GenPop = (props, context) => {
                 }>
                 Incarcerated for: {value.crime} <br />
                 <ProgressBar
-                  value={(value.served_time / value.sentence) * 100 * 0.01}
+                  value={(value.served_time / value.sentence)}
                   ranges={{
                     good: [0.99, Infinity],
                     average: [0.4, 0.99],
