@@ -195,7 +195,9 @@
 		interacting = FALSE
 		return
 	if(try_decon(W, user, T) || try_destroy(W, user, T))
-		return //interacting is NOT set here because if either of these two is TRUE, this is no longer of the same type.
+		if(istype(src, /turf/closed/wall)) //I hate this.
+			interacting = FALSE //Set interacting only if the wall is still a wall.
+		return
 	interacting = FALSE
 	//NSV13 end.
 
