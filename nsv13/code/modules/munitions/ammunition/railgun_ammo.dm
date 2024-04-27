@@ -9,7 +9,7 @@
 	projectile_type = /obj/item/projectile/bullet/railgun_slug
 
 /obj/item/ship_weapon/ammunition/railgun_ammo/Initialize(mapload)
-	..()
+	. = ..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
 /obj/item/ship_weapon/ammunition/railgun_ammo/uranium
