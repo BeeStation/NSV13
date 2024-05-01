@@ -42,7 +42,7 @@
 	if(!on)
 		to_chat(user, "<span class='notice'>[src] must be active to most efficiently override its controls.</span>")
 		return FALSE
-	to_chat(user, "<span class='notice'>You start messing eith [src]'s internals. This will take a moment to get done just right..")
+	to_chat(user, "<span class='notice'>You start messing eith [src]'s internals. This will take a moment to get done just right..</span>")
 	if(!do_after(user, 5 SECONDS, target = src, extra_checks = CALLBACK(src, PROC_REF(can_emag_generator))))
 		return FALSE
 	to_chat(user, "<span class='warning'>You override [src]'s safeties and crosswire it to double its target gravity.</span>")
