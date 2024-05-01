@@ -7,17 +7,27 @@ export const GravityGenerator = (props, context) => {
   const {
     charging_state,
     operational,
-  } = data;
+    emagged,
+    theme,
+  } = data; { /* NSV13 - added theme and emagged as vars*/ }
   return (
     <Window
       width={400}
-      height={600}>
+      height={600}
+      theme={theme}> {/* NSV13 - theme change on emag*/ }
       <Window.Content>
         {!operational && (
           <NoticeBox>
             No data available
           </NoticeBox>
         )}
+        {/* NSV13 - gravgen emag info*/ }
+        {!!operational && !!emagged && (
+          <NoticeBox danger>
+            {'ERR - GR&!%$$ %$&/(!%$) ?)!&$§ ERROR, #!&%# 2G'}
+          </NoticeBox>
+        )}
+        {/* NSV13 end*/ }
         {!!operational && charging_state !== 0 && (
           <NoticeBox danger>
             WARNING - Radiation detected
