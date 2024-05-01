@@ -56,7 +56,7 @@
 	if(ishuman(user))
 		add_fibers(user) //Emagging this thing is close and personal work.
 	investigate_log("was emagged and will now generate 2G", INVESTIGATE_GRAVITY)
-	message_admins("The gravity generator was emagged by [user] (real name: [user.real_name])! [ADMIN_VERBOSEJMP(src)]")
+	message_admins("The gravity generator was emagged by [user] (real name: [user?.real_name])! [ADMIN_VERBOSEJMP(src)]")
 	return TRUE
 
 //Modular proc attachment
