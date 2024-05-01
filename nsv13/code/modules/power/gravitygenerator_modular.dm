@@ -7,7 +7,7 @@
 	if(I?.tool_behaviour != TOOL_MULTITOOL)
 		return ..()
 	if(on || charge_count > 0 || charging_state == POWER_UP)
-		to_chat(user, "<span class='warning'>You should not mess with this device's circuitry while it is active!</span>")
+		to_chat(user, "<span class='warning'>You should not mess with [src]'s circuitry while it is active!</span>")
 		return TRUE
 	if(machine_stat & BROKEN)
 		to_chat(user, "<span class='notice'>Fix [src]'s chassis first.</span>")
