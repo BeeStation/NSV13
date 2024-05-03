@@ -1,0 +1,16 @@
+author: DeltaFire15
+delete-after: true
+changes:
+  - balance: The BSA now goes kaboom when relayed instead of being essentially a ghost
+      NAC shell.
+  - bugfix: The Eclipse no longer spawns a borg module that should never exist outside
+      of mobs.
+  - bugfix: DNA no longer has some super weird code for flavor text, instead copying
+      the one of the source mob.
+  - tweak: You can no longer stack interactions on walls. This is to prevent a runtime
+      from actions that modify the type of them (deconstruction mainly).
+  - bugfix: Paper no longer runtimes if you do not have a pen in hand (???).
+  - bugfix: Traders no longer do some cursed things to create their trade items, instead
+      using the all-powerful initial().
+  - bugfix: The stormdrive no longer runtimes if it has zero gas in it.
+  - bugfix: Some squad assignment stuff shouldn't try to use a list as datum anymore.
