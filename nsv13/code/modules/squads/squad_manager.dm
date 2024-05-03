@@ -51,12 +51,14 @@ GLOBAL_DATUM_INIT(squad_manager, /datum/squad_manager, new)
 
 // Try to find a squad that's not already tasked that can do the job
 /datum/squad_manager/proc/assign_squad(role)
-	var/datum/squad/assigned = role_squad_map[role]
-	if(assigned && length(assigned.members))
-		assigned.lowpop_retasked = TRUE
-		assigned.access_enabled = TRUE // They won't be much help without this
-		return
-
+	var/list/assigned_list = role_squad_map[role]
+	if(length(assigned_list))
+		for(var/datum/squad/assigned in assigned_list)
+			if(!istype(assigned) || !length(assigned.members))
+				continue
+			assigned.lowpop_retasked = TRUE
+			assigned.access_enabled = TRUE // They won't be much help without this
+			return
 	//Prefer DC squads by default. Make sure there are people in them and we haven't tasked them already
 	var/list/possible = role_squad_map[DC_SQUAD]
 	for(var/datum/squad/S in possible)
