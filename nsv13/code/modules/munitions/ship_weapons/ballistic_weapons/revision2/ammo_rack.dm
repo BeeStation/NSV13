@@ -45,7 +45,8 @@
 		if("unload")
 			if(!AS)
 				return
-			AS.pop()
+			if(!AS.pop())
+				to_chat(usr, "<span class='warning'>[src] displays an error message!</span>")
 		if("unlink")
 			if(!AS)
 				return
@@ -78,6 +79,19 @@
 	// update UI
 	ui_interact(usr)
 
+/obj/machinery/computer/ammo_sorter/ui_data(mob/user)
+	. = ..()
+	var/list/data = list()
+	var/list/racks_info = list()
+	for(var/obj/machinery/ammo_sorter/AS as() in linked_sorters)
+		var/atom/what = null
+		var/loadedlen = length(AS.loaded)
+		if(loadedlen)
+			what = AS.loaded[loadedlen]
+		racks_info[++racks_info.len] = list("name"=AS.name, "has_loaded"=loadedlen > 0, "id"="\ref[AS]", "top"=(what ? what.name : "Nothing"))
+	data["racks_info"] = racks_info
+	return data
+
 /obj/machinery/computer/ammo_sorter/proc/unload_all()
 	for(var/obj/machinery/ammo_sorter/AS as() in linked_sorters)
 		AS.unload()
@@ -99,19 +113,6 @@
 	linked_sorters -= AS
 	AS.linked_consoles -= src
 	ui_update()
-
-/obj/machinery/computer/ammo_sorter/ui_data(mob/user)
-	. = ..()
-	var/list/data = list()
-	var/list/racks_info = list()
-	for(var/obj/machinery/ammo_sorter/AS as() in linked_sorters)
-		var/atom/what = null
-		var/loadedlen = length(AS.loaded)
-		if(loadedlen)
-			what = AS.loaded[loadedlen]
-		racks_info[++racks_info.len] = list("name"=AS.name, "has_loaded"=loadedlen > 0, "id"="\ref[AS]", "top"=(what ? what.name : "Nothing"))
-	data["racks_info"] = racks_info
-	return data
 
 // The ammo rack itself
 /obj/machinery/ammo_sorter
@@ -285,20 +286,22 @@
 /obj/machinery/ammo_sorter/proc/pop()
 	var/length = length(loaded)
 	if(length)
-		unload(loaded[length])
+		return unload(loaded[length])
+	return FALSE
 
 /obj/machinery/ammo_sorter/proc/unload(atom/movable/AM)
 	if(!loaded.len)
 		return FALSE
 	if(jammed)
 		return FALSE
-	else
-		playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-		flick("ammorack_dispense", src)
-		loaded -= AM
-		//Load it out the back.
-		AM.forceMove(get_turf(get_step(src, dir)))
-		weardown()
+	// do visuals/sound
+	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+	flick("ammorack_dispense", src)
+	//Load it out the back.
+	loaded -= AM
+	AM.forceMove(get_turf(get_step(src, dir)))
+	weardown()
+	return TRUE
 
 /obj/machinery/ammo_sorter/proc/load(atom/movable/A, mob/user, force)
 	if(force && length(loaded) < max_capacity)
@@ -311,21 +314,16 @@
 		if(user)
 			to_chat(user, "<span class='warning'>[src] is full!</span>")
 		return FALSE
-	if(jammed)
-		if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
-			return FALSE
-	else
-		if(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag))
-			playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
-			flick("ammorack_dispense", src)
-			A.forceMove(src)
-			loaded += A
-			weardown()
-			for(var/obj/machinery/computer/ammo_sorter/AS as() in linked_consoles)
-				AS.ui_update()
-			return TRUE
-		else
-			return FALSE
+	if(jammed || !(istype(A, /obj/item/ship_weapon/ammunition) || istype(A, /obj/item/powder_bag)))
+		return FALSE
+	playsound(src, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
+	flick("ammorack_dispense", src)
+	A.forceMove(src)
+	loaded += A
+	weardown()
+	for(var/obj/machinery/computer/ammo_sorter/AS as() in linked_consoles)
+		AS.ui_update()
+	return TRUE
 
 /obj/machinery/ammo_sorter/proc/weardown()
 	if(jammed)
