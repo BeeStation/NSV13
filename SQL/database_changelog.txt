@@ -9,6 +9,37 @@ INSERT INTO `SS13_schema_revision` (`major`, `minor`) VALUES (6, 0);
 In any query remember to add a prefix to the table names if you use one.
 
 -----------------------------------------------------
+Version 6.4, 26 July 2023 by Bobbanz1
+Updated antag prefs to be per character
+
+ALTER TABLE `SS13_characters`
+	ADD COLUMN IF NOT EXISTS `role_preferences` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
+
+-----------------------------------------------------
+Version 6.3, 13 January 2023 by Bobbanz1
+Ported flavor texts of different kinds to NSV
+
+ALTER TABLE `SS13_characters`
+	ADD COLUMN IF NOT EXISTS `silicon_flavor_text` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
+	ADD COLUMN IF NOT EXISTS `general_record` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
+	ADD COLUMN IF NOT EXISTS `security_record` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
+	ADD COLUMN IF NOT EXISTS `medical_record` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
+
+-----------------------------------------------------
+Version 6.2, 1 April 2023 by DeltaFire15
+Added lizard hissing styles as a character preference
+
+ALTER TABLE `SS13_characters`
+	ADD COLUMN IF NOT EXISTS `lizard_hiss_style` VARCHAR(32) NOT NULL COLLATE 'utf8mb4_general_ci',
+
+-----------------------------------------------------
+Version 6.1, 10 December 2022 by Bobbanz1
+Ported flavor text to NSV
+
+ALTER TABLE `SS13_characters`
+	ADD COLUMN IF NOT EXISTS `flavor_text` MEDIUMTEXT NOT NULL COLLATE 'utf8mb4_general_ci',
+
+-----------------------------------------------------
 Version 6.0, 23 August 2022 by AffectedArc07
 
 Fully refactors the preferences system. You will want to run tools/preferences_importer
