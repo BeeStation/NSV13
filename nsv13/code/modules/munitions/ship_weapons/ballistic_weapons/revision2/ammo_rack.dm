@@ -328,20 +328,21 @@
 			return FALSE
 
 /obj/machinery/ammo_sorter/proc/weardown()
-	if(jammed) // we're already jammed, no
+	if(jammed)
 		return
 
-	if(durability > 0) //don't go under 0, that's bad
-		durability -= 1 //using it wears it down.
-	else
-		jammed = TRUE // if it's at 0, jam it.
-		durability = 0 // in case an admin plays with this and doesn't know how to use it, we reset it here for good measure.
+	// Subtract durability
+	if(durability > 0)
+		durability -= 1
 
-	jamchance = CLAMP(-50*log(50, durability/50), 0, 100) //logarithmic function; at 50 it starts increasing from 0
-	if(prob(jamchance) || jammed)
+	// see if we're going to jam
+	jamchance = (durability > 0 ? CLAMP(-50*log(50, durability/50), 0, 100) : 100)
+	if(prob(jamchance))
 		jammed = TRUE
+		durability = 0
 
-	if(jammed) // Play a warning sound if the loader jams.
+	// Play a warning sound if the loader jams.
+	if(jammed)
 		playsound(src, 'nsv13/sound/effects/ship/mac_load_jam.ogg', 100, 1)
 
 /obj/machinery/ammo_sorter/upgraded
