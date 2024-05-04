@@ -8,7 +8,8 @@
 	max_integrity = 200
 	var/obj/item/bodypart/storedpart
 	var/initial_icon_state
-	var/static/list/style_list_icons = list("standard" = 'icons/mob/augmentation/augments.dmi', "engineer" = 'icons/mob/augmentation/augments_engineer.dmi', "security" = 'icons/mob/augmentation/augments_security.dmi', "mining" = 'icons/mob/augmentation/augments_mining.dmi')
+	var/static/list/style_list_icons = list("standard" = 'icons/mob/augmentation/augments.dmi', "engineer" = 'icons/mob/augmentation/augments_engineer.dmi', "security" = 'icons/mob/augmentation/augments_security.dmi', "mining" = 'icons/mob/augmentation/augments_mining.dmi', "veymed female" = 'nsv13/icons/mob/augmentation/veymed.dmi', "veymed male" = 'nsv13/icons/mob/augmentation/veymedm.dmi', "shellguard" = 'nsv13/icons/mob/augmentation/shellguard.dmi', "xion" = 'nsv13/icons/mob/augmentation/xion.dmi', "zeng-hu" = 'nsv13/icons/mob/augmentation/zenghu.dmi', "ward-takahashi" = 'nsv13/icons/mob/augmentation/wardtakahashi.dmi', "bishop" = 'nsv13/icons/mob/augmentation/bishop.dmi')  //NSV13 added extra sprites for additional prosthetic looks
+
 
 /obj/machinery/aug_manipulator/examine(mob/user)
 	. = ..()
