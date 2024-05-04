@@ -130,3 +130,22 @@
 	build_path = /obj/item/circuitboard/machine/navbeacon
 	category = list ("Research Machinery")
 	departmental_flags = DEPARTMENTAL_FLAG_SCIENCE | DEPARTMENTAL_FLAG_ENGINEERING
+
+// Ammo sorter circuit designs
+/datum/design/board/ammo_sorter_computer
+	name = "Ammo sorter console (circuitboard)"
+	desc = "The central control console for ammo sorters.."
+	id = "ammo_sorter_computer"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 1000, /datum/material/gold = 500)
+	build_path = /obj/item/circuitboard/computer/ammo_sorter
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+/datum/design/board/ammo_sorter
+	name = "Ammo sorter (circuitboard)"
+	desc = "A helpful storage unit that allows for mass storage of ammunition, with the ability to retrieve it all from a central console."
+	id = "ammo_sorter"
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 1000, /datum/material/gold = 500)
+	build_path = /obj/item/circuitboard/machine/ammo_sorter
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
