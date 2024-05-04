@@ -2720,6 +2720,7 @@
 	pixel_x = -26
 	},
 /obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/durasteel/eris_techfloor_alt,
 /area/security/prison)
 "aiV" = (
@@ -4573,6 +4574,7 @@
 	icon_state = "1-4"
 	},
 /obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/durasteel,
 /area/security/prison)
 "aoL" = (
@@ -5194,6 +5196,7 @@
 	icon_state = "0-8"
 	},
 /obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only/directional/north,
 /turf/open/floor/durasteel/eris_techfloor_alt,
 /area/security/prison)
 "aqH" = (
@@ -13119,18 +13122,14 @@
 /turf/open/floor/durasteel,
 /area/security/prison)
 "aQb" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 9
-	},
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
 /turf/open/floor/durasteel,
 /area/security/prison)
 "aQc" = (
@@ -13184,6 +13183,9 @@
 "aQj" = (
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
 	},
 /turf/open/floor/durasteel,
 /area/security/prison)
@@ -24953,6 +24955,12 @@
 	dir = 8
 	},
 /obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
 /turf/open/floor/durasteel,
 /area/security/prison)
 "eGO" = (
@@ -28578,6 +28586,16 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/medical/sleeper)
+"heu" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 6
+	},
+/turf/open/floor/durasteel,
+/area/security/prison)
 "hew" = (
 /obj/effect/turf_decal/tile/purple{
 	dir = 1
@@ -30178,6 +30196,22 @@
 /obj/machinery/vending/cola/random,
 /turf/open/floor/carpet/orange,
 /area/engine/break_room)
+"ica" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/turf/open/floor/durasteel,
+/area/security/prison)
 "icA" = (
 /obj/machinery/light{
 	dir = 8
@@ -31646,9 +31680,6 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/red,
-/obj/machinery/newscaster/security_unit{
-	pixel_x = 32
-	},
 /turf/open/floor/durasteel,
 /area/security/prison)
 "jaG" = (
@@ -37882,6 +37913,15 @@
 /obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
 /turf/open/floor/durasteel,
 /area/security/prison)
 "mYm" = (
@@ -41549,6 +41589,16 @@
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/open/floor/durasteel/eris_techfloor_alt,
 /area/hallway/primary/aft)
+"prP" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/decal/cleanable/dirt/dust,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 8
+	},
+/turf/open/floor/durasteel,
+/area/security/prison)
 "prS" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -42862,6 +42912,22 @@
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/red,
+/obj/effect/turf_decal/tile/red{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/red{
+	dir = 8
 	},
 /turf/open/floor/durasteel,
 /area/security/prison)
@@ -55111,6 +55177,13 @@
 /obj/effect/turf_decal/tile/red{
 	dir = 8
 	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 9
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 9
+	},
+/obj/machinery/airalarm/directional/south,
 /turf/open/floor/durasteel,
 /area/security/prison)
 "xPt" = (
@@ -111580,7 +111653,7 @@ qHQ
 pOP
 aMa
 aZg
-aQj
+ica
 aRm
 aSo
 aTp
@@ -112607,7 +112680,7 @@ qAX
 qAX
 qAX
 ndN
-aQj
+heu
 xOF
 pPU
 aaa
@@ -113121,7 +113194,7 @@ qAX
 qAX
 qAX
 ndN
-qEh
+prP
 tOT
 pPU
 aaa
@@ -114657,8 +114730,8 @@ gUG
 aXU
 yfL
 yfL
-yfL
 kwa
+eQK
 kwa
 kSB
 kwa
@@ -114914,8 +114987,8 @@ djz
 aXU
 wBr
 aaa
-aaa
 kwa
+aaa
 aaa
 aaa
 aaa
@@ -115171,8 +115244,8 @@ djz
 aXU
 aaa
 aaa
-aaa
 kwa
+aaa
 aaa
 aaa
 aaa
@@ -115428,8 +115501,8 @@ bby
 aXU
 yfL
 yfL
-yfL
 kwa
+aaa
 aaa
 aaa
 aaa
@@ -115685,8 +115758,8 @@ xDD
 aXU
 aaa
 aaa
-aaa
 kwa
+aaa
 aaa
 aaa
 aaa
@@ -115942,8 +116015,8 @@ orR
 aXU
 aaa
 aaa
-aaa
 kwa
+aaa
 aaa
 aaa
 aaa
@@ -116199,8 +116272,8 @@ tZQ
 aXU
 yfL
 yfL
-yfL
 kwa
+aaa
 aaa
 aaa
 aaa
@@ -116456,8 +116529,8 @@ aXU
 aXU
 aaa
 aaa
-aaa
 kwa
+aaa
 aaa
 aaa
 aaa
@@ -116713,8 +116786,8 @@ xHS
 amd
 aaa
 aaa
-aaa
 kwa
+aaa
 aaa
 aaa
 aaa
@@ -116971,7 +117044,7 @@ amd
 yfL
 kwa
 kwa
-kwa
+aaa
 aaa
 aaa
 aaa
