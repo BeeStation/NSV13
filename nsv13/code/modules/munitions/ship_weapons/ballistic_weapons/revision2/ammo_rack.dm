@@ -142,6 +142,8 @@
 /obj/machinery/ammo_sorter/Exited(atom/movable/gone, direction)
 	. = ..()
 	loaded -= gone
+	for(var/obj/machinery/computer/ammo_sorter/AS as() in linked_consoles)
+		AS.ui_update()
 
 /obj/machinery/ammo_sorter/attackby(obj/item/I, mob/user, params)
 	if(default_unfasten_wrench(user, I))
@@ -152,6 +154,9 @@
 		return
 	// Makes sure you can't accidentally decon a jammed machine
 	if(!jammed && default_deconstruction_crowbar(I))
+		return
+	// Smacking
+	if(user.a_intent == INTENT_HARM)
 		return
 	if(busy)
 		to_chat(user, "<span class='warning'>Someone's already working on [src]!</span>")
@@ -170,7 +175,8 @@
 		var/oil_amount = min(I.reagents.get_reagent_amount(/datum/reagent/oil), max_durability/repair_multiplier)
 		var/oil_needed = CLAMP(ROUND_UP((max_durability-durability)/repair_multiplier), 1, oil_amount)
 		oil_amount = min(oil_amount, oil_needed)
-		to_chat(user, "<span class='notice'>You start lubricating the inner workings of [src]...</span>")
+		visible_message("<span class='notice'>[user] begins lubricating [src]...</span>", \
+					"<span class='notice'>You start lubricating the inner workings of [src]...</span>")
 		busy = TRUE
 		if(!do_after(user, 5 SECONDS, target=src))
 			busy = FALSE
@@ -180,7 +186,8 @@
 			to_chat(user, "<span class='warning'>You don't have enough oil left to lubricate [src]!</span>")
 			busy = FALSE
 			return TRUE
-		to_chat(user, "<span class='notice'>You lubricate the inner workings of [src].</span>")
+		visible_message("<span class='notice'>[user] lubricates [src].</span>", \
+					"<span class='notice'>You lubricate the inner workings of [src].</span>")
 		durability = min(durability + (oil_amount * repair_multiplier), max_durability)
 		I.reagents.remove_reagent(/datum/reagent/oil, oil_amount)
 		busy = FALSE
@@ -188,18 +195,27 @@
 	if(jammed && I.tool_behaviour == TOOL_CROWBAR)
 		if(panel_open)
 			to_chat(user, "<span class='notice'>You need to close the panel to get at the jammed machinery.</span>")
+			return TRUE
 		busy = TRUE
-		to_chat(user, "<span class='notice'>You begin clearing the jam...</span>")
+		visible_message("<span class='notice'>[user] begins clearing the jam in [src].</span>", \
+					"<span class='notice'>You being clearing the jam in [src].</span>")
 		if(!do_after(user, 10 SECONDS, target=src))
 			busy = FALSE
 			to_chat(user, "<span class='warning'>You were interrupted!</span>")
 			return TRUE
-		to_chat(user, "<span class='notice'>You clear the jam with the crowbar.</span>")
+		visible_message("<span class='notice'>[user] clears the jam in [src].</span>", \
+					"<span class='notice'>You clear the jam in [src].</span>")
 		playsound(src, 'nsv13/sound/effects/ship/mac_load_unjam.ogg', 100, 1)
 		jammed = FALSE
 		durability += rand(0,5) //give the poor fools a few more uses if they're lucky
 		busy = FALSE
 		return TRUE
+	if(istype(I, /obj/item/ship_weapon/ammunition) || istype(I, /obj/item/powder_bag))
+		to_chat(user, "<span class='notice'>You start to load [src] with [I].</span>")
+		if(!do_after(user, 1 SECONDS , target = src))
+			to_chat(user, "<span class='warning'>You were interrupted!</span>")
+			return TRUE
+		load(I, user)
 	return ..()
 
 /obj/machinery/ammo_sorter/AltClick(mob/user)
