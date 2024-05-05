@@ -278,7 +278,7 @@
 	hardsuit_type = "peacekeeper_space"
 	desc = "A hardsuit helmet fitted with highly experimental magnetic interlocks, allowing it to create a vacuum seal around the user, permitting usage in a hard vacuum. It is currently in EVA mode."
 	alt_desc = "A hardsuit helmet fitted with highly experimental magnetic interlocks, allowing it to create a vacuum seal around the user, permitting usage in a hard vacuum. It is currently in IVA mode."
-	armor = list("melee" = 35, "bullet" = 45, "laser" = 15,"energy" = 40, "bomb" = 10, "bio" = 100, "rad" = 50, "fire" = 75, "acid" = 75, "stamina" = 50)
+	armor = list("melee" = 40, "bullet" = 50, "laser" = 15,"energy" = 30, "bomb" = 25, "bio" = 100, "rad" = 50, "fire" = 75, "acid" = 75, "stamina" = 50)
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDESNOUT //we want to see the mask
 
@@ -292,7 +292,7 @@
 	item_state = "peacekeeper_space"
 	hardsuit_type = "peacekeeper_space"
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/peacekeeper
-	armor = list("melee" = 35, "bullet" = 45, "laser" = 15, "energy" = 40, "bomb" = 10, "bio" = 100, "rad" = 50, "fire" = 75, "acid" = 75, "stamina" = 50)
+	armor = list("melee" = 40, "bullet" = 50, "laser" = 15, "energy" = 30, "bomb" = 25, "bio" = 100, "rad" = 50, "fire" = 75, "acid" = 75, "stamina" = 50)
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	var/stomp_cooldown_time = 0.5 SECONDS
 	var/current_cooldown = 0
@@ -328,7 +328,7 @@
 	listeningTo = null
 	return ..()
 
-/obj/machinery/suit_storage_unit/peacekeeper
+/obj/machinery/suit_storage_unit/hos
 	suit_type = /obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper
 	mask_type = /obj/item/clothing/mask/gas/sechailer
 	storage_type = /obj/item/tank/internals/oxygen
