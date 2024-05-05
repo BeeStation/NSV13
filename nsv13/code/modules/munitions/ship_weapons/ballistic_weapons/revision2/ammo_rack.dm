@@ -131,7 +131,6 @@
 	var/max_durability = 100
 	var/repair_multiplier = 10 // How many points of durability we repair per unit of oil
 	var/jammed = FALSE //if at 0 durability, jam it, handled in weardown().
-	var/jamchance = 0 //probability to jam every weardown
 	var/busy = FALSE
 
 /obj/machinery/ammo_sorter/Initialize(mapload)
@@ -158,51 +157,48 @@
 		to_chat(user, "<span class='warning'>Someone's already working on [src]!</span>")
 		return TRUE
 	if(panel_open && istype(I, /obj/item/reagent_containers))
-		if(!jammed)
-			if(durability < 100)
-				if(I.reagents.has_reagent(/datum/reagent/oil))
-					// get how much oil we have
-					var/oil_amount = min(I.reagents.get_reagent_amount(/datum/reagent/oil), max_durability/repair_multiplier)
-					var/oil_needed = CLAMP(ROUND_UP((max_durability-durability)/repair_multiplier), 1, oil_amount)
-					oil_amount = min(oil_amount, oil_needed)
-					to_chat(user, "<span class='notice'>You start lubricating the inner workings of [src]...</span>")
-					busy = TRUE
-					if(!do_after(user, 5 SECONDS, target=src))
-						busy = FALSE
-						return
-					if(!I.reagents.has_reagent(/datum/reagent/oil, oil_amount)) //things can change, check again.
-						to_chat(user, "<span class='warning'>You don't have enough oil left to lubricate [src]!</span>")
-						busy = FALSE
-						return TRUE
-					to_chat(user, "<span class='notice'>You lubricate the inner workings of [src].</span>")
-					durability = min(durability + (oil_amount * repair_multiplier), max_durability)
-					I.reagents.remove_reagent(/datum/reagent/oil, oil_amount)
-					busy = FALSE
-					return TRUE
-				else
-					to_chat(user, "<span class='warning'>You need oil to lubricate this!</span>")
-					return TRUE
-			else
-				to_chat(user, "<span class='warning'>[src] doesn't need any oil right now!</span>")
-				return TRUE
-		else
+		if(jammed)
 			to_chat(user, "<span class='warning'>You can't lubricate a jammed machine!</span>")
 			return TRUE
-	if(jammed && I.tool_behaviour == TOOL_CROWBAR)
-		if(!panel_open)
-			busy = TRUE
-			to_chat(user, "<span class='notice'>You begin clearing the jam...</span>")
-			if(!do_after(user, 10 SECONDS, target=src))
-				busy = FALSE
-				to_chat(user, "<span class='warning'>You were interrupted!</span>")
-				return
-			to_chat(user, "<span class='notice'>You clear the jam with the crowbar.</span>")
-			playsound(src, 'nsv13/sound/effects/ship/mac_load_unjam.ogg', 100, 1)
-			jammed = FALSE
-			durability += rand(0,5) //give the poor fools a few more uses if they're lucky
+		if(durability >= 100)
+			to_chat(user, "<span class='warning'>[src] doesn't need any oil right now!</span>")
+			return TRUE
+		if(!I.reagents.has_reagent(/datum/reagent/oil))
+			to_chat(user, "<span class='warning'>You need oil to lubricate this!</span>")
+			return TRUE
+		// get how much oil we have
+		var/oil_amount = min(I.reagents.get_reagent_amount(/datum/reagent/oil), max_durability/repair_multiplier)
+		var/oil_needed = CLAMP(ROUND_UP((max_durability-durability)/repair_multiplier), 1, oil_amount)
+		oil_amount = min(oil_amount, oil_needed)
+		to_chat(user, "<span class='notice'>You start lubricating the inner workings of [src]...</span>")
+		busy = TRUE
+		if(!do_after(user, 5 SECONDS, target=src))
 			busy = FALSE
-		else
+			to_chat(user, "<span class='warning'>You were interrupted!</span>")
+			return TRUE
+		if(!I.reagents.has_reagent(/datum/reagent/oil, oil_amount)) //things can change, check again.
+			to_chat(user, "<span class='warning'>You don't have enough oil left to lubricate [src]!</span>")
+			busy = FALSE
+			return TRUE
+		to_chat(user, "<span class='notice'>You lubricate the inner workings of [src].</span>")
+		durability = min(durability + (oil_amount * repair_multiplier), max_durability)
+		I.reagents.remove_reagent(/datum/reagent/oil, oil_amount)
+		busy = FALSE
+		return TRUE
+	if(jammed && I.tool_behaviour == TOOL_CROWBAR)
+		if(panel_open)
 			to_chat(user, "<span class='notice'>You need to close the panel to get at the jammed machinery.</span>")
+		busy = TRUE
+		to_chat(user, "<span class='notice'>You begin clearing the jam...</span>")
+		if(!do_after(user, 10 SECONDS, target=src))
+			busy = FALSE
+			to_chat(user, "<span class='warning'>You were interrupted!</span>")
+			return TRUE
+		to_chat(user, "<span class='notice'>You clear the jam with the crowbar.</span>")
+		playsound(src, 'nsv13/sound/effects/ship/mac_load_unjam.ogg', 100, 1)
+		jammed = FALSE
+		durability += rand(0,5) //give the poor fools a few more uses if they're lucky
+		busy = FALSE
 		return TRUE
 	return ..()
 
@@ -217,15 +213,15 @@
 
 /obj/machinery/ammo_sorter/multitool_act(mob/living/user, obj/item/I)
 	var/obj/item/multitool/M = I
-	if(M.buffer && istype(M.buffer, /obj/machinery/computer/ammo_sorter))
-		var/obj/machinery/computer/ammo_sorter/C = M.buffer
-		if(LAZYFIND(C.linked_sorters, src))
-			to_chat(user, "<span class='warning'>This sorter is already linked to [C]!")
-			return TRUE
-		C.linkSorter(src)
-		to_chat(user, "<span class='notice'>You link [src] to [C].")
-	else
+	if(!(M.buffer && istype(M.buffer, /obj/machinery/computer/ammo_sorter)))
 		to_chat(user, "<span class='warning'>There is no control console in [M]'s buffer.")
+		return TRUE
+	var/obj/machinery/computer/ammo_sorter/C = M.buffer
+	if(LAZYFIND(C.linked_sorters, src))
+		to_chat(user, "<span class='warning'>This sorter is already linked to [C]!")
+		return TRUE
+	C.linkSorter(src)
+	to_chat(user, "<span class='notice'>You link [src] to [C].")
 	return TRUE
 
 /obj/machinery/ammo_sorter/Destroy()
@@ -334,7 +330,7 @@
 		durability -= 1
 
 	// see if we're going to jam
-	jamchance = (durability > 0 ? CLAMP(-50*log(50, durability/50), 0, 100) : 100)
+	var/jamchance = (durability > 0 ? CLAMP(-50*log(50, durability/50), 0, 100) : 100)
 	if(prob(jamchance))
 		jammed = TRUE
 		durability = 0
