@@ -175,7 +175,7 @@
 		var/oil_amount = min(I.reagents.get_reagent_amount(/datum/reagent/oil), max_durability/repair_multiplier)
 		var/oil_needed = CLAMP(ROUND_UP((max_durability-durability)/repair_multiplier), 1, oil_amount)
 		oil_amount = min(oil_amount, oil_needed)
-		visible_message("<span class='notice'>[user] begins lubricating [src]...</span>", \
+		user.visible_message("<span class='notice'>[user] begins lubricating [src]...</span>", \
 					"<span class='notice'>You start lubricating the inner workings of [src]...</span>")
 		busy = TRUE
 		if(!do_after(user, 5 SECONDS, target=src))
@@ -186,7 +186,7 @@
 			to_chat(user, "<span class='warning'>You don't have enough oil left to lubricate [src]!</span>")
 			busy = FALSE
 			return TRUE
-		visible_message("<span class='notice'>[user] lubricates [src].</span>", \
+		user.visible_message("<span class='notice'>[user] lubricates [src].</span>", \
 					"<span class='notice'>You lubricate the inner workings of [src].</span>")
 		durability = min(durability + (oil_amount * repair_multiplier), max_durability)
 		I.reagents.remove_reagent(/datum/reagent/oil, oil_amount)
@@ -197,13 +197,13 @@
 			to_chat(user, "<span class='notice'>You need to close the panel to get at the jammed machinery.</span>")
 			return TRUE
 		busy = TRUE
-		visible_message("<span class='notice'>[user] begins clearing the jam in [src].</span>", \
+		user.visible_message("<span class='notice'>[user] begins clearing the jam in [src].</span>", \
 					"<span class='notice'>You being clearing the jam in [src].</span>")
 		if(!do_after(user, 10 SECONDS, target=src))
 			busy = FALSE
 			to_chat(user, "<span class='warning'>You were interrupted!</span>")
 			return TRUE
-		visible_message("<span class='notice'>[user] clears the jam in [src].</span>", \
+		user.visible_message("<span class='notice'>[user] clears the jam in [src].</span>", \
 					"<span class='notice'>You clear the jam in [src].</span>")
 		playsound(src, 'nsv13/sound/effects/ship/mac_load_unjam.ogg', 100, 1)
 		jammed = FALSE
