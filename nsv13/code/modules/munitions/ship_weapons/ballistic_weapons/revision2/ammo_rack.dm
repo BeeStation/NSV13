@@ -216,6 +216,7 @@
 			to_chat(user, "<span class='warning'>You were interrupted!</span>")
 			return TRUE
 		load(I, user)
+		return TRUE
 	return ..()
 
 /obj/machinery/ammo_sorter/AltClick(mob/user)
