@@ -296,6 +296,10 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	var/stomp_cooldown_time = 0.5 SECONDS
 	var/current_cooldown = 0
+	w_class = WEIGHT_CLASS_BULKY
+	item_flags = "" // how do I remove illegal tag when inherited
+	//how do I remove artifact proofing
+	//how do I change the slowdown?
 
 /obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper/on_mob_move()
 	var/mob/living/carbon/human/H = loc
@@ -328,7 +332,7 @@
 	listeningTo = null
 	return ..()
 
-/obj/machinery/suit_storage_unit/hos
+/obj/machinery/suit_storage_unit/peacekeeper
 	suit_type = /obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper
 	mask_type = /obj/item/clothing/mask/gas/sechailer
 	storage_type = /obj/item/tank/internals/oxygen
