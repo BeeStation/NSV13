@@ -3,5 +3,5 @@
 	antag_datum = /datum/antagonist/bloodling
 
 /datum/role_preference/antagonist/pvp
-	name = "Galactic Conquest"
+	name = "Syndicate Crewmember (Galactic Conquest)"
 	antag_datum = /datum/antagonist/nukeop/syndi_crew

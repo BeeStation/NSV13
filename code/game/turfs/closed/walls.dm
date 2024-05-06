@@ -37,6 +37,11 @@
 
 	var/list/dent_decals
 
+	//NSV13 - avoid runtiming from doafter stack.
+	///Is this wall currently being interacted with (cleaned / deconned / etc)
+	var/interacting = FALSE
+	//NSV13 end
+
 /turf/closed/wall/Initialize(mapload)
 	. = ..()
 	if(is_station_level(z))
@@ -175,13 +180,26 @@
 	if(!isturf(user.loc))
 		return	//can't do this stuff whilst inside objects and such
 
+
+	if(interacting) //NSV 13 - the doafters in here can change the type of the turf, which WILL runtime if you let them stack.
+		return
+
 	add_fingerprint(user)
 
 	var/turf/T = user.loc	//get user's location for delay checks
 
+	//NSV13 - src type changes which must be accounted for here.
+	interacting = TRUE
 	//the istype cascade has been spread among various procs for easy overriding
-	if(try_clean(W, user, T) || try_wallmount(W, user, T) || try_decon(W, user, T) || try_destroy(W, user, T))
+	if(try_clean(W, user, T) || try_wallmount(W, user, T))
+		interacting = FALSE
 		return
+	if(try_decon(W, user, T) || try_destroy(W, user, T))
+		if(istype(src, /turf/closed/wall)) //I hate this.
+			interacting = FALSE //Set interacting only if the wall is still a wall.
+		return
+	interacting = FALSE
+	//NSV13 end.
 
 	return ..()
 
