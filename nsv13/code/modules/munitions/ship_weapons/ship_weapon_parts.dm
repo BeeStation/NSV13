@@ -31,7 +31,7 @@
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
 
 /obj/item/ship_weapon/parts/loading_tray/Initialize(mapload)
-	..()
+	. = ..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
 /**
@@ -46,7 +46,7 @@
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
 
 /obj/item/ship_weapon/parts/railgun_rail/Initialize(mapload)
-	..()
+	. = ..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
 /**
@@ -61,7 +61,7 @@
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
 
 /obj/item/ship_weapon/parts/mac_barrel/Initialize(mapload)
-	..()
+	. = ..()
 	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
 /obj/item/ship_weapon/parts/broadside_casing

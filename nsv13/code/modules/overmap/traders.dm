@@ -284,24 +284,24 @@
 		stonks -= x
 		qdel(x)
 	sold_items = list()
-	while(iter)
+	var/fails = 0
+	while(iter && fails < 10)
 		iter--
 		var/datum/trader_item/item = new
 		var/obj/item/a_gift/anything/generator = new
-		var/initialtype = generator.get_gift_type()
-		var/obj/item/soldtype = new initialtype
-		if(!soldtype) //spawned something that deleted itself, try again
-			log_runtime("Randy failed to spawn [initialtype]!")
+		var/obj/item/initialtype = generator.get_gift_type() //If you put any non-items in here I will haunt you.
+		if(!initialtype) //failed to select something, try again
+			log_runtime("Randy failed to select an item!")
 			qdel(item)
 			iter++
+			fails++ //DO NOT loop forever.
 			continue
 		item.unlock_path = initialtype
-		item.name = soldtype.name
-		item.desc = soldtype.desc
+		item.name = initial(initialtype.name)
+		item.desc = initial(initialtype.desc)
 		item.price = rand(1000, 100000000)
 		item.stock = rand(1, 5)
 		item.owner = src
-		qdel(soldtype)
 		sold_items += item
 
 	var/datum/trader_item/yellow_pages/pages = new

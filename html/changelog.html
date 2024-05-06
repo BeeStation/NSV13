@@ -56,39 +56,65 @@
 		-->
 		<div class="commit sansserif">
 
-			<h2 class="date">01 March 2024</h2>
+			<h2 class="date">03 May 2024</h2>
 			<h3 class="author">Bokkiewokkie updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Added synthetic first-aid kit as a cargo purchase</li>
-				<li class="rscadd">Added synthetic first-aid kit as a traitor IPC item</li>
-				<li class="tweak">Made overdosing on highjack leak oil on the ground if your head is already gone</li>
-				<li class="imageadd">Added a medbot sprite for the synthetic first-aid kit</li>
-				<li class="imageadd">Added a lanyard illustration to the lanyard box</li>
-				<li class="spellcheck">Fixed a typo in the wavy stick name</li>
-				<li class="code_imp">Moved some code for storage items to the proper file</li>
-				<li class="rscdel">Removed the requirement for firing electronics from PDC</li>
-				<li class="rscdel">Removed the option to switch PDC to flak boards as they are not in use</li>
-				<li class="spellcheck">Fixed inconsistencies in NSV circuitboard names</li>
+				<li class="bugfix">Fixed fighters not hearing overmap messages from their mothership.</li>
+				<li class="spellcheck">Made it clear the Syndicate Crew antag preference is for PVP</li>
+			</ul>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="balance">The BSA now goes kaboom when relayed instead of being essentially a ghost NAC shell.</li>
+				<li class="bugfix">The Eclipse no longer spawns a borg module that should never exist outside of mobs.</li>
+				<li class="bugfix">DNA no longer has some super weird code for flavor text, instead copying the one of the source mob.</li>
+				<li class="tweak">You can no longer stack interactions on walls. This is to prevent a runtime from actions that modify the type of them (deconstruction mainly).</li>
+				<li class="bugfix">Paper no longer runtimes if you do not have a pen in hand (???).</li>
+				<li class="bugfix">Traders no longer do some cursed things to create their trade items, instead using the all-powerful initial().</li>
+				<li class="bugfix">The stormdrive no longer runtimes if it has zero gas in it.</li>
+				<li class="bugfix">Some squad assignment stuff shouldn't try to use a list as datum anymore.</li>
 			</ul>
 
-			<h2 class="date">23 February 2024</h2>
+			<h2 class="date">21 April 2024</h2>
 			<h3 class="author">Bokkiewokkie updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Replaced Tycoon's redundant torpedo tubes</li>
+				<li class="bugfix">Updated the webmap link</li>
 			</ul>
 
-			<h2 class="date">19 February 2024</h2>
-			<h3 class="author">PestoVerde322, XeonMations updated:</h3>
+			<h2 class="date">19 April 2024</h2>
+			<h3 class="author">KasparoVy updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Added the ability to choose the direction of any office chair you are sitting in by moving</li>
-				<li class="bugfix">Shuttle chairs and Corporate chairs are now impossible to pick up and transformed into normal Fancy chairs.</li>
+				<li class="rscadd">added more custom prosthetic sprites</li>
 			</ul>
 
-			<h2 class="date">16 February 2024</h2>
-			<h3 class="author">PowerfulBacon updated:</h3>
+			<h2 class="date">01 April 2024</h2>
+			<h3 class="author">Bokkiewokkie updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Fixes the round not rebooting properly.</li>
-				<li class="code_imp">Adds in a task library for asynchronous behaviour handling.</li>
+				<li class="bugfix">Fixed auto-spooling not working for the Thirring FTL drive.</li>
+				<li class="balance">Enabled auto-spooling as an option for the Thirring FTL drive by default.</li>
+			</ul>
+
+			<h2 class="date">29 March 2024</h2>
+			<h3 class="author">Bobbanz1 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">The destruction of a gauss turret now leaves behind the machine frame that had been used to construct it.</li>
+				<li class="code_imp">Gave the machine board of the gauss turret a req_components list with nothing inside it to prevent a runtime error from occurring.</li>
+				<li class="tweak">Rerouted the piping network in the assault course a bit so it resolves the issue raised about them missing when they were actually going through the window instead.</li>
+				<li class="rscdel">Removed some wiring that didn't do anything.</li>
+				<li class="bugfix">Engineering Lobby now has the wiring coming from maintenance actually hooked up to the grid rather than ending a tile early.</li>
+				<li class="rscadd">Gave the Aetherwhisp laser weaponry circuit boards so they don't get completely round removed when destroyed,</li>
+			</ul>
+			<h3 class="author">Bokkiewokkie updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fixed some bad initializations</li>
+				<li class="rscadd">Added the ability to research and print naval gun parts</li>
+				<li class="balance">Moved the gauss gun upgrade board to level 2 munitions research "Macro Ballistics"</li>
+				<li class="balance">Added science tiers to NSV researches</li>
+				<li class="balance">Made it so printable naval gun part circuits can be destroyed</li>
+			</ul>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Being recalled with an inactive thirring drive should no longer trap the ship in the darkness between stars.</li>
+				<li class="bugfix">Nucleium engine turfs now work. As may some other map cases of "nucleum" being used as incorrect term.</li>
 			</ul>
 		</div>
 

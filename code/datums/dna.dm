@@ -51,7 +51,7 @@
 	destination.dna.features = features.Copy()
 	destination.dna.real_name = real_name
 	destination.dna.temporary_mutations = temporary_mutations.Copy()
-	destination.flavour_text = destination.client.prefs.active_character.flavor_text //Update the flavor_text to use new dna text //NSV13
+	destination.flavour_text = holder ? holder.flavour_text : "" //Update the flavor_text to use new dna text //NSV13
 	if(transfer_SE)
 		destination.dna.mutation_index = mutation_index
 		destination.dna.default_mutation_genes = default_mutation_genes
