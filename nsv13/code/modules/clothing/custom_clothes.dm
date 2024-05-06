@@ -298,7 +298,7 @@
 	var/stomp_cooldown_time = 0.5 SECONDS
 	var/current_cooldown = 0
 	w_class = WEIGHT_CLASS_BULKY
-	item_flags = null
+	item_flags = NONE
 	cm_slowdown = 0.2 //up for debate
 
 /obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper/artifact_immunity()
