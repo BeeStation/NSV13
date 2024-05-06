@@ -148,7 +148,7 @@
 	name = "head of security cap"
 	desc = "The robust standard-issue cap of the Head of Security. For showing the officers who's in charge."
 	icon_state = "hoscap"
-	armor = list("melee" = 40, "bullet" = 30, "laser" = 25, "energy" = 30, "bomb" = 25, "bio" = 10, "rad" = 0, "fire" = 50, "acid" = 60, "stamina" = 30)
+	armor = list("melee" = 40, "bullet" = 50, "laser" = 15, "energy" = 10, "bomb" = 25, "bio" = 10, "rad" = 0, "fire" = 50, "acid" = 60, "stamina" = 30) //NSV13
 	strip_delay = 80
 	dynamic_hair_suffix = ""
 

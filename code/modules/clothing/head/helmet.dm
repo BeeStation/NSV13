@@ -3,7 +3,7 @@
 	desc = "Standard Security gear. Protects the head from impacts."
 	icon_state = "helmet"
 	item_state = "helmet"
-	armor = list("melee" = 35, "bullet" = 30, "laser" = 30,"energy" = 40, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50, "stamina" = 30)
+	armor = list("melee" = 30, "bullet" = 40, "laser" = 30,"energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50, "stamina" = 30) //NSV13
 	flags_inv = HIDEEARS
 	cold_protection = HEAD
 	heat_protection = HEAD
@@ -190,6 +190,7 @@
 	icon_state = "blueshift"
 	item_state = "blueshift"
 	custom_premium_price = 450
+	armor = list("melee" = 50, "bullet" = 5, "laser" = 5,"energy" = 5, "bomb" = 15, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50, "stamina" = 40)
 
 /obj/item/clothing/head/helmet/riot
 	name = "riot helmet"

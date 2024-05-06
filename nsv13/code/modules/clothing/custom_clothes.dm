@@ -23,7 +23,7 @@
 	icon_state = "peacekeeper"
 	worn_icon_state = "peacekeeper"
 	item_state = "bl_suit"
-	armor = list("melee" = 20, "bullet" = 20, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30)
+	armor = list("melee" = 10, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30, "stamina" = 30)
 	strip_delay = 50
 	sensor_mode = SENSOR_COORDS
 	random_sensor = FALSE
@@ -85,7 +85,7 @@
 	equip_delay_other = 40
 	max_integrity = 250
 	resistance_flags = NONE
-	armor = list("melee" = 30, "bullet" = 45, "laser" = 15, "energy" = 40, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 90, "stamina" = 40)
+	armor = list("melee" = 30, "bullet" = 60, "laser" = 15, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 90, "stamina" = 40)
 
 /obj/item/clothing/suit/ship/peacekeeper/Initialize(mapload)
 	. = ..()
@@ -544,7 +544,7 @@
 	icon_state = "syndicate_tech"
 	worn_icon_state = "syndicate_tech"
 	item_state = "bl_suit"
-	armor = list("melee" = 10, "bullet" = 10, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30)
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30)
 	can_adjust = TRUE
 
 /obj/item/clothing/suit/ship/syndicate_crew
@@ -723,7 +723,7 @@
 	desc = "A sinister looking vest of advanced armor worn over a black and red fireproof jacket. The gold collar and shoulders denote that this belongs to a high ranking syndicate officer. This one has been modified to be space proof, and highly resistant to Nanotrasen's laser based weapons."
 	icon_state = "syndievest_space"
 	worn_icon = 'icons/mob/suit.dmi'
-	armor = list("melee" = 60, "bullet" = 50, "laser" = 80, "energy" = 80, "bomb" = 40, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 100)
+	armor = list("melee" = 60, "bullet" = 70, "laser" = 40, "energy" = 80, "bomb" = 60, "bio" = 0, "rad" = 0, "fire" = 100, "acid" = 100)
 	clothing_flags = THICKMATERIAL | STOPSPRESSUREDAMAGE
 	cold_protection = CHEST | GROIN | LEGS | FEET | ARMS | HANDS
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
