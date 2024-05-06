@@ -28,7 +28,7 @@
 	var/bitcoinproduction_drain = 0.15
 	var/bitcoinmining = FALSE
 	var/obj/item/radio/radio
-	var/rad_collector_coefficent =300
+	var/rad_collector_coefficent =400
 
 /obj/machinery/power/rad_collector/Initialize(mapload)
 	. = ..()
