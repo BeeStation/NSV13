@@ -298,6 +298,7 @@
 	var/stomp_cooldown_time = 0.5 SECONDS
 	var/current_cooldown = 0
 	w_class = WEIGHT_CLASS_BULKY
+	supports_variations = NO_VARIATION
 	item_flags = NONE
 	cm_slowdown = 0.2 //up for debate
 
