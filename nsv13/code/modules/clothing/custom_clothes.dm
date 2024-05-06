@@ -291,15 +291,18 @@
 	icon_state = "hardsuit1-peacekeeper_space"
 	item_state = "peacekeeper_space"
 	hardsuit_type = "peacekeeper_space"
+	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/stock_parts/cell)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/peacekeeper
 	armor = list("melee" = 40, "bullet" = 50, "laser" = 15, "energy" = 30, "bomb" = 25, "bio" = 100, "rad" = 50, "fire" = 75, "acid" = 75, "stamina" = 50)
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	var/stomp_cooldown_time = 0.5 SECONDS
 	var/current_cooldown = 0
 	w_class = WEIGHT_CLASS_BULKY
-	item_flags = "" // how do I remove illegal tag when inherited
-	//how do I remove artifact proofing
-	//how do I change the slowdown?
+	item_flags = null
+	cm_slowdown = 0.2 //up for debate
+
+/obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper/artifact_immunity()
+    return
 
 /obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper/on_mob_move()
 	var/mob/living/carbon/human/H = loc

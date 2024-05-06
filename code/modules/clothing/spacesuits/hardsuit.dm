@@ -444,15 +444,19 @@
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi
 	jetpack = /obj/item/tank/jetpack/suit
 	item_flags = ILLEGAL	//Syndicate only and difficult to obtain outside of uplink anyway. Nukie hardsuits on the ship are illegal.
+	var/cm_slowdown = 0 //NSV13
 	actions_types = list(
 		/datum/action/item_action/toggle_helmet,
 		/datum/action/item_action/toggle_beacon,
 		/datum/action/item_action/toggle_beacon_frequency
 	)
 
-/obj/item/clothing/suit/space/hardsuit/syndi/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/anti_artifact, INFINITY, FALSE, 100)
+/obj/item/clothing/suit/space/hardsuit/syndi/ComponentInitialize() //NSV13
+    . = ..()
+    artifact_immunity()
+
+/obj/item/clothing/suit/space/hardsuit/syndi/proc/artifact_immunity() //NSV13
+    AddComponent(/datum/component/anti_artifact, INFINITY, FALSE, 100)
 
 /obj/item/clothing/suit/space/hardsuit/syndi/ui_action_click(mob/user, datum/actiontype)
 	switch(actiontype.type)
@@ -513,7 +517,7 @@
 /obj/item/clothing/suit/space/hardsuit/syndi/proc/activate_combat_mode()
 	name = "[initial(name)] (combat)"
 	desc = alt_desc
-	slowdown = 0
+	slowdown = cm_slowdown //NSV13
 	clothing_flags &= ~STOPSPRESSUREDAMAGE
 	cold_protection &= ~(CHEST | GROIN | LEGS | FEET | ARMS | HANDS)
 	if(ishuman(loc))
