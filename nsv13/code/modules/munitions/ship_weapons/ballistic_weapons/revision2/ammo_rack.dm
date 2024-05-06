@@ -212,7 +212,7 @@
 		return TRUE
 	if(istype(I, /obj/item/ship_weapon/ammunition) || istype(I, /obj/item/powder_bag))
 		to_chat(user, "<span class='notice'>You start to load [src] with [I].</span>")
-		if(!do_after(user, 1 SECONDS , target = src))
+		if(!do_after(user, 0.5 SECONDS , target = src))
 			to_chat(user, "<span class='warning'>You were interrupted!</span>")
 			return TRUE
 		load(I, user)
