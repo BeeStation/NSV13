@@ -157,7 +157,7 @@
 		return
 	// Smacking
 	if(user.a_intent == INTENT_HARM)
-		return
+		return ..()
 	if(busy)
 		to_chat(user, "<span class='warning'>Someone's already working on [src]!</span>")
 		return TRUE
