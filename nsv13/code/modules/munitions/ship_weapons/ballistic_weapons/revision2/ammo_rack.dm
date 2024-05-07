@@ -165,7 +165,7 @@
 		if(jammed)
 			to_chat(user, "<span class='warning'>You can't lubricate a jammed machine!</span>")
 			return TRUE
-		if(durability >= 100)
+		if(durability >= max_durability)
 			to_chat(user, "<span class='warning'>[src] doesn't need any oil right now!</span>")
 			return TRUE
 		if(!I.reagents.has_reagent(/datum/reagent/oil))
