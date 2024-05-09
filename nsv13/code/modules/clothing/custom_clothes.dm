@@ -76,7 +76,7 @@
 	icon_state = "peacekeeper_vest"
 	item_state = "peacekeeper_vest"
 	desc = "A nanoweave vest capable of impeding most small arms fire as well as improvised weapons. It bears the logo of the North Star peacekeeper force"
-	body_parts_covered = CHEST
+	body_parts_covered = CHEST|GROIN
 	cold_protection = CHEST|GROIN
 	min_cold_protection_temperature = ARMOR_MIN_TEMP_PROTECT
 	heat_protection = CHEST|GROIN
@@ -85,7 +85,7 @@
 	equip_delay_other = 40
 	max_integrity = 250
 	resistance_flags = NONE
-	armor = list("melee" = 30, "bullet" = 60, "laser" = 15, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 90, "stamina" = 40)
+	armor = list("melee" = 30, "bullet" = 50, "laser" = 15, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 90, "stamina" = 30)
 
 /obj/item/clothing/suit/ship/peacekeeper/Initialize(mapload)
 	. = ..()
@@ -96,12 +96,16 @@
 	icon_state = "peacekeeper_jacket"
 	item_state = "peacekeeper_jacket"
 	desc = "A comfortable grey leather jacket. Despite its heavy armour, it's still extremely comfortable to wear."
+	body_parts_covered = CHEST|GROIN|LEGS|ARMS
+	armor = list("melee" = 30, "bullet" = 60, "laser" = 15, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 90, "stamina" = 40)
 
 /obj/item/clothing/suit/ship/peacekeeper/detective
 	name = "DET jacket"
 	desc = "A smart blue jacket, identifying the wearer as a forensics expert."
 	icon_state = "det"
 	item_state = "det"
+	armor = list("melee" = 30, "bullet" = 40, "laser" = 10, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 40, "acid" = 50)
+	body_parts_covered = CHEST|ARMS
 
 /obj/item/clothing/suit/ship/peacekeeper/marine
 	name = "NT-4 Marine vest"
