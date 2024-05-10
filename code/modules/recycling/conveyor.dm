@@ -372,16 +372,16 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 /// Finds any switches with same `id` as this one, and set their position and icon to match us.
 /obj/machinery/conveyor_switch/proc/update_linked_switches()
 	for(var/obj/machinery/conveyor_switch/S in GLOB.conveyors_by_id[id])
-		// S.invert_icon = invert_icon
+		// S.invert_icon = invert_icon //NSV13 conveyor switch changes
 		S.position = position
 		S.update_icon()
 		CHECK_TICK
 
 /// Updates the switch's `position` and `last_pos` variable. Useful so that the switch can properly cycle between the forwards, backwards and neutral positions.
-/obj/machinery/conveyor_switch/proc/update_position(altClicked)
+/obj/machinery/conveyor_switch/proc/update_position(altClicked) //NSV13 conveyor switch changes
 	if(position == 0)
 		if(oneway)   //is it a oneway switch
-			if(altClicked)
+			if(altClicked) //NSV13 conveyor switch changes
 				position = -1
 			else
 				position = oneway
@@ -400,12 +400,12 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 /obj/machinery/conveyor_switch/interact(mob/user)
 	add_fingerprint(user)
 	play_click_sound("switch")
-	update_position(FALSE)
+	update_position(FALSE) //NSV13 conveyor switch changes
 	update_icon()
 	update_linked_conveyors()
 	update_linked_switches()
 
-/obj/machinery/conveyor_switch/AltClick(mob/user)//NSV13 Added Alt-Clicking
+/obj/machinery/conveyor_switch/AltClick(mob/user) //NSV13 conveyor switch changes
 	if(can_interact(user))
 		add_fingerprint(user)
 		play_click_sound("switch")
@@ -472,7 +472,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	else if(istype(I, /obj/item/conveyor_switch_construct))
 		to_chat(user, "<span class='notice'>You copy the switch's link to the other.</span>")
 		var/obj/item/conveyor_switch_construct/C = I
-		C.id = id
+		id = C.id
 	else if(istype(I, /obj/item/stack/conveyor))// the opposite of the original linking process - this updates the switch's ID to the belt
 		to_chat(user, "<span class='notice'>You link the switch to the conveyor belt assembly.</span>")
 		var/obj/item/stack/conveyor/C = I
