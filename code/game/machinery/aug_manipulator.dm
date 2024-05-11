@@ -9,7 +9,7 @@
 	var/obj/item/bodypart/storedpart
 	var/initial_icon_state
 	var/static/list/style_list_icons = list("standard" = 'icons/mob/augmentation/augments.dmi', "engineer" = 'icons/mob/augmentation/augments_engineer.dmi', "security" = 'icons/mob/augmentation/augments_security.dmi', "mining" = 'icons/mob/augmentation/augments_mining.dmi', "veymed female" = 'nsv13/icons/mob/augmentation/veymed.dmi', "veymed male" = 'nsv13/icons/mob/augmentation/veymedm.dmi', "shellguard" = 'nsv13/icons/mob/augmentation/shellguard.dmi', "xion" = 'nsv13/icons/mob/augmentation/xion.dmi', "zeng-hu" = 'nsv13/icons/mob/augmentation/zenghu.dmi', "ward-takahashi" = 'nsv13/icons/mob/augmentation/wardtakahashi.dmi', "bishop" = 'nsv13/icons/mob/augmentation/bishop.dmi')  //NSV13 added extra sprites for additional prosthetic looks
-
+	var/static/list/style_list_legs_bonus_icons = list("digitigrade" = 'icons/mob/augmentation/augments.dmi') //NSV13 - digitigrade augmentations WOOOOO
 
 /obj/machinery/aug_manipulator/examine(mob/user)
 	. = ..()
@@ -102,14 +102,25 @@
 	add_fingerprint(user)
 
 	if(storedpart)
-		var/augstyle = input(user, "Select style.", "Augment Custom Fitting") as null|anything in style_list_icons
+		//NSV13 - digitigrade robot leggies
+		var/style_options = style_list_icons
+		if(istype(storedpart, /obj/item/bodypart/r_leg) || istype(storedpart, /obj/item/bodypart/l_leg))
+			style_options += style_list_legs_bonus_icons //TODO: Make sure this is legal with assoc lists, otherwise manual add this case.
+		var/augstyle = input(user, "Select style.", "Augment Custom Fitting") as null|anything in style_options
+		//NSV13 end.
 		if(!augstyle)
 			return
 		if(!in_range(src, user))
 			return
 		if(!storedpart)
 			return
-		storedpart.static_icon = style_list_icons[augstyle]
+		//NSV13 - digi robot leggies. This is kind of scuffed but the proc gets called rarely enough and this is compact.
+		storedpart.static_icon = style_options[augstyle]
+		if(augstyle == "digitigrade")
+			storedpart.bodytype |= BODYTYPE_DIGITIGRADE
+		else
+			storedpart.bodytype &= ~(BODYTYPE_DIGITIGRADE)
+		//NSV13 end.
 		eject_part(user)
 
 	else
