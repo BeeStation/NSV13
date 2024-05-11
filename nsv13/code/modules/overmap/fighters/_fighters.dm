@@ -82,7 +82,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /obj/structure/overmap/small_craft/key_down(key, client/user)
 	if(disruption && prob(min(95, disruption)))
-		to_chat(src, "The controls buzz angrily.")
+		to_chat(src, "<span class='warning'>The controls buzz angrily!</span>")
 		playsound(helm, 'sound/machines/buzz-sigh.ogg', 75, 1)
 		return
 	. = ..()
