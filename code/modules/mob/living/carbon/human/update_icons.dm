@@ -322,7 +322,7 @@ There are several things that need to be remembered:
 			if(dna?.species.bodytype & BODYTYPE_DIGITIGRADE)
 				if(S.supports_variations & DIGITIGRADE_VARIATION)
 					icon_file = 'icons/mob/species/misc/digitigrade_shoes.dmi'
-					build_worn_icon_override_flags = DIGI_ICON_FILE_PASSED //NSV13 - high priority file.
+					build_worn_icon_override_flags |= DIGI_ICON_FILE_PASSED //NSV13 - high priority file.
 
 		shoes.screen_loc = ui_shoes					//move the item to the appropriate screen loc
 		if(client && hud_used && hud_used.hud_shown)
