@@ -82,7 +82,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /obj/structure/overmap/small_craft/key_down(key, client/user)
 	if(disruption && prob(min(95, disruption)))
-		to_chat(src, "<span class='warning'>The controls buzz angrily!</span>")
+		if(user)
+			to_chat(user, "<span class='warning'>The controls buzz angrily!</span>")
 		playsound(helm, 'sound/machines/buzz-sigh.ogg', 75, 1)
 		return
 	. = ..()
@@ -199,7 +200,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	if(. || ((usr != pilot) && (!IsAdminGhost(usr))))
 		return
 	if(disruption && prob(min(95, disruption)))
-		to_chat(usr, "The controls buzz angrily.")
+		to_chat(usr, "<span class='warning'>The controls buzz angrily!</span>")
 		relay('sound/machines/buzz-sigh.ogg')
 		return TRUE
 	var/atom/movable/target = locate(params["id"])
