@@ -217,7 +217,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 			if(!istype(FC))
 				return
 			to_chat(usr, "<span class='notice'>You start uninstalling [target.name] from [src].</span>")
-			. = TRUE
 			if(!do_after(usr, 5 SECONDS, target=src))
 				return
 			to_chat(usr, "<span class='notice>You uninstall [target.name] from [src].</span>")
