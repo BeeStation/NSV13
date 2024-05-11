@@ -48,7 +48,8 @@
 		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/navigation/ui_act(action, params, datum/tgui/ui)
-	if(..() && !IsAdminGhost(usr))
+	. = ..()
+	if(. && !IsAdminGhost(usr))
 		return
 	if(!linked)
 		return
