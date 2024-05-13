@@ -629,6 +629,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	to_chat(gunner, "<span class='notice'>Target painted.</span>")
 	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 	RegisterSignal(target, list(COMSIG_PARENT_QDELETING, COMSIG_FTL_STATE_CHANGE), PROC_REF(dump_lock))
+	SEND_SIGNAL(src, COMSIG_TARGET_PAINTED, target)
 	if(autotarget)
 		select_target(target) //autopaint our target
 
@@ -643,13 +644,14 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		update_gunner_cam()
 		return
 	target_lock = target
+	SEND_SIGNAL(src, COMSIG_TARGET_LOCKED, target)
 
 /obj/structure/overmap/proc/dump_lock(obj/structure/overmap/target) // Our locked target got destroyed/moved, dump the lock
 	SIGNAL_HANDLER
 	SEND_SIGNAL(src, COMSIG_LOCK_LOST, target)
 	target_painted -= target
 	target_last_tracked -= target
-	UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+	UnregisterSignal(target, list(COMSIG_PARENT_QDELETING, COMSIG_FTL_STATE_CHANGE))
 	if(target_lock == target)
 		update_gunner_cam()
 		target_lock = null

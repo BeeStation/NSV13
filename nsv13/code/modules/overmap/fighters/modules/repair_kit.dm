@@ -8,6 +8,7 @@
 	bypass_safety = TRUE
 	var/datum/beam/current_beam = null
 	var/next_repair = 0
+	var/foam_consumption = 20
 
 /obj/item/fighter_component/primary/utility/repairer/get_ammo()
 	return magazine?.reagents.total_volume
@@ -20,12 +21,14 @@
 	icon_state = "repairer_tier2"
 	tier = 2
 	fire_delay = 4 SECONDS
+	foam_consumption = 15
 
 /obj/item/fighter_component/primary/utility/repairer/tier3
 	name = "super air to air repair kit"
 	icon_state = "repairer_tier3"
 	tier = 3
 	fire_delay = 3 SECONDS
+	foam_consumption = 10
 
 /obj/item/fighter_component/primary/utility/repairer/load(obj/structure/overmap/target, atom/movable/AM)
 	if(!istype(AM, accepted_ammo))
@@ -43,7 +46,7 @@
 	QDEL_NULL(current_beam)
 	// Remove targeting
 	if(us && LAZYFIND(us.target_painted, them))
-		us.start_lockon(them)
+		us.dump_lock(them)
 	if(us && us.gunner && message)
 		to_chat(us.gunner, message)
 
@@ -55,7 +58,6 @@
 	// The component isn't installed, we're not on that mode, or we have no potential targets
 	var/obj/structure/overmap/small_craft/us = loc
 	if(!us || !istype(us) || (us.fire_mode != fire_mode) || !length(us.target_painted))
-		cancel_action(us)
 		return
 	// The target isn't an overmap somehow, we're targeting ourselves, or they're an enemy
 	var/obj/structure/overmap/small_craft/them = us.target_lock
@@ -69,7 +71,7 @@
 		return
 	// We're out of juice
 	if(tank.reagents.get_reagent_amount(/datum/reagent/hull_repair_juice) <= 0)
-		cancel_action(us, them, "<span class='warning'>Out of repair foam.</span>")
+		cancel_action(us, them, "<span class='warning'>Repair foam reserves depleted.</span>")
 		return
 	// They're fixed
 	var/obj/item/fighter_component/armour_plating/theirArmour = them.loadout.get_slot(HARDPOINT_SLOT_ARMOUR)
@@ -85,8 +87,9 @@
 		INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 	new /obj/effect/temp_visual/heal(get_turf(them), COLOR_CYAN)
 	// Use some juice
-	tank.reagents.remove_reagent(/datum/reagent/hull_repair_juice, 5)
-	//You can repair the main ship too! However at a painfully slow rate. Higher tiers give you vastly better repairs, and bigger ships repair smaller ships way faster.
-	them.try_repair(0.5+tier-(them.mass-us.mass))
+	tank.reagents.remove_reagent(/datum/reagent/hull_repair_juice, foam_consumption)
+	// You can repair the main ship too, but at a much slower rate than normal due to the increased mass.
+	// For reference: Fighters are repaired at a speed of 25 damage per second if done by hand.
+	them.try_repair(CEILING(10 * tier - (them.mass - us.mass), 5))
 	us.relay('sound/items/welder.ogg')
 	them.relay('sound/items/welder2.ogg')

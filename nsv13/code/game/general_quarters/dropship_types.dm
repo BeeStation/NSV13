@@ -73,7 +73,7 @@ Credit to TGMC for the interior sprites for all these!
 			starmap.linked = src
 
 // Z override for transports. This returns our aircraft's unique Z.
-/obj/structure/overmap/small_craft/transport/get_virtual_z_level()
+/obj/structure/overmap/small_craft/transport/proc/get_interior_virtual_z()
 	return linked_virtual_z != null ? linked_virtual_z : 0;
 
 /datum/map_template/dropship
