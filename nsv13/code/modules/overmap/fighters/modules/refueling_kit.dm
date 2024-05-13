@@ -12,7 +12,7 @@
 	var/is_charging = TRUE
 	var/battery_recharge_amount = 500
 	var/minimum_fuel_to_keep = 250
-	var/fuel_transfer_rate = 100
+	var/fuel_transfer_rate = 50
 
 /obj/item/fighter_component/primary/utility/refuel/on_install(obj/structure/overmap/target)
 	. = ..()
