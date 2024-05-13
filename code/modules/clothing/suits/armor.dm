@@ -51,7 +51,7 @@
 	desc = "A Stylish Corporate Jacket which also provides Protection."
 	icon_state = "secjacket"
 	item_state = "secjacket"
-	body_parts_covered = CHEST|ARMS
+	body_parts_covered = CHEST|GROIN|ARMS
 	armor = list("melee" = 35, "bullet" = 45, "laser" = 10, "energy" = 30, "bomb" = 20, "bio" = 0, "rad" = 0, "fire" = 45, "acid" = 45, "stamina" = 30) //NSV13
 
 /obj/item/clothing/suit/armor/hos

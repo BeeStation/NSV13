@@ -354,11 +354,11 @@
 
 /obj/item/clothing/suit/hooded/bee_costume/syndie
 	name = "BLF costume"
-	armor = list("melee" = 20, "bullet" = 20, "laser" = 20,"energy" = 40, "bomb" = 0, "bio" = 60, "rad" = 0, "fire" = 0, "acid" = 50, "stamina" = 40)
+	armor = list("melee" = 30, "bullet" = 50, "laser" = 20,"energy" = 40, "bomb" = 0, "bio" = 60, "rad" = 0, "fire" = 0, "acid" = 50, "stamina" = 30) //NSV13
 	hoodtype = /obj/item/clothing/head/hooded/bee_hood/syndie
 
 /obj/item/clothing/head/hooded/bee_hood/syndie
-	armor = list("melee" = 20, "bullet" = 20, "laser" = 20,"energy" = 40, "bomb" = 0, "bio" = 60, "rad" = 0, "fire" = 0, "acid" = 50, "stamina" = 40)
+	armor = list("melee" = 30, "bullet" = 40, "laser" = 20,"energy" = 40, "bomb" = 0, "bio" = 60, "rad" = 0, "fire" = 0, "acid" = 50, "stamina" = 30) //NSV13
 
 /obj/item/clothing/suit/hooded/bloated_human	//OH MY GOD WHAT HAVE YOU DONE!?!?!?
 	name = "bloated human suit"
@@ -608,7 +608,7 @@
 	name = "captain's winter coat"
 	icon_state = "coatcaptain"
 	item_state = "coatcaptain"
-	armor = list("melee" = 25, "bullet" = 30, "laser" = 30, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 50, "stamina" = 20)
+	armor = list("melee" = 30, "bullet" = 50, "laser" = 20, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50, "stamina" = 30) //NSV13
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/captain
 
 /obj/item/clothing/suit/hooded/wintercoat/captain/Initialize(mapload)
@@ -622,7 +622,7 @@
 	name = "security winter coat"
 	icon_state = "coatsecurity"
 	item_state = "coatsecurity"
-	armor = list("melee" = 25, "bullet" = 15, "laser" = 30, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 45, "stamina" = 20)
+	armor = list("melee" = 35, "bullet" = 45, "laser" = 10, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 0, "acid" = 45, "stamina" = 30) //NSV13
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/security
 
 /obj/item/clothing/suit/hooded/wintercoat/security/Initialize(mapload)
