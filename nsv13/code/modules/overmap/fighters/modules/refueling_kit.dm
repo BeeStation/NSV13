@@ -94,7 +94,7 @@
 		return
 
 	// See if we need to make a new beam. Comes after the refuel so we can not do this if we fail any checks.
-	if(!current_beam)
+	if(QDELETED(current_beam))
 		current_beam = new(us,them,beam_icon='nsv13/icons/effects/beam.dmi',time=INFINITY,maxdistance = INFINITY,beam_icon_state="hose",btype=/obj/effect/ebeam/fuel_hose)
 		INVOKE_ASYNC(current_beam, TYPE_PROC_REF(/datum/beam, Start))
 
