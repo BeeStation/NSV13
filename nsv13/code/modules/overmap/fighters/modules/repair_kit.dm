@@ -9,6 +9,7 @@
 	var/datum/beam/current_beam = null
 	var/next_repair = 0
 	var/foam_consumption = 20
+	var/repair_range = 10
 
 /obj/item/fighter_component/primary/utility/repairer/get_ammo()
 	return magazine?.reagents.total_volume
@@ -63,6 +64,10 @@
 	var/obj/structure/overmap/small_craft/them = us.target_lock
 	if(!them || !istype(them) || (them == us) || (them.faction != us.faction))
 		cancel_action(us, them)
+		return
+	// We're out of range
+	if(overmap_dist(us, them) > repair_range)
+		cancel_action(us, them, "<span class='warning'>Target out of range.</span>")
 		return
 	// We don't have a hull foam tank
 	var/obj/structure/reagent_dispensers/foamtank/hull_repair_juice/tank = magazine

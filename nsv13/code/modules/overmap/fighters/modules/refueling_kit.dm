@@ -13,6 +13,7 @@
 	var/battery_recharge_amount = 500
 	var/minimum_fuel_to_keep = 250
 	var/fuel_transfer_rate = 50
+	var/refuel_range = 10
 
 /obj/item/fighter_component/primary/utility/refuel/on_install(obj/structure/overmap/target)
 	. = ..()
@@ -73,6 +74,10 @@
 	if(!them || !istype(them) || (them == us) || (them.faction != us.faction))
 		cancel_action(us, them)
 		return
+	// We're out of range
+	if(overmap_dist(us, them) > refuel_range)
+		cancel_action(us, them, "<span class='warning'>Target out of range.</span>")
+		return
 
 	// Getting here means we should actually try refueling them
 	next_fuel = world.time + fire_delay
@@ -102,7 +107,7 @@
 /obj/item/fighter_component/primary/utility/refuel/proc/transfer_fuel(obj/structure/overmap/small_craft/us, obj/structure/overmap/small_craft/them)
 	var/transfer_amount = CLAMP((them.get_max_fuel() - them.get_fuel()), 0, fuel_transfer_rate)
 	if(transfer_amount <= 0)
-		return "<span class='notice'>Fuel tank is full.</span>"
+		return "<span class='notice'>Target craft is fully fueled.</span>"
 	if(us.get_fuel() <= minimum_fuel_to_keep) // Don't give away ALL our fuel
 		return "<span class='warning'>Fuel levels below minimum safe transfer level.</span>"
 	var/obj/item/fighter_component/fuel_tank/ourTank = us.loadout.get_slot(HARDPOINT_SLOT_FUEL)
@@ -122,7 +127,7 @@
 	if(ourBattery.charge < (battery_recharge_amount * 2))
 		return "<span class='warning'>Battery charge is below minimum safe transfer level.</span>"
 	if(!(theirBattery.charge < theirBattery.maxcharge))
-		return "<span class='notice'>Recharging of target complete.</span>"
+		return "<span class='notice'>Target craft is fully charged.</span>"
 	theirBattery.give(battery_recharge_amount) //Jumpstart their battery
 	ourBattery.use_power(battery_recharge_amount)
 	return
