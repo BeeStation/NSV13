@@ -470,7 +470,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 		dradis = new dradis_type(src) //Fighters need a way to find their way home.
 		dradis.linked = src
 	set_light(4)
-	obj_integrity = max_integrity
+	var/obj/structure/overmap/OM = loc.get_overmap()
+	if(OM) //Actually register that we are inside the ship when spawned
+		OM.overmaps_in_ship |= src
 	RegisterSignal(src, COMSIG_MOVABLE_MOVED, PROC_REF(handle_moved)) //Used to smoothly transition from ship to overmap
 	var/obj/item/fighter_component/engine/engineGoesLast = null
 	if(build_components.len)
