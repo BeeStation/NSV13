@@ -1310,6 +1310,7 @@
 	dir = 1
 	},
 /obj/machinery/advanced_airlock_controller/directional/north,
+/obj/machinery/light/runway/delay2,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger{
 	name = "Dropship Bay"
@@ -6895,18 +6896,9 @@
 /turf/open/floor/durasteel/techfloor_grid,
 /area/engine/engineering/reactor_core)
 "dDQ" = (
-/obj/machinery/button/door{
-	id = "dropship_hangar_o";
-	name = "Outer Pod Bay Doors";
-	pixel_y = 32;
-	req_one_access_txt = "69"
-	},
-/obj/machinery/camera{
-	c_tag = "Hangar Exterior";
-	network = list("ss13","hangar")
-	},
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/obj/effect/turf_decal/stripes/line,
+/obj/vehicle/sealed/car/realistic/fighter_tug,
+/turf/open/floor/engine,
 /area/nsv/hanger{
 	name = "Dropship Bay"
 	})
@@ -9893,11 +9885,14 @@
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "flX" = (
-/obj/effect/turf_decal/stripes/line,
-/obj/structure/overmap/small_craft/transport/starter{
-	angle = 90
+/obj/effect/turf_decal/tile/ship/half/orange{
+	dir = 8
 	},
-/turf/open/floor/engine,
+/obj/effect/turf_decal/stripes/line{
+	dir = 4
+	},
+/obj/machinery/airalarm/directional/south,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger{
 	name = "Dropship Bay"
 	})
@@ -14540,10 +14535,6 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/briefingroom)
 "hBP" = (
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "dropship_hangar"
-	},
 /obj/effect/turf_decal/tile/ship/half/orange{
 	dir = 1
 	},
@@ -14552,6 +14543,10 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 4;
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger{
@@ -14943,10 +14938,6 @@
 /turf/closed/wall/steel,
 /area/maintenance/disposal)
 "hPL" = (
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "dropship_hangar"
-	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
@@ -14954,6 +14945,10 @@
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 4;
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger{
@@ -15001,6 +14996,12 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/captain)
+"hQT" = (
+/obj/structure/table/reinforced,
+/obj/item/book/manual/wiki/sop/munitions,
+/obj/item/key/fighter_tug,
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger/notkmcstupidhanger)
 "hRn" = (
 /obj/effect/turf_decal/tile/ship/half/purple{
 	dir = 8
@@ -17162,10 +17163,6 @@
 /area/security/brig)
 "jeo" = (
 /obj/effect/turf_decal/tile/ship/half/orange,
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "dropship_hangar"
-	},
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 1
 	},
@@ -17173,6 +17170,10 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 4;
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger{
@@ -18565,12 +18566,12 @@
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/chief)
 "jMA" = (
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "dropship_hangar_o"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 4;
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger{
@@ -19386,14 +19387,14 @@
 /turf/open/floor/durasteel/techfloor_grid,
 /area/engine/atmos)
 "kks" = (
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "dropship_hangar"
-	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 4;
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger{
@@ -20342,6 +20343,14 @@
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/primary)
+"kKD" = (
+/obj/structure/overmap/small_craft/transport/starter{
+	angle = 90
+	},
+/turf/open/floor/monotile/dark,
+/area/nsv/hanger{
+	name = "Dropship Bay"
+	})
 "kLa" = (
 /obj/effect/turf_decal/tile/ship/half/orange,
 /obj/effect/landmark/start/pilot,
@@ -23986,10 +23995,6 @@
 /turf/open/floor/monotile/dark,
 /area/security/brig)
 "mEg" = (
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "dropship_hangar"
-	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer2{
@@ -23997,6 +24002,10 @@
 	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 4
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 4;
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger{
@@ -27474,8 +27483,12 @@
 /turf/open/floor/durasteel,
 /area/hallway/nsv/deck2/primary)
 "oAE" = (
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
+/obj/effect/turf_decal/tile/ship/half/orange,
+/obj/effect/turf_decal/stripes/red/line{
+	dir = 1
+	},
+/obj/machinery/light/runway,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger{
 	name = "Dropship Bay"
 	})
@@ -27872,6 +27885,7 @@
 /obj/machinery/light{
 	dir = 8
 	},
+/obj/effect/turf_decal/tile/ship/half/orange,
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger{
 	name = "Dropship Bay"
@@ -28121,20 +28135,12 @@
 	name = "Executive officer's Office"
 	})
 "oTm" = (
-/obj/effect/turf_decal/tile/ship/half/orange{
-	dir = 8
-	},
-/obj/effect/turf_decal/stripes/line{
+/obj/machinery/camera{
+	c_tag = "Hangar Exterior";
+	network = list("ss13","hangar");
 	dir = 4
 	},
-/obj/machinery/button/door{
-	id = "dropship_hangar";
-	name = "Inner Pod Bay Doors";
-	pixel_x = 11;
-	pixel_y = 26;
-	req_one_access_txt = "69"
-	},
-/turf/open/floor/monotile/steel,
+/turf/open/space/basic,
 /area/nsv/hanger{
 	name = "Dropship Bay"
 	})
@@ -29340,7 +29346,17 @@
 /turf/open/floor/wood,
 /area/maintenance/nsv/deck2/frame5/port)
 "pxK" = (
-/obj/machinery/airalarm/directional/east,
+/obj/effect/turf_decal/tile/ship/half/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/stripes/red/line,
+/obj/machinery/light/runway,
+/obj/structure/fighter_launcher/launch_only{
+	dir = 4;
+	name = "Yellow 1";
+	pixel_x = 32;
+	pixel_y = 64
+	},
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger{
 	name = "Dropship Bay"
@@ -32407,12 +32423,12 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/stripes/red/line,
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "dropship_hangar_o"
-	},
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 4;
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger{
@@ -35560,7 +35576,10 @@
 	icon_state = "goose";
 	melee_damage = 5;
 	name = "flight leader";
-	obj_damage = 0
+	obj_damage = 0;
+	icon = 'icons/mob/animal.dmi';
+	desc = "It's loose";
+	random_color = 0
 	},
 /turf/open/floor/plasteel/techmaint{
 	initial_gas_mix = "TEMP=2.7"
@@ -38646,16 +38665,16 @@
 	name = "Artillery Bay"
 	})
 "uuz" = (
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "dropship_hangar_o"
-	},
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/ship/half/orange,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
+	},
+/obj/machinery/door/airlock/ship/external/glass{
+	dir = 4;
+	req_one_access_txt = "79"
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/hanger{
@@ -41763,15 +41782,12 @@
 /turf/open/floor/durasteel/techfloor_grid,
 /area/engine/armour_pump)
 "wcd" = (
-/obj/structure/fighter_launcher/launch_only{
-	dir = 4;
-	name = "Yellow 1";
-	pixel_x = 32
-	},
-/obj/machinery/atmospherics/components/binary/dp_vent_pump/high_volume/layer2{
+/obj/effect/turf_decal/tile/ship/half/orange{
 	dir = 1
 	},
-/turf/open/floor/monotile/dark,
+/obj/effect/turf_decal/stripes/red/line,
+/obj/machinery/light/runway/delay2,
+/turf/open/floor/monotile/steel,
 /area/nsv/hanger{
 	name = "Dropship Bay"
 	})
@@ -42594,6 +42610,16 @@
 /obj/machinery/camera/autoname,
 /turf/open/floor/monotile/steel,
 /area/medical/medbay)
+"wAh" = (
+/obj/effect/turf_decal/tile/ship/half/orange,
+/obj/effect/turf_decal/stripes/red/line{
+	dir = 1
+	},
+/obj/machinery/light/runway/delay3,
+/turf/open/floor/monotile/steel,
+/area/nsv/hanger{
+	name = "Dropship Bay"
+	})
 "wAG" = (
 /turf/closed/wall/r_wall,
 /area/security/brig)
@@ -45268,6 +45294,16 @@
 /obj/structure/foamedmetal,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame4/port)
+"ybj" = (
+/obj/effect/turf_decal/tile/ship/half/orange{
+	dir = 1
+	},
+/obj/effect/turf_decal/stripes/red/line,
+/obj/machinery/light/runway/delay3,
+/turf/open/floor/monotile/steel,
+/area/nsv/hanger{
+	name = "Dropship Bay"
+	})
 "ybw" = (
 /obj/structure/sign/ship/deck/two,
 /turf/closed/wall/steel,
@@ -102343,7 +102379,7 @@ vVO
 bTv
 bTv
 oLC
-bCO
+gqC
 gqC
 xNX
 jEy
@@ -102600,7 +102636,7 @@ slP
 vXN
 hAi
 xxG
-bCO
+gqC
 gqC
 gqC
 rPd
@@ -102613,7 +102649,7 @@ xjv
 uVI
 aDc
 vjs
-hDL
+hQT
 gnC
 vok
 kBu
@@ -102856,8 +102892,8 @@ aDd
 bTv
 afu
 oEF
-flX
-bCO
+tgD
+kKD
 gqC
 jHy
 fUI
@@ -103114,7 +103150,7 @@ bTv
 afu
 oEF
 tgD
-bCO
+gqC
 gqC
 gqC
 cdg
@@ -103371,7 +103407,7 @@ bTv
 afu
 oEF
 tgD
-bCO
+gqC
 gqC
 gqC
 rPd
@@ -103628,7 +103664,7 @@ bTv
 afu
 oEF
 tgD
-bCO
+gqC
 gqC
 gqC
 rPd
@@ -103885,7 +103921,7 @@ bTv
 afu
 oEF
 tgD
-bCO
+gqC
 uPZ
 glu
 sVX
@@ -104142,7 +104178,7 @@ aDd
 afu
 oEF
 tgD
-bCO
+gqC
 qOK
 dLY
 ibK
@@ -104398,8 +104434,8 @@ srp
 aDd
 bnm
 oEF
-tgD
-bCO
+dDQ
+gqC
 qOK
 gqC
 rPd
@@ -104656,7 +104692,7 @@ aDd
 eYO
 gmy
 tqD
-bCO
+gqC
 qOK
 gqC
 rPd
@@ -104912,8 +104948,8 @@ srp
 aDd
 aDd
 hFn
-bTv
 bCO
+gqC
 qOK
 fIa
 iYs
@@ -105169,8 +105205,8 @@ srp
 srp
 aDd
 azp
-bTv
 bCO
+gqC
 ajK
 gqC
 wJh
@@ -105426,8 +105462,8 @@ hvs
 srp
 aDd
 kND
-pxK
 bCO
+gqC
 qOK
 gqC
 tRO
@@ -105683,12 +105719,12 @@ hvs
 hxR
 aDd
 aDd
-aDd
-oTm
+pDn
+pDn
 aQq
 pDn
 bQd
-pDn
+flX
 aDd
 rIa
 rIa
@@ -105939,9 +105975,9 @@ srp
 hvs
 srp
 srp
-hxR
 aDd
 jeo
+mEg
 mEg
 kks
 hPL
@@ -106196,13 +106232,13 @@ srp
 hvs
 hvs
 hxR
-hxR
 aDd
-oPG
+oAE
+gqC
 qOK
 gqC
 wBm
-lYZ
+pxK
 aDd
 rIa
 rIa
@@ -106452,12 +106488,12 @@ srp
 srp
 srp
 hvs
-hxR
 srp
 aDd
 lqn
+gqC
 qUH
-wcd
+mmA
 rqL
 lYZ
 aDd
@@ -106709,10 +106745,10 @@ srp
 srp
 srp
 hvs
-hxR
 srp
 aDd
 oPG
+gqC
 qUH
 mmA
 rqL
@@ -106966,14 +107002,14 @@ srp
 srp
 srp
 hvs
-hvs
 hxR
 aDd
 aJU
+gqC
 qUH
 mmA
 rqL
-lYZ
+wcd
 aDd
 rIa
 rIa
@@ -107223,10 +107259,10 @@ srp
 srp
 srp
 hvs
-hvs
 srp
 aDd
 oPG
+gqC
 qUH
 mmA
 rqL
@@ -107480,10 +107516,10 @@ srp
 srp
 srp
 hvs
-hvs
 srp
 aDd
 oPG
+gqC
 cPS
 mmA
 vUQ
@@ -107737,14 +107773,14 @@ srp
 srp
 srp
 hvs
-hvs
 hxR
 aDd
-oPG
+wAh
 gqC
 gqC
 gqC
-lYZ
+gqC
+ybj
 aDd
 rIa
 rIa
@@ -107994,10 +108030,10 @@ srp
 srp
 srp
 srp
-hvs
 srp
 aDd
 uuz
+jMA
 jMA
 jMA
 jMA
@@ -108252,13 +108288,13 @@ srp
 srp
 srp
 srp
-srp
 aDd
-dDQ
-oAE
-oAE
-oAE
-oAE
+nPG
+nPG
+nPG
+nPG
+nPG
+nPG
 aDd
 dwi
 dwi
@@ -108509,7 +108545,7 @@ srp
 srp
 srp
 srp
-srp
+oTm
 srp
 srp
 srp
