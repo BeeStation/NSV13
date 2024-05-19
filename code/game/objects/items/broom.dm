@@ -62,14 +62,19 @@
 	if (locate(/obj/structure/table) in target.contents)
 		return
 	var/i = 0
-	var/turf/target_turf = get_step(target, user.dir)
+	//NSV13 - Illegal movement through space and time.
+	var/movedir = user.dir
+	movedir &= ~UP
+	movedir &= ~DOWN
+	var/turf/target_turf = get_step(target, movedir)
+	//NSV13 endish
 	var/obj/machinery/disposal/bin/target_bin = locate(/obj/machinery/disposal/bin) in target_turf.contents
 	for(var/obj/item/garbage in target.contents)
 		if(!garbage.anchored)
 			if (target_bin)
 				garbage.forceMove(target_bin)
 			else
-				garbage.Move(target_turf, user.dir)
+				garbage.Move(target_turf, movedir) //NSV13 - mild arg adjustment
 			i++
 		if(i > 19)
 			break
