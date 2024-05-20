@@ -42,6 +42,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/vending/engineering,
 /turf/open/floor/engine,
 /area/engine/engineering)
 "av" = (
@@ -145,6 +146,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/vending/engivend,
 /turf/open/floor/engine,
 /area/engine/engineering)
 "aR" = (
@@ -826,14 +828,15 @@
 /turf/open/floor/engine,
 /area/science/lab)
 "ft" = (
-/obj/machinery/conveyor/slow{
-	dir = 4;
-	id = "atlas_torp"
+/obj/machinery/atmospherics/pipe/simple/cyan/visible{
+	dir = 4
 	},
-/obj/item/ship_weapon/ammunition/missile/cruise,
-/obj/structure/lattice/catwalk/over/ship/dark,
-/turf/open/floor/carpet/ship/beige_carpet,
-/area/nsv/weapons/port)
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/closet/secure_closet/engineering_electrical,
+/turf/open/floor/engine,
+/area/engine/engineering)
 "fv" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -1101,6 +1104,7 @@
 /area/engine/engineering/reactor_core)
 "gZ" = (
 /obj/effect/mapping_helpers/airlock/unres,
+/obj/machinery/door/airlock/ship/engineering,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/space)
 "ha" = (
@@ -1310,6 +1314,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
 	},
+/obj/machinery/suit_storage_unit/engine,
 /turf/open/floor/engine,
 /area/engine/engineering)
 "ix" = (
@@ -1744,6 +1749,7 @@
 /obj/machinery/atmospherics/pipe/simple/cyan/visible{
 	dir = 9
 	},
+/obj/machinery/computer/monitor,
 /turf/open/floor/engine,
 /area/engine/engineering)
 "la" = (
@@ -1989,7 +1995,7 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "mH" = (
-/obj/machinery/food_cart,
+/obj/structure/reagent_dispensers/cooking_oil,
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/bar/mess_hall)
 "mI" = (
@@ -2142,10 +2148,6 @@
 /area/crew_quarters/heads/chief)
 "nT" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
-/obj/machinery/door/poddoor/ship{
-	dir = 4;
-	id = "bridgewindows"
-	},
 /turf/open/floor/durasteel,
 /area/bridge/cic)
 "nV" = (
@@ -2244,11 +2246,9 @@
 	icon_state = "4-8"
 	},
 /obj/structure/cable/yellow{
-	icon_state = "1-8"
-	},
-/obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
+/obj/structure/closet/secure_closet/engineering_welding,
 /turf/open/floor/engine,
 /area/engine/engineering)
 "oA" = (
@@ -2331,7 +2331,7 @@
 /area/hallway/primary/starboard)
 "oT" = (
 /obj/structure/window/reinforced/fulltile,
-/turf/open/floor/engine/nucleium,
+/turf/open/floor/engine,
 /area/crew_quarters/heads/hor)
 "oU" = (
 /obj/structure/rack,
@@ -2350,6 +2350,7 @@
 /obj/structure/cable{
 	icon_state = "4-10"
 	},
+/obj/machinery/modular_computer/console/preset/engineering,
 /turf/open/floor/engine,
 /area/engine/engineering)
 "pb" = (
@@ -2368,6 +2369,7 @@
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 1
 	},
+/obj/machinery/door/airlock/ship/engineering,
 /turf/open/floor/engine/airless,
 /area/engine/engineering)
 "pd" = (
@@ -2666,13 +2668,10 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/nsv/weapons/port)
 "rh" = (
-/obj/machinery/conveyor/slow{
-	dir = 5;
-	id = "atlas_torp";
-	verted = -1
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /obj/item/ship_weapon/ammunition/missile/cruise,
-/obj/structure/lattice/catwalk/over/ship/dark,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/nsv/weapons/port)
 "rj" = (
@@ -3185,6 +3184,15 @@
 /obj/effect/turf_decal/ship/rust,
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/bar/mess_hall)
+"uO" = (
+/obj/machinery/atmospherics/pipe/simple/cyan/visible,
+/obj/machinery/power/terminal,
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/structure/closet/secure_closet/engineering_personal,
+/turf/open/floor/engine,
+/area/engine/engineering)
 "uP" = (
 /obj/machinery/computer/iff_console,
 /turf/open/space/basic,
@@ -3224,9 +3232,9 @@
 /turf/open/floor/engine/air,
 /area/nsv/weapons/fore)
 "uZ" = (
-/obj/structure/window/reinforced/fulltile,
-/turf/open/floor/carpet/ship/purple_carpet,
-/area/crew_quarters/heads/hor)
+/obj/machinery/rnd/production/techfab/department/engineering,
+/turf/open/floor/engine,
+/area/engine/engineering)
 "va" = (
 /obj/machinery/computer/card/minor/ce,
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -3470,12 +3478,16 @@
 /turf/open/floor/engine/airless,
 /area/engine/engineering/reactor_core)
 "wt" = (
-/obj/machinery/computer/ship/ftl_core/preset/upgraded,
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
+/obj/machinery/atmospherics/pipe/simple/cyan/visible,
+/obj/machinery/power/terminal{
+	dir = 1
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/structure/closet/secure_closet/engineering_personal,
 /turf/open/floor/engine,
-/area/maintenance/nsv/ftlroom)
+/area/engine/engineering)
 "wv" = (
 /obj/structure/reflector/box{
 	dir = 8
@@ -4310,7 +4322,6 @@
 	dir = 10;
 	id = "atlas_torp"
 	},
-/obj/item/ship_weapon/ammunition/missile/cruise,
 /obj/structure/lattice/catwalk/over/ship/dark,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/nsv/weapons/port)
@@ -4395,9 +4406,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
+/obj/structure/closet/crate/engineering/electrical,
 /turf/open/floor/engine,
 /area/engine/engineering)
 "BH" = (
@@ -4605,10 +4614,7 @@
 /turf/open/floor/engine,
 /area/nsv/weapons)
 "CY" = (
-/obj/machinery/power/terminal{
-	dir = 4
-	},
-/obj/structure/cable/yellow,
+/obj/structure/tank_dispenser,
 /turf/open/floor/engine,
 /area/engine/engineering)
 "Di" = (
@@ -5925,6 +5931,7 @@
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 8
 	},
+/obj/machinery/door/airlock/ship/engineering,
 /turf/open/floor/engine,
 /area/engine/engineering)
 "KB" = (
@@ -6296,10 +6303,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/power/smes/engineering,
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
+/obj/structure/tank_dispenser,
 /turf/open/floor/engine,
 /area/engine/engineering)
 "MB" = (
@@ -6496,17 +6500,9 @@
 /turf/open/floor/plasteel/airless,
 /area/space)
 "NQ" = (
-/obj/machinery/atmospherics/pipe/simple/cyan/visible{
-	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "2-4"
-	},
-/turf/open/floor/engine,
-/area/engine/engineering)
+/obj/effect/landmark/start/chief_engineer,
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/crew_quarters/heads/chief)
 "NR" = (
 /obj/effect/spawner/lootdrop/maintenance{
 	lootcount = 2;
@@ -6663,9 +6659,14 @@
 /turf/open/floor/engine,
 /area/nsv/weapons/port)
 "OB" = (
-/obj/machinery/autodoc,
-/turf/open/floor/monotile/light,
-/area/medical/medbay)
+/obj/machinery/atmospherics/pipe/simple/cyan/visible,
+/obj/machinery/power/terminal,
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/machinery/vending/wardrobe/engi_wardrobe,
+/turf/open/floor/engine,
+/area/engine/engineering)
 "OC" = (
 /obj/machinery/shieldwallgen,
 /turf/open/floor/durasteel,
@@ -7013,8 +7014,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/ship_weapon/hybrid_rail{
-	dir = 4;
-	wire_compatible = 1
+	dir = 4
 	},
 /turf/open/floor/engine/air,
 /area/nsv/weapons/fore)
@@ -7284,9 +7284,9 @@
 /turf/open/floor/carpet/ship/blue,
 /area/crew_quarters/cryopods)
 "Sx" = (
-/obj/structure/window/reinforced/fulltile,
-/turf/open/floor/engine/nucleium,
-/area/engine/shield_generator)
+/obj/structure/window/plasma/reinforced/fulltile,
+/turf/open/floor/durasteel,
+/area/bridge/cic)
 "Sy" = (
 /obj/structure/rack,
 /obj/item/ship_weapon/ammunition/naval_artillery,
@@ -7707,7 +7707,12 @@
 /turf/open/floor/plasteel,
 /area/space)
 "UX" = (
-/obj/machinery/power/supermatter_crystal/shard/engine,
+/obj/machinery/power/supermatter_crystal/shard/engine{
+	is_main_engine = 0;
+	moveable = 1;
+	anchored = 0;
+	name = "supermatter shard"
+	},
 /obj/structure/closet/crate/radiation{
 	pressure_resistance = 9999;
 	name = "surplus Supermatter crate"
@@ -7749,7 +7754,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/turf/open/floor/engine/nucleium,
+/turf/open/floor/engine,
 /area/engine/engineering)
 "Vh" = (
 /obj/structure/cable/yellow{
@@ -7914,9 +7919,15 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/nsv/weapons/port)
 "Wa" = (
-/obj/machinery/atmospherics/components/binary/drive_pylon,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/landmark/start/station_engineer,
 /turf/open/floor/engine,
-/area/maintenance/nsv/ftlroom)
+/area/engine/engineering)
 "Wg" = (
 /obj/machinery/computer/ship/ordnance,
 /turf/open/floor/circuit,
@@ -7994,6 +8005,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
+/obj/structure/tank_dispenser,
 /turf/open/floor/engine,
 /area/engine/engineering)
 "WG" = (
@@ -8277,6 +8289,7 @@
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 8
 	},
+/obj/machinery/door/airlock/ship/engineering/glass,
 /turf/open/floor/engine,
 /area/engine/armour_pump)
 "Yk" = (
@@ -8356,9 +8369,9 @@
 /turf/open/floor/engine/airless,
 /area/engine/engineering/reactor_core)
 "YE" = (
-/obj/structure/window/reinforced/fulltile,
-/turf/open/floor/plasteel,
-/area/engine/engineering)
+/obj/machinery/power/supermatter_crystal/shard/engine,
+/turf/closed/wall/r_wall/ship,
+/area/engine/atmos/port_atmos)
 "YF" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -8439,7 +8452,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/turf/open/floor/engine/nucleium,
+/turf/open/floor/engine,
 /area/engine/engineering)
 "Zp" = (
 /obj/structure/table/glass,
@@ -20191,7 +20204,7 @@ IQ
 sS
 xl
 HY
-HY
+NQ
 HY
 Mh
 Zt
@@ -20996,8 +21009,8 @@ Lu
 gS
 kn
 Uw
-NQ
-gK
+sS
+Rm
 CY
 Lf
 LD
@@ -21182,7 +21195,7 @@ Vt
 lB
 wp
 Vt
-Rm
+uZ
 Ya
 po
 we
@@ -21198,7 +21211,7 @@ Lu
 gS
 kn
 we
-BG
+sS
 kT
 Mx
 Zn
@@ -21383,7 +21396,7 @@ Eh
 Vt
 UL
 UL
-Vt
+YE
 Vt
 iu
 gG
@@ -21602,7 +21615,7 @@ eb
 eb
 eb
 oO
-sS
+BG
 Ro
 Az
 Lf
@@ -22006,7 +22019,7 @@ bl
 Pn
 Pn
 yD
-sS
+ft
 Pn
 rE
 Lf
@@ -22019,10 +22032,10 @@ BI
 BI
 BI
 BI
-Wa
 BI
 BI
-Wa
+BI
+BI
 BI
 gz
 fS
@@ -22398,15 +22411,15 @@ ha
 yu
 IF
 Vx
-hz
+Wa
 Vx
-hz
+Wa
 Vx
 hz
 mc
 hz
 ep
-hz
+Wa
 ep
 hz
 ep
@@ -22421,7 +22434,7 @@ nO
 FM
 FM
 FM
-wt
+FM
 FM
 FM
 FM
@@ -22600,17 +22613,17 @@ tf
 uj
 Tu
 bb
-Dv
+wt
 bb
-Dv
+wt
 bb
 Dv
 nm
 yH
 bb
-yH
+uO
 bb
-yH
+OB
 bb
 kZ
 WG
@@ -22806,9 +22819,9 @@ Lf
 Lf
 Lf
 Lf
-YE
-YE
-YE
+oH
+oH
+oH
 Lf
 Lf
 Lf
@@ -22827,10 +22840,10 @@ BI
 BI
 BI
 BI
-Wa
 BI
 BI
-Wa
+BI
+BI
 BI
 gz
 fS
@@ -23013,13 +23026,13 @@ IN
 IN
 IN
 IN
-uZ
+oT
 FL
 XS
 pf
 UB
 mk
-uZ
+oT
 iT
 LD
 od
@@ -23215,7 +23228,7 @@ IN
 IN
 IN
 IN
-uZ
+oT
 HT
 Gw
 Gw
@@ -23423,7 +23436,7 @@ hS
 Ta
 wo
 hS
-uZ
+oT
 iT
 LD
 Wp
@@ -24833,8 +24846,8 @@ OF
 Wi
 OF
 OF
-Sx
-Sx
+Pt
+Pt
 YP
 YP
 LD
@@ -26627,7 +26640,7 @@ wB
 dd
 dd
 fV
-OB
+cG
 cG
 cG
 cG
@@ -31099,7 +31112,7 @@ iT
 gt
 cE
 NX
-rh
+Cd
 Ob
 Ob
 Ob
@@ -31705,13 +31718,13 @@ iT
 gt
 Po
 Pr
-rc
+Po
 rc
 iH
 rc
-rc
+Po
 Pr
-rc
+Po
 rc
 Zc
 mx
@@ -31907,13 +31920,13 @@ iT
 gt
 VN
 Pr
-du
+Po
 du
 iH
 du
-du
+Po
 Pr
-du
+Po
 du
 Hn
 mx
@@ -32110,13 +32123,13 @@ gt
 Po
 Pr
 du
-du
+Po
 iH
-du
+Po
 du
 Pr
 du
-du
+Po
 Hn
 mx
 gt
@@ -32310,15 +32323,15 @@ LD
 iT
 gt
 zh
-ft
+Pr
 LU
-LU
+Po
 iH
-LU
+Po
 LU
 Pr
 LU
-LU
+Po
 Hn
 mx
 gt
@@ -32514,7 +32527,7 @@ Nd
 CM
 CG
 ss
-CM
+rh
 LA
 EJ
 EJ
@@ -37145,7 +37158,7 @@ Vd
 za
 nT
 nk
-nT
+Sx
 YS
 TS
 WC
@@ -37153,7 +37166,7 @@ sV
 VA
 Uh
 YS
-nT
+Sx
 nk
 nT
 za
@@ -37347,15 +37360,15 @@ bB
 bB
 nT
 nk
-nT
-nT
-nT
-nT
-nT
-nT
-nT
-nT
-nT
+Sx
+Sx
+Sx
+Sx
+Sx
+Sx
+Sx
+Sx
+Sx
 nk
 nT
 bB
