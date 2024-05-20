@@ -1,1 +1,1 @@
-#define FORCE_MAP "_maps/Vonneumann.json"
+#define FORCE_MAP "_maps/vonneumann.json"

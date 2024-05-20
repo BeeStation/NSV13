@@ -57,7 +57,7 @@
 	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 /obj/structure/overmap/nanotrasen/solgov/vnc
-	icon = 'nsv13/icons/overmap/nanotrasen/aetherwhisp.dmi'
+	icon = 'nsv13/icons/overmap/new/solgov/destroyer.dmi'
 	role = MAIN_OVERMAP
 	max_integrity = 500 //you will eat the ROUNDS.
 	integrity_failure = 1300
