@@ -328,13 +328,26 @@
 	if(locate(/obj/machinery/deck_turret/autoelevator) in orange(2, src))
 		temp /= 2
 	if(do_after(user, temp, target = src))
-		if(user)
+		if(user_has_payload(A, user))
 			to_chat(user, "<span class='notice'>You load [A] into [src].</span>")
 			bag = A
 			bag.forceMove(src)
 			icon_state = "[initial(icon_state)]_loaded"
 			playsound(src.loc, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	loading = FALSE
+
+/obj/machinery/deck_turret/powder_gate/proc/user_has_payload(obj/item/A, mob/user) // Searches humans and borgs for gunpowder before depositing
+	if ( !user )
+		return FALSE
+
+	// Prove you're not human
+	if ( istype( user, /mob/living/silicon/robot ) )
+		// Give me your hands
+		var/obj/item/borg/apparatus/munitions/hands = locate( /obj/item/borg/apparatus/munitions ) in user.contents
+		if ( !hands?.stored )
+			return FALSE
+
+	return TRUE
 
 /obj/item/powder_bag
 	name = "gunpowder bag"
