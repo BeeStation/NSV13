@@ -2,6 +2,21 @@
 //Solgov ships go here
 //These need to not be children of nanotrasen come starmap 2
 
+/obj/structure/overmap/nanotrasen/solgov/vnc
+	name = "Von Neumann class patrol frigate"
+	desc = "A long-range SolGov patrol craft, usually found chasing down particuarly nimble pirates."
+	icon = 'nsv13/icons/overmap/new/solgov/destroyer.dmi'
+	icon_state = "destroyer"
+	mass = MASS_SMALL
+	sprite_size = 36
+	damage_states = FALSE
+	bound_width = 64
+	bound_height = 64
+	obj_integrity = 250
+	max_integrity = 250
+	integrity_failure = 250
+	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25)
+
 /obj/structure/overmap/nanotrasen/solgov
 	name = "yangtzee-kiang class light cruiser"
 	desc = "A mid range SolGov patrol craft, usually relegated to anti-piracy operations."
@@ -56,13 +71,13 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 25)
 
-/obj/structure/overmap/nanotrasen/solgov/vnc
+/obj/structure/overmap/nanotrasen/solgov/vnc/starter
 	icon = 'nsv13/icons/overmap/new/solgov/destroyer.dmi'
 	role = MAIN_OVERMAP
-	max_integrity = 500 //you will eat the ROUNDS.
-	integrity_failure = 1300
+	max_integrity = 700 //you will eat the ROUNDS.
+	integrity_failure = 650
 	starting_system = "Staging" //Required for all player ships
-	armor = list("overmap_light" = 99, "overmap_medium" = 20, "overmap_heavy" = 5)
+	armor = list("overmap_light" = 99, "overmap_medium" = 30, "overmap_heavy" = 15)
 
 //AI Versions
 
