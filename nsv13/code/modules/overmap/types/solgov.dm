@@ -56,6 +56,14 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 25)
 
+/obj/structure/overmap/nanotrasen/solgov/vnc
+	icon = 'nsv13/icons/overmap/nanotrasen/aetherwhisp.dmi'
+	role = MAIN_OVERMAP
+	max_integrity = 500 //you will eat the ROUNDS.
+	integrity_failure = 1300
+	starting_system = "Staging" //Required for all player ships
+	armor = list("overmap_light" = 99, "overmap_medium" = 20, "overmap_heavy" = 5)
+
 //AI Versions
 
 /obj/structure/overmap/nanotrasen/solgov/ai
