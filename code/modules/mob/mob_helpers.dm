@@ -467,7 +467,7 @@
 
 ///Is the passed in mob an admin ghost
 /proc/IsAdminGhost(var/mob/user)
-	if(!user)		//Are they a mob? Auto interface updates call this with a null src
+	if(!user || !ismob(user))		//Are they a mob? Auto interface updates call this with a null src //NSV13 - you DO know sending the wrong type is NOT equal to null, RIGHT?
 		return
 	if(!user.client) // Do they have a client?
 		return
