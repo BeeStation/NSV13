@@ -1,20 +1,35 @@
 
 //Solgov ships go here
 //These need to not be children of nanotrasen come starmap 2
-
 /obj/structure/overmap/nanotrasen/solgov/vnc
 	name = "Von Neumann class patrol frigate"
-	desc = "A long-range SolGov patrol craft, usually found chasing down particuarly nimble pirates."
-	icon = 'nsv13/icons/overmap/new/solgov/destroyer.dmi'
-	icon_state = "destroyer"
+	desc = "A long-range SolGov patrol boat, usually used for clearing asteroid fields."
+	icon = 'nsv13/icons/overmap/new/solgov/frigate.dmi'
+	icon_state = "frigate"
 	mass = MASS_SMALL
-	sprite_size = 36
+	sprite_size = 48
 	damage_states = FALSE
-	bound_width = 64
-	bound_height = 64
+	bound_width = 32
+	bound_height = 32
 	obj_integrity = 250
 	max_integrity = 250
 	integrity_failure = 250
+	armor = list("overmap_light" = 90, "overmap_medium" = 20, "overmap_heavy" = 5)
+
+
+/obj/structure/overmap/nanotrasen/solgov/superdestroyer
+	name = "Intrepid class patrol cruiser"
+	desc = "A long-range SolGov patrol craft, usually found chasing down particuarly nimble pirates."
+	icon = 'nsv13/icons/overmap/new/solgov/destroyer.dmi'
+	icon_state = "cruiser"
+	mass = MASS_SMALL
+	sprite_size = 48
+	damage_states = FALSE
+	bound_width = 96
+	bound_height = 96
+	obj_integrity = 350
+	max_integrity = 350
+	integrity_failure = 350
 	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 /obj/structure/overmap/nanotrasen/solgov
@@ -72,7 +87,8 @@
 	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 /obj/structure/overmap/nanotrasen/solgov/vnc/starter
-	icon = 'nsv13/icons/overmap/new/solgov/destroyer.dmi'
+	icon = 'nsv13/icons/overmap/new/solgov/frigate.dmi'
+	icon_state = "frigate"
 	role = MAIN_OVERMAP
 	max_integrity = 700 //you will eat the ROUNDS.
 	integrity_failure = 650
