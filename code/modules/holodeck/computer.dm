@@ -53,11 +53,11 @@ and clear when youre done! if you dont i will use :newspaper2: on you
 	var/area/holodeck/linked
 
 	///what program is loaded right now or is about to be loaded
-	var/program = "offline"
+	var/program = "recreational-offline"
 	var/last_program
 
 	///the default program loaded by this holodeck when spawned and when deactivated
-	var/offline_program = "offline"
+	var/offline_program = "recreational-offline"
 
 	///stores all of the unrestricted holodeck map templates that this computer has access to
 	var/list/program_cache
@@ -65,7 +65,7 @@ and clear when youre done! if you dont i will use :newspaper2: on you
 	var/list/emag_programs
 
 	///subtypes of this (but not this itself) are loadable programs
-	var/program_type = /datum/map_template/holodeck
+	var/program_type = /datum/map_template/holodeck/recreation
 
 	///every holo object created by the holodeck goes in here to track it
 	var/list/spawned = list()
@@ -231,7 +231,7 @@ and clear when youre done! if you dont i will use :newspaper2: on you
 
 	spawned = template.created_atoms //populate the spawned list with the atoms belonging to the holodeck
 
-	if(istype(template, /datum/map_template/holodeck/thunderdome1218) && !SSshuttle.shuttle_purchase_requirements_met[SHUTTLE_UNLOCK_MEDISIM])
+	if(istype(template, /datum/map_template/holodeck/recreation/thunderdome1218) && !SSshuttle.shuttle_purchase_requirements_met[SHUTTLE_UNLOCK_MEDISIM])
 		say("Special note from \"1218 AD\" developer: I see you too are interested in the REAL dark ages of humanity! I've made this program also unlock some interesting shuttle designs on any communication console around. Have fun!")
 		SSshuttle.shuttle_purchase_requirements_met[SHUTTLE_UNLOCK_MEDISIM] = TRUE
 
