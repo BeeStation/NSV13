@@ -17,7 +17,7 @@
 		#include "map_files\Aetherwhisp\Aetherwhisp1.dmm"
 
 		//Von Neumann
-		#include "map_files\Von_Neumann\VNmk3.dmm"
+		#include "map_files\vonneumann\VNmk3.dmm"
 
 		//Gladius
 		#include "map_files\Gladius\Gladius1.dmm"
