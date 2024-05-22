@@ -86,10 +86,12 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	return ..()
 
 /obj/machinery/computer/ship/Destroy()
-	. = ..()
 	for(var/mob/living/M in ui_users)
 		ui_close(M)
 		linked?.stop_piloting(M)
+	linked = null
+	ui_users = null //drop list to the GC
+	return ..()
 
 //Viewscreens for regular crew to watch combat
 /obj/machinery/computer/ship/viewscreen
