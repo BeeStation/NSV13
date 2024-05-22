@@ -618,20 +618,11 @@
 /turf/open/floor/circuit,
 /area/hallway/primary/central)
 "cP" = (
-/obj/machinery/atmospherics/pipe/manifold/purple/visible/layer2{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+	dir = 10
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering)
-"cR" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 5
-	},
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/engineering/reactor_core)
 "cS" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -831,13 +822,6 @@
 /obj/effect/spawner/lootdrop/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/nsv/port_substation)
-"dK" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/dark/visible/layer2,
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/atmos/port_atmos)
 "dM" = (
 /obj/machinery/telecomms/server/presets/engineering,
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple,
@@ -919,7 +903,9 @@
 /turf/open/floor/carpet/ship/blue,
 /area/bridge/cic)
 "eb" = (
-/obj/machinery/atmospherics/pipe/manifold/purple/visible/layer2,
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+	dir = 5
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_core)
 "ec" = (
@@ -1069,9 +1055,17 @@
 /turf/open/floor/engine,
 /area/hallway/primary/port)
 "eD" = (
-/obj/machinery/atmospherics/pipe/simple/dark/visible/layer2,
+/obj/effect/turf_decal/pool{
+	dir = 8
+	},
+/obj/machinery/atmospherics/components/unary/portables_connector/visible{
+	name = "Coolant Input";
+	dir = 4
+	},
+/obj/machinery/portable_atmospherics/canister/constricted_plasma,
+/obj/item/wrench,
 /turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/atmos/port_atmos)
+/area/engine/engineering/reactor_core)
 "eF" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -1534,9 +1528,6 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 10
-	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering)
 "gL" = (
@@ -1587,8 +1578,6 @@
 	name = "Coolant Input";
 	dir = 4
 	},
-/obj/machinery/portable_atmospherics/canister/constricted_plasma,
-/obj/item/wrench,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_core)
 "gT" = (
@@ -2209,8 +2198,8 @@
 	dir = 9
 	},
 /obj/machinery/atmospherics/pipe/simple/general/visible,
-/obj/machinery/atmospherics/components/trinary/mixer/layer2{
-	name = "Fuel Mixer"
+/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer2{
+	dir = 10
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
@@ -2349,7 +2338,9 @@
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
 "kC" = (
-/obj/structure/closet/secure_closet/engineering_welding,
+/obj/effect/turf_decal/pool/corner{
+	dir = 8
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_core)
 "kD" = (
@@ -2415,15 +2406,6 @@
 	name = "nanoweave carpet (bluer)"
 	},
 /area/crew_quarters/heads/captain/private)
-"kW" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 6
-	},
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/engineering/reactor_core)
 "kX" = (
 /obj/effect/landmark/start/atmospheric_technician,
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -2861,6 +2843,7 @@
 /obj/machinery/atmospherics/pipe/simple/brown/visible/layer2{
 	dir = 8
 	},
+/obj/structure/closet/secure_closet/engineering_welding,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering)
 "ni" = (
@@ -2904,12 +2887,7 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering)
 "no" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible{
-	dir = 8
-	},
-/obj/effect/turf_decal/pool{
-	dir = 8
-	},
+/obj/machinery/atmospherics/pipe/manifold4w/scrubbers/visible,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_core)
 "np" = (
@@ -3073,7 +3051,6 @@
 /obj/machinery/atmospherics/pipe/simple/general/visible{
 	dir = 6
 	},
-/obj/machinery/atmospherics/pipe/simple/dark/visible/layer2,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "ok" = (
@@ -3308,15 +3285,6 @@
 /obj/structure/closet/secure_closet/RD,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/crew_quarters/heads/hor)
-"pi" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/dark/visible/layer2{
-	dir = 10
-	},
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/atmos/port_atmos)
 "pj" = (
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
@@ -5044,9 +5012,6 @@
 /area/bridge/cic)
 "wP" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/visible,
-/obj/effect/turf_decal/pool{
-	dir = 8
-	},
 /obj/machinery/atmospherics/components/trinary/filter/atmos/flipped{
 	dir = 1;
 	filter_type = "nucleium"
@@ -5080,13 +5045,10 @@
 /turf/open/space/basic,
 /area/nsv/hanger)
 "wW" = (
-/obj/item/fuel_rod/plutonium,
-/obj/item/fuel_rod/plutonium,
-/obj/effect/overlay/poolwater,
-/obj/structure/closet/crate/radiation{
-	name = "Spare nuclear weapons"
+/obj/effect/turf_decal/pool/corner{
+	dir = 4
 	},
-/turf/open/indestructible/sound/pool/spentfuel,
+/turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_core)
 "wX" = (
 /obj/structure/table/glass/plasma,
@@ -5284,16 +5246,6 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/maintenance/nsv/ftlroom)
-"xI" = (
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 4
-	},
-/obj/machinery/atmospherics/components/binary/pump/layer2{
-	dir = 4;
-	name = "Co2 to Fuel Mix"
-	},
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/atmos/port_atmos)
 "xJ" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -5648,9 +5600,6 @@
 /area/space)
 "ze" = (
 /obj/machinery/atmospherics/pipe/layer_manifold/visible,
-/obj/effect/turf_decal/pool/corner{
-	dir = 4
-	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_core)
 "zh" = (
@@ -7174,11 +7123,6 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
 	},
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor{
-	dir = 1;
-	piping_layer = 2;
-	pixel_x = -5
-	},
 /obj/machinery/atmospherics/pipe/simple/green/visible/layer4{
 	piping_layer = 5;
 	name = "layer5";
@@ -7653,13 +7597,6 @@
 	},
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/bar/mess_hall)
-"HX" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/dark/visible/layer2,
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/atmos/port_atmos)
 "HY" = (
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/crew_quarters/heads/chief)
@@ -8199,10 +8136,10 @@
 /turf/open/floor/engine,
 /area/nsv/hanger)
 "Kb" = (
-/obj/structure/pool_ladder,
-/obj/item/fuel_rod,
-/obj/effect/overlay/poolwater,
-/turf/open/indestructible/sound/pool/spentfuel/wall,
+/obj/effect/turf_decal/pool{
+	dir = 8
+	},
+/turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_core)
 "Kc" = (
 /obj/machinery/atmospherics/miner/nitrogen,
@@ -8336,7 +8273,6 @@
 "KM" = (
 /obj/machinery/atmospherics/pipe/simple/purple/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/general/visible,
-/obj/machinery/atmospherics/pipe/simple/dark/visible/layer2,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "KN" = (
@@ -8413,7 +8349,9 @@
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory)
 "Lh" = (
-/obj/machinery/atmospherics/pipe/manifold/purple/visible/layer2,
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+	dir = 9
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering)
 "Li" = (
@@ -8694,7 +8632,6 @@
 "Mc" = (
 /obj/machinery/atmospherics/components/trinary/mixer/layer4,
 /obj/machinery/atmospherics/pipe/simple/general/visible,
-/obj/machinery/atmospherics/pipe/simple/dark/visible/layer2,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "Md" = (
@@ -9171,10 +9108,11 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/nsv/weapons/port)
 "Oc" = (
-/obj/machinery/atmospherics/components/trinary/mixer,
-/obj/machinery/atmospherics/pipe/simple/dark/visible/layer2,
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/atmos/port_atmos)
+/obj/structure/pool_ladder,
+/obj/item/fuel_rod,
+/obj/effect/overlay/poolwater,
+/turf/open/indestructible/sound/pool/spentfuel,
+/area/engine/engineering/reactor_core)
 "Od" = (
 /obj/machinery/door/poddoor/ship{
 	id = "launch1";
@@ -9384,12 +9322,11 @@
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/lab)
 "OX" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 6
-	},
-/obj/machinery/atmospherics/pipe/simple/dark/visible/layer2,
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/atmos/port_atmos)
+/obj/item/fuel_rod,
+/obj/effect/overlay/poolwater,
+/obj/structure/pool_ladder,
+/turf/open/indestructible/sound/pool/spentfuel/wall,
+/area/engine/engineering/reactor_core)
 "OY" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -10717,11 +10654,6 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor{
-	dir = 1;
-	piping_layer = 2;
-	pixel_x = -5
-	},
 /obj/machinery/atmospherics/pipe/simple/green/visible/layer4{
 	piping_layer = 5;
 	name = "layer5";
@@ -10733,9 +10665,6 @@
 "Vj" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 9
 	},
 /obj/machinery/atmospherics/pipe/simple/green/visible/layer4{
 	piping_layer = 5;
@@ -11190,8 +11119,8 @@
 /turf/open/floor/engine/o2,
 /area/engine/atmos/port_atmos)
 "Xc" = (
-/obj/machinery/atmospherics/pipe/manifold/purple/visible/layer2{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+	dir = 6
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_core)
@@ -23255,16 +23184,16 @@ wf
 Ir
 wg
 wr
-wW
+pu
 An
 Lu
 Lu
 Lu
 Lu
 Lu
-Lu
-Lu
-kC
+IQ
+Oc
+pu
 oO
 aL
 yD
@@ -23465,8 +23394,8 @@ tm
 tm
 oO
 oO
-Lu
-Lu
+pu
+pu
 oO
 ZX
 yD
@@ -23658,7 +23587,7 @@ jp
 JJ
 sf
 IQ
-wr
+OX
 pu
 oO
 xD
@@ -23667,9 +23596,9 @@ eN
 Th
 QE
 oO
-Lu
-Lu
-Lu
+Kb
+Kb
+kC
 sS
 Pq
 HY
@@ -23859,9 +23788,9 @@ OC
 OC
 wf
 sf
-IQ
+wW
 Kb
-pu
+eD
 tm
 FD
 kh
@@ -24667,9 +24596,9 @@ Vt
 Vt
 iu
 gG
-kW
+DZ
 Vh
-cR
+DZ
 Av
 Xh
 sO
@@ -25457,7 +25386,7 @@ yf
 wl
 iB
 EG
-xI
+cq
 yl
 TK
 cq
@@ -25659,14 +25588,14 @@ yf
 wl
 iB
 EG
-pi
-eD
-eD
-dK
-eD
-OX
-Oc
-HX
+oe
+yl
+yl
+oe
+yl
+mD
+Xs
+kp
 oj
 Mc
 KM
