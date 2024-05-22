@@ -17,21 +17,6 @@
 	armor = list("overmap_light" = 90, "overmap_medium" = 20, "overmap_heavy" = 5)
 
 
-/obj/structure/overmap/nanotrasen/solgov/superdestroyer
-	name = "Intrepid class patrol cruiser"
-	desc = "A long-range SolGov patrol craft, usually found chasing down particuarly nimble pirates."
-	icon = 'nsv13/icons/overmap/new/solgov/destroyer.dmi'
-	icon_state = "cruiser"
-	mass = MASS_SMALL
-	sprite_size = 48
-	damage_states = FALSE
-	bound_width = 96
-	bound_height = 96
-	obj_integrity = 350
-	max_integrity = 350
-	integrity_failure = 350
-	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25)
-
 /obj/structure/overmap/nanotrasen/solgov
 	name = "yangtzee-kiang class light cruiser"
 	desc = "A mid range SolGov patrol craft, usually relegated to anti-piracy operations."
@@ -87,9 +72,8 @@
 	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 /obj/structure/overmap/nanotrasen/solgov/vnc/starter
-	icon = 'nsv13/icons/overmap/new/solgov/frigate.dmi'
-	icon_state = "frigate"
 	role = MAIN_OVERMAP
+	obj_integrity = 700
 	max_integrity = 700 //you will eat the ROUNDS.
 	integrity_failure = 650
 	starting_system = "Staging" //Required for all player ships
@@ -109,6 +93,8 @@
 /obj/structure/overmap/nanotrasen/solgov/ai/interdictor
 	name = "Capiens class medium cruiser"
 	desc = "A SolGov pursuit craft, meant for tracking and cornering high value targets."
+	icon = 'nsv13/icons/overmap/new/solgov/destroyer.dmi'
+	icon_state = "cruiser"
 	obj_integrity = 1200
 	max_integrity = 1200
 	integrity_failure = 1200
@@ -134,6 +120,16 @@
 	torpedoes = 0
 	can_resupply = TRUE
 	combat_dice_type = /datum/combat_dice/carrier
+
+
+/obj/structure/overmap/nanotrasen/solgov/vnc/ai
+	ai_controlled = TRUE
+	ai_flags = AI_FLAG_DESTROYER
+	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
+	ai_fighter_type = list(/obj/structure/overmap/nanotrasen/solgov/ai/fighter)
+	torpedoes = 15
+	can_resupply = TRUE
+	combat_dice_type = /datum/combat_dice/frigate
 
 //These little bastards are feckin horrible
 /obj/structure/overmap/nanotrasen/solgov/ai/fighter //need custom AI behaviour to escort bombers if applicable
@@ -178,6 +174,20 @@
 	//The bigger the ship, the tankier the shields....
 	AddComponent(/datum/component/overmap_shields, mass*600, mass*600, mass*15)
 
+/obj/structure/overmap/nanotrasen/solgov/proc/apply_light_ai_weapons()  // this is the von neumann only for now, but maybe....
+	weapon_types[ FIRE_MODE_RED_LASER ] = new /datum/ship_weapon/burst_phaser( src )
+	weapon_types[ FIRE_MODE_LASER_PD ] = new /datum/ship_weapon/phaser_pd( src )
+	weapon_types[ FIRE_MODE_AMS_LASER ] = new /datum/ship_weapon/laser_ams( src )
+	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)  // Full spread, fire
+
+	// Need to enable the AI ship's countermeasures mode so they can actually use laser ams
+	for( var/datum/ams_mode/atype in src.ams_modes )
+		// if ( istype( atype, /datum/ams_mode/countermeasures ) )
+		atype.enabled = TRUE
+
+	//The bigger the ship, the tankier the shields....
+	AddComponent(/datum/component/overmap_shields, mass*600, mass*600, mass*15)
+
 /obj/structure/overmap/nanotrasen/solgov/apply_weapons()
 	// Solgov do not need Nanotrasen weapons registered on roundstart. This bloats the ship's weapon_types and makes cycling via spacebar take much longer
 	// . = ..()
@@ -185,6 +195,9 @@
 
 /obj/structure/overmap/nanotrasen/solgov/carrier/ai/apply_weapons() // Kmc why didn't you use /solgov/ai for your ship childtypes
 	apply_medium_ai_weapons()
+
+/obj/structure/overmap/nanotrasen/solgov/vnc/ai/apply_weapons()
+	apply_light_ai_weapons()
 
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp/ai/apply_weapons()
 	apply_medium_ai_weapons()
