@@ -111,6 +111,17 @@ Place a pool filter somewhere in the pool if you want people to be able to modif
 	mood_change = -4
 	timeout = 4 MINUTES
 
+/turf/open/indestructible/sound/pool/attackby(obj/item/W, mob/user, params)
+	. = ..()
+	if(istype(W, /obj/item/stack/rods) && user.loc == get_step(src, NORTH) && !istype(user.loc, /turf/open/indestructible/sound/pool/))
+		var/obj/item/stack/rods/R = W //^ Only build pool ladders from the shore (north, because the ladder can't rotate)
+		if(R.tool_use_check(user,10))
+			to_chat(user, "<span class ='notice'>You start installing a pool ladder.</span>")
+			if(do_after(user, 5 SECONDS, target=src))
+				R.use(10)
+				new /obj/structure/pool_ladder(src)
+				return TRUE
+
 /turf/open/indestructible/sound/pool/proc/splash(mob/user)
 	user.forceMove(src)
 	playsound(src, 'sound/effects/splosh.ogg', 100, 1) //Credit to hippiestation for this sound file!
@@ -179,7 +190,39 @@ Place a pool filter somewhere in the pool if you want people to be able to modif
 	desc = "Click this to get out of a pool quickly."
 	icon = 'icons/obj/pool.dmi'
 	icon_state = "ladder"
+	anchored = TRUE
 	pixel_y = 12
+
+/obj/structure/pool_ladder/wrench_act(mob/living/user, obj/item/I)
+	to_chat(user, "<span class='notice'>You start disassembling [src].</span>")
+	if(I.use_tool(src, user, 5 SECONDS))
+		deconstruct()
+
+/obj/structure/pool_ladder/deconstruct(disassembled = TRUE)
+	new /obj/item/stack/rods/ten(get_turf(src))
+	..()
+
+/obj/structure/pool_ladder/attack_hand(mob/user)
+	var/datum/component/swimming/S = user.GetComponent(/datum/component/swimming)
+	if(S)
+		to_chat(user, "<span class='notice'>You start to climb out of the pool...</span>")
+		if(do_after(user, 1 SECONDS, target=src))
+			S.RemoveComponent()
+			visible_message("<span class='notice'>[user] climbs out of the pool.</span>")
+			user.forceMove(get_turf(get_step(src, NORTH))) //Ladders shouldn't adjoin another pool section. Ever.
+	else
+		to_chat(user, "<span class='notice'>You start to climb into the pool...</span>")
+		var/turf/T = get_turf(src)
+		if(do_after(user, 1 SECONDS, target=src))
+			if(!istype(T, /turf/open/indestructible/sound/pool)) //Ugh, fine. Whatever.
+				user.forceMove(get_turf(src))
+			else
+				var/turf/open/indestructible/sound/pool/P = T
+				P.splash(user)
+
+/obj/structure/pool_ladder/attack_robot(mob/user)
+	. = ..()
+	attack_hand(user)
 
 GLOBAL_LIST_EMPTY(pool_filters)
 
@@ -272,25 +315,3 @@ GLOBAL_LIST_EMPTY(pool_filters)
 						C.adjust_bodytemperature(35, 0, 500)
 					M.adjustFireLoss(2.5 * delta_time)
 					to_chat(M, "<span class='danger'>The water is searing hot!</span>")
-
-/obj/structure/pool_ladder/attack_hand(mob/user)
-	var/datum/component/swimming/S = user.GetComponent(/datum/component/swimming)
-	if(S)
-		to_chat(user, "<span class='notice'>You start to climb out of the pool...</span>")
-		if(do_after(user, 1 SECONDS, target=src))
-			S.RemoveComponent()
-			visible_message("<span class='notice'>[user] climbs out of the pool.</span>")
-			user.forceMove(get_turf(get_step(src, NORTH))) //Ladders shouldn't adjoin another pool section. Ever.
-	else
-		to_chat(user, "<span class='notice'>You start to climb into the pool...</span>")
-		var/turf/T = get_turf(src)
-		if(do_after(user, 1 SECONDS, target=src))
-			if(!istype(T, /turf/open/indestructible/sound/pool)) //Ugh, fine. Whatever.
-				user.forceMove(get_turf(src))
-			else
-				var/turf/open/indestructible/sound/pool/P = T
-				P.splash(user)
-
-/obj/structure/pool_ladder/attack_robot(mob/user)
-	. = ..()
-	attack_hand(user)
