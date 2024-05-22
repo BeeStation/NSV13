@@ -118,6 +118,7 @@ GLOBAL_LIST_INIT(metal_recipes, list ( \
 	new/datum/stack_recipe("fire alarm frame",							/obj/item/wallframe/firealarm, 2), \
 	new/datum/stack_recipe("extinguisher cabinet frame",				/obj/item/wallframe/extinguisher_cabinet, 2), \
 	new/datum/stack_recipe("button frame",								/obj/item/wallframe/button, 1), \
+	new/datum/stack_recipe("prisoner interface frame", 					/obj/item/wallframe/genpop_interface, 5), \
 	null, \
 	new/datum/stack_recipe("iron door",									/obj/structure/mineral_door/iron, 20, one_per_turf = TRUE, on_floor = TRUE), \
 	new/datum/stack_recipe("floodlight frame",							/obj/structure/floodlight_frame, 5, one_per_turf = TRUE, on_floor = TRUE), \
@@ -364,6 +365,9 @@ GLOBAL_LIST_INIT(cloth_recipes, list ( \
 	new/datum/stack_recipe("19x19 canvas",							/obj/item/canvas/nineteen_nineteen, 3), \
 	new/datum/stack_recipe("23x19 canvas",							/obj/item/canvas/twentythree_nineteen, 4), \
 	new/datum/stack_recipe("23x23 canvas",							/obj/item/canvas/twentythree_twentythree, 5), \
+	null, \
+	new/datum/stack_recipe("plush fabric",							/obj/item/toy/empty_plush, 5, time = 4 SECONDS), \
+	null, \
 	))
 
 /obj/item/stack/sheet/cotton/cloth
