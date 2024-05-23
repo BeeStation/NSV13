@@ -279,13 +279,9 @@
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
 "aD" = (
-/obj/effect/landmark/latejoin,
-/obj/structure/sign/solgov_flag{
-	dir = 4;
-	pixel_x = -32
-	},
-/turf/open/floor/carpet/ship/blue,
-/area/crew_quarters/cryopods)
+/obj/machinery/suit_storage_unit/engine,
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/engine/engineering)
 "aE" = (
 /obj/effect/mapping_helpers/airlock/unres,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
@@ -867,27 +863,13 @@
 /turf/open/floor/engine,
 /area/engine/armour_pump)
 "bP" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "2-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
+/obj/effect/landmark/latejoin,
 /obj/structure/sign/solgov_flag/right{
-	layer = 2.79;
-	pixel_y = 26
+	dir = 4;
+	pixel_x = -32
 	},
-/turf/open/floor/carpet/ship/beige_carpet{
-	color = "#CC8899";
-	name = "nanoweave carpet (puce)"
-	},
-/area/nsv/weapons/fore)
+/turf/open/floor/carpet/ship/blue,
+/area/crew_quarters/cryopods)
 "bQ" = (
 /obj/machinery/suit_storage_unit/engine,
 /obj/structure/cable/yellow{
@@ -1034,6 +1016,10 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/maintenance/nsv/ftlroom)
+"cm" = (
+/obj/structure/sign/solgov_flag,
+/turf/closed/wall/r_wall/ship,
+/area/engine/armour_pump)
 "cn" = (
 /obj/structure/sign/warning/radiation,
 /turf/closed/wall/r_wall/ship,
@@ -1111,7 +1097,6 @@
 /turf/open/floor/durasteel/techfloor_grid,
 /area/engine/gravity_generator)
 "cx" = (
-/turf/open/space/basic,
 /turf/closed/wall/r_wall/ship,
 /area/engine/atmos/port_atmos)
 "cy" = (
@@ -3623,9 +3608,22 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "iv" = (
-/obj/structure/sign/solgov_flag,
-/turf/closed/wall/ship,
-/area/hallway/upper/primary/port)
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("munitions","service");
+	name = "Bridge patrol node";
+	id = "bridge"
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/nsv/deck1/frame1/central)
 "iw" = (
 /obj/machinery/computer/squad_manager,
 /obj/item/paper{
@@ -3832,15 +3830,6 @@
 	},
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
-	},
-/obj/structure/closet/crate/engineering,
-/obj/item/stack/sheet/plasteel/fifty,
-/obj/item/stack/sheet/glass/fifty,
-/obj/item/stack/sheet/glass/fifty,
-/obj/item/stack/sheet/iron/fifty,
-/obj/item/stack/sheet/iron/fifty,
-/obj/item/stack/sheet/rglass{
-	amount = 50
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
@@ -5665,6 +5654,10 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
+"nt" = (
+/obj/structure/closet/crate/engineering/electrical,
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/engine/engineering)
 "nu" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -6000,10 +5993,6 @@
 	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/nsv/weapons/port)
-"or" = (
-/obj/structure/sign/solgov_flag/right,
-/turf/closed/wall/r_wall/ship,
-/area/engine/armour_pump)
 "os" = (
 /obj/machinery/light{
 	dir = 1
@@ -6448,6 +6437,10 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
+"pr" = (
+/obj/structure/sign/solgov_flag/right,
+/turf/closed/wall/r_wall/ship,
+/area/nsv/hanger)
 "ps" = (
 /obj/machinery/chem_dispenser,
 /obj/effect/turf_decal/tile/yellow/flat_side{
@@ -7593,10 +7586,6 @@
 "so" = (
 /turf/open/floor/durasteel/techfloor_grid,
 /area/science/xenobiology)
-"sp" = (
-/obj/structure/sign/solgov_flag,
-/turf/closed/wall/r_wall/ship,
-/area/engine/armour_pump)
 "sq" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -8052,7 +8041,6 @@
 /turf/open/floor/carpet/ship,
 /area/tcommsat/computer)
 "tw" = (
-/obj/structure/lattice,
 /turf/closed/wall/r_wall/ship,
 /area/space/nearstation)
 "tx" = (
@@ -8136,6 +8124,28 @@
 /obj/structure/closet/crate,
 /turf/open/floor/plating,
 /area/maintenance/aft)
+"tI" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/structure/sign/solgov_flag/right{
+	layer = 2.79;
+	pixel_y = 26
+	},
+/turf/open/floor/carpet/ship/beige_carpet{
+	color = "#CC8899";
+	name = "nanoweave carpet (puce)"
+	},
+/area/nsv/weapons/fore)
 "tJ" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 1
@@ -8233,9 +8243,9 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard)
 "tS" = (
-/obj/structure/closet/crate/engineering/electrical,
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/engineering/reactor_control)
+/obj/item/banner/solgov,
+/turf/open/floor/circuit,
+/area/hallway/nsv/deck1/frame1/central)
 "tT" = (
 /turf/closed/wall/ship,
 /area/tcommsat/computer)
@@ -10444,7 +10454,6 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/maintenance/nsv/ftlroom)
 "yU" = (
-/turf/open/space/basic,
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/aft)
 "yV" = (
@@ -11447,7 +11456,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 1
 	},
-/obj/structure/closet/crate/engineering/electrical,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -11977,6 +11985,14 @@
 	name = "nanoweave carpet (bluer)"
 	},
 /area/crew_quarters/heads/xo)
+"CB" = (
+/obj/effect/landmark/latejoin,
+/obj/structure/sign/solgov_flag{
+	dir = 4;
+	pixel_x = -32
+	},
+/turf/open/floor/carpet/ship/blue,
+/area/crew_quarters/cryopods)
 "CC" = (
 /obj/machinery/light/small,
 /obj/machinery/vending/wardrobe/jani_wardrobe,
@@ -12153,7 +12169,6 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/suit_storage_unit/engine,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
 "CZ" = (
@@ -12189,6 +12204,18 @@
 /obj/machinery/status_display/ai,
 /turf/closed/wall/r_wall/ship,
 /area/engine/engineering/reactor_core)
+"De" = (
+/obj/structure/closet/crate/engineering,
+/obj/item/stack/sheet/rglass{
+	amount = 50
+	},
+/obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/iron/fifty,
+/obj/item/stack/sheet/glass/fifty,
+/obj/item/stack/sheet/glass/fifty,
+/obj/item/stack/sheet/plasteel/fifty,
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/engine/engineering)
 "Df" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -13360,10 +13387,6 @@
 /obj/machinery/replicator,
 /turf/closed/wall/ship,
 /area/nsv/hanger)
-"FP" = (
-/obj/structure/sign/solgov_flag/right,
-/turf/closed/wall/ship,
-/area/hallway/upper/primary/port)
 "FQ" = (
 /obj/structure/sign/solgov_seal{
 	pixel_y = 26
@@ -13526,6 +13549,17 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat/hallway)
+"Gj" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/effect/landmark/patrol_node{
+	name = "Munitions patrol node";
+	id = munitions;
+	next_id = list("bridge",cargo")
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/upper/primary/starboard)
 "Gk" = (
 /obj/structure/extinguisher_cabinet/south,
 /turf/open/floor/durasteel/techfloor_grid,
@@ -13994,10 +14028,6 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/aft/secondary)
-"Hp" = (
-/obj/structure/sign/solgov_flag,
-/turf/closed/wall/r_wall/ship,
-/area/nsv/hanger)
 "Hq" = (
 /obj/machinery/requests_console,
 /turf/closed/wall/r_wall/ship,
@@ -14081,6 +14111,14 @@
 /obj/structure/hull_plate/end,
 /turf/open/space/basic,
 /area/space/nearstation)
+"Hz" = (
+/obj/effect/landmark/patrol_node{
+	name = "Evac patrol node";
+	id = evac;
+	next_id = list("science","engineering","cargo")
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/secondary/exit/departure_lounge)
 "HA" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable{
@@ -15317,12 +15355,9 @@
 /turf/closed/wall/r_wall/ship,
 /area/tcommsat/computer)
 "KE" = (
-/obj/machinery/suit_storage_unit/engine,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/engineering/reactor_control)
+/obj/structure/sign/solgov_flag/right,
+/turf/closed/wall/ship,
+/area/hallway/upper/primary/port)
 "KF" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 6
@@ -15473,6 +15508,10 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
 /turf/open/floor/carpet/ship,
 /area/ai_monitored/turret_protected/aisat/hallway)
+"KZ" = (
+/obj/structure/sign/solgov_flag/right,
+/turf/closed/wall/r_wall/ship,
+/area/engine/armour_pump)
 "La" = (
 /obj/structure/table/reinforced,
 /obj/machinery/reagentgrinder{
@@ -15552,22 +15591,9 @@
 /turf/open/floor/plating,
 /area/maintenance/aft)
 "Ll" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
-/obj/effect/landmark/patrol_node{
-	next_id = list("munitions","service");
-	name = "Bridge patrol node";
-	id = "bridge"
-	},
-/turf/open/floor/carpet/ship,
-/area/hallway/nsv/deck1/frame1/central)
+/obj/structure/sign/solgov_flag,
+/turf/closed/wall/ship,
+/area/hallway/upper/primary/port)
 "Lm" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -16719,23 +16745,6 @@
 	},
 /turf/open/floor/circuit,
 /area/bridge/cic)
-"NT" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
-/obj/effect/landmark/patrol_node{
-	next_id = list("science","engineering","evac","munitions");
-	name = "Cargo patrol node";
-	id = "cargo"
-	},
-/turf/open/floor/carpet/ship,
-/area/hallway/nsv/deck1/frame2/starboard)
 "NU" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple{
 	dir = 5
@@ -16809,6 +16818,11 @@
 	name = "Engineering Storage";
 	req_one_access_txt = "11;24"
 	},
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering)
 "Of" = (
@@ -17966,12 +17980,14 @@
 /area/hallway/primary/starboard)
 "QH" = (
 /obj/machinery/door/airlock/ship/engineering/glass,
-/obj/machinery/door/airlock/ship/engineering/glass,
-/obj/machinery/door/airlock/ship/engineering/glass,
-/obj/machinery/door/airlock/ship/engineering/glass,
 /obj/effect/mapping_helpers/airlock/unres{
 	dir = 1
 	},
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/machinery/door/firedoor/border_only,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering)
 "QI" = (
@@ -18162,9 +18178,22 @@
 	},
 /area/nsv/weapons/fore)
 "Ri" = (
-/obj/structure/sign/solgov_seal,
-/turf/closed/wall/r_wall/ship,
-/area/crew_quarters/heads/captain/private)
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/effect/landmark/patrol_node{
+	next_id = list("science","engineering","evac","munitions");
+	name = "Cargo patrol node";
+	id = "cargo"
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/nsv/deck1/frame2/starboard)
 "Rj" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -18207,9 +18236,9 @@
 /turf/open/floor/engine/vacuum,
 /area/engine/atmos/port_atmos)
 "Rp" = (
-/obj/item/banner/solgov,
-/turf/open/floor/circuit,
-/area/hallway/nsv/deck1/frame1/central)
+/obj/structure/sign/solgov_flag,
+/turf/closed/wall/r_wall/ship,
+/area/nsv/hanger)
 "Rq" = (
 /obj/machinery/processor/slime,
 /obj/structure/cable/yellow{
@@ -19130,17 +19159,6 @@
 "Tt" = (
 /turf/closed/wall/r_wall/ship,
 /area/cargo/lobby)
-"Tu" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/effect/landmark/patrol_node{
-	name = "Munitions patrol node";
-	id = munitions;
-	next_id = list("bridge",cargo")
-	},
-/turf/open/floor/carpet/ship,
-/area/hallway/upper/primary/starboard)
 "Tv" = (
 /obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
@@ -19879,10 +19897,6 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/starboard)
-"Vl" = (
-/obj/structure/sign/solgov_flag/right,
-/turf/closed/wall/r_wall/ship,
-/area/nsv/hanger)
 "Vm" = (
 /obj/machinery/door/airlock/ship/security/glass,
 /obj/structure/cable{
@@ -20057,14 +20071,6 @@
 	},
 /turf/open/floor/durasteel/techfloor_grid,
 /area/science/xenobiology)
-"VC" = (
-/obj/effect/landmark/latejoin,
-/obj/structure/sign/solgov_flag/right{
-	dir = 4;
-	pixel_x = -32
-	},
-/turf/open/floor/carpet/ship/blue,
-/area/crew_quarters/cryopods)
 "VD" = (
 /obj/machinery/holopad,
 /turf/open/floor/plasteel,
@@ -20535,14 +20541,6 @@
 /obj/machinery/camera/autoname,
 /turf/open/space/basic,
 /area/space/nearstation)
-"WI" = (
-/obj/effect/landmark/patrol_node{
-	name = "Evac patrol node";
-	id = evac;
-	next_id = list("science","engineering","cargo")
-	},
-/turf/open/floor/carpet/ship,
-/area/hallway/secondary/exit/departure_lounge)
 "WJ" = (
 /obj/machinery/atmospherics/components/trinary/mixer,
 /obj/machinery/atmospherics/pipe/simple/green/visible/layer4,
@@ -21779,6 +21777,10 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/engine,
 /area/maintenance/nsv/bunker)
+"ZB" = (
+/obj/structure/sign/solgov_seal,
+/turf/closed/wall/r_wall/ship,
+/area/crew_quarters/heads/captain/private)
 "ZC" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -33847,7 +33849,7 @@ fM
 XA
 AN
 jp
-KE
+to
 vO
 we
 yV
@@ -34464,7 +34466,7 @@ NH
 Zb
 Mq
 tm
-tS
+kn
 mO
 kn
 ll
@@ -35676,9 +35678,9 @@ Xu
 bQ
 Dv
 Cs
-xl
-xl
-xl
+nt
+aD
+De
 xl
 xl
 xl
@@ -36080,8 +36082,8 @@ Dv
 QW
 Dv
 Cs
-xl
-xl
+nt
+aD
 xl
 xl
 xl
@@ -36477,7 +36479,7 @@ Mu
 BL
 kJ
 RR
-sp
+cm
 pp
 IN
 IN
@@ -36679,7 +36681,7 @@ tg
 Yj
 hD
 rX
-or
+KZ
 IN
 Qq
 IN
@@ -38514,8 +38516,8 @@ Tx
 Vk
 hi
 mK
-VC
-aD
+bP
+CB
 Xx
 Wt
 Vy
@@ -41144,7 +41146,7 @@ yW
 vz
 ez
 ip
-WI
+Hz
 vo
 rA
 xk
@@ -44367,7 +44369,7 @@ wz
 yz
 wz
 fF
-NT
+Ri
 oA
 fc
 VL
@@ -45968,7 +45970,7 @@ IH
 qR
 qb
 Nv
-iv
+Ll
 SU
 ec
 dx
@@ -46170,7 +46172,7 @@ IH
 CJ
 cT
 Gd
-FP
+KE
 MX
 pS
 dx
@@ -49015,7 +49017,7 @@ PB
 yP
 gW
 Nm
-Tu
+Gj
 BF
 uc
 Ry
@@ -49205,11 +49207,11 @@ cO
 Go
 uq
 Rn
-Rp
+tS
 cO
 ZN
 cO
-Rp
+tS
 Rn
 uq
 Go
@@ -49591,7 +49593,7 @@ CK
 Yy
 cK
 PP
-Hp
+Rp
 hI
 hI
 cc
@@ -49611,7 +49613,7 @@ jw
 xa
 nP
 JC
-Ll
+iv
 cO
 aY
 VO
@@ -49793,7 +49795,7 @@ CK
 Yy
 cK
 PP
-Vl
+pr
 hI
 hI
 hI
@@ -50208,7 +50210,7 @@ hI
 hI
 PP
 nP
-Ri
+ZB
 Bu
 zK
 WK
@@ -51846,7 +51848,7 @@ Vd
 Vd
 ae
 ae
-bP
+tI
 Ac
 yj
 WU
