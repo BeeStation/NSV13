@@ -187,9 +187,9 @@
 
 /obj/structure/overmap/nanotrasen/frigate/starter //Currently assigned to Jeppison and Atlas
 	role = MAIN_OVERMAP
-	obj_integrity = 700
-	max_integrity = 700 
-	integrity_failure = 700
+	obj_integrity = 800
+	max_integrity = 800 
+	integrity_failure = 800
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
