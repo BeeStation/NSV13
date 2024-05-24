@@ -9,7 +9,7 @@ Place a pool filter somewhere in the pool if you want people to be able to modif
 */
 
 /obj/effect/overlay/poolwater
-	name = "Pool water"
+	name = "pool water"
 	icon = 'icons/obj/pool.dmi'
 	icon_state = "water"
 	anchored = TRUE
@@ -17,7 +17,7 @@ Place a pool filter somewhere in the pool if you want people to be able to modif
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 
 /turf/open/indestructible/sound/pool
-	name = "Swimming pool"
+	name = "swimming pool"
 	desc = "A fun place where you go to swim! <b>Drag and drop yourself onto it to climb in...</b>"
 	icon = 'icons/obj/pool.dmi'
 	icon_state = "pool"
@@ -112,15 +112,20 @@ Place a pool filter somewhere in the pool if you want people to be able to modif
 	timeout = 4 MINUTES
 
 /turf/open/indestructible/sound/pool/attackby(obj/item/W, mob/user, params)
-	. = ..()
-	if(istype(W, /obj/item/stack/rods) && user.loc == get_step(src, NORTH) && !istype(user.loc, /turf/open/indestructible/sound/pool/))
-		var/obj/item/stack/rods/R = W //^ Only build pool ladders from the shore (north, because the ladder can't rotate)
-		if(R.tool_use_check(user,10))
-			to_chat(user, "<span class ='notice'>You start installing a pool ladder.</span>")
-			if(do_after(user, 5 SECONDS, target=src))
-				R.use(10)
-				new /obj/structure/pool_ladder(src)
-				return TRUE
+	if(..())
+		return
+	if(!istype(W, /obj/item/stack/rods))
+		return
+	if(locate(/obj/structure/pool_ladder) in src)
+		return
+	if(!W.tool_use_check(user,10))
+		return
+	if(!istype(get_step(src,NORTH), /turf/open/indestructible/sound/pool)) //Ladders only face up, and no stacking!
+		balloon_alert(user, "You start installing a pool ladder...")
+		if(do_after(user, 5 SECONDS, target=src))
+			W.use(10)
+			new /obj/structure/pool_ladder(src)
+			return TRUE
 
 /turf/open/indestructible/sound/pool/proc/splash(mob/user)
 	user.forceMove(src)
@@ -173,7 +178,7 @@ Place a pool filter somewhere in the pool if you want people to be able to modif
 		return TRUE
 
 /obj/effect/turf_decal/pool
-	name = "Pool siding"
+	name = "pool siding"
 	icon = 'icons/obj/pool.dmi'
 	icon_state = "poolborder"
 
@@ -186,15 +191,19 @@ Place a pool filter somewhere in the pool if you want people to be able to modif
 //Pool machinery
 
 /obj/structure/pool_ladder
-	name = "Pool ladder"
-	desc = "Click this to get out of a pool quickly."
+	name = "pool ladder"
+	desc = "A faster and safer way to leave the pool."
 	icon = 'icons/obj/pool.dmi'
 	icon_state = "ladder"
 	anchored = TRUE
 	pixel_y = 12
 
+/obj/structure/pool_ladder/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>There are <b>bolts</b> securing it to the side of the pool.</span>"
+
 /obj/structure/pool_ladder/wrench_act(mob/living/user, obj/item/I)
-	to_chat(user, "<span class='notice'>You start disassembling [src].</span>")
+	balloon_alert(user, "You start disassembling [src].")
 	if(I.use_tool(src, user, 5 SECONDS))
 		deconstruct()
 
@@ -227,7 +236,7 @@ Place a pool filter somewhere in the pool if you want people to be able to modif
 GLOBAL_LIST_EMPTY(pool_filters)
 
 /obj/machinery/pool_filter
-	name = "Pool filter"
+	name = "pool filter"
 	desc = "A device which can help you regulate conditions in a pool. Use a <b>wrench</b> to change its operating temperature, or hit it with a reagent container to load in new liquid to add to the pool."
 	icon = 'icons/obj/pool.dmi'
 	icon_state = "poolfilter"
