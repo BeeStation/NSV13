@@ -13,7 +13,6 @@
 	bound_height = 32
 	obj_integrity = 250
 	max_integrity = 250
-	integrity_failure = 250
 	armor = list("overmap_light" = 90, "overmap_medium" = 20, "overmap_heavy" = 5)
 
 
@@ -73,11 +72,10 @@
 
 /obj/structure/overmap/nanotrasen/solgov/vnc/starter
 	role = MAIN_OVERMAP
-	obj_integrity = 700
-	max_integrity = 700 //you will eat the ROUNDS.
-	integrity_failure = 650
+	obj_integrity = 500
+	max_integrity = 500//you will eat the ROUNDS.
 	starting_system = "Staging" //Required for all player ships
-	armor = list("overmap_light" = 99, "overmap_medium" = 30, "overmap_heavy" = 15)
+	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 //AI Versions
 

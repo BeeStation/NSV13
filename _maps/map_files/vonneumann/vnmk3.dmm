@@ -483,6 +483,14 @@
 	name = "nanoweave carpet (bluer)"
 	},
 /area/crew_quarters/heads/xo)
+"aZ" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/effect/landmark/event_spawn,
+/turf/open/floor/carpet/ship/blue,
+/area/hallway/secondary/command)
 "ba" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -1512,6 +1520,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/engine,
 /area/maintenance/nsv/bunker)
 "dx" = (
@@ -2058,6 +2067,12 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/turretid{
+	control_area = "/area/ai_monitored/turret_protected/ai_upload";
+	icon_state = "control_stun";
+	name = "upload turret control panel";
+	pixel_x = -26
+	},
 /turf/open/floor/carpet/ship/blue,
 /area/hallway/secondary/command)
 "eK" = (
@@ -2532,12 +2547,9 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
 "fP" = (
-/obj/machinery/turretid{
-	pixel_y = -3;
-	pixel_x = -33
-	},
-/turf/closed/wall/r_wall/ship,
-/area/hallway/secondary/command)
+/obj/effect/landmark/event_spawn,
+/turf/open/floor/carpet/ship,
+/area/ai_monitored/storage/eva)
 "fQ" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -3180,6 +3192,9 @@
 "hq" = (
 /obj/machinery/porta_turret/ai,
 /obj/machinery/camera/motion,
+/obj/machinery/turretid{
+	pixel_y = 32
+	},
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/ai_upload)
 "hr" = (
@@ -3311,6 +3326,7 @@
 /area/engine/atmos/port_atmos)
 "hK" = (
 /obj/machinery/holopad,
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/durasteel/techfloor_grid,
 /area/science/robotics)
 "hL" = (
@@ -3389,6 +3405,10 @@
 	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/crew_quarters/heads/hor)
+"hU" = (
+/obj/effect/landmark/event_spawn,
+/turf/open/floor/carpet/ship,
+/area/hydroponics)
 "hV" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -5640,6 +5660,10 @@
 	name = "nanoweave carpet (puce)"
 	},
 /area/nsv/weapons/fore)
+"nv" = (
+/obj/effect/landmark/event_spawn,
+/turf/open/floor/plating,
+/area/maintenance/central)
 "nw" = (
 /turf/closed/wall/r_wall/ship,
 /area/crew_quarters/heads/hos)
@@ -6862,6 +6886,7 @@
 	icon_state = "2-4"
 	},
 /obj/effect/landmark/start/chief_medical_officer,
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/monotile/light,
 /area/crew_quarters/heads/cmo)
 "qz" = (
@@ -7045,6 +7070,7 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer2,
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science)
 "qX" = (
@@ -7966,6 +7992,10 @@
 	name = "nanoweave carpet (puce)"
 	},
 /area/nsv/weapons/fore)
+"tq" = (
+/obj/effect/landmark/event_spawn,
+/turf/open/floor/carpet/ship/beige_carpet,
+/area/nsv/weapons/port)
 "tt" = (
 /obj/machinery/light{
 	dir = 4
@@ -8316,6 +8346,7 @@
 	icon_state = "4-8"
 	},
 /obj/item/beacon,
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
 "uh" = (
@@ -9752,6 +9783,7 @@
 "xv" = (
 /obj/effect/landmark/start/detective,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/carpet/ship,
 /area/security)
 "xw" = (
@@ -10478,6 +10510,7 @@
 /turf/open/floor/carpet/ship,
 /area/hydroponics)
 "zd" = (
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/engine,
 /area/maintenance/nsv/bunker)
 "ze" = (
@@ -10489,6 +10522,7 @@
 /area/engine/engineering/reactor_control)
 "zg" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/plasteel,
 /area/crew_quarters/toilet/restrooms)
 "zh" = (
@@ -11021,6 +11055,18 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
+"Ao" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 1
+	},
+/obj/effect/landmark/start/research_director,
+/obj/effect/landmark/event_spawn,
+/turf/open/floor/carpet/ship/purple_carpet,
+/area/crew_quarters/heads/hor)
 "Ap" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -11588,6 +11634,7 @@
 	name = "Atmos patrol node";
 	id = "atmos"
 	},
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/port)
 "BI" = (
@@ -12376,6 +12423,10 @@
 /obj/machinery/requests_console,
 /turf/closed/wall/r_wall/ship,
 /area/crew_quarters/cryopods)
+"DD" = (
+/obj/effect/landmark/event_spawn,
+/turf/open/floor/carpet/ship,
+/area/hallway/secondary/exit/departure_lounge)
 "DE" = (
 /obj/machinery/squad_vendor,
 /turf/closed/wall/r_wall/ship,
@@ -13016,6 +13067,7 @@
 	name = "Science patrol node";
 	id = "science"
 	},
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/plasteel,
 /area/science/lobby)
 "Ff" = (
@@ -13080,6 +13132,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 6
 	},
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -13349,6 +13402,11 @@
 /obj/machinery/replicator,
 /turf/closed/wall/ship,
 /area/nsv/hanger)
+"FP" = (
+/obj/effect/landmark/start/head_of_security,
+/obj/effect/landmark/event_spawn,
+/turf/open/floor/carpet/ship/red_carpet,
+/area/crew_quarters/heads/hos)
 "FQ" = (
 /obj/structure/sign/solgov_seal{
 	pixel_y = 26
@@ -14159,6 +14217,10 @@
 	},
 /turf/open/floor/engine,
 /area/engine/armour_pump)
+"HM" = (
+/obj/effect/landmark/event_spawn,
+/turf/open/floor/engine,
+/area/nsv/hanger)
 "HN" = (
 /obj/machinery/atmospherics/components/trinary/filter/flipped/on/layer4{
 	filter_type = "n2o"
@@ -14577,6 +14639,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/engine,
 /area/nsv/hanger)
 "IT" = (
@@ -16221,9 +16284,6 @@
 	},
 /area/nsv/weapons)
 "MU" = (
-/obj/machinery/turretid{
-	pixel_y = -32
-	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 8
 	},
@@ -16945,7 +17005,10 @@
 /area/cargo/lobby)
 "Ox" = (
 /obj/machinery/porta_turret/ai,
-/obj/machinery/power/apc/auto_name/east,
+/obj/machinery/power/apc/auto_name/east{
+	pixel_x = 20;
+	pixel_y = -2
+	},
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
@@ -19072,6 +19135,7 @@
 /area/ai_monitored/turret_protected/ai_upload)
 "Tn" = (
 /obj/machinery/computer/camera_advanced/xenobio,
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/durasteel/techfloor_grid,
 /area/science/xenobiology)
 "To" = (
@@ -19096,6 +19160,7 @@
 /area/science/lab)
 "Tq" = (
 /obj/machinery/holopad,
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/lab)
 "Tr" = (
@@ -20510,6 +20575,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/holopad,
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -20700,6 +20766,7 @@
 /obj/structure/chair{
 	dir = 1
 	},
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/engine,
 /area/maintenance/nsv/bunker)
 "Xe" = (
@@ -20817,6 +20884,7 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/carpet/ship,
 /area/ai_monitored/turret_protected/ai_upload_foyer)
 "Xt" = (
@@ -20970,6 +21038,10 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/maintenance/nsv/ftlroom)
+"XK" = (
+/obj/effect/landmark/event_spawn,
+/turf/open/floor/carpet/ship/red_carpet,
+/area/ai_monitored/security/armory)
 "XL" = (
 /obj/machinery/door/airlock/ship/maintenance,
 /turf/open/floor/plating,
@@ -21877,6 +21949,7 @@
 	dir = 8
 	},
 /obj/effect/spawner/xmastree,
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/carpet/ship,
 /area/hallway/nsv/deck1/frame1/central)
 "ZO" = (
@@ -33994,11 +34067,11 @@ yU
 lW
 Bs
 WZ
-fP
+WZ
 TP
 PO
 eJ
-eJ
+aZ
 wq
 KC
 jY
@@ -36459,7 +36532,7 @@ Ai
 aX
 aX
 aX
-aX
+fP
 aX
 aX
 Jf
@@ -36651,7 +36724,7 @@ pK
 Zl
 HT
 Gw
-Tg
+Ao
 Tg
 zR
 DZ
@@ -37875,7 +37948,7 @@ kP
 kP
 kP
 uI
-uI
+nv
 uI
 uI
 uI
@@ -41711,7 +41784,7 @@ ZA
 al
 yq
 cR
-Nk
+DD
 Kd
 rA
 xk
@@ -42084,7 +42157,7 @@ cj
 LC
 Me
 Me
-Me
+XK
 Me
 ws
 cj
@@ -42300,7 +42373,7 @@ GK
 gc
 GK
 gc
-GK
+hU
 gc
 GK
 gc
@@ -44509,7 +44582,7 @@ hk
 oz
 cz
 cu
-jP
+FP
 OM
 Wy
 TU
@@ -46761,7 +46834,7 @@ du
 du
 Po
 oG
-Po
+tq
 Hn
 mx
 gt
@@ -49557,7 +49630,7 @@ hI
 hI
 cc
 hI
-hI
+HM
 hI
 hI
 ES
