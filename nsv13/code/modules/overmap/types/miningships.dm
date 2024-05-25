@@ -10,7 +10,6 @@
 	sprite_size = 48
 	damage_states = TRUE
 	max_integrity = 800 //Max health
-	integrity_failure = 800
 	bound_height = 96
 	bound_width = 96
 	armor = list("overmap_light" = 90, "overmap_medium" = 40, "overmap_heavy" = 15)
@@ -22,7 +21,6 @@
 	role = MAIN_MINING_SHIP
 	area_type = /area/nostromo
 	max_integrity = 500 //Max health
-	integrity_failure = 500
 	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
 	starting_system = "Staging" //TEMP UNTIL DELETE
 
@@ -31,7 +29,6 @@
 	role = MAIN_MINING_SHIP
 	area_type = /area/nostromo
 	max_integrity = 500 //Max health
-	integrity_failure = 500
 	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
 	starting_system = "Staging" //TEMP UNTIL DELETE
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo/fob
@@ -40,7 +37,6 @@
 	area_type = /area/nsv/shuttle
 	armor = list("overmap_light" = 90, "overmap_medium" = 20, "overmap_heavy" = 0)
 	max_integrity = 400 //Max health
-	integrity_failure = 400
 	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/rig
@@ -49,5 +45,4 @@
 	area_type = /area/nostromo
 	starting_system = "Lalande 21185"
 	max_integrity = 500 //Max health
-	integrity_failure = 500
 	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
