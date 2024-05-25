@@ -11,7 +11,6 @@
 	damage_states = FALSE
 	obj_integrity = 1200
 	max_integrity = 1200
-	integrity_failure = 1200
 	starting_system = "Staging"
 	armor = list("overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
 	bound_height = 32
@@ -33,7 +32,6 @@
 	faction = "pirate"
 	mass = MASS_SMALL
 	max_integrity = 400
-	integrity_failure = 400
 	armor = list("overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
 	bound_height = 64
 	bound_width = 64
@@ -109,7 +107,6 @@
 	bound_width = 96
 	obj_integrity = 525
 	max_integrity = 525
-	integrity_failure = 525
 	armor = list("overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
 	ai_flags = AI_FLAG_DESTROYER
 	torpedoes = 30
@@ -130,7 +127,6 @@
 	bound_height = 128
 	bound_width = 128
 	max_integrity = 350
-	integrity_failure = 350
 	shots_left = 20
 	armor = list("overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE //Needs to be shooting all its guns
@@ -159,7 +155,6 @@
 	bound_height = 160
 	obj_integrity = 5000
 	max_integrity = 5000
-	integrity_failure = 5000
 	shots_left = 35
 	torpedoes = 35
 	armor = list("overmap_light" = 95, "overmap_medium" = 80, "overmap_heavy" = 45)
