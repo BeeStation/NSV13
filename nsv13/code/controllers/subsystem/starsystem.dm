@@ -253,6 +253,7 @@ Returns a faction datum by its name (case insensitive!)
 		if(sys.name == id)
 			return sys
 
+///AVOID using this if possible, go by the objects current_system var if you can. Do not trust the weird ships[] list unless you HAVE to (e.g. you haven't set the system yet)
 /datum/controller/subsystem/star_system/proc/find_system(obj/O) //Used to determine what system a ship is currently in. Famously used to determine the starter system that you've put the ship in.
 	var/datum/star_system/system
 	if(isovermap(O))
@@ -355,9 +356,13 @@ Returns a faction datum by its name (case insensitive!)
 			highestTickets = F.tickets
 	return winner
 
-/datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM, turf/target)
+/datum/controller/subsystem/star_system/proc/add_ship(obj/structure/overmap/OM, turf/target, datum/star_system/system_override)
 	ships[OM] = list("ship" = OM, "x" = 0, "y" = 0, "current_system" = system_by_id(OM.starting_system), "last_system" = system_by_id(OM.starting_system), "target_system" = null, "from_time" = 0, "to_time" = 0, "occupying_z" = OM.z)
-	var/datum/star_system/curr = ships[OM]["current_system"]
+	var/datum/star_system/curr
+	if(!system_override)
+		curr = ships[OM]["current_system"]
+	else
+		curr = system_override
 	curr.add_ship(OM, target)
 
 //Welcome to bracket hell.
