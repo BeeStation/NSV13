@@ -375,9 +375,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
 /turf/open/floor/plating{
 	icon_state = "platingdmg2"
 	},
@@ -651,7 +648,6 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
@@ -661,6 +657,9 @@
 /obj/structure/disposalpipe/sorting/mail/flip{
 	dir = 8;
 	sortType = 22
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
@@ -694,7 +693,7 @@
 	dir = 8
 	},
 /turf/open/floor/engine,
-/area/nsv/weapons/gauss/battery/deck1/port)
+/area/nsv/weapons/gauss/battery/deck2/port)
 "do" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
@@ -736,7 +735,7 @@
 "dv" = (
 /obj/structure/hull_plate,
 /turf/open/floor/engine/airless,
-/area/nsv/weapons/gauss/battery/deck1/starboard)
+/area/nsv/weapons/gauss/battery/deck2/starboard)
 "dw" = (
 /obj/effect/turf_decal/tile/ship/half/green{
 	dir = 8
@@ -825,9 +824,6 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
@@ -1403,9 +1399,6 @@
 "fX" = (
 /obj/structure/cable{
 	icon_state = "2-8"
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
 	},
 /turf/open/floor/plating{
 	icon_state = "panelscorched"
@@ -2499,7 +2492,7 @@
 /obj/structure/hull_plate,
 /obj/machinery/ship_weapon/gauss_gun,
 /turf/open/floor/engine/airless,
-/area/nsv/weapons/gauss/battery/deck1/starboard)
+/area/nsv/weapons/gauss/battery/deck2/starboard)
 "kO" = (
 /obj/structure/cable{
 	icon_state = "1-4"
@@ -2664,9 +2657,6 @@
 "lh" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
-	},
-/obj/structure/cable{
-	icon_state = "4-8"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
@@ -2837,7 +2827,7 @@
 	dir = 4
 	},
 /turf/open/floor/engine,
-/area/nsv/weapons/gauss/battery/deck1/port)
+/area/nsv/weapons/gauss/battery/deck2/port)
 "lZ" = (
 /obj/effect/turf_decal/tile/ship/half/yellow{
 	dir = 8
@@ -3050,7 +3040,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/engine,
-/area/nsv/weapons/gauss/battery/deck1/port)
+/area/nsv/weapons/gauss/battery/deck2/port)
 "ne" = (
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -3825,6 +3815,7 @@
 /area/hallway/nsv/deck1/hallway)
 "qS" = (
 /obj/machinery/light,
+/obj/machinery/computer/pandemic,
 /turf/open/floor/durasteel/lino,
 /area/medical/medbay)
 "qT" = (
@@ -4167,7 +4158,7 @@
 	dir = 9
 	},
 /turf/open/floor/engine,
-/area/nsv/weapons/gauss/battery/deck1/port)
+/area/nsv/weapons/gauss/battery/deck2/port)
 "su" = (
 /obj/effect/turf_decal/tile/ship/green,
 /obj/effect/turf_decal/tile/ship/green{
@@ -4313,11 +4304,6 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/kitchen)
-"sX" = (
-/obj/machinery/power/apc/auto_name/west,
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/nsv/weapons/gauss/battery/deck1/starboard)
 "ta" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -4325,14 +4311,11 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
-/obj/machinery/door/airlock/ship/maintenance,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /obj/effect/landmark/zebra_interlock_point,
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
+/obj/machinery/door/airlock/ship/maintenance,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "tb" = (
@@ -4470,13 +4453,6 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile/steel,
 /area/hydroponics)
-"tE" = (
-/obj/effect/decal/cleanable/dirt/dust,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons/gauss/battery/deck1/starboard)
 "tH" = (
 /obj/machinery/airalarm/directional/west,
 /obj/machinery/teleport/hub,
@@ -5012,7 +4988,7 @@
 /obj/structure/hull_plate,
 /obj/machinery/ship_weapon/gauss_gun/north,
 /turf/open/floor/engine/airless,
-/area/nsv/weapons/gauss/battery/deck1/port)
+/area/nsv/weapons/gauss/battery/deck2/port)
 "vZ" = (
 /turf/open/floor/monotile/light,
 /area/crew_quarters/kitchen)
@@ -5997,7 +5973,7 @@
 /obj/structure/hull_plate,
 /obj/machinery/camera/autoname,
 /turf/open/floor/engine/airless,
-/area/nsv/weapons/gauss/battery/deck1/starboard)
+/area/nsv/weapons/gauss/battery/deck2/starboard)
 "Ax" = (
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
@@ -6064,7 +6040,7 @@
 /area/maintenance/nsv/deck1/port)
 "AS" = (
 /turf/closed/wall/r_wall,
-/area/nsv/weapons/gauss/battery/deck1/starboard)
+/area/nsv/weapons/gauss/battery/deck2/starboard)
 "AT" = (
 /obj/machinery/hydroponics/constructable,
 /obj/effect/turf_decal/tile/ship/half/green,
@@ -6830,7 +6806,7 @@
 /area/tcommsat/server)
 "Ea" = (
 /turf/closed/wall/r_wall,
-/area/nsv/weapons/gauss/battery/deck1/port)
+/area/nsv/weapons/gauss/battery/deck2/port)
 "Ed" = (
 /obj/structure/railing,
 /turf/open/openspace,
@@ -7156,15 +7132,6 @@
 "Fw" = (
 /turf/open/floor/durasteel/alt,
 /area/hallway/nsv/deck1/hallway)
-"Fx" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/power/apc/auto_name/east,
-/obj/structure/cable{
-	icon_state = "0-2"
-	},
-/turf/open/floor/plating,
-/area/nsv/weapons/gauss/battery/deck1/port)
 "Fy" = (
 /turf/open/floor/wood,
 /area/crew_quarters/bar/mess_hall)
@@ -7289,9 +7256,6 @@
 	},
 /obj/machinery/door/airlock/ship/maintenance,
 /obj/effect/landmark/zebra_interlock_point,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "FZ" = (
@@ -7463,13 +7427,10 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "GZ" = (
-/obj/structure/lattice/catwalk/over/ship,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "Hb" = (
@@ -9352,9 +9313,6 @@
 	dir = 10
 	},
 /obj/machinery/space_heater,
-/obj/structure/cable{
-	icon_state = "2-8"
-	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "Oo" = (
@@ -9377,16 +9335,13 @@
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "Ou" = (
-/obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/light/small{
 	dir = 4
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
-/obj/structure/cable{
-	icon_state = "2-8"
-	},
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
 "Ov" = (
@@ -10281,12 +10236,9 @@
 /turf/open/floor/engine,
 /area/hallway/nsv/deck1/hallway)
 "SV" = (
-/obj/structure/lattice/catwalk/over/ship,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/deck1/starboard)
+/obj/structure/lattice,
+/turf/open/space/basic,
+/area/space)
 "SW" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
@@ -10694,7 +10646,7 @@
 "UE" = (
 /obj/structure/hull_plate,
 /turf/open/floor/engine/airless,
-/area/nsv/weapons/gauss/battery/deck1/port)
+/area/nsv/weapons/gauss/battery/deck2/port)
 "UG" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -10808,7 +10760,7 @@
 	dir = 1
 	},
 /turf/open/floor/engine/airless,
-/area/nsv/weapons/gauss/battery/deck1/port)
+/area/nsv/weapons/gauss/battery/deck2/port)
 "UX" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -11300,14 +11252,6 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/bridge/cic)
-"XD" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/structure/cable{
-	icon_state = "1-8"
-	},
-/turf/open/floor/plating,
-/area/maintenance/nsv/deck1/port)
 "XG" = (
 /obj/structure/cable{
 	icon_state = "2-32"
@@ -11590,7 +11534,7 @@
 	pixel_y = 16
 	},
 /turf/open/floor/engine/airless,
-/area/nsv/weapons/gauss/battery/deck1/port)
+/area/nsv/weapons/gauss/battery/deck2/port)
 "YU" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -42496,7 +42440,7 @@ HI
 Rd
 Ji
 LL
-QW
+LL
 HI
 HI
 HG
@@ -42752,8 +42696,8 @@ Nv
 dz
 HH
 RW
-Fx
-XD
+HH
+HH
 OF
 Oo
 zb
@@ -44837,8 +44781,8 @@ MS
 ta
 MS
 MS
-AS
-AS
+MS
+MS
 MS
 MS
 MS
@@ -45094,8 +45038,8 @@ CF
 GZ
 fO
 MS
-AS
-AS
+MS
+MS
 MS
 cN
 Zi
@@ -45349,10 +45293,10 @@ Lt
 pB
 pB
 Ou
-SV
+kR
 FX
-tE
-sX
+Ej
+rV
 VH
 Si
 Si
@@ -47420,7 +47364,7 @@ XN
 NU
 mt
 hN
-cL
+SV
 SP
 cL
 cL
@@ -47677,8 +47621,8 @@ hN
 hN
 hN
 hN
-cL
-gn
+SV
+SP
 cL
 cL
 cL
@@ -48189,9 +48133,9 @@ dQ
 dQ
 lx
 cx
+vc
 cx
-cx
-Cf
+SP
 Zp
 cL
 cL
@@ -48446,10 +48390,10 @@ dQ
 dQ
 cx
 cx
-cx
+vc
 cx
 cL
-gn
+SP
 cL
 cL
 cL
@@ -48703,9 +48647,9 @@ cx
 cx
 cx
 cx
+vc
 cx
-cx
-gn
+SP
 SP
 cL
 cL
@@ -48955,15 +48899,15 @@ WJ
 cx
 cx
 cx
-cx
-cx
-cx
-cx
-cx
-cx
+vc
+vc
+vc
+vc
+vc
+vc
 cx
 SP
-Cf
+SP
 cL
 cL
 cL
@@ -49217,10 +49161,10 @@ cx
 cx
 cx
 cx
-cx
+vc
 cx
 cL
-Cf
+SP
 cL
 cL
 cL
@@ -49474,10 +49418,10 @@ cx
 cx
 cx
 cx
+vc
 cx
-cx
-cL
-Cf
+SV
+SP
 cL
 cL
 cL
@@ -49731,10 +49675,10 @@ cx
 cx
 cx
 cx
+vc
 cx
-cx
-cL
-Cf
+SV
+SP
 cL
 cL
 cL
@@ -49988,10 +49932,10 @@ cx
 cx
 cx
 cx
+vc
 cx
-cx
-cL
-Cf
+SV
+SP
 cL
 cL
 cL
@@ -50245,10 +50189,10 @@ cx
 cx
 cx
 cx
-cx
+vc
 cx
 cL
-Cf
+SP
 cL
 cL
 cL
@@ -50762,7 +50706,7 @@ cx
 cx
 cx
 cL
-Cf
+SP
 cL
 cL
 cL
@@ -51019,7 +50963,7 @@ cx
 cx
 cx
 SP
-Cf
+SP
 cL
 cL
 cL
