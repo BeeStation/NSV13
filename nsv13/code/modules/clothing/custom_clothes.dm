@@ -514,12 +514,12 @@
 /obj/item/clothing/head/helmet/space/hardsuit/master_at_arms
 	name = "Master-At-Arm's Bombsuit Helmet"
 	desc = "Use in case of bomb."
-	icon = 'nsv13/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
+	icon = 'nsv13/icons/obj/clothing/hats.dmi'
 	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "hardsuit0_maa_bombsuit"
 	item_state = "maa_bombsuit"
 	worn_icon_state = "maa_bombsuit"
-	armor = list("melee" = 25, "bullet" = 15, "laser" = 20,"energy" = 10, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 85, "acid" = 50)
+	armor = list("melee" = 20, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 65, "stamina" = 10)
 	min_cold_protection_temperature = EMERGENCY_HELM_MIN_TEMP_PROTECT
 
 /obj/item/clothing/suit/space/hardsuit/master_at_arms
@@ -529,9 +529,9 @@
 	worn_icon = 'nsv13/icons/mob/suit.dmi'
 	icon_state = "maa_bombsuit"
 	item_state = "maa_bombsuit"
-	armor = list("melee" = 25, "bullet" = 15, "laser" = 20,"energy" = 10, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 85, "acid" = 50)
+	armor = list("melee" = 20, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 65, "stamina" = 10)
 	min_cold_protection_temperature = EMERGENCY_SUIT_MIN_TEMP_PROTECT
-	slowdown = 2
+	slowdown = 1.75
 	permeability_coefficient = 0.01
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/master_at_arms
 
