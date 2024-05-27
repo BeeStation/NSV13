@@ -6306,7 +6306,9 @@
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/port)
 "oW" = (
-/obj/machinery/door/poddoor/shutters/ship,
+/obj/machinery/door/poddoor/shutters/ship{
+	id = "storage"
+	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/durasteel,
 /area/engine/storage)
@@ -10860,7 +10862,7 @@
 /area/space/nearstation)
 "zy" = (
 /obj/machinery/door/poddoor/shutters/ship{
-	id = hs;
+	id = "hs";
 	name = "Dangerous weapon shutters"
 	},
 /turf/open/floor/carpet/ship/red_carpet,
@@ -15215,7 +15217,9 @@
 /turf/open/floor/circuit,
 /area/teleporter)
 "JJ" = (
-/obj/machinery/door/poddoor/shutters/ship,
+/obj/machinery/door/poddoor/shutters/ship{
+	id = "storage"
+	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 1
 	},
@@ -15974,17 +15978,6 @@
 /obj/machinery/atmospherics/pipe/heat_exchanging/simple,
 /turf/open/floor/circuit/telecomms/server,
 /area/tcommsat/server)
-"LC" = (
-/obj/structure/guncase{
-	name = "High-security locker";
-	desc = "A locker that holds very dangerous guns."
-	},
-/obj/machinery/door/poddoor/shutters/ship{
-	id = hs;
-	name = "Dangerous weapon shutters"
-	},
-/turf/open/floor/carpet/ship/red_carpet,
-/area/ai_monitored/security/armory)
 "LD" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -19475,7 +19468,8 @@
 /area/science/xenobiology)
 "Ty" = (
 /obj/machinery/button{
-	id = 1
+	id = "storage";
+	req_one_access_txt = "11;24"
 	},
 /turf/closed/wall/r_wall/ship,
 /area/engine/storage)
@@ -42493,7 +42487,7 @@ cK
 cj
 Xg
 cj
-LC
+Me
 Me
 Me
 XK
