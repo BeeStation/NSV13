@@ -274,10 +274,11 @@
 //FIXME:
 /*
 Working theories:
-a) something is being fucky with the reserved_z 0 of the fighter being used
-b) asteroid reserved areas for their zs are fucked.
-c) something is being fucked with the last overmap var.
+a) something is being weird  with the reserved_z 0 of the fighter being used
+b) asteroid reserved areas for their zs are not being handled properly.
+c) something is being odd with the last overmap var.
 d) something weird is going on with e.g. the aetherwhisp ruin, asteroids that do not delete once left. - might be if it gets destroyed by damage after the ship leaves? what is get_turf(null)?
+e) the ships[] list of ssstarsystem is acting up again, aka the current working hypothesis.
 //ATD: They DID dock to other rocks before, and the one before bricking was one that remained loaded.
 */
 
