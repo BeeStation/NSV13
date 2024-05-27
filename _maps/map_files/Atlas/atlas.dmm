@@ -4882,18 +4882,6 @@
 "pd" = (
 /obj/item/paper_bin/construction,
 /obj/item/pen/fountain,
-/obj/machinery/button/door{
-	id = "gaussgang_atlas";
-	name = "public gauss access";
-	pixel_y = 32;
-	req_one_access_txt = "69"
-	},
-/obj/machinery/button/door{
-	id = "muni_atlas";
-	name = "public munitions access";
-	pixel_y = 24;
-	req_one_access_txt = "69"
-	},
 /obj/structure/closet/secure_closet/master_at_arms,
 /obj/machinery/requests_console{
 	announcementConsole = 1;
@@ -9352,6 +9340,23 @@
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons)
+"DX" = (
+/obj/machinery/button/door{
+	id = "muni_atlas";
+	name = "public munitions access";
+	pixel_y = 24;
+	req_one_access_txt = "69"
+	},
+/obj/machinery/button/door{
+	id = "gaussgang_atlas";
+	name = "public gauss access";
+	pixel_y = 32;
+	req_one_access_txt = "69"
+	},
+/obj/item/tank/internals/oxygen,
+/obj/machinery/suit_storage_unit/maa,
+/turf/open/floor/carpet/ship,
+/area/nsv/weapons)
 "DZ" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -9483,6 +9488,7 @@
 /area/space/nearstation)
 "Eu" = (
 /obj/structure/rack,
+/obj/item/clothing/ears/earmuffs,
 /obj/item/clothing/ears/earmuffs,
 /obj/item/clothing/ears/earmuffs,
 /turf/open/floor/monotile/dark,
@@ -15411,6 +15417,7 @@
 /obj/item/clothing/ears/earmuffs,
 /obj/item/clothing/ears/earmuffs,
 /obj/machinery/light,
+/obj/item/clothing/ears/earmuffs,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons)
 "XG" = (
@@ -51959,7 +51966,7 @@ eY
 pE
 zO
 eY
-eY
+DX
 pd
 Ty
 eY
@@ -52215,7 +52222,7 @@ Dl
 VU
 mq
 vu
-Eu
+eY
 Dy
 Dy
 Dy
