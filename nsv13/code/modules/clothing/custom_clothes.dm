@@ -531,7 +531,7 @@
 	item_state = "maa_bombsuit"
 	armor = list("melee" = 20, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 65, "stamina" = 10)
 	min_cold_protection_temperature = EMERGENCY_SUIT_MIN_TEMP_PROTECT
-	slowdown = 1.75
+	slowdown = 1.5
 	permeability_coefficient = 0.01
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/master_at_arms
 
