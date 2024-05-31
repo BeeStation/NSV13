@@ -52,12 +52,15 @@
 /obj/item/stack/conveyor/slow
 	name = "Slow conveyor assembly"
 	conveyor_type = /obj/machinery/conveyor/slow
+	merge_type = /obj/item/stack/conveyor/slow
+	color = list(1,1,0,0, 0,0,0,0, 0,0.1,1,0, 0,0,0,1, 0,0,0,0) //Yellow Belt
 
 /obj/machinery/conveyor/slow
 	name = "Slow conveyor"
 	subsystem_type = /datum/controller/subsystem/machines
 	stack_type = /obj/item/stack/conveyor/slow //What does this conveyor drop when decon'd?
 	conveyor_speed = 2 SECONDS
+	color = list(1,1,0,0, 0,0,0,0, 0,0.1,1,0, 0,0,0,1, 0,0,0,0) //Yellow Belt
 
 /obj/machinery/missile_builder/wirer
 	name = "Seegson model 'Ford' robotic autowirer"
