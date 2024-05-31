@@ -32,24 +32,25 @@
 	resistance_flags = ACID_PROOF | FIRE_PROOF
 	req_one_access = list(ACCESS_HOP, ACCESS_HOS)
 	var/static/list/loans_info = list()
-	var/static/list/loadouts/nt = list()
+	var/static/list/loadouts = list()
 	var/static/list/requires_weapons_clearance = list(/obj/item/ammo_box, /obj/item/gun)
+
 
 /obj/machinery/squad_vendor/Initialize(mapload)
 	. = ..()
-	if(!length(loadouts/nt))
+	if(!length(loadouts))
 		for(var/instance in subtypesof(/datum/squad_loadout/nt))
 			loadouts += new instance
 
 /obj/machinery/squad_vendor/solgov
 	name = "SolGov Squad Vendor"
-	var/static/list/loadouts/solgov = list()
+	var/static/list/loadouts_solgov = list()
 
 /obj/machinery/squad_vendor/solgov/Initialize(mapload)
 	. = ..()
-	if(!length(loadouts/solgov))
+	if(!length(loadouts_solgov))
 		for(var/instance in subtypesof(/datum/squad_loadout/solgov))
-			loadouts/solgov += new instance
+			loadouts_solgov += new instance
 
 /obj/machinery/squad_vendor/attackby(obj/item/I, mob/living/user, params)
 	return return_item(user, I) || ..()
