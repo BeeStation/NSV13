@@ -32,12 +32,12 @@
 	resistance_flags = ACID_PROOF | FIRE_PROOF
 	req_one_access = list(ACCESS_HOP, ACCESS_HOS)
 	var/static/list/loans_info = list()
-	var/static/list/loadouts = list()
+	var/static/list/loadouts/nt = list()
 	var/static/list/requires_weapons_clearance = list(/obj/item/ammo_box, /obj/item/gun)
 
 /obj/machinery/squad_vendor/Initialize(mapload)
 	. = ..()
-	if(!length(loadouts))
+	if(!length(loadouts/nt))
 		for(var/instance in subtypesof(/datum/squad_loadout/nt))
 			loadouts += new instance
 
@@ -231,7 +231,7 @@
 
 /datum/squad_loadout/solgov/marine
 	name = "Squad Marine (Standard)"
-	var/list/items = list(/obj/item/clothing/under/ship/marine, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/gun/energy/laser/retro)
+	items = list(/obj/item/clothing/under/ship/marine, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/gun/energy/laser/retro)
 
 /datum/squad_loadout/solgov/space
 	name = "Squad Marine (Hazardous Environment)"
