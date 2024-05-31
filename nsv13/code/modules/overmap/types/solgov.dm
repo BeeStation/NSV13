@@ -125,6 +125,7 @@
 	ai_flags = AI_FLAG_DESTROYER
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
 	ai_fighter_type = list(/obj/structure/overmap/nanotrasen/solgov/ai/fighter)
+	shots_left = 10000 //Issa laser.
 	torpedoes = 15
 	can_resupply = TRUE
 	combat_dice_type = /datum/combat_dice/frigate
