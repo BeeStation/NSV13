@@ -516,9 +516,8 @@
 	desc = "Use in case of bomb."
 	icon = 'nsv13/icons/obj/clothing/hats.dmi'
 	worn_icon = 'nsv13/icons/mob/head.dmi'
-	icon_state = "hardsuit0_maa_bombsuit"
-	item_state = "maa_bombsuit"
-	worn_icon_state = "maa_bombsuit"
+	icon_state = "hardsuit0-maa"
+	hardsuit_type = "maa"
 	armor = list("melee" = 20, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 65, "stamina" = 10)
 	min_cold_protection_temperature = EMERGENCY_HELM_MIN_TEMP_PROTECT
 
@@ -528,7 +527,6 @@
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
 	worn_icon = 'nsv13/icons/mob/suit.dmi'
 	icon_state = "maa_bombsuit"
-	item_state = "maa_bombsuit"
 	armor = list("melee" = 20, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 65, "stamina" = 10)
 	min_cold_protection_temperature = EMERGENCY_SUIT_MIN_TEMP_PROTECT
 	slowdown = 1.5
