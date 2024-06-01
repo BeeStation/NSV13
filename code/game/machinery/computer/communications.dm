@@ -246,7 +246,7 @@
 			if (!can_send_messages_to_other_sectors(usr))
 				return
 			if (!COOLDOWN_FINISHED(src, important_action_cooldown))
-				to_chat(usr, "<span class='alert'>Temporal communication array recharging. Please stand by.</span>")
+				to_chat(usr, "<span class='alert'>Please stand by, transmitter in cooldown cycle</span>")
 				return
 
 			var/message = trim(html_encode(params["message"]), MAX_MESSAGE_LEN)
