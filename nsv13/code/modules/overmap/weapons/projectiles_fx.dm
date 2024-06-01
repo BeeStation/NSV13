@@ -567,7 +567,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/beam/laser/heavylaser/phaser/relayed
 	projectile_piercing = PASSGLASS|PASSGRILLE|PASSTABLE
-	damage = 40 //yes, the explosion will probably gib them. but if it doesn't, let's give them a chance to live, instead of smiting them with the full wraith of the Enterprise 
+	damage = 40 //let's give them a chance to live, instead of smiting them with the full wraith of the Enterprise 
 
 /obj/item/projectile/beam/laser/heavylaser/phaser/relayed/on_hit(atom/target, blocked)
 	. = ..()
@@ -577,9 +577,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "point defense phaser"
 	damage = 60 // Doesn't scale with power input, but fires fairly quickly especially when upgraded
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
-	icon_state = "pdphaser"
-	flag = "overmap_medium" //won't just ignore armor anymore... 
-	armour_penetration = 50 //half as strong as it used to be, but still powerful
+	icon_state = "pdphaser" 
 	relay_projectile_type = /obj/item/projectile/beam/laser/phaser/pd/relayed
 
 /obj/item/projectile/beam/laser/phaser/pd/relayed
