@@ -563,12 +563,30 @@ Misc projectile types, effects, think of this as the special FX file.
 	tracer_type = /obj/effect/projectile/tracer/disabler
 	muzzle_type = /obj/effect/projectile/muzzle/disabler
 	impact_type = /obj/effect/projectile/impact/disabler
+	relay_projectile_type = /obj/item/projectile/beam/laser/heavylaser/phaser/relayed
+
+/obj/item/projectile/beam/laser/heavylaser/phaser/relayed
+	projectile_piercing = PASSGLASS|PASSGRILLE|PASSTABLE
+
+/obj/item/projectile/beam/laser/heavylaser/phaser/relayed/on_hit(atom/target, blocked)
+	. = ..()
+	explosion(get_turf(target), 0, 2, 4, 6, ignorecap = FALSE, flame_range = 4) //I halved the BSA's explosion, and then poked it some myself - big boom
 
 /obj/item/projectile/beam/laser/phaser/pd
 	name = "point defense phaser"
 	damage = 60 // Doesn't scale with power input, but fires fairly quickly especially when upgraded
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "pdphaser"
+	flag = "overmap_medium" //won't just ignore armor anymore... 
+	armour_penetration = 50 //half as strong as it used to be, but still powerful
+	relay_projectile_type = /obj/item/projectile/beam/laser/phaser/pd/relayed
+
+/obj/item/projectile/beam/laser/phaser/pd/relayed
+	projectile_piercing = PASSGLASS|PASSGRILLE|PASSTABLE
+
+/obj/item/projectile/beam/laser/phaser/pd/relayed/on_hit(atom/target, blocked)
+	. = ..()
+	explosion(get_turf(target), 0, 0, 2, 3, ignorecap = FALSE, flame_range = 2) //weak, but still damaging... I hope
 
 /obj/item/projectile/beam/laser/point_defense
 	name = "laser pointer"
@@ -586,6 +604,14 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/beam/laser/phaser
 	damage = 30
 	flag = "overmap_medium"
+	relay_projectile_type = /obj/item/projectile/beam/laser/phaser/relayed
+
+/obj/item/projectile/beam/laser/phaser/relayed
+	projectile_piercing = PASSGLASS|PASSGRILLE|PASSTABLE
+
+/obj/item/projectile/beam/laser/phaser/relayed/on_hit(atom/target, blocked)
+	. = ..()
+	explosion(get_turf(target), 0, 0, 2, 3, ignorecap = FALSE, flame_range = 2) //weak, but still damaging... I hope
 
 /obj/item/projectile/bullet/broadside
 	name = "broadside shell"
