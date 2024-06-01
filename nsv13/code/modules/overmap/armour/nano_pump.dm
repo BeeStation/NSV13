@@ -228,29 +228,20 @@
 		ui.set_autoupdate(TRUE)
 
 /obj/machinery/armour_plating_nanorepair_pump/ui_act(action, params, datum/tgui/ui)
-	if(..())
+	. = ..()
+	if(.)
 		return
-	if(!(in_range(src, usr) | IsAdminGhost(usr)))
+	if(!(in_range(src, usr) || IsAdminGhost(usr)))
 		return
 	var/adjust = text2num(params["adjust"])
 	if(action == "armour_allocation")
 		if(isnum(adjust))
-			armour_allocation = adjust
-			if(armour_allocation > 100 - structure_allocation)
-				armour_allocation = 100 - structure_allocation
-				return
-			if(armour_allocation <= 0)
-				armour_allocation = 0
-				return
+			armour_allocation = CLAMP(adjust, 0, 100 - structure_allocation)
+			return TRUE
 	if(action == "structure_allocation")
 		if(isnum(adjust))
-			structure_allocation = adjust
-			if(structure_allocation > 100 - armour_allocation)
-				structure_allocation = 100 - armour_allocation
-				return
-			if(structure_allocation <= 0)
-				structure_allocation = 0
-				return
+			structure_allocation = CLAMP(adjust, 0, 100 - armour_allocation)
+			return TRUE
 
 /obj/machinery/armour_plating_nanorepair_pump/ui_data(mob/user)
 	var/list/data = list()
