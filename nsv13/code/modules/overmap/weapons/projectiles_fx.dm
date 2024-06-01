@@ -571,7 +571,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/beam/laser/heavylaser/phaser/relayed/on_hit(atom/target, blocked)
 	. = ..()
-	explosion(get_turf(target), 0, 2, 4, 6, ignorecap = FALSE, flame_range = 4) //I halved the BSA's explosion, and then poked it some myself - big boom
+	explosion(get_turf(target), 0, 2, 4, 6, flame_range = 4) //I halved the BSA's explosion, and then poked it some myself - big boom
 
 /obj/item/projectile/beam/laser/phaser/pd
 	name = "point defense phaser"
@@ -585,7 +585,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/beam/laser/phaser/pd/relayed/on_hit(atom/target, blocked)
 	. = ..()
-	explosion(get_turf(target), 0, 0, 2, 3, ignorecap = FALSE, flame_range = 2) //weak, but still damaging... I hope
+	explosion(get_turf(target), 0, 0, 2, 3, flame_range = 2) //weak, but still damaging... I hope
 
 /obj/item/projectile/beam/laser/point_defense
 	name = "laser pointer"
@@ -610,7 +610,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/beam/laser/phaser/relayed/on_hit(atom/target, blocked)
 	. = ..()
-	explosion(get_turf(target), 0, 0, 2, 3, ignorecap = FALSE, flame_range = 2) //weak, but still damaging... I hope
+	explosion(get_turf(target), 0, 0, 2, 3, flame_range = 2) //weak, but still damaging... I hope
 
 /obj/item/projectile/bullet/broadside
 	name = "broadside shell"
