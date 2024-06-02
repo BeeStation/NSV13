@@ -1496,7 +1496,7 @@ As a rule of thumb, primaries are small guns that take ammo boxes, secondaries a
 Utility modules can be either one of these types, just ensure you set its slot to HARDPOINT_SLOT_UTILITY
 */
 /obj/item/fighter_component/primary
-	name = "\improper Fuck you"
+	name = "\improper primary weapon"
 	slot = HARDPOINT_SLOT_PRIMARY
 	fire_mode = FIRE_MODE_ANTI_AIR
 	var/overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
@@ -1666,7 +1666,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 
 /obj/item/fighter_component/secondary
-	name = "Fuck you"
+	name = "secondary weapon"
 	slot = HARDPOINT_SLOT_SECONDARY
 	fire_mode = FIRE_MODE_TORPEDO
 	var/overmap_firing_sounds = list(
