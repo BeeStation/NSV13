@@ -567,6 +567,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/beam/laser/heavylaser/phaser/relayed
 	projectile_piercing = PASSGLASS|PASSGRILLE|PASSTABLE
+	flag = "laser"
 	damage = 40 //let's give them a chance to live, instead of smiting them with the full wraith of the Enterprise 
 
 /obj/item/projectile/beam/laser/heavylaser/phaser/relayed/on_hit(atom/target, blocked)
@@ -582,6 +583,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/beam/laser/phaser/pd/relayed
 	projectile_piercing = PASSGLASS|PASSGRILLE|PASSTABLE
+	flag = "laser"
 
 /obj/item/projectile/beam/laser/phaser/pd/relayed/on_hit(atom/target, blocked)
 	. = ..()
@@ -598,6 +600,11 @@ Misc projectile types, effects, think of this as the special FX file.
 	tracer_type = /obj/effect/projectile/tracer/xray
 	muzzle_type = /obj/effect/projectile/muzzle/xray
 	impact_type = /obj/effect/projectile/impact/xray
+	relay_projectile_type = /obj/item/projectile/beam/laser/point_defense/relayed
+
+/obj/item/projectile/beam/laser/point_defense/relayed
+	projectile_piercing = PASSGLASS|PASSGRILLE|PASSTABLE
+	flag = "laser"
 
 //Designed to be spammed like crazy, but can be buffed to do extremely solid damage when you overclock the guns.
 /obj/item/projectile/beam/laser/phaser
@@ -607,6 +614,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/beam/laser/phaser/relayed
 	projectile_piercing = PASSGLASS|PASSGRILLE|PASSTABLE
+	flag = "laser"
 
 /obj/item/projectile/beam/laser/phaser/relayed/on_hit(atom/target, blocked)
 	. = ..()
