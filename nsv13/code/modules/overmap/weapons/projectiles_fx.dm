@@ -25,7 +25,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_heavy"
 	spread = 5
 
-/obj/item/projectile/bullet/mac_relayed_round	//Projectile relayed by all default MAC shells on overmap hit. No difference for AP / others as their values don't really matter on z level.
+/obj/item/projectile/bullet/mac_relayed_round	//!Projectile relayed by all default MAC shells on overmap hit. No difference for AP / others as their values don't really matter on z level.
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "railgun"
 	name = "artillery round"
@@ -82,32 +82,32 @@ Misc projectile types, effects, think of this as the special FX file.
 	homing_benefit_time = 2.5 SECONDS
 	homing_turn_speed = 30
 
-//Improvised ammunition, does terrible damage but is cheap to produce
+///Improvised ammunition, does terrible damage but is cheap to produce
 /obj/item/projectile/bullet/mac_round/cannonshot
 	name = "cannonball"
 	damage = 350
 	icon_state = "cannonshot"
 	flag = "overmap_medium"
 
-//You somehow loaded a magic entrapment ball into a cannon. This is your reward.
+///You somehow loaded a magic entrapment ball into a cannon. This is your reward.
 /obj/item/projectile/bullet/mac_round/cannonshot/admin
 	damage = 600
 	speed = 3
 	flag = "overmap_heavy"
 
-#define DIRTY_SHELL_TURF_SLUDGE_PROB 70	//Chance for sludge to spawn on a turf within the sludge range of the detonation turf. Detonation turf always gets an epicenter sludge.
-#define DIRTY_SHELL_SLUDGE_RANGE 3	//Un-random sludge event radius (for the shell detonating)
-#define DIRTY_SHELL_PELLET_PROB 80	//Chance for a pellet per tile from the outer circle
-#define DIRTY_SHELL_PELLET_RANGE 6	//Picks all turfs on the other circle of this range and uses them as possible targets for pellets.
+#define DIRTY_SHELL_TURF_SLUDGE_PROB 70	//!Chance for sludge to spawn on a turf within the sludge range of the detonation turf. Detonation turf always gets an epicenter sludge.
+#define DIRTY_SHELL_SLUDGE_RANGE 3	//!Un-random sludge event radius (for the shell detonating)
+#define DIRTY_SHELL_PELLET_PROB 80	//!Chance for a pellet per tile from the outer circle
+#define DIRTY_SHELL_PELLET_RANGE 6	//!Picks all turfs on the other circle of this range and uses them as possible targets for pellets.
 
-//Dirty shell: Stage 1 - overmap projectile
+///Dirty shell: Stage 1 - overmap projectile
 /obj/item/projectile/bullet/mac_round/dirty
 	damage = 150
 	name = "dirty artillery round"
 	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/dirty_shell_stage_two
 
 
-//Delayed priming projectile parent type - useful for a few different kinds of projectiles so why not.
+///Delayed priming projectile parent type - useful for a few different kinds of projectiles so why not.
 /obj/item/projectile/bullet/delayed_prime
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "railgun"
@@ -117,7 +117,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	movement_type = FLYING
 	projectile_piercing = ALL
 	damage = 45		//It's on a z now, lets not instakill people / objects this happens to hit.
-	var/penetration_fuze = 1	//Will pen through this many things considered valid for reducing this before arming. Can overpenetrate if it happens to pen through windows or other things with not enough resistance.
+	var/penetration_fuze = 1	//!Will pen through this many things considered valid for reducing this before arming. Can overpenetrate if it happens to pen through windows or other things with not enough resistance.
 
 /obj/item/projectile/bullet/delayed_prime/on_hit(atom/target, blocked)
 	. = ..()
@@ -140,7 +140,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/delayed_prime/proc/release_payload(atom/detonation_location)
 	return
 
-//Dirty shell: Stage 2 - z level sludge payload projectile
+///Dirty shell: Stage 2 - z level sludge payload projectile
 /obj/item/projectile/bullet/delayed_prime/dirty_shell_stage_two
 	name = "dirty artillery round"
 	icon_state = "railgun"
@@ -186,7 +186,7 @@ Misc projectile types, effects, think of this as the special FX file.
 		P.fire()
 
 
-//Dirty Shell: Stage 3 - spread of irradiating pellets
+///Dirty Shell: Stage 3 - spread of irradiating pellets
 /obj/item/projectile/energy/nuclear_particle/dirty_shell_stage_three
 	irradiate = 300	//Less radiation than the "true" gumballs
 	name = "irradiated pellet"
@@ -477,7 +477,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	var/ai_disruption = 30
 	var/ai_disruption_cap = 120
 
-//Player-accessible version of the above. Weaker because reverse engineered ~~and balance~~
+///Player-accessible version of parent. Weaker because reverse engineered ~~and balance~~
 /obj/item/projectile/guided_munition/torpedo/disruptor/prototype
 	name = "prototype disruption torpedo"
 	ai_disruption = 15 //Do you like stuncombat? Well the AI doesn't.
@@ -572,7 +572,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	muzzle_type = /obj/effect/projectile/muzzle/xray
 	impact_type = /obj/effect/projectile/impact/xray
 
-//Designed to be spammed like crazy, but can be buffed to do extremely solid damage when you overclock the guns.
+///Designed to be spammed like crazy, but can be buffed to do extremely solid damage when you overclock the guns.
 /obj/item/projectile/beam/laser/phaser
 	damage = 30
 	flag = "overmap_medium"
