@@ -3,6 +3,9 @@
 /obj/item/projectile/proc/spec_overmap_hit(obj/structure/overmap/target)
 	return
 
+/obj/item/projectile/bullet/proc/stop_homing()
+	homing = FALSE
+
 /**
 
 Misc projectile types, effects, think of this as the special FX file.
@@ -65,9 +68,6 @@ Misc projectile types, effects, think of this as the special FX file.
 		addtimer(CALLBACK(src, PROC_REF(stop_homing)), homing_benefit_time)
 	else
 		addtimer(CALLBACK(src, PROC_REF(stop_homing)), 0.2 SECONDS)	//Because all deck guns apparently have slight homing.
-
-/obj/item/projectile/bullet/proc/stop_homing()
-	homing = FALSE
 
 /obj/item/projectile/bullet/mac_round/ap
 	damage = 250
@@ -352,6 +352,53 @@ Misc projectile types, effects, think of this as the special FX file.
 	can_home = TRUE
 	armor = list("overmap_light" = 10, "overmap_medium" = 0, "overmap_heavy" = 0)
 
+/obj/item/projectile/guided_munition/Initialize(mapload)
+	. = ..()
+	addtimer(CALLBACK(src, PROC_REF(windup)), 1 SECONDS)
+
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
+/obj/item/projectile/guided_munition/proc/windup()
+	valid_angle = 360 //Torpedoes "wind up" to hit their target
+	homing_turn_speed *= 5
+	homing_turn_speed = CLAMP(homing_turn_speed, 0, 360)
+	sleep(clearance_time) //Let it get clear of the sender.
+	valid_angle = initial(valid_angle)
+	homing_turn_speed = initial(homing_turn_speed)
+
+//Corvid or someone please refactor this to be less messy.
+/obj/item/projectile/guided_munition/on_hit(atom/target, blocked = FALSE)
+	..()
+	if(!check_faction(target))
+		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
+	if(isovermap(target)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
+		return BULLET_ACT_HIT
+	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
+	if(isprojectile(target) && P.faction != faction && !P.nodamage) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
+		if(obj_integrity <= P.damage) //Tank the hit, take some damage
+			qdel(P)
+			explode()
+			return BULLET_ACT_HIT
+		else
+			take_damage(P.damage)
+			qdel(P)
+			return FALSE //Didn't take the hit
+	if(!isprojectile(target)) //This is lazy as shit but is necessary to prevent explosions triggering on the overmap when two bullets collide. Fix this shit please.
+		detonate(target)
+	else
+		return FALSE
+	return BULLET_ACT_HIT
+
+/obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
+	. = ..()
+	on_hit(P)
+
+/obj/item/projectile/guided_munition/proc/detonate(atom/target)
+	explosion(target, 2, 4, 4)
+
 /obj/item/projectile/guided_munition/torpedo
 	icon_state = "torpedo"
 	name = "plasma torpedo"
@@ -402,6 +449,13 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/torpedo/hellfire/player_version
 	damage = 300	//A bit less initial damage to compensate for the /guaranteed/ hellburn effect dealing hefty damage.
 
+/obj/item/projectile/guided_munition/torpedo/hellfire/spec_overmap_hit(obj/structure/overmap/target)
+	if(length(target.occupying_levels))
+		return //Ship with internal zs, let them burn
+	if(target.ai_controlled || istype(target, /obj/structure/overmap/small_craft))
+		target.hullburn += 60	//hullburn DoT for AIs. Player Fighters get it too, did you expect to just eat one of these?
+		target.hullburn_power = max(target.hullburn_power, 6)
+
 /obj/item/projectile/guided_munition/torpedo/plushtide
 	name = "emotional support torpedo"
 	damage = 0
@@ -429,75 +483,6 @@ Misc projectile types, effects, think of this as the special FX file.
 	ai_disruption = 15 //Do you like stuncombat? Well the AI doesn't.
 	ai_disruption_cap = 30 //Very effective if applied spaced out over time against damage-resistant ships.
 
-//What you get from an incomplete torpedo.
-/obj/item/projectile/guided_munition/torpedo/dud
-	icon_state = "torpedo_dud"
-	damage = 0
-	can_home = FALSE
-
-/obj/item/projectile/guided_munition/Initialize(mapload)
-	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(windup)), 1 SECONDS)
-
-	var/static/list/loc_connections = list(
-		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
-	)
-	AddElement(/datum/element/connect_loc, loc_connections)
-
-/obj/item/projectile/guided_munition/proc/windup()
-	valid_angle = 360 //Torpedoes "wind up" to hit their target
-	homing_turn_speed *= 5
-	homing_turn_speed = CLAMP(homing_turn_speed, 0, 360)
-	sleep(clearance_time) //Let it get clear of the sender.
-	valid_angle = initial(valid_angle)
-	homing_turn_speed = initial(homing_turn_speed)
-
-/obj/item/projectile/guided_munition/missile
-	name = "\improper Triton cruise missile"
-	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
-	icon_state = "conventional_missile"
-	speed = 1
-	damage = 175
-	valid_angle = 120
-	homing_turn_speed = 25
-	range = 250
-	flag = "overmap_medium"
-	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
-	spread = 5 //Helps them not get insta-bonked when launching
-
-/obj/effect/temp_visual/overmap_explosion
-	icon = 'nsv13/goonstation/icons/hugeexplosion.dmi'
-	icon_state = "explosion"
-	duration = 10
-
-/obj/effect/temp_visual/overmap_explosion/alt
-	icon = 'nsv13/goonstation/icons/hugeexplosion2.dmi'
-	icon_state = "explosion"
-	duration = 10
-
-//Corvid or someone please refactor this to be less messy.
-/obj/item/projectile/guided_munition/on_hit(atom/target, blocked = FALSE)
-	..()
-	if(!check_faction(target))
-		return FALSE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
-	if(isovermap(target)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
-		return BULLET_ACT_HIT
-	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
-	if(isprojectile(target) && P.faction != faction && !P.nodamage) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
-		if(obj_integrity <= P.damage) //Tank the hit, take some damage
-			qdel(P)
-			explode()
-			return BULLET_ACT_HIT
-		else
-			take_damage(P.damage)
-			qdel(P)
-			return FALSE //Didn't take the hit
-	if(!isprojectile(target)) //This is lazy as shit but is necessary to prevent explosions triggering on the overmap when two bullets collide. Fix this shit please.
-		detonate(target)
-	else
-		return FALSE
-	return BULLET_ACT_HIT
-
 /obj/item/projectile/guided_munition/torpedo/disruptor/spec_overmap_hit(obj/structure/overmap/target)
 	if(length(target.occupying_levels))
 		return	//Detonate is gonna handle this for us.
@@ -514,24 +499,28 @@ Misc projectile types, effects, think of this as the special FX file.
 	//Neither of these? I guess just some visibility penalty it is.
 	target.add_sensor_profile_penalty(150, 10 SECONDS)
 
-/obj/item/projectile/guided_munition/torpedo/hellfire/spec_overmap_hit(obj/structure/overmap/target)
-	if(length(target.occupying_levels))
-		return //Ship with internal zs, let them burn
-	if(target.ai_controlled || istype(target, /obj/structure/overmap/small_craft))
-		target.hullburn += 60	//hullburn DoT for AIs. Player Fighters get it too, did you expect to just eat one of these?
-		target.hullburn_power = max(target.hullburn_power, 6)
-
-
-/obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
-	. = ..()
-	on_hit(P)
-
-/obj/item/projectile/guided_munition/proc/detonate(atom/target)
-	explosion(target, 2, 4, 4)
-
 /obj/item/projectile/guided_munition/torpedo/disruptor/detonate(atom/target)
 	empulse(get_turf(target), 5, 12)	//annoying emp.
 	explosion(target, 0, 2, 6, 4)	//but only a light explosion.
+
+///What you get from an incomplete torpedo.
+/obj/item/projectile/guided_munition/torpedo/dud
+	icon_state = "torpedo_dud"
+	damage = 0
+	can_home = FALSE
+
+/obj/item/projectile/guided_munition/missile
+	name = "\improper Triton cruise missile"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "conventional_missile"
+	speed = 1
+	damage = 175
+	valid_angle = 120
+	homing_turn_speed = 25
+	range = 250
+	flag = "overmap_medium"
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+	spread = 5 //!Helps them not get insta-bonked when launching
 
 /* Sleep for now, we'll see you again
 /obj/item/projectile/guided_munition/torpedo/nuclear/detonate(atom/target)
@@ -543,6 +532,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 	return BULLET_ACT_HIT
 */
+
 
 /obj/item/projectile/bullet/pdc_round
 	icon_state = "pdc"
@@ -604,3 +594,13 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 175
 	armour_penetration = 10
 	speed = 0.4
+
+/obj/effect/temp_visual/overmap_explosion
+	icon = 'nsv13/goonstation/icons/hugeexplosion.dmi'
+	icon_state = "explosion"
+	duration = 10
+
+/obj/effect/temp_visual/overmap_explosion/alt
+	icon = 'nsv13/goonstation/icons/hugeexplosion2.dmi'
+	icon_state = "explosion"
+	duration = 10
