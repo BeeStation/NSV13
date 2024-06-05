@@ -1,4 +1,4 @@
-/obj/machinery/ship_weapon/energy
+	/obj/machinery/ship_weapon/energy
 	name = "burst phaser MK2"
 	desc = "A coaxial laser system, capable of firing controlled laser bursts at a target."
 	icon ='nsv13/icons/obj/energy_weapons.dmi'
@@ -58,7 +58,7 @@
 
 
 // dilithium crystal alignment minigame stolen from ds13
-/obj/machinery/ship_weapon/screwdriver_act(mob/user, obj/item/tool)
+/obj/machinery/ship_weapon/energy/screwdriver_act(mob/user, obj/item/tool)
 	. = ..()
 	if(MSTATE_UNBOLTED)
 		var/sound/thesound = pick(GLOB.bleeps)
@@ -256,17 +256,17 @@
 			explosion(detonation_turf, 0, 0, 3, 4, flame_range = 3)
 		if(prob(25))
 			var/list/shootat_turf = RANGE_TURFS(5,detonation_turf) - RANGE_TURFS(4, detonation_turf)
-			var/obj/item/projectile/energy/laser/P = new(detonation_turf)
+			var/obj/item/projectile/beam/laser/P = new(detonation_turf)
 			//Shooting Code:
 			P.range = 6
 			P.preparePixelProjectile(pick(shootat_turf), detonation_turf)
 			P.fire()
 			freq -= rand(1,10)
 	alignment = max(alignment-(rand(0, 8)+heat/max),0)
-	if(alignment = 0)
+	if(alignment == 0)
 		explosion(detonation_turf, 0, 1, 3, 5, flame_range = 4)
 		heat = max_heat
-		break
+ 		return
 	..()
 
 /obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/I)
