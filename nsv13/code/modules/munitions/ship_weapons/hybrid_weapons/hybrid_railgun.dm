@@ -95,7 +95,6 @@
 		say("Cycling complete: Configuration - 400mm Slug Selected")
 
 /obj/machinery/ship_weapon/hybrid_rail/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
-	set waitfor = FALSE //As to not hold up any feedback messages.
 	if(can_fire(target, shots))
 		if(manual)
 			linked.last_fired = overlay
@@ -114,6 +113,8 @@
 			else
 				state = STATE_NOTLOADED
 			after_fire()
+			. = TRUE
+		return TRUE //I don't know why it didn't return true if successful but I assume someone just forgot.
 	return FALSE
 
 /obj/machinery/ship_weapon/hybrid_rail/can_fire(target, shots = weapon_type.burst_size) //Target is for the passed target variable, Shots is for the burst fire size
