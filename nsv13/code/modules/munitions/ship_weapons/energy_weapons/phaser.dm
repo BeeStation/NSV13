@@ -35,7 +35,7 @@
 
 /obj/machinery/ship_weapon/energy/Initialize()
 	. = ..()
-	combo_target = "[pick(letters)],[pick(letters)],[pick(letters)],[pick(letters)],[pick(letters)]"  //actually making the random sequince
+	combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"  //actually making the random sequince
 
 
 /obj/machinery/ship_weapon/energy/beam
@@ -72,6 +72,7 @@
 		var/list/options = letters
 		for(var/option in options)
 			options[option] = image(icon = 'nsv13/icons/actions/engine_actions.dmi', icon_state = "[option]")
+		Repeat
 		var/dowhat = show_radial_menu(user,src,options)
 		if(!dowhat)
 			return
@@ -79,7 +80,8 @@
 		combocount ++
 		to_chat(user, "<span class='warning'>You inputted [dowhat] into the command sequence.</span>")
 		playsound(src, 'sound/machines/sm/supermatter3.ogg', 20, 1)
-//		if(combocount <= 4)
+		if(combocount <= 4)
+			goto Repeat
 //			addtimer(CALLBACK(src, .proc/attack_self, user), 2)   I don't have a CLUE how to fix this
 		if(combocount >= 5) //Completed the sequence
 			if(combo == combo_target)
@@ -89,7 +91,7 @@
 		else
 			to_chat(user, "<span class='warning'>Realignment failed. Continued failure risks dangerous heat overload. Rotating command sequence.</span>")
 			playsound(src, 'nsv13/sound/effects/warpcore/overload.ogg', 100, 1)
-			combo_target = "[pick(letters)],[pick(letters)],[pick(letters)],[pick(letters)],[pick(letters)]"
+			combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"
 			heat =max(heat+(heat_per_shot*4),max_heat) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
 			combocount = 0
 			combo = null
