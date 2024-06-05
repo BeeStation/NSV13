@@ -61,7 +61,7 @@
 	if(in_range(user, src) || isobserver(user))
 		. += "<span class='notice'>The heatsink display reads <b>[(heat)]</b> out of <b>[(max_heat)]</b>.</span>"
 		if(maint_state != MSTATE_CLOSED)
-			to_chat(user, "<span class='warning'>[src]'s realignment sequence is: [combo_target].</span>")
+			. +=  "<span class='warning'>[src]'s realignment sequence is: [combo_target].</span>"
 
 
 // dilithium crystal alignment minigame stolen from ds13
@@ -182,6 +182,13 @@
 		return FALSE
 	if(freq <=10) //is the frequincy of the weapon high enough to fire?
 		return FALSE
+	if(alignment == 0)
+		for(var/mob/living/M in get_hearers_in_view(7, src)) //burn out eyes in view
+			if(M.stat != DEAD && M.get_eye_protection() < 2) //checks for eye protec
+				M.flash_act(10)
+				to_chat(M, "<span class='warning'>You have a second to watch the casing of the gun glow a dull red before it erupts in a blinding flash as it self-destructs</span>")   // stealing this from the plasmagun as well
+		explosion(detonation_turf, 0, 1, 3, 5, flame_range = 4)
+		heat += max_heat
 	else
 		return TRUE
 
@@ -275,13 +282,6 @@
 			P.fire()
 			freq -= rand(1,10)
 	alignment = max(alignment-(rand(0, 8)),0)
-	if(alignment == 0)
-		for(var/mob/living/M in get_hearers_in_view(7, src)) //burn out eyes in view
-			if(M.stat != DEAD && M.get_eye_protection() < 2) //checks for eye protec
-				M.flash_act(10)
-				to_chat(M, "<span class='warning'>You have a second to watch the casing of the gun glow a dull red before it erupts in a blinding flash as it self-destructs</span>")   // stealing this from the plasmagun as well
-		explosion(detonation_turf, 0, 1, 3, 5, flame_range = 4)
-		heat += max_heat
 	..()
 
 /obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/I)
