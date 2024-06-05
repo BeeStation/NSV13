@@ -1,4 +1,4 @@
-	/obj/machinery/ship_weapon/energy
+/obj/machinery/ship_weapon/energy
 	name = "burst phaser MK2"
 	desc = "A coaxial laser system, capable of firing controlled laser bursts at a target."
 	icon ='nsv13/icons/obj/energy_weapons.dmi'
@@ -32,6 +32,9 @@
 	var/combo = null
 	var/combocount = 0 //How far into the combo are they?
 
+/obj/machinery/ship_weapon/energy/Initialize()
+	. = ..()
+	combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"  //actually making the random sequince
 
 
 /obj/machinery/ship_weapon/energy/beam
@@ -49,19 +52,21 @@
 	heat_per_shot = 1000
 	heat_rate = 100
 
+
 /obj/machinery/ship_weapon/energy/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
 		. += "<span class='notice'>The heatsink display reads <b>[(heat)]</b> out of <b>[(max_heat)]</b>.</span>"
-		if(maint_state != 0)
+		if(maint_state != MSTATE_CLOSEDD)
 			to_chat(user, "<span class='warning'>[src]'s realignment sequence is: [combo_target].</span>")
 
 
-// dilithium crystal alignment minigame stolen from ds13
+// dilithium crystal alignment minigame stolen from nsv13
 /obj/machinery/ship_weapon/energy/screwdriver_act(mob/user, obj/item/tool)
 	. = ..()
-	if(MSTATE_UNBOLTED)
-		var/sound/thesound = pick(GLOB.bleeps)
+	if(maint_state == MSTATE_UNBOLTED)
+		.=TRUE
+		var/sound/thesound = pick('nsv13/sound/effects/computer/beep.ogg','nsv13/sound/effects/computer/beep2.ogg','nsv13/sound/effects/computer/beep3.ogg','nsv13/sound/effects/computer/beep4.ogg','nsv13/sound/effects/computer/beep5.ogg','nsv13/sound/effects/computer/beep6.ogg','nsv13/sound/effects/computer/beep7.ogg','nsv13/sound/effects/computer/beep8.ogg','nsv13/sound/effects/computer/beep9.ogg','nsv13/sound/effects/computer/beep10.ogg','nsv13/sound/effects/computer/beep11.ogg','nsv13/sound/effects/computer/beep12.ogg',)
 		SEND_SOUND(user, thesound)
 		var/list/options = letters
 		for(var/option in options)
@@ -73,8 +78,8 @@
 		combocount ++
 		to_chat(user, "<span class='warning'>You inputted [dowhat] into the command sequence.</span>")
 		playsound(src, 'sound/machines/sm/supermatter3.ogg', 20, 1)
-		if(combocount <= 4)
-			addtimer(CALLBACK(src, .proc/screwdriver_act, user), 2)
+//		if(combocount <= 4)
+//			addtimer(CALLBACK(src, .proc/attack_self, user), 2)   I don't have a CLUE how to fix this
 		if(combocount >= 5) //Completed the sequence
 			if(combo == combo_target)
 				to_chat(user, "<span class='warning'>Realignment of weapon energy direction matrix complete.</span>")
@@ -89,9 +94,7 @@
 			combo = null
 
 
-/obj/machinery/ship_weapon/energy/Initialize()
-	. = ..()
-	combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"  //actually making the random sequince
+
 
 /obj/machinery/ship_weapon/energy/lazyload()
 	active = TRUE
@@ -197,11 +200,13 @@
 	if(overloaded)
 		return
 	if(heat >= max_heat)
+		playsound(src, malfunction_sound, 100, 1)
+		playsound(src, sound\effects\smoke.ogg, 100, 1)
 		do_sparks(4, FALSE, src)
 		overloaded = 1
 		alignment = 0
 		freq = 0
-		(get_turf(src)).atmos_spawn_air("o2=30;nitrogen=60;TEMP=1000")
+		(get_turf(src)).atmos_spawn_air("o2=300;nitrogen=600;TEMP=1000")
 		heat = max_heat
 		return
 	charge_rate = initial(charge_rate) * power_modifier
@@ -262,20 +267,20 @@
 			P.preparePixelProjectile(pick(shootat_turf), detonation_turf)
 			P.fire()
 			freq -= rand(1,10)
-	alignment = max(alignment-(rand(0, 8)+heat/max),0)
+	alignment = max(alignment-(rand(0, 8)),0)
 	if(alignment == 0)
 		explosion(detonation_turf, 0, 1, 3, 5, flame_range = 4)
-		heat = max_heat
- 		return
+		heat += max_heat
 	..()
 
 /obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/I)
-	. = TRUE
-	if(maint_state == 0)
+
+	if(maint_state == MSTATE_CLOSED)
 		to_chat(user, "<span class='notice'>You must first open the maintenance panel before unwrenching the protective casing!</span>")
-	if(maint_state == 1)
+	if(maint_state == MSTATE_UNSCREWED)
 		to_chat(user, "<span class='notice'>You must unbolt the protective casing before aligning the lenses!</span>")
 	else
+		. = TRUE
 		to_chat(user, "<span class='notice'>You being aligning the lenses.</span>")
 		while(alignment < 100)
 			if(!do_after(user, 5, target = src))
