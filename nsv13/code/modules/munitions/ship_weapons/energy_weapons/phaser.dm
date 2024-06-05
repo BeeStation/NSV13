@@ -24,6 +24,8 @@
 	var/alignment = 100 //stolen from railguns and the plasma gun
 	var/freq = 100
 	max_heat = 5000
+	max_integrity = 1200 //don't blow up before we're ready
+	obj_integrity = 1200
 	heat_per_shot = 300
 	heat_rate = 100
 	var/max_freq = 100
@@ -32,10 +34,9 @@
 	var/combo = null
 	var/combocount = 0 //How far into the combo are they?
 	var/overheat_sound = 'sound/effects/smoke.ogg'
+	var/obj/machinery/atmospherics/components/binary/thermal_regulator/regulator
 
-/obj/machinery/ship_weapon/energy/Initialize()
-	. = ..()
-	combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"  //actually making the random sequince
+
 
 
 /obj/machinery/ship_weapon/energy/beam
@@ -53,6 +54,12 @@
 	heat_per_shot = 1500
 	heat_rate = 100
 
+
+/obj/machinery/ship_weapon/energy/Initialize()
+	. = ..()
+	combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"  //actually making the random sequince
+	regulator = locate(/obj/machinery/atmospherics/components/binary/thermal_regulator) in orange(1, src)
+	regulator.linked_gun = src
 
 /obj/machinery/ship_weapon/energy/examine(mob/user)
 	. = ..()
@@ -72,7 +79,6 @@
 		var/list/options = letters
 		for(var/option in options)
 			options[option] = image(icon = 'nsv13/icons/actions/engine_actions.dmi', icon_state = "[option]")
-		Repeat
 		var/dowhat = show_radial_menu(user,src,options)
 		if(!dowhat)
 			return
@@ -81,20 +87,21 @@
 		to_chat(user, "<span class='warning'>You inputted [dowhat] into the command sequence.</span>")
 		playsound(src, 'sound/machines/sm/supermatter3.ogg', 20, 1)
 		if(combocount <= 4)
-			goto Repeat
-//			addtimer(CALLBACK(src, .proc/attack_self, user), 2)   I don't have a CLUE how to fix this
+			addtimer(CALLBACK(src, TYPE_PROC_REF(/atom,screwdriver_act ),2))   // *scream  addtimer(CALLBACK(object|null, GLOBAL_PROC_REF(type/path|procstring), arg1, arg2, ... argn), time, timertype)
 		if(combocount >= 5) //Completed the sequence
 			if(combo == combo_target)
 				to_chat(user, "<span class='warning'>Realignment of weapon energy direction matrix complete.</span>")
 				playsound(src, 'sound/machines/sm/supermatter1.ogg', 30, 1)
 				freq = max_freq
-		else
-			to_chat(user, "<span class='warning'>Realignment failed. Continued failure risks dangerous heat overload. Rotating command sequence.</span>")
-			playsound(src, 'nsv13/sound/effects/warpcore/overload.ogg', 100, 1)
-			combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"
-			heat =max(heat+(heat_per_shot*4),max_heat) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
-			combocount = 0
-			combo = null
+				combo = null
+				combocount = 0
+			else
+				to_chat(user, "<span class='warning'>Realignment failed. Continued failure risks dangerous heat overload. Rotating command sequence.</span>")
+				playsound(src, 'nsv13/sound/effects/warpcore/overload.ogg', 100, 1)
+				combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"
+				heat =max(heat+(heat_per_shot*4),max_heat) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
+				combocount = 0
+				combo = null
 
 
 
@@ -195,7 +202,7 @@
 		P.damage *= power_modifier
 	P.damage *= (freq/100)
 
-/obj/machinery/ship_weapon/energy/process()
+/obj/machinery/ship_weapon/energy/process()   //heat overload management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
 	if(heat > 0)
 		heat = max(heat-heat_rate, 0)
 	if(overloaded & (heat <= (max_heat/50)))
@@ -209,7 +216,8 @@
 		overloaded = 1
 		alignment = 0
 		freq = 0
-		(atmos_spawn_air("h2o=1000;TEMP=1000"))
+		say("WARNING! Critical heat density, emergency venting and shutdown initiated!")
+		atmos_spawn_air("water_vapor=150;TEMP=1000")
 		heat = max_heat
 		return
 	charge_rate = initial(charge_rate) * power_modifier
@@ -245,11 +253,11 @@
 			do_sparks(4, FALSE, src)
 			freq -= rand(1,10)
 	if(alignment <= 50)
-		if(prob(25))
+		if(prob(45))
 			do_sparks(4, FALSE, src)
 			freq -= rand(1,10)
 			playsound(src, malfunction_sound, 100, 1)
-		if(prob(25))
+		if(prob(5))
 			playsound(src, malfunction_sound, 100, 1)
 			freq -= rand(1,10)
 			explosion(detonation_turf, 0, 0, 2, 3, flame_range = 2)
@@ -262,7 +270,7 @@
 			playsound(src, malfunction_sound, 100, 1)
 			freq -= rand(1,10)
 			explosion(detonation_turf, 0, 0, 3, 4, flame_range = 3)
-		if(prob(25))
+		if(prob(50))
 			var/list/shootat_turf = RANGE_TURFS(5,detonation_turf) - RANGE_TURFS(4, detonation_turf)
 			var/obj/item/projectile/beam/laser/P = new(detonation_turf)
 			//Shooting Code:
@@ -272,6 +280,10 @@
 			freq -= rand(1,10)
 	alignment = max(alignment-(rand(0, 8)),0)
 	if(alignment == 0)
+		for(var/mob/living/M in get_hearers_in_view(7, src)) //burn out eyes in view
+			if(M.stat != DEAD && M.get_eye_protection() < 2) //checks for eye protec
+				M.flash_act(10)
+				to_chat(M, "<span class='warning'>You have a second to watch the casing of the gun glow a dull red before it erupts in a blinding flash as it self-destructs</span>")   // stealing this from the plasmagun as well
 		explosion(detonation_turf, 0, 1, 3, 5, flame_range = 4)
 		heat += max_heat
 	..()
