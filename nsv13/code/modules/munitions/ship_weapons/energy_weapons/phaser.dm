@@ -202,8 +202,6 @@
 	P.damage *= (freq/100)
 
 /obj/machinery/ship_weapon/energy/process()   //heat overload management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
-//	if(heat > 0)
-//		heat = max(heat-heat_rate, 0)  magic cooling begone!
 	if(overloaded & (heat <= (max_heat/50)))
 		overloaded = 0
 	if(overloaded)
