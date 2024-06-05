@@ -22,10 +22,16 @@
 	var/energy_weapon_type = /datum/ship_weapon/burst_phaser
 	var/static_charge = FALSE //Controls whether power and energy cost scale with power modifier. True = no scaling
 	var/alignment = 100 //stolen from railguns and the plasma gun
-	var/freq
+	var/freq = 100
 	max_heat = 5000
 	heat_per_shot = 250
 	heat_rate = 100
+	var/max_freq = 100
+	var/combo_target = "omega" //Randomized sequence for the recalibration minigame.
+	var/list/letters = list("delta,", "omega,", "phi,")
+	var/combo = null
+	var/combocount = 0 //How far into the combo are they?
+
 
 
 /obj/machinery/ship_weapon/energy/beam
@@ -47,6 +53,45 @@
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
 		. += "<span class='notice'>The heatsink display reads <b>[(heat)]</b> out of <b>[(max_heat)]</b>.</span>"
+		if(maint_state != 0)
+			to_chat(user, "<span class='warning'>[src]'s realignment sequence is: [combo_target].</span>")
+
+
+// dilithium crystal alignment minigame stolen from ds13
+/obj/machinery/ship_weapon/screwdriver_act(mob/user, obj/item/tool)
+	. = ..()
+	if(MSTATE_UNBOLTED)
+		var/sound/thesound = pick(GLOB.bleeps)
+		SEND_SOUND(user, thesound)
+		var/list/options = letters
+		for(var/option in options)
+			options[option] = image(icon = 'nsv13/icons/actions/engine_actions.dmi', icon_state = "[option]")
+		var/dowhat = show_radial_menu(user,src,options)
+		if(!dowhat)
+			return
+		combo += "[dowhat]"
+		combocount ++
+		to_chat(user, "<span class='warning'>You inputted [dowhat] into the command sequence.</span>")
+		playsound(src, 'sound/machines/sm/supermatter3.ogg', 20, 1)
+		if(combocount <= 4)
+			addtimer(CALLBACK(src, .proc/screwdriver_act, user), 2)
+		if(combocount >= 5) //Completed the sequence
+			if(combo == combo_target)
+				to_chat(user, "<span class='warning'>Realignment of weapon energy direction matrix complete.</span>")
+				playsound(src, 'sound/machines/sm/supermatter1.ogg', 30, 1)
+				freq = max_freq
+		else
+			to_chat(user, "<span class='warning'>Realignment failed. Continued failure risks damage to dilithium crystal sample. Rotating command sequence.</span>")
+			playsound(src, 'nsv13/sound/effects/warpcore/overload.ogg', 100, 1)
+			combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"
+			heat +=(heat_per_shot*4) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
+			combocount = 0
+			combo = null
+
+
+/obj/machinery/ship_weapon/energy/Initialize()
+	. = ..()
+	combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"  //actually making the random sequince
 
 /obj/machinery/ship_weapon/energy/lazyload()
 	active = TRUE
@@ -92,7 +137,7 @@
 	data["alignment"] = alignment
 	data["heat"] = heat
 	data["maxheat"] = max_heat
-	data["frequency"] = freq 
+	data["frequency"] = freq
 	data["chargeRate"] = charge_rate
 	data["maxChargeRate"] = initial(charge_rate)*power_modifier_cap
 	data["powerAlloc"] = power_modifier
@@ -125,6 +170,10 @@
 		return FALSE
 	if(charge < charge_per_shot*shots) //Do we have enough ammo?
 		return FALSE
+	if(overloaded) //have we overheated?
+		return FALSE
+	if(freq <=10) //is the frequincy of the weapon high enough to fire?
+		return FALSE
 	else
 		return TRUE
 
@@ -138,20 +187,21 @@
 	var/obj/item/projectile/P = ..()
 	if(!static_charge)
 		P.damage *= power_modifier
+	P.damage *= (freq/100)
 
 /obj/machinery/ship_weapon/energy/process()
 	if(heat > 0)
 		heat = max(heat-heat_rate, 0)
-	if(overloaded & (heat <= (max_heat/50))
-		overloaded = 0 
+	if(overloaded & (heat <= (max_heat/50)))
+		overloaded = 0
 	if(overloaded)
 		return
 	if(heat >= max_heat)
 		do_sparks(4, FALSE, src)
 		overloaded = 1
-		alignment = 0 
-		freq = 0  
-		detonation_turf.atmos_spawn_air("o2=30;nitrogen=60;TEMP=1000")
+		alignment = 0
+		freq = 0
+		(get_turf(src)).atmos_spawn_air("o2=30;nitrogen=60;TEMP=1000")
 		heat = max_heat
 		return
 	charge_rate = initial(charge_rate) * power_modifier
@@ -180,29 +230,31 @@
 			to_chat(C, "<span class='danger'>Electricity arcs from the exposed firing mechanism.</span>")
 
 	var/turf/detonation_turf = get_turf(src)
+	if(heat >= (3*(max_heat/4)))
+		freq -= rand(1,4)
 	if(alignment <= 75)
 		if(prob(50))
 			do_sparks(4, FALSE, src)
 			freq -= rand(1,10)
 	if(alignment <= 50)
-		if(prob(25)
+		if(prob(25))
 			do_sparks(4, FALSE, src)
 			freq -= rand(1,10)
 			playsound(src, malfunction_sound, 100, 1)
-		if(prob(25)
+		if(prob(25))
 			playsound(src, malfunction_sound, 100, 1)
 			freq -= rand(1,10)
 			explosion(detonation_turf, 0, 0, 2, 3, flame_range = 2)
 	if(alignment <= 25)
-		if(prob(25)
+		if(prob(25))
 			do_sparks(4, FALSE, src)
 			playsound(src, malfunction_sound, 100, 1)
 			freq -= rand(1,10)
-		if(prob(25)
+		if(prob(25))
 			playsound(src, malfunction_sound, 100, 1)
 			freq -= rand(1,10)
 			explosion(detonation_turf, 0, 0, 3, 4, flame_range = 3)
-		if(prob(25)
+		if(prob(25))
 			var/list/shootat_turf = RANGE_TURFS(5,detonation_turf) - RANGE_TURFS(4, detonation_turf)
 			var/obj/item/projectile/energy/laser/P = new(detonation_turf)
 			//Shooting Code:
