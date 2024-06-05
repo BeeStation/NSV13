@@ -24,18 +24,18 @@
 	var/alignment = 100 //stolen from railguns and the plasma gun
 	var/freq = 100
 	max_heat = 5000
-	heat_per_shot = 250
+	heat_per_shot = 300
 	heat_rate = 100
 	var/max_freq = 100
 	var/combo_target = "omega" //Randomized sequence for the recalibration minigame.
 	var/list/letters = list("delta,", "omega,", "phi,")
 	var/combo = null
 	var/combocount = 0 //How far into the combo are they?
-	var/overheat_sound = sound\effects\smoke.ogg
+	var/overheat_sound = 'sound/effects/smoke.ogg'
 
 /obj/machinery/ship_weapon/energy/Initialize()
 	. = ..()
-	combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"  //actually making the random sequince
+	combo_target = "[pick(letters)],[pick(letters)],[pick(letters)],[pick(letters)],[pick(letters)]"  //actually making the random sequince
 
 
 /obj/machinery/ship_weapon/energy/beam
@@ -45,12 +45,12 @@
 	fire_mode = FIRE_MODE_BLUE_LASER
 	energy_weapon_type = /datum/ship_weapon/phaser
 	circuit = /obj/item/circuitboard/machine/phase_cannon
-	charge_rate = 600000 // At power level 5, requires 3MW per tick to charge
+	charge_rate = 800000 // At power level 5, requires 3MW per tick to charge
 	charge_per_shot = 4000000 // At power level 5, requires 20MW total to fire, takes about 12 seconds to gain 1 charge
 	max_charge = 8000000 // Store 2 charges
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
 	max_heat = 10000
-	heat_per_shot = 1000
+	heat_per_shot = 1500
 	heat_rate = 100
 
 
@@ -89,8 +89,8 @@
 		else
 			to_chat(user, "<span class='warning'>Realignment failed. Continued failure risks dangerous heat overload. Rotating command sequence.</span>")
 			playsound(src, 'nsv13/sound/effects/warpcore/overload.ogg', 100, 1)
-			combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"
-			heat +=(heat_per_shot*4) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
+			combo_target = "[pick(letters)],[pick(letters)],[pick(letters)],[pick(letters)],[pick(letters)]"
+			heat =max(heat+(heat_per_shot*4),max_heat) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
 			combocount = 0
 			combo = null
 
@@ -207,7 +207,7 @@
 		overloaded = 1
 		alignment = 0
 		freq = 0
-		(get_turf(src)).atmos_spawn_air("h2o=1000;TEMP=1000")
+		(atmos_spawn_air("h2o=1000;TEMP=1000"))
 		heat = max_heat
 		return
 	charge_rate = initial(charge_rate) * power_modifier
@@ -275,12 +275,11 @@
 	..()
 
 /obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/I)
-
 	if(maint_state == MSTATE_CLOSED)
 		to_chat(user, "<span class='notice'>You must first open the maintenance panel before unwrenching the protective casing!</span>")
 	if(maint_state == MSTATE_UNSCREWED)
 		to_chat(user, "<span class='notice'>You must unbolt the protective casing before aligning the lenses!</span>")
-	else
+	if(maint_state == MSTATE_UNBOLTED)
 		. = TRUE
 		to_chat(user, "<span class='notice'>You being aligning the lenses.</span>")
 		while(alignment < 100)
