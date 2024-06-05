@@ -49,7 +49,7 @@ export const EnergyWeapons = (props, context) => {
               good: [-Infinity, 0.2],
               average: [0.2, 0.5],
               bad: [0.5, Infinity],
-            }}/>
+            }}>
           </ProgressBar>
           Charge:
           <br />
