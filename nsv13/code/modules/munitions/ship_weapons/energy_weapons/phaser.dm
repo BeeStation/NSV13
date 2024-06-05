@@ -21,6 +21,12 @@
 	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
 	var/energy_weapon_type = /datum/ship_weapon/burst_phaser
 	var/static_charge = FALSE //Controls whether power and energy cost scale with power modifier. True = no scaling
+	var/alignment = 100 //stolen from railguns and the plasma gun
+	var/freq
+	max_heat = 5000
+	heat_per_shot = 250
+	heat_rate = 100
+
 
 /obj/machinery/ship_weapon/energy/beam
 	name = "phase cannon"
@@ -33,6 +39,14 @@
 	charge_per_shot = 4000000 // At power level 5, requires 20MW total to fire, takes about 12 seconds to gain 1 charge
 	max_charge = 8000000 // Store 2 charges
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
+	max_heat = 10000
+	heat_per_shot = 1000
+	heat_rate = 100
+
+/obj/machinery/ship_weapon/energy/examine(mob/user)
+	. = ..()
+	if(in_range(user, src) || isobserver(user))
+		. += "<span class='notice'>The heatsink display reads <b>[(heat)]</b> out of <b>[(max_heat)]</b>.</span>"
 
 /obj/machinery/ship_weapon/energy/lazyload()
 	active = TRUE
@@ -75,6 +89,10 @@
 	var/list/data = list()
 	data["progress"] = charge
 	data["goal"] = max_charge
+	data["alignment"] = alignment
+	data["heat"] = heat
+	data["maxheat"] = max_heat
+	data["frequency"] = freq 
 	data["chargeRate"] = charge_rate
 	data["maxChargeRate"] = initial(charge_rate)*power_modifier_cap
 	data["powerAlloc"] = power_modifier
@@ -122,6 +140,20 @@
 		P.damage *= power_modifier
 
 /obj/machinery/ship_weapon/energy/process()
+	if(heat > 0)
+		heat = max(heat-heat_rate, 0)
+	if(overloaded & (heat <= (max_heat/50))
+		overloaded = 0 
+	if(overloaded)
+		return
+	if(heat >= max_heat)
+		do_sparks(4, FALSE, src)
+		overloaded = 1
+		alignment = 0 
+		freq = 0  
+		detonation_turf.atmos_spawn_air("o2=30;nitrogen=60;TEMP=1000")
+		heat = max_heat
+		return
 	charge_rate = initial(charge_rate) * power_modifier
 	max_charge = initial(max_charge) * power_modifier
 	if(!static_charge)
@@ -138,6 +170,70 @@
 	if(idle_power_usage <= 0 || !try_use_power(charge_rate))
 		return
 	charge += charge_rate
+
+/obj/machinery/ship_weapon/energy/after_fire()
+	if(maint_state != 0) //MSTATE_CLOSED
+		tesla_zap(src, 4, 1000) //Munitions Officer definitely had the best uniform
+		for(var/mob/living/carbon/C in orange(4, src))
+			C.flash_act()
+		for(var/mob/living/carbon/C in orange(12, src))
+			to_chat(C, "<span class='danger'>Electricity arcs from the exposed firing mechanism.</span>")
+
+	var/turf/detonation_turf = get_turf(src)
+	if(alignment <= 75)
+		if(prob(50))
+			do_sparks(4, FALSE, src)
+			freq -= rand(1,10)
+	if(alignment <= 50)
+		if(prob(25)
+			do_sparks(4, FALSE, src)
+			freq -= rand(1,10)
+			playsound(src, malfunction_sound, 100, 1)
+		if(prob(25)
+			playsound(src, malfunction_sound, 100, 1)
+			freq -= rand(1,10)
+			explosion(detonation_turf, 0, 0, 2, 3, flame_range = 2)
+	if(alignment <= 25)
+		if(prob(25)
+			do_sparks(4, FALSE, src)
+			playsound(src, malfunction_sound, 100, 1)
+			freq -= rand(1,10)
+		if(prob(25)
+			playsound(src, malfunction_sound, 100, 1)
+			freq -= rand(1,10)
+			explosion(detonation_turf, 0, 0, 3, 4, flame_range = 3)
+		if(prob(25)
+			var/list/shootat_turf = RANGE_TURFS(5,detonation_turf) - RANGE_TURFS(4, detonation_turf)
+			var/obj/item/projectile/energy/laser/P = new(detonation_turf)
+			//Shooting Code:
+			P.range = 6
+			P.preparePixelProjectile(pick(shootat_turf), detonation_turf)
+			P.fire()
+			freq -= rand(1,10)
+	alignment = max(alignment-(rand(0, 8)+heat/max),0)
+	if(alignment = 0)
+		explosion(detonation_turf, 0, 1, 3, 5, flame_range = 4)
+		heat = max_heat
+		break
+	..()
+
+/obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/I)
+	. = TRUE
+	if(maint_state == 0)
+		to_chat(user, "<span class='notice'>You must first open the maintenance panel before unwrenching the protective casing!</span>")
+	if(maint_state == 1)
+		to_chat(user, "<span class='notice'>You must unbolt the protective casing before aligning the lenses!</span>")
+	else
+		to_chat(user, "<span class='notice'>You being aligning the lenses.</span>")
+		while(alignment < 100)
+			if(!do_after(user, 5, target = src))
+				return
+			alignment += rand(1,2)
+			if(alignment >= 100)
+				alignment = 100
+				break
+
+
 
 //Well hey! here's this piece of code again...
 /obj/machinery/ship_weapon/energy/proc/try_use_power(amount) // Although the machine may physically be powered, it may not have enough power to sustain a shield.
