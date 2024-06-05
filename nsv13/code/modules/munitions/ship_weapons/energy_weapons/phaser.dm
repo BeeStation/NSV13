@@ -33,8 +33,7 @@
 	var/combo = null
 	var/combocount = 0 //How far into the combo are they?
 	var/overheat_sound = 'sound/effects/smoke.ogg'
-	var/obj/machinery/atmospherics/components/binary/thermalregulator/regulator
-
+	var/list/parts = list()
 
 
 /obj/machinery/ship_weapon/energy/beam
@@ -55,8 +54,7 @@
 /obj/machinery/ship_weapon/energy/Initialize()
 	. = ..()
 	combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"  //actually making the random sequince
-	regulator = locate(/obj/machinery/atmospherics/components/binary/thermalregulator) in orange(1, src)
-	regulator.linked_gun = src
+
 
 /obj/machinery/ship_weapon/energy/examine(mob/user)
 	. = ..()
@@ -214,8 +212,9 @@
 		alignment = 0
 		freq = 0
 		say("WARNING! Critical heat density, emergency venting and shutdown initiated!")
-		atmos_spawn_air("water_vapor=150;TEMP=1000")
+		atmos_spawn_air("water_vapor=200;TEMP=1000")
 		heat = max_heat
+		charge = 0
 		return
 	charge_rate = initial(charge_rate) * power_modifier
 	max_charge = initial(max_charge) * power_modifier
@@ -287,7 +286,10 @@
 
 /obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/I)
 	if(maint_state == MSTATE_CLOSED)
-		to_chat(user, "<span class='notice'>You must first open the maintenance panel before unwrenching the protective casing!</span>")
+		if (istype(I))
+			to_chat(user, "<span class='notice'>You log [src] in the multitool's buffer.</span>")
+			I.buffer = src
+			return TRUE
 	if(maint_state == MSTATE_UNSCREWED)
 		to_chat(user, "<span class='notice'>You must unbolt the protective casing before aligning the lenses!</span>")
 	if(maint_state == MSTATE_UNBOLTED)
