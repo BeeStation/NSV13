@@ -56,23 +56,6 @@
 
 /obj/machinery/atmospherics/components/binary/thermalregulator/process()
 	update_parents() //Update the pipenet to register new gas mixes
-	if(next_slowprocess < world.time)
-		slowprocess()
-		next_slowprocess = world.time + 1 SECONDS
-
-/obj/machinery/atmospherics/components/binary/thermalregulator/process_atmos()
-	..()
-	if(!on)
-		return
-	if(!linked_gun)
-		return
-
-
-
-
-
-/obj/machinery/atmospherics/components/binary/thermalregulator/proc/slowprocess()
-	..()
 	if(!on)
 		return
 	if(!linked_gun)
