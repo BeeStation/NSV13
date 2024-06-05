@@ -34,8 +34,7 @@
 	var/combo = null
 	var/combocount = 0 //How far into the combo are they?
 	var/overheat_sound = 'sound/effects/smoke.ogg'
-	var/obj/machinery/atmospherics/components/binary/thermal_regulator/regulator
-
+	var/obj/machinery/atmospherics/components/binary/thermalregulator/regulator
 
 
 
@@ -58,7 +57,7 @@
 /obj/machinery/ship_weapon/energy/Initialize()
 	. = ..()
 	combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"  //actually making the random sequince
-	regulator = locate(/obj/machinery/atmospherics/components/binary/thermal_regulator) in orange(1, src)
+	regulator = locate(/obj/machinery/atmospherics/components/binary/thermalregulator) in orange(1, src)
 	regulator.linked_gun = src
 
 /obj/machinery/ship_weapon/energy/examine(mob/user)
@@ -203,8 +202,8 @@
 	P.damage *= (freq/100)
 
 /obj/machinery/ship_weapon/energy/process()   //heat overload management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
-	if(heat > 0)
-		heat = max(heat-heat_rate, 0)
+//	if(heat > 0)
+//		heat = max(heat-heat_rate, 0)  magic cooling begone!
 	if(overloaded & (heat <= (max_heat/50)))
 		overloaded = 0
 	if(overloaded)

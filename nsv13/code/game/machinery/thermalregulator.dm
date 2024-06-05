@@ -1,7 +1,7 @@
 #define COOLANT_INPUT_GATE airs[1]
 #define COOLANT_OUTPUT_GATE airs[2]
 
-/obj/machinery/atmospherics/components/binary/thermal_regulator
+/obj/machinery/atmospherics/components/binary/thermalregulator
 	name = "thermal regulator"
 	desc = "The heat regulator that helps cool energy weapons"
 	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
@@ -20,14 +20,16 @@
 	var/last_coolant_temperature = 0
 	var/last_output_temperature = 0
 	var/last_heat_delta = 0
+	var/minimum_coolant_level = 5
+	var/next_slowprocess = 0
 
-/obj/machinery/atmospherics/components/binary/thermal_regulator/on_construction()
+/obj/machinery/atmospherics/components/binary/thermalregulator/on_construction()
 	var/obj/item/circuitboard/machine/thermomachine/board = circuit
 	if(board)
 		piping_layer = board.pipe_layer
 	..(dir, piping_layer)
 
-/obj/machinery/atmospherics/components/binary/thermal_regulator/attack_hand(mob/user)
+/obj/machinery/atmospherics/components/binary/thermalregulator/attack_hand(mob/user)
 	. = ..()
 	if(panel_open)
 		to_chat(user, "<span class='notice'>You must turn close the panel on [src] before turning it on.</span>")
@@ -36,7 +38,7 @@
 	on = !on
 	update_icon()
 
-/obj/machinery/atmospherics/components/binary/thermal_regulator/update_icon()
+/obj/machinery/atmospherics/components/binary/thermalregulator/update_icon()
 	cut_overlays()
 	if(panel_open)
 		icon_state = "plasma_condenser_screw"
@@ -45,19 +47,20 @@
 	else
 		icon_state = "plasma_condenser"
 
-/obj/machinery/atmospherics/components/binary/thermal_regulator/ComponentInitialize()
+/obj/machinery/atmospherics/components/binary/thermalregulator/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/simple_rotation,ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS )
 	gas_absorption_effectiveness = rand(5, 6)/10 //All reactors are slightly different. This will result in you having to figure out what the balance is for K.
 	gas_absorption_constant = gas_absorption_effectiveness //And set this up for the rest of the round.
 
-/obj/machinery/atmospherics/components/binary/thermal_regulator/process()
+
+/obj/machinery/atmospherics/components/binary/thermalregulator/process()
 	update_parents() //Update the pipenet to register new gas mixes
 	if(next_slowprocess < world.time)
 		slowprocess()
 		next_slowprocess = world.time + 1 SECONDS
 
-/obj/machinery/atmospherics/components/binary/thermal_regulator/process_atmos()
+/obj/machinery/atmospherics/components/binary/thermalregulator/process_atmos()
 	..()
 	if(!on)
 		return
@@ -68,7 +71,7 @@
 
 
 
-/obj/machinery/atmospherics/components/binary/thermal_regulator/proc/slowprocess()
+/obj/machinery/atmospherics/components/binary/thermalregulator/proc/slowprocess()
 	..()
 	if(!on)
 		return
@@ -97,4 +100,4 @@
 	coolant_output.set_temperature(CELSIUS_TO_KELVIN(temperature)) //Heat the coolant output gas that we just had pass through us.
 	last_output_temperature = KELVIN_TO_CELSIUS(coolant_output.return_temperature())
 
-	heat = linked_gun.heat
+	linked_gun.heat = temperature
