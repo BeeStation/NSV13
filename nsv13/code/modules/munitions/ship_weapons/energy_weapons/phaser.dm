@@ -23,11 +23,10 @@
 	var/static_charge = FALSE //Controls whether power and energy cost scale with power modifier. True = no scaling
 	var/alignment = 100 //stolen from railguns and the plasma gun
 	var/freq = 100
-	max_heat = 5000
+	max_heat = 500
 	max_integrity = 1200 //don't blow up before we're ready
 	obj_integrity = 1200
-	heat_per_shot = 300
-	heat_rate = 100
+	heat_per_shot = 30
 	var/max_freq = 100
 	var/combo_target = "omega" //Randomized sequence for the recalibration minigame.
 	var/list/letters = list("delta,", "omega,", "phi,")
@@ -49,9 +48,8 @@
 	charge_per_shot = 4000000 // At power level 5, requires 20MW total to fire, takes about 12 seconds to gain 1 charge
 	max_charge = 8000000 // Store 2 charges
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
-	max_heat = 10000
-	heat_per_shot = 1500
-	heat_rate = 100
+	max_heat = 1000
+	heat_per_shot = 100
 
 
 /obj/machinery/ship_weapon/energy/Initialize()
@@ -68,7 +66,7 @@
 			to_chat(user, "<span class='warning'>[src]'s realignment sequence is: [combo_target].</span>")
 
 
-// dilithium crystal alignment minigame stolen from nsv13
+// dilithium crystal alignment minigame stolen from ds13
 /obj/machinery/ship_weapon/energy/screwdriver_act(mob/user, obj/item/tool)
 	. = ..()
 	if(maint_state == MSTATE_UNBOLTED)
@@ -202,6 +200,8 @@
 	P.damage *= (freq/100)
 
 /obj/machinery/ship_weapon/energy/process()   //heat overload management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
+	if(heat > 0)
+		heat = max(heat-1, 0)
 	if(overloaded & (heat <= (max_heat/50)))
 		overloaded = 0
 	if(overloaded)
