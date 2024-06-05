@@ -568,7 +568,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/beam/laser/heavylaser/phaser/relayed
 	projectile_piercing = PASSGLASS|PASSGRILLE|PASSTABLE
 	flag = "laser"
-	damage = 40 //let's give them a chance to live, instead of smiting them with the full wraith of the Enterprise 
+	damage = 80 //let's give them a chance to live, instead of smiting them with the full wraith of the Enterprise 
 
 /obj/item/projectile/beam/laser/heavylaser/phaser/relayed/on_hit(atom/target, blocked)
 	. = ..()
