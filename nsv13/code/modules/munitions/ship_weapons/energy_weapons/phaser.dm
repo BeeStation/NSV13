@@ -31,6 +31,7 @@
 	var/list/letters = list("delta,", "omega,", "phi,")
 	var/combo = null
 	var/combocount = 0 //How far into the combo are they?
+	var/overheat_sound = sound\effects\smoke.ogg
 
 /obj/machinery/ship_weapon/energy/Initialize()
 	. = ..()
@@ -57,7 +58,7 @@
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
 		. += "<span class='notice'>The heatsink display reads <b>[(heat)]</b> out of <b>[(max_heat)]</b>.</span>"
-		if(maint_state != MSTATE_CLOSEDD)
+		if(maint_state != MSTATE_CLOSED)
 			to_chat(user, "<span class='warning'>[src]'s realignment sequence is: [combo_target].</span>")
 
 
@@ -86,7 +87,7 @@
 				playsound(src, 'sound/machines/sm/supermatter1.ogg', 30, 1)
 				freq = max_freq
 		else
-			to_chat(user, "<span class='warning'>Realignment failed. Continued failure risks damage to dilithium crystal sample. Rotating command sequence.</span>")
+			to_chat(user, "<span class='warning'>Realignment failed. Continued failure risks dangerous heat overload. Rotating command sequence.</span>")
 			playsound(src, 'nsv13/sound/effects/warpcore/overload.ogg', 100, 1)
 			combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"
 			heat +=(heat_per_shot*4) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
@@ -201,12 +202,12 @@
 		return
 	if(heat >= max_heat)
 		playsound(src, malfunction_sound, 100, 1)
-		playsound(src, sound\effects\smoke.ogg, 100, 1)
+		playsound(src, overheat_sound, 100, 1)
 		do_sparks(4, FALSE, src)
 		overloaded = 1
 		alignment = 0
 		freq = 0
-		(get_turf(src)).atmos_spawn_air("o2=300;nitrogen=600;TEMP=1000")
+		(get_turf(src)).atmos_spawn_air("h2o=1000;TEMP=1000")
 		heat = max_heat
 		return
 	charge_rate = initial(charge_rate) * power_modifier
@@ -227,7 +228,7 @@
 	charge += charge_rate
 
 /obj/machinery/ship_weapon/energy/after_fire()
-	if(maint_state != 0) //MSTATE_CLOSED
+	if(maint_state != MSTATE_CLOSED) //MSTATE_CLOSED
 		tesla_zap(src, 4, 1000) //Munitions Officer definitely had the best uniform
 		for(var/mob/living/carbon/C in orange(4, src))
 			C.flash_act()
