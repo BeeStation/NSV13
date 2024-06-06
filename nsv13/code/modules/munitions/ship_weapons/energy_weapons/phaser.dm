@@ -187,7 +187,7 @@
 			if(M.stat != DEAD && M.get_eye_protection() < 2) //checks for eye protec
 				M.flash_act(10)
 				to_chat(M, "<span class='warning'>You have a second to watch the casing of the gun glow a dull red before it erupts in a blinding flash as it self-destructs</span>")   // stealing this from the plasmagun as well
-		explosion(detonation_turf, 0, 1, 3, 5, flame_range = 4)
+		explosion(get_turf(src), 0, 1, 3, 5, flame_range = 4)
 		heat += max_heat
 	else
 		return TRUE
@@ -285,11 +285,13 @@
 	..()
 
 /obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/I)
+	/*
 	if(maint_state == MSTATE_CLOSED)
 		if (istype(I))
 			to_chat(user, "<span class='notice'>You log [src] in the multitool's buffer.</span>")
 			I.buffer = src
 			return TRUE
+			*/
 	if(maint_state == MSTATE_UNSCREWED)
 		to_chat(user, "<span class='notice'>You must unbolt the protective casing before aligning the lenses!</span>")
 	if(maint_state == MSTATE_UNBOLTED)
