@@ -34,14 +34,14 @@
 
 /obj/machinery/cooling/cooler/Initialize(mapload)
 	. = ..()
-	for(var/obj/machinery/ship_weapon/energy/E as() in orange(1, src))
+	for(var/obj/machinery/ship_weapon/energy/E  in orange(1, src))  //I have no idea what I'm doing and this causes errors so
 		E.coolers |= src
 		parent = E
 		break
 
 /obj/machinery/cooling/storage/Initialize(mapload)
 	. = ..()
-	for(var/obj/machinery/ship_weapon/energy/E as() in orange(1, src))
+	for(var/obj/machinery/ship_weapon/energy/E  in orange(1, src))
 		E.storages |= src
 		parent = E
 		break
@@ -69,7 +69,7 @@
 	if(on)
 		. += "The power is on"
 	if(parent)
-		. += "The subspace transcever is linked"
+		. += "The thermal subspace transcever is linked"
 	else
 		. += "it's completely inactive"
 

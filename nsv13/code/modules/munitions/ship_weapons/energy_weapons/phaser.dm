@@ -253,16 +253,16 @@
 
 
 
-/obj/machinery/ship_weapon/energy/proc/process_heat(delta_time)//heat management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
+/obj/machinery/ship_weapon/energy/proc/process_heat()//heat management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
 	for(var/obj/machinery/cooling/cooler/C in coolers)
 		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
 			cooling_amount++
 	for(var/obj/machinery/cooling/storage/C in storages)
 		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
 			storage_amount++
-	max_heat = initial(max_heat) + (min((storage_amount),10))*storage_rate
+	max_heat = initial(max_heat) + ((min((storage_amount),10))*storage_rate)
 	if(heat > 0)
-		heat = max(heat-(min((cooling_amount),10)*delta_time*heat_rate),0)
+		heat = max(heat-(min((cooling_amount),10)*heat_rate),0)
 	if(overloaded & (heat <= (max_heat/50)))
 		overloaded = 0
 	if(overloaded)
