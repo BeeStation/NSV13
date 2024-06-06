@@ -23,18 +23,22 @@
 	var/static_charge = FALSE //Controls whether power and energy cost scale with power modifier. True = no scaling
 	var/alignment = 100 //stolen from railguns and the plasma gun
 	var/freq = 100
-	max_heat = 500
+	max_heat = 1000
 	max_integrity = 1200 //don't blow up before we're ready
 	obj_integrity = 1200
-	heat_per_shot = 30
+	heat_per_shot = 60
 	var/max_freq = 100
 	var/combo_target = "omega" //Randomized sequence for the recalibration minigame.
 	var/list/letters = list("delta,", "omega,", "phi,")
 	var/combo = null
 	var/combocount = 0 //How far into the combo are they?
 	var/overheat_sound = 'sound/effects/smoke.ogg'
-	var/list/parts = list()
-	heat_rate = 10
+	var/list/coolers = list()
+	var/list/storages = list()
+	var/cooling_amount = 0
+	var/storage_amount = 0
+	heat_rate = 20
+	var/storage_rate = 100
 
 
 /obj/machinery/ship_weapon/energy/beam
@@ -48,8 +52,8 @@
 	charge_per_shot = 4000000 // At power level 5, requires 20MW total to fire, takes about 12 seconds to gain 1 charge
 	max_charge = 8000000 // Store 2 charges
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
-	max_heat = 1000
-	heat_per_shot = 100
+	max_heat = 2000
+	heat_per_shot = 200
 	heat_rate = 20
 
 
@@ -64,41 +68,6 @@
 		. += "<span class='notice'>The heatsink display reads <b>[(heat)]</b> out of <b>[(max_heat)]</b>.</span>"
 		if(maint_state != MSTATE_CLOSED)
 			. +=  "<span class='warning'>[src]'s realignment sequence is: [combo_target].</span>"
-
-
-// dilithium crystal alignment minigame stolen from ds13
-/obj/machinery/ship_weapon/energy/screwdriver_act(mob/user, obj/item/tool)
-	. = ..()
-	if(maint_state == MSTATE_UNBOLTED)
-		.=TRUE
-		var/sound/thesound = pick('nsv13/sound/effects/computer/beep.ogg','nsv13/sound/effects/computer/beep2.ogg','nsv13/sound/effects/computer/beep3.ogg','nsv13/sound/effects/computer/beep4.ogg','nsv13/sound/effects/computer/beep5.ogg','nsv13/sound/effects/computer/beep6.ogg','nsv13/sound/effects/computer/beep7.ogg','nsv13/sound/effects/computer/beep8.ogg','nsv13/sound/effects/computer/beep9.ogg','nsv13/sound/effects/computer/beep10.ogg','nsv13/sound/effects/computer/beep11.ogg','nsv13/sound/effects/computer/beep12.ogg',)
-		SEND_SOUND(user, thesound)
-		var/list/options = letters
-		for(var/option in options)
-			options[option] = image(icon = 'nsv13/icons/actions/engine_actions.dmi', icon_state = "[option]")
-		var/dowhat = show_radial_menu(user,src,options)
-		if(!dowhat)
-			return
-		combo += "[dowhat]"
-		combocount ++
-		to_chat(user, "<span class='warning'>You inputted [dowhat] into the command sequence.</span>")
-		playsound(src, 'sound/machines/sm/supermatter3.ogg', 20, 1)
-		if(combocount <= 4)
-			addtimer(CALLBACK(src, TYPE_PROC_REF(/atom,screwdriver_act ),2))   // *scream  addtimer(CALLBACK(object|null, GLOBAL_PROC_REF(type/path|procstring), arg1, arg2, ... argn), time, timertype)
-		if(combocount >= 5) //Completed the sequence
-			if(combo == combo_target)
-				to_chat(user, "<span class='warning'>Realignment of weapon energy direction matrix complete.</span>")
-				playsound(src, 'sound/machines/sm/supermatter1.ogg', 30, 1)
-				freq = max_freq
-				combo = null
-				combocount = 0
-			else
-				to_chat(user, "<span class='warning'>Realignment failed. Continued failure risks dangerous heat overload. Rotating command sequence.</span>")
-				playsound(src, 'nsv13/sound/effects/warpcore/overload.ogg', 100, 1)
-				combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"
-				heat =max(heat+(heat_per_shot*4),max_heat) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
-				combocount = 0
-				combo = null
 
 
 
@@ -183,6 +152,7 @@
 	if(overloaded) //have we overheated?
 		return FALSE
 	if(freq <=10) //is the frequincy of the weapon high enough to fire?
+		overload()
 		return FALSE
 	if(alignment == 0)
 		for(var/mob/living/M in get_hearers_in_view(7, src)) //burn out eyes in view
@@ -190,7 +160,7 @@
 				M.flash_act(10)
 				to_chat(M, "<span class='warning'>You have a second to watch the casing of the gun glow a dull red before it erupts in a blinding flash as it self-destructs</span>")   // stealing this from the plasmagun as well
 		explosion(get_turf(src), 0, 1, 3, 5, flame_range = 4)
-		heat += max_heat
+		overload()
 	else
 		return TRUE
 
@@ -206,22 +176,9 @@
 		P.damage *= power_modifier
 	P.damage *= (freq/100)
 
-/obj/machinery/ship_weapon/energy/process()   //heat overload management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
-	if(overloaded & (heat <= (max_heat/50)))
-		overloaded = 0
+/obj/machinery/ship_weapon/energy/process()
+	process_heat()
 	if(overloaded)
-		return
-	if(heat >= max_heat)
-		playsound(src, malfunction_sound, 100, 1)
-		playsound(src, overheat_sound, 100, 1)
-		do_sparks(4, FALSE, src)
-		overloaded = 1
-		alignment = 0
-		freq = 0
-		say("WARNING! Critical heat density, emergency venting and shutdown initiated!")
-		atmos_spawn_air("water_vapor=200;TEMP=1000")
-		heat = max_heat
-		charge = 0
 		return
 	charge_rate = initial(charge_rate) * power_modifier
 	max_charge = initial(max_charge) * power_modifier
@@ -247,41 +204,7 @@
 			C.flash_act()
 		for(var/mob/living/carbon/C in orange(12, src))
 			to_chat(C, "<span class='danger'>Electricity arcs from the exposed firing mechanism.</span>")
-
-	var/turf/detonation_turf = get_turf(src)
-	if(heat >= (3*(max_heat/4)))
-		freq -= rand(1,4)
-	if(alignment <= 75)
-		if(prob(50))
-			do_sparks(4, FALSE, src)
-			freq -= rand(1,10)
-	if(alignment <= 50)
-		if(prob(45))
-			do_sparks(4, FALSE, src)
-			freq -= rand(1,10)
-			playsound(src, malfunction_sound, 100, 1)
-		if(prob(5))
-			playsound(src, malfunction_sound, 100, 1)
-			freq -= rand(1,10)
-			explosion(detonation_turf, 0, 0, 2, 3, flame_range = 2)
-	if(alignment <= 25)
-		if(prob(25))
-			do_sparks(4, FALSE, src)
-			playsound(src, malfunction_sound, 100, 1)
-			freq -= rand(1,10)
-		if(prob(25))
-			playsound(src, malfunction_sound, 100, 1)
-			freq -= rand(1,10)
-			explosion(detonation_turf, 0, 0, 3, 4, flame_range = 3)
-		if(prob(50))
-			var/list/shootat_turf = RANGE_TURFS(5,detonation_turf) - RANGE_TURFS(4, detonation_turf)
-			var/obj/item/projectile/beam/laser/P = new(detonation_turf)
-			//Shooting Code:
-			P.range = 6
-			P.preparePixelProjectile(pick(shootat_turf), detonation_turf)
-			P.fire()
-			freq -= rand(1,10)
-	alignment = max(alignment-(rand(0, 8)),0)
+	handle_alignment()
 	..()
 
 /obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/I)
@@ -327,3 +250,108 @@
 
 /obj/machinery/ship_weapon/energy/beam/admin //ez weapon for quickly testing.
 	charge_per_shot = 0
+
+
+
+/obj/machinery/ship_weapon/energy/proc/process_heat(delta_time)//heat management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
+	for(var/obj/machinery/cooling/cooler/C in coolers)
+		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
+			cooling_amount++
+	for(var/obj/machinery/cooling/storage/C in storages)
+		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
+			storage_amount++
+	max_heat = initial(max_heat) + (min((storage_amount),10))*storage_rate
+	if(heat > 0)
+		heat = max(heat-(min((cooling_amount),10)*delta_time*heat_rate),0)
+	if(overloaded & (heat <= (max_heat/50)))
+		overloaded = 0
+	if(overloaded)
+		return
+	if(heat >= max_heat)
+		overload()
+
+
+/obj/machinery/ship_weapon/energy/proc/overload() //this is what happens when you can't control yourself
+	playsound(src, malfunction_sound, 100, 1)
+	playsound(src, overheat_sound, 100, 1)
+	do_sparks(4, FALSE, src)
+	overloaded = 1
+	alignment = 0
+	freq = 0
+	say("WARNING! Critical heat density, emergency venting and shutdown initiated!")
+	atmos_spawn_air("water_vapor=200;TEMP=1000")
+	heat = max_heat
+	charge = 0
+	return
+
+/obj/machinery/ship_weapon/energy/proc/handle_alignment() //this is the basic bad stuff that happens, don't fire when your gun is at 0 alignment, or it'll blow itself up
+	var/turf/detonation_turf = get_turf(src)
+	if(heat >= (3*(max_heat/4)))
+		freq -= rand(1,4)
+	if(alignment <= 75)
+		if(prob(50))
+			do_sparks(4, FALSE, src)
+			freq -= rand(1,10)
+	if(alignment <= 50)
+		if(prob(45))
+			do_sparks(4, FALSE, src)
+			freq -= rand(1,10)
+			playsound(src, malfunction_sound, 100, 1)
+		if(prob(5))
+			playsound(src, malfunction_sound, 100, 1)
+			freq -= rand(1,10)
+			explosion(detonation_turf, 0, 0, 2, 3, flame_range = 2)
+	if(alignment <= 25)
+		if(prob(25))
+			do_sparks(4, FALSE, src)
+			playsound(src, malfunction_sound, 100, 1)
+			freq -= rand(1,10)
+		if(prob(25))
+			playsound(src, malfunction_sound, 100, 1)
+			freq -= rand(1,10)
+			explosion(detonation_turf, 0, 0, 3, 4, flame_range = 3)
+		if(prob(50))
+			var/list/shootat_turf = RANGE_TURFS(5,detonation_turf) - RANGE_TURFS(4, detonation_turf)
+			var/obj/item/projectile/beam/laser/P = new(detonation_turf)
+			//Shooting Code:
+			P.range = 6
+			P.preparePixelProjectile(pick(shootat_turf), detonation_turf)
+			P.fire()
+			freq -= rand(1,10)
+	alignment = max(alignment-(rand(0, 4)),0)
+
+
+	// dilithium crystal alignment minigame stolen from ds13
+/obj/machinery/ship_weapon/energy/screwdriver_act(mob/user, obj/item/tool)
+	. = ..()
+	if(maint_state == MSTATE_UNBOLTED)
+		.=TRUE
+		var/sound/thesound = pick('nsv13/sound/effects/computer/beep.ogg','nsv13/sound/effects/computer/beep2.ogg','nsv13/sound/effects/computer/beep3.ogg','nsv13/sound/effects/computer/beep4.ogg','nsv13/sound/effects/computer/beep5.ogg','nsv13/sound/effects/computer/beep6.ogg','nsv13/sound/effects/computer/beep7.ogg','nsv13/sound/effects/computer/beep8.ogg','nsv13/sound/effects/computer/beep9.ogg','nsv13/sound/effects/computer/beep10.ogg','nsv13/sound/effects/computer/beep11.ogg','nsv13/sound/effects/computer/beep12.ogg',)
+		SEND_SOUND(user, thesound)
+		var/list/options = letters
+		for(var/option in options)
+			options[option] = image(icon = 'nsv13/icons/actions/engine_actions.dmi', icon_state = "[option]")
+		var/dowhat = show_radial_menu(user,src,options)
+		if(!dowhat)
+			return
+		combo += "[dowhat]"
+		combocount ++
+		to_chat(user, "<span class='warning'>You inputted [dowhat] into the command sequence.</span>")
+		playsound(src, 'sound/machines/sm/supermatter3.ogg', 20, 1)
+		if(combocount <= 4)
+			addtimer(CALLBACK(src, TYPE_PROC_REF(/atom,screwdriver_act), user),2)   // *scream  addtimer(CALLBACK(object|null, GLOBAL_PROC_REF(type/path|procstring), arg1, arg2, ... argn), time, timertype)
+		if(combocount >= 5) //Completed the sequence
+			if(combo == combo_target)
+				to_chat(user, "<span class='warning'>Realignment of weapon energy direction matrix complete.</span>")
+				playsound(src, 'sound/machines/sm/supermatter1.ogg', 30, 1)
+				freq = max_freq
+				combo = null
+				combocount = 0
+			else
+				to_chat(user, "<span class='warning'>Realignment failed. Continued failure risks dangerous heat overload. Rotating command sequence.</span>")
+				playsound(src, 'nsv13/sound/effects/warpcore/overload.ogg', 100, 1)
+				combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"
+				heat = max(heat+(heat_per_shot*4),max_heat) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
+				combocount = 0
+				combo = null
+

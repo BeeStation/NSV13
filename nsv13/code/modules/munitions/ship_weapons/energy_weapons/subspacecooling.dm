@@ -1,9 +1,9 @@
 /obj/machinery/cooling
-	name = "subspace cooling unit"
-	desc = "A cooling unit that dumps the massive amounts of heat energy weapons generate into subspace."
+	name = "subspace unit"
+	desc = "A subspace unit."
 	icon = 'icons/obj/power.dmi'
 	icon_state = "smes"
-	circuit = /obj/item/circuitboard/machine/cooling
+	circuit = /obj/item/circuitboard/machine
 	bound_width = 32
 	pixel_x = 0
 	pixel_y = 0
@@ -11,6 +11,12 @@
 	var/obj/machinery/ship_weapon/energy/parent
 	var/on = FALSE
 	density = TRUE
+	critical_machine = TRUE
+
+/obj/machinery/cooling/cooler
+	name = "subspace cooling unit"
+	desc = "A cooling unit that dumps the massive amounts of heat energy weapons generate into subspace."
+	circuit = /obj/item/circuitboard/machine/cooling
 
 /obj/item/circuitboard/machine/cooling
 	name = "subspace cooling unit circuit board"
@@ -26,20 +32,28 @@
 	materials = list(/datum/material/glass=1000)
 	w_class = WEIGHT_CLASS_SMALL
 
-/obj/machinery/cooling/Initialize(mapload)
-	.= ..()
-	parent = locate(/obj/machinery/ship_weapon/energy) in orange(1, src)
+/obj/machinery/cooling/cooler/Initialize(mapload)
+	. = ..()
+	for(var/obj/machinery/ship_weapon/energy/E as() in orange(1, src))
+		E.coolers |= src
+		parent = E
+		break
 
-/obj/machinery/cooling/process(delta_time)
-	.= ..()
-	if(!on)
-		return
-	if(!parent)
-		return
-	if(parent.heat > 0)
-		parent.heat = max(parent.heat-parent.heat_rate, 0)
-	update_icon()
+/obj/machinery/cooling/storage/Initialize(mapload)
+	. = ..()
+	for(var/obj/machinery/ship_weapon/energy/E as() in orange(1, src))
+		E.storages |= src
+		parent = E
+		break
 
+
+/obj/machinery/cooling/cooler/Destroy()
+  parent.coolers -= src
+  . = ..()
+
+/obj/machinery/cooling/storage/Destroy()
+  parent.storages -= src
+  . = ..()
 
 /obj/machinery/cooling/attack_hand(mob/user)
 	. = ..()
@@ -50,16 +64,23 @@
 	on = !on
 	update_icon()
 
+/obj/machinery/cooling/examine()
+	. = ..()
+	if(on)
+		. += "The power is on"
+	if(parent)
+		. += "The subspace transcever is linked"
+	else
+		. += "it's completely inactive"
+
+
 /obj/machinery/cooling/update_icon()
 	cut_overlays()
-
 	if(panel_open)
 		icon_state = "smes-o"
-
-	else if(on & parent)
+	if(on & parent)
 		add_overlay("smes-op1")
-
-	else if(on)
+	if(on)
 		add_overlay("smes-oc1")
 	else
 		add_overlay("smes-op0")
