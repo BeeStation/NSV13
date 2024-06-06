@@ -34,6 +34,7 @@
 	var/combocount = 0 //How far into the combo are they?
 	var/overheat_sound = 'sound/effects/smoke.ogg'
 	var/list/parts = list()
+	heat_rate = 10
 
 
 /obj/machinery/ship_weapon/energy/beam
@@ -49,6 +50,7 @@
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
 	max_heat = 1000
 	heat_per_shot = 100
+	heat_rate = 20
 
 
 /obj/machinery/ship_weapon/energy/Initialize()
@@ -205,8 +207,6 @@
 	P.damage *= (freq/100)
 
 /obj/machinery/ship_weapon/energy/process()   //heat overload management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
-	if(heat > 0)
-		heat = max(heat-1, 0)
 	if(overloaded & (heat <= (max_heat/50)))
 		overloaded = 0
 	if(overloaded)

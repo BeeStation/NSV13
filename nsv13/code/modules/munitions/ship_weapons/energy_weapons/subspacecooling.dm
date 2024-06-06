@@ -5,12 +5,12 @@
 	icon_state = "smes"
 	circuit = /obj/item/circuitboard/machine/cooling
 	bound_width = 32
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = 0
+	pixel_y = 0
 	idle_power_usage =  2000
 	var/obj/machinery/ship_weapon/energy/parent
-	var/function = "heat"
 	var/on = FALSE
+	density = TRUE
 
 /obj/item/circuitboard/machine/cooling
 	name = "subspace cooling unit circuit board"
@@ -36,8 +36,8 @@
 		return
 	if(!parent)
 		return
-	if(parent.[function] > 0)
-		parent.[function] = max(parent.[function]-50, 0)
+	if(parent.heat > 0)
+		parent.heat = max(parent.heat-parent.heat_rate, 0)
 	update_icon()
 
 
@@ -50,16 +50,18 @@
 	on = !on
 	update_icon()
 
-/*/obj/machinery/cooling/update_icon()
+/obj/machinery/cooling/update_icon()
 	cut_overlays()
+/*
 	if(panel_open)
 		icon_state = "plasma_condenser_screw"
-	else if(on)
-		icon_state = "plasma_condenser_active"
+*/
+	if(on & parent)
+		add_overlay("smes-op1")
 	else
-		icon_state = "plasma_condenser"
+		add_overlay("smes-op0")
 
-
+/*
 /obj/machinery/cooling/multitool_act(mob/living/user, obj/item/I)
 		if(!multitool_check_buffer(user, I))
 			return
@@ -81,6 +83,4 @@
 	desc = "A cooling unit that stores the massive amounts of heat energy weapons generate in subspace."
 	icon_state = "smes"
 	circuit = /obj/item/circuitboard/machine/cooling/storage
-	function = "max_heat"
-
 
