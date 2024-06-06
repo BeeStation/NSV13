@@ -52,12 +52,15 @@
 
 /obj/machinery/cooling/update_icon()
 	cut_overlays()
-/*
+
 	if(panel_open)
-		icon_state = "plasma_condenser_screw"
-*/
-	if(on & parent)
+		icon_state = "smes-o"
+
+	else if(on & parent)
 		add_overlay("smes-op1")
+
+	else if(on)
+		add_overlay("smes-oc1")
 	else
 		add_overlay("smes-op0")
 
