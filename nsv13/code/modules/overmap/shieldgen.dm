@@ -359,10 +359,13 @@
 	desired.Scale(resize_x,resize_y)
 	desired.Turn(overmap.angle)
 	transform = desired
+	/*
 	overmap.vis_contents += src
-
+*/
 /obj/effect/temp_visual/overmap_shield_hit/Destroy()
+/*
 	overmap?.vis_contents -= src
+*/
 	overmap = null
 	return ..()
 
