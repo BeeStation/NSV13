@@ -21,7 +21,7 @@
 	new /obj/item/crowbar(src)
 
 /obj/machinery/squad_vendor
-	name = "Squad Vendor"
+	name = "squad Vendor"
 	desc = "A machine which can dispense equipment to squads. <i>Kits taken from this machine must be returned before you can get a new one.</i>"
 	icon = 'nsv13/icons/obj/computers.dmi'
 	icon_state = "squadvend"
@@ -37,8 +37,6 @@
 	var/static/list/requires_weapons_clearance = list(/obj/item/ammo_box, /obj/item/gun)
 
 /obj/machinery/squad_vendor/solgov
-	name = "Squad Vendor"
-	icon_state = "squadvend"
 	loadout_type = /datum/squad_loadout/solgov
 
 /obj/machinery/squad_vendor/Initialize(mapload)
