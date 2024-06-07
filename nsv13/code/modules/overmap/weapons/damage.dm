@@ -23,7 +23,8 @@ Bullet reactions
 		if(shield_result)
 			var/damage_sound = pick('nsv13/sound/effects/ship/damage/shield_hit.ogg', 'nsv13/sound/effects/ship/damage/shield_hit2.ogg')
 			if(!impact_sound_cooldown)
-				new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src)
+				var/obj/effect/temp_visual/overmap_shield_hit/E= new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src)
+				qdel(E)
 				relay(damage_sound)
 				if(P.damage >= 15) //Flak begone
 					shake_everyone(5)
@@ -81,11 +82,10 @@ Bullet reactions
 	if(!bypasses_shields && shields && shields.absorb_hit(damage_amount))
 		blocked = TRUE
 		damage_sound = pick('nsv13/sound/effects/ship/damage/shield_hit.ogg', 'nsv13/sound/effects/ship/damage/shield_hit2.ogg')
+	/*
 		if(!impact_sound_cooldown)
-			var/obj/effect/temp_visual/overmap_shield_hit/E = new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src)
-			add_overlay(E)
-			E.pixel_y = pixel_y
-			E.pixel_x = pixel_x
+			var/obj/effect/temp_visual/overmap_shield_hit/E = new(src)
+*/
 	if(!impact_sound_cooldown && damage_sound)
 		relay(damage_sound)
 		if(damage_amount >= 15) //Flak begone

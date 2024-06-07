@@ -377,6 +377,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 /obj/structure/overmap/small_craft/forceMove(atom/destination)
 	return doMove(destination)
 
+/obj/structure/overmap/small_craft/combat/light/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/overmap_shields, 125, 125, 15) //inital integrity, max integrity, and recharge rate. bound to change most likely
+
 /obj/structure/overmap/small_craft/combat/light
 	name = "Su-818 Rapier"
 	desc = "An Su-818 Rapier space superiorty fighter craft. Designed for high maneuvreability and maximum combat effectiveness against other similar weight classes."
