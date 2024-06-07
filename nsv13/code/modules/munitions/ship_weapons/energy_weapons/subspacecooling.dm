@@ -96,9 +96,11 @@
 
 		parent = P.buffer
 		if(istype(src,/obj/machinery/cooling/cooler))
+			.=TRUE
 			parent.coolers |= src
 			to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
 		if(istype(src,/obj/machinery/cooling/storage))
+			.=TRUE
 			parent.storages |= src
 			to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
 		if(length(parent.storages)+length(parent.coolers) >= 10)
