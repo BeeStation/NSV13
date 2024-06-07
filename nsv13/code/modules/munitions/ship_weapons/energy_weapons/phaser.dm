@@ -53,9 +53,9 @@
 	max_charge = 8000000 // Store 2 charges
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
 	max_heat = 2000
-	heat_per_shot = 200
+	heat_per_shot = 500
 	heat_rate = 20
-
+	storage_rate = 50
 
 /obj/machinery/ship_weapon/energy/Initialize()
 	. = ..()
@@ -207,26 +207,7 @@
 	handle_alignment()
 	..()
 
-/obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/I)
-	/*
-	if(maint_state == MSTATE_CLOSED)
-		if (istype(I))
-			to_chat(user, "<span class='notice'>You log [src] in the multitool's buffer.</span>")
-			I.buffer = src
-			return TRUE
-			*/
-	if(maint_state == MSTATE_UNSCREWED)
-		to_chat(user, "<span class='notice'>You must unbolt the protective casing before aligning the lenses!</span>")
-	if(maint_state == MSTATE_UNBOLTED)
-		. = TRUE
-		to_chat(user, "<span class='notice'>You being aligning the lenses.</span>")
-		while(alignment < 100)
-			if(!do_after(user, 5, target = src))
-				return
-			alignment += rand(1,2)
-			if(alignment >= 100)
-				alignment = 100
-				break
+
 
 
 
@@ -260,9 +241,9 @@
 	for(var/obj/machinery/cooling/storage/C in storages)
 		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
 			storage_amount++
-	max_heat = initial(max_heat) + ((min((storage_amount),10))*storage_rate)
+	max_heat = initial(max_heat) + (storage_amount*storage_rate)
 	if(heat > 0)
-		heat = max(heat-(min((cooling_amount),10)*heat_rate),0)
+		heat = max((heat-cooling_amount*heat_rate),0)
 	if(overloaded & (heat <= (max_heat/50)))
 		overloaded = 0
 	if(overloaded)
@@ -354,4 +335,27 @@
 				heat = max(heat+(heat_per_shot*4),max_heat) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
 				combocount = 0
 				combo = null
+
+/obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/multitool/I)
+	if(maint_state == MSTATE_CLOSED)
+		if (istype(I))
+			to_chat(user, "<span class='notice'>You log [src] in the multitool's buffer.</span>")
+			I.buffer = src
+			return TRUE
+	if(maint_state == MSTATE_UNSCREWED)
+		to_chat(user, "<span class='notice'>You must unbolt the protective casing before aligning the lenses!</span>")
+	if(maint_state == MSTATE_UNBOLTED)
+		. = TRUE
+		to_chat(user, "<span class='notice'>You being aligning the lenses.</span>")
+		while(alignment < 100)
+			if(!do_after(user, 5, target = src))
+				return
+			alignment += rand(1,2)
+			if(alignment >= 100)
+				alignment = 100
+				break
+
+
+
+
 

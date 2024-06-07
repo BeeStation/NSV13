@@ -34,17 +34,15 @@
 
 /obj/machinery/cooling/cooler/Initialize(mapload)
 	. = ..()
-	for(var/obj/machinery/ship_weapon/energy/E  in orange(1, src))  //I have no idea what I'm doing and this causes errors so
-		E.coolers |= src
-		parent = E
-		break
+	var/obj/machinery/ship_weapon/energy/E = locate(/obj/machinery/ship_weapon/energy) in orange(1, src) //I have no idea what I'm doing and this causes errors so
+	E.coolers |= src
+	parent = E
 
 /obj/machinery/cooling/storage/Initialize(mapload)
 	. = ..()
-	for(var/obj/machinery/ship_weapon/energy/E  in orange(1, src))
-		E.storages |= src
-		parent = E
-		break
+	var/obj/machinery/ship_weapon/energy/E = locate(/obj/machinery/ship_weapon/energy) in orange(1, src)
+	E.storages |= src
+	parent = E
 
 
 /obj/machinery/cooling/cooler/Destroy()
@@ -78,29 +76,38 @@
 	cut_overlays()
 	if(panel_open)
 		icon_state = "smes-o"
-	if(on & parent)
+	if(on && parent)
 		add_overlay("smes-op1")
 	if(on)
 		add_overlay("smes-oc1")
 	else
 		add_overlay("smes-op0")
 
-/*
-/obj/machinery/cooling/multitool_act(mob/living/user, obj/item/I)
-		if(!multitool_check_buffer(user, I))
-			return
-		var/obj/item/multitool/P = I
 
-		if(istype(P.buffer, /obj/machinery/ship_weapon/energy))
-			if(get_area(P.buffer) != get_area(src))
-				to_chat(user, "<font color = #666633>-% Cannot link machines across power zones. %-</font color>")
-				return
+/obj/machinery/cooling/multitool_act(mob/living/user, obj/item/multitool/I)
+	if(!multitool_check_buffer(user, I))
+		return
+	var/obj/item/multitool/P = I
+
+	if(istype(P.buffer, /obj/machinery/ship_weapon/energy))
+		if(get_area(P.buffer) != get_area(src))
+			to_chat(user, "<font color = #666633>-% Cannot link machines across power zones. %-</font color>")
+			return
+
+		parent = P.buffer
+		if(istype(src,/obj/machinery/cooling/cooler))
+			parent.coolers |= src
 			to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
-			parent = P.buffer
-			parent.console = src
+		if(istype(src,/obj/machinery/cooling/storage))
+			parent.storages |= src
+			to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
+		if(length(parent.storages)+length(parent.coolers) >= 10)
+			var/E = pick(parent.storages+parent.coolers)
+			explosion(get_turf(E), 0, 1, 3, 5, flame_range = 4)
+			return
+
 		return
 
-*/
 
 /obj/machinery/cooling/storage
 	name = "subspace heatsink unit"
