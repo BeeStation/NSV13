@@ -338,7 +338,7 @@
 
 /obj/effect/temp_visual/overmap_shield_hit
 	name = "Shield hit"
-	icon = 'nsv13/icons/overmap/shieldhit.dmi';
+	icon = 'nsv13/icons/overmap/shieldhit.dmi'
 	icon_state = "shieldhit"
 	duration = 0.75 SECONDS
 	layer = ABOVE_MOB_LAYER+0.1
@@ -349,17 +349,18 @@
 /obj/effect/temp_visual/overmap_shield_hit/Initialize(mapload, obj/structure/overmap/OM)
 	. = ..()
 	//Scale up the shield hit icon to roughly fit the overmap ship that owns us.
-	if(!OM)
+	if(!OM || !istype(OM))
+		log_runtime("Shield hit effect was made with no ship!")
 		return INITIALIZE_HINT_QDEL
-	overmap = OM
 	var/matrix/desired = new()
-	var/icon/I = icon(overmap.icon)
+	var/icon/I = icon(OM.icon)
 	var/resize_x = I.Width()/96
 	var/resize_y = I.Height()/96
 	desired.Scale(resize_x,resize_y)
-	desired.Turn(overmap.angle)
+	desired.Turn(OM.angle)
 	transform = desired
-	overmap.vis_contents += src
+	OM.vis_contents |= src
+	overmap = OM
 
 /obj/effect/temp_visual/overmap_shield_hit/Destroy()
 	overmap?.vis_contents -= src
