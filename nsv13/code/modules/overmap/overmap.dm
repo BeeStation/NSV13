@@ -31,6 +31,7 @@
 	var/sprite_size = 64 //Pixels. This represents 64x64 and allows for the bullets that you fire to align properly.
 	var/area_type = null //Set the type of the desired area you want a ship to link to, assuming it's not the main player ship.
 	var/impact_sound_cooldown = FALSE //Avoids infinite spamming of the ship taking damage.
+	var/failure_sound_cooldown = FALSE //keeps shield failure sound from being played a bunch- maybe
 	var/datum/star_system/current_system //What star_system are we currently in? Used for parallax.
 	var/resize = 0 //Factor by which we should shrink a ship down. 0 means don't shrink it.
 	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.

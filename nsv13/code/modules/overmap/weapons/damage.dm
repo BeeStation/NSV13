@@ -43,6 +43,11 @@ Bullet reactions
 				return BULLET_ACT_FORCE_PIERCE // :)
 			else
 				return FALSE //Shields absorbed the hit, so don't relay the projectile
+		if(shield_result == SHIELD_NOEFFECT && !failure_sound_cooldown)
+			var/warningsound = 'nsv13/sound/effects/ship/ship_hit_shields_down.ogg'
+			relay(warningsound)
+			failure_sound_cooldown = TRUE
+			addtimer(VARSET_CALLBACK(src, failure_sound_cooldown, FALSE), 5 SECONDS)
 	P.spec_overmap_hit(src)
 	var/relayed_type = P.relay_projectile_type ? P.relay_projectile_type : P.type
 	relay_damage(relayed_type)
