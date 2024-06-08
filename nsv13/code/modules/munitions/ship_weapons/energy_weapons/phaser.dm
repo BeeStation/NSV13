@@ -46,7 +46,7 @@
 	var/storage_amount = 0
 	heat_rate = 10
 	var/storage_rate = 100
-	var/state = STATE_NOTHING
+	var/weapon_state = STATE_NOTHING
 
 /obj/machinery/ship_weapon/energy/beam
 	name = "phase cannon"
@@ -156,9 +156,9 @@
 		return FALSE
 	if(charge < charge_per_shot*shots) //Do we have enough ammo?
 		return FALSE
-	if(state = STATE_OVERLOAD) //have we overheated?
+	if(weapon_state == STATE_OVERLOAD) //have we overheated?
 		return FALSE
-	if(state = STATE_VENTING) //are we venting heat?
+	if(weapon_state == STATE_VENTING) //are we venting heat?
 		return FALSE
 	if(freq <=10) //is the frequincy of the weapon high enough to fire?
 		overload()
@@ -187,9 +187,9 @@
 
 /obj/machinery/ship_weapon/energy/process()
 	process_heat()
-	if(state = STATE_OVERLOAD)
+	if(weapon_state == STATE_OVERLOAD)
 		return
-	if(state = STATE_VENTING)
+	if(weapon_state == STATE_VENTING)
 		return
 	charge_rate = initial(charge_rate) * power_modifier
 	max_charge = initial(max_charge) * power_modifier
@@ -257,13 +257,13 @@
 	var/H = heat-cooling_amount*heat_rate
 	if(heat > 0)
 		heat = max((H),0)
-	if((state = STATE_OVERLOAD) & (heat <= (max_heat/50)))
-		state = STATE_NOTHING
-	if(state = STATE_OVERLOAD)
+	if((weapon_state == STATE_OVERLOAD) & (heat <= (max_heat/50)))
+		weapon_state = STATE_NOTHING
+	if(weapon_state == STATE_OVERLOAD)
 		return
-	if(state = STATE_VENTING)
+	if(weapon_state == STATE_VENTING)
 		if(heat <= max_heat-V)
-			state = STATE_NOTHING
+			weapon_state = STATE_NOTHING
 			return
 		heat = max(((H*1.2)-H),0)
 		return
@@ -275,7 +275,7 @@
 	playsound(src, malfunction_sound, 100, 1)
 	playsound(src, overheat_sound, 100, 1)
 	do_sparks(4, FALSE, src)
-	state = STATE_OVERLOAD
+	weapon_state = STATE_OVERLOAD
 	alignment = 0
 	freq = 0
 	say("WARNING! Critical heat density, emergency venting and shutdown initiated!")
@@ -376,12 +376,13 @@
 
 
 
-
-/obj/machinery/ship_weapon/energy/proc/vent
-	. = ..()
-	if(max_heat > max_heat/4 )
-		state = STATE_VENTING
+/*
+/obj/machinery/ship_weapon/energy/proc/vent()
+	if(heat > (max_heat/4) )
+		weapon_state = STATE_VENTING
 		var/V = max_heat - 3(max_heat/4)
-	if(max_heat <= max_heat/4 )
+	if(heat <= (max_heat/4) )
 		var/V = max_heat
-		state = STATE_VENTING
+		weapon_state = STATE_VENTING
+*/
+var/V = 1
