@@ -1,3 +1,9 @@
+#define STATE(OVERLOAD) 3
+#define STATE(VENTING) 2
+//#define STATE(ACTIVE) 1
+//#define STATE(INACTIVE) 0 dunno how to adapt somem of these things right now
+
+
 /obj/machinery/ship_weapon/energy
 	name = "burst phaser MK2"
 	desc = "A coaxial laser system, capable of firing controlled laser bursts at a target."
@@ -14,7 +20,7 @@
 	idle_power_usage =  2500
 	var/active = FALSE
 	charge = 0
-	charge_rate = 330000 //How quickly do we charge?
+	charge_rate = 430000 //How quickly do we charge?
 	charge_per_shot = 660000 //How much power per shot do we have to use?
 	var/max_charge = 3300000 //5 shots before it has to recharge.
 	var/power_modifier = 0 //Power youre inputting into this thing.
@@ -26,7 +32,7 @@
 	max_heat = 1000
 	max_integrity = 1200 //don't blow up before we're ready
 	obj_integrity = 1200
-	heat_per_shot = 60
+	heat_per_shot = 100
 	var/max_freq = 100
 	var/combo_target = "omega" //Randomized sequence for the recalibration minigame.
 	var/list/letters = list("delta,", "omega,", "phi,")
@@ -37,7 +43,7 @@
 	var/list/storages = list()
 	var/cooling_amount = 0
 	var/storage_amount = 0
-	heat_rate = 20
+	heat_rate = 10
 	var/storage_rate = 100
 
 
@@ -53,9 +59,9 @@
 	max_charge = 8000000 // Store 2 charges
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
 	max_heat = 2000
-	heat_per_shot = 500
-	heat_rate = 20
-	storage_rate = 50
+	heat_per_shot = 800
+	heat_rate = 90
+	storage_rate = 140
 
 /obj/machinery/ship_weapon/energy/Initialize()
 	. = ..()

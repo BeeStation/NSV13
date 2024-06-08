@@ -6,6 +6,10 @@
 	circuit = /obj/item/circuitboard/computer/laser_pd
 	var/obj/machinery/ship_weapon/energy/laser_pd/turret
 	var/gun_id = 0 // Used for map linkage
+	max_heat = 1000
+	heat_per_shot = 80
+	heat_rate = 30
+	storage_rate = 100
 
 /obj/machinery/computer/laser_pd/Initialize(mapload)
 	..()
@@ -64,7 +68,7 @@
 	fire_mode = FIRE_MODE_LASER_PD
 	energy_weapon_type = /datum/ship_weapon/phaser_pd
 	charge = 0
-	charge_rate = 500000
+	charge_rate = 700000
 	charge_per_shot = 1000000 // requires 2 MW to fire a burst
 	max_charge = 4000000 // Stores 1 burst base
 	power_modifier_cap = 1 // PL cap of 2
