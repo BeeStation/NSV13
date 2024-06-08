@@ -6,10 +6,6 @@
 	circuit = /obj/item/circuitboard/computer/laser_pd
 	var/obj/machinery/ship_weapon/energy/laser_pd/turret
 	var/gun_id = 0 // Used for map linkage
-	max_heat = 1000
-	heat_per_shot = 80
-	heat_rate = 30
-	storage_rate = 100
 
 /obj/machinery/computer/laser_pd/Initialize(mapload)
 	..()
@@ -80,6 +76,11 @@
 	var/gunning_component_type = /datum/component/overmap_gunning/laser_pd
 	var/mob/gunner = null
 	var/gun_id = 0 // Used for map linkage
+	max_heat = 1000
+	heat_per_shot = 80
+	heat_rate = 30
+	storage_rate = 100
+
 
 /obj/machinery/ship_weapon/energy/laser_pd/proc/start_gunning(mob/user)
 	if(gunner)

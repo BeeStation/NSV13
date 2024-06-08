@@ -1,5 +1,6 @@
-#define STATE(OVERLOAD) 3
-#define STATE(VENTING) 2
+#define STATE_OVERLOAD 2
+#define STATE_VENTING 1
+#define STATE_NOTHING 0
 //#define STATE(ACTIVE) 1
 //#define STATE(INACTIVE) 0 dunno how to adapt somem of these things right now
 
@@ -45,7 +46,7 @@
 	var/storage_amount = 0
 	heat_rate = 10
 	var/storage_rate = 100
-
+	var/state = STATE_NOTHING
 
 /obj/machinery/ship_weapon/energy/beam
 	name = "phase cannon"
@@ -155,7 +156,9 @@
 		return FALSE
 	if(charge < charge_per_shot*shots) //Do we have enough ammo?
 		return FALSE
-	if(overloaded) //have we overheated?
+	if(state = STATE_OVERLOAD) //have we overheated?
+		return FALSE
+	if(state = STATE_VENTING) //are we venting heat?
 		return FALSE
 	if(freq <=10) //is the frequincy of the weapon high enough to fire?
 		overload()
@@ -184,7 +187,9 @@
 
 /obj/machinery/ship_weapon/energy/process()
 	process_heat()
-	if(overloaded)
+	if(state = STATE_OVERLOAD)
+		return
+	if(state = STATE_VENTING)
 		return
 	charge_rate = initial(charge_rate) * power_modifier
 	max_charge = initial(max_charge) * power_modifier
@@ -241,6 +246,7 @@
 
 
 /obj/machinery/ship_weapon/energy/proc/process_heat()//heat management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
+
 	for(var/obj/machinery/cooling/cooler/C in coolers)
 		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
 			cooling_amount++
@@ -248,11 +254,18 @@
 		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
 			storage_amount++
 	max_heat = initial(max_heat) + (storage_amount*storage_rate)
+	var/H = heat-cooling_amount*heat_rate
 	if(heat > 0)
-		heat = max((heat-cooling_amount*heat_rate),0)
-	if(overloaded & (heat <= (max_heat/50)))
-		overloaded = 0
-	if(overloaded)
+		heat = max((H),0)
+	if((state = STATE_OVERLOAD) & (heat <= (max_heat/50)))
+		state = STATE_NOTHING
+	if(state = STATE_OVERLOAD)
+		return
+	if(state = STATE_VENTING)
+		if(heat <= max_heat-V)
+			state = STATE_NOTHING
+			return
+		heat = max(((H*1.2)-H),0)
 		return
 	if(heat >= max_heat)
 		overload()
@@ -262,7 +275,7 @@
 	playsound(src, malfunction_sound, 100, 1)
 	playsound(src, overheat_sound, 100, 1)
 	do_sparks(4, FALSE, src)
-	overloaded = 1
+	state = STATE_OVERLOAD
 	alignment = 0
 	freq = 0
 	say("WARNING! Critical heat density, emergency venting and shutdown initiated!")
@@ -364,4 +377,11 @@
 
 
 
-
+/obj/machinery/ship_weapon/energy/proc/vent
+	. = ..()
+	if(max_heat > max_heat/4 )
+		state = STATE_VENTING
+		var/V = max_heat - 3(max_heat/4)
+	if(max_heat <= max_heat/4 )
+		var/V = max_heat
+		state = STATE_VENTING
