@@ -47,6 +47,7 @@
 	heat_rate = 10
 	var/storage_rate = 100
 	var/weapon_state = STATE_NOTHING
+	var/ventnumber = 1
 
 /obj/machinery/ship_weapon/energy/beam
 	name = "phase cannon"
@@ -61,7 +62,7 @@
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
 	max_heat = 2000
 	heat_per_shot = 800
-	heat_rate = 90
+	heat_rate = 5
 	storage_rate = 140
 
 /obj/machinery/ship_weapon/energy/Initialize()
@@ -94,6 +95,16 @@
 		ui.open()
 		ui.set_autoupdate(TRUE)
 
+/obj/machinery/ship_weapon/energy/proc/vent()
+	if(heat > max_heat/4)
+		weapon_state = STATE_VENTING
+		ventnumber = max_heat - (3*(max_heat/4))
+	if(heat <= (max_heat/4))
+		ventnumber = max_heat
+		weapon_state = STATE_VENTING
+		playsound(src, 'sound/effects/turbolift/turbolift-close.ogg', 100, 1)
+		playsound(src, overheat_sound, 100, 1)
+
 /obj/machinery/ship_weapon/energy/ui_act(action, params)
 
 	if(..())
@@ -104,6 +115,8 @@
 			power_modifier = value
 		if("activeToggle")
 			active = !active
+		if("vent")
+			vent()
 	return
 
 /obj/machinery/ship_weapon/energy/attack_hand(mob/user)
@@ -262,7 +275,7 @@
 	if(weapon_state == STATE_OVERLOAD)
 		return
 	if(weapon_state == STATE_VENTING)
-		if(heat <= max_heat-V)
+		if(heat <= max_heat-ventnumber)
 			weapon_state = STATE_NOTHING
 			return
 		heat = max(((H*1.2)-H),0)
@@ -377,10 +390,4 @@
 
 
 
-/obj/machinery/ship_weapon/energy/proc/vent()
-	if(heat > (max_heat/4) )
-		weapon_state = STATE_VENTING
-		var/V = max_heat - 3(max_heat/4)
-	if(heat <= (max_heat/4) )
-		var/V = max_heat
-		weapon_state = STATE_VENTING
+

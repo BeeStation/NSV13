@@ -78,7 +78,7 @@
 	var/gun_id = 0 // Used for map linkage
 	max_heat = 1000
 	heat_per_shot = 80
-	heat_rate = 30
+	heat_rate = 15
 	storage_rate = 100
 
 

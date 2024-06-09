@@ -16,7 +16,7 @@
 	charge = 0
 	max_heat = 800
 	heat_per_shot = 200
-	heat_rate = 80
+	heat_rate = 30
 	storage_rate = 50
 
 

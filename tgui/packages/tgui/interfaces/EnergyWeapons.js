@@ -50,6 +50,12 @@ export const EnergyWeapons = (props, context) => {
               average: [0.2, 0.5],
               bad: [0.5, Infinity],
             }} />
+          <Button
+            width="150px"
+            content="Vent Heat"
+            icon="exclamation-triangle"
+            color={"bad"}
+            onClick={() => act('vent')} />
           Charge:
           <br />
           <ProgressBar
