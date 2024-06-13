@@ -7,17 +7,17 @@
 /turf/closed/wall/mineral/titanium,
 /area/shuttle/supply)
 "o" = (
-/obj/structure/shuttle/engine/propulsion{
-	dir = 1;
-	name = "reaction control engine"
+/obj/machinery/door/poddoor{
+	id = "QMLoaddoor2";
+	name = "supply dock loading door"
 	},
+/obj/structure/fans/tiny,
 /obj/docking_port/mobile/supply{
 	dir = 2;
-	dwidth = 6;
 	height = 6;
 	width = 6
 	},
-/turf/closed/wall/mineral/titanium,
+/turf/open/floor/plasteel,
 /area/shuttle/supply)
 "q" = (
 /obj/structure/shuttle/engine/heater{
@@ -27,13 +27,6 @@
 /area/shuttle/supply)
 "u" = (
 /turf/open/floor/plasteel/yellowsiding/corner,
-/area/shuttle/supply)
-"x" = (
-/obj/machinery/button/door{
-	id = "QMLoaddoor2";
-	name = "Loading Doors"
-	},
-/turf/closed/wall/mineral/titanium,
 /area/shuttle/supply)
 "A" = (
 /turf/open/floor/plasteel/yellowsiding{
@@ -66,6 +59,11 @@
 	name = "supply dock loading door"
 	},
 /obj/structure/fans/tiny,
+/obj/machinery/button/door{
+	id = "QMLoaddoor2";
+	name = "Loading Doors";
+	pixel_x = 25
+	},
 /turf/open/floor/plasteel,
 /area/shuttle/supply)
 "M" = (
@@ -98,7 +96,7 @@
 	},
 /area/shuttle/supply)
 "X" = (
-/turf/closed/wall/mineral/titanium/interior,
+/turf/closed/wall/mineral/titanium/nodiagonal,
 /area/shuttle/supply)
 "Z" = (
 /turf/open/floor/plasteel/yellowsiding/corner{
@@ -107,7 +105,7 @@
 /area/shuttle/supply)
 
 (1,1,1) = {"
-o
+B
 q
 a
 a
@@ -115,7 +113,7 @@ k
 G
 "}
 (2,1,1) = {"
-x
+k
 N
 I
 F
@@ -123,7 +121,7 @@ X
 k
 "}
 (3,1,1) = {"
-J
+o
 M
 S
 Z
