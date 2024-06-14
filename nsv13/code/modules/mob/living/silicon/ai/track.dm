@@ -62,7 +62,7 @@ GLOBAL_DATUM_INIT(tracking_menu, /datum/track_menu, new)
 				var/mob/living/carbon/human/player = mob_poi
 				var/nanite_sensors = HAS_TRAIT(player, TRAIT_NANITE_SENSORS)
 				var/obj/item/clothing/under/uniform = player.w_uniform
-				if(nanite_sensors || uniform.sensor_mode >= SENSOR_VITALS)
+				if(nanite_sensors || (uniform && uniform.sensor_mode >= SENSOR_VITALS))
 					serialized["health"] = FLOOR((player.health / player.maxHealth * 100), 1)
 
 				var/obj/item/card/id/identification_card = mob_poi.get_idcard()
