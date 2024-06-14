@@ -58,6 +58,11 @@
 		spawn_frame(TRUE)
 		qdel(src)
 
+/obj/machinery/ship_weapon/deck_turret/Destroy()
+	for( var/obj/item/ship_weapon/ammunition/naval_artillery/shell in ammo )
+		shell.speed = initial( shell.speed ) // Reset on turret destruction
+	return ..()
+
 /obj/machinery/ship_weapon/deck_turret/spawn_frame(disassembled)
 	if(!disassembled)
 		QDEL_LIST(component_parts)
@@ -114,6 +119,7 @@
 			visible_message("<span class='warning'>Unable to perform operation right now, please wait.</span>")
 			return FALSE
 		loading = TRUE
+		core.payload_gate.pack_shell()
 		if(load_sound)
 			playsound(A.loc, load_sound, 100, 1)
 		playsound(A.loc, 'sound/machines/click.ogg', 50, 1)
@@ -168,7 +174,7 @@
 		if(core.payload_gate.shell)
 			data["can_pack"] = TRUE
 			data["loaded"] = core.payload_gate.shell.name || "Nothing"
-			data["speed"] = core.payload_gate.shell.speed || 0
+			data["speed"] = core.payload_gate.shell.speed + core.payload_gate.calculated_power || 0
 		else
 			data["can_pack"] = FALSE
 			data["loaded"] = "Nothing"
@@ -295,8 +301,6 @@
 	set waitfor = FALSE
 	playsound(src.loc, 'nsv13/sound/effects/ship/freespace2/m_lock.wav', 100, 1)
 	icon_state = "[initial(icon_state)]_sealed"
-	qdel(bag)
-	bag = null
 	sleep(1 SECONDS)
 	icon_state = initial(icon_state)
 
@@ -682,6 +686,7 @@
 	var/ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
 	var/loading = FALSE
 	var/load_delay = 8 SECONDS
+	var/calculated_power = 0
 
 /obj/machinery/deck_turret/payload_gate/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()
@@ -728,6 +733,12 @@
 		loaded = FALSE
 		shell = null
 
+/obj/machinery/deck_turret/payload_gate/proc/pack_shell()
+	shell.speed = CLAMP(shell.speed + calculated_power, NAC_MIN_POWDER_LOAD, NAC_MAX_POWDER_LOAD)
+	calculated_power = 0
+	for ( var/obj/item/powder_bag/bag in contents )
+		qdel( bag )
+
 ///Shorthand for moving shell to turf
 /obj/machinery/deck_turret/payload_gate/proc/unload()
 	if(!shell)
@@ -745,9 +756,10 @@
 /obj/machinery/deck_turret/payload_gate/proc/chamber(obj/machinery/deck_turret/powder_gate/source)
 	if(!shell || !source?.bag)
 		return FALSE
-	shell.speed += source.bag.power
 	shell.name = "Packed [initial(shell.name)]"
-	shell.speed = CLAMP(shell.speed, NAC_MIN_POWDER_LOAD, NAC_MAX_POWDER_LOAD)
+	calculated_power += source.bag.power
+	source.bag.forceMove( src ) // In case of deconstruction or destruction, gunpowder is saved until the shell is loaded
+	source.bag = null
 	source.pack()
 	return TRUE
 
