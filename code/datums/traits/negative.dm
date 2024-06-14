@@ -444,6 +444,12 @@
 		if(BODY_ZONE_R_LEG)
 			prosthetic = new/obj/item/bodypart/r_leg/robot/surplus(quirk_holder)
 			slot_string = "right leg"
+	//NSV13 - If the old limb is digitigrade, so is your prosthetic.
+	if(old_part.bodytype & BODYTYPE_DIGITIGRADE) //This proc seems to trust old part never missing and so will I :)
+		prosthetic.bodytype |= BODYTYPE_DIGITIGRADE
+		prosthetic.static_icon = 'nsv13/icons/mob/augmentation/digitigrade_legs.dmi'
+		prosthetic.limb_id = "digitigrade"
+	//NSV13 end.
 	prosthetic.replace_limb(H)
 	qdel(old_part)
 	H.regenerate_icons()
