@@ -28,9 +28,6 @@
 		return TRUE
 	return ..()
 
-/obj/machinery/computer/ship/navigation/ui_state(mob/user)
-	return GLOB.always_state
-
 /obj/machinery/computer/ship/navigation/public
 	name = "Starmap Console"
 	desc = "A computer which shows the current position of the ship in the universe."
@@ -51,8 +48,8 @@
 		ui.set_autoupdate(TRUE)
 
 /obj/machinery/computer/ship/navigation/ui_act(action, params, datum/tgui/ui)
-	.=..()
-	if(isobserver(usr) && !IsAdminGhost(usr))
+	. = ..()
+	if(. && !IsAdminGhost(usr))
 		return
 	if(!linked)
 		return

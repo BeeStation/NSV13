@@ -105,6 +105,11 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	if(beacon)
 		. += "<span class='sciradio'>It's currently linked to [beacon] in [get_area(beacon)]. You can use a multitool to switch whether it delivers here, or to your cargo bay.</span>"
 
+/obj/machinery/computer/ship/dradis/Destroy()
+	if(linked && linked.dradis == src)
+		linked.dradis = null //clean ref. Usually the ship would register this deleting and handle the del there instead, but overmap reference code is so decentralized I am not refactoring that right now.
+	return ..()
+
 /obj/machinery/computer/ship/dradis/attackby(obj/item/W, mob/living/user, params)
 	if(istype(W, /obj/item/supplypod_beacon))
 		var/obj/item/supplypod_beacon/sb = W
@@ -277,7 +282,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			if(!target) //Anomalies don't count.
 				return
 			if(dradis_targeting && (linked.gunner == usr || linked.pilot == usr))
-				if(target.faction != linked.faction)
+				if(target.faction != linked.faction || (linked.can_friendly_fire() && !linked.target_lock))
 					linked.start_lockon(target)
 					return
 				linked.datalink_transmit(target)

@@ -82,7 +82,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /obj/structure/overmap/small_craft/key_down(key, client/user)
 	if(disruption && prob(min(95, disruption)))
-		to_chat(src, "The controls buzz angrily.")
+		if(user)
+			to_chat(user, "<span class='warning'>The controls buzz angrily!</span>")
 		playsound(helm, 'sound/machines/buzz-sigh.ogg', 75, 1)
 		return
 	. = ..()
@@ -195,18 +196,20 @@ Been a mess since 2018, we'll fix it someday (probably)
 	return data
 
 /obj/structure/overmap/small_craft/ui_act(action, params, datum/tgui/ui)
-	if(..() || ((usr != pilot) && (!IsAdminGhost(usr))))
+	. = ..()
+	if(. || ((usr != pilot) && (!IsAdminGhost(usr))))
 		return
 	if(disruption && prob(min(95, disruption)))
-		to_chat(src, "The controls buzz angrily.")
+		to_chat(usr, "<span class='warning'>The controls buzz angrily!</span>")
 		relay('sound/machines/buzz-sigh.ogg')
-		return
+		return TRUE
 	var/atom/movable/target = locate(params["id"])
 	switch(action)
 		if("examine")
 			if(!target)
 				return
 			to_chat(usr, "<span class='notice'>[target.desc]</span>")
+			. = TRUE
 		if("eject_hardpoint")
 			if(!target)
 				return
@@ -218,6 +221,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			to_chat(usr, "<span class='notice>You uninstall [target.name] from [src].</span>")
 			loadout.remove_hardpoint(FC, FALSE)
+			. = TRUE
 		if("dump_hardpoint")
 			if(!target)
 				return
@@ -229,6 +233,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			to_chat(usr, "<span class='notice>You dump [target.name]'s contents.</span>")
 			loadout.dump_contents(FC)
+			. = TRUE
 		if("kick")
 			if(!target)
 				return
@@ -239,6 +244,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			canopy_open = FALSE
 			toggle_canopy()
 			stop_piloting(L)
+			. = TRUE
 		if("fuel_pump")
 			var/obj/item/fighter_component/apu/APU = loadout.get_slot(HARDPOINT_SLOT_APU)
 			if(!APU)
@@ -246,9 +252,11 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			var/obj/item/fighter_component/engine/engine = loadout.get_slot(HARDPOINT_SLOT_ENGINE)
 			if(!engine)
-				to_chat(usr, "<span class='warning'>You can't send fuel to an APU that isn't installed.</span>")
+				to_chat(usr, "<span class='warning'>[src] does not have an engine installed!</span>")
+				return
 			APU.toggle_fuel_line()
 			playsound(src, 'nsv13/sound/effects/fighters/warmup.ogg', 100, FALSE)
+			. = TRUE
 		if("battery")
 			var/obj/item/fighter_component/battery/battery = loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 			if(!battery)
@@ -256,6 +264,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			battery.toggle()
 			to_chat(usr, "You flip the battery switch.</span>")
+			. = TRUE
 		if("apu")
 			var/obj/item/fighter_component/apu/APU = loadout.get_slot(HARDPOINT_SLOT_APU)
 			if(!APU)
@@ -263,17 +272,20 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			APU.toggle()
 			playsound(src, 'nsv13/sound/effects/fighters/warmup.ogg', 100, FALSE)
+			. = TRUE
 		if("ignition")
 			var/obj/item/fighter_component/engine/engine = loadout.get_slot(HARDPOINT_SLOT_ENGINE)
 			if(!engine)
 				to_chat(usr, "<span class='warning'>[src] does not have an engine installed!</span>")
 				return
 			engine.try_start()
+			. = TRUE
 		if("canopy_lock")
 			var/obj/item/fighter_component/canopy/canopy = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
 			if(!canopy)
 				return
 			toggle_canopy()
+			. = TRUE
 		if("docking_mode")
 			var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
 			if(!DC || !istype(DC))
@@ -282,33 +294,34 @@ Been a mess since 2018, we'll fix it someday (probably)
 			to_chat(usr, "<span class='notice'>You [DC.docking_mode ? "disengage" : "engage"] [src]'s docking computer.</span>")
 			DC.docking_mode = !DC.docking_mode
 			relay('nsv13/sound/effects/fighters/switch.ogg')
-			return
+			return TRUE
 		if("brakes")
 			toggle_brakes()
 			relay('nsv13/sound/effects/fighters/switch.ogg')
-			return
+			return TRUE
 		if("inertial_dampeners")
 			toggle_inertia()
 			relay('nsv13/sound/effects/fighters/switch.ogg')
-			return
+			return TRUE
 		if("weapon_safety")
 			toggle_safety()
 			relay('nsv13/sound/effects/fighters/switch.ogg')
-			return
+			return TRUE
 		if("target_lock")
 			relay('nsv13/sound/effects/fighters/switch.ogg')
 			dump_locks()
-			return
+			return TRUE
 		if("mag_release")
 			if(!mag_lock)
 				return
 			mag_lock.abort_launch()
+			. = TRUE
 		if("master_caution")
 			set_master_caution(FALSE)
-			return
+			return TRUE
 		if("show_dradis")
 			dradis?.ui_interact(usr)
-			return
+			return TRUE
 		if("toggle_ftl")
 			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
 			if(!ftl)
@@ -316,6 +329,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			ftl.toggle()
 			relay('nsv13/sound/effects/fighters/switch.ogg')
+			. = TRUE
 		if("anchor_ftl")
 			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
 			if(!ftl)
@@ -327,6 +341,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			else
 				to_chat(usr, "<span class='warning'>Unable to update telemetry. Ensure you are in proximity to a Seegson FTL drive.</span>")
 			relay('nsv13/sound/effects/fighters/switch.ogg')
+			. = TRUE
 		if("return_jump")
 			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
 			if(!ftl)
@@ -342,7 +357,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 				to_chat(usr, "<span class='warning'>Unable to comply. Target beacon is currently in FTL transit.</span>")
 				return
 			ftl.jump(dest)
-			return
+			return TRUE
 		if("set_name")
 			var/new_name = stripped_input(usr, message="What do you want to name \
 				your fighter? Keep in mind that particularly terrible names may be \
@@ -351,10 +366,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			message_admins("[key_name_admin(usr)] renamed a fighter to [new_name] [ADMIN_LOOKUPFLW(src)].")
 			name = new_name
-			return
+			return TRUE
 		if("toggle_maintenance")
 			maintenance_mode = !maintenance_mode
-			return
+			return TRUE
 
 	relay('nsv13/sound/effects/fighters/switch.ogg')
 

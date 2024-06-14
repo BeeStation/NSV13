@@ -586,7 +586,7 @@ Control Rods
 	var/datum/gas_mixture/air1 = airs[1]
 	var/nucleium_power_reduction = 0
 
-	var/fuel_check = ((air1.get_moles(GAS_PLASMA) + air1.get_moles(GAS_CONSTRICTED_PLASMA) + air1.get_moles(GAS_TRITIUM)) / air1.total_moles()) * 100
+	var/fuel_check = air1.total_moles() <= 0 ? 0 : ((air1.get_moles(GAS_PLASMA) + air1.get_moles(GAS_CONSTRICTED_PLASMA) + air1.get_moles(GAS_TRITIUM)) / air1.total_moles()) * 100
 	if(air1.total_moles() >= reaction_rate && fuel_check >= 12.5) //1:8 ratio
 		var/datum/gas_mixture/reaction_chamber_gases = air1.remove(reaction_rate)
 

@@ -93,7 +93,6 @@
 	var/backward_maxthrust = 3
 	var/side_maxthrust = 1
 	var/mass = MASS_SMALL //The "mass" variable will scale the movespeed according to how large the ship is.
-	var/landing_gear = FALSE //Allows you to move in atmos without scraping the hell outta your ship
 
 	var/bump_impulse = 0.6
 	var/bounce_factor = 0.7 // how much of our velocity to keep on collision
@@ -118,8 +117,18 @@
 	var/list/beacons_in_ship = list()
 
 	// Controlling equipment
-	var/obj/machinery/computer/ship/helm //Relay beeping noises when we act
-	var/obj/machinery/computer/ship/tactical
+
+	/*
+	These are probably more okay not being lists since only one person can control either of these two slots at a time.
+	*/
+	var/obj/machinery/computer/ship/helm/helm //Relay beeping noises when we act
+	var/obj/machinery/computer/ship/tactical/tactical
+
+	/*
+		|| THIS SHOULD BE A LIST, there could be a billion dradises that can keep fighting for which one is considered the ship dradis any time someone interacts with one!!!
+		|| When you change this, also change the reference cleaning on del for this var from being on the dradis to being on the ship listening for the console's QDEL signal.
+		\/ I'm not feeling like refactoring that right now though. Maybe in the future. -Delta
+	*/
 	var/obj/machinery/computer/ship/dradis/dradis //So that pilots can check the radar easily
 
 	// Ship weapons
@@ -629,6 +638,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	to_chat(gunner, "<span class='notice'>Target painted.</span>")
 	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 	RegisterSignal(target, list(COMSIG_PARENT_QDELETING, COMSIG_FTL_STATE_CHANGE), PROC_REF(dump_lock))
+	SEND_SIGNAL(src, COMSIG_TARGET_PAINTED, target)
 	if(autotarget)
 		select_target(target) //autopaint our target
 
@@ -643,13 +653,14 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		update_gunner_cam()
 		return
 	target_lock = target
+	SEND_SIGNAL(src, COMSIG_TARGET_LOCKED, target)
 
 /obj/structure/overmap/proc/dump_lock(obj/structure/overmap/target) // Our locked target got destroyed/moved, dump the lock
 	SIGNAL_HANDLER
 	SEND_SIGNAL(src, COMSIG_LOCK_LOST, target)
 	target_painted -= target
 	target_last_tracked -= target
-	UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+	UnregisterSignal(target, list(COMSIG_PARENT_QDELETING, COMSIG_FTL_STATE_CHANGE))
 	if(target_lock == target)
 		update_gunner_cam()
 		target_lock = null
@@ -821,10 +832,16 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100))
 		if(message)
 			to_chat(M, message)
+	for(var/obj/structure/overmap/O as() in overmaps_in_ship) //Of course they get relayed the same message if they're in the same ship too
+		if(length(O.mobs_in_ship))
+			O.relay(args)
 
 /obj/structure/overmap/proc/stop_relay(channel) //Stops all playing sounds for crewmen on N channel.
 	for(var/mob/M as() in mobs_in_ship)
 		M.stop_sound_channel(channel)
+	for(var/obj/structure/overmap/O as() in overmaps_in_ship) //Of course they get relayed the same message if they're in the same ship too
+		if(length(O.mobs_in_ship))
+			O.stop_relay(args)
 
 /obj/structure/overmap/proc/relay_to_nearby(S, message, ignore_self=FALSE, sound_range=20, faction_check=FALSE) //Sends a sound + text message to nearby ships
 	for(var/obj/structure/overmap/ship as() in GLOB.overmap_objects) //Might be called in hyperspace or by fighters, so shouldn't use a system check.

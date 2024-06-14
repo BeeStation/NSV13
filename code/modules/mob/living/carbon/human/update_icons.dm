@@ -313,6 +313,7 @@ There are several things that need to be remembered:
 
 	if(shoes)
 		var/icon_file = 'icons/mob/clothing/feet.dmi'
+		var/build_worn_icon_override_flags = NONE //NSV13 - variable to pass override flags to build worn icon.
 		if(istype(shoes, /obj/item/clothing/shoes))
 			var/obj/item/clothing/shoes/S = shoes
 			if(S.sprite_sheets & (dna?.species.bodyflag))
@@ -321,13 +322,14 @@ There are several things that need to be remembered:
 			if(dna?.species.bodytype & BODYTYPE_DIGITIGRADE)
 				if(S.supports_variations & DIGITIGRADE_VARIATION)
 					icon_file = 'icons/mob/species/misc/digitigrade_shoes.dmi'
+					build_worn_icon_override_flags |= DIGI_ICON_FILE_PASSED //NSV13 - high priority file.
 
 		shoes.screen_loc = ui_shoes					//move the item to the appropriate screen loc
 		if(client && hud_used && hud_used.hud_shown)
 			if(hud_used.inventory_shown)			//if the inventory is open
 				client.screen += shoes					//add it to client's screen
 		update_observer_view(shoes,1)
-		overlays_standing[SHOES_LAYER] = shoes.build_worn_icon(default_layer = SHOES_LAYER, default_icon_file = icon_file)
+		overlays_standing[SHOES_LAYER] = shoes.build_worn_icon(default_layer = SHOES_LAYER, default_icon_file = icon_file, special_override_flags = build_worn_icon_override_flags) //NSV13 - pass special override flags.
 		var/mutable_appearance/shoes_overlay = overlays_standing[SHOES_LAYER]
 		if(OFFSET_SHOES in dna.species.offset_features)
 			shoes_overlay.pixel_x += dna.species.offset_features[OFFSET_SHOES][1]
@@ -427,6 +429,7 @@ There are several things that need to be remembered:
 
 	if(istype(wear_suit, /obj/item/clothing/suit))
 		var/icon_file = 'icons/mob/clothing/suit.dmi'
+		var/build_worn_icon_override_flags = NONE //NSV13 - override flags passed to build worn icon.
 		var/obj/item/clothing/suit/S = wear_suit
 		if(S.sprite_sheets & (dna?.species.bodyflag))
 			icon_file = dna.species.get_custom_icons("suit")
@@ -434,6 +437,7 @@ There are several things that need to be remembered:
 		if(dna?.species.bodytype & BODYTYPE_DIGITIGRADE)
 			if(S.supports_variations & DIGITIGRADE_VARIATION)
 				icon_file = 'icons/mob/species/misc/digitigrade_suits.dmi'
+				build_worn_icon_override_flags |= DIGI_ICON_FILE_PASSED //NSV13 - high priority file.
 
 		wear_suit.screen_loc = ui_oclothing
 		if(client && hud_used && hud_used.hud_shown)
@@ -441,7 +445,7 @@ There are several things that need to be remembered:
 				client.screen += wear_suit
 		update_observer_view(wear_suit,1)
 
-		overlays_standing[SUIT_LAYER] = wear_suit.build_worn_icon(default_layer = SUIT_LAYER, default_icon_file = icon_file)
+		overlays_standing[SUIT_LAYER] = wear_suit.build_worn_icon(default_layer = SUIT_LAYER, default_icon_file = icon_file, special_override_flags = build_worn_icon_override_flags) //NSV13 - can pass special override flags.
 		var/mutable_appearance/suit_overlay = overlays_standing[SUIT_LAYER]
 		if(OFFSET_SUIT in dna.species.offset_features)
 			suit_overlay.pixel_x += dna.species.offset_features[OFFSET_SUIT][1]
@@ -667,7 +671,7 @@ generate/load female uniform sprites matching all previously decided variables
 
 
 */
-/obj/item/proc/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null)
+/obj/item/proc/build_worn_icon(default_layer = 0, default_icon_file = null, isinhands = FALSE, femaleuniform = NO_FEMALE_UNIFORM, override_state = null, special_override_flags = NONE) //NSV13 - special override flag to help with the mess that is digisprites.
 
 	var/t_state
 	if(override_state)
@@ -676,7 +680,7 @@ generate/load female uniform sprites matching all previously decided variables
 		t_state = !isinhands ? (worn_icon_state ? worn_icon_state : icon_state) : (item_state ? item_state : icon_state)
 
 	//Find a valid icon file from variables+arguments
-	var/file2use = !isinhands ? (worn_icon ? worn_icon : default_icon_file) : default_icon_file
+	var/file2use = !isinhands ? ((worn_icon && !(special_override_flags & DIGI_ICON_FILE_PASSED)) ? worn_icon : default_icon_file) : default_icon_file //NSV13 - prioritize digitigrade file over ANY others if it is passed.
 
 	//Find a valid layer from variables+arguments
 	var/layer2use = alternate_worn_layer ? alternate_worn_layer : default_layer
