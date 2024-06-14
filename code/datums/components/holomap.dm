@@ -41,7 +41,7 @@
 /datum/component/holomap/proc/get_user()
 	RETURN_TYPE(/mob/living)
 	var/atom/movable/holder = parent
-	return (isliving(holder) || !isatom(holder)) ? holder : holder.loc
+	return (isliving(holder) || !isatom(holder)) ? holder : holder.loc //FIXME - This proc is terrible (and can runtime). Just save the user and track if they get del'd like a sane person. Why is this like this??????
 
 /datum/component/holomap/Initialize()
 	. = ..()

@@ -282,7 +282,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			if(!target) //Anomalies don't count.
 				return
 			if(dradis_targeting && (linked.gunner == usr || linked.pilot == usr))
-				if(target.faction != linked.faction)
+				if(target.faction != linked.faction || (linked.can_friendly_fire() && !linked.target_lock))
 					linked.start_lockon(target)
 					return
 				linked.datalink_transmit(target)
