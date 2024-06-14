@@ -72,7 +72,7 @@
 	armor = list("melee" = 0, "bullet" = 0, "laser" = 0, "energy" = 0, "bomb" = 10, "bio" = 0, "rad" = 10, "fire" = 10, "acid" = 10)
 
 /obj/item/clothing/suit/ship/peacekeeper
-	name = "Peacekeer vest"
+	name = "Peacekeeper vest"
 	icon_state = "peacekeeper_vest"
 	item_state = "peacekeeper_vest"
 	desc = "A nanoweave vest capable of impeding most small arms fire as well as improvised weapons. It bears the logo of the North Star peacekeeper force"
