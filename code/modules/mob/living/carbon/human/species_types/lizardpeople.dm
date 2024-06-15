@@ -5,11 +5,12 @@
 	bodyflag = FLAG_LIZARD
 	default_color = "00FF00"
 	species_traits = list(MUTCOLORS,EYECOLOR,LIPS,NO_UNDERWEAR)
+	inherent_traits = list(TRAIT_COLDBLOODED) //NSV13 - lizards have no natural bodytemp stabilization
 	inherent_biotypes = list(MOB_ORGANIC, MOB_HUMANOID, MOB_REPTILE)
 	mutant_bodyparts = list("tail_lizard", "snout", "spines", "horns", "frills", "body_markings", "legs")
 	mutanttongue = /obj/item/organ/tongue/lizard
 	mutanttail = /obj/item/organ/tail/lizard
-	coldmod = 1.5
+	coldmod = 1 //NSV13 - lizards have exchanged their inherent damage modifier for them being cold-blooded.
 	heatmod = 0.67
 	default_features = list("mcolor" = "0F0", "tail_lizard" = "Smooth", "snout" = "Round", "horns" = "None", "frills" = "None", "spines" = "None", "body_markings" = "None", "legs" = "Normal Legs", "body_size" = "Normal")
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
@@ -61,7 +62,7 @@
 	id = "ashlizard"
 	examine_limb_id = SPECIES_LIZARD
 	species_traits = list(MUTCOLORS,EYECOLOR,LIPS, NO_UNDERWEAR)
-	inherent_traits = list(TRAIT_NOGUNS,TRAIT_NOBREATH)
+	inherent_traits = list(TRAIT_NOGUNS,TRAIT_NOBREATH, TRAIT_COLDBLOODED) //NSV13 - lizards are also coldblooded [we have no lavaland so I don't have to worry about if lavaland always gens with survivable temps :) ]
 	species_language_holder = /datum/language_holder/lizard/ash
 	digitigrade_customization = DIGITIGRADE_FORCED
 
