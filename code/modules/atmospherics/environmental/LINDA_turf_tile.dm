@@ -39,7 +39,8 @@
 		QDEL_NULL(active_hotspot)
 	return ..()
 
-/turf/proc/update_air_ref()
+/turf/proc/update_air_ref(flag)
+	return LIBCALL(AUXMOS, "byond:hook_register_turf_ffi")(src, flag)
 
 /////////////////GAS MIXTURE PROCS///////////////////
 
@@ -49,55 +50,34 @@
 /turf/open/assume_air_moles(datum/gas_mixture/giver, moles)
 	if(!giver)
 		return FALSE
-	if(SSair.thread_running())
-		var giver_moles = giver.total_moles()
-		if(giver_moles > 0)
-			SSair.deferred_airs += list(list(giver, air, moles / giver_moles))
-		else
-			SSair.deferred_airs += list(list(giver, air, 0))
-	else
-		giver.transfer_to(air, moles)
-		update_visuals()
+	giver.transfer_to(air, moles)
+	update_visuals()
 	return TRUE
 
 /turf/open/assume_air_ratio(datum/gas_mixture/giver, ratio)
 	if(!giver)
 		return FALSE
-	if(SSair.thread_running())
-		SSair.deferred_airs += list(list(giver, air, ratio))
-	else
-		giver.transfer_ratio_to(air, ratio)
-		update_visuals()
+	giver.transfer_ratio_to(air, ratio)
+	update_visuals()
 	return TRUE
 
 /turf/open/transfer_air(datum/gas_mixture/taker, moles)
 	if(!taker || !return_air()) // shouldn't transfer from space
 		return FALSE
-	if(SSair.thread_running())
-		var air_moles = air.total_moles()
-		if(air_moles > 0)
-			SSair.deferred_airs += list(list(air, taker, moles / air_moles))
-		else
-			SSair.deferred_airs += list(list(air, taker, 0))
-	else
-		air.transfer_to(taker, moles)
-		update_visuals()
+	air.transfer_to(taker, moles)
+	update_visuals()
 	return TRUE
 
 /turf/open/transfer_air_ratio(datum/gas_mixture/taker, ratio)
 	if(!taker || !return_air())
 		return FALSE
-	if(SSair.thread_running())
-		SSair.deferred_airs += list(list(air, taker, ratio))
-	else
-		air.transfer_ratio_to(taker, ratio)
-		update_visuals()
+	air.transfer_ratio_to(taker, ratio)
+	update_visuals()
 	return TRUE
 
 /turf/open/remove_air(amount)
 	var/datum/gas_mixture/ours = return_air()
 	var/datum/gas_mixture/removed = ours.remove(amount)
-	update_visuals()
 	return removed
 
 /turf/open/remove_air_ratio(ratio)

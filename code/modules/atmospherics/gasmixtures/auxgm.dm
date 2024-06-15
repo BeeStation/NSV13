@@ -12,7 +12,8 @@ GLOBAL_LIST_INIT(nonreactive_gases, typecacheof(list(GAS_O2, GAS_N2, GAS_CO2, GA
 
 // Also allows you to add new gases at runtime
 
-/proc/_auxtools_register_gas(datum/gas/gas) // makes sure auxtools knows stuff about this gas
+/proc/_auxtools_register_gas(gas) // makes sure auxtools knows stuff about this gas
+	return LIBCALL(AUXMOS, "byond:hook_register_gas_ffi")(gas)
 
 /datum/auxgm
 	var/list/datums = list()
@@ -104,6 +105,7 @@ GLOBAL_LIST_INIT(nonreactive_gases, typecacheof(list(GAS_O2, GAS_N2, GAS_CO2, GA
 		_auxtools_register_gas(gas)
 
 /proc/finalize_gas_refs()
+	return LIBCALL(AUXMOS, "byond:finalize_gas_refs_ffi")()
 
 /datum/auxgm/New()
 	for(var/gas_path in subtypesof(/datum/gas))

@@ -114,7 +114,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 /obj/machinery/power/supermatter_crystal/Initialize(mapload)
 	. = ..()
 	uid = gl_uid++
-	SSair.atmos_air_machinery += src
+	SSair.start_processing_machine(src) //NSV13 - Citadel auxmos
 	countdown = new(src)
 	countdown.start()
 	GLOB.poi_list |= src
@@ -133,7 +133,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 
 /obj/machinery/power/supermatter_crystal/Destroy()
 	investigate_log("has been destroyed.", INVESTIGATE_ENGINES)
-	SSair.atmos_air_machinery -= src
+	SSair.stop_processing_machine(src) //NSV13 - Citadel auxmos
 	QDEL_NULL(radio)
 	GLOB.poi_list -= src
 	QDEL_NULL(countdown)
