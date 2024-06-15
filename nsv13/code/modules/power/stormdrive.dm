@@ -620,7 +620,7 @@ Control Rods
 		var/chamber_radiation_total = reaction_rate + reaction_chamber_gases.get_moles(GAS_TRITIUM) * HIGH_RADIATION + \
 													reaction_chamber_gases.get_moles(GAS_NUCLEIUM) * HIGH_RADIATION - \
 													reaction_chamber_gases.get_moles(GAS_BZ) * LOW_RADIATION
-		radiation_modifier = chamber_radiation_total / reaction_rate
+		radiation_modifier = (chamber_radiation_total / reaction_rate) * 20
 
 		var/chamber_reinforcement_total = reaction_rate + reaction_chamber_gases.get_moles(GAS_PLUOXIUM) * VERY_HIGH_REINFORCEMENT + \
 														reaction_chamber_gases.get_moles(GAS_TRITIUM) * HIGH_REINFORCEMENT + \
