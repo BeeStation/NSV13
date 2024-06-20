@@ -479,8 +479,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		if(!impact_sound_cooldown && (bonk > 2 || bonk2 > 2))
 			bonk *= 5 //The rammer gets an innate penalty, to discourage ramming metas.
 			bonk2 *= 5
-			take_quadrant_hit(bonk, projectile_quadrant_impact(other)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
-			other.take_quadrant_hit(bonk2, projectile_quadrant_impact(src)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
+			take_quadrant_hit(bonk, quadrant_impact(other)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
+			other.take_quadrant_hit(bonk2, quadrant_impact(src)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
 
 			log_game("[key_name(pilot)] has impacted an overmap ship into [other] with velocity [bonk]")
 
