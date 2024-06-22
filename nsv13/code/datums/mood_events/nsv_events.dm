@@ -1,6 +1,6 @@
 /datum/mood_event/moth_drink_blood
 	description = "<span class='nicegreen'>That hit the spot!</span>\n"
-	mood_change = 10
+	mood_change = 10 //Why is a moth drinking blood a mood buff the level of being a cultist?? And for *ten minutes*???
 	timeout = 10 MINUTES
 
 /datum/mood_event/tailpull
@@ -55,4 +55,4 @@
 
 /datum/mood_event/lizard_vibrations
 	description = "<span class='warning'>I know my muscles are shaking to warm me up, but it still feels distracting..</span>\n"
-	mood_change = -1
+	mood_change = -2

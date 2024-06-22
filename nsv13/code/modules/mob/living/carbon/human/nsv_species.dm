@@ -28,12 +28,12 @@
 	if(temperature_differential < ECTOTHERM_THERMOGENESIS_CRIT_COLDNESS)
 		if(human_holder.nutrition < ECTOTHERM_THERMOGENESIS_NUTRITION_USE * human_holder.metabolism_efficiency)
 			return 0
-		adjustment = CLAMP(temperature_differential / ECTOTHERM_RECOVERY_DIVISOR * human_holder.metabolism_efficiency, ECTOTHERM_MIN_RECOVERY * human_holder.metabolism_efficiency, ECTOTHERM_MAX_RECOVERY * human_holder.metabolism_efficiency)
+		adjustment = round(CLAMP(temperature_differential / ECTOTHERM_RECOVERY_DIVISOR * human_holder.metabolism_efficiency, ECTOTHERM_MIN_RECOVERY * human_holder.metabolism_efficiency, ECTOTHERM_MAX_RECOVERY * human_holder.metabolism_efficiency), 0.1)
 		human_holder.adjust_nutrition(-ECTOTHERM_THERMOGENESIS_NUTRITION_USE * human_holder.metabolism_efficiency)
 	else
 		if(human_holder.nutrition < ECTOTHERM_MAJOR_THERMOGENESIS_NUTRITION_USE * human_holder.metabolism_efficiency)
 			return 0
-		adjustment = CLAMP(temperature_differential / ECTOTHERM_RECOVERY_DIVISOR * human_holder.metabolism_efficiency, ECTOTHERM_MIN_RECOVERY * human_holder.metabolism_efficiency, ECTOTHERM_MAX_RECOVERY * human_holder.metabolism_efficiency * ECTOTHERM_CRIT_COLD_MAX_RECOVERY_MOD)
+		adjustment = round(CLAMP(temperature_differential / ECTOTHERM_RECOVERY_DIVISOR * human_holder.metabolism_efficiency, ECTOTHERM_MIN_RECOVERY * human_holder.metabolism_efficiency, ECTOTHERM_MAX_RECOVERY * human_holder.metabolism_efficiency * ECTOTHERM_CRIT_COLD_MAX_RECOVERY_MOD), 0.1)
 		human_holder.adjust_nutrition(-ECTOTHERM_MAJOR_THERMOGENESIS_NUTRITION_USE * human_holder.metabolism_efficiency)
 	human_holder.adjust_bodytemperature(adjustment)
 	return adjustment
