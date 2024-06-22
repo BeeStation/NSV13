@@ -267,6 +267,9 @@
 		to_chat(user, "<span class='notice'>You start to load [A] into [src].</span>")
 		loading = TRUE
 		if(do_after(user, load_delay, target = src))
+			if ( !user_has_payload( A, user ) )
+				loading = FALSE
+				return FALSE
 			if(mag_load_sound)
 				playsound(src, mag_load_sound, 100, 1)
 
@@ -290,6 +293,19 @@
 		to_chat(user, "<span class='warning'>You can't load [A] into [src]!</span>")
 
 	return FALSE
+
+/obj/machinery/ship_weapon/proc/user_has_payload(obj/item/A, mob/user) // Searches humans and borgs for gunpowder before depositing
+	if ( !user )
+		return FALSE
+
+	// Prove you're not human
+	if ( istype( user, /mob/living/silicon/robot ) )
+		// Give me your hands
+		var/obj/item/borg/apparatus/munitions/hands = locate( /obj/item/borg/apparatus/munitions ) in user.contents
+		if ( !hands?.stored )
+			return FALSE
+
+	return TRUE
 
 /**
  * If we're not magazine-fed, eject round(s) from the weapon.

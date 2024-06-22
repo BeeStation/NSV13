@@ -56,7 +56,7 @@ Marine & all their unique stuff!
 	desc = "A cheaply made uniform worn by general combat officers."
 	icon_state = "marine"
 	item_state = "bl_suit"
-	armor = list("melee" = 10, "bullet" = 10, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30)
+	armor = list("melee" = 0, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30)
 	can_adjust = TRUE
 
 /obj/item/clothing/under/ship/marine/engineer
