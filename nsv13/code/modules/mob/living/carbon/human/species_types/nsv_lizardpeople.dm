@@ -2,7 +2,7 @@
 
 //Modular type attachment.
 /datum/species/lizard
-	coldmod = 1 // Lzards here have exchanged their inherent damage modifier for them being cold-blooded.
+	coldmod = 1 // Lizards here have exchanged their inherent damage modifier for them being cold-blooded.
 	inherent_traits = list(TRAIT_COLDBLOODED) // The aforementioned coldbloodedness
 	///Controls whether lizards use their muscles to generate additional heat if very cold.
 	var/cold_stacks = 0
