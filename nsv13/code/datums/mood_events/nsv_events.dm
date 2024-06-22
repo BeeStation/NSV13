@@ -52,3 +52,7 @@
 	description = "<span class='nicegreen'>Cheers! ¡Salud! Kanpai! Prost! Skål! Santé! Sláinte! Saúde!</span>\n"
 	mood_change = 3
 	timeout = 30 SECONDS
+
+/datum/mood_event/lizard_vibrations
+	description = "<span class='warning'>I know my muscles are shaking to warm me up, but it still feels distracting..</span>\n"
+	mood_change = -1
