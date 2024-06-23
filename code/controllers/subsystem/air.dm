@@ -367,34 +367,9 @@ SUBSYSTEM_DEF(air)
 	if(post_process_turfs_auxtools(resumed,MC_TICK_REMAINING_MS))
 		pause()
 
-
-/datum/controller/subsystem/air/proc/auxtools_update_reactions()
-	return LIBCALL(AUXMOS, "byond:update_reactions_ffi")()
-
-/datum/controller/subsystem/air/proc/thread_running()
-	return LIBCALL(AUXMOS, "byond:thread_running_hook_ffi")()
-
-/datum/controller/subsystem/air/proc/finish_turf_processing_auxtools(time_remaining)
-	return LIBCALL(AUXMOS, "byond:finish_process_turfs_ffi")(time_remaining)
-
 /datum/controller/subsystem/air/proc/equalize_turfs_auxtools()
 
-/datum/controller/subsystem/air/proc/process_turfs_auxtools(remaining)
-	return LIBCALL(AUXMOS, "byond:process_turf_hook_ffi")(src, remaining)
-
 /datum/controller/subsystem/air/proc/post_process_turfs_auxtools()
-
-/datum/controller/subsystem/air/proc/process_turf_equalize_auxtools(remaining)
-	return LIBCALL(AUXMOS, "byond:equalize_hook_ffi")(src, remaining)
-
-/datum/controller/subsystem/air/proc/process_excited_groups_auxtools(remaining)
-	return LIBCALL(AUXMOS, "byond:groups_hook_ffi")(src, remaining)
-
-/datum/controller/subsystem/air/proc/get_amt_gas_mixes()
-	return LIBCALL(AUXMOS, "byond:hook_amt_gas_mixes_ffi")()
-
-/datum/controller/subsystem/air/proc/get_max_gas_mixes()
-	return LIBCALL(AUXMOS, "byond:hook_max_gas_mixes_ffi")()
 
 /datum/controller/subsystem/air/proc/turf_process_time()
 /datum/controller/subsystem/air/proc/heat_process_time()

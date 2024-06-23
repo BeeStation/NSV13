@@ -39,9 +39,6 @@
 		QDEL_NULL(active_hotspot)
 	return ..()
 
-/turf/proc/update_air_ref(flag)
-	return LIBCALL(AUXMOS, "byond:hook_register_turf_ffi")(src, flag)
-
 /////////////////GAS MIXTURE PROCS///////////////////
 
 /turf/open/assume_air(datum/gas_mixture/giver) //use this for machines to adjust air
