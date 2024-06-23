@@ -26,12 +26,12 @@
 	if(cold_stacks < LIZARD_THERMOGENESIS_COLD_TRIGGER_STACKS && !fibrillating)
 		return ECTOTHERM_NO_THERMOGENESIS_NEEDED
 	if(!fibrillating) // !fibrillating reaching this point means enough stacks exist.
-		to_chat(human_holder, "<span class='warning'>Various muscles across your body start quivering!</span>")
-		SEND_SIGNAL(human_holder, COMSIG_ADD_MOOD_EVENT, "lizard_trembles", /datum/mood_event/lizard_vibrations)
+		to_chat(human_holder, "<span class='warning'>You start shivering and feel the urge to find a sunny spot!</span>")
+		SEND_SIGNAL(human_holder, COMSIG_ADD_MOOD_EVENT, "lizard_shivers", /datum/mood_event/lizard_shivers)
 		fibrillating = TRUE
 	else if(cold_stacks == 0) //We also check if we have to stop vibrating here.
-		to_chat(human_holder, "<span class='notice'>Your muscles calm down.</span>")
-		SEND_SIGNAL(human_holder, COMSIG_CLEAR_MOOD_EVENT, "lizard_trembles")
+		to_chat(human_holder, "<span class='notice'>You stop shivering.</span>")
+		SEND_SIGNAL(human_holder, COMSIG_CLEAR_MOOD_EVENT, "lizard_shivers")
 		fibrillating = FALSE
 		return ECTOTHERM_NO_THERMOGENESIS_NEEDED
 
@@ -39,5 +39,5 @@
 
 //Modular proc attachment
 /datum/species/lizard/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load) //Human variable, named C. What did they mean by this?
-	SEND_SIGNAL(C, COMSIG_CLEAR_MOOD_EVENT, "lizard_trembles") //Safely remove if our species is changed.
+	SEND_SIGNAL(C, COMSIG_CLEAR_MOOD_EVENT, "lizard_shivers") //Safely remove if our species is changed.
 	return ..()

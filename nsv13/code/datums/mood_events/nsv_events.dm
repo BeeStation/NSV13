@@ -53,6 +53,6 @@
 	mood_change = 3
 	timeout = 30 SECONDS
 
-/datum/mood_event/lizard_vibrations
-	description = "<span class='warning'>I know my muscles are shaking to warm me up, but it still feels distracting..</span>\n"
+/datum/mood_event/lizard_shivers
+	description = "<span class='warning'>I'm shivering.. I need to find a spot where I can bask in the sun!</span>\n" //Evolved mental response, even if not entirely true here.
 	mood_change = -2
