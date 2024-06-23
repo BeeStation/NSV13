@@ -273,6 +273,7 @@
 #define GAS_PLASMA				"plasma"
 #define GAS_H2O					"water_vapor"
 #define GAS_HYPERNOB			"nob"
+#define GAS_NITRIC				"no"
 #define GAS_NITROUS				"n2o"
 #define GAS_NITRYL				"no2"
 #define GAS_TRITIUM				"tritium"
@@ -281,6 +282,14 @@
 #define GAS_PLUOXIUM			"pluox"
 #define GAS_CONSTRICTED_PLASMA  "constricted_plasma" //NSV13
 #define GAS_NUCLEIUM			"nucleium" //NSV13
+#define GAS_MIASMA				"miasma"
+#define GAS_METHANE				"methane"
+#define GAS_METHYL_BROMIDE		"methyl_bromide"
+#define GAS_BROMINE				"bromine"
+#define GAS_AMMONIA				"ammonia"
+#define GAS_FLUORINE			"fluorine"
+#define GAS_ETHANOL				"ethanol"
+#define GAS_QCD					"qcd"
 
 #define GAS_FLAG_DANGEROUS		(1<<0)
 #define GAS_FLAG_BREATH_PROC	(1<<1)

@@ -7,6 +7,9 @@
 	if (world.system_type == UNIX)
 		__auxmos = "libauxmos"
 		return __auxmos
+	else if (world.system_type == MS_WINDOWS)
+		__auxmos = "auxtools/auxmos.dll"
+		return __auxmos
 	else
 		__auxmos = "auxmos"
 		return __auxmos

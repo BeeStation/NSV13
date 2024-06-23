@@ -114,5 +114,3 @@
 #error Building with Dream Maker is no longer supported and will result in errors.
 #error Switch to VSCode and when prompted install the recommended extensions, you can then either use the UI or press Ctrl+Shift+B to build the codebase.
 #endif
-
-#define AUXMOS (world.system_type == MS_WINDOWS ? "auxtools/auxmos.dll" : __detect_auxmos())

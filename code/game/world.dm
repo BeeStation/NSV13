@@ -8,7 +8,7 @@ GLOBAL_VAR(restart_counter)
 	var/dll = GetConfig("env", "AUXTOOLS_DEBUG_DLL")
 	if (dll)
 		LIBCALL(dll, "auxtools_init")()
-		enable_debugging()
+		//enable_debugging()
 
 	log_world("World loaded at [time_stamp()]!")
 	SSmetrics.world_init_time = REALTIMEOFDAY // Important
@@ -318,7 +318,6 @@ GLOBAL_VAR(restart_counter)
 
 /world/Del()
 	shutdown_logging() // makes sure the thread is closed before end, else we terminate
-	AUXTOOLS_SHUTDOWN(AUXMOS)
 	var/debug_server = world.GetConfig("env", "AUXTOOLS_DEBUG_DLL")
 	if (debug_server)
 		LIBCALL(debug_server, "auxtools_shutdown")()
