@@ -20,6 +20,6 @@ GLOBAL_LIST_INIT(projectile_hitbox, list(new /matrix/vector(-2,16),\
 	var/obj/structure/overmap/OM = A
 	if(!istype(OM))
 		return TRUE
-	if(faction != OM.faction)
+	if(faction != OM.faction || !(OM.faction == "nanotrasen" || OM.faction == "solgov") && !(faction == "nanotrasen" || faction == "solgov"))
 		return TRUE
 	return FALSE
