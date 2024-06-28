@@ -1,7 +1,7 @@
 /datum/mood_event/moth_drink_blood
 	description = "<span class='nicegreen'>That hit the spot!</span>\n"
-	mood_change = 10
-	timeout = 10 MINUTES
+	mood_change = 3
+	timeout = 7 MINUTES
 
 /datum/mood_event/tailpull
 	description = "<span class='warning'>OUCH! Stop pulling my tail! It hurts!\n"
@@ -40,11 +40,11 @@
 
 /datum/mood_event/drink_navy_coffee
 	description = "<span class='nicegreen'><b>THAT SHIT TASTED FUCKING DELICIOUS LET'S GO FUCK SOME SYNDICATE SHIPS UP, NAVY FOR LIFE WOOOOOO!!</b></span>\n"
-	mood_change = 10
-	timeout = 10 MINUTES
+	mood_change = 3
+	timeout = 7 MINUTES
 
 /datum/mood_event/drink_navy_coffee/add_effects(list/faction)
-	if("Syndicate" in faction)
+	if(FACTION_SYNDICATE in faction)
 		description = "<span class='nicegreen'><b>THAT SHIT TASTED FUCKING DELICIOUS LET'S GO FUCK SOME NANOTRASEN SHIPS UP, NAVY FOR LIFE WOOOOOO!!</b></span>\n"
 
 
@@ -52,3 +52,11 @@
 	description = "<span class='nicegreen'>Cheers! ¡Salud! Kanpai! Prost! Skål! Santé! Sláinte! Saúde!</span>\n"
 	mood_change = 3
 	timeout = 30 SECONDS
+
+/datum/mood_event/lizard_shivers
+	description = "<span class='warning'>I'm shivering.. I need to find a spot where I can bask in the sun!</span>\n" //Evolved mental response, even if not entirely true here.
+	mood_change = -2
+
+/datum/mood_event/comfy_lizard_temperature
+	description = "<span class='nicegreen'>I'm nice and warm! I missed this feeling..</span>\n" //These ships run at 20°C by default, which is.. not very nice for something coldblooded.
+	mood_change = 2 //This is really hard to hit and maintain so I felt like at least a +2 would be appropriate.
