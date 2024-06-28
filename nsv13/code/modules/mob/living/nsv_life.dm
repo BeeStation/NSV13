@@ -23,21 +23,21 @@
 		var/pulled_thermoprotect = pulled_human.get_cold_protection(bodytemperature)
 		if(self_thermoprotect >= 1 || pulled_thermoprotect >= 1)
 			return //Full insulation.
-		thermoconductivity -= ((self_thermoprotect + pulled_thermoprotect) / 2) //Non-full protection, average for simplicity and to preserve effectiveness.
-		var/true_adjustment = min(thermoconductivity * tempdiff / BODYTEMP_COLD_DIVISOR, abs(BODYTEMP_COOLING_MAX))
+		thermoconductivity = max(thermoconductivity - ((self_thermoprotect + pulled_thermoprotect) / 2), 0)	//Non-full protection, average for simplicity and to preserve effectiveness.
+		var/true_adjustment = min(thermoconductivity * tempdiff / BODYTEMP_COLD_DIVISOR, -BODYTEMP_COOLING_MAX)
 		//Aaand equalize.
 		adjust_bodytemperature(true_adjustment)
 		pulled_human.adjust_bodytemperature(-true_adjustment)
 		. = true_adjustment //This return value isn't used but someone might use it. Plus, traceability.
 	else if(tempdiff < 0) //We are hotter than pulled. Cool us, transfer lost heat to them.
-		tempdiff = abs(tempdiff) //This was negative. I don't want that.
+		tempdiff = -tempdiff //This was negative. I don't want that.
 		//Averaging insulation of both targets again, this time the other way around because we are hotter.
 		var/self_thermoprotect = get_cold_protection(pulled_human.bodytemperature)
 		var/pulled_thermoprotect = pulled_human.get_heat_protection(bodytemperature)
 		if(self_thermoprotect >= 1 || pulled_thermoprotect >= 1)
 			return //Full insulation
-		thermoconductivity -= ((self_thermoprotect + pulled_thermoprotect) / 2) //Bit copypasty I know but I really don't feel like making an omni-case instead.
-		var/true_adjustment = min(thermoconductivity * tempdiff / BODYTEMP_COLD_DIVISOR, abs(BODYTEMP_COOLING_MAX))
+		thermoconductivity = max(thermoconductivity - ((self_thermoprotect + pulled_thermoprotect) / 2), 0) //Bit copypasty I know but I really don't feel like making an omni-case instead.
+		var/true_adjustment = min(thermoconductivity * tempdiff / BODYTEMP_COLD_DIVISOR, -BODYTEMP_COOLING_MAX)
 		//And equalize, the other way around this time.
 		adjust_bodytemperature(-true_adjustment)
 		pulled_human.adjust_bodytemperature(true_adjustment)

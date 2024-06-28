@@ -15,7 +15,7 @@
 #define ECTOTHERM_MAX_RECOVERY 3 //! The maximum amount of heat (kelvins) generated per tick by ectotherms if trying to recover. Should be fairly small.
 #define ECTOTHERM_CRIT_COLD_MAX_RECOVERY_MOD 2 //! Maximum temperature recovery is multiplied by this value if we are below the critical coldness threshold.
 
-#define ECTOTHERM_THERMOGENESIS_NUTRITION_USE 0.4 //! Standard use for temp adjustment for ectotherms.
-#define ECTOTHERM_MAJOR_THERMOGENESIS_NUTRITION_USE 2 //! This method of temperature regulation is inefficient, thus its nutrition drain increases disproportionately to the cap gained if very cold.
+#define ECTOTHERM_THERMOGENESIS_NUTRITION_USE 0.2 //! Standard use for temp adjustment for ectotherms.
+#define ECTOTHERM_MAJOR_THERMOGENESIS_NUTRITION_USE 1 //! This method of temperature regulation is inefficient, thus its nutrition drain increases disproportionately to the cap gained if very cold.
 
 #define ECTOTHERM_NO_THERMOGENESIS_NEEDED -1 //! Return value if no thermoregulation was needed nor done.
