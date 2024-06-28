@@ -43,7 +43,7 @@
 
 	// Health, armor, and damage
 	max_integrity = 300 //Max internal integrity
-	integrity_failure = 0
+	integrity_failure = 0 //If you want to use this you will have to implement obj_break() for overmaps aswell as a method to restore functionality if repaired.
 	var/armour_plates = 0 //You lose max integrity when you lose armour plates.
 	var/sensor_profile = 0	//A penalty (or, possibly even bonus) to from how far away one can be detected. Affected by things like sending out a active ping, which will make you glow like a christmas tree.
 	var/cloak_factor = 255 // Min alpha of a ship during cloak. 0-255
