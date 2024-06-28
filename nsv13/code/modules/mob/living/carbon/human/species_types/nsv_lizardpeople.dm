@@ -8,6 +8,8 @@
 	var/cold_stacks = 0
 	///Stores if we already sent them a message & adjusted stuff.
 	var/fibrillating = FALSE
+	///Used to store whether the signal to adjust mood due to good temperatures has been updated.
+	var/is_comfy = FALSE
 
 //Another modular type attachment.
 /datum/species/lizard/ashwalker
@@ -40,4 +42,26 @@
 //Modular proc attachment
 /datum/species/lizard/on_species_loss(mob/living/carbon/human/C, datum/species/new_species, pref_load) //Human variable, named C. What did they mean by this?
 	SEND_SIGNAL(C, COMSIG_CLEAR_MOOD_EVENT, "lizard_shivers") //Safely remove if our species is changed.
+	SEND_SIGNAL(C, COMSIG_CLEAR_MOOD_EVENT, "comfy_liz_temp")
 	return ..()
+
+//Lizards are most comfortable between 30 and 60°C. Good luck managing to stabilize at that temp, but hey if you manage to, you get a mood buff!
+#define LIZARD_COMFY_TEMP_MIN 303.15
+#define LIZARD_COMFY_TEMP_MAX 333.15 //From what I read some terran lizards have ~40-45°C as their upper targeted bounds, buut firstly these are space lizards, and secondly this is already hard enough to hit, so I extended it to 60°C.
+
+/datum/species/lizard/spec_life(mob/living/carbon/human/H)
+	. = ..()
+	var/owner_bodytemperature = H.bodytemperature
+	if(owner_bodytemperature < LIZARD_COMFY_TEMP_MIN || owner_bodytemperature > LIZARD_COMFY_TEMP_MAX) //Should be low on processing since the first condition will catch almost all the time.
+		if(!is_comfy)
+			return
+		SEND_SIGNAL(H, COMSIG_CLEAR_MOOD_EVENT, "comfy_liz_temp")
+		is_comfy = FALSE
+		return
+	if(is_comfy)
+		return
+	SEND_SIGNAL(H, COMSIG_ADD_MOOD_EVENT, "comfy_liz_temp", /datum/mood_event/comfy_lizard_temperature)
+	is_comfy = TRUE
+
+#undef LIZARD_COMFY_TEMP_MIN
+#undef LIZARD_COMFY_TEMP_MAX

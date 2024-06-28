@@ -1,6 +1,6 @@
 /datum/mood_event/moth_drink_blood
 	description = "<span class='nicegreen'>That hit the spot!</span>\n"
-	mood_change = 4
+	mood_change = 3
 	timeout = 7 MINUTES
 
 /datum/mood_event/tailpull
@@ -40,7 +40,7 @@
 
 /datum/mood_event/drink_navy_coffee
 	description = "<span class='nicegreen'><b>THAT SHIT TASTED FUCKING DELICIOUS LET'S GO FUCK SOME SYNDICATE SHIPS UP, NAVY FOR LIFE WOOOOOO!!</b></span>\n"
-	mood_change = 4
+	mood_change = 3
 	timeout = 7 MINUTES
 
 /datum/mood_event/drink_navy_coffee/add_effects(list/faction)
@@ -56,3 +56,7 @@
 /datum/mood_event/lizard_shivers
 	description = "<span class='warning'>I'm shivering.. I need to find a spot where I can bask in the sun!</span>\n" //Evolved mental response, even if not entirely true here.
 	mood_change = -2
+
+/datum/mood_event/comfy_lizard_temperature
+	description = "<span class='nicegreen'>I'm nice and warm! I missed this feeling..</span>\n" //These ships run at 20°C by default, which is.. not very nice for something coldblooded.
+	mood_change = 2 //This is really hard to hit and maintain so I felt like at least a +2 would be appropriate.
