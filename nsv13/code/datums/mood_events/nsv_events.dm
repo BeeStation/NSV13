@@ -1,7 +1,7 @@
 /datum/mood_event/moth_drink_blood
 	description = "<span class='nicegreen'>That hit the spot!</span>\n"
-	mood_change = 10 //Why is a moth drinking blood a mood buff the level of being a cultist?? And for *ten minutes*???
-	timeout = 10 MINUTES
+	mood_change = 4
+	timeout = 7 MINUTES
 
 /datum/mood_event/tailpull
 	description = "<span class='warning'>OUCH! Stop pulling my tail! It hurts!\n"
@@ -40,11 +40,11 @@
 
 /datum/mood_event/drink_navy_coffee
 	description = "<span class='nicegreen'><b>THAT SHIT TASTED FUCKING DELICIOUS LET'S GO FUCK SOME SYNDICATE SHIPS UP, NAVY FOR LIFE WOOOOOO!!</b></span>\n"
-	mood_change = 10
-	timeout = 10 MINUTES
+	mood_change = 4
+	timeout = 7 MINUTES
 
 /datum/mood_event/drink_navy_coffee/add_effects(list/faction)
-	if("Syndicate" in faction)
+	if(FACTION_SYNDICATE in faction)
 		description = "<span class='nicegreen'><b>THAT SHIT TASTED FUCKING DELICIOUS LET'S GO FUCK SOME NANOTRASEN SHIPS UP, NAVY FOR LIFE WOOOOOO!!</b></span>\n"
 
 
