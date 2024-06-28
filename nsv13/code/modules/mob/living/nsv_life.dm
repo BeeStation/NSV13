@@ -23,7 +23,7 @@
 		var/pulled_thermoprotect = pulled_human.get_cold_protection(bodytemperature)
 		if(self_thermoprotect >= 1 || pulled_thermoprotect >= 1)
 			return //Full insulation.
-		thermoconductivity = max(thermoconductivity - ((self_thermoprotect + pulled_thermoprotect) / 2), 0)	//Non-full protection, average for simplicity and to preserve effectiveness.
+		thermoconductivity -= ((self_thermoprotect + pulled_thermoprotect) / 2) //Non-full protection, average for simplicity and to preserve effectiveness.
 		var/true_adjustment = min(thermoconductivity * tempdiff / BODYTEMP_COLD_DIVISOR, -BODYTEMP_COOLING_MAX)
 		//Aaand equalize.
 		adjust_bodytemperature(true_adjustment)
@@ -36,7 +36,7 @@
 		var/pulled_thermoprotect = pulled_human.get_heat_protection(bodytemperature)
 		if(self_thermoprotect >= 1 || pulled_thermoprotect >= 1)
 			return //Full insulation
-		thermoconductivity = max(thermoconductivity - ((self_thermoprotect + pulled_thermoprotect) / 2), 0) //Bit copypasty I know but I really don't feel like making an omni-case instead.
+		thermoconductivity -= ((self_thermoprotect + pulled_thermoprotect) / 2) //Bit copypasty I know but I really don't feel like making an omni-case instead.
 		var/true_adjustment = min(thermoconductivity * tempdiff / BODYTEMP_COLD_DIVISOR, -BODYTEMP_COOLING_MAX)
 		//And equalize, the other way around this time.
 		adjust_bodytemperature(-true_adjustment)
