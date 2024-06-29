@@ -39,13 +39,12 @@
 	OM.forceMove(exit)
 	if(istype(OM, /obj/structure/overmap))
 		OM.current_system = src //Debugging purposes only
-	after_enter(OM)
+		after_enter(OM)
 
 /datum/star_system/proc/after_enter(obj/structure/overmap/OM)
 	if(desc)
 		OM.relay(null, "<span class='notice'><h2>Now entering [name]...</h2></span>")
 		OM.relay(null, "<span class='notice'>[desc]</span>")
-		//If we have an audio cue, ensure it doesn't overlap with a fleet's one...
 	//End the round upon entering O45.
 	if(system_traits & STARSYSTEM_END_ON_ENTER)
 		if(OM.role == MAIN_OVERMAP)
@@ -56,6 +55,7 @@
 			SSblackbox.record_feedback("text", "nsv_endings", 1, "succeeded")
 	if(!length(audio_cues))
 		return FALSE
+	//If we have an audio cue, ensure it doesn't overlap with a fleet's one...
 	for(var/datum/fleet/F as() in fleets)
 		if(length(F.audio_cues) && F.alignment != OM.faction && !F.federation_check(OM))
 			return TRUE
