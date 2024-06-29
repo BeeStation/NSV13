@@ -125,6 +125,7 @@
 	range_modifier = 5
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
 
+
 //Energy Weapons
 
 /datum/ship_weapon/burst_phaser // Little red laser
@@ -293,8 +294,7 @@
 	special_fire_proc = /obj/structure/overmap/proc/secondary_fire
 	ai_fire_delay = 1 SECONDS
 
-//You don't ever actually select this. Crew act as gunners.
-
+///You don't ever actually select this. Crew act as gunners.
 /datum/ship_weapon/gauss
 	name = "Gauss guns"
 	default_projectile_type = /obj/item/projectile/bullet/gauss_slug
@@ -310,7 +310,7 @@
 	ai_fire_delay = 2 SECONDS
 	allowed_roles = OVERMAP_USER_ROLE_SECONDARY_GUNNER
 
-/datum/ship_weapon/pdc_mount // .50 cal flavored PDC bullets, which were previously just PDC flavored .50 cal turrets
+/datum/ship_weapon/pdc_mount //! .50 cal flavored PDC bullets, which were previously just PDC flavored .50 cal turrets
 	name = "PDC"
 	default_projectile_type = /obj/item/projectile/bullet/pdc_round
 	burst_size = 3
