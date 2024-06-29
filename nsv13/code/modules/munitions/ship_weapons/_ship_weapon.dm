@@ -481,27 +481,8 @@
  * Returns projectile if successfully fired, FALSE otherwise.
  */
 /obj/machinery/ship_weapon/proc/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+	//Fun fact: set [waitfor, etc] is special, and is inherited by child procs even if they do not call parent!
 	set waitfor = FALSE //As to not hold up any feedback messages.
-
-	// Energy weapons fire behavior
-	if(istype(src, /obj/machinery/ship_weapon/energy)) // Now 100% more modular!
-		if(can_fire(target, shots))
-			if(manual)
-				linked.last_fired = overlay
-			for(var/i = 0, i < shots, i++)
-				do_animation()
-
-				local_fire()
-				overmap_fire(target)
-				charge -= charge_per_shot
-
-				after_fire()
-				if(shots > 1)
-					sleep(weapon_type.burst_fire_delay)
-			return TRUE
-		return FALSE
-
-	// Default weapons fire behavior
 	if(can_fire(target, shots))
 		if(manual)
 			linked.last_fired = overlay
@@ -525,6 +506,23 @@
 			if(semi_auto)
 				chamber(rapidfire = TRUE)
 			after_fire()
+			. = TRUE //waitfor = FALSE early return returns the current . value at the time of sleeping, so this makes it return the correct value for burst fire weapons.
+			if(shots > 1)
+				sleep(weapon_type.burst_fire_delay)
+		return TRUE
+	return FALSE
+
+/obj/machinery/ship_weapon/energy/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+	if(can_fire(target, shots))
+		if(manual)
+			linked.last_fired = overlay
+		for(var/i = 0, i < shots, i++)
+			do_animation()
+			local_fire()
+			overmap_fire(target)
+			charge -= charge_per_shot
+			after_fire()
+			. = TRUE
 			if(shots > 1)
 				sleep(weapon_type.burst_fire_delay)
 		return TRUE
