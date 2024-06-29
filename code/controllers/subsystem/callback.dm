@@ -5,5 +5,9 @@ SUBSYSTEM_DEF(callbacks)
 	priority = FIRE_PRIORITY_CALLBACKS
 
 /datum/controller/subsystem/callbacks/fire()
+	if(SSair.thread_running())
+		pause()
+		return
+
 	if(process_atmos_callbacks(MC_TICK_REMAINING_MS))
 		pause()

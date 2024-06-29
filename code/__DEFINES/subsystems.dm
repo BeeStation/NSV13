@@ -100,6 +100,28 @@
     }\
 }
 
+//! ### SS initialization hints
+/**
+ * Negative values incidate a failure or warning of some kind, positive are good.
+ * 0 and 1 are unused so that TRUE and FALSE are guarenteed to be invalid values.
+ */
+
+/// Subsystem failed to initialize entirely. Print a warning, log, and disable firing.
+#define SS_INIT_FAILURE -2
+
+/// The default return value which must be overriden. Will succeed with a warning.
+#define SS_INIT_NONE -1
+
+/// Subsystem initialized sucessfully.
+#define SS_INIT_SUCCESS 2
+
+/// Successful, but don't print anything. Useful if subsystem was disabled.
+#define SS_INIT_NO_NEED 3
+
+/// Succesfully initialized, BUT do not announce it to players (generally to hide game mechanics it would otherwise spoil)
+#define SS_INIT_NO_MESSAGE 4
+
+//! ### SS initialization load orders
 // Subsystem init_order, from highest priority to lowest priority
 // Subsystems shutdown in the reverse of the order they initialize in
 // The numbers just define the ordering, they are meaningless otherwise.
@@ -140,6 +162,7 @@
 #define INIT_ORDER_CIRCUIT			15
 #define INIT_ORDER_TIMER			1
 #define INIT_ORDER_DEFAULT			0
+#define INIT_ORDER_AIR_MACHINERY	-0.5
 #define INIT_ORDER_AIR				-1
 #define INIT_ORDER_PERSISTENCE		-2 //before assets because some assets take data from SSPersistence
 #define INIT_ORDER_ASSETS			-4
@@ -184,6 +207,7 @@
 #define FIRE_PRIORITY_DEFAULT		50
 #define FIRE_PRIORITY_PARALLAX		65
 #define FIRE_PRIORITY_INSTRUMENTS	80
+#define FIRE_PRIORITY_CALLBACKS		90
 #define FIRE_PRIORITY_MOBS			100
 #define FIRE_PRIORITY_TGUI			110
 #define FIRE_PRIORITY_TICKER		200
@@ -193,7 +217,6 @@
 #define FIRE_PRIORITY_CHAT			400
 #define FIRE_PRIORITY_RUNECHAT		410
 #define FIRE_PRIORITY_OVERLAYS		500
-#define FIRE_PRIORITY_CALLBACKS		600
 #define FIRE_PRIORITY_EXPLOSIONS	666
 #define FIRE_PRIORITY_TIMER			700
 #define FIRE_PRIORITY_SOUND_LOOPS	800
@@ -223,6 +246,10 @@
 #define SSAIR_FINALIZE_TURFS 11
 #define SSAIR_ATMOSMACHINERY_AIR 12
 #define SSAIR_DEFERRED_AIRS 13
+
+//Pipeline rebuild helper defines, these suck but it'll do for now //Fools you actually merged it
+#define SSAIR_REBUILD_PIPELINE 1
+#define SSAIR_REBUILD_QUEUE 2
 
 // Explosion Subsystem subtasks
 #define SSEXPLOSIONS_MOVABLES 1

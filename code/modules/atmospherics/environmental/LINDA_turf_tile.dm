@@ -27,6 +27,9 @@
 
 	var/list/atmos_overlay_types //gas IDs of current active gas overlays
 
+/turf/proc/should_conduct_to_space()
+	return get_z_base_turf() == /turf/open/space
+
 /turf/open/Initialize(mapload)
 	if(!blocks_air)
 		air = new(2500,src)
@@ -180,19 +183,10 @@
 
 /turf/open/proc/equalize_pressure_in_zone(cyclenum)
 /turf/open/proc/consider_firelocks(turf/T2)
-	var/reconsider_adj = FALSE
 	for(var/obj/machinery/door/firedoor/FD in T2)
-		if((FD.flags_1 & ON_BORDER_1) && get_dir(T2, src) != FD.dir)
-			continue
 		FD.emergency_pressure_stop()
-		reconsider_adj = TRUE
 	for(var/obj/machinery/door/firedoor/FD in src)
-		if((FD.flags_1 & ON_BORDER_1) && get_dir(src, T2) != FD.dir)
-			continue
 		FD.emergency_pressure_stop()
-		reconsider_adj = TRUE
-	if(reconsider_adj)
-		T2.ImmediateCalculateAdjacentTurfs() // We want those firelocks closed yesterday.
 
 /turf/proc/handle_decompression_floor_rip()
 	return

@@ -213,11 +213,18 @@
 	if(gas_type)
 		if(starter_temp)
 			air_contents.set_temperature(starter_temp)
-		if(!air_contents.return_volume())
-			CRASH("Auxtools is failing somehow! Gas with pointer [air_contents._extools_pointer_gasmixture] is not valid.")
-		air_contents.set_moles(gas_type, (maximum_pressure * filled) * air_contents.return_volume() / (R_IDEAL_GAS_EQUATION * air_contents.return_temperature()))
+		if(air_contents.return_volume() == 0)
+			CRASH("Air content volume is zero, this shouldn't be the case volume is: [volume]!")
+		if(air_contents.return_temperature() == 0)
+			CRASH("Air content temperature is zero, this shouldn't be the case!")
+		if (gas_type)
+			air_contents.set_moles(gas_type, (maximum_pressure * filled) * air_contents.return_volume() / (R_IDEAL_GAS_EQUATION * air_contents.return_temperature()))
 
 /obj/machinery/portable_atmospherics/canister/air/create_gas()
+	if(air_contents.return_volume() == 0)
+		CRASH("Air content volume is zero, this shouldn't be the case volume is: [volume]!")
+	if(air_contents.return_temperature() == 0)
+		CRASH("Air content temperature is zero, this shouldn't be the case!")
 	air_contents.set_temperature(starter_temp)
 	air_contents.set_moles(GAS_O2, (O2STANDARD * maximum_pressure * filled) * air_contents.return_volume() / (R_IDEAL_GAS_EQUATION * air_contents.return_temperature()))
 	air_contents.set_moles(GAS_N2, (N2STANDARD * maximum_pressure * filled) * air_contents.return_volume() / (R_IDEAL_GAS_EQUATION * air_contents.return_temperature()))
@@ -291,9 +298,9 @@
 
 /obj/machinery/portable_atmospherics/canister/proc/canister_break()
 	disconnect()
+	var/datum/gas_mixture/expelled_gas = air_contents.remove(air_contents.total_moles())
 	var/turf/T = get_turf(src)
-	T.assume_air(air_contents)
-	air_update_turf()
+	T.assume_air(expelled_gas)
 
 	set_machine_stat(machine_stat | BROKEN)
 	density = FALSE
@@ -331,8 +338,7 @@
 		var/turf/T = get_turf(src)
 		var/datum/gas_mixture/target_air = holding ? holding.air_contents : T.return_air()
 
-		if(air_contents.release_gas_to(target_air, release_pressure) && !holding)
-			air_update_turf()
+		air_contents.release_gas_to(target_air, release_pressure)
 	update_icon()
 
 /obj/machinery/portable_atmospherics/canister/ui_status(mob/user)

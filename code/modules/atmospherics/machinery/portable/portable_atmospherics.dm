@@ -14,21 +14,17 @@
 
 	var/maximum_pressure = 90 * ONE_ATMOSPHERE
 
-/obj/machinery/portable_atmospherics/New()
-	..()
-	SSair.start_processing_machine(src) //NSV13 - Citadel auxmos
+/obj/machinery/portable_atmospherics/Initialize(mapload)
+	. = ..()
+	SSair.start_processing_machine(src)
 
 	air_contents = new(volume)
 	air_contents.set_temperature(T20C)
 
-	return 1
-
 /obj/machinery/portable_atmospherics/Destroy()
-	SSair.stop_processing_machine(src) //NSV13 - Citadel auxmos
+	SSair.stop_processing_machine(src)
 	disconnect()
-	qdel(air_contents)
-	air_contents = null
-
+	QDEL_NULL(air_contents)
 	return ..()
 
 /obj/machinery/portable_atmospherics/ex_act(severity, target)
@@ -39,7 +35,6 @@
 		//This explosion will destroy the can, release its air.
 		var/turf/T = get_turf(src)
 		T.assume_air(air_contents)
-		T.air_update_turf()
 
 	return ..()
 
