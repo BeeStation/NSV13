@@ -459,6 +459,22 @@ SUBSYSTEM_DEF(overmap_mode)
 				mode.winner = F //This should allow the mode to finish up by itself
 				mode.check_finished()
 	if((objective_check >= objective_length) && !failed)
+		for(var/mob/living/living_mob in GLOB.mob_living_list)
+			if(!living_mob.job)
+				continue
+			var/datum/job/job_ref = SSjob.GetJob(living_mob.job)
+			if(!job_ref)
+				return
+			if(job_ref.faction != "Station")
+				return
+			if(!living_mob.client)
+				return
+			var/achievement_type
+			if(!SSovermap_mode.round_extended)
+				achievement_type = /datum/award/achievement/misc/crew_competent
+			else
+				achievement_type = /datum/award/achievement/misc/crew_very_competent
+			living_mob.client.give_award(achievement_type, living_mob)
 		victory()
 
 /datum/overmap_gamemode/proc/victory()

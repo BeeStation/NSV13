@@ -212,6 +212,8 @@ Misc projectile types, effects, think of this as the special FX file.
 
 	if(isliving(target))	//Someone got bonked by an incendiary torpedo, daamn.
 		var/mob/living/L = target
+		if(L.client)
+			L.client.give_award(/datum/award/achievement/misc/torp_directhit, L)
 		if(L.mind && L.mind.assigned_role == "Clown")
 			return (prob(50) ? 2 : -2)	//We all know clowns are cursed.
 		return 2
@@ -493,6 +495,10 @@ Misc projectile types, effects, think of this as the special FX file.
 			qdel(P)
 			return FALSE //Didn't take the hit
 	if(!isprojectile(target)) //This is lazy as shit but is necessary to prevent explosions triggering on the overmap when two bullets collide. Fix this shit please.
+		if(isliving(target))
+			var/mob/living/living_target = target
+			if(living_target.client)
+				living_target.client.give_award(/datum/award/achievement/misc/torp_directhit, living_target)
 		detonate(target)
 	else
 		return FALSE

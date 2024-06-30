@@ -379,6 +379,24 @@ Returns a faction datum by its name (case insensitive!)
 		return FALSE
 	return (world.time - info["from_time"])/(info["to_time"] - info["from_time"])
 
+/datum/controller/subsystem/star_system/proc/dolos_visited(datum/star_system/source, obj/structure/overmap/entering)
+	SIGNAL_HANDLER
+	if(entering.ai_controlled)
+		return
+	for(var/mob/living/visitor in entering.mobs_in_ship)
+		if(!visitor.client)
+			continue
+		INVOKE_ASYNC(visitor.client, TYPE_PROC_REF(/client, give_award), /datum/award/achievement/misc/crew_extremely_competent, visitor)
+
+/datum/controller/subsystem/star_system/proc/abassi_visited(datum/star_system/source, obj/structure/overmap/entering)
+	SIGNAL_HANDLER
+	if(entering.ai_controlled)
+		return
+	for(var/mob/living/visitor in entering.mobs_in_ship)
+		if(!visitor.client)
+			continue
+		INVOKE_ASYNC(visitor.client, TYPE_PROC_REF(/client, give_award), /datum/award/achievement/misc/crew_hypercompetent, visitor)
+
 //////star_system DATUM///////
 
 /datum/star_system
@@ -442,6 +460,10 @@ Returns a faction datum by its name (case insensitive!)
 		if("STARTUP_PROC_TYPE_BRASIL_LITE")
 			addtimer(CALLBACK(src, PROC_REF(generate_litelands)), 5 SECONDS)
 			return
+		if("STARTUP_PROC_TYPE_DOLOS")
+			addtimer(CALLBACK(src, PROC_REF(register_dolos_achievement)), 5 SECONDS)
+		if("STARTUP_PROC_TYPE_")
+			addtimer(CALLBACK(src, PROC_REF(register_abassi_achievement)), 5 SECONDS)
 	message_admins("WARNING: Invalid startup_proc declared for [name]! Review your defines (~L438, starsystem.dm), please.")
 	return 1
 
@@ -680,6 +702,7 @@ Returns a faction datum by its name (case insensitive!)
 				if(istype(crushed, /area/space))
 					continue
 				crushed.has_gravity = OVERMAP_SINGULARITY_DEATH_GRAV //You are dead.
+			grant_death_achievement(OM)
 			qdel(OM)
 			continue
 		if(grav_tracker[OM] != grav_level)
@@ -718,6 +741,12 @@ Returns a faction datum by its name (case insensitive!)
 	grav_tracker -= deleting
 	cached_colours[deleting] = null
 	UnregisterSignal(deleting, COMSIG_PARENT_QDELETING)
+
+/obj/effect/overmap_anomaly/singularity/proc/grant_death_achievement(obj/structure/overmap/congratulations)
+	for(var/mob/living/nice_job in congratulations.mobs_in_ship)
+		if(!nice_job.client)
+			continue
+		nice_job.client.give_award(/datum/award/achievement/misc/blackhole_incident, nice_job)
 
 #undef OVERMAP_SINGULARITY_PROX_GRAVITY
 #undef OVERMAP_SINGULARITY_REDSHIFT_GRAV
@@ -1545,6 +1574,17 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 #undef RANDOM_CONNECTION_REPEAT_PENALTY
 
 /*
+These are used to check if someone is visiting one of the special systems.
+Handled this way and done on the starsystem controller so we do not conflict with other signals that rely on star systems registering a signal onto themselves.
+*/
+
+/datum/star_system/proc/register_dolos_achievement()
+	SSstar_system.RegisterSignal(src, COMSIG_STAR_SYSTEM_AFTER_ENTER, TYPE_PROC_REF(/datum/controller/subsystem/star_system, dolos_visited))
+
+/datum/star_system/proc/register_abassi_achievement()
+	SSstar_system.RegisterSignal(src, COMSIG_STAR_SYSTEM_AFTER_ENTER, TYPE_PROC_REF(/datum/controller/subsystem/star_system, abassi_visited))
+
+/*
 <Summary>
 Welcome to the endgame. This sector is the hardest you'll encounter in game and holds the Syndicate capital.
 </Summary>
@@ -1606,6 +1646,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	hidden = FALSE
 	desc = "A place where giants fell. You feel nothing save for an odd sense of unease and an eerie silence."
 	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_WORMHOLE
+	startup_proc = "STARTUP_PROC_TYPE_DOLOS"
 
 /datum/star_system/sector4/abassi
 	name = "Abassi"
@@ -1621,6 +1662,7 @@ Welcome to the endgame. This sector is the hardest you'll encounter in game and 
 	threat_level = THREAT_LEVEL_DANGEROUS
 	hidden = TRUE
 	system_traits = STARSYSTEM_NO_ANOMALIES | STARSYSTEM_NO_WORMHOLE
+	startup_proc = "STARTUP_PROC_TYPE_ABASSI"
 
 /datum/star_system/sector4/laststand
 	name = "Oasis Fidei" //oasis of faith
