@@ -464,11 +464,11 @@ SUBSYSTEM_DEF(overmap_mode)
 				continue
 			var/datum/job/job_ref = SSjob.GetJob(living_mob.job)
 			if(!job_ref)
-				return
+				continue
 			if(job_ref.faction != "Station")
-				return
+				continue
 			if(!living_mob.client)
-				return
+				continue
 			var/achievement_type
 			if(!SSovermap_mode.round_extended)
 				achievement_type = /datum/award/achievement/misc/crew_competent
