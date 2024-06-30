@@ -66,4 +66,4 @@
 	name = "Torpedo Technician"
 	desc = "Better get to making those torps!"
 	database_id = TORPCOUNT_SCORE
-
+	announce_highscore = FALSE //Please do not spam the chat if some muni tech is cooking.
