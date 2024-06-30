@@ -222,7 +222,7 @@
 	update_icon()
 	if(state >= 11)
 		if(user && user.client)
-			INVOKE_ASYNC(user.client, TYPE_PROC_REF(/client, give_award), /datum/award/score/torpcount, user) //Score progression for bosses killed in general)
+			INVOKE_ASYNC(user.client, TYPE_PROC_REF(/client, give_award), /datum/award/score/torpcount, user)
 		new_torpedo(wh, gs, ps, iff)
 		return TRUE
 
