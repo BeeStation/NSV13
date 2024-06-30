@@ -100,28 +100,6 @@
     }\
 }
 
-//! ### SS initialization hints
-/**
- * Negative values incidate a failure or warning of some kind, positive are good.
- * 0 and 1 are unused so that TRUE and FALSE are guarenteed to be invalid values.
- */
-
-/// Subsystem failed to initialize entirely. Print a warning, log, and disable firing.
-#define SS_INIT_FAILURE -2
-
-/// The default return value which must be overriden. Will succeed with a warning.
-#define SS_INIT_NONE -1
-
-/// Subsystem initialized sucessfully.
-#define SS_INIT_SUCCESS 2
-
-/// Successful, but don't print anything. Useful if subsystem was disabled.
-#define SS_INIT_NO_NEED 3
-
-/// Succesfully initialized, BUT do not announce it to players (generally to hide game mechanics it would otherwise spoil)
-#define SS_INIT_NO_MESSAGE 4
-
-//! ### SS initialization load orders
 // Subsystem init_order, from highest priority to lowest priority
 // Subsystems shutdown in the reverse of the order they initialize in
 // The numbers just define the ordering, they are meaningless otherwise.
@@ -162,7 +140,6 @@
 #define INIT_ORDER_CIRCUIT			15
 #define INIT_ORDER_TIMER			1
 #define INIT_ORDER_DEFAULT			0
-#define INIT_ORDER_AIR_MACHINERY	-0.5
 #define INIT_ORDER_AIR				-1
 #define INIT_ORDER_PERSISTENCE		-2 //before assets because some assets take data from SSPersistence
 #define INIT_ORDER_ASSETS			-4

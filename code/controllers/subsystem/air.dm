@@ -134,7 +134,7 @@ SUBSYSTEM_DEF(air)
 	gas_reactions = init_gas_reactions()
 	equalize_enabled = CONFIG_GET(flag/atmos_equalize_enabled) //NSV13 - config for fastmos
 	auxtools_update_reactions()
-	return SS_INIT_SUCCESS
+	return ..()
 
 /datum/controller/subsystem/air/proc/extools_update_ssair()
 

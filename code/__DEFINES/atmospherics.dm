@@ -61,12 +61,6 @@
 #define REACTING		1
 #define STOP_REACTIONS 	2
 
-//Fusion
-///Maximum instability before the reaction goes endothermic
-#define FUSION_INSTABILITY_ENDOTHERMALITY_HFR 4
-///Maximum reachable fusion temperature
-#define FUSION_MAXIMUM_TEMPERATURE 1e8
-
 // Pressure limits.
 #define HAZARD_HIGH_PRESSURE				550		//! This determines at what pressure the ultra-high pressure red icon is displayed. (This one is set as a constant)
 #define WARNING_HIGH_PRESSURE				325		//! This determines when the orange pressure icon is displayed (it is 0.7 * HAZARD_HIGH_PRESSURE)
@@ -150,6 +144,8 @@
 #define ATMOS_PASS_PROC -1 //ask CanAtmosPass()
 #define ATMOS_PASS_DENSITY -2 //just check density
 
+#define ATMOS_ADJACENT_ANY					(1<<0)
+#define ATMOS_ADJACENT_FIRELOCK				(1<<1)
 //#define CANATMOSPASS(A, O, V) ( A.can_atmos_pass == ATMOS_PASS_PROC ? A.can_atmos_pass(O, V) : ( A.can_atmos_pass == ATMOS_PASS_DENSITY ? !A.density : A.can_atmos_pass ) )
 
 #ifdef TESTING
@@ -166,19 +162,6 @@ GLOBAL_LIST_INIT(atmos_adjacent_savings, list(0,0))
 
 #define CANATMOSPASS(A, O) ( A.CanAtmosPass == ATMOS_PASS_PROC ? A.CanAtmosPass(O) : ( A.CanAtmosPass == ATMOS_PASS_DENSITY ? !A.density : A.CanAtmosPass ) )
 #define CANVERTICALATMOSPASS(A, O) ( A.CanAtmosPassVertical == ATMOS_PASS_PROC ? A.CanAtmosPass(O, TRUE) : ( A.CanAtmosPassVertical == ATMOS_PASS_DENSITY ? !A.density : A.CanAtmosPassVertical ) )
-
-#define ATMOS_ADJACENT_ANY					(1<<0)
-#define ATMOS_ADJACENT_FIRELOCK				(1<<1)
-
-
-//Adjacent turf related defines, they dictate what to do with a turf once it's been recalculated
-//Used as "state" in CALCULATE_ADJACENT_TURFS
-///Normal non-active turf
-#define NORMAL_TURF 1
-///Set the turf to be activated on the next calculation
-#define MAKE_ACTIVE 2
-///Disable excited group
-#define KILL_EXCITED 3
 
 ///Used to define the temperature of a tile, arg is the temperature it should be at. Should always be put at the end of the atmos list.
 ///This is solely to be used after compile-time.
@@ -310,7 +293,6 @@ GLOBAL_LIST_INIT(atmos_adjacent_savings, list(0,0))
 #define GAS_PLASMA				"plasma"
 #define GAS_H2O					"water_vapor"
 #define GAS_HYPERNOB			"nob"
-#define GAS_NITRIC				"no"
 #define GAS_NITROUS				"n2o"
 #define GAS_NITRYL				"no2"
 #define GAS_TRITIUM				"tritium"

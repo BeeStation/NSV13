@@ -223,7 +223,7 @@
 	// okay this is a bit hacky. First, we set density to 0 and recalculate our adjacent turfs
 	density = FALSE
 	flags_1 &= ~PREVENT_CLICK_UNDER_1//NSV make it so prevent_click_under doesn't need density
-	var/list/adj_turfs = T.get_adjacent_atmos_turfs()
+	var/list/adj_turfs = TURF_SHARES(T)
 	// then we use those adjacent turfs to figure out what the difference between the lowest and highest pressures we'd be holding is
 	for(var/turf/open/T2 in adj_turfs)
 		if((flags_1 & ON_BORDER_1) && get_dir(src, T2) != dir)
