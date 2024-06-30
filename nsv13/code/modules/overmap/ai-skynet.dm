@@ -818,6 +818,19 @@ Adding tasks is easy! Just define a datum for it.
 	fleet_trait = FLEET_TRAIT_DEFENSE
 	reward = 100	//Difficult pirate fleet, so default reward.
 
+/datum/fleet/pirate/tortuga/defeat()
+	if(!current_system)
+		return ..()
+	for(var/obj/structure/overmap/survivor in current_system.system_contents)
+		if(survivor.ai_controlled)
+			continue
+		for(var/mob/living/victorious_mob in survivor.mobs_in_ship)
+			if(!victorious_mob.client)
+				continue
+			victorious_mob.client.give_award(/datum/award/achievement/misc/pirate_exterminator, victorious_mob)
+	return ..()
+
+
 //Boss battles.
 
 /datum/fleet/rubicon //Crossing the rubicon, are we?
@@ -991,6 +1004,13 @@ Adding tasks is easy! Just define a datum for it.
 			shield_scan_target.hail("Scans have detected that you are in posession of prohibited technology. \n Your IFF signature has been marked as 'persona non grata'. \n In accordance with SGC-reg #10124, your ship and lives are now forfeit. Evacuate all civilian personnel immediately and surrender yourselves.", name)
 			shield_scan_target.relay_to_nearby('nsv13/sound/effects/ship/solgov_scan_alert.ogg', ignore_self=FALSE)
 			shield_scan_target.faction = shield_scan_target.name
+			grant_oopsie_achievement(shield_scan_target)
+
+/datum/fleet/solgov/proc/grant_oopsie_achievement(obj/structure/overmap/fugitive)
+	for(var/mob/living/traitor in fugitive.mobs_in_ship)
+		if(!traitor.client)
+			continue
+		traitor.client.give_award(/datum/award/achievement/misc/illegal_technology, traitor)
 
 /datum/fleet/solgov/interdiction
 	name = "\improper Solgov hunter fleet"

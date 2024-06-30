@@ -280,6 +280,10 @@
 			C?.give_award(/datum/award/achievement/misc/threekhours, C.mob)
 		if(hours > 4000)
 			C?.give_award(/datum/award/achievement/misc/fourkhours, C.mob)
+		//NSV13 - emergency repair achievement hook
+		if(C && GLOB.plating_repairers["[C.ckey]"] && GLOB.plating_repairers["[C.ckey]"] >= 200)
+			C.give_award(/datum/award/achievement/misc/emergency_repairs, C.mob)
+		//NSV13 end
 
 	CHECK_TICK
 
