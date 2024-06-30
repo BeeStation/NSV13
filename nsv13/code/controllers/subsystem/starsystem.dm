@@ -462,7 +462,7 @@ Returns a faction datum by its name (case insensitive!)
 			return
 		if("STARTUP_PROC_TYPE_DOLOS")
 			addtimer(CALLBACK(src, PROC_REF(register_dolos_achievement)), 5 SECONDS)
-		if("STARTUP_PROC_TYPE_")
+		if("STARTUP_PROC_TYPE_ABASSI")
 			addtimer(CALLBACK(src, PROC_REF(register_abassi_achievement)), 5 SECONDS)
 	message_admins("WARNING: Invalid startup_proc declared for [name]! Review your defines (~L438, starsystem.dm), please.")
 	return 1
