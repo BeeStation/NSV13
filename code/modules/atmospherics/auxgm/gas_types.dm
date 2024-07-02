@@ -141,7 +141,7 @@
 	price = 7
 
 /datum/gas/nitric_oxide
-	id = GAS_NITRIC
+	id = "no"
 	specific_heat = 20
 	name = "Nitric oxide"
 	odor = "sharp sweetness"
