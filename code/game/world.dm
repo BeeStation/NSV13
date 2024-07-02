@@ -318,7 +318,7 @@ GLOBAL_VAR(restart_counter)
 
 /world/Del()
 	shutdown_logging() // makes sure the thread is closed before end, else we terminate
-	__auxmos_shutdown()
+	//__auxmos_shutdown()
 	var/debug_server = world.GetConfig("env", "AUXTOOLS_DEBUG_DLL")
 	if (debug_server)
 		LIBCALL(debug_server, "auxtools_shutdown")()

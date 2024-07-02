@@ -72,7 +72,7 @@ GLOBAL_LIST_INIT(typecache_powerfailure_safe_areas, typecacheof(list(
 			continue
 		if(!place.requires_power || place.teleport_restriction || place.area_flags & HIDDEN_AREA)
 			continue // No expanding powerless rooms etc
-		if(!TURF_SHARES(the_turf)) // No expanding areas of walls/something blocking this turf because that defeats the whole point of them used to separate areas
+		if(!TURF_SHARES(turfs[i])) // No expanding areas of walls/something blocking this turf because that defeats the whole point of them used to separate areas
 			continue
 		areas[place.name] = place
 	var/area_choice = input(creator, "Choose an area to expand or make a new area.", "Area Expansion") as null|anything in areas
