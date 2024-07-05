@@ -805,6 +805,8 @@ Returns a faction datum by its name (case insensitive!)
 			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
 	if(alignment == "syndicate")
 		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some Syndie ships.
+		if(prob(20)) //Watch your step!
+			spawn_mines()
 	if(alignment == "unaligned")
 		if(prob(25))
 			spawn_enemies()
@@ -896,6 +898,20 @@ Returns a faction datum by its name (case insensitive!)
 		if(!enemy_type)
 			enemy_type = pick(SSstar_system.enemy_types) //Spawn a random set of enemies.
 		SSstar_system.spawn_ship(enemy_type, src)
+
+/datum/star_system/proc/spawn_mines(faction, amount)
+	if(!amount)
+		amount = difficulty_budget*2
+	if(!faction) //Someone forgot to set their IFF
+		faction = "unaligned"
+	var/z_level = 1
+	if(occupying_z)
+		z_level = occupying_z
+	for(var/i = 0, i < amount, i++)
+		var/obj/structure/space_mine/M = new /obj/structure/space_mine(get_turf(locate(rand(5, world.maxx - 5), rand(5, world.maxy - 5), z_level)), faction, src) //random location in the system
+		if(z_level == 1) //We didn't get one
+			contents_positions[M] = list("x" = M.x,"y" = M.y)
+			M.moveToNullspace()
 
 /datum/star_system/proc/lerp_x(datum/star_system/other, t)
 	return x + (t * (other.x - x))

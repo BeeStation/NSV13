@@ -1,8 +1,8 @@
 /obj/structure/space_mine
 	name = "space mine"
 	desc = "Like a naval mine, but in space!"
-	icon = "nsv13/icons/overmap/effects.dmi"
-	icon_state = "mine"
+	icon = 'nsv13/icons/overmap/effects.dmi'
+	icon_state = "mine_syndicate"
 	anchored = TRUE
 	density = FALSE
 	layer = ABOVE_MOB_LAYER
@@ -11,39 +11,69 @@
 	integrity_failure = 100
 	var/datum/star_system/current_system
 	var/faction = "syndicate" //evil mines
-	var/damage = 85
+	var/damage = 100
 	var/damage_type = BRUTE
 	var/damage_flag = "overmap_heavy"
-	alpha = 50 //spawns in being 'invisible' on sensors (and pretty hard to see in general)
+	alpha = 50 //They're supposed to be sneaky, their main advantage is being cloaked
 
-/obj/structure/space_mine/Initialize(mapload)
+/obj/structure/space_mine/Initialize(mapload, var/list/coordinates, var/new_faction, var/datum/star_system/system)
 	. = ..()
+	if(system)
+		current_system = system
+	else //Someone is probably spawning us on the overmap, so we assume it's next to the main ship
+		current_system = SSstar_system.find_main_overmap().current_system
+	current_system.system_contents |= src
+	if(new_faction)
+		faction = new_faction
+	update_icon()
+	if(coordinates)
+		x = coordinates["x"]
+		y = coordinates["y"]
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/structure/space_mine/Destroy(force)
+	current_system?.contents_positions.Remove(src)
+	current_system?.system_contents.Remove(src)
 	RemoveElement(/datum/element/connect_loc)
 	. = ..()
+
+/// This makes us not drift like normal objects in space do
+/obj/structure/space_mine/Process_Spacemove(movement_dir = 0)
+	return 1
 
 /obj/structure/space_mine/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
 
-	if(istype(AM,/obj/structure/overmap))
-		var/obj/structure/overmap/OM = AM
-		if(OM.faction != faction || !(OM.faction == "nanotrasen" || OM.faction == "solgov") && !(faction == "nanotrasen" || faction == "solgov"))
-			mine_explode(OM)
+	if(!(istype(AM, /obj/structure/overmap) || istype(AM, /obj/item/projectile)))
+		return
+
+	switch(AM.type)
+		if(/obj/item/projectile)
+			var/obj/item/projectile/P = AM
+			if(P.faction != faction || !(P.faction == "nanotrasen" || P.faction == "solgov") && (faction == "nanotrasen" || faction == "solgov"))
+				P.Impact(src)
+
+		if(/obj/structure/overmap)
+			var/obj/structure/overmap/OM = AM
+			if(OM.faction != faction || !(OM.faction == "nanotrasen" || OM.faction == "solgov") && (faction == "nanotrasen" || faction == "solgov"))
+				mine_explode(OM)
+
+/obj/structure/space_mine/update_icon(updates)
+	. = ..()
+	icon_state = "mine_[faction]"
 
 /obj/structure/space_mine/obj_break(damage_flag)
 	if(prob(80))
-		mine_explode()
+		obj_destruction()
 	else //Whoops, IFF broke!
-		faction = null
+		faction = "unaligned"
 
 /obj/structure/space_mine/obj_destruction(damage_flag)
 	mine_explode() //Why you mine explode? To the woods with you
-	. = ..(damage_flag)
+	..(damage_flag)
 
 /obj/structure/space_mine/proc/mine_explode(obj/structure/overmap/OM)
 	var/armour_penetration
@@ -53,6 +83,10 @@
 			OM.take_quadrant_hit(OM.run_obj_armor(damage, damage_type, damage_flag, null, armour_penetration), OM.quadrant_impact(src))
 		else
 			OM.take_damage(damage, damage_type, damage_flag, FALSE, TRUE)
+		if(OM.linked_areas) //Hope nothing precious was in that room.
+				var/area/A = pick(OM.linked_areas)
+				var/turf/T = pick(get_area_turfs(A))
+				new /obj/effect/temp_visual/explosion_telegraph(T, damage)
 	else
 		for(var/obj/structure/overmap/O in orange(2)) //You're in range! Keep in mind this affects *all* ships, explosions don't discriminate between friend and foe
 			OM = O
@@ -60,6 +94,6 @@
 				OM.take_quadrant_hit(OM.run_obj_armor(damage, damage_type, damage_flag, null, armour_penetration), OM.quadrant_impact(src))
 			else
 				OM.take_damage(damage, damage_type, damage_flag, FALSE, TRUE)
-	new /obj/effect/temp_visual/fading_overmap(get_turf(src), name, icon, icon_state)
+	new /obj/effect/temp_visual/fading_overmap(get_turf(src), name, icon, icon_state, alpha)
 
 
