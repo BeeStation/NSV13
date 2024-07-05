@@ -84,9 +84,9 @@
 		else
 			OM.take_damage(damage, damage_type, damage_flag, FALSE, TRUE)
 		if(OM.linked_areas) //Hope nothing precious was in that room.
-				var/area/A = pick(OM.linked_areas)
-				var/turf/T = pick(get_area_turfs(A))
-				new /obj/effect/temp_visual/explosion_telegraph(T, damage)
+			var/area/A = pick(OM.linked_areas)
+			var/turf/T = pick(get_area_turfs(A))
+			new /obj/effect/temp_visual/explosion_telegraph(T, damage)
 	else
 		for(var/obj/structure/overmap/O in orange(2)) //You're in range! Keep in mind this affects *all* ships, explosions don't discriminate between friend and foe
 			OM = O
