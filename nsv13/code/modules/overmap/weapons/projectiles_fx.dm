@@ -563,12 +563,31 @@ Misc projectile types, effects, think of this as the special FX file.
 	tracer_type = /obj/effect/projectile/tracer/disabler
 	muzzle_type = /obj/effect/projectile/muzzle/disabler
 	impact_type = /obj/effect/projectile/impact/disabler
+	relay_projectile_type = /obj/item/projectile/beam/laser/heavylaser/phaser/relayed
+
+/obj/item/projectile/beam/laser/heavylaser/phaser/relayed
+	projectile_piercing = PASSGLASS|PASSGRILLE|PASSTABLE
+	flag = "laser"
+	damage = 80 //let's give them a chance to live, instead of smiting them with the full wraith of the Enterprise 
+
+/obj/item/projectile/beam/laser/heavylaser/phaser/relayed/on_hit(atom/target, blocked)
+	. = ..()
+	explosion(get_turf(target), 0, 2, 4, 6, flame_range = 4) //I halved the BSA's explosion, and then poked it some myself - big boom
 
 /obj/item/projectile/beam/laser/phaser/pd
 	name = "point defense phaser"
 	damage = 60 // Doesn't scale with power input, but fires fairly quickly especially when upgraded
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
-	icon_state = "pdphaser"
+	icon_state = "pdphaser" 
+	relay_projectile_type = /obj/item/projectile/beam/laser/phaser/pd/relayed
+
+/obj/item/projectile/beam/laser/phaser/pd/relayed
+	projectile_piercing = PASSGLASS|PASSGRILLE|PASSTABLE
+	flag = "laser"
+
+/obj/item/projectile/beam/laser/phaser/pd/relayed/on_hit(atom/target, blocked)
+	. = ..()
+	explosion(get_turf(target), 0, 0, 2, 3, flame_range = 2) //weak, but still damaging... I hope
 
 /obj/item/projectile/beam/laser/point_defense
 	name = "laser pointer"
@@ -581,11 +600,25 @@ Misc projectile types, effects, think of this as the special FX file.
 	tracer_type = /obj/effect/projectile/tracer/xray
 	muzzle_type = /obj/effect/projectile/muzzle/xray
 	impact_type = /obj/effect/projectile/impact/xray
+	relay_projectile_type = /obj/item/projectile/beam/laser/point_defense/relayed
+
+/obj/item/projectile/beam/laser/point_defense/relayed
+	projectile_piercing = PASSGLASS|PASSGRILLE|PASSTABLE
+	flag = "laser"
 
 //Designed to be spammed like crazy, but can be buffed to do extremely solid damage when you overclock the guns.
 /obj/item/projectile/beam/laser/phaser
 	damage = 30
 	flag = "overmap_medium"
+	relay_projectile_type = /obj/item/projectile/beam/laser/phaser/relayed
+
+/obj/item/projectile/beam/laser/phaser/relayed
+	projectile_piercing = PASSGLASS|PASSGRILLE|PASSTABLE
+	flag = "laser"
+
+/obj/item/projectile/beam/laser/phaser/relayed/on_hit(atom/target, blocked)
+	. = ..()
+	explosion(get_turf(target), 0, 0, 2, 3, flame_range = 2) //weak, but still damaging... I hope
 
 /obj/item/projectile/bullet/broadside
 	name = "broadside shell"
