@@ -20,7 +20,7 @@
 	. = ..()
 	if(system)
 		current_system = system
-	else //Someone is probably spawning us on the overmap, so we assume it's next to the main ship
+	else if(!current_system) //Someone is probably spawning us on the overmap, so we assume it's next to the main ship
 		current_system = SSstar_system.find_main_overmap().current_system
 	current_system.system_contents |= src
 	if(new_faction)
