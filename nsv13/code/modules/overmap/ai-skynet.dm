@@ -2095,7 +2095,7 @@ Seek a ship thich we'll station ourselves around
 		return
 	mine_cooldown = world.time + 6 SECONDS
 	mines_left--
-	new /obj/structure/space_mine(get_turf(src),get_center_coordinates(),faction,current_system)
+	new /obj/structure/space_mine(get_turf(src),faction,current_system,get_center_coordinates())
 
 /client/proc/instance_overmap_menu() //Creates a verb for admins to open up the ui
 	set name = "Instance Overmap"

@@ -16,7 +16,7 @@
 	var/damage_flag = "overmap_heavy"
 	alpha = 110 //They're supposed to be sneaky, their main advantage is being cloaked
 
-/obj/structure/space_mine/Initialize(mapload, var/list/coordinates, var/new_faction, var/datum/star_system/system)
+/obj/structure/space_mine/Initialize(mapload, var/new_faction, var/datum/star_system/system, var/list/coordinates)
 	. = ..()
 	if(system)
 		current_system = system

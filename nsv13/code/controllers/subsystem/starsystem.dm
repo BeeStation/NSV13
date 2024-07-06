@@ -908,7 +908,7 @@ Returns a faction datum by its name (case insensitive!)
 	if(occupying_z)
 		z_level = occupying_z
 	for(var/i = 0, i < amount, i++)
-		var/obj/structure/space_mine/M = new /obj/structure/space_mine(get_turf(locate(rand(5, world.maxx - 5), rand(5, world.maxy - 5), z_level)), faction = faction, current_system = src) //random location in the system
+		var/obj/structure/space_mine/M = new /obj/structure/space_mine(get_turf(locate(rand(5, world.maxx - 5), rand(5, world.maxy - 5), z_level)), faction, src) //random location in the system
 		if(z_level == 1) //We didn't get one
 			contents_positions[M] = list("x" = M.x,"y" = M.y)
 			M.moveToNullspace()
