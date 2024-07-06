@@ -1630,6 +1630,7 @@ Seek a ship thich we'll station ourselves around
 	var/decision_delay = 2 SECONDS
 	var/move_mode = 0
 	var/next_boarding_attempt = 0
+	var/mine_cooldown = 0
 
 	var/reloading_torpedoes = FALSE
 	var/reloading_missiles = FALSE
@@ -2090,7 +2091,6 @@ Seek a ship thich we'll station ourselves around
 /obj/structure/overmap/proc/deploy_mine()
 	if(mines_left <= 0)
 		return //why are we here
-	var/static/mine_cooldown = 0
 	if(mine_cooldown > world.time) //Don't drop them all at once now
 		return
 	mine_cooldown = world.time + 6 SECONDS
