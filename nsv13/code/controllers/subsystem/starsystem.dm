@@ -806,7 +806,7 @@ Returns a faction datum by its name (case insensitive!)
 	if(alignment == "syndicate")
 		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some Syndie ships.
 		if(prob(20)) //Watch your step!
-			spawn_mines()
+			spawn_mines("syndicate")
 	if(alignment == "unaligned")
 		if(prob(25))
 			spawn_enemies()
@@ -908,7 +908,7 @@ Returns a faction datum by its name (case insensitive!)
 	if(occupying_z)
 		z_level = occupying_z
 	for(var/i = 0, i < amount, i++)
-		var/obj/structure/space_mine/M = new /obj/structure/space_mine(get_turf(locate(rand(5, world.maxx - 5), rand(5, world.maxy - 5), z_level)), faction, src) //random location in the system
+		var/obj/structure/space_mine/M = new /obj/structure/space_mine(get_turf(locate(rand(5, world.maxx - 5), rand(5, world.maxy - 5), z_level)), new_faction = faction, system = src) //random location in the system
 		if(z_level == 1) //We didn't get one
 			contents_positions[M] = list("x" = M.x,"y" = M.y)
 			M.moveToNullspace()

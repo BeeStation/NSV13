@@ -14,7 +14,7 @@
 	var/damage = 100
 	var/damage_type = BRUTE
 	var/damage_flag = "overmap_heavy"
-	alpha = 50 //They're supposed to be sneaky, their main advantage is being cloaked
+	alpha = 110 //They're supposed to be sneaky, their main advantage is being cloaked
 
 /obj/structure/space_mine/Initialize(mapload, var/list/coordinates, var/new_faction, var/datum/star_system/system)
 	. = ..()
@@ -53,17 +53,21 @@
 	switch(AM.type)
 		if(/obj/item/projectile)
 			var/obj/item/projectile/P = AM
-			if(P.faction != faction || !(P.faction == "nanotrasen" || P.faction == "solgov") && (faction == "nanotrasen" || faction == "solgov"))
+			if(P.faction != faction)
 				P.Impact(src)
 
 		if(/obj/structure/overmap)
 			var/obj/structure/overmap/OM = AM
-			if(OM.faction != faction || !(OM.faction == "nanotrasen" || OM.faction == "solgov") && (faction == "nanotrasen" || faction == "solgov"))
+			if(OM.faction != faction)
 				mine_explode(OM)
 
 /obj/structure/space_mine/update_icon(updates)
 	. = ..()
-	icon_state = "mine_[faction]"
+	if(faction)
+		icon_state = "mine_[faction]"
+	else
+		icon_state = "mine_unaligned"
+		faction = "unaligned"
 
 /obj/structure/space_mine/obj_break(damage_flag)
 	if(prob(80))
@@ -73,10 +77,10 @@
 
 /obj/structure/space_mine/obj_destruction(damage_flag)
 	mine_explode() //Why you mine explode? To the woods with you
-	..(damage_flag)
+	. = ..()
 
 /obj/structure/space_mine/proc/mine_explode(obj/structure/overmap/OM)
-	var/armour_penetration
+	var/armour_penetration = 0
 	if(OM) //You just flew into a mine
 		armour_penetration = 20 //It's blowing up right next to you, this is what it was designed for
 		if(OM.use_armour_quadrants)
