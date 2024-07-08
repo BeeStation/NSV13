@@ -16,7 +16,7 @@
 	var/damage_flag = "overmap_heavy"
 	alpha = 110 //They're supposed to be sneaky, their main advantage is being cloaked
 
-/obj/structure/space_mine/Initialize(mapload, var/new_faction, var/datum/star_system/system, var/list/coordinates)
+/obj/structure/space_mine/Initialize(mapload, var/new_faction, var/datum/star_system/system)
 	. = ..()
 	if(system)
 		current_system = system
@@ -26,9 +26,6 @@
 	if(new_faction)
 		faction = new_faction
 	update_icon()
-	if(coordinates)
-		x = coordinates["x"]
-		y = coordinates["y"]
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
@@ -37,6 +34,7 @@
 /obj/structure/space_mine/Destroy(force)
 	current_system?.contents_positions.Remove(src)
 	current_system?.system_contents.Remove(src)
+	current_system = null
 	RemoveElement(/datum/element/connect_loc)
 	. = ..()
 
@@ -88,7 +86,7 @@
 			var/turf/T = pick(get_area_turfs(A))
 			new /obj/effect/temp_visual/explosion_telegraph(T, damage)
 	else
-		for(var/obj/structure/overmap/O in orange(2)) //You're in range! Keep in mind this affects *all* ships, explosions don't discriminate between friend and foe
+		for(var/obj/structure/overmap/O in orange(2, src)) //You're in range! Keep in mind this affects *all* ships, explosions don't discriminate between friend and foe
 			OM = O
 			if(OM.use_armour_quadrants)
 				OM.take_quadrant_hit(OM.run_obj_armor(damage, damage_type, damage_flag, null, armour_penetration), OM.quadrant_impact(src))

@@ -903,7 +903,7 @@ Returns a faction datum by its name (case insensitive!)
 	if(!amount)
 		amount = difficulty_budget*2
 	if(!faction) //Someone forgot to set their IFF
-		faction = "unaligned"
+		faction = alignment
 	var/z_level = 1
 	if(occupying_z)
 		z_level = occupying_z
