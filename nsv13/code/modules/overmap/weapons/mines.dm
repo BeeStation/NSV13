@@ -47,19 +47,15 @@
 /obj/structure/space_mine/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
 
-	if(!(istype(AM, /obj/structure/overmap) || istype(AM, /obj/item/projectile)))
-		return
+	if(istype(AM, /obj/item/projectile))
+		var/obj/item/projectile/P = AM
+		if(P.faction != faction)
+			P.Impact(src)
 
-	switch(AM.type)
-		if(/obj/item/projectile)
-			var/obj/item/projectile/P = AM
-			if(P.faction != faction)
-				P.Impact(src)
-
-		if(/obj/structure/overmap)
-			var/obj/structure/overmap/OM = AM
-			if(OM.faction != faction)
-				mine_explode(OM)
+	if(istype(AM,/obj/structure/overmap))
+		var/obj/structure/overmap/OM = AM
+		if(OM.faction != faction)
+			mine_explode(OM)
 
 /obj/structure/space_mine/update_icon(updates)
 	. = ..()

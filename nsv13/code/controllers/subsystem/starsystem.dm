@@ -642,7 +642,7 @@ Returns a faction datum by its name (case insensitive!)
 			for(var/obj/structure/overmap/OM in affecting)
 				stop_affecting(OM)
 		return
-	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects) //Has to go through global overmaps due to anomalies not referencing their system - probably something to change one day.
+	for(var/obj/structure/overmap/OM as() in current_system.system_contents)
 		if(LAZYFIND(affecting, OM))
 			continue
 		if(OM.z != z)
