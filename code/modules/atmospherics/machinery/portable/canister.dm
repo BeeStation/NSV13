@@ -156,7 +156,6 @@
 	greyscale_config = /datum/greyscale_config/canister/double_stripe
 	greyscale_colors = "#4c4e4d#f7d5d3"
 
-
 /obj/machinery/portable_atmospherics/canister/proc/get_time_left()
 	if(timing)
 		. = round(max(0, valve_timer - world.time) / 10, 1)
@@ -200,7 +199,7 @@
 	if(href_list[VV_HK_MODIFY_CANISTER_GAS])
 		usr.client.modify_canister_gas(src)
 
-/obj/machinery/portable_atmospherics/canister/New(loc, datum/gas_mixture/existing_mixture)
+/obj/machinery/portable_atmospherics/canister/Initialize(mapload, datum/gas_mixture/existing_mixture)
 	. = ..()
 	if(existing_mixture)
 		air_contents.copy_from(existing_mixture)

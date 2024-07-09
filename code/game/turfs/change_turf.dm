@@ -161,14 +161,14 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 			QDEL_NULL(stashed_air)
 			return
 		var/turf/open/newTurf = .
-		QDEL_NULL(newTurf.air)
-		newTurf.air = stashed_air
-		update_air_ref(planetary_atmos ? 1 : 2)
+		if (!istype(newTurf.air, /datum/gas_mixture/immutable/space))
+			QDEL_NULL(newTurf.air)
+			newTurf.air = stashed_air
+			update_air_ref(planetary_atmos ? 1 : 2)
 	else
 		if(ispath(path,/turf/closed))
-			var/turf/open/newTurf = .
 			flags |= CHANGETURF_RECALC_ADJACENT
-			newTurf.update_air_ref(-1)
+			update_air_ref(-1)
 			. = ..()
 		else
 			. = ..()
