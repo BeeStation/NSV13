@@ -293,7 +293,6 @@ GLOBAL_LIST_INIT(atmos_adjacent_savings, list(0,0))
 #define GAS_PLASMA				"plasma"
 #define GAS_H2O					"water_vapor"
 #define GAS_HYPERNOB			"nob"
-#define GAS_NITRIC				"no"
 #define GAS_NITROUS				"n2o"
 #define GAS_NITRYL				"no2"
 #define GAS_TRITIUM				"tritium"

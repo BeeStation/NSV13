@@ -18,7 +18,6 @@
 	heat_penalty = -1.5
 	fire_burn_rate = 1
 	fire_temperature = 2300
-	fire_products = list(GAS_NITRIC = 2)
 	breath_alert_info = list(
 		not_enough_alert = list(
 			alert_category = "not_enough_nitro",
@@ -139,18 +138,6 @@
 	fire_radiation_released = 50 // arbitrary number, basically 60 moles of trit burning will just barely start to harm you
 	fire_temperature = FIRE_MINIMUM_TEMPERATURE_TO_EXIST - 50
 	price = 7
-
-/datum/gas/nitric_oxide
-	id = "no"
-	specific_heat = 20
-	name = "Nitric oxide"
-	odor = "sharp sweetness"
-	odor_strength = 1
-	fusion_power = 15
-	enthalpy = 91290
-	heat_resistance = 2
-	powermix = -1
-	heat_penalty = -1
 
 /datum/gas/nitryl
 	id = GAS_NITRYL
