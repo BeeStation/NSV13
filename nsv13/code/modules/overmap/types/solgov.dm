@@ -14,7 +14,6 @@
 	bound_height = 96
 	obj_integrity = 500
 	max_integrity = 500
-	integrity_failure = 500
 	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 /obj/structure/overmap/nanotrasen/solgov/carrier
@@ -28,7 +27,6 @@
 	//Tanky
 	obj_integrity = 1000
 	max_integrity = 1000
-	integrity_failure = 1000
 	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 20)
 
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp
@@ -43,7 +41,6 @@
 	bound_width = 128
 	obj_integrity = 750
 	max_integrity = 750
-	integrity_failure = 750
 	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25)
 
 //Player Versions
@@ -51,8 +48,8 @@
 /obj/structure/overmap/nanotrasen/solgov/aetherwhisp/starter
 	icon = 'nsv13/icons/overmap/nanotrasen/aetherwhisp.dmi'
 	role = MAIN_OVERMAP
+	obj_integrity = 750
 	max_integrity = 750 //She's fragile and relies heavily on shields.
-	integrity_failure = 750
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 25)
 
@@ -72,7 +69,6 @@
 	desc = "A SolGov pursuit craft, meant for tracking and cornering high value targets."
 	obj_integrity = 1200
 	max_integrity = 1200
-	integrity_failure = 1200
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	max_tracking_range = 70
 	flak_battery_amount = 2
@@ -106,7 +102,6 @@
 	brakes = FALSE
 	obj_integrity = 125
 	max_integrity = 125 //Super squishy!
-	integrity_failure = 125
 	sprite_size = 32
 	mass = MASS_TINY
 	bound_width = 32 //Change this on a per ship basis
