@@ -129,8 +129,9 @@
 	animate_projectile(target)
 
 /obj/machinery/ship_weapon/broadside/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
-	..()
-	new /obj/effect/particle_effect/muzzleflash(loc)
+	. = ..()
+	if(.)
+		new /obj/effect/particle_effect/muzzleflash(loc)
 
 /obj/machinery/ship_weapon/broadside/local_fire(shots = weapon_type.burst_size, atom/target) //For the broadside cannons, we want to eject spent casings
 	var/obj/R = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, NORTH, 4)) //Right
