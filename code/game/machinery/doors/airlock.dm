@@ -1091,6 +1091,7 @@
 		//NSV13 end
 		if(isElectrified() && C?.siemens_coefficient)
 			shock(user,100)
+
 		if(locked)
 			to_chat(user, "<span class='warning'>The bolts are down, it won't budge!</span>")
 			return
