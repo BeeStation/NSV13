@@ -538,7 +538,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				M.apply_damage(200)
 	kill_boarding_level()
 	if(current_system)
-		current_system.remove_ship(src, is_ftl_jump = FALSE) //bit risky call since we already do the thing before but probably should still work.
+		current_system.remove_ship(src, is_ftl_jump = FALSE) //bit risky call since we already do some things before but probably should still work.
 	if(reserved_z)
 		free_treadmills += reserved_z
 		reserved_z = null
