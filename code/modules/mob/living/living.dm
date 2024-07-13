@@ -571,6 +571,10 @@
 			for(var/S in mind.spell_list)
 				var/obj/effect/proc_holder/spell/spell = S
 				spell.updateButtonIcon()
+		//NSV13 - clear that popup.
+		if(client)
+			client.tgui_panel?.clear_dead_popup()
+		//NSV13 end.
 
 /mob/living/proc/remove_CC(should_update_mobility = TRUE)
 	SetStun(0, FALSE)

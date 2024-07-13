@@ -899,7 +899,11 @@
 ///Force get the ghost from the mind
 /mob/proc/grab_ghost(force)
 	if(mind)
-		return mind.grab_ghost(force = force)
+		//NSV13 - clear dead popup if alive.
+		. = mind.grab_ghost(force = force)
+		if(stat != DEAD && client)
+			client.tgui_panel?.clear_dead_popup()
+		//NSV13 end
 
 ///Notify a ghost that it's body is being cloned
 /mob/proc/notify_ghost_cloning(var/message = "Someone is trying to revive you. Re-enter your corpse if you want to be revived!", var/sound = 'sound/effects/genetics.ogg', var/atom/source = null, flashwindow)
