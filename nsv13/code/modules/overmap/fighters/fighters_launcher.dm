@@ -271,15 +271,14 @@
 	//SIGNAL_HANDLER //This should be a signal handler but the proc it calls sleeps and I am not asyncing *this*.
 	check_overmap_elegibility()
 
-//FIXME:
+
 /*
-Working theories:
-a) something is being weird  with the reserved_z 0 of the fighter being used
+Welcome to the "uh oh" zone because fighters travelling from and to overmaps is a bit volatile.
+Last time things broke it was caused by d), but if small ship docking starts being weird again, check these four possible weak points first:
+a) something is being weird with the reserved_z of the fighter being used.
 b) asteroid reserved areas for their zs are not being handled properly.
 c) something is being odd with the last overmap var.
-d) something weird is going on with e.g. the aetherwhisp ruin, asteroids that do not delete once left. - might be if it gets destroyed by damage after the ship leaves? what is get_turf(null)?
-e) the ships[] list of ssstarsystem is acting up again, aka the current working hypothesis.
-//ATD: They DID dock to other rocks before, and the one before bricking was one that remained loaded.
+d) the ships[] list of ssstarsystem is acting up again.
 */
 
 /obj/structure/overmap/small_craft/proc/check_overmap_elegibility(ignore_position = FALSE, ignore_cooldown = FALSE) //What we're doing here is checking if the fighter's hitting the bounds of the Zlevel. If they are, we need to transfer them to overmap space.
@@ -369,7 +368,7 @@ e) the ships[] list of ssstarsystem is acting up again, aka the current working 
 	var/turf/T = get_turf(pick(OM.docking_points))
 	forceMove(T)
 	if(current_system)
-		current_system.remove_ship(src, T)
+		current_system.remove_ship(src, T, is_ftl_jump = FALSE)
 	OM.overmaps_in_ship += src
 	bound_width = initial(bound_width)
 	bound_height = initial(bound_height)
@@ -379,6 +378,6 @@ e) the ships[] list of ssstarsystem is acting up again, aka the current working 
 		to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
 	SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 	if(reserved_z)
-		free_treadmills += reserved_z //THIS IS SUPER UNSAFE!! What if the fighter was holding a z with other player ships on it?? Should realloc it to another eligible overmap in system if that is the case!
+		free_treadmills += reserved_z
 		reserved_z = null
 	return TRUE

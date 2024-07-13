@@ -537,9 +537,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				M.forceMove(T)
 				M.apply_damage(200)
 	kill_boarding_level()
+	if(current_system)
+		current_system.remove_ship(src, is_ftl_jump = FALSE) //bit risky call since we already do the thing before but probably should still work.
 	if(reserved_z)
 		free_treadmills += reserved_z
 		reserved_z = null
+	current_system = null //I'm not sure why we never dropped this variable.
 	return ..()
 
 /obj/structure/overmap/forceMove(atom/destination)
@@ -973,3 +976,17 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			var/_z = pick_n_take(free_treadmills)
 			reserved_z = _z
 		return reserved_z
+
+///Special proc called right before a system is nullspaced and a last chance to assume a z. Returns TRUE if the ship should not be unloaded.
+/obj/structure/overmap/proc/spec_pre_system_unload()
+	if(!ai_controlled && length(mobs_in_ship))
+		return TRUE
+	return FALSE
+
+/obj/structure/overmap/small_craft/spec_pre_system_unload()
+	. = ..()
+	if(.)
+		return
+	if(ftl_drive)
+		return TRUE
+	return FALSE

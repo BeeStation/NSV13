@@ -680,7 +680,7 @@ Returns a faction datum by its name (case insensitive!)
 				for(var/mob/M in OM.mobs_in_ship)
 					M?.client?.color = null
 		if(dist <= 2)
-			OM.current_system?.remove_ship(OM)
+			OM.current_system?.remove_ship(OM, is_ftl_jump = FALSE)
 			for(var/area/crushed as() in OM.linked_areas)
 				if(istype(crushed, /area/space))
 					continue
