@@ -63,7 +63,7 @@
 
 /area/dropship/get_virtual_z(turf/T)
 	if(linked_dropship)
-		return linked_dropship.get_virtual_z_level()
+		return linked_dropship.get_interior_virtual_z()
 	return ..()
 
 //If we ever want to let them build these things..

@@ -22,7 +22,6 @@
 	damage_states = FALSE
 	obj_integrity = 1000
 	max_integrity = 1000
-	integrity_failure = 1000
 	ai_controlled = FALSE
 	//collision_positions = list(new /datum/vector2d(-27,62), new /datum/vector2d(-30,52), new /datum/vector2d(-30,11), new /datum/vector2d(-32,-16), new /datum/vector2d(-30,-45), new /datum/vector2d(-24,-58), new /datum/vector2d(19,-60), new /datum/vector2d(33,-49), new /datum/vector2d(35,24), new /datum/vector2d(33,60))
 	bound_width = 128
@@ -60,7 +59,6 @@
 	pixel_w = -96
 	obj_integrity = 1100
 	max_integrity = 1100 //Max health
-	integrity_failure = 1100
 	role = PVP_SHIP
 	armor = list("overmap_light" = 99, "overmap_medium" = 55, "overmap_heavy" = 30)
 
@@ -99,7 +97,6 @@
 	damage_states = FALSE
 	obj_integrity = 300
 	max_integrity = 300
-	integrity_failure = 300
 	area_type = /area/ruin/powered/nsv13/gunship
 	var/bounty = 1000
 	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
@@ -119,7 +116,6 @@
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter)
 	obj_integrity = 400
 	max_integrity = 400
-	integrity_failure = 400
 	armor = list("overmap_light" = 30, "overmap_medium" = 30, "overmap_heavy" = 30)
 	combat_dice_type = /datum/combat_dice/carrier
 	possible_interior_maps = list(/datum/map_template/boarding/mako_carrier)
@@ -144,7 +140,6 @@
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire
 	obj_integrity = 900
 	max_integrity = 900 //Max health
-	integrity_failure = 900
 	shots_left = 7
 	torpedoes = 5
 	missiles = 10
@@ -160,7 +155,6 @@
 	missiles = 15
 	obj_integrity = 1200
 	max_integrity = 1200 //Max health
-	integrity_failure = 1200
 	bounty = 15000
 	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_light" = 50)
 	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
@@ -179,7 +173,6 @@
 	mass = MASS_MEDIUM
 	obj_integrity = 500
 	max_integrity = 500
-	integrity_failure = 500
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
 	missiles = 6
 	bounty = 1000
@@ -191,7 +184,6 @@
 	icon_state = "hammerhead_elite"
 	obj_integrity = 900
 	max_integrity = 900
-	integrity_failure = 900
 	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_heavy" = 40)
 	missiles = 8
 	torpedoes = 4
@@ -208,7 +200,6 @@
 	torpedoes = 0
 	obj_integrity = 450
 	max_integrity = 450
-	integrity_failure = 450
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher
 
@@ -222,7 +213,6 @@
 	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 30)
 	obj_integrity = 450
 	max_integrity = 450
-	integrity_failure = 450
 	bounty = 3000
 	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/cruiser
@@ -234,7 +224,6 @@
 	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 30)
 	obj_integrity = 1000
 	max_integrity = 1000
-	integrity_failure = 1000
 	missiles = 10
 	bounty = 4000
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
@@ -256,7 +245,6 @@
 	bound_width = 128
 	obj_integrity = 600
 	max_integrity = 600 //Tanky so that it can survive to deploy multiple fighter waves.
-	integrity_failure = 600
 	bounty = 3000
 	torpedoes = 0
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 10)
@@ -271,7 +259,6 @@
 	bounty = 5000
 	obj_integrity = 1400
 	max_integrity = 1400 //Tanky so that it can survive to deploy multiple fighter waves.
-	integrity_failure = 1400
 	armor = list("overmap_light" = 80, "overmap_medium" = 70, "overmap_heavy" = 25)
 	//This scary one can launch bombers, which absolutely wreak havoc
 	ai_fighter_type = list(/obj/structure/overmap/syndicate/ai/fighter,
@@ -298,7 +285,6 @@
 	damage_states = TRUE
 	obj_integrity = 5000
 	max_integrity = 5000 //Max health
-	integrity_failure = 5000
 	bounty = 20000
 	shots_left = 500 //A monster.
 	bound_width = 640
@@ -325,7 +311,6 @@
 	damage_states = FALSE
 	obj_integrity = 800
 	max_integrity = 800 //Max health
-	integrity_failure = 800
 	missiles = 0
 	torpedoes = 0
 	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_heavy" = 30)
@@ -359,7 +344,6 @@
 	damage_states = FALSE
 	obj_integrity = 750
 	max_integrity = 750
-	integrity_failure = 750
 	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_light" = 30)
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher	//Cruiser subtype, called frigate? Guess it gets the combat dice inbetween both.
 	possible_interior_maps = list(/datum/map_template/boarding/boarding_frigate)
@@ -384,7 +368,6 @@
 	bound_height = 160
 	obj_integrity = 450
 	max_integrity = 450 //Max health
-	integrity_failure = 450
 	missiles = 5
 	shots_left = 5
 	torpedoes = 0
@@ -413,7 +396,6 @@
 	max_integrity = 500 //Max health
 	bound_height = 128
 	bound_width = 128
-	integrity_failure = 500
 	missiles = 10
 	torpedoes = 10 //Torp boat!
 	shots_left = 10
@@ -441,7 +423,6 @@
 	desc = "An experimental Syndicate cruiser capable of projecting energy bursts powerful enough to disrupt drive systems."
 	obj_integrity = 1200	//Pretty thick hull due to it being a priority target
 	max_integrity = 1200
-	integrity_failure = 1200
 	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
 	icon_state = "advanced_cruiser"
 	damage_states = FALSE	//Maybe later
@@ -489,7 +470,6 @@
 	max_weapon_range = 85
 	obj_integrity = 5000
 	max_integrity = 5000
-	integrity_failure = 5000
 	speed_limit = 16
 	flak_battery_amount = 3
 	max_tracking_range = 90
@@ -526,7 +506,6 @@
 	bound_height = 128
 	obj_integrity = 4750
 	max_integrity = 4750
-	integrity_failure = 4750
 	cloak_factor = 100
 	shots_left = 350
 	torpedoes = 60
@@ -564,7 +543,6 @@
 	armor = list("overmap_light" = 10, "overmap_medium" = 5, "overmap_heavy" = 95)
 	obj_integrity = 115
 	max_integrity = 115 //Slightly less squishy!
-	integrity_failure = 115
 	ai_flags = AI_FLAG_SWARMER
 	bound_width = 32
 	bound_height = 32
@@ -587,7 +565,6 @@
 	brakes = FALSE
 	obj_integrity = 75
 	max_integrity = 75 //Super squishy!
-	integrity_failure = 75
 	sprite_size = 32
 	faction = "syndicate"
 	mass = MASS_TINY
@@ -614,7 +591,6 @@
 	brakes = FALSE
 	obj_integrity = 100
 	max_integrity = 100
-	integrity_failure = 100
 	sprite_size = 32
 	faction = "syndicate"
 	mass = MASS_TINY

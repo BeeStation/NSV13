@@ -1,6 +1,6 @@
 /obj/item/clothing/suit/armor
 	allowed = null
-	body_parts_covered = CHEST
+	body_parts_covered = CHEST|GROIN // debatable
 	cold_protection = CHEST|GROIN
 	min_cold_protection_temperature = ARMOR_MIN_TEMP_PROTECT
 	heat_protection = CHEST|GROIN
@@ -9,7 +9,7 @@
 	equip_delay_other = 40
 	max_integrity = 250
 	resistance_flags = NONE
-	armor = list("melee" = 30, "bullet" = 30, "laser" = 15, "energy" = 40, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50, "stamina" = 30) //NSV13
+	armor = list("melee" = 30, "bullet" = 50, "laser" = 20, "energy" = 10, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50, "stamina" = 30) //NSV13
 	clothing_flags = THICKMATERIAL
 
 /obj/item/clothing/suit/armor/Initialize(mapload)
@@ -39,18 +39,20 @@
 
 /obj/item/clothing/suit/armor/vest/blueshirt
 	name = "large armor vest"
-	desc = "A large, yet comfortable piece of armor, protecting you from some threats. Type H-L"
+	desc = "A large, yet comfortable piece of armor, stitched together by a rioting quartermaster, a gift. Type H-L" //NSV13
 	icon_state = "blueshift"
 	item_state = "blueshift"
 	custom_premium_price = 600
+	armor = list("melee" = 50, "bullet" = 5, "laser" = 5, "energy" = 10, "bomb" = 15, "bio" = 0, "rad" = 0, "fire" = 50, "acid" = 50, "stamina" = 40) //NSV13
+	body_parts_covered = CHEST|GROIN
 
 /obj/item/clothing/suit/armor/vest/corporate
 	name = "corporate Jacket"
 	desc = "A Stylish Corporate Jacket which also provides Protection."
 	icon_state = "secjacket"
 	item_state = "secjacket"
-	body_parts_covered = CHEST|ARMS
-	armor = list("melee" = 25, "bullet" = 25, "laser" = 10, "energy" = 35, "bomb" = 20, "bio" = 0, "rad" = 0, "fire" = 45, "acid" = 45, "stamina" = 30) //NSV13
+	body_parts_covered = CHEST|GROIN|ARMS
+	armor = list("melee" = 35, "bullet" = 45, "laser" = 10, "energy" = 30, "bomb" = 20, "bio" = 0, "rad" = 0, "fire" = 45, "acid" = 45, "stamina" = 30) //NSV13
 
 /obj/item/clothing/suit/armor/hos
 	name = "armored greatcoat"
@@ -58,7 +60,7 @@
 	icon_state = "hos"
 	item_state = "greatcoat"
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS
-	armor = list("melee" = 30, "bullet" = 45, "laser" = 15, "energy" = 40, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 90, "stamina" = 40) //NSV13
+	armor = list("melee" = 40, "bullet" = 60, "laser" = 15, "energy" = 30, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 90, "stamina" = 40) //NSV13
 	cold_protection = CHEST|GROIN|LEGS|ARMS
 	heat_protection = CHEST|GROIN|LEGS|ARMS
 	strip_delay = 80
@@ -77,7 +79,7 @@
 	icon_state = "warden_alt"
 	item_state = "armor"
 	body_parts_covered = CHEST|GROIN|ARMS
-	armor = list("melee" = 30, "bullet" = 45, "laser" = 15, "energy" = 40, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 90, "stamina" = 40) //NSV13
+	armor = list("melee" = 30, "bullet" = 55, "laser" = 15, "energy" = 40, "bomb" = 25, "bio" = 0, "rad" = 0, "fire" = 70, "acid" = 90, "stamina" = 40) //NSV13
 	cold_protection = CHEST|GROIN|ARMS|HANDS
 	heat_protection = CHEST|GROIN|ARMS|HANDS
 	strip_delay = 70
@@ -136,7 +138,7 @@
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	armor = list("melee" = 50, "bullet" = 10, "laser" = 10, "energy" = 15, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 80, "stamina" = 50)
+	armor = list("melee" = 60, "bullet" = 10, "laser" = 10, "energy" = 15, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 80, "acid" = 80, "stamina" = 50) //NSV13
 	blocks_shove_knockdown = TRUE
 	strip_delay = 80
 	equip_delay_other = 60
@@ -283,7 +285,7 @@
 	equip_delay_other = 40
 	max_integrity = 200
 	resistance_flags = FLAMMABLE
-	armor = list("melee" = 20, "bullet" = 20, "laser" = 10, "energy" = 40, "bomb" = 15, "bio" = 0, "rad" = 0, "fire" = 40, "acid" = 50, "stamina" = 30) //NSV13
+	armor = list("melee" = 25, "bullet" = 25, "laser" = 10, "energy" = 30, "bomb" = 15, "bio" = 0, "rad" = 0, "fire" = 40, "acid" = 50, "stamina" = 30) //NSV13
 
 /obj/item/clothing/suit/armor/vest/russian
 	name = "russian vest"

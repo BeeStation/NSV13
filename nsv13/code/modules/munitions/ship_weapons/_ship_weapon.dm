@@ -267,6 +267,9 @@
 		to_chat(user, "<span class='notice'>You start to load [A] into [src].</span>")
 		loading = TRUE
 		if(do_after(user, load_delay, target = src))
+			if ( !user_has_payload( A, user ) )
+				loading = FALSE
+				return FALSE
 			if(mag_load_sound)
 				playsound(src, mag_load_sound, 100, 1)
 
@@ -290,6 +293,19 @@
 		to_chat(user, "<span class='warning'>You can't load [A] into [src]!</span>")
 
 	return FALSE
+
+/obj/machinery/ship_weapon/proc/user_has_payload(obj/item/A, mob/user) // Searches humans and borgs for gunpowder before depositing
+	if ( !user )
+		return FALSE
+
+	// Prove you're not human
+	if ( istype( user, /mob/living/silicon/robot ) )
+		// Give me your hands
+		var/obj/item/borg/apparatus/munitions/hands = locate( /obj/item/borg/apparatus/munitions ) in user.contents
+		if ( !hands?.stored )
+			return FALSE
+
+	return TRUE
 
 /**
  * If we're not magazine-fed, eject round(s) from the weapon.
@@ -465,27 +481,8 @@
  * Returns projectile if successfully fired, FALSE otherwise.
  */
 /obj/machinery/ship_weapon/proc/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+	//Fun fact: set [waitfor, etc] is special, and is inherited by child procs even if they do not call parent!
 	set waitfor = FALSE //As to not hold up any feedback messages.
-
-	// Energy weapons fire behavior
-	if(istype(src, /obj/machinery/ship_weapon/energy)) // Now 100% more modular!
-		if(can_fire(target, shots))
-			if(manual)
-				linked.last_fired = overlay
-			for(var/i = 0, i < shots, i++)
-				do_animation()
-
-				local_fire()
-				overmap_fire(target)
-				charge -= charge_per_shot
-
-				after_fire()
-				if(shots > 1)
-					sleep(weapon_type.burst_fire_delay)
-			return TRUE
-		return FALSE
-
-	// Default weapons fire behavior
 	if(can_fire(target, shots))
 		if(manual)
 			linked.last_fired = overlay
@@ -509,6 +506,23 @@
 			if(semi_auto)
 				chamber(rapidfire = TRUE)
 			after_fire()
+			. = TRUE //waitfor = FALSE early return returns the current . value at the time of sleeping, so this makes it return the correct value for burst fire weapons.
+			if(shots > 1)
+				sleep(weapon_type.burst_fire_delay)
+		return TRUE
+	return FALSE
+
+/obj/machinery/ship_weapon/energy/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+	if(can_fire(target, shots))
+		if(manual)
+			linked.last_fired = overlay
+		for(var/i = 0, i < shots, i++)
+			do_animation()
+			local_fire()
+			overmap_fire(target)
+			charge -= charge_per_shot
+			after_fire()
+			. = TRUE
 			if(shots > 1)
 				sleep(weapon_type.burst_fire_delay)
 		return TRUE
