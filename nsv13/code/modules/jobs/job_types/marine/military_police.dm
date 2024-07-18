@@ -180,17 +180,17 @@ GLOBAL_LIST_INIT(available_depts, list(SEC_DEPT_ENGINEERING, SEC_DEPT_MEDICAL, S
 	desc = "A durable uniform worn by military police officers, who enforce ship-law."
 	icon_state = "military_police"
 	item_state = "bl_suit"
-	armor = list("melee" = 20, "bullet" = 20, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30)
+	armor = list("melee" = 10, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 0, "bio" = 0, "rad" = 0, "fire" = 30, "acid" = 30, "stamina" = 30)
 	can_adjust = TRUE
 
 /obj/item/clothing/suit/ship/squad/military_police
 	name = "Military Police Armour"
-	desc = "A heavy-duty chestplate and shinpad combo which denotes that the user is a military police officer."
+	desc = "A heavy-duty chestplate and shinpad combo which denotes that the user is a military police officer. Protects legs unlike a normal vest."
 	icon_state = "military_police"
 	w_class = 2
-	armor = list("melee" = 40, "bullet" = 50, "laser" = 15, "energy" = 10, "bomb" = 30, "bio" = 20, "rad" = 25, "fire" = 35, "acid" = 50)
+	armor = list("melee" = 25, "bullet" = 40, "laser" = 15, "energy" = 10, "bomb" = 30, "bio" = 0, "rad" = 0, "fire" = 35, "acid" = 50)
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
-	body_parts_covered = CHEST|GROIN|LEGS|FEET
+	body_parts_covered = CHEST|GROIN|LEGS
 
 /obj/item/clothing/suit/ship/squad/military_police/Initialize(mapload, datum/squad/squad)
 	. = ..()

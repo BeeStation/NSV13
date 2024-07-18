@@ -23,7 +23,7 @@ Bullet reactions
 		if(shield_result)
 			var/damage_sound = pick('nsv13/sound/effects/ship/damage/shield_hit.ogg', 'nsv13/sound/effects/ship/damage/shield_hit2.ogg')
 			if(!impact_sound_cooldown)
-				new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src)
+				new /obj/effect/temp_visual/overmap_shield_hit(src, src)
 				relay(damage_sound)
 				if(P.damage >= 15) //Flak begone
 					shake_everyone(5)
@@ -268,5 +268,5 @@ Bullet reactions
 /obj/effect/temp_visual/explosion_telegraph/Destroy()
 	var/turf/T = get_turf(src)
 	var/damage_level = ((damage_amount <= 20) ? 1 : ((damage_amount <= 75) ? 2 : ((damage_amount <= 150) ? 3 : 4)))
-	explosion(T,damage_level == 4 ? 0 : 2,round(damage_level*1.75),round(damage_level*2.25))
+	explosion(T,damage_level == 4 ? 2 : 0,round(damage_level*1.75),round(damage_level*2.25))
 	return ..()
