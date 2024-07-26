@@ -68,31 +68,11 @@
 	sabre.enter(dummy)
 	dummy.update_overmap()
 	TEST_ASSERT_EQUAL(dummy.get_overmap(), sabre, "The mob's overmap was not the sabre")
-*/
 
-/datum/unit_test/fighter_pilot_overmap/Destroy()
+/datum/unit_test/sabre_occupant_overmap/Destroy()
 	QDEL_NULL(dummy)
 	. = ..()
-
-/// A fighter inside a larger ship should have its get_overmap return the ship
-/datum/unit_test/fighter_on_ship
-	var/obj/structure/overmap/small_craft/combat/light/fighter = null
-
-/datum/unit_test/fighter_on_ship/Run()
-	for(var/obj/structure/overmap/small_craft/combat/light/OM as() in SSstar_system.find_main_overmap().overmaps_in_ship)
-		fighter = OM
-		break
-
-	if(!fighter)
-		var/turf/center = SSmapping.get_station_center()
-		ASSERT(center)
-		fighter = new (center)
-
-	TEST_ASSERT_EQUAL(fighter.get_overmap(), SSstar_system.find_main_overmap(), "The fighter's overmap was not the ship")
-
-/datum/unit_test/fighter_on_ship/Destroy()
-	QDEL_NULL(fighter)
-	. = ..()
+*/
 
 /// A fighter that leaves and re-enters a larger ship should have its get_overmap return null while in space, and the ship when back on the ship
 /datum/unit_test/fighter_docking

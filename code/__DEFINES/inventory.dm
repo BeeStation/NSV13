@@ -104,6 +104,9 @@
 #define FULL_DIGITIGRADE			1
 #define SQUISHED_DIGITIGRADE		2
 
+
+#define DIGI_ICON_FILE_PASSED (1<<0) //! NSV13 - An accursed flag for update_worn_icon that implies a digi file was passed by the calling proc. This will override other file variables.
+
 //! ## flags for covering body parts
 #define GLASSESCOVERSEYES	(1<<0)
 #define MASKCOVERSEYES		(1<<1)		//! get rid of some of the other stupidity in these flags

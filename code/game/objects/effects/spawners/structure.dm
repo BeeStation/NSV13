@@ -91,13 +91,18 @@ again.
 
 //reinforced
 
-/obj/effect/spawner/structure/window/reinforced
+/obj/effect/spawner/structure/window/reinforced //brig windows here
 	name = "reinforced window spawner"
 	icon_state = "rwindow_spawner"
 	spawn_list = list(/obj/machinery/door/firedoor/window, /obj/structure/grille, /obj/structure/window/reinforced/fulltile) //NSV13, adds window firedoors to window spawners
 	FASTDMM_PROP(\
 		pipe_astar_cost = 2\
 	)
+
+//Alarm grilles for prison wing
+/obj/effect/spawner/structure/window/reinforced/prison
+	name = "prison window spawner"
+	spawn_list = list(/obj/machinery/door/firedoor/window, /obj/structure/grille/prison, /obj/structure/window/reinforced/fulltile) //NSV13, adds window firedoors to window spawners
 
 //reinforced shutter
 /obj/effect/spawner/structure/window/reinforced/shutter

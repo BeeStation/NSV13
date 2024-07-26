@@ -196,6 +196,7 @@
 	icon = 'nsv13/icons/obj/clothing/suits.dmi' //NSV13
 	worn_icon = 'nsv13/icons/mob/suit.dmi' //NSV13
 	icon_state = "hardsuit-engineering-legacy" //NSV13
+	supports_variations = DIGITIGRADE_VARIATION //NSV13 - legacy sprite has digisprite.
 	item_state = "eng_hardsuit"
 	armor = list("melee" = 30, "bullet" = 5, "laser" = 10, "energy" = 15, "bomb" = 10, "bio" = 100, "rad" = 75, "fire" = 100, "acid" = 75, "stamina" = 20)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/engine
@@ -216,6 +217,7 @@
 	name = "atmospherics hardsuit"
 	desc = "A special suit that protects against hazardous, low pressure environments. Has thermal shielding."
 	icon_state = "hardsuit-atmospherics-legacy" //NSV13
+	supports_variations = DIGITIGRADE_VARIATION //NSV13 - legacy sprite has digisprite.
 	item_state = "atmo_hardsuit"
 	armor = list("melee" = 30, "bullet" = 5, "laser" = 10, "energy" = 15, "bomb" = 10, "bio" = 100, "rad" = 25, "fire" = 100, "acid" = 75, "stamina" = 20)
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS					//Uncomment to enable firesuit protection
@@ -236,6 +238,7 @@
 
 /obj/item/clothing/suit/space/hardsuit/engine/elite
 	icon_state = "hardsuit-white-legacy" //NSV13
+	supports_variations = DIGITIGRADE_VARIATION //NSV13 - legacy sprite has digisprite.
 	name = "advanced hardsuit"
 	desc = "An advanced suit that protects against hazardous, low pressure environments. Shines with a high polish."
 	item_state = "ce_hardsuit"

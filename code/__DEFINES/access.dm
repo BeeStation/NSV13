@@ -11,6 +11,7 @@
 #define ACCESS_ENGINE_EQUIP 11 //! APCs, EngiVend/YouTool, engineering equipment lockers
 #define ACCESS_MAINT_TUNNELS 12
 #define ACCESS_EXTERNAL_AIRLOCKS 13
+#define ACCESS_PRISONER 14//! Brig turnstile and prisonner locker
 #define ACCESS_CHANGE_IDS 15
 #define ACCESS_AI_UPLOAD 16
 #define ACCESS_TELEPORTER 17
@@ -71,7 +72,6 @@
 #define ACCESS_MINING_ENGINEERING 74
 #define ACCESS_MINING_BRIDGE 75
 #define ACCESS_SEC_RECORDS 77 //! Update security records //NSV13 - changed from 69
-#define ACCESS_PRISONER 78 //! Nsv13 - Genpop. This access is added to prisoner IDs that have served their time.
 #define ACCESS_HANGAR 79 //NSV13 - Access to the hangar
 
 /// Room and launching.

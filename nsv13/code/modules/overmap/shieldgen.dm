@@ -338,31 +338,38 @@
 
 /obj/effect/temp_visual/overmap_shield_hit
 	name = "Shield hit"
-	icon = 'nsv13/icons/overmap/shieldhit.dmi';
+	icon = 'nsv13/icons/overmap/shieldhit.dmi'
 	icon_state = "shieldhit"
 	duration = 0.75 SECONDS
 	layer = ABOVE_MOB_LAYER+0.1
 	animate_movement = NO_STEPS // Override the inbuilt movement engine to avoid bouncing
-	appearance_flags = TILE_BOUND | PIXEL_SCALE
+	vis_flags = VIS_INHERIT_ID
 	var/obj/structure/overmap/overmap
 
 /obj/effect/temp_visual/overmap_shield_hit/Initialize(mapload, obj/structure/overmap/OM)
 	. = ..()
 	//Scale up the shield hit icon to roughly fit the overmap ship that owns us.
-	if(!OM)
+	if(!OM || !istype(OM))
+		log_runtime("Shield hit effect was made with no ship!")
 		return INITIALIZE_HINT_QDEL
-	overmap = OM
 	var/matrix/desired = new()
-	var/icon/I = icon(overmap.icon)
+	var/icon/I = icon(OM.icon)
 	var/resize_x = I.Width()/96
 	var/resize_y = I.Height()/96
 	desired.Scale(resize_x,resize_y)
-	desired.Turn(overmap.angle)
 	transform = desired
-	overmap.vis_contents += src
+	//Don't even ask, this makes it fit on the ship sprite properly most of the time
+	if(I.Width() <= 48)
+		pixel_x = -24
+		pixel_y = -24
+	else
+		pixel_x += round(I.Width()/16, 1)
+		pixel_y += pixel_x*round(I.Height()/32, 1)
+	OM.overlays.Add(src) //Otherwise it won't animate with the ship nicely
+	overmap = OM
 
 /obj/effect/temp_visual/overmap_shield_hit/Destroy()
-	overmap?.vis_contents -= src
+	overmap?.overlays.Remove(src)
 	overmap = null
 	return ..()
 

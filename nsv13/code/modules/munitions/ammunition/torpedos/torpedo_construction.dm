@@ -5,7 +5,7 @@
 	icon_state = "case"
 	desc = "The outer casing of a 30mm torpedo."
 	claimable_gulag_points = 0
-	volatility = 0 
+	volatility = 0
 	var/state = 0
 	var/obj/item/ship_weapon/parts/missile/warhead/wh = null
 	var/obj/item/ship_weapon/parts/missile/guidance_system/gs = null

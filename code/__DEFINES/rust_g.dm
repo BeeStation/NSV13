@@ -124,6 +124,17 @@
 	RUSTG_CALL(RUST_G, "dbp_generate")(seed, accuracy, stamp_size, world_size, lower_range, upper_range)
 
 
+#define rustg_dmi_strip_metadata(fname) RUSTG_CALL(RUST_G, "dmi_strip_metadata")("[fname]")
+#define rustg_dmi_create_png(path, width, height, data) RUSTG_CALL(RUST_G, "dmi_create_png")(path, width, height, data)
+#define rustg_dmi_resize_png(path, width, height, resizetype) RUSTG_CALL(RUST_G, "dmi_resize_png")(path, width, height, resizetype)
+
+#define rustg_file_read(fname) RUSTG_CALL(RUST_G, "file_read")("[fname]")
+#define rustg_file_exists(fname) RUSTG_CALL(RUST_G, "file_exists")("[fname]")
+#define rustg_file_write(text, fname) RUSTG_CALL(RUST_G, "file_write")(text, "[fname]")
+#define rustg_file_append(text, fname) RUSTG_CALL(RUST_G, "file_append")(text, "[fname]")
+#define rustg_file_get_line_count(fname) text2num(RUSTG_CALL(RUST_G, "file_get_line_count")("[fname]"))
+#define rustg_file_seek_line(fname, line) RUSTG_CALL(RUST_G, "file_seek_line")("[fname]", "[line]")
+
 
 #define rustg_dmi_strip_metadata(fname) RUSTG_CALL(RUST_G, "dmi_strip_metadata")("[fname]")
 #define rustg_dmi_create_png(path, width, height, data) RUSTG_CALL(RUST_G, "dmi_create_png")(path, width, height, data)
@@ -147,6 +158,8 @@
 	#define text2file(text, fname) rustg_file_append(text, "[fname]")
 #endif
 
+#define rustg_git_revparse(rev) RUSTG_CALL(RUST_G, "rg_git_revparse")(rev)
+#define rustg_git_commit_date(rev) RUSTG_CALL(RUST_G, "rg_git_commit_date")(rev)
 /// Returns the git hash of the given revision, ex. "HEAD".
 #define rustg_git_revparse(rev) RUSTG_CALL(RUST_G, "rg_git_revparse")(rev)
 
@@ -295,6 +308,10 @@
  */
 #define rustg_add_node_astar(json) RUSTG_CALL(RUST_G, "add_node_astar")(json)
 
+/**²
+ * Remove every link to the node with unique_id. Replace that node by null
+ */
+#define rustg_remove_node_astart(unique_id) RUSTG_CALL(RUST_G, "remove_node_astar")(unique_id)
 /**
  * Remove every link to the node with unique_id. Replace that node by null
  */
