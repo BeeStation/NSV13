@@ -75,8 +75,8 @@
 				return
 			var/coords = locallist[M]
 			if(abs((coords[2] + M.y) - (coords[1] + M.x)) <= deviation_tolerance)
-				return // listener hasn't moved enough to warrent recalculation
+				continue // listener hasn't moved enough to warrent recalculation
 		if(M.recalculate_sound_volume(parent, current_sound, volume))
 			locallist[M] = list(M.x, M.y)
 		else
-			locallist[parent] -= M
+			locallist -= M
