@@ -58,7 +58,7 @@ GLOBAL_LIST_INIT(typecache_powerfailure_safe_areas, typecacheof(list(
 	var/static/blacklisted_areas = typecacheof(list(
 		/area/space,
 		))
-	var/list/turfs = detect_room(get_turf(creator), area_or_turf_fail_types)
+	var/list/turf/turfs = detect_room(get_turf(creator), area_or_turf_fail_types)
 	if(!turfs)
 		to_chat(creator, "<span class='warning'>The new area must be completely airtight and not a part of a shuttle.</span>")
 		return
