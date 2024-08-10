@@ -36,7 +36,7 @@
 	return call_ext(AUXMOS, "byond:hook_init_ffi")(gas_data)
 
 /proc/_auxtools_register_gas(gas)
-	return call_ext(AUXMOS, "byond:hook_register_gas")(gas)
+	return call_ext(AUXMOS, "byond:hook_register_gas_ffi")(gas)
 
 /datum/controller/subsystem/air/proc/process_turf_equalize_auxtools(remaining)
 	return call_ext(AUXMOS, "byond:equalize_hook_ffi")(src, remaining)
