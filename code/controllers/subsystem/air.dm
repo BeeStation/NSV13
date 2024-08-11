@@ -107,7 +107,6 @@ SUBSYSTEM_DEF(air)
 /datum/controller/subsystem/air/get_metrics()
 	. = ..()
 	var/list/custom = list()
-	custom["custom"] = cust
 	custom["cost_turfs"] = cost_turfs
 	custom["cost_groups"] = cost_groups
 	custom["cost_highpressure"] = cost_highpressure
