@@ -28,7 +28,7 @@ RUN git init \
     && cargo build --release --all-features --target i686-unknown-linux-gnu
 
 # Build auxmos
-# NSV13 - different fork
+# NSV13 - different fork and katmos hooks
 FROM rust-build as auxmos
 RUN git init \
     && git remote add origin https://github.com/covertcorvid/auxmos \
