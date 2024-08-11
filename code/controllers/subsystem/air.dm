@@ -106,25 +106,28 @@ SUBSYSTEM_DEF(air)
 
 /datum/controller/subsystem/air/get_metrics()
 	. = ..()
-	.["cost_turfs"] = cost_turfs
-	.["cost_groups"] = cost_groups
-	.["cost_highpressure"] = cost_highpressure
-	.["cost_hotspots"] = cost_hotspots
-	.["cost_post_process"] = cost_post_process
-	.["cost_superconductivity"] = cost_superconductivity
-	.["cost_pipenets"] = cost_pipenets
-	.["cost_machinery"] = cost_machinery
-	.["cost_rebuilds"] = cost_rebuilds
-	.["cost_equalize"] = cost_equalize
-	.["hotspts"] = hotspots.len
-	.["networks"] = networks.len
-	.["gas_mixes_count"] = gas_mixes_count
-	.["gas_mixes_allocated"] = gas_mixes_allocated
-	.["high_pressure_turfs"] = high_pressure_turfs
-	.["low_pressure_turfs"] = low_pressure_turfs
-	.["num_equalize_processed"] = num_equalize_processed
-	.["num_group_turfs_processed"] = num_group_turfs_processed
-	.["high_pressure_delta"] = high_pressure_delta.len
+	var/list/custom = list()
+	custom["custom"] = cust
+	custom["cost_turfs"] = cost_turfs
+	custom["cost_groups"] = cost_groups
+	custom["cost_highpressure"] = cost_highpressure
+	custom["cost_hotspots"] = cost_hotspots
+	custom["cost_post_process"] = cost_post_process
+	custom["cost_superconductivity"] = cost_superconductivity
+	custom["cost_pipenets"] = cost_pipenets
+	custom["cost_machinery"] = cost_machinery
+	custom["cost_rebuilds"] = cost_rebuilds
+	custom["cost_equalize"] = cost_equalize
+	custom["hotspts"] = hotspots.len
+	custom["networks"] = networks.len
+	custom["gas_mixes_count"] = gas_mixes_count
+	custom["gas_mixes_allocated"] = gas_mixes_allocated
+	custom["high_pressure_turfs"] = high_pressure_turfs
+	custom["low_pressure_turfs"] = low_pressure_turfs
+	custom["num_equalize_processed"] = num_equalize_processed
+	custom["num_group_turfs_processed"] = num_group_turfs_processed
+	custom["high_pressure_delta"] = high_pressure_delta.len
+	.["custom"] = custom
 
 /datum/controller/subsystem/air/Initialize(timeofday)
 	map_loading = FALSE
