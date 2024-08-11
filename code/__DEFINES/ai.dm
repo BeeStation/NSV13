@@ -4,6 +4,7 @@
 #define AI_STATUS_ON 1
 #define AI_STATUS_OFF 2
 
+
 ///Monkey checks
 #define SHOULD_RESIST(source) (source.on_fire || source.buckled || source.restrained() || (source.pulledby && source.pulledby.grab_state > GRAB_PASSIVE))
 #define IS_DEAD_OR_INCAP(source) (source.incapacitated() || source.stat)
