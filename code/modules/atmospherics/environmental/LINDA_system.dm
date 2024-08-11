@@ -18,17 +18,30 @@
 
 /turf/open/CanAtmosPass(turf/T, vertical = FALSE)
 	var/dir = vertical? get_dir_multiz(src, T) : get_dir(src, T)
+	var/opposite_dir = REVERSE_DIR(dir)
 	. = TRUE
 	if(vertical && !(zAirOut(dir, T) && T.zAirIn(dir, src)))
 		. = FALSE
 	if(blocks_air || T.blocks_air)
 		. = FALSE
+	//This path is a bit weird, if we're just checking with ourselves no sense asking objects on the turf
 	if (T == src)
 		return .
+
+	 //Can't just return if false here, we need to set superconductivity
 	for(var/obj/O in contents+T.contents)
 		var/turf/other = (O.loc == src ? T : src)
-		if(!(vertical? (CANVERTICALATMOSPASS(O, other)) : (CANATMOSPASS(O, other))))
-			. = FALSE
+		if(CANATMOSPASS(O, other, vertical))
+			continue
+		. = FALSE
+		if(other.block_all_conductivity())
+			conductivity_blocked_directions |= dir
+			T.conductivity_blocked_directions |= opposite_dir
+			return FALSE
+	//Superconductivity is a bitfield of directions we can't conduct with
+    //Yes this is really weird
+	conductivity_blocked_directions &= ~dir
+	T.conductivity_blocked_directions &= ~opposite_dir
 
 /turf/proc/update_conductivity(turf/T)
 	var/dir = get_dir_multiz(src, T)
@@ -55,8 +68,7 @@
 	return FALSE
 
 /turf/proc/ImmediateCalculateAdjacentTurfs()
-	var/canpass = CANATMOSPASS(src, src)
-	var/canvpass = CANVERTICALATMOSPASS(src, src)
+	var/canpass = CANATMOSPASS(src, src, FALSE)
 
 	conductivity_blocked_directions = 0
 
@@ -76,7 +88,7 @@
 
 		update_conductivity(T)
 
-		if(isopenturf(T) && !(blocks_air || T.blocks_air) && ((direction & (UP|DOWN))? (canvpass && CANVERTICALATMOSPASS(T, src)) : (canpass && CANATMOSPASS(T, src))) )
+		if(canpass && isopenturf(T) && !(blocks_air || T.blocks_air) && (CANATMOSPASS(T, src, direction & (UP|DOWN))))
 			LAZYINITLIST(atmos_adjacent_turfs)
 			LAZYINITLIST(T.atmos_adjacent_turfs)
 			atmos_adjacent_turfs[T] = other_contains_firelock | src_contains_firelock
@@ -107,20 +119,6 @@
 		T.__update_auxtools_turf_adjacency_info()
 	LAZYNULL(atmos_adjacent_turfs)
 	__update_auxtools_turf_adjacency_info()
-
-//Only gets a list of adjacencies, does NOT update
-/turf/proc/get_adjacent_atmos_turfs()
-	. = list()
-	var/canpass = CANATMOSPASS(src, src)
-	var/canvpass = CANVERTICALATMOSPASS(src, src)
-
-	for(var/direction in GLOB.cardinals_multiz)
-		var/turf/T = get_step_multiz(src, direction)
-		if(isopenturf(T) && !(blocks_air || T.blocks_air) && ((direction & (UP|DOWN))? (canvpass && CANVERTICALATMOSPASS(T, src)) : (canpass && CANATMOSPASS(T, src))) )
-			.[T] = 0
-		else
-			. -= T
-	UNSETEMPTY(.)
 
 //returns a list of adjacent turfs that can share air with this one.
 //alldir includes adjacent diagonal tiles that can share
