@@ -489,3 +489,48 @@
 				. = TRUE
 	if(.)
 		update_icon()
+
+
+/* yog- ADMEME CANISTERS */
+
+/// Canister 1 Kelvin below the fusion point. Is highly unoptimal, do not spawn to start fusion, only good for testing low instability mixes.
+/obj/machinery/portable_atmospherics/canister/fusion_test
+	name = "Fusion Test Canister"
+	desc = "This should never be spawned in game."
+	greyscale_config = /datum/greyscale_config/canister/hazard
+	greyscale_colors = "#0099ff#ff3300"
+
+/obj/machinery/portable_atmospherics/canister/fusion_test/create_gas()
+	air_contents.set_moles(GAS_TRITIUM, 10)
+	air_contents.set_moles(GAS_PLASMA, 500)
+	air_contents.set_moles(GAS_CO2, 500)
+	air_contents.set_moles(GAS_NITROUS, 100)
+	air_contents.set_temperature(FUSION_TEMPERATURE_THRESHOLD)
+
+/// Canister 1 Kelvin below the fusion point. Contains far too much plasma. Only good for adding more fuel to ongoing fusion reactions.
+ /obj/machinery/portable_atmospherics/canister/fusion_test_2
+	name = "Fusion Test Canister"
+	desc = "This should never be spawned in game."
+	greyscale_config = /datum/greyscale_config/canister/hazard
+	greyscale_colors = "#0099ff#ff3300"
+
+/obj/machinery/portable_atmospherics/canister/fusion_test_2/create_gas()
+	air_contents.set_moles(GAS_TRITIUM, 10)
+	air_contents.set_moles(GAS_PLASMA, 15000)
+	air_contents.set_moles(GAS_CO2, 1500)
+	air_contents.set_moles(GAS_NITROUS, 100)
+	air_contents.set_temperature(FUSION_TEMPERATURE_THRESHOLD - 1)
+
+/// Canister at the perfect conditions to start and continue fusion for a long time.
+/obj/machinery/portable_atmospherics/canister/fusion_test_3
+	name = "Fusion Test Canister"
+	desc = "This should never be spawned in game."
+	greyscale_config = /datum/greyscale_config/canister/hazard
+	greyscale_colors = "#0099ff#ff3300"
+
+/obj/machinery/portable_atmospherics/canister/fusion_test_3/create_gas()
+	air_contents.set_moles(GAS_TRITIUM, 1000)
+	air_contents.set_moles(GAS_PLASMA, 4500)
+	air_contents.set_moles(GAS_CO2, 1500)
+	air_contents.set_temperature(1000000)
+
