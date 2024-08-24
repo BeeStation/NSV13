@@ -30,3 +30,7 @@
 	var/datum/antagonist/hivemind/hivemind = mind.has_antag_datum(/datum/antagonist/hivemind)
 	if(hivemind)
 		hivemind.regain_images()
+	//NSV13 - clear the dead alert.
+	if(stat != DEAD)
+		client?.tgui_panel?.clear_dead_popup()
+	//NSV13 end.
