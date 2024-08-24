@@ -1167,7 +1167,18 @@
 			if(buckled.buckle_lying != -1)
 				lying = buckled.buckle_lying
 		if(!lying) //force them on the ground
-			lying = pick(90, 270)
+			//NSV13 - you get to choose if it's controlled.
+			if(!resting)
+				lying = pick(90, 270)
+			else
+				switch(dir)
+					if(WEST)
+						lying = 270
+					if(EAST)
+						lying = 90
+					else
+						lying = pick(90, 270)
+			//NSV13 end.
 	else
 		mobility_flags |= MOBILITY_STAND
 		lying = 0
