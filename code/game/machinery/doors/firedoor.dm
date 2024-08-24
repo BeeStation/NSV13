@@ -441,6 +441,7 @@
 	opacity = FALSE
 	var/ini_dir
 
+
 /obj/machinery/door/firedoor/border_only/Initialize(mapload, loc, set_dir)
 	. = ..()
 	if(set_dir)
@@ -528,23 +529,18 @@
 		leaving.Bump(src)
 		return COMPONENT_ATOM_BLOCK_EXIT
 
-//NSV13 - knpcs can into firelock
-/obj/machinery/door/firedoor/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
-	if(istype(caller) && (caller.pass_flags & pass_flags_self))
-		return TRUE
-	if(!density)
-		return TRUE
-	if(welded)
+//NSV13 - npcs can into firelock
+/obj/machinery/door/firedoor/border_only/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
+	if((welded || (machine_stat & NOPOWER)) && (dir == to_dir))
+		message_admins("[src]([ADMIN_FLW(src)]) returned false astarpass with dir [dir], weld [welded] and machine stat [machine_state]")
 		return FALSE
-	if(!hasPower())
-		return isknpc(caller)
 	return TRUE
 
 /obj/machinery/door/firedoor/border_only/CanAtmosPass(turf/T)
 	if(get_dir(loc, T) == dir)
 		return !density
 	else
-		return 1
+		return TRUE
 //NSV13 end
 
 /obj/machinery/door/firedoor/heavy

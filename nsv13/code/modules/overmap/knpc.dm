@@ -26,8 +26,8 @@ GLOBAL_LIST_EMPTY(knpcs)
 
 /mob/living/carbon/human/ai_boarder
 	faction = list("Neutral")
-	var/move_delay = 4 //How quickly do the boys travel?
-	var/action_delay = 6 //How long we delay between actions
+	var/move_delay = 6  //How quickly do the boys travel?
+	var/action_delay = 10 //How long we delay between actions
 	var/knpc_traits = KNPC_IS_DODGER | KNPC_IS_MERCIFUL | KNPC_IS_AREA_SPECIFIC
 	var/difficulty_override = FALSE //Whether to ignore overmap difficulty or not
 	var/list/outfit = list (
@@ -158,7 +158,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 				break	//If at least one firedoor in our way is welded shut, welp!
 			blocking_firelock.open()	//Open one firelock per tile per try.
 			break
-		for(var/obj/machinery/door/firedoor/blocking_firelock in this_turf)
+		for(var/obj/machinery/door/firedoor/blocking_firelock as() in this_turf)
 			if(!((blocking_firelock.flags_1 & ON_BORDER_1) && (blocking_firelock.dir in dir_to_cardinal_dirs(get_dir(this_turf, next_turf))))) //Here, only firelocks on the border matter since fulltile firelocks let you exit.
 				continue
 			if(!blocking_firelock.density || blocking_firelock.operating)
@@ -172,7 +172,12 @@ GLOBAL_LIST_EMPTY(knpcs)
 				continue
 			H.forceMove(next_turf)
 			H.visible_message("<span class='warning'>[H] climbs onto [possible_barrier]!</span>")
+			var/obj/item/dropped_it
+			if(H.get_active_held_item())
+				dropped_it = H.get_active_held_item()
 			H.Stun(2 SECONDS) //Table.
+			if(dropped_it) //Don't forget to pick up your stuff
+				H.put_in_hands(dropped_it, forced=TRUE)
 			if(get_turf(H) == path[1])
 				increment_path()
 			return TRUE
@@ -255,6 +260,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 	if(length(path))
 		next_path_step()
 	else //They should always be pathing somewhere...
+		next_path_step()
 		dest = null
 		tries = 0
 		path = list()
