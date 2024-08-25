@@ -43,7 +43,7 @@
 
 	// Health, armor, and damage
 	max_integrity = 300 //Max internal integrity
-	integrity_failure = 0
+	integrity_failure = 0 //If you want to use this you will have to implement obj_break() for overmaps aswell as a method to restore functionality if repaired.
 	var/armour_plates = 0 //You lose max integrity when you lose armour plates.
 	var/sensor_profile = 0	//A penalty (or, possibly even bonus) to from how far away one can be detected. Affected by things like sending out a active ping, which will make you glow like a christmas tree.
 	var/cloak_factor = 255 // Min alpha of a ship during cloak. 0-255
@@ -834,14 +834,14 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			to_chat(M, message)
 	for(var/obj/structure/overmap/O as() in overmaps_in_ship) //Of course they get relayed the same message if they're in the same ship too
 		if(length(O.mobs_in_ship))
-			O.relay(args)
+			O.relay(S,message,loop,channel)
 
 /obj/structure/overmap/proc/stop_relay(channel) //Stops all playing sounds for crewmen on N channel.
 	for(var/mob/M as() in mobs_in_ship)
 		M.stop_sound_channel(channel)
 	for(var/obj/structure/overmap/O as() in overmaps_in_ship) //Of course they get relayed the same message if they're in the same ship too
 		if(length(O.mobs_in_ship))
-			O.stop_relay(args)
+			O.stop_relay(channel)
 
 /obj/structure/overmap/proc/relay_to_nearby(S, message, ignore_self=FALSE, sound_range=20, faction_check=FALSE) //Sends a sound + text message to nearby ships
 	for(var/obj/structure/overmap/ship as() in GLOB.overmap_objects) //Might be called in hyperspace or by fighters, so shouldn't use a system check.

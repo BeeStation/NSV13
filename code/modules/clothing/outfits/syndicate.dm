@@ -19,7 +19,7 @@
 	suit_store = /obj/item/gun/ballistic/revolver/mateba
 	glasses = /obj/item/clothing/glasses/thermal/eyepatch
 	neck = /obj/item/clothing/neck/cloak/syndcap
-	shoes = /obj/item/clothing/shoes/combat/swat
+	shoes = /obj/item/clothing/shoes/combat //NSV13 - funny boarding spawn
 	neck = /obj/item/clothing/neck/cloak/syndcap
 	backpack_contents = list(/obj/item/uplink/nuclear=1)
 
@@ -35,5 +35,5 @@
 	mask = /obj/item/clothing/mask/cigarette/cigar/havana
 	l_pocket = /obj/item/lighter
 	r_pocket = /obj/item/tank/internals/emergency_oxygen/double
-	shoes = /obj/item/clothing/shoes/combat/swat
+	shoes = /obj/item/clothing/shoes/combat //NSV13 - funny boarding spawn
 	backpack_contents = list(/obj/item/storage/box/survival=1,/obj/item/clipboard=1,/obj/item/ammo_box/shotgun_lethal=3)

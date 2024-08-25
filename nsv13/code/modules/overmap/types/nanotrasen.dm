@@ -29,7 +29,6 @@
 	bound_width = 32
 	obj_integrity = 300
 	max_integrity = 300
-	integrity_failure = 300
 	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
 
 
@@ -41,7 +40,6 @@
 	sprite_size = 48
 	obj_integrity = 450
 	max_integrity = 450
-	integrity_failure = 450
 	bound_height = 96
 	bound_width = 96
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
@@ -57,7 +55,6 @@
 	//pixel_w = -96
 	obj_integrity = 500
 	max_integrity = 500
-	integrity_failure = 500
 	//collision_positions = list(new /datum/vector2d(-13,71), new /datum/vector2d(-25,52), new /datum/vector2d(-24,-25), new /datum/vector2d(-11,-66), new /datum/vector2d(4,-69), new /datum/vector2d(15,-28), new /datum/vector2d(15,38), new /datum/vector2d(6,61))
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
 
@@ -72,7 +69,6 @@
 	//pixel_w = -32
 	obj_integrity = 800
 	max_integrity = 800
-	integrity_failure = 800
 	bound_height = 96
 	bound_width = 96
 	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_heavy" = 30)
@@ -89,7 +85,6 @@
 	bound_height = 192
 	obj_integrity = 1000
 	max_integrity = 1000
-	integrity_failure = 1000
 	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 50)
 
 /obj/structure/overmap/nanotrasen/carrier
@@ -104,7 +99,6 @@
 	damage_states = FALSE //TODO
 	obj_integrity = 700
 	max_integrity = 700
-	integrity_failure = 700
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 10)
 
 /obj/structure/overmap/nanotrasen/battlecruiser
@@ -118,7 +112,6 @@
 	//pixel_w = -32
 	obj_integrity = 1000
 	max_integrity = 1000 //Max health
-	integrity_failure = 1000
 	bound_height = 96
 	bound_width = 96
 	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 50)
@@ -135,7 +128,6 @@
 	damage_states = FALSE //I'm lazy
 	obj_integrity = 1200
 	max_integrity = 1200 //Max health
-	integrity_failure = 1200
 	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 10)
 	bound_height = 320
 	bound_width = 320
@@ -152,18 +144,14 @@
 	icon = 'nsv13/icons/overmap/new/nanotrasen/serendipity.dmi'
 	icon_state = "serendipity"
 	mass = MASS_SMALL
-	obj_integrity = 500
-	max_integrity = 500
-	integrity_failure = 500
 	sprite_size = 48
 	damage_states = FALSE
 	bound_height = 32
 	bound_width = 32
 	obj_integrity = 1250
 	max_integrity = 1250
-	integrity_failure = 1250
 	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
-	plasma_caster = TRUE
+	plasma_caster = TRUE //One day we'll assign these a smarter way..
 
 //Player Versions
 // deletion_behavior = DAMAGE_STARTS_COUNTDOWN
@@ -172,7 +160,6 @@
 	role = MAIN_OVERMAP
 	obj_integrity = 1400
 	max_integrity = 1400 //Max health
-	integrity_failure = 1400
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
@@ -187,18 +174,16 @@
 
 /obj/structure/overmap/nanotrasen/frigate/starter //Currently assigned to Jeppison and Atlas
 	role = MAIN_OVERMAP
-	obj_integrity = 1000
-	max_integrity = 1000
-	integrity_failure = 1000
+	obj_integrity = 800
+	max_integrity = 800
 	starting_system = "Staging" //Required for all player ships
-	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
+	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to the Snake
 	role = MAIN_OVERMAP
 	obj_integrity = 1000
 	max_integrity = 1000
-	integrity_failure = 1000
 	bound_width = 64
 	bound_height = 64
 	starting_system = "Staging" //Required for all player ships
@@ -212,7 +197,6 @@
 	role = MAIN_OVERMAP
 	obj_integrity = 1400
 	max_integrity = 1400
-	integrity_failure = 1400
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 20)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
@@ -228,7 +212,6 @@
 	role = MAIN_OVERMAP
 	obj_integrity = 2000
 	max_integrity = 2000
-	integrity_failure = 2000
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 65, "overmap_heavy" = 20)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
@@ -237,7 +220,6 @@
 	role = MAIN_OVERMAP
 	obj_integrity = 1400
 	max_integrity = 1400
-	integrity_failure = 1400
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 20)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
@@ -246,7 +228,6 @@
 	role = MAIN_OVERMAP //Player controlled variant
 	obj_integrity = 2150
 	max_integrity = 2150
-	integrity_failure = 2150
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 25)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
@@ -255,7 +236,6 @@
 	role = MAIN_OVERMAP
 	obj_integrity = 1200
 	max_integrity = 1200
-	integrity_failure = 1200
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
@@ -287,7 +267,6 @@
 	ai_behaviour = AI_AGGRESSIVE
 	obj_integrity = 450
 	max_integrity = 450 //Max health
-	integrity_failure = 450
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
 	ai_flags  = AI_FLAG_BATTLESHIP | AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/destroyer
@@ -297,7 +276,6 @@
 	ai_behaviour = AI_AGGRESSIVE
 	obj_integrity = 800
 	max_integrity = 800 //Max health
-	integrity_failure = 800
 	armor = list("overmap_light" = 90, "overmap_medium" = 80, "overmap_heavy" = 30)
 	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/cruiser
@@ -305,7 +283,6 @@
 /obj/structure/overmap/nanotrasen/battleship/ai
 	obj_integrity = 1000
 	max_integrity = 1000
-	integrity_failure = 1000
 	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 50)
 	ai_controlled = TRUE
 	ai_flags = AI_FLAG_BATTLESHIP
@@ -318,7 +295,6 @@
 	missiles = 10
 	obj_integrity = 500
 	max_integrity = 500
-	integrity_failure = 500
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
 	combat_dice_type = /datum/combat_dice/cruiser
 
@@ -327,7 +303,6 @@
 	ai_flags = AI_FLAG_BATTLESHIP
 	obj_integrity = 450
 	max_integrity = 450
-	integrity_failure = 450
 	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 30)
 	combat_dice_type = /datum/combat_dice/cruiser
 
@@ -340,7 +315,6 @@
 	ai_flags = AI_FLAG_SUPPLY
 	obj_integrity = 700
 	max_integrity = 700
-	integrity_failure = 700
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 10)
 	combat_dice_type = /datum/combat_dice/carrier
 
@@ -368,7 +342,6 @@
 	armor = list("overmap_light" = 5, "overmap_medium" = 0, "overmap_heavy" = 90)
 	obj_integrity = 75
 	max_integrity = 75 //Super squishy!
-	integrity_failure = 75
 	ai_flags = AI_FLAG_SWARMER
 	bound_width = 32 //Change this on a per ship basis
 	bound_height = 32
