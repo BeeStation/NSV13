@@ -200,3 +200,25 @@
 	build_path = /obj/item/ship_weapon/ammunition/railgun_ammo/uranium
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+
+//subspace cooling stuff
+/datum/design/board/subspace_cooler
+	name = "Machine Design (Experemental Subspace Cooling Unit)"
+	desc = "Allows for the construction of a Subspace Cooling Unit."
+	id = "subspace_cooler"
+	build_type = PROTOLATHE|IMPRINTER
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
+	build_path = /obj/item/circuitboard/machine/cooling
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+/datum/design/board/subspace_storage
+	name = "Machine Design (Experemental Subspace Storage Unit)"
+	desc = "Allows for the construction of a Subspace Storage Unit."
+	id = "subspace_storage"
+	build_type = PROTOLATHE|IMPRINTER
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
+	build_path = /obj/item/circuitboard/machine/cooling/storage
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS

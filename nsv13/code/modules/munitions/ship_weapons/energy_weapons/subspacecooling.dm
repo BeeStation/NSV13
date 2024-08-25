@@ -18,19 +18,7 @@
 	desc = "A cooling unit that dumps the massive amounts of heat energy weapons generate into subspace."
 	circuit = /obj/item/circuitboard/machine/cooling
 
-/obj/item/circuitboard/machine/cooling
-	name = "subspace cooling unit circuit board"
-	icon = 'icons/obj/module.dmi'
-	icon_state = "command"
-	materials = list(/datum/material/glass=1000)
-	w_class = WEIGHT_CLASS_SMALL
 
-/obj/item/circuitboard/machine/cooling/storage
-	name = "subspace heatsink unit circuit board"
-	icon = 'icons/obj/module.dmi'
-	icon_state = "command"
-	materials = list(/datum/material/glass=1000)
-	w_class = WEIGHT_CLASS_SMALL
 
 /obj/machinery/cooling/cooler/Initialize(mapload)
 	. = ..()
