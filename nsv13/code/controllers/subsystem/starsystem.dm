@@ -678,10 +678,10 @@ Returns a faction datum by its name (case insensitive!)
 			OM.disable_dampeners()
 			RegisterSignal(OM, COMSIG_PARENT_QDELETING, PROC_REF(handle_affecting_del))
 	for(var/obj/structure/overmap/OM as() in affecting)
-		if(overmap_dist(src, OM) > influence_range || !z || OM.z != z)
+		var/dist = overmap_dist(src, OM)
+		if(dist > influence_range || !z || OM.z != z)
 			stop_affecting(OM)
 			continue
-		var/dist = get_dist(src, OM)
 		var/grav_level = OVERMAP_SINGULARITY_PROX_GRAVITY
 		if(dist <= redshift_range)
 			var/redshift ="#[num2hex(130-dist,2)][num2hex(0,2)][num2hex(0,2)]"
