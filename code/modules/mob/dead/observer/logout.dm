@@ -2,7 +2,7 @@
 	update_z(null)
 	if (client)
 		client.images -= (GLOB.ghost_images_default+GLOB.ghost_images_simple)
-		client.tgui_panel?.clear_dead_popup()
+		//client.tgui_panel?.clear_dead_popup() - NSV13 - commented out because this is a bad place to do that and also client is commonly already gone when this proc is called.
 
 	if(observetarget)
 		if(ismob(observetarget))
