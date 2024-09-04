@@ -290,8 +290,8 @@ SUBSYSTEM_DEF(mapping)
 	var/obj/structure/overmap/OM = instance_overmap(config.ship_type)
 	pass(OM)
 	// Free boarding overmap/mining level
-	add_new_zlevel("Overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
-	OM.free_treadmills += world.maxz
+	var/datum/space_level/overmap_z1 = add_new_zlevel("Overmap treadmill [length(z_list)+1]", ZTRAITS_OVERMAP)
+	OM.free_treadmills += overmap_z1.z_value
 
 	LoadStationRoomTemplates()
 	LoadStationRooms()

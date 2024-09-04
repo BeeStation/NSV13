@@ -118,6 +118,10 @@ Another get_angle that works better with the looping edges of the overmap
 	else if(CX<0)
 		.+=360
 
+/**
+ * I am genuinely unsure what this is actually meant to do that normal z add does not do.
+* If ANYONE actually knows if there is some important reason the procs I changed used this please tell me ~Delta
+**/
 /datum/controller/subsystem/mapping/proc/add_new_initialized_zlevel(name, traits = list(), z_type = /datum/space_level, orbital_body_type)
 	add_new_zlevel(name, traits)
 	SSatoms.InitializeAtoms(block(locate(1,1,world.maxz),locate(world.maxx,world.maxy,world.maxz)))
