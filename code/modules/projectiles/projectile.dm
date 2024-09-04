@@ -820,7 +820,7 @@
 
 /obj/item/projectile/proc/process_homing() //Nsv13 - Enhanced the performance of this entire proc.
 	if(QDELETED(homing_target)) //NSV13 - Changed proc to be less performance intensive
-		if(homing_target) //Bla bla refclearing. Necessary evil. (Probably not worth the hassle of handling this via comsig so this here instead)
+		if(homing_target) //Bla bla refclearing. Necessary evil. (Probably not worth the hassle of handling this via comsig, so this is here instead)
 			homing_target = null
 		return FALSE //Hi, Delta from the past here, future one. We don't just disable homing entirely here because some projectiles might be able to reassess targets.
 	var/targetAngle
