@@ -377,7 +377,9 @@
 		return
 	var/obj/structure/overmap/target_lock
 	var/target_distance
-	var/datum/star_system/target_system = SSstar_system.find_system(overmap_firer)
+	var/datum/star_system/target_system = overmap_firer.current_system
+	if(!target_system)
+		return
 	var/list/targets = target_system.system_contents
 	for(var/obj/structure/overmap/ship in targets)
 		if(QDELETED(ship) && ship.mass != MASS_TINY) //It destroys itself when its target is destroyed, ignoring destroyed fighters
