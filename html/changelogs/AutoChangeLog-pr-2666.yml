@@ -1,0 +1,11 @@
+author: DeltaFire15
+delete-after: true
+changes:
+  - bugfix: Possibly fixes some weird Sabre behavior.
+  - bugfix: Also makes one single gun check of the plasma caster slightly safer.
+  - bugfix: Fixes a weird edge case with docking behavior.
+  - bugfix: Fixes remove_ship() assuming all remove_ship() calls were FTL based.
+  - bugfix: Overmap objects when deleting have remove_ship() called for them (this
+      should mostly only affect z carriers which drop their z or pass it to another
+      ship).
+  - bugfix: Overmap objects that are deleted now drop their current_system var.
