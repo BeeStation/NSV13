@@ -209,7 +209,7 @@
 	id = "subspace_cooler"
 	build_type = PROTOLATHE|IMPRINTER
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
-	build_path = /obj/item/circuitboard/machine/cooling/cooler
+	build_path = /obj/item/circuitboard/machine/cooling
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
