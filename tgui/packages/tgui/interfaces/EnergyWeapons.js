@@ -44,7 +44,7 @@ export const EnergyWeapons = (props, context) => {
           <br />
           Heat:
           <ProgressBar
-            value={(heat / maxheat * 100) * 0.01}
+            value={(heat / maxheat)}
             ranges={{
               good: [-Infinity, 0.2],
               average: [0.2, 0.5],

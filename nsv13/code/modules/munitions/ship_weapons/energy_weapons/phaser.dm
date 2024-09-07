@@ -270,16 +270,18 @@
 	var/H = heat-cooling_amount*heat_rate
 	if(heat > 0)
 		heat = max((H),0)
-	if((weapon_state == STATE_OVERLOAD) & (heat <= (max_heat/50)))
-		weapon_state = STATE_NOTHING
-	if(weapon_state == STATE_OVERLOAD)
-		return
-	if(weapon_state == STATE_VENTING)
-		if(heat <= max_heat-ventnumber)
-			weapon_state = STATE_NOTHING
+	switch(weapon_state)
+		if(STATE_OVERLOAD)
+			if(heat <= (max_heat/50))
+				weapon_state = STATE_NOTHING
+			else
+				return
+		if(STATE_VENTING)
+			if(heat <= max_heat-ventnumber)
+				weapon_state = STATE_NOTHING
+				return
+			heat = max(H*0.2,0)
 			return
-		heat = max(((H*1.2)-H),0)
-		return
 	if(heat >= max_heat)
 		overload()
 
@@ -301,36 +303,41 @@
 	var/turf/detonation_turf = get_turf(src)
 	if(heat >= (3*(max_heat/4)))
 		freq -= rand(1,4)
-	if(alignment <= 75)
-		if(prob(50))
-			do_sparks(4, FALSE, src)
-			freq -= rand(1,10)
-	if(alignment <= 50)
-		if(prob(45))
-			do_sparks(4, FALSE, src)
-			freq -= rand(1,10)
-			playsound(src, malfunction_sound, 100, 1)
-		if(prob(5))
-			playsound(src, malfunction_sound, 100, 1)
-			freq -= rand(1,10)
-			explosion(detonation_turf, 0, 0, 2, 3, flame_range = 2)
-	if(alignment <= 25)
-		if(prob(25))
-			do_sparks(4, FALSE, src)
-			playsound(src, malfunction_sound, 100, 1)
-			freq -= rand(1,10)
-		if(prob(25))
-			playsound(src, malfunction_sound, 100, 1)
-			freq -= rand(1,10)
-			explosion(detonation_turf, 0, 0, 3, 4, flame_range = 3)
-		if(prob(50))
-			var/list/shootat_turf = RANGE_TURFS(5,detonation_turf) - RANGE_TURFS(4, detonation_turf)
-			var/obj/item/projectile/beam/laser/P = new(detonation_turf)
-			//Shooting Code:
-			P.range = 6
-			P.preparePixelProjectile(pick(shootat_turf), detonation_turf)
-			P.fire()
-			freq -= rand(1,10)
+	switch(alignment)
+		if(51 to 75)
+			if(prob(50))
+				do_sparks(4, FALSE, src)
+				freq -= rand(1,10)
+		if(26 to 50)
+			var/roll = roll(1,20)
+			switch(roll)
+				if(1 to 9)
+					do_sparks(4, FALSE, src)
+					freq -= rand(1,10)
+					playsound(src, malfunction_sound, 100, 1)
+				if(10)
+					playsound(src, malfunction_sound, 100, 1)
+					freq -= rand(1,10)
+					explosion(detonation_turf, 0, 0, 2, 3, flame_range = 2)
+		if(0 to 25)
+			var/roll2 = roll(1,4)
+			switch(roll2)
+				if(1)
+					do_sparks(4, FALSE, src)
+					playsound(src, malfunction_sound, 100, 1)
+					freq -= rand(1,10)
+				if(2)
+					playsound(src, malfunction_sound, 100, 1)
+					freq -= rand(1,10)
+					explosion(detonation_turf, 0, 0, 3, 4, flame_range = 3)
+				if(3,4)
+					var/list/shootat_turf = RANGE_TURFS(5,detonation_turf) - RANGE_TURFS(4, detonation_turf)
+					var/obj/item/projectile/beam/laser/P = new(detonation_turf)
+					//Shooting Code:
+					P.range = 6
+					P.preparePixelProjectile(pick(shootat_turf), detonation_turf)
+					P.fire()
+					freq -= rand(1,10)
 	alignment = max(alignment-(rand(0, 4)),0)
 
 
@@ -369,24 +376,26 @@
 				combo = null
 
 /obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/multitool/I)
-	if(maint_state == MSTATE_CLOSED)
-		if (istype(I))
-			to_chat(user, "<span class='notice'>You log [src] in the multitool's buffer.</span>")
-			I.buffer = src
-			return TRUE
-	if(maint_state == MSTATE_UNSCREWED)
-		to_chat(user, "<span class='notice'>You must unbolt the protective casing before aligning the lenses!</span>")
-	if(maint_state == MSTATE_UNBOLTED)
-		. = TRUE
-		to_chat(user, "<span class='notice'>You being aligning the lenses.</span>")
-		while(alignment < 100)
-			if(!do_after(user, 5, target = src))
-				return
-			alignment += rand(1,2)
-			if(alignment >= 100)
-				alignment = 100
-				break
-
+	switch(maint_state)
+		if(MSTATE_CLOSED)
+			if(istype(I))
+				to_chat(user, "<span class='notice'>You log [src] in the multitool's buffer.</span>")
+				I.buffer = src
+				return TRUE
+		if(MSTATE_UNSCREWED)
+			to_chat(user, "<span class='notice'>You must <I>unbolt</I> the protective casing before aligning the lenses!</span>")
+			return FALSE
+		if(MSTATE_UNBOLTED)
+			to_chat(user, "<span class='notice'>You being aligning the lenses.</span>")
+			while(alignment < 100)
+				if(!do_after(user, 5, target = src))
+					return ..()
+				alignment += rand(1,2)
+				if(alignment >= 100)
+					alignment = 100
+					to_chat(user, "<span class='notice'>You finish aligning the lenses.</span>")
+					return TRUE
+	return ..()
 
 
 

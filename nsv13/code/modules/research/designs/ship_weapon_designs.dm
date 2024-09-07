@@ -204,17 +204,17 @@
 
 //subspace cooling stuff
 /datum/design/board/subspace_cooler
-	name = "Machine Design (Experemental Subspace Cooling Unit)"
+	name = "Machine Design (Experimental Subspace Cooling Unit)"
 	desc = "Allows for the construction of a Subspace Cooling Unit."
 	id = "subspace_cooler"
 	build_type = PROTOLATHE|IMPRINTER
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
-	build_path = /obj/item/circuitboard/machine/cooling
+	build_path = /obj/item/circuitboard/machine/cooling/cooler
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/subspace_storage
-	name = "Machine Design (Experemental Subspace Storage Unit)"
+	name = "Machine Design (Experimental Subspace Storage Unit)"
 	desc = "Allows for the construction of a Subspace Storage Unit."
 	id = "subspace_storage"
 	build_type = PROTOLATHE|IMPRINTER

@@ -263,8 +263,8 @@
 	export_price = 5000
 
 /// Munitions Upgrade for Energy Weapons
-/datum/techweb_node/Weapon_Cooling
-	id = "Weapon_Cooling"
+/datum/techweb_node/weapon_cooling
+	id = "weapon_cooling"
 	tech_tier = 4
 	display_name = "Subspace Manipulation"
 	description = "Experemental uses of subspace for more than just communications"
