@@ -1,8 +1,8 @@
 /obj/machinery/cooling
 	name = "subspace unit"
 	desc = "A subspace unit."
-	icon = 'icons/obj/power.dmi'
-	icon_state = "smes"
+	icon = 'nsv13/icons/obj/subspace.dmi'
+	icon_state = "cooler"
 	circuit = /obj/item/circuitboard/machine
 	bound_width = 32
 	pixel_x = 0
@@ -63,13 +63,13 @@
 /obj/machinery/cooling/update_icon()
 	cut_overlays()
 	if(panel_open)
-		icon_state = "smes-o"
+//		icon_state = "smes-o"
 	if(on && parent)
-		add_overlay("smes-op1")
+//		add_overlay("smes-op1")
 	if(on)
-		add_overlay("smes-oc1")
+//		add_overlay("smes-oc1")
 	else
-		add_overlay("smes-op0")
+//		add_overlay("smes-op0")
 
 
 /obj/machinery/cooling/multitool_act(mob/living/user, obj/item/multitool/I)
@@ -102,6 +102,6 @@
 /obj/machinery/cooling/storage
 	name = "subspace heatsink unit"
 	desc = "A cooling unit that stores the massive amounts of heat energy weapons generate in subspace."
-	icon_state = "smes"
+	icon_state = "cooler"
 	circuit = /obj/item/circuitboard/machine/cooling/storage
 
