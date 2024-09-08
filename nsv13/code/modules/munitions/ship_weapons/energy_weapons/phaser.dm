@@ -99,7 +99,7 @@
 	if(heat > max_heat/4)
 		weapon_state = STATE_VENTING
 		ventnumber = max_heat*0.25
-	if(heat <= (max_heat/4))
+	else
 		ventnumber = max_heat
 		weapon_state = STATE_VENTING
 		playsound(src, 'sound/effects/turbolift/turbolift-close.ogg', 100, 1)
