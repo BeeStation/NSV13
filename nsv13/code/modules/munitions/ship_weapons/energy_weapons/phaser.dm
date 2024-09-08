@@ -98,7 +98,7 @@
 /obj/machinery/ship_weapon/energy/proc/vent()
 	if(heat > max_heat/4)
 		weapon_state = STATE_VENTING
-		ventnumber = max_heat - (3*(max_heat/4))
+		ventnumber = max_heat*0.25
 	if(heat <= (max_heat/4))
 		ventnumber = max_heat
 		weapon_state = STATE_VENTING
