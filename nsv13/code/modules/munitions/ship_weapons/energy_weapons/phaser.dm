@@ -280,7 +280,7 @@
 			if(heat <= max_heat-ventnumber)
 				weapon_state = STATE_NOTHING
 				return
-			heat = max(H*0.2,0)
+			heat = max(heat-(H+H*0.2),0)
 			return
 	if(heat >= max_heat)
 		overload()
