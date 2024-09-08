@@ -40,6 +40,9 @@
 	if(istype(OM, /obj/structure/overmap))
 		OM.current_system = src //Debugging purposes only
 		after_enter(OM)
+	else if(istype(OM, /obj/effect/overmap_anomaly))
+		var/obj/effect/overmap_anomaly/anomaly_OM = OM
+		anomaly_OM.current_system = src
 
 /datum/star_system/proc/after_enter(obj/structure/overmap/OM)
 	if(desc)
