@@ -102,6 +102,6 @@
 /obj/machinery/cooling/storage
 	name = "subspace heatsink unit"
 	desc = "A cooling unit that stores the massive amounts of heat energy weapons generate in subspace."
-	icon_state = "cooler"
+	icon_state = "storage"
 	circuit = /obj/item/circuitboard/machine/cooling/storage
 

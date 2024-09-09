@@ -37,7 +37,6 @@
 	var/list/storages = list()
 	var/cooling_amount = 0
 	var/storage_amount = 0
-	heat_rate = 10
 	var/storage_rate = 100
 	var/weapon_state = STATE_NOTHING
 	var/ventnumber = 1
@@ -47,7 +46,7 @@
 	var/charge_rate = 430000 //How quickly do we charge?
 	var/charge_per_shot = 660000 //How much power per shot do we have to use?
 	var/heat_per_shot = 100 //how much heat do we make per shot
-	var/heat_rate = 0 // how fast do we discharge heat
+	var/heat_rate = 10 // how fast do we discharge heat
 	var/max_heat = 1000 //how much heat before ::fun:: happens
 	var/overloaded = 0 //have we cooked ourself
 	max_integrity = 1200 //don't blow up before we're ready
