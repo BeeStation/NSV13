@@ -47,6 +47,7 @@
 
 	var/malfunction_sound = 'sound/effects/alert.ogg'
 
+
 	//Various traits that probably won't change
 	var/maintainable = TRUE //Does the weapon require maintenance?
 	var/bang = TRUE //Is firing loud?
@@ -72,16 +73,8 @@
 	var/obj/item/ammo_box/magazine/magazine //Magazine if we have one
 	var/obj/chambered //Chambered round if we have one. Extrapolate ammo type from this
 	var/list/ammo = list() //All loaded ammo
+	//energy weapon vars used to be here, they aren't anymore
 
-	// These variables only pertain to energy weapons, but need to be checked later in /proc/fire
-	var/charge = 0
-	var/heat = 0
-	var/charge_rate = 0 //How quickly do we charge?
-	var/charge_per_shot = 0 //How much power per shot do we have to use?
-	var/heat_per_shot = 0 //how much heat do we make per shot
-	var/heat_rate = 0 // how fast do we discharge heat
-	var/max_heat = 0 //how much heat before ::fun:: happens
-	var/overloaded = 0 //have we cooked ourself
 /**
  * Constructor for /obj/machinery/ship_weapon
  * Attempts to link the weapon to an overmap ship.

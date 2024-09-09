@@ -20,9 +20,6 @@
 	safety = FALSE //Ready to go right from the start.
 	idle_power_usage =  2500
 	var/active = FALSE
-	charge = 0
-	charge_rate = 430000 //How quickly do we charge?
-	charge_per_shot = 660000 //How much power per shot do we have to use?
 	var/max_charge = 3300000 //5 shots before it has to recharge.
 	var/power_modifier = 0 //Power youre inputting into this thing.
 	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
@@ -30,10 +27,6 @@
 	var/static_charge = FALSE //Controls whether power and energy cost scale with power modifier. True = no scaling
 	var/alignment = 100 //stolen from railguns and the plasma gun
 	var/freq = 100
-	max_heat = 1000
-	max_integrity = 1200 //don't blow up before we're ready
-	obj_integrity = 1200
-	heat_per_shot = 100
 	var/max_freq = 100
 	var/combo_target = "omega" //Randomized sequence for the recalibration minigame.
 	var/list/letters = list("delta,", "omega,", "phi,")
@@ -48,6 +41,17 @@
 	var/storage_rate = 100
 	var/weapon_state = STATE_NOTHING
 	var/ventnumber = 1
+	// These variables only pertain to energy weapons, but need to be checked later in /proc/fire //I moved these over to the energyweapon basetype. if everything explodes, someone else told me to
+	var/charge = 0
+	var/heat = 0
+	var/charge_rate = 430000 //How quickly do we charge?
+	var/charge_per_shot = 660000 //How much power per shot do we have to use?
+	var/heat_per_shot = 100 //how much heat do we make per shot
+	var/heat_rate = 0 // how fast do we discharge heat
+	var/max_heat = 1000 //how much heat before ::fun:: happens
+	var/overloaded = 0 //have we cooked ourself
+	max_integrity = 1200 //don't blow up before we're ready
+	obj_integrity = 1200
 
 /obj/machinery/ship_weapon/energy/beam
 	name = "phase cannon"
@@ -72,13 +76,15 @@
 
 /obj/machinery/ship_weapon/energy/examine(mob/user)
 	. = ..()
+	. += "<span class='notice'>The Thermal Transceiver supports 10 connections.</span>"
 	if(in_range(user, src) || isobserver(user))
 		. += "<span class='notice'>The heatsink display reads <b>[(heat)]</b> out of <b>[(max_heat)]</b>.</span>"
 		if(maint_state != MSTATE_CLOSED)
 			. +=  "<span class='warning'>[src]'s realignment sequence is: [combo_target].</span>"
-
-
-
+		if(weapon_state == STATE_VENTING) //are we venting heat?)
+			. +=  "<span class='warning'>[src]'s thermal managment system is in overdrive.</span>"
+		if(weapon_state == STATE_OVERLOAD) //have we overheated?
+			. +=  "<span class='warning'>[src]'s thermal managment system is in failure recovery mode.</span>"
 
 /obj/machinery/ship_weapon/energy/lazyload()
 	active = TRUE
@@ -171,12 +177,13 @@
 		return FALSE
 	if(weapon_state == STATE_OVERLOAD) //have we overheated?
 		return FALSE
-	if(weapon_state == STATE_VENTING) //are we venting heat?
+	if(weapon_state == STATE_VENTING) //are we venting heat?)
 		return FALSE
 	if(freq <=10) //is the frequincy of the weapon high enough to fire?
 		overload()
 		return FALSE
 	if(alignment == 0)
+		playsound(src, malfunction_sound, 100, 1)
 		for(var/mob/living/M in get_hearers_in_view(7, src)) //burn out eyes in view
 			if(M.stat != DEAD && M.get_eye_protection() < 2) //checks for eye protec
 				M.flash_act(10)
@@ -341,7 +348,7 @@
 	alignment = max(alignment-(rand(0, 4)),0)
 
 
-	// dilithium crystal alignment minigame stolen from ds13
+	// dilithium crystal alignment minigame stolen from ds13 - I need to rip this out and rewrite it to not be completely cursed - TODO
 /obj/machinery/ship_weapon/energy/screwdriver_act(mob/user, obj/item/tool)
 	. = ..()
 	if(maint_state == MSTATE_UNBOLTED)
@@ -384,7 +391,7 @@
 				return TRUE
 		if(MSTATE_UNSCREWED)
 			to_chat(user, "<span class='notice'>You must <I>unbolt</I> the protective casing before aligning the lenses!</span>")
-			return FALSE
+			return TRUE
 		if(MSTATE_UNBOLTED)
 			to_chat(user, "<span class='notice'>You being aligning the lenses.</span>")
 			while(alignment < 100)
