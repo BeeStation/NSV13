@@ -395,7 +395,7 @@
 			to_chat(user, "<span class='notice'>You being aligning the lenses.</span>")
 			while(alignment < 100)
 				if(!do_after(user, 5, target = src))
-					return ..()
+					return TRUE
 				alignment += rand(1,2)
 				if(alignment >= 100)
 					alignment = 100
@@ -404,6 +404,6 @@
 	return ..()
 
 /obj/machinery/ship_weapon/energy/Destroy()
-	for(var/obj/machinery/cooling/E in storages & coolers)
+	for(var/obj/machinery/cooling/E in storages | coolers)
 		E.parent = null
 	. = ..()
