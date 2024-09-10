@@ -82,12 +82,18 @@
 			to_chat(user, "<font color = #666633>-% Cannot link machines across power zones. %-</font color>")
 			return
 
-		parent = P.buffer
+
 		if(istype(src,/obj/machinery/cooling/cooler))
+			parent.coolers -= src
+			parent = null
+			parent = P.buffer
 			.=TRUE
 			parent.coolers |= src
 			to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
 		if(istype(src,/obj/machinery/cooling/storage))
+			parent.storages -= src
+			parent = null
+			parent = P.buffer
 			.=TRUE
 			parent.storages |= src
 			to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
