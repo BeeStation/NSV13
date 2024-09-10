@@ -91,7 +91,7 @@
 			.=TRUE
 			parent.storages |= src
 			to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
-		if(length(parent.storages)+length(parent.coolers) >= 10)
+		if(length(parent.storages)+length(parent.coolers) >= 11)
 			var/E = pick(parent.storages+parent.coolers)
 			explosion(get_turf(E), 0, 1, 3, 5, flame_range = 4)
 			return
@@ -104,4 +104,3 @@
 	desc = "A cooling unit that stores the massive amounts of heat energy weapons generate in subspace."
 	icon_state = "storage"
 	circuit = /obj/item/circuitboard/machine/cooling/storage
-

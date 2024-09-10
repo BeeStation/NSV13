@@ -75,7 +75,7 @@
 
 /obj/machinery/ship_weapon/energy/examine(mob/user)
 	. = ..()
-	. += "<span class='notice'>The Thermal Transceiver supports 10 connections.</span>"
+	. += "<span class='notice'>The Thermal Transceiver is currently at <b>[length(storages)+length(coolers)]0%</b> connection capacity.</span>"
 	if(in_range(user, src) || isobserver(user))
 		. += "<span class='notice'>The heatsink display reads <b>[(heat)]</b> out of <b>[(max_heat)]</b>.</span>"
 		if(maint_state != MSTATE_CLOSED)
@@ -403,6 +403,7 @@
 					return TRUE
 	return ..()
 
-
-
-
+/obj/machinery/ship_weapon/energy/Destroy()
+	for(var/obj/machinery/cooling/E in storages & coolers)
+		E.parent = null
+	. = ..()
