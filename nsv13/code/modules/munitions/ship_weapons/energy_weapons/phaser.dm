@@ -189,8 +189,8 @@
 				to_chat(M, "<span class='warning'>You have a second to watch the casing of the gun glow a dull red before it erupts in a blinding flash as it self-destructs</span>")   // stealing this from the plasmagun as well
 		explosion(get_turf(src), 0, 1, 3, 5, flame_range = 4)
 		overload()
-	else
-		return TRUE
+		return FALSE
+	return TRUE
 
 /obj/machinery/ship_weapon/energy/get_max_ammo()
 	return max_charge
