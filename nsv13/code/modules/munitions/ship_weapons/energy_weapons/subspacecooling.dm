@@ -54,10 +54,15 @@
 	. = ..()
 	if(on)
 		. += "The power is on"
+
+	if(!on)
+		. += "The power is off"
+
 	if(parent)
-		. += "The thermal subspace transcever is linked"
-	else
-		. += "it's completely inactive"
+		. += "The thermal transcever is linked"
+
+	if(!parent)
+		. += "The thermal transcever is waiting for pairing"
 
 
 /obj/machinery/cooling/update_icon()
