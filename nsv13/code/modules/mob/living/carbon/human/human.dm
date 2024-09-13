@@ -9,3 +9,7 @@
 	if(gravity <= 1) //This is fine.
 		return
 	return ..()
+
+//OVERRIDE - Humans handle thermoregulation on species level.
+/mob/living/carbon/human/natural_bodytemperature_stabilization()
+	return dna.species.natural_bodytemperature_stabilization(src)

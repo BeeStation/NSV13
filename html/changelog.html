@@ -56,158 +56,71 @@
 		-->
 		<div class="commit sansserif">
 
-			<h2 class="date">28 June 2024</h2>
+			<h2 class="date">13 September 2024</h2>
 			<h3 class="author">DeltaFire15 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="code_imp">Integrity_failure variable settings removed from all overmaps. (This does nothing)</li>
+				<li class="bugfix">Pylon-related things should no longer brick if the Pylon is destroyed due to high waste pressure.</li>
+				<li class="bugfix">Some advanced soundloop stuff might probably work better now.</li>
+				<li class="balance">Lizards are now coldblooded (they have no natural bodytemperature stabilization besides the environment).</li>
+				<li class="balance">Coldblooded creatures also have an inefficient form of thermogenesis they can use to heat up.</li>
+				<li class="balance">Lizards dislike the cold (<15°C / when you start shivering) and like warmth (30°C-60°C), which can affect mood.</li>
+				<li class="balance">Lizards no longer have a 1.5 cold damage modifier.</li>
+				<li class="balance">Having somebody in an aggressive grab will share temperature between the grabber and grabbed target over time (respecting insulation).</li>
+				<li class="balance">Drinking blood as a moth now has a weaker mood buff.</li>
+				<li class="balance">Naval coffee now has a weaker mood buff.</li>
+				<li class="bugfix">Temperature protection values returned by the getter are no longer very very slightly off the value they should be. Thanks decimal precision.</li>
 			</ul>
 
-			<h2 class="date">21 June 2024</h2>
+			<h2 class="date">06 September 2024</h2>
 			<h3 class="author">Bokkiewokkie updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed superstructure crit explosions being too powerful for small hits</li>
-				<li class="bugfix">Fixed fighters and sabres not being relayed overmap messages</li>
-				<li class="bugfix">Fixed armour pumps not accounting for game lag in their processing</li>
+				<li class="tweak">Changed asteroid ore spawning to respect asteroid maps more</li>
+			</ul>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Possibly fixes some weird Sabre behavior.</li>
+				<li class="bugfix">Also makes one single gun check of the plasma caster slightly safer.</li>
+				<li class="bugfix">Fixes a weird edge case with docking behavior.</li>
+				<li class="bugfix">Fixes remove_ship() assuming all remove_ship() calls were FTL based.</li>
+				<li class="bugfix">Overmap objects when deleting have remove_ship() called for them (this should mostly only affect z carriers which drop their z or pass it to another ship).</li>
+				<li class="bugfix">Overmap objects that are deleted now drop their current_system var.</li>
+			</ul>
+
+			<h2 class="date">24 August 2024</h2>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">The "You are Dead" chat window popup should now be properly removed when you are not dead.</li>
+				<li class="bugfix">Broadside cannons should now always fire on the correct side.</li>
+				<li class="rscadd">Your current direction now decides which way you will face when voluntarily resting.</li>
+				<li class="bugfix">Jaws of life can now deconstruct doors like a crowbar could.</li>
+				<li class="code_imp">Cleans up some leftover code that remained after a beebase.</li>
 			</ul>
 			<h3 class="author">SerynEngi updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="balance">Decreased armor pool of the Atlas</li>
+				<li class="rscadd">Added an ore silo to the Atlas</li>
+			</ul>
+			<h3 class="author">riquewright updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">turf changes</li>
+				<li class="balance">added random ore spawns</li>
+				<li class="bugfix">pre-beebase objects and turfs</li>
 			</ul>
 
-			<h2 class="date">14 June 2024</h2>
-			<h3 class="author">Bokkiewokkie updated:</h3>
+			<h2 class="date">16 August 2024</h2>
+			<h3 class="author">Kenionatus updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed the Gladius hangar airlocks being too small and not working</li>
-				<li class="bugfix">Fixed Gladius reactor room getting breached super easily</li>
-				<li class="tweak">made the Gladius AGCNR area, AGCNR control area, and armor pump area into separate rooms.</li>
-				<li class="rscadd">Added the ability to build pool ladders with rods</li>
-				<li class="bugfix">Fixed pool ladders being dislodged by the Stormdrive (and players)</li>
+				<li class="bugfix">Auto recall reminders now also get sent during combat</li>
 			</ul>
-			<h3 class="author">Bokkiewokkie, DeltaFire15 updated:</h3>
+			<h3 class="author">Pockets-byte updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Robotic legs can now be modified to a digitigrade version in the augment manipulator. Rejoice, full-metal lizards.</li>
-				<li class="imageadd">Robot Digitigrade leg sprites.</li>
-				<li class="tweak">The CE, Engineering, and Atmos hardsuit once again do not squish digilegs (we had the sprites still around)</li>
-				<li class="code_imp">Some mild hooking into icon code to bypass our own crimes.</li>
-				<li class="bugfix">Coincidentally, IPC limbs no longer commit crimes against icons after being thrown in the augment manipulator.</li>
-				<li class="tweak">The prosthetic limb quirk now respects digitigrade bodytypes.</li>
-			</ul>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">The AI tracking window no longer breaks if anybody on the camera network is naked.</li>
-				<li class="bugfix">As AI, tracking somebody with the crew monitor should be less likely to brick.</li>
-			</ul>
-			<h3 class="author">IndusRobot updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed shells are not appropriately handling the presence of powder bags</li>
-				<li class="bugfix">fix borgs duplicating ammunition in deck turret and PDC</li>
-			</ul>
-			<h3 class="author">SerynEngi updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">MAA hardsuit now in MAA office on Atlas.</li>
-				<li class="rscadd">Service lathe now present on Atlas</li>
-				<li class="bugfix">Fixed gauss cannon power for Atlas and Eclipse</li>
-				<li class="bugfix">Atlas brig now has atmospherics.</li>
-				<li class="bugfix">Atlas security is no longer entirely brig</li>
-				<li class="tweak">Scrubber/vent placement on Atlas</li>
-			</ul>
-			<h3 class="author">benbot16 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Air-to-air repair/refuel modules now have a maximum range.</li>
-				<li class="tweak">Adjusts repair/fuel transfer times for air-to-air modules</li>
-				<li class="bugfix">Air-to-air repair/refuel modules now function properly.</li>
-				<li class="bugfix">Fixes a virtual-z issue with dropships</li>
-			</ul>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="server">Upped the compiler version and max client version to 515.1607</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added some nsv clothes to the torp shop</li>
-				<li class="spellcheck">fixed a typo in peacekeer vest</li>
+				<li class="tweak">added a rejection message to the comms console</li>
 			</ul>
 
-			<h2 class="date">31 May 2024</h2>
-			<h3 class="author">DeltaFire15 updated:</h3>
+			<h2 class="date">13 July 2024</h2>
+			<h3 class="author">riquewright updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="code_imp">Slightly improved some ui_acts of Fighters, APNP and APNW.</li>
-			</ul>
-			<h3 class="author">Ikalpo updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Conveyor switch assemblies keep all their settings, which can be changed using tools</li>
-				<li class="rscadd">Conveyor switch assemblies can get a link from a belt</li>
-				<li class="rscadd">Conveyor switches can be renamed</li>
-				<li class="bugfix">Slow conveyor belts no longer stack with normal ones</li>
-				<li class="imageadd">Slow belts are now yellow</li>
-			</ul>
-			<h3 class="author">benbot16 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Ammo racks may now be loaded by attacking them with ammunition</li>
-				<li class="tweak">Jam SFX now plays on jam instead of on load attempt</li>
-				<li class="bugfix">Fixes a few ammo rack-related edge cases</li>
-			</ul>
-
-			<h2 class="date">21 May 2024</h2>
-			<h3 class="author">Haliris, BriggsIDP, Powerfulbacon, TsunamiAnt, PestoVerde322 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added workshop area to brig based on the holodeck code, where prisoners can make donuts or plushes and scan them to get reduced sentences. Adds secure floors and prison grilles to help secure the prison area better. Adds crafting method for plushes to support the prison plushes sweatshop.</li>
-				<li class="rscadd">Added genpop workshops to Hammerhead and Gladius</li>
-				<li class="tweak">Changed the path of the previous prisoner id used for gulag (now id/gulag). Updated paths of the current holodeck templates to holodeck/recreational to allow for easier subtypes implementation. Removed holographic flag preventing the crafting menu from working.</li>
-				<li class="tweak">Genpop code and icons moved out of nsv13 folder</li>
-			</ul>
-
-			<h2 class="date">19 May 2024</h2>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Brooms can no longer bluespace things into space.</li>
-				<li class="rscadd">The gravity generator now has an emag interaction (and a method to fix said interaction).</li>
-				<li class="bugfix">Overmap projectiles should no longer runtime during collisions while in the process of being fired.</li>
-				<li class="bugfix">Explosions no longer try to throw qdeleting objects.</li>
-				<li class="bugfix">The admin ghost checking proc no longer cries if it is passed a non-mob.</li>
-				<li class="bugfix">The ship console references on overmaps now have some slightly more sane reference handling.</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Galactica dropship hangar tube was made one tile wider, blast doors have been replaced with airlocks, and a tug has been added</li>
-				<li class="bugfix">Galactica dropship can now move from it's starting location</li>
-				<li class="bugfix">Flight leader now has the right icon</li>
-			</ul>
-
-			<h2 class="date">17 May 2024</h2>
-			<h3 class="author">itsmeow updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added TGUI-Say (can be disabled in prefs, light theme also in prefs) - Tab to switch channels.</li>
-				<li class="rscadd">Added new TGUI Say keybinds - Y for Radio, L for LOOC (not currently rebindable).</li>
-				<li class="rscadd">Added TGUI input preferences (mostly unused currently).</li>
-				<li class="rscadd">Added glorfing to TGUI-Say - if you get hit hard enough, your message will be cut off with "-OW!!!", "-AUGH!!!", "-GLORF!!" or similar.</li>
-				<li class="admin">Added logging to typing indicators.</li>
-				<li class="rscadd">Added OOC Verb "Refresh TGUI".</li>
-				<li class="tweak">Legacy say hotkey macros (Ctrl+T, Ctrl+O) have been replaced with T and O.</li>
-			</ul>
-
-			<h2 class="date">14 May 2024</h2>
-			<h3 class="author">tonty updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">the FTL navigation console no longer grants hyperspecific telekinesis to people who use it</li>
-			</ul>
-
-			<h2 class="date">03 May 2024</h2>
-			<h3 class="author">Bokkiewokkie updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed fighters not hearing overmap messages from their mothership.</li>
-				<li class="spellcheck">Made it clear the Syndicate Crew antag preference is for PVP</li>
-			</ul>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="balance">The BSA now goes kaboom when relayed instead of being essentially a ghost NAC shell.</li>
-				<li class="bugfix">The Eclipse no longer spawns a borg module that should never exist outside of mobs.</li>
-				<li class="bugfix">DNA no longer has some super weird code for flavor text, instead copying the one of the source mob.</li>
-				<li class="tweak">You can no longer stack interactions on walls. This is to prevent a runtime from actions that modify the type of them (deconstruction mainly).</li>
-				<li class="bugfix">Paper no longer runtimes if you do not have a pen in hand (???).</li>
-				<li class="bugfix">Traders no longer do some cursed things to create their trade items, instead using the all-powerful initial().</li>
-				<li class="bugfix">The stormdrive no longer runtimes if it has zero gas in it.</li>
-				<li class="bugfix">Some squad assignment stuff shouldn't try to use a list as datum anymore.</li>
+				<li class="bugfix">re-added plasma cutter to mining tech node's item list</li>
+				<li class="spellcheck">added whole 4 letters</li>
 			</ul>
 		</div>
 

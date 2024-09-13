@@ -130,8 +130,8 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 		center = T
 	else
 		center = locate(T.x+(width/2), T.y+(height/2), T.z)
-	for(var/turf/target_turf as() in RANGE_TURFS(rand(3,5), center)) //Give that boi a nice core.
-		if(prob(85)) //Bit of random distribution
+	for(var/turf/closed/mineral/target_turf as() in RANGE_TURFS(rand(4,6), center)) //Give that boi a nice core.
+		if(prob(80)) //Bit of random distribution
 			var/turf_type = pick(core_composition)
 			target_turf.ChangeTurf(turf_type) //Make the core itself
 	// add boundaries

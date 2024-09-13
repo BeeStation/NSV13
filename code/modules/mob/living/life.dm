@@ -33,6 +33,9 @@
 		var/datum/gas_mixture/environment = loc.return_air()
 		if(environment)
 			handle_environment(environment)
+		///NSV13 - aggressive grab temp exchange hook.
+		handle_temperature_exchange()
+		///NSV13 end.
 
 		//Handle gravity
 		var/gravity = has_gravity()

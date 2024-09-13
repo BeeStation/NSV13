@@ -403,6 +403,35 @@ Been a mess since 2018, we'll fix it someday (probably)
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/primary/cannon)
 
+/obj/structure/overmap/small_craft/combat/solgov
+	name = "Peregrine class attack fighter"
+	desc = "A Peregrine class attack fighter, solgov's only premiere fighter, mounting minature capital grade phasers and a tiny shield generator."
+	icon = 'nsv13/icons/overmap/new/solgov/playablefighter.dmi'
+	armor = list("melee" = 60, "bullet" = 60, "laser" = 60, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 5, "overmap_medium" = 0, "overmap_heavy" = 10) 
+	sprite_size = 32
+	damage_states = FALSE //temp
+	max_integrity = 25 //shields.
+	max_angular_acceleration = 200
+	speed_limit = 10
+	pixel_w = -16
+	pixel_z = -20
+	components = list(/obj/item/fighter_component/fuel_tank,
+						/obj/item/fighter_component/avionics,
+						/obj/item/fighter_component/apu,
+						/obj/item/fighter_component/targeting_sensor,
+						/obj/item/fighter_component/engine,
+						/obj/item/fighter_component/countermeasure_dispenser,
+						/obj/item/fighter_component/oxygenator,
+						/obj/item/fighter_component/canopy,
+						/obj/item/fighter_component/docking_computer,
+						/obj/item/fighter_component/battery,
+						/obj/item/fighter_component/primary/laser)   // no armor because >=3, you can still install it though because this thing is made of tissue paper
+
+/obj/structure/overmap/small_craft/combat/solgov/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/overmap_shields, 125, 125, 15) //inital integrity, max integrity, and recharge rate. bound to change most likely
+
+
 /obj/structure/overmap/small_craft/escapepod
 	name = "Escape Pod"
 	desc = "An escape pod launched from a space faring vessel. It only has very limited thrusters and is thus very slow."
@@ -507,6 +536,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	canopy = mutable_appearance(icon = icon, icon_state = "canopy_open")
 	add_overlay(canopy)
 	update_visuals()
+
 
 /obj/structure/overmap/small_craft/attackby(obj/item/W, mob/user, params)
 	if(operators && LAZYFIND(operators, user))
@@ -1468,7 +1498,7 @@ As a rule of thumb, primaries are small guns that take ammo boxes, secondaries a
 Utility modules can be either one of these types, just ensure you set its slot to HARDPOINT_SLOT_UTILITY
 */
 /obj/item/fighter_component/primary
-	name = "\improper Fuck you"
+	name = "\improper primary weapon"
 	slot = HARDPOINT_SLOT_PRIMARY
 	fire_mode = FIRE_MODE_ANTI_AIR
 	var/overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
@@ -1590,8 +1620,55 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	burst_size = 3
 	fire_delay = 0.5 SECONDS
 
+/obj/item/fighter_component/primary/laser
+	name = "Stinger Class Phaser Cannon"
+	icon_state = "lasercannon"
+	weight = 3 //it's a laser. it's light, but the gun is fuckhueg
+	accepted_ammo = null
+	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_adjust.ogg'
+	overmap_firing_sounds = list('nsv13/sound/effects/ship/burst_phaser.ogg', 'nsv13/sound/effects/ship/burst_phaser2.ogg')
+	burst_size = 3
+	fire_delay = 10 SECONDS
+	var/projectile = /obj/item/projectile/beam/laser/phaser
+	var/charge_to_fire = 2000   // this is probably not final. needs to be a good balance between having an actual mainship weapon on a fighter, and firing one shot every minute because one shot depletes your entire battery
+
+/obj/item/fighter_component/primary/laser/get_ammo()
+	var/obj/structure/overmap/small_craft/F = loc
+	if(!istype(F))
+		return FALSE
+	var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
+	if(!istype(B))
+		return 0
+	return B.charge
+
+/obj/item/fighter_component/primary/laser/get_max_ammo()
+	var/obj/structure/overmap/small_craft/F = loc
+	if(!istype(F))
+		return FALSE
+	var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
+	if(!istype(B))
+		return 0
+	return B.maxcharge
+
+/obj/item/fighter_component/primary/laser/fire(obj/structure/overmap/target)
+	var/obj/structure/overmap/small_craft/F = loc
+	if(!istype(F))
+		return FALSE
+	var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
+
+	if(B.charge < charge_to_fire)
+		F.relay('sound/weapons/gun_dry_fire.ogg')
+		return FALSE
+
+	var/datum/ship_weapon/SW = F.weapon_types[fire_mode]
+	SW.default_projectile_type = projectile
+	SW.fire_fx_only(target, lateral = TRUE)
+	B.charge -= charge_to_fire
+	return TRUE
+
+
 /obj/item/fighter_component/secondary
-	name = "Fuck you"
+	name = "secondary weapon"
 	slot = HARDPOINT_SLOT_SECONDARY
 	fire_mode = FIRE_MODE_TORPEDO
 	var/overmap_firing_sounds = list(
