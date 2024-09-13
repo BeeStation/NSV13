@@ -297,7 +297,7 @@ Returns a faction datum by its name (case insensitive!)
 		if(backupx && backupy)
 			target.contents_positions[OM] = list("x" = backupx, "y" = backupy) //Cache the ship's position so we can regenerate it later.
 		else
-			target.contents_positions[OM] = list("x" = rand(15, 240), "y" = rand(15, 240))
+			target.contents_positions[OM] = list("x" = rand(15, world.maxx - 15), "y" = rand(15, world.maxy - 15))
 	else
 		if(!OM.z)
 			START_PROCESSING(SSphysics_processing, OM)
@@ -894,6 +894,8 @@ Returns a faction datum by its name (case insensitive!)
 /datum/star_system/proc/spawn_enemies(enemy_type, amount)
 	if(!amount)
 		amount = difficulty_budget
+		if(amount <= 0)
+			amount = 1 //Why else are you calling this?
 	for(var/i = 0, i < amount, i++) //number of enemies is set via the star_system vars
 		if(!enemy_type)
 			enemy_type = pick(SSstar_system.enemy_types) //Spawn a random set of enemies.
@@ -902,16 +904,16 @@ Returns a faction datum by its name (case insensitive!)
 /datum/star_system/proc/spawn_mines(faction, amount)
 	if(!amount)
 		amount = difficulty_budget*2
+		if(amount <= 0)
+			amount = 1 //Why else are you calling this?
 	if(!faction) //Someone forgot to set their IFF
 		faction = alignment
-	var/z_level = 1
-	if(occupying_z)
-		z_level = occupying_z
+	if(!occupying_z) //We didn't get one
+		for(var/i = 0, i < amount, i++)
+			var/obj/structure/space_mine/M = new /obj/structure/space_mine(null, faction, src) //You are in nullspace now
+			contents_positions[M] = list("x" = rand(5, world.maxx - 5),"y" = rand(5, world.maxy - 5))
 	for(var/i = 0, i < amount, i++)
-		var/obj/structure/space_mine/M = new /obj/structure/space_mine(get_turf(locate(rand(5, world.maxx - 5), rand(5, world.maxy - 5), z_level)), faction, src) //random location in the system
-		if(z_level == 1) //We didn't get one
-			contents_positions[M] = list("x" = M.x,"y" = M.y)
-			M.moveToNullspace()
+		new /obj/structure/space_mine(get_turf(locate(rand(5, world.maxx - 5), rand(5, world.maxy - 5), occupying_z)), faction, src) //random location in the system
 
 /datum/star_system/proc/lerp_x(datum/star_system/other, t)
 	return x + (t * (other.x - x))

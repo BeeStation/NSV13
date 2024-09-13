@@ -20,8 +20,19 @@
 	. = ..()
 	if(system)
 		current_system = system
-	else if(!current_system) //Someone is probably spawning us on the overmap, so we assume it's next to the main ship
-		current_system = SSstar_system.find_main_overmap().current_system
+	else if(!current_system)
+		for(var/obj/structure/overmap/OM in range(2, src)) //It probably spawned next to a ship
+			if(OM.current_system)
+				current_system = OM.current_system
+				break
+		if(!current_system) //If an admin spawned you in, it's their job to clean you up. This should never happen normally.
+			log_runtime("Space mine spawned at x=[x],y=[y],z=[z] with no system or ship nearby!")
+			if(new_faction)
+				faction = new_faction
+			update_icon()
+			var/static/list/loc_connections = list(COMSIG_ATOM_ENTERED = PROC_REF(on_entered))
+			AddElement(/datum/element/connect_loc, loc_connections)
+			return
 	current_system.system_contents |= src
 	if(new_faction)
 		faction = new_faction
@@ -61,7 +72,6 @@
 		icon_state = "mine_[faction]"
 	else
 		icon_state = "mine_unaligned"
-		faction = "unaligned"
 
 /obj/structure/space_mine/obj_break(damage_flag)
 	if(prob(80))
