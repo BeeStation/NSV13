@@ -1983,9 +1983,9 @@ Seek a ship thich we'll station ourselves around
 		switch(angular_difference)
 			if(-15 to 15)
 				boost(NORTH)	//ZOOOM
-			if(-45 to -180)
+			if(-180 to -45)
 				boost(WEST)
-			if(-180 to -INFINITY)
+			if(-INFINITY to -180)
 				boost(EAST)
 			if(45 to 180)
 				boost(EAST)

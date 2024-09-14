@@ -267,8 +267,19 @@
 	speed_limit = 20 //Let them accelerate to hyperspeed due to the launch, and temporarily break the speed limit.
 	addtimer(VARSET_CALLBACK(src, speed_limit, initial(speed_limit)), 5 SECONDS) //Give them 5 seconds of super speed mode before we take it back from them
 
-/obj/structure/overmap/small_craft/proc/handle_moved()
+/obj/structure/overmap/small_craft/proc/handle_moved() //Sooo we call this every single tile we move. Is there no better way? (There probably is)
+	//SIGNAL_HANDLER //This should be a signal handler but the proc it calls sleeps and I am not asyncing *this*.
 	check_overmap_elegibility()
+
+
+/*
+Welcome to the "uh oh" zone because fighters travelling from and to overmaps is a bit volatile.
+Last time things broke it was caused by d), but if small ship docking starts being weird again, check these four possible weak points first:
+a) something is being weird with the reserved_z of the fighter being used.
+b) asteroid reserved areas for their zs are not being handled properly.
+c) something is being odd with the last overmap var.
+d) the ships[] list of ssstarsystem is acting up again.
+*/
 
 /obj/structure/overmap/small_craft/proc/check_overmap_elegibility(ignore_position = FALSE, ignore_cooldown = FALSE) //What we're doing here is checking if the fighter's hitting the bounds of the Zlevel. If they are, we need to transfer them to overmap space.
 	if(!ignore_position && !is_near_boundary())
@@ -305,7 +316,7 @@
 		get_reserved_z()
 	if(current_system) // No I can't use ?, because if it's null we use the previous value instead
 		starting_system = current_system.name //Just fuck off it works alright?
-	SSstar_system.add_ship(src, get_turf(OM))
+	SSstar_system.add_ship(src, get_turf(OM), current_system)
 
 	if(current_system && !LAZYFIND(current_system.system_contents, src))
 		LAZYADD(current_system.system_contents, src)
@@ -357,7 +368,7 @@
 	var/turf/T = get_turf(pick(OM.docking_points))
 	forceMove(T)
 	if(current_system)
-		current_system.remove_ship(src, T)
+		current_system.remove_ship(src, T, is_ftl_jump = FALSE)
 	OM.overmaps_in_ship += src
 	bound_width = initial(bound_width)
 	bound_height = initial(bound_height)

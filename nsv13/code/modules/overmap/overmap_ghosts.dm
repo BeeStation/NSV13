@@ -118,7 +118,6 @@
 		forward_maxthrust *= 3.5
 		backward_maxthrust *= 3.5
 		side_maxthrust *= 2
-		integrity_failure *= 3.5
 		max_angular_acceleration *= 2
 		speed_limit *= 2.5
 		shots_left = 500 //Having 15 max cannon shots isn't fun

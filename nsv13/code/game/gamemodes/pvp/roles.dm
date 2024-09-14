@@ -243,7 +243,7 @@ Singleton to handle conquest roles. This exists to populate the roles list and n
 	mask = /obj/item/clothing/mask/cigarette/cigar/havana
 	l_pocket = /obj/item/lighter
 	r_pocket = /obj/item/tank/internals/emergency_oxygen/double
-	shoes = /obj/item/clothing/shoes/combat/swat
+	shoes = /obj/item/clothing/shoes/combat // god why?
 	backpack_contents = list(/obj/item/storage/box/survival=1,/obj/item/clipboard=1,/obj/item/ammo_box/shotgun_lethal=3)
 	command_radio = TRUE
 	id = /obj/item/card/id/syndi_crew/admiral

@@ -64,10 +64,23 @@
 	if(!target_name)
 		return
 
+	var/freshlist = FALSE //NSV13 - tracking bugs
 	if(!track.initialized)
 		trackable_mobs()
+		freshlist = TRUE //NSV13 - tracking bugs
 
+	//NSV13 - safer checks.
 	var/datum/weakref/target = (isnull(track.humans[target_name]) ? track.others[target_name] : track.humans[target_name])
+	if((isnull(target) || !istype(target))) //Uh oh!
+		if(freshlist) //Already accurate new list
+			return
+
+		trackable_mobs() //Target may be new.
+		target = (isnull(track.humans[target_name]) ? track.others[target_name] : track.humans[target_name])
+		if((isnull(target) || !istype(target)))
+			return
+	//NSV13 end.
+
 	ai_start_tracking(target.resolve())
 
 /mob/living/silicon/ai/proc/ai_start_tracking(mob/living/target) //starts ai tracking

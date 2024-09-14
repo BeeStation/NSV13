@@ -196,6 +196,7 @@
 	icon = 'nsv13/icons/obj/clothing/suits.dmi' //NSV13
 	worn_icon = 'nsv13/icons/mob/suit.dmi' //NSV13
 	icon_state = "hardsuit-engineering-legacy" //NSV13
+	supports_variations = DIGITIGRADE_VARIATION //NSV13 - legacy sprite has digisprite.
 	item_state = "eng_hardsuit"
 	armor = list("melee" = 30, "bullet" = 5, "laser" = 10, "energy" = 15, "bomb" = 10, "bio" = 100, "rad" = 75, "fire" = 100, "acid" = 75, "stamina" = 20)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/engine
@@ -216,6 +217,7 @@
 	name = "atmospherics hardsuit"
 	desc = "A special suit that protects against hazardous, low pressure environments. Has thermal shielding."
 	icon_state = "hardsuit-atmospherics-legacy" //NSV13
+	supports_variations = DIGITIGRADE_VARIATION //NSV13 - legacy sprite has digisprite.
 	item_state = "atmo_hardsuit"
 	armor = list("melee" = 30, "bullet" = 5, "laser" = 10, "energy" = 15, "bomb" = 10, "bio" = 100, "rad" = 25, "fire" = 100, "acid" = 75, "stamina" = 20)
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS					//Uncomment to enable firesuit protection
@@ -236,6 +238,7 @@
 
 /obj/item/clothing/suit/space/hardsuit/engine/elite
 	icon_state = "hardsuit-white-legacy" //NSV13
+	supports_variations = DIGITIGRADE_VARIATION //NSV13 - legacy sprite has digisprite.
 	name = "advanced hardsuit"
 	desc = "An advanced suit that protects against hazardous, low pressure environments. Shines with a high polish."
 	item_state = "ce_hardsuit"
@@ -444,15 +447,19 @@
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi
 	jetpack = /obj/item/tank/jetpack/suit
 	item_flags = ILLEGAL	//Syndicate only and difficult to obtain outside of uplink anyway. Nukie hardsuits on the ship are illegal.
+	var/cm_slowdown = 0 //NSV13
 	actions_types = list(
 		/datum/action/item_action/toggle_helmet,
 		/datum/action/item_action/toggle_beacon,
 		/datum/action/item_action/toggle_beacon_frequency
 	)
 
-/obj/item/clothing/suit/space/hardsuit/syndi/ComponentInitialize()
-	. = ..()
-	AddComponent(/datum/component/anti_artifact, INFINITY, FALSE, 100)
+/obj/item/clothing/suit/space/hardsuit/syndi/ComponentInitialize() //NSV13
+    . = ..()
+    artifact_immunity()
+
+/obj/item/clothing/suit/space/hardsuit/syndi/proc/artifact_immunity() //NSV13
+    AddComponent(/datum/component/anti_artifact, INFINITY, FALSE, 100)
 
 /obj/item/clothing/suit/space/hardsuit/syndi/ui_action_click(mob/user, datum/actiontype)
 	switch(actiontype.type)
@@ -513,7 +520,7 @@
 /obj/item/clothing/suit/space/hardsuit/syndi/proc/activate_combat_mode()
 	name = "[initial(name)] (combat)"
 	desc = alt_desc
-	slowdown = 0
+	slowdown = cm_slowdown //NSV13
 	clothing_flags &= ~STOPSPRESSUREDAMAGE
 	cold_protection &= ~(CHEST | GROIN | LEGS | FEET | ARMS | HANDS)
 	if(ishuman(loc))

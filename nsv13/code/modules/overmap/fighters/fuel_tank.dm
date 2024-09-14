@@ -20,6 +20,13 @@
 	var/allow_refuel = FALSE
 	var/units_per_second = 50
 
+/obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/Destroy()
+	QDEL_NULL(current_beam)
+	QDEL_NULL(nozzle)
+	QDEL_NULL(soundloop)
+	fuel_target = null
+	. = ..()
+
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel/ui_act(action, params, datum/tgui/ui)
 	if(..())
 		return

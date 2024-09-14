@@ -233,8 +233,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 		if(I.use_tool(src, user, 40, volume=40))
 			set_operating(FALSE)
 			if(!(machine_stat & BROKEN))
-				var/obj/item/stack/conveyor/C = new /obj/item/stack/conveyor(loc, 1, TRUE, null, id)
-				C.conveyor_type = type //NSV13 - conveyor type
+				var/obj/C = new stack_type(loc, 1, TRUE, null, id) //NSV13 - slow conveyors
 				if(!QDELETED(C)) //God I hate stacks
 					transfer_fingerprints_to(C)
 			to_chat(user, "<span class='notice'>You remove the conveyor belt.</span>")
@@ -308,6 +307,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	icon = 'icons/obj/recycling.dmi'
 	icon_state = "switch-off"
 	processing_flags = START_PROCESSING_MANUALLY
+	obj_flags = UNIQUE_RENAME //NSV13 conveyor switch changes
 
 	var/position = 0			// 0 off, -1 reverse, 1 forward
 	var/last_pos = -1			// last direction setting
@@ -316,10 +316,21 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 
 	var/id = "" 				// must match conveyor IDs to control them
 
-/obj/machinery/conveyor_switch/Initialize(mapload, newid)
+
+/obj/machinery/conveyor_switch/examine() //NSV13 conveyor switch changes
+	. = ..()
+	if(oneway)
+		. += "It has been set to only go in one direction."
+		. += "<span class='notice'>You can force it to go the other way with Alt-click.</span>"
+
+/obj/machinery/conveyor_switch/Initialize(mapload, newid, isoneway, isinvert)
 	. = ..()
 	if (newid)
 		id = newid
+	if (isoneway) // NSV13 conveyor switch changes
+		oneway = isoneway //could be negative for reverse
+	if (isinvert)
+		invert_icon = TRUE
 	update_icon()
 	LAZYADD(GLOB.conveyors_by_id[id], src)
 
@@ -361,16 +372,19 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 /// Finds any switches with same `id` as this one, and set their position and icon to match us.
 /obj/machinery/conveyor_switch/proc/update_linked_switches()
 	for(var/obj/machinery/conveyor_switch/S in GLOB.conveyors_by_id[id])
-		S.invert_icon = invert_icon
+		// S.invert_icon = invert_icon //NSV13 conveyor switch changes
 		S.position = position
 		S.update_icon()
 		CHECK_TICK
 
 /// Updates the switch's `position` and `last_pos` variable. Useful so that the switch can properly cycle between the forwards, backwards and neutral positions.
-/obj/machinery/conveyor_switch/proc/update_position()
+/obj/machinery/conveyor_switch/proc/update_position(altClicked) //NSV13 conveyor switch changes
 	if(position == 0)
 		if(oneway)   //is it a oneway switch
-			position = oneway
+			if(altClicked) //NSV13 conveyor switch changes
+				position = -1
+			else
+				position = oneway
 		else
 			if(last_pos < 0)
 				position = 1
@@ -386,23 +400,33 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 /obj/machinery/conveyor_switch/interact(mob/user)
 	add_fingerprint(user)
 	play_click_sound("switch")
-	update_position()
+	update_position(FALSE) //NSV13 conveyor switch changes
 	update_icon()
 	update_linked_conveyors()
 	update_linked_switches()
+
+/obj/machinery/conveyor_switch/AltClick(mob/user) //NSV13 conveyor switch changes
+	if(can_interact(user))
+		add_fingerprint(user)
+		play_click_sound("switch")
+		update_position(TRUE)
+		update_icon()
+		update_linked_conveyors()
+		update_linked_switches()
 
 
 /obj/machinery/conveyor_switch/attackby(obj/item/I, mob/user, params)
 	if(I.tool_behaviour == TOOL_CROWBAR)
 		var/obj/item/conveyor_switch_construct/C = new/obj/item/conveyor_switch_construct(src.loc)
 		C.id = id
+		C.oneway = oneway //NSV13 conveyor switch changes
+		C.invert_icon = invert_icon //NSV13
 		transfer_fingerprints_to(C)
 		to_chat(user, "<span class='notice'>You detach the conveyor switch.</span>")
 		qdel(src)
 
 /obj/machinery/conveyor_switch/oneway
-	icon_state = "conveyor_switch_oneway"
-	desc = "A conveyor control switch. It appears to only go in one direction."
+	icon_state = "conveyor_switch_oneway" //NSV13 conveyor switch changes - dynamic description
 	oneway = TRUE
 
 /obj/machinery/conveyor_switch/oneway/Initialize(mapload)
@@ -416,16 +440,49 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	icon = 'icons/obj/recycling.dmi'
 	icon_state = "switch-off"
 	w_class = WEIGHT_CLASS_BULKY
+	var/oneway = FALSE //NSV13 conveyor switch changes
+	var/invert_icon = FALSE //NSV13
 	var/id = "" //inherited by the switch
 
 /obj/item/conveyor_switch_construct/Initialize(mapload)
 	. = ..()
 	id = "[rand()]" //this couldn't possibly go wrong
 
+/obj/item/conveyor_switch_construct/examine() //NSV13 conveyor switch changes
+	. = ..()
+	. += "Use on a conveyor belt or switch assembly to link them to it."
+	. += "Use a belt assembly on it to use the belt's link instead."
+	. += "You can use a <i>screwdriver</i> to adjust the direction lock, and a <i>wrench</i> to rotate it."
+	. += "Use in hand to reset the switch's links."
+
+/obj/item/conveyor_switch_construct/attackby(obj/item/I, mob/user, params) //NSV13 conveyor switch changes
+	if(I.tool_behaviour == TOOL_SCREWDRIVER)
+		if (!oneway)
+			oneway = 1 //forward
+			to_chat(user, "<span class='notice'>You engage the direction lock.</span>")
+		else if (oneway > 0)
+			oneway = -1 //reverse
+			to_chat(user, "<span class='notice'>You reverse the direction lock.</span>")
+		else
+			oneway = 0 //off
+			to_chat(user, "<span class='notice'>You disengage the direction lock.</span>")
+	else if (I.tool_behaviour == TOOL_WRENCH)
+		invert_icon = !invert_icon
+		to_chat(user, "<span class='notice'>You rotate the switch's direction.</span>")
+	else if(istype(I, /obj/item/conveyor_switch_construct))
+		to_chat(user, "<span class='notice'>You copy the switch's link to the other.</span>")
+		var/obj/item/conveyor_switch_construct/C = I
+		id = C.id
+	else if(istype(I, /obj/item/stack/conveyor))// the opposite of the original linking process - this updates the switch's ID to the belt
+		to_chat(user, "<span class='notice'>You link the switch to the conveyor belt assembly.</span>")
+		var/obj/item/stack/conveyor/C = I
+		id = C.id
+	else
+		return ..()
+
 /obj/item/conveyor_switch_construct/attack_self(mob/user)
-	for(var/obj/item/stack/conveyor/C in view())
-		C.id = id
-	to_chat(user, "<span class='notice'>You have linked all nearby conveyor belt assemblies to this switch.</span>")
+	id = "[rand()]" //NSV13 conveyor switch changes
+	to_chat(user, "<span class='notice'>You reset the switch's links.</span>") //NSV13
 
 /obj/item/conveyor_switch_construct/afterattack(atom/A, mob/user, proximity)
 	. = ..()
@@ -439,7 +496,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	if(!found)
 		to_chat(user, "[icon2html(src, user)]<span class=notice>The conveyor switch did not detect any linked conveyor belts in range.</span>")
 		return
-	var/obj/machinery/conveyor_switch/NC = new/obj/machinery/conveyor_switch(A, id)
+	var/obj/machinery/conveyor_switch/NC = new/obj/machinery/conveyor_switch(A, id, oneway, invert_icon) //NSV13 conveyor switch changes
 	transfer_fingerprints_to(NC)
 	qdel(src)
 
@@ -476,7 +533,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 /obj/item/stack/conveyor/attackby(obj/item/I, mob/user, params)
 	..()
 	if(istype(I, /obj/item/conveyor_switch_construct))
-		to_chat(user, "<span class='notice'>You link the switch to the conveyor belt assembly.</span>")
+		to_chat(user, "<span class='notice'>You link the conveyor belt assembly to the switch.</span>") //NSV13 conveyor switch changes
 		var/obj/item/conveyor_switch_construct/C = I
 		id = C.id
 
