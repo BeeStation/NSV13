@@ -3,7 +3,6 @@
 	desc = "A subspace unit."
 	icon = 'nsv13/icons/obj/subspace.dmi'
 	icon_state = "cooler"
-	circuit = /obj/item/circuitboard/machine
 	bound_width = 32
 	pixel_x = 0
 	pixel_y = 0
@@ -11,7 +10,6 @@
 	var/obj/machinery/ship_weapon/energy/parent
 	var/on = FALSE
 	density = TRUE
-	critical_machine = TRUE
 
 /obj/machinery/cooling/cooler
 	name = "subspace cooling unit"
@@ -20,26 +18,11 @@
 
 
 
-/obj/machinery/cooling/cooler/Initialize(mapload)
-	. = ..()
-	var/obj/machinery/ship_weapon/energy/E = locate(/obj/machinery/ship_weapon/energy) in orange(1, src) //I have no idea what I'm doing and this causes errors so
-	E.coolers |= src
-	parent = E
-
-/obj/machinery/cooling/storage/Initialize(mapload)
-	. = ..()
-	var/obj/machinery/ship_weapon/energy/E = locate(/obj/machinery/ship_weapon/energy) in orange(1, src)
-	E.storages |= src
-	parent = E
-
-
-/obj/machinery/cooling/cooler/Destroy()
-  parent.coolers -= src
+/obj/machinery/cooling/Destroy()
+	if(parent)
+		parent.cooling -= src
   . = ..()
 
-/obj/machinery/cooling/storage/Destroy()
-  parent.storages -= src
-  . = ..()
 
 /obj/machinery/cooling/attack_hand(mob/user)
 	. = ..()
@@ -87,23 +70,15 @@
 			to_chat(user, "<font color = #666633>-% Cannot link machines across power zones. %-</font color>")
 			return
 
-
-		if(istype(src,/obj/machinery/cooling/cooler))
-			parent.coolers -= src
+		if(parent)
+			parent.cooling -= src
 			parent = null
-			parent = P.buffer
-			.=TRUE
-			parent.coolers |= src
-			to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
-		if(istype(src,/obj/machinery/cooling/storage))
-			parent.storages -= src
-			parent = null
-			parent = P.buffer
-			.=TRUE
-			parent.storages |= src
-			to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
-		if(length(parent.storages)+length(parent.coolers) >= 11)
-			var/E = pick(parent.storages+parent.coolers)
+		parent = P.buffer
+		.=TRUE
+		parent.cooling |= src
+		to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
+		if(length(parent.cooling) >= 11)
+			var/E = pick(parent.cooling)
 			explosion(get_turf(E), 0, 1, 3, 5, flame_range = 4)
 			return
 

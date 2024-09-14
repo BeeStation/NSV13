@@ -33,8 +33,7 @@
 	var/combo = null
 	var/combocount = 0 //How far into the combo are they?
 	var/overheat_sound = 'sound/effects/smoke.ogg'
-	var/list/coolers = list()
-	var/list/storages = list()
+	var/list/cooling = list()
 	var/cooling_amount = 0
 	var/storage_amount = 0
 	var/storage_rate = 100
@@ -45,7 +44,7 @@
 	var/heat = 0
 	var/charge_rate = 430000 //How quickly do we charge?
 	var/charge_per_shot = 660000 //How much power per shot do we have to use?
-	var/heat_per_shot = 100 //how much heat do we make per shot
+	var/heat_per_shot = 250 //how much heat do we make per shot
 	var/heat_rate = 10 // how fast do we discharge heat
 	var/max_heat = 1000 //how much heat before ::fun:: happens
 	var/overloaded = 0 //have we cooked ourself
@@ -60,11 +59,11 @@
 	energy_weapon_type = /datum/ship_weapon/phaser
 	circuit = /obj/item/circuitboard/machine/phase_cannon
 	charge_rate = 800000 // At power level 5, requires 3MW per tick to charge(this is wrong. but I don't have the proper numbers)
-	charge_per_shot = 4000000 // At power level 5, requires 20MW total to fire, takes about 12 seconds to gain 1 charge (ditto)
+	charge_per_shot = 3800000 // At power level 5, requires 20MW total to fire, takes about 12 seconds to gain 1 charge (ditto). I'm actually making this less demanding so that heat becomes the limiting factor, especially for this one.
 	max_charge = 8000000 // Store 2 charges
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
 	max_heat = 2000
-	heat_per_shot = 800
+	heat_per_shot = 1200
 	heat_rate = 5
 	storage_rate = 140
 
@@ -75,7 +74,7 @@
 
 /obj/machinery/ship_weapon/energy/examine(mob/user)
 	. = ..()
-	. += "<span class='notice'>The Thermal Transceiver is currently at <b>[length(storages)+length(coolers)]0%</b> connection capacity.</span>"
+	. += "<span class='notice'>The Thermal Transceiver is currently at <b>[length(cooling)]0%</b> connection capacity.</span>"
 	if(in_range(user, src) || isobserver(user))
 		. += "<span class='notice'>The heatsink display reads <b>[(heat)]</b> out of <b>[(max_heat)]</b>.</span>"
 		if(maint_state != MSTATE_CLOSED)
@@ -101,7 +100,7 @@
 		ui.set_autoupdate(TRUE)
 
 /obj/machinery/ship_weapon/energy/proc/vent()
-	if(heat > max_heat/4)
+	if(heat > max_heat*0.25)
 		weapon_state = STATE_VENTING
 		ventnumber = max_heat*0.25
 	else
@@ -265,11 +264,12 @@
 
 
 /obj/machinery/ship_weapon/energy/proc/process_heat()//heat management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
-
-	for(var/obj/machinery/cooling/cooler/C in coolers)
+	cooling_amount = 0
+	for(var/obj/machinery/cooling/cooler/C in cooling)
 		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
 			cooling_amount++
-	for(var/obj/machinery/cooling/storage/C in storages)
+	storage_amount = 0
+	for(var/obj/machinery/cooling/storage/C in cooling)
 		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
 			storage_amount++
 	max_heat = initial(max_heat) + (storage_amount*storage_rate)
@@ -283,10 +283,10 @@
 			else
 				return
 		if(STATE_VENTING)
-			if(heat <= max_heat-ventnumber)
+			if(heat <= ventnumber)
 				weapon_state = STATE_NOTHING
 				return
-			heat = max(heat-(H+H*0.2),0)
+			heat = max(heat-(cooling_amount*(heat_rate+(0.25*heat_rate))),0)
 			return
 	if(heat >= max_heat)
 		overload()
@@ -404,6 +404,6 @@
 	return ..()
 
 /obj/machinery/ship_weapon/energy/Destroy()
-	for(var/obj/machinery/cooling/E in storages | coolers)
+	for(var/obj/machinery/cooling/E in cooling)
 		E.parent = null
 	. = ..()
