@@ -1531,6 +1531,8 @@ Seek a ship thich we'll station ourselves around
 		OM.send_radar_pulse()
 	if(OM.patrol_target && overmap_dist(OM, OM.patrol_target) <= 8)
 		OM.patrol_target = null	//You have arrived at your destination.
+		if(OM.mines_left >= 1) //Deploy a mine if you have one, this should spread them out nicely
+			OM.deploy_mine()
 	if(!OM.patrol_target || OM.patrol_target.z != OM.z)
 		var/min_x = max(OM.x - 50, 15)
 		var/max_x = min(OM.x + 50, 240)
@@ -1628,6 +1630,7 @@ Seek a ship thich we'll station ourselves around
 	var/decision_delay = 2 SECONDS
 	var/move_mode = 0
 	var/next_boarding_attempt = 0
+	var/mine_cooldown = 0
 
 	var/reloading_torpedoes = FALSE
 	var/reloading_missiles = FALSE
@@ -1636,6 +1639,7 @@ Seek a ship thich we'll station ourselves around
 	//Fleet organisation
 	var/shots_left = 15 //Number of arbitrary shots an AI can fire with its heavy weapons before it has to resupply with a supply ship.
 	var/light_shots_left = 300
+	var/mines_left = 0
 	var/resupply_range = 15
 	var/resupplying = 0	//Are we resupplying things right now? If yes, how many?
 	var/can_resupply = FALSE //Can this ship resupply other ships?
@@ -2026,6 +2030,8 @@ Seek a ship thich we'll station ourselves around
 	if(!target || QDELETED(target))
 		return
 	desired_angle =	overmap_angle(src, target) - 180
+	if(mines_left >= 1) //if we have mines, we should try to discourage anyone from following
+		deploy_mine()
 
 /obj/structure/overmap/proc/circle_around(atom/target)
 	brakes = FALSE
@@ -2080,6 +2086,16 @@ Seek a ship thich we'll station ourselves around
 		add_enemy(last_target)
 		return TRUE
 	return FALSE
+
+///Make this ship drop a mine.
+/obj/structure/overmap/proc/deploy_mine()
+	if(mines_left <= 0)
+		return //why are we here
+	if(mine_cooldown > world.time) //Don't drop them all at once now
+		return
+	mine_cooldown = world.time + 6 SECONDS
+	mines_left--
+	new /obj/structure/space_mine(get_center(),faction,current_system)
 
 /client/proc/instance_overmap_menu() //Creates a verb for admins to open up the ui
 	set name = "Instance Overmap"

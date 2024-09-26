@@ -124,6 +124,7 @@
 	name = "Mauler class flak frigate"
 	icon_state = "mako_flak"
 	flak_battery_amount = 1
+	mines_left = 10
 	mass = MASS_MEDIUM
 	combat_dice_type = /datum/combat_dice/frigate
 
@@ -247,6 +248,7 @@
 	max_integrity = 600 //Tanky so that it can survive to deploy multiple fighter waves.
 	bounty = 3000
 	torpedoes = 0
+	mines_left = 5 //As a treat
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 10)
 	can_resupply = TRUE
 	ai_flags = AI_FLAG_SUPPLY
@@ -398,6 +400,7 @@
 	bound_width = 128
 	missiles = 10
 	torpedoes = 10 //Torp boat!
+	mines_left = 15 //And mine layer!
 	shots_left = 10
 	armor = list("overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
 	ai_flags = AI_FLAG_DESTROYER
