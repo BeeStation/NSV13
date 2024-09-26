@@ -76,7 +76,7 @@
 /datum/achievement_data/proc/increase_score(datum/award/score/achievement_type, mob/user, value)
 	var/datum/award/score/A = SSachievements.awards[achievement_type]
 	get_data(achievement_type) //Get the current status first if necessary
-	if(length(A.high_scores) == 0 || A.high_scores[A.high_scores[1]] < value)
+	if(A.announce_highscore && (length(A.high_scores) == 0 || A.high_scores[A.high_scores[1]] < value)) //NSV13 - Adds support for non-spamming scores.
 		to_chat(world, "<span class='greenannounce'><B>[user.client.key] set a new high score in [A.name]: [value]</B></span>")
 	if(!data[achievement_type] || value > data[achievement_type])
 		data[achievement_type] = value

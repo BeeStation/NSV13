@@ -496,6 +496,18 @@
 	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
 	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
 
+/obj/structure/overmap/syndicate/ai/fistofsol/Destroy()
+	if(!current_system)
+		return ..()
+	for(var/obj/structure/overmap/survivor in (current_system.system_contents - src)) //In case for some reason our Fist is piloted
+		if(survivor.ai_controlled)
+			continue
+		for(var/mob/living/victorious_mob in survivor.mobs_in_ship)
+			if(!victorious_mob.client)
+				continue
+			victorious_mob.client.give_award(/datum/award/achievement/misc/fist_breaker, victorious_mob)
+	return ..()
+
 /obj/structure/overmap/hostile/ai/alicorn
 	name = "SGV Alicorn"
 	desc = "One Billion Lives!"
