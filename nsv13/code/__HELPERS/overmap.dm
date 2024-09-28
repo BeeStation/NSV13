@@ -130,5 +130,5 @@ Another get_angle that works better with the looping edges of the overmap
  * Generates a new z level with behavior specific to overmaps and returns its space level datum.
  */
 /datum/controller/subsystem/mapping/proc/add_new_overmap_zlevel()
-	. = add_new_zlevel("Overmap treadmill [length(SSmapping.z_list)+1]", ZTRAITS_OVERMAP)
+	. = add_new_zlevel("Overmap treadmill [length(z_list)+1]", ZTRAITS_OVERMAP)
 	setup_map_transitions(.)
