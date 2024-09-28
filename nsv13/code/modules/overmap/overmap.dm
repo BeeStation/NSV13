@@ -235,6 +235,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		_path = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	RETURN_TYPE(/obj/structure/overmap)
 	var/datum/space_level/new_ship_z = SSmapping.add_new_zlevel("Overmap ship level [length(SSmapping.z_list)+1]", ZTRAITS_OVERMAP)
+	if(!folder || !interior_map_files)
+		SSmapping.setup_map_transitions(new_ship_z) //We usually recalculate transitions later, but not if there's no interior.
 	repopulate_sorted_areas()
 	smooth_zlevel(new_ship_z.z_value)
 	log_game("Z-level [new_ship_z.z_value] loaded for overmap treadmills.")
@@ -980,7 +982,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return reserved_z
 	if(ftl_drive)
 		if(!free_treadmills?.len)
-			var/datum/space_level/new_level = SSmapping.add_new_zlevel("Overmap treadmill [length(SSmapping.z_list)+1]", ZTRAITS_OVERMAP)
+			var/datum/space_level/new_level = SSmapping.add_new_overmap_zlevel()
 			reserved_z = new_level.z_value
 		else
 			var/_z = pick_n_take(free_treadmills)

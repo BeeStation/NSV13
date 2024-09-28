@@ -126,3 +126,9 @@ Another get_angle that works better with the looping edges of the overmap
 	add_new_zlevel(name, traits)
 	SSatoms.InitializeAtoms(block(locate(1,1,world.maxz),locate(world.maxx,world.maxy,world.maxz)))
 	setup_map_transitions(z_list[world.maxz])
+/**
+ * Generates a new z level with behavior specific to overmaps and returns its space level datum.
+ */
+/datum/controller/subsystem/mapping/proc/add_new_overmap_zlevel()
+	. = add_new_zlevel("Overmap treadmill [length(SSmapping.z_list)+1]", ZTRAITS_OVERMAP)
+	setup_map_transitions(.)
