@@ -20,14 +20,18 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/obj/effect/landmark/patrol_node/last_node = null //What was the last patrol node we visited?
 	var/stealing_id = FALSE
 	var/next_internals_attempt = 0
-	var/static/list/climbable = typecacheof(list(/obj/structure/table, /obj/structure/railing)) // climbable structures
+	var/static/list/climbable = typecacheof(list(
+		/obj/structure/table,
+		/obj/structure/railing,
+		/obj/structure/peacekeeper_barricade
+		)) // climbable structures
 	var/pathfind_timeout = 0 //If pathfinding fails, it is püt in timeout for a while to avoid spamming the server with pathfinding calls.
 	var/timeout_stacks = 0 //Consecutive pathfind fails add additional delay stacks to further counteract the effects of knpcs in unreachable locations.
 
 /mob/living/carbon/human/ai_boarder
 	faction = list("Neutral")
-	var/move_delay = 6  //How quickly do the boys travel?
-	var/action_delay = 10 //How long we delay between actions
+	var/move_delay = 4  //How quickly do the boys travel?
+	var/action_delay = 9 //How long we delay between actions
 	var/knpc_traits = KNPC_IS_DODGER | KNPC_IS_MERCIFUL | KNPC_IS_AREA_SPECIFIC
 	var/difficulty_override = FALSE //Whether to ignore overmap difficulty or not
 	var/list/outfit = list (
@@ -154,7 +158,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 				continue
 			if(!blocking_firelock.density || blocking_firelock.operating)
 				continue
-			if(blocking_firelock.welded)
+			if((blocking_firelock.welded))
 				break	//If at least one firedoor in our way is welded shut, welp!
 			blocking_firelock.open()	//Open one firelock per tile per try.
 			break
@@ -170,12 +174,10 @@ GLOBAL_LIST_EMPTY(knpcs)
 		for(var/obj/structure/possible_barrier in next_turf) //If we're stuck
 			if(!climbable.Find(possible_barrier.type))
 				continue
-			H.forceMove(next_turf)
-			H.visible_message("<span class='warning'>[H] climbs onto [possible_barrier]!</span>")
-			var/obj/item/dropped_it
 			if(H.get_active_held_item())
 				dropped_it = H.get_active_held_item()
-			H.Stun(2 SECONDS) //Table.
+			possible_barrier.climb_structure(H)
+			var/obj/item/dropped_it
 			if(dropped_it) //Don't forget to pick up your stuff
 				H.put_in_hands(dropped_it, forced=TRUE)
 			if(get_turf(H) == path[1])
@@ -382,7 +384,13 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	var/mob/living/carbon/human/H = HA.parent
 	var/obj/item/storage/S = H.back
 	var/obj/item/gun/target_item = null
-	//Okay first off, is the gun already on our person?
+	//We must have lost our gun somehow, get it from the floor if we simply dropped it.
+	if(istype(H.loc, /turf))
+		var/turf/T = H.loc
+		target_item = locate(/obj/item/gun) in T.contents
+		if(H.put_in_hands(target_item))
+			return TRUE
+	//Otherwise, is there a gun already on our person?
 	if(S)
 		var/list/expanded_contents = S.contents + H.contents
 		target_item = locate(/obj/item/gun) in expanded_contents
@@ -392,7 +400,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 			target_item.forceMove(get_turf(H)) //Put it on the floor so they can grab it
 			if(H.put_in_hands(target_item))
 				return TRUE //We're done!
-	//Now we run the more expensive check to find a gun laying on the ground.
+	//Now we run the more expensive check to find a gun farther away.
 	var/best_distance = world.maxx
 	for(var/obj/O in oview(HA.view_range, H))
 		var/dist = get_dist(O, H)
@@ -453,34 +461,33 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		if(E.selfcharge) //Okay good, it self charges we can just wait.
 			return TRUE
 		else //Discard it, we're not gonna teach them to use rechargers yet.
-			E.forceMove(get_turf(H))
+			H.dropItemToGround(E)
 		return FALSE
 	if(istype(gun, /obj/item/gun/ballistic))
 		var/obj/item/gun/ballistic/B = gun
 		if(istype(B.mag_type, /obj/item/ammo_box/magazine/internal))
 			//Not dealing with this. They'll just ditch the revolver when they're done with it.
-			B.forceMove(get_turf(H))
+			H.dropItemToGround(B)
 			return FALSE
-		///message_admins("Issa gun")
-		var/obj/item/storage/S = H.back
+		var/obj/item/storage/backpack = H.back
 		//Okay first off, is the gun already on our person?
 		var/list/expanded_contents = H.contents
-		if(S)
-			expanded_contents = S.contents + H.contents
+		if(backpack)
+			expanded_contents = backpack.contents + H.contents
 		var/obj/item/ammo_box/magazine/target_mag = locate(B.mag_type) in expanded_contents
-		//message_admins("Found [target_mag]")
 		if(target_mag)
 			//Dump that old mag
 			H.put_in_inactive_hand(target_mag)
-			B?.magazine?.forceMove(get_turf(H))
-			B.attackby(target_mag, H)
+			B.eject_magazine(H, FALSE, target_mag) //Tacticool reloads
+			H.dropItemToGround(H.get_inactive_held_item()) //We don't need that magazine anymore
 			B.attack_self(H) //Rack the bolt.
 		else
-			if(!S)
-				gun.forceMove(get_turf(H))
+			if(!backpack)
+				H.dropItemToGround(B)
 				return FALSE
-			gun.forceMove(S)
-
+			backpack.melee_attack_chain(src, B)
+			if(H.is_holding(B)) //No space in the backpack, this is useless to us so drop it
+				H.dropItemToGround(B)
 
 /datum/ai_goal/human/engage_targets/action(datum/component/knpc/HA)
 	if(!can_action(HA))

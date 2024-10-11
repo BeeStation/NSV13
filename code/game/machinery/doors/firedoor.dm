@@ -532,7 +532,6 @@
 //NSV13 - npcs can into firelock
 /obj/machinery/door/firedoor/border_only/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
 	if((welded || (machine_stat & NOPOWER)) && (dir == to_dir))
-		message_admins("[src]([ADMIN_FLW(src)]) returned false astarpass with dir [dir], weld [welded] and machine stat [machine_state]")
 		return FALSE
 	return TRUE
 
