@@ -3,6 +3,7 @@
 	anchored = TRUE
 	density = TRUE
 	layer = BELOW_OBJ_LAYER
+	climbable = TRUE
 	climb_time = 20 //Leaping a barricade is universally much faster than clumsily climbing on a table or rack
 	climb_stun = 0
 	var/stack_type //The type of stack the barricade dropped when disassembled if any.
@@ -216,7 +217,6 @@
 		update_health()
 		can_wire = FALSE
 		is_wired = TRUE
-	//	climbable = FALSE
 		return FALSE
 
 	if(I.tool_behaviour == TOOL_WIRECUTTER)

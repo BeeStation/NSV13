@@ -23,8 +23,9 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/static/list/climbable = typecacheof(list(
 		/obj/structure/table,
 		/obj/structure/railing,
-		/obj/structure/peacekeeper_barricade
-		)) // climbable structures
+		/obj/structure/peacekeeper_barricade,
+		/obj/item/ship_weapon/ammunition
+		)) // climbable things
 	var/pathfind_timeout = 0 //If pathfinding fails, it is püt in timeout for a while to avoid spamming the server with pathfinding calls.
 	var/timeout_stacks = 0 //Consecutive pathfind fails add additional delay stacks to further counteract the effects of knpcs in unreachable locations.
 
@@ -147,6 +148,8 @@ GLOBAL_LIST_EMPTY(knpcs)
 	if(length(path) > 1)
 		var/turf/next_turf = get_step_towards(H, path[1])
 		var/turf/this_turf = get_turf(H)
+		var/move_dir = get_dir(this_turf, next_turf)
+		var/reverse_dir = get_dir(next_turf, this_turf)
 		//Walk when you see a wet floor
 		if(next_turf.GetComponent(/datum/component/wet_floor))
 			H.m_intent = MOVE_INTENT_WALK
@@ -174,12 +177,15 @@ GLOBAL_LIST_EMPTY(knpcs)
 		for(var/obj/structure/possible_barrier in next_turf) //If we're stuck
 			if(!climbable.Find(possible_barrier.type))
 				continue
-			if(H.get_active_held_item())
-				dropped_it = H.get_active_held_item()
-			possible_barrier.climb_structure(H)
-			var/obj/item/dropped_it
-			if(dropped_it) //Don't forget to pick up your stuff
-				H.put_in_hands(dropped_it, forced=TRUE)
+			if(possible_barrier.dir == reverse_dir || istype(possible_barrier, /obj/structure/table))
+				var/obj/item/dropped_it
+				if(H.get_active_held_item())
+					dropped_it = H.get_active_held_item()
+				possible_barrier.climb_structure(H)
+				if(dropped_it) //Don't forget to pick up your stuff
+					H.put_in_hands(dropped_it, forced=TRUE)
+			else
+				continue
 			if(get_turf(H) == path[1])
 				increment_path()
 			return TRUE
@@ -306,7 +312,7 @@ of a specific action goes up, to encourage skynet to go for that one instead.
 	var/list/guessed_objects = view(HA.guess_range, HA.parent)
 	for(var/mob/living/M in guessed_objects)
 		//Invis is a no go. Non-human, -cyborg or -hostile mobs are ignored.
-		if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || (!ishuman(M) && !iscyborg(M) && !ishostile(M)))
+		if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || (!ishuman(M) && !iscyborg(M))) //Removed && !ishostile(M) temporarily because of Sgt. Araneus
 			continue
 		// Dead mobs are ignored.
 		if(CHECK_BITFIELD(H.knpc_traits, KNPC_IS_MERCIFUL) && M.stat >= UNCONSCIOUS)

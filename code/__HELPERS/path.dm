@@ -349,8 +349,8 @@
 	))
 
 	for(var/obj/iter_object in src)
-		if(directionals(iter_object.type))
-			if(!iter_object.CanAstarPass(ID, actual_dir, caller))
+		if(directionals[iter_object.type])
+			if(!iter_object.CanAStarPass(ID, actual_dir, caller))
 				return TRUE
 
 	var/reverse_dir = get_dir(destination_turf, src)
