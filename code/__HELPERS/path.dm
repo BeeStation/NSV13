@@ -143,8 +143,8 @@
 	if(!start || !end)
 		stack_trace("Invalid A* start or destination")
 		return
-	// if(start.z != end.z || start == end ) //no pathfinding between z levels
-	//	return //NSV13 we DO want pathfinding between z levels.
+	if(start == end) //no pathfinding between z levels //NSV13 we DO want pathfinding between z levels. removed "start.z != end.z || " from the check
+		return
 	if(max_distance && (max_distance < get_dist(start, end))) //if start turf is farther than max_distance from end turf, no need to do anything
 		return
 

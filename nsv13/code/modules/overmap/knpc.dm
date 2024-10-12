@@ -159,16 +159,16 @@ GLOBAL_LIST_EMPTY(knpcs)
 		for(var/obj/machinery/door/firedoor/blocking_firelock in next_turf)
 			if((blocking_firelock.flags_1 & ON_BORDER_1) && !(blocking_firelock.dir in dir_to_cardinal_dirs(reverse_dir))) //Here, only firelocks on the border matter since fulltile firelocks let you exit.
 				continue
-			if(!blocking_firelock.density || blocking_firelock.operating)
+			if(!blocking_firelock.density || blocking_firelock.powered())
 				continue
 			if((blocking_firelock.welded))
 				break	//If at least one firedoor in our way is welded shut, welp!
 			blocking_firelock.open()	//Open one firelock per tile per try.
 			break
-		for(var/obj/machinery/door/firedoor/blocking_firelock as() in this_turf)
+		for(var/obj/machinery/door/firedoor/blocking_firelock in this_turf)
 			if(!((blocking_firelock.flags_1 & ON_BORDER_1) && (blocking_firelock.dir in dir_to_cardinal_dirs(move_dir))))
 				continue
-			if(!blocking_firelock.density || blocking_firelock.operating)
+			if(!blocking_firelock.density || blocking_firelock.powered())
 				continue
 			if(blocking_firelock.welded)
 				break	//If at least one firedoor in our way is welded shut, welp!
