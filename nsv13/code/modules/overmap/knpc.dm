@@ -157,7 +157,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 			H.m_intent = MOVE_INTENT_RUN
 
 		for(var/obj/machinery/door/firedoor/blocking_firelock in next_turf)
-			if((blocking_firelock.flags_1 & ON_BORDER_1) && !(blocking_firelock.dir in dir_to_cardinal_dirs(get_dir(next_turf, this_turf))))
+			if((blocking_firelock.flags_1 & ON_BORDER_1) && !(blocking_firelock.dir in dir_to_cardinal_dirs(reverse_dir))) //Here, only firelocks on the border matter since fulltile firelocks let you exit.
 				continue
 			if(!blocking_firelock.density || blocking_firelock.operating)
 				continue
@@ -166,7 +166,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 			blocking_firelock.open()	//Open one firelock per tile per try.
 			break
 		for(var/obj/machinery/door/firedoor/blocking_firelock as() in this_turf)
-			if(!((blocking_firelock.flags_1 & ON_BORDER_1) && (blocking_firelock.dir in dir_to_cardinal_dirs(get_dir(this_turf, next_turf))))) //Here, only firelocks on the border matter since fulltile firelocks let you exit.
+			if(!((blocking_firelock.flags_1 & ON_BORDER_1) && (blocking_firelock.dir in dir_to_cardinal_dirs(move_dir))))
 				continue
 			if(!blocking_firelock.density || blocking_firelock.operating)
 				continue
@@ -175,7 +175,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 			blocking_firelock.open()	//Open one firelock per tile per try.
 			break
 		for(var/obj/structure/possible_barrier in next_turf) //If we're stuck
-			if(!climbable.Find(possible_barrier.type))
+			if(!climbable[possible_barrier.type])
 				continue
 			if(possible_barrier.dir == reverse_dir || istype(possible_barrier, /obj/structure/table))
 				var/obj/item/dropped_it
@@ -188,7 +188,22 @@ GLOBAL_LIST_EMPTY(knpcs)
 				continue
 			if(get_turf(H) == path[1])
 				increment_path()
-			return TRUE
+				return TRUE
+		for(var/obj/structure/possible_barrier in this_turf)
+			if(!climbable[possible_barrier.type])
+				continue
+			if(possible_barrier.dir == move_dir || istype(possible_barrier, /obj/structure/table))
+				var/obj/item/dropped_it
+				if(H.get_active_held_item())
+					dropped_it = H.get_active_held_item()
+				possible_barrier.climb_structure(H)
+				if(dropped_it) //Don't forget to pick up your stuff
+					H.put_in_hands(dropped_it, forced=TRUE)
+			else
+				continue
+			if(get_turf(H) == path[1])
+				increment_path()
+				return TRUE
 		step_towards(H, path[1])
 		if(get_turf(H) == path[1]) //Successful move
 			increment_path()
@@ -367,9 +382,10 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	if(!..())
 		return 0
 	var/mob/living/carbon/human/H = HA.parent
-	var/obj/item/gun/G = H.get_active_held_item()
+	var/obj/A = H.get_active_held_item()
+	var/obj/B = H.get_inactive_held_item() //check your other hand, just in case.
 	//We already have a gun
-	if(G && istype(G))
+	if((A && istype(A, /obj/item/gun)) || (B && istype(B, /obj/item/gun)))
 		return 0
 	var/obj/item/gun/G_New = locate(/obj/item/gun) in oview(HA.view_range, H)
 	if(G_New && gun_suitable(H, G_New))
