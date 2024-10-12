@@ -406,7 +406,8 @@
 	. = ..()
 	if(torn)
 		return
-	inflate(get_turf(target), user)
+	if(in_range(target, user))
+		inflate(get_turf(target), user)
 
 /obj/item/inflatable/proc/inflate(turf/target, mob/user)
 	playsound(loc, 'sound/items/zip.ogg', 75, 1)
