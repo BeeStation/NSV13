@@ -27,13 +27,13 @@
 /obj/item/clothing/suit/space/hardsuit/medical
 	hardsuit_tail_colors = list("DDD", "A75", "FFF")
 
-/obj/item/clothing/suit/space/hardsuit/rd
+/obj/item/clothing/suit/space/hardsuit/research_director
 	hardsuit_tail_colors = list("CB7", "839", "995")
 
 /obj/item/clothing/suit/space/hardsuit/security
 	hardsuit_tail_colors = list("222", "C23", "335")
 
-/obj/item/clothing/suit/space/hardsuit/security/hos
+/obj/item/clothing/suit/space/hardsuit/security/head_of_security
 	hardsuit_tail_colors = list("212", "C32", "234")
 
 /obj/item/clothing/suit/space/hardsuit/swat
@@ -65,9 +65,6 @@
 
 /obj/item/clothing/suit/space/hardsuit/ert/jani
 	hardsuit_tail_colors = list("112", "93E", "93E")
-
-/obj/item/clothing/suit/space/hardsuit/ert/debug
-	hardsuit_tail_colors = list("037", "222", "2AF")
 
 /obj/item/clothing/suit/space/hardsuit/ert/paranormal
 	hardsuit_tail_colors = list("9AA", "A23", "222")
