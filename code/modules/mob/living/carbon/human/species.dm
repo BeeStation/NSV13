@@ -924,7 +924,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				internal_used_icon_override = 'nsv13/icons/obj/clothing/suits/tails_hardsuit.dmi'
 				internal_state_override = "m_tail_[S.general_type]_hardsuit_[layertext]" //I am very sorry, dear coder who wrote this pipeline.. Then again, it IS also jank regardless.
 
-			//Alsohooked internal_used_icon_override into this.
+			//Also hooked internal_used_icon_override into this.
 			var/mutable_appearance/accessory_overlay = mutable_appearance(internal_used_icon_override ? internal_used_icon_override : S.icon, layer = -layer)
 
 			//NSV13 end.
