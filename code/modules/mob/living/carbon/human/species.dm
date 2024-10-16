@@ -900,7 +900,6 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			if(!S || S.icon_state == "none")
 				continue
 
-			//TODO - HOOK IN HERE for suit tail handling because I am NOT porting their entire pipeline.
 			//NSV13 - my 'mildly' cursed hook that makes hardsuit tails possible.
 
 			//Override vars to hook into later parts of this proc.
