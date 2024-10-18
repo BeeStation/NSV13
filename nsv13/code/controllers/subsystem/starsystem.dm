@@ -26,7 +26,13 @@ SUBSYSTEM_DEF(star_system)
 	var/obj/structure/overmap/mining_ship = null //The mining ship
 	var/saving = FALSE
 
+	///Kind of cursed list that tracks which of our overmap interiors have been initialized yet.
+	var/list/overmap_interior_queue = list() //Ratvar save me from this.
+	///Are we already busy?
+	var/initing_interior = FALSE
+
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
+	handle_interior_inits() //Cursed. I don't like this.
 	if(time_limit && world.time >= time_limit)
 		var/datum/faction/winner = get_winner()
 		if(istype(SSticker.mode, /datum/game_mode/pvp))
@@ -70,6 +76,25 @@ SUBSYSTEM_DEF(star_system)
 		save()
 		saving = FALSE
 	. = ..()
+
+///Absolutely cursed proc handling ship interior init queues.
+/datum/controller/subsystem/star_system/proc/handle_interior_inits()
+	set waitfor = FALSE
+	if(initing_interior)
+		return
+	if(SSatoms.initialized_changed)
+		return
+	if(!length(overmap_interior_queue))
+		return
+	initing_interior = TRUE
+	var/obj/structure/overmap/shipinterior_candidate = overmap_interior_queue[1]
+	shipinterior_candidate.instance_interior()
+	SEND_SIGNAL(shipinterior_candidate, COMSIG_INTERIOR_DONE_LOADING)
+	overmap_interior_queue -= shipinterior_candidate
+	initing_interior = FALSE
+
+/datum/controller/subsystem/star_system/proc/queue_for_interior_load(obj/structure/overmap/to_interior_load)
+	overmap_interior_queue += to_interior_load
 
 /**
 Returns a faction datum by its name (case insensitive!)
