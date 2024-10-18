@@ -204,6 +204,8 @@
 	var/obj/structure/cable/cable = null //Connected cable
 	var/mutable_appearance/c_screen
 
+/obj/machinery/shield_generator/update_icon()
+	cut_overlays()
 
 /obj/machinery/shield_generator/proc/absorb_hit(obj/item/projectile/proj)
 	var/damage = proj.damage
