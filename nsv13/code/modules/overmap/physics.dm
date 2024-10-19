@@ -81,6 +81,9 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	return locs[round(locs.len / 2)+1]
 	*/
 
+/obj/structure/overmap/proc/get_center_coordinates()
+	return list("x" = (src.x+(pixel_collision_size_x/32)/2),"y" = (src.y+(pixel_collision_size_y/32)/2))
+
 /obj/structure/overmap/proc/get_pixel_bounds()
 	for(var/turf/T in obounds(src, pixel_x + pixel_collision_size_x/4, pixel_y + pixel_collision_size_y/4, pixel_x  + -pixel_collision_size_x/4, pixel_y + -pixel_collision_size_x/4) )//Forms a zone of 4 quadrants around the desired overmap using some math fuckery.
 		to_chat(world, "FOO!")
@@ -479,8 +482,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		if(!impact_sound_cooldown && (bonk > 2 || bonk2 > 2))
 			bonk *= 5 //The rammer gets an innate penalty, to discourage ramming metas.
 			bonk2 *= 5
-			take_quadrant_hit(bonk, projectile_quadrant_impact(other)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
-			other.take_quadrant_hit(bonk2, projectile_quadrant_impact(src)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
+			take_quadrant_hit(bonk, quadrant_impact(other)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
+			other.take_quadrant_hit(bonk2, quadrant_impact(src)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
 
 			log_game("[key_name(pilot)] has impacted an overmap ship into [other] with velocity [bonk]")
 

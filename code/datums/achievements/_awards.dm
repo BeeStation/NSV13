@@ -90,6 +90,8 @@
 	default_value = 0
 	var/track_high_scores = TRUE
 	var/list/high_scores = list()
+	///Determines whether we announce if we achieve a new highscore.
+	var/announce_highscore = TRUE //NSV13 - no spammies
 
 /datum/award/score/New()
 	. = ..()

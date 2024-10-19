@@ -212,6 +212,8 @@ Misc projectile types, effects, think of this as the special FX file.
 
 	if(isliving(target))	//Someone got bonked by an incendiary torpedo, daamn.
 		var/mob/living/L = target
+		if(L.client)
+			L.client.give_award(/datum/award/achievement/misc/torp_directhit, L)
 		if(L.mind && L.mind.assigned_role == "Clown")
 			return (prob(50) ? 2 : -2)	//We all know clowns are cursed.
 		return 2
@@ -387,6 +389,10 @@ Misc projectile types, effects, think of this as the special FX file.
 			qdel(P)
 			return FALSE //Didn't take the hit
 	if(!isprojectile(target)) //This is lazy as shit but is necessary to prevent explosions triggering on the overmap when two bullets collide. Fix this shit please.
+		if(isliving(target))
+			var/mob/living/living_target = target
+			if(living_target.client)
+				living_target.client.give_award(/datum/award/achievement/misc/torp_directhit, living_target)
 		detonate(target)
 	else
 		return FALSE
@@ -558,7 +564,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/beam/laser/heavylaser/phaser/relayed
 	projectile_piercing = PASSGLASS|PASSGRILLE|PASSTABLE
 	flag = "laser"
-	damage = 80 //let's give them a chance to live, instead of smiting them with the full wraith of the Enterprise 
+	damage = 80 //let's give them a chance to live, instead of smiting them with the full wraith of the Enterprise
 
 /obj/item/projectile/beam/laser/heavylaser/phaser/relayed/on_hit(atom/target, blocked)
 	. = ..()
@@ -568,7 +574,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "point defense phaser"
 	damage = 60 // Doesn't scale with power input, but fires fairly quickly especially when upgraded
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
-	icon_state = "pdphaser" 
+	icon_state = "pdphaser"
 	relay_projectile_type = /obj/item/projectile/beam/laser/phaser/pd/relayed
 
 /obj/item/projectile/beam/laser/phaser/pd/relayed
