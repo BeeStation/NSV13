@@ -2,6 +2,7 @@
 	new /obj/structure/overmap/syndicate/ai(get_turf(pick(orange(10, src))))
 
 //Thank you once again to qwerty for writing the directional calc for this.
+///Returns the quadrant hit based on a vector point
 /obj/structure/overmap/proc/check_quadrant(matrix/vector/point_of_collision)
 	if(!point_of_collision)
 		return
@@ -19,9 +20,10 @@
 		if(270 to 360) //Then this represents the last quadrant of the circle, the northwest one
 			return ARMOUR_FORWARD_STARBOARD
 
-/obj/structure/overmap/proc/projectile_quadrant_impact(obj/item/projectile/P)
-	var/shield_angle_hit = SIMPLIFY_DEGREES(get_angle(P, src) - angle)
-	switch(shield_angle_hit)
+///Returns the quadrant hit by an object
+/obj/structure/overmap/proc/quadrant_impact(obj/O)
+	var/hit_angle = SIMPLIFY_DEGREES(get_angle(O, src) - angle)
+	switch(hit_angle)
 		if(0 to 89) //0 - 90 deg is the first right quarter of the circle, it's like dividing up a pizza!
 			return ARMOUR_FORWARD_PORT
 		if(90 to 179)

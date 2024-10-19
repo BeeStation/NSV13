@@ -14,8 +14,7 @@
 
 /obj/item/fighter_component/targeting_sensor
 	name = "\improper Fighter Targeting Sensors"
-	icon = 'icons/obj/crates.dmi'
-	icon_state = "weapon_crate"
+	icon_state = "targeting_sensor"
 	tier = null //Cannot be upgraded.
 
 //Woe betide all ye who venture here.
