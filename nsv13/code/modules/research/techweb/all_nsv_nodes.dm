@@ -269,7 +269,7 @@
 	display_name = "Subspace Manipulation"
 	description = "Experimental uses of subspace for more than just communications"
 	prereq_ids = list("comptech" , "adv_engi" , "adv_power")
-	design_ids = list("subspace_storage" , "subspace_cooler")
+	design_ids = list("subspace_storage" , "subspace_cooler" , "heatsink")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 3000)
 	export_price = 5000
 	hidden = FALSE //Todo, make this specific

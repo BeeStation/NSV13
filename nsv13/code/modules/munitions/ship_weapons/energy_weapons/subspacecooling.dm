@@ -90,3 +90,11 @@
 	desc = "A cooling unit that stores the massive amounts of heat energy weapons generate in subspace."
 	icon_state = "storage"
 	circuit = /obj/item/circuitboard/machine/cooling/storage
+
+
+/obj/item/stock_parts/heatsink
+	name = "heatsink"
+	desc = "A heavy duty heatsink used in certain devices."
+	icon_state = "matter_bin"
+	materials = list(/datum/material/bluespace=2000, /datum/material/copper=30000, /datum/material/iron=1000)
+	w_class = WEIGHT_CLASS_BULKY

@@ -208,7 +208,7 @@
 	desc = "Allows for the construction of a Subspace Cooling Unit."
 	id = "subspace_cooler"
 	build_type = PROTOLATHE|IMPRINTER
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
+	materials = list(/datum/material/glass = 2000, /datum/material/gold = 1000)
 	build_path = /obj/item/circuitboard/machine/cooling
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
@@ -218,7 +218,17 @@
 	desc = "Allows for the construction of a Subspace Storage Unit."
 	id = "subspace_storage"
 	build_type = PROTOLATHE|IMPRINTER
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 2000, /datum/material/gold = 5000)
+	materials = list(/datum/material/glass = 2000, /datum/material/gold = 1000)
 	build_path = /obj/item/circuitboard/machine/cooling/storage
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+/datum/design/heatsink
+	name = "Subspace Heatsink"
+	desc = "Allows for the construction of a subspace enabled Heatsink."
+	id = "heatsink"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/bluespace=2000, /datum/material/copper=30000, /datum/material/iron=1000)
+	build_path = /obj/item/stock_parts/heatsink
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS

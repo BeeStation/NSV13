@@ -481,25 +481,23 @@
 //energy weapon cooling
 /obj/item/circuitboard/machine/cooling
 	name = "subspace cooling unit circuit board"
-	materials = list(/datum/material/glass=1000, /datum/material/copper=15000)
+	materials = list(/datum/material/glass=1000, /datum/material/gold=500)
 	build_path = /obj/machinery/cooling/cooler
 	req_components = list(
-		/obj/item/stack/cable_coil = 30,
+		/obj/item/stack/cable_coil = 15,
 		/obj/item/stock_parts/matter_bin = 1,
-		/obj/item/stock_parts/capacitor = 4,
-		/obj/item/stock_parts/micro_laser = 4,
-		/obj/item/stock_parts/subspace/ansible = 1,
-		/obj/item/stock_parts/subspace/crystal =1)
+		/obj/item/stock_parts/capacitor = 2,
+		/obj/item/stock_parts/micro_laser =2,
+		/obj/item/stock_parts/heatsink = 1)
 
 
 /obj/item/circuitboard/machine/cooling/storage
 	name = "subspace heatsink unit circuit board"
-	materials = list(/datum/material/glass=1000, /datum/material/copper=15000)
+	materials = list(/datum/material/glass=1000, /datum/material/gold=500)
 	build_path = /obj/machinery/cooling/storage
 	req_components = list(
-		/obj/item/stack/cable_coil = 30,
-		/obj/item/stock_parts/matter_bin = 4,
+		/obj/item/stack/cable_coil = 15,
+		/obj/item/stock_parts/matter_bin = 2,
 		/obj/item/stock_parts/capacitor = 2,
 		/obj/item/stock_parts/micro_laser = 2,
-		/obj/item/stock_parts/subspace/ansible = 1,
-		/obj/item/stock_parts/subspace/crystal =1)
+		/obj/item/stock_parts/heatsink = 1)
