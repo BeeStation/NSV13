@@ -13,3 +13,5 @@
 #define SECTOR_SOL 1
 #define SECTOR_NEUTRAL 2
 #define SECTOR_SYNDICATE 3
+
+#define COMSIG_STAR_SYSTEM_AFTER_ENTER "star_system_after_enter"

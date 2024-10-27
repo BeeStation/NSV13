@@ -42,6 +42,7 @@
 		after_enter(OM)
 
 /datum/star_system/proc/after_enter(obj/structure/overmap/OM)
+	SEND_SIGNAL(src, COMSIG_STAR_SYSTEM_AFTER_ENTER, OM)
 	if(desc)
 		OM.relay(null, "<span class='notice'><h2>Now entering [name]...</h2></span>")
 		OM.relay(null, "<span class='notice'>[desc]</span>")
