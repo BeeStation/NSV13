@@ -95,6 +95,7 @@
 /obj/item/stock_parts/heatsink
 	name = "heatsink"
 	desc = "A heavy duty heatsink used in certain devices."
-	icon_state = "matter_bin"
+	icon = 'icons/obj/stock_parts.dmi'
+	icon_state = "matter_bin"  //todo
 	materials = list(/datum/material/bluespace=2000, /datum/material/copper=30000, /datum/material/iron=1000)
 	w_class = WEIGHT_CLASS_BULKY
