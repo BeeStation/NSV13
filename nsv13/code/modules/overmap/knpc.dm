@@ -387,9 +387,9 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	//We already have a gun
 	if((A && istype(A, /obj/item/gun)) || (B && istype(B, /obj/item/gun)))
 		return 0
-	var/obj/item/gun/G_New = locate(/obj/item/gun) in oview(HA.view_range, H)
-	if(G_New && gun_suitable(H, G_New))
-		return AI_SCORE_CRITICAL //There is a gun really obviously in the open....
+	for(var/obj/item/gun/G in view(HA.view_range, H))
+		if(gun_suitable(H, G))
+			return AI_SCORE_CRITICAL //There is a gun really obviously in the open....
 	return score
 
 /datum/ai_goal/human/proc/CheckFriendlyFire(mob/living/us, mob/living/them)
@@ -409,8 +409,11 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	//We must have lost our gun somehow, get it from the floor if we simply dropped it.
 	if(istype(H.loc, /turf))
 		var/turf/T = H.loc
-		target_item = locate(/obj/item/gun) in T.contents
-		if(H.put_in_hands(target_item))
+		for(var/obj/item/gun/G in T.contents)
+			if(gun_suitable(H, G))
+				target_item = G
+				break
+		if(target_item && H.put_in_hands(target_item))
 			return TRUE
 	//Otherwise, is there a gun already on our person?
 	if(S)
