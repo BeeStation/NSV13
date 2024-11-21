@@ -1,129 +1,125 @@
-INITIALIZE_IMMEDIATE(/atom/movable/screen/color_matrix_proxy_view)
-
-/atom/movable/screen/color_matrix_proxy_view
-	name = "color_matrix_proxy_view"
-	del_on_map_removal = FALSE
-	layer = GAME_PLANE
-	plane = GAME_PLANE
-
-	var/list/plane_masters = list()
-
-	/// The client that is watching this view
-	var/client/client
-
-/atom/movable/screen/color_matrix_proxy_view/Initialize(mapload)
-	. = ..()
-
-	assigned_map = "color_matrix_proxy_[REF(src)]"
-	set_position(1, 1)
-
-/atom/movable/screen/color_matrix_proxy_view/Destroy()
-	for (var/plane_master in plane_masters)
-		client?.screen -= plane_master
-		qdel(plane_master)
-
-	client?.clear_map(assigned_map)
-
-	client = null
-	plane_masters = null
-
-	return ..()
-
-/atom/movable/screen/color_matrix_proxy_view/proc/register_to_client(client/client)
-	QDEL_LIST(plane_masters)
-
-	src.client = client
-
-	if (!client)
-		return
-
-	for (var/plane_master_type in subtypesof(/atom/movable/screen/plane_master) - /atom/movable/screen/plane_master/blackness)
-		var/atom/movable/screen/plane_master/plane_master = new plane_master_type()
-		plane_master.screen_loc = "[assigned_map]:CENTER"
-		client?.screen |= plane_master
-
-		plane_masters += plane_master
-
-	client?.register_map_obj(src)
-
-/datum/color_matrix_editor
-	var/client/owner
-	var/datum/weakref/target
-	var/atom/movable/screen/color_matrix_proxy_view/proxy_view
-	var/list/current_color
-	var/closed
-
-/datum/color_matrix_editor/New(user, atom/_target = null)
-	owner = CLIENT_FROM_VAR(user)
-	if(islist(_target?.color))
-		current_color = _target.color
-	else if(istext(_target?.color))
-		current_color = color_hex2color_matrix(_target.color)
+#define VV_HTML_ENCODE(thing) ( sanitize ? html_encode(thing) : thing )
+/// Get displayed variable in VV variable list
+/proc/debug_variable(name, value, level, datum/owner, sanitize = TRUE, display_flags = NONE) //if D is a list, name will be index, and value will be assoc value.
+	if(owner)
+		if(islist(owner))
+			var/index = name
+			if (value)
+				name = owner[name] //name is really the index until this line
+			else
+				value = owner[name]
+			. = "<li style='backgroundColor:white'>([VV_HREF_TARGET_1V(owner, VV_HK_LIST_EDIT, "E", index)]) ([VV_HREF_TARGET_1V(owner, VV_HK_LIST_CHANGE, "C", index)]) ([VV_HREF_TARGET_1V(owner, VV_HK_LIST_REMOVE, "-", index)]) "
+		else
+			. = "<li style='backgroundColor:white'>([VV_HREF_TARGET_1V(owner, VV_HK_BASIC_EDIT, "E", name)]) ([VV_HREF_TARGET_1V(owner, VV_HK_BASIC_CHANGE, "C", name)]) ([VV_HREF_TARGET_1V(owner, VV_HK_BASIC_MASSEDIT, "M", name)]) "
 	else
-		current_color = color_matrix_identity()
-	proxy_view = new
-	if(_target)
-		target = WEAKREF(_target)
-		proxy_view.appearance = image(_target)
+		. = "<li>"
+
+	var/name_part = VV_HTML_ENCODE(name)
+	if(level > 0 || islist(owner)) //handling keys in assoc lists
+		if(istype(name,/datum))
+			name_part = "<a href='?_src_=vars;[HrefToken()];Vars=[REF(name)]'>[VV_HTML_ENCODE(name)] [REF(name)]</a>"
+		else if(islist(name))
+			var/list/list_value = name
+			name_part = "<a href='?_src_=vars;[HrefToken()];Vars=[REF(name)]'> /list ([length(list_value)]) [REF(name)]</a>"
+
+	. = "[.][name_part] = "
+
+	var/item = _debug_variable_value(name, value, level, owner, sanitize, display_flags)
+
+	return "[.][item]</li>"
+
+// This is split into a seperate proc mostly to make errors that happen not break things too much
+/proc/_debug_variable_value(name, value, level, datum/owner, sanitize, display_flags)
+	. = "<font color='red'>DISPLAY_ERROR:</font> ([value] [REF(value)])" // Make sure this line can never runtime
+
+	if(isnull(value))
+		return "<span class='value'>null</span>"
+
+	if(istext(value))
+		return "<span class='value'>\"[VV_HTML_ENCODE(value)]\"</span>"
+
+	if(isicon(value))
+		#ifdef VARSICON
+		var/icon/icon_value = icon(value)
+		var/rnd = rand(1,10000)
+		var/rname = "tmp[REF(icon_value)][rnd].png"
+		usr << browse_rsc(icon_value, rname)
+		return "(<span class='value'>[value]</span>) <img class=icon src=\"[rname]\">"
+		#else
+		return "/icon (<span class='value'>[value]</span>)"
+		#endif
+
+	if(isappearance(value))
+		var/image/actually_an_appearance = value
+		return "/appearance (<span class='value'>[actually_an_appearance.icon]</span>)"
+
+	if(isfilter(value))
+		var/datum/filter_value = value
+		return "/filter (<span class='value'>[filter_value.type] [REF(filter_value)]</span>)"
+
+	if(isfile(value))
+		return "<span class='value'>'[value]'</span>"
+
+	if(isdatum(value))
+		var/datum/datum_value = value
+		return datum_value.debug_variable_value(name, level, owner, sanitize, display_flags)
+
+	if(islist(value) || (name in GLOB.vv_special_lists)) // Some special lists arent detectable as a list through istype
+		var/list/list_value = value
+		var/list/items = list()
+
+		// This is becuse some lists either dont count as lists or a locate on their ref will return null
+		var/link_vars = "Vars=[REF(value)]"
+		if(name in GLOB.vv_special_lists)
+			link_vars = "Vars=[REF(owner)];special_varname=[name]"
+
+		if (!(display_flags & VV_ALWAYS_CONTRACT_LIST) && list_value.len > 0 && list_value.len <= (IS_NORMAL_LIST(list_value) ? VV_NORMAL_LIST_NO_EXPAND_THRESHOLD : VV_SPECIAL_LIST_NO_EXPAND_THRESHOLD))
+			for (var/i in 1 to list_value.len)
+				var/key = list_value[i]
+				var/val
+				if (IS_NORMAL_LIST(list_value) && !isnum(key))
+					val = list_value[key]
+				if (isnull(val)) // we still want to display non-null false values, such as 0 or ""
+					val = key
+					key = i
+
+				items += debug_variable(key, val, level + 1, sanitize = sanitize)
+
+			return "<a href='?_src_=vars;[HrefToken()];[link_vars]'>/list ([list_value.len])</a><ul>[items.Join()]</ul>"
+		else
+			return "<a href='?_src_=vars;[HrefToken()];[link_vars]'>/list ([list_value.len])</a>"
+
+	if(name in GLOB.bitfields)
+		var/list/flags = list()
+		for (var/i in GLOB.bitfields[name])
+			if (value & GLOB.bitfields[name][i])
+				flags += i
+		if(length(flags))
+			return "[VV_HTML_ENCODE(jointext(flags, ", "))]"
+		else
+			return "NONE"
 	else
-		proxy_view.appearance = image('icons/misc/colortest.dmi', "colors")
+		return "<span class='value'>[VV_HTML_ENCODE(value)]</span>"
 
-	proxy_view.color = current_color
-	proxy_view.register_to_client(owner)
+/datum/proc/debug_variable_value(name, level, datum/owner, sanitize, display_flags)
+	if("[src]" != "[type]") // If we have a name var, let's use it.
+		return "<a href='?_src_=vars;[HrefToken()];Vars=[REF(src)]'>[src] [type] [REF(src)]</a>"
+	else
+		return "<a href='?_src_=vars;[HrefToken()];Vars=[REF(src)]'>[type] [REF(src)]</a>"
 
-/datum/color_matrix_editor/Destroy(force, ...)
-	QDEL_NULL(proxy_view)
-	return ..()
-
-/datum/color_matrix_editor/ui_state(mob/user)
-	return GLOB.admin_state
-
-/datum/color_matrix_editor/ui_static_data(mob/user)
-	var/list/data = list()
-	data["mapRef"] = proxy_view.assigned_map
-
-	return data
-
-/datum/color_matrix_editor/ui_data(mob/user)
-	var/list/data = list()
-	data["currentColor"] = current_color
-
-	return data
-
-/datum/color_matrix_editor/ui_interact(mob/user, datum/tgui/ui)
-	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		ui = new(user, src, "ColorMatrixEditor")
-		ui.open()
-
-/datum/color_matrix_editor/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+/datum/weakref/debug_variable_value(name, level, datum/owner, sanitize, display_flags)
 	. = ..()
-	if(.)
-		return
-	switch(action)
-		if("transition_color")
-			current_color = params["color"]
-			animate(proxy_view, time = 4, color = current_color)
-		if("confirm")
-			on_confirm()
-			SStgui.close_uis(src)
+	return "[.] <a href='?_src_=vars;[HrefToken()];Vars=[reference]'>(Resolve)</a>"
 
-/datum/color_matrix_editor/ui_close(mob/user)
-	. = ..()
-	closed = TRUE
+/matrix/debug_variable_value(name, level, datum/owner, sanitize, display_flags)
+	return {"<span class='value'>
+			<table class='matrixbrak'><tbody><tr><td class='lbrak'>&nbsp;</td><td>
+			<table class='matrix'>
+			<tbody>
+				<tr><td>[a]</td><td>[d]</td><td>0</td></tr>
+				<tr><td>[b]</td><td>[e]</td><td>0</td></tr>
+				<tr><td>[c]</td><td>[f]</td><td>1</td></tr>
+			</tbody>
+			</table></td><td class='rbrak'>&nbsp;</td></tr></tbody></table></span>"} //TODO link to modify_transform wrapper for all matrices
 
-/datum/color_matrix_editor/proc/on_confirm()
-	var/atom/target_atom = target?.resolve()
-	if(istype(target_atom))
-		target_atom.add_atom_colour(current_color, ADMIN_COLOUR_PRIORITY)
-
-/datum/color_matrix_editor/proc/wait()
-	while(!closed)
-		stoplag(1)
-
-/client/proc/open_color_matrix_editor(atom/in_atom)
-	var/datum/color_matrix_editor/editor = new /datum/color_matrix_editor(src, in_atom)
-	editor.ui_interact(mob)
-	editor.wait()
-	. = editor.current_color
-	qdel(editor)
+#undef VV_HTML_ENCODE
