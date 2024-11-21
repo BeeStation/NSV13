@@ -260,7 +260,7 @@
 	var/list/result = new
 	if(skiprep)
 		for(var/e in first)
-			if(!(e in result) && !(e in second))f
+			if(!(e in result) && !(e in second))
 				UNTYPED_LIST_ADD(result, e)
 	else
 		result = first - second
