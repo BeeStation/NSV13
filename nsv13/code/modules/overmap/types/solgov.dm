@@ -6,7 +6,7 @@
 	desc = "A long-range SolGov patrol boat, usually used for clearing asteroid fields."
 	icon = 'nsv13/icons/overmap/new/solgov/frigate.dmi'
 	icon_state = "frigate"
-	mass = MASS_SMALL
+	mass = MASS_MEDIUM
 	sprite_size = 48
 	damage_states = FALSE
 	bound_width = 32

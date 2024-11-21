@@ -19,25 +19,21 @@ MAP_REMOVE_JOB(air_traffic_controller)
 	..()
 	MAP_JOB_CHECK
 	total_positions = 1
-	spawn_positions = 2
 
 /datum/job/cook/New()
 	..()
 	MAP_JOB_CHECK
 	total_positions = 1
-	spawn_positions = 2
 
 /datum/job/pilot/New()
 	..()
 	MAP_JOB_CHECK
 	total_positions = 2
-	spawn_positions = 4
 
 /datum/job/munitions_tech/New()  // this ship needs gunners, or it will not achieve it's full firepower.
 	..()
 	MAP_JOB_CHECK
-	total_positions = 6
-	spawn_positions = 6
+	total_positions = 4
 
 /datum/uplink_item/explosives/syndicate_bomb/New()
     . = ..()
