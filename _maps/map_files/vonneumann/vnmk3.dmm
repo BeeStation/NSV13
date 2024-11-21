@@ -14452,13 +14452,7 @@
 /area/engine/atmos/port_atmos)
 "lJk" = (
 /obj/effect/turf_decal/delivery,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper{
-	dir = 1
-	},
 /obj/machinery/atmospherics/pipe/layer_manifold,
-/obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "13"
-	},
 /turf/open/floor/monotile/dark,
 /area/maintenance/starboard/aft)
 "lJs" = (
@@ -19523,17 +19517,16 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/ftlroom)
 "qjG" = (
-/obj/docking_port/stationary{
-	dir = 2;
-	dwidth = 2;
-	height = 13;
-	id = "ferry_home";
-	name = "starboard aft airlock";
-	width = 5
+/obj/machinery/door/airlock/ship/external/glass{
+	req_one_access_txt = "13"
 	},
-/obj/structure/lattice,
-/turf/open/space/basic,
-/area/space/nearstation)
+/obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/effect/turf_decal/delivery,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/maintenance/starboard/aft)
 "qjJ" = (
 /obj/structure/hull_plate/end{
 	dir = 1
@@ -23653,9 +23646,16 @@
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
 "tUS" = (
-/obj/effect/mine/stun/smart,
-/turf/open/floor/carpet/ship/red_carpet,
-/area/ai_monitored/security/armory)
+/obj/docking_port/stationary{
+	dir = 2;
+	dwidth = 2;
+	height = 13;
+	id = "ferry_home";
+	name = "starboard aft airlock";
+	width = 5
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "tVd" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 1
@@ -44785,7 +44785,7 @@ jgk
 jgk
 jgk
 jgk
-wEM
+jgk
 lfF
 lfF
 lfF
@@ -44988,7 +44988,7 @@ yhC
 fFt
 lJk
 qjG
-lfF
+tUS
 lfF
 lfF
 lfF
@@ -45189,7 +45189,7 @@ jgk
 xqh
 npD
 jgk
-wEM
+jgk
 lfF
 lfF
 lfF
@@ -48577,7 +48577,7 @@ pnk
 eJl
 oqQ
 xnV
-tUS
+mNL
 fzt
 vIr
 jAw
