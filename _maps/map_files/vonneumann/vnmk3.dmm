@@ -1019,7 +1019,7 @@
 /obj/effect/turf_decal/tile/brown/tile_side{
 	dir = 4
 	},
-/obj/structure/closet/secure_closet/quartermaster,
+/obj/effect/landmark/start/quartermaster,
 /turf/open/floor/plasteel,
 /area/cargo/lobby)
 "aRt" = (
@@ -2187,6 +2187,13 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/ship,
 /area/hallway/nsv/deck1/frame1/central)
+"bFz" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/effect/landmark/start/cargo_technician,
+/turf/open/floor/plasteel,
+/area/cargo/lobby)
 "bFM" = (
 /obj/item/relic,
 /turf/open/floor/plating,
@@ -3848,21 +3855,21 @@
 	freerange = 1;
 	name = "Common Channel";
 	pixel_x = 25;
-	pixel_y = 1
+	pixel_y = 8
 	},
 /obj/item/radio/intercom{
 	freerange = 1;
 	frequency = 1447;
 	name = "Private Channel";
-	pixel_x = 26;
-	pixel_y = -11
+	pixel_x = 25;
+	pixel_y = -4
 	},
 /obj/item/radio/intercom{
 	freerange = 1;
 	listening = 0;
 	name = "Custom Channel";
 	pixel_x = 25;
-	pixel_y = -22
+	pixel_y = -16
 	},
 /obj/machinery/requests_console{
 	pixel_y = -32;
@@ -9944,6 +9951,9 @@
 "hZh" = (
 /obj/structure/table,
 /obj/machinery/computer/reactor/stats,
+/obj/structure/window/reinforced{
+	dir = 1
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
 "hZn" = (
@@ -10260,6 +10270,9 @@
 "ilS" = (
 /obj/structure/table,
 /obj/machinery/computer/reactor/control_rods,
+/obj/structure/window/reinforced{
+	dir = 1
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
 "ioz" = (
@@ -11137,6 +11150,9 @@
 "iTm" = (
 /obj/structure/table,
 /obj/machinery/computer/reactor/pump/rbmk_output,
+/obj/structure/window/reinforced{
+	dir = 1
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
 "iTF" = (
@@ -11876,7 +11892,8 @@
 /area/ai_monitored/turret_protected/ai_upload)
 "jzJ" = (
 /obj/machinery/door/window/southright{
-	name = "Cargo Desk"
+	name = "Cargo Desk";
+	req_one_access_txt = "31;41"
 	},
 /obj/machinery/door/window/southright{
 	dir = 1
@@ -12626,9 +12643,8 @@
 /obj/effect/turf_decal/tile/brown/tile_side{
 	dir = 4
 	},
-/obj/effect/landmark/start/cargo_technician,
-/mob/living/simple_animal/sloth/paperwork,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
+/obj/structure/closet/secure_closet/quartermaster,
 /turf/open/floor/plasteel,
 /area/cargo/lobby)
 "kfi" = (
@@ -13253,7 +13269,8 @@
 "kDF" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/window/southright{
-	name = "Cargo Desk"
+	name = "Cargo Desk";
+	req_one_access_txt = "31;41"
 	},
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
@@ -15471,6 +15488,9 @@
 "mAs" = (
 /obj/structure/table,
 /obj/machinery/computer/reactor/pump/rbmk_moderator,
+/obj/structure/window/reinforced{
+	dir = 1
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
 "mBb" = (
@@ -16693,6 +16713,12 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/ai_monitored/security/armory)
+"nIV" = (
+/obj/machinery/camera/autoname{
+	dir = 5
+	},
+/turf/open/floor/carpet/ship/beige_carpet,
+/area/nsv/weapons/port)
 "nJc" = (
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/port/fore)
@@ -17646,6 +17672,9 @@
 "oCC" = (
 /obj/structure/table,
 /obj/machinery/computer/reactor/pump/rbmk_input,
+/obj/structure/window/reinforced{
+	dir = 1
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
 "oDf" = (
@@ -19970,6 +19999,13 @@
 "qFL" = (
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
+"qGa" = (
+/obj/structure/munitions_trolley,
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/carpet/ship/beige_carpet,
+/area/nsv/weapons/port)
 "qGb" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 1
@@ -21509,7 +21545,6 @@
 /area/bridge/cic)
 "siU" = (
 /obj/item/radio/intercom/directional/north,
-/obj/machinery/camera/autoname,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/nsv/weapons/port)
 "sjc" = (
@@ -21669,7 +21704,6 @@
 /turf/open/floor/durasteel/techfloor_grid,
 /area/science/xenobiology)
 "sqP" = (
-/obj/effect/landmark/start/quartermaster,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -22149,6 +22183,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
+/mob/living/simple_animal/sloth/paperwork,
 /turf/open/floor/plasteel,
 /area/cargo/lobby)
 "sLy" = (
@@ -22221,9 +22256,6 @@
 /turf/open/floor/carpet/ship/blue,
 /area/crew_quarters/cryopods)
 "sNY" = (
-/obj/machinery/light{
-	dir = 1
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -22861,6 +22893,9 @@
 "tkW" = (
 /obj/effect/turf_decal/tile/brown/tile_side,
 /obj/machinery/computer/ship/munitions_computer/west,
+/obj/machinery/status_display/supply/north{
+	pixel_x = 32
+	},
 /turf/open/floor/plasteel,
 /area/cargo/lobby)
 "tkZ" = (
@@ -23483,6 +23518,11 @@
 /obj/machinery/status_display/ai/north,
 /obj/machinery/camera/autoname{
 	dir = 5
+	},
+/obj/structure/window/reinforced/spawner/east,
+/obj/machinery/door/window/southright{
+	name = "Ore Silo";
+	req_one_access_txt = "31;41"
 	},
 /turf/open/floor/plasteel,
 /area/cargo/lobby)
@@ -26366,9 +26406,6 @@
 /area/ai_monitored/turret_protected/ai_upload)
 "wmQ" = (
 /obj/effect/turf_decal/tile/brown/tile_side,
-/obj/machinery/status_display/supply/north{
-	pixel_x = 32
-	},
 /turf/open/floor/plasteel,
 /area/cargo/lobby)
 "wnL" = (
@@ -27798,6 +27835,9 @@
 /obj/machinery/holopad,
 /obj/structure/table,
 /obj/machinery/computer/reactor/fuel_rods,
+/obj/structure/window/reinforced{
+	dir = 1
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
 "xMK" = (
@@ -50187,7 +50227,7 @@ chi
 wTE
 xeL
 vOq
-jgX
+bFz
 xFF
 gxQ
 kiz
@@ -53417,7 +53457,7 @@ xmq
 iin
 bcQ
 hek
-efH
+nIV
 vec
 btu
 oir
@@ -55437,7 +55477,7 @@ wmp
 wPg
 bcQ
 hkr
-dOj
+qGa
 bcQ
 bcQ
 fUi
