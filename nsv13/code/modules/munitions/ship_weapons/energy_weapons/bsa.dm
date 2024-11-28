@@ -193,13 +193,15 @@
 		var/firer = get_overmap().pilot
 		if(!firer)
 			firer = src
-		admin_message += " BSA fired by [firer]!"
+			admin_message += " BSA fired by [firer]!"
+		else
+			admin_message += " BSA fired by [ADMIN_LOOKUPFLW(firer)]!"
 		if(istype(blocker, /obj/machinery/the_singularitygen)) //What did you do
 			var/evilperson = get_mob_by_ckey(blocker.fingerprintslast)
 			GLOB.bombers += evilperson
 			admin_message += " [blocker] was last touched by [ADMIN_LOOKUPFLW(evilperson)]!"
 			log_message += " [blocker] was last touched by [key_name_admin(evilperson)]!"
-			var/obj/anomaly/singularity = new /obj/anomaly/singularity(location, 2500)
+			new /obj/anomaly/singularity(location, 2500)
 			var/turf/overmaplocation = get_turf(get_overmap())
 			if(overmaplocation)
 				new /obj/effect/overmap_anomaly/singularity(overmaplocation)
