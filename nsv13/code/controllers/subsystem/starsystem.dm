@@ -594,13 +594,15 @@ Returns a faction datum by its name (case insensitive!)
 	var/scanned = FALSE
 	var/specialist_research_type = null //Special techweb node unlocking.
 
-/obj/effect/overmap_anomaly/Initialize(mapload)
+/obj/effect/overmap_anomaly/Initialize(mapload, system)
 	. = ..()
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 	GLOB.overmap_anomalies += src
+	if(system)
+		current_system = system
 
 /obj/effect/overmap_anomaly/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
