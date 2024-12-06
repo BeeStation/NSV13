@@ -296,7 +296,6 @@ Returns a faction datum by its name (case insensitive!)
 	return system
 
 /datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE)//Select Ship to Spawn and Location via Z-Trait
-	target_sys.system_contents += OM
 	if(target_sys.occupying_z)
 		var/turf/destination = null
 		if(center)
@@ -689,12 +688,12 @@ Returns a faction datum by its name (case insensitive!)
 	START_PROCESSING(SSfastprocess, src)
 
 /obj/effect/overmap_anomaly/singularity/process()
-	if(!z) //Not in nullspace
+	if(!z || !current_system) //Not in nullspace
 		if(length(affecting))
 			for(var/obj/structure/overmap/OM in affecting)
 				stop_affecting(OM)
 		return
-	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects) //Has to go through global overmaps due to anomalies not referencing their system - probably something to change one day.
+	for(var/obj/structure/overmap/OM in current_system.system_contents) //This list is not exclusively overmaps so no as() calls.
 		if(LAZYFIND(affecting, OM))
 			continue
 		if(OM.z != z)
