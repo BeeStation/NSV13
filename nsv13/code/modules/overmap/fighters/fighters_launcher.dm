@@ -346,13 +346,26 @@ d) the ships[] list of ssstarsystem is acting up again.
 		return FALSE
 	if(istype(OM, /obj/structure/overmap/asteroid))
 		var/obj/structure/overmap/asteroid/AS = OM
+		if(AS.interior_status == INTERIOR_READY)
+			return transfer_from_overmap(AS)
 		AS.interior_mode = INTERIOR_DYNAMIC // We don't actually want it to create one until we're ready but we do need entry points
-		AS.instance_interior()
-		AS.docking_points = AS.interior_entry_points
-		return transfer_from_overmap(OM)
+		DC.docking_cooldown = TRUE
+		RegisterSignal(AS, COMSIG_INTERIOR_DONE_LOADING, PROC_REF(on_dock_interior_load_finish))
+		SSstar_system.queue_for_interior_load(AS)
+		return TRUE //We have to assume this will end up being a correct docking.
 	if(mass < OM.mass)  //If theyre bigger than us and have docking points, and we want to dock.
 		return transfer_from_overmap(OM)
 	return FALSE
+
+///Listens for the interior loading to finish and finishes docking once it does.
+/obj/structure/overmap/small_craft/proc/on_dock_interior_load_finish(obj/structure/overmap/docking_target)
+	SIGNAL_HANDLER
+	UnregisterSignal(docking_target, COMSIG_INTERIOR_DONE_LOADING)
+	docking_target.docking_points = docking_target.interior_entry_points
+	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
+	if(DC)
+		DC.docking_cooldown = FALSE
+	INVOKE_ASYNC(src, PROC_REF(transfer_from_overmap), docking_target)
 
 /obj/structure/overmap/small_craft/proc/transfer_from_overmap(obj/structure/overmap/OM)
 	if(!length(OM.docking_points))
