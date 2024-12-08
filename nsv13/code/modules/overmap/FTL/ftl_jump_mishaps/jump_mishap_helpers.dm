@@ -229,7 +229,7 @@
 			for(var/mob/living/squished in squish)
 				if(squished.client)
 					to_chat(squished, "<span class='userdanger'>You are suddenly crushed by something solid materializing in your own space!</span>")
-					squished.gib()
+				squished.gib()
 
 ///Messes with turf spacetime in a certain area.
 /obj/structure/overmap/proc/disjoint_phasestate()
