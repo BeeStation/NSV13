@@ -71,3 +71,6 @@
 
 /obj/item/clothing/suit/space/hardsuit/ert/paranormal/inquisitor
 	hardsuit_tail_colors = list("223", "521", "721")
+
+/obj/item/clothing/suit/space/hardsuit/pilot
+	hardsuit_tail_colors = list("111", "555", "555")
