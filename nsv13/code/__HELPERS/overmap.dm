@@ -118,7 +118,17 @@ Another get_angle that works better with the looping edges of the overmap
 	else if(CX<0)
 		.+=360
 
+/**
+ * I am genuinely unsure what this is actually meant to do that normal z add does not do.
+* If ANYONE actually knows if there is some important reason the procs I changed used this please tell me ~Delta
+**/
 /datum/controller/subsystem/mapping/proc/add_new_initialized_zlevel(name, traits = list(), z_type = /datum/space_level, orbital_body_type)
 	add_new_zlevel(name, traits)
 	SSatoms.InitializeAtoms(block(locate(1,1,world.maxz),locate(world.maxx,world.maxy,world.maxz)))
 	setup_map_transitions(z_list[world.maxz])
+/**
+ * Generates a new z level with behavior specific to overmaps and returns its space level datum.
+ */
+/datum/controller/subsystem/mapping/proc/add_new_overmap_zlevel()
+	. = add_new_zlevel("Overmap treadmill [length(z_list)+1]", ZTRAITS_OVERMAP)
+	setup_map_transitions(.)
