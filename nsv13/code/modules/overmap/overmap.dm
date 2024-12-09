@@ -985,7 +985,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return reserved_z
 	if(ftl_drive)
 		if(!free_treadmills?.len)
-			var/datum/space_level/new_level = SSmapping.add_new_overmap_zlevel()
+			var/datum/space_level/new_level = SSmapping.add_new_initialized_overmap_zlevel()
 			reserved_z = new_level.z_value
 		else
 			var/_z = pick_n_take(free_treadmills)
