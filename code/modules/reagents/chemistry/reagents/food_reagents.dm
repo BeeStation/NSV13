@@ -134,8 +134,8 @@
 			"<span class='userdanger'>You're covered in boiling oil!</span>")
 			M.emote("scream")
 			playsound(M, 'sound/machines/fryer/deep_fryer_emerge.ogg', 25, TRUE)
-			var/oil_damage = (holder.chem_temp / fry_temperature) * 0.33 //Damage taken per unit
-			M.adjustFireLoss(min(35, oil_damage * reac_volume)) //Damage caps at 35
+			var/oil_damage = min(1, (holder.chem_temp / fry_temperature) * 0.33) //Damage taken per unit //NSV13 - per unit damage also caps at 1 to counteract microdosing.
+			M.adjustFireLoss(min(30, oil_damage * reac_volume)) //NSV13 - total damage caps at 30.
 	else
 		..()
 	return TRUE
