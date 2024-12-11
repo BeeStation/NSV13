@@ -355,9 +355,19 @@
 /obj/mecha/obj_destruction()
 	if(wreckage)
 		var/mob/living/silicon/ai/AI
+		//NSV13 - AI disconnects from the mech if it dies, if not shunted.
 		if(isAI(occupant))
-			AI = occupant
-			occupant = null
+			var/kill_ai = FALSE
+			if(eject_action in occupant.actions) //This AI did not one-way.
+				go_out() //Release direct control.
+				if(occupant) //Didn't work!
+					kill_ai = TRUE
+			else
+				kill_ai = TRUE //Sorry Harbinger.
+			if(kill_ai)
+				AI = occupant
+				occupant = null
+		//NSV13 end.
 		var/obj/structure/mecha_wreckage/WR = new wreckage(loc, AI)
 		for(var/obj/item/mecha_parts/mecha_equipment/E in equipment)
 			if(E.salvageable && prob(30))
