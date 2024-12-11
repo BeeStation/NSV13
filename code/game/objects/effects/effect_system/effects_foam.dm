@@ -23,6 +23,8 @@
 	/turf/open/chasm,
 	/turf/open/lava))
 	var/slippery_foam = TRUE
+	///Creation time of the foam tile, used for diminishing returns on foam-time prolonging reactions.
+	var/creation_time //NSV13
 
 /obj/effect/particle_effect/foam/firefighting
 	name = "firefighting foam"
@@ -91,6 +93,7 @@
 
 /obj/effect/particle_effect/foam/Initialize(mapload)
 	. = ..()
+	creation_time = world.time //NSV13
 	create_reagents(1000) //limited by the size of the reagent holder anyway.
 	START_PROCESSING(SSfastprocess, src)
 	playsound(src, 'sound/effects/bubbles2.ogg', 80, 1, -3)
