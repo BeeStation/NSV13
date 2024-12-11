@@ -77,7 +77,7 @@ Slimecrossing Potions
 	if(!isliving(M) || M.stat == DEAD)
 		to_chat(user, "<span class='warning'>The love potion only works on living things, sicko!</span>")
 		return ..()
-	if(istype(M, /mob/living/simple_animal/hostile/megafauna))
+	if(istype(M, /mob/living/simple_animal/hostile/megafauna) || isknpc(M)) //NSV13 - knpcs are evil.
 		to_chat(user, "<span class='warning'>The love potion does not work on beings of pure evil!</span>")
 		return ..()
 	if(user == M)
