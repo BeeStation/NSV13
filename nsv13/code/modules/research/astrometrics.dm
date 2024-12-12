@@ -77,7 +77,7 @@ Clean override of the navigation computer to provide scan functionality.
 	return data
 
 /obj/machinery/computer/ship/navigation/astrometrics/is_in_range(datum/star_system/current_system, datum/star_system/system)
-	return current_system && system && current_system.dist(system) <= max_range
+	return current_system && system && current_system.dist(system) <= max_range && current_system.sector == system.sector
 
 /obj/machinery/computer/ship/navigation/astrometrics/is_visited(datum/star_system/system)
 	return LAZYFIND(linked.scanned, system)
