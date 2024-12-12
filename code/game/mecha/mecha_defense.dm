@@ -355,13 +355,18 @@
 /obj/mecha/obj_destruction()
 	if(wreckage)
 		var/mob/living/silicon/ai/AI
-		//NSV13 - AI disconnects from the mech if it dies, if not shunted.
+		//NSV13 - AI disconnects from the mech if it dies, if not shunted. Causes damage equal to 33% of maximum integrity.
 		if(isAI(occupant))
+			var/mob/living/silicon/ai/ai_ref = occupant
 			var/kill_ai = FALSE
 			if(eject_action in occupant.actions) //This AI did not one-way.
 				go_out() //Release direct control.
 				if(occupant) //Didn't work!
 					kill_ai = TRUE
+				else
+					to_chat(ai_ref, "<span class='userdanger'>Interface protocols flash-severed. Feedback damage detected.</span>")
+					var/feedback_damage = CEILING((ai_ref.maxHealth + 100) / 3, 1) // 1/3rd of maximum health as damage, rounded up.
+					ai_ref.apply_damage(feedback_damage, BURN)
 			else
 				kill_ai = TRUE //Sorry Harbinger.
 			if(kill_ai)
