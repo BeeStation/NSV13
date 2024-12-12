@@ -533,6 +533,13 @@
 	. = ..()
 	if(.)
 		events.fireEvent("onMove",get_turf(src))
+		//NSV13 - hacky AI fixes
+		if(silicon_pilot)
+			var/mob/living/silicon/ai/aipilot = occupant //qed
+			if(isAI(aipilot)) //safety
+				aipilot?.eyeobj?.setLoc(get_turf(src), FALSE, null, TRUE) //Ok so basically we NEED our eyeobj to move so our camera chunks update or the mech pilot has a bad time.
+				aipilot?.update_camera_location() //Ok so basically we NEED to update the AI core camera here because it doesn't get "moved" normally due to contents.
+		//NSV13 end.
 	if (internal_tank?.disconnect()) // Something moved us and broke connection
 		occupant_message("<span class='warning'>Air port connection teared off!</span>")
 		log_message("Lost connection to gas port.", LOG_MECHA)
@@ -809,6 +816,7 @@
 			to_chat(user, "<span class='boldnotice'>Transfer successful</span>: [AI.name] ([rand(1000,9999)].exe) installed and executed successfully. Local copy has been removed.")
 			card.AI = null
 			ai_enter_mech(AI, interaction)
+			card.update_icon() //NSV13 - make card look empty.
 
 //Hack and From Card interactions share some code, so leave that here for both to use.
 /obj/mecha/proc/ai_enter_mech(mob/living/silicon/ai/AI, interaction)
