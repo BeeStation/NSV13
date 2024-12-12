@@ -841,6 +841,10 @@
 		GrantActions(AI, FALSE) //No eject/return to core action for AI uploaded by card
 	else
 		GrantActions(AI, !AI.can_dominate_mechs)
+	//NSV13 - immediately update camera info on connect.
+	AI.eyeobj?.setLoc(get_turf(src), FALSE, null, TRUE)
+	AI.update_camera_location()
+	//NSV13 end.
 
 
 //An actual AI (simple_animal mecha pilot) entering the mech
@@ -1105,6 +1109,12 @@
 			L.mobility_flags = NONE
 		icon_state = initial(icon_state)+"-open"
 		setDir(dir_in)
+
+		//NSV13 - immediately update core camera with old core location.
+		if(isAI(mob_container))
+			var/mob/living/silicon/ai/leaving_ai = mob_container
+			leaving_ai.update_camera_location(src)
+		//NSV13 end.
 
 	if(L?.client)
 		L.update_mouse_pointer()
