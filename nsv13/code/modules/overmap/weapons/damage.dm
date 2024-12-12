@@ -10,7 +10,7 @@ Bullet reactions
 */
 
 /**
- * Shakes the view of every mob that has a client and is not protected by dampeners.
+ * Shakes the view of every mob within this overmap that has a client and is not protected by dampeners.
  */
 /obj/structure/overmap/proc/shake_everyone(severity)
 	for(var/mob/M in mobs_in_ship)

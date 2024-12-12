@@ -119,7 +119,7 @@
 		T.handle_shell_modifiers(proj)
 
 /**
- * Attempts to load a new ammo object from a payload gate into the turret itself. Note tha this requires both a linked core and a payload gate linked to that core.
+ * Attempts to load a new ammo object from a payload gate into the turret itself. Note that this requires both a linked core and a payload gate linked to that core.
  * * A = The ammo object to load.
  * * Returns TRUE / FALSE on success / failure.
  */
@@ -294,10 +294,15 @@
 	density = TRUE
 	anchored = TRUE
 	circuit = /obj/item/circuitboard/machine/deck_gun/core
+	///Linkage ID, used exclusively for some mapping-related turret linkage shenanegans.
 	var/id = null
+	///The linked turret.
 	var/obj/machinery/ship_weapon/deck_turret/turret = null
+	///List of connected powder gates.
 	var/list/powder_gates = list()
+	///The linked payload gate.
 	var/obj/machinery/deck_turret/payload_gate/payload_gate
+	///The linked deck turret computer.
 	var/obj/machinery/computer/deckgun/computer
 
 /obj/machinery/deck_turret/core/Destroy(force)
