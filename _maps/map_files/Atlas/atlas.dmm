@@ -674,10 +674,6 @@
 /obj/item/stack/tile/plasteel{
 	amount = 50
 	},
-/obj/machinery/camera{
-	network = list("ss13","eng");
-	name = "Deck 2 DC"
-	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "cl" = (
@@ -5879,7 +5875,6 @@
 	},
 /area/maintenance/nsv/deck2/starboard)
 "rU" = (
-/obj/machinery/camera/autoname,
 /obj/structure/closet/firecloset,
 /obj/item/clothing/suit/fire/firefighter,
 /obj/item/clothing/suit/fire/firefighter,
@@ -5895,6 +5890,10 @@
 /obj/item/extinguisher,
 /obj/machinery/airalarm/directional/north,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
+/obj/machinery/camera{
+	network = list("ss13","eng");
+	name = "Deck 2 DC"
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "rV" = (
@@ -6765,11 +6764,13 @@
 	},
 /obj/effect/turf_decal/tile/yellow,
 /obj/machinery/firealarm/directional/east,
-/obj/machinery/computer/camera_advanced{
-	network = list("eng");
+/obj/machinery/computer/security/telescreen{
+	desc = "Used for watching critical engineering areas";
 	name = "Engineering Critical Monitoring";
-	dir = 8
+	network = list("eng");
+	pixel_y = 2
 	},
+/obj/structure/table,
 /turf/open/floor/monotile/steel,
 /area/nsv/engine/dcc)
 "ux" = (

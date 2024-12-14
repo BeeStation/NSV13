@@ -12882,6 +12882,12 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
+/obj/machinery/computer/security/telescreen{
+	desc = "Used for watching critical engineering areas";
+	name = "Engineering Critical Monitoring";
+	network = list("eng");
+	pixel_y = 2
+	},
 /turf/open/floor/monotile/steel,
 /area/nsv/engine/dcc)
 "aLl" = (
@@ -42535,11 +42541,13 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/machinery/computer/camera_advanced{
-	network = list("eng");
+/obj/machinery/computer/security/telescreen{
+	desc = "Used for watching critical engineering areas";
 	name = "Engineering Critical Monitoring";
-	dir = 4
+	network = list("eng");
+	pixel_y = 2
 	},
+/obj/structure/table/reinforced,
 /turf/open/floor/monotile/steel,
 /area/nsv/engine/dcc)
 "ixq" = (
