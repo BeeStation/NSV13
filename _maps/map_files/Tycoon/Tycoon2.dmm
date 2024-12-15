@@ -5219,6 +5219,7 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
+/obj/item/storage/fancy/coffee_condi_display,
 /obj/item/reagent_containers/glass/coffeepot,
 /turf/open/floor/monotile/steel,
 /area/medical/break_room)
@@ -40286,25 +40287,11 @@
 /area/crew_quarters/fitness/recreation)
 "feG" = (
 /obj/structure/table/reinforced,
-/obj/machinery/button/door{
-	name = "Damage Control Supply Access";
-	pixel_x = -6;
-	pixel_y = 8;
-	id = "dc1";
-	req_one_access_txt = "11"
-	},
-/obj/machinery/button/door{
-	name = "Advanced Damage Control Supplies";
-	pixel_x = 4;
-	pixel_y = 8;
-	id = "dc2";
-	req_one_access_txt = "20, 56, 57"
-	},
-/obj/machinery/button/door{
-	name = "Damage Control Central Window Shutters";
-	pixel_x = -1;
-	id = "dcc";
-	req_one_access_txt = "11"
+/obj/machinery/computer/security/telescreen{
+	desc = "Used for watching critical engineering areas";
+	name = "Engineering Critical Monitoring";
+	network = list("eng");
+	pixel_y = 2
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/engine/dcc)
@@ -41677,8 +41664,29 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/gauss)
 "hgf" = (
-/turf/open/floor/plating,
-/area/medical/storage)
+/obj/structure/table/reinforced,
+/obj/machinery/button/door{
+	name = "Advanced Damage Control Supplies";
+	pixel_x = 4;
+	pixel_y = 8;
+	id = "dc2";
+	req_one_access_txt = "20, 56, 57"
+	},
+/obj/machinery/button/door{
+	name = "Damage Control Supply Access";
+	pixel_x = -6;
+	pixel_y = 8;
+	id = "dc1";
+	req_one_access_txt = "11"
+	},
+/obj/machinery/button/door{
+	name = "Damage Control Central Window Shutters";
+	pixel_x = -1;
+	id = "dcc";
+	req_one_access_txt = "11"
+	},
+/turf/open/floor/monotile/steel,
+/area/nsv/engine/dcc)
 "hhh" = (
 /obj/effect/spawner/lootdrop/grille_or_trash,
 /turf/open/floor/plating,
@@ -42654,13 +42662,12 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching critical engineering areas";
-	name = "Engineering Critical Monitoring";
-	network = list("eng");
-	pixel_y = 2
-	},
 /obj/structure/table/reinforced,
+/obj/item/storage/fancy/coffee_condi_display{
+	pixel_y = 6;
+	pixel_x = 4
+	},
+/obj/item/storage/box/coffeepack,
 /turf/open/floor/monotile/steel,
 /area/nsv/engine/dcc)
 "ixq" = (
@@ -47690,7 +47697,7 @@
 	dir = 4
 	},
 /turf/open/floor/plating,
-/area/medical/storage)
+/area/maintenance/central)
 "poc" = (
 /obj/structure/cable/yellow,
 /obj/machinery/computer/monitor{
@@ -81836,9 +81843,9 @@ ahi
 ahi
 ahi
 ahi
-hgf
+akb
 pnv
-hgf
+akb
 aaK
 eWa
 amM
@@ -103402,10 +103409,10 @@ chg
 cae
 ohH
 anJ
-aJH
+hgf
 feG
 ixc
-aBj
+aJH
 nBU
 gqR
 anm
