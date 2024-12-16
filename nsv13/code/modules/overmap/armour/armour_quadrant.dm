@@ -42,13 +42,16 @@
 
 #define ARMOUR_DING pick('nsv13/sound/effects/ship/freespace2/ding1.wav', 'nsv13/sound/effects/ship/freespace2/ding2.wav', 'nsv13/sound/effects/ship/freespace2/ding3.wav', 'nsv13/sound/effects/ship/freespace2/ding4.wav', 'nsv13/sound/effects/ship/freespace2/ding5.wav')
 /**
- * Deals damage to a single quadrant, passing overflow damage onto the hull. Discards damage if the ship has no quadrants, do your checks beforehand.
+ * Deals damage to a single quadrant, passing overflow damage onto the hull. Goes directly to take_damage if the ship has no quadrants.
  * * damage = The amount of damage to cause.
  * * quadrant = The key of the quadrant in the quadrant list.
  */
 /obj/structure/overmap/proc/take_quadrant_hit(damage, quadrant)
 	if(!quadrant)
 		return //No.
+	if(!use_armour_quadrants)
+		take_damage(damage)
+		return
 	if(!armour_quadrants[quadrant])
 		return //Nonexistent quadrant. Work on your quads bro.
 	if ( nodamage )
