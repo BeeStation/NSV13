@@ -1321,7 +1321,7 @@
 	},
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Engine Core Access";
-	req_one_access_txt = "24;10";
+	req_one_access_txt = "10";
 	dir = 4
 	},
 /turf/open/floor/monotile/dark,
@@ -2340,15 +2340,17 @@
 /turf/open/floor/engine,
 /area/storage/tech)
 "bHU" = (
-/obj/effect/landmark/start/head_of_personnel{
-	icon_state = "Executive Officer";
-	name = "Executive Officer"
+/obj/machinery/door/airlock/vault/ship{
+	name = "Hangar lobby";
+	req_one_access_txt = "69;79;72;73"
 	},
-/turf/open/floor/carpet/ship/blue{
-	color = "#9999DD";
-	name = "nanoweave carpet (bluer)"
+/obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
 	},
-/area/crew_quarters/heads/xo)
+/obj/machinery/door/firedoor/border_only,
+/turf/open/floor/durasteel/techfloor_grid,
+/area/nsv/hanger/notkmcstupidhanger/pilot)
 "bIe" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -2831,7 +2833,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "13"
+	req_access_txt = "13;69"
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/port)
@@ -2970,7 +2972,7 @@
 "cna" = (
 /obj/machinery/door/airlock/ship/engineering/glass{
 	name = "Engineering Storage";
-	req_one_access_txt = "10;24"
+	req_one_access_txt = "11;24"
 	},
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
@@ -4401,6 +4403,12 @@
 /obj/effect/spawner/structure/window/plasma/reinforced,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
+"dxW" = (
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/turf/open/floor/plasteel,
+/area/crew_quarters/toilet/restrooms)
 "dye" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
@@ -5204,7 +5212,7 @@
 /area/crew_quarters/kitchen)
 "ebb" = (
 /obj/machinery/door/airlock/ship/engineering/glass{
-	req_one_access_txt = "10;24"
+	req_one_access_txt = "11;24"
 	},
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/firedoor/border_only{
@@ -8936,7 +8944,7 @@
 "hcu" = (
 /obj/machinery/door/airlock/vault/ship{
 	name = "Main Computer Access";
-	req_one_access_txt = "16";
+	req_one_access_txt = "16;17";
 	dir = 4
 	},
 /obj/structure/cable{
@@ -9323,7 +9331,7 @@
 /area/nsv/weapons/fore)
 "hqH" = (
 /obj/machinery/door/window/southright{
-	req_one_access_txt = "7;9;29;47";
+	req_one_access_txt = "9;47";
 	dir = 4
 	},
 /mob/living/carbon/monkey,
@@ -10744,7 +10752,7 @@
 	},
 /obj/machinery/door/airlock/ship/engineering/glass{
 	name = "Armour Core";
-	req_one_access_txt = "10;24";
+	req_one_access_txt = "11;24";
 	dir = 4
 	},
 /turf/open/floor/engine,
@@ -11416,7 +11424,8 @@
 "iWz" = (
 /obj/machinery/door/airlock/ship/station/mining{
 	name = "Cargo Bay";
-	req_one_access_txt = "31; 48"
+	req_one_access_txt = "31; 48";
+	req_access_txt = "12"
 	},
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/firedoor/border_only,
@@ -11778,7 +11787,7 @@
 	},
 /obj/machinery/door/airlock/ship/engineering/glass{
 	name = "Engineering Storage";
-	req_one_access_txt = "10;24";
+	req_one_access_txt = "11;24";
 	dir = 4
 	},
 /obj/structure/cable{
@@ -12141,18 +12150,6 @@
 /obj/machinery/telecomms/relay/preset,
 /turf/open/floor/circuit/telecomms/server,
 /area/tcommsat/server)
-"jCR" = (
-/obj/machinery/door/airlock/vault/ship{
-	name = "Munitions and Hangar Storage";
-	req_one_access_txt = "69;79"
-	},
-/obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/firedoor/border_only{
-	dir = 1
-	},
-/obj/machinery/door/firedoor/border_only,
-/turf/open/floor/durasteel/techfloor_grid,
-/area/nsv/hanger/notkmcstupidhanger/pilot)
 "jCT" = (
 /turf/closed/wall/ship,
 /area/maintenance/port/fore)
@@ -12979,7 +12976,7 @@
 	},
 /obj/structure/bed/roller,
 /obj/machinery/door/window/southright{
-	req_one_access_txt = "7;9;29;47";
+	req_one_access_txt = "9;47";
 	dir = 4
 	},
 /turf/open/floor/monotile/light,
@@ -13746,6 +13743,10 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
+"kOQ" = (
+/obj/effect/landmark/start/randommaint,
+/turf/open/floor/plating,
+/area/maintenance/central)
 "kPR" = (
 /obj/structure/extinguisher_cabinet/south{
 	pixel_y = -2
@@ -13790,10 +13791,6 @@
 /obj/machinery/light_switch/east,
 /turf/open/floor/carpet/ship,
 /area/hydroponics)
-"kTj" = (
-/obj/effect/landmark/start/randommaint,
-/turf/open/floor/plating,
-/area/maintenance/central)
 "kTZ" = (
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
@@ -14678,7 +14675,7 @@
 "lKN" = (
 /obj/machinery/door/airlock/vault/ship{
 	name = "Transporter Room";
-	req_one_access_txt = "16"
+	req_one_access_txt = "17"
 	},
 /obj/effect/mapping_helpers/airlock/unres,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
@@ -15181,8 +15178,8 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/vault/ship{
-	name = "Munitions and Hangar Storage";
-	req_one_access_txt = "69;79"
+	name = "Hangar lobby";
+	req_one_access_txt = "69;79;72;73"
 	},
 /turf/open/floor/engine,
 /area/hallway/secondary/service)
@@ -15519,6 +15516,7 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Engineering wing maintenance";
+	req_access_txt = "12";
 	req_one_access_txt = "10;24"
 	},
 /obj/effect/landmark/zebra_interlock_point,
@@ -17414,7 +17412,7 @@
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/airlock/ship/engineering/glass{
 	name = "FTL Drive";
-	req_one_access_txt = "24"
+	req_one_access_txt = "10"
 	},
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -19196,7 +19194,7 @@
 	},
 /obj/machinery/door/airlock/ship/station{
 	name = "Metahuman Research";
-	req_one_access_txt = "7;9;29;47"
+	req_one_access_txt = "9;47"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 1
@@ -20508,7 +20506,7 @@
 	},
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Engine Core Access";
-	req_one_access_txt = "24;10";
+	req_one_access_txt = "10";
 	dir = 4;
 	id_tag = "bolts"
 	},
@@ -21593,7 +21591,7 @@
 "rUQ" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Engine Core Access";
-	req_one_access_txt = "24;10";
+	req_one_access_txt = "10";
 	dir = 4
 	},
 /obj/structure/cable/yellow{
@@ -24349,8 +24347,8 @@
 /obj/machinery/door/firedoor/border_only,
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/airlock/ship/maintenance{
-	req_one_access_txt = "24";
-	name = "FTL Maintenance"
+	name = "FTL Maintenance";
+	req_access_txt = "10;12"
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/maintenance/nsv/ftlroom)
@@ -24476,6 +24474,14 @@
 	name = "nanoweave carpet (puce)"
 	},
 /area/nsv/weapons/fore)
+"uuh" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/light_switch/west,
+/turf/open/floor/durasteel/techfloor_grid,
+/area/nsv/hanger/notkmcstupidhanger/pilot)
 "uuM" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 4
@@ -24948,14 +24954,6 @@
 	},
 /turf/open/floor/engine/vacuum,
 /area/engine/atmos/port_atmos)
-"uVf" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/machinery/light_switch/west,
-/turf/open/floor/durasteel/techfloor_grid,
-/area/nsv/hanger/notkmcstupidhanger/pilot)
 "uVi" = (
 /obj/machinery/suit_storage_unit/mining/eva,
 /turf/open/floor/plasteel,
@@ -25358,7 +25356,7 @@
 	},
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Maintenance Access Infirmary";
-	req_one_access_txt = "5"
+	req_access_txt = "5;12"
 	},
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
@@ -26743,6 +26741,16 @@
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/carpet/ship,
 /area/hallway/secondary/service)
+"woo" = (
+/obj/effect/landmark/start/head_of_personnel{
+	icon_state = "Executive Officer";
+	name = "Executive Officer"
+	},
+/turf/open/floor/carpet/ship/blue{
+	color = "#9999DD";
+	name = "nanoweave carpet (bluer)"
+	},
+/area/crew_quarters/heads/xo)
 "woL" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -27093,7 +27101,7 @@
 "wJx" = (
 /obj/machinery/door/airlock/ship/maintenance{
 	name = "Brig Maintenance";
-	req_one_access_txt = "63"
+	req_access_txt = "12;63"
 	},
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
@@ -27209,12 +27217,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/lab)
-"wPN" = (
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
-/turf/open/floor/plasteel,
-/area/crew_quarters/toilet/restrooms)
 "wQk" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -28215,7 +28217,7 @@
 	},
 /obj/machinery/door/airlock/ship/command{
 	name = "Gravity Generator Room";
-	req_one_access_txt = "10"
+	req_one_access_txt = "56"
 	},
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
@@ -28544,7 +28546,7 @@
 "ycH" = (
 /obj/machinery/door/airlock/ship/engineering/glass{
 	name = "Atmospherics";
-	req_one_access_txt = "10;24"
+	req_one_access_txt = "11;24"
 	},
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/firedoor/border_only,
@@ -28562,7 +28564,9 @@
 "ycV" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/window/southleft,
-/obj/machinery/door/window/northright,
+/obj/machinery/door/window/northright{
+	req_one_access_txt = "5"
+	},
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
@@ -44738,7 +44742,7 @@ iWy
 bpF
 xwn
 dTk
-kTj
+kOQ
 yaJ
 koz
 xyv
@@ -53385,7 +53389,7 @@ wRL
 jFH
 hFI
 oQH
-wPN
+dxW
 jFH
 lre
 fVH
@@ -55809,7 +55813,7 @@ jQO
 wjC
 aCR
 qGs
-uVf
+uuh
 huJ
 pkw
 oSg
@@ -56219,7 +56223,7 @@ soF
 riP
 bXe
 gwr
-jCR
+bHU
 giK
 ffn
 nRw
@@ -57647,7 +57651,7 @@ tQH
 tTm
 ldl
 trr
-bHU
+woo
 aRu
 sRF
 poY
@@ -59063,7 +59067,7 @@ gRt
 nOj
 cMB
 moN
-bHU
+woo
 nQb
 qzq
 xSG
