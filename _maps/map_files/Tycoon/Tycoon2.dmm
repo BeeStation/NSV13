@@ -2664,6 +2664,7 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
+/obj/machinery/firealarm/directional/south,
 /turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "agQ" = (
@@ -3786,11 +3787,11 @@
 /turf/open/floor/monotile/light,
 /area/medical/genetics)
 "ajZ" = (
-/obj/machinery/atmospherics/components/unary/thermomachine/freezer/on{
-	name = "Cryotube Cooler"
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
 	},
-/obj/machinery/camera/autoname,
-/turf/open/floor/monotile/dark,
+/obj/effect/turf_decal/tile/blue,
+/turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "aka" = (
 /turf/open/floor/carpet/ship,
@@ -3832,8 +3833,6 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
-/obj/machinery/power/apc/auto_name/south,
-/obj/structure/cable,
 /turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "akh" = (
@@ -3851,7 +3850,7 @@
 "aki" = (
 /obj/machinery/holopad,
 /obj/structure/cable{
-	icon_state = "2-4"
+	icon_state = "4-8"
 	},
 /turf/open/floor/monotile/dark,
 /area/medical/medbay/central)
@@ -3866,7 +3865,10 @@
 /obj/machinery/portable_atmospherics/canister/oxygen{
 	name = "Cryotube o2 canister"
 	},
-/turf/open/floor/monotile/dark,
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "akl" = (
 /obj/machinery/light{
@@ -4532,8 +4534,10 @@
 /turf/open/floor/monotile/light,
 /area/medical/genetics)
 "amc" = (
-/obj/machinery/stasis,
-/obj/machinery/firealarm/directional/west,
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 10
+	},
+/obj/structure/table/reinforced,
 /turf/open/floor/monotile/light,
 /area/medical/medbay/central)
 "amd" = (
@@ -4560,21 +4564,9 @@
 /turf/open/floor/monotile/light,
 /area/medical/genetics)
 "amh" = (
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
-	},
-/obj/machinery/door/airlock/ship/public/glass{
-	name = "Cryogenics Freezer";
-	req_one_access_txt = "5"
-	},
-/turf/open/floor/monotile/dark,
-/area/medical/medbay/central)
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/monotile/light,
+/area/medical/medbay/lobby)
 "ami" = (
 /turf/closed/wall/ship,
 /area/crew_quarters/dorms)
@@ -5116,9 +5108,11 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
 "aok" = (
-/obj/machinery/atmospherics/pipe/simple/general/hidden{
-	dir = 8
+/obj/machinery/firealarm/directional/west,
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 5
 	},
+/obj/machinery/stasis,
 /turf/open/floor/monotile/light,
 /area/medical/medbay/central)
 "aol" = (
@@ -8489,8 +8483,8 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/structure/disposalpipe/segment{
-	dir = 5
+/obj/structure/disposalpipe/junction/flip{
+	dir = 4
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/port)
@@ -14766,10 +14760,6 @@
 /turf/open/floor/monotile/dark,
 /area/janitor)
 "aPg" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/machinery/door/airlock/ship/public/glass{
 	name = "Aft Primary Hallway"
 	},
@@ -14780,6 +14770,10 @@
 	dir = 4
 	},
 /obj/effect/landmark/zebra_interlock_point,
+/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/central)
 "aPh" = (
@@ -16620,7 +16614,7 @@
 /area/medical/medbay/central)
 "aTK" = (
 /obj/machinery/atmospherics/pipe/manifold/general/visible{
-	dir = 4
+	dir = 1
 	},
 /turf/open/floor/monotile/dark,
 /area/medical/medbay/central)
@@ -16629,6 +16623,8 @@
 	dir = 4
 	},
 /obj/item/radio/intercom/directional/west,
+/obj/structure/table/glass,
+/obj/item/storage/box/bodybags,
 /turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "aTM" = (
@@ -16665,11 +16661,17 @@
 /turf/open/floor/monotile/steel,
 /area/engine/engineering)
 "aTV" = (
-/obj/machinery/airalarm/directional/south,
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 5
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer/on{
+	name = "Cryotube Cooler";
+	dir = 1
 	},
-/turf/open/floor/monotile/dark,
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "aTW" = (
 /obj/structure/cable{
@@ -16685,7 +16687,20 @@
 /turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "aTY" = (
-/turf/open/floor/monotile/dark,
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 4
+	},
+/mob/living/simple_animal/bot/cleanbot{
+	name = "Scrubs, MD";
+	trash = 1
+	},
+/turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "aTZ" = (
 /obj/item/reagent_containers/glass/beaker{
@@ -16797,9 +16812,10 @@
 /area/maintenance/department/medical)
 "aUt" = (
 /obj/structure/table/glass,
-/obj/item/wrench/medical,
-/obj/item/storage/box/bodybags,
-/turf/open/floor/monotile/dark,
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "aUu" = (
 /obj/effect/landmark/nuclear_waste_spawner,
@@ -18713,20 +18729,27 @@
 "aZb" = (
 /obj/structure/closet/secure_closet/medical3,
 /obj/effect/turf_decal/tile/blue,
+/obj/machinery/requests_console{
+	department = "Medbay Clinic";
+	departmentType = 1;
+	name = "Medbay RC";
+	payment_department = "MED";
+	pixel_x = -32
+	},
 /turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "aZc" = (
 /obj/machinery/light{
 	dir = 8
 	},
-/mob/living/simple_animal/bot/cleanbot{
-	name = "Scrubs, MD";
-	trash = 1
-	},
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/blue,
+/obj/machinery/power/apc/auto_name/west,
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
 /turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "aZd" = (
@@ -19528,10 +19551,15 @@
 /turf/open/floor/monotile/dark,
 /area/medical/surgery)
 "baS" = (
-/obj/machinery/atmospherics/pipe/simple/general/visible{
-	dir = 4
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
 	},
-/turf/open/floor/monotile/dark,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/obj/structure/table/glass,
+/obj/item/wrench/medical,
+/turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "baT" = (
 /obj/machinery/computer/cloning{
@@ -21183,7 +21211,8 @@
 /obj/machinery/portable_atmospherics/canister/oxygen{
 	name = "Cryotube o2 canister"
 	},
-/turf/open/floor/monotile/dark,
+/obj/effect/turf_decal/tile/blue,
+/turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "bef" = (
 /obj/structure/cable{
@@ -21713,7 +21742,12 @@
 /obj/machinery/atmospherics/pipe/manifold/general/visible{
 	dir = 8
 	},
-/turf/open/floor/monotile/dark,
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue,
+/obj/machinery/airalarm/directional/west,
+/turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "bfi" = (
 /obj/structure/table,
@@ -28595,12 +28629,6 @@
 /turf/open/floor/durasteel,
 /area/engine/engineering)
 "btC" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
@@ -28610,6 +28638,12 @@
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/airlock/ship/public/glass{
 	name = "Aft Primary Hallway"
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/central)
@@ -29850,12 +29884,12 @@
 /area/hallway/nsv/deck2/frame1/central)
 "bwi" = (
 /obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/central)
@@ -38904,6 +38938,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/monotile/steel,
 /area/medical/medbay/lobby)
 "dgt" = (
@@ -39072,6 +39107,12 @@
 	},
 /turf/open/floor/wood,
 /area/library)
+"dzG" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/monotile/light,
+/area/medical/medbay/lobby)
 "dzX" = (
 /obj/machinery/atmospherics/pipe/multiz/layer2{
 	dir = 1
@@ -42028,6 +42069,15 @@
 /obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/fore)
+"hyA" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/blue{
+	dir = 1
+	},
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/frame1/central)
 "hzd" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -44515,6 +44565,9 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/port)
 "kLw" = (
@@ -47712,6 +47765,11 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/science/xenobiology)
+"ppj" = (
+/obj/effect/turf_decal/tile/ship/full/blue,
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/monotile/steel,
+/area/medical/medbay/lobby)
 "ppG" = (
 /obj/structure/closet/secure_closet/munitions_technician,
 /obj/machinery/light,
@@ -48265,6 +48323,14 @@
 	},
 /turf/open/space/basic,
 /area/engine/atmos)
+"qfC" = (
+/obj/effect/turf_decal/tile/blue{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/blue,
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/frame1/port)
 "qho" = (
 /obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plasteel/ridged/steel,
@@ -48296,6 +48362,9 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
 	dir = 4
 	},
 /turf/open/floor/monotile/dark,
@@ -48983,6 +49052,17 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
+"rfX" = (
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Cryogenics Freezer";
+	req_one_access_txt = "5"
+	},
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/turf/open/floor/monotile/steel,
+/area/medical/medbay/central)
 "rge" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -49320,6 +49400,16 @@
 	icon_state = "panelscorched"
 	},
 /area/maintenance/nsv/weapons)
+"rzb" = (
+/obj/machinery/requests_console{
+	department = "Medbay Clinic";
+	departmentType = 1;
+	name = "Medbay RC";
+	payment_department = "MED";
+	pixel_x = -32
+	},
+/turf/open/floor/monotile/light,
+/area/medical/medbay/central)
 "rzw" = (
 /obj/item/fuel_rod,
 /turf/open/indestructible/sound/pool/spentfuel,
@@ -50041,16 +50131,20 @@
 /turf/open/floor/engine/vacuum,
 /area/science/mixing/chamber)
 "sxm" = (
-/obj/structure/table/reinforced,
-/obj/machinery/requests_console{
-	department = "Medbay Clinic";
-	departmentType = 1;
-	name = "Medbay RC";
-	payment_department = "MED";
-	pixel_x = -32
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
-/turf/open/floor/monotile/light,
-/area/medical/medbay/central)
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/frame1/port)
 "sxM" = (
 /obj/effect/turf_decal/tile/orange{
 	dir = 4
@@ -50148,7 +50242,10 @@
 	payment_department = "MED";
 	pixel_x = -32
 	},
-/obj/item/kirbyplants/random,
+/obj/machinery/disposal/bin,
+/obj/structure/disposalpipe/trunk{
+	dir = 4
+	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
 "sHy" = (
@@ -50231,6 +50328,19 @@
 /area/bridge{
 	name = "CIC"
 	})
+"sQy" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/frame1/port)
 "sRd" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/closed/wall/ship,
@@ -50263,6 +50373,17 @@
 	},
 /turf/open/floor/monotile/steel,
 /area/engine/engineering/reactor_core)
+"sVK" = (
+/obj/machinery/atmospherics/pipe/simple/general/hidden{
+	dir = 8
+	},
+/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/shutters/ship/preopen{
+	dir = 4;
+	id = "medical_traitor_murder_hole"
+	},
+/turf/open/floor/plating,
+/area/medical/medbay/central)
 "sYQ" = (
 /obj/structure/chair/office/light{
 	dir = 1
@@ -50772,6 +50893,21 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
+"tEy" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/frame1/port)
 "tFb" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -51645,6 +51781,21 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/hanger/deck2)
+"vdx" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 1
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/frame1/port)
 "vew" = (
 /obj/structure/bed{
 	layer = 2.8
@@ -51931,6 +52082,18 @@
 /obj/item/storage/toolbox/mechanical,
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/port)
+"vAX" = (
+/obj/machinery/door/firedoor/border_only,
+/obj/machinery/door/firedoor/border_only{
+	dir = 1
+	},
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Medbay Lobby Access"
+	},
+/obj/effect/landmark/zebra_interlock_point,
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/monotile/light,
+/area/medical/medbay/lobby)
 "vBM" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
 	dir = 4
@@ -52064,6 +52227,9 @@
 "vMi" = (
 /obj/machinery/light{
 	dir = 1
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 10
 	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
@@ -53401,6 +53567,10 @@
 	},
 /turf/open/floor/wood,
 /area/library)
+"xHl" = (
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/monotile/steel,
+/area/medical/medbay/lobby)
 "xIH" = (
 /obj/machinery/atmospherics/pipe/simple/dark/visible,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -77744,7 +77914,7 @@ ahm
 agW
 aki
 akg
-ahm
+rfX
 ajZ
 aTK
 aTV
@@ -78260,8 +78430,8 @@ bdB
 ahm
 ahm
 ahm
+sVK
 ahm
-amh
 ahm
 akQ
 acF
@@ -78514,8 +78684,8 @@ aZM
 ahm
 skf
 pCw
+rzb
 bvX
-sxm
 pdT
 amc
 aok
@@ -79807,7 +79977,7 @@ akF
 aUe
 aUe
 bwf
-ahf
+dzG
 ame
 ame
 ylS
@@ -80065,13 +80235,13 @@ aUe
 gub
 aKh
 vMi
-ame
-mib
+xHl
+ppj
 dfh
-ahf
-tsM
-acx
-bCS
+amh
+vAX
+qfC
+tEy
 mvE
 abL
 kcf
@@ -80585,7 +80755,7 @@ ame
 ahf
 tsM
 acx
-bCS
+sxm
 qLv
 aZq
 bCC
@@ -81099,7 +81269,7 @@ ahf
 ajh
 afV
 acx
-bCH
+vdx
 bmR
 boz
 boK
@@ -81356,7 +81526,7 @@ aTM
 afV
 afV
 bge
-bCS
+sxm
 bmQ
 abL
 afB
@@ -81613,7 +81783,7 @@ bzM
 afV
 ssH
 acx
-bCS
+sxm
 afK
 abL
 abL
@@ -81870,7 +82040,7 @@ bwo
 bvl
 aKh
 oao
-bCR
+sQy
 xMG
 laZ
 nWr
@@ -82899,7 +83069,7 @@ bFE
 bHB
 bwi
 aRD
-aPk
+hyA
 laZ
 asF
 kdN
