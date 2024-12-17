@@ -21,6 +21,7 @@ Marine & all their unique stuff!
 	display_order = JOB_DISPLAY_ORDER_ASSISTANT
 	departments = DEPARTMENT_BITFLAG_SERVICE
 	rpg_title = "Lout"
+	var/assign_squad = FALSE //If an assigned department is not essential to the ship, they get added to a squad instead
 
 	species_outfits = list(
 		SPECIES_PLASMAMAN = /datum/outfit/plasmaman
@@ -75,7 +76,7 @@ Marine & all their unique stuff!
 	var/department = M?.client?.prefs?.active_character?.preferred_security_department
 	if(department == "None")
 		to_chat(M, "<b>You have not been assigned to any department. Help in any way you can!</b>")
-		return
+		assign_squad = TRUE
 	else if(!(department in GLOB.available_depts))
 		department = pick(GLOB.available_depts)
 
@@ -87,6 +88,7 @@ Marine & all their unique stuff!
 			ears = /obj/item/radio/headset/headset_cargo
 			dep_access = list(ACCESS_MAILSORTING, ACCESS_CARGO)
 			accessory = /obj/item/clothing/accessory/armband/cargo
+			assign_squad = TRUE
 		if(SEC_DEPT_ENGINEERING)
 			ears = /obj/item/radio/headset/headset_eng
 			dep_access = list(ACCESS_CONSTRUCTION, ACCESS_ENGINE, ACCESS_AUX_BASE)
@@ -99,6 +101,7 @@ Marine & all their unique stuff!
 			ears = /obj/item/radio/headset/headset_sci
 			dep_access = list(ACCESS_RESEARCH)
 			accessory = /obj/item/clothing/accessory/armband/science
+			assign_squad = TRUE
 		if(SEC_DEPT_MUNITIONS)
 			ears = /obj/item/radio/headset/munitions/munitions_tech
 			dep_access = list(ACCESS_MUNITIONS, ACCESS_MUNITIONS_STORAGE)
@@ -116,3 +119,8 @@ Marine & all their unique stuff!
 	W.access |= dep_access
 
 	to_chat(M, "<b>You have been assigned to [department]!</b>")
+
+/datum/job/assistant/register_squad(mob/living/H)
+	if(assign_squad == FALSE)
+		return
+	. = ..()
