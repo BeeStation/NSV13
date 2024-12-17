@@ -780,6 +780,12 @@ Control Rods
 		gas_records_next_interval = world.time + gas_records_interval
 
 		var/datum/gas_mixture/air1 = airs[1]
+		if (air1.total_moles() == 0)
+			// Division by zero is bad
+			for (var/list/record_list in gas_records)
+				record_list += 0
+				record_list.Cut(1, 2)
+			return
 
 		var/list/constricted_plasma = gas_records["constricted_plasma"]
 		constricted_plasma += (air1.get_moles(GAS_CONSTRICTED_PLASMA) / air1.total_moles()) * 100
