@@ -214,13 +214,15 @@
 			if(tool.use_tool(src, user, 40, amount=1, volume=100))
 				to_chat(user, "<span class='notice'You seal the casing on [src].</span>")
 				state = 11
-				check_completion()
+				check_completion(user)
 			return TRUE
 	. = ..()
 
-/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/proc/check_completion()
+/obj/item/ship_weapon/ammunition/torpedo/torpedo_casing/proc/check_completion(mob/user)
 	update_icon()
 	if(state >= 11)
+		if(user && user.client)
+			INVOKE_ASYNC(user.client, TYPE_PROC_REF(/client, give_award), /datum/award/score/torpcount, user)
 		new_torpedo(wh, gs, ps, iff)
 		return TRUE
 

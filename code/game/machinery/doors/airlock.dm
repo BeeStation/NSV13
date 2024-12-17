@@ -1085,6 +1085,10 @@
 		note = C
 		update_icon()
 	else if(HAS_TRAIT(C, TRAIT_DOOR_PRYER) && user.a_intent != INTENT_HARM)
+		//NSV13 - please don't make jaws of life inferior to crowbars.
+		if(C.tool_behaviour == TOOL_CROWBAR && !security_level && (panel_open && ((obj_flags & EMAGGED) || (density && welded && !operating && !hasPower() && !locked) || charge)))
+			try_to_crowbar(C, user)
+		//NSV13 end
 		if(isElectrified() && C?.siemens_coefficient)
 			shock(user,100)
 
@@ -1179,33 +1183,6 @@
 				to_chat(user, "<span class='warning'>You need to be wielding the fire axe to do that!</span>")
 				return
 		INVOKE_ASYNC(src, (density ? PROC_REF(open) : PROC_REF(close)), 2)
-
-	if(HAS_TRAIT(I, TRAIT_DOOR_PRYER)) //NSV13 - kept the ability to use crowbars and stuff on doors
-		if(isElectrified())
-			shock(user,100)//it's like sticking a forck in a power socket
-			return
-
-		if(!density)//already open
-			return
-
-		if(locked)
-			to_chat(user, "<span class='warning'>The bolts are down, it won't budge!</span>")
-			return
-
-		if(welded)
-			to_chat(user, "<span class='warning'>It's welded, it won't budge!</span>")
-			return
-
-		var/time_to_open = 5
-		if(hasPower() && !prying_so_hard)
-			time_to_open = 50
-			playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE) //is it aliens or just the CE being a dick?
-			prying_so_hard = TRUE
-			if(do_after(user, time_to_open, TRUE, src))
-				open(2)
-				if(density && !open(2))
-					to_chat(user, "<span class='warning'>Despite your attempts, [src] refuses to open.</span>")
-			prying_so_hard = FALSE
 
 /obj/machinery/door/airlock/open(forced=0)
 	if( operating || welded || locked )

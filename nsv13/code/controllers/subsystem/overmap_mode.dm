@@ -49,6 +49,11 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/list/modes
 	var/list/mode_names
 
+	///Have we already handed people the base achievement this round?
+	var/patrol_achievement_base_granted = FALSE
+	///Have we already handed people the extended patrol achievement this round?
+	var/patrol_achievement_adv_granted = FALSE
+
 /datum/controller/subsystem/overmap_mode/Initialize(start_timeofday)
 	//Retrieve the list of modes
 	//Check our map for any white/black lists
@@ -241,12 +246,7 @@ SUBSYSTEM_DEF(overmap_mode)
 						else // I don't know what happened but let's go around again
 							objective_reminder_stacks = 0
 				else
-					var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
 					var/datum/star_system/S = SSstar_system.return_system
-					if(length(OM.current_system?.enemies_in_system))
-						if(objective_reminder_stacks == 3)
-							priority_announce("Auto-recall to [S.name] will occur once you are out of combat.", "[mode.reminder_origin]")
-						return // Don't send them home while there are enemies to kill
 					switch(objective_reminder_stacks) //Less Stacks Here, Prevent The Post-Round Stalling
 						if(1)
 							priority_announce("Auto-recall to [S.name] will occur in [(mode.objective_reminder_interval * 2) / 600] Minutes.", "[mode.reminder_origin]")
@@ -255,6 +255,10 @@ SUBSYSTEM_DEF(overmap_mode)
 							priority_announce("Auto-recall to [S.name] will occur in [(mode.objective_reminder_interval * 1) / 600] Minutes.", "[mode.reminder_origin]")
 
 						else
+							var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+							if(length(OM.current_system?.enemies_in_system))
+								priority_announce("Auto-recall to [S.name] will occur once you are out of combat.", "[mode.reminder_origin]")
+								return // Don't send them home while there are enemies to kill
 							priority_announce("Auto-recall to [S.name] activated, additional objective aborted.", "[mode.reminder_origin]")
 							mode.victory()
 
@@ -459,6 +463,27 @@ SUBSYSTEM_DEF(overmap_mode)
 				mode.winner = F //This should allow the mode to finish up by itself
 				mode.check_finished()
 	if((objective_check >= objective_length) && !failed)
+		var/achievement_type
+		if(!SSovermap_mode.round_extended)
+			if(!SSovermap_mode.patrol_achievement_base_granted)
+				achievement_type = /datum/award/achievement/misc/crew_competent
+				SSovermap_mode.patrol_achievement_base_granted = TRUE
+		else
+			if(!SSovermap_mode.patrol_achievement_adv_granted)
+				achievement_type = /datum/award/achievement/misc/crew_very_competent
+				SSovermap_mode.patrol_achievement_adv_granted = TRUE
+		if(achievement_type)
+			for(var/mob/living/living_mob in GLOB.mob_living_list)
+				if(!living_mob.job)
+					continue
+				var/datum/job/job_ref = SSjob.GetJob(living_mob.job)
+				if(!job_ref)
+					continue
+				if(job_ref.faction != "Station")
+					continue
+				if(!living_mob.client)
+					continue
+				living_mob.client.give_award(achievement_type, living_mob)
 		victory()
 
 /datum/overmap_gamemode/proc/victory()

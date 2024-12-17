@@ -3,11 +3,12 @@
 	duration = 3 SECONDS
 	mouse_opacity = FALSE
 
-/obj/effect/temp_visual/fading_overmap/Initialize(mapload, name, icon, icon_state)
+/obj/effect/temp_visual/fading_overmap/Initialize(mapload, name, icon, icon_state, alpha = 255)
 	. = ..()
 	src.name = name
 	src.icon = icon
 	src.icon_state = icon_state
+	src.alpha = alpha
 	play()
 
 /obj/effect/temp_visual/fading_overmap/proc/play()

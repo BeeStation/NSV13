@@ -86,7 +86,7 @@
 	for(var/obj/machinery/atmospherics/components/binary/drive_pylon/P in GLOB.machines)
 		if(length(pylons) == 4) // No more than 4 pylons
 			break
-		if(P.get_overmap() == OMcache && get_dist(src, P) && link_id == P.link_id && P.is_operational <= MAX_PYLON_DISTANCE)
+		if(P.get_overmap() == OMcache && get_dist(src, P) <= MAX_PYLON_DISTANCE && link_id == P.link_id && P.is_operational)
 			pylons += P
 			P.ftl_drive = src
 

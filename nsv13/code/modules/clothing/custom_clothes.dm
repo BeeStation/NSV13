@@ -279,14 +279,12 @@
 	worn_icon = 'nsv13/icons/mob/head.dmi'
 	icon_state = "hardsuit1-peacekeeper_space"
 	item_state = "peacekeeper_space"
-	worn_icon_state = "peacekeeper_space"
+	hardsuit_type = "peacekeeper_space"
 	desc = "A hardsuit helmet fitted with highly experimental magnetic interlocks, allowing it to create a vacuum seal around the user, permitting usage in a hard vacuum. It is currently in EVA mode."
 	alt_desc = "A hardsuit helmet fitted with highly experimental magnetic interlocks, allowing it to create a vacuum seal around the user, permitting usage in a hard vacuum. It is currently in IVA mode."
-	armor = list("melee" = 20, "bullet" = 30, "laser" = 10, "energy" = 10, "bomb" = 70, "bio" = 100, "rad" = 50, "fire" = 100, "acid" = 100)
+	armor = list("melee" = 40, "bullet" = 50, "laser" = 15,"energy" = 30, "bomb" = 25, "bio" = 100, "rad" = 50, "fire" = 75, "acid" = 75, "stamina" = 50)
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDESNOUT //we want to see the mask
-	heat_protection = HEAD
-	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
 
 /obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper
 	name = "SG-1 Mjolnir Armour"
@@ -294,16 +292,22 @@
 	alt_desc = "An extremely bulky suit of armour fitted with highly experimental magnetic interlocks, allowing it to create a vacuum seal around the user, permitting usage in a hard vacuum. It is currently in IVA mode."
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
 	worn_icon = 'nsv13/icons/mob/suit.dmi'
-	icon_state = "peacekeeper_space"
+	icon_state = "hardsuit1-peacekeeper_space"
 	item_state = "peacekeeper_space"
-	worn_icon_state = "peacekeeper_space"
+	hardsuit_type = "peacekeeper_space"
+	allowed = list(/obj/item/gun, /obj/item/ammo_box, /obj/item/ammo_casing, /obj/item/melee/baton, /obj/item/restraints/handcuffs, /obj/item/tank/internals, /obj/item/stock_parts/cell)
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/syndi/peacekeeper
-	armor = list("melee" = 40, "bullet" = 60, "laser" = 50, "energy" = 25, "bomb" = 50, "bio" = 100, "rad" = 40, "fire" = 100, "acid" = 100)
+	armor = list("melee" = 40, "bullet" = 50, "laser" = 15, "energy" = 30, "bomb" = 25, "bio" = 100, "rad" = 50, "fire" = 75, "acid" = 75, "stamina" = 50)
 	resistance_flags = FIRE_PROOF | ACID_PROOF
-	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
-	var/stomp_cooldown_time = 0.3 SECONDS
+	var/stomp_cooldown_time = 0.5 SECONDS
 	var/current_cooldown = 0
+	w_class = WEIGHT_CLASS_BULKY
+	supports_variations = NO_VARIATION
+	item_flags = NONE
+	cm_slowdown = 0.2 //up for debate
+
+/obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper/artifact_immunity()
+    return
 
 /obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper/on_mob_move()
 	var/mob/living/carbon/human/H = loc
@@ -339,6 +343,7 @@
 /obj/machinery/suit_storage_unit/peacekeeper
 	suit_type = /obj/item/clothing/suit/space/hardsuit/syndi/peacekeeper
 	mask_type = /obj/item/clothing/mask/gas/sechailer
+	storage_type = /obj/item/tank/internals/oxygen
 
 /obj/item/clothing/suit/space/syndicate/odst
 	name = "drop trooper space suit"
@@ -518,12 +523,11 @@
 /obj/item/clothing/head/helmet/space/hardsuit/master_at_arms
 	name = "Master-At-Arm's Bombsuit Helmet"
 	desc = "Use in case of bomb."
-	icon = 'nsv13/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
+	icon = 'nsv13/icons/obj/clothing/hats.dmi'
 	worn_icon = 'nsv13/icons/mob/head.dmi'
-	icon_state = "hardsuit0_maa_bombsuit"
-	item_state = "maa_bombsuit"
-	worn_icon_state = "maa_bombsuit"
-	armor = list("melee" = 25, "bullet" = 15, "laser" = 20,"energy" = 10, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 85, "acid" = 50)
+	icon_state = "hardsuit0-maa"
+	hardsuit_type = "maa"
+	armor = list("melee" = 20, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 65, "stamina" = 10)
 	min_cold_protection_temperature = EMERGENCY_HELM_MIN_TEMP_PROTECT
 
 /obj/item/clothing/suit/space/hardsuit/master_at_arms
@@ -532,10 +536,9 @@
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
 	worn_icon = 'nsv13/icons/mob/suit.dmi'
 	icon_state = "maa_bombsuit"
-	item_state = "maa_bombsuit"
-	armor = list("melee" = 25, "bullet" = 15, "laser" = 20,"energy" = 10, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 85, "acid" = 50)
+	armor = list("melee" = 20, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 65, "stamina" = 10)
 	min_cold_protection_temperature = EMERGENCY_SUIT_MIN_TEMP_PROTECT
-	slowdown = 2
+	slowdown = 1.5
 	permeability_coefficient = 0.01
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/master_at_arms
 

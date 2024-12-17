@@ -56,130 +56,18 @@
 		-->
 		<div class="commit sansserif">
 
-			<h2 class="date">13 July 2024</h2>
-			<h3 class="author">riquewright updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">re-added plasma cutter to mining tech node's item list</li>
-				<li class="spellcheck">added whole 4 letters</li>
-			</ul>
-
-			<h2 class="date">12 July 2024</h2>
-			<h3 class="author">Bokkiewokkie updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed shield sprites leaving doubles when the ship gets hit</li>
-			</ul>
+			<h2 class="date">06 December 2024</h2>
 			<h3 class="author">DeltaFire15 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="code_imp">Slightly improved ship weapon machinery firing code (this has no gameplay impact)</li>
-				<li class="bugfix">Non-/overmap overmap objects no longer runtime if newly added to a loaded system.</li>
-			</ul>
-			<h3 class="author">Kenionatus updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="refactor">projectiles_fx.dm should now be slightly more readable</li>
-			</ul>
-			<h3 class="author">Pockets-byte updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added solgov variant of the squad vendor</li>
-				<li class="rscadd">Added new fighter sprite and fighter with shields</li>
-				<li class="rscadd">Added new fighter weapon and sprite</li>
+				<li class="code_imp">Ship interior loading now uses a queue system (for virtual z using things like Sabres & Asteroids)</li>
+				<li class="code_imp">Some overmap z generation handling is ever so slightly cleaner now.</li>
+				<li class="bugfix">Should resolve certain atom init issues (that manifested as broken sparks, among many other things).</li>
 			</ul>
 
-			<h2 class="date">05 July 2024</h2>
-			<h3 class="author">Pockets-byte updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added relayed (overmap) laser projectiles for boom</li>
-			</ul>
-
-			<h2 class="date">28 June 2024</h2>
+			<h2 class="date">18 October 2024</h2>
 			<h3 class="author">DeltaFire15 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="code_imp">Integrity_failure variable settings removed from all overmaps. (This does nothing)</li>
-			</ul>
-
-			<h2 class="date">21 June 2024</h2>
-			<h3 class="author">Bokkiewokkie updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed superstructure crit explosions being too powerful for small hits</li>
-				<li class="bugfix">Fixed fighters and sabres not being relayed overmap messages</li>
-				<li class="bugfix">Fixed armour pumps not accounting for game lag in their processing</li>
-			</ul>
-			<h3 class="author">SerynEngi updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="balance">Decreased armor pool of the Atlas</li>
-			</ul>
-
-			<h2 class="date">14 June 2024</h2>
-			<h3 class="author">Bokkiewokkie updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed the Gladius hangar airlocks being too small and not working</li>
-				<li class="bugfix">Fixed Gladius reactor room getting breached super easily</li>
-				<li class="tweak">made the Gladius AGCNR area, AGCNR control area, and armor pump area into separate rooms.</li>
-				<li class="rscadd">Added the ability to build pool ladders with rods</li>
-				<li class="bugfix">Fixed pool ladders being dislodged by the Stormdrive (and players)</li>
-			</ul>
-			<h3 class="author">Bokkiewokkie, DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Robotic legs can now be modified to a digitigrade version in the augment manipulator. Rejoice, full-metal lizards.</li>
-				<li class="imageadd">Robot Digitigrade leg sprites.</li>
-				<li class="tweak">The CE, Engineering, and Atmos hardsuit once again do not squish digilegs (we had the sprites still around)</li>
-				<li class="code_imp">Some mild hooking into icon code to bypass our own crimes.</li>
-				<li class="bugfix">Coincidentally, IPC limbs no longer commit crimes against icons after being thrown in the augment manipulator.</li>
-				<li class="tweak">The prosthetic limb quirk now respects digitigrade bodytypes.</li>
-			</ul>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">The AI tracking window no longer breaks if anybody on the camera network is naked.</li>
-				<li class="bugfix">As AI, tracking somebody with the crew monitor should be less likely to brick.</li>
-			</ul>
-			<h3 class="author">IndusRobot updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed shells are not appropriately handling the presence of powder bags</li>
-				<li class="bugfix">fix borgs duplicating ammunition in deck turret and PDC</li>
-			</ul>
-			<h3 class="author">SerynEngi updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">MAA hardsuit now in MAA office on Atlas.</li>
-				<li class="rscadd">Service lathe now present on Atlas</li>
-				<li class="bugfix">Fixed gauss cannon power for Atlas and Eclipse</li>
-				<li class="bugfix">Atlas brig now has atmospherics.</li>
-				<li class="bugfix">Atlas security is no longer entirely brig</li>
-				<li class="tweak">Scrubber/vent placement on Atlas</li>
-			</ul>
-			<h3 class="author">benbot16 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Air-to-air repair/refuel modules now have a maximum range.</li>
-				<li class="tweak">Adjusts repair/fuel transfer times for air-to-air modules</li>
-				<li class="bugfix">Air-to-air repair/refuel modules now function properly.</li>
-				<li class="bugfix">Fixes a virtual-z issue with dropships</li>
-			</ul>
-			<h3 class="author">covertcorvid updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="server">Upped the compiler version and max client version to 515.1607</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added some nsv clothes to the torp shop</li>
-				<li class="spellcheck">fixed a typo in peacekeer vest</li>
-			</ul>
-
-			<h2 class="date">31 May 2024</h2>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="code_imp">Slightly improved some ui_acts of Fighters, APNP and APNW.</li>
-			</ul>
-			<h3 class="author">Ikalpo updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Conveyor switch assemblies keep all their settings, which can be changed using tools</li>
-				<li class="rscadd">Conveyor switch assemblies can get a link from a belt</li>
-				<li class="rscadd">Conveyor switches can be renamed</li>
-				<li class="bugfix">Slow conveyor belts no longer stack with normal ones</li>
-				<li class="imageadd">Slow belts are now yellow</li>
-			</ul>
-			<h3 class="author">benbot16 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Ammo racks may now be loaded by attacking them with ammunition</li>
-				<li class="tweak">Jam SFX now plays on jam instead of on load attempt</li>
-				<li class="bugfix">Fixes a few ammo rack-related edge cases</li>
+				<li class="bugfix">Overmap projectiles now correctly home across z loop borders.</li>
 			</ul>
 		</div>
 
