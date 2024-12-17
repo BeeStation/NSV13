@@ -14,6 +14,7 @@ What are the archived variables for?
 	var/initial_volume = CELL_VOLUME //liters
 	var/list/reaction_results
 	var/list/analyzer_results //used for analyzer feedback - not initialized until its used
+	// DON'T rename this, you'd also have to change the auxmos library
 	var/_extools_pointer_gasmixture // Contains the index in the gas vector for this gas mixture in rust land. Don't. Touch. This. Var.
 
 GLOBAL_LIST_INIT(auxtools_atmos_initialized, FALSE)
