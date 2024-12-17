@@ -1660,7 +1660,7 @@ Control Rods
 				var/atom/target = get_edge_target_turf(M, get_dir(src, get_step_away(M, src)))
 				M.throw_at(target, 4, 2)
 				continue
-			if(isobj(AM) && !AM.anchored)
+			if(!QDELETED(AM) && isobj(AM) && !AM.anchored)
 				var/atom/target = get_edge_target_turf(AM, get_dir(src, get_step_away(AM, src)))
 				AM.throw_at(target, 4, 2)
 
@@ -1686,7 +1686,7 @@ Control Rods
 /obj/effect/anomaly/stormdrive/squall/proc/equalise(mob/living/A)
 	var/list/throwlist = orange(6, A)
 	for(var/obj/O in throwlist)
-		if(!O.anchored)
+		if(!QDELETED(O) && !O.anchored)
 			O.throw_at(A, 6, 3)
 	for(var/mob/living/M in throwlist)
 		if(!M.mob_negates_gravity())
@@ -1718,7 +1718,7 @@ Control Rods
 			M.apply_damage(20)
 			var/atom/target = get_edge_target_turf(M, get_dir(src, get_step_away(M, src)))
 			M.throw_at(target, 6, 5)
-		if(isobj(AM) && !AM.anchored)
+		if(!QDELETED(AM) && isobj(AM) && !AM.anchored)
 			var/atom/target = get_edge_target_turf(AM, get_dir(src, get_step_away(AM, src)))
 			AM.throw_at(target, 6, 5)
 
