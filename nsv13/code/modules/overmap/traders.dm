@@ -77,43 +77,52 @@
 /datum/trader_item/proc/on_purchase(obj/structure/overmap/OM)
 	return OM.send_supplypod(unlock_path)
 
+/**
+ * Attempts to send an item to an overmap via supply pod.
+ * * unlock_path = The item to send. Can be both a path or an object.
+ * * courier = The sender. Determines pod appearance.
+ * * isInitialized: Must be set to TRUE if passing an object and not a typepath.
+ */
 /obj/structure/overmap/proc/send_supplypod(unlock_path, var/obj/structure/overmap/courier, isInitialized)
 	RETURN_TYPE(/atom/movable)
 	var/area/landingzone = null
 	var/obj/structure/overmap/OM = src
 	var/turf/LZ = null
 	//If you wanna specify WHERE cargo is dropped. Otherwise we guess.
-	if(!length(trader_beacons))
-		if(OM.role == MAIN_OVERMAP)
-			landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
-
-		if ( !landingzone ) // Main overmap may or may not have a warehouse
-			landingzone = GLOB.areas_by_type[/area/quartermaster]
-
-		if ( !landingzone ) // Main overmap may or may not have a cargobay
-			if(!OM.linked_areas.len)
-				OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
-				if(length(OM?.linked_areas))
-					goto foundareas
-				return FALSE
-			foundareas:
-			landingzone = pick(OM.linked_areas)
-		var/list/empty_turfs = list()
-		for(var/turf/open/floor/T in landingzone)//uses default landing zone
-			if(is_blocked_turf(T))
-				continue
-			if(empty_turfs.len >= 10)
-				break //Don't bother finding any more.
-			LAZYADD(empty_turfs, T)
-			CHECK_TICK
-		if(empty_turfs?.len)
-			LZ = pick(empty_turfs)
-	else
-		LZ = get_turf(pick(trader_beacons))
 	if(dradis && !QDELETED(dradis.beacon) && dradis.usingBeacon)
 		LZ = get_turf(dradis.beacon)
 	if(!LZ)
-		LZ = pick(landingzone) //If we couldn't find an open floor, just throw it somewhere
+		if(!length(trader_beacons))
+			if(OM.role == MAIN_OVERMAP)
+				landingzone = GLOB.areas_by_type[/area/quartermaster/warehouse]
+
+			if ( !landingzone ) // Main overmap may or may not have a warehouse
+				landingzone = GLOB.areas_by_type[/area/quartermaster]
+
+			if ( !landingzone ) // Main overmap may or may not have a cargobay
+				if(!length(OM.linked_areas))
+					OM = OM.last_overmap //Handles fighters going out and buying things on the ship's behalf
+					if(!OM || !length(OM.linked_areas))
+						return FALSE
+				landingzone = pick(OM.linked_areas)
+			if(landingzone)
+				var/list/empty_turfs = list()
+				for(var/turf/open/floor/T in landingzone)//uses default landing zone
+					if(is_blocked_turf(T))
+						continue
+					if(empty_turfs.len >= 10)
+						break //Don't bother finding any more.
+					LAZYADD(empty_turfs, T)
+					CHECK_TICK
+				if(empty_turfs?.len)
+					LZ = pick(empty_turfs)
+		else
+			LZ = get_turf(pick(trader_beacons))
+	if(!LZ)
+		if(landingzone)
+			LZ = pick(landingzone) //If we couldn't find an open floor, just throw it somewhere
+		else
+			CRASH("Somehow we just failed to decide on ANY landing zone for a cargo pod staged for an overmap. Overmap [src]. This warrants investigation.")
 
 	// Knowing who the deliveryman is tells us what kind of pod to send
 	var/obj/structure/closet/supplypod/toLaunch
@@ -412,11 +421,24 @@
 // 	user.get_overmap().hail("Mission details as follows: [theJob.desc]", src)
 // 	return TRUE
 
+/* 	/\
+ 	||	Memories of good times.*/
+
+
+/**
+ * Attempts to purchase a trader item.
+ * * item = The trader item to purchase.
+ * * user = The carbon attempting to purchase the item.
+ * * Returns TRUE / FALSE on success / fail.
+ */
 /datum/trader/proc/attempt_purchase(datum/trader_item/item, mob/living/carbon/user)
 	if(!isliving(user))
 		return FALSE
-	//Syndies use syndie budget, NT use NT cargo budget
 	var/obj/structure/overmap/OM = user.get_overmap()
+	if(!length(OM.linked_areas) || istype(OM, /obj/structure/overmap/small_craft) || isasteroid(OM))
+		to_chat(user, "<span class='warning'>You cannot make purchases from [OM]!</span>")
+		return FALSE
+	//Syndies use syndie budget, NT use NT cargo budget
 	var/account = ACCOUNT_CAR
 	if(OM)
 		account = (OM.faction == "nanotrasen") ? ACCOUNT_CAR : ACCOUNT_SYN
