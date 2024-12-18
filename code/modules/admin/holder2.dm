@@ -33,6 +33,9 @@ GLOBAL_PROTECT(href_token)
 
 	var/datum/filter_editor/filteriffic
 
+	/// A lazylist of tagged datums, for quick reference with the View Tags verb
+	var/list/tagged_datums
+	
 /datum/admins/New(datum/admin_rank/R, ckey, force_active = FALSE, protected)
 	if(IsAdminAdvancedProcCall())
 		var/msg = " has tried to elevate permissions!"
