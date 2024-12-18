@@ -180,6 +180,14 @@
 	combat_dice_type = /datum/combat_dice/destroyer
 	possible_interior_maps = list(/datum/map_template/boarding/destroyer)
 
+/obj/structure/overmap/syndicate/ai/destroyer/spec_collision_handling(obj/structure/overmap/other_ship, list/impact_powers, impact_angle)
+	var/modified_angle = 360 - ((angle + 630) % 360)
+	var/angle_diff = impact_angle - modified_angle
+	if(abs(angle_diff) > HAMMERHEAD_COLLISION_GUARD_ANGLE)
+		return
+	impact_powers[1] *= 0.5 // x 0.5 self damage
+	impact_powers[2] *= 2.5 // x 2.5 other damage
+
 /obj/structure/overmap/syndicate/ai/destroyer/elite
 	name = "Special Ops Torpedo Destroyer"
 	icon_state = "hammerhead_elite"

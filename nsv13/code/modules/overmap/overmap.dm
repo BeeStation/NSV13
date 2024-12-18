@@ -31,6 +31,8 @@
 	var/sprite_size = 64 //Pixels. This represents 64x64 and allows for the bullets that you fire to align properly.
 	var/area_type = null //Set the type of the desired area you want a ship to link to, assuming it's not the main player ship.
 	var/impact_sound_cooldown = FALSE //Avoids infinite spamming of the ship taking damage.
+	///Handles cooldown between collisions to avoid certain very bad times :)
+	var/next_collision = 0
 	var/datum/star_system/current_system //What star_system are we currently in? Used for parallax.
 	var/resize = 0 //Factor by which we should shrink a ship down. 0 means don't shrink it.
 	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.
@@ -1005,3 +1007,14 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(ftl_drive)
 		return TRUE
 	return FALSE
+
+/**
+ * Handles special modifications or effects an overmap has for collisions.
+ * * other_ship = the ship this collides with.
+ * * impact_powers = the strength of the impact for (this ship, other ship). Done this way because list pointer allows inplace var access.
+ * * impact_angle = The angle of the impact.
+ *
+ * This does NOT return the modified impact powers, as it is not neccessary due to inplace handling!
+ */
+/obj/structure/overmap/proc/spec_collision_handling(obj/structure/overmap/other_ship, list/impact_powers, impact_angle)
+	return
