@@ -202,6 +202,14 @@
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 	broadside = TRUE
 
+/obj/structure/overmap/nanotrasen/heavy_cruiser/starter/spec_collision_handling(obj/structure/overmap/other_ship, list/impact_powers, impact_angle)
+	var/modified_angle = 360 - ((angle + 630) % 360)
+	var/angle_diff = impact_angle - modified_angle
+	if(abs(angle_diff) > HAMMERHEAD_COLLISION_GUARD_ANGLE)
+		return
+	impact_powers[1] *= 0.5 // x 0.5 self damage
+	impact_powers[2] *= 2.5 // x 2.5 other damage
+
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter/apply_weapons()
 	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)

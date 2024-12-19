@@ -157,7 +157,7 @@
 			linkup()
 
 /obj/structure/fighter_launcher/proc/shake_people(var/obj/structure/overmap/OM)
-	if(OM?.operators.len)
+	if(OM && length(OM.operators))
 		for(var/mob/M in OM.operators)
 			shake_with_inertia(M, 10, 1)
 			to_chat(M, "<span class='warning'>You feel a sudden jolt!</span>")
