@@ -114,6 +114,11 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 #define MASS_TITAN 150 //40+ Players - Large Capital Ships
 #define MASS_IMMOBILE 200 //Things that should not be moving. See: stations
 
+//Collision stuff
+#define OVERMAP_COLLISION_COOLDOWN 1 SECONDS //! Cooldown between collisions.
+#define OVERMAP_COLLISION_MAGNIFIER 4 //! All collision damage big enough to go into the damage calculation itself is multiplied by this.
+#define HAMMERHEAD_COLLISION_GUARD_ANGLE 55 //! Angle that determines maximum variance of collision angle to ship angle to count as "head" impact.
+
 //Fun tools
 #define SHIELD_NOEFFECT 0 //!Shield failed to absorb hit.
 #define SHIELD_ABSORB 1 //!Shield absorbed hit.
