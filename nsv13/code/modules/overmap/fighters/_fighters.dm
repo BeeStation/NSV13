@@ -1272,6 +1272,12 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	var/rpm = 0
 	var/flooded = FALSE
 
+/obj/item/fighter_component/engine/examine(mob/user)
+	. = ..()
+	if(flooded)
+		. += "<span class='notice'>You can hear liquid sloshing around inside.</span>"
+		. += "<span class='notice'>The combustion chamber is <b>screwed<b> closed.</span>"
+
 /obj/item/fighter_component/engine/flooded //made just so I can put it in pilot-specific mail
 	desc = "A mighty engine capable of propelling small spacecraft to high speeds. Something doesn't seem right, though..."
 	flooded = TRUE
@@ -1280,8 +1286,9 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	. = ..()
 	if(!flooded)
 		return
-	to_chat(user, "<span class='notice'>You start to purge [src] of its flooded fuel.</span>")
+	balloon_alert(user, "You start to purge [src] of its flooded fuel.")
 	if(do_after(user, 10 SECONDS, target=src))
+		balloon_alert(user, "You finish clearing the fuel out of [src].")
 		flooded = FALSE
 		shake_animation()
 
