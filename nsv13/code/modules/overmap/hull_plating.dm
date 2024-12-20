@@ -108,7 +108,9 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 		if(!F)
 			F = new(T)
 		else if(istype(F))
-			F.lifetime = initial(F.lifetime) //reduce object churn a little bit when using smoke by keeping existing foam alive a bit longer
+			var/newtime = (initial(F.lifetime) * (1 - ((world.time - F.creation_time) / (20 SECONDS))))
+			if(newtime > 0 && newtime > F.lifetime)
+				F.lifetime = initial(F.lifetime) //reduce object churn a little bit when using smoke by keeping existing foam alive a bit longer
 
 	for(var/obj/structure/hull_plate/HP in T.contents)
 		if(!istype(HP))
