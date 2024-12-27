@@ -238,7 +238,7 @@ Bullet reactions
 	else
 		obj_integrity += amount
 	if(structure_crit)
-		if(obj_integrity >= max_integrity * 0.2) //You need to repair a good chunk of her HP before you're getting outta this buster.
+		if(obj_integrity >= max_integrity * 0.2) //You need to repair a good chunk of her HP before you're getting outta this fucko.
 			stop_relay(channel=CHANNEL_SHIP_FX)
 			priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
 			structure_crit = FALSE
