@@ -118,14 +118,14 @@ Marine & all their unique stuff!
 	to_chat(M, "<b>You have been assigned to [department]!</b>")
 
 /datum/job/assistant/register_squad(mob/living/H)
-	if(!ishuman(H))
+	if(!ishuman(H)) //Nope
 		return
+
 	var/list/disallowed_access = list(ACCESS_ENGINE, ACCESS_MEDICAL, ACCESS_MUNITIONS) //If these departments are disallowed squads, so are the midshipmen assigned to them
-	var/mob/living/carbon/human/A = H
-	var/obj/item/card/id/I = A.get_idcard()
+	var/obj/item/card/id/I = H.get_idcard()
 	if(!I)
 		return
-	for(var/B in disallowed_access)
-		if(B in I.access)
+	for(var/access in disallowed_access)
+		if(access in I.access)
 			return
 	. = ..()
