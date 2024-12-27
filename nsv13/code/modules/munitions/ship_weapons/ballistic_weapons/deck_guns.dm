@@ -370,14 +370,18 @@
 				powder_gates += maybe_powder_gate
 				maybe_powder_gate.core = src
 				break
-			if(!computer && istype(maybe_machine, /obj/machinery/computer/deckgun))
+			else if(istype(maybe_machine, /obj/machinery/computer/deckgun))
+				if(computer)
+					continue
 				var/obj/machinery/computer/deckgun/guncomputer = maybe_machine
 				if(guncomputer.core)
 					continue
 				computer = guncomputer
 				guncomputer.core = src
 				break
-			if(!payload_gate && istype(maybe_machine, /obj/machinery/deck_turret/payload_gate))
+			else if(istype(maybe_machine, /obj/machinery/deck_turret/payload_gate))
+				if(payload_gate)
+					continue
 				var/obj/machinery/deck_turret/payload_gate/maybe_payload_gate = maybe_machine
 				if(maybe_payload_gate.core)
 					continue
