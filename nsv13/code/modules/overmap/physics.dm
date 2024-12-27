@@ -596,6 +596,10 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	if(!z || QDELETED(src))
 		return FALSE
 	var/turf/T = get_center()
+	if(!T) //Might be at map edge.
+		T = get_turf(src)
+		if(!T) //Abort.
+			return FALSE
 	var/obj/item/projectile/proj = new proj_type(T)
 	if(ai_aim && !proj.can_home && !proj.hitscan)
 		target = calculate_intercept(target, proj, miss_chance=miss_chance, max_miss_distance=max_miss_distance)
