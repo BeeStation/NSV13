@@ -57,9 +57,34 @@
 		<div class="commit sansserif">
 
 			<h2 class="date">27 December 2024</h2>
+			<h3 class="author">Bokkiewokkie updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added a peculiar effect when an unreasonable amount of energy hits a singularity generator.</li>
+				<li class="admin">Added admin logging for BSA misfire incidents</li>
+				<li class="tweak">Gave fighter engines a tooltip when they are flooded</li>
+			</ul>
 			<h3 class="author">DeltaFire15 updated:</h3>
 			<ul class="changes bgimages16">
 				<li class="bugfix">Space tiles on midround-created overmap zlevels should behave normally again.</li>
+			</ul>
+			<h3 class="author">Various TG coders from multiple PRs (AnturK, Thunder12345, Fikou, Y0SH1M4S73R, Ryll/Shaps, MrStonedOne, LemonInTheDark, ninjanomnom) - port by EvilDragonfiend updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Datums and lists used as keys in assoc lists are now linked in vv</li>
+				<li class="rscadd">View variables can now accept input from a colour picker.</li>
+				<li class="code_imp">Changed resolve weakref vv option to TG version</li>
+				<li class="admin">infinity option is added to vv classes</li>
+				<li class="admin">Added the color matrix editor. It is available from a dropdown option in an atom's View Variables menu as well as when editing an existing color matrix.</li>
+				<li class="admin">Added Datum Tagging, a new admin tool for quickly marking and referring back to various datums and atoms. You can tag atoms by ctrl+middle clicking them or using the right click context menu, or from their VV dropdown menu (especially for abstract datums that can't be clicked).</li>
+				<li class="admin">The View-Tags menu can quickly be accessed by F9 default, or using the View-Tags button at the bottom of the Admin -> Game status panel section.</li>
+				<li class="admin">Tagged datums can also be referenced for things like proccalls and VV var edits, similarly to Marked objects.</li>
+				<li class="code_imp">Fixup list helpers, remove listoflist footgun from generic list procs, remove duplicated procs</li>
+				<li class="admin">VV for global vars will now load MUCH faster, in exchange lists are now perma contracted in that particular pane</li>
+				<li class="admin">Appearance vars in VV now display instead of being left blank</li>
+				<li class="bugfix">Fixes passing in list arguments in callproc</li>
+				<li class="admin">VV can now display the contents of special byond lists like filters, or client.images</li>
+				<li class="admin">VV on images now displays the image in the header</li>
+				<li class="admin">VV can now display filters and includes their type</li>
+				<li class="code_imp">Precalculates special list var names and avoids incorrect vv targets</li>
 			</ul>
 
 			<h2 class="date">18 December 2024</h2>
