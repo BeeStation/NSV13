@@ -73,9 +73,9 @@
 // Use this when setting the ai_eye's location.
 // It will also stream the chunk that the new loc is in.
 
-/mob/camera/ai_eye/proc/setLoc(destination, force_update = FALSE, dir) //NSV13 - AI Custom Holographic Form
+/mob/camera/ai_eye/proc/setLoc(destination, force_update = FALSE, dir, ai_mecha_override) //NSV13 - AI Custom Holographic Form || also AI mecha fixes - basically we need the fourth arg to ONLY allow the mecha AI movement and lock normal actions.
 	if(ai)
-		if(!isturf(ai.loc))
+		if(!isturf(ai.loc) && (!ismecha(ai.loc) || !ai_mecha_override)) //NSV13 - hacky ancient bugfixes (eye needs moving even if core is mech'd to update cam chunks).
 			return
 		destination = get_turf(destination)
 		if(!force_update && (destination == get_turf(src)) )

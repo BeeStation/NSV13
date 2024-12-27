@@ -84,7 +84,7 @@
 	loot = list(
 		/obj/item/powder_bag = 10,
 		/obj/machinery/computer/deckgun = 1,
-		/obj/machinery/deck_turret = 1,
+		/obj/machinery/deck_turret/core = 1,
 		/obj/machinery/deck_turret/payload_gate = 1,
 		/obj/machinery/deck_turret/autoelevator = 1,
 		/obj/machinery/deck_turret/powder_gate = 1
