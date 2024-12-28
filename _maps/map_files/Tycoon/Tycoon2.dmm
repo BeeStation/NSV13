@@ -2161,10 +2161,10 @@
 	dir = 1;
 	layer = 2.9
 	},
-/obj/machinery/camera{
-	network = list("ss13","eng");
+/obj/machinery/camera/autoname{
+	dir = 4;
 	name = "Forward DC Locker";
-	dir = 5
+	network = list("ss13","engine")
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/central)
@@ -2735,10 +2735,8 @@
 	dir = 1;
 	layer = 2.9
 	},
-/obj/machinery/camera{
-	network = list("ss13","eng");
-	name = "Aft Adv. DC Locker";
-	dir = 5
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/port)
@@ -5112,7 +5110,9 @@
 /area/gateway)
 "aod" = (
 /obj/machinery/modular_computer/console/preset/engineering,
-/obj/machinery/camera/autoname,
+/obj/machinery/camera/autoname{
+	network = s
+	},
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile/dark,
 /area/tcommsat/computer)
@@ -15583,10 +15583,10 @@
 /area/tcommsat/computer)
 "aRf" = (
 /obj/machinery/telecomms/broadcaster/preset_right,
-/obj/machinery/camera{
-	network = list("eng");
-	name = "Telecomms";
-	dir = 1
+/obj/machinery/camera/autoname{
+	dir = 1;
+	network = list("ss13","engine");
+	name = "Telecomms"
 	},
 /turf/open/floor/circuit/telecomms/server,
 /area/tcommsat/server)
@@ -16756,9 +16756,9 @@
 /obj/machinery/computer/turbine_computer{
 	id = "reactor2"
 	},
-/obj/machinery/camera{
-	network = list("ss13","eng");
-	name = "Reactor Core #1"
+/obj/machinery/camera/autoname{
+	name = "Reactor";
+	network = list("ss13","engine")
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
@@ -26393,6 +26393,11 @@
 	dir = 1;
 	layer = 2.9
 	},
+/obj/machinery/camera/autoname{
+	dir = 8;
+	name = "Aft Adv. DC Locker";
+	network = list("ss13","engine")
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/port)
 "bpi" = (
@@ -29551,9 +29556,9 @@
 /obj/effect/turf_decal/stripes/corner{
 	dir = 1
 	},
-/obj/machinery/camera{
-	network = list("ss13","eng");
-	name = "Forward Adv. DC Locker"
+/obj/machinery/camera/autoname{
+	name = "Forward Adv. DC Locker";
+	network = list("ss13","engine")
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/central)
@@ -38383,10 +38388,10 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/machinery/camera{
-	network = list("ss13","eng");
-	name = "Reactor Core #2";
-	dir = 1
+/obj/machinery/camera/autoname{
+	name = "Reactor";
+	network = list("ss13","engine");
+	dir = 10
 	},
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering/reactor_core)
@@ -40465,11 +40470,8 @@
 /area/crew_quarters/fitness/recreation)
 "feG" = (
 /obj/structure/table/reinforced,
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching critical engineering areas";
-	name = "Engineering Critical Monitoring";
-	network = list("eng");
-	pixel_y = 2
+/obj/machinery/computer/security/telescreen/ce{
+	name = "Engineering Critical Monitoring"
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/engine/dcc)
@@ -41388,10 +41390,10 @@
 /area/engine/engine_room)
 "gBn" = (
 /obj/structure/lattice/catwalk/over/ship,
-/obj/machinery/camera{
-	network = list("ss13","eng");
-	name = "CIC";
-	dir = 1
+/obj/machinery/camera/autoname{
+	name = "Helm/Tac Console";
+	network = list("ss13","engine");
+	dir = 10
 	},
 /turf/open/floor/monotile/dark,
 /area/bridge{
@@ -47404,14 +47406,10 @@
 /turf/open/floor/monotile/dark,
 /area/engine/engineering)
 "ogX" = (
-/obj/structure/rack,
-/obj/item/watertank/atmos,
-/obj/machinery/light{
-	dir = 4
-	},
-/obj/structure/window/reinforced{
+/obj/machinery/camera/autoname{
 	dir = 1;
-	layer = 2.9
+	name = "Aft DC Locker";
+	network = list("ss13","engine")
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/port)
@@ -48040,9 +48038,9 @@
 /area/security/execution/transfer)
 "pjU" = (
 /obj/machinery/light_switch/south,
-/obj/machinery/camera{
-	network = list("ss13","eng");
-	name = "Reactor Control";
+/obj/machinery/camera/autoname{
+	name = "Reactor Controls";
+	network = list("ss13","engine");
 	dir = 1
 	},
 /turf/open/floor/durasteel/lino,
@@ -49217,11 +49215,6 @@
 	},
 /obj/structure/window/reinforced{
 	dir = 1
-	},
-/obj/machinery/camera{
-	network = list("ss13","eng");
-	name = "Aft DC Locker";
-	dir = 5
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/port)
@@ -81329,7 +81322,7 @@ bxm
 boA
 bil
 afW
-ogX
+aOT
 bph
 afD
 bpL
@@ -81583,7 +81576,7 @@ bCC
 vzQ
 bxp
 bxm
-aOH
+ogX
 bil
 bil
 bil

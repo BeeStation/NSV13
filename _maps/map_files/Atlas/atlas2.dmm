@@ -921,10 +921,10 @@
 /obj/structure/table/reinforced,
 /obj/structure/railing,
 /obj/item/radio/intercom,
-/obj/machinery/camera{
-	network = list("ss13","eng");
+/obj/machinery/camera/all{
+	network = list("ss13","engine");
 	name = "CIC";
-	dir = 1
+	dir = 10
 	},
 /turf/open/floor/carpet/royalblack,
 /area/bridge/cic)
@@ -6578,6 +6578,11 @@
 	name = "Telecomms Control Room APC";
 	pixel_x = 24
 	},
+/obj/machinery/camera/all{
+	network = list("ss13","engine");
+	name = "Telecomms";
+	dir = 9
+	},
 /turf/open/floor/circuit/telecomms/server,
 /area/tcommsat/server)
 "Dh" = (
@@ -6790,12 +6795,12 @@
 /obj/item/stack/tile/plasteel{
 	amount = 50
 	},
-/obj/machinery/camera{
-	network = list("ss13","eng");
-	name = "Deck 1 DC"
-	},
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
+	},
+/obj/machinery/camera/all{
+	network = list("ss13","engine");
+	name = "Deck 1 DC Locker"
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
@@ -9040,14 +9045,14 @@
 /obj/structure/rack,
 /obj/item/clothing/gloves/color/yellow,
 /obj/item/holosign_creator/atmos,
-/obj/machinery/camera{
-	network = list("ss13","eng");
-	name = "Deck 1 Adv. DC"
-	},
 /obj/effect/turf_decal/stripes/corner{
 	dir = 1
 	},
 /obj/item/clothing/shoes/magboots,
+/obj/machinery/camera/all{
+	network = list("ss13","engine");
+	name = "Deck 1 Adv. DC Locker"
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "Nh" = (

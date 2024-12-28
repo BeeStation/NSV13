@@ -5890,9 +5890,9 @@
 /obj/item/extinguisher,
 /obj/machinery/airalarm/directional/north,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
-/obj/machinery/camera{
-	network = list("ss13","eng");
-	name = "Deck 2 DC"
+/obj/machinery/camera/all{
+	network = list("ss13","engine");
+	name = "Deck 2 DC Locker"
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
@@ -6764,13 +6764,10 @@
 	},
 /obj/effect/turf_decal/tile/yellow,
 /obj/machinery/firealarm/directional/east,
-/obj/machinery/computer/security/telescreen{
-	desc = "Used for watching critical engineering areas";
-	name = "Engineering Critical Monitoring";
-	network = list("eng");
-	pixel_y = 2
-	},
 /obj/structure/table,
+/obj/machinery/computer/security/telescreen/ce{
+	name = "Engineering Critical Monitoring"
+	},
 /turf/open/floor/monotile/steel,
 /area/nsv/engine/dcc)
 "ux" = (
@@ -15069,11 +15066,11 @@
 /obj/structure/rack,
 /obj/item/clothing/gloves/color/yellow,
 /obj/item/holosign_creator/atmos,
-/obj/machinery/camera{
-	network = list("ss13","eng");
-	name = "Deck 2 Adv. DC"
-	},
 /obj/item/clothing/shoes/magboots,
+/obj/machinery/camera/all{
+	network = list("ss13","engine");
+	name = "Deck 2 Adv. DC Locker"
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "VC" = (
