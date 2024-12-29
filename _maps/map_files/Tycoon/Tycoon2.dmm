@@ -1692,6 +1692,7 @@
 	pixel_y = 24
 	},
 /obj/machinery/camera/autoname,
+/obj/machinery/recharge_station,
 /turf/open/floor/monotile/steel,
 /area/hallway/secondary/exit)
 "aes" = (
@@ -5340,6 +5341,9 @@
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
@@ -14861,6 +14865,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/central)
 "aPo" = (
@@ -16525,6 +16530,7 @@
 /obj/item/radio/intercom{
 	pixel_y = 26
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/carpet/red,
 /area/nsv/weapons/fore)
 "aTw" = (
@@ -16829,10 +16835,10 @@
 /turf/template_noop,
 /area/maintenance/department/medical)
 "aUt" = (
-/obj/structure/table/glass,
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "aUu" = (
@@ -19464,13 +19470,15 @@
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
 "baF" = (
-/obj/structure/disposalpipe/segment,
-/obj/effect/turf_decal/tile/blue{
-	dir = 8
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
 	},
-/obj/effect/turf_decal/tile/blue,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/machinery/recharge_station,
 /turf/open/floor/monotile/steel,
-/area/hallway/nsv/deck2/frame1/port)
+/area/crew_quarters/dorms)
 "baG" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -20926,13 +20934,10 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/turf/open/floor/carpet/ship,
+/turf/open/floor/monotile/steel,
 /area/medical/medbay/central)
 "bdC" = (
 /obj/machinery/atmospherics/pipe/multiz/layer4{
@@ -29906,11 +29911,11 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/airlock/ship/public/glass{
 	name = "Cryogenics";
 	req_one_access_txt = "5"
 	},
-/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
 "bwh" = (
@@ -35118,6 +35123,7 @@
 /obj/machinery/camera/autoname{
 	dir = 4
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/carpet/blue,
 /area/hallway/nsv/deck2/frame1/central)
 "bGU" = (
@@ -43806,7 +43812,7 @@
 	dir = 8
 	},
 /obj/effect/decal/cleanable/dirt/dust,
-/turf/open/space/basic,
+/turf/open/floor/plating,
 /area/maintenance/central)
 "jyj" = (
 /obj/structure/cable{
@@ -45037,6 +45043,11 @@
 /area/science/mixing{
 	name = "Prototype munitions bay"
 	})
+"kZM" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/plating,
+/area/medical/medbay/lobby)
 "lay" = (
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /turf/open/floor/plating,
@@ -49857,6 +49868,16 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/cargo)
+"rCt" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/machinery/recharge_station,
+/turf/open/floor/monotile/steel,
+/area/crew_quarters/dorms)
 "rCv" = (
 /obj/machinery/computer/ship/helm/console,
 /obj/effect/turf_decal/stripes/line{
@@ -53314,6 +53335,18 @@
 	},
 /turf/open/floor/monotile/light,
 /area/security/prison)
+"wAF" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/machinery/recharge_station,
+/turf/open/floor/monotile/steel,
+/area/crew_quarters/cafeteria{
+	name = "Mess hall"
+	})
 "wBI" = (
 /obj/machinery/door/poddoor/shutters{
 	id = "firingsquad";
@@ -82844,8 +82877,8 @@ ame
 bBi
 aTN
 aQR
-aKh
-baF
+kZM
+qfC
 aAH
 aOP
 laZ
@@ -94640,7 +94673,7 @@ aqF
 aZG
 btK
 aqF
-aRO
+baF
 amm
 aol
 aOY
@@ -95172,7 +95205,7 @@ bbU
 aOR
 aOR
 aOR
-aVw
+wAF
 aaY
 akv
 amf
@@ -98494,7 +98527,7 @@ jYW
 ayM
 ari
 bAL
-avd
+rCt
 aRZ
 amm
 bfW
