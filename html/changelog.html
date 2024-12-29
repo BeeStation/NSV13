@@ -56,34 +56,89 @@
 		-->
 		<div class="commit sansserif">
 
-			<h2 class="date">18 October 2024</h2>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Overmap projectiles now correctly home across z loop borders.</li>
-			</ul>
-
-			<h2 class="date">10 October 2024</h2>
+			<h2 class="date">27 December 2024</h2>
 			<h3 class="author">Bokkiewokkie updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="imageadd">Updated icons for fighter batteries</li>
-				<li class="imageadd">Added icons for fighter targeting systems</li>
-			</ul>
-
-			<h2 class="date">26 September 2024</h2>
-			<h3 class="author">Bokkiewokkie updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added space mines</li>
+				<li class="rscadd">Added a peculiar effect when an unreasonable amount of energy hits a singularity generator.</li>
+				<li class="admin">Added admin logging for BSA misfire incidents</li>
+				<li class="tweak">Gave fighter engines a tooltip when they are flooded</li>
 			</ul>
 			<h3 class="author">DeltaFire15 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">The NSV-specific achievements should work now.</li>
-				<li class="rscadd">Some more NSV-specific achievements.</li>
-				<li class="bugfix">Replaced a dist call for overmap singularities with the proper version.</li>
+				<li class="bugfix">Space tiles on midround-created overmap zlevels should behave normally again.</li>
+				<li class="bugfix">Foam no longer persists infinitely when combined with hulljuice / firefoam (diminishing returns)</li>
+				<li class="balance">Cooking Oil contact damage is now lower / more reasonable (I consider that one a bug for reasons I am not going into detail on)</li>
+				<li class="bugfix">Love potions do not work on knpcs. (They feel no love)</li>
+				<li class="bugfix">Several repair sources that bypassed the point of no return no longer do so.</li>
+				<li class="bugfix">Several AI-related overmap checks should now be more sane (especially not being weird if not on an overmap).</li>
+				<li class="bugfix">AIs no longer die if the exosuit that is being remote controlled is destroyed. They flash-sever the connection instead. (Assuming core exists and you used a beacon, not the malf override)</li>
+				<li class="balance">To balance out AIs no longer immediately dying if they do not disconnect from a mech early, they now take 33% of maximum integrity in feedback damage if forcibly disconnected from a mech (via destruction). This should preserve at least some involvement in making the decision to disconnect.</li>
+				<li class="bugfix">AI camera networks should behave a LOT better while remote controlling mechs, ESPECIALLY when taking them to other z levels, fixing a plethora of related bugs (mostly related to static, equipment usage, and so on).</li>
+				<li class="bugfix">You can no longer set ships to autopilot which never were AI controlled in the first place.</li>
+				<li class="bugfix">Sabres & Fighters can't buy things from stations anymore (Do it from a big ship instead)</li>
+				<li class="bugfix">You cannot make Sabres / Fighters within another small craft. Use your time more wisely.</li>
+				<li class="bugfix">The astrometrics sensors no longer pierce bluespace into other sectors (You'll have to be there to scan those)</li>
+				<li class="bugfix">Pool ladders can no longer be built infinitely because somebody forgot their doafter mistrust.</li>
+				<li class="code_imp">Reworked a bunch of NAC code, especially around linkages, bad typing, unsafe stuff.. and so on.</li>
+				<li class="bugfix">NAC cores no longer preserve linkage when unanchored.</li>
+				<li class="bugfix">NAC machines no longer preserve linkage when unanchored (at least most of them).</li>
+				<li class="bugfix">NAC machines can no longer be single-tile stacked (and work) (at least most of them).</li>
+				<li class="bugfix">NAC machines can no longer be multilinked to several NACs (at least most of them).</li>
+				<li class="bugfix">NAC machines should now behave better when being destroyed (code-wise).</li>
+				<li class="tweak">NAC cores now tell you what is wrong during linkage.</li>
+				<li class="tweak">A bunch of maps had their munitions cores changed due to the retyping of them I did because their type was very very bad.</li>
+				<li class="code_imp">take_quadrant_damage doesn't discard damage anymore if the ship has no quadrants (and just goes directly to take_damage)</li>
 			</ul>
-			<h3 class="author">SerynEngi and BluHNT updated:</h3>
+			<h3 class="author">Various TG coders from multiple PRs (AnturK, Thunder12345, Fikou, Y0SH1M4S73R, Ryll/Shaps, MrStonedOne, LemonInTheDark, ninjanomnom) - port by EvilDragonfiend updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Added new MAA hardsuit sprite</li>
-				<li class="balance">made MAA hardsuit less weapon-resistant in exchange for more speed.</li>
+				<li class="bugfix">Datums and lists used as keys in assoc lists are now linked in vv</li>
+				<li class="rscadd">View variables can now accept input from a colour picker.</li>
+				<li class="code_imp">Changed resolve weakref vv option to TG version</li>
+				<li class="admin">infinity option is added to vv classes</li>
+				<li class="admin">Added the color matrix editor. It is available from a dropdown option in an atom's View Variables menu as well as when editing an existing color matrix.</li>
+				<li class="admin">Added Datum Tagging, a new admin tool for quickly marking and referring back to various datums and atoms. You can tag atoms by ctrl+middle clicking them or using the right click context menu, or from their VV dropdown menu (especially for abstract datums that can't be clicked).</li>
+				<li class="admin">The View-Tags menu can quickly be accessed by F9 default, or using the View-Tags button at the bottom of the Admin -> Game status panel section.</li>
+				<li class="admin">Tagged datums can also be referenced for things like proccalls and VV var edits, similarly to Marked objects.</li>
+				<li class="code_imp">Fixup list helpers, remove listoflist footgun from generic list procs, remove duplicated procs</li>
+				<li class="admin">VV for global vars will now load MUCH faster, in exchange lists are now perma contracted in that particular pane</li>
+				<li class="admin">Appearance vars in VV now display instead of being left blank</li>
+				<li class="bugfix">Fixes passing in list arguments in callproc</li>
+				<li class="admin">VV can now display the contents of special byond lists like filters, or client.images</li>
+				<li class="admin">VV on images now displays the image in the header</li>
+				<li class="admin">VV can now display filters and includes their type</li>
+				<li class="code_imp">Precalculates special list var names and avoids incorrect vv targets</li>
+			</ul>
+
+			<h2 class="date">18 December 2024</h2>
+			<h3 class="author">Bokkiewokkie updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added more viewscreens in Tycoon's departments.</li>
+				<li class="bugfix">Removed pool ladders from Atlas dorms.</li>
+				<li class="bugfix">Fixed the Tycoon engineering security outpost not starting connected.</li>
+			</ul>
+
+			<h2 class="date">17 December 2024</h2>
+			<h3 class="author">Bokkiewokkie updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added knpcs to the ghost orbit menu under the npc section</li>
+				<li class="balance">made knpcs take actions a bit slower</li>
+				<li class="bugfix">fixed inflatable walls not having a range check on their deployment</li>
+				<li class="code_imp">made knpcs use human procs instead of forcemoving things around constantly</li>
+				<li class="refactor">refactored knpc climbing</li>
+			</ul>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="code_imp">Singularities now use system contents in a safe way.</li>
+				<li class="bugfix">Spawn_ship no longer floods system_contents with typepaths.</li>
+				<li class="bugfix">Overmap firing should be a bit more resilient to turf-related oddities.</li>
+			</ul>
+
+			<h2 class="date">06 December 2024</h2>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="code_imp">Ship interior loading now uses a queue system (for virtual z using things like Sabres & Asteroids)</li>
+				<li class="code_imp">Some overmap z generation handling is ever so slightly cleaner now.</li>
+				<li class="bugfix">Should resolve certain atom init issues (that manifested as broken sparks, among many other things).</li>
 			</ul>
 		</div>
 

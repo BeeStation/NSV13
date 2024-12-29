@@ -5,7 +5,7 @@
 	var/list/pois = list()
 	for(var/mob/M in mobs)
 		if(skip_mindless && (!M.mind && !M.ckey))
-			if(!isbot(M) && !iscameramob(M) && !ismegafauna(M))
+			if(!isbot(M) && !iscameramob(M) && !ismegafauna(M) && !isknpc(M)) //NSV13 add KNPCs
 				continue
 		if(M.client && M.client.holder && M.client.holder.fakekey) //stealthmins
 			continue

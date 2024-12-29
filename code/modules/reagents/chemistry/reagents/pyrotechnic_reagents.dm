@@ -299,7 +299,11 @@
 		if(!F)
 			F = new(T)
 		else if(istype(F))
-			F.lifetime = initial(F.lifetime) //reduce object churn a little bit when using smoke by keeping existing foam alive a bit longer
+			//NSV13 - diminishing returns on foam lifetime.
+			var/newtime = (initial(F.lifetime) * (1 - ((world.time - F.creation_time) / (20 SECONDS))))
+			if(newtime > 0 && newtime > F.lifetime)
+				F.lifetime = initial(F.lifetime) //reduce object churn a little bit when using smoke by keeping existing foam alive a bit longer
+			//NSV13 end.
 
 	var/obj/effect/hotspot/hotspot = (locate(/obj/effect/hotspot) in T)
 	if(hotspot && !isspaceturf(T))

@@ -4945,10 +4945,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 5
 	},
-/obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=hmains1";
-	location = "hmains3"
-	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "pm" = (
@@ -9053,7 +9049,7 @@
 /turf/open/floor/plasteel/ridged/steel,
 /area/hallway/nsv/deck2/primary)
 "CG" = (
-/obj/machinery/deck_turret,
+/obj/machinery/deck_turret/core,
 /turf/open/floor/plating,
 /area/nsv/weapons)
 "CH" = (
@@ -9385,8 +9381,8 @@
 /area/security/main)
 "Eb" = (
 /obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "31; 48";
-	name = "Mining Hangar Access"
+	name = "Mining Hangar Access";
+	req_one_access_txt = "31; 48"
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -10576,8 +10572,8 @@
 /area/maintenance/nsv/deck2/port)
 "Im" = (
 /obj/machinery/meter/atmos{
-	target_layer = 4;
-	name = "Scrubber loop gas flow meter"
+	name = "Scrubber loop gas flow meter";
+	target_layer = 4
 	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 4
@@ -12120,8 +12116,8 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
 /obj/machinery/meter/atmos/distro_loop{
-	target_layer = 2;
-	name = "Distribution loop gas flow meter"
+	name = "Distribution loop gas flow meter";
+	target_layer = 2
 	},
 /turf/open/floor/plating,
 /area/engine/atmos)
@@ -13956,8 +13952,8 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/door/airlock/ship/external/glass{
-	req_one_access_txt = "31; 48";
-	name = "Mining Hangar Access"
+	name = "Mining Hangar Access";
+	req_one_access_txt = "31; 48"
 	},
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/miningoffice)
@@ -15423,6 +15419,10 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/tile/ship/blue,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=hmains1";
+	location = "hmains3"
+	},
 /turf/open/floor/durasteel/alt,
 /area/hallway/nsv/deck2/primary)
 "XF" = (

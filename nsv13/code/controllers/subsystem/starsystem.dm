@@ -26,7 +26,13 @@ SUBSYSTEM_DEF(star_system)
 	var/obj/structure/overmap/mining_ship = null //The mining ship
 	var/saving = FALSE
 
+	///Kind of cursed list that tracks which of our overmap interiors have been initialized yet.
+	var/list/overmap_interior_queue = list() //Ratvar save me from this.
+	///Are we already busy?
+	var/initing_interior = FALSE
+
 /datum/controller/subsystem/star_system/fire() //Overmap combat events control system, adds weight to combat events over time spent out of combat
+	handle_interior_inits() //Cursed. I don't like this.
 	if(time_limit && world.time >= time_limit)
 		var/datum/faction/winner = get_winner()
 		if(istype(SSticker.mode, /datum/game_mode/pvp))
@@ -70,6 +76,25 @@ SUBSYSTEM_DEF(star_system)
 		save()
 		saving = FALSE
 	. = ..()
+
+///Absolutely cursed proc handling ship interior init queues.
+/datum/controller/subsystem/star_system/proc/handle_interior_inits()
+	set waitfor = FALSE
+	if(initing_interior)
+		return
+	if(SSatoms.initialized_changed)
+		return
+	if(!length(overmap_interior_queue))
+		return
+	initing_interior = TRUE
+	var/obj/structure/overmap/shipinterior_candidate = overmap_interior_queue[1]
+	shipinterior_candidate.instance_interior()
+	SEND_SIGNAL(shipinterior_candidate, COMSIG_INTERIOR_DONE_LOADING)
+	overmap_interior_queue -= shipinterior_candidate
+	initing_interior = FALSE
+
+/datum/controller/subsystem/star_system/proc/queue_for_interior_load(obj/structure/overmap/to_interior_load)
+	overmap_interior_queue += to_interior_load
 
 /**
 Returns a faction datum by its name (case insensitive!)
@@ -271,7 +296,6 @@ Returns a faction datum by its name (case insensitive!)
 	return system
 
 /datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE)//Select Ship to Spawn and Location via Z-Trait
-	target_sys.system_contents += OM
 	if(target_sys.occupying_z)
 		var/turf/destination = null
 		if(center)
@@ -594,13 +618,15 @@ Returns a faction datum by its name (case insensitive!)
 	var/scanned = FALSE
 	var/specialist_research_type = null //Special techweb node unlocking.
 
-/obj/effect/overmap_anomaly/Initialize(mapload)
+/obj/effect/overmap_anomaly/Initialize(mapload, system)
 	. = ..()
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 	GLOB.overmap_anomalies += src
+	if(system)
+		current_system = system
 
 /obj/effect/overmap_anomaly/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
@@ -664,12 +690,12 @@ Returns a faction datum by its name (case insensitive!)
 	START_PROCESSING(SSfastprocess, src)
 
 /obj/effect/overmap_anomaly/singularity/process()
-	if(!z) //Not in nullspace
+	if(!z || !current_system) //Not in nullspace
 		if(length(affecting))
 			for(var/obj/structure/overmap/OM in affecting)
 				stop_affecting(OM)
 		return
-	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects) //Has to go through global overmaps due to anomalies not referencing their system - probably something to change one day.
+	for(var/obj/structure/overmap/OM in current_system.system_contents) //This list is not exclusively overmaps so no as() calls.
 		if(LAZYFIND(affecting, OM))
 			continue
 		if(OM.z != z)
