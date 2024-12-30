@@ -26,6 +26,8 @@ GLOBAL_LIST_EMPTY(critical_muni_items)
 	for(var/obj/critical_item as anything in GLOB.critical_muni_items)
 		if(critical_item.get_overmap() != current_overmap)
 			continue
+		if(isnull(critical_item.loc))
+			continue
 		var/prefix = ""
 		if(istype(critical_item, /obj/item/circuitboard))
 			var/obj/item/circuitboard/critical_circuit = critical_item
