@@ -181,7 +181,8 @@
 /obj/machinery/atmospherics/components/return_pipenet()
 	. = list()
 	for(var/i in 1 to device_type)
-		. += return_pipenet(nodes[i])
+		if(nodes[i] != src) // NSV13 - the toher codebases didn't have this, but I had an infinite loop
+			. += return_pipenet(nodes[i])
 
 /obj/machinery/atmospherics/components/proc/return_pipenets_for_reconcilation(datum/pipeline/requester)
 	return list()
