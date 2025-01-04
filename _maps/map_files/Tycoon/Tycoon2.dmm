@@ -4546,6 +4546,9 @@
 /area/medical/medbay/central)
 "amd" = (
 /obj/effect/landmark/start/paramedic,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 1
+	},
 /turf/open/floor/monotile/steel,
 /area/medical/medbay/lobby)
 "ame" = (
@@ -9014,6 +9017,9 @@
 	dir = 8
 	},
 /obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /turf/open/floor/monotile/light,
@@ -25341,6 +25347,9 @@
 /area/hallway/nsv/deck2/frame1/port)
 "bmS" = (
 /obj/machinery/power/apc/auto_name/west,
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
 /turf/open/floor/monotile/steel,
 /area/medical)
 "bmT" = (
@@ -26409,6 +26418,9 @@
 /area/maintenance/starboard)
 "bpk" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /turf/open/floor/monotile/steel,
@@ -29956,6 +29968,9 @@
 /obj/structure/chair/office{
 	dir = 8
 	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 1
+	},
 /turf/open/floor/monotile/steel,
 /area/medical/medbay/lobby)
 "bwq" = (
@@ -29978,10 +29993,10 @@
 	name = "Reception";
 	req_one_access_txt = "5"
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plating,
 /area/medical/medbay/lobby)
 "bws" = (
@@ -31648,7 +31663,6 @@
 /obj/machinery/computer/crew{
 	dir = 4
 	},
-/obj/machinery/power/apc/auto_name/south,
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
 "bzN" = (
@@ -36615,7 +36629,8 @@
 /area/hallway/nsv/deck2/frame1/central)
 "bKQ" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 4
+	dir = 4;
+	on = 0
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
@@ -40337,6 +40352,18 @@
 /obj/item/stack/cable_coil,
 /turf/open/floor/monotile/steel,
 /area/medical/chemistry)
+"eTB" = (
+/obj/structure/disposalpipe/segment,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/turf/open/floor/monotile/dark,
+/area/medical)
 "eTX" = (
 /obj/structure/lattice/catwalk,
 /obj/machinery/atmospherics/pipe/heat_exchanging/junction,
@@ -40697,6 +40724,15 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
+"fza" = (
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/turf/open/floor/monotile/steel,
+/area/medical/medbay/lobby)
 "fAz" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Atmospherics Airlock";
@@ -41731,6 +41767,10 @@
 /obj/machinery/atmospherics/components/binary/drive_pylon,
 /turf/open/floor/monotile/dark,
 /area/engine/engineering)
+"gVZ" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/turf/open/floor/monotile/steel,
+/area/medical/medbay/lobby)
 "gWm" = (
 /obj/machinery/space_heater,
 /obj/effect/decal/cleanable/glass,
@@ -42676,7 +42716,8 @@
 	dir = 10
 	},
 /obj/machinery/power/apc/unlocked{
-	pixel_y = 29
+	pixel_y = 29;
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/medical/virology)
@@ -42919,7 +42960,7 @@
 	pixel_y = 6;
 	pixel_x = 4
 	},
-/obj/item/storage/box/coffeepack,
+/obj/item/storage/box/coffeepack/arabica,
 /turf/open/floor/monotile/steel,
 /area/nsv/engine/dcc)
 "ixq" = (
@@ -44540,7 +44581,7 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 1
 	},
-/obj/item/storage/box/coffeepack,
+/obj/item/storage/box/coffeepack/arabica,
 /obj/item/coffee_cartridge,
 /obj/item/coffee_cartridge,
 /obj/item/coffee_cartridge,
@@ -45008,7 +45049,10 @@
 	},
 /area/engine/atmos)
 "kYa" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 10
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
 /turf/open/floor/monotile/steel,
@@ -45981,8 +46025,10 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 8
 	},
 /turf/open/floor/monotile/steel,
@@ -48654,6 +48700,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
 "qbI" = (
@@ -50093,7 +50142,8 @@
 /area/engine/engineering/reactor_core)
 "rOl" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 1
+	dir = 1;
+	on = 0
 	},
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -54244,7 +54294,8 @@
 /area/engine/atmos)
 "xSB" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 1
+	dir = 1;
+	on = 0
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
@@ -80024,7 +80075,7 @@ bCo
 bCo
 bCn
 bCo
-bCo
+eTB
 bCo
 bnl
 bCo
@@ -81585,7 +81636,7 @@ hzd
 ahc
 afV
 ble
-bpk
+fza
 amd
 ame
 akE
@@ -82614,7 +82665,7 @@ alv
 bwr
 olI
 kYa
-ame
+gVZ
 bwo
 bvl
 aKh
