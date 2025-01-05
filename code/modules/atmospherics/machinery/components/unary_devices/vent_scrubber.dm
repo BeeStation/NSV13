@@ -15,8 +15,6 @@
 	layer = GAS_SCRUBBER_LAYER
 	shift_underlay_only = FALSE
 
-	interacts_with_air = TRUE
-
 	var/scrubbing = SCRUBBING //0 = siphoning, 1 = scrubbing
 
 	var/filter_types = list(GAS_CO2, GAS_BZ)
@@ -225,7 +223,7 @@
 	return
 
 /obj/machinery/atmospherics/components/unary/vent_scrubber/power_change()
-	..()
+	. = ..()
 	update_icon_nopipes()
 
 /obj/machinery/atmospherics/components/unary/vent_scrubber/welder_act(mob/living/user, obj/item/I)

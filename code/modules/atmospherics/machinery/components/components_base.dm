@@ -6,13 +6,15 @@
 	var/showpipe = FALSE
 	var/shift_underlay_only = TRUE //Layering only shifts underlay?
 
-	var/update_parents_after_rebuild = FALSE
-
 	var/list/datum/pipeline/parents
+	///If this is queued for a rebuild this var signifies whether parents should be updated after it's done
+	var/update_parents_after_rebuild = FALSE
+	///Stores the gasmix for each node, used in components
 	var/list/datum/gas_mixture/airs
-	var/startingvolume = 200
-
+	///Handles whether the custom reconcilation handling should be used
 	var/custom_reconciliation = FALSE
+
+	var/startingvolume = 200
 
 /obj/machinery/atmospherics/components/New()
 	parents = new(device_type)
@@ -97,6 +99,11 @@
 		to_return += parents[i]
 	return to_return
 
+/**
+ * Called by nullify_node(), used to remove the pipeline the component is attached to
+ * Arguments:
+ * * -reference: the pipeline the component is attached to
+ */
 /obj/machinery/atmospherics/components/proc/nullify_pipenet(datum/pipeline/reference)
 	if(!reference)
 		CRASH("nullify_pipenet(null) called by [type] on [COORD(src)]")
@@ -163,6 +170,10 @@
 
 // Helpers
 
+/**
+ * Called in most atmos processes and gas handling situations, update the parents pipelines of the devices connected to the source component
+ * This way gases won't get stuck
+ */
 /obj/machinery/atmospherics/components/proc/update_parents()
 	if(!SSair.initialized)
 		return
@@ -172,17 +183,15 @@
 	for(var/i in 1 to device_type)
 		var/datum/pipeline/parent = parents[i]
 		if(!parent)
-			//WARNING("Component is missing a pipenet! Rebuilding...")
-			//At pre-SSair_rebuild_pipenets times, not having a parent wasn't supposed to happen
+			WARNING("Component is missing a pipenet! Rebuilding...")
 			SSair.add_to_rebuild_queue(src)
-			continue
-		parent.update = PIPENET_UPDATE_STATUS_RECONCILE_NEEDED
+		else
+			parent.update = TRUE
 
-/obj/machinery/atmospherics/components/return_pipenet()
+/obj/machinery/atmospherics/components/return_pipenets()
 	. = list()
 	for(var/i in 1 to device_type)
-		if(nodes[i] != src) // NSV13 - the toher codebases didn't have this, but I had an infinite loop
-			. += return_pipenet(nodes[i])
+		. += return_pipenet(nodes[i])
 
 /obj/machinery/atmospherics/components/proc/return_pipenets_for_reconcilation(datum/pipeline/requester)
 	return list()

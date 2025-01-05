@@ -23,14 +23,13 @@
 /obj/machinery/atmospherics/pipe/New()
 	add_atom_colour(pipe_color, FIXED_COLOUR_PRIORITY)
 	volume = 35 * device_type
-	parent = new
-	..()
+	return ..()
 
 /obj/machinery/atmospherics/pipe/nullify_node(i)
-	var/obj/machinery/atmospherics/oldN = nodes[i]
-	..()
-	if(oldN)
-		SSair.add_to_rebuild_queue(oldN)
+	var/obj/machinery/atmospherics/old_node = nodes[i]
+	. = ..()
+	if(old_node)
+		SSair.add_to_rebuild_queue(old_node)
 
 /obj/machinery/atmospherics/pipe/destroy_network()
 	QDEL_NULL(parent)
@@ -117,7 +116,7 @@
 			var/obj/machinery/atmospherics/N = nodes[i]
 			N.update_icon()
 
-/obj/machinery/atmospherics/pipe/return_pipenet()
+/obj/machinery/atmospherics/pipe/return_pipenets()
 	. = list(parent)
 
 /obj/machinery/atmospherics/pipe/run_obj_armor(damage_amount, damage_type, damage_flag = 0, attack_dir)

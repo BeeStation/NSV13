@@ -8,10 +8,8 @@
 	greyscale_config = /datum/greyscale_config/canister/hazard
 	greyscale_colors = "#ffff00#000000"
 	density = TRUE
-
-	var/icon/canister_overlay_file = 'icons/obj/atmospherics/canisters.dmi'
-
 	var/valve_open = FALSE
+	var/obj/machinery/atmospherics/components/binary/passive_gate/pump
 	var/release_log = ""
 
 	volume = 1000
@@ -38,7 +36,9 @@
 	var/restricted = FALSE
 	req_access = list()
 
-	var/update = 0
+	var/icon/canister_overlay_file = 'icons/obj/atmospherics/canisters.dmi'
+
+	//list of canister types for relabeling
 	var/static/list/label2types = list(
 		"n2" = /obj/machinery/portable_atmospherics/canister/nitrogen,
 		"o2" = /obj/machinery/portable_atmospherics/canister/oxygen,
@@ -205,8 +205,19 @@
 		air_contents.copy_from(existing_mixture)
 	else
 		create_gas()
+	pump = new(src, FALSE)
+	pump.on = TRUE
+	pump.machine_stat = 0
+	SSair.add_to_rebuild_queue(pump)
+
+/obj/machinery/portable_atmospherics/canister/Initialize(mapload)
+	. = ..()
 	update_icon()
 
+/obj/machinery/portable_atmospherics/canister/Destroy()
+	qdel(pump)
+	pump = null
+	return ..()
 
 /obj/machinery/portable_atmospherics/canister/proc/create_gas()
 	if(gas_type)
@@ -237,10 +248,6 @@
 	if(machine_stat & BROKEN)
 		. += mutable_appearance(canister_overlay_file, "broken")
 		return
-
-	var/last_update = update
-	update = 0
-
 	if(holding)
 		. += mutable_appearance(canister_overlay_file, "can-open")
 	if(connected_port)
@@ -253,16 +260,12 @@
 			. += mutable_appearance(canister_overlay_file, "can-2")
 		if((5 * ONE_ATMOSPHERE) to (10 * ONE_ATMOSPHERE))
 			. += mutable_appearance(canister_overlay_file, "can-1")
-		if((10) to (5 * ONE_ATMOSPHERE))
+		else
 			. += mutable_appearance(canister_overlay_file, "can-0")
-
-	if(update == last_update)
-		return
 
 /obj/machinery/portable_atmospherics/canister/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 	if(exposed_temperature > temperature_resistance)
 		take_damage(5, BURN, 0)
-
 
 /obj/machinery/portable_atmospherics/canister/deconstruct(disassembled = TRUE)
 	if(!(flags_1 & NODECONSTRUCT_1))

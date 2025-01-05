@@ -6,6 +6,7 @@
 	var/list/obj/machinery/atmospherics/components/other_atmos_machines
 
 	var/update = TRUE
+
 	var/building = FALSE
 
 /datum/pipeline/New()
@@ -13,7 +14,6 @@
 	members = list()
 	other_atmos_machines = list()
 	SSair.networks += src
-	air = new
 
 /datum/pipeline/Destroy()
 	SSair.networks -= src
@@ -163,11 +163,9 @@
 
 /obj/machinery/atmospherics/pipe/add_member(obj/machinery/atmospherics/considered_device)
 	// NSV13 - more safety
-	if(!QDELETED(parent))
-		parent.add_member(considered_device, src)
-	else
+	if(QDELETED(parent))
 		parent = new
-		parent.add_member(considered_device, src)
+	parent.add_member(considered_device, src)
 
 /obj/machinery/atmospherics/components/add_member(obj/machinery/atmospherics/considered_device)
 	var/datum/pipeline/device_pipeline = return_pipenet(considered_device)

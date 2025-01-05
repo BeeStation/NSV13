@@ -18,8 +18,6 @@
 	layer = GAS_SCRUBBER_LAYER
 	shift_underlay_only = FALSE
 
-	interacts_with_air = TRUE
-
 	var/pump_direction = RELEASING
 
 	var/pressure_checks = EXT_BOUND

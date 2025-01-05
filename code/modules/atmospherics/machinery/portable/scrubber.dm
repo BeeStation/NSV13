@@ -4,14 +4,22 @@
 	icon_state = "pscrubber:0"
 	density = TRUE
 
-
-
 	var/on = FALSE
 	var/volume_rate = 1000
 	var/overpressure_m = 80
 	volume = 1000
 
-	var/list/scrubbing = list(GAS_PLASMA, GAS_CO2, GAS_NITROUS, GAS_BZ, GAS_NITRYL, GAS_TRITIUM, GAS_HYPERNOB, GAS_H2O, GAS_CONSTRICTED_PLASMA, GAS_NUCLEIUM) //NSV13 - constricted plasma and nucleium
+	var/list/scrubbing = list(
+		GAS_PLASMA,
+		GAS_CO2,
+		GAS_NITROUS,
+		GAS_BZ,
+		GAS_NITRYL,
+		GAS_TRITIUM,
+		GAS_HYPERNOB,
+		GAS_H2O,
+		GAS_CONSTRICTED_PLASMA,
+		GAS_NUCLEIUM) //NSV13 - constricted plasma and nucleium
 
 /obj/machinery/portable_atmospherics/scrubber/Destroy()
 	var/turf/T = get_turf(src)
@@ -147,5 +155,4 @@
 	if(default_unfasten_wrench(user, W))
 		if(!movable)
 			on = FALSE
-	else
-		return ..()
+	return ..()

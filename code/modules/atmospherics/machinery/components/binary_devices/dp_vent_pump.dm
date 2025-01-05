@@ -18,8 +18,6 @@
 
 	level = 1
 
-	interacts_with_air = TRUE
-
 	var/frequency = 0
 	var/id = null
 	var/datum/radio_frequency/radio_connection
@@ -87,8 +85,6 @@
 				
 
 				var/datum/pipeline/parent1 = parents[1]
-				if(!parent1)
-					return
 				parent1.update = PIPENET_UPDATE_STATUS_RECONCILE_NEEDED
 
 	else //external -> output
@@ -107,8 +103,7 @@
 				var/datum/pipeline/parent2 = parents[2]
 				parent2.update = PIPENET_UPDATE_STATUS_RECONCILE_NEEDED
 
-	//Radio remote control
-
+//Radio remote control
 /obj/machinery/atmospherics/components/binary/dp_vent_pump/proc/set_frequency(new_frequency)
 	SSradio.remove_object(src, frequency)
 	frequency = new_frequency

@@ -42,12 +42,12 @@
 
 /// Attempts to locate a multiz pipe that's above us, if it finds one it merges us into its pipenet
 /obj/machinery/atmospherics/pipe/multiz/pipeline_expansion()
-	var/turf/T = get_turf(src)
-	for(var/obj/machinery/atmospherics/pipe/multiz/above in SSmapping.get_turf_above(T))
+	var/turf/local_turf = get_turf(src)
+	for(var/obj/machinery/atmospherics/pipe/multiz/above in SSmapping.get_turf_above(local_turf))
 		if(above.piping_layer == piping_layer)
 			nodes += above
 			above.nodes += src // Two way travel :)
-	for(var/obj/machinery/atmospherics/pipe/multiz/below in SSmapping.get_turf_below(T))
+	for(var/obj/machinery/atmospherics/pipe/multiz/below in SSmapping.get_turf_below(local_turf))
 		if(below.piping_layer == piping_layer)
 			below.pipeline_expansion() // If we've got one below us, force it to add us on facebook
 	return ..()
