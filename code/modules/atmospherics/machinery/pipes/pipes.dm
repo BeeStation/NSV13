@@ -2,8 +2,6 @@
 	var/datum/gas_mixture/air_temporary //used when reconstructing a pipeline that broke
 	var/volume = 0
 
-	level = 1
-
 	use_power = NO_POWER_USE
 	can_unwrench = 1
 	var/datum/pipeline/parent = null
@@ -130,3 +128,6 @@
 		pipe_color = paint_color
 		update_node_icon()
 	return paintable
+
+/obj/machinery/atmospherics/pipe/update_layer()
+	layer = initial(layer) + (piping_layer - PIPING_LAYER_DEFAULT) * PIPING_LAYER_LCHANGE

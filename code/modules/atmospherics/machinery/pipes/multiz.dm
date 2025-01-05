@@ -32,6 +32,9 @@
 /obj/machinery/atmospherics/pipe/multiz/set_init_directions()
 	initialize_directions = dir
 
+/obj/machinery/atmospherics/pipe/multiz/update_layer()
+	return // Noop because we're moving this to /obj/machinery/atmospherics/pipe
+
 /obj/machinery/atmospherics/pipe/multiz/update_icon()
 	cut_overlays()
 	pipe.color = front_node ? front_node.pipe_color : rgb(255, 255, 255)
