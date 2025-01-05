@@ -13,6 +13,7 @@
 	members = list()
 	other_atmos_machines = list()
 	SSair.networks += src
+	air = new
 
 /datum/pipeline/Destroy()
 	SSair.networks -= src

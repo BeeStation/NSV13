@@ -23,6 +23,7 @@
 /obj/machinery/atmospherics/pipe/New()
 	add_atom_colour(pipe_color, FIXED_COLOUR_PRIORITY)
 	volume = 35 * device_type
+	parent = new
 	..()
 
 /obj/machinery/atmospherics/pipe/nullify_node(i)
