@@ -26,6 +26,7 @@ Attempt to "board" an AI ship. You can only do this when they're low on health t
 					SL.linked_overmap = null //Free that level up.
 				occupying_levels = list()
 				docking_points = list()
+				ifflocs = list()
 				SSair.can_fire = FALSE
 				for(var/turf/T in boarding_interior.get_affected_turfs(locate(1, 1, boarding_reservation_z), FALSE)) //nuke
 					T.empty()
@@ -204,6 +205,9 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 
 // Anything that needs to be done after the interior loads
 /obj/structure/overmap/proc/post_load_interior()
+	if(length(ifflocs)) //Spawn the iff console at a random location!
+		var/turf/T = pick(ifflocs)
+		new /obj/structure/computer/iff_console(T, dir = ifflocs[T])
 	return
 
 /obj/structure/overmap/proc/get_interior_center()
