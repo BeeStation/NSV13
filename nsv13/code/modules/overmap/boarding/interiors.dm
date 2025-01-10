@@ -207,7 +207,11 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 /obj/structure/overmap/proc/post_load_interior()
 	if(length(ifflocs)) //Spawn the iff console at a random location!
 		var/turf/T = pick(ifflocs)
-		new /obj/structure/computer/iff_console(T, dir = ifflocs[T])
+		new /obj/machinery/computer/iff_console(T, dir = ifflocs[T])
+		ifflocs -= T
+		if(length(ifflocs)) //The rest will be blank consoles
+			for(var/turf/T2 in ifflocs)
+				new /obj/structure/frame/computer(T2, dir = ifflocs[T2])
 	return
 
 /obj/structure/overmap/proc/get_interior_center()
