@@ -709,24 +709,46 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	var/obj/item/bodypart/head/HD = H.get_bodypart(BODY_ZONE_HEAD)
 
+	///Both hardsuit and a tail present, but suit also supports tail?
+	var/suitedtail = FALSE //NSV13 - I'm not sure how I feel about this, but I am NOT refactoring the entire proc right now.
+
 	if("tail_lizard" in mutant_bodyparts)
 		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
-			bodyparts_to_add -= "tail_lizard"
+			//NSV13 - render tail if suit allows it.
+			if(!H.wear_suit.hardsuit_tail_colors)
+				bodyparts_to_add -= "tail_lizard"
+			else
+				suitedtail = TRUE
+			//NSV13 end.
 
 	if("waggingtail_lizard" in mutant_bodyparts)
 		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
-			bodyparts_to_add -= "waggingtail_lizard"
+			//NSV13 - render tail if suit allows it.
+			if(!H.wear_suit.hardsuit_tail_colors || ("tail_lizard" in mutant_bodyparts))
+				bodyparts_to_add -= "waggingtail_lizard"
+			else
+				suitedtail = TRUE
+			//NSV13 end.
 		else if ("tail_lizard" in mutant_bodyparts)
 			bodyparts_to_add -= "waggingtail_lizard"
 
 	if("tail_human" in mutant_bodyparts)
 		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
-			bodyparts_to_add -= "tail_human"
-
+			//NSV13 - render tail if suit allows it.
+			if(!H.wear_suit.hardsuit_tail_colors)
+				bodyparts_to_add -= "tail_human"
+			else
+				suitedtail = TRUE
+			//NSV13 end.
 
 	if("waggingtail_human" in mutant_bodyparts)
 		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
-			bodyparts_to_add -= "waggingtail_human"
+			//NSV13 - render tail if suit allows it.
+			if(!H.wear_suit.hardsuit_tail_colors || ("tail_human" in mutant_bodyparts))
+				bodyparts_to_add -= "waggingtail_human"
+			else
+				suitedtail = TRUE
+			//NSV13 end.
 		else if ("tail_human" in mutant_bodyparts)
 			bodyparts_to_add -= "waggingtail_human"
 
@@ -878,7 +900,33 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			if(!S || S.icon_state == "none")
 				continue
 
-			var/mutable_appearance/accessory_overlay = mutable_appearance(S.icon, layer = -layer)
+			//NSV13 - my 'mildly' cursed hook that makes hardsuit tails possible.
+
+			//Override vars to hook into later parts of this proc.
+			var/internal_color_override = null
+			var/internal_used_icon_override = null
+			var/internal_state_override = null
+
+			//Coloration and state handling if hardsuited tail present and the tail is compatible.
+			if(suitedtail && (bodypart in list("tail_lizard", "tail_human", "waggingtail_lizard", "waggingtail_human")) && S.general_type)
+				if(layer == BODY_ADJ_LAYER) //Why did they write that loop like THIS. Oh well, not my problem!
+					continue //In any case, we only use BEHIND and FRONT layer.
+				//Currently this way, when I have more time I'll write a hex -> matrix converter to pre-bake them instead
+				var/list/finished_list = list()
+				finished_list += ReadRGB("[H.wear_suit.hardsuit_tail_colors[1]]0")
+				finished_list += ReadRGB("[H.wear_suit.hardsuit_tail_colors[2]]0")
+				finished_list += ReadRGB("[H.wear_suit.hardsuit_tail_colors[3]]0")
+				finished_list += list(0,0,0,255)
+				for(var/index in 1 to finished_list.len)
+					finished_list[index] /= 255
+				internal_color_override = finished_list
+				internal_used_icon_override = 'nsv13/icons/obj/clothing/suits/tails_hardsuit.dmi'
+				internal_state_override = "m_tail_[S.general_type]_hardsuit_[layertext]" //I am very sorry, dear coder who wrote this pipeline.. Then again, it IS also jank regardless.
+
+			//Also hooked internal_used_icon_override into this.
+			var/mutable_appearance/accessory_overlay = mutable_appearance(internal_used_icon_override ? internal_used_icon_override : S.icon, layer = -layer)
+
+			//NSV13 end.
 
 			//A little rename so we don't have to use tail_lizard or tail_human when naming the sprites.
 			if(bodypart == "tail_lizard" || bodypart == "tail_human")
@@ -891,10 +939,15 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			else
 				accessory_overlay.icon_state = "m_[bodypart]_[S.icon_state]_[layertext]"
 
+			//NSV13 - hook for internal_state_override.
+			if(internal_state_override)
+				accessory_overlay.icon_state = internal_state_override
+			//NSV13 end.
+
 			if(S.center)
 				accessory_overlay = center_image(accessory_overlay, S.dimension_x, S.dimension_y)
 
-			if(!(HAS_TRAIT(H, TRAIT_HUSK)))
+			if(!(HAS_TRAIT(H, TRAIT_HUSK)) && !internal_color_override) //NSV13 - Also checks for internal_color_override.
 				if(!forced_colour)
 					switch(S.color_src)
 						if(MUTCOLORS)
@@ -913,6 +966,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 							accessory_overlay.color = "#[H.eye_color]"
 				else
 					accessory_overlay.color = forced_colour
+			//NSV13 - hook for internal_color_override to override color.
+			else if(internal_color_override)
+				accessory_overlay.color = internal_color_override
+			//NSV13 end.
 			standing += accessory_overlay
 
 			if(S.hasinner)
