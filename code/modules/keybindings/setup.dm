@@ -59,7 +59,7 @@
 			winset(src, "[setname]-[REF(key)]", "parent=[setname];name=[key];command=[command]")
 		// If we bind these, we're going to disable input relay.
 		// This *does* silently break TGUI-Say, but I doubt players who want to use this mode care. -Francinum
-		if(!using_chat_relay)
+		if(using_chat_relay)
 			winset(src, "[setname]-say", "parent=[setname];name=T;command=[say]")
 			winset(src, "[setname]-me", "parent=[setname];name=M;command=[me]")
 			winset(src, "[setname]-ooc", "parent=[setname];name=O;command=[ooc]")
