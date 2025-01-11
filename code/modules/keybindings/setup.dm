@@ -39,7 +39,7 @@
 	/// Is this client using Chat Relay/Legacy input mode. If so,
 	/// we need to be **VERY CAREFUL** about what keys we bind,
 	/// and we can't bind anything printable. -Francinum
-	var/using_chat_relay = (prefs.toggles2 & PREFTOGGLE_2_HOTKEYS)
+	var/using_chat_relay = !(prefs.toggles2 & PREFTOGGLE_2_HOTKEYS)
 
 	var/list/macro_sets = SSinput.macro_sets
 	var/use_tgui_say = !prefs || (prefs.toggles2 & PREFTOGGLE_2_TGUI_SAY)
@@ -57,9 +57,9 @@
 			var/key = macro_set[k]
 			var/command = macro_set[key]
 			winset(src, "[setname]-[REF(key)]", "parent=[setname];name=[key];command=[command]")
-		// If we bind these, we're going to disable input relay.
-		// This *does* silently break TGUI-Say, but I doubt players who want to use this mode care. -Francinum
-		if(using_chat_relay)
+		// If we bind these, we're going to break the default command bar input relay behaviour.
+		// This *does* mean we outright ignore the tgui-say pref, but I doubt players who want to use this mode care. -Francinum
+		if(!using_chat_relay)
 			winset(src, "[setname]-say", "parent=[setname];name=T;command=[say]")
 			winset(src, "[setname]-me", "parent=[setname];name=M;command=[me]")
 			winset(src, "[setname]-ooc", "parent=[setname];name=O;command=[ooc]")
