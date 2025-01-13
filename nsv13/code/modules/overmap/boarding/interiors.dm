@@ -207,7 +207,10 @@ The meat of this file. This will instance the dropship's interior in reserved sp
 /obj/structure/overmap/proc/post_load_interior()
 	if(length(ifflocs)) //Spawn the iff console at a random location!
 		var/turf/T = pick(ifflocs)
-		var/obj/C = new /obj/machinery/computer/iff_console(T)
+		var/consolepath = /obj/machinery/computer/iff_console/boarding
+		if(faction == "nanotrasen" || faction == "solgov") //We use a default one for NT ships
+			consolepath = /obj/machinery/computer/iff_console
+		var/obj/C = new consolepath(T)
 		C.dir = ifflocs[T]
 		ifflocs -= T
 		if(length(ifflocs)) //The rest will be blank consoles

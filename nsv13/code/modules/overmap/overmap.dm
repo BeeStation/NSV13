@@ -215,7 +215,7 @@
 	//Boarding
 	var/interior_status = INTERIOR_NOT_LOADED
 	var/datum/turf_reservation/roomReservation = null
-	var/datum/map_template/dropship/boarding_interior = null
+	var/datum/map_template/boarding_interior = null
 	var/list/possible_interior_maps = null
 	var/interior_mode = NO_INTERIOR
 	var/list/interior_entry_points = list()
