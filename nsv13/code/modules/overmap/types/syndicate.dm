@@ -129,7 +129,7 @@
 	combat_dice_type = /datum/combat_dice/frigate
 
 /datum/map_template/boarding/nuclear
-    name = "Thermonuclear destroyer (interior)"
+    name = "Hellfire destroyer (interior)"
     mappath = "_maps/templates/boarding/syndicate/nukefrigate.dmm"
 
 /obj/structure/overmap/syndicate/ai/conflagration
