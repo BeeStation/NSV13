@@ -15,6 +15,7 @@
 #define BLOCK_Z_IN_DOWN			(1<<11) // Should this object block z falling from above?
 #define BLOCK_Z_IN_UP			(1<<12) // Should this object block z uprise from below?
 #define OBJ_EMPED				(1<<13) // Object is affected by EMP
+#define SCANNED					(1<<14)  //! Object has been scanned by the prison_scanner
 
 // If you add new ones, be sure to add them to /obj/Initialize as well for complete mapping support
 

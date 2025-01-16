@@ -58,7 +58,7 @@
 	if(stress_shutdown)
 		. += "<span class='warning'>The system overload lights are flashing</span>"
 
-/obj/machinery/armour_plating_nanorepair_pump/process()
+/obj/machinery/armour_plating_nanorepair_pump/process(delta_time)
 	if(!OM)
 		OM = get_overmap()
 	if(online && is_operational && !stress_shutdown)
@@ -71,7 +71,7 @@
 				var/armour_integrity = (OM.armour_quadrants[quadrant]["current_armour"] / OM.armour_quadrants[quadrant]["max_armour"]) * 100
 				if(armour_integrity < 15)
 					armour_integrity = 15
-				armour_repair_amount = ((382 * NUM_E **(0.0764 * armour_integrity))/(50 + NUM_E ** (0.0764 * armour_integrity)) ** 2 ) * (apnw.repair_efficiency * (armour_allocation / 100)) * 6 //Don't ask
+				armour_repair_amount = delta_time * ((382 * NUM_E **(0.0764 * armour_integrity))/(50 + NUM_E ** (0.0764 * armour_integrity)) ** 2 ) * (apnw.repair_efficiency * (armour_allocation / 100)) * 3 //Don't ask
 				if(apnw.repair_resources >= (armour_repair_amount * weight_class))
 					OM.armour_quadrants[quadrant]["current_armour"] += armour_repair_amount
 					if(OM.armour_quadrants[quadrant]["current_armour"] > OM.armour_quadrants[quadrant]["max_armour"])
@@ -82,7 +82,7 @@
 			if(OM.obj_integrity < OM.max_integrity) //Structure Check
 				if(OM.structure_crit_no_return) //If we have crossed the point of no return, halt repairs
 					return
-				structure_repair_amount = ((2 + (weight_class / 10)) * apnw.repair_efficiency * structure_allocation) / 100
+				structure_repair_amount = delta_time * ((2 + (weight_class / 10)) * apnw.repair_efficiency * structure_allocation) / 200
 				if(apnw.repair_resources >= (structure_repair_amount * weight_class) * 1.5)
 					OM.obj_integrity += structure_repair_amount
 					if(OM.obj_integrity > OM.max_integrity)
@@ -228,29 +228,20 @@
 		ui.set_autoupdate(TRUE)
 
 /obj/machinery/armour_plating_nanorepair_pump/ui_act(action, params, datum/tgui/ui)
-	if(..())
+	. = ..()
+	if(.)
 		return
-	if(!(in_range(src, usr) | IsAdminGhost(usr)))
+	if(!(in_range(src, usr) || IsAdminGhost(usr)))
 		return
 	var/adjust = text2num(params["adjust"])
 	if(action == "armour_allocation")
 		if(isnum(adjust))
-			armour_allocation = adjust
-			if(armour_allocation > 100 - structure_allocation)
-				armour_allocation = 100 - structure_allocation
-				return
-			if(armour_allocation <= 0)
-				armour_allocation = 0
-				return
+			armour_allocation = CLAMP(adjust, 0, 100 - structure_allocation)
+			return TRUE
 	if(action == "structure_allocation")
 		if(isnum(adjust))
-			structure_allocation = adjust
-			if(structure_allocation > 100 - armour_allocation)
-				structure_allocation = 100 - armour_allocation
-				return
-			if(structure_allocation <= 0)
-				structure_allocation = 0
-				return
+			structure_allocation = CLAMP(adjust, 0, 100 - armour_allocation)
+			return TRUE
 
 /obj/machinery/armour_plating_nanorepair_pump/ui_data(mob/user)
 	var/list/data = list()

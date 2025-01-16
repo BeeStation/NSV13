@@ -7,7 +7,8 @@
 	circuit = /obj/item/circuitboard/computer/ship/tactical_computer
 
 /obj/machinery/computer/ship/tactical/Destroy()
-	linked?.tactical = null
+	if(linked && linked.tactical == src)
+		linked.tactical = null
 	return ..()
 
 /obj/machinery/computer/ship/tactical/ui_interact(mob/user, datum/tgui/ui)

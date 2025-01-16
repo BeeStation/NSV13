@@ -19,6 +19,7 @@ GLOBAL_PROTECT(admin_verbs_default)
 	/client/proc/cmd_admin_pm_panel,		/*admin-pm list*/
 	/client/proc/stop_sounds,
 	/client/proc/mark_datum_mapview,
+	/client/proc/tag_datum_mapview,
 	/client/proc/requests,
 	/client/proc/fax_manager
 	)
@@ -83,6 +84,7 @@ GLOBAL_PROTECT(admin_verbs_admin)
 	/client/proc/battle_royale,
 	/client/proc/delete_book,
 	/client/proc/cmd_admin_send_pda_msg,
+	/datum/admins/proc/display_tags,
 	/client/proc/changeranks, //NSV13 - verb to change rank structure
 	/client/proc/system_manager, //Nsv13 - Fleet + starsystem management
 	/client/proc/instance_overmap_menu, //Nsv13 - Midround ship creation.

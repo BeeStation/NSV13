@@ -56,21 +56,22 @@ Control Rods
 #define LOW_IPM 0.5
 #define MEDIOCRE_IPM 0.85
 #define HIGH_IPM 1.25
-#define VERY_HIGH_IPM 1.85
+#define VERY_HIGH_IPM 2.5
 
 #define LOW_COOLING 0.75
 #define HIGH_COOLING 2.025
 #define VERY_HIGH_COOLING 4
 
 #define LOW_RADIATION 0.75
-#define NORMAL_RADIATION 1
-#define HIGH_RADIATION 3
+#define HIGH_RADIATION 5
+#define VERY_HIGH_RADIATION 10
 
 #define LOW_REINFORCEMENT 0.75
 #define HIGH_REINFORCEMENT 1.25
 #define VERY_HIGH_REINFORCEMENT 1.5
 
 #define HIGH_DEG_PROTECTION 0.75
+#define VERY_HIGH_DEG_PROTECTION 0.5
 
 //Reactor variables
 
@@ -586,7 +587,7 @@ Control Rods
 	var/datum/gas_mixture/air1 = airs[1]
 	var/nucleium_power_reduction = 0
 
-	var/fuel_check = ((air1.get_moles(GAS_PLASMA) + air1.get_moles(GAS_CONSTRICTED_PLASMA) + air1.get_moles(GAS_TRITIUM)) / air1.total_moles()) * 100
+	var/fuel_check = air1.total_moles() <= 0 ? 0 : ((air1.get_moles(GAS_PLASMA) + air1.get_moles(GAS_CONSTRICTED_PLASMA) + air1.get_moles(GAS_TRITIUM)) / air1.total_moles()) * 100
 	if(air1.total_moles() >= reaction_rate && fuel_check >= 12.5) //1:8 ratio
 		var/datum/gas_mixture/reaction_chamber_gases = air1.remove(reaction_rate)
 
@@ -610,6 +611,7 @@ Control Rods
 		input_power_modifier = chamber_ipm_total / reaction_rate
 
 		var/chamber_cooling_total = reaction_rate + reaction_chamber_gases.get_moles(GAS_HYPERNOB) * VERY_HIGH_COOLING + \
+													reaction_chamber_gases.get_moles(GAS_NITRYL) * HIGH_COOLING + \
 													reaction_chamber_gases.get_moles(GAS_N2) * HIGH_COOLING + \
 													reaction_chamber_gases.get_moles(GAS_CO2) * HIGH_COOLING - \
 													reaction_chamber_gases.get_moles(GAS_TRITIUM) * LOW_COOLING - \
@@ -617,9 +619,12 @@ Control Rods
 													reaction_chamber_gases.get_moles(GAS_STIMULUM) * LOW_COOLING
 		cooling_power_modifier = chamber_cooling_total / reaction_rate
 
-		var/chamber_radiation_total = reaction_rate + reaction_chamber_gases.get_moles(GAS_TRITIUM) * HIGH_RADIATION + \
-													reaction_chamber_gases.get_moles(GAS_NUCLEIUM) * HIGH_RADIATION - \
-													reaction_chamber_gases.get_moles(GAS_BZ) * LOW_RADIATION
+		var/chamber_radiation_total = reaction_rate + reaction_chamber_gases.get_moles(GAS_TRITIUM) * VERY_HIGH_RADIATION + \
+													reaction_chamber_gases.get_moles(GAS_PLASMA) * HIGH_RADIATION + \
+													reaction_chamber_gases.get_moles(GAS_NUCLEIUM) * HIGH_RADIATION + \
+													reaction_chamber_gases.get_moles(GAS_BZ) * HIGH_RADIATION - \
+													reaction_chamber_gases.get_moles(GAS_STIMULUM) * LOW_RADIATION - \
+													reaction_chamber_gases.get_moles(GAS_NITRYL) * LOW_RADIATION
 		radiation_modifier = chamber_radiation_total / reaction_rate
 
 		var/chamber_reinforcement_total = reaction_rate + reaction_chamber_gases.get_moles(GAS_PLUOXIUM) * VERY_HIGH_REINFORCEMENT + \
@@ -630,9 +635,8 @@ Control Rods
 														reaction_chamber_gases.get_moles(GAS_BZ) * LOW_REINFORCEMENT
 		reactor_temperature_modifier = chamber_reinforcement_total / reaction_rate
 
-		var/chamber_degradation_total = reaction_rate + reaction_chamber_gases.get_moles(GAS_PLASMA) * HIGH_DEG_PROTECTION + \
-														reaction_chamber_gases.get_moles(GAS_NITROUS) * HIGH_DEG_PROTECTION + \
-														reaction_chamber_gases.get_moles(GAS_HYPERNOB) * HIGH_DEG_PROTECTION + \
+		var/chamber_degradation_total = reaction_rate + reaction_chamber_gases.get_moles(GAS_NITROUS) * HIGH_DEG_PROTECTION + \
+														reaction_chamber_gases.get_moles(GAS_HYPERNOB) * VERY_HIGH_DEG_PROTECTION + \
 														reaction_chamber_gases.get_moles(GAS_PLUOXIUM) * HIGH_DEG_PROTECTION
 		control_rod_degradation_modifier = chamber_degradation_total / reaction_rate
 
@@ -1845,10 +1849,12 @@ Control Rods
 #undef VERY_HIGH_COOLING
 #undef LOW_RADIATION
 #undef HIGH_RADIATION
+#undef VERY_HIGH_RADIATION
 #undef LOW_REINFORCEMENT
 #undef HIGH_REINFORCEMENT
 #undef VERY_HIGH_REINFORCEMENT
 #undef HIGH_DEG_PROTECTION
+#undef VERY_HIGH_DEG_PROTECTION
 
 #undef REACTOR_STATE_MAINTENANCE
 #undef REACTOR_STATE_IDLE

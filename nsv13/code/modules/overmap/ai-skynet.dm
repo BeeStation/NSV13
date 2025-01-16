@@ -818,6 +818,19 @@ Adding tasks is easy! Just define a datum for it.
 	fleet_trait = FLEET_TRAIT_DEFENSE
 	reward = 100	//Difficult pirate fleet, so default reward.
 
+/datum/fleet/pirate/tortuga/defeat()
+	if(!current_system)
+		return ..()
+	for(var/obj/structure/overmap/survivor in current_system.system_contents)
+		if(survivor.ai_controlled)
+			continue
+		for(var/mob/living/victorious_mob in survivor.mobs_in_ship)
+			if(!victorious_mob.client)
+				continue
+			victorious_mob.client.give_award(/datum/award/achievement/misc/pirate_exterminator, victorious_mob)
+	return ..()
+
+
 //Boss battles.
 
 /datum/fleet/rubicon //Crossing the rubicon, are we?
@@ -991,6 +1004,13 @@ Adding tasks is easy! Just define a datum for it.
 			shield_scan_target.hail("Scans have detected that you are in posession of prohibited technology. \n Your IFF signature has been marked as 'persona non grata'. \n In accordance with SGC-reg #10124, your ship and lives are now forfeit. Evacuate all civilian personnel immediately and surrender yourselves.", name)
 			shield_scan_target.relay_to_nearby('nsv13/sound/effects/ship/solgov_scan_alert.ogg', ignore_self=FALSE)
 			shield_scan_target.faction = shield_scan_target.name
+			grant_oopsie_achievement(shield_scan_target)
+
+/datum/fleet/solgov/proc/grant_oopsie_achievement(obj/structure/overmap/fugitive)
+	for(var/mob/living/traitor in fugitive.mobs_in_ship)
+		if(!traitor.client)
+			continue
+		traitor.client.give_award(/datum/award/achievement/misc/illegal_technology, traitor)
 
 /datum/fleet/solgov/interdiction
 	name = "\improper Solgov hunter fleet"
@@ -1531,6 +1551,8 @@ Seek a ship thich we'll station ourselves around
 		OM.send_radar_pulse()
 	if(OM.patrol_target && overmap_dist(OM, OM.patrol_target) <= 8)
 		OM.patrol_target = null	//You have arrived at your destination.
+		if(OM.mines_left >= 1) //Deploy a mine if you have one, this should spread them out nicely
+			OM.deploy_mine()
 	if(!OM.patrol_target || OM.patrol_target.z != OM.z)
 		var/min_x = max(OM.x - 50, 15)
 		var/max_x = min(OM.x + 50, 240)
@@ -1628,6 +1650,7 @@ Seek a ship thich we'll station ourselves around
 	var/decision_delay = 2 SECONDS
 	var/move_mode = 0
 	var/next_boarding_attempt = 0
+	var/mine_cooldown = 0
 
 	var/reloading_torpedoes = FALSE
 	var/reloading_missiles = FALSE
@@ -1636,6 +1659,7 @@ Seek a ship thich we'll station ourselves around
 	//Fleet organisation
 	var/shots_left = 15 //Number of arbitrary shots an AI can fire with its heavy weapons before it has to resupply with a supply ship.
 	var/light_shots_left = 300
+	var/mines_left = 0
 	var/resupply_range = 15
 	var/resupplying = 0	//Are we resupplying things right now? If yes, how many?
 	var/can_resupply = FALSE //Can this ship resupply other ships?
@@ -1983,9 +2007,9 @@ Seek a ship thich we'll station ourselves around
 		switch(angular_difference)
 			if(-15 to 15)
 				boost(NORTH)	//ZOOOM
-			if(-45 to -180)
+			if(-180 to -45)
 				boost(WEST)
-			if(-180 to -INFINITY)
+			if(-INFINITY to -180)
 				boost(EAST)
 			if(45 to 180)
 				boost(EAST)
@@ -2026,6 +2050,8 @@ Seek a ship thich we'll station ourselves around
 	if(!target || QDELETED(target))
 		return
 	desired_angle =	overmap_angle(src, target) - 180
+	if(mines_left >= 1) //if we have mines, we should try to discourage anyone from following
+		deploy_mine()
 
 /obj/structure/overmap/proc/circle_around(atom/target)
 	brakes = FALSE
@@ -2080,6 +2106,16 @@ Seek a ship thich we'll station ourselves around
 		add_enemy(last_target)
 		return TRUE
 	return FALSE
+
+///Make this ship drop a mine.
+/obj/structure/overmap/proc/deploy_mine()
+	if(mines_left <= 0)
+		return //why are we here
+	if(mine_cooldown > world.time) //Don't drop them all at once now
+		return
+	mine_cooldown = world.time + 6 SECONDS
+	mines_left--
+	new /obj/structure/space_mine(get_center(),faction,current_system)
 
 /client/proc/instance_overmap_menu() //Creates a verb for admins to open up the ui
 	set name = "Instance Overmap"

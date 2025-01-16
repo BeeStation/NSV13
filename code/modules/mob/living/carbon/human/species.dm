@@ -709,24 +709,46 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	var/obj/item/bodypart/head/HD = H.get_bodypart(BODY_ZONE_HEAD)
 
+	///Both hardsuit and a tail present, but suit also supports tail?
+	var/suitedtail = FALSE //NSV13 - I'm not sure how I feel about this, but I am NOT refactoring the entire proc right now.
+
 	if("tail_lizard" in mutant_bodyparts)
 		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
-			bodyparts_to_add -= "tail_lizard"
+			//NSV13 - render tail if suit allows it.
+			if(!H.wear_suit.hardsuit_tail_colors)
+				bodyparts_to_add -= "tail_lizard"
+			else
+				suitedtail = TRUE
+			//NSV13 end.
 
 	if("waggingtail_lizard" in mutant_bodyparts)
 		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
-			bodyparts_to_add -= "waggingtail_lizard"
+			//NSV13 - render tail if suit allows it.
+			if(!H.wear_suit.hardsuit_tail_colors || ("tail_lizard" in mutant_bodyparts))
+				bodyparts_to_add -= "waggingtail_lizard"
+			else
+				suitedtail = TRUE
+			//NSV13 end.
 		else if ("tail_lizard" in mutant_bodyparts)
 			bodyparts_to_add -= "waggingtail_lizard"
 
 	if("tail_human" in mutant_bodyparts)
 		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
-			bodyparts_to_add -= "tail_human"
-
+			//NSV13 - render tail if suit allows it.
+			if(!H.wear_suit.hardsuit_tail_colors)
+				bodyparts_to_add -= "tail_human"
+			else
+				suitedtail = TRUE
+			//NSV13 end.
 
 	if("waggingtail_human" in mutant_bodyparts)
 		if(H.wear_suit && (H.wear_suit.flags_inv & HIDEJUMPSUIT))
-			bodyparts_to_add -= "waggingtail_human"
+			//NSV13 - render tail if suit allows it.
+			if(!H.wear_suit.hardsuit_tail_colors || ("tail_human" in mutant_bodyparts))
+				bodyparts_to_add -= "waggingtail_human"
+			else
+				suitedtail = TRUE
+			//NSV13 end.
 		else if ("tail_human" in mutant_bodyparts)
 			bodyparts_to_add -= "waggingtail_human"
 
@@ -878,7 +900,33 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			if(!S || S.icon_state == "none")
 				continue
 
-			var/mutable_appearance/accessory_overlay = mutable_appearance(S.icon, layer = -layer)
+			//NSV13 - my 'mildly' cursed hook that makes hardsuit tails possible.
+
+			//Override vars to hook into later parts of this proc.
+			var/internal_color_override = null
+			var/internal_used_icon_override = null
+			var/internal_state_override = null
+
+			//Coloration and state handling if hardsuited tail present and the tail is compatible.
+			if(suitedtail && (bodypart in list("tail_lizard", "tail_human", "waggingtail_lizard", "waggingtail_human")) && S.general_type)
+				if(layer == BODY_ADJ_LAYER) //Why did they write that loop like THIS. Oh well, not my problem!
+					continue //In any case, we only use BEHIND and FRONT layer.
+				//Currently this way, when I have more time I'll write a hex -> matrix converter to pre-bake them instead
+				var/list/finished_list = list()
+				finished_list += ReadRGB("[H.wear_suit.hardsuit_tail_colors[1]]0")
+				finished_list += ReadRGB("[H.wear_suit.hardsuit_tail_colors[2]]0")
+				finished_list += ReadRGB("[H.wear_suit.hardsuit_tail_colors[3]]0")
+				finished_list += list(0,0,0,255)
+				for(var/index in 1 to finished_list.len)
+					finished_list[index] /= 255
+				internal_color_override = finished_list
+				internal_used_icon_override = 'nsv13/icons/obj/clothing/suits/tails_hardsuit.dmi'
+				internal_state_override = "m_tail_[S.general_type]_hardsuit_[layertext]" //I am very sorry, dear coder who wrote this pipeline.. Then again, it IS also jank regardless.
+
+			//Also hooked internal_used_icon_override into this.
+			var/mutable_appearance/accessory_overlay = mutable_appearance(internal_used_icon_override ? internal_used_icon_override : S.icon, layer = -layer)
+
+			//NSV13 end.
 
 			//A little rename so we don't have to use tail_lizard or tail_human when naming the sprites.
 			if(bodypart == "tail_lizard" || bodypart == "tail_human")
@@ -891,10 +939,15 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 			else
 				accessory_overlay.icon_state = "m_[bodypart]_[S.icon_state]_[layertext]"
 
+			//NSV13 - hook for internal_state_override.
+			if(internal_state_override)
+				accessory_overlay.icon_state = internal_state_override
+			//NSV13 end.
+
 			if(S.center)
 				accessory_overlay = center_image(accessory_overlay, S.dimension_x, S.dimension_y)
 
-			if(!(HAS_TRAIT(H, TRAIT_HUSK)))
+			if(!(HAS_TRAIT(H, TRAIT_HUSK)) && !internal_color_override) //NSV13 - Also checks for internal_color_override.
 				if(!forced_colour)
 					switch(S.color_src)
 						if(MUTCOLORS)
@@ -913,6 +966,10 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 							accessory_overlay.color = "#[H.eye_color]"
 				else
 					accessory_overlay.color = forced_colour
+			//NSV13 - hook for internal_color_override to override color.
+			else if(internal_color_override)
+				accessory_overlay.color = internal_color_override
+			//NSV13 end.
 			standing += accessory_overlay
 
 			if(S.hasinner)
@@ -1537,10 +1594,14 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 		if(atk_verb == ATTACK_EFFECT_KICK)//kicks deal 1.5x raw damage
 			target.apply_damage(damage*1.5, attack_type, affecting, armor_block)
+			if((damage * 1.5) >= 9)
+				target.force_say()
 			log_combat(user, target, "kicked")
 		else//other attacks deal full raw damage + 1.5x in stamina damage
 			target.apply_damage(damage, attack_type, affecting, armor_block)
 			target.apply_damage(damage*1.5, STAMINA, affecting, armor_block)
+			if(damage >= 9)
+				target.force_say()
 			log_combat(user, target, "punched")
 
 /datum/species/proc/spec_unarmedattacked(mob/living/carbon/human/user, mob/living/carbon/human/target)
@@ -1790,7 +1851,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 						H.update_inv_w_uniform()
 
 		if(Iforce > 10 || Iforce >= 5 && prob(33))
-			H.forcesay(GLOB.hit_appends)	//forcesay checks stat already.
+			H.force_say(user)
 	return TRUE
 
 /datum/species/proc/apply_damage(damage, damagetype = BRUTE, def_zone = null, blocked, mob/living/carbon/human/H, forced = FALSE)
@@ -1879,27 +1940,26 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	//Body temperature is adjusted in two parts: first there your body tries to naturally preserve homeostasis (shivering/sweating), then it reacts to the surrounding environment
 	//Thermal protection (insulation) has mixed benefits in two situations (hot in hot places, cold in hot places)
-	if(!H.on_fire) //If you're on fire, you do not heat up or cool down based on surrounding gases
-		var/natural = 0
-		if(H.stat != DEAD)
-			natural = H.natural_bodytemperature_stabilization()
+
+	//NSV13 - segment adjusted due to jank.
+	var/natural = 0
+	if(H.stat != DEAD)
+		natural = H.natural_bodytemperature_stabilization()
+	if(!H.on_fire && loc_temp < H.bodytemperature) //Place is colder than we are. But don't cool if we are on fire.
 		var/thermal_protection = 1
-		if(loc_temp < H.bodytemperature) //Place is colder than we are
-			thermal_protection -= H.get_cold_protection(loc_temp) //This returns a 0 - 1 value, which corresponds to the percentage of protection based on what you're wearing and what you're exposed to.
-			if(H.bodytemperature < BODYTEMP_NORMAL) //we're cold, insulation helps us retain body heat and will reduce the heat we lose to the environment
-				H.adjust_bodytemperature((thermal_protection+1)*natural + max(thermal_protection * (loc_temp - H.bodytemperature) / BODYTEMP_COLD_DIVISOR, BODYTEMP_COOLING_MAX))
-			else //we're sweating, insulation hinders our ability to reduce heat - and it will reduce the amount of cooling you get from the environment
-				H.adjust_bodytemperature(natural*(1/(thermal_protection+1)) + max((thermal_protection * (loc_temp - H.bodytemperature) + BODYTEMP_NORMAL - H.bodytemperature) / BODYTEMP_COLD_DIVISOR , BODYTEMP_COOLING_MAX)) //Extra calculation for hardsuits to bleed off heat
-	if (loc_temp > H.bodytemperature) //Place is hotter than we are
-		var/natural = 0
-		if(H.stat != DEAD)
-			natural = H.natural_bodytemperature_stabilization()
+		thermal_protection -= H.get_cold_protection(loc_temp) //This returns a 0 - 1 value, which corresponds to the percentage of protection based on what you're wearing and what you're exposed to.
+		if(H.bodytemperature < BODYTEMP_NORMAL) //we're cold, insulation helps us retain body heat and will reduce the heat we lose to the environment
+			H.adjust_bodytemperature((thermal_protection+1)*natural + max(thermal_protection * (loc_temp - H.bodytemperature) / BODYTEMP_COLD_DIVISOR, BODYTEMP_COOLING_MAX))
+		else //we're sweating, insulation hinders our ability to reduce heat - and it will reduce the amount of cooling you get from the environment
+			H.adjust_bodytemperature(natural*(1/(thermal_protection+1)) + max((thermal_protection * (loc_temp - H.bodytemperature) + BODYTEMP_NORMAL - H.bodytemperature) / BODYTEMP_COLD_DIVISOR , BODYTEMP_COOLING_MAX)) //Extra calculation for hardsuits to bleed off heat
+	else if(loc_temp > H.bodytemperature) //Place is hotter than we are
 		var/thermal_protection = 1
 		thermal_protection -= H.get_heat_protection(loc_temp) //This returns a 0 - 1 value, which corresponds to the percentage of protection based on what you're wearing and what you're exposed to.
 		if(H.bodytemperature < BODYTEMP_NORMAL) //and we're cold, insulation enhances our ability to retain body heat but reduces the heat we get from the environment
 			H.adjust_bodytemperature((thermal_protection+1)*natural + min(thermal_protection * (loc_temp - H.bodytemperature) / BODYTEMP_HEAT_DIVISOR, BODYTEMP_HEATING_MAX))
 		else //we're sweating, insulation hinders out ability to reduce heat - but will reduce the amount of heat we get from the environment
 			H.adjust_bodytemperature(natural*(1/(thermal_protection+1)) + min(thermal_protection * (loc_temp - H.bodytemperature) / BODYTEMP_HEAT_DIVISOR, BODYTEMP_HEATING_MAX))
+	//NSV13 end.
 
 	// +/- 50 degrees from 310K is the 'safe' zone, where no damage is dealt.
 	if(H.bodytemperature > BODYTEMP_HEAT_DAMAGE_LIMIT && !HAS_TRAIT(H, TRAIT_RESISTHEAT))

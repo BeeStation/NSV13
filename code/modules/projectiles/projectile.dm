@@ -820,8 +820,14 @@
 
 /obj/item/projectile/proc/process_homing() //Nsv13 - Enhanced the performance of this entire proc.
 	if(QDELETED(homing_target)) //NSV13 - Changed proc to be less performance intensive
-		return FALSE
-	var/targetAngle = get_angle(src, homing_target)
+		if(homing_target) //Bla bla refclearing. Necessary evil. (Probably not worth the hassle of handling this via comsig, so this is here instead)
+			homing_target = null
+		return FALSE //Hi, Delta from the past here, future one. We don't just disable homing entirely here because some projectiles might be able to reassess targets.
+	var/targetAngle
+	if(z && SSmapping.level_trait(z, ZTRAIT_OVERMAP)) //This bit of performance cost should be worth making these track properly.
+		targetAngle = overmap_angle(src, homing_target)
+	else
+		targetAngle = get_angle(src, homing_target)
 	var/angle = closer_angle_difference(Angle, targetAngle)
 	next_homing_process = world.time + homing_delay
 	setAngle(Angle + CLAMP(angle, -homing_turn_speed, homing_turn_speed))

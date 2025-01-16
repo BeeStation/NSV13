@@ -39,13 +39,16 @@
 	OM.forceMove(exit)
 	if(istype(OM, /obj/structure/overmap))
 		OM.current_system = src //Debugging purposes only
-	after_enter(OM)
+		after_enter(OM)
+	else if(istype(OM, /obj/effect/overmap_anomaly))
+		var/obj/effect/overmap_anomaly/anomaly_OM = OM
+		anomaly_OM.current_system = src
 
 /datum/star_system/proc/after_enter(obj/structure/overmap/OM)
+	SEND_SIGNAL(src, COMSIG_STAR_SYSTEM_AFTER_ENTER, OM)
 	if(desc)
 		OM.relay(null, "<span class='notice'><h2>Now entering [name]...</h2></span>")
 		OM.relay(null, "<span class='notice'>[desc]</span>")
-		//If we have an audio cue, ensure it doesn't overlap with a fleet's one...
 	//End the round upon entering O45.
 	if(system_traits & STARSYSTEM_END_ON_ENTER)
 		if(OM.role == MAIN_OVERMAP)
@@ -56,6 +59,7 @@
 			SSblackbox.record_feedback("text", "nsv_endings", 1, "succeeded")
 	if(!length(audio_cues))
 		return FALSE
+	//If we have an audio cue, ensure it doesn't overlap with a fleet's one...
 	for(var/datum/fleet/F as() in fleets)
 		if(length(F.audio_cues) && F.alignment != OM.faction && !F.federation_check(OM))
 			return TRUE
@@ -81,7 +85,7 @@
 	contents_positions = null
 	contents_positions = list()
 
-/datum/star_system/proc/remove_ship(obj/structure/overmap/OM, turf/new_location)
+/datum/star_system/proc/remove_ship(obj/structure/overmap/OM, turf/new_location, is_ftl_jump = TRUE)
 	var/list/other_player_ships = list()
 	for(var/atom/X in system_contents)
 		if(istype(X, /obj/structure/overmap))
@@ -95,7 +99,8 @@
 		OM.reserved_z = temp
 		OM.forceMove(new_location ? new_location : locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
 		system_contents -= OM
-		ftl_pull_small_craft(OM)
+		if(is_ftl_jump)
+			ftl_pull_small_craft(OM)
 		return //Early return here. This means that another player ship is already holding the system, and we really don't need to double-check for this.
 
 	OM.forceMove(new_location ? new_location : locate(OM.x, OM.y, OM.reserved_z)) //Annnd actually kick them out of the current system.
@@ -104,16 +109,28 @@
 	if(!OM.reserved_z)	//If this isn't actually a big ship with its own interior, do not pull ships, as only those get their own reserved z.
 		return
 	if(other_player_ships.len)	//There's still other ships here, only pull ships of our own faction.
-		ftl_pull_small_craft(OM)
+		if(is_ftl_jump)
+			ftl_pull_small_craft(OM)
 		return
+
 	for(var/atom/movable/X in system_contents)	//Do a last check for safety so we don't stasis a player ship that slid by our other checks somehow.
 		if(istype(X, /obj/structure/overmap))
 			var/obj/structure/overmap/ship = X
 			if(ship != OM && ship.reserved_z) //If there's somehow a player ship in the system that is somehow not in other_player_ships, emergency return.
 				message_admins("Somehow [ship] got by the initial checks for system exits. This probably shouldn't happen, yell at a coder and / or check ftl.dm")
-				ftl_pull_small_craft(OM)
+				if(is_ftl_jump)
+					ftl_pull_small_craft(OM)
 				return
-	ftl_pull_small_craft(OM, FALSE)
+	if(is_ftl_jump)
+		ftl_pull_small_craft(OM, FALSE)
+	else //We are leaving the overmap while holding system and with no other current holders, which risks nullspacing
+		for(var/obj/structure/overmap/last_chance in system_contents)
+			if(!last_chance.spec_pre_system_unload())
+				continue
+			last_chance.reserved_z = OM.reserved_z //We are about to nullspace something that should preserve z. Hand over your z instead.
+			OM.reserved_z = null
+			return
+
 	for(var/atom/movable/X in system_contents)
 		contents_positions[X] = list("x" = X.x, "y" = X.y) //Cache the ship's position so we can regenerate it later.
 		X.moveToNullspace() //Anything that's an NPC should be stored safely in nullspace until we return.

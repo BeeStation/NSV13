@@ -143,7 +143,7 @@
 	if(!start || !end)
 		stack_trace("Invalid A* start or destination")
 		return
-	if(start.z != end.z || start == end ) //no pathfinding between z levels
+	if(start == end) //no pathfinding between z levels //NSV13 we DO want pathfinding between z levels. removed "start.z != end.z || " from the check
 		return
 	if(max_distance && (max_distance < get_dist(start, end))) //if start turf is farther than max_distance from end turf, no need to do anything
 		return
@@ -337,16 +337,21 @@
  * * ID: An ID card that decides if we can gain access to doors that would otherwise block a turf
  * * simulated_only: Do we only worry about turfs with simulated atmos, most notably things that aren't space?
 */
+//NSV13 refactored this to use a typecache for directional objects in src
 /turf/proc/LinkBlockedWithAccess(turf/destination_turf, caller, ID)
 	var/actual_dir = get_dir(src, destination_turf)
+	var/static/list/directionals = typecacheof(list(
+		/obj/structure/window,
+		/obj/machinery/door/window,
+		/obj/structure/railing,
+		/obj/structure/barricade,
+		/obj/machinery/door/firedoor
+	))
 
-	for(var/obj/structure/window/iter_window in src)
-		if(!iter_window.CanAStarPass(ID, actual_dir))
-			return TRUE
-
-	for(var/obj/machinery/door/window/iter_windoor in src)
-		if(!iter_windoor.CanAStarPass(ID, actual_dir))
-			return TRUE
+	for(var/obj/iter_object in src)
+		if(directionals[iter_object.type])
+			if(!iter_object.CanAStarPass(ID, actual_dir, caller))
+				return TRUE
 
 	var/reverse_dir = get_dir(destination_turf, src)
 	for(var/obj/iter_object in destination_turf)

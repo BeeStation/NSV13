@@ -23,6 +23,8 @@ Helper method to get what ship an observer belongs to for stuff like parallax.
 */
 
 /mob/proc/update_overmap()
+	if(!loc) //Being deleted or cursed things.
+		return
 	var/obj/structure/overmap/OM = loc.get_overmap() //Accounts for things like fighters and for being in nullspace because having no loc is bad.
 	if(OM == last_overmap)
 		return
@@ -118,7 +120,25 @@ Another get_angle that works better with the looping edges of the overmap
 	else if(CX<0)
 		.+=360
 
+/**
+ * Loads a new z level and initializes the empty space, which is neccessary outside of initial initializations.
+ */
 /datum/controller/subsystem/mapping/proc/add_new_initialized_zlevel(name, traits = list(), z_type = /datum/space_level, orbital_body_type)
 	add_new_zlevel(name, traits)
 	SSatoms.InitializeAtoms(block(locate(1,1,world.maxz),locate(world.maxx,world.maxy,world.maxz)))
 	setup_map_transitions(z_list[world.maxz])
+
+/**
+ * Generates a new z level with behavior specific to overmaps and returns its space level datum. Does not init space tiles by itself.
+ */
+/datum/controller/subsystem/mapping/proc/add_new_overmap_zlevel()
+	. = add_new_zlevel("Overmap treadmill [length(z_list)+1]", ZTRAITS_OVERMAP)
+	setup_map_transitions(.)
+
+/**
+ * Same as add_new_overmap_zlevel, but also initializes space. Should be the one used post initial inits.
+ */
+/datum/controller/subsystem/mapping/proc/add_new_initialized_overmap_zlevel()
+	. = add_new_zlevel("Overmap treadmill [length(z_list)+1]", ZTRAITS_OVERMAP)
+	SSatoms.InitializeAtoms(block(locate(1,1,world.maxz),locate(world.maxx,world.maxy,world.maxz)))
+	setup_map_transitions(.)

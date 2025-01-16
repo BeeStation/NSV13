@@ -1117,6 +1117,7 @@
 	VV_DROPDOWN_OPTION(VV_HK_TRIGGER_EMP, "EMP Pulse")
 	VV_DROPDOWN_OPTION(VV_HK_TRIGGER_EXPLOSION, "Explosion")
 	VV_DROPDOWN_OPTION(VV_HK_EDIT_FILTERS, "Edit Filters")
+	VV_DROPDOWN_OPTION(VV_HK_EDIT_COLOR_MATRIX, "Edit Color as Matrix")
 	VV_DROPDOWN_OPTION(VV_HK_ADD_AI, "Add AI controller")
 	if(greyscale_colors)
 		VV_DROPDOWN_OPTION(VV_HK_MODIFY_GREYSCALE, "Modify greyscale colors")
@@ -1211,6 +1212,10 @@
 		var/client/C = usr.client
 		C?.open_filter_editor(src)
 
+	if(href_list[VV_HK_EDIT_COLOR_MATRIX] && check_rights(R_VAREDIT))
+		var/client/C = usr.client
+		C?.open_color_matrix_editor(src)
+		
 /atom/vv_get_header()
 	. = ..()
 	var/refid = REF(src)
@@ -1375,10 +1380,10 @@
 			log_game(log_text)
 		if(LOG_MECHA)
 			log_mecha(log_text)
-		//NSV13 START - RADIO EMOTES
 		if(LOG_RADIO_EMOTE)
 			log_radio_emote(log_text)
-		//NSV13 END
+		if(LOG_SPEECH_INDICATORS)
+			log_speech_indicators(log_text)
 		else
 			stack_trace("Invalid individual logging type: [message_type]. Defaulting to [LOG_GAME] (LOG_GAME).")
 			log_game(log_text)

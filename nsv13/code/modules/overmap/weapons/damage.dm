@@ -9,7 +9,9 @@ Bullet reactions
 
 */
 
-
+/**
+ * Shakes the view of every mob within this overmap that has a client and is not protected by dampeners.
+ */
 /obj/structure/overmap/proc/shake_everyone(severity)
 	for(var/mob/M in mobs_in_ship)
 		if(M.client)
@@ -23,7 +25,7 @@ Bullet reactions
 		if(shield_result)
 			var/damage_sound = pick('nsv13/sound/effects/ship/damage/shield_hit.ogg', 'nsv13/sound/effects/ship/damage/shield_hit2.ogg')
 			if(!impact_sound_cooldown)
-				new /obj/effect/temp_visual/overmap_shield_hit(get_turf(src), src)
+				new /obj/effect/temp_visual/overmap_shield_hit(src, src)
 				relay(damage_sound)
 				if(P.damage >= 15) //Flak begone
 					shake_everyone(5)
@@ -53,8 +55,12 @@ Bullet reactions
 		visible_message("<span class='danger'>[src] is hit by \a [P]!</span>", null, null, COMBAT_MESSAGE_RANGE)
 		if(!QDELETED(src)) //Bullet on_hit effect might have already destroyed this object
 			//var/datum/vector2d/point_of_collision = src.physics2d?.collider2d.get_collision_point(P.physics2d?.collider2d)//Get the collision point, see if the armour quadrants need to absorb this hit.
-			take_quadrant_hit(run_obj_armor(P.damage, P.damage_type, P.flag, null, P.armour_penetration), projectile_quadrant_impact(P)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
+			take_quadrant_hit(run_obj_armor(P.damage, P.damage_type, P.flag, null, P.armour_penetration), quadrant_impact(P)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
 
+/**
+ * Used to relay a projectile impacting an overmap onto an overmap's interior zlevels.
+ * * proj_type = The type of the projectile to create.
+ */
 /obj/structure/overmap/proc/relay_damage(proj_type)
 	if(!length(occupying_levels))
 		return
@@ -100,6 +106,11 @@ Bullet reactions
 	update_icon()
 	return ..()
 
+/**
+ * Checks if the overmap contains any `/living`, non-animal, mobs.
+ * Also considers Fighters occupants if the proper flag is enabled on src.
+ * * Returns TRUE / FALSE.
+ */
 /obj/structure/overmap/proc/has_occupants()
 	if(length(mobs_in_ship))
 		for(var/mob/M in mobs_in_ship) // Hopefully we don't have to do this super often but I didn't want one list of people who have to hear noises and announcements and another list of people who matter for this
@@ -118,7 +129,12 @@ Bullet reactions
 		return TRUE
 	return FALSE
 
-/obj/structure/overmap/proc/handle_crit(damage_amount) //A proc to allow ships to enter superstructure crit, this means the player ship can't die, but its insides can get torn to shreds.
+/**
+ * A proc to allow ships to enter superstructure crit, this means the player ship can't die, but its insides can get torn to shreds.
+ * * When not in critical, triggers the structure crit state for a ship.
+ * * Additionally, causes internal damage when called, proportional to the `damage_amount` passed.
+ */
+/obj/structure/overmap/proc/handle_crit(damage_amount)
 	if(!structure_crit)
 		structure_crit = TRUE
 		structure_crit_init = world.time
@@ -138,6 +154,7 @@ Bullet reactions
 		var/turf/T = pick(get_area_turfs(target))
 		new /obj/effect/temp_visual/explosion_telegraph(T, damage_amount)
 
+///Handles the announcements for structure critical.
 /obj/structure/overmap/proc/handle_critical_failure_part_1()
 	var/ss_crit_timer = world.time - structure_crit_init
 	switch(ss_crit_timer)
@@ -191,6 +208,7 @@ Bullet reactions
 				handle_critical_failure_part_2()
 				structure_crit_alert ++
 
+///Detonates the ship, and ends the round if it was a main overmap.
 /obj/structure/overmap/proc/handle_critical_failure_part_2()
 	if(role == MAIN_OVERMAP)
 		for(var/M in mobs_in_ship)
@@ -229,6 +247,10 @@ Bullet reactions
 		sleep(20)
 		qdel(src) //we didn't want miners anyway
 
+/**
+ * Repairs structure damage.
+ * * amount = amount of structure integrity to restore.
+ */
 /obj/structure/overmap/proc/try_repair(amount)
 	if(amount < 0) //Underflow
 		return FALSE
@@ -239,6 +261,8 @@ Bullet reactions
 		obj_integrity += amount
 	if(structure_crit)
 		if(obj_integrity >= max_integrity * 0.2) //You need to repair a good chunk of her HP before you're getting outta this fucko.
+			if(structure_crit_no_return) //Too late.
+				return
 			stop_relay(channel=CHANNEL_SHIP_FX)
 			priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
 			structure_crit = FALSE
@@ -268,5 +292,5 @@ Bullet reactions
 /obj/effect/temp_visual/explosion_telegraph/Destroy()
 	var/turf/T = get_turf(src)
 	var/damage_level = ((damage_amount <= 20) ? 1 : ((damage_amount <= 75) ? 2 : ((damage_amount <= 150) ? 3 : 4)))
-	explosion(T,damage_level == 4 ? 0 : 2,round(damage_level*1.75),round(damage_level*2.25))
+	explosion(T,damage_level == 4 ? 2 : 0,round(damage_level*1.75),round(damage_level*2.25))
 	return ..()

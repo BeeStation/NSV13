@@ -181,8 +181,6 @@
 
 		if(MAX_WASTE_STORAGE_PRESSURE to INFINITY)
 			var/turf/T = get_turf(src)
-			T.assume_air(air_contents)
-			QDEL_NULL(air_contents)
 			explosion(T, 0, 1, 3)
 			qdel(src)
 			return
