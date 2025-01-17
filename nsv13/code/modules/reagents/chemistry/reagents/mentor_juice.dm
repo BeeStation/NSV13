@@ -175,7 +175,7 @@
 	return 'nsv13/sound/voice/cursed/weh.ogg'
 
 
-//On today's menu, bioweapons.
+//On 2264's menu, bioweapons.
 
 /obj/item/projectile/guided_munition/torpedo/biohazard_one
 	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_biohazard_torpedo/one
@@ -263,3 +263,142 @@
 	if(severity != EXPLODE_DEVASTATE)
 		return
 	qdel(src)
+
+//On this year's agenda, dice games!
+
+/**
+ * Handles the dice mechanics for ship defense.
+ * * Given we've had dice for a couple years now, I am sure I don't need to leave any code comments in here because everyone already understands.
+ */
+/obj/structure/overmap/proc/handle_dicey_defense(obj/item/projectile/incoming, obj/structure/overmap/firer)
+	var/datum/combat_dice/attack_dice = firer.npc_combat_dice
+	var/datum/combat_dice/defense_dice = npc_combat_dice
+
+	//Consider: Accuracy / Crit / etc bonuses / maluses by projectile category (e.g. torp inaccurate but if it hits, often crits)?
+
+	var/affinity_target = FALSE
+	if(ai_flags & attack_dice.affinity_flags)
+		affinity_target = TRUE
+
+	var/targetting_roll = 0
+	for(var/i = 1; i <= attack_dice.target_dice; i++)
+		targetting_roll += rand(1, attack_dice.target_roll)
+	targetting_roll += attack_dice.target_bonus
+
+	if(affinity_target)
+		targetting_roll = CEILING(targetting_roll * 1.5, 1)
+
+	var/evading_roll = 0
+	for(var/i = 1; i <= defense_dice.evade_dice; i++)
+		evading_roll += rand(1, defense_dice.evade_roll)
+	evading_roll += defense_dice.evade_bonus
+
+	if(evading_roll > targetting_roll)
+		return list("EVADED", "T\[[targetting_roll]\] < E\[[evading_roll]\]")
+
+	var/penetrating_roll = targetting_roll - evading_roll
+
+
+	var/armoring_roll = 0
+	for(var/i = 1; i <= defense_dice.armor_dice; i++)
+		armoring_roll += rand(1, defense_dice.armor_roll)
+	armoring_roll += defense_dice.armor_bonus
+
+	var/damaging_roll = 0
+	for(var/i = 1; i <= attack_dice.damage_dice; i++)
+		damaging_roll += rand(1, attack_dice.damage_roll)
+	damaging_roll += attack_dice.damage_bonus
+
+	if(affinity_target)
+		damaging_roll = CEILING(damaging_roll * 1.5, 1)
+
+	if(targetting_roll < armoring_roll)
+		return list("GLANCING HIT", "T\[[targetting_roll]\] < A\[[armoring_roll]\]")
+
+	if(damaging_roll < armoring_roll)
+		return list("GLANCING HIT", "D\[[damaging_roll]\] < A\[[armoring_roll]\]")
+
+	if(penetrating_roll >= armoring_roll && damaging_roll >= armoring_roll)
+		return list("CRITICAL HIT", "P\[[penetrating_roll]\] & D\[[damaging_roll]\] >= A\[[armoring_roll]\]")
+
+	if(damaging_roll > armoring_roll)
+		return list("DIRECT HIT", "D\[[damaging_roll]\] > A\[[armoring_roll]\]")
+
+	return null
+
+/datum/combat_dice/plotarmor_line
+	name = "Protagonist combat dice (C)"
+
+	evade_roll = 5
+	evade_bonus = -1
+
+	target_dice = 2
+	target_roll = 5
+	target_bonus = 1
+
+	armor_dice = 2
+	armor_roll = 4
+	armor_bonus = 1
+
+	damage_dice = 2
+	damage_roll = 4
+	damage_bonus = 2
+
+	affinity_flags = AI_FLAG_SUPPLY
+
+/datum/combat_dice/plotarmor_escort
+	name = "Protagonist combat dice (E)"
+
+	evade_dice = 2
+	evade_roll = 5
+	evade_bonus = -1
+
+	target_dice = 2
+	target_roll = 5
+	target_bonus = 2
+
+	armor_roll = 3
+
+	damage_dice = 2
+	damage_roll = 3
+	damage_bonus = 1
+
+	affinity_flags = AI_FLAG_SUPPLY|AI_FLAG_SWARMER
+
+/datum/combat_dice/plotarmor_supercapital
+	name = "Protagonist combat dice (SC)"
+
+	evade_roll = 3
+	evade_bonus = -1
+
+	target_dice = 4
+	target_roll = 4
+	target_bonus = 2
+
+	armor_dice = 4
+	armor_roll = 3
+
+	damage_dice = 4
+	damage_roll = 3
+	damage_bonus = 2
+
+	affinity_flags = AI_FLAG_DESTROYER|AI_FLAG_SUPPLY
+
+/datum/combat_dice/roci_my_beloved
+	name = "Self-Explanatory combat dice"
+
+	evade_dice = 4
+	evade_roll = 4
+	evade_bonus = -1
+
+	target_dice = 2
+	target_roll = 5
+	target_bonus = -2
+
+	armor_dice = 0 //yeeeeah about those plates..
+	armor_bonus = 1
+
+	damage_dice = 2
+	damage_roll = 4
+
+	affinity_flags = ALL

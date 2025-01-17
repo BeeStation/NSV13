@@ -163,9 +163,11 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+	combat_dice_type = /datum/combat_dice/plotarmor_escort
 
 /obj/structure/overmap/nanotrasen/frigate/starter/shrike //TEMP UNTIL WE DIVERSIFY TYPES MORE
 	icon_state = "shrike"
+	combat_dice_type = /datum/combat_dice/plotarmor_escort
 
 /obj/structure/overmap/nanotrasen/frigate/starter/shrike/apply_weapons()
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
@@ -179,6 +181,7 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+	combat_dice_type = /datum/combat_dice/plotarmor_escort
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to the Snake
 	role = MAIN_OVERMAP
@@ -190,6 +193,7 @@
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 	broadside = TRUE
+	combat_dice_type = /datum/combat_dice/plotarmor_line
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter //Currently assigned to Hammerhead
 	icon = 'nsv13/icons/overmap/new/nanotrasen/heavy_cruiser.dmi'
@@ -201,6 +205,7 @@
 	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 20)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 	broadside = TRUE
+	combat_dice_type = /datum/combat_dice/plotarmor_line
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter/spec_collision_handling(obj/structure/overmap/other_ship, list/impact_powers, impact_angle)
 	var/modified_angle = 360 - ((angle + 630) % 360)
@@ -223,6 +228,7 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 65, "overmap_heavy" = 20)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+	combat_dice_type = /datum/combat_dice/plotarmor_line
 
 /obj/structure/overmap/nanotrasen/battlecruiser/starter //Currently assigned to Tycoon and Gladius
 	role = MAIN_OVERMAP
@@ -231,6 +237,7 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 20)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+	combat_dice_type = /datum/combat_dice/plotarmor_line
 
 /obj/structure/overmap/nanotrasen/battleship/starter //Galactica
 	role = MAIN_OVERMAP //Player controlled variant
@@ -239,6 +246,7 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 25)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+	combat_dice_type = /datum/combat_dice/plotarmor_supercapital
 
 /obj/structure/overmap/nanotrasen/serendipity/starter
 	role = MAIN_OVERMAP
@@ -247,6 +255,7 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+	combat_dice_type = /datum/combat_dice/plotarmor_escort
 
 /obj/structure/overmap/nanotrasen/serendipity/starter/apply_weapons()
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)

@@ -52,6 +52,7 @@
 	max_integrity = 750 //She's fragile and relies heavily on shields.
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 25)
+	combat_dice_type = /datum/combat_dice/plotarmor_line
 
 //AI Versions
 

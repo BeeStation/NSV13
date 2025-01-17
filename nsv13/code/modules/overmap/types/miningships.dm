@@ -23,6 +23,7 @@
 	max_integrity = 500 //Max health
 	use_armour_quadrants = FALSE //They can weld plates for now, mining ship will not have a reasonable way to power the pumps -K
 	starting_system = "Staging" //TEMP UNTIL DELETE
+	combat_dice_type = /datum/combat_dice/roci_my_beloved
 
 /obj/structure/overmap/nanotrasen/mining_cruiser/nostromo
 	name = "NSV Hephaestus"

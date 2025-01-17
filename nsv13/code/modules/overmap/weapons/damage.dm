@@ -20,6 +20,31 @@ Bullet reactions
 /obj/structure/overmap/bullet_act(obj/item/projectile/P)
 	if(istype(P, /obj/item/projectile/beam/overmap/aiming_beam))
 		return
+	var/vismessage
+	if(npc_combat_dice && P.overmap_firer && P.overmap_firer.npc_combat_dice)
+		var/list/dicegame_response = handle_dicey_defense(P, P.overmap_firer)
+		if(length(dicegame_response))
+			var/effect = dicegame_response[1] //Result. (e.g. EVADED), note that a "normal" hit doesn't return anything.
+			var/numbers = dicegame_response[2] //Numbers that caused it. (e.g. x14 < y15)
+			vismessage = "[effect] - [numbers]"
+			var/cancel_hit = FALSE
+			switch(effect)
+				if("CRITICAL HIT")
+					P.damage *= 1.5
+					P.armour_penetration += 30
+				if("DIRECT HIT")
+					P.damage *= 1.2
+				if("GLANCING HIT")
+					P.damage *= 0.5
+					P.armour_penetration = max(0, P.armour_penetration - 30)
+				if("EVADED")
+					cancel_hit = TRUE
+				else
+					log_runtime("HEY LOOK Delta (or someone later) messed up something in the dice handling for loaded overmap defense!")
+			if(cancel_hit)
+				visible_message("<span class='warning'>[P] was [vismessage] by [src]!</span>", vision_distance = COMBAT_MESSAGE_RANGE)
+				return BULLET_ACT_FORCE_PIERCE
+
 	if(shields)
 		var/shield_result = shields.absorb_hit(P)
 		if(shield_result)
@@ -52,7 +77,7 @@ Bullet reactions
 		return ..()
 	else
 		playsound(src, P.hitsound, 50, 1)
-		visible_message("<span class='danger'>[src] is hit by \a [P]!</span>", null, null, COMBAT_MESSAGE_RANGE)
+		visible_message("<span class='danger'>[src] is hit by \a [P]![vismessage ? " ([vismessage])" : ""]</span>", null, null, COMBAT_MESSAGE_RANGE)
 		if(!QDELETED(src)) //Bullet on_hit effect might have already destroyed this object
 			//var/datum/vector2d/point_of_collision = src.physics2d?.collider2d.get_collision_point(P.physics2d?.collider2d)//Get the collision point, see if the armour quadrants need to absorb this hit.
 			take_quadrant_hit(run_obj_armor(P.damage, P.damage_type, P.flag, null, P.armour_penetration), quadrant_impact(P)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
