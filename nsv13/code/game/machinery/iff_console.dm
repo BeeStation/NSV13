@@ -132,31 +132,35 @@ If someone hacks it, you can always rebuild it.
 	playsound(loc, 'nsv13/sound/effects/computer/alarm_3.ogg', 80)
 	switch(OM.faction)
 		if("syndicate")
-			OM.faction = "nanotrasen"
+			OM.swap_faction("syndicate")
 			faction = OM.faction
 			return
 		if("nanotrasen")
-			OM.faction = "syndicate"
+			OM.swap_faction("syndicate")
 			faction = OM.faction
-			if(OM.role == MAIN_OVERMAP)	// Make Solgov come get them
-				var/datum/star_system/player_system = OM.current_system
-				if(!player_system)
-					player_system = SSstar_system.ships[OM]["target_system"]
-				var/datum/star_system/starting_point = SSstar_system.system_by_id(pick(player_system.adjacency_list))
-
-				var/datum/fleet/F = new /datum/fleet/solgov/interdiction
-				starting_point.fleets += F
-				F.current_system = starting_point
-				F.assemble(starting_point)
-				for(var/obj/structure/overmap/ship in starting_point.system_contents)
-					if(length(ship.mobs_in_ship) && ship.reserved_z)
-						F.encounter(ship)
-				message_admins("Solgov interdictor fleet created at [starting_point].")
-				priority_announce("Contact with [GLOB.station_name] lost. Code Charlie Foxtrot One Niner Eight Four.", "White Rapids Fleet Command")
 			return
 		if("pirate")
 			OM.faction = "nanotrasen"
 			faction = OM.faction
 			return
-	//Fallback. Maybe we tried to IFF hack an IFF scrambled ship...?
-	OM.faction = initial(OM.faction)
+
+/obj/structure/overmap/proc/swap_faction(var/new_faction)
+	if(new_faction == initial(faction)) //If you've just reversed your swap, set it to the original faction without hassle
+		faction = new_faction
+		return
+	faction = new_faction
+	if(role == MAIN_OVERMAP && faction != "nanotrasen")
+		var/datum/star_system/player_system = OM.current_system
+		if(!player_system)
+			player_system = SSstar_system.ships[OM]["target_system"]
+		var/datum/star_system/starting_point = SSstar_system.system_by_id(pick(player_system.adjacency_list))
+
+		var/datum/fleet/F = new /datum/fleet/solgov/interdiction
+		starting_point.fleets += F
+		F.current_system = starting_point
+		F.assemble(starting_point)
+		for(var/obj/structure/overmap/ship in starting_point.system_contents)
+			if(length(ship.mobs_in_ship) && ship.reserved_z)
+				F.encounter(ship)
+		message_admins("Solgov interdictor fleet created at [starting_point].")
+		priority_announce("Contact with [GLOB.station_name] lost. Code Charlie Foxtrot One Niner Eight Four.", "White Rapids Fleet Command")

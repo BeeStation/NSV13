@@ -1,0 +1,75 @@
+/datum/overmap_objective/board_station
+	name = "Board Station"
+	desc = "Find and board a station, then defend the station."
+	brief = "Capture the syndicate outpost CALLANADMIN by boarding it, defeating the enemies therein, and modifying its IFF codes."
+	var/datum/star_system/target_system = null
+	var/obj/structure/overmap/target_station = null
+
+/datum/overmap_objective/board_station/instance()
+	. = ..()
+	// make a ship
+	var/station = /obj/structure/overmap/trader/syndicate/outpost
+	target_station = instance_overmap(station)
+	target_station.block_deletion = TRUE
+	target_station.essential = TRUE
+	RegisterSignal(target_station, COMSIG_SHIP_BOARDED, PROC_REF(check_completion), target_station)
+	RegisterSignal(target_station, COMSIG_SHIP_RELEASE_BOARDING, PROC_REF(release_boarding), target_station)
+	target_station.ai_load_interior(SSstar_system.find_main_overmap())
+	// give it a name
+	var/ship_name = generate_ship_name()
+	target_station.name = ship_name
+	// give it a home
+	var/list/candidates = list()
+	for(var/datum/star_system/S in SSstar_system.neutral_zone_systems)
+		// Is this even in a reasonable location?
+		if(S.hidden || (S.sector != 2) || S.get_info()?["Black hole"])
+			continue
+		// Don't put it where it will immediately get shot
+		if((S.alignment != target_station.faction) && (S.alignment != "unaligned") && (S.alignment != "uncharted"))
+			continue
+		// This shouldn't be needed with the faction check, but don't put it in the spawn location
+		if(S == SSstar_system.system_by_id(SSovermap_mode.mode.starting_system))
+			continue
+		candidates += S
+	target_system = pick(candidates)
+	brief = "Capture the syndicate vessel [target_station] in [target_system] by boarding it, defeating the enemies therein, and modifying its IFF codes."
+	target_system.add_ship(target_station)
+	target_system.enemies_in_system += target_station
+	target_system.objective_sector = TRUE
+	// give it a friend :)
+	var/datum/faction/S = SSstar_system.faction_by_id(FACTION_ID_SYNDICATE)
+	S.send_fleet(target_system, null, TRUE)
+	var/datum/fleet/F = pick(target_system.fleets)
+	F.fleet_trait = FLEET_TRAIT_DEFENSE
+	F.add_ship(target_station, "supply")
+
+	// How long should this take?
+	var/list/fastest_route = find_route(SSstar_system.find_system(SSovermap_mode.mode.starting_system), target_system)
+	var/distance = 0
+	for(var/i = 2; i < length(fastest_route); i++)
+		var/datum/star_system/start = fastest_route[i-1]
+		var/datum/star_system/finish = fastest_route[i]
+		distance += start.dist(finish)
+	var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+	var/travel_time = (distance / (OM.ftl_drive.get_jump_speed() * 10)) SECONDS // Time spent flying
+	travel_time += 2 MINUTES * length(fastest_route) // Time spent spooling FTL drive
+	travel_time += 15 MINUTES //Time spent defending the objective after capture
+	travel_time *= 1.2 // Time spent lolligagging
+	SSovermap_mode.mode.objective_reminder_interval = max((travel_time / 5), SSovermap_mode.mode.objective_reminder_interval)
+	message_admins("Reminder interval set to [(SSovermap_mode.mode.objective_reminder_interval) / 600] minutes")
+
+/datum/overmap_objective/board_ship/check_completion()
+	if (target_station.faction == SSovermap_mode.mode.starting_faction)
+		target_station.block_deletion = FALSE
+		target_station.essential = FALSE
+
+		if(defense_complete)
+			status = 1
+			UnregisterSignal(target_station, COMSIG_SHIP_BOARDED)
+			UnregisterSignal(target_station, COMSIG_SHIP_RELEASE_BOARDING)
+
+/datum/overmap_objective/board_ship/proc/release_boarding()
+	// Don't let them kill the ship if they haven't won yet
+	if(status != 1 && status != 3) // complete or admin override
+		return COMSIG_SHIP_BLOCKS_RELEASE_BOARDING
+	return 0
