@@ -1109,10 +1109,10 @@
 /area/maintenance/nsv/deck1/starboard)
 "cO" = (
 /obj/structure/table/reinforced,
-/obj/machinery/cell_charger{
-	pixel_y = 4
-	},
 /obj/effect/turf_decal/tile/ship/full/blue,
+/obj/machinery/keycard_auth{
+	pixel_y = 3
+	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "cP" = (
@@ -2148,10 +2148,10 @@
 /obj/effect/turf_decal/tile/ship/half/blue{
 	dir = 8
 	},
-/obj/effect/landmark/event_spawn,
 /obj/effect/turf_decal/ship/nt_floor_logo{
 	icon_state = "0,1"
 	},
+/obj/machinery/conquest_beacon/nanotrasen,
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "fJ" = (
@@ -9132,7 +9132,9 @@
 "xR" = (
 /obj/structure/table/reinforced,
 /obj/effect/turf_decal/tile/ship/half/red,
-/obj/item/storage/box/boardingpins,
+/obj/machinery/keycard_auth{
+	pixel_y = 3
+	},
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/heads/hos)
 "xT" = (
@@ -10510,14 +10512,20 @@
 /turf/open/floor/plating,
 /area/ai_monitored/turret_protected/AIsatextAP)
 "Bm" = (
-/obj/machinery/modular_computer/console/preset/command{
-	dir = 8
-	},
 /obj/structure/window/reinforced{
 	dir = 4;
 	layer = 2.9
 	},
 /obj/effect/turf_decal/tile/ship/full/blue,
+/obj/machinery/computer/ship/viewscreen{
+	density = 1;
+	desc = "A large computer which shows an exterior view of the ship.";
+	dir = 8;
+	icon = 'icons/obj/computer.dmi';
+	icon_state = "computer";
+	name = "Seegson model S viewscreen";
+	pixel_y = 1
+	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "Bn" = (
@@ -13489,16 +13497,10 @@
 	dir = 4;
 	layer = 2.9
 	},
-/obj/machinery/computer/ship/viewscreen{
-	density = 1;
-	desc = "A large computer which shows an exterior view of the ship.";
-	dir = 8;
-	icon = 'icons/obj/computer.dmi';
-	icon_state = "computer";
-	name = "Seegson model S viewscreen";
-	pixel_y = 1
-	},
 /obj/effect/turf_decal/tile/ship/full/blue,
+/obj/machinery/modular_computer/console/preset/command{
+	dir = 8
+	},
 /turf/open/floor/monotile/dark,
 /area/bridge/cic)
 "IH" = (
@@ -14327,6 +14329,7 @@
 "KE" = (
 /obj/effect/turf_decal/ship/nt_floor_logo,
 /obj/item/beacon,
+/obj/effect/landmark/event_spawn,
 /turf/open/floor/light,
 /area/bridge/cic)
 "KF" = (
@@ -14632,6 +14635,8 @@
 /area/space/nearstation)
 "Lq" = (
 /obj/effect/turf_decal/tile/ship/red,
+/obj/structure/table/reinforced,
+/obj/item/storage/box/boardingpins,
 /turf/open/floor/monotile/dark,
 /area/crew_quarters/heads/hos)
 "Lr" = (
@@ -15309,12 +15314,6 @@
 /obj/machinery/advanced_airlock_controller/directional/east,
 /turf/open/floor/durasteel/techfloor,
 /area/ai_monitored/turret_protected/aisat/foyer)
-"Nj" = (
-/obj/structure/chair/office/light{
-	dir = 4
-	},
-/turf/open/floor/fakespace,
-/area/crew_quarters/heads/hos)
 "Nk" = (
 /obj/machinery/light/small{
 	dir = 4
@@ -16871,6 +16870,10 @@
 "Rf" = (
 /obj/machinery/computer/card/minor/cmo{
 	dir = 4
+	},
+/obj/machinery/keycard_auth{
+	pixel_y = 3;
+	pixel_x = -28
 	},
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/cmo)
@@ -57737,8 +57740,8 @@ mZ
 em
 fp
 Xg
-Xg
 pb
+Xg
 pb
 Xg
 Xg
@@ -65937,7 +65940,7 @@ oc
 oc
 KW
 sA
-Nj
+sA
 sA
 ue
 RI

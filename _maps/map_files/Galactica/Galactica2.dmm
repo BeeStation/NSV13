@@ -10040,13 +10040,20 @@
 	dir = 8
 	},
 /obj/machinery/button/door{
-	id = "Skynet_launch_interior";
-	name = "Mech Bay Door Control";
-	pixel_y = -32;
-	req_access_txt = "29"
+	id = sd;
+	name = "Mech Bay Exterior Door Control";
+	pixel_y = 3;
+	req_access_txt = "29";
+	pixel_x = 28
 	},
 /obj/effect/turf_decal/tile/ship/half/purple{
 	dir = 8
+	},
+/obj/machinery/button/door{
+	id = sd;
+	name = "Mech Bay Exterior Door Control";
+	pixel_y = -32;
+	req_access_txt = "29"
 	},
 /turf/open/floor/monotile/dark,
 /area/science/robotics/mechbay)
@@ -12950,7 +12957,9 @@
 /area/engine/atmos)
 "gIX" = (
 /obj/structure/table/reinforced,
-/obj/item/flashlight/lamp,
+/obj/machinery/keycard_auth{
+	pixel_y = 3
+	},
 /turf/open/floor/carpet/orange,
 /area/crew_quarters/heads/chief)
 "gJr" = (
@@ -14401,6 +14410,7 @@
 	dir = 4
 	},
 /obj/structure/table/reinforced,
+/obj/item/borg/upgrade/rename,
 /turf/open/floor/monotile/dark,
 /area/science/robotics/lab)
 "hzS" = (
@@ -14884,8 +14894,10 @@
 	dir = 1
 	},
 /obj/effect/landmark/start/chief_engineer,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 8
+	},
 /turf/open/floor/carpet/orange,
 /area/crew_quarters/heads/chief)
 "hNR" = (
@@ -17678,6 +17690,12 @@
 	},
 /obj/machinery/power/apc/auto_name/north,
 /obj/machinery/camera/autoname,
+/obj/machinery/button/door{
+	id = "Skynet_launch_interior";
+	name = "Mech Bay Interior Door Control";
+	req_access_txt = "29";
+	pixel_x = 28
+	},
 /turf/open/floor/monotile/dark,
 /area/science/robotics/mechbay)
 "jod" = (
@@ -18563,6 +18581,7 @@
 /area/maintenance/nsv/deck2/frame2/starboard)
 "jMx" = (
 /obj/machinery/airalarm/directional/east,
+/obj/item/paper/monitorkey,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/chief)
 "jMA" = (
@@ -18638,6 +18657,9 @@
 /mob/living/simple_animal/parrot/Poly,
 /obj/structure/cable/cyan{
 	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 8
 	},
 /turf/open/floor/carpet/orange,
 /area/crew_quarters/heads/chief)
@@ -19116,10 +19138,10 @@
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/atmos)
 "kbF" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 8
 	},
-/turf/open/floor/monotile/steel,
+/turf/open/floor/carpet/orange,
 /area/crew_quarters/heads/chief)
 "kbJ" = (
 /obj/structure/chair/wood/normal{
@@ -21595,7 +21617,7 @@
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/poddoor/shutters/ship{
-	id = "Skynet_launch_interior";
+	id = "Skynet_2";
 	name = "Mech Bay Shutters"
 	},
 /turf/open/floor/monotile/steel,
@@ -26121,7 +26143,9 @@
 "nRK" = (
 /obj/structure/chair/office/light,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 4
+	},
 /turf/open/floor/carpet/orange,
 /area/crew_quarters/heads/chief)
 "nRZ" = (
@@ -26156,6 +26180,8 @@
 	pixel_y = 5
 	},
 /obj/item/storage/belt/utility/atmostech,
+/obj/item/clothing/glasses/welding,
+/obj/item/clothing/glasses/welding,
 /turf/open/floor/monotile/dark,
 /area/science/robotics/lab)
 "nSH" = (
@@ -26245,6 +26271,13 @@
 	dir = 4
 	},
 /obj/machinery/holopad,
+/obj/machinery/button/door{
+	id = sd;
+	name = "Mech Bay Exterior Door Control";
+	pixel_y = -2;
+	req_access_txt = "29";
+	pixel_x = 32
+	},
 /turf/open/floor/monotile/steel,
 /area/science/robotics/lab)
 "nWu" = (
@@ -26608,6 +26641,10 @@
 /obj/structure/table/reinforced,
 /obj/item/storage/secure/briefcase,
 /obj/machinery/computer/med_data/laptop,
+/obj/item/stamp/xo{
+	pixel_x = -6;
+	pixel_y = 4
+	},
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -26690,6 +26727,15 @@
 	pixel_y = 4
 	},
 /obj/machinery/camera/autoname,
+/obj/item/assembly/flash/handheld,
+/obj/item/assembly/flash/handheld,
+/obj/item/assembly/flash/handheld,
+/obj/item/assembly/flash/handheld,
+/obj/item/assembly/flash/handheld,
+/obj/item/assembly/flash/handheld,
+/obj/item/assembly/flash/handheld,
+/obj/item/assembly/flash/handheld,
+/obj/item/assembly/flash/handheld,
 /turf/open/floor/monotile/dark,
 /area/science/robotics/lab)
 "ofP" = (
@@ -27398,8 +27444,9 @@
 "oyo" = (
 /obj/machinery/button/door{
 	id = "Skynet_launch_interior";
-	name = "Mech Bay Door Control";
-	req_access_txt = "29"
+	name = "Mech Bay Interior Door Control";
+	req_access_txt = "29";
+	pixel_y = 7
 	},
 /turf/closed/wall/steel,
 /area/science/robotics/mechbay)
@@ -27923,12 +27970,8 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
 "oMB" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
-	dir = 8
-	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/heads/chief)
 "oMI" = (
@@ -28337,18 +28380,13 @@
 /area/hallway/nsv/deck2/primary)
 "oWl" = (
 /obj/structure/table/reinforced,
-/obj/item/paper/monitorkey,
-/obj/item/clothing/glasses/meson,
-/obj/item/stamp/chief_engineer,
+/obj/item/storage/secure/briefcase,
 /obj/item/computer_hardware/hard_drive/role/engineering{
 	pixel_x = 3
 	},
+/obj/item/clothing/glasses/meson,
 /obj/item/reagent_containers/pill/patch/silver_sulf,
-/obj/machinery/cell_charger,
-/obj/item/stock_parts/cell/high{
-	charge = 100;
-	maxcharge = 15000
-	},
+/obj/item/clothing/mask/cigarette/cigar,
 /turf/open/floor/carpet/orange,
 /area/crew_quarters/heads/chief)
 "oWy" = (
@@ -28657,23 +28695,11 @@
 	},
 /area/maintenance/nsv/deck2/frame4/port)
 "pdO" = (
-/obj/effect/turf_decal/tile/ship/green{
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/ship/green{
-	dir = 1
-	},
-/obj/machinery/button/door{
-	id = "Skynet_launch_interior";
-	name = "Mech Bay Door Control";
-	pixel_y = 24;
-	req_access_txt = "29"
-	},
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/floor/durasteel,
-/area/hallway/nsv/deck2/primary)
+/turf/open/floor/carpet/orange,
+/area/crew_quarters/heads/chief)
 "pdP" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
@@ -30059,10 +30085,7 @@
 /area/maintenance/nsv/deck2/frame5/starboard)
 "pSB" = (
 /obj/structure/table/reinforced,
-/obj/item/stamp/xo{
-	pixel_x = -6;
-	pixel_y = 4
-	},
+/obj/machinery/keycard_auth,
 /turf/open/floor/carpet/blue,
 /area/crew_quarters/heads/hop{
 	name = "Executive officer's Office"
@@ -31808,6 +31831,14 @@
 	dir = 4
 	},
 /obj/machinery/ecto_sniffer,
+/obj/item/healthanalyzer{
+	pixel_x = 4;
+	pixel_y = -4
+	},
+/obj/item/healthanalyzer{
+	pixel_x = 4;
+	pixel_y = -4
+	},
 /turf/open/floor/monotile/dark,
 /area/science/robotics/lab)
 "qNq" = (
@@ -32277,6 +32308,9 @@
 "rck" = (
 /obj/structure/cable/cyan{
 	icon_state = "1-2"
+	},
+/obj/machinery/keycard_auth{
+	pixel_y = 3
 	},
 /turf/open/floor/carpet/orange,
 /area/crew_quarters/heads/chief)
@@ -36770,8 +36804,9 @@
 /area/engine/engineering/reactor_core)
 "tsq" = (
 /obj/structure/table/reinforced,
-/obj/item/storage/secure/briefcase,
-/obj/item/clothing/mask/cigarette/cigar,
+/obj/item/flashlight/lamp,
+/obj/item/paper/monitorkey,
+/obj/item/stamp/chief_engineer,
 /turf/open/floor/carpet/orange,
 /area/crew_quarters/heads/chief)
 "tsx" = (
@@ -40769,7 +40804,9 @@
 /turf/open/floor/plasteel/ridged/steel,
 /area/engine/engineering)
 "vAJ" = (
-/obj/machinery/computer/card/minor/ce,
+/obj/machinery/computer/station_alert{
+	name = "ship alert console"
+	},
 /turf/open/floor/carpet/orange,
 /area/crew_quarters/heads/chief)
 "vAT" = (
@@ -44189,9 +44226,6 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/frame2/central)
 "xvI" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
-	dir = 8
-	},
 /obj/structure/cable/cyan{
 	icon_state = "1-2"
 	},
@@ -44386,12 +44420,10 @@
 /turf/open/floor/carpet/ship,
 /area/chapel/office)
 "xAO" = (
-/obj/machinery/computer/station_alert{
-	name = "ship alert console"
-	},
 /obj/structure/cable/cyan{
 	icon_state = "1-2"
 	},
+/obj/machinery/computer/card/minor/ce,
 /turf/open/floor/carpet/orange,
 /area/crew_quarters/heads/chief)
 "xAP" = (
@@ -66162,7 +66194,7 @@ hms
 dcQ
 iSw
 qXe
-cVs
+pdO
 oWl
 tIA
 qXe
@@ -66418,8 +66450,8 @@ vol
 hms
 neH
 iSw
+qXe
 kbF
-cVs
 vAJ
 cVs
 ijw
@@ -87247,7 +87279,7 @@ dCH
 bXy
 dCH
 wLD
-pdO
+miz
 rtl
 aJw
 htI
