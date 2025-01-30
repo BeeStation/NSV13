@@ -29,7 +29,6 @@
 	suit = /obj/item/clothing/suit/space/officer
 	l_pocket = /obj/item/ammo_box/magazine/pistolm9mm
 	r_pocket = /obj/item/gun/ballistic/automatic/pistol/APS
-	implants = list()
 
 /datum/outfit/syndicate_empty/boarding
 	name = "Syndicate Crewman (Boarding)"
@@ -38,6 +37,7 @@
 	l_pocket = /obj/item/ammo_box/magazine/m10mm
 	r_pocket = /obj/item/gun/ballistic/automatic/pistol
 	back = /obj/item/storage/backpack/duffelbag/syndie
+	glasses = /obj/item/clothing/glasses/night
 	backpack_contents = list(/obj/item/storage/box/syndie=1,\
 	/obj/item/kitchen/knife/combat/survival=1)
 
