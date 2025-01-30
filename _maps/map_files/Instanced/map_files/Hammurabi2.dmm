@@ -308,7 +308,7 @@
 /area/nsv/weapons/pvp)
 "bN" = (
 /obj/machinery/computer/cryopod,
-/turf/closed/wall/steel,
+/turf/closed/wall/r_wall,
 /area/hammurabi)
 "bP" = (
 /obj/machinery/airalarm/directional/north,
@@ -447,11 +447,12 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/engine/engineering/pvp)
 "cB" = (
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 6
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/toxin_output{
+	id_tag = "tox_out1"
 	},
-/obj/effect/spawner/structure/window/plasma/reinforced,
-/turf/open/floor/plating,
+/turf/open/floor/engine/plasma{
+	initial_gas_mix = "plasma=900000;TEMP=293.15"
+	},
 /area/engine/engineering/pvp)
 "cC" = (
 /obj/structure/cable{
@@ -460,7 +461,10 @@
 /turf/open/floor/plating,
 /area/hammurabi/maintenance)
 "cG" = (
-/obj/structure/closet/secure_closet/personal,
+/obj/machinery/cryopod{
+	dir = 4
+	},
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/carpet/red,
 /area/hammurabi)
 "cH" = (
@@ -1047,6 +1051,7 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "fB" = (
+/obj/structure/grille,
 /turf/open/floor/engine/airless,
 /area/engine/engineering/pvp)
 "fE" = (
@@ -1213,13 +1218,7 @@
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi)
 "gs" = (
-/obj/machinery/cryopod{
-	dir = 4
-	},
-/obj/machinery/light{
-	dir = 8
-	},
-/obj/machinery/firealarm/directional/west,
+/obj/structure/closet/wardrobe/black,
 /turf/open/floor/carpet/red,
 /area/hammurabi)
 "gt" = (
@@ -1285,8 +1284,6 @@
 "gL" = (
 /obj/item/storage/belt/utility/full,
 /obj/structure/table/reinforced,
-/obj/item/storage/toolbox/syndicate,
-/obj/item/pipe_dispenser,
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/pvp)
 "gN" = (
@@ -2246,10 +2243,10 @@
 	},
 /area/engine/engineering/pvp)
 "le" = (
-/obj/effect/spawner/structure/window/plasma/reinforced,
 /obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
 	},
+/obj/effect/spawner/structure/window/plasma/reinforced,
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/pvp)
 "lg" = (
@@ -3191,10 +3188,6 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
-/turf/open/floor/monotile/dark,
-/area/engine/engineering/pvp)
-"rM" = (
-/obj/machinery/portable_atmospherics/canister/oxygen,
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/pvp)
 "rR" = (
@@ -5544,9 +5537,6 @@
 /turf/open/floor/plating,
 /area/hammurabi)
 "GW" = (
-/obj/machinery/light/small{
-	dir = 4
-	},
 /obj/machinery/atmospherics/components/binary/pump{
 	name = "Plasma to Stormdrive"
 	},
@@ -5656,7 +5646,7 @@
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/airlock/ship/hatch{
-	name = "Engineering";
+	name = "Plasma Tank Closet";
 	req_one_access_txt = "151;152"
 	},
 /turf/open/floor/monotile/dark,
@@ -5814,15 +5804,14 @@
 /turf/open/floor/mineral/plastitanium,
 /area/bridge/pvp)
 "IV" = (
-/obj/machinery/rnd/production/techfab,
-/turf/open/floor/mineral/plastitanium,
-/area/quartermaster/pvp)
+/obj/machinery/light/small{
+	dir = 4
+	},
+/obj/machinery/portable_atmospherics/canister/oxygen,
+/turf/open/floor/plating,
+/area/engine/engineering/pvp)
 "IW" = (
 /obj/machinery/atmospherics/miner/toxins,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/toxin_output{
-	dir = 8;
-	id_tag = "tox_out1"
-	},
 /turf/open/floor/engine/plasma{
 	initial_gas_mix = "plasma=900000;TEMP=293.15"
 	},
@@ -6856,13 +6845,13 @@
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi)
 "QK" = (
-/obj/machinery/door/firedoor/border_only/directional/north,
-/obj/machinery/door/firedoor/border_only/directional/south,
-/obj/machinery/door/airlock/ship/public/glass{
-	name = "Cryogenic Storage";
-	req_one_access_txt = "150"
+/obj/machinery/cryopod{
+	dir = 4
 	},
-/turf/open/floor/plasteel/tech/grid,
+/obj/machinery/light{
+	dir = 8
+	},
+/turf/open/floor/carpet/red,
 /area/hammurabi)
 "QM" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -7432,13 +7421,10 @@
 /turf/open/floor/mineral/plastitanium,
 /area/hammurabi/armoury)
 "Vm" = (
-/obj/machinery/door/firedoor/border_only/directional/west,
-/obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/airlock/ship/hatch{
-	name = "Engineering";
-	req_one_access_txt = "151;152"
-	},
-/turf/open/floor/monotile/dark,
+/obj/structure/table/reinforced,
+/obj/item/storage/toolbox/syndicate,
+/obj/item/pipe_dispenser,
+/turf/open/floor/plating,
 /area/engine/engineering/pvp)
 "Vq" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden{
@@ -7534,7 +7520,6 @@
 	dir = 4;
 	name = "starmap console"
 	},
-/obj/item/storage/toolbox/syndicate,
 /turf/open/floor/plasteel/tech/grid,
 /area/nsv/weapons/pvp)
 "VG" = (
@@ -7802,6 +7787,7 @@
 /area/crew_quarters/heads/captain/pvp/admiral)
 "XS" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/effect/spawner/structure/window/plasma/reinforced,
 /turf/open/floor/plating,
 /area/engine/engineering/pvp)
 "XT" = (
@@ -28045,13 +28031,13 @@ eo
 eo
 eo
 LY
+jS
 LY
 LY
+jS
 LY
 LY
-LY
-LY
-LY
+jS
 LY
 LY
 LY
@@ -28559,13 +28545,13 @@ du
 LY
 LY
 LY
-jS
 LY
 LY
-jS
 LY
 LY
-jS
+LY
+LY
+LY
 LY
 LY
 fB
@@ -30869,7 +30855,7 @@ IE
 aS
 hm
 dA
-rM
+aS
 dR
 aS
 FS
@@ -31638,7 +31624,7 @@ LY
 UR
 LY
 LY
-Vm
+LY
 LY
 HV
 LY
@@ -32152,10 +32138,10 @@ ir
 jk
 LY
 IW
-LY
-LY
-LY
-LY
+UM
+IV
+dZ
+Vm
 LY
 jz
 pQ
@@ -32410,10 +32396,10 @@ pH
 bN
 an
 an
-gs
-dk
-cG
-bk
+an
+an
+an
+an
 zH
 aX
 bk
@@ -32664,13 +32650,13 @@ td
 td
 kG
 pg
+an
+gs
+dk
 QK
-be
-be
-be
-be
-be
-QK
+cG
+gs
+bk
 jz
 aX
 Nz
@@ -37026,7 +37012,7 @@ fO
 yR
 zA
 yB
-IV
+UD
 UD
 Zb
 Zb
