@@ -37,9 +37,9 @@
 	l_pocket = /obj/item/ammo_box/magazine/m10mm
 	r_pocket = /obj/item/gun/ballistic/automatic/pistol
 	back = /obj/item/storage/backpack/duffelbag/syndie
-	glasses = /obj/item/clothing/glasses/night
 	backpack_contents = list(/obj/item/storage/box/syndie=1,\
-	/obj/item/kitchen/knife/combat/survival=1)
+	/obj/item/kitchen/knife/combat/survival=1,\
+	/obj/item/flashlight/seclite)
 
 /obj/effect/mob_spawn/human/syndicate/boarding
 	name = "Syndicate Crewman"
