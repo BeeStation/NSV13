@@ -244,7 +244,7 @@
 							A = new /mob/living/silicon/ai(loc, laws, brain.brainmob)
 
 						if(get_overmap()?.faction == "syndicate") //NSV13 start - Syndicate ship radio & traitor setting
-							A.set_zeroth_law("Accomplish your ship's objectives at all costs.", "Accomplish your ship's objectives at all costs.")
+							A.set_zeroth_law("Accomplish the Syndicate's objectives at all costs.", "Accomplish your Syndicate's objectives at all costs.")
 							A.set_syndie_radio()
 							A.faction |= "Syndicate" //Why is this capitalized
 							A.network = list("syndicate")
