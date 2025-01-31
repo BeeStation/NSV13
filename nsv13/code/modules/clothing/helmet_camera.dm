@@ -6,7 +6,8 @@
 		if(src == user.get_item_by_slot(ITEM_SLOT_HEAD)) //Make sure the player is not wearing the suit before applying the upgrade.
 			to_chat(user, "<span class='warning'>You cannot install the upgrade to [src] while wearing it.</span>")
 			return FALSE
-		if(do_after(install_camera(I, src), 5, target = src))
+		if(do_after(user, 5, target = src))
+			install_camera(I, src)
 			to_chat(user, "<span class='notice'>You successfully attach the camera to [src].</span>")
 			return TRUE
 	else if(I.tool_behaviour == TOOL_WIRECUTTER)
@@ -75,7 +76,7 @@
 	user.transferItemToLoc(I, src)
 	builtInCamera = new /obj/machinery/camera(src)
 	builtInCamera.c_tag = "Helmet Cam #[rand(0,999)]"
-	if(user.faction & "Syndicate" || faction == "Syndicate") //If a syndicate agent puts it on, it's a syndie camera now
+	if(length(user.faction & "Syndicate") || faction == "Syndicate") //If a syndicate agent puts it on, it's a syndie camera now
 		builtInCamera.network = list("syndicate")
 	else
 		builtInCamera.network = list("ss13")
