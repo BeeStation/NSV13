@@ -199,6 +199,10 @@
 	},
 /obj/structure/window/reinforced,
 /obj/structure/disposalpipe/trunk,
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "garbage"
+	},
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
 "aiB" = (
@@ -1396,7 +1400,7 @@
 	},
 /obj/structure/disposalpipe/segment,
 /obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/effect/turf_decal/tile/blue/flat_side{
 	dir = 8
@@ -1661,7 +1665,7 @@
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "cook"
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
@@ -1740,7 +1744,8 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/components/binary/pump/layer4{
-	dir = 4
+	dir = 4;
+	on = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/green/visible/layer4,
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -2033,7 +2038,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/carpet/ship,
@@ -4081,6 +4086,7 @@
 "djl" = (
 /obj/effect/landmark/start/roboticist,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/item/beacon,
 /turf/open/floor/durasteel/techfloor_grid,
 /area/science/robotics)
 "djz" = (
@@ -4629,6 +4635,7 @@
 	pixel_x = -1
 	},
 /obj/machinery/light_switch/south,
+/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningoffice)
 "dGO" = (
@@ -4818,6 +4825,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 1
 	},
+/obj/structure/closet/secure_closet/munitions_technician,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -5553,7 +5561,7 @@
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "cook"
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
@@ -6163,7 +6171,7 @@
 /obj/item/wrench/medical,
 /obj/machinery/atmospherics/components/unary/portables_connector,
 /obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/structure/sign/poster/official/random{
 	pixel_y = 30
@@ -6680,6 +6688,9 @@
 	pixel_x = -32;
 	name = "Munitions RC"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -6735,7 +6746,6 @@
 "fsr" = (
 /obj/effect/turf_decal/plaque,
 /obj/item/beacon{
-	enabled = 0;
 	name = "Transporter Beacon"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
@@ -6955,14 +6965,12 @@
 /area/nsv/weapons/fore)
 "fws" = (
 /obj/structure/table/reinforced,
-/obj/machinery/coffeemaker{
-	pixel_y = 2
-	},
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "cook"
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/chem_dispenser/drinks,
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
 "fwW" = (
@@ -7252,7 +7260,7 @@
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "cook"
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
@@ -7476,7 +7484,8 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/components/binary/pump/layer4{
-	dir = 4
+	dir = 4;
+	on = 1
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
@@ -8181,7 +8190,6 @@
 /area/maintenance/port/aft)
 "gBO" = (
 /obj/item/beacon{
-	enabled = 0;
 	name = "Transporter Beacon"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
@@ -8554,6 +8562,7 @@
 /area/tcommsat/server)
 "gPs" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningoffice)
 "gPz" = (
@@ -9951,7 +9960,7 @@
 /obj/machinery/door/poddoor/shutters/ship/preopen{
 	id = "Robo"
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/durasteel/techfloor_grid,
 /area/science/robotics)
@@ -10380,7 +10389,6 @@
 /area/ai_monitored/turret_protected/ai)
 "ijG" = (
 /obj/item/beacon{
-	enabled = 0;
 	name = "Transporter Beacon"
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
@@ -10573,7 +10581,6 @@
 /area/maintenance/port/fore)
 "ivO" = (
 /obj/item/beacon{
-	enabled = 0;
 	name = "Transporter Beacon"
 	},
 /turf/open/floor/monofloor{
@@ -11188,7 +11195,7 @@
 	},
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "iQn" = (
@@ -11625,7 +11632,6 @@
 	},
 /obj/effect/landmark/observer_start,
 /obj/item/beacon{
-	enabled = 0;
 	name = "Transporter Beacon"
 	},
 /obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden/layer4,
@@ -11716,7 +11722,6 @@
 /obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden/layer4,
 /obj/item/beacon{
-	enabled = 0;
 	name = "Transporter Beacon"
 	},
 /obj/structure/cable{
@@ -12599,7 +12604,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
 /obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -12760,6 +12765,7 @@
 	icon_state = "2-8";
 	tag = ""
 	},
+/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningoffice)
 "jXU" = (
@@ -13318,7 +13324,6 @@
 	},
 /obj/machinery/navbeacon,
 /obj/item/beacon{
-	enabled = 0;
 	name = "Transporter Beacon"
 	},
 /obj/effect/landmark/patrol_node{
@@ -14949,7 +14954,7 @@
 /obj/machinery/atmospherics/components/binary/pump/layer4{
 	dir = 8
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/structure/cable{
@@ -15133,7 +15138,7 @@
 /obj/machinery/camera/autoname{
 	dir = 5
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/effect/landmark/zebra_interlock_point,
 /obj/structure/extinguisher_cabinet/west,
@@ -15175,7 +15180,6 @@
 	dir = 8
 	},
 /obj/item/beacon{
-	enabled = 0;
 	name = "Transporter Beacon"
 	},
 /obj/structure/disposalpipe/segment{
@@ -15184,6 +15188,13 @@
 /obj/machinery/status_display/evac/south,
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/starboard)
+"lZL" = (
+/obj/machinery/conveyor_switch/oneway{
+	id = "atlas_torp";
+	name = "Obselete Belt"
+	},
+/turf/open/floor/carpet/ship/beige_carpet,
+/area/nsv/weapons/port)
 "maI" = (
 /obj/structure/disposalpipe/segment{
 	dir = 6
@@ -15608,6 +15619,7 @@
 "mtH" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
+/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningoffice)
 "muq" = (
@@ -16303,6 +16315,7 @@
 /area/engine/engineering/reactor_control)
 "ncZ" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
+/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningoffice)
 "nef" = (
@@ -16448,7 +16461,10 @@
 /area/maintenance/port/aft)
 "nnj" = (
 /obj/machinery/atmospherics/components/trinary/mixer/flipped/layer4{
-	dir = 8
+	dir = 8;
+	on = 1;
+	node1_concentration = 0.3;
+	node2_concentration = 0.7
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
@@ -16602,7 +16618,6 @@
 	icon_state = "4-8"
 	},
 /obj/item/beacon{
-	enabled = 0;
 	name = "Transporter Beacon"
 	},
 /obj/effect/landmark/event_spawn,
@@ -17185,7 +17200,6 @@
 /obj/structure/closet/crate/engineering,
 /obj/item/hand_tele,
 /obj/item/beacon{
-	enabled = 0;
 	name = "Transporter Beacon"
 	},
 /turf/open/floor/carpet/ship,
@@ -17195,6 +17209,7 @@
 	dir = 8;
 	id = "garbage"
 	},
+/obj/machinery/recycler,
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
 "nSO" = (
@@ -17206,6 +17221,10 @@
 	},
 /turf/open/floor/engine,
 /area/bridge/cic)
+"nTm" = (
+/obj/machinery/monkey_recycler,
+/turf/open/floor/durasteel/techfloor_grid,
+/area/science/xenobiology)
 "nTq" = (
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science)
@@ -17323,7 +17342,7 @@
 	dir = 4
 	},
 /obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/effect/turf_decal/tile/blue/flat_side{
 	dir = 4
@@ -18354,7 +18373,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
 /obj/effect/landmark/zebra_interlock_point,
 /obj/effect/turf_decal/ship/delivery/yellow,
@@ -18568,7 +18587,7 @@
 "phr" = (
 /obj/machinery/atmospherics/pipe/manifold/general/visible,
 /obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
@@ -19095,7 +19114,7 @@
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "cook"
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
@@ -19586,6 +19605,7 @@
 /area/engine/engineering/reactor_control)
 "qbT" = (
 /obj/machinery/light,
+/obj/structure/closet/secure_closet/munitions_technician,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -20010,7 +20030,7 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
 /obj/machinery/door/poddoor/shutters/ship/preopen{
 	id = "Robo"
@@ -22675,6 +22695,9 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/ship_weapon/energy/ams,
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
 /turf/open/floor/circuit/green/anim,
 /area/nsv/weapons/fore)
 "sQQ" = (
@@ -23300,7 +23323,6 @@
 	dir = 4;
 	id = "garbage"
 	},
-/obj/machinery/recycler,
 /obj/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
@@ -24100,6 +24122,9 @@
 "tWt" = (
 /obj/structure/table/glass,
 /obj/item/storage/box/monkeycubes,
+/obj/item/storage/box/monkeycubes{
+	pixel_y = 7
+	},
 /turf/open/floor/durasteel/techfloor_grid,
 /area/science/xenobiology)
 "tXt" = (
@@ -24534,7 +24559,7 @@
 /obj/structure/sign/plaques/atmos{
 	pixel_y = 30
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
 /obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -25321,7 +25346,6 @@
 /area/crew_quarters/cryopods)
 "vlk" = (
 /obj/item/beacon{
-	enabled = 0;
 	name = "Transporter Beacon"
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
@@ -25335,7 +25359,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/effect/turf_decal/stripes/line,
@@ -25399,7 +25423,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/brown/hidden,
 /obj/item/beacon{
-	enabled = 0;
 	name = "Transporter Beacon"
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -25767,6 +25790,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/landmark/start/shaft_miner,
 /turf/open/floor/plasteel,
 /area/quartermaster/miningoffice)
 "vCY" = (
@@ -26098,6 +26122,7 @@
 "vLy" = (
 /obj/machinery/holopad,
 /obj/machinery/firealarm/directional/south,
+/obj/structure/closet/secure_closet/munitions_technician,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -26285,10 +26310,10 @@
 /area/hallway/primary/port)
 "vUJ" = (
 /obj/machinery/missile_builder/assembler,
-/obj/item/ship_weapon/parts/missile/warhead,
-/obj/item/ship_weapon/parts/missile/warhead,
-/obj/item/ship_weapon/parts/missile/warhead,
-/obj/item/ship_weapon/parts/missile/warhead,
+/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+/obj/item/ship_weapon/parts/missile/warhead/torpedo,
+/obj/item/ship_weapon/parts/missile/warhead/torpedo,
 /turf/open/floor/circuit/green/anim,
 /area/nsv/weapons/port)
 "vUU" = (
@@ -26467,7 +26492,7 @@
 	},
 /obj/machinery/light,
 /obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/turf_decal/ship/delivery/yellow,
 /obj/effect/turf_decal/tile/blue/flat_side,
 /obj/machinery/requests_console{
@@ -26886,6 +26911,7 @@
 /area/engine/engineering/reactor_control)
 "wwk" = (
 /obj/machinery/firealarm/directional/south,
+/obj/structure/closet/secure_closet/munitions_technician,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -28223,7 +28249,7 @@
 /obj/machinery/atmospherics/pipe/simple/yellow/visible{
 	dir = 8
 	},
-/obj/machinery/door/firedoor/heavy,
+/obj/machinery/door/firedoor,
 /obj/effect/landmark/zebra_interlock_point,
 /obj/effect/turf_decal/ship/delivery/yellow,
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -45972,8 +45998,8 @@ kiS
 ajo
 duB
 sqg
+nTm
 aVR
-tWt
 tWt
 meZ
 fnX
@@ -55681,7 +55707,7 @@ jGg
 fLa
 koi
 ufN
-efH
+lZL
 eYU
 uZh
 bcQ
@@ -56638,14 +56664,14 @@ lfF
 lfF
 lfF
 lfF
-lfF
-lfF
-lfF
-lfF
-lfF
-lfF
-lfF
 iXc
+lfF
+lfF
+lfF
+lfF
+lfF
+lfF
+lfF
 lfF
 ido
 lfF
