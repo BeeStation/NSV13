@@ -68,6 +68,11 @@ GLOBAL_DATUM_INIT(keycard_events, /datum/events, new)
 	switch(action)
 		if("red_alert")
 			if(!event_source)
+				//NSV13 - delta alert level override.
+				if(GLOB.security_level == SEC_LEVEL_DELTA)
+					to_chat(usr, "<span class='warning'>Security level override active.</span>")
+					return
+				//NSV13 end.
 				sendEvent(KEYCARD_RED_ALERT)
 				. = TRUE
 		if("emergency_maint")
@@ -106,6 +111,11 @@ GLOBAL_DATUM_INIT(keycard_events, /datum/events, new)
 	event_source = null
 
 /obj/machinery/keycard_auth/proc/trigger_event(confirmer)
+	//NSV13 - delta alert overrides security level change sources.
+	if(event == KEYCARD_RED_ALERT && GLOB.security_level == SEC_LEVEL_DELTA)
+		to_chat(confirmer, "<span class='warning'>Security level override active.</span>")
+		return
+	//NSV13 end.
 	log_game("[key_name(triggerer)] triggered and [key_name(confirmer)] confirmed event [event]")
 	message_admins("[ADMIN_LOOKUPFLW(triggerer)] triggered and [ADMIN_LOOKUPFLW(confirmer)] confirmed event [event]")
 
