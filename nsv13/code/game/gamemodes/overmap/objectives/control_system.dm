@@ -24,13 +24,19 @@
 	//Syndi delay
 	tally = SYSTEM_CONTROL_CONTROL_TIME
 	binary = FALSE
+	///The system both sides are sent to.
 	var/datum/star_system/target_system
+	///The anchor station.
 	var/obj/structure/overmap/anchor_station
 
+	///Next tick the objective will process
 	var/next_process = 0
+	///The world.time at which the grace period ends.
 	var/grace_end = 0
 
+	///At which threshold the next nt progress announcement is sent.
 	var/nt_threshold = SYSTEM_CONTROL_CONTROL_TIME - (5 MINUTES)
+	///At which threshold the next syndicate progress announcement is sent.
 	var/syndie_threshold = SYSTEM_CONTROL_CONTROL_TIME - (5 MINUTES)
 
 /datum/overmap_objective/control_system/New()
@@ -187,7 +193,9 @@
 	torpedoes = 10
 	shots_left = 1000 //Good luck running their close-range PDC dry.
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/siege
+	///When the anchor station's rearm sequence will complete.
 	var/rearm_completion = 0
+	///How long anchor station rearm sequences take.
 	var/rearm_duration = 2 MINUTES
 
 /obj/structure/overmap/wormhole_anchor_station/ai_process()
