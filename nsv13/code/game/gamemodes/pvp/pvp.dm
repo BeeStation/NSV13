@@ -20,9 +20,9 @@ GLOBAL_LIST_EMPTY(syndi_crew_leader_spawns)
 	antag_datum = /datum/antagonist/nukeop/syndi_crew
 
 	announce_span = "danger"
-	announce_text = "The Syndicate are planning an all out assault!\n\
-	<span class='danger'>Syndicate crew</span>: Destroy NT fleets and capture systems with your beacon.</span>\n\
-	<span class='notice'>Crew</span>: Destroy the Syndicate crew, and defeat any Syndicate reinforcements that appear.</span>"
+	announce_text = "The Syndicate are stablizing a wormhole for a direct assault on Sol!\n\
+	<span class='danger'>Syndicate crew</span>: Move to the target system and ensure the system remains under your control, or destroy the interlopers outright.</span>\n\
+	<span class='notice'>Crew</span>: Prevent the Syndicate's wormhole from stabilizing by denying the system, or destroy their flagship.</span>"
 
 	title_icon = "conquest"
 
@@ -103,11 +103,11 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 			CRASH("Invalid json file \"[ship_file]\" tried to load in PVP setup.")
 		syndiship = instance_ship_from_json(ship_file)
 
-	if(n_agents > 0)
+	if(n_agents > 0) //DEBUG
 		//Registers two signals to check either ship as being destroyed.
 		RegisterSignal(syndiship, COMSIG_PARENT_QDELETING, PROC_REF(force_loss))
 		RegisterSignal(SSstar_system.find_main_overmap(), COMSIG_PARENT_QDELETING, PROC_REF(force_win))
-		SSovermap_mode.mode = new/datum/overmap_gamemode/galactic_conquest //Change the overmap gamemode
+		SSovermap_mode.mode = new/datum/overmap_gamemode/galactic_conquest/system_control //Change the overmap gamemode //Syetem control for now, we'll see about some toggle because gamemode code is h. ~Delta
 		message_admins("Galactic Conquest in progress. Overmap gamemode is now [SSovermap_mode.mode.name]")
 		var/enemies_to_spawn = max(1, round(num_players()/2.5)) //Syndicates scale with pop. On a standard 30 pop, this'll be 30 - 10 -> 20 / 10 -> 2 floored = 2, where FLOOR rounds the number to a whole number.
 		for(var/i = 0, i < enemies_to_spawn, i++)
@@ -155,7 +155,7 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 	check_finished()
 	SSticker.force_ending = TRUE
 
-/datum/game_mode/pvp/check_win()
+/datum/game_mode/pvp/check_win() //? This doesn't do anything............ ~Delta.
 	if(winner)
 		if(winner.id != FACTION_ID_NT)
 			return TRUE
@@ -187,22 +187,22 @@ Method to spawn in the Syndi ship on a brand new Z-level with the "boardable" tr
 		return
 	switch(winner.id)
 		if(FACTION_ID_NT)
-			SSticker.mode_result = "loss - Nanotrasen repelled the invasion"
+			SSticker.mode_result = "loss - Nanotrasen prevented the wormhole from stabilizing"
 			SSticker.news_report = PVP_SYNDIE_LOSS
 			return
 		if(FACTION_ID_PIRATES)
-			SSticker.mode_result = "partial win - The Syndicate's allies secured a large amount of territory."
+			SSticker.mode_result = "partial win - The Syndicate's allies managed to capitalize on the distraction."
 			SSticker.news_report = PVP_SYNDIE_PIRATE_WIN
 			return
 		if(FACTION_ID_SYNDICATE)
-			SSticker.mode_result = "syndicate major victory! - The Syndicate has secured a large amount of territory."
+			SSticker.mode_result = "syndicate major victory! - The Syndicate stabilized a wormhole to be used for a direct Sol assault."
 			SSticker.news_report = PVP_SYNDIE_WIN
 			return
-	SSticker.mode_result = "syndicate minor loss! - Nanotrasen's allies were able to repel the invasion."
+	SSticker.mode_result = "syndicate minor loss! - Nanotrasen's allies were able to repel the Syndicate by attrition."
 	SSticker.news_report = PVP_SYNDIE_LOSS
 
 /datum/game_mode/pvp/generate_report()
-	return "Intel suggests that the Syndicate are mounting an all out assault on the Sol sector. Be prepared for anything."
+	return "Intel suggests that the Syndicate are attempting to stabilize a wormhole leading directly to Sol. Stop them at any cost."
 
 /datum/game_mode/pvp/generate_credit_text()
 	var/list/round_credits = list()

@@ -127,3 +127,14 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 
 //Interior instancing comsig, aka cursed things.
 #define COMSIG_INTERIOR_DONE_LOADING "interior_done_loading"
+
+//Overmap mode
+#define OBJECTIVE_STATUS_INPROGRESS 0
+#define OBJECTIVE_STATUS_COMPLETED 1
+#define OBJECTIVE_STATUS_FAILED 2
+#define OBJECTIVE_STATUS_OVERRIDE 3
+
+#define MODE_REMINDER_OBJECTIVES 0
+#define MODE_REMINDER_COMBAT_RESET 1
+#define MODE_REMINDER_COMBAT_DELAY 2
+#define MODE_REMINDER_OVERRIDE 3

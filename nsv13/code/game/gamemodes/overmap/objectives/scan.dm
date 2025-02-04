@@ -26,7 +26,7 @@
 			anomaly_name = "ERROR"
 	if(!anomaly_type)
 		message_admins("Overmap gamemode failed to locate enough anomalies! Setting to auto-complete.")
-		status = 1
+		status = OBJECTIVE_STATUS_COMPLETED
 
 /datum/overmap_objective/scan/instance()
 	. = ..()
@@ -41,4 +41,4 @@
 
 /datum/overmap_objective/scan/check_completion()
 	if(tally >= target)
-		status = 1
+		status = OBJECTIVE_STATUS_COMPLETED

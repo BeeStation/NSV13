@@ -59,7 +59,7 @@
 
 /datum/overmap_objective/board_ship/check_completion()
 	if (target_ship.faction == SSovermap_mode.mode.starting_faction)
-		status = 1
+		status = OBJECTIVE_STATUS_COMPLETED
 		target_ship.block_deletion = FALSE
 		target_ship.essential = FALSE
 		UnregisterSignal(target_ship, COMSIG_SHIP_BOARDED)
@@ -67,6 +67,6 @@
 
 /datum/overmap_objective/board_ship/proc/release_boarding()
 	// Don't let them kill the ship if they haven't won yet
-	if(status != 1 && status != 3) // complete or admin override
+	if(status != OBJECTIVE_STATUS_COMPLETED && status != OBJECTIVE_STATUS_OVERRIDE) // complete or admin override
 		return COMSIG_SHIP_BLOCKS_RELEASE_BOARDING
 	return 0

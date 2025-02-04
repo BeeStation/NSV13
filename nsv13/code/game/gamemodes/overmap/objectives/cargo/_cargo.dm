@@ -56,7 +56,7 @@
 	else
 		message_admins( "BUG: A cargo objective was assigned with no delivery item types set! Automatically marking as completed" )
 		brief = "Succeed"
-		status = 1
+		status = OBJECTIVE_STATUS_COMPLETED
 
 /datum/overmap_objective/cargo/proc/pick_station()
 	// Pick a random existing station to give this objective to
@@ -95,7 +95,7 @@
 	if ( !delivered_package ) // Do not resend prepackaged contents
 		if ( !freight_type_group.deliver_package() )
 			message_admins( "BUG: A cargo objective failed to deliver a prepackaged item to the ship! Automatically marking the objective as completed." )
-			status = 1
+			status = OBJECTIVE_STATUS_COMPLETED
 		delivered_package = TRUE
 		SSovermap_mode.update_reminder(objective=TRUE) // Picking up objective cargo resets the timer
 
@@ -186,5 +186,5 @@
 		// No, I will not implement soft approvals where the players' trash is auto shipped back. If players can't follow basic directions on supply requests they shouldn't be allowed to greentext their basic objectives.
 		if ( last_freight_type_check.group_status && !length( last_freight_type_check.untracked_contents ) )
 			tally = target
-			status = 1
+			status = OBJECTIVE_STATUS_COMPLETED
 			return TRUE

@@ -10,7 +10,7 @@
 	APNW = locate() in GLOB.machines
 	if(!APNW)
 		message_admins("Overmap gamemode failed to locate APNW! Setting to auto-complete.")
-		status = 1
+		status = OBJECTIVE_STATUS_COMPLETED
 	else
 		target_efficiency = rand(60, 90) / 100
 		START_PROCESSING(SSprocessing, src)
@@ -24,10 +24,10 @@
 	check_completion()
 
 /datum/overmap_objective/apnw_efficiency/check_completion()
-	if(status != 0)
+	if(status != OBJECTIVE_STATUS_INPROGRESS)
 		STOP_PROCESSING(SSprocessing, src)
 		return
 	if(APNW.repair_efficiency >= target_efficiency)
 		SSovermap_mode.update_reminder(objective=TRUE)
-		status = 1
+		status = OBJECTIVE_STATUS_COMPLETED
 		STOP_PROCESSING(SSprocessing, src)
