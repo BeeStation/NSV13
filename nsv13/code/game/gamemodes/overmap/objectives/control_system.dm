@@ -188,7 +188,7 @@
 	shots_left = 1000 //Good luck running their close-range PDC dry.
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/siege
 	var/rearm_completion = 0
-	var/rearm_duration = 1 MINUTES
+	var/rearm_duration = 2 MINUTES
 
 /obj/structure/overmap/wormhole_anchor_station/ai_process()
 	. = ..()
@@ -235,12 +235,12 @@
 /obj/item/projectile/guided_munition/torpedo/siege
 	icon_state = "torpedo_siege"
 	name = "siege torpedo"
-	desc = "This is a large torpedo with an oversized warhead meant as deterrant or anti-station armament. Very slow. Very dangerous."
+	desc = "This is a large torpedo with an oversized warhead meant as deterrent or anti-station armament. Very slow. Very dangerous."
 	damage = 600
 	armour_penetration = 50
-	flag = "overmap_medium"
-	obj_integrity = 90
-	max_integrity = 90
+	flag = "overmap_heavy"
+	obj_integrity = 120
+	max_integrity = 120
 	speed = 5
 	homing_turn_speed = 10
 	range = 700
