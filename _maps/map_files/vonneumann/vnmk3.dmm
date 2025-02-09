@@ -6135,7 +6135,6 @@
 /turf/open/floor/carpet/ship,
 /area/hallway/nsv/deck1/frame2/port)
 "ewu" = (
-/obj/structure/showcase/machinery/cloning_pod,
 /obj/structure/window/reinforced{
 	dir = 4
 	},
@@ -6144,6 +6143,7 @@
 	dir = 4;
 	layer = 3.5
 	},
+/obj/machinery/clonepod/prefilled,
 /turf/open/floor/plating,
 /area/medical/medbay)
 "exz" = (
@@ -12864,18 +12864,6 @@
 	name = "nanoweave carpet (bluer)"
 	},
 /area/crew_quarters/heads/xo)
-"jxc" = (
-/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4{
-	dir = 5
-	},
-/obj/machinery/meter{
-	layer = 2.63;
-	pixel_x = 5;
-	pixel_y = 5;
-	target_layer = 4
-	},
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/atmos/port_atmos)
 "jxf" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible/layer4{
 	piping_layer = 5;
@@ -14660,9 +14648,7 @@
 	icon_state = "pipe11-5";
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4{
-	dir = 4
-	},
+/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "kOq" = (
@@ -17597,6 +17583,13 @@
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
 "nnj" = (
+/obj/machinery/atmospherics/components/trinary/mixer,
+/obj/machinery/atmospherics/pipe/simple/green/visible/layer4{
+	piping_layer = 5;
+	name = "layer5";
+	icon_state = "pipe11-5";
+	dir = 1
+	},
 /obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4{
 	dir = 5
 	},
@@ -17923,12 +17916,6 @@
 /obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
-"nxh" = (
-/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4{
-	dir = 4
-	},
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/atmos/port_atmos)
 "nxl" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/firedoor/border_only{
@@ -18850,7 +18837,6 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "ojh" = (
@@ -22524,6 +22510,7 @@
 	icon_state = "pipe11-5";
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "roM" = (
@@ -25650,13 +25637,6 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
-"tQj" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
-/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4{
-	dir = 4
-	},
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/atmos/port_atmos)
 "tQo" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -26033,6 +26013,7 @@
 	icon_state = "pipe11-5";
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "uhu" = (
@@ -26365,6 +26346,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "uuP" = (
@@ -26575,13 +26557,17 @@
 /turf/closed/wall/r_wall/ship,
 /area/hydroponics)
 "uDn" = (
-/obj/machinery/atmospherics/pipe/simple/yellow/visible{
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/green/visible/layer4{
+	piping_layer = 5;
+	name = "layer5";
+	icon_state = "pipe11-5";
+	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 4
+/obj/machinery/atmospherics/components/trinary/mixer/on/layer4{
+	node1_concentration = 0.21;
+	node2_concentration = 0.79;
+	target_pressure = 4500
 	},
-/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "uDr" = (
@@ -26728,7 +26714,7 @@
 /area/teleporter)
 "uNi" = (
 /obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4{
-	dir = 10
+	dir = 8
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
@@ -28588,14 +28574,6 @@
 	},
 /turf/open/floor/circuit/green/anim,
 /area/crew_quarters/cryopods)
-"wiF" = (
-/obj/machinery/atmospherics/components/trinary/mixer/on/layer4{
-	node1_concentration = 0.21;
-	node2_concentration = 0.79;
-	target_pressure = 4500
-	},
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/atmos/port_atmos)
 "wiO" = (
 /obj/effect/turf_decal/ship/rust,
 /obj/structure/cable{
@@ -30112,7 +30090,15 @@
 /turf/open/floor/durasteel/techfloor_grid,
 /area/science/xenobiology)
 "xFe" = (
-/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4,
+/obj/machinery/atmospherics/pipe/simple/green/visible/layer4{
+	piping_layer = 5;
+	name = "layer5";
+	icon_state = "pipe11-5";
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4{
+	dir = 10
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "xFF" = (
@@ -42274,12 +42260,12 @@ iJb
 hYf
 xdb
 uNi
-wiF
-xFe
+uNi
+pEo
 oiv
-xFe
-uDn
-jxc
+pEo
+dkV
+pEo
 dkV
 pEo
 pEo
@@ -42475,13 +42461,13 @@ xwB
 iJb
 gin
 ksI
-pEo
-pEo
+uNi
+uNi
 pEo
 adb
 pEo
 dkV
-nxh
+pEo
 dkV
 pEo
 pEo
@@ -42677,13 +42663,13 @@ wUy
 iJb
 vfh
 jXU
-pEo
-pEo
+uNi
+uNi
 dUk
 kMh
 tqB
 sSg
-tQj
+vvQ
 xNk
 vvQ
 vvQ
@@ -42879,14 +42865,14 @@ xwB
 iJb
 vrC
 vXe
-roi
-roi
+xFe
+uDn
 roi
 uhh
 roi
 uuM
 kNq
-esr
+nnj
 eyp
 eyp
 esr
@@ -43087,8 +43073,8 @@ xZj
 eIp
 nRl
 afN
+pEo
 uNi
-nnj
 pEo
 pEo
 pEo
