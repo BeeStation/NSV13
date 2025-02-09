@@ -912,14 +912,6 @@
 /turf/open/floor/carpet/ship,
 /area/ai_monitored/turret_protected/ai)
 "aHH" = (
-/obj/effect/landmark/patrol_node{
-	id = 1;
-	next_id = 2
-	},
-/obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=1";
-	location = "4"
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -7782,8 +7774,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/advanced_airlock_controller/directional/south,
 /turf/open/floor/monotile/steel/airless,
-/area/nsv/hanger/mining)
+/area/quartermaster/miningoffice)
 "fHN" = (
 /obj/effect/turf_decal/tile/blue/flat_side,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
@@ -14196,7 +14189,6 @@
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
-/obj/machinery/navbeacon,
 /obj/item/beacon{
 	name = "Transporter Beacon"
 	},
@@ -20899,7 +20891,7 @@
 	icon_state = "4-8"
 	},
 /turf/open/floor/monotile/steel/airless,
-/area/nsv/hanger/mining)
+/area/quartermaster/miningoffice)
 "pXE" = (
 /turf/closed/wall/r_wall/ship,
 /area/engine/armour_pump)
@@ -22024,10 +22016,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/advanced_airlock_controller/directional/north,
 /obj/machinery/light/small,
 /turf/open/floor/monotile/steel/airless,
-/area/nsv/hanger/mining)
+/area/quartermaster/miningoffice)
 "qQa" = (
 /obj/machinery/atmospherics/components/binary/magnetic_constrictor{
 	piping_layer = 2;
@@ -23218,7 +23209,9 @@
 /turf/open/floor/circuit,
 /area/bridge/cic)
 "rUx" = (
-/obj/structure/closet/secure_closet/engineering_welding,
+/obj/structure/closet/secure_closet/engineering_welding{
+	req_access = list(0)
+	},
 /turf/open/floor/plasteel,
 /area/quartermaster/miningoffice)
 "rUC" = (
@@ -28862,6 +28855,10 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/light,
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=1";
+	location = "4"
+	},
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/starboard)
 "wuv" = (
@@ -54213,9 +54210,9 @@ nov
 sMI
 nov
 nov
-jPC
+bNx
 fHv
-jPC
+bNx
 fDy
 fDy
 fDy
@@ -54415,9 +54412,9 @@ iQn
 iQn
 iQn
 iQn
-jPC
+bNx
 qOl
-jPC
+bNx
 cgx
 ums
 hXC
@@ -54617,9 +54614,9 @@ hGE
 jaN
 upN
 iQn
-jPC
+bNx
 pWy
-jPC
+bNx
 dnl
 wJw
 wJw
