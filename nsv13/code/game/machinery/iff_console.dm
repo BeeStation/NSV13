@@ -88,7 +88,7 @@ If someone hacks it, you can always rebuild it.
 		hacking = FALSE
 		hack_goal = max(hack_goal -= (world.time - hack_start_time), 1 SECONDS)
 		return TRUE
-	hack()
+	hack(user)
 	var/obj/structure/overmap/OM = get_overmap()
 	log_game("[user] changed the IFF of [OM] to [OM?.faction]")
 	hacking = FALSE
@@ -121,7 +121,7 @@ If someone hacks it, you can always rebuild it.
 		ui.set_autoupdate(TRUE) // hackerman
 
 //Uh oh...
-/obj/machinery/computer/iff_console/proc/hack()
+/obj/machinery/computer/iff_console/proc/hack(mob/user)
 	hack_goal = initial(hack_goal)
 	var/obj/structure/overmap/OM = get_overmap()
 	if(!OM)
@@ -132,29 +132,38 @@ If someone hacks it, you can always rebuild it.
 	playsound(loc, 'nsv13/sound/effects/computer/alarm_3.ogg', 80)
 	switch(OM.faction)
 		if("syndicate")
-			OM.swap_faction("syndicate")
+			OM.swap_faction("nanotrasen")
 			faction = OM.faction
 			return
 		if("nanotrasen")
-			OM.swap_faction("syndicate")
+			var/new_faction = "syndicate"
+			if(faction_check(user.faction, list("pirate")))
+			OM.swap_faction(new_faction)
 			faction = OM.faction
 			return
 		if("pirate")
-			OM.faction = "nanotrasen"
+			var/new_faction = "nanotrasen"
+			if(faction_check(user.faction, list("Syndicate"))) //If the Syndicate somehow manage it
+				new_faction = "syndicate"
+			OM.swap_faction(new_faction)
 			faction = OM.faction
 			return
 
-/obj/structure/overmap/proc/swap_faction(var/new_faction)
+/obj/structure/overmap/proc/swap_faction(new_faction)
 	if(new_faction == initial(faction)) //If you've just reversed your swap, set it to the original faction without hassle
 		faction = new_faction
 		return
 	faction = new_faction
 	if(role == MAIN_OVERMAP && faction != "nanotrasen")
-		var/datum/star_system/player_system = OM.current_system
-		if(!player_system)
-			player_system = SSstar_system.ships[OM]["target_system"]
-		var/datum/star_system/starting_point = SSstar_system.system_by_id(pick(player_system.adjacency_list))
-
+		var/list/valid_systems = list()
+		for(var/systemtext in current_system.adjacency_list)
+			var/datum/star_system/S = SSstar_system.system_by_id(systemtext)
+			if(S.alignment == "syndicate" || S.alignment == "pirate") //We can't spawn a solgov fleet in enemy territory.
+				continue
+			valid_systems += S
+		if(!length(valid_systems))
+			valid_systems += SSstar_system.system_by_id("Feliciana") //If there's no valid systems just send them to the sector entrance.
+		var/datum/star_system/starting_point = pick(valid_systems)
 		var/datum/fleet/F = new /datum/fleet/solgov/interdiction
 		starting_point.fleets += F
 		F.current_system = starting_point

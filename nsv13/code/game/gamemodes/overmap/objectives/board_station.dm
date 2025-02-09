@@ -13,7 +13,6 @@
 	target_station.block_deletion = TRUE
 	target_station.essential = TRUE
 	RegisterSignal(target_station, COMSIG_SHIP_BOARDED, PROC_REF(check_completion), target_station)
-	RegisterSignal(target_station, COMSIG_SHIP_RELEASE_BOARDING, PROC_REF(release_boarding), target_station)
 	target_station.ai_load_interior(SSstar_system.find_main_overmap())
 	// give it a name
 	var/ship_name = generate_ship_name()
@@ -58,7 +57,7 @@
 	SSovermap_mode.mode.objective_reminder_interval = max((travel_time / 5), SSovermap_mode.mode.objective_reminder_interval)
 	message_admins("Reminder interval set to [(SSovermap_mode.mode.objective_reminder_interval) / 600] minutes")
 
-/datum/overmap_objective/board_ship/check_completion()
+/datum/overmap_objective/board_station/check_completion()
 	if (target_station.faction == SSovermap_mode.mode.starting_faction)
 		target_station.block_deletion = FALSE
 		target_station.essential = FALSE
@@ -66,10 +65,3 @@
 		if(defense_complete)
 			status = 1
 			UnregisterSignal(target_station, COMSIG_SHIP_BOARDED)
-			UnregisterSignal(target_station, COMSIG_SHIP_RELEASE_BOARDING)
-
-/datum/overmap_objective/board_ship/proc/release_boarding()
-	// Don't let them kill the ship if they haven't won yet
-	if(status != 1 && status != 3) // complete or admin override
-		return COMSIG_SHIP_BLOCKS_RELEASE_BOARDING
-	return 0
