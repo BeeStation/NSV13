@@ -2629,6 +2629,13 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/science/xenobiology)
+"pC" = (
+/obj/machinery/power/apc/auto_name/east,
+/obj/structure/cable{
+	icon_state = "0-2"
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/armour_pump)
 "pG" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -2827,6 +2834,13 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
+"rf" = (
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
 "rg" = (
@@ -3962,6 +3976,12 @@
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/storage)
+"xK" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "xR" = (
 /obj/machinery/door/airlock/highsecurity/ship{
 	name = "Secure Tech Storage";
@@ -4490,6 +4510,9 @@
 /obj/machinery/door/airlock/ship/engineering/glass{
 	name = "Armour Core";
 	req_one_access_txt = "24;10"
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
 /turf/open/floor/plating,
 /area/maintenance/department/engine)
@@ -6736,16 +6759,10 @@
 	},
 /area/security/detectives_office)
 "Nw" = (
-/obj/effect/turf_decal/ship/techfloor{
-	dir = 4
+/obj/structure/cable{
+	icon_state = "2-4"
 	},
-/obj/effect/turf_decal/tile/yellow{
-	dir = 8
-	},
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
-/turf/open/floor/monotile/steel,
+/turf/open/floor/monotile/dark,
 /area/engine/armour_pump)
 "Nx" = (
 /obj/machinery/atmospherics/pipe/layer_manifold{
@@ -7154,6 +7171,24 @@
 /mob/living/simple_animal/slime,
 /turf/open/floor/plasteel,
 /area/science/xenobiology)
+"Pp" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
+/turf/open/floor/plating,
+/area/maintenance/department/engine)
 "Ps" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
@@ -7628,6 +7663,9 @@
 /area/maintenance/fore)
 "Sn" = (
 /obj/machinery/firealarm/directional/south,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
 /turf/open/floor/monotile/dark,
 /area/engine/armour_pump)
 "Sp" = (
@@ -8823,6 +8861,12 @@
 /obj/structure/grille,
 /turf/open/floor/plating,
 /area/ai_monitored/turret_protected/ai)
+"Yw" = (
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/engine/armour_pump)
 "YA" = (
 /obj/machinery/door/airlock/ship/medical/glass{
 	name = "Morgue";
@@ -30040,7 +30084,7 @@ os
 HP
 HP
 Fy
-EG
+Yw
 EG
 EG
 BN
@@ -30297,7 +30341,7 @@ EG
 Jj
 tU
 gx
-Nw
+tU
 WP
 EG
 BN
@@ -31327,11 +31371,11 @@ TE
 TE
 TE
 Su
-EG
+Nw
 BV
-gM
-QV
-KE
+xK
+rf
+Pp
 vW
 iR
 bV
@@ -31583,7 +31627,7 @@ EG
 nk
 Wi
 EG
-EG
+pC
 Sn
 BN
 QR
