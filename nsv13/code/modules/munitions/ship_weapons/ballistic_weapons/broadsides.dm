@@ -166,3 +166,33 @@
 
 /obj/effect/particle_effect/muzzleflash/Destroy()
 	return ..()
+
+//Newer Broadsides features start here
+
+/obj/machinery/ship_weapon/broadside/MouseDrop_T(obj/structure/A, mob/user) //Figure out what is causing the gun to not be firable any longer when crate loading
+	. = ..()
+	if(!isliving(user))
+		return FALSE
+	if(istype(A, /obj/structure/closet))
+		if(!locate(/obj/item/ship_weapon/ammunition/broadside_shell) in A.contents)
+			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
+			return FALSE
+		if(length(ammo) >= max_ammo)
+			return FALSE
+		to_chat(user, "<span class='notice'>You start to load [src] with the contents of [A]...</span>")
+		if(do_after(user, 12 SECONDS , target = src))
+			for(var/obj/item/ship_weapon/ammunition/broadside_shell/G in A)
+				if(length(ammo) < max_ammo)
+					G.forceMove(src)
+					ammo += G
+			if(feeding_sound)
+				playsound(src, feeding_sound, 100, 1)
+			if(load_sound)
+				playsound(src, load_sound, 100, 1)
+			flick("[initial(icon_state)]_chambering",src)
+			icon_state = "[initial(icon_state)]_chambered_[get_ammo()]"
+
+/obj/machinery/ship_weapon/broadside/chamber(rapidfire = FALSE)
+	. = ..()
+	icon_state = "[initial(icon_state)]_chambered_[get_ammo()]"
+	update()
