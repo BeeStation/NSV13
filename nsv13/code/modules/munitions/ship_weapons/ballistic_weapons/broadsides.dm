@@ -35,6 +35,9 @@
 	bang_range = 5
 	var/next_sound = 0
 
+	var/soot = 0 //How dirty the gun is
+	var/stovepipe = FALSE //Whether the shell is jammed in the gun
+
 /obj/machinery/ship_weapon/broadside/north
 	dir = NORTH
 
@@ -98,6 +101,19 @@
 	else
 		. += "The maintenance panel is <b>closed</b> and could be <i>screwed open</i>."
 	. += "<span class ='notice'>It has [get_ammo()]/[max_ammo] shells loaded.</span>"
+	switch(soot)
+		if(0)
+			. += "<span class ='notice'>It's as clean as the day it was haphazardly welded together.</span>"
+		if(1 to 20)
+			. += "<span class ='notice'>It's got some soot caked on, could use a clean soon.</span>"
+		if(21 to 40)
+			. += "<span class ='notice'>It's getting dirty, definitely needs a good cleaning.</span>"
+		if(41 to 60)
+			. += "<span class ='notice'>It's got soot caked on good, it needs to cleaned.</span>"
+		if(61 to 80)
+			. += "<span class ='warning'>It's hard to see any metal under all that black, it's dangerous to operate like this.</span>"
+		if(81 to 100)
+			. += "<span class ='warning'>It's completely coated, the gun's practically useless like this until it gets cleaned.</span>"
 
 /obj/machinery/ship_weapon/broadside/screwdriver_act(mob/user, obj/item/tool)
 	return default_deconstruction_screwdriver(user, "broadside_open", "broadside", tool)
@@ -119,6 +135,21 @@
 		tool.play_tool_sound(src, 50)
 		deconstruct(TRUE)
 		return TRUE
+	if(stovepipe) //How to fix a stovepiped shell
+		tool.play_tool_sound(src, 50)
+		playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE)
+		if(do_after(user, 5 SECONDS, target = src))
+			stovepipe = FALSE
+			to_chat(user, "<span class='notice'>You free the jammed shell, the [src] is safe to use again!")
+			if(dir == 2)
+				var/obj/R = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, NORTH, 4)) //Right
+				var/turf/S = get_offset_target_turf(src, rand(5)-rand(5), 5+rand(5)) //Starboard
+				R.throw_at(S, 12, 20)
+			else
+				var/obj/L = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, SOUTH, 1)) //Left
+				var/turf/P = get_offset_target_turf(src, rand(5)-rand(5), 0-rand(5)) //Port
+				L.throw_at(P, 12, 20)
+			return TRUE
 	return default_deconstruction_crowbar(user, tool)
 
 /obj/machinery/ship_weapon/broadside/Initialize(mapload)
@@ -137,7 +168,7 @@
 	. = ..()
 	if(.)
 		new /obj/effect/particle_effect/muzzleflash(loc)
-	cut_overlays()
+		cut_overlays()
 
 /obj/machinery/ship_weapon/broadside/local_fire(shots = weapon_type.burst_size, atom/target) //For the broadside cannons, we want to eject spent casings
 	if(dir == 2)
@@ -148,6 +179,16 @@
 		var/obj/L = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, SOUTH, 1)) //Left
 		var/turf/P = get_offset_target_turf(src, rand(5)-rand(5), 0-rand(5)) //Port
 		L.throw_at(P, 12, 20)
+	soot = min(soot + rand(1,5), 100)
+	if(stovepipe)
+		if(dir = 1)
+			explosion(src, 0, 0, 5, 3, FALSE, FALSE, 0, FALSE, TRUE)
+		else
+			var/turf/E = get_offset_target_turf(src, 0, 3)
+			explosion(src, 0, 0, 5, 3, FALSE, FALSE, 0, FALSE, TRUE)
+
+
+//	switch(soot) //add overlays, make sprites
 	..()
 
 /obj/effect/particle_effect/muzzleflash //Flash Effect when the weapon fires
@@ -208,3 +249,16 @@
 	if(dir == 2)
 		add_overlay("south_chambered_[get_ammo()]")
 	update()
+
+/obj/machinery/ship_weapon/broadside/load(obj/A, mob/user)
+	if(stovepipe)
+		to_chat(user, "<span class='warning'>The [src] is completely locked up, you have to <i>pry</i> out the stovepiped shell!")
+		return FALSE
+	..()
+	if(prob(soot / 5)) //Divides soot by 5 so maximum chance to stovepipe is 20%
+		stovepipe = TRUE
+		//make sprite for stovepiped broadside
+		playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE)
+		to_chat(user, "<span class='warning'>The [src] groans horrendously, a shell has stovepiped!</span>")
+		qdel(A)
+		return FALSE
