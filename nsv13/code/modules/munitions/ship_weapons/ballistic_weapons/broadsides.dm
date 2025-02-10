@@ -137,6 +137,7 @@
 	. = ..()
 	if(.)
 		new /obj/effect/particle_effect/muzzleflash(loc)
+	cut_overlays()
 
 /obj/machinery/ship_weapon/broadside/local_fire(shots = weapon_type.burst_size, atom/target) //For the broadside cannons, we want to eject spent casings
 	if(dir == 2)
@@ -185,14 +186,25 @@
 				if(length(ammo) < max_ammo)
 					G.forceMove(src)
 					ammo += G
+					chambered = G
 			if(feeding_sound)
 				playsound(src, feeding_sound, 100, 1)
 			if(load_sound)
 				playsound(src, load_sound, 100, 1)
 			flick("[initial(icon_state)]_chambering",src)
-			icon_state = "[initial(icon_state)]_chambered_[get_ammo()]"
+			cut_overlays()
+			if(dir == 1)
+				add_overlay("north_chambered_[get_ammo()]")
+			if(dir == 2)
+				add_overlay("south_chambered_[get_ammo()]")
+			state = STATE_CHAMBERED
+			update()
 
 /obj/machinery/ship_weapon/broadside/chamber(rapidfire = FALSE)
 	. = ..()
-	icon_state = "[initial(icon_state)]_chambered_[get_ammo()]"
+	cut_overlays()
+	if(dir == 1)
+		add_overlay("north_chambered_[get_ammo()]")
+	if(dir == 2)
+		add_overlay("south_chambered_[get_ammo()]")
 	update()
