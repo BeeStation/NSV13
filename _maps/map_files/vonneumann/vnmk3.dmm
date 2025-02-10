@@ -5244,7 +5244,9 @@
 /turf/open/floor/engine/airless,
 /area/nsv/hanger)
 "dKv" = (
-/obj/machinery/atmospherics/components/trinary/mixer,
+/obj/machinery/atmospherics/pipe/manifold/yellow/visible{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "dKx" = (
@@ -6030,7 +6032,9 @@
 /turf/open/floor/plating,
 /area/maintenance/aft)
 "esr" = (
-/obj/machinery/atmospherics/components/trinary/mixer,
+/obj/machinery/atmospherics/pipe/manifold/yellow/visible{
+	dir = 4
+	},
 /obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4{
 	dir = 8;
 	icon_state = "pipe11-1";
@@ -8914,11 +8918,20 @@
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
 "gAC" = (
-/obj/structure/lattice,
-/obj/structure/grille/wall,
-/obj/structure/lattice,
-/turf/open/space/basic,
-/area/space/nearstation)
+/obj/structure/sign/poster/contraband/power{
+	pixel_y = 2;
+	pixel_x = 34
+	},
+/obj/machinery/shieldwallgen{
+	req_access_txt = "24;10";
+	req_access = null;
+	name = "Reactor shield generator";
+	maximum_stored_power = 1000;
+	shield_range = 10;
+	anchored = 1
+	},
+/turf/open/floor/durasteel,
+/area/engine/storage)
 "gBc" = (
 /obj/effect/spawner/lootdrop/trap,
 /obj/structure/disposalpipe/segment{
@@ -14506,14 +14519,6 @@
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
 	},
-/obj/machinery/shieldwallgen{
-	req_access_txt = "24;10";
-	req_access = null;
-	name = "Reactor shield generator";
-	maximum_stored_power = 1000;
-	shield_range = 10;
-	anchored = 1
-	},
 /turf/open/floor/durasteel,
 /area/engine/storage)
 "kDF" = (
@@ -17698,10 +17703,10 @@
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
 "nix" = (
-/obj/structure/lattice,
 /obj/structure/hull_plate/end{
 	dir = 10
 	},
+/obj/structure/lattice,
 /turf/open/space/basic,
 /area/space/nearstation)
 "niF" = (
@@ -17760,6 +17765,13 @@
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
 "nnj" = (
+/obj/machinery/button/door{
+	id = "storage";
+	pixel_y = -2;
+	req_one_access = 0;
+	req_one_access_txt = "24;10";
+	pixel_x = 30
+	},
 /turf/open/floor/durasteel,
 /area/engine/storage)
 "nnq" = (
@@ -25941,10 +25953,13 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "tTg" = (
-/obj/machinery/space_heater,
-/obj/structure/sign/poster/contraband/power{
-	pixel_y = 2;
-	pixel_x = 34
+/obj/machinery/shieldwallgen{
+	req_access_txt = "24;10";
+	req_access = null;
+	name = "Reactor shield generator";
+	maximum_stored_power = 1000;
+	shield_range = 10;
+	anchored = 1
 	},
 /turf/open/floor/durasteel,
 /area/engine/storage)
@@ -26988,7 +27003,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 1
 	},
-/obj/machinery/atmospherics/components/trinary/mixer,
+/obj/machinery/atmospherics/pipe/manifold/yellow/visible{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "uQe" = (
@@ -28290,14 +28307,6 @@
 "vLO" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/machinery/shieldwallgen{
-	req_access_txt = "24;10";
-	req_access = null;
-	name = "Reactor shield generator";
-	maximum_stored_power = 1000;
-	shield_range = 10;
-	anchored = 1
-	},
 /turf/open/floor/durasteel,
 /area/engine/storage)
 "vLS" = (
@@ -35458,7 +35467,7 @@ sWg
 sWg
 sWg
 voM
-mcW
+nix
 lfF
 lfF
 lfF
@@ -35864,7 +35873,7 @@ lYg
 lYg
 lYg
 lYg
-mcW
+nix
 vYj
 lfF
 lfF
@@ -36066,7 +36075,7 @@ rNc
 lYg
 lYg
 lYg
-tYL
+xFe
 vYj
 lfF
 lfF
@@ -36268,7 +36277,7 @@ ofq
 nGZ
 lYg
 lYg
-tYL
+xFe
 vYj
 lfF
 lfF
@@ -37885,7 +37894,7 @@ hEe
 lYg
 lYg
 lYg
-mcW
+nix
 lfF
 lfF
 lfF
@@ -40891,7 +40900,7 @@ abH
 lnI
 qzo
 qzo
-tTg
+qzo
 knh
 vLO
 kDg
@@ -41090,11 +41099,11 @@ iJb
 mWk
 unV
 abH
-abH
-abH
-abH
-abH
-nnj
+tTg
+tTg
+tTg
+gAC
+tTg
 gvz
 nnj
 fYi
@@ -49415,9 +49424,9 @@ dbF
 wpu
 aWP
 qaT
-emO
+xFe
 wEM
-jeA
+vYj
 lfF
 lfF
 lfF
@@ -49617,9 +49626,9 @@ lPH
 uYr
 vsi
 qaT
-emO
+xFe
 wEM
-jeA
+vYj
 lfF
 lfF
 lfF
@@ -49819,9 +49828,9 @@ gzq
 bTy
 afI
 qaT
-emO
+xFe
 wEM
-jeA
+vYj
 lfF
 lfF
 ido
@@ -50021,9 +50030,9 @@ jom
 eTK
 hJH
 qaT
-emO
+xFe
 wEM
-jeA
+vYj
 lfF
 lfF
 lfF
@@ -50223,9 +50232,9 @@ nbO
 eTK
 kAy
 qaT
-emO
+xFe
 wEM
-jeA
+vYj
 lfF
 lfF
 lfF
@@ -50425,9 +50434,9 @@ pgC
 eTK
 uxE
 qaT
-emO
+xFe
 wEM
-jeA
+vYj
 lfF
 lfF
 lfF
@@ -50627,9 +50636,9 @@ sSN
 bwJ
 qaT
 qaT
-emO
+xFe
 wEM
-jeA
+vYj
 lfF
 lfF
 lfF
@@ -50829,9 +50838,9 @@ sSN
 qjC
 kma
 owJ
-emO
+xFe
 wEM
-jeA
+vYj
 lfF
 lfF
 lfF
@@ -51031,9 +51040,9 @@ sSN
 eTK
 vsi
 owJ
-emO
+xFe
 wEM
-jeA
+vYj
 lfF
 lfF
 lfF
@@ -51233,9 +51242,9 @@ sSN
 eTK
 gwl
 owJ
-emO
+xFe
 wEM
-jeA
+vYj
 lfF
 lfF
 lfF
@@ -51435,9 +51444,9 @@ sSN
 eTK
 qaT
 qaT
-emO
+xFe
 wEM
-jeA
+vYj
 lfF
 lfF
 lfF
@@ -51637,9 +51646,9 @@ eev
 eTK
 qaT
 qaT
-wFL
+ksI
 wEM
-jeA
+vYj
 lfF
 lfF
 lfF
@@ -52041,7 +52050,7 @@ sSN
 qaT
 xFe
 wEM
-gAC
+keL
 lfF
 lfF
 lfF
@@ -52243,7 +52252,7 @@ qaT
 qaT
 ksI
 wEM
-gAC
+keL
 lfF
 lfF
 lfF
@@ -54260,7 +54269,7 @@ fDy
 lYg
 emO
 wEM
-jeA
+vYj
 lfF
 lfF
 lfF
@@ -54462,7 +54471,7 @@ jPC
 orH
 wFL
 wEM
-jeA
+vYj
 lfF
 lfF
 lfF
