@@ -156,7 +156,7 @@
 				to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
 			else if(istype(A, /obj/item/powder_bag))
 				if(nuclear)
-					to_chat(user, "<span class='notice'>Only plasma powder is compatible with nuclear loads!.</span>")
+					to_chat(user, "<span class='warning'>Only plasma powder is compatible with nuclear loads!.</span>")
 					return FALSE
 				gunpowder = TRUE
 				to_chat(user, "<span class='notice'>You add [A] to the table.</span>")

@@ -191,7 +191,7 @@
 /**
  * If we can accept it as ammo, try to load it.
  */
-/obj/machinery/ship_weapon/MouseDrop_T(obj/item/A, mob/user)
+/obj/machinery/ship_weapon/MouseDrop_T(atom/movable/A, mob/user)
 	. = ..()
 	if(!isliving(user))
 		return FALSE
