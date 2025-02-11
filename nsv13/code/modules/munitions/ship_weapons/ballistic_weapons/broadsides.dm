@@ -101,6 +101,8 @@
 	else
 		. += "The maintenance panel is <b>closed</b> and could be <i>screwed open</i>."
 	. += "<span class ='notice'>It has [get_ammo()]/[max_ammo] shells loaded.</span>"
+	if(stovepipe)
+		. += "<span class ='warning'>It's stovepiped! You need to <i>pry</i> the jammed shell out!</span>"
 	switch(soot)
 		if(0)
 			. += "<span class ='notice'>It's as clean as the day it was haphazardly welded together.</span>"
@@ -140,7 +142,7 @@
 		playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE)
 		if(do_after(user, 5 SECONDS, target = src))
 			stovepipe = FALSE
-			to_chat(user, "<span class='notice'>You free the jammed shell, the [src] is safe to use again!")
+			to_chat(user, "<span class='notice'>You free the jammed shell, the [src] is safe to use again!</span>")
 			if(dir == 2)
 				var/obj/R = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, NORTH, 4)) //Right
 				var/turf/S = get_offset_target_turf(src, rand(5)-rand(5), 5+rand(5)) //Starboard
@@ -185,13 +187,13 @@
 		cut_overlay(list("north_chambered_1","north_chambered_2","north_chambered_3","north_chambered_4","north_chambered_5"))
 
 	soot = min(soot + rand(1,5), 100)
-	if(stovepipe) //Manages the overlays for how dirty the gun is, feels like there's a better way to do this...
+	if(stovepipe)
 		if(dir == 1)
 			explosion(src, 0, 0, 5, 3, FALSE, FALSE, 0, FALSE, TRUE)
 		else
 			var/turf/E = get_offset_target_turf(src, 0, 3)
 			explosion(E, 0, 0, 5, 3, FALSE, FALSE, 0, FALSE, TRUE)
-	switch(soot)
+	switch(soot) //Manages the overlays for how dirty the gun is, feels like there's a better way to do this...
 		if(0)
 			if(dir == 1)
 				cut_overlay(list("north_broadside_soot_1", "north_broadside_soot_2", "north_broadside_soot_3", "north_broadside_soot_4", "north_broadside_soot_5"))
@@ -253,7 +255,7 @@
 
 /obj/machinery/ship_weapon/broadside/MouseDrop_T(obj/structure/A, mob/user)
 	if(stovepipe)
-		to_chat(user, "<span class='warning'>The [src] is completely locked up, you have to <i>pry</i> out the stovepiped shell!")
+		to_chat(user, "<span class='warning'>The [src] is completely locked up, you have to <i>pry</i> out the stovepiped shell!</span>")
 		return FALSE
 	if(prob(soot)) //likelihood of stovepipe is a lot higher if you crateload the gun
 		stovepipe = TRUE
@@ -309,7 +311,7 @@
 
 /obj/machinery/ship_weapon/broadside/load(obj/A, mob/user)
 	if(stovepipe)
-		to_chat(user, "<span class='warning'>The [src] is completely locked up, you have to <i>pry</i> out the stovepiped shell!")
+		to_chat(user, "<span class='warning'>The [src] is completely locked up, you have to <i>pry</i> out the stovepiped shell!</span>")
 		return FALSE
 	..()
 	if(prob(soot / 10)) //Divides soot by 10 so maximum chance to stovepipe is 10%
@@ -324,3 +326,46 @@
 		to_chat(user, "<span class='warning'>The [src] groans horrendously, a shell has stovepiped!</span>")
 		qdel(A)
 		return FALSE
+
+/obj/item/swabber
+	name = "swabber"
+	desc = "This a gun barrel swabber, it's covered in cotton and metal bristles. It can be used to clean the broadside's barrels."
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "swabber"
+	lefthand_file = 'nsv13/icons/mob/inhands/items_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/items_righthand.dmi'
+	force = 8
+	throwforce = 10
+	throw_speed = 3
+	throw_range = 7
+	w_class = WEIGHT_CLASS_NORMAL
+	attack_verb = list("swabbed", "scrubbed", "plunged", "maintained")
+	resistance_flags = FLAMMABLE
+
+/obj/machinery/ship_weapon/broadside/attackby(obj/item/I, user)
+	if(istype(I, /obj/item/swabber))
+		if(state == STATE_CHAMBERED)
+			to_chat(user, "<span class='warning'>You can't clean the [src] while it's loaded!</span>")
+			return
+		if(stovepipe)
+			to_chat(user, "<span class='warning'>The [src] is all jammed up, you can't clean it like this!</span>")
+			return
+		if(soot == 0)
+			to_chat(user, "<span class='notice'>The [src] is clean as a two ton whistle that blows hot steel.</span>")
+			return
+		if(!panel_open)
+			to_chat(user, "<span class='notice'>You can't reach the barrels unless you <i>unscrew</i> the maintenance panel.</span>")
+			return
+		else
+			to_chat(user, "<span class='notice'>You shove the mop deep into gun's barrels to give them a good swab.</span>")
+			playsound(src, 'nsv13/sound/effects/swab.ogg', 100, TRUE)
+			while(soot > 0)
+				if(!do_after(user, 2 SECONDS, target = src))
+					return TRUE
+				soot -= rand(5,10)
+				if(soot <= 0)
+					soot = 0
+					cut_overlays()
+					to_chat(user, "<span class='notice'>The [src] is spic and span!</span>")
+					break
+	..()
