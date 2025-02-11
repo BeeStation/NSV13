@@ -145,10 +145,12 @@
 				var/obj/R = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, NORTH, 4)) //Right
 				var/turf/S = get_offset_target_turf(src, rand(5)-rand(5), 5+rand(5)) //Starboard
 				R.throw_at(S, 12, 20)
+				cut_overlay("south_broadside_stovepipe")
 			else
 				var/obj/L = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, SOUTH, 1)) //Left
 				var/turf/P = get_offset_target_turf(src, rand(5)-rand(5), 0-rand(5)) //Port
 				L.throw_at(P, 12, 20)
+				cut_overlay("north_broadside_stovepipe")
 			return TRUE
 	return default_deconstruction_crowbar(user, tool)
 
@@ -168,24 +170,26 @@
 	. = ..()
 	if(.)
 		new /obj/effect/particle_effect/muzzleflash(loc)
-		cut_overlays()
 
 /obj/machinery/ship_weapon/broadside/local_fire(shots = weapon_type.burst_size, atom/target) //For the broadside cannons, we want to eject spent casings
 	if(dir == 2)
 		var/obj/R = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, NORTH, 4)) //Right
 		var/turf/S = get_offset_target_turf(src, rand(5)-rand(5), 5+rand(5)) //Starboard
 		R.throw_at(S, 12, 20)
+		cut_overlay("south_chambered_[get_ammo()]")
 	else
 		var/obj/L = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, SOUTH, 1)) //Left
 		var/turf/P = get_offset_target_turf(src, rand(5)-rand(5), 0-rand(5)) //Port
 		L.throw_at(P, 12, 20)
+		cut_overlay("north_chambered_[get_ammo()]")
+
 	soot = min(soot + rand(1,5), 100)
 	if(stovepipe)
-		if(dir = 1)
+		if(dir == 1)
 			explosion(src, 0, 0, 5, 3, FALSE, FALSE, 0, FALSE, TRUE)
 		else
 			var/turf/E = get_offset_target_turf(src, 0, 3)
-			explosion(src, 0, 0, 5, 3, FALSE, FALSE, 0, FALSE, TRUE)
+			explosion(E, 0, 0, 5, 3, FALSE, FALSE, 0, FALSE, TRUE)
 
 
 //	switch(soot) //add overlays, make sprites
@@ -212,7 +216,22 @@
 //Newer Broadsides features start here
 
 /obj/machinery/ship_weapon/broadside/MouseDrop_T(obj/structure/A, mob/user) //Figure out what is causing the gun to not be firable any longer when crate loading
-	. = ..()
+	if(stovepipe)
+		to_chat(user, "<span class='warning'>The [src] is completely locked up, you have to <i>pry</i> out the stovepiped shell!")
+		return FALSE
+	if(prob(soot)) //likelihood of stovepipe is a lot higher if you crateload the gun
+		stovepipe = TRUE
+		if(dir == 2)
+			add_overlay("south_broadside_stovepipe")
+			flick("[initial(icon_state)]_chambering",src)
+		else
+			add_overlay("north_broadside_stovepipe")
+			flick("[initial(icon_state)]_chambering",src)
+		playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE)
+		to_chat(user, "<span class='warning'>The [src] groans horrendously, a shell has stovepiped!</span>")
+		return FALSE
+
+	..()
 	if(!isliving(user))
 		return FALSE
 	if(istype(A, /obj/structure/closet))
@@ -222,7 +241,7 @@
 		if(length(ammo) >= max_ammo)
 			return FALSE
 		to_chat(user, "<span class='notice'>You start to load [src] with the contents of [A]...</span>")
-		if(do_after(user, 12 SECONDS , target = src))
+		if(do_after(user, 8 SECONDS , target = src))
 			for(var/obj/item/ship_weapon/ammunition/broadside_shell/G in A)
 				if(length(ammo) < max_ammo)
 					G.forceMove(src)
@@ -233,20 +252,22 @@
 			if(load_sound)
 				playsound(src, load_sound, 100, 1)
 			flick("[initial(icon_state)]_chambering",src)
-			cut_overlays()
 			if(dir == 1)
+				cut_overlay("north_chambered_[get_ammo()]")
 				add_overlay("north_chambered_[get_ammo()]")
 			if(dir == 2)
+				cut_overlay("north_chambered_[get_ammo()]")
 				add_overlay("south_chambered_[get_ammo()]")
 			state = STATE_CHAMBERED
 			update()
 
 /obj/machinery/ship_weapon/broadside/chamber(rapidfire = FALSE)
 	. = ..()
-	cut_overlays()
 	if(dir == 1)
+		cut_overlay("north_chambered_[get_ammo()]")
 		add_overlay("north_chambered_[get_ammo()]")
 	if(dir == 2)
+		cut_overlay("south_chambered_[get_ammo()]")
 		add_overlay("south_chambered_[get_ammo()]")
 	update()
 
@@ -255,9 +276,14 @@
 		to_chat(user, "<span class='warning'>The [src] is completely locked up, you have to <i>pry</i> out the stovepiped shell!")
 		return FALSE
 	..()
-	if(prob(soot / 5)) //Divides soot by 5 so maximum chance to stovepipe is 20%
+	if(prob(soot / 10)) //Divides soot by 10 so maximum chance to stovepipe is 10%
 		stovepipe = TRUE
-		//make sprite for stovepiped broadside
+		if(dir == 2)
+			add_overlay("south_broadside_stovepipe")
+			flick("[initial(icon_state)]_chambering",src)
+		else
+			add_overlay("north_broadside_stovepipe")
+			flick("[initial(icon_state)]_chambering",src)
 		playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE)
 		to_chat(user, "<span class='warning'>The [src] groans horrendously, a shell has stovepiped!</span>")
 		qdel(A)
