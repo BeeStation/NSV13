@@ -172,28 +172,64 @@
 		new /obj/effect/particle_effect/muzzleflash(loc)
 
 /obj/machinery/ship_weapon/broadside/local_fire(shots = weapon_type.burst_size, atom/target) //For the broadside cannons, we want to eject spent casings
+	. = ..()
 	if(dir == 2)
 		var/obj/R = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, NORTH, 4)) //Right
 		var/turf/S = get_offset_target_turf(src, rand(5)-rand(5), 5+rand(5)) //Starboard
 		R.throw_at(S, 12, 20)
-		cut_overlay("south_chambered_[get_ammo()]")
+		cut_overlay(list("south_chambered_1","south_chambered_2","south_chambered_3","south_chambered_4","south_chambered_5"))
 	else
 		var/obj/L = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, SOUTH, 1)) //Left
 		var/turf/P = get_offset_target_turf(src, rand(5)-rand(5), 0-rand(5)) //Port
 		L.throw_at(P, 12, 20)
-		cut_overlay("north_chambered_[get_ammo()]")
+		cut_overlay(list("north_chambered_1","north_chambered_2","north_chambered_3","north_chambered_4","north_chambered_5"))
 
 	soot = min(soot + rand(1,5), 100)
-	if(stovepipe)
+	if(stovepipe) //Manages the overlays for how dirty the gun is, feels like there's a better way to do this...
 		if(dir == 1)
 			explosion(src, 0, 0, 5, 3, FALSE, FALSE, 0, FALSE, TRUE)
 		else
 			var/turf/E = get_offset_target_turf(src, 0, 3)
 			explosion(E, 0, 0, 5, 3, FALSE, FALSE, 0, FALSE, TRUE)
-
-
-//	switch(soot) //add overlays, make sprites
-	..()
+	switch(soot)
+		if(0)
+			if(dir == 1)
+				cut_overlay(list("north_broadside_soot_1", "north_broadside_soot_2", "north_broadside_soot_3", "north_broadside_soot_4", "north_broadside_soot_5"))
+			else
+				cut_overlay(list("south_broadside_soot_1", "south_broadside_soot_2", "south_broadside_soot_3", "south_broadside_soot_4", "south_broadside_soot_5"))
+		if(1 to 20)
+			if(dir == 1)
+				add_overlay("north_broadside_soot_1")
+			else
+				add_overlay("south_broadside_soot_1")
+		if(21 to 40)
+			if(dir == 1)
+				cut_overlay("north_broadside_soot_1")
+				add_overlay("north_broadside_soot_2")
+			else
+				cut_overlay("south_broadside_soot_1")
+				add_overlay("south_broadside_soot_2")
+		if(41 to 60)
+			if(dir == 1)
+				cut_overlay("north_broadside_soot_2")
+				add_overlay("north_broadside_soot_3")
+			else
+				cut_overlay("south_broadside_soot_2")
+				add_overlay("south_broadside_soot_3")
+		if(61 to 80)
+			if(dir == 1)
+				cut_overlay("north_broadside_soot_3")
+				add_overlay("north_broadside_soot_4")
+			else
+				cut_overlay("south_broadside_soot_3")
+				add_overlay("south_broadside_soot_4")
+		if(81 to 100)
+			if(dir == 1)
+				cut_overlay("north_broadside_soot_4")
+				add_overlay("north_broadside_soot_5")
+			else
+				cut_overlay("south_broadside_soot_4")
+				add_overlay("south_broadside_soot_5")
 
 /obj/effect/particle_effect/muzzleflash //Flash Effect when the weapon fires
 	name = "muzzleflash"
@@ -215,7 +251,7 @@
 
 //Newer Broadsides features start here
 
-/obj/machinery/ship_weapon/broadside/MouseDrop_T(obj/structure/A, mob/user) //Figure out what is causing the gun to not be firable any longer when crate loading
+/obj/machinery/ship_weapon/broadside/MouseDrop_T(obj/structure/A, mob/user)
 	if(stovepipe)
 		to_chat(user, "<span class='warning'>The [src] is completely locked up, you have to <i>pry</i> out the stovepiped shell!")
 		return FALSE
@@ -256,7 +292,7 @@
 				cut_overlay("north_chambered_[get_ammo()]")
 				add_overlay("north_chambered_[get_ammo()]")
 			if(dir == 2)
-				cut_overlay("north_chambered_[get_ammo()]")
+				cut_overlay("south_chambered_[get_ammo()]")
 				add_overlay("south_chambered_[get_ammo()]")
 			state = STATE_CHAMBERED
 			update()
