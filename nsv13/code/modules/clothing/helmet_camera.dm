@@ -67,11 +67,11 @@
 	if(!I || !user) //The camera isn't being placed by a person
 		builtInCamera = new /obj/machinery/camera(src)
 		builtInCamera.c_tag = "Helmet Cam #[rand(0,999)]"
+		builtInCamera.internal_light = FALSE
 		if(faction == "Syndicate")
 			builtInCamera.network = list("syndicate")
 		else
 			builtInCamera.network = list("ss13")
-			builtInCamera.internal_light = FALSE
 		return TRUE
 	user.transferItemToLoc(I, src)
 	builtInCamera = new /obj/machinery/camera(src)
