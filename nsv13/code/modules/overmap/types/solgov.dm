@@ -8,7 +8,7 @@
 	icon_state = "frigate"
 	mass = MASS_MEDIUM
 	sprite_size = 48
-	damage_states = FALSE
+	damage_states = TRUE
 	bound_width = 64
 	bound_height = 64
 	obj_integrity = 250
