@@ -634,6 +634,14 @@ Misc projectile types, effects, think of this as the special FX file.
 	armour_penetration = 10
 	speed = 0.4
 
+/obj/item/projectile/bullet/broadside/nuclear
+	name = "nuclear-packed broadside shell"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "broadside_nuclear"
+	damage = 200
+	armour_penetration = 25
+	speed = 2
+
 /obj/effect/temp_visual/overmap_explosion
 	icon = 'nsv13/goonstation/icons/hugeexplosion.dmi'
 	icon_state = "explosion"

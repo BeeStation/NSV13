@@ -18,6 +18,16 @@
 	w_class = WEIGHT_CLASS_BULKY
 	projectile_type = /obj/item/projectile/bullet/broadside/plasma
 
+/obj/item/ship_weapon/ammunition/broadside_shell/nuclear
+	name = "\improper SNBC Type N Shell"
+	desc = "A large packed shell, complete with plasma and nuclear payload, ready to be loaded and fired."
+	icon_state = "broadside_nuclear"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	w_class = WEIGHT_CLASS_BULKY
+	projectile_type = /obj/item/projectile/bullet/broadside/nuclear
+
 /obj/item/ship_weapon/ammunition/broadside_shell/can_be_pulled(mob/user)
 	return TRUE
 
@@ -47,6 +57,8 @@
 	var/amount_to_pack = 5
 	var/obj/item/powder_bag/plasma/plasma = FALSE
 	var/obj/item/powder_bag/gunpowder = FALSE
+	var/obj/item/ship_weapon/parts/broadside_load = FALSE
+	var/obj/item/ship_weapon/parts/broadside_load/nuclear = FALSE
 	var/static/list/whitelist = typecacheof(list(
 		/obj/item/ship_weapon/parts/broadside_casing,
 		/obj/item/ship_weapon/parts/broadside_load,
@@ -82,7 +94,10 @@
 		sleep(0.5 SECONDS)
 		for(var/i in 1 to amount_to_pack)
 			if(plasma)
-				new /obj/item/ship_weapon/ammunition/broadside_shell/plasma(get_turf(src))
+				if(broadside_load)
+					new /obj/item/ship_weapon/ammunition/broadside_shell/plasma(get_turf(src))
+				if(nuclear)
+					new /obj/item/ship_weapon/ammunition/broadside_shell/nuclear(get_turf(src))
 			else if(gunpowder)
 				new /obj/item/ship_weapon/ammunition/broadside_shell(get_turf(src))
 		reset()
@@ -107,6 +122,21 @@
 
 	if(istype(A, /obj/item/ship_weapon/parts/broadside_load))
 		if(load_amount < amount_to_pack)
+			if(istype(A, /obj/item/ship_weapon/parts/broadside_load/nuclear))
+				if(broadside_load)
+					to_chat(user, "<span class='warning'>The packer can only handle one type of shell at a time!</span>")
+					return FALSE
+				if(gunpowder)
+					to_chat(user, "<span class='warning'>Only plasma powder is compatible with nuclear loads!</span>")
+					return FALSE
+				nuclear = TRUE
+				to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
+			else if(istype(A, /obj/item/ship_weapon/parts/broadside_load))
+				if(nuclear)
+					to_chat(user, "<span class='warning'>The packer can only handle one type of shell at a time!</span>")
+					return FALSE
+				broadside_load = TRUE
+				to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
 			load_amount++
 			to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
 			A.forceMove(src)
@@ -125,6 +155,9 @@
 				plasma = TRUE
 				to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
 			else if(istype(A, /obj/item/powder_bag))
+				if(nuclear)
+					to_chat(user, "<span class='notice'>Only plasma powder is compatible with nuclear loads!.</span>")
+					return FALSE
 				gunpowder = TRUE
 				to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
 			A.forceMove(src)

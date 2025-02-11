@@ -315,7 +315,7 @@
 		return FALSE
 	..()
 	if(prob(soot / 10)) //Divides soot by 10 so maximum chance to stovepipe is 10%
-		stovepipe = TRUE
+		stovepipe = TRUE //find way to send message to TAC that the cannons are stovepiped
 		if(dir == 2)
 			add_overlay("south_broadside_stovepipe")
 			flick("[initial(icon_state)]_chambering",src)
@@ -342,7 +342,7 @@
 	attack_verb = list("swabbed", "scrubbed", "plunged", "maintained")
 	resistance_flags = FLAMMABLE
 
-/obj/machinery/ship_weapon/broadside/attackby(obj/item/I, user)
+/obj/machinery/ship_weapon/broadside/attackby(obj/item/I, user) //why can they queue up a thousand cleaning bars at once?
 	if(istype(I, /obj/item/swabber))
 		if(state == STATE_CHAMBERED)
 			to_chat(user, "<span class='warning'>You can't clean the [src] while it's loaded!</span>")
