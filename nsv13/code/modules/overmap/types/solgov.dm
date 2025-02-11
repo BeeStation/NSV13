@@ -9,8 +9,8 @@
 	mass = MASS_MEDIUM
 	sprite_size = 48
 	damage_states = FALSE
-	bound_width = 32
-	bound_height = 32
+	bound_width = 64
+	bound_height = 64
 	obj_integrity = 250
 	max_integrity = 250
 	armor = list("overmap_light" = 90, "overmap_medium" = 20, "overmap_heavy" = 5)
