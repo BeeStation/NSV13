@@ -202,6 +202,8 @@
 	bag_amount = 0
 	plasma = FALSE
 	gunpowder = FALSE
+	broadside_load = FALSE
+	nuclear = FALSE
 	icon_state = "packing_bench"
 	update_icon()
 	return
