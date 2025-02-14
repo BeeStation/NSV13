@@ -17,10 +17,10 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	var/escalation = 0								//Admin ability to tweak current mission difficulty level
 	var/threat_elevation = 0						//Threat generated or reduced via various activities, directly buffing enemy fleet sizes and possibly other things if implemented.
-	var/highest_objective_completion = 0				//What was the highest amount of objectives completed? If it increases, reduce threat.
+	var/highest_objective_completion = 0			//What was the highest amount of objectives completed? If it increases, reduce threat.
 	var/player_check = 0 							//Number of players connected when the check is made for gamemode
 	var/datum/overmap_gamemode/mode 				//The assigned mode
-	var/datum/overmap_gamemode/forced_mode = null							//Admin forced gamemode prior to initialization
+	var/datum/overmap_gamemode/forced_mode			//Admin forced gamemode prior to initialization
 
 	var/objective_reminder_override = FALSE 		//Are we currently using the reminder system?
 	var/last_objective_interaction = 0 				//Last time the crew interacted with one of our objectives
@@ -41,6 +41,9 @@ SUBSYSTEM_DEF(overmap_mode)
 
 	var/override_ghost_boarders = FALSE 			//Used by admins to force disable player boarders
 	var/override_ghost_ships = FALSE				//Used by admins to force disable player ghost ships
+
+	var/hard_mode_enabled = FALSE					//If this is enabled, the game balance will change drastically. Enemies will scale harder and the crew can build guns.
+	var/next_difficulty_increase = 30 MINUTES		//Used to determine when difficulty will scale up at a regular interval
 
 	var/check_completion_timer = 0
 
@@ -214,7 +217,10 @@ SUBSYSTEM_DEF(overmap_mode)
 	if(SSticker.current_state == GAME_STATE_PLAYING) //Wait for the game to begin
 		if(world.time >= check_completion_timer) //Fire this automatically every ten minutes to prevent round stalling
 			if(world.time > TE_INITIAL_DELAY)
-				modify_threat_elevation(TE_THREAT_PER_HOUR / 6)	//Accurate enough... although update this if the completion timer interval gets changed :)
+				if(!hard_mode_enabled)
+					modify_threat_elevation(TE_THREAT_PER_HOUR / 6)	//Accurate enough... although update this if the completion timer interval gets changed :)
+				else
+					modify_threat_elevation(TE_THREAT_PER_HOUR / 2) //Three times faster, better get a move on.
 			difficulty_calc() //Also do our difficulty check here
 			mode.check_completion()
 			check_completion_timer += 10 MINUTES
@@ -361,6 +367,49 @@ SUBSYSTEM_DEF(overmap_mode)
 	if(mode.difficulty <= 0)
 		mode.difficulty = 1
 
+/datum/controller/subsystem/overmap_mode/proc/force_mode(datum/overmap_gamemode/new_mode)
+	if(!mode || !mode_initialised)
+		mode = new_mode
+		forced_mode = new_mode
+		return initial(mode.name)
+	if(mode_initialised)
+		QDEL_NULL(mode)
+		mode = new new_mode
+		forced_mode = mode
+		mode_initialised = FALSE //Reset this in case something fails after it.
+		setup_overmap_mode() //we will have to reinitialize manually
+		return mode.name
+
+/datum/controller/subsystem/overmap_mode/proc/toggle_hardmode()
+	hard_mode_enabled = !hard_mode_enabled
+	log_game("Hard mode has been [hard_mode_enabled ? "enabled" : "disabled"]!")
+	if(hard_mode_enabled) //Go on, clear the map out
+		SSresearch.hardmode_tech_enable()
+		mode.objectives += new /datum/overmap_objective/clear_system/rubicon
+		mode.objectives += new /datum/overmap_objective/clear_system/dolos
+		var/datum/star_system/D = SSstar_system.system_by_id("Dolos Remnants")
+		D.spawn_fleet(/datum/fleet/remnant)
+		var/datum/star_system/R = SSstar_system.system_by_id("Rubicon")
+		R.spawn_fleet(/datum/fleet/interdiction/light)
+		instance_objectives()
+		mode.objective_reminder_interval *= 2 //You get twice as much time, but good luck surviving it
+		if(SSticker.HasRoundStarted()) //Not really needed when they're not in game yet
+			priority_announce("Increased hostile activity detected. Mission objectives for [station_name()] updated. Please consult the communications console for a new mission statement. Mobilize your forces at once.")
+		else
+			SSstar_system.find_main_overmap().force_jump(SSstar_system.system_by_id("Medea")) //You're starting a bit further up :)
+	else //Undo all of that
+		SSresearch.hardmode_tech_disable()
+		for(var/datum/overmap_objective/O in mode.objectives)
+			if(!istype(O)) //What are you doing here
+				mode.objectives -= O
+			if(istype(O, /datum/overmap_objective/clear_system/rubicon) || istype(O, /datum/overmap_objective/clear_system/dolos))
+				mode.objectives -= O
+				qdel(O) //You can rest
+		var/datum/star_system/D = SSstar_system.system_by_id("Dolos Remnants")
+		for(var/datum/fleet/F in D.fleets)
+			F.move(SSstar_system.system_by_id("Oasis Fidei"), TRUE) //Retreat
+		mode.objective_reminder_interval = initial(mode.objective_reminder_interval) //reset
+
 /datum/overmap_gamemode
 	var/name = null											//Name of the gamemode type
 	var/config_tag = null									//Tag for config file weight
@@ -396,9 +445,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	)
 
 /datum/overmap_gamemode/Destroy()
-	for(var/datum/overmap_objective/objective in objectives)
-		QDEL_NULL(objective)
-	objectives.Cut()
+	QDEL_LIST(objectives)
 	. = ..()
 
 /datum/overmap_gamemode/proc/consequence_one()
@@ -424,10 +471,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	else
 		target = SSstar_system.ships[OM]["target_system"]
 	priority_announce("Attention all ships throughout the fleet, assume DEFCON 1. A Syndicate invasion force has been spotted in [target]. All fleets must return to allied space and assist in the defense.") //need a faction message
-	var/datum/fleet/F = new /datum/fleet/interdiction() //need a fleet
-	target.fleets += F
-	F.current_system = target
-	F.assemble(target)
+	target.spawn_fleet(/datum/fleet/interdiction) //need a fleet
 	SSovermap_mode.objective_reminder_stacks = 0 //Reset
 
 /datum/overmap_gamemode/proc/check_completion() //This gets called by checking the communication console/modcomp program + automatically once every 10 minutes
@@ -597,20 +641,15 @@ SUBSYSTEM_DEF(overmap_mode)
 			var/amount = input("Enter amount of threat to add (or substract if negative)", "Adjust Threat") as num|null
 			SSovermap_mode.modify_threat_elevation(amount)
 		if("change_gamemode")
-			if(SSovermap_mode.mode_initialised)
-				message_admins("Post Initilisation Overmap Gamemode Changes Not Currently Supported") //SoonTM
+			if(SSticker.HasRoundStarted())
+				message_admins("Mid-round Overmap Gamemode Changes Not Currently Supported") //SoonTM
 				return
 			var/list/gamemode_pool = subtypesof(/datum/overmap_gamemode)
 			var/datum/overmap_gamemode/S = input(usr, "Select Overmap Gamemode", "Change Overmap Gamemode") as null|anything in gamemode_pool
 			if(isnull(S))
 				return
-			if(SSovermap_mode.mode_initialised)
-				qdel(SSovermap_mode.mode)
-				SSovermap_mode.mode = new S()
-				message_admins("[key_name_admin(usr)] has changed the overmap gamemode to [SSovermap_mode.mode.name]")
-			else
-				SSovermap_mode.forced_mode = S
-				message_admins("[key_name_admin(usr)] has changed the overmap gamemode to [initial(S.name)]")
+			var/newmode = SSovermap_mode.force_mode(S)
+			message_admins("[key_name_admin(usr)] has changed the overmap gamemode to [newmode]")
 			return
 		if("add_objective")
 			var/list/objectives_pool = (subtypesof(/datum/overmap_objective) - /datum/overmap_objective/custom)
@@ -664,6 +703,12 @@ SUBSYSTEM_DEF(overmap_mode)
 			return
 		if("override_completion")
 			SSovermap_mode.admin_override = !SSovermap_mode.admin_override
+			return
+		if("toggle_hardmode")
+			var/decision = input("Are you sure you want to [SSovermap_mode.hard_mode_enabled ? "DISABLE" : "ENABLE"] hardmode?","Toggle Hardmode",null) as null|anything in list("yes","no")
+			if(decision == "yes")
+				SSovermap_mode.toggle_hardmode()
+				message_admins("[key_name_admin(usr)] has [SSovermap_mode.hard_mode_enabled ? "ENABLED" : "DISABLED"] hardmode!")
 			return
 		if("spawn_ghost_ship")
 			set waitfor = FALSE
@@ -727,12 +772,13 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_mode_controller/ui_data(mob/user)
 	var/list/data = list()
 	var/list/objectives = list()
-	if(SSovermap_mode.mode)
+	if(SSovermap_mode.forced_mode) //Forced mode gets priority
+		data["current_gamemode"] = SSovermap_mode.forced_mode.name
+	else if(SSovermap_mode.mode)
 		data["current_gamemode"] = SSovermap_mode.mode.name
-	else if(SSovermap_mode.forced_mode)
-		data["current_gamemode"] = initial(SSovermap_mode.forced_mode.name)
 	data["current_description"] = SSovermap_mode.mode?.desc
 	data["mode_initalised"] = SSovermap_mode?.mode_initialised
+	data["hard_mode"] = SSovermap_mode?.hard_mode_enabled
 	data["current_difficulty"] = SSovermap_mode.mode?.difficulty
 	data["current_escalation"] = SSovermap_mode.escalation
 	data["reminder_time_remaining"] = (SSovermap_mode.next_objective_reminder - world.time) / 10 //Seconds

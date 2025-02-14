@@ -52,7 +52,8 @@
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 //Naval artillery
-/*
+
+/*Obsolete
 /datum/design/board/naval_artillery
 	name = "Machine Design (Deck Gun Frame)"
 	desc = "Allows for the construction of a naval artillery gun frame."
@@ -62,8 +63,7 @@
 	build_path = /obj/structure/ship_weapon/mac_assembly/artillery_frame
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
-*/
-/*don't need this no more
+
 /datum/design/naval_artillery_triple
 	name = "Machine Design (Triple Deck Gun Frame)"
 	desc = "Allows for the construction of a triple barreled naval cannon frame."
@@ -74,6 +74,24 @@
 	build_type = PROTOLATHE | AUTOLATHE
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 */
+
+/datum/design/board/deck_turret
+	name = "Machine Design (Deck Gun Turret)"
+	desc = "Allows for the construction of a naval artillery gun turret."
+	id = "deck_gun"
+	materials = list(/datum/material/titanium = 12000,/datum/material/iron = 15000, /datum/material/glass = 5000, /datum/material/copper = 5000)
+	build_path = /obj/item/circuitboard/machine/deck_turret
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+/datum/design/board/multibarrel_upgrade/_3
+	name = "Naval Artillery Cannon Triple Barrel Upgrade (Circuit)"
+	desc = "An upgrade that allows you to add two more barrels to a Naval Artillery Cannon."
+	id = "deck_gun_triple"
+	materials = list(/datum/material/titanium = 30000,/datum/material/iron = 25000, /datum/material/diamond = 15000, /datum/material/copper = 35000)
+	build_path = /obj/item/circuitboard/multibarrel_upgrade/_3
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/naval_artillery_comp
 	name = "Machine Design (Deck Gun Computer)"
