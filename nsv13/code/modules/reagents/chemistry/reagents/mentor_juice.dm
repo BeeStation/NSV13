@@ -315,9 +315,6 @@
 	if(targetting_roll < armoring_roll)
 		return list("GLANCING HIT", "T\[[targetting_roll]\] < A\[[armoring_roll]\]")
 
-	if(damaging_roll < armoring_roll)
-		return list("GLANCING HIT", "D\[[damaging_roll]\] < A\[[armoring_roll]\]")
-
 	if(penetrating_roll >= armoring_roll && damaging_roll >= armoring_roll)
 		return list("CRITICAL HIT", "P\[[penetrating_roll]\] & D\[[damaging_roll]\] >= A\[[armoring_roll]\]")
 
