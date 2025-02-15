@@ -384,6 +384,41 @@
 
 	affinity_flags = AI_FLAG_DESTROYER|AI_FLAG_SUPPLY
 
+/datum/combat_dice/plotarmor_fighter
+	name = "Protagonist combat dice (F)"
+
+	evade_dice = 3
+	evade_roll = 5
+	evade_bonus = 2
+
+	armor_roll = 3
+	armor_bonus = -1
+
+	damage_roll = 3
+	damage_dice = 2
+
+	target_roll = 5
+	target_bonus = 4
+
+	affinity_flags = AI_FLAG_SWARMER
+
+/datum/combat_dice/plotarmor_fighter/heavy
+	name = "Protagonist combat dice (F-H)"
+
+	evade_dice = 2
+	evade_bonus = -2
+
+	armor_dice = 2
+	armor_bonus = 1
+
+	damage_roll = 4
+	damage_bonus = 1
+
+	target_dice = 2
+
+	affinity_flags = AI_FLAG_SUPPLY|AI_FLAG_STATIONARY|AI_FLAG_BATTLESHIP
+
+
 /datum/combat_dice/roci_my_beloved
 	name = "Self-Explanatory combat dice"
 
