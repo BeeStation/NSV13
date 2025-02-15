@@ -491,7 +491,7 @@
 	desc = "An adorable stuffed toy that resembles a lizardperson."
 	icon_state = "lizardplush"
 	attack_verb = list("clawed", "hissed", "tail slapped")
-	squeak_override = list('sound/weapons/slash.ogg' = 1)
+	squeak_override = list('sound/weapons/slash.ogg' = 10, 'nsv13/sound/voice/oopsie_woopsie/weh.ogg' = 1)
 
 /obj/item/toy/plush/snakeplushie
 	name = "snake plushie"

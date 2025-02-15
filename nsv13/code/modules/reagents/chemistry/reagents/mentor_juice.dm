@@ -134,7 +134,7 @@
 		return !C.silent
 
 /datum/emote/living/nya/get_sound(mob/living/user)
-	return 'nsv13/sound/voice/cursed/nya.ogg'
+	return 'nsv13/sound/voice/oopsie_woopsie/nya.ogg'
 
 /datum/emote/living/awoo
 	key = "awoo"
@@ -152,7 +152,7 @@
 		return !C.silent
 
 /datum/emote/living/awoo/get_sound(mob/living/user)
-	return 'nsv13/sound/voice/cursed/awoo.ogg'
+	return 'nsv13/sound/voice/oopsie_woopsie/awoo.ogg'
 
 
 //My escape from this madness
@@ -172,7 +172,7 @@
 		return !C.silent
 
 /datum/emote/living/weh/get_sound(mob/living/user)
-	return 'nsv13/sound/voice/cursed/weh.ogg'
+	return 'nsv13/sound/voice/oopsie_woopsie/weh.ogg'
 
 
 //On 2264's menu, bioweapons.
