@@ -413,8 +413,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	valid_angle = 150
 	homing_turn_speed = 35
 	damage = 250
-	obj_integrity = 200
-	max_integrity = 200
+	obj_integrity = 120
+	max_integrity = 120
 	range = 250
 	armor = list("overmap_light" = 20, "overmap_medium" = 10, "overmap_heavy" = 0)
 	flag = "overmap_heavy"
@@ -432,8 +432,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo
 	damage = 75	//Simply kinetic damagewise..
 	flag = "overmap_medium"
-	obj_integrity = 400
-	max_integrity = 400
+	obj_integrity = 240
+	max_integrity = 240
 
 /obj/item/projectile/guided_munition/torpedo/viscerator/nerfed //AI Ship usage
 	obj_integrity = 80
@@ -457,8 +457,8 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/torpedo/decoy/nerfed //AI Ship usage
 	icon_state = "torpedo"
-	obj_integrity = 200
-	max_integrity = 200
+	obj_integrity = 120
+	max_integrity = 120
 
 /obj/item/projectile/guided_munition/torpedo/hellfire
 	icon_state = "torpedo_hellfire"
@@ -472,8 +472,8 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/torpedo/hellfire/player_version
 	damage = 300	//A bit less initial damage to compensate for the /guaranteed/ hellburn effect dealing hefty damage.
-	obj_integrity = 125
-	max_integrity = 125
+	obj_integrity = 75
+	max_integrity = 75
 
 
 /obj/item/projectile/guided_munition/torpedo/hellfire/spec_overmap_hit(obj/structure/overmap/target)
@@ -509,8 +509,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	name = "prototype disruption torpedo"
 	ai_disruption = 15 //Do you like stuncombat? Well the AI doesn't.
 	ai_disruption_cap = 30 //Very effective if applied spaced out over time against damage-resistant ships.
-	obj_integrity = 200
-	max_integrity = 200
+	obj_integrity = 120
+	max_integrity = 120
 
 /obj/item/projectile/guided_munition/torpedo/disruptor/spec_overmap_hit(obj/structure/overmap/target)
 	if(length(target.occupying_levels))
@@ -546,8 +546,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 175
 	valid_angle = 120
 	homing_turn_speed = 25
-	obj_integrity = 200
-	max_integrity = 200
+	obj_integrity = 120
+	max_integrity = 120
 	range = 250
 	flag = "overmap_medium"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
