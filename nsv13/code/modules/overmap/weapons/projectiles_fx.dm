@@ -501,6 +501,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "torpedo_disruptor"
 	name = "disruption torpedo"
 	damage = 140	//Lower damage, does some special stuff when it hits a target.
+	obj_integrity = 40
+	max_integrity = 40
 	var/ai_disruption = 30
 	var/ai_disruption_cap = 120
 
