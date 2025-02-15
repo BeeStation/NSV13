@@ -660,5 +660,5 @@
 /obj/structure/overmap/syndicate/ai/submarine
 	torpedo_type = list(/obj/item/projectile/guided_munition/torpedo/disruptor = 12, /obj/item/projectile/guided_munition/torpedo/biohazard_one = 2, /obj/item/projectile/guided_munition/torpedo/biohazard_two = 2)
 
-/obj/structure/overmap/syndicate/submarine/ai
-	torpedo_type = list(/obj/item/projectile/guided_munition/torpedo/disruptor = 12, /obj/item/projectile/guided_munition/torpedo/biohazard_one = 2, /obj/item/projectile/guided_munition/torpedo/biohazard_two = 2)
+/obj/structure/overmap/syndicate/ai/submarine/elite
+	torpedo_type = list(/obj/item/projectile/guided_munition/torpedo/disruptor = 12, /obj/item/projectile/guided_munition/torpedo/biohazard_one = 4, /obj/item/projectile/guided_munition/torpedo/biohazard_two = 4)

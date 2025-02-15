@@ -667,7 +667,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 			var/obj/structure/overmap/overmap_target = proj.homing_target
 			overmap_target.on_missile_lock(src, proj)
 
-	LAZYINITLIST(proj.impacted) //Not having this list can lead to issues due to spawn
+	LAZYINITLIST(proj.impacted) //The spawn call after this might be causing some issues so the list should exist before async actions.
 
 	spawn()
 		proj.preparePixelProjectileOvermap(target, src, null, round((rand() - 0.5) * proj.spread), lateral=lateral)
