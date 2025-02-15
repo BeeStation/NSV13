@@ -51,7 +51,7 @@
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
-//Naval artillery
+//Naval Artillery (Deck Gun)
 
 /*Obsolete
 /datum/design/board/naval_artillery
@@ -159,7 +159,7 @@
 	desc = "Allows for the construction of a VLS launch tube (control computer not included)."
 	id = "vls_tube"
 	build_type = PROTOLATHE|IMPRINTER
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/silver = 500)
 	build_path = /obj/item/circuitboard/machine/vls
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
@@ -169,9 +169,29 @@
 	desc = "Allows for the construction of an AMS control console."
 	id = "ams_console"
 	build_type = PROTOLATHE|IMPRINTER
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/silver = 500)
 	build_path = /obj/item/circuitboard/computer/ams
 	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+//Gauss guns
+/datum/design/board/gauss_dispenser_circuit
+	name = "Machine Design (Gauss Dispenser)"
+	desc = "Allows you to construct a machine that lets you access the ship's internal ammo stores to retrieve gauss gun ammunition."
+	id = "gauss_dispenser_circuit"
+	build_type = PROTOLATHE|IMPRINTER
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
+	build_path = /obj/item/circuitboard/machine/gauss_dispenser
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+/datum/design/board/gauss_turret
+	name = "Machine Design (Gauss Turret)"
+	desc = "Allows you to construct a turret to fire gauss slugs at the enemy"
+	id = "gauss_turret"
+	build_type = PROTOLATHE|IMPRINTER
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000, /datum/material/silver = 500)
+	build_path = /obj/item/circuitboard/machine/gauss_turret
+	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 //Misc
@@ -186,17 +206,7 @@
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
-/datum/design/board/gauss_dispenser_circuit
-	name = "Machine Design (Gauss Dispenser)"
-	desc = "Allows you to construct a machine that lets you access the ship's internal ammo stores to retrieve gauss gun ammunition."
-	id = "gauss_dispenser_circuit"
-	build_type = PROTOLATHE|IMPRINTER
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
-	build_path = /obj/item/circuitboard/machine/gauss_dispenser
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
-
-//Hybrid Railgun
+//Hybrid Railgun Ammo
 /datum/design/slug_cold_iron
 	name = "M4 NTRS 400mm teflon coated tungsten round"
 	desc = "A standard railgun slug."
