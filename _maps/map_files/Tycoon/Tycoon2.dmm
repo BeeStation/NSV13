@@ -4114,7 +4114,7 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	req_one_access_txt = "12;5"
+	req_one_access_txt = "5"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -4391,8 +4391,10 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/cmo)
 "alI" = (
-/obj/machinery/camera/autoname,
-/obj/machinery/computer/ship/viewscreen,
+/obj/machinery/vending/snack/random,
+/obj/machinery/light{
+	dir = 1
+	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/central)
 "alJ" = (
@@ -5321,7 +5323,8 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/door/airlock/ship/maintenance{
-	name = "Virology maintenance"
+	name = "Virology maintenance";
+	req_one_access_txt = "12"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -15165,6 +15168,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
 	},
+/obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/monotile/dark,
 /area/engine/engineering/hangar)
 "aQs" = (
@@ -16517,7 +16521,6 @@
 /obj/item/radio/intercom{
 	pixel_y = 26
 	},
-/obj/machinery/recharge_station,
 /turf/open/floor/carpet/red,
 /area/nsv/weapons/fore)
 "aTw" = (
@@ -16658,8 +16661,19 @@
 /turf/open/floor/monotile/steel,
 /area/medical/medbay/lobby)
 "aTO" = (
-/obj/effect/turf_decal/tile/orange,
-/turf/open/floor/monotile/steel,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/central)
 "aTP" = (
 /obj/structure/table/glass,
@@ -17012,6 +17026,9 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/light/small{
+	dir = 1
+	},
 /turf/open/floor/durasteel,
 /area/medical)
 "aUZ" = (
@@ -17229,6 +17246,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
+/obj/machinery/recharge_station,
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/theatre)
 "aVw" = (
@@ -20924,7 +20942,8 @@
 /area/science)
 "bdB" = (
 /obj/machinery/door/airlock/ship/public/glass{
-	name = "Medbay Fabrication"
+	name = "Medbay Fabrication";
+	req_one_access_txt = "5"
 	},
 /obj/machinery/door/poddoor/shutters/ship/preopen{
 	dir = 4;
@@ -21889,13 +21908,11 @@
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "bft" = (
-/obj/machinery/airalarm{
-	pixel_y = 26
-	},
 /obj/item/radio/intercom{
 	pixel_y = -2;
 	pixel_x = -34
 	},
+/obj/machinery/vending/cola/random,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/central)
 "bfu" = (
@@ -22350,7 +22367,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
-/obj/structure/chair/fancy/sofa/old/right{
+/obj/structure/chair/fancy/sofa/old/left{
 	dir = 1
 	},
 /turf/open/floor/monotile/steel,
@@ -23450,6 +23467,7 @@
 /obj/machinery/status_display/evac{
 	pixel_y = 26
 	},
+/obj/structure/table/reinforced,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/central)
 "biP" = (
@@ -25464,7 +25482,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/effect/turf_decal/ship/delivery/yellow,
-/obj/structure/munitions_trolley,
+/obj/machinery/recharge_station,
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
 "bng" = (
@@ -29782,7 +29800,7 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	req_one_access_txt = "12;5"
+	req_one_access_txt = "5"
 	},
 /turf/open/floor/plating,
 /area/medical/genetics)
@@ -29919,6 +29937,7 @@
 /turf/open/floor/monotile/light,
 /area/medical/medbay/lobby)
 "bwh" = (
+/obj/machinery/airalarm/directional/south,
 /obj/effect/turf_decal/tile/orange{
 	dir = 4
 	},
@@ -31888,19 +31907,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/machinery/door/airlock/ship/public/glass{
-	name = "Engineering Hangar Bay"
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/brown/hidden{
 	dir = 4
 	},
-/turf/open/floor/monotile/steel,
+/obj/effect/spawner/structure/window/reinforced,
+/turf/open/floor/plating,
 /area/engine/engineering/hangar)
 "bAu" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
@@ -35108,7 +35119,6 @@
 /turf/open/floor/monotile/steel,
 /area/medical/chemistry)
 "bGT" = (
-/obj/structure/railing,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 4
 	},
@@ -35116,6 +35126,7 @@
 	dir = 4
 	},
 /obj/machinery/recharge_station,
+/obj/structure/railing,
 /turf/open/floor/carpet/blue,
 /area/hallway/nsv/deck2/frame1/central)
 "bGU" = (
@@ -36545,11 +36556,8 @@
 	name = "Munitions Control Room"
 	})
 "bKI" = (
-/obj/structure/sign/directions/medical{
-	dir = 8
-	},
+/obj/structure/sign/directions/medical,
 /obj/structure/sign/directions/science{
-	dir = 8;
 	pixel_y = -9
 	},
 /turf/closed/wall/r_wall/ship,
@@ -38262,9 +38270,9 @@
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/fore)
 "cfq" = (
-/obj/structure/sign/nanotrasen{
-	pixel_y = 26
-	},
+/obj/machinery/computer/ship/viewscreen,
+/obj/machinery/camera/autoname,
+/obj/effect/turf_decal/tile/orange,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/central)
 "cfx" = (
@@ -40805,14 +40813,11 @@
 /turf/open/floor/monotile/dark,
 /area/engine/storage_shared)
 "fBI" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/light/small{
+/obj/machinery/light{
 	dir = 1
 	},
-/turf/open/floor/plating,
-/area/maintenance/department/medical)
+/turf/open/floor/monotile/steel,
+/area/engine/engineering/hangar)
 "fBS" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
@@ -44641,10 +44646,6 @@
 /obj/effect/decal/cleanable/dirt/dust,
 /turf/open/floor/plasteel/techmaint,
 /area/maintenance/starboard)
-"ksk" = (
-/obj/effect/turf_decal/ship/delivery/yellow,
-/turf/open/floor/monotile/dark,
-/area/nsv/weapons/fore)
 "ksH" = (
 /turf/closed/wall/r_wall/ship,
 /area/crew_quarters/fitness/recreation)
@@ -47623,9 +47624,17 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/fore)
 "ope" = (
-/obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
+	},
+/obj/machinery/door/airlock/ship/public/glass{
+	name = "Engineering Hangar Bay"
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/engine/engineering/hangar)
@@ -53487,18 +53496,6 @@
 	},
 /turf/open/floor/monotile/light,
 /area/security/prison)
-"wAF" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/machinery/recharge_station,
-/turf/open/floor/monotile/steel,
-/area/crew_quarters/cafeteria{
-	name = "Mess hall"
-	})
 "wBI" = (
 /obj/machinery/door/poddoor/shutters{
 	id = "firingsquad";
@@ -53663,7 +53660,8 @@
 /area/engine/engineering/reactor_core)
 "wQi" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	name = "Virology maintenance"
+	name = "Virology maintenance";
+	req_one_access_txt = "12"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -78378,7 +78376,7 @@ jLQ
 aaa
 jLQ
 aZa
-fBI
+akL
 agX
 agU
 aow
@@ -85337,8 +85335,8 @@ mVG
 wxB
 bBu
 cfq
-bbF
-bKR
+ajW
+bwh
 aaB
 bGL
 aho
@@ -85593,9 +85591,9 @@ bBe
 bCe
 bKH
 bKI
+vyU
 aTO
-ajW
-bwh
+kYm
 aaB
 abp
 agE
@@ -87381,7 +87379,7 @@ aTv
 nEa
 nEa
 ezP
-ksk
+lxm
 ago
 aMG
 gZZ
@@ -95366,7 +95364,7 @@ bbU
 aOR
 aOR
 aOR
-wAF
+aVw
 aaY
 akv
 amf
@@ -104328,7 +104326,7 @@ ixc
 aJH
 nBU
 gqR
-anm
+fBI
 aQq
 btn
 ayJ
