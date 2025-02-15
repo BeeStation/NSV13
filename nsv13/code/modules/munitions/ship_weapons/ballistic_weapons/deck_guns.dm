@@ -499,7 +499,7 @@
 	icon_state = "powder"
 	density = TRUE
 	w_class = WEIGHT_CLASS_HUGE // Bag is big
-	var/volatility = 1 //Gunpowder is volatile...
+	var/volatility = 2 //Gunpowder is volatile...
 	var/power = 0.5
 
 /obj/item/powder_bag/Initialize(mapload)
@@ -512,7 +512,7 @@
 	desc = "An extremely powerful 'bomb waiting to happen' which can propel naval artillery shells to high speeds with half the amount of regular powder!"
 	icon_state = "spicypowder"
 	power = 1
-	volatility = 3 //DANGEROUSLY VOLATILE. Can send the entire magazine up in smoke.
+	volatility = 4 //DANGEROUSLY VOLATILE. Can send the entire magazine up in smoke.
 
 /obj/item/powder_bag/hungry
 	name = "gunpowder bag" // full name is built in update_name()
