@@ -185,9 +185,28 @@
 	point.Beam(turf_target, icon_state = "bsa_beam", time = 50, maxdistance = world.maxx) //ZZZAP
 	new /obj/effect/temp_visual/bsa_splash(point, dir)
 	//Recharging...
-	get_overmap()?.relay_to_nearby(weapon_type.overmap_select_sound)
-
-	if(blocker)
+	linked.relay_to_nearby(weapon_type.overmap_select_sound)
+	if(blocker) //We hit something on the ship
+		var/turf/location = get_turf(blocker)
+		var/admin_message = "The ship BSA has hit [blocker] at [ADMIN_VERBOSEJMP(location)]!"
+		var/log_message = "The ship BSA has hit [blocker] at [AREACOORD(location)]!"
+		var/firer = linked.pilot //Fired by the pilot
+		if(!firer)
+			firer = src
+			admin_message += " BSA fired by [firer]!"
+		else
+			admin_message += " BSA fired by [ADMIN_LOOKUPFLW(firer)]!"
+		if(istype(blocker, /obj/machinery/the_singularitygen)) //What did you do
+			var/evilperson = get_mob_by_ckey(blocker.fingerprintslast)
+			GLOB.bombers += evilperson
+			admin_message += " [blocker] was last touched by [ADMIN_LOOKUPFLW(evilperson)]!"
+			log_message += " [blocker] was last touched by [key_name_admin(evilperson)]!"
+			new /obj/anomaly/singularity(location, 2500)
+			var/turf/overmaplocation = get_turf(linked)
+			if(overmaplocation)
+				new /obj/effect/overmap_anomaly/singularity(overmaplocation, linked.current_system)
+		message_admins(admin_message)
+		log_game(log_message)
 		explosion(blocker, GLOB.MAX_EX_DEVESTATION_RANGE, GLOB.MAX_EX_HEAVY_RANGE, GLOB.MAX_EX_LIGHT_RANGE, GLOB.MAX_EX_FLASH_RANGE)
 	else
 		. = ..() //Then actually fire it.

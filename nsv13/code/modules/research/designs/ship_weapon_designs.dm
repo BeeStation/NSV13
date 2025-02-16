@@ -91,7 +91,7 @@
 	id = "artillery_loader"
 	build_type = PROTOLATHE|IMPRINTER
 	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500, /datum/material/diamond=5000)
-	build_path = /obj/item/circuitboard/machine/deck_gun
+	build_path = /obj/item/circuitboard/machine/deck_gun/core
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 

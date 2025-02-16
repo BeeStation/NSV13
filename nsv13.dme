@@ -273,6 +273,7 @@
 #include "code\_globalvars\lists\objects.dm"
 #include "code\_globalvars\lists\poll_ignore.dm"
 #include "code\_globalvars\lists\typecache.dm"
+#include "code\_globalvars\lists\vv.dm"
 #include "code\_js\byjax.dm"
 #include "code\_js\menus.dm"
 #include "code\_onclick\adjacent.dm"
@@ -1493,6 +1494,7 @@
 #include "code\modules\admin\sql_ban_system.dm"
 #include "code\modules\admin\sql_message_system.dm"
 #include "code\modules\admin\stickyban.dm"
+#include "code\modules\admin\tag.dm"
 #include "code\modules\admin\team_panel.dm"
 #include "code\modules\admin\topic.dm"
 #include "code\modules\admin\whitelist.dm"
@@ -1542,6 +1544,7 @@
 #include "code\modules\admin\verbs\SDQL2\SDQL_2_parser.dm"
 #include "code\modules\admin\verbs\SDQL2\SDQL_2_wrappers.dm"
 #include "code\modules\admin\view_variables\admin_delete.dm"
+#include "code\modules\admin\view_variables\color_matrix_editor.dm"
 #include "code\modules\admin\view_variables\debug_variables.dm"
 #include "code\modules\admin\view_variables\filterrific.dm"
 #include "code\modules\admin\view_variables\get_variables.dm"
@@ -1549,6 +1552,7 @@
 #include "code\modules\admin\view_variables\mass_edit_variables.dm"
 #include "code\modules\admin\view_variables\modify_variables.dm"
 #include "code\modules\admin\view_variables\reference_tracking.dm"
+#include "code\modules\admin\view_variables\tag_datum.dm"
 #include "code\modules\admin\view_variables\topic.dm"
 #include "code\modules\admin\view_variables\topic_basic.dm"
 #include "code\modules\admin\view_variables\topic_list.dm"
@@ -3888,6 +3892,7 @@
 #include "nsv13\code\modules\clothing\ears\babelfish.dm"
 #include "nsv13\code\modules\clothing\masks\_masks.dm"
 #include "nsv13\code\modules\clothing\masks\hailer.dm"
+#include "nsv13\code\modules\clothing\suits\hardsuit_tails.dm"
 #include "nsv13\code\modules\coffee\items\coffee_cartridge.dm"
 #include "nsv13\code\modules\coffee\items\coffee_pack.dm"
 #include "nsv13\code\modules\coffee\items\coffeepots.dm"
@@ -3958,6 +3963,7 @@
 #include "nsv13\code\modules\mob\living\simple_animal\bot\secbot.dm"
 #include "nsv13\code\modules\mob\living\simple_animal\hostile\dioclown.dm"
 #include "nsv13\code\modules\modular_computer\wiki_uplink.dm"
+#include "nsv13\code\modules\munitions\muni_pointer.dm"
 #include "nsv13\code\modules\munitions\munitions_trolley.dm"
 #include "nsv13\code\modules\munitions\ammunition\broadside_ammo.dm"
 #include "nsv13\code\modules\munitions\ammunition\cannon_ammo.dm"
@@ -4123,4 +4129,8 @@
 //NSV - Donator Items
 #ifdef DONATOR_ITEMS
 #include "nsv13\code\modules\donator\donator.dm"
+#endif
+
+#ifdef MACROTEST
+#include "code\modules\admin\verbs\macro_debug.dm"
 #endif

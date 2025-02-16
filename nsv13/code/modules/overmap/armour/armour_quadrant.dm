@@ -41,10 +41,17 @@
 */
 
 #define ARMOUR_DING pick('nsv13/sound/effects/ship/freespace2/ding1.wav', 'nsv13/sound/effects/ship/freespace2/ding2.wav', 'nsv13/sound/effects/ship/freespace2/ding3.wav', 'nsv13/sound/effects/ship/freespace2/ding4.wav', 'nsv13/sound/effects/ship/freespace2/ding5.wav')
-
+/**
+ * Deals damage to a single quadrant, passing overflow damage onto the hull. Goes directly to take_damage if the ship has no quadrants.
+ * * damage = The amount of damage to cause.
+ * * quadrant = The key of the quadrant in the quadrant list.
+ */
 /obj/structure/overmap/proc/take_quadrant_hit(damage, quadrant)
 	if(!quadrant)
 		return //No.
+	if(!use_armour_quadrants)
+		take_damage(damage)
+		return
 	if(!armour_quadrants[quadrant])
 		return //Nonexistent quadrant. Work on your quads bro.
 	if ( nodamage )
@@ -82,6 +89,10 @@
 
 //Repair Procs
 
+/**
+ * Fully repairs a ship's armor and hull, and negates hullcrit (even past the "no return" point)
+ * * This is an admin proc.
+ */
 /obj/structure/overmap/proc/full_repair() //Admin Override
 	obj_integrity = max_integrity //Full structural integrity
 	if(structure_crit) //Cancel SScrit if we are in it
@@ -95,7 +106,12 @@
 		armour_quadrants["aft_port"]["current_armour"] = armour_quadrants["aft_port"]["max_armour"]
 		armour_quadrants["aft_starboard"]["current_armour"] = armour_quadrants["aft_starboard"]["max_armour"]
 
-/obj/structure/overmap/proc/repair_structure(var/input, var/failure = 0) //Input is the amount you want repaired per call of this proc, failure is the chance the repair will go wrong
+/**
+ * Repairs the structural integrity of a ship.
+ * * Input is the amount you want repaired per call of this proc, in percent.
+ * * Failure is the chance the repair will go wrong.
+ */
+/obj/structure/overmap/proc/repair_structure(var/input, var/failure = 0)
 	var/percentile = input / 100
 
 	if(prob(failure)) //Botched repairs end up in Z-level damage
@@ -110,11 +126,19 @@
 		obj_integrity = max_integrity
 	if(structure_crit) //Check for structural crit
 		if(obj_integrity >= max_integrity * 0.2) //End structural crit if high enough
+			if(structure_crit_no_return) //Duct tape ain't gonna fix this one.
+				return
 			stop_relay(channel=CHANNEL_SHIP_FX)
 			priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
 			structure_crit = FALSE
 
-/obj/structure/overmap/proc/repair_quadrant(var/input, var/failure = 0, var/bias = 50, var/quadrant) //Input is the amount you want repaired per call of this proc, failure is the chance the repair will go wrong, bias is the favour for structure damage vs armour damage
+/**
+ * Repairs a single armor quadrant of a ship.
+ * * Input is the amount you want repaired per call of this proc, in percent.
+ * * Failure is the chance the repair will go wrong.
+ * * Bias is the probability of structure damage instead of armour damage.
+ */
+/obj/structure/overmap/proc/repair_quadrant(var/input, var/failure = 0, var/bias = 50, var/quadrant)
 	var/percentile = input / 100
 	if(use_armour_quadrants)
 		if(prob(failure))
@@ -136,7 +160,13 @@
 		if(armour_quadrants[quadrant]["current_armour"] > armour_quadrants[quadrant]["max_armour"])
 			armour_quadrants[quadrant]["current_armour"] = armour_quadrants[quadrant]["max_armour"]
 
-/obj/structure/overmap/proc/repair_all_quadrants(var/input, var/failure = 0, var/bias = 50) //Input is the amount you want repaired per call of this proc, failure is the chance the repair will go wrong, bias is the favour for structure damage vs armour damage
+/**
+ * Repairs a ship's armor quadrants.
+ * * Input is the amount you want repaired per call of this proc, in percent.
+ * * Failure is the chance the repair will go wrong.
+ * * Bias is the probability of structure damage instead of armour damage.
+ */
+/obj/structure/overmap/proc/repair_all_quadrants(var/input, var/failure = 0, var/bias = 50)
 	var/percentile = input / 100
 	if(use_armour_quadrants)
 		var/list/quadrant_list = list("forward_port", "forward_starboard", "aft_port", "aft_starboard")
