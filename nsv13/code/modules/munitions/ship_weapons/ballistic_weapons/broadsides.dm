@@ -170,11 +170,7 @@
 
 /obj/machinery/ship_weapon/broadside/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
 	. = ..()
-	if(.)
-		new /obj/effect/particle_effect/muzzleflash(loc)
-
-/obj/machinery/ship_weapon/broadside/after_fire()
-	. = ..()
+	new /obj/effect/particle_effect/muzzleflash(loc)
 	if(dir == 2)
 		var/turf/A = get_offset_target_turf(src, 0, 4)
 		var/turf/B = get_offset_target_turf(src, 1, 4)
