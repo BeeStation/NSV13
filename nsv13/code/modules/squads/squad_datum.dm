@@ -23,8 +23,7 @@
 		/datum/job/master_at_arms, /datum/job/pilot, /datum/job/munitions_tech, /datum/job/air_traffic_controller, \
 		/datum/job/head_of_security, /datum/job/warden, /datum/job/security_officer, \
 		/datum/job/chief_medical_officer, /datum/job/medical_doctor, /datum/job/paramedic, /datum/job/brig_physician, \
-		/datum/job/chief_engineer, /datum/job/station_engineer, /datum/job/atmospheric_technician, \
-		/datum/job/assistant)
+		/datum/job/chief_engineer, /datum/job/station_engineer, /datum/job/atmospheric_technician)
 	var/list/allowed_jobs = null
 	var/datum/component/simple_teamchat/radio_dependent/squad/squad_channel = null
 	var/squad_channel_type
