@@ -97,8 +97,8 @@
 	damage_states = FALSE
 	obj_integrity = 300
 	max_integrity = 300
-	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nerfed
-	missile_type = /obj/item/projectile/guided_munition/missile/nerfed
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/ai
+	missile_type = /obj/item/projectile/guided_munition/missile/ai
 	area_type = /area/ruin/powered/nsv13/gunship
 	var/bounty = 1000
 	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
@@ -453,7 +453,7 @@
 		torpedo_type = initial(torpedo_type)
 
 /obj/structure/overmap/syndicate/ai/submarine/elite/obj_break() //Unused for overmaps, so we just steal it to make damage phases :3c
-	torpedo_type = /obj/item/projectile/guided_munition/torpedo/viscerator/nerfed
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/viscerator/ai
 	torpedoes = CLAMP((torpedoes),2 , 3) //This is their secret weapon, they only have a few of these
 
 /obj/structure/overmap/syndicate/ai/kadesh	//I sure wonder what this one does....

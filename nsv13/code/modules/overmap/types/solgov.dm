@@ -62,8 +62,8 @@
 	shots_left = 10000 //Issa laser.
 	torpedoes = 10
 	missiles = 10
-	torpedo_type = /obj/item/projectile/guided_munition/torpedo/nerfed
-	missile_type = /obj/item/projectile/guided_munition/missile/nerfed
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/ai
+	missile_type = /obj/item/projectile/guided_munition/missile/ai
 
 // Solgov Kadesh? Solgov Kadesh.
 /obj/structure/overmap/nanotrasen/solgov/ai/interdictor

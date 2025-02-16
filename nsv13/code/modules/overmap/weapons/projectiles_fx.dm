@@ -421,7 +421,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	spread = 5 //Helps them not get insta-bonked when launching
 
-/obj/item/projectile/guided_munition/torpedo/nerfed //AI Ship usage
+/obj/item/projectile/guided_munition/torpedo/ai //AI Ship usage
 	icon_state = "torpedo"
 	obj_integrity = 40
 	max_integrity = 40
@@ -435,7 +435,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	obj_integrity = 240
 	max_integrity = 240
 
-/obj/item/projectile/guided_munition/torpedo/viscerator/nerfed //AI Ship usage
+/obj/item/projectile/guided_munition/torpedo/viscerator/ai //AI Ship usage
 	obj_integrity = 80
 	max_integrity = 80
 
@@ -445,7 +445,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 200
 	armour_penetration = 40
 
-/obj/item/projectile/guided_munition/torpedo/shredder/nerfed //AI Ship usage
+/obj/item/projectile/guided_munition/torpedo/shredder/ai //AI Ship usage
 	obj_integrity = 40
 	max_integrity = 40
 
@@ -455,7 +455,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	obj_integrity = 500
 	max_integrity = 500
 
-/obj/item/projectile/guided_munition/torpedo/decoy/nerfed //AI Ship usage
+/obj/item/projectile/guided_munition/torpedo/decoy/ai //AI Ship usage
 	icon_state = "torpedo"
 	obj_integrity = 120
 	max_integrity = 120
@@ -555,7 +555,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	spread = 5 //!Helps them not get insta-bonked when launching
 
-/obj/item/projectile/guided_munition/missile/nerfed //AI ship usage
+/obj/item/projectile/guided_munition/missile/ai //AI ship usage
 	obj_integrity = 40
 	max_integrity = 40
 
