@@ -489,6 +489,7 @@
 
 		for(var/i = 0, i < shots, i++)
 			state = STATE_FIRING
+			. = TRUE //waitfor = FALSE early return returns the current . value at the time of sleeping, so this makes it return the correct value for burst fire weapons.
 			do_animation()
 			overmap_fire(target)
 
@@ -506,7 +507,6 @@
 			if(semi_auto)
 				chamber(rapidfire = TRUE)
 			after_fire()
-			. = TRUE //waitfor = FALSE early return returns the current . value at the time of sleeping, so this makes it return the correct value for burst fire weapons.
 			if(shots > 1)
 				sleep(weapon_type.burst_fire_delay)
 		return TRUE

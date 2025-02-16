@@ -170,17 +170,18 @@
 
 /obj/machinery/ship_weapon/broadside/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
 	. = ..()
-	new /obj/effect/particle_effect/muzzleflash(loc)
-	if(dir == 2)
-		var/turf/A = get_offset_target_turf(src, 0, 4)
-		var/turf/B = get_offset_target_turf(src, 1, 4)
-		new /obj/effect/particle_effect/smoke(A)
-		new /obj/effect/particle_effect/smoke(B)
-	else
-		var/turf/C = get_offset_target_turf(src, 0, -1)
-		var/turf/D = get_offset_target_turf(src, 1, -1)
-		new /obj/effect/particle_effect/smoke(C)
-		new /obj/effect/particle_effect/smoke(D)
+	if(.)
+		new /obj/effect/particle_effect/muzzleflash(loc)
+		if(dir == 2)
+			var/turf/A = get_offset_target_turf(src, 0, 4)
+			var/turf/B = get_offset_target_turf(src, 1, 4)
+			new /obj/effect/particle_effect/smoke(A)
+			new /obj/effect/particle_effect/smoke(B)
+		else
+			var/turf/C = get_offset_target_turf(src, 0, -1)
+			var/turf/D = get_offset_target_turf(src, 1, -1)
+			new /obj/effect/particle_effect/smoke(C)
+			new /obj/effect/particle_effect/smoke(D)
 
 /obj/machinery/ship_weapon/broadside/local_fire(shots = weapon_type.burst_size, atom/target) //For the broadside cannons, we want to eject spent casings
 	. = ..()
