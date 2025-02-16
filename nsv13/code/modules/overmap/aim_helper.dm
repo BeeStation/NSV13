@@ -18,6 +18,11 @@
 		aiming_params = params
 		if(target_lock)
 			lastangle = get_angle(src, get_turf(over_object))
+		else if (fire_mode == FIRE_MODE_BROADSIDE)
+			if((overmap_angle(src, over_location) - angle) <= 180)
+				lastangle = (src.angle + 90)
+			else
+				lastangle = (src.angle + 270)
 		else
 			lastangle = getMouseAngle(params, M)
 		draw_beam()
@@ -43,6 +48,14 @@
 		else
 			lastangle = getMouseAngle(params, M)
 		start_aiming(params, M)
+	else if(fire_mode == FIRE_MODE_BROADSIDE) //If the weapon fires from the sides, we want the aiming laser to lock to the sides
+		aiming_target = object
+		aiming_params = params
+		if((overmap_angle(src, location) - angle) <= 180)
+			lastangle = (src.angle + 90)
+		else
+			lastangle = (src.angle + 270)
+		start_aiming(params, M)
 	else
 		autofire_target = object
 
@@ -58,8 +71,13 @@
 	autofire_target = null
 	lastangle = get_angle(src, get_turf(object))
 	stop_aiming()
-	if(fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER || fire_mode == FIRE_MODE_HYBRID_RAIL)
+	if(fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER || fire_mode == FIRE_MODE_HYBRID_RAIL || FIRE_MODE_BROADSIDE)
 		fire_weapon(object)
+	if(fire_mode == FIRE_MODE_BROADSIDE)
+		if((overmap_angle(src, location) - angle) <= 180)
+			lastangle = (src.angle + 90)
+		else
+			lastangle = (src.angle + 270)
 	QDEL_LIST(current_tracers)
 
 /obj/structure/overmap

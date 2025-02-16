@@ -69,7 +69,7 @@
 /datum/ship_weapon/broadside
 	name = "SNBC"
 	burst_size = 5
-	fire_delay = 5 SECONDS
+	fire_delay = 0.5 SECONDS
 	range_modifier = 10
 	default_projectile_type = /obj/item/projectile/bullet/broadside
 	select_alert = "<span class='notice'>Locking Broadside Cannons...</span>"
@@ -144,16 +144,15 @@
 		if(do_after(user, 5 SECONDS, target = src))
 			stovepipe = FALSE
 			to_chat(user, "<span class='notice'>You free the jammed shell, the [src] is safe to use again!</span>")
+			cut_overlay("[dir]_broadside_stovepipe")
 			if(dir == 2)
 				var/obj/R = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, NORTH, 4)) //Right
 				var/turf/S = get_offset_target_turf(src, rand(5)-rand(5), 5+rand(5)) //Starboard
 				R.throw_at(S, 12, 20)
-				cut_overlay("south_broadside_stovepipe")
 			else
 				var/obj/L = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, SOUTH, 1)) //Left
 				var/turf/P = get_offset_target_turf(src, rand(5)-rand(5), 0-rand(5)) //Port
 				L.throw_at(P, 12, 20)
-				cut_overlay("north_broadside_stovepipe")
 			return TRUE
 	return default_deconstruction_crowbar(user, tool)
 
@@ -173,19 +172,23 @@
 	. = ..()
 	if(.)
 		new /obj/effect/particle_effect/muzzleflash(loc)
-		if(dir == 2)
-			var/turf/A = get_offset_target_turf(src, 0, 4)
-			var/turf/B = get_offset_target_turf(src, 1, 4)
-			new /obj/effect/particle_effect/smoke(A)
-			new /obj/effect/particle_effect/smoke(B)
-		else
-			var/turf/C = get_offset_target_turf(src, 0, -1)
-			var/turf/D = get_offset_target_turf(src, 1, -1)
-			new /obj/effect/particle_effect/smoke(C)
-			new /obj/effect/particle_effect/smoke(D)
+
+/obj/machinery/ship_weapon/broadside/after_fire()
+	. = ..()
+	if(dir == 2)
+		var/turf/A = get_offset_target_turf(src, 0, 4)
+		var/turf/B = get_offset_target_turf(src, 1, 4)
+		new /obj/effect/particle_effect/smoke(A)
+		new /obj/effect/particle_effect/smoke(B)
+	else
+		var/turf/C = get_offset_target_turf(src, 0, -1)
+		var/turf/D = get_offset_target_turf(src, 1, -1)
+		new /obj/effect/particle_effect/smoke(C)
+		new /obj/effect/particle_effect/smoke(D)
 
 /obj/machinery/ship_weapon/broadside/local_fire(shots = weapon_type.burst_size, atom/target) //For the broadside cannons, we want to eject spent casings
 	. = ..()
+	cut_overlay(list("[dir]_chambered_1", "[dir]_chambered_2", "[dir]_chambered_3", "[dir]_chambered_4", "[dir]_chambered_5"))
 	if(dir == 2)
 		var/obj/R = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, NORTH, 4)) //Right
 		var/turf/S = get_offset_target_turf(src, rand(5)-rand(5), 5+rand(5)) //Starboard
@@ -204,7 +207,6 @@
 				M.Stun(5)
 				M.Knockdown(50)
 				to_chat(M, "<span class='userdanger'>The burning backblast sends you to the floor!</span>")
-		cut_overlay(list("south_chambered_1","south_chambered_2","south_chambered_3","south_chambered_4","south_chambered_5"))
 	else
 		var/obj/L = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, SOUTH, 1)) //Left
 		var/turf/P = get_offset_target_turf(src, rand(5)-rand(5), 0-rand(5)) //Port
@@ -223,8 +225,6 @@
 				M.Knockdown(50)
 				to_chat(M, "<span class='userdanger'>The burning backblast sends you to the floor!</span>")
 		L.throw_at(P, 12, 20)
-		cut_overlay(list("north_chambered_1","north_chambered_2","north_chambered_3","north_chambered_4","north_chambered_5"))
-
 	soot = min(soot + rand(1,5), 100)
 	if(stovepipe)
 		if(dir == 1)
@@ -234,43 +234,22 @@
 			explosion(E, 0, 0, 5, 3, FALSE, FALSE, 0, FALSE, TRUE)
 	switch(soot) //Manages the overlays for how dirty the gun is, feels like there's a better way to do this...
 		if(0)
-			if(dir == 1)
-				cut_overlay(list("north_broadside_soot_1", "north_broadside_soot_2", "north_broadside_soot_3", "north_broadside_soot_4", "north_broadside_soot_5"))
-			else
-				cut_overlay(list("south_broadside_soot_1", "south_broadside_soot_2", "south_broadside_soot_3", "south_broadside_soot_4", "south_broadside_soot_5"))
+			cut_overlay(list("[dir]_broadside_soot_1", "[dir]_broadside_soot_2", "[dir]_broadside_soot_3", "[dir]_broadside_soot_4", "[dir]_broadside_soot_5"))
 		if(1 to 20)
-			if(dir == 1)
-				add_overlay("north_broadside_soot_1")
-			else
-				add_overlay("south_broadside_soot_1")
+			add_overlay("[dir]_broadside_soot_1")
 		if(21 to 40)
-			if(dir == 1)
-				cut_overlay("north_broadside_soot_1")
-				add_overlay("north_broadside_soot_2")
-			else
-				cut_overlay("south_broadside_soot_1")
-				add_overlay("south_broadside_soot_2")
+			cut_overlay("[dir]_broadside_soot_1")
+			add_overlay("[dir]_broadside_soot_2")
 		if(41 to 60)
-			if(dir == 1)
-				cut_overlay("north_broadside_soot_2")
-				add_overlay("north_broadside_soot_3")
-			else
-				cut_overlay("south_broadside_soot_2")
-				add_overlay("south_broadside_soot_3")
+			cut_overlay("[dir]_broadside_soot_2")
+			add_overlay("[dir]_broadside_soot_3")
 		if(61 to 80)
-			if(dir == 1)
-				cut_overlay("north_broadside_soot_3")
-				add_overlay("north_broadside_soot_4")
-			else
-				cut_overlay("south_broadside_soot_3")
-				add_overlay("south_broadside_soot_4")
+			cut_overlay("[dir]_broadside_soot_3")
+			add_overlay("[dir]_broadside_soot_4")
 		if(81 to 100)
-			if(dir == 1)
-				cut_overlay("north_broadside_soot_4")
-				add_overlay("north_broadside_soot_5")
-			else
-				cut_overlay("south_broadside_soot_4")
-				add_overlay("south_broadside_soot_5")
+			cut_overlay("[dir]_broadside_soot_4")
+			add_overlay("[dir]_broadside_soot_5")
+
 
 /obj/effect/particle_effect/muzzleflash //Flash Effect when the weapon fires
 	name = "muzzleflash"
@@ -296,17 +275,13 @@
 	if(stovepipe)
 		to_chat(user, "<span class='warning'>The [src] is completely locked up, you have to <i>pry</i> out the stovepiped shell!</span>")
 		return FALSE
-	if(ismoth(A) || istype(A, /mob/living/simple_animal/mothroach))
+	if(ismoth(A) || istype(A, /mob/living/simple_animal/mothroach && A != user))
 		mothclean(A, user)
 		return TRUE
 	if(prob(soot)) //likelihood of stovepipe is a lot higher if you crateload the gun
 		stovepipe = TRUE
-		if(dir == 2)
-			add_overlay("south_broadside_stovepipe")
-			flick("[initial(icon_state)]_chambering",src)
-		else
-			add_overlay("north_broadside_stovepipe")
-			flick("[initial(icon_state)]_chambering",src)
+		add_overlay("[dir]_broadside_stovepipe")
+		flick("[initial(icon_state)]_chambering",src)
 		playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE)
 		to_chat(user, "<span class='warning'>The [src] groans horrendously, a shell has stovepiped!</span>")
 		return FALSE
@@ -332,12 +307,8 @@
 			if(load_sound)
 				playsound(src, load_sound, 100, 1)
 			flick("[initial(icon_state)]_chambering",src)
-			if(dir == 1)
-				cut_overlay("north_chambered_[get_ammo()]")
-				add_overlay("north_chambered_[get_ammo()]")
-			if(dir == 2)
-				cut_overlay("south_chambered_[get_ammo()]")
-				add_overlay("south_chambered_[get_ammo()]")
+			cut_overlay("[dir]_chambered_[get_ammo()]")
+			add_overlay("[dir]_chambered_[get_ammo()]")
 			state = STATE_CHAMBERED
 			update()
 
@@ -376,12 +347,8 @@
 
 /obj/machinery/ship_weapon/broadside/chamber(rapidfire = FALSE)
 	. = ..()
-	if(dir == 1)
-		cut_overlay("north_chambered_[get_ammo()]")
-		add_overlay("north_chambered_[get_ammo()]")
-	if(dir == 2)
-		cut_overlay("south_chambered_[get_ammo()]")
-		add_overlay("south_chambered_[get_ammo()]")
+	cut_overlay("[dir]_chambered_[get_ammo()]")
+	add_overlay("[dir]_chambered_[get_ammo()]")
 	update()
 
 /obj/machinery/ship_weapon/broadside/load(obj/A, mob/user)
@@ -390,12 +357,8 @@
 		return
 	if(prob(soot / 10)) //Divides soot by 10 so maximum chance to stovepipe is 10%
 		stovepipe = TRUE //find way to send message to TAC that the cannons are stovepiped
-		if(dir == 2)
-			add_overlay("south_broadside_stovepipe")
-			flick("[initial(icon_state)]_chambering",src)
-		else
-			add_overlay("north_broadside_stovepipe")
-			flick("[initial(icon_state)]_chambering",src)
+		add_overlay("[dir]_broadside_stovepipe")
+		flick("[initial(icon_state)]_chambering",src)
 		playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE)
 		visible_message("<span class='warning'>The [src] groans horrendously, a shell has stovepiped!</span>")
 		qdel(A)
