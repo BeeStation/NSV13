@@ -25,9 +25,11 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/hallway/nsv/deck1/hallway)
 "ag" = (
-/obj/machinery/portable_atmospherics/scrubber,
-/turf/open/floor/engine,
-/area/engine/atmos)
+/obj/machinery/computer/ams{
+	dir = 8
+	},
+/turf/open/floor/plasteel/dark,
+/area/nsv/hanger/notkmcstupidhanger/pilot)
 "ah" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
@@ -80,7 +82,9 @@
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "aq" = (
-/obj/structure/disposalpipe/segment,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "ar" = (
@@ -127,8 +131,7 @@
 /area/nsv/weapons)
 "aI" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 9;
-	icon_state = "pipe11-1"
+	dir = 9
 	},
 /turf/open/floor/engine,
 /area/nsv/engine/engine_room/core)
@@ -197,18 +200,20 @@
 /turf/open/floor/plasteel/dark,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "be" = (
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/machinery/requests_console{
+	department = "Atmospherics";
+	name = "Atmospherics RC";
+	pixel_y = -30
 	},
-/obj/effect/landmark/start/munitions_tech,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 10
+/obj/machinery/computer/atmos_control/tank/air_tank{
+	dir = 1;
+	input_tag = "air_in_alt";
+	output_tag = "air_out_alt";
+	sensors = list("air_sensor_alt"="Air Mix Tank")
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 10
-	},
-/turf/open/floor/plasteel/dark,
-/area/nsv/weapons)
+/obj/machinery/atmospherics/pipe/layer_manifold/visible,
+/turf/open/floor/engine,
+/area/engine/atmos)
 "bh" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 1
@@ -229,13 +234,6 @@
 	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
-"bt" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/effect/turf_decal/stripes/red/line,
-/turf/open/floor/engine,
-/area/nsv/weapons)
 "bu" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
@@ -380,10 +378,22 @@
 /turf/open/floor/plasteel/dark,
 /area/quartermaster/miningoffice)
 "cb" = (
-/obj/item/radio/intercom/directional/west,
-/obj/machinery/portable_atmospherics/pump,
-/turf/open/floor/engine,
-/area/engine/atmos)
+/obj/structure/disposalpipe/segment,
+/obj/effect/landmark/start/pilot,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/structure/cable{
+	icon_state = "1-16"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 10
+	},
+/turf/open/floor/plasteel/dark,
+/area/nsv/weapons)
 "cf" = (
 /turf/open/floor/plasteel/dark,
 /area/quartermaster/miningoffice)
@@ -468,6 +478,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 10
 	},
+/obj/structure/closet/secure_closet/atmospherics{
+	anchored = 1
+	},
+/obj/item/holosign_creator/atmos,
 /turf/open/floor/engine,
 /area/engine/atmos)
 "cy" = (
@@ -578,11 +592,8 @@
 /turf/open/floor/monotile/light,
 /area/quartermaster)
 "cR" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
 /turf/open/floor/plasteel/dark,
-/area/nsv/weapons)
+/area/space)
 "cS" = (
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
@@ -752,7 +763,7 @@
 /area/quartermaster/meeting_room)
 "dT" = (
 /obj/structure/cable{
-	icon_state = "2-8"
+	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/multiz/layer2,
 /obj/machinery/atmospherics/pipe/multiz/layer4,
@@ -834,14 +845,8 @@
 /turf/open/floor/monotile/steel,
 /area/engine/storage_shared)
 "eo" = (
-/obj/machinery/button/door{
-	id = "muni_public";
-	name = "Gauss Public Access";
-	req_one_access_txt = "69";
-	pixel_y = 25
-	},
-/turf/open/floor/plasteel/dark,
-/area/nsv/weapons)
+/turf/closed/wall/r_wall/ship,
+/area/space/nearstation)
 "ep" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -853,9 +858,7 @@
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
+/obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
 /obj/machinery/atmospherics/components/binary/pump{
 	on = 1;
@@ -881,6 +884,9 @@
 	dir = 5
 	},
 /obj/effect/landmark/start/atmospheric_technician,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 6
+	},
 /turf/open/floor/engine,
 /area/engine/atmos)
 "eu" = (
@@ -935,15 +941,14 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/crew_quarters/heads/chief)
 "eD" = (
-/obj/item/toy/plush/moth/random{
-	layer = 2.4
+/obj/machinery/power/apc/auto_name/south,
+/obj/machinery/computer/atmos_control/tank/nitrogen_tank{
+	dir = 1;
+	input_tag = "n2_in_alt";
+	output_tag = "n2_out_alt";
+	sensors = list("n2_sensor_alt"="Nitrogen Tank")
 	},
-/turf/open/floor/engine,
-/area/comms)
-"eE" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 9
-	},
+/obj/machinery/atmospherics/pipe/layer_manifold/visible,
 /turf/open/floor/engine,
 /area/engine/atmos)
 "eI" = (
@@ -1061,9 +1066,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4{
 	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 6
 	},
 /obj/machinery/atmospherics/pipe/simple/yellow/visible/layer2,
 /turf/open/floor/engine,
@@ -1248,7 +1250,6 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
 "fQ" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/yellow/visible/layer2{
 	dir = 9
 	},
@@ -1523,6 +1524,11 @@
 	},
 /obj/item/radio/intercom/directional/north,
 /obj/item/construction/rcd/loaded,
+/obj/item/storage/part_replacer/bluespace,
+/obj/item/paper{
+	default_raw_text = <p>HEY. STOP GIVING THE BSRPED TO SCIENCE. Maybe consider for a few seconds that its in Engineering for a reason.</p>;
+	name = "READ ME."
+	},
 /turf/open/floor/monotile/steel,
 /area/engine/engineering)
 "gI" = (
@@ -2018,11 +2024,12 @@
 /turf/closed/wall/r_wall/ship,
 /area/quartermaster/miningoffice)
 "iK" = (
-/obj/machinery/computer/ams{
-	dir = 8
+/obj/item/paper{
+	default_raw_text = "<p>NOTE: This ship is outfitted with a Tesla reactor. Take extra care to wrench everything down and weld what needs welding. If you want to upgrade the Tesla Coils, be sure to use the BSRPED in Engineering Storage to upgrade them safely, as according to SOSHA.</p>";
+	name = "READ ME."
 	},
-/turf/open/floor/plasteel/dark,
-/area/nsv/weapons)
+/turf/closed/wall/ship,
+/area/engine/armour_pump)
 "iR" = (
 /obj/structure/disposalpipe/segment{
 	dir = 9
@@ -2174,11 +2181,11 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 10
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
@@ -2198,7 +2205,7 @@
 	req_one_access_txt = "24;10"
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
+	dir = 8
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -2292,19 +2299,12 @@
 /turf/open/floor/monotile/steel,
 /area/engine/engineering)
 "kj" = (
-/obj/structure/disposalpipe/segment,
-/obj/effect/landmark/start/pilot,
-/obj/structure/cable{
-	icon_state = "2-8"
+/obj/machinery/atmospherics/components/unary/outlet_injector/on/layer4{
+	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 10
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 10
-	},
-/turf/open/floor/plasteel/dark,
-/area/nsv/weapons)
+/obj/structure/lattice/catwalk,
+/turf/open/floor/engine/air,
+/area/engine/atmos)
 "km" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
@@ -2329,6 +2329,13 @@
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 9
 	},
+/turf/open/floor/engine,
+/area/nsv/weapons)
+"ku" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/turf_decal/stripes/red/line,
 /turf/open/floor/engine,
 /area/nsv/weapons)
 "kw" = (
@@ -2395,15 +2402,14 @@
 /turf/open/floor/carpet/orange,
 /area/nsv/crew_quarters/heads/maa)
 "kS" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 9;
-	icon_state = "pipe11-1"
-	},
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 9
 	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons/gauss/battery/deck2)
@@ -2831,9 +2837,6 @@
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
 /turf/open/floor/engine,
 /area/engine/atmos)
 "ne" = (
@@ -2941,16 +2944,16 @@
 	},
 /obj/structure/rack,
 /obj/item/inducer{
-	pixel_y = -5
+	pixel_y = 6
 	},
 /obj/item/inducer{
-	pixel_y = 4
-	},
-/obj/item/inducer{
-	pixel_y = 1
+	pixel_y = 2
 	},
 /obj/item/inducer{
 	pixel_y = -2
+	},
+/obj/item/inducer{
+	pixel_y = -6
 	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
@@ -3226,16 +3229,6 @@
 /obj/item/beacon,
 /turf/open/floor/mineral/titanium/yellow,
 /area/hallway/nsv/deck1/hallway)
-"pa" = (
-/obj/structure/table/reinforced,
-/obj/item/ship_weapon/parts/missile/iff_card,
-/obj/item/ship_weapon/parts/missile/iff_card,
-/obj/machinery/computer/ship/viewscreen{
-	pixel_x = 32;
-	pixel_y = -6
-	},
-/turf/open/floor/plasteel/dark,
-/area/nsv/weapons)
 "pd" = (
 /obj/machinery/missile_builder/assembler{
 	dir = 1
@@ -3403,15 +3396,14 @@
 /turf/open/floor/engine,
 /area/engine/atmos)
 "pS" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
+/obj/machinery/button/door{
+	id = "muni_public";
+	name = "Gauss Public Access";
+	req_one_access_txt = "69";
+	pixel_y = 25
 	},
-/obj/structure/closet/secure_closet/atmospherics{
-	anchored = 1
-	},
-/obj/item/holosign_creator/atmos,
-/turf/open/floor/engine,
-/area/engine/atmos)
+/turf/open/floor/plasteel/dark,
+/area/nsv/weapons)
 "pT" = (
 /obj/machinery/conveyor_switch{
 	id = "serendipity_torp";
@@ -3921,10 +3913,10 @@
 /turf/open/floor/carpet/orange,
 /area/nsv/crew_quarters/heads/maa)
 "sd" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
+/obj/structure/cable,
+/obj/structure/cable,
 /obj/machinery/atmospherics/pipe/simple/cyan/visible/layer2,
+/obj/machinery/atmospherics/pipe/simple/cyan/visible,
 /turf/open/floor/engine,
 /area/engine/atmos)
 "sf" = (
@@ -3952,12 +3944,6 @@
 	},
 /turf/open/floor/plasteel/white,
 /area/quartermaster/meeting_room)
-"sj" = (
-/obj/structure/table/reinforced,
-/obj/item/ship_weapon/parts/missile/propulsion_system,
-/obj/item/ship_weapon/parts/missile/propulsion_system,
-/turf/open/floor/plasteel/dark,
-/area/nsv/weapons)
 "sm" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -4350,13 +4336,6 @@
 /obj/structure/plasticflaps,
 /turf/open/floor/plasteel/dark,
 /area/quartermaster/miningoffice)
-"ua" = (
-/obj/machinery/camera/autoname{
-	dir = 4
-	},
-/obj/machinery/suit_storage_unit/dominion_unit/atmo,
-/turf/open/floor/engine,
-/area/engine/atmos)
 "ui" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -4414,6 +4393,9 @@
 /turf/open/floor/mineral/titanium/yellow,
 /area/hallway/nsv/deck1/hallway)
 "uy" = (
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
 /obj/machinery/atmospherics/components/trinary/filter/atmos/n2{
 	dir = 1;
 	piping_layer = 4
@@ -4862,9 +4844,6 @@
 /obj/machinery/firealarm/directional/east,
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
 /obj/machinery/atmospherics/pipe/simple/cyan,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer4{
-	dir = 9
-	},
 /turf/open/floor/engine,
 /area/engine/atmos)
 "ww" = (
@@ -5128,13 +5107,6 @@
 /obj/structure/sign/warning/nosmoking/circle{
 	pixel_y = 30
 	},
-/obj/item/storage/part_replacer/bluespace,
-/obj/item/paper{
-	default_raw_text = "<p>HEY. STOP GIVING THE BSRPED TO SCIENCE. Maybe consider for a few seconds that its in Engineering for a reason.</p>" ";
-	name = "READ ME.";
-	pixel_x = 6;
-	pixel_y = 8
-	},
 /turf/open/floor/monotile/steel,
 /area/engine/engineering)
 "xU" = (
@@ -5251,6 +5223,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4,
 /obj/machinery/atmospherics/pipe/simple/yellow/visible/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
 /turf/open/floor/engine,
 /area/engine/atmos)
 "yA" = (
@@ -5561,10 +5536,8 @@
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer4{
-	dir = 5
-	},
 /obj/machinery/atmospherics/pipe/simple/cyan/visible,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
 /turf/open/floor/engine,
 /area/engine/atmos)
 "zX" = (
@@ -6084,19 +6057,15 @@
 /turf/closed/wall/ship,
 /area/quartermaster/miningoffice)
 "CP" = (
-/obj/machinery/firealarm/directional/south,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
+/obj/structure/table/reinforced,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/item/ship_weapon/parts/missile/iff_card,
+/obj/machinery/computer/ship/viewscreen{
+	pixel_x = 32;
+	pixel_y = -6
 	},
-/obj/machinery/computer/atmos_control/tank/oxygen_tank{
-	dir = 1;
-	input_tag = "o2_in_alt";
-	output_tag = "o2_out_alt";
-	sensors = list("o2_sensor_alt"="Oxygen Tank")
-	},
-/obj/structure/cable,
-/turf/open/floor/engine,
-/area/engine/atmos)
+/turf/open/floor/plasteel/dark,
+/area/nsv/hanger/notkmcstupidhanger/pilot)
 "CQ" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -6408,6 +6377,7 @@
 /obj/machinery/atmospherics/pipe/simple/yellow/visible/layer4{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/engine,
 /area/engine/atmos)
 "El" = (
@@ -6603,12 +6573,6 @@
 /area/engine/engine_room)
 "Fp" = (
 /obj/item/radio/intercom/directional/south,
-/obj/structure/cable{
-	icon_state = "1-16"
-	},
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 5
 	},
@@ -6869,7 +6833,8 @@
 	sortType = "4;5;6"
 	},
 /obj/structure/cable{
-	icon_state = "2-8"
+	icon_state = "2-8";
+	tag = ""
 	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
@@ -7670,6 +7635,7 @@
 	dir = 1;
 	piping_layer = 4
 	},
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/engine,
 /area/engine/atmos)
 "Kg" = (
@@ -7757,15 +7723,6 @@
 /turf/open/floor/plasteel/white,
 /area/engine/break_room)
 "Kz" = (
-/obj/machinery/power/apc/auto_name/south,
-/obj/machinery/computer/atmos_control/tank/nitrogen_tank{
-	dir = 1;
-	input_tag = "n2_in_alt";
-	output_tag = "n2_out_alt";
-	sensors = list("n2_sensor_alt"="Nitrogen Tank")
-	},
-/obj/machinery/atmospherics/pipe/layer_manifold/visible,
-/obj/structure/cable,
 /turf/open/floor/engine,
 /area/engine/atmos)
 "KA" = (
@@ -7784,9 +7741,18 @@
 /turf/open/floor/monotile/steel,
 /area/comms)
 "KF" = (
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
-/area/space)
+/obj/machinery/firealarm/directional/south,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 9
+	},
+/obj/machinery/computer/atmos_control/tank/oxygen_tank{
+	dir = 1;
+	input_tag = "o2_in_alt";
+	output_tag = "o2_out_alt";
+	sensors = list("o2_sensor_alt"="Oxygen Tank")
+	},
+/turf/open/floor/engine,
+/area/engine/atmos)
 "KG" = (
 /obj/structure/lattice/catwalk,
 /obj/effect/spawner/structure/window/plasma/reinforced,
@@ -9385,10 +9351,6 @@
 /obj/machinery/light/floor,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
-"Ro" = (
-/obj/structure/grille,
-/turf/open/floor/plating,
-/area/space)
 "Rp" = (
 /obj/structure/sign/poster/official/moth4{
 	pixel_y = -32
@@ -9416,8 +9378,8 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/visible/layer2{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer4{
+	dir = 9
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -9566,12 +9528,6 @@
 	dir = 8;
 	id = "serendipity_torp"
 	},
-/turf/open/floor/plasteel/dark,
-/area/nsv/weapons)
-"RV" = (
-/obj/structure/table/reinforced,
-/obj/item/ship_weapon/parts/missile/guidance_system,
-/obj/item/ship_weapon/parts/missile/guidance_system,
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "RW" = (
@@ -9940,12 +9896,11 @@
 /turf/open/floor/engine,
 /area/nsv/weapons)
 "Tu" = (
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
+/obj/structure/cable,
 /obj/machinery/atmospherics/pipe/layer_manifold/visible{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/engine,
 /area/engine/atmos)
 "Ty" = (
@@ -10074,9 +10029,9 @@
 	dir = 6
 	},
 /obj/machinery/atmospherics/components/unary/outlet_injector/layer4{
+	dir = 8;
 	id = "n2_in_alt";
-	name = "nitrogen tank input injector";
-	dir = 8
+	name = "nitrogen tank input injector"
 	},
 /turf/open/floor/engine/n2,
 /area/engine/atmos)
@@ -10343,21 +10298,12 @@
 /turf/open/floor/plasteel/white,
 /area/quartermaster/meeting_room)
 "Vl" = (
-/obj/machinery/requests_console{
-	department = "Atmospherics";
-	name = "Atmospherics RC";
-	pixel_y = -30
+/obj/structure/disposalpipe/segment,
+/obj/structure/cable{
+	icon_state = "2-8"
 	},
-/obj/machinery/computer/atmos_control/tank/air_tank{
-	dir = 1;
-	input_tag = "air_in_alt";
-	output_tag = "air_out_alt";
-	sensors = list("air_sensor_alt"="Air Mix Tank")
-	},
-/obj/machinery/atmospherics/pipe/layer_manifold/visible,
-/obj/structure/cable,
-/turf/open/floor/engine,
-/area/engine/atmos)
+/turf/open/floor/plasteel/dark,
+/area/nsv/weapons)
 "Vm" = (
 /obj/effect/turf_decal/stripes/red/line,
 /turf/open/floor/engine,
@@ -10543,7 +10489,7 @@
 	icon_state = "0-4"
 	},
 /obj/item/paper{
-	default_raw_text = "<p>NOTE: This ship is outfitted with a Tesla reactor. Take extra care to wrench everything down and weld what needs welding. If you want to upgrade the Tesla Coils, be sure to use the BSRPED in Engineering Storage to upgrade safely.</p>" ";
+	default_raw_text = "<p>NOTE: This ship is outfitted with a Tesla reactor. Take extra care to wrench everything down and weld what needs welding. If you want to upgrade the Tesla Coils, be sure to use the BSRPED in Engineering Storage to upgrade them safely, as according to SOSHA.</p>";
 	name = "READ ME."
 	},
 /turf/open/floor/engine,
@@ -10691,12 +10637,11 @@
 /turf/open/floor/plasteel/tiled/light,
 /area/quartermaster/warehouse)
 "WW" = (
-/obj/machinery/atmospherics/components/unary/outlet_injector/on/layer4{
-	dir = 4
-	},
-/obj/structure/lattice/catwalk,
-/turf/open/floor/engine/air,
-/area/space/nearstation)
+/obj/structure/table/reinforced,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/obj/item/ship_weapon/parts/missile/propulsion_system,
+/turf/open/floor/plasteel/dark,
+/area/nsv/hanger/notkmcstupidhanger/pilot)
 "Xa" = (
 /obj/machinery/suit_storage_unit/ce,
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -10739,9 +10684,11 @@
 /turf/open/floor/plasteel/dark,
 /area/engine/engine_room)
 "Xn" = (
-/obj/structure/falsewall/durasteel,
-/turf/open/space/basic,
-/area/nsv/weapons/gauss/battery/deck2)
+/obj/structure/table/reinforced,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/obj/item/ship_weapon/parts/missile/guidance_system,
+/turf/open/floor/plasteel/dark,
+/area/nsv/hanger/notkmcstupidhanger/pilot)
 "Xo" = (
 /obj/machinery/status_display/evac/east,
 /obj/machinery/light/floor,
@@ -11058,6 +11005,7 @@
 /turf/open/floor/engine,
 /area/engine/engine_room)
 "YY" = (
+/obj/effect/landmark/start/munitions_tech,
 /obj/structure/cable{
 	icon_state = "1-8"
 	},
@@ -37379,9 +37327,9 @@ Aq
 wC
 Aq
 Aq
-WW
 dD
-dD
+Sg
+Sg
 dD
 Sg
 Sg
@@ -37636,11 +37584,11 @@ pW
 lc
 qB
 NE
-dq
-OR
-OR
-OR
-OR
+kj
+dD
+dD
+dD
+Sg
 Sg
 Sg
 pC
@@ -37893,11 +37841,11 @@ gU
 Mj
 Hx
 Aq
-pS
-ua
-cb
-ag
+dq
 OR
+OR
+OR
+eo
 Sg
 Sg
 pC
@@ -38154,7 +38102,7 @@ cw
 uy
 Kf
 pR
-OR
+eo
 Sg
 Sg
 uY
@@ -38410,8 +38358,8 @@ QC
 et
 Eh
 Tu
-CP
-OR
+KF
+eo
 Sg
 Sg
 pC
@@ -38667,8 +38615,8 @@ sN
 yx
 fc
 fQ
-eE
-OR
+Kz
+eo
 Sg
 Sg
 pv
@@ -38924,8 +38872,8 @@ Ku
 zV
 na
 sd
-Kz
-OR
+eD
+eo
 Sg
 Sg
 eN
@@ -39181,8 +39129,8 @@ Vr
 Rq
 wv
 eq
-Vl
-OR
+be
+eo
 Sg
 Sg
 eN
@@ -39439,7 +39387,7 @@ OR
 OR
 OR
 OR
-OR
+eo
 Sg
 Sg
 eN
@@ -47677,7 +47625,7 @@ rX
 FG
 RM
 qj
-Nh
+qj
 HS
 Vm
 ad
@@ -47934,7 +47882,7 @@ rX
 mg
 KO
 RM
-qj
+Nh
 Ts
 kt
 xB
@@ -48192,7 +48140,7 @@ zv
 mg
 KO
 RM
-bt
+ku
 MB
 MI
 dD
@@ -48450,7 +48398,7 @@ ZS
 mg
 cO
 ul
-MI
+Nf
 MI
 dD
 Ks
@@ -48688,7 +48636,7 @@ MZ
 GH
 gV
 yE
-eD
+gV
 gV
 EW
 lw
@@ -48708,12 +48656,12 @@ vn
 zi
 NJ
 MI
+MI
 dD
-dD
 Ks
 Ks
 Ks
-Ks
+cR
 Ks
 Ks
 Ks
@@ -48939,7 +48887,7 @@ DH
 zk
 zk
 zk
-zk
+iK
 tN
 MZ
 xg
@@ -48960,11 +48908,11 @@ TX
 cy
 rX
 xW
-sj
-iK
-pa
-RV
-MI
+WW
+ag
+CP
+Xn
+Bl
 dD
 dD
 Ks
@@ -49215,7 +49163,7 @@ mR
 nj
 TX
 ox
-jC
+rX
 ZF
 ND
 ND
@@ -49472,7 +49420,7 @@ Tr
 nj
 gT
 Hf
-be
+jC
 Cy
 aX
 te
@@ -49985,7 +49933,7 @@ Oq
 KA
 Zq
 pT
-cR
+aq
 dT
 Fp
 ND
@@ -50240,18 +50188,18 @@ Sg
 zG
 zG
 zG
-Xn
-eo
+As
+pS
 nF
-aq
-kj
+Vl
+cb
 sZ
 Zp
 Pz
 rY
 Bl
 dD
-Ro
+zg
 Ks
 Ks
 Ks
@@ -50497,8 +50445,8 @@ Sg
 Sg
 Sg
 zG
-As
-Bm
+zG
+MI
 Bm
 Bm
 Ua
@@ -50754,17 +50702,17 @@ Sg
 Sg
 Sg
 Sg
-Xn
+dD
 MI
 gd
 gd
 gd
 Bl
 dD
-KF
-KF
-KF
-KF
+dD
+dD
+dD
+dD
 Ks
 Ks
 Ks
@@ -51268,13 +51216,13 @@ Ks
 Ks
 Ks
 Ks
-KF
-Ro
-Ro
-Ro
-Ro
-Ro
-Ro
+Ks
+zg
+zg
+zg
+zg
+zg
+zg
 Ks
 Ks
 Ks
