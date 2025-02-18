@@ -6,7 +6,7 @@
 	starting_system = "Argo"
 	starting_faction = "nanotrasen"
 
-	objective_reminder_setting = 0
+	objective_reminder_setting = MODE_REMINDER_OBJECTIVES
 	reminder_one = "This is Centcomm to all vessels assigned to patrol the Rosetta Cluster, please continue on your shakedown."
 	reminder_two = "This is Centcomm to all vessels assigned to patrol the Rosetta Cluster, we are not paying you to idle in space during your assignment."
 	reminder_three = "This is Centcomm to all vessels assigned to patrol the Rosetta Cluster, your inactivity has been noted and will not be tolerated."
@@ -18,7 +18,6 @@
 	max_players = 10
 	random_objective_amount = 3
 
-/datum/overmap_gamemode/shakedown/New()
 	random_objectives = list(
 		/datum/overmap_objective/perform_jumps,
 		/datum/overmap_objective/destroy_fleets,
