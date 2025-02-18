@@ -1402,14 +1402,16 @@
 /turf/open/floor/plating,
 /area/nsv/briefingroom)
 "dU" = (
-/obj/machinery/door/airlock/ship/external{
-	name = "Mining Shuttle Airlock";
-	req_one_access_txt = "31;48"
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 8
 	},
-/turf/open/floor/monotile/dark/airless,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/miningdock)
 "dV" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
@@ -5876,17 +5878,9 @@
 /turf/open/floor/monotile/steel,
 /area/quartermaster/miningdock)
 "oS" = (
-/obj/structure/disposalpipe/segment{
-	dir = 6
-	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral/tile_full,
-/turf/open/floor/monotile/dark,
+/obj/effect/spawner/structure/window/reinforced/ship,
+/obj/machinery/atmospherics/pipe/layer_manifold,
+/turf/open/floor/plating,
 /area/quartermaster/miningdock)
 "oW" = (
 /obj/machinery/suit_storage_unit/mining/eva,
@@ -5941,20 +5935,11 @@
 /turf/open/floor/engine/airless,
 /area/space/nearstation)
 "pJ" = (
-/obj/structure/chair/office{
+/obj/machinery/status_display/ai/east,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 8
 	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
-/turf/open/floor/monotile/dark,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/miningdock)
 "pU" = (
 /obj/machinery/door/airlock/ship/hatch{
@@ -5981,11 +5966,16 @@
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
 "qe" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 1
 	},
 /turf/open/floor/monotile/dark,
 /area/quartermaster/miningdock)
@@ -6111,10 +6101,12 @@
 /turf/open/floor/monotile/steel,
 /area/quartermaster/miningdock)
 "rt" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
 	},
-/turf/open/floor/monotile/steel,
+/turf/open/floor/monotile/dark,
 /area/quartermaster/miningdock)
 "rz" = (
 /obj/machinery/camera/autoname{
@@ -6316,16 +6308,9 @@
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck1/hallway)
 "uB" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
+/obj/machinery/atmospherics/components/binary/dp_vent_pump/high_volume/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/turf/open/floor/monotile/dark,
+/turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/miningdock)
 "uT" = (
 /obj/machinery/camera/autoname{
@@ -6515,18 +6500,14 @@
 /turf/open/floor/monotile/dark,
 /area/quartermaster/miningdock)
 "xc" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
+/obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
 	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
+/obj/machinery/door/airlock/ship/external{
+	name = "Mining Shuttle Airlock";
+	req_one_access_txt = "31;48"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/turf/open/floor/monotile/dark,
+/turf/open/floor/monotile/dark/airless,
 /area/quartermaster/miningdock)
 "xf" = (
 /obj/effect/turf_decal/ship/delivery{
@@ -6721,6 +6702,19 @@
 /obj/vehicle/sealed/car/realistic/fighter_tug,
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
+"BM" = (
+/obj/structure/disposalpipe/segment{
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral/tile_full,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 6
+	},
+/turf/open/floor/monotile/dark,
+/area/quartermaster/miningdock)
 "BN" = (
 /obj/structure/table/reinforced,
 /obj/machinery/computer/security/telescreen/atc,
@@ -6744,16 +6738,17 @@
 /turf/open/floor/carpet/blue,
 /area/hallway/nsv/deck1/hallway)
 "CJ" = (
-/obj/effect/turf_decal/stripes/line{
+/obj/effect/turf_decal/tile/neutral{
 	dir = 1
 	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 5
+	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 5
-	},
-/turf/open/floor/plasteel/grid/steel,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
+/turf/open/floor/monotile/dark,
 /area/quartermaster/miningdock)
 "Da" = (
 /obj/machinery/camera/autoname{
@@ -6790,8 +6785,15 @@
 /turf/open/floor/monotile/steel,
 /area/quartermaster/miningdock)
 "DA" = (
-/obj/machinery/status_display/ai/east,
-/turf/open/floor/monotile/steel,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral/tile_full,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4,
+/turf/open/floor/monotile/dark,
 /area/quartermaster/miningdock)
 "DP" = (
 /obj/effect/turf_decal/ship/delivery/yellow,
@@ -7124,19 +7126,8 @@
 /turf/open/floor/monotile/dark/airless,
 /area/hallway/nsv/deck1/hallway)
 "IJ" = (
-/obj/effect/turf_decal/tile/neutral{
-	dir = 1
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 6
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 5
-	},
-/turf/open/floor/monotile/dark,
+/obj/machinery/airalarm/directional/north,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/miningdock)
 "IR" = (
 /obj/machinery/status_display/evac{
@@ -7155,16 +7146,8 @@
 /turf/closed/wall/r_wall/ship,
 /area/hallway/nsv/deck1/hallway)
 "Jm" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
-/turf/open/floor/monotile/dark,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/miningdock)
 "Jp" = (
 /turf/closed/wall/r_wall/ship,
@@ -7326,14 +7309,14 @@
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/central)
 "Lt" = (
+/obj/structure/chair/office{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
 /turf/open/floor/monotile/dark,
@@ -7449,15 +7432,22 @@
 /turf/open/floor/monotile/dark/airless,
 /area/quartermaster/miningdock)
 "MI" = (
+/obj/effect/turf_decal/tile/neutral/tile_full,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/turf/open/floor/monotile/dark,
+/area/quartermaster/miningdock)
+"MK" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 5
 	},
 /turf/open/floor/monotile/dark,
 /area/quartermaster/miningdock)
@@ -7590,10 +7580,17 @@
 /turf/open/floor/monotile/dark,
 /area/maintenance/nsv/deck1/aft)
 "Pb" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
-/turf/open/floor/monotile/steel,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
 /area/quartermaster/miningdock)
 "Pc" = (
 /obj/structure/chair/office{
@@ -7617,19 +7614,11 @@
 /turf/open/openspace,
 /area/shuttle/turbolift/shaft)
 "Pk" = (
-/obj/effect/turf_decal/tile/neutral{
+/obj/machinery/light,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 1
 	},
-/obj/effect/turf_decal/tile/neutral{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/turf/open/floor/monotile/dark,
+/turf/open/floor/monotile/steel,
 /area/quartermaster/miningdock)
 "PJ" = (
 /obj/machinery/door/airlock/ship/public/glass/turbolift{
@@ -7670,19 +7659,29 @@
 /turf/open/floor/monotile/steel,
 /area/quartermaster/miningdock)
 "Qg" = (
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 10
+	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 5
+	dir = 10
+	},
+/turf/open/floor/monotile/dark,
+/area/quartermaster/miningdock)
+"Qn" = (
+/obj/effect/turf_decal/tile/neutral{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 6
 	},
-/obj/effect/turf_decal/tile/neutral/tile_full,
 /turf/open/floor/monotile/dark,
-/area/quartermaster/miningdock)
-"Qn" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
-/obj/machinery/airalarm/directional/north,
-/turf/open/floor/monotile/steel,
 /area/quartermaster/miningdock)
 "Qp" = (
 /obj/structure/disposalpipe/junction/flip{
@@ -7955,7 +7954,25 @@
 /turf/open/floor/monotile/dark,
 /area/ai_monitored/turret_protected/aisat)
 "SF" = (
-/turf/open/floor/plasteel/grid/steel,
+/obj/effect/turf_decal/tile/neutral/tile_full,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 6
+	},
+/turf/open/floor/monotile/dark,
+/area/quartermaster/miningdock)
+"SQ" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 8
+	},
+/turf/open/floor/monotile/dark,
 /area/quartermaster/miningdock)
 "Tl" = (
 /obj/structure/rack,
@@ -42157,13 +42174,13 @@ ax
 ax
 ax
 ax
-Jp
-Jp
-Jp
-Jp
-Jp
 ax
 ax
+Jp
+Jp
+Jp
+Jp
+Jp
 ax
 ax
 ax
@@ -42408,6 +42425,8 @@ ax
 ax
 ax
 ax
+ax
+ax
 Jp
 Jp
 zW
@@ -42424,8 +42443,6 @@ Xp
 Xp
 Xp
 Xp
-ax
-ax
 ax
 ac
 aa
@@ -42665,6 +42682,8 @@ nC
 nD
 ax
 ax
+ax
+ax
 zW
 oW
 Ml
@@ -42682,10 +42701,8 @@ ax
 ax
 ax
 ax
-ax
-ax
 ac
-aa
+ac
 aa
 aa
 aa
@@ -42922,16 +42939,18 @@ nE
 nu
 ax
 ax
+ax
+ax
 zW
 oW
-ud
-IJ
+Ho
+Qn
 RJ
 Xy
 zr
 Ml
-Kc
-fv
+SF
+Pk
 Jp
 Jp
 zW
@@ -42940,9 +42959,7 @@ zW
 zW
 Jp
 Jp
-ax
 ac
-aa
 aa
 aa
 aa
@@ -43179,15 +43196,17 @@ kj
 nu
 ax
 ax
+ax
+ax
 zW
 oW
-xb
-Lt
+qI
+MK
 TR
 Ml
 zr
 Ml
-Kc
+MI
 ro
 Jp
 BN
@@ -43197,9 +43216,7 @@ oz
 Ft
 Bb
 zW
-ax
-ac
-aa
+bQ
 aa
 aa
 aa
@@ -43436,6 +43453,8 @@ kj
 nu
 ax
 ax
+ax
+ax
 zW
 sj
 wk
@@ -43443,20 +43462,18 @@ QC
 Qc
 VI
 Jp
-Qn
-Qg
-rt
+IJ
+MI
+Ml
 Jp
 RI
 Pc
 VF
 VF
-pJ
+Lt
 ED
 zW
-ax
-ac
-aa
+bQ
 aa
 aa
 aa
@@ -43693,6 +43710,8 @@ kj
 nu
 ax
 ax
+ax
+ax
 Jp
 Jp
 Jp
@@ -43701,19 +43720,17 @@ Jp
 Jp
 Jp
 Ml
-oS
+BM
 pj
 Du
 HZ
-uB
 qe
-qe
-xc
 rt
+rt
+Pb
+Ml
 zW
-ax
-ac
-aa
+bQ
 aa
 aa
 aa
@@ -43950,6 +43967,8 @@ kj
 nu
 ax
 ax
+ax
+ax
 zW
 Gt
 Ml
@@ -43957,8 +43976,8 @@ QC
 Ml
 YI
 Jp
-Ml
-sd
+Jm
+DA
 ND
 Jp
 OX
@@ -43968,9 +43987,7 @@ Ml
 Dz
 qk
 zW
-ax
-ac
-aa
+bQ
 aa
 aa
 aa
@@ -44207,10 +44224,12 @@ kj
 nu
 ax
 ax
+ax
+ax
 zW
 Gt
-Ho
-Pk
+ud
+CJ
 Sr
 Ml
 vc
@@ -44225,9 +44244,7 @@ Jp
 Jp
 Jp
 Jp
-ax
 ac
-aa
 aa
 aa
 aa
@@ -44464,27 +44481,27 @@ kj
 nu
 ax
 ax
+ax
+ax
 zW
 Gt
-qI
-MI
-Jm
+xb
+Qg
+SQ
 EM
 gn
 Bq
 Qp
 Nf
 pn
-CJ
-SF
-Jp
+dU
+uB
+oS
 ax
-ax
-ax
-ax
+Xp
 ax
 ac
-aa
+ac
 aa
 aa
 aa
@@ -44721,11 +44738,13 @@ kj
 nu
 ax
 ax
+ax
+ax
 zW
 yr
 wk
-Pb
-DA
+Ml
+pJ
 Fy
 Jp
 Ml
@@ -44736,9 +44755,7 @@ Qs
 GM
 Jp
 ax
-ax
-ax
-ax
+Xp
 ac
 ac
 aa
@@ -44978,6 +44995,8 @@ kj
 nu
 ax
 ax
+ax
+ax
 Jp
 Uc
 JH
@@ -44989,13 +45008,11 @@ Jp
 wX
 Jp
 Jp
-dU
+xc
 Jp
 Jp
 ax
-ac
-ax
-ac
+Xp
 ax
 ac
 aa
@@ -45236,6 +45253,8 @@ nu
 ax
 ax
 ax
+ax
+ax
 Uc
 Uy
 Uy
@@ -45250,9 +45269,7 @@ ax
 ax
 ax
 ax
-ax
-ac
-ac
+Xp
 ac
 ac
 aa
@@ -45493,6 +45510,8 @@ nu
 ax
 ax
 ax
+ax
+ax
 Uc
 Uy
 Uy
@@ -45506,12 +45525,10 @@ Jp
 ax
 ax
 ax
-Xp
+ax
+ax
+ax
 ac
-ac
-aa
-aa
-aa
 aa
 aa
 aa
@@ -45750,6 +45767,8 @@ nu
 ax
 ax
 ax
+ax
+ax
 Uc
 Uy
 Me
@@ -45762,13 +45781,11 @@ Na
 Jp
 ax
 ax
-ax
 Xp
-ax
+Xp
+Xp
 ac
-aa
-aa
-aa
+ac
 aa
 aa
 aa
@@ -46007,6 +46024,8 @@ nD
 ax
 ax
 ax
+ax
+ax
 Uc
 Uc
 Uc
@@ -46019,13 +46038,11 @@ Jp
 Jp
 ax
 ax
-ax
-Xp
 ac
+ax
 ac
-aa
-aa
-aa
+ax
+ac
 aa
 aa
 aa
@@ -46264,11 +46281,11 @@ ax
 ax
 ax
 ax
+ax
+ax
+ax
+ax
 sm
-ax
-ax
-ax
-ax
 ax
 ax
 ax
@@ -46280,9 +46297,9 @@ ax
 Xp
 ax
 ac
-aa
-aa
-aa
+ac
+ac
+ac
 aa
 aa
 aa
