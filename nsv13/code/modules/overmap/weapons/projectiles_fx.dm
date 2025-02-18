@@ -637,6 +637,8 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 175
 	armour_penetration = 10
 	speed = 0.4
+	relay_projectile_type = /obj/item/projectile/bullet/broadside/plasma/relayed
+
 
 /obj/item/projectile/bullet/broadside/plasma/relayed
 	damage = 25
@@ -649,6 +651,7 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 200
 	armour_penetration = 25
 	speed = 2
+	relay_projectile_type = /obj/item/projectile/bullet/broadside/nuclear/relayed
 
 /obj/item/projectile/bullet/broadside/nuclear/relayed
 	damage = 35
