@@ -229,7 +229,7 @@
 	obj_integrity = 1600
 	max_integrity = 1600
 	starting_system = "Staging" //Required for all player ships
-	armor = list("overmap_light" = 95, "overmap_medium" = 75, "overmap_heavy" = 50) //Cruisers should be able to take substantially more damage than Frigates and destroyers
+	armor = list("overmap_light" = 95, "overmap_medium" = 67, "overmap_heavy" = 35) //Cruisers should be able to take substantially more damage than Frigates and destroyers
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
 /obj/structure/overmap/nanotrasen/battleship/starter //Galactica
@@ -237,7 +237,7 @@
 	obj_integrity = 2400
 	max_integrity = 2400
 	starting_system = "Staging" //Required for all player ships
-	armor = list("overmap_light" = 98, "overmap_medium" = 95, "overmap_heavy" = 65) //This ship is a dreadnaught, is armored accordingly and should largely not care about lighter munitions.
+	armor = list("overmap_light" = 98, "overmap_medium" = 85, "overmap_heavy" = 45) //This ship is a dreadnaught, is armored accordingly and should largely not care about lighter munitions.
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
 /obj/structure/overmap/nanotrasen/serendipity/starter
