@@ -407,7 +407,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	name = "Peregrine class attack fighter"
 	desc = "A Peregrine class attack fighter, solgov's only premiere fighter, mounting minature capital grade phasers and a tiny shield generator."
 	icon = 'nsv13/icons/overmap/new/solgov/playablefighter.dmi'
-	armor = list("melee" = 60, "bullet" = 60, "laser" = 60, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 5, "overmap_medium" = 0, "overmap_heavy" = 10) 
+	armor = list("melee" = 60, "bullet" = 60, "laser" = 60, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 5, "overmap_medium" = 0, "overmap_heavy" = 10)
 	sprite_size = 32
 	damage_states = FALSE //temp
 	max_integrity = 25 //shields.
@@ -940,6 +940,19 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 
 /obj/item/fighter_component/proc/toggle()
 	active = !active
+
+/obj/item/fighter_component/AltClick(mob/user)
+	. = ..()
+	if(!Adjacent(user))
+		return
+	if(!length(contents))
+		to_chat(user, "<span class='warning'>There is nothing to unload from [name]!</span>")
+		return
+	to_chat(user, "<span class='notice'>You start to unload [name]'s stored contents...</span>")
+	if(!do_after(user, 5 SECONDS, target=src))
+		return
+	to_chat(user, "<span class='notice>You dump [name]'s contents.</span>")
+	dump_contents()
 
 /obj/item/fighter_component/proc/dump_contents()
 	if(!length(contents))
