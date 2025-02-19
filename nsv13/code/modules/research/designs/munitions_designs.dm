@@ -249,6 +249,26 @@
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
+/datum/design/broadside_load/nuclear
+	name = "Space Naval 250mm uranium nuclear capable Broadside Shell Load"
+	desc = "Allows you to construct nuclear capable Broadside Shell Loads"
+	id = "nuclear"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/uranium=1500, /datum/material/plasma=500)
+	build_path = /obj/item/ship_weapon/parts/broadside_load/nuclear
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+/datum/design/swabber
+	name = "Space Naval Broadside Barrel Swab & Scrubber"
+	desc = "Allows you to construct the cleaning Swabber"
+	id = "swabber"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron=1000)
+	build_path = /obj/item/swabber
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
 //Plasma ball for plasma caster
 /datum/design/plasma_core
 	name = "Condensed Phoron Core"
