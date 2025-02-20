@@ -163,7 +163,7 @@
 /obj/machinery/ship_weapon/energy/emp_blaster
 	name = "Phased Ion Pulse Driver"
 	desc = "A strange energy weapon, it seems to share some distant legacy with the ion gun"
-	icon_state = "phase_cannon"
+	icon_state = "emp gun"
 	fire_mode = FIRE_MODE_EMP //Shot by the pilot.
 	circuit = /obj/item/circuitboard/machine
 	idle_power_usage =  0

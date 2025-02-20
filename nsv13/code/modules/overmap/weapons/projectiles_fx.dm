@@ -648,23 +648,26 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/beam/laser/phaser/emp
 	name = "Massive Ion bolt"
-	disruption = 20 //Do you like stuncombat? Well the AI doesn't. and neither does the mainship- hopefully.
-	disruption_cap = 100 //Very effective if applied spaced out over time against damage-resistant ships.
+	var/disruption = 20 //Do you like stuncombat? Well the AI doesn't. and neither does the mainship- hopefully.
+	var/disruption_cap = 100 //Very effective if applied spaced out over time against damage-resistant ships.
 	damage = 30 //anemic damage
 	icon = 'icons/obj/projectiles.dmi'
 	icon_state = "ion"
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/ion
 	flag = "overmap_heavy"
 	relay_projectile_type = /obj/item/projectile/beam/laser/phaser/emp/relayed
 
 /obj/item/projectile/beam/laser/phaser/emp/spec_overmap_hit(obj/structure/overmap/target)
-		if(target.disruption <= disruption_cap)
-			target.disruption = min(target.disruption + disruption, disruption_cap)
-		return
+	if(target.disruption <= disruption_cap)
+		target.disruption = min(target.disruption + disruption, disruption_cap)
+	return
 
 /obj/item/projectile/beam/laser/phaser/relayed
 	projectile_piercing = PASSTABLE
 	flag = "energy"
-	resize = 2
+
+/obj/item/projectile/beam/laser/phaser/relayed/Initialize(mapload)
+	ntransform.Scale(2)
 
 /obj/item/projectile/beam/laser/phaser/relayed/on_hit(atom/target, blocked = FALSE)
 	..()

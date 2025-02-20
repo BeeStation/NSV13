@@ -203,6 +203,23 @@
 	if(!override_mass_check && target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
 		return FALSE
 	return TRUE
+
+/datum/ship_weapon/emp_blaster // really big ion gun for when you have to make everyone stop
+	name = "Phased Ion Pulse Driver"
+	default_projectile_type = /obj/item/projectile/beam/laser/phaser/emp
+	burst_size = 2
+	fire_delay = 0.5 SECONDS
+	range_modifier = 10
+	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_adjust.ogg'
+	overmap_firing_sounds = list('sound\weapons\emitter.ogg')
+	select_alert = "<span class='notice'>Activating High Energy Defense weapons..</span>"
+	failure_alert = "<span class='warning'>DANGER: Defensive weapon offline.</span>"
+	lateral = FALSE
+	miss_chance = 33
+	firing_arc = 45
+	max_miss_distance = 6
+	ai_fire_delay = 0.5 SECONDS
+	allowed_roles = OVERMAP_USER_ROLE_PILOT
 //End Energy Weapons
 
 /datum/ship_weapon/missile_launcher
