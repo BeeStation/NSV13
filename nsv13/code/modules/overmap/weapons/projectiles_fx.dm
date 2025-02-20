@@ -649,7 +649,7 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/beam/laser/phaser/emp
 	name = "Massive Ion bolt"
 	var/disruption = 20 //Do you like stuncombat? Well the AI doesn't. and neither does the mainship- hopefully.
-	var/disruption_cap = 100 //Very effective if applied spaced out over time against damage-resistant ships.
+	var/disruption_cap = 30 //Very effective if applied spaced out over time against damage-resistant ships.
 	damage = 30 //anemic damage
 	icon = 'icons/obj/projectiles.dmi'
 	icon_state = "ion"
