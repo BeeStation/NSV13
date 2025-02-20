@@ -127,7 +127,7 @@ Set up relationships.
 	name = "Nanotrasen"
 	desc = "Nanotrasen systems is a conglomerate of sub-contractors and other companies."
 	preset_allies = list(FACTION_ID_SOLGOV, FACTION_ID_UNATHI)
-	preset_enemies = list(FACTION_ID_SYNDICATE, FACTION_ID_PIRATES)
+	preset_enemies = list(FACTION_ID_SYNDICATE, FACTION_ID_PIRATES, FACTION_ID_HOSTILE)
 	fleet_types = list(/datum/fleet/nanotrasen/light = 1)
 	elite_fleet_types = list(/datum/fleet/nanotrasen = 1)
 	fleet_spawn_rate = 40 MINUTES
@@ -151,7 +151,7 @@ Set up relationships.
 	name = "Syndicate"
 	desc = "The Abassi Syndicate are a collection of former Nanotrasen colonists who rebelled against their 'oppression' and formed their own government."
 	preset_allies = list(FACTION_ID_PIRATES) //Yar HAR it's me, captain PLASMASALT
-	preset_enemies = list(FACTION_ID_NT)
+	preset_enemies = list(FACTION_ID_NT, FACTION_ID_HOSTILE)
 	fleet_types = list(/datum/fleet/neutral = 5, /datum/fleet/boarding = 5, /datum/fleet/wolfpack = 5, /datum/fleet/conflagration = 5)
 	randomspawn_only_fleet_types = list(/datum/fleet/interdiction/light = 1)
 	elite_fleet_types = list(/datum/fleet/wolfpack/elite = 2, /datum/fleet/elite = 2)
@@ -172,6 +172,6 @@ Set up relationships.
 	name = "Tortuga Raiders"
 	desc = "The Tortuga raiders terrorise independent colonies and are widely recognised as 'free birds'."
 	preset_allies = list(FACTION_ID_SYNDICATE) //Yar HAR it's me, captain PLASMASALT
-	preset_enemies = list(FACTION_ID_NT)
+	preset_enemies = list(FACTION_ID_NT, FACTION_ID_HOSTILE)
 	fleet_types = list(/datum/fleet/pirate/scout = 1, /datum/fleet/pirate/raiding = 1)
 	id = FACTION_ID_PIRATES

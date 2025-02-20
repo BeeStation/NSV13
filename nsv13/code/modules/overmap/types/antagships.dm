@@ -1,6 +1,6 @@
 /obj/structure/overmap/antag/alien  //Abductor flying saucer.
 	name = "!*!*! Xenophorica"
-	icon = 'nsv13/icons/overmap/saucer.dmi'
+	icon = 'nsv13/icons/overmap/new/saucer.dmi'
 	icon_state = "saucer"
 	desc = "Information not found: Update your NTOS "
 	mass = MASS_MEDIUM
@@ -13,9 +13,9 @@
 	bound_width = 128
 	bound_height = 128
 	role = INSTANCED_MIDROUND_SHIP
-	starting_system = "Brazil" //Abductors come from an unkown part of space.... probably
+	starting_system = "Random" //Abductors come from an unkown part of space.... probably
 	armor = list("overmap_light" = 40, "overmap_medium" = 60, "overmap_heavy" = 60) //advanced armor? IDK, these are completely arbitary rn. it's a smaller ship though
-	cloak_factor = 10 //they're pretty advanced. and they need to be undetected. powerful cloak
+	cloak_factor = 30 //they're pretty advanced. and they need to be undetected. powerful cloak
 
 /obj/structure/overmap/antag/alien/Initialize(mapload)
 	. = ..()
