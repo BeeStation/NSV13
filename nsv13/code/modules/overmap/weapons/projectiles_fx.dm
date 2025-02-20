@@ -662,12 +662,12 @@ Misc projectile types, effects, think of this as the special FX file.
 		target.disruption = min(target.disruption + disruption, disruption_cap)
 	return
 
-/obj/item/projectile/beam/laser/phaser/relayed
+/obj/item/projectile/beam/laser/phaser/emp/relayed
 	projectile_piercing = PASSTABLE
 	flag = "energy"
 
 /obj/item/projectile/beam/laser/phaser/relayed/Initialize(mapload)
-	ntransform.Scale(2)
+	src.transform *= 2
 
 /obj/item/projectile/beam/laser/phaser/relayed/on_hit(atom/target, blocked = FALSE)
 	..()

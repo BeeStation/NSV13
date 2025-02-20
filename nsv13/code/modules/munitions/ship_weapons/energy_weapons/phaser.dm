@@ -168,9 +168,9 @@
 	circuit = /obj/item/circuitboard/machine
 	idle_power_usage =  0
 	charge = 0
-	charge_rate = 100 //How quickly do we charge?
-	charge_per_shot = 1000 //How much power per shot do we have to use?
-	max_charge = 10000 //10 shots before it has to recharge.
+	charge_rate = 1000 //How quickly do we charge?
+	charge_per_shot = 10000 //How much power per shot do we have to use?
+	max_charge = 100000 //10 shots before it has to recharge.
 	power_modifier = 0 //Power youre inputting into this thing.
 	power_modifier_cap = 1 //Which means that your guns are spitting bursts that do 60 damage.
 	energy_weapon_type = /datum/ship_weapon/emp_blaster

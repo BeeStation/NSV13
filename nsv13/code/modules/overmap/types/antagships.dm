@@ -1,7 +1,7 @@
 /obj/structure/overmap/antag/alien  //Abductor flying saucer.
 	name = "!*!*! Xenophorica"
-	icon = 'nsv13/icons/overmap/syndicate/tuningfork.dmi'
-	icon_state = "tuningfork"
+	icon = 'nsv13/icons/overmap/saucer.dmi'
+	icon_state = "saucer"
 	desc = "Information not found: Update your NTOS "
 	mass = MASS_MEDIUM
 	sprite_size = 96

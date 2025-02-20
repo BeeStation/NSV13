@@ -208,17 +208,17 @@
 	name = "Phased Ion Pulse Driver"
 	default_projectile_type = /obj/item/projectile/beam/laser/phaser/emp
 	burst_size = 2
-	fire_delay = 0.5 SECONDS
+	fire_delay = 0.3 SECONDS
 	range_modifier = 10
 	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_adjust.ogg'
-	overmap_firing_sounds = list('sound\weapons\emitter.ogg')
+	overmap_firing_sounds = list('sound/weapons/emitter.ogg')
 	select_alert = "<span class='notice'>Activating High Energy Defense weapons..</span>"
 	failure_alert = "<span class='warning'>DANGER: Defensive weapon offline.</span>"
 	lateral = FALSE
 	miss_chance = 33
 	firing_arc = 45
 	max_miss_distance = 6
-	ai_fire_delay = 0.5 SECONDS
+	ai_fire_delay = 0.3 SECONDS
 	allowed_roles = OVERMAP_USER_ROLE_PILOT
 //End Energy Weapons
 
