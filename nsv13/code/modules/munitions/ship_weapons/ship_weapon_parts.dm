@@ -84,7 +84,6 @@
 	icon_state = "broadside_load"
 
 /obj/item/ship_weapon/parts/broadside_load/nuclear
-
 	name = "nuclear broadside shell load"
 	desc = "A loose load meant for a Broadside shell. Load it into the Shell Packer! This one's <i>extra</i> spicy."
 	icon = 'nsv13/icons/obj/munitions.dmi'

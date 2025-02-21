@@ -35,8 +35,8 @@
 	bang_range = 5
 	var/next_sound = 0
 
-	var/soot = 0 //How dirty the gun is
-	var/stovepipe = FALSE //Whether the shell is jammed in the gun
+	var/soot = 0 //!How dirty the gun is
+	var/stovepipe = FALSE //!Whether the shell is jammed in the gun
 	var/busy = FALSE
 
 /obj/machinery/ship_weapon/broadside/north
@@ -138,14 +138,17 @@
 		tool.play_tool_sound(src, 50)
 		deconstruct(TRUE)
 		return TRUE
+	if(busy)
+		return TRUE
 	if(stovepipe) //How to fix a stovepiped shell
 		tool.play_tool_sound(src, 50)
 		playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE)
+		busy = TRUE
 		if(do_after(user, 5 SECONDS, target = src))
 			stovepipe = FALSE
 			to_chat(user, "<span class='notice'>You free the jammed shell, the [src] is safe to use again!</span>")
 			cut_overlay("[dir]_broadside_stovepipe")
-			if(dir == 2)
+			if(dir == SOUTH)
 				var/obj/R = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, NORTH, 4)) //Right
 				var/turf/S = get_offset_target_turf(src, rand(5)-rand(5), 5+rand(5)) //Starboard
 				R.throw_at(S, 12, 20)
@@ -153,7 +156,8 @@
 				var/obj/L = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, SOUTH, 1)) //Left
 				var/turf/P = get_offset_target_turf(src, rand(5)-rand(5), 0-rand(5)) //Port
 				L.throw_at(P, 12, 20)
-			return TRUE
+		busy = FALSE
+		return TRUE
 	return default_deconstruction_crowbar(user, tool)
 
 /obj/machinery/ship_weapon/broadside/Initialize(mapload)
@@ -172,7 +176,7 @@
 	. = ..()
 	if(.)
 		new /obj/effect/particle_effect/muzzleflash(loc)
-		if(dir == 2)
+		if(dir == SOUTH)
 			var/turf/A = get_offset_target_turf(src, 0, 4)
 			var/turf/B = get_offset_target_turf(src, 1, 4)
 			new /obj/effect/particle_effect/smoke(A)
@@ -186,7 +190,7 @@
 /obj/machinery/ship_weapon/broadside/local_fire(shots = weapon_type.burst_size, atom/target) //For the broadside cannons, we want to eject spent casings
 	. = ..()
 	cut_overlay(list("[dir]_chambered_1", "[dir]_chambered_2", "[dir]_chambered_3", "[dir]_chambered_4", "[dir]_chambered_5"))
-	if(dir == 2)
+	if(dir == SOUTH)
 		var/obj/R = new /obj/item/ship_weapon/parts/broadside_casing(get_ranged_target_turf(src, NORTH, 4)) //Right
 		var/turf/S = get_offset_target_turf(src, rand(5)-rand(5), 5+rand(5)) //Starboard
 		R.throw_at(S, 12, 20)
@@ -224,7 +228,7 @@
 		L.throw_at(P, 12, 20)
 	soot = min(soot + rand(1,5), 100)
 	if(stovepipe)
-		if(dir == 1)
+		if(dir == NORTH)
 			explosion(src, 0, 0, 5, 3, FALSE, FALSE, 0, FALSE, TRUE)
 		else
 			var/turf/E = get_offset_target_turf(src, 0, 3)
@@ -269,31 +273,35 @@
 //Newer Broadsides features start here
 
 /obj/machinery/ship_weapon/broadside/MouseDrop_T(atom/movable/A, mob/user)
+	if(!isliving(user))
+		return FALSE
+	if(busy)
+		return FALSE
 	if(stovepipe)
 		to_chat(user, "<span class='warning'>The [src] is completely locked up, you have to <i>pry</i> out the stovepiped shell!</span>")
 		return FALSE
-	if(ismoth(A) || istype(A, /mob/living/simple_animal/mothroach && A != user))
-		mothclean(A, user)
-		return TRUE
-	if(prob(soot)) //likelihood of stovepipe is a lot higher if you crateload the gun
-		stovepipe = TRUE
-		add_overlay("[dir]_broadside_stovepipe")
-		flick("[initial(icon_state)]_chambering",src)
-		playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE)
-		to_chat(user, "<span class='warning'>The [src] groans horrendously, a shell has stovepiped!</span>")
-		return FALSE
-
 	..()
-	if(!isliving(user))
-		return FALSE
 	if(istype(A, /obj/structure/closet))
-		if(!locate(/obj/item/ship_weapon/ammunition/broadside_shell) in A.contents)
+		if(!(locate(/obj/item/ship_weapon/ammunition/broadside_shell) in A.contents))
 			to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
 			return FALSE
 		if(length(ammo) >= max_ammo)
 			return FALSE
 		to_chat(user, "<span class='notice'>You start to load [src] with the contents of [A]...</span>")
+		busy = TRUE
 		if(do_after(user, 8 SECONDS , target = src))
+			if(!(locate(/obj/item/ship_weapon/ammunition/broadside_shell) in A.contents))
+				to_chat(user, "<span class='warning'>There's nothing in [A] that can be loaded into [src]...</span>")
+				busy = FALSE
+				return FALSE
+			if(prob(soot)) //likelihood of stovepipe is a lot higher if you crateload the gun
+				stovepipe = TRUE
+				add_overlay("[dir]_broadside_stovepipe")
+				flick("[initial(icon_state)]_chambering",src)
+				playsound(src, 'sound/machines/airlock_alien_prying.ogg', 100, TRUE)
+				to_chat(user, "<span class='warning'>The [src] groans horrendously, a shell has stovepiped!</span>")
+				busy = FALSE
+				return FALSE
 			for(var/obj/item/ship_weapon/ammunition/broadside_shell/G in A)
 				if(length(ammo) < max_ammo)
 					G.forceMove(src)
@@ -308,24 +316,35 @@
 			add_overlay("[dir]_chambered_[get_ammo()]")
 			state = STATE_CHAMBERED
 			update()
-
+		busy = FALSE
+	if((ismoth(A) || istype(A, /mob/living/simple_animal/mothroach)) && A != user)
+		mothclean(A, user)
+		return TRUE
 
 /obj/machinery/ship_weapon/broadside/proc/mothclean(mob/moth, mob/user) //This is an easter egg, let's you clean the gun with moth/roach
 	if(!panel_open)
 		to_chat(user, "<span class='notice'>You can't reach the barrels unless you <i>unscrew</i> the maintenance panel.</span>")
-		return FALSE
+		return
 	if(soot == 0)
 		to_chat(user, "<span class='notice'>The [src] is clean as can be, no need for further swabbing.</span>")
-		return FALSE
-	if(do_after(user, 5 SECONDS, target = src))
-		visible_message("<span class='warning'>[user] is stuffing [moth] into the [src]!")
-		to_chat(moth, "<span class='userdanger'>[user] is shoving you into the [src]!</span>")
+		return
+	if(busy)
+		return
+	if(state == STATE_CHAMBERED)
+		to_chat(user, "<span class='warning'>You can't clean the [src] while it's loaded!</span>")
+		return
+	if(stovepipe)
+		to_chat(user, "<span class='warning'>The [src] is all jammed up, you can't clean it like this!</span>")
+		return
+	visible_message("<span class='warning'>[user] is stuffing [moth] into the [src]!</span>", ignored_mobs = list(moth))
+	to_chat(moth, "<span class='userdanger'>[user] is shoving you into the [src]!</span>")
+	if(do_after(user, 5 SECONDS, target = src, extra_checks = CALLBACK(src, PROC_REF(proximity_check), user, moth)))
 		moth.forceMove(src)
 		moth.emote("scream")
 		playsound(src, 'nsv13/sound/effects/swab.ogg', 100, TRUE)
 		while(soot > 0)
 			if(!do_after(user, 1 SECONDS, target = src))
-				if(dir == 1)
+				if(dir == NORTH)
 					moth.forceMove(get_turf(src))
 				else
 					moth.forceMove(get_offset_target_turf(src, 0, 3))
@@ -336,11 +355,14 @@
 				cut_overlays()
 				to_chat(user, "<span class='notice'>The [src] is spic and span!</span>")
 				moth.reagents.add_reagent(/datum/reagent/colorful_reagent/powder/black, 5)
-				if(dir == 1)
+				if(dir == NORTH)
 					moth.forceMove(get_turf(src))
 				else
 					moth.forceMove(get_offset_target_turf(src, 0, 3))
 				break
+
+/obj/machinery/ship_weapon/broadside/proc/proximity_check(mob/user, mob/moth)
+	return user.Adjacent(moth) && user.Adjacent(src)
 
 /obj/machinery/ship_weapon/broadside/chamber(rapidfire = FALSE)
 	. = ..()
@@ -360,7 +382,9 @@
 		visible_message("<span class='warning'>The [src] groans horrendously, a shell has stovepiped!</span>")
 		qdel(A)
 		return
-	..()
+	busy = TRUE
+	. = ..()
+	busy = FALSE
 
 /obj/item/swabber
 	name = "swabber"

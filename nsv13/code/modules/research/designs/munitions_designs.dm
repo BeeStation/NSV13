@@ -249,10 +249,10 @@
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
-/datum/design/broadside_load/nuclear
+/datum/design/broadside_load/broadside_load_nuclear
 	name = "Space Naval 250mm uranium nuclear capable Broadside Shell Load"
 	desc = "Allows you to construct nuclear capable Broadside Shell Loads"
-	id = "nuclear"
+	id = "broadside_load_nuclear"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/uranium=1500, /datum/material/plasma=500)
 	build_path = /obj/item/ship_weapon/parts/broadside_load/nuclear
