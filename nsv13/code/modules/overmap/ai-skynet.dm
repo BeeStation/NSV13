@@ -1736,6 +1736,8 @@ Seek a ship thich we'll station ourselves around
 						SW.next_firetime += SW.ai_fire_delay
 					break
 		fire_mode = new_firemode
+		if(!weapon_types[new_firemode]) //We lack gun
+			return
 		if(uses_main_shot) //Don't penalise them for weapons that are designed to be spammed.
 			shots_left --
 		else
