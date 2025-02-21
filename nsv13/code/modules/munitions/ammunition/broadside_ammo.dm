@@ -57,7 +57,6 @@
 	var/amount_to_pack = 5
 	var/obj/item/powder_bag/plasma/plasma = FALSE
 	var/obj/item/powder_bag/gunpowder = FALSE
-	var/obj/item/ship_weapon/parts/broadside_load = FALSE
 	var/obj/item/ship_weapon/parts/broadside_load/nuclear = FALSE
 	var/static/list/whitelist = typecacheof(list(
 		/obj/item/ship_weapon/parts/broadside_casing,
@@ -94,10 +93,10 @@
 		sleep(0.5 SECONDS)
 		for(var/i in 1 to amount_to_pack)
 			if(plasma)
-				if(broadside_load)
-					new /obj/item/ship_weapon/ammunition/broadside_shell/plasma(get_turf(src))
 				if(nuclear)
 					new /obj/item/ship_weapon/ammunition/broadside_shell/nuclear(get_turf(src))
+				else
+					new /obj/item/ship_weapon/ammunition/broadside_shell/plasma(get_turf(src))
 			else if(gunpowder)
 				new /obj/item/ship_weapon/ammunition/broadside_shell(get_turf(src))
 		reset()
@@ -122,21 +121,18 @@
 
 	if(istype(A, /obj/item/ship_weapon/parts/broadside_load))
 		if(load_amount < amount_to_pack)
-			if(istype(A, /obj/item/ship_weapon/parts/broadside_load/nuclear))
-				if(broadside_load)
+			if(!load_amount)
+				if(istype(A, /obj/item/ship_weapon/parts/broadside_load/nuclear))
+					nuclear = TRUE
+				else
+					nuclear = FALSE
+			if(nuclear)
+				if(!istype(A, /obj/item/ship_weapon/parts/broadside_load/nuclear))
 					to_chat(user, "<span class='warning'>The packer can only handle one type of shell at a time!</span>")
 					return FALSE
 				if(gunpowder)
 					to_chat(user, "<span class='warning'>Only plasma powder is compatible with nuclear loads!</span>")
 					return FALSE
-				nuclear = TRUE
-				to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
-			else if(istype(A, /obj/item/ship_weapon/parts/broadside_load))
-				if(nuclear)
-					to_chat(user, "<span class='warning'>The packer can only handle one type of shell at a time!</span>")
-					return FALSE
-				broadside_load = TRUE
-				to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
 			load_amount++
 			to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
 			A.forceMove(src)
@@ -144,7 +140,6 @@
 			playsound(user, 'sound/items/screwdriver2.ogg', 30)
 			add_overlay("load-[load_amount]")
 			return TRUE
-
 		if(load_amount == amount_to_pack)
 			to_chat(user, "<span class='warning'>The table is already full of loads!</span>")
 			return FALSE
@@ -202,7 +197,6 @@
 	bag_amount = 0
 	plasma = FALSE
 	gunpowder = FALSE
-	broadside_load = FALSE
 	nuclear = FALSE
 	icon_state = "packing_bench"
 	update_icon()
