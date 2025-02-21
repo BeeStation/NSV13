@@ -244,18 +244,18 @@
 	desc = "Allows you to construct Broadside Shell Loads"
 	id = "broadside_load"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/iron=1500, /datum/material/uranium=500)
+	materials = list(/datum/material/iron=1500, /datum/material/titanium=500)
 	build_path = /obj/item/ship_weapon/parts/broadside_load
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
-/datum/design/broadside_load/broadside_load_nuclear
-	name = "Space Naval 250mm uranium nuclear capable Broadside Shell Load"
+/datum/design/broadside_load/broadside_load_uranium
+	name = "Space Naval 250mm depleted uranium Broadside Shell Load"
 	desc = "Allows you to construct nuclear capable Broadside Shell Loads"
-	id = "broadside_load_nuclear"
+	id = "broadside_load_uranium"
 	build_type = PROTOLATHE
-	materials = list(/datum/material/uranium=1500, /datum/material/plasma=500)
-	build_path = /obj/item/ship_weapon/parts/broadside_load/nuclear
+	materials = list(/datum/material/uranium=1500, /datum/material/titanium=500)
+	build_path = /obj/item/ship_weapon/parts/broadside_load/uranium
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 

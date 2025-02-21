@@ -75,7 +75,7 @@
 	display_name = "Macro-Ballistics"
 	description = "Asking important questions, like what if we made even bigger guns?"
 	prereq_ids = list("adv_ballistics", "adv_plasma")
-	design_ids = list("naval_shell_ap", "plasma_accelerant", "deck_gun_autorepair", "deck_gun_autoelevator", "gauss_rack_upgrade", "broadside_load_nuclear")
+	design_ids = list("naval_shell_ap", "plasma_accelerant", "deck_gun_autorepair", "deck_gun_autoelevator", "gauss_rack_upgrade", "broadside_load_uranium")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 7500)
 	export_price = 10000
 	tech_tier = 4

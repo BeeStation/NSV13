@@ -644,16 +644,16 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 25
 	projectile_piercing = ALL
 
-/obj/item/projectile/bullet/broadside/nuclear
-	name = "nuclear-packed broadside shell"
+/obj/item/projectile/bullet/broadside/uranium
+	name = "depleted uranium broadside shell"
 	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
-	icon_state = "broadside_nuclear"
+	icon_state = "broadside_uranium"
 	damage = 200
 	armour_penetration = 25
 	speed = 2
-	relay_projectile_type = /obj/item/projectile/bullet/broadside/nuclear/relayed
+	relay_projectile_type = /obj/item/projectile/bullet/broadside/uranium/relayed
 
-/obj/item/projectile/bullet/broadside/nuclear/relayed
+/obj/item/projectile/bullet/broadside/uranium/relayed
 	damage = 35
 	projectile_piercing = ALL
 	speed = 0.4
