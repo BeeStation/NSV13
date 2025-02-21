@@ -323,6 +323,81 @@
 
 	return null
 
+/datum/ship_weapon/mac/rock
+	name = "Rock Launcher"
+	default_projectile_type = /obj/item/projectile/bullet/mac_round/stone
+
+/obj/effect/dangerrock
+	vis_flags = VIS_INHERIT_PLANE|VIS_INHERIT_LAYER|VIS_INHERIT_ID
+	icon = 'icons/obj/meteor.dmi'
+	icon_state = "flaming"
+	alpha = 255
+	invisibility = 0
+
+/obj/effect/dangerrock/Initialize(mapload)
+	. = ..()
+	SpinAnimation(120, -1, pick(TRUE, FALSE), segments = 12)
+
+/obj/item/projectile/bullet/mac_round/stone
+	name = "Rock"
+	desc = "You should probably be dodging this, not staring.."
+	icon = null
+	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_rock
+	speed = 6
+	var/obj/effect/dangerrock/realvisual
+
+/obj/item/projectile/bullet/mac_round/stone/fire(angle, atom/direct_target)
+	. = ..()
+	if(QDELETED(src))
+		return
+	realvisual = new(src)
+	vis_contents += realvisual
+
+/obj/item/projectile/bullet/mac_round/stone/Destroy()
+	if(realvisual)
+		vis_contents -= realvisual
+		QDEL_NULL(realvisual)
+	return ..()
+
+/obj/item/projectile/bullet/delayed_prime/relayed_rock
+	name = "Stone"
+	desc = "You feel like looking at this is a bad use of your remaining time."
+	icon = null
+	damage = 60
+	damage_type = BRUTE
+	flag = "melee"
+	speed = 6
+	var/obj/effect/dangerrock/realvisual
+
+/obj/item/projectile/bullet/delayed_prime/relayed_rock/fire(angle, atom/direct_target)
+	. = ..()
+	if(!QDELETED(src))
+		return
+	realvisual = new(src)
+	vis_contents += realvisual
+
+/obj/item/projectile/bullet/delayed_prime/relayed_rock/Destroy()
+	if(realvisual)
+		vis_contents -= realvisual
+		QDEL_NULL(realvisual)
+	return ..()
+
+/obj/item/projectile/bullet/delayed_prime/relayed_rock/fuze_trigger_value(atom/target)
+	if(!isclosedturf(target))
+		return 0
+	return 1
+
+/obj/item/projectile/bullet/delayed_prime/relayed_rock/is_valid_to_release(atom/newloc)
+	if(penetration_fuze > 0)
+		return FALSE
+	return TRUE
+
+/obj/item/projectile/bullet/delayed_prime/relayed_rock/release_payload(atom/detonation_location)
+	if(istype(detonation_location, /turf/closed/wall))
+		var/turf/closed/wall/wall = detonation_location
+		wall.dismantle_wall(TRUE, TRUE)
+	explosion(detonation_location, 2, 4, 8, 8, flame_range = 5)
+
 /datum/combat_dice/plotarmor_line
 	name = "Protagonist combat dice (C)"
 
@@ -374,6 +449,7 @@
 
 	armor_dice = 4
 	armor_roll = 3
+	armor_bonus = 4
 
 	damage_dice = 4
 	damage_roll = 3
@@ -434,3 +510,20 @@
 	damage_roll = 4
 
 	affinity_flags = ALL
+
+/datum/combat_dice/rock
+	name = "Stone combat dice"
+
+	evade_dice = 0 //This is quite literally a stone.
+	evade_bonus = 0
+
+	target_dice = 2
+	target_roll = 4
+
+	armor_bonus = 99 //This is quite literally a rock.
+
+	damage_dice = 2
+	damage_roll = 4
+	damage_bonus = 6
+
+	affinity_flags = NONE

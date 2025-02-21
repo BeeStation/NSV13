@@ -65,16 +65,42 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	desc = "A huge asteroid...IN SPACE"
 	icon = 'nsv13/icons/overmap/stellarbodies/asteroidfield/icefield/asteroid_ice_32x.dmi'
 	icon_state = "1"
-	obj_integrity = 100
-	max_integrity = 100
+	obj_integrity = 500
+	max_integrity = 500
 	var/list/core_composition = list(/turf/closed/mineral/iron, /turf/closed/mineral/titanium)
 	var/required_tier = 1
-	armor = list("overmap_light" = 100, "overmap_medium" = 100, "overmap_heavy" = 25)
+	armor = list("overmap_light" = 99, "overmap_medium" = 99, "overmap_heavy" = 25)
 	overmap_deletion_traits = DELETE_UNOCCUPIED_ON_DEPARTURE | DAMAGE_DELETES_UNOCCUPIED | DAMAGE_STARTS_COUNTDOWN | FIGHTERS_ARE_OCCUPANTS
 	deletion_teleports_occupants = TRUE
+	ai_flags = AI_FLAG_STATIONARY
+	combat_dice_type = /datum/combat_dice/rock
+	ai_controlled = TRUE
+	shots_left = 20
+	faction = "stone"
 
 /obj/structure/overmap/asteroid/apply_weapons()
-	return FALSE //Lol, no.
+	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac/rock(src) //~
+
+/obj/structure/overmap/asteroid/seek_new_target(max_weight_class, min_weight_class, interior_check, max_distance)
+	if(obj_integrity >= max_integrity)
+		return
+	return ..()
+
+/obj/structure/overmap/asteroid/ai_fire(atom/target)
+	if(obj_integrity >= max_integrity)
+		return
+	return ..()
+
+/obj/structure/overmap/asteroid/ai_elite_fire(atom/target)
+	if(obj_integrity >= max_integrity)
+		return
+	return ..()
+
+/obj/structure/overmap/asteroid/ai_process()
+	if(obj_integrity >= max_integrity)
+		return
+	return ..()
+
 
 /obj/structure/overmap/asteroid/medium
 	name = "Asteroid (Non Ferrous)"
