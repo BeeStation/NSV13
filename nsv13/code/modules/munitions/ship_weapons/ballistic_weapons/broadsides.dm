@@ -134,7 +134,7 @@
 		return TRUE
 
 /obj/machinery/ship_weapon/broadside/crowbar_act(mob/user, obj/item/tool)
-	if(panel_open)
+	if(panel_open && !stovepipe)
 		tool.play_tool_sound(src, 50)
 		deconstruct(TRUE)
 		return TRUE
