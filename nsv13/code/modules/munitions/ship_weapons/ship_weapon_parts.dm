@@ -82,3 +82,9 @@
 	desc = "A loose load meant for a Broadside shell. Load it into the Shell Packer!"
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "broadside_load"
+
+/obj/item/ship_weapon/parts/broadside_load/uranium
+	name = "depleted uranium broadside shell load"
+	desc = "A loose load meant for a Broadside shell. Load it into the Shell Packer! This one's <i>extra</i> heavy."
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "broadside_load_uranium"
