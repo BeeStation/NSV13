@@ -2512,7 +2512,9 @@
 	pixel_y = -30
 	},
 /obj/machinery/camera/autoname{
-	dir = 1
+	dir = 1;
+	name = "Gravity Generator";
+	network = list("ss13","engine")
 	},
 /turf/open/floor/durasteel/lino,
 /area/tcommsat/server)
@@ -3390,8 +3392,11 @@
 /area/space/nearstation)
 "oA" = (
 /obj/machinery/telecomms/hub/preset,
-/obj/machinery/camera/autoname,
 /obj/machinery/computer/ship/viewscreen,
+/obj/machinery/camera/autoname{
+	name = "Telecomms 2";
+	network = list("ss13","engine")
+	},
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/tcommsat/server)
 "oC" = (
@@ -5613,7 +5618,9 @@
 /area/hallway/nsv/deck1/hallway)
 "yz" = (
 /obj/machinery/camera/autoname{
-	dir = 1
+	dir = 1;
+	name = "Telecomms 1";
+	network = list("ss13","engine")
 	},
 /turf/open/floor/durasteel/techfloor,
 /area/engine/gravity_generator)
@@ -6798,9 +6805,9 @@
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
 	},
-/obj/machinery/camera/all{
-	network = list("ss13","engine");
-	name = "Deck 1 DC Locker"
+/obj/machinery/camera/autoname{
+	name = "Deck 1 DC Locker";
+	network = list("ss13","engine")
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
@@ -9049,9 +9056,9 @@
 	dir = 1
 	},
 /obj/item/clothing/shoes/magboots,
-/obj/machinery/camera/all{
-	network = list("ss13","engine");
-	name = "Deck 1 Adv. DC Locker"
+/obj/machinery/camera/autoname{
+	name = "Deck 1 Adv. DC Locker";
+	network = list("ss13","engine")
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
