@@ -627,7 +627,6 @@
 /area/engine/engine_room)
 "cY" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -1603,6 +1602,17 @@
 /obj/machinery/status_display/supply/north,
 /turf/open/floor/monotile/light,
 /area/quartermaster)
+"hb" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/effect/landmark/start/station_engineer,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 6
+	},
+/turf/open/floor/plasteel/white,
+/area/engine/break_room)
 "hc" = (
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 8
@@ -1650,7 +1660,6 @@
 /area/nsv/hanger/mining)
 "hq" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
@@ -3090,7 +3099,6 @@
 /area/maintenance/starboard/central)
 "on" = (
 /obj/machinery/airalarm/directional/north,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
 /obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable{
 	icon_state = "0-8"
@@ -3284,6 +3292,12 @@
 	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
+"pn" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/turf/open/floor/plasteel/white,
+/area/engine/break_room)
 "po" = (
 /obj/structure/cable{
 	icon_state = "4-9"
@@ -10161,8 +10175,9 @@
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/shuttle/turbolift/secondary)
 "UA" = (
+/obj/effect/landmark/start/atmospheric_technician,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 9
+	dir = 4
 	},
 /turf/open/floor/plasteel/white,
 /area/engine/break_room)
@@ -10976,12 +10991,8 @@
 /turf/open/floor/monotile/light,
 /area/quartermaster)
 "Yt" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 6
-	},
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 8
 	},
 /turf/open/floor/plasteel/white,
 /area/engine/break_room)
@@ -49492,10 +49503,10 @@ dD
 HE
 cv
 Nc
-Yt
-hq
 cY
 hq
+cY
+hb
 GZ
 HE
 hD
@@ -49749,10 +49760,10 @@ dD
 dD
 HE
 on
-UA
+SE
 ps
 CT
-SE
+pn
 Hl
 HE
 uG
@@ -50009,7 +50020,7 @@ HE
 MG
 iD
 ZJ
-KP
+UA
 BO
 HE
 DL
@@ -50266,7 +50277,7 @@ HE
 DW
 KP
 kW
-SE
+Yt
 Sx
 HE
 DL
