@@ -65,6 +65,11 @@ Adding tasks is easy! Just define a datum for it.
 
 	var/list/shared_targets = list()
 
+/datum/fleet/Destroy()
+	QDEL_LIST(all_ships) //We're taking the ships with us
+	current_system.fleets -= src
+	. = ..()
+
 /datum/fleet/proc/start_reporting(target, reporter)
 	//message_admins("[reporter] started reporting [target] to fleet")
 	if(!shared_targets)
@@ -310,7 +315,6 @@ Adding tasks is easy! Just define a datum for it.
 		minor_announce(message, "White Rapids Fleet Command")
 	else
 		mini_announce(message, "White Rapids Fleet Command")
-	current_system.fleets -= src
 	if(current_system.fleets && current_system.fleets.len)
 		var/datum/fleet/F = pick(current_system.fleets)
 		current_system.alignment = F.alignment
