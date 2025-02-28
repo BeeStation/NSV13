@@ -6,11 +6,11 @@
 //In hardmode, we give the players a little treat too
 /datum/controller/subsystem/research
 	var/list/gun_techdesigns = list(
+		/datum/design/board/gauss_dispenser_circuit = /datum/techweb_node/advanced_ballistics,
+		/datum/design/board/gauss_turret = /datum/techweb_node/advanced_ballistics,
 		/datum/design/ship_firing_electronics = /datum/techweb_node/advanced_ballistics,
 		/datum/design/board/deck_turret = /datum/techweb_node/advanced_ballistics,
 		/datum/design/board/multibarrel_upgrade/_3 = /datum/techweb_node/macro_ballistics,
-		/datum/design/board/gauss_turret = /datum/techweb_node/advanced_ballistics,
-		/datum/design/board/gauss_dispenser_circuit = /datum/techweb_node/advanced_ballistics,
 		/datum/design/board/vls_tube = /datum/techweb_node/basic_torpedo_components
 	)
 
@@ -43,5 +43,5 @@
 	add_design_id(D.id)
 
 /datum/techweb_node/proc/add_design_id(design_id)
-	design_ids |= design_id
+	design_ids.Add(design_id)
 

@@ -13,9 +13,9 @@
 	name = "Firing Electronics"
 	desc = "Controls the firing mechanism for ship-sized weaponry."
 	id = "ship_firing_electronics"
-	build_type = PROTOLATHE
+	build_type = PROTOLATHE|IMPRINTER
 	materials = list(/datum/material/iron = 1000, /datum/material/diamond = 100, /datum/material/titanium = 300, /datum/material/copper = 100)
-	construction_time=100
+	construction_time = 100
 	build_path = /obj/item/ship_weapon/parts/firing_electronics
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
