@@ -26,8 +26,8 @@ export const OvermapGamemodeController = (props, context) => {
                     <br /><br />
                     <Button
                       icon="shield-alt"
-                      content={data.mode_initalised ? "Unable To Change Gamemode" : "Change Gamemode"}
-                      color={data.mode_initalised ? "grey" : "green"}
+                      content={data.game_started ? "Unable To Change Gamemode" : "Change Gamemode"}
+                      color={data.game_started ? "grey" : "green"}
                       onClick={() => act('change_gamemode')} />
                   </LabeledList.Item>
                   <LabeledList.Item label="Threat">
