@@ -304,7 +304,7 @@ Adding tasks is easy! Just define a datum for it.
 			if(OOM == OM)
 				L.Remove(OM)
 				break	//Ships should exist once in a each taskforce, unless something is very wrong in there.
-	if(!all_ships.len) //We've been defeated!
+	if(!all_ships.len && !QDELETED(src)) //We've been defeated! But not if we're being deleted
 		defeat()
 
 /datum/fleet/proc/defeat()
