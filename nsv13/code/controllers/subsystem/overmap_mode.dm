@@ -147,6 +147,8 @@ SUBSYSTEM_DEF(overmap_mode)
 	return ..()
 
 /datum/controller/subsystem/overmap_mode/proc/setup_overmap_mode()
+	if(mode_initialised)
+		return
 	mode_initialised = TRUE
 	switch(mode.objective_reminder_setting) //Load the reminder settings
 		if(REMINDER_OBJECTIVES)
@@ -368,7 +370,7 @@ SUBSYSTEM_DEF(overmap_mode)
 		mode.difficulty = 1
 
 /datum/controller/subsystem/overmap_mode/proc/force_mode(new_mode)
-	if(!new_mode) //You can't do something with nothing
+	if(!new_mode)
 		return FALSE
 	if(!mode)
 		forced_mode = new_mode
@@ -377,8 +379,9 @@ SUBSYSTEM_DEF(overmap_mode)
 		QDEL_NULL(mode)
 		mode = new new_mode()
 		forced_mode = mode
-		mode_initialised = FALSE //Reset this in case something fails after it.
-		setup_overmap_mode() //we will have to reinitialize manually
+		if(mode_initialised) //Well now look at what you did, we have to reboot everything
+			mode_initialised = FALSE
+			setup_overmap_mode()
 		return mode.name
 
 /datum/controller/subsystem/overmap_mode/proc/toggle_hardmode()
@@ -390,11 +393,8 @@ SUBSYSTEM_DEF(overmap_mode)
 	if(hard_mode_enabled) //Go on, clear the map out
 		force_mode(/datum/overmap_gamemode/hardmode)
 		SSresearch.hardmode_tech_enable()
-		var/datum/star_system/D = SSstar_system.system_by_id("Dolos Remnants")
-		D.spawn_fleet(/datum/fleet/remnant)
 		var/datum/star_system/R = SSstar_system.system_by_id("Rubicon")
 		R.spawn_fleet(/datum/fleet/interdiction/light) //They're going to assault you immediately, should be replaced with a more general aggressive Syndicate expansion behaviour
-		instance_objectives()
 		if(mode_initialised) //Not really needed when they're not in game yet
 			priority_announce("Increased hostile activity detected. Mission objectives for [station_name()] updated. Please consult the communications console for a new mission statement. Mobilize your forces at once.")
 	else //Undo all of that
@@ -641,8 +641,8 @@ SUBSYSTEM_DEF(overmap_mode)
 			SSovermap_mode.modify_threat_elevation(amount)
 			return TRUE
 		if("change_gamemode")
-			if(SSticker.HasRoundStarted())
-				message_admins("Mid-round Overmap Gamemode Changes Not Currently Supported") //SoonTM
+			if(SSovermap_mode.mode_initialised)
+				message_admins("Mid-round overmap gamemode changes not currently supported") //SoonTM
 				return
 			var/list/gamemode_pool = subtypesof(/datum/overmap_gamemode)
 			gamemode_pool -= /datum/overmap_gamemode/hardmode //Don't include challenge modes
