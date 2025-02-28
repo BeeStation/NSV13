@@ -399,7 +399,7 @@ SUBSYSTEM_DEF(overmap_mode)
 			priority_announce("Increased hostile activity detected. Mission objectives for [station_name()] updated. Please consult the communications console for a new mission statement. Mobilize your forces at once.")
 	else //Undo all of that
 		SSresearch.hardmode_tech_disable()
-		force_mode()
+		force_mode(/datum/overmap_gamemode/patrol) //Just set it to patrol instead
 		var/datum/star_system/D = SSstar_system.system_by_id("Dolos Remnants")
 		for(var/datum/fleet/F in D.fleets)
 			if(istype(F, /datum/fleet/remnant))
