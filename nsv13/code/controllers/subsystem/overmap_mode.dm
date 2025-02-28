@@ -368,6 +368,8 @@ SUBSYSTEM_DEF(overmap_mode)
 		mode.difficulty = 1
 
 /datum/controller/subsystem/overmap_mode/proc/force_mode(new_mode)
+	if(!new_mode) //You can't do something with nothing
+		return FALSE
 	if(!mode)
 		forced_mode = new_mode
 		return initial(forced_mode.name)
@@ -613,7 +615,7 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_mode_controller/ui_interact(mob/user, datum/tgui/ui)
 	if(!SSovermap_mode.initialized)
 		to_chat(user, "<span class='notice'>You can't open the overmap gamemode controller yet, wait for it to initialize!</span>")
-		return FALSE //We don't have anything to control yet*
+		return FALSE //We don't have anything to control yet
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
 		ui = new(user, src, "OvermapGamemodeController")
@@ -624,7 +626,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	if(..())
 		return
 	switch(action)
-		if(action == "current_escalation")
+		if("current_escalation")
 			var/adjust = text2num(params["adjust"])
 			if(isnum(adjust))
 				SSovermap_mode.escalation = adjust
@@ -649,7 +651,7 @@ SUBSYSTEM_DEF(overmap_mode)
 				return
 			var/newmode = SSovermap_mode.force_mode(S)
 			if(!newmode)
-				to_chat(user, "<span class='notice'>You can't change the gamemode right now!</span>")
+				to_chat(usr, "<span class='notice'>You can't change the gamemode right now!</span>")
 			else
 				message_admins("[key_name_admin(usr)] has changed the overmap gamemode to [newmode]")
 			return TRUE
@@ -772,7 +774,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	else if(SSovermap_mode.mode)
 		data["current_gamemode"] = SSovermap_mode.mode?.name
 	data["current_description"] = SSovermap_mode.mode?.desc
-	data["mode_initalised"] = SSovermap_mode.mode_initialised
+	data["game_started"] = SSticker.HasRoundStarted()
 	data["hard_mode"] = SSovermap_mode.hard_mode_enabled
 	data["current_difficulty"] = SSovermap_mode.mode?.difficulty
 	data["current_escalation"] = SSovermap_mode.escalation

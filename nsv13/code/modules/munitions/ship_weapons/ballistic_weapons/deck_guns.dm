@@ -1,6 +1,3 @@
-#define NAC_MIN_POWDER_LOAD 0.5 // Min powder, equivelant to 25%
-#define NAC_NORMAL_POWDER_LOAD 2 // "100%" powder
-#define NAC_MAX_POWDER_LOAD 10 // Max powder, or 500%
 
 /obj/machinery/ship_weapon/deck_turret
 	name = "\improper M4-15 'Hood' deck turret"
