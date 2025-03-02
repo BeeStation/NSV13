@@ -745,7 +745,6 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/light,
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
 "acf" = (
@@ -20321,15 +20320,11 @@
 /turf/open/floor/monotile/light,
 /area/medical/storage)
 "bcc" = (
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
-/obj/machinery/door/firedoor/border_only{
+/obj/machinery/camera/autoname{
 	dir = 8
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
-/turf/open/floor/plating,
-/area/maintenance/department/cargo)
+/turf/open/floor/monotile/steel,
+/area/medical)
 "bcd" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/structure/disposalpipe/segment,
@@ -20594,22 +20589,6 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame1/central)
-"bcE" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 8
-	},
-/obj/machinery/door/firedoor/border_only{
-	dir = 4
-	},
-/obj/effect/landmark/zebra_interlock_point,
-/turf/open/floor/plating,
-/area/maintenance/department/cargo)
 "bcF" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -30752,8 +30731,7 @@
 "bxT" = (
 /obj/effect/landmark/start/quartermaster,
 /obj/machinery/computer/ship/viewscreen{
-	pixel_y = -31;
-	pixel_x = -1
+	pixel_y = -31
 	},
 /turf/open/floor/carpet/blue,
 /area/quartermaster/qm)
@@ -48035,10 +48013,14 @@
 	},
 /area/engine/atmos)
 "oPR" = (
-/obj/machinery/light/small{
-	dir = 8
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
-/turf/template_noop,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/light,
+/turf/open/floor/plating,
 /area/maintenance/department/medical)
 "oQy" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/junction{
@@ -49245,7 +49227,6 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
-/obj/machinery/light/small,
 /turf/open/floor/durasteel,
 /area/maintenance/department/medical)
 "qAP" = (
@@ -53290,15 +53271,21 @@
 /turf/open/space/basic,
 /area/engine/atmos)
 "wcy" = (
-/obj/structure/sign/ship/pods/north{
-	pixel_y = 1;
-	pixel_x = -32
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
 	},
-/obj/machinery/light{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/turf/open/floor/monotile/steel,
-/area/medical)
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
+	},
+/obj/effect/landmark/zebra_interlock_point,
+/turf/open/floor/plating,
+/area/maintenance/department/cargo)
 "weE" = (
 /obj/structure/closet/secure_closet/brig,
 /obj/machinery/firealarm{
@@ -54379,6 +54366,9 @@
 /obj/structure/sign/ship/pods/east{
 	pixel_y = -2;
 	pixel_x = 31
+	},
+/obj/machinery/camera/autoname{
+	dir = 8
 	},
 /turf/open/floor/monotile/steel,
 /area/medical)
@@ -77028,9 +77018,9 @@ pHV
 pHV
 ahS
 jqT
-agX
+hAC
 ueI
-oPR
+pHV
 pHV
 pHV
 pHV
@@ -80123,7 +80113,7 @@ aZX
 ycN
 bmS
 bYc
-wcy
+bFX
 aZX
 ahK
 dCq
@@ -80628,14 +80618,14 @@ aWq
 baz
 eLS
 aZX
-aZX
+bcc
 tVW
 aZX
 aZX
 aZX
 bvT
 xCD
-aZX
+tVW
 aZX
 rsC
 aZX
@@ -82423,7 +82413,7 @@ bsW
 bsW
 bsW
 ace
-die
+fuW
 pHV
 pHV
 pHV
@@ -82679,8 +82669,8 @@ bsX
 bBE
 bCf
 bsW
-bjk
-fuW
+oPR
+aZa
 pHV
 pHV
 pHV
@@ -93024,9 +93014,9 @@ eLm
 eLm
 eLm
 eLm
-bJu
-bLR
-aim
+aih
+wcy
+foY
 aij
 aaa
 aaa
@@ -93281,9 +93271,9 @@ eLm
 eLm
 eLm
 eLm
-aih
-bcE
-foY
+bJu
+bLR
+aim
 aij
 aaa
 aaa
@@ -94049,7 +94039,7 @@ ajs
 ajs
 ajs
 aih
-bcc
+aih
 aih
 aih
 aih
@@ -96347,8 +96337,8 @@ aim
 aih
 aih
 aih
-aih
 bcF
+aih
 aih
 aih
 bcF
@@ -97374,8 +97364,8 @@ fEj
 aih
 aih
 aih
-bcF
 aih
+bcF
 aih
 aih
 aih

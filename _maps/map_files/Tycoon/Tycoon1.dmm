@@ -1688,6 +1688,7 @@
 /area/nsv/briefingroom)
 "eF" = (
 /obj/machinery/computer/ship/viewscreen,
+/obj/machinery/camera/autoname,
 /turf/open/floor/monotile/steel,
 /area/nsv/briefingroom)
 "eG" = (
@@ -2745,6 +2746,9 @@
 /obj/machinery/door/window{
 	req_one_access_txt = "19"
 	},
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/plasteel/stairs/old{
 	dir = 1
 	},
@@ -2761,6 +2765,9 @@
 /obj/machinery/navbeacon{
 	codes_txt = "patrol;next_patrol=loc5d2";
 	location = "loc4d2"
+	},
+/obj/machinery/camera/autoname{
+	dir = 5
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
@@ -3783,9 +3790,6 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
 	},
-/obj/machinery/light{
-	dir = 4
-	},
 /turf/open/floor/monotile/steel,
 /area/nsv/briefingroom)
 "js" = (
@@ -4174,9 +4178,6 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
 /turf/open/floor/monotile/steel,
 /area/nsv/briefingroom)
 "jZ" = (
@@ -4453,6 +4454,9 @@
 /obj/machinery/door/window{
 	dir = 1;
 	req_one_access_txt = "19"
+	},
+/obj/machinery/light{
+	dir = 4
 	},
 /turf/open/floor/plasteel/stairs/old,
 /area/nsv/briefingroom)
@@ -6318,6 +6322,15 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/miningdock)
+"uF" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck1/hallway)
 "uT" = (
 /obj/machinery/camera/autoname{
 	dir = 1;
@@ -6339,6 +6352,7 @@
 "vf" = (
 /obj/structure/table/reinforced,
 /obj/item/storage/toolbox/mechanical,
+/obj/machinery/camera/autoname,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "vi" = (
@@ -6869,6 +6883,7 @@
 "EY" = (
 /obj/structure/table/reinforced,
 /obj/item/extinguisher/advanced/hull_repair_juice,
+/obj/machinery/camera/autoname,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck1/hallway)
 "Fi" = (
@@ -7025,11 +7040,18 @@
 	req_one_access_txt = "13"
 	},
 /turf/open/floor/monotile/dark/airless,
-/area/space/nearstation)
+/area/hallway/nsv/deck1/hallway)
 "Hb" = (
 /obj/machinery/bluespace_beacon,
 /turf/open/floor/monotile/steel,
 /area/teleporter)
+"Hc" = (
+/obj/machinery/portable_atmospherics/scrubber,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck1/hallway)
 "Hd" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 1
@@ -7141,6 +7163,9 @@
 	})
 "IC" = (
 /obj/machinery/atmospherics/pipe/layer_manifold,
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
 /turf/open/floor/monotile/dark/airless,
 /area/hallway/nsv/deck1/hallway)
 "IJ" = (
@@ -7380,6 +7405,12 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/heads/captain)
+"LY" = (
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
+/turf/open/floor/monotile/steel,
+/area/nsv/briefingroom)
 "Mb" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -7677,9 +7708,15 @@
 /turf/open/floor/monotile/steel,
 /area/quartermaster/miningdock)
 "Qd" = (
-/obj/effect/spawner/structure/window/reinforced,
+/obj/machinery/door/poddoor/ship/preopen{
+	dir = 4;
+	id = "bridge_blast";
+	name = "CIC blast doors"
+	},
+/obj/structure/window/reinforced/fulltile/ship,
+/obj/structure/grille,
 /turf/open/floor/plating,
-/area/space/nearstation)
+/area/nsv/briefingroom)
 "Qg" = (
 /obj/effect/turf_decal/tile/neutral,
 /obj/effect/turf_decal/tile/neutral{
@@ -8126,6 +8163,17 @@
 	},
 /turf/open/floor/monotile/dark/airless,
 /area/space/nearstation)
+"UT" = (
+/obj/structure/grille,
+/obj/machinery/door/firedoor,
+/obj/machinery/door/poddoor/ship/preopen{
+	dir = 4;
+	id = "bridge_blast";
+	name = "CIC blast doors"
+	},
+/obj/structure/window/reinforced/fulltile/ship,
+/turf/open/floor/plating,
+/area/nsv/briefingroom)
 "UV" = (
 /obj/structure/rack,
 /obj/item/storage/toolbox/mechanical,
@@ -40634,7 +40682,7 @@ aQ
 Ya
 Ya
 dG
-es
+uF
 bN
 fY
 gX
@@ -41668,7 +41716,7 @@ XE
 cb
 zM
 cb
-kf
+Hc
 bN
 rl
 Mg
@@ -42690,7 +42738,7 @@ iy
 iC
 Wi
 dJ
-es
+uF
 bN
 XE
 cb
@@ -43217,7 +43265,7 @@ ke
 lV
 yZ
 yZ
-Yf
+yZ
 Yf
 Yf
 Yf
@@ -43474,7 +43522,7 @@ Hd
 lU
 Sa
 IC
-Qd
+iF
 iC
 iC
 iC
@@ -43988,7 +44036,7 @@ mM
 yZ
 yZ
 yZ
-aI
+yZ
 jj
 jj
 jj
@@ -45011,7 +45059,7 @@ gC
 gC
 gC
 kP
-eE
+LY
 dS
 iC
 no
@@ -46030,7 +46078,7 @@ ac
 Mu
 hA
 tx
-dT
+dS
 ab
 gG
 gC
@@ -46040,7 +46088,7 @@ gC
 gC
 mQ
 aF
-dT
+dS
 no
 ax
 Xp
@@ -46287,7 +46335,7 @@ ac
 Lw
 hA
 iy
-dT
+dS
 eE
 fB
 gC
@@ -46297,7 +46345,7 @@ gC
 gC
 kP
 eE
-dT
+dS
 no
 ax
 Xp
@@ -47581,7 +47629,7 @@ jm
 jX
 kB
 lb
-eE
+LY
 dS
 no
 ax
@@ -48088,14 +48136,14 @@ mw
 iy
 dS
 eL
-eL
-eL
-eL
-eL
-eL
-eL
-eL
-eL
+dS
+dS
+Qd
+Qd
+Qd
+dS
+dS
+UT
 dS
 no
 ax
