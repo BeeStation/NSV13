@@ -15,6 +15,8 @@
 	var/damage = 100
 	var/damage_type = BRUTE
 	var/damage_flag = "overmap_heavy"
+	///Var that tracks if we already blew up because some proc chains are potentially funny like that.
+	var/blew_up = FALSE
 	alpha = 110 //They're supposed to be sneaky, their main advantage is being cloaked
 
 /obj/structure/space_mine/Initialize(mapload, var/new_faction, var/datum/star_system/system)
@@ -95,6 +97,9 @@
 	mine_explode() //Why you mine explode? To the woods with you
 
 /obj/structure/space_mine/proc/mine_explode(obj/structure/overmap/OM)
+	if(blew_up)
+		return
+	blew_up = TRUE
 	var/armour_penetration = 0
 	if(OM) //You just flew into a mine
 		armour_penetration = 20 //It's blowing up right next to you, this is what it was designed for
