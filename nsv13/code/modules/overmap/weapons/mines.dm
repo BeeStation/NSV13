@@ -6,6 +6,7 @@
 	anchored = TRUE
 	density = FALSE
 	layer = ABOVE_MOB_LAYER
+	pass_flags = ALL //Cease.
 	animate_movement = NO_STEPS
 	max_integrity = 300
 	integrity_failure = 100
@@ -53,6 +54,14 @@
 /obj/structure/space_mine/Process_Spacemove(movement_dir = 0)
 	return 1
 
+//OVerride
+/obj/structure/space_mine/Bump(atom/A)
+	return
+
+//Override
+/obj/structure/space_mine/physics_collide(atom/movable/A)
+	return FALSE
+
 /obj/structure/space_mine/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
 
@@ -74,6 +83,9 @@
 		icon_state = "mine_unaligned"
 
 /obj/structure/space_mine/obj_break(damage_flag)
+	if(broken)
+		return
+	broken = TRUE
 	if(prob(80))
 		obj_destruction()
 	else //Whoops, IFF broke!
@@ -81,7 +93,6 @@
 
 /obj/structure/space_mine/obj_destruction(damage_flag)
 	mine_explode() //Why you mine explode? To the woods with you
-	. = ..()
 
 /obj/structure/space_mine/proc/mine_explode(obj/structure/overmap/OM)
 	var/armour_penetration = 0
@@ -103,5 +114,7 @@
 			else
 				OM.take_damage(damage, damage_type, damage_flag, FALSE, TRUE)
 	new /obj/effect/temp_visual/fading_overmap(get_turf(src), name, icon, icon_state, alpha)
+	if(!QDELETED(src))
+		qdel(src)
 
 
