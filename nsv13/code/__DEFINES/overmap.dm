@@ -31,8 +31,9 @@
 #define FIRE_MODE_LASER_PD 16
 #define FIRE_MODE_BLUE_LASER 17
 #define FIRE_MODE_HYBRID_RAIL 18
+#define FIRE_MODE_EMP 19
 
-#define MAX_POSSIBLE_FIREMODE 18 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
+#define MAX_POSSIBLE_FIREMODE 19 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
 
 //Weapon classes for AIs
 #define WEAPON_CLASS_LIGHT 1
@@ -91,6 +92,7 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 #define FACTION_ID_SOLGOV 3
 #define FACTION_ID_UNATHI 4
 #define FACTION_ID_PIRATES 5
+#define FACTION_ID_HOSTILE 6
 
 #define NO_INTERIOR 0
 #define INTERIOR_EXCLUSIVE 1 // Only one of them at a time, occupies a whole Z level
