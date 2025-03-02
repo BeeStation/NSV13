@@ -36,7 +36,7 @@
 				// Mark objective as failed
 				// I haven't figured out how to cleanly attach a Destroy check to prepackaged items that fail their associated transfer objective if destroyed
 				// Checking against the packaging crate this way will at least prevent gamemode softlocks due to incomplete objectives
-				overmap_objective.status = 2
+				overmap_objective.status = OBJECTIVE_STATUS_FAILED
 	..()
 
 /obj/structure/closet/crate/large/freight_objective/proc/poll_for_ghost_sentience()
