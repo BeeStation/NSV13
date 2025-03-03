@@ -92,7 +92,6 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 #define FACTION_ID_SOLGOV 3
 #define FACTION_ID_UNATHI 4
 #define FACTION_ID_PIRATES 5
-#define FACTION_ID_HOSTILE 6
 
 #define NO_INTERIOR 0
 #define INTERIOR_EXCLUSIVE 1 // Only one of them at a time, occupies a whole Z level
