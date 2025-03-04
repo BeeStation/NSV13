@@ -3340,7 +3340,8 @@
 /area/hallway/nsv/deck2/primary)
 "ks" = (
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	name = "DC Central Access"
+	name = "DC Central Access";
+	req_one_access_txt = "10"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
@@ -14358,7 +14359,7 @@
 	},
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
 	name = "Janitor";
-	req_one_access_txt = "12;26"
+	req_one_access_txt = "26"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
@@ -15689,7 +15690,9 @@
 	},
 /obj/machinery/door/firedoor/border_only,
 /obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/airlock/ship/maintenance,
+/obj/machinery/door/airlock/ship/maintenance{
+	req_one_access_txt = "12"
+	},
 /turf/open/floor/monotile/steel,
 /area/maintenance/nsv/deck2/port)
 "XI" = (
