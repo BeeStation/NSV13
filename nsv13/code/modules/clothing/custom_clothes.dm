@@ -367,6 +367,11 @@
 	item_state = "syndicate-space"
 	worn_icon_state = "syndicate-space"
 
+//Subytype which spawns with a camera for boarders
+/obj/item/clothing/head/helmet/space/syndicate/odst/camera/Initialize()
+	. = ..()
+	install_camera(faction = "Syndicate")
+
 /obj/item/storage/belt/utility/syndicate
 	name = "syndicate utility belt"
 	desc = "A large, black belt which facilitates tool storage."
