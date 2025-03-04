@@ -4156,9 +4156,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 8
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	req_one_access_txt = "5"
-	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
@@ -5173,9 +5171,7 @@
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
-/obj/machinery/firealarm{
-	pixel_y = 24
-	},
+/obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame2/port)
 "aoo" = (
@@ -14918,12 +14914,11 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 8
 	},
-/obj/structure/disposalpipe/sorting/mail/flip{
-	dir = 4;
-	sortType = 16
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
 /turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame2/port)
@@ -15410,9 +15405,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	req_one_access_txt = "12;5"
-	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
@@ -15955,6 +15948,9 @@
 	dir = 4
 	},
 /obj/structure/closet/wardrobe/grey,
+/obj/structure/disposalpipe/segment{
+	dir = 10
+	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/dorms)
 "aRS" = (
@@ -16974,9 +16970,7 @@
 /turf/open/floor/monotile/light,
 /area/crew_quarters/heads/cmo)
 "aUE" = (
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	req_one_access_txt = "12;5"
-	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /turf/open/floor/plating,
 /area/medical/break_room)
 "aUF" = (
@@ -23032,8 +23026,10 @@
 	dir = 4
 	},
 /obj/machinery/light,
-/obj/structure/disposalpipe/segment,
 /obj/structure/closet/wardrobe/grey,
+/obj/structure/disposalpipe/segment{
+	dir = 5
+	},
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/dorms)
 "bhB" = (
@@ -29748,9 +29744,7 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	req_one_access_txt = "5"
-	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /turf/open/floor/plating,
 /area/medical/genetics)
 "bvN" = (
@@ -34676,13 +34670,20 @@
 /turf/open/floor/plasteel/grid/steel,
 /area/quartermaster/storage)
 "bGj" = (
-/obj/effect/turf_decal/tile/neutral,
-/obj/effect/turf_decal/tile/neutral{
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/machinery/computer/ship/viewscreen,
-/obj/structure/disposalpipe/segment,
-/turf/open/floor/monotile/steel,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 8
+	},
+/obj/structure/disposalpipe/sorting/mail/flip{
+	dir = 4;
+	sortType = 16
+	},
+/turf/open/floor/monotile/dark,
 /area/hallway/nsv/deck2/frame2/port)
 "bGk" = (
 /obj/effect/landmark/patrol_node{
@@ -39599,6 +39600,12 @@
 	},
 /turf/open/floor/monotile/dark,
 /area/nsv/weapons/fore)
+"efW" = (
+/obj/machinery/firealarm{
+	pixel_y = 24
+	},
+/turf/open/floor/monotile/dark,
+/area/hallway/nsv/deck2/frame2/port)
 "egh" = (
 /obj/effect/turf_decal/tile/ship/orange,
 /obj/effect/turf_decal/tile/ship/orange{
@@ -42275,9 +42282,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	req_one_access_txt = "12;5"
-	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
 /turf/open/floor/monotile/dark,
 /area/medical/morgue)
 "hxW" = (
@@ -47043,8 +47048,9 @@
 	},
 /area/engine/atmos)
 "ntS" = (
+/obj/effect/spawner/structure/window/reinforced,
 /obj/structure/disposalpipe/segment,
-/turf/closed/wall/ship,
+/turf/open/floor/plating,
 /area/hallway/nsv/deck2/frame2/port)
 "nuc" = (
 /obj/effect/turf_decal/delivery/red,
@@ -48472,15 +48478,13 @@
 /turf/open/floor/plating,
 /area/maintenance/department/science)
 "pxy" = (
-/obj/machinery/door/airlock/ship{
-	name = "Supplies Closet"
-	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
+/obj/machinery/door/airlock/ship/glass,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/central)
 "pxF" = (
@@ -51460,6 +51464,14 @@
 	initial_gas_mix = "TEMP=2.7"
 	},
 /area/engine/atmos)
+"ttf" = (
+/obj/effect/turf_decal/tile/neutral,
+/obj/effect/turf_decal/tile/neutral{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/frame2/port)
 "tup" = (
 /obj/effect/decal/cleanable/blood,
 /obj/structure/barricade/wooden,
@@ -93242,9 +93254,9 @@ aqK
 aaY
 aaY
 aaY
-aad
+abq
 pxy
-aad
+abq
 aad
 aci
 evG
@@ -94245,7 +94257,7 @@ syG
 aZC
 aSb
 amm
-bAG
+efW
 aOY
 aMH
 abd
@@ -96043,8 +96055,8 @@ btF
 ful
 ful
 bhA
-ntS
-bGj
+amm
+amp
 aPo
 bkj
 acR
@@ -96300,9 +96312,9 @@ bnw
 btR
 btK
 aRR
-amn
-amp
-aOZ
+ntS
+ttf
+bGj
 aMH
 acR
 aks
