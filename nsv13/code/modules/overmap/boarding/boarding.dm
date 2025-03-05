@@ -114,7 +114,7 @@
 
 	var/obj/structure/closet/supplypod/toLaunch
 	if(faction_selection == "pirate")
-		toLaunch = new /obj/structure/closet/supplypod/pirate_odst()
+		toLaunch = new /obj/structure/closet/supplypod/pirate_odst() //since the only actually custom pod is the pirate one
 	else
 		toLaunch = new /obj/structure/closet/supplypod/syndicate_odst()
 	var/shippingLane	=	GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
