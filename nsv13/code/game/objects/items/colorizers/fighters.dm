@@ -10,3 +10,4 @@
 	allowed_targets = list(/obj/structure/overmap/small_craft/combat/light)
 	apply_icon = 'nsv13/icons/overmap/nanotrasen/fighter_cindy.dmi'
 
+
