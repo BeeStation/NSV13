@@ -26,7 +26,7 @@
 /datum/outfit/syndicate/odst
 	name = "Syndicate Boarder - Base"
 	suit = /obj/item/clothing/suit/space/syndicate/odst
-	head = /obj/item/clothing/head/helmet/space/syndicate/odst
+	head = /obj/item/clothing/head/helmet/space/syndicate/odst/camera //You're boarding, you get cams
 	belt = /obj/item/storage/belt/utility/syndicate
 	gloves = /obj/item/clothing/gloves/combat
 	mask = /obj/item/clothing/mask/gas/syndicate
