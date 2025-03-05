@@ -14,4 +14,4 @@
 	name = "Su-410 Scimitar Colorizer (Flight Lead)"
 	desc = "This colorizer will apply a new livery to a light fighter. Dual cannons with halved fire rate included."
 	allowed_targets = list(/obj/structure/overmap/small_craft/combat/heavy)
-	apply_icon = 'nsv13/icons/overmap/nanotrasen/heavy_fighter_thunderbolt'
+	apply_icon = 'nsv13/icons/overmap/nanotrasen/heavy_fighter_thunderbolt.dmi'
