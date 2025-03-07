@@ -461,7 +461,7 @@
 	max_integrity = 1200
 	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
 	icon_state = "advanced_cruiser"
-	damage_states = FALSE	//Maybe later
+	damage_states = TRUE
 	sprite_size = 96
 	bound_height = 128
 	bound_width = 128

@@ -123,7 +123,7 @@
 	icon_state = "spacepirate_cruiser"
 	mass = MASS_MEDIUM
 	sprite_size = 96
-	damage_states = FALSE
+	damage_states = TRUE
 	bound_height = 128
 	bound_width = 128
 	max_integrity = 350
