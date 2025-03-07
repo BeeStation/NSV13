@@ -155,4 +155,5 @@
 	if(default_unfasten_wrench(user, W))
 		if(!movable)
 			on = FALSE
-	return ..()
+	else
+		return ..()

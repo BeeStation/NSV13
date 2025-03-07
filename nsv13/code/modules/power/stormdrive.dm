@@ -1711,6 +1711,8 @@ Control Rods
 
 /obj/effect/anomaly/stormdrive/squall/detonate()
 	for(var/atom/movable/AM in orange(6, src))
+		if(!QDELETED(AM))
+			continue
 		if(isliving(AM))
 			var/mob/living/M = AM
 			M.Paralyze(40)
@@ -1718,7 +1720,7 @@ Control Rods
 			M.apply_damage(20)
 			var/atom/target = get_edge_target_turf(M, get_dir(src, get_step_away(M, src)))
 			M.throw_at(target, 6, 5)
-		if(!QDELETED(AM) && isobj(AM) && !AM.anchored)
+		if(isobj(AM) && !AM.anchored)
 			var/atom/target = get_edge_target_turf(AM, get_dir(src, get_step_away(AM, src)))
 			AM.throw_at(target, 6, 5)
 
