@@ -114,7 +114,7 @@
 /datum/emote/living/flap
 	key = "flap"
 	key_third_person = "flaps"
-	message = "flaps their wings"
+	message = "flaps their"
 	restraint_check = TRUE
 	var/wing_time = 10
 
@@ -125,12 +125,32 @@
 		if(H.Togglewings())
 			addtimer(CALLBACK(H,TYPE_PROC_REF(/mob/living/carbon/human, Togglewings)), wing_time)
 
+/datum/emote/living/flap/select_message_type(mob/user, intentional)
+	. = ..()
+	var/wings = FALSE
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		if(H.dna && H.dna.species)
+			if((H.dna.features["wings"] != "None") || H.dna.features["moth_wings"] != "None")
+				. = message + " wings"
+				wings = TRUE
+		var/obj/item/organ/wings/wings_slot = H.getorganslot(ORGAN_SLOT_WINGS)
+		if(!wings && istype(wings_slot))
+			. = message + " wings"
+			wings = TRUE
+	if(!wings)
+		. = message + " arms"
+
 /datum/emote/living/flap/aflap
 	key = "aflap"
 	key_third_person = "aflaps"
-	message = "flaps their wings aggressively"
+	message = "flaps their"
 	restraint_check = TRUE
 	wing_time = 5
+
+/datum/emote/living/flap/aflap/select_message_type(mob/user, intentional)
+	. = ..()
+	. = message + " aggressively"
 
 /datum/emote/living/frown
 	key = "frown"
