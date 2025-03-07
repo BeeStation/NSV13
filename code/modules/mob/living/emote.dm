@@ -150,7 +150,7 @@
 
 /datum/emote/living/flap/aflap/select_message_type(mob/user, intentional)
 	. = ..()
-	. = message + " aggressively"
+	. = . + " aggressively"
 
 /datum/emote/living/frown
 	key = "frown"
