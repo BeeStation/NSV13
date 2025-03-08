@@ -63,6 +63,9 @@
 	var/center = FALSE	//Should we center the sprite?
 	var/limbs_id // The limbs id supplied for full-body replacing features.
 
+	///Category this tail falls into (for suit sprites). On basetype because for some reason wagging and nonwagging tails are not related??
+	var/general_type //NSV13
+
 //////////////////////
 // Hair Definitions //
 //////////////////////
@@ -1686,34 +1689,42 @@
 /datum/sprite_accessory/tails/lizard/smooth
 	name = "Smooth"
 	icon_state = "smooth"
+	general_type = "lizard" //NSV13
 
 /datum/sprite_accessory/tails_animated/lizard/smooth
 	name = "Smooth"
 	icon_state = "smooth"
+	general_type = "lizard" //NSV13
 
 /datum/sprite_accessory/tails/lizard/dtiger
 	name = "Dark Tiger"
 	icon_state = "dtiger"
+	general_type = "lizard" //NSV13
 
 /datum/sprite_accessory/tails_animated/lizard/dtiger
 	name = "Dark Tiger"
 	icon_state = "dtiger"
+	general_type = "lizard" //NSV13
 
 /datum/sprite_accessory/tails/lizard/ltiger
 	name = "Light Tiger"
 	icon_state = "ltiger"
+	general_type = "lizard" //NSV13
 
 /datum/sprite_accessory/tails_animated/lizard/ltiger
 	name = "Light Tiger"
 	icon_state = "ltiger"
+	general_type = "lizard" //NSV13
 
 /datum/sprite_accessory/tails/lizard/spikes
 	name = "Spikes"
 	icon_state = "spikes"
+	general_type = "lizard" //NSV13
 
 /datum/sprite_accessory/tails_animated/lizard/spikes
 	name = "Spikes"
 	icon_state = "spikes"
+	general_type = "lizard" //NSV13
 
 /datum/sprite_accessory/tails/human/none
 	name = "None"
@@ -1727,11 +1738,13 @@
 	name = "Cat"
 	icon_state = "cat"
 	color_src = HAIR
+	general_type = "feline" //NSV13
 
 /datum/sprite_accessory/tails_animated/human/cat
 	name = "Cat"
 	icon_state = "cat"
 	color_src = HAIR
+	general_type = "feline" //NSV13
 
 /datum/sprite_accessory/tails/human/clock
 	name = "Clockwork"

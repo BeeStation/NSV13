@@ -296,7 +296,6 @@ Returns a faction datum by its name (case insensitive!)
 	return system
 
 /datum/controller/subsystem/star_system/proc/spawn_ship(obj/structure/overmap/OM, datum/star_system/target_sys, center=FALSE)//Select Ship to Spawn and Location via Z-Trait
-	target_sys.system_contents += OM
 	if(target_sys.occupying_z)
 		var/turf/destination = null
 		if(center)
@@ -492,9 +491,11 @@ Returns a faction datum by its name (case insensitive!)
 			return
 		if("STARTUP_PROC_TYPE_DOLOS")
 			addtimer(CALLBACK(src, PROC_REF(register_dolos_achievement)), 5 SECONDS)
+			return
 		if("STARTUP_PROC_TYPE_ABASSI")
 			addtimer(CALLBACK(src, PROC_REF(register_abassi_achievement)), 5 SECONDS)
-	message_admins("WARNING: Invalid startup_proc declared for [name]! Review your defines (~L438, starsystem.dm), please.")
+			return
+	message_admins("WARNING: Invalid startup_proc declared for [name]! Review your defines (~L498, starsystem.dm), please.")
 	return 1
 
 /datum/star_system/vv_edit_var(var_name, var_value)
@@ -619,13 +620,15 @@ Returns a faction datum by its name (case insensitive!)
 	var/scanned = FALSE
 	var/specialist_research_type = null //Special techweb node unlocking.
 
-/obj/effect/overmap_anomaly/Initialize(mapload)
+/obj/effect/overmap_anomaly/Initialize(mapload, system)
 	. = ..()
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
 	GLOB.overmap_anomalies += src
+	if(system)
+		current_system = system
 
 /obj/effect/overmap_anomaly/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
@@ -689,12 +692,12 @@ Returns a faction datum by its name (case insensitive!)
 	START_PROCESSING(SSfastprocess, src)
 
 /obj/effect/overmap_anomaly/singularity/process()
-	if(!z) //Not in nullspace
+	if(!z || !current_system) //Not in nullspace
 		if(length(affecting))
 			for(var/obj/structure/overmap/OM in affecting)
 				stop_affecting(OM)
 		return
-	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects) //Has to go through global overmaps due to anomalies not referencing their system - probably something to change one day.
+	for(var/obj/structure/overmap/OM in current_system.system_contents) //This list is not exclusively overmaps so no as() calls.
 		if(LAZYFIND(affecting, OM))
 			continue
 		if(OM.z != z)

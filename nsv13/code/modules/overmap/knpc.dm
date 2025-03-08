@@ -20,14 +20,19 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/obj/effect/landmark/patrol_node/last_node = null //What was the last patrol node we visited?
 	var/stealing_id = FALSE
 	var/next_internals_attempt = 0
-	var/static/list/climbable = typecacheof(list(/obj/structure/table, /obj/structure/railing)) // climbable structures
+	var/static/list/climbable = typecacheof(list(
+		/obj/structure/table,
+		/obj/structure/railing,
+		/obj/structure/peacekeeper_barricade,
+		/obj/item/ship_weapon/ammunition
+		)) // climbable things
 	var/pathfind_timeout = 0 //If pathfinding fails, it is püt in timeout for a while to avoid spamming the server with pathfinding calls.
 	var/timeout_stacks = 0 //Consecutive pathfind fails add additional delay stacks to further counteract the effects of knpcs in unreachable locations.
 
 /mob/living/carbon/human/ai_boarder
 	faction = list("Neutral")
-	var/move_delay = 4 //How quickly do the boys travel?
-	var/action_delay = 6 //How long we delay between actions
+	var/move_delay = 4  //How quickly do the boys travel?
+	var/action_delay = 9 //How long we delay between actions
 	var/knpc_traits = KNPC_IS_DODGER | KNPC_IS_MERCIFUL | KNPC_IS_AREA_SPECIFIC
 	var/difficulty_override = FALSE //Whether to ignore overmap difficulty or not
 	var/list/outfit = list (
@@ -143,6 +148,8 @@ GLOBAL_LIST_EMPTY(knpcs)
 	if(length(path) > 1)
 		var/turf/next_turf = get_step_towards(H, path[1])
 		var/turf/this_turf = get_turf(H)
+		var/move_dir = get_dir(this_turf, next_turf)
+		var/reverse_dir = get_dir(next_turf, this_turf)
 		//Walk when you see a wet floor
 		if(next_turf.GetComponent(/datum/component/wet_floor))
 			H.m_intent = MOVE_INTENT_WALK
@@ -150,32 +157,53 @@ GLOBAL_LIST_EMPTY(knpcs)
 			H.m_intent = MOVE_INTENT_RUN
 
 		for(var/obj/machinery/door/firedoor/blocking_firelock in next_turf)
-			if((blocking_firelock.flags_1 & ON_BORDER_1) && !(blocking_firelock.dir in dir_to_cardinal_dirs(get_dir(next_turf, this_turf))))
+			if((blocking_firelock.flags_1 & ON_BORDER_1) && !(blocking_firelock.dir in dir_to_cardinal_dirs(reverse_dir))) //Here, only firelocks on the border matter since fulltile firelocks let you exit.
 				continue
-			if(!blocking_firelock.density || blocking_firelock.operating)
+			if(!blocking_firelock.density || blocking_firelock.powered())
 				continue
-			if(blocking_firelock.welded)
+			if((blocking_firelock.welded))
 				break	//If at least one firedoor in our way is welded shut, welp!
 			blocking_firelock.open()	//Open one firelock per tile per try.
 			break
 		for(var/obj/machinery/door/firedoor/blocking_firelock in this_turf)
-			if(!((blocking_firelock.flags_1 & ON_BORDER_1) && (blocking_firelock.dir in dir_to_cardinal_dirs(get_dir(this_turf, next_turf))))) //Here, only firelocks on the border matter since fulltile firelocks let you exit.
+			if(!((blocking_firelock.flags_1 & ON_BORDER_1) && (blocking_firelock.dir in dir_to_cardinal_dirs(move_dir))))
 				continue
-			if(!blocking_firelock.density || blocking_firelock.operating)
+			if(!blocking_firelock.density || blocking_firelock.powered())
 				continue
 			if(blocking_firelock.welded)
 				break	//If at least one firedoor in our way is welded shut, welp!
 			blocking_firelock.open()	//Open one firelock per tile per try.
 			break
 		for(var/obj/structure/possible_barrier in next_turf) //If we're stuck
-			if(!climbable.Find(possible_barrier.type))
+			if(!climbable[possible_barrier.type])
 				continue
-			H.forceMove(next_turf)
-			H.visible_message("<span class='warning'>[H] climbs onto [possible_barrier]!</span>")
-			H.Stun(2 SECONDS) //Table.
+			if(possible_barrier.dir == reverse_dir || istype(possible_barrier, /obj/structure/table))
+				var/obj/item/dropped_it
+				if(H.get_active_held_item())
+					dropped_it = H.get_active_held_item()
+				possible_barrier.climb_structure(H)
+				if(dropped_it) //Don't forget to pick up your stuff
+					H.put_in_hands(dropped_it, forced=TRUE)
+			else
+				continue
 			if(get_turf(H) == path[1])
 				increment_path()
-			return TRUE
+				return TRUE
+		for(var/obj/structure/possible_barrier in this_turf)
+			if(!climbable[possible_barrier.type])
+				continue
+			if(possible_barrier.dir == move_dir || istype(possible_barrier, /obj/structure/table))
+				var/obj/item/dropped_it
+				if(H.get_active_held_item())
+					dropped_it = H.get_active_held_item()
+				possible_barrier.climb_structure(H)
+				if(dropped_it) //Don't forget to pick up your stuff
+					H.put_in_hands(dropped_it, forced=TRUE)
+			else
+				continue
+			if(get_turf(H) == path[1])
+				increment_path()
+				return TRUE
 		step_towards(H, path[1])
 		if(get_turf(H) == path[1]) //Successful move
 			increment_path()
@@ -255,6 +283,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 	if(length(path))
 		next_path_step()
 	else //They should always be pathing somewhere...
+		next_path_step()
 		dest = null
 		tries = 0
 		path = list()
@@ -298,7 +327,7 @@ of a specific action goes up, to encourage skynet to go for that one instead.
 	var/list/guessed_objects = view(HA.guess_range, HA.parent)
 	for(var/mob/living/M in guessed_objects)
 		//Invis is a no go. Non-human, -cyborg or -hostile mobs are ignored.
-		if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || (!ishuman(M) && !iscyborg(M) && !ishostile(M)))
+		if(M.invisibility >= INVISIBILITY_ABSTRACT || M.alpha <= 0 || (!ishuman(M) && !iscyborg(M))) //Removed && !ishostile(M) temporarily because of Sgt. Araneus
 			continue
 		// Dead mobs are ignored.
 		if(CHECK_BITFIELD(H.knpc_traits, KNPC_IS_MERCIFUL) && M.stat >= UNCONSCIOUS)
@@ -353,13 +382,14 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	if(!..())
 		return 0
 	var/mob/living/carbon/human/H = HA.parent
-	var/obj/item/gun/G = H.get_active_held_item()
+	var/obj/A = H.get_active_held_item()
+	var/obj/B = H.get_inactive_held_item() //check your other hand, just in case.
 	//We already have a gun
-	if(G && istype(G))
+	if((A && istype(A, /obj/item/gun)) || (B && istype(B, /obj/item/gun)))
 		return 0
-	var/obj/item/gun/G_New = locate(/obj/item/gun) in oview(HA.view_range, H)
-	if(G_New && gun_suitable(H, G_New))
-		return AI_SCORE_CRITICAL //There is a gun really obviously in the open....
+	for(var/obj/item/gun/G in view(HA.view_range, H))
+		if(gun_suitable(H, G))
+			return AI_SCORE_CRITICAL //There is a gun really obviously in the open....
 	return score
 
 /datum/ai_goal/human/proc/CheckFriendlyFire(mob/living/us, mob/living/them)
@@ -376,7 +406,16 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	var/mob/living/carbon/human/H = HA.parent
 	var/obj/item/storage/S = H.back
 	var/obj/item/gun/target_item = null
-	//Okay first off, is the gun already on our person?
+	//We must have lost our gun somehow, get it from the floor if we simply dropped it.
+	if(istype(H.loc, /turf))
+		var/turf/T = H.loc
+		for(var/obj/item/gun/G in T.contents)
+			if(gun_suitable(H, G))
+				target_item = G
+				break
+		if(target_item && H.put_in_hands(target_item))
+			return TRUE
+	//Otherwise, is there a gun already on our person?
 	if(S)
 		var/list/expanded_contents = S.contents + H.contents
 		target_item = locate(/obj/item/gun) in expanded_contents
@@ -386,7 +425,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 			target_item.forceMove(get_turf(H)) //Put it on the floor so they can grab it
 			if(H.put_in_hands(target_item))
 				return TRUE //We're done!
-	//Now we run the more expensive check to find a gun laying on the ground.
+	//Now we run the more expensive check to find a gun farther away.
 	var/best_distance = world.maxx
 	for(var/obj/O in oview(HA.view_range, H))
 		var/dist = get_dist(O, H)
@@ -447,34 +486,33 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		if(E.selfcharge) //Okay good, it self charges we can just wait.
 			return TRUE
 		else //Discard it, we're not gonna teach them to use rechargers yet.
-			E.forceMove(get_turf(H))
+			H.dropItemToGround(E)
 		return FALSE
 	if(istype(gun, /obj/item/gun/ballistic))
 		var/obj/item/gun/ballistic/B = gun
 		if(istype(B.mag_type, /obj/item/ammo_box/magazine/internal))
 			//Not dealing with this. They'll just ditch the revolver when they're done with it.
-			B.forceMove(get_turf(H))
+			H.dropItemToGround(B)
 			return FALSE
-		///message_admins("Issa gun")
-		var/obj/item/storage/S = H.back
+		var/obj/item/storage/backpack = H.back
 		//Okay first off, is the gun already on our person?
 		var/list/expanded_contents = H.contents
-		if(S)
-			expanded_contents = S.contents + H.contents
+		if(backpack)
+			expanded_contents = backpack.contents + H.contents
 		var/obj/item/ammo_box/magazine/target_mag = locate(B.mag_type) in expanded_contents
-		//message_admins("Found [target_mag]")
 		if(target_mag)
 			//Dump that old mag
 			H.put_in_inactive_hand(target_mag)
-			B?.magazine?.forceMove(get_turf(H))
-			B.attackby(target_mag, H)
+			B.eject_magazine(H, FALSE, target_mag) //Tacticool reloads
+			H.dropItemToGround(H.get_inactive_held_item()) //We don't need that magazine anymore
 			B.attack_self(H) //Rack the bolt.
 		else
-			if(!S)
-				gun.forceMove(get_turf(H))
+			if(!backpack)
+				H.dropItemToGround(B)
 				return FALSE
-			gun.forceMove(S)
-
+			backpack.melee_attack_chain(src, B)
+			if(H.is_holding(B)) //No space in the backpack, this is useless to us so drop it
+				H.dropItemToGround(B)
 
 /datum/ai_goal/human/engage_targets/action(datum/component/knpc/HA)
 	if(!can_action(HA))
