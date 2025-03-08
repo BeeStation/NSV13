@@ -3340,8 +3340,8 @@
 /area/hallway/nsv/deck2/primary)
 "ks" = (
 /obj/machinery/door/airlock/ship/maintenance/defaultaccess{
-	name = "Smoking lounge access";
-	req_one_access_txt = "12;25"
+	name = "DC Central Access";
+	req_one_access_txt = "10"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
@@ -3351,6 +3351,7 @@
 	name = "DC Central Shutters";
 	id = "dcc"
 	},
+/obj/effect/landmark/zebra_interlock_point,
 /turf/open/floor/monotile/steel,
 /area/nsv/engine/dcc)
 "kt" = (
@@ -5315,8 +5316,6 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/meter{
 	target_layer = 4;
 	name = "Scrubber Line Status";
@@ -5328,7 +5327,13 @@
 	pixel_y = -6;
 	pixel_x = -7
 	},
-/turf/open/floor/plating,
+/obj/effect/turf_decal/ship/techfloor,
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/visible/layer4,
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/turf/open/floor/monotile/steel,
 /area/nsv/engine/dcc)
 "qc" = (
 /obj/machinery/conveyor/slow{
@@ -5890,9 +5895,9 @@
 /obj/item/extinguisher,
 /obj/machinery/airalarm/directional/north,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
-/obj/machinery/camera/all{
-	network = list("ss13","engine");
-	name = "Deck 2 DC Locker"
+/obj/machinery/camera/autoname{
+	name = "Deck 2 DC Locker";
+	network = list("ss13","engine")
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
@@ -6766,7 +6771,8 @@
 /obj/machinery/firealarm/directional/east,
 /obj/structure/table,
 /obj/machinery/computer/security/telescreen/ce{
-	name = "Engineering Critical Monitoring"
+	name = "Engineering Critical Monitoring";
+	network = list("engine")
 	},
 /turf/open/floor/monotile/steel,
 /area/nsv/engine/dcc)
@@ -7672,6 +7678,10 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/effect/landmark/zebra_interlock_point,
+/obj/machinery/door/poddoor/shutters/preopen{
+	name = "DC Central Shutters";
+	id = "dcc"
+	},
 /turf/open/floor/monotile/steel,
 /area/nsv/engine/dcc)
 "xA" = (
@@ -14344,9 +14354,12 @@
 	dir = 1
 	},
 /obj/machinery/door/firedoor/border_only,
-/obj/machinery/door/airlock/ship/maintenance,
 /obj/structure/cable{
 	icon_state = "1-2"
+	},
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
+	name = "Janitor";
+	req_one_access_txt = "26"
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/starboard)
@@ -15067,9 +15080,9 @@
 /obj/item/clothing/gloves/color/yellow,
 /obj/item/holosign_creator/atmos,
 /obj/item/clothing/shoes/magboots,
-/obj/machinery/camera/all{
-	network = list("ss13","engine");
-	name = "Deck 2 Adv. DC Locker"
+/obj/machinery/camera/autoname{
+	name = "Deck 2 Adv. DC Locker";
+	network = list("ss13","engine")
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/primary)
@@ -15677,7 +15690,9 @@
 	},
 /obj/machinery/door/firedoor/border_only,
 /obj/effect/landmark/zebra_interlock_point,
-/obj/machinery/door/airlock/ship/maintenance,
+/obj/machinery/door/airlock/ship/maintenance{
+	req_one_access_txt = "12"
+	},
 /turf/open/floor/monotile/steel,
 /area/maintenance/nsv/deck2/port)
 "XI" = (
