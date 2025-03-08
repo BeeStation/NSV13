@@ -123,7 +123,12 @@ Place a pool filter somewhere in the pool if you want people to be able to modif
 	if(!istype(get_step(src,NORTH), /turf/open/indestructible/sound/pool)) //Ladders only face up, and no stacking!
 		balloon_alert(user, "You start installing a pool ladder...")
 		if(do_after(user, 5 SECONDS, target=src))
-			W.use(10)
+			//NSV13 - yeah I know 50 ladders are funny but lets not.
+			if(locate(/obj/structure/pool_ladder) in src)
+				return
+			if(!W.use(10))
+				return
+			///NSV13 end.
 			new /obj/structure/pool_ladder(src)
 			return TRUE
 

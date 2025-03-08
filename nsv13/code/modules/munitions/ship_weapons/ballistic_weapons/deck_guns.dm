@@ -24,7 +24,7 @@
 	maintainable = FALSE //This just makes them brick.
 	load_sound = 'nsv13/sound/effects/ship/freespace2/crane_short.ogg'
 	interaction_flags_machine = INTERACT_MACHINE_OPEN | INTERACT_MACHINE_OFFLINE | INTERACT_MACHINE_WIRES_IF_OPEN | INTERACT_MACHINE_ALLOW_SILICON | INTERACT_MACHINE_OPEN_SILICON | INTERACT_MACHINE_SET_MACHINE
-	var/obj/machinery/deck_turret/core
+	var/obj/machinery/deck_turret/core/core
 	var/id = null //N.B. This is NOT intended to allow them to manual link deck guns. This is for certain boarding maps and is thus a UNIQUE CONSTRAINT for this one case. ~KMC
 	circuit = /obj/item/circuitboard/machine/deck_turret
 
@@ -61,6 +61,9 @@
 /obj/machinery/ship_weapon/deck_turret/Destroy()
 	for( var/obj/item/ship_weapon/ammunition/naval_artillery/shell in ammo )
 		shell.speed = initial( shell.speed ) // Reset on turret destruction
+	if(core)
+		core.turret = null
+		core = null
 	return ..()
 
 /obj/machinery/ship_weapon/deck_turret/spawn_frame(disassembled)
@@ -93,7 +96,9 @@
 
 /obj/machinery/ship_weapon/deck_turret/multitool_act(mob/living/user, obj/item/I)
 	. = ..()
-	core = locate(/obj/machinery/deck_turret) in SSmapping.get_turf_below(src)
+	var/obj/machinery/deck_turret/core/maybe_core = locate(/obj/machinery/deck_turret/core) in SSmapping.get_turf_below(src)
+	if(!maybe_core.anchored)
+		return
 	if(!core)
 		link_via_id()
 	if(!core)
@@ -113,10 +118,17 @@
 		var/obj/item/projectile/proj = linked.fire_projectile(T.projectile_type, target,speed=T.speed, lateral=weapon_type.lateral)
 		T.handle_shell_modifiers(proj)
 
+/**
+ * Attempts to load a new ammo object from a payload gate into the turret itself. Note that this requires both a linked core and a payload gate linked to that core.
+ * * A = The ammo object to load.
+ * * Returns TRUE / FALSE on success / failure.
+ */
 /obj/machinery/ship_weapon/deck_turret/proc/rack_load(atom/movable/A)
 	if(length(ammo) < max_ammo && istype(A, ammo_type))
 		if(state in GLOB.busy_states)
 			visible_message("<span class='warning'>Unable to perform operation right now, please wait.</span>")
+			return FALSE
+		if(!core || !core.payload_gate)
 			return FALSE
 		loading = TRUE
 		core.payload_gate.pack_shell()
@@ -139,12 +151,18 @@
 	icon_state = "gun_control"
 	icon_screen = "screen_guncontrol"
 	circuit = /obj/item/circuitboard/computer/deckgun
-	var/obj/machinery/deck_turret/core = null
+	var/obj/machinery/deck_turret/core/core
 
 /obj/machinery/computer/deckgun/Initialize(mapload, obj/item/circuitboard/C)
 	. = ..()
-	if(!core)
-		core = locate(/obj/machinery/deck_turret) in orange(1, src)
+	for(var/obj/machinery/deck_turret/core/maybe_core in orange(1, src))
+		if(maybe_core.computer)
+			continue
+		if(!maybe_core.anchored)
+			continue
+		core = maybe_core
+		maybe_core.computer = src
+		break
 
 /obj/machinery/computer/deckgun/Destroy(force=FALSE)
 	if(circuit && !ispath(circuit))
@@ -153,6 +171,9 @@
 		else
 			qdel(circuit, force)
 		circuit = null
+	if(core)
+		core.computer = null
+		core = null
 	. = ..()
 
 /obj/machinery/computer/deckgun/ui_interact(mob/user, datum/tgui/ui)
@@ -205,11 +226,16 @@
 	. = ..()
 	if(.)
 		return
+	if(!core) //Runtime galore
+		return
 	var/obj/machinery/deck_turret/powder_gate/target = locate(params["target"])
 	switch(action)
 		if("load")
 			if(core.turret.maint_state > MSTATE_CLOSED)//Can't load a shell if we're doing maintenance
 				to_chat(usr, "<span class='notice'>Cannot feed shell while undergoing maintenance!</span>")
+				return
+			if(!core.turret || !core.payload_gate)
+				to_chat(usr, "<span class='warning'>Action error - missing components.</span>")
 				return
 			if(!core.turret.rack_load(core.payload_gate.shell))
 				return
@@ -220,21 +246,18 @@
 				core.turret.maint_req = CLAMP(core.turret.maint_req, 0, 25)
 				new /obj/effect/temp_visual/heal(get_turf(core), "#375637")
 		if("load_powder")
+			if(!core.payload_gate)
+				to_chat(usr, "<span class='warning'>Action error - missing components.</span>")
+				return
 			core.payload_gate.chamber(target)
 
 /obj/machinery/deck_turret
-	name = "deck turret core"
-	desc = "The central mounting core for naval guns. Use a multitool on it to rescan parts."
+	name = "deck turret machine basetype"
+	desc = "THIS SHOULD NOT EXIST, yell at your nearest coder :3"
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "core"
 	density = TRUE
 	anchored = TRUE
-	circuit = /obj/item/circuitboard/machine/deck_gun
-	var/id = null
-	var/obj/machinery/ship_weapon/deck_turret/turret = null
-	var/list/powder_gates = list()
-	var/obj/machinery/deck_turret/payload_gate/payload_gate
-	var/obj/machinery/computer/deckgun/computer
 
 /obj/machinery/deck_turret/Destroy(force=FALSE)
 	if(circuit && !ispath(circuit))
@@ -250,10 +273,6 @@
 			qdel(circuit, force)
 	return ..()
 
-/obj/machinery/deck_turret/multitool_act(mob/living/user, obj/item/I)
-	..()
-	update_parts()
-	return TRUE
 
 /obj/machinery/deck_turret/attackby(obj/item/I, mob/user, params)
 	if(default_unfasten_wrench(user, I))
@@ -267,16 +286,111 @@
 	if(default_deconstruction_crowbar(I))
 		return TRUE
 
-/obj/machinery/deck_turret/proc/update_parts()
-	payload_gate = locate(/obj/machinery/deck_turret/payload_gate) in orange(1, src)
+/obj/machinery/deck_turret/core
+	name = "deck turret core"
+	desc = "The central mounting core for naval guns. Use a multitool on it to rescan parts."
+	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
+	icon_state = "core"
+	density = TRUE
+	anchored = TRUE
+	circuit = /obj/item/circuitboard/machine/deck_gun/core
+	///Linkage ID, used exclusively for some mapping-related turret linkage shenanegans.
+	var/id = null
+	///The linked turret.
+	var/obj/machinery/ship_weapon/deck_turret/turret = null
+	///List of connected powder gates.
+	var/list/powder_gates = list()
+	///The linked payload gate.
+	var/obj/machinery/deck_turret/payload_gate/payload_gate
+	///The linked deck turret computer.
+	var/obj/machinery/computer/deckgun/computer
+
+/obj/machinery/deck_turret/core/Destroy(force)
+	unlink_parts()
+	return ..()
+
+/obj/machinery/deck_turret/core/multitool_act(mob/living/user, obj/item/I)
+	..()
+	update_parts()
+	var/list/specialbits = list()
+	if(!anchored)
+		specialbits += "NOT ANCHORED"
+	if(!turret)
+		specialbits += "NO TURRET FOUND"
+	if(!payload_gate)
+		specialbits += "NO PAYLOAD GATE"
+	if(!length(powder_gates))
+		specialbits += "NO POWDER GATES"
+	to_chat(user, "<span class='notice'>Linkages updated.</span>")
+	if(length(specialbits))
+		to_chat(user, "<span class='warning'>ERRORS DETECTED: [jointext(specialbits, ", ")]</span>")
+	return TRUE
+
+/obj/machinery/deck_turret/core/default_unfasten_wrench(mob/user, obj/item/I, time)
+	. = ..()
+	if(. != SUCCESSFUL_UNFASTEN)
+		return
+	unlink_parts()
+
+
+/**
+ * Unlinks linked machines from the deckgun core.
+ * * also_unlink_turret: When true, also unlinks the deckgun turret itself.
+ */
+/obj/machinery/deck_turret/core/proc/unlink_parts(also_unlink_turret = TRUE)
+	payload_gate?.core = null
+	payload_gate = null
+	for(var/obj/machinery/deck_turret/powder_gate/powder_gate in powder_gates)
+		powder_gate.core = null
 	powder_gates = list()
-	computer = locate(/obj/machinery/computer/deckgun) in orange(1, src)
-	computer.core = src
+	computer?.core = null
+	computer = null
+	if(also_unlink_turret)
+		turret?.core = null
+		turret = null
+
+/**
+ * Recalculates linkage of the deck turret core's parts. Unlinks all parts except the turret beforehand.
+ * Only detects one machine per turf checked, and ignores the core's turf.
+ * Does not link the turret itself.
+ */
+/obj/machinery/deck_turret/core/proc/update_parts()
+	if(!anchored)
+		return
+	unlink_parts(FALSE)
+	//Build linkage by turf. Only one machine is aknowledged per turf.
+	for(var/turf/T in (RANGE_TURFS(1, src) - get_turf(src)))
+		for(var/obj/machinery/maybe_machine in T)
+			if(istype(maybe_machine, /obj/machinery/deck_turret/powder_gate))
+				var/obj/machinery/deck_turret/powder_gate/maybe_powder_gate = maybe_machine
+				if(maybe_powder_gate.core)
+					continue
+				if(!maybe_powder_gate.anchored)
+					continue
+				powder_gates += maybe_powder_gate
+				maybe_powder_gate.core = src
+				break
+			else if(istype(maybe_machine, /obj/machinery/computer/deckgun))
+				if(computer)
+					continue
+				var/obj/machinery/computer/deckgun/guncomputer = maybe_machine
+				if(guncomputer.core)
+					continue
+				computer = guncomputer
+				guncomputer.core = src
+				break
+			else if(istype(maybe_machine, /obj/machinery/deck_turret/payload_gate))
+				if(payload_gate)
+					continue
+				var/obj/machinery/deck_turret/payload_gate/maybe_payload_gate = maybe_machine
+				if(maybe_payload_gate.core)
+					continue
+				if(!maybe_payload_gate.anchored)
+					continue
+				payload_gate = maybe_payload_gate
+				maybe_payload_gate.core = src
+				break
 	turret?.get_ship()
-	for(var/turf/T in orange(1, src))
-		var/obj/machinery/deck_turret/powder_gate/powder_gate = locate(/obj/machinery/deck_turret/powder_gate) in T
-		if(powder_gate && istype(powder_gate))
-			powder_gates += powder_gate
 
 /obj/machinery/deck_turret/powder_gate
 	name = "powder loading gate"
@@ -287,16 +401,27 @@
 	var/ammo_type = /obj/item/powder_bag
 	var/loading = FALSE
 	var/load_delay = 6.4 SECONDS
+	///Linked core.
+	var/obj/machinery/deck_turret/core/core
 
 /obj/machinery/deck_turret/powder_gate/Destroy(force=FALSE)
-	if(circuit && !ispath(circuit))
-		if(!force)
-			circuit.forceMove(loc)
-		else
-			qdel(circuit, force)
-		circuit = null
-	. = ..()
+	if(core)
+		core.powder_gates -= src
+		core = null
+	return ..()
 
+/obj/machinery/deck_turret/powder_gate/default_unfasten_wrench(mob/user, obj/item/I, time)
+	. = ..()
+	if(. != SUCCESSFUL_UNFASTEN)
+		return
+	if(!core)
+		return
+	core.powder_gates -= src
+	core = null
+
+/**
+ * Creates an animation & sound effect for a powder bag being packed from this gate.
+ */
 /obj/machinery/deck_turret/powder_gate/proc/pack()
 	set waitfor = FALSE
 	playsound(src.loc, 'nsv13/sound/effects/ship/freespace2/m_lock.wav', 100, 1)
@@ -317,6 +442,9 @@
 	if(ammo_type && istype(I, ammo_type))
 		load(I, user)
 
+/**
+ * Unloads a powder bag from this powder gate, if possible.
+ */
 /obj/machinery/deck_turret/powder_gate/proc/unload()
 	if(!bag)
 		return
@@ -324,6 +452,11 @@
 	bag.forceMove(get_turf(src))
 	bag = null
 
+/**
+ * Attempts to load a potential powder bag into the gate.
+ * * A = The object that somebody is attempting to load into the gate.
+ * * user = The mob attempting to load the gate with `A`.
+ */
 /obj/machinery/deck_turret/powder_gate/proc/load(obj/item/A, mob/user)
 	loading = TRUE
 	if(!istype(A, ammo_type))
@@ -340,6 +473,12 @@
 			playsound(src.loc, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	loading = FALSE
 
+/**
+ * Checks whether a user is not a silicon, or is a munitions borg carrying a powder bag.
+ * * A = `UNUSED`
+ * * user = The invidual being checked.
+ * * * This proc is potentially useless and able to be deprecated.
+ */
 /obj/machinery/deck_turret/powder_gate/proc/user_has_payload(obj/item/A, mob/user) // Searches humans and borgs for gunpowder before depositing
 	if ( !user )
 		return FALSE
@@ -402,6 +541,9 @@
 	var/datum/component/volatile/VC = GetComponent(/datum/component/volatile)
 	VC.explosion_scale = 0.5
 
+/**
+ * Updates the current state of the hungry bag.
+ */
 /obj/item/powder_bag/hungry/proc/update_state()
 	var/prefix
 	switch(Elevel)
@@ -472,6 +614,10 @@
 		evolve(user)
 	playsound(loc, 'sound/items/eatfood.ogg', 100, 1)
 
+/**
+ * Increases the bag's power and volatility, while also potentially causing it to become aggressive towards the feeder.
+ * * Feeder: Optional Argument, the individual who fed the bag, causing it to evolve.
+ */
 /obj/item/powder_bag/hungry/proc/evolve(mob/living/feeder)
 	set waitfor = FALSE
 	is_evolving = TRUE
@@ -522,7 +668,15 @@
 	new /obj/effect/temp_visual/heart(loc) // :)
 	is_evolving = FALSE
 
-/// Keep in mind that this is a blocking call by default
+/**
+ * Attempts to devour a living target.
+ * * target = The target.
+ * * consumeTime = The time for the bag to finish consumption.
+ * * checkEvolve = Whether `evolve()` should be called on completion.
+ * * growSize = Whether the bag should grow in size on completion.
+ *
+ * Keep in mind that this is a blocking call by default
+ */
 /obj/item/powder_bag/hungry/proc/devour(mob/living/target, consumeTime = 26, checkEvolve = TRUE, growSize = TRUE)
 	devouring = TRUE
 	forceMove(get_turf(target))
@@ -687,6 +841,23 @@
 	var/loading = FALSE
 	var/load_delay = 8 SECONDS
 	var/calculated_power = 0
+	///Linked core
+	var/obj/machinery/deck_turret/core/core
+
+/obj/machinery/deck_turret/payload_gate/Destroy(force)
+	if(core)
+		core.payload_gate = null
+		core = null
+	return ..()
+
+/obj/machinery/deck_turret/payload_gate/default_unfasten_wrench(mob/user, obj/item/I, time)
+	. = ..()
+	if(. != SUCCESSFUL_UNFASTEN)
+		return
+	if(!core)
+		return
+	core.payload_gate = null
+	core = null
 
 /obj/machinery/deck_turret/payload_gate/MouseDrop_T(obj/item/A, mob/user)
 	. = ..()
@@ -707,7 +878,14 @@
 	load(A, user)
 	load_delay = 7.2 SECONDS
 
+/**
+ * Attempts to load an artillery shell from outside into the payload gate.
+ * * A = The potential artillery shell.
+ * * user = The user performing the loading.
+ */
 /obj/machinery/deck_turret/payload_gate/proc/load(obj/item/A, mob/user)
+	if(!istype(A, /obj/item/ship_weapon/ammunition/naval_artillery))
+		return
 	var/temp = load_delay
 	var/obj/item/ship_weapon/ammunition/naval_artillery/NA = A
 	if(!NA.armed)
@@ -724,6 +902,7 @@
 			icon_state = "[initial(icon_state)]_loaded"
 			playsound(src.loc, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	loading = FALSE
+	return TRUE
 
 ///Updates state if the moved out obj was the loaded shell
 /obj/machinery/deck_turret/payload_gate/Exited(src)
@@ -733,6 +912,9 @@
 		loaded = FALSE
 		shell = null
 
+/**
+ * Applies modifiers to the shell's speed based on calculated power.
+ */
 /obj/machinery/deck_turret/payload_gate/proc/pack_shell()
 	shell.speed = CLAMP(shell.speed + calculated_power, NAC_MIN_POWDER_LOAD, NAC_MAX_POWDER_LOAD)
 	calculated_power = 0
@@ -746,6 +928,9 @@
 	//Will call payload_gate.Exited which handles the actual unloading
 	return shell.forceMove(get_turf(src))
 
+/**
+ * UNUSED PROC
+ */
 /obj/machinery/deck_turret/payload_gate/proc/feed()
 	if(!shell)
 		return FALSE
@@ -753,6 +938,11 @@
 	loaded = TRUE
 	playsound(src.loc, 'nsv13/sound/effects/ship/freespace2/m_load.wav', 100, 1)
 
+/**
+ * Applies the powder from a powder gate to the shell, packing it.
+ * * source = The powder gate a powder bag is being packed from.
+ * * Returns TRUE / FALSE on success / failure.
+ */
 /obj/machinery/deck_turret/payload_gate/proc/chamber(obj/machinery/deck_turret/powder_gate/source)
 	if(!shell || !source?.bag)
 		return FALSE
@@ -851,8 +1041,10 @@
 /obj/machinery/ship_weapon/deck_turret/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(RefreshParts)), world.tick_lag)
-
-	core = locate(/obj/machinery/deck_turret) in SSmapping.get_turf_below(src)
+	var/obj/machinery/deck_turret/core/maybe_core = locate(/obj/machinery/deck_turret/core) in SSmapping.get_turf_below(src)
+	if(!maybe_core.anchored) //No.
+		return
+	core = maybe_core
 	if(!core)
 		message_admins("Deck turret has no gun core! [src.x], [src.y], [src.z])")
 		return
@@ -881,8 +1073,13 @@
 			component_parts += new /obj/item/ship_weapon/parts/mac_barrel
 			component_parts += new /obj/item/assembly/igniter
 
+/**
+ * Attempts to establish linkage to a deck gun core via IDs on both the core & turret. Setup by mapping.
+ */
 /obj/machinery/ship_weapon/deck_turret/proc/link_via_id()
-	for(var/obj/machinery/deck_turret/C in GLOB.machines)
+	if(!id)
+		return
+	for(var/obj/machinery/deck_turret/core/C in GLOB.machines)
 		if(istype(C) && C?.id == id)
 			C.turret = src
 			core = C

@@ -25,9 +25,9 @@
 /obj/machinery/computer/ship/helm/multitool_act(mob/living/user, obj/item/I)
 	if(!linked)
 		linked = get_overmap()
-	if(linked && allowed(user) && linked.role <= NORMAL_OVERMAP)
+	if(linked && allowed(user) && linked.role <= NORMAL_OVERMAP && initial(linked.ai_controlled))
 		linked.ai_controlled = !linked.ai_controlled
-		linked.apply_weapons()
+		linked.apply_weapons() //This is horrible but I've got more bugs to fix.
 		playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
 		to_chat(user, "<span class='warning'>Autopilot [linked.ai_controlled ? "Enabled" : "Disengaged"].</span>")
 	..()
