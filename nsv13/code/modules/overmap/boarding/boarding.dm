@@ -112,8 +112,12 @@
 			relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
 		else //No other special cases exist but this is a switch anyways to support them in the future (pirates have no tell)
 
-	var/obj/structure/closet/supplypod/syndicate_odst/toLaunch = new()
-	var/shippingLane = GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
+	var/obj/structure/closet/supplypod/toLaunch
+	if(faction_selection == "pirate")
+		toLaunch = new /obj/structure/closet/supplypod/pirate_odst() //since the only actually custom pod is the pirate one
+	else
+		toLaunch = new /obj/structure/closet/supplypod/syndicate_odst()
+	var/shippingLane	=	GLOB.areas_by_type[/area/centcom/supplypod/supplypod_temp_holding]
 	toLaunch.forceMove(shippingLane)
 	for(var/I = 0; I < amount; I++)
 		var/soldier_type = pick(knpc_types)
