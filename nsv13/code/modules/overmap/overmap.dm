@@ -31,6 +31,8 @@
 	var/sprite_size = 64 //Pixels. This represents 64x64 and allows for the bullets that you fire to align properly.
 	var/area_type = null //Set the type of the desired area you want a ship to link to, assuming it's not the main player ship.
 	var/impact_sound_cooldown = FALSE //Avoids infinite spamming of the ship taking damage.
+	///Handles cooldown between collisions to avoid certain very bad times :)
+	var/next_collision = 0
 	var/datum/star_system/current_system //What star_system are we currently in? Used for parallax.
 	var/resize = 0 //Factor by which we should shrink a ship down. 0 means don't shrink it.
 	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.
@@ -215,10 +217,11 @@
 	//Boarding
 	var/interior_status = INTERIOR_NOT_LOADED
 	var/datum/turf_reservation/roomReservation = null
-	var/datum/map_template/dropship/boarding_interior = null
+	var/datum/map_template/boarding_interior = null
 	var/list/possible_interior_maps = null
 	var/interior_mode = NO_INTERIOR
 	var/list/interior_entry_points = list()
+	var/list/ifflocs = list() // List of potential IFF console locations
 	var/boarding_reservation_z = null //Do we have a reserved Z-level for boarding? This is set up on instance_overmap. Ships being boarded copy this value from the boarder.
 	var/obj/structure/overmap/active_boarding_target = null
 	var/static/next_boarding_time = 0 // This is stupid and lazy but it's 5am and I don't care anymore
@@ -234,13 +237,15 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(!_path)
 		_path = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	RETURN_TYPE(/obj/structure/overmap)
-	SSmapping.add_new_initialized_zlevel("Overmap ship level [++world.maxz]", ZTRAITS_OVERMAP)
+	var/datum/space_level/new_ship_z = SSmapping.add_new_zlevel("Overmap ship level [length(SSmapping.z_list)+1]", ZTRAITS_OVERMAP)
+	if(!folder || !interior_map_files)
+		SSmapping.setup_map_transitions(new_ship_z) //We usually recalculate transitions later, but not if there's no interior.
 	repopulate_sorted_areas()
-	smooth_zlevel(world.maxz)
-	log_game("Z-level [world.maxz] loaded for overmap treadmills.")
-	var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), world.maxz)) //Plop them bang in the center of the system.
+	smooth_zlevel(new_ship_z.z_value)
+	log_game("Z-level [new_ship_z.z_value] loaded for overmap treadmills.")
+	var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), new_ship_z.z_value)) //Plop them bang in the center of the system.
 	var/obj/structure/overmap/OM = new _path(exit) //Ship'll pick up the info it needs, so just domp eet at the exit turf.
-	OM.reserved_z = world.maxz
+	OM.reserved_z = new_ship_z.z_value
 	OM.overmap_flags |= OVERMAP_FLAG_ZLEVEL_CARRIER
 	OM.current_system = SSstar_system.find_system(OM)
 	if(OM.role == MAIN_OVERMAP) //If we're the main overmap, we'll cheat a lil' and apply our status to all of the Zs under "station"
@@ -444,12 +449,23 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			interior_mode = (possible_interior_maps?.len) ? INTERIOR_EXCLUSIVE : NO_INTERIOR
 		//Allows small ships to have a small interior.
 		if(INTERIOR_DYNAMIC)
-			instance_interior()
-			post_load_interior()
+			RegisterSignal(src, COMSIG_INTERIOR_DONE_LOADING, PROC_REF(after_init_load_interior))
+			SSstar_system.queue_for_interior_load(src)
 
-	apply_weapons()
 	RegisterSignal(src, list(COMSIG_FTL_STATE_CHANGE, COMSIG_SHIP_KILLED), PROC_REF(dump_locks)) // Setup lockon handling
 	//We have a lot of types but not that many weapons per ship, so let's just worry about the ones we do have
+	if(interior_mode != INTERIOR_DYNAMIC)
+		apply_weapons()
+		for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
+			var/datum/ship_weapon/SW = weapon_types[firemode]
+			if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
+				weapon_numkeys_map += firemode
+
+///Listens for when the interior is done initing and finishes up some variables when it is.
+/obj/structure/overmap/proc/after_init_load_interior()
+	SIGNAL_HANDLER
+	UnregisterSignal(src, COMSIG_INTERIOR_DONE_LOADING)
+	apply_weapons()
 	for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
 		var/datum/ship_weapon/SW = weapon_types[firemode]
 		if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
@@ -972,8 +988,8 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return reserved_z
 	if(ftl_drive)
 		if(!free_treadmills?.len)
-			SSmapping.add_new_initialized_zlevel("Overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
-			reserved_z = world.maxz
+			var/datum/space_level/new_level = SSmapping.add_new_initialized_overmap_zlevel()
+			reserved_z = new_level.z_value
 		else
 			var/_z = pick_n_take(free_treadmills)
 			reserved_z = _z
@@ -992,3 +1008,14 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(ftl_drive)
 		return TRUE
 	return FALSE
+
+/**
+ * Handles special modifications or effects an overmap has for collisions.
+ * * other_ship = the ship this collides with.
+ * * impact_powers = the strength of the impact for (this ship, other ship). Done this way because list pointer allows inplace var access.
+ * * impact_angle = The angle of the impact.
+ *
+ * This does NOT return the modified impact powers, as it is not neccessary due to inplace handling!
+ */
+/obj/structure/overmap/proc/spec_collision_handling(obj/structure/overmap/other_ship, list/impact_powers, impact_angle)
+	return

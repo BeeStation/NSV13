@@ -56,71 +56,136 @@
 		-->
 		<div class="commit sansserif">
 
-			<h2 class="date">13 September 2024</h2>
-			<h3 class="author">DeltaFire15 updated:</h3>
+			<h2 class="date">08 March 2025</h2>
+			<h3 class="author">juypterkat, covertcorvid updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Pylon-related things should no longer brick if the Pylon is destroyed due to high waste pressure.</li>
-				<li class="bugfix">Some advanced soundloop stuff might probably work better now.</li>
-				<li class="balance">Lizards are now coldblooded (they have no natural bodytemperature stabilization besides the environment).</li>
-				<li class="balance">Coldblooded creatures also have an inefficient form of thermogenesis they can use to heat up.</li>
-				<li class="balance">Lizards dislike the cold (<15°C / when you start shivering) and like warmth (30°C-60°C), which can affect mood.</li>
-				<li class="balance">Lizards no longer have a 1.5 cold damage modifier.</li>
-				<li class="balance">Having somebody in an aggressive grab will share temperature between the grabber and grabbed target over time (respecting insulation).</li>
-				<li class="balance">Drinking blood as a moth now has a weaker mood buff.</li>
-				<li class="balance">Naval coffee now has a weaker mood buff.</li>
-				<li class="bugfix">Temperature protection values returned by the getter are no longer very very slightly off the value they should be. Thanks decimal precision.</li>
+				<li class="bugfix">Firelocks respond to depressurization better</li>
+				<li class="refactor">A lot of the atmos subsystem got reorganized at minimum</li>
+				<li class="rscadd">auxmos might be handling fusion now if I understood this correctly</li>
+				<li class="server">Updated auxmos to 2.5.2 and my fork - PreCompile.sh changed</li>
+				<li class="server">Also updated rustg</li>
 			</ul>
 
-			<h2 class="date">06 September 2024</h2>
+			<h2 class="date">07 March 2025</h2>
+			<h3 class="author">SerynEngi updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added ORM and Ore Silo Construction crate to Hammurabi</li>
+				<li class="tweak">Added slightly more on-map armor to the Hammurabi</li>
+				<li class="bugfix">Corrected Hammurabi atmos tanks</li>
+			</ul>
+
+			<h2 class="date">04 March 2025</h2>
 			<h3 class="author">Bokkiewokkie updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="tweak">Changed asteroid ore spawning to respect asteroid maps more</li>
+				<li class="balance">added the ability for vines to traverse multi-z through ladders and open space</li>
 			</ul>
-			<h3 class="author">DeltaFire15 updated:</h3>
+			<h3 class="author">Bokkiewokkie, PowerfulBacon, KubeRoot, Victor239, stylemistake updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Possibly fixes some weird Sabre behavior.</li>
-				<li class="bugfix">Also makes one single gun check of the plasma caster slightly safer.</li>
-				<li class="bugfix">Fixes a weird edge case with docking behavior.</li>
-				<li class="bugfix">Fixes remove_ship() assuming all remove_ship() calls were FTL based.</li>
-				<li class="bugfix">Overmap objects when deleting have remove_ship() called for them (this should mostly only affect z carriers which drop their z or pass it to another ship).</li>
-				<li class="bugfix">Overmap objects that are deleted now drop their current_system var.</li>
+				<li class="rscadd">Adds fullscreen mode! Can be toggled with F11, in the OOC tab, or in your game preferences.</li>
 			</ul>
 
-			<h2 class="date">24 August 2024</h2>
+			<h2 class="date">22 February 2025</h2>
+			<h3 class="author">Bokkiewokkie updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="balance">Made IFF consoles able to spawn in other locations on boarded ships.</li>
+			</ul>
+
+			<h2 class="date">21 February 2025</h2>
 			<h3 class="author">DeltaFire15 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">The "You are Dead" chat window popup should now be properly removed when you are not dead.</li>
-				<li class="bugfix">Broadside cannons should now always fire on the correct side.</li>
-				<li class="rscadd">Your current direction now decides which way you will face when voluntarily resting.</li>
-				<li class="bugfix">Jaws of life can now deconstruct doors like a crowbar could.</li>
-				<li class="code_imp">Cleans up some leftover code that remained after a beebase.</li>
+				<li class="bugfix">The startup proc safety check shouldn't continue complaining about some startup procs that work fine.</li>
+			</ul>
+
+			<h2 class="date">15 February 2025</h2>
+			<h3 class="author">Bokkiewokkie updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fixed your view getting stuck zoomed out after using overmap consoles or piloting</li>
+			</ul>
+			<h3 class="author">Karmic-Skink updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">Stormdrive gas modifiers are now subtly altered per instance</li>
 			</ul>
 			<h3 class="author">SerynEngi updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Added an ore silo to the Atlas</li>
+				<li class="rscadd">Added Damage Control Central to Atlas and Tycoon</li>
+				<li class="rscadd">Added Damage Control Lockers (Storerooms) to Atlas and Tycoon</li>
+				<li class="tweak">Redesigned Tycoon medical department</li>
+				<li class="tweak">Updated areas.dm and areas.dmi for new engineering areas</li>
+				<li class="tweak">Exploded virology area on Tycoon</li>
+				<li class="rscdel">Removed virology job spawning from Tycoon</li>
 			</ul>
-			<h3 class="author">riquewright updated:</h3>
+			<h3 class="author">someone543 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="tweak">turf changes</li>
-				<li class="balance">added random ore spawns</li>
-				<li class="bugfix">pre-beebase objects and turfs</li>
-			</ul>
-
-			<h2 class="date">16 August 2024</h2>
-			<h3 class="author">Kenionatus updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Auto recall reminders now also get sent during combat</li>
-			</ul>
-			<h3 class="author">Pockets-byte updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">added a rejection message to the comms console</li>
+				<li class="bugfix">fixed mag-cats on Serendipity and Hammerhead</li>
+				<li class="rscadd">Syndicate boarding crew now have flashlights</li>
+				<li class="rscadd">Syndicate boarding captains now have weapon auth implants</li>
 			</ul>
 
-			<h2 class="date">13 July 2024</h2>
-			<h3 class="author">riquewright updated:</h3>
+			<h2 class="date">11 February 2025</h2>
+			<h3 class="author">Bokkiewokkie updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">re-added plasma cutter to mining tech node's item list</li>
-				<li class="spellcheck">added whole 4 letters</li>
+				<li class="rscadd">Added Syndicate AI core construction</li>
+				<li class="rscadd">Added the ability for Syndies to install syndicate cameras to helmets</li>
+				<li class="balance">Syndicate boarder helmet now have cameras</li>
+				<li class="refactor">Refactored helmet camera code a bit</li>
+			</ul>
+			<h3 class="author">SerynEngi updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added Keycard Authenticators to Heads offices and bridge on the Galactica</li>
+				<li class="rscadd">Added NT territory capture beacon to the Galactica</li>
+				<li class="rscadd">Additional supplies to Galactica robotics.</li>
+				<li class="rscadd">Added Clothing vendor to Galactica Barracks</li>
+				<li class="tweak">Updated Galactica signage and tiling to ease navigation of ship.</li>
+			</ul>
+			<h3 class="author">francinum updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Default/Legacy input now properly relays keys.</li>
+				<li class="rscdel">TGUI Say and Legacy Input are incompatible, Legacy will take precedence.</li>
+			</ul>
+			<h3 class="author">someone543 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="tweak">AI vox announcements now work on the entire ship, instead of on a single Z level</li>
+			</ul>
+
+			<h2 class="date">03 February 2025</h2>
+			<h3 class="author">Bokkiewokkie updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fixed durasteel tiles not stacking properly with different types</li>
+				<li class="bugfix">Fixed tugs having "too much oxygen" to breathe</li>
+				<li class="bugfix">Fixed dropship walls and entrances being deconstructable</li>
+				<li class="bugfix">Fixed gauss racks letting you load empty crates</li>
+				<li class="bugfix">Fixed stormdrive dividing by 0 when all control rods are removed</li>
+			</ul>
+
+			<h2 class="date">30 January 2025</h2>
+			<h3 class="author">Bokkiewokkie updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added elite Syndicate sub-spacemarines.</li>
+				<li class="rscadd">Added the possibility for elite fleets to spawn at high enough difficulties.</li>
+				<li class="balance">Buffed Syndicate border defense fleets.</li>
+				<li class="spellcheck">Fixed the fist of sol not having a proper name.</li>
+			</ul>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Munitions pinpointers, specialized to track critical munitions items (mostly circuits)</li>
+				<li class="code_imp">Destroy preservation got moved from ALL /parts of munitions to ONLY firing electronics (for that subset of types), as a lot of /parts are meant to be destroyed, a lot.</li>
+			</ul>
+
+			<h2 class="date">10 January 2025</h2>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="code_imp">Reworked the overmap vs overmap ramming damage code.</li>
+				<li class="balance">Hammerheads now have a frontal "guard angle" which supports head-on collisions.</li>
+				<li class="bugfix">Fighters shouldn't runtime anymore if nobody is in them when they try to shake occupants.</li>
+			</ul>
+			<h3 class="author">Karmic-Skink updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fixed mapping filter/mixer icons</li>
+			</ul>
+			<h3 class="author">NotRanged, Azarak, DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Tails should now be visible in hardsuits that support them.</li>
+				<li class="imageadd">Tails in hardsuits.</li>
 			</ul>
 		</div>
 

@@ -1,3 +1,6 @@
+///A list used to see how has repaired how many plates.
+GLOBAL_LIST_EMPTY(plating_repairers) //A tiiny bit inefficient but the only alternative I can see would be messing with the achievement subsystem (I am not doing that)
+
 /obj/structure/hull_plate
 	name = "nanolaminate reinforced hull plating"
 	desc = "A heavy piece of hull plating designed to reinforced the ship's superstructure. The Nanotrasen official starship operational manual states that any damage sustained can be patched up temporarily with a welder."
@@ -105,7 +108,9 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 		if(!F)
 			F = new(T)
 		else if(istype(F))
-			F.lifetime = initial(F.lifetime) //reduce object churn a little bit when using smoke by keeping existing foam alive a bit longer
+			var/newtime = (initial(F.lifetime) * (1 - ((world.time - F.creation_time) / (20 SECONDS))))
+			if(newtime > 0 && newtime > F.lifetime)
+				F.lifetime = initial(F.lifetime) //reduce object churn a little bit when using smoke by keeping existing foam alive a bit longer
 
 	for(var/obj/structure/hull_plate/HP in T.contents)
 		if(!istype(HP))
@@ -142,6 +147,11 @@ Method to try locate an overmap object that we should attach to. Recursively cal
 		if(armour_broken)
 			parent?.armour_plates ++
 			armour_broken = FALSE
+			if(user && user.client)
+				if(!GLOB.plating_repairers["[user.client.ckey]"])
+					GLOB.plating_repairers["[user.client.ckey]"] = 1
+				else
+					GLOB.plating_repairers["[user.client.ckey]"] = GLOB.plating_repairers["[user.client.ckey]"] + 1
 		return
 
 /obj/structure/hull_plate/update_icon()

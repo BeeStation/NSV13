@@ -243,6 +243,13 @@
 						else
 							A = new /mob/living/silicon/ai(loc, laws, brain.brainmob)
 
+						if(get_overmap()?.faction == "syndicate") //NSV13 start - Syndicate ship radio & traitor setting
+							A.set_zeroth_law("Accomplish the Syndicate's objectives at all costs.", "Accomplish your Syndicate's objectives at all costs.")
+							A.set_syndie_radio()
+							A.faction |= "Syndicate" //Why is this capitalized
+							A.network = list("syndicate")
+							A.radio.recalculateChannels() //NSV13 end
+
 						if(brain.force_replace_ai_name)
 							A.fully_replace_character_name(A.name, brain.replacement_ai_name())
 						SSblackbox.record_feedback("amount", "ais_created", 1)

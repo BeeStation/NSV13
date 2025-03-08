@@ -28,3 +28,19 @@
 	var/datum/D = locate(reference)
 	return (!QDELETED(D) && D.weak_reference == src) ? D : null
 
+/datum/weakref/vv_get_dropdown()
+	. = ..()
+	VV_DROPDOWN_OPTION(VV_HK_WEAKREF_RESOLVE, "Go to reference")
+
+/datum/weakref/vv_do_topic(list/href_list)
+	. = ..()
+
+	if(!.)
+		return
+
+	if(href_list[VV_HK_WEAKREF_RESOLVE])
+		if(!check_rights(NONE))
+			return
+		var/datum/R = resolve()
+		if(R)
+			usr.client.debug_variables(R)

@@ -40,8 +40,12 @@
 	if(istype(OM, /obj/structure/overmap))
 		OM.current_system = src //Debugging purposes only
 		after_enter(OM)
+	else if(istype(OM, /obj/effect/overmap_anomaly))
+		var/obj/effect/overmap_anomaly/anomaly_OM = OM
+		anomaly_OM.current_system = src
 
 /datum/star_system/proc/after_enter(obj/structure/overmap/OM)
+	SEND_SIGNAL(src, COMSIG_STAR_SYSTEM_AFTER_ENTER, OM)
 	if(desc)
 		OM.relay(null, "<span class='notice'><h2>Now entering [name]...</h2></span>")
 		OM.relay(null, "<span class='notice'>[desc]</span>")

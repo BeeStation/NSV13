@@ -1,5 +1,5 @@
 /obj/machinery/atmospherics/components/trinary/mixer
-	icon_state = "mixer_off"
+	icon_state = "mixer_off-0"
 	density = FALSE
 
 	name = "gas mixer"
@@ -39,13 +39,13 @@
 	for(var/direction in GLOB.cardinals)
 		if(!(direction & initialize_directions))
 			continue
-		var/obj/machinery/atmospherics/node = findConnecting(direction)
+		var/obj/machinery/atmospherics/node = find_connecting(direction)
 
 		var/image/cap
 		if(node)
-			cap = getpipeimage(icon, "cap", direction, node.pipe_color, piping_layer = piping_layer, trinary = TRUE)
+			cap = get_pipe_image(icon, "cap", direction, node.pipe_color, piping_layer = piping_layer, trinary = TRUE)
 		else
-			cap = getpipeimage(icon, "cap", direction, piping_layer = piping_layer, trinary = TRUE)
+			cap = get_pipe_image(icon, "cap", direction, piping_layer = piping_layer, trinary = TRUE)
 
 		add_overlay(cap)
 
@@ -68,7 +68,6 @@
 	airs[3] = air3
 
 /obj/machinery/atmospherics/components/trinary/mixer/process_atmos()
-	..()
 	if(!on || !(nodes[1] && nodes[2] && nodes[3]) && !is_operational)
 		return
 
@@ -204,7 +203,7 @@
 
 /obj/machinery/atmospherics/components/trinary/mixer/on
 	on = TRUE
-	icon_state = "mixer_on"
+	icon_state = "mixer_on-0"
 
 /obj/machinery/atmospherics/components/trinary/mixer/on/layer2
 	piping_layer = 2
@@ -214,7 +213,7 @@
 	icon_state = "mixer_on_map-4"
 
 /obj/machinery/atmospherics/components/trinary/mixer/flipped
-	icon_state = "mixer_off_f"
+	icon_state = "mixer_off-0_f"
 	flipped = TRUE
 
 /obj/machinery/atmospherics/components/trinary/mixer/flipped/layer2
@@ -226,7 +225,7 @@
 
 /obj/machinery/atmospherics/components/trinary/mixer/flipped/on
 	on = TRUE
-	icon_state = "mixer_on_f"
+	icon_state = "mixer_on-0_f"
 
 /obj/machinery/atmospherics/components/trinary/mixer/flipped/on/layer2
 	piping_layer = 2
@@ -237,7 +236,7 @@
 
 /obj/machinery/atmospherics/components/trinary/mixer/airmix //For standard airmix to distro
 	name = "air mixer"
-	icon_state = "mixer_on"
+	icon_state = "mixer_on-0"
 	node1_concentration = N2STANDARD
 	node2_concentration = O2STANDARD
 	target_pressure = MAX_OUTPUT_PRESSURE
@@ -248,7 +247,7 @@
 	node2_concentration = N2STANDARD
 
 /obj/machinery/atmospherics/components/trinary/mixer/airmix/flipped
-	icon_state = "mixer_on_f"
+	icon_state = "mixer_on-0_f"
 	flipped = TRUE
 
 /obj/machinery/atmospherics/components/trinary/mixer/airmix/flipped/inverse

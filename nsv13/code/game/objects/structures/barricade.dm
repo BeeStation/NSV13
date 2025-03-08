@@ -1,9 +1,9 @@
 /obj/structure/peacekeeper_barricade //CREDIT TO CM FOR THIS. Cleanup up by Kmc.
 	icon = 'nsv13/icons/obj/barricades.dmi'
-	climbable = FALSE //Disable climbing.
 	anchored = TRUE
 	density = TRUE
 	layer = BELOW_OBJ_LAYER
+	climbable = TRUE
 	climb_time = 20 //Leaping a barricade is universally much faster than clumsily climbing on a table or rack
 	climb_stun = 0
 	var/stack_type //The type of stack the barricade dropped when disassembled if any.
@@ -13,7 +13,6 @@
 	var/base_acid_damage = 2
 	var/barricade_resistance = 5 //How much force an item needs to even damage it at all.
 	var/barricade_hitsound
-
 	var/barricade_type = "barricade" //"metal", "plasteel", etc.
 	var/can_change_dmg_state = TRUE
 	var/damage_state = 0
@@ -49,7 +48,6 @@
 	barricade_type = "plasteel"
 	density = FALSE
 	closed = TRUE
-	can_wire = TRUE
 
 /obj/structure/peacekeeper_barricade/metal/plasteel/deployable //Preset one that starts unanchored and placed down.
 	icon_state = "plasteel_0"
@@ -58,16 +56,17 @@
 	anchored = FALSE
 	build_state = 0
 
-/* You can reenable this when you fix it, KMC.
 /obj/structure/peacekeeper_barricade/do_climb(var/mob/living/user)
-	if(is_wired) //Ohhh boy this is gonna hurt...
+	if(is_wired) //Even trying this is gonna hurt...
 		user.apply_damage(10)
-		user.Stun(20) //Leaping into barbed wire is VERY bad
-	if(get_turf(user) == get_turf(src))
-		usr.forceMove(get_step(src, src.dir))
+		user.Stun(20) //Scaling barbed wire is VERY bad
+	if(loc == user.loc)
+		density = FALSE
+		. = step(user,get_step(src,src.dir))
+		density = TRUE
 	else
-		usr.forceMove(get_turf(src))
-*/
+		. = ..()
+
 /obj/structure/peacekeeper_barricade/metal/plasteel/attack_hand(mob/user as mob)
 	. = ..()
 	if(.)
@@ -218,7 +217,6 @@
 		update_health()
 		can_wire = FALSE
 		is_wired = TRUE
-	//	climbable = FALSE
 		return FALSE
 
 	if(I.tool_behaviour == TOOL_WIRECUTTER)
@@ -450,6 +448,16 @@
 
 	setDir(turn(dir, 270))
 	return
+
+/obj/structure/peacekeeper_barricade/CanAStarPass(obj/item/card/id/ID, to_dir, atom/movable/caller)
+	. = ..()
+	if(.)
+		return
+	if(!(dir in to_dir))
+		return TRUE
+	if(isknpc(caller))	//They can climb
+		return TRUE
+	return FALSE
 
 /obj/item/stack/barbed_wire
 	name = "barbed wire"

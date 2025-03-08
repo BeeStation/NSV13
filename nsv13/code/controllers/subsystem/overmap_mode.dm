@@ -49,6 +49,11 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/list/modes
 	var/list/mode_names
 
+	///Have we already handed people the base achievement this round?
+	var/patrol_achievement_base_granted = FALSE
+	///Have we already handed people the extended patrol achievement this round?
+	var/patrol_achievement_adv_granted = FALSE
+
 /datum/controller/subsystem/overmap_mode/Initialize(start_timeofday)
 	//Retrieve the list of modes
 	//Check our map for any white/black lists
@@ -458,6 +463,27 @@ SUBSYSTEM_DEF(overmap_mode)
 				mode.winner = F //This should allow the mode to finish up by itself
 				mode.check_finished()
 	if((objective_check >= objective_length) && !failed)
+		var/achievement_type
+		if(!SSovermap_mode.round_extended)
+			if(!SSovermap_mode.patrol_achievement_base_granted)
+				achievement_type = /datum/award/achievement/misc/crew_competent
+				SSovermap_mode.patrol_achievement_base_granted = TRUE
+		else
+			if(!SSovermap_mode.patrol_achievement_adv_granted)
+				achievement_type = /datum/award/achievement/misc/crew_very_competent
+				SSovermap_mode.patrol_achievement_adv_granted = TRUE
+		if(achievement_type)
+			for(var/mob/living/living_mob in GLOB.mob_living_list)
+				if(!living_mob.job)
+					continue
+				var/datum/job/job_ref = SSjob.GetJob(living_mob.job)
+				if(!job_ref)
+					continue
+				if(job_ref.faction != "Station")
+					continue
+				if(!living_mob.client)
+					continue
+				living_mob.client.give_award(achievement_type, living_mob)
 		victory()
 
 /datum/overmap_gamemode/proc/victory()

@@ -367,6 +367,11 @@
 	item_state = "syndicate-space"
 	worn_icon_state = "syndicate-space"
 
+//Subytype which spawns with a camera for boarders
+/obj/item/clothing/head/helmet/space/syndicate/odst/camera/Initialize()
+	. = ..()
+	install_camera(faction = "Syndicate")
+
 /obj/item/storage/belt/utility/syndicate
 	name = "syndicate utility belt"
 	desc = "A large, black belt which facilitates tool storage."
@@ -523,12 +528,11 @@
 /obj/item/clothing/head/helmet/space/hardsuit/master_at_arms
 	name = "Master-At-Arm's Bombsuit Helmet"
 	desc = "Use in case of bomb."
-	icon = 'nsv13/icons/obj/clothing/hats.dmi' //Placeholder subtype for our own iconsets
+	icon = 'nsv13/icons/obj/clothing/hats.dmi'
 	worn_icon = 'nsv13/icons/mob/head.dmi'
-	icon_state = "hardsuit0_maa_bombsuit"
-	item_state = "maa_bombsuit"
-	worn_icon_state = "maa_bombsuit"
-	armor = list("melee" = 25, "bullet" = 15, "laser" = 20,"energy" = 10, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 85, "acid" = 50)
+	icon_state = "hardsuit0-maa"
+	hardsuit_type = "maa"
+	armor = list("melee" = 20, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 65, "stamina" = 10)
 	min_cold_protection_temperature = EMERGENCY_HELM_MIN_TEMP_PROTECT
 
 /obj/item/clothing/suit/space/hardsuit/master_at_arms
@@ -537,10 +541,9 @@
 	icon = 'nsv13/icons/obj/clothing/suits.dmi'
 	worn_icon = 'nsv13/icons/mob/suit.dmi'
 	icon_state = "maa_bombsuit"
-	item_state = "maa_bombsuit"
-	armor = list("melee" = 25, "bullet" = 15, "laser" = 20,"energy" = 10, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 85, "acid" = 50)
+	armor = list("melee" = 20, "bullet" = 0, "laser" = 0,"energy" = 0, "bomb" = 100, "bio" = 100, "rad" = 50, "fire" = 80, "acid" = 65, "stamina" = 10)
 	min_cold_protection_temperature = EMERGENCY_SUIT_MIN_TEMP_PROTECT
-	slowdown = 2
+	slowdown = 1.5
 	permeability_coefficient = 0.01
 	helmettype = /obj/item/clothing/head/helmet/space/hardsuit/master_at_arms
 
