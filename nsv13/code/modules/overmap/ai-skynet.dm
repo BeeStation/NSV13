@@ -453,7 +453,7 @@ Adding tasks is easy! Just define a datum for it.
 		return FALSE
 
 	for ( var/datum/overmap_objective/cargo/request in expecting_cargo ) // Only validate this station's cargo related objectives
-		if ( request.status != 0 )
+		if ( request.status != OBJECTIVE_STATUS_INPROGRESS )
 			continue
 
 		var/datum/overmap_objective/cargo/objective = request

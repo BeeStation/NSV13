@@ -22,8 +22,8 @@
 
 /datum/overmap_objective/perform_jumps/check_completion()
 	.=..()
-	if(status != 0)
+	if(status != OBJECTIVE_STATUS_INPROGRESS)
 		return
 	if(tally >= target)
-		status = 1
+		status = OBJECTIVE_STATUS_COMPLETED
 		UnregisterSignal(SSstar_system.find_main_overmap(), COMSIG_SHIP_ARRIVED)
