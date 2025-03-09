@@ -118,6 +118,21 @@
 	restraint_check = TRUE
 	var/wing_time = 10
 
+/datum/emote/living/flap/can_run_emote(mob/user, status_check = TRUE, intentional)
+	. = ..()
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/obj/item/organ/wings/wings = H.getorganslot(ORGAN_SLOT_WINGS)
+		if(istype(wings))
+			return TRUE
+	if(iscarbon(user))
+		var/mob/living/carbon/C = user
+		var/obj/item/bodypart/l_arm = C.get_bodypart(BODY_ZONE_L_ARM)
+		var/obj/item/bodypart/r_arm = C.get_bodypart(BODY_ZONE_R_ARM)
+		if((l_arm || r_arm))
+			return TRUE
+	return FALSE
+
 /datum/emote/living/flap/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
 	if(. && ishuman(user))
@@ -130,16 +145,18 @@
 	var/wings = FALSE
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
-		if(H.dna && H.dna.species)
-			if((H.dna.features["wings"] != "None") || H.dna.features["moth_wings"] != "None")
-				. = message + " wings"
-				wings = TRUE
-		var/obj/item/organ/wings/wings_slot = H.getorganslot(ORGAN_SLOT_WINGS)
-		if(!wings && istype(wings_slot))
+		var/obj/item/organ/wings/wing_slot = H.getorganslot(ORGAN_SLOT_WINGS)
+		if(istype(wing_slot))
 			. = message + " wings"
 			wings = TRUE
-	if(!wings)
-		. = message + " arms"
+	if(!wings && iscarbon(user))
+		var/mob/living/carbon/C = user
+		var/obj/item/bodypart/l_arm = C.get_bodypart(BODY_ZONE_L_ARM)
+		var/obj/item/bodypart/r_arm = C.get_bodypart(BODY_ZONE_R_ARM)
+		if(l_arm && r_arm)
+			. = message + " arms"
+		else
+			. = message + " arm"
 
 /datum/emote/living/flap/aflap
 	key = "aflap"
@@ -150,7 +167,7 @@
 
 /datum/emote/living/flap/aflap/select_message_type(mob/user, intentional)
 	. = ..()
-	. = . + " aggressively"
+	. += " aggressively"
 
 /datum/emote/living/frown
 	key = "frown"
