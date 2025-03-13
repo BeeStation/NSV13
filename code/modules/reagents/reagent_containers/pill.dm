@@ -214,7 +214,6 @@
 	name = "radiation plus pill"
 	desc = "Used to treat heavy radition poisoning."
 	icon_state = "pill_shape_capsule_skyblue"
-
 	list_reagents = list(/datum/reagent/medicine/potass_iodide = 50, /datum/reagent/medicine/charcoal = 20)
 
 /obj/item/reagent_containers/pill/antirad
