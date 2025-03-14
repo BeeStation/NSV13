@@ -114,9 +114,24 @@
 /datum/emote/living/flap
 	key = "flap"
 	key_third_person = "flaps"
-	message = "flaps their wings"
+	message = "flaps their"
 	restraint_check = TRUE
 	var/wing_time = 10
+
+/datum/emote/living/flap/can_run_emote(mob/user, status_check = TRUE, intentional)
+	. = ..()
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/obj/item/organ/wings/wings = H.getorganslot(ORGAN_SLOT_WINGS)
+		if(istype(wings))
+			return TRUE
+	if(iscarbon(user))
+		var/mob/living/carbon/C = user
+		var/obj/item/bodypart/l_arm = C.get_bodypart(BODY_ZONE_L_ARM)
+		var/obj/item/bodypart/r_arm = C.get_bodypart(BODY_ZONE_R_ARM)
+		if((l_arm || r_arm))
+			return TRUE
+	return FALSE
 
 /datum/emote/living/flap/run_emote(mob/user, params, type_override, intentional)
 	. = ..()
@@ -125,12 +140,34 @@
 		if(H.Togglewings())
 			addtimer(CALLBACK(H,TYPE_PROC_REF(/mob/living/carbon/human, Togglewings)), wing_time)
 
+/datum/emote/living/flap/select_message_type(mob/user, intentional)
+	. = ..()
+	var/wings = FALSE
+	if(ishuman(user))
+		var/mob/living/carbon/human/H = user
+		var/obj/item/organ/wings/wing_slot = H.getorganslot(ORGAN_SLOT_WINGS)
+		if(istype(wing_slot))
+			. = message + " wings"
+			wings = TRUE
+	if(!wings && iscarbon(user))
+		var/mob/living/carbon/C = user
+		var/obj/item/bodypart/l_arm = C.get_bodypart(BODY_ZONE_L_ARM)
+		var/obj/item/bodypart/r_arm = C.get_bodypart(BODY_ZONE_R_ARM)
+		if(l_arm && r_arm)
+			. = message + " arms"
+		else
+			. = message + " arm"
+
 /datum/emote/living/flap/aflap
 	key = "aflap"
 	key_third_person = "aflaps"
-	message = "flaps their wings aggressively"
+	message = "flaps their"
 	restraint_check = TRUE
 	wing_time = 5
+
+/datum/emote/living/flap/aflap/select_message_type(mob/user, intentional)
+	. = ..()
+	. += " aggressively"
 
 /datum/emote/living/frown
 	key = "frown"
