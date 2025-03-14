@@ -7,8 +7,8 @@
 	brief = "You have been assigned to capture a syndicate vessel. Locate the target, eliminate any Syndicate forces with extreme prejudice, then change its transponder codes and bring it home."
 	starting_system = "Argo"
 	starting_faction = "nanotrasen"
-	objective_reminder_setting = 2 // Combat can postpone, but it's not the goal
+	objective_reminder_setting = MODE_REMINDER_COMBAT_DELAY // Combat can postpone, but it's not the goal
 	combat_delay = 10 MINUTES
 	selection_weight = 5
 	required_players = 14
-	fixed_objectives = list(/datum/overmap_objective/board_ship)
+	fixed_objectives = list(/datum/overmap_objective/perform_jumps, /datum/overmap_objective/board_ship)
