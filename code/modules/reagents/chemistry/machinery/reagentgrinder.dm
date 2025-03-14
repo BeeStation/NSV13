@@ -243,9 +243,9 @@
 	animate(src, pixel_x = pixel_x + offset, time = 0.2, loop = -1) //start shaking
 	addtimer(CALLBACK(src, PROC_REF(stop_shaking), old_pixel_x), duration)
 
-/obj/machinery/reagentgrinder/proc/stop_shaking(old_pixel_x) //NSV13
+/obj/machinery/reagentgrinder/proc/stop_shaking(old_px)
 	animate(src)
-	pixel_x = old_pixel_x //NSV13
+	pixel_x = old_px
 
 /obj/machinery/reagentgrinder/proc/operate_for(time, silent = FALSE, juicing = FALSE)
 	shake_for(time / speed)
