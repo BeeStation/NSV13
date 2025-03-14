@@ -65,7 +65,7 @@
 	display_name = "Advanced Ballistics"
 	description = "More guns means better guns... Right?"
 	prereq_ids = list("ballistic_weapons")
-	design_ids = list("naval_shell", "powder_bag", "naval_artillery_comp", "artillery_loader", "powder_loader", "payload_gate", "broadside_casing", "broadside_load", "broadside_packer", "plasma_core")
+	design_ids = list("naval_shell", "powder_bag", "naval_artillery_comp", "artillery_loader", "powder_loader", "payload_gate", "broadside_casing", "broadside_load", "broadside_packer", "plasma_core", "swabber")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 5000
 	tech_tier = 3
@@ -75,7 +75,7 @@
 	display_name = "Macro-Ballistics"
 	description = "Asking important questions, like what if we made even bigger guns?"
 	prereq_ids = list("adv_ballistics", "adv_plasma")
-	design_ids = list("naval_shell_ap", "plasma_accelerant", "deck_gun_autorepair", "deck_gun_autoelevator", "gauss_rack_upgrade")
+	design_ids = list("naval_shell_ap", "plasma_accelerant", "deck_gun_autorepair", "deck_gun_autoelevator", "gauss_rack_upgrade", "broadside_load_uranium")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 7500)
 	export_price = 10000
 	tech_tier = 4
