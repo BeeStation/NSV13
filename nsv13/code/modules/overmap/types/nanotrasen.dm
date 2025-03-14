@@ -268,6 +268,8 @@
 	mass = MASS_MEDIUM
 	sprite_size = 48
 	ai_flags= AI_FLAG_DESTROYER
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/ai
+	missile_type = /obj/item/projectile/guided_munition/missile/ai
 	combat_dice_type = /datum/combat_dice/frigate
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
