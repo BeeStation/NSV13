@@ -1,13 +1,13 @@
 /obj/effect/landmark/zebra_interlock_point
-	name = "Condition zebra interlock helper"
+	name = "(DEPRECATED - DO NOT USE) Condition zebra interlock helper"
+	desc = "This landmark is DEPRECATED. Do not use it. Firelocks register the signal automatically. This type is pending deletion."
 	icon = 'nsv13/icons/effects/mapping_helpers.dmi'
 	icon_state = "zebra_interlock"
 
 
 /obj/effect/landmark/zebra_interlock_point/Initialize(mapload)
-	. = ..()
-	for(var/obj/machinery/door/firedoor/FD in get_turf(src))
-		FD.RegisterSignal(SSdcs, COMSIG_GLOB_SECURITY_ALERT_CHANGE, /obj/machinery/door/firedoor/proc/on_alert_level_change, override=TRUE) //In case you have a zebra spawner on a window, this instance of alert level change will override the old one.
+	..()
+	return INITIALIZE_HINT_QDEL
 
 /obj/machinery/door/firedoor/Initialize(mapload)
 	. = ..()
