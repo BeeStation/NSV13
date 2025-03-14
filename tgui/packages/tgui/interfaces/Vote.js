@@ -98,6 +98,13 @@ export const AdminPanel = (props, context) => {
                   </Button.Checkbox>
                 )}
               </Box>
+              <Box mb={1}>
+                <Button
+                  disabled={!upper_admin}
+                  onClick={() => act("hardmode")} >
+                  Hardmode
+                </Button>
+              </Box>
             </Flex.Item>
             <Flex.Item>
               <Button disabled={!upper_admin} onClick={() => act("custom")}>
