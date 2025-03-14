@@ -371,7 +371,7 @@
 
 /obj/item/projectile/bullet/delayed_prime/relayed_rock/fire(angle, atom/direct_target)
 	. = ..()
-	if(!QDELETED(src))
+	if(QDELETED(src))
 		return
 	realvisual = new(src)
 	vis_contents += realvisual
