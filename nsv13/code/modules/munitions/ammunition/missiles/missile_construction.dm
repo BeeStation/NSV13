@@ -2,7 +2,7 @@
 
 /obj/item/ship_weapon/ammunition/missile/missile_casing
 	name = "prebuilt missile-casing"
-	icon_state = "case"
+	icon_state = "missile_case"
 	desc = "The outer casing of a 30mm missile."
 	density = TRUE
 	move_resist = MOVE_FORCE_EXTREMELY_STRONG
@@ -267,25 +267,25 @@
 	cut_overlays()
 	switch(state)
 		if(1)
-			icon_state = "case_prop"
+			icon_state = "missile_case_prop"
 		if(2)
-			icon_state = "case_prop_bolt"
+			icon_state = "missile_case_prop_bolt"
 		if(3)
-			icon_state = "case_guide"
+			icon_state = "missile_case_guide"
 		if(4)
-			icon_state = "case_guide_screw"
+			icon_state = "missile_case_guide_screw"
 		if(5)
-			icon_state = "case_iff"
+			icon_state = "missile_case_iff"
 		if(6)
-			icon_state = "case_iff_screw"
+			icon_state = "missile_case_iff_screw"
 		if(7)
-			icon_state = "case_warhead"
+			icon_state = "missile_case_warhead"
 		if(8)
-			icon_state = "case_warhead_screw"
+			icon_state = "missile_case_warhead_screw"
 		if(9)
-			icon_state = "case_warhead_wired"
+			icon_state = "missile_case_warhead_wired"
 		if(10)
-			icon_state = "case_warhead_complete"
+			icon_state = "missile_case_warhead_complete"
 
 /obj/item/ship_weapon/ammunition/missile/missile_casing/proc/new_missile(
 			obj/item/ship_weapon/parts/missile/warhead,
