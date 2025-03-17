@@ -137,6 +137,11 @@ All foods are distributed among various categories. Use common sense.
 				to_chat(user, "<span class='warning'>[M] doesn't seem to have a mouth!</span>")
 				return
 
+		//NSV13 - food crimes
+		if(user == M && !(locate(/obj/structure/table) in orange(1, user)))
+			SEND_SIGNAL(user, COMSIG_ADD_MOOD_EVENT, "food_barbarism", /datum/mood_event/eat_like_a_civilized_person)
+		//NSV13 end.
+
 		if(reagents)								//Handle ingestion of the reagent.
 			if(M.satiety > -200)
 				M.satiety -= junkiness

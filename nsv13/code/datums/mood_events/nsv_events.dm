@@ -60,3 +60,8 @@
 /datum/mood_event/comfy_lizard_temperature
 	description = "<span class='nicegreen'>I'm nice and warm! I missed this feeling..</span>\n" //These ships run at 20°C by default, which is.. not very nice for something coldblooded.
 	mood_change = 2 //This is really hard to hit and maintain so I felt like at least a +2 would be appropriate.
+
+/datum/mood_event/eat_like_a_civilized_person
+	description = "<span class='userdanger'>I ATE WITHOUT A TABLE, LIKE AN ANIMAL, AAAAAAAAAAAA</span>\n"
+	mood_change = -7
+	timeout = 5 MINUTES
