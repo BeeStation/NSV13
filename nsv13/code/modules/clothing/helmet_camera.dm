@@ -7,7 +7,7 @@
 			to_chat(user, "<span class='warning'>You cannot install the upgrade to [src] while wearing it.</span>")
 			return FALSE
 		if(do_after(user, 5, target = src))
-			install_camera(I, src)
+			install_camera(I, user)
 			to_chat(user, "<span class='notice'>You successfully attach the camera to [src].</span>")
 			return TRUE
 	else if(I.tool_behaviour == TOOL_WIRECUTTER)
