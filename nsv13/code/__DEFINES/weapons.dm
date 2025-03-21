@@ -14,3 +14,8 @@
 #define MSTATE_UNSCREWED 1
 #define MSTATE_UNBOLTED 2
 #define MSTATE_PRIEDOUT 3
+
+//Naval cannon powder values
+#define NAC_MIN_POWDER_LOAD 0.5 // Min powder, equivelant to 25%
+#define NAC_NORMAL_POWDER_LOAD 2 // "100%" powder
+#define NAC_MAX_POWDER_LOAD 10 // Max powder, or 500%
