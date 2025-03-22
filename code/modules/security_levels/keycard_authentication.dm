@@ -115,7 +115,7 @@ GLOBAL_DATUM_INIT(keycard_events, /datum/events, new)
 				. = TRUE
 		if("ftl_safety_override")
 			if(!event_source)
-				sendEvent(KEYCARD_FTL_SAFETY_OVERRIDE)
+				sendEvent(KEYCARD_FTL_SAFETY_OVERRIDE, swipe_id)
 				. = TRUE
 
 
