@@ -945,6 +945,7 @@
 /obj/effect/turf_decal/stripes/corner{
 	dir = 1
 	},
+/obj/machinery/portable_atmospherics/scrubber,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/central)
 "acK" = (
@@ -2177,16 +2178,11 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/port)
 "afD" = (
-/obj/structure/rack,
-/obj/item/rcd_ammo/large{
-	pixel_x = 3;
-	pixel_y = 3
-	},
-/obj/item/rcd_ammo/large,
 /obj/structure/window/reinforced{
 	dir = 1;
 	layer = 2.9
 	},
+/obj/machinery/space_heater,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/port)
 "afE" = (
@@ -2338,7 +2334,7 @@
 /obj/effect/turf_decal/stripes/corner{
 	dir = 1
 	},
-/obj/machinery/portable_atmospherics/scrubber,
+/obj/machinery/space_heater,
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/port)
 "afX" = (
@@ -2705,6 +2701,11 @@
 	},
 /obj/machinery/light{
 	dir = 8
+	},
+/obj/item/rcd_ammo/large,
+/obj/item/rcd_ammo/large{
+	pixel_x = 3;
+	pixel_y = 3
 	},
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/port)
@@ -4136,7 +4137,10 @@
 /obj/structure/disposalpipe/segment{
 	dir = 8
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
+	req_access_txt = "5;12";
+	req_one_access_txt = null
+	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
@@ -15379,7 +15383,10 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
+	req_access_txt = "5;12";
+	req_one_access_txt = null
+	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
@@ -16993,7 +17000,10 @@
 /turf/open/floor/monotile/light,
 /area/crew_quarters/heads/cmo)
 "aUE" = (
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
+	req_access_txt = "5;12";
+	req_one_access_txt = null
+	},
 /turf/open/floor/plating,
 /area/medical/break_room)
 "aUF" = (
@@ -29710,7 +29720,10 @@
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
+	req_access_txt = "5;12";
+	req_one_access_txt = null
+	},
 /turf/open/floor/plating,
 /area/medical/genetics)
 "bvN" = (
@@ -35256,7 +35269,9 @@
 /turf/open/floor/monotile/dark,
 /area/medical/surgery)
 "bHB" = (
-/obj/machinery/door/airlock/ship/maintenance,
+/obj/machinery/door/airlock/ship/maintenance{
+	req_one_access_txt = "12"
+	},
 /obj/machinery/door/firedoor/border_only,
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
@@ -40980,7 +40995,7 @@
 	dir = 4
 	},
 /turf/open/floor/durasteel,
-/area/space/nearstation)
+/area/engine/engineering/reactor_core)
 "gaR" = (
 /obj/structure/disposalpipe/segment{
 	dir = 8
@@ -42186,7 +42201,10 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/door/airlock/ship/maintenance/defaultaccess,
+/obj/machinery/door/airlock/ship/maintenance/defaultaccess{
+	req_access_txt = "5;12";
+	req_one_access_txt = null
+	},
 /turf/open/floor/monotile/dark,
 /area/medical/morgue)
 "hxW" = (
@@ -48994,6 +49012,14 @@
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2,
 /turf/open/floor/monotile/light,
 /area/medical/genetics)
+"qsN" = (
+/obj/effect/turf_decal/stripes/corner{
+	dir = 4
+	},
+/obj/machinery/airalarm/directional/north,
+/obj/machinery/space_heater,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/frame1/central)
 "qtp" = (
 /obj/structure/girder/reinforced,
 /obj/structure/foamedmetal,
@@ -52256,9 +52282,6 @@
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/warehouse)
 "uKe" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on{
-	dir = 8
-	},
 /obj/effect/landmark/xeno_spawn,
 /turf/open/floor/plating,
 /area/engine/storage)
@@ -53711,6 +53734,10 @@
 /obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/monotile/steel,
 /area/nsv/weapons/fore)
+"wSt" = (
+/obj/machinery/space_heater,
+/turf/open/floor/monotile/steel,
+/area/hallway/nsv/deck2/frame1/central)
 "wSx" = (
 /obj/machinery/space_heater,
 /turf/open/floor/plating,
@@ -90791,7 +90818,7 @@ qRr
 bcq
 enm
 aad
-abJ
+qsN
 azD
 aSH
 aZl
@@ -91827,7 +91854,7 @@ blg
 iEz
 buY
 byA
-bGH
+wSt
 bKN
 bKW
 byA
