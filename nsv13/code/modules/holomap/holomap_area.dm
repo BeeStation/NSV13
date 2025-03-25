@@ -14,6 +14,18 @@
 /area/shuttle/turbolift
 	holomap_should_draw = TRUE
 
+/area/shuttle/pod_1
+	holomap_should_draw = TRUE
+
+/area/shuttle/pod_2
+	holomap_should_draw = TRUE
+
+/area/shuttle/pod_3
+	holomap_should_draw = TRUE
+
+/area/shuttle/pod_4
+	holomap_should_draw = TRUE
+
 /area/ruin
 	holomap_should_draw = FALSE
 
@@ -240,7 +252,7 @@
 	holomap_color = HOLOMAP_AREACOLOR_MUNITION
 
 // Aviation //
-/area/nsv/hangar
+/area/nsv/hanger //KMC why :( (Yes the typo is the correct way to write that)
 	holomap_color = HOLOMAP_AREACOLOR_HANGAR
 
 /area/nsv/atc
