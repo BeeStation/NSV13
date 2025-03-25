@@ -94,7 +94,7 @@
 /area/hallway/secondary/construction
 	holomap_color = HOLOMAP_AREACOLOR_ENGINEERING
 
-/area/nsv/engine/engine_room
+/area/nsv/engine
 	holomap_color = HOLOMAP_AREACOLOR_ENGINEERING
 
 /area/engine
@@ -183,9 +183,6 @@
 
 /area/hallway/upper/secondary/entry
 	holomap_color = HOLOMAP_AREACOLOR_ARRIVALS
-
-/area/nsv/engine/corridor
-	holomap_color = HOLOMAP_AREACOLOR_ENGINEERING
 
 // Maints //
 /area/maintenance
