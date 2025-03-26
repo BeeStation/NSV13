@@ -28,6 +28,10 @@ GLOBAL_LIST_EMPTY(knpcs)
 		)) // climbable things
 	var/pathfind_timeout = 0 //If pathfinding fails, it is püt in timeout for a while to avoid spamming the server with pathfinding calls.
 	var/timeout_stacks = 0 //Consecutive pathfind fails add additional delay stacks to further counteract the effects of knpcs in unreachable locations.
+	///Time since when we have been disabled.
+	var/failsafe_timer = 0
+	///Each knpc has their own level of restraint before deciding to take desperate measures, but this is the base value.
+	var/failsafe_trust = 5 SECONDS
 
 /mob/living/carbon/human/ai_boarder
 	faction = list("Neutral")
@@ -61,6 +65,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 /datum/component/knpc/Initialize()
 	if(!iscarbon(parent))
 		return COMPONENT_INCOMPATIBLE
+	failsafe_trust = rand((2 SECONDS), (5 SECONDS))
 	if(!ai_goals)
 		for(var/gtype in subtypesof(/datum/ai_goal/human))
 			LAZYADD(ai_goals, new gtype)
@@ -630,7 +635,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		support_text += text
 	else
 		support_text += pick(H.call_lines)
-	H.say(support_text)
+	H.say(support_text, forced = "knpc AI")
 
 	// Call for other intelligent AIs
 	for(var/datum/component/knpc/HH as() in GLOB.knpcs - HA)
@@ -643,7 +648,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 			var/thetext = (other_radio) ? "; " : ""
 			thetext += pick(H.response_lines)
 			HH.pathfind_to(H)
-			other.say(thetext)
+			other.say(thetext, forced = "knpc AI")
 	//Firstly! Call for the simplemobs..
 	for(var/mob/living/simple_animal/hostile/M in oview(HA.view_range, HA.parent))
 		if(H.faction_check_mob(M, TRUE))
@@ -883,12 +888,13 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	var/mob/living/carbon/human/knpc_mob = HA.parent
 	if(!(locate(/datum/action/item_action/explosive_implant) in knpc_mob.actions))
 		return 0
-	if(knpc_mob.handcuffed || (knpc_mob.get_num_arms() == 0))
-		return
-	if(knpc_mob.AmountUnconscious() >= 5 SECONDS || knpc_mob.AmountSleeping() >= 5 SECONDS)
-		return
-	if(knpc_mob.stat && knpc_mob.health <= -25) //Magic number because health thresholds are kinda :/
-		return
+	if(knpc_mob.handcuffed || knpc_mob.get_num_arms() == 0 || knpc_mob.IsUnconscious() || knpc_mob.IsSleeping() || (knpc_mob.stat && knpc_mob.health <= -20))
+		if(!HA.failsafe_timer)
+			HA.failsafe_timer = world.time
+		else if(world.time - HA.failsafe_timer >= HA.failsafe_trust)
+			return score
+	else
+		HA.failsafe_timer = 0
 	return 0
 
 //Override.
@@ -900,7 +906,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 	if(!boom_action) //Guh?
 		return
 	if(knpc_mob.stat == CONSCIOUS)
-		knpc_mob.say(pick("No retreat, no surrender!", "YOU WILL NEVER TAKE ME ALIVE!!", "Death to Nanotrasen scum!"), forced = "knpc AI")
+		knpc_mob.say(pick("No retreat, no surrender!", "YOU WILL NEVER TAKE ME ALIVE!!", "TAKE THAT!!"), forced = "knpc AI")
 	boom_action.Trigger()
 
 
