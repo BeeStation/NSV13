@@ -273,13 +273,13 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/mob/living/carbon/human/ai_boarder/H = parent
 	if(H.stat == DEAD)
 		return PROCESS_KILL
-	if(!H.can_resist())
-		if(H.incapacitated()) //In crit or something....
-			return
 	if(world.time >= next_action)
 		next_action = world.time + H.action_delay
 		pick_goal()
 		current_goal?.action(src)
+	if(!H.can_resist())
+		if(H.incapacitated()) //In crit or something....
+			return
 	if(length(path))
 		next_path_step()
 	else //They should always be pathing somewhere...
@@ -869,6 +869,40 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		H.put_in_active_hand(P) //Roll Up Your Sleeve
 		P.attack(H, H) //Self Vax
 		P.forceMove(get_turf(H)) //Litter because doing one good thing is enugh for today
+
+//Alternate capture reaction for those with microbombs.
+/datum/ai_goal/human/deny_capture
+	name = "Deny Capture"
+	score = AI_SCORE_SUPERCRITICAL
+	required_ai_flags = NONE
+
+/datum/ai_goal/human/deny_capture/check_score(datum/component/knpc/HA)
+	. = ..()
+	if(!.)
+		return 0
+	var/mob/living/carbon/human/knpc_mob = HA.parent
+	if(!(locate(/datum/action/item_action/explosive_implant) in knpc_mob.actions))
+		return 0
+	if(knpc_mob.handcuffed || (knpc_mob.get_num_arms() == 0))
+		return
+	if(knpc_mob.AmountUnconscious() >= 5 SECONDS || knpc_mob.AmountSleeping() >= 5 SECONDS)
+		return
+	if(knpc_mob.stat && knpc_mob.health <= -25) //Magic number because health thresholds are kinda :/
+		return
+	return 0
+
+//Override.
+/datum/ai_goal/human/deny_capture/action(datum/component/knpc/HA)
+	var/mob/living/carbon/human/knpc_mob = HA.parent
+	if(QDELETED(knpc_mob) || knpc_mob.client)
+		return
+	var/datum/action/item_action/explosive_implant/boom_action = (locate() in knpc_mob.actions)
+	if(!boom_action) //Guh?
+		return
+	if(knpc_mob.stat == CONSCIOUS)
+		knpc_mob.say(pick("No retreat, no surrender!", "YOU WILL NEVER TAKE ME ALIVE!!", "Death to Nanotrasen scum!"), forced = "knpc AI")
+	boom_action.Trigger()
+
 
 #undef AI_TRAIT_BRAWLER
 #undef AI_TRAIT_SUPPORT
