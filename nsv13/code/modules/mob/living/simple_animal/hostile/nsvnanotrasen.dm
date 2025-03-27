@@ -1,3 +1,4 @@
+
 //// Base mob ////
 ///// Interior Mobs ////
 /mob/living/simple_animal/hostile/nsv/nanotrasen
@@ -108,3 +109,5 @@
 	minimum_distance = 3
 	speed = 2
 	ranged = 1
+
+
