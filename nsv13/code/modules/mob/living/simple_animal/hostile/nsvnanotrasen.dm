@@ -76,7 +76,7 @@
 /mob/living/simple_animal/hostile/nsv/nanotrasen/space/ranged
 	icon_state = "nsvnt_ranged_space"
 	icon_living = "nsvnt_ranged_space"
-	desc = "A generic member of the Syndicate Navy, now in a spacesuit. This one also has a gun!"
+	desc = "Bring down the Syndicate, one 9mm round at a time!"
 	maxHealth = 135
 	health = 135
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
