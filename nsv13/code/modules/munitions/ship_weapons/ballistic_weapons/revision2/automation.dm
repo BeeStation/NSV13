@@ -82,7 +82,11 @@
 	if(target_turf)
 		UnregisterSignal(target_turf, COMSIG_ATOM_ENTERED)
 		target_turf = null
-	setDir(turn(src.dir, -90))
+	var/turf/T = get_turf(src)
+	if(!user.TurfAdjacent(T)) //Checks if mob is adjacent to the machine's turf before allowing rotation
+		return
+	else
+		setDir(turn(src.dir, -90))
 	target_turf = get_turf(get_step(src, src.dir))
 	if(target_turf)
 		RegisterSignal(target_turf, COMSIG_ATOM_ENTERED, PROC_REF(attempt_assembler_action))

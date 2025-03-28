@@ -1,7 +1,7 @@
 /obj/machinery/gibber
 	name = "gibber"
 	desc = "The name isn't descriptive enough?"
-	icon = 'icons/obj/kitchen.dmi'
+	icon = 'nsv13/icons/obj/kitchen.dmi'
 	icon_state = "grinder"
 	density = TRUE
 	use_power = IDLE_POWER_USE
@@ -40,6 +40,10 @@
 
 /obj/machinery/gibber/update_icon()
 	cut_overlays()
+	if(operating) //NSV13
+		icon_state = "grinder_animated" //NSV13
+	else //NSV13
+		icon_state = "grinder" //NSV13
 	if (dirty)
 		add_overlay("grbloody")
 	if(machine_stat & (NOPOWER|BROKEN))
