@@ -108,3 +108,4 @@
 	minimum_distance = 3
 	speed = 2
 	ranged = 1
+
