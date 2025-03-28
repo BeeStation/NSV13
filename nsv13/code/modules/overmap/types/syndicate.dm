@@ -573,6 +573,10 @@
 	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/prototype_bsa(src)
 	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
 
+/obj/structure/overmap/hostile/ai/fighter/Initialize()
+	. = ..()
+	name = "[name] ([rand(0,999)])"
+
 /obj/structure/overmap/hostile/ai/fighter
 	name = "Rattlesnake Strike fighter"
 	icon = 'nsv13/icons/overmap/alicorn.dmi'
