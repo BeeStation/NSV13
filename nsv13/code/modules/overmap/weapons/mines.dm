@@ -90,7 +90,7 @@
 		if(OM.use_armour_quadrants)
 			OM.take_quadrant_hit(OM.run_obj_armor(damage, damage_type, damage_flag, null, armour_penetration), OM.quadrant_impact(src))
 		else
-			OM.take_damage(damage, damage_type, damage_flag, FALSE, TRUE)
+			OM.take_damage(damage, damage_type, damage_flag, FALSE)
 		if(OM.linked_areas) //Hope nothing precious was in that room.
 			var/area/A = pick(OM.linked_areas)
 			var/turf/T = pick(get_area_turfs(A))
@@ -101,7 +101,7 @@
 			if(OM.use_armour_quadrants)
 				OM.take_quadrant_hit(OM.run_obj_armor(damage, damage_type, damage_flag, null, armour_penetration), OM.quadrant_impact(src))
 			else
-				OM.take_damage(damage, damage_type, damage_flag, FALSE, TRUE)
+				OM.take_damage(damage, damage_type, damage_flag, FALSE)
 	new /obj/effect/temp_visual/fading_overmap(get_turf(src), name, icon, icon_state, alpha)
 
 
