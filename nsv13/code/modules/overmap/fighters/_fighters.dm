@@ -352,7 +352,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			if(!ftl.anchored_to)
 				to_chat(usr, "<span class='warning'>Unable to comply. FTL tether lost.</span>")
 				return
-			var/datum/star_system/dest = SSstar_system.ships[ftl.anchored_to]["current_system"]
+			var/datum/star_system/dest = ftl.anchored_to.current_system
 			if(!dest)
 				to_chat(usr, "<span class='warning'>Unable to comply. Target beacon is currently in FTL transit.</span>")
 				return
