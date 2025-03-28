@@ -941,6 +941,21 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 /obj/item/fighter_component/proc/toggle()
 	active = !active
 
+/obj/item/fighter_component/AltClick(mob/user)
+	. = ..()
+	if(!Adjacent(user))
+		return
+	if(!isliving(user))
+		return
+	if(!length(contents))
+		to_chat(user, "<span class='warning'>There is nothing to unload from [src]!</span>")
+		return
+	to_chat(user, "<span class='notice'>You start to unload [src]'s stored contents...</span>")
+	if(!do_after(user, 5 SECONDS, target=src))
+		return
+	to_chat(user, "<span class='notice>You dump [src]'s contents.</span>")
+	dump_contents()
+
 /obj/item/fighter_component/proc/dump_contents()
 	if(!length(contents))
 		return FALSE
