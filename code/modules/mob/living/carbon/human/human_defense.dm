@@ -693,8 +693,9 @@
 	if(stat == DEAD || stat == UNCONSCIOUS)
 		return
 
-	var/msg = visible_message("[src] examines [p_them()]self.", \
+	visible_message("[src] examines [p_them()]self.", \
 		"<span class='notice'>You check yourself for injuries.</span>")
+	var/msg = ""
 	var/list/harm_descriptors = dna?.species.get_harm_descriptors()
 	harm_descriptors ||= list("bleed" = "bleeding")
 	var/bleed_msg = harm_descriptors["bleed"]
@@ -820,7 +821,7 @@
 		//Put the items in that list into a string of text
 		for(var/B in broken)
 			broken_message += B
-		msg += "<\nspan class='warning'> Your [broken_message] [broken_plural ? "are" : "is"] non-functional!</span>"
+		msg += "\n<span class='warning'>Your [broken_message] [broken_plural ? "are" : "is"] non-functional!</span>"
 	if(damaged.len)
 		if(damaged.len > 1)
 			damaged.Insert(damaged.len, "and ")

@@ -348,10 +348,10 @@
 	var/list/message = list()
 
 	if(!full_scan)
-		. = TRUE
 		if(!stealth)
 			message += "<span class='notice'><b>Nanites Detected</b></span>"
 			message += "<span class='notice'>Saturation: [nanite_volume]/[max_nanites]</span>"
+			. = TRUE
 	else
 		message += "<span class='info'>Nanites Detected</span>"
 		message += "<span class='info'>================</span>"

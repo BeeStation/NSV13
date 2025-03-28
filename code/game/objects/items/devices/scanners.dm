@@ -643,6 +643,7 @@ GENE SCANNER
 			var/gas_concentration = environment.get_moles(id)/total_moles
 			message += "<span class='alert'>[GLOB.gas_data.names[id]]: [round(gas_concentration*100, 0.01)] % ([round(environment.get_moles(id), 0.01)] mol)</span>"
 		message += "<span class='info'>Temperature: [round(environment.return_temperature()-T0C, 0.01)] &deg;C ([round(environment.return_temperature(), 0.01)] K)</span>"
+	to_chat(user, EXAMINE_BLOCK(jointext(message, "\n")))
 
 /obj/item/analyzer/ranged
 	desc = "A hand-held scanner which uses advanced spectroscopy and infrared readings to analyze gases as a distance. Alt-Click to use the built in barometer function."
