@@ -13,9 +13,9 @@
 	name = "Firing Electronics"
 	desc = "Controls the firing mechanism for ship-sized weaponry."
 	id = "ship_firing_electronics"
-	build_type = PROTOLATHE
+	build_type = PROTOLATHE|IMPRINTER
 	materials = list(/datum/material/iron = 1000, /datum/material/diamond = 100, /datum/material/titanium = 300, /datum/material/copper = 100)
-	construction_time=100
+	construction_time = 100
 	build_path = /obj/item/ship_weapon/parts/firing_electronics
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
@@ -51,8 +51,9 @@
 	category = list("Computer Boards")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
-//Naval artillery
-/*
+//Naval Artillery (Deck Gun)
+
+/*Obsolete
 /datum/design/board/naval_artillery
 	name = "Machine Design (Deck Gun Frame)"
 	desc = "Allows for the construction of a naval artillery gun frame."
@@ -62,8 +63,7 @@
 	build_path = /obj/structure/ship_weapon/mac_assembly/artillery_frame
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
-*/
-/*don't need this no more
+
 /datum/design/naval_artillery_triple
 	name = "Machine Design (Triple Deck Gun Frame)"
 	desc = "Allows for the construction of a triple barreled naval cannon frame."
@@ -74,6 +74,24 @@
 	build_type = PROTOLATHE | AUTOLATHE
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 */
+
+/datum/design/board/deck_turret
+	name = "Machine Design (Deck Gun Turret)"
+	desc = "Allows for the construction of a naval artillery gun turret."
+	id = "deck_gun"
+	materials = list(/datum/material/titanium = 12000,/datum/material/iron = 15000, /datum/material/glass = 5000, /datum/material/copper = 5000)
+	build_path = /obj/item/circuitboard/machine/deck_turret
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+/datum/design/board/multibarrel_upgrade/_3
+	name = "Naval Artillery Cannon Triple Barrel Upgrade (Circuit)"
+	desc = "An upgrade that allows you to add two more barrels to a Naval Artillery Cannon."
+	id = "deck_gun_triple"
+	materials = list(/datum/material/titanium = 30000,/datum/material/iron = 25000, /datum/material/diamond = 15000, /datum/material/copper = 35000)
+	build_path = /obj/item/circuitboard/multibarrel_upgrade/_3
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/board/naval_artillery_comp
 	name = "Machine Design (Deck Gun Computer)"
@@ -141,7 +159,7 @@
 	desc = "Allows for the construction of a VLS launch tube (control computer not included)."
 	id = "vls_tube"
 	build_type = PROTOLATHE|IMPRINTER
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/silver = 500)
 	build_path = /obj/item/circuitboard/machine/vls
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
@@ -151,9 +169,29 @@
 	desc = "Allows for the construction of an AMS control console."
 	id = "ams_console"
 	build_type = PROTOLATHE|IMPRINTER
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/silver = 500)
 	build_path = /obj/item/circuitboard/computer/ams
 	category = list("Computer Boards")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+//Gauss guns
+/datum/design/board/gauss_dispenser_circuit
+	name = "Machine Design (Gauss Dispenser)"
+	desc = "Allows you to construct a machine that lets you access the ship's internal ammo stores to retrieve gauss gun ammunition."
+	id = "gauss_dispenser_circuit"
+	build_type = PROTOLATHE|IMPRINTER
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
+	build_path = /obj/item/circuitboard/machine/gauss_dispenser
+	category = list("Advanced Munitions")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
+/datum/design/board/gauss_turret
+	name = "Machine Design (Gauss Turret)"
+	desc = "Allows you to construct a turret to fire gauss slugs at the enemy"
+	id = "gauss_turret"
+	build_type = PROTOLATHE|IMPRINTER
+	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 1000, /datum/material/silver = 500)
+	build_path = /obj/item/circuitboard/machine/gauss_turret
+	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 //Misc
@@ -168,17 +206,7 @@
 	category = list("Advanced Munitions")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
-/datum/design/board/gauss_dispenser_circuit
-	name = "Machine Design (Gauss Dispenser)"
-	desc = "Allows you to construct a machine that lets you access the ship's internal ammo stores to retrieve gauss gun ammunition."
-	id = "gauss_dispenser_circuit"
-	build_type = PROTOLATHE|IMPRINTER
-	materials = list(/datum/material/glass = 2000, /datum/material/copper = 200, /datum/material/gold = 500)
-	build_path = /obj/item/circuitboard/machine/gauss_dispenser
-	category = list("Advanced Munitions")
-	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
-
-//Hybrid Railgun
+//Hybrid Railgun Ammo
 /datum/design/slug_cold_iron
 	name = "M4 NTRS 400mm teflon coated tungsten round"
 	desc = "A standard railgun slug."
