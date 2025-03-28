@@ -124,7 +124,7 @@
 		var/obj/structure/overmap/OM = target
 		if(istype(OM))
 			ai_aim = FALSE // This is a homing projectile
-		fire_projectile(/obj/item/projectile/guided_munition/missile, target, lateral = FALSE, ai_aim = ai_aim)
+		fire_projectile(missile_type, target, lateral = FALSE, ai_aim = ai_aim)
 		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_MISSILE]
 		relay_to_nearby(pick(SW.overmap_firing_sounds))
 		return TRUE

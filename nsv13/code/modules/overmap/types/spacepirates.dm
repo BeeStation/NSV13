@@ -33,6 +33,8 @@
 	mass = MASS_SMALL
 	max_integrity = 400
 	armor = list("overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/ai
+	missile_type = /obj/item/projectile/guided_munition/missile/ai
 	bound_height = 64
 	bound_width = 64
 	ai_controlled = TRUE
