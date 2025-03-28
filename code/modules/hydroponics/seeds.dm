@@ -329,9 +329,7 @@
 		if(istype(traits, /datum/plant_gene/trait/plant_type))
 			continue
 		all_traits += " [traits.get_name()]"
-	text += "- Plant Traits:[all_traits]\n"
-
-	text += "*---------*"
+	text += "- Plant Traits:[all_traits]"
 
 	return text
 
@@ -340,10 +338,9 @@
 
 /obj/item/seeds/attackby(obj/item/O, mob/user, params)
 	if (istype(O, /obj/item/plant_analyzer))
-		to_chat(user, "<span class='info'>*---------*\n This is \a <span class='name'>[src]</span>.</span>")
 		var/text = get_analyzer_text()
 		if(text)
-			to_chat(user, "<span class='notice'>[text]</span>")
+			to_chat(user, EXAMINE_BLOCK("<span class='info'>This is \a <b>[src]</span></b>. \n<span class='notice'>[text]</span>"))
 
 		return
 
