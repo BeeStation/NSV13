@@ -93,7 +93,8 @@
 			ai_aim = FALSE // This is a homing projectile
 		var/launches = min(torpedoes, burst)
 
-		fire_projectile(torpedo_type, target, speed=3, lateral = TRUE, ai_aim = ai_aim)
+		var/thing_to_fire = islist(torpedo_type) ? pickweight(torpedo_type) : torpedo_type
+		fire_projectile(thing_to_fire, target, speed=3, lateral = TRUE, ai_aim = ai_aim)
 		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
 		relay_to_nearby(pick(SW.overmap_firing_sounds))
 
@@ -104,13 +105,14 @@
 
 /obj/structure/overmap/proc/fire_torpedo_burst(atom/target, ai_aim = FALSE, burst = 1)
 	set waitfor = FALSE
+	var/thing_to_fire = islist(torpedo_type) ? pickweight(torpedo_type) : torpedo_type //Bursts are of a single type.
 	for(var/cycle = 1; cycle <= burst; cycle++)
 		sleep(3)
 		if(QDELETED(src))	//We might get shot.
 			return
 		if(QDELETED(target))
 			target = null
-		fire_projectile(torpedo_type, target, speed=3, lateral = TRUE, ai_aim = ai_aim)
+		fire_projectile(thing_to_fire, target, speed=3, lateral = TRUE, ai_aim = ai_aim)
 		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
 		relay_to_nearby(pick(SW.overmap_firing_sounds))
 

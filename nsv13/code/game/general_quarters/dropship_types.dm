@@ -50,6 +50,8 @@ Credit to TGMC for the interior sprites for all these!
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/countermeasure)
 	var/linked_virtual_z // The virtual Z of our transport bird.
 
+	combat_dice_type = /datum/combat_dice/civilian //Sowwy.
+
 /obj/structure/overmap/small_craft/transport/Initialize(mapload, list/build_components)
 	return ..()
 
@@ -119,6 +121,8 @@ Credit to TGMC for the interior sprites for all these!
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/ftl,
 						/obj/item/fighter_component/countermeasure_dispenser)
+
+	combat_dice_type = /datum/combat_dice/plotarmor_fighter/heavy
 
 /datum/map_template/dropship/gunship
     name = "SC-130 Halberd Gunship"

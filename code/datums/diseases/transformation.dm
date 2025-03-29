@@ -357,18 +357,20 @@
 	spread_flags = DISEASE_SPREAD_BLOOD | DISEASE_SPREAD_CONTACT_SKIN | DISEASE_SPREAD_CONTACT_FLUIDS
 
 /datum/disease/transformation/felinid/contagious/form_mutagen(mob/living/affected_mob)
-	if(ishuman(affected_mob))
-		var/mob/living/carbon/human/affected_human = affected_mob
-		if(iscatperson(affected_human))
-			if (prob(10))
-				affected_mob.say(pick("", ";", ".h")+pick("Nya", "MIAOW", "Ny- NYAAA", "meow", "NYAAA", "nya", "Ny- meow", "mrrrr", "Mew- Nya")+pick("!", "!!", "~!!", "!~", "", "", "", ""), forced = "felinid transformation")
-			if (prob(3))
-				affected_mob.visible_message("<span class='danger'>[affected_mob] licks [affected_mob.p_their()] hand.</span>")
-			if (prob(1))
-				affected_mob.visible_message("<span class='danger'>[affected_mob] coughs out a furball.</span>")
-				to_chat(affected_mob, "<span class='danger'>You cough out a furball.</span>")
-			return
-	affected_mob.reagents.add_reagent_list(list(/datum/reagent/mutationtoxin/felinid = 1, /datum/reagent/medicine/mutadone = 1))
+	if(!ishuman(affected_mob))
+		return
+	var/mob/living/carbon/human/affected_human = affected_mob
+	if(iscatperson(affected_human))
+		if(prob(10))
+			affected_mob.say(pick("", ";", ".h")+pick("Nya", "MIAOW", "Ny- NYAAA", "meow", "NYAAA", "nya", "Ny- meow", "mrrrr", "Mew- Nya")+pick("!", "!!", "~!!", "!~", "", "", "", ""), forced = "felinid transformation")
+		if(prob(3))
+			affected_mob.visible_message("<span class='danger'>[affected_mob] licks [affected_mob.p_their()] hand.</span>")
+		if(prob(1))
+			affected_mob.visible_message("<span class='danger'>[affected_mob] coughs out a furball.</span>")
+			to_chat(affected_mob, "<span class='danger'>You cough out a furball.</span>")
+		return
+	else
+		affected_mob.reagents.add_reagent_list(list(/datum/reagent/mutationtoxin/felinid = 1, /datum/reagent/medicine/mutadone = 1))
 
 /datum/disease/transformation/legion
 	name = "Necropolis Infestation"

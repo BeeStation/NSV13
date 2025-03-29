@@ -57,6 +57,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/change_name, .verb/countermeasure)
 	var/busy = FALSE
 
+	combat_dice_type = /datum/combat_dice/fighter
+
 /obj/structure/overmap/small_craft/Destroy()
 	var/mob/last_pilot = pilot // Old pilot gets first shot
 	for(var/mob/M as() in operators)
@@ -403,6 +405,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/primary/cannon)
 
+	combat_dice_type = /datum/combat_dice/plotarmor_fighter
+
 /obj/structure/overmap/small_craft/combat/solgov
 	name = "Peregrine class attack fighter"
 	desc = "A Peregrine class attack fighter, solgov's only premiere fighter, mounting minature capital grade phasers and a tiny shield generator."
@@ -426,6 +430,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 						/obj/item/fighter_component/docking_computer,
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/primary/laser)   // no armor because >=3, you can still install it though because this thing is made of tissue paper
+
+	combat_dice_type = /datum/combat_dice/plotarmor_fighter
 
 /obj/structure/overmap/small_craft/combat/solgov/Initialize(mapload)
 	. = ..()
@@ -459,6 +465,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 						/obj/item/fighter_component/docking_computer,
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/countermeasure_dispenser)
+
+	combat_dice_type = /datum/combat_dice/civilian
 
 /obj/structure/overmap/small_craft/escapepod/stop_piloting(mob/living/M, eject_mob=TRUE, force=FALSE)
 	if(!force && !SSmapping.level_trait(z, ZTRAIT_BOARDABLE))
@@ -494,6 +502,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 						/obj/item/fighter_component/secondary/ordnance_launcher/torpedo,
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/primary/cannon/heavy)
+
+	combat_dice_type = /datum/combat_dice/plotarmor_fighter/heavy
 
 //Syndie counterparts.
 /obj/structure/overmap/small_craft/combat/light/syndicate //PVP MODE
