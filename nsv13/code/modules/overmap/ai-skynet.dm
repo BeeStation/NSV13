@@ -228,7 +228,8 @@ Adding tasks is easy! Just define a datum for it.
 		if(world.time < last_encounter_time + combat_move_delay) //So that fleets don't leave mid combat.
 			return FALSE
 
-		if(SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CHECK_INTERDICT, pick(all_ships)) & BEING_INTERDICTED)	//Hypothesis: All ships within a fleet should have the same faction.
+		var/interdict_return = SEND_GLOBAL_SIGNAL(COMSIG_GLOB_CHECK_INTERDICT, pick(all_ships)) //Hypothesis: All ships within a fleet should have the same faction.
+		if((interdict_return & (WEAK_INTERDICT|STRONG_INTERDICT)))
 			return FALSE
 
 	current_system.fleets -= src
@@ -1736,6 +1737,8 @@ Seek a ship thich we'll station ourselves around
 						SW.next_firetime += SW.ai_fire_delay
 					break
 		fire_mode = new_firemode
+		if(!weapon_types[new_firemode]) //We lack gun
+			return
 		if(uses_main_shot) //Don't penalise them for weapons that are designed to be spammed.
 			shots_left --
 		else
