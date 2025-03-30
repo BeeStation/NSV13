@@ -384,28 +384,6 @@ SUBSYSTEM_DEF(overmap_mode)
 			setup_overmap_mode()
 		return mode.name
 
-/datum/controller/subsystem/overmap_mode/proc/toggle_hardmode()
-	if(!initialized) //Not yet
-		message_admins("Hardmode failed to activate! Turn it on when the overmap gamemode subsystem is done loading in the control panel!")
-		return FALSE
-	hard_mode_enabled = !hard_mode_enabled
-	log_game("Hard mode has been [hard_mode_enabled ? "enabled" : "disabled"]!")
-	if(hard_mode_enabled) //Go on, clear the map out
-		force_mode(/datum/overmap_gamemode/hardmode)
-		SSresearch.hardmode_tech_enable()
-		var/datum/star_system/R = SSstar_system.system_by_id("Rubicon")
-		R.spawn_fleet(/datum/fleet/interdiction/light) //They're going to assault you immediately, should be replaced with a more general aggressive Syndicate expansion behaviour
-		if(mode_initialised) //Not really needed when they're not in game yet
-			priority_announce("Increased hostile activity detected. Mission objectives for [station_name()] updated. Please consult the communications console for a new mission statement. Mobilize your forces at once.")
-	else //Undo all of that
-		SSresearch.hardmode_tech_disable()
-		force_mode(/datum/overmap_gamemode/patrol) //Just set it to patrol instead
-		var/datum/star_system/D = SSstar_system.system_by_id("Dolos Remnants")
-		for(var/datum/fleet/F in D.fleets)
-			if(istype(F, /datum/fleet/remnant))
-				F.move(SSstar_system.system_by_id("Oasis Fidei"), TRUE) //Retreat
-	return TRUE
-
 /datum/overmap_gamemode
 	var/name = null											//Name of the gamemode type
 	var/config_tag = null									//Tag for config file weight
@@ -441,7 +419,8 @@ SUBSYSTEM_DEF(overmap_mode)
 	)
 
 /datum/overmap_gamemode/Destroy()
-	QDEL_LIST(objectives)
+	if(length(objectives))
+		QDEL_LIST(objectives)
 	. = ..()
 
 /datum/overmap_gamemode/proc/consequence_one()

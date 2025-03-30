@@ -6,12 +6,12 @@
 //In hardmode, we give the players a little treat too
 /datum/controller/subsystem/research
 	var/list/gun_techdesigns = list(
-		/datum/design/board/gauss_dispenser_circuit = /datum/techweb_node/advanced_ballistics,
-		/datum/design/board/gauss_turret = /datum/techweb_node/advanced_ballistics,
-		/datum/design/ship_firing_electronics = /datum/techweb_node/advanced_ballistics,
-		/datum/design/board/deck_turret = /datum/techweb_node/advanced_ballistics,
-		/datum/design/board/multibarrel_upgrade/_3 = /datum/techweb_node/macro_ballistics,
-		/datum/design/board/vls_tube = /datum/techweb_node/basic_torpedo_components
+		"gauss_dispenser_circuit" = /datum/techweb_node/advanced_ballistics,
+		"gauss_turret" = /datum/techweb_node/advanced_ballistics,
+		"ship_firing_electronics" = /datum/techweb_node/advanced_ballistics,
+		"deck_gun" = /datum/techweb_node/advanced_ballistics,
+		"deck_gun_triple" = /datum/techweb_node/macro_ballistics,
+		"vls_tube" = /datum/techweb_node/basic_torpedo_components
 	)
 
 //Adds and removes the technologies listed above from the techweb
@@ -21,27 +21,20 @@
 
 /datum/controller/subsystem/research/proc/hardmode_tech_disable()
 	for(var/i in gun_techdesigns)
-		on_design_deletion(i)
+		on_design_deletion(techweb_design_by_id(i))
 
 //Adding a tech design (back)
-//For the subsystem to use, a positive version of deletion procs
-
-/datum/controller/subsystem/research/proc/on_design_addition(datum/design/D, techweb_node) //Needs to be added to a specific node type
-	if(!techweb_node || !D)
+//For the subsystem
+/datum/controller/subsystem/research/proc/on_design_addition(design, techweb_node) //Needs to be added to a specific node type
+	if(!techweb_node || !design)
 		return FALSE
-	for(var/i in techweb_nodes)
-		var/datum/techweb_node/T = techwebs[i]
-		if(istype(techweb_node, T))
-			T.on_design_addition(D)
-	for(var/i in techwebs)
-		var/datum/techweb/T = i
+	for(var/id in techweb_nodes)
+		var/datum/techweb_node/TN = techweb_nodes[id]
+		if(istype(TN, techweb_node))
+			TN.add_design_id(design)
+	for(var/datum/techweb/T in techwebs)
 		T.recalculate_nodes(TRUE)
 
-//For the techweb (nodes) themselves
-
-/datum/techweb_node/proc/on_design_addition(datum/design/D)
-	add_design_id(D.id)
-
+//For the techweb node
 /datum/techweb_node/proc/add_design_id(design_id)
-	design_ids.Add(design_id)
-
+	design_ids[design_id] = TRUE

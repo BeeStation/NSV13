@@ -44,7 +44,7 @@ export const OvermapGamemodeController = (props, context) => {
                   <LabeledList.Item label="Difficulty">
                     <Button
                       icon="skull-crossbones"
-                      color="red"
+                      color={data.hard_mode && "green"}
                       content={"HARD MODE " + (data.hard_mode ? "ENABLED" : "DISABLED")}
                       onClick={() => act('toggle_hardmode')}
                     />

@@ -191,7 +191,7 @@ SUBSYSTEM_DEF(vote)
 					priority_announce("Returning to [SSstar_system.return_system.name]") //TEMP
 					var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
 					OM.force_return_jump()
-			if("hardmode")
+			if("hardmode") //NSV13 - harder gamemode
 				if(. == "Let's GO FOR IT")
 					SSovermap_mode.toggle_hardmode()
 	if(restart)
