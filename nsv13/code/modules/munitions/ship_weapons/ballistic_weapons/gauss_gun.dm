@@ -159,6 +159,7 @@
 /obj/machinery/ship_weapon/gauss_gun/Destroy() //Yeet them out before we die.
 	remove_gunner()
 	gunner_chair?.gun = null
+	gunner_chair?.locked = FALSE
 	QDEL_NULL(ammo_rack)
 	QDEL_NULL(cabin_air)
 	QDEL_NULL(internal_tank)
@@ -612,6 +613,9 @@ Chair + rack handling
 	var/feed_direction = SOUTH //Where does the ammo feed drop down to? By default, south of the chair by one tile.
 
 /obj/structure/chair/fancy/gauss/Destroy()
+	occupant?.pixel_y = 0
+	locked = FALSE
+	unbuckle_all_mobs(TRUE)
 	if(gun)
 		gun.gunner_chair = null
 	return ..()
@@ -637,7 +641,7 @@ Chair + rack handling
 	. += "Currently feeding from the [dir2text(feed_direction)]."
 
 /obj/structure/chair/fancy/gauss/unbuckle_mob(mob/buckled_mob, force=FALSE)
-	if(locked)
+	if(!force && locked && gun)
 		if(buckled_mob.loc == src.loc)
 			to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
 			return FALSE
@@ -646,7 +650,7 @@ Chair + rack handling
 		occupant = null
 
 /obj/structure/chair/fancy/gauss/user_unbuckle_mob(mob/buckled_mob, mob/user)
-	if(locked)
+	if(!force && locked && gun)
 		if(buckled_mob.loc == src.loc)
 			to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
 			return FALSE
@@ -723,6 +727,8 @@ Chair + rack handling
 	gunner_chair.pixel_y = 0
 	M.pixel_y = 0
 	if(M.loc != gunner_chair.loc) //They got out of the chair somehow. Probably admin fuckery.
+		return FALSE
+	if(QDELETED(src)) //Gun was destroyed somehow.
 		return FALSE
 	set_gunner(M) //Up we go!
 	gunner_chair.forceMove(src)
