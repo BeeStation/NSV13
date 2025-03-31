@@ -338,6 +338,10 @@
 	return t_air.merge(giver)
 
 /obj/machinery/ship_weapon/gauss_gun/process()
+	if(gunner)
+		if(gunner.incapacitated() || !gunner.client)
+			remove_gunner()
+
 	if(cabin_air && cabin_air.return_volume() > 0)
 		var/delta = cabin_air.return_temperature() - T20C
 		cabin_air.set_temperature(cabin_air.return_temperature() - max(-10, min(10, round(delta/4,0.1))))
@@ -423,8 +427,8 @@
 	update_icon()
 
 /obj/structure/gauss_rack/Destroy()
-	for(var/atom/movable/A in contents)
-		A.forceMove(loc)
+	for(var/atom/movable/A in src)
+		unload(A,FALSE)
 	. = ..()
 
 /obj/structure/gauss_rack/update_icon()
@@ -634,16 +638,18 @@ Chair + rack handling
 
 /obj/structure/chair/fancy/gauss/unbuckle_mob(mob/buckled_mob, force=FALSE)
 	if(locked)
-		to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
-		return FALSE
+		if(buckled_mob.loc == src.loc)
+			to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
+			return FALSE
 	. = ..()
 	if(.)
 		occupant = null
 
 /obj/structure/chair/fancy/gauss/user_unbuckle_mob(mob/buckled_mob, mob/user)
 	if(locked)
-		to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
-		return FALSE
+		if(buckled_mob.loc == src.loc)
+			to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
+			return FALSE
 	. = ..()
 	if(.)
 		occupant = null
