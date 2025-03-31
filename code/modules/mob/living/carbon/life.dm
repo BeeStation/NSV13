@@ -146,7 +146,6 @@
 
 	if(breath)
 		loc.assume_air(breath)
-		air_update_turf()
 
 /mob/living/carbon/proc/has_smoke_protection()
 	if(HAS_TRAIT(src, TRAIT_NOBREATH))
@@ -547,6 +546,10 @@ GLOBAL_LIST_INIT(ballmer_windows_me_msg, list("Yo man, what if, we like, uh, put
 
 //used in human and monkey handle_environment()
 /mob/living/carbon/proc/natural_bodytemperature_stabilization()
+	//NSV13 - coldblooded beings do not naturally stabilize.
+	if(HAS_TRAIT(src, TRAIT_COLDBLOODED))
+		return 0
+	//NSV13 end.
 	var/body_temperature_difference = BODYTEMP_NORMAL - bodytemperature
 	switch(bodytemperature)
 		if(-INFINITY to BODYTEMP_COLD_DAMAGE_LIMIT) //Cold damage limit is 50 below the default, the temperature where you start to feel effects.

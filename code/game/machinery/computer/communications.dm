@@ -133,6 +133,12 @@
 			var/new_sec_level = seclevel2num(params["newSecurityLevel"])
 			if (new_sec_level != SEC_LEVEL_GREEN && new_sec_level != SEC_LEVEL_BLUE && new_sec_level != SEC_LEVEL_RED && new_sec_level != SEC_LEVEL_ZEBRA)
 				return
+			//NSV13 - No, you cannot revoke delta level alerts.
+			if(GLOB.security_level == SEC_LEVEL_DELTA)
+				to_chat(usr, "<span class='warning'>Security level override active.</span>")
+				playsound(src, 'sound/machines/terminal_prompt_deny.ogg', 50, FALSE)
+				return
+			//NSV13 end.
 			if (GLOB.security_level == new_sec_level)
 				return
 
@@ -246,6 +252,7 @@
 			if (!can_send_messages_to_other_sectors(usr))
 				return
 			if (!COOLDOWN_FINISHED(src, important_action_cooldown))
+				to_chat(usr, "<span class='alert'>Please stand by, transmitter in cooldown cycle</span>")
 				return
 
 			var/message = trim(html_encode(params["message"]), MAX_MESSAGE_LEN)

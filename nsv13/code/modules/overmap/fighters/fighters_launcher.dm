@@ -157,7 +157,7 @@
 			linkup()
 
 /obj/structure/fighter_launcher/proc/shake_people(var/obj/structure/overmap/OM)
-	if(OM?.operators.len)
+	if(OM && length(OM.operators))
 		for(var/mob/M in OM.operators)
 			shake_with_inertia(M, 10, 1)
 			to_chat(M, "<span class='warning'>You feel a sudden jolt!</span>")
@@ -267,8 +267,19 @@
 	speed_limit = 20 //Let them accelerate to hyperspeed due to the launch, and temporarily break the speed limit.
 	addtimer(VARSET_CALLBACK(src, speed_limit, initial(speed_limit)), 5 SECONDS) //Give them 5 seconds of super speed mode before we take it back from them
 
-/obj/structure/overmap/small_craft/proc/handle_moved()
+/obj/structure/overmap/small_craft/proc/handle_moved() //Sooo we call this every single tile we move. Is there no better way? (There probably is)
+	//SIGNAL_HANDLER //This should be a signal handler but the proc it calls sleeps and I am not asyncing *this*.
 	check_overmap_elegibility()
+
+
+/*
+Welcome to the "uh oh" zone because fighters travelling from and to overmaps is a bit volatile.
+Last time things broke it was caused by d), but if small ship docking starts being weird again, check these four possible weak points first:
+a) something is being weird with the reserved_z of the fighter being used.
+b) asteroid reserved areas for their zs are not being handled properly.
+c) something is being odd with the last overmap var.
+d) the ships[] list of ssstarsystem is acting up again.
+*/
 
 /obj/structure/overmap/small_craft/proc/check_overmap_elegibility(ignore_position = FALSE, ignore_cooldown = FALSE) //What we're doing here is checking if the fighter's hitting the bounds of the Zlevel. If they are, we need to transfer them to overmap space.
 	if(!ignore_position && !is_near_boundary())
@@ -305,7 +316,7 @@
 		get_reserved_z()
 	if(current_system) // No I can't use ?, because if it's null we use the previous value instead
 		starting_system = current_system.name //Just fuck off it works alright?
-	SSstar_system.add_ship(src, get_turf(OM))
+	SSstar_system.add_ship(src, get_turf(OM), current_system)
 
 	if(current_system && !LAZYFIND(current_system.system_contents, src))
 		LAZYADD(current_system.system_contents, src)
@@ -335,13 +346,26 @@
 		return FALSE
 	if(istype(OM, /obj/structure/overmap/asteroid))
 		var/obj/structure/overmap/asteroid/AS = OM
+		if(AS.interior_status == INTERIOR_READY)
+			return transfer_from_overmap(AS)
 		AS.interior_mode = INTERIOR_DYNAMIC // We don't actually want it to create one until we're ready but we do need entry points
-		AS.instance_interior()
-		AS.docking_points = AS.interior_entry_points
-		return transfer_from_overmap(OM)
+		DC.docking_cooldown = TRUE
+		RegisterSignal(AS, COMSIG_INTERIOR_DONE_LOADING, PROC_REF(on_dock_interior_load_finish))
+		SSstar_system.queue_for_interior_load(AS)
+		return TRUE //We have to assume this will end up being a correct docking.
 	if(mass < OM.mass)  //If theyre bigger than us and have docking points, and we want to dock.
 		return transfer_from_overmap(OM)
 	return FALSE
+
+///Listens for the interior loading to finish and finishes docking once it does.
+/obj/structure/overmap/small_craft/proc/on_dock_interior_load_finish(obj/structure/overmap/docking_target)
+	SIGNAL_HANDLER
+	UnregisterSignal(docking_target, COMSIG_INTERIOR_DONE_LOADING)
+	docking_target.docking_points = docking_target.interior_entry_points
+	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
+	if(DC)
+		DC.docking_cooldown = FALSE
+	INVOKE_ASYNC(src, PROC_REF(transfer_from_overmap), docking_target)
 
 /obj/structure/overmap/small_craft/proc/transfer_from_overmap(obj/structure/overmap/OM)
 	if(!length(OM.docking_points))
@@ -357,7 +381,7 @@
 	var/turf/T = get_turf(pick(OM.docking_points))
 	forceMove(T)
 	if(current_system)
-		current_system.remove_ship(src, T)
+		current_system.remove_ship(src, T, is_ftl_jump = FALSE)
 	OM.overmaps_in_ship += src
 	bound_width = initial(bound_width)
 	bound_height = initial(bound_height)

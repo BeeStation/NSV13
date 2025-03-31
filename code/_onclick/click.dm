@@ -86,6 +86,9 @@
 		CtrlShiftClickOn(A)
 		return
 	if(modifiers["middle"])
+		if(modifiers["ctrl"])
+			CtrlMiddleClickOn(A) // basically for vv tag datum
+			return
 		MiddleClickOn(A)
 		return
 	if(modifiers["shift"])
@@ -344,6 +347,15 @@
 		H.changeNext_move(CLICK_CD_MELEE)
 	else
 		..()
+
+/mob/proc/CtrlMiddleClickOn(atom/A)
+	// specifically made for admin feature.
+	if(check_rights_for(client, R_ADMIN))
+		client.toggle_tag_datum(A)
+		return
+	A.CtrlClick(src) // this assumes you did CtrlClick instead of MiddleClick
+	return
+	
 /*
 	Alt click
 	Unused except for AI

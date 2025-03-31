@@ -81,6 +81,9 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	return locs[round(locs.len / 2)+1]
 	*/
 
+/obj/structure/overmap/proc/get_center_coordinates()
+	return list("x" = (src.x+(pixel_collision_size_x/32)/2),"y" = (src.y+(pixel_collision_size_y/32)/2))
+
 /obj/structure/overmap/proc/get_pixel_bounds()
 	for(var/turf/T in obounds(src, pixel_x + pixel_collision_size_x/4, pixel_y + pixel_collision_size_y/4, pixel_x  + -pixel_collision_size_x/4, pixel_y + -pixel_collision_size_x/4) )//Forms a zone of 4 quadrants around the desired overmap using some math fuckery.
 		to_chat(world, "FOO!")
@@ -435,6 +438,15 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		return
 	return ..()
 
+/**
+ * Handles collision between two overmap objects.
+ * * other = the object collided with.
+ * * c_response = ????
+ * * collision_velocity = UNUSED
+ *
+ * * BEAR IN MIND col_angle and velocity angles go COUNTERCLOCKWISE starting EAST while (overmap) angle itself goes CLOCKWISE starting NORTH!!!!!
+ * * ^ ^ ^ ^ THIS IS REALLY IMPORTANT
+ */
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
 	//No colliders. But we still get a lot of info anyways!
 	if(!c_response)
@@ -449,7 +461,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		if(((cos(src.velocity.angle() - col_angle) * src_vel_mag) - (cos(other.velocity.angle() - col_angle) * other_vel_mag)) < 0)
 			return
 
-		// Elastic collision equations
+		// Elastic collision equations - I don't feel like rewriting these so I'll just change the damage calculation unrelated to the new velocities :) ~Delta
 		var/new_src_vel_x = ((																			\
 			(src_vel_mag * cos(src.velocity.angle() - col_angle) * (src.mass - other.mass)) +			\
 			(2 * other.mass * other_vel_mag * cos(other.velocity.angle() - col_angle))					\
@@ -470,20 +482,46 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 			(2 * src.mass * src_vel_mag * cos(src.velocity.angle() - col_angle))						\
 		) / (other.mass + src.mass)) * sin(col_angle) + (other_vel_mag * sin(other.velocity.angle() - col_angle) * sin(col_angle + 90))
 
+		//New calculations, go!
+
+		//Calculate vector forces when angled towards collision angle.
+
+		var/self_vector_angle_diff = ((col_angle - velocity.angle()) + 360) % 360 //Byond modulo allows negative values as outcome apparently. :)
+		var/self_ramvec = src_vel_mag * cos(self_vector_angle_diff)
+
+		var/other_vector_angle_diff = ((col_angle + 180 - other.velocity.angle()) + 360) % 360
+		var/other_ramvec = other_vel_mag * cos(other_vector_angle_diff)
+
+		var/total_force = (self_ramvec + other_ramvec) //Forces combined
+
+		if(world.time >= next_collision && total_force >= 2) //Magic!
+			total_force *= OVERMAP_COLLISION_MAGNIFIER //Arbitrary amplifier to collisions (used to be x5, for now x4 because of new math)
+			//Impact forces applied to each ship.
+			var/own_impact_power = CLAMP(other.mass / mass, 0.2, 10) * (total_force * 0.5) //I'm kind of scared of how the masses of big chonkers are going to interact so I'm capping this for now :)
+			var/other_impact_power = CLAMP(mass / other.mass, 0.2, 10) * (total_force * 0.5)
+			if(self_ramvec > other_ramvec)
+				own_impact_power *= 2 //The one having more impact force towards the ramming vector takes more damage.
+			else
+				other_impact_power *= 2
+			var/list/impact_powers = list(own_impact_power, other_impact_power) //List for inplace adjustments
+			var/modulated_col_angle = (col_angle + 360) % 360
+			spec_collision_handling(other, impact_powers, modulated_col_angle)
+			impact_powers = reverseList(impact_powers)
+			other.spec_collision_handling(src, impact_powers, ((modulated_col_angle + 180) % 360))
+			own_impact_power = impact_powers[2] //Remember, we turned this around!
+			other_impact_power = impact_powers[1]
+			if(own_impact_power > 0)
+				take_quadrant_hit(own_impact_power, quadrant_impact(other))
+			if(other_impact_power > 0)
+				other.take_quadrant_hit(other_impact_power, other.quadrant_impact(src))
+
+			next_collision = world.time + OVERMAP_COLLISION_COOLDOWN
+			log_game("[key_name(pilot)] has impacted an overmap ship into [other] \[Total collision force:[total_force]\]")
+			//Uncomment for debug :)
+			//message_admins("COLLISION DEBUG: own mag / ramvec: \[[src_vel_mag]|[self_ramvec]\]; other mag / remvec: \[[other_vel_mag]|[other_ramvec]\]; total force / own force / other force: \[[total_force]|[own_impact_power]|[other_impact_power]\]; Angles - collision angle / vector angle / angle diff / other vector angle / other angle diff: \[CA[col_angle]|VA[velocity.angle()]|AD[self_vector_angle_diff]|OVA[other.velocity.angle()]|OAD[other_vector_angle_diff]\]")
+
 		src.velocity._set(new_src_vel_x, new_src_vel_y)
 		other.velocity._set(new_other_vel_x, new_other_vel_y)
-
-		var/bonk = src_vel_mag//How much we got bonked
-		var/bonk2 = other_vel_mag //Vs how much they got bonked
-		//Prevent ultra spam.
-		if(!impact_sound_cooldown && (bonk > 2 || bonk2 > 2))
-			bonk *= 5 //The rammer gets an innate penalty, to discourage ramming metas.
-			bonk2 *= 5
-			take_quadrant_hit(bonk, projectile_quadrant_impact(other)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
-			other.take_quadrant_hit(bonk2, projectile_quadrant_impact(src)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
-
-			log_game("[key_name(pilot)] has impacted an overmap ship into [other] with velocity [bonk]")
-
 		return TRUE
 
 	//Update the colliders before we do any kind of calc.
@@ -593,6 +631,10 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	if(!z || QDELETED(src))
 		return FALSE
 	var/turf/T = get_center()
+	if(!T) //Might be at map edge.
+		T = get_turf(src)
+		if(!T) //Abort.
+			return FALSE
 	var/obj/item/projectile/proj = new proj_type(T)
 	if(ai_aim && !proj.can_home && !proj.hitscan)
 		target = calculate_intercept(target, proj, miss_chance=miss_chance, max_miss_distance=max_miss_distance)
@@ -624,6 +666,9 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		if(isovermap(proj.homing_target))
 			var/obj/structure/overmap/overmap_target = proj.homing_target
 			overmap_target.on_missile_lock(src, proj)
+
+	LAZYINITLIST(proj.impacted) //The spawn call after this might be causing some issues so the list should exist before async actions.
+
 	spawn()
 		proj.preparePixelProjectileOvermap(target, src, null, round((rand() - 0.5) * proj.spread), lateral=lateral)
 		proj.fire()

@@ -28,9 +28,14 @@
 	var/overmap_deletion_traits = DAMAGE_DELETES_UNOCCUPIED | DAMAGE_STARTS_COUNTDOWN
 	var/deletion_teleports_occupants = FALSE
 
+	///Should sound be relayed & the destruction overlay be created on destruction?
+	var/destruction_effects = TRUE
+
 	var/sprite_size = 64 //Pixels. This represents 64x64 and allows for the bullets that you fire to align properly.
 	var/area_type = null //Set the type of the desired area you want a ship to link to, assuming it's not the main player ship.
 	var/impact_sound_cooldown = FALSE //Avoids infinite spamming of the ship taking damage.
+	///Handles cooldown between collisions to avoid certain very bad times :)
+	var/next_collision = 0
 	var/datum/star_system/current_system //What star_system are we currently in? Used for parallax.
 	var/resize = 0 //Factor by which we should shrink a ship down. 0 means don't shrink it.
 	var/list/docking_points = list() //Where we can land on this ship. Usually right at the edge of a z-level.
@@ -43,7 +48,7 @@
 
 	// Health, armor, and damage
 	max_integrity = 300 //Max internal integrity
-	integrity_failure = 0
+	integrity_failure = 0 //If you want to use this you will have to implement obj_break() for overmaps aswell as a method to restore functionality if repaired.
 	var/armour_plates = 0 //You lose max integrity when you lose armour plates.
 	var/sensor_profile = 0	//A penalty (or, possibly even bonus) to from how far away one can be detected. Affected by things like sending out a active ping, which will make you glow like a christmas tree.
 	var/cloak_factor = 255 // Min alpha of a ship during cloak. 0-255
@@ -93,7 +98,6 @@
 	var/backward_maxthrust = 3
 	var/side_maxthrust = 1
 	var/mass = MASS_SMALL //The "mass" variable will scale the movespeed according to how large the ship is.
-	var/landing_gear = FALSE //Allows you to move in atmos without scraping the hell outta your ship
 
 	var/bump_impulse = 0.6
 	var/bounce_factor = 0.7 // how much of our velocity to keep on collision
@@ -118,8 +122,18 @@
 	var/list/beacons_in_ship = list()
 
 	// Controlling equipment
-	var/obj/machinery/computer/ship/helm //Relay beeping noises when we act
-	var/obj/machinery/computer/ship/tactical
+
+	/*
+	These are probably more okay not being lists since only one person can control either of these two slots at a time.
+	*/
+	var/obj/machinery/computer/ship/helm/helm //Relay beeping noises when we act
+	var/obj/machinery/computer/ship/tactical/tactical
+
+	/*
+		|| THIS SHOULD BE A LIST, there could be a billion dradises that can keep fighting for which one is considered the ship dradis any time someone interacts with one!!!
+		|| When you change this, also change the reference cleaning on del for this var from being on the dradis to being on the ship listening for the console's QDEL signal.
+		\/ I'm not feeling like refactoring that right now though. Maybe in the future. -Delta
+	*/
 	var/obj/machinery/computer/ship/dradis/dradis //So that pilots can check the radar easily
 
 	// Ship weapons
@@ -179,6 +193,11 @@
 	// It's terrible I know, but until we decide/are bothered enough to throw out the legacy drive (or subtype it), this'll have to do
 	var/obj/machinery/computer/ship/ftl_core/ftl_drive
 
+	///FTL safety state
+	var/ftl_safety_override = FALSE
+	///FTL emergency jump cooldown; Only available once every 25 minutes.
+	var/next_emergency_jump = 0
+
 	//Misc variables
 	var/list/scanned = list() //list of scanned overmap anomalies
 	var/reserved_z = 0 //The Z level we were spawned on, and thus inhabit. This can be changed if we "swap" positions with another ship.
@@ -206,10 +225,11 @@
 	//Boarding
 	var/interior_status = INTERIOR_NOT_LOADED
 	var/datum/turf_reservation/roomReservation = null
-	var/datum/map_template/dropship/boarding_interior = null
+	var/datum/map_template/boarding_interior = null
 	var/list/possible_interior_maps = null
 	var/interior_mode = NO_INTERIOR
 	var/list/interior_entry_points = list()
+	var/list/ifflocs = list() // List of potential IFF console locations
 	var/boarding_reservation_z = null //Do we have a reserved Z-level for boarding? This is set up on instance_overmap. Ships being boarded copy this value from the boarder.
 	var/obj/structure/overmap/active_boarding_target = null
 	var/static/next_boarding_time = 0 // This is stupid and lazy but it's 5am and I don't care anymore
@@ -225,13 +245,15 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(!_path)
 		_path = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
 	RETURN_TYPE(/obj/structure/overmap)
-	SSmapping.add_new_initialized_zlevel("Overmap ship level [++world.maxz]", ZTRAITS_OVERMAP)
+	var/datum/space_level/new_ship_z = SSmapping.add_new_zlevel("Overmap ship level [length(SSmapping.z_list)+1]", ZTRAITS_OVERMAP)
+	if(!folder || !interior_map_files)
+		SSmapping.setup_map_transitions(new_ship_z) //We usually recalculate transitions later, but not if there's no interior.
 	repopulate_sorted_areas()
-	smooth_zlevel(world.maxz)
-	log_game("Z-level [world.maxz] loaded for overmap treadmills.")
-	var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), world.maxz)) //Plop them bang in the center of the system.
+	smooth_zlevel(new_ship_z.z_value)
+	log_game("Z-level [new_ship_z.z_value] loaded for overmap treadmills.")
+	var/turf/exit = get_turf(locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), new_ship_z.z_value)) //Plop them bang in the center of the system.
 	var/obj/structure/overmap/OM = new _path(exit) //Ship'll pick up the info it needs, so just domp eet at the exit turf.
-	OM.reserved_z = world.maxz
+	OM.reserved_z = new_ship_z.z_value
 	OM.overmap_flags |= OVERMAP_FLAG_ZLEVEL_CARRIER
 	OM.current_system = SSstar_system.find_system(OM)
 	if(OM.role == MAIN_OVERMAP) //If we're the main overmap, we'll cheat a lil' and apply our status to all of the Zs under "station"
@@ -435,12 +457,23 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			interior_mode = (possible_interior_maps?.len) ? INTERIOR_EXCLUSIVE : NO_INTERIOR
 		//Allows small ships to have a small interior.
 		if(INTERIOR_DYNAMIC)
-			instance_interior()
-			post_load_interior()
+			RegisterSignal(src, COMSIG_INTERIOR_DONE_LOADING, PROC_REF(after_init_load_interior))
+			SSstar_system.queue_for_interior_load(src)
 
-	apply_weapons()
 	RegisterSignal(src, list(COMSIG_FTL_STATE_CHANGE, COMSIG_SHIP_KILLED), PROC_REF(dump_locks)) // Setup lockon handling
 	//We have a lot of types but not that many weapons per ship, so let's just worry about the ones we do have
+	if(interior_mode != INTERIOR_DYNAMIC)
+		apply_weapons()
+		for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
+			var/datum/ship_weapon/SW = weapon_types[firemode]
+			if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
+				weapon_numkeys_map += firemode
+
+///Listens for when the interior is done initing and finishes up some variables when it is.
+/obj/structure/overmap/proc/after_init_load_interior()
+	SIGNAL_HANDLER
+	UnregisterSignal(src, COMSIG_INTERIOR_DONE_LOADING)
+	apply_weapons()
 	for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
 		var/datum/ship_weapon/SW = weapon_types[firemode]
 		if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
@@ -494,15 +527,17 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	for(var/mob/living/M in operators)
 		stop_piloting(M)
 	GLOB.overmap_objects -= src
-	relay('nsv13/sound/effects/ship/damage/ship_explode.ogg')
-	relay_to_nearby('nsv13/sound/effects/ship/damage/disable.ogg') //Kaboom.
-	new /obj/effect/temp_visual/fading_overmap(get_turf(src), name, icon, icon_state)
+	if(destruction_effects)
+		relay('nsv13/sound/effects/ship/damage/ship_explode.ogg')
+		relay_to_nearby('nsv13/sound/effects/ship/damage/disable.ogg') //Kaboom.
+		new /obj/effect/temp_visual/fading_overmap(get_turf(src), name, icon, icon_state)
 	for(var/obj/structure/overmap/OM in enemies) //If target's in enemies, return
 		var/sound = pick('nsv13/sound/effects/computer/alarm.ogg','nsv13/sound/effects/computer/alarm_2.ogg')
 		var/message = "<span class='warning'>ATTENTION: [src]'s reactor is going supercritical. Destruction imminent.</span>"
 		OM?.tactical?.relay_sound(sound, message)
 		OM.enemies -= src //Stops AI from spamming ships that are already dead
-	overmap_explode(linked_areas)
+	if(length(linked_areas))
+		overmap_explode(linked_areas)
 	if(role == MAIN_OVERMAP)
 		priority_announce("WARNING: ([rand(10,100)]) Attempts to establish DRADIS uplink with [station_name()] have failed. Unable to ascertain operational status. Presumed status: TERMINATED","Central Intelligence Unit", 'nsv13/sound/effects/ship/reactor/explode.ogg')
 		Cinematic(CINEMATIC_NSV_SHIP_KABOOM,world)
@@ -528,9 +563,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				M.forceMove(T)
 				M.apply_damage(200)
 	kill_boarding_level()
+	if(current_system)
+		current_system.remove_ship(src, is_ftl_jump = FALSE) //bit risky call since we already do some things before but probably should still work.
 	if(reserved_z)
 		free_treadmills += reserved_z
 		reserved_z = null
+	current_system = null //I'm not sure why we never dropped this variable.
 	return ..()
 
 /obj/structure/overmap/forceMove(atom/destination)
@@ -629,6 +667,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	to_chat(gunner, "<span class='notice'>Target painted.</span>")
 	relay('nsv13/sound/effects/fighters/locked.ogg', message=null, loop=FALSE, channel=CHANNEL_IMPORTANT_SHIP_ALERT)
 	RegisterSignal(target, list(COMSIG_PARENT_QDELETING, COMSIG_FTL_STATE_CHANGE), PROC_REF(dump_lock))
+	SEND_SIGNAL(src, COMSIG_TARGET_PAINTED, target)
 	if(autotarget)
 		select_target(target) //autopaint our target
 
@@ -643,13 +682,14 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		update_gunner_cam()
 		return
 	target_lock = target
+	SEND_SIGNAL(src, COMSIG_TARGET_LOCKED, target)
 
 /obj/structure/overmap/proc/dump_lock(obj/structure/overmap/target) // Our locked target got destroyed/moved, dump the lock
 	SIGNAL_HANDLER
 	SEND_SIGNAL(src, COMSIG_LOCK_LOST, target)
 	target_painted -= target
 	target_last_tracked -= target
-	UnregisterSignal(target, COMSIG_PARENT_QDELETING)
+	UnregisterSignal(target, list(COMSIG_PARENT_QDELETING, COMSIG_FTL_STATE_CHANGE))
 	if(target_lock == target)
 		update_gunner_cam()
 		target_lock = null
@@ -812,19 +852,25 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	progress = round(((progress / goal) * 100), 25)//Round it down to 20%. We now apply visual damage
 	icon_state = "[initial(icon_state)]-[progress]"
 
-/obj/structure/overmap/proc/relay(S, var/message=null, loop = FALSE, channel = null) //Sends a sound + text message to the crew of a ship
+/obj/structure/overmap/proc/relay(S, var/message=null, loop = FALSE, channel = null) //Sends a sound and / or text message to the crew of a ship
 	for(var/mob/M as() in mobs_in_ship)
-		if(M.can_hear())
+		if(S && M.can_hear())
 			if(channel) //Doing this forbids overlapping of sounds
 				SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100, channel = channel))
 			else
 				SEND_SOUND(M, sound(S, repeat = loop, wait = 0, volume = 100))
 		if(message)
 			to_chat(M, message)
+	for(var/obj/structure/overmap/O as() in overmaps_in_ship) //Of course they get relayed the same message if they're in the same ship too
+		if(length(O.mobs_in_ship))
+			O.relay(S,message,loop,channel)
 
 /obj/structure/overmap/proc/stop_relay(channel) //Stops all playing sounds for crewmen on N channel.
 	for(var/mob/M as() in mobs_in_ship)
 		M.stop_sound_channel(channel)
+	for(var/obj/structure/overmap/O as() in overmaps_in_ship) //Of course they get relayed the same message if they're in the same ship too
+		if(length(O.mobs_in_ship))
+			O.stop_relay(channel)
 
 /obj/structure/overmap/proc/relay_to_nearby(S, message, ignore_self=FALSE, sound_range=20, faction_check=FALSE) //Sends a sound + text message to nearby ships
 	for(var/obj/structure/overmap/ship as() in GLOB.overmap_objects) //Might be called in hyperspace or by fighters, so shouldn't use a system check.
@@ -952,9 +998,34 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		return reserved_z
 	if(ftl_drive)
 		if(!free_treadmills?.len)
-			SSmapping.add_new_initialized_zlevel("Overmap treadmill [++world.maxz]", ZTRAITS_OVERMAP)
-			reserved_z = world.maxz
+			var/datum/space_level/new_level = SSmapping.add_new_initialized_overmap_zlevel()
+			reserved_z = new_level.z_value
 		else
 			var/_z = pick_n_take(free_treadmills)
 			reserved_z = _z
 		return reserved_z
+
+///Special proc called right before a system is nullspaced and a last chance to assume a z. Returns TRUE if the ship should not be unloaded.
+/obj/structure/overmap/proc/spec_pre_system_unload()
+	if(!ai_controlled && length(mobs_in_ship))
+		return TRUE
+	return FALSE
+
+/obj/structure/overmap/small_craft/spec_pre_system_unload()
+	. = ..()
+	if(.)
+		return
+	if(ftl_drive)
+		return TRUE
+	return FALSE
+
+/**
+ * Handles special modifications or effects an overmap has for collisions.
+ * * other_ship = the ship this collides with.
+ * * impact_powers = the strength of the impact for (this ship, other ship). Done this way because list pointer allows inplace var access.
+ * * impact_angle = The angle of the impact.
+ *
+ * This does NOT return the modified impact powers, as it is not neccessary due to inplace handling!
+ */
+/obj/structure/overmap/proc/spec_collision_handling(obj/structure/overmap/other_ship, list/impact_powers, impact_angle)
+	return

@@ -603,8 +603,6 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			dat += "<b>UI Style:</b> <a href='?_src_=prefs;task=input;preference=ui'>[UI_style]</a><br>"
 			dat += "<b>Outline:</b> <a href='?_src_=prefs;preference=outline_enabled'>[toggles & PREFTOGGLE_OUTLINE_ENABLED ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Outline Color:</b> <span style='border:1px solid #161616; background-color: [outline_color];'>&nbsp;&nbsp;&nbsp;</span> <a href='?_src_=prefs;preference=outline_color'>Change</a><BR>"
-			dat += "<b>tgui Monitors:</b> <a href='?_src_=prefs;preference=tgui_lock'>[(toggles2 & PREFTOGGLE_2_LOCKED_TGUI) ? "Primary" : "All"]</a><br>"
-			dat += "<b>tgui Style:</b> <a href='?_src_=prefs;preference=tgui_fancy'>[(toggles2 & PREFTOGGLE_2_FANCY_TGUI) ? "Fancy" : "No Frills"]</a><br>"
 			dat += "<b>Show Runechat Chat Bubbles:</b> <a href='?_src_=prefs;preference=chat_on_map'>[toggles & PREFTOGGLE_RUNECHAT_GLOBAL ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>See Runechat for non-mobs:</b> <a href='?_src_=prefs;preference=see_chat_non_mob'>[toggles & PREFTOGGLE_RUNECHAT_NONMOBS ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>See Runechat emotes:</b> <a href='?_src_=prefs;preference=see_rc_emotes'>[toggles & PREFTOGGLE_RUNECHAT_EMOTES ? "Enabled" : "Disabled"]</a><br>"
@@ -656,6 +654,20 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			// right box
 			dat += "<td width='400px' height='300px' valign='top'>"
+			dat += "<h2>TGUI Settings</h2>"
+			dat += "<b>Monitor Lock:</b> <a href='?_src_=prefs;preference=tgui_lock'>[(toggles2 & PREFTOGGLE_2_LOCKED_TGUI) ? "Primary" : "All"]</a><br>"
+			dat += "<b>Window Style:</b> <a href='?_src_=prefs;preference=tgui_fancy'>[(toggles2 & PREFTOGGLE_2_FANCY_TGUI) ? "Fancy (Borderless)" : "System Window"]</a><br>"
+			dat += "<br>"
+			dat += "<h3>TGUI Input</h3>"
+			dat += "<b>Input Engine:</b> <a href='?_src_=prefs;preference=tgui_input'>[(toggles2 & PREFTOGGLE_2_TGUI_INPUT) ? "TGUI" : "Classic"]</a><br>"
+			dat += "<b>Button Size:</b> <a href='?_src_=prefs;preference=tgui_big_buttons'>[(toggles2 & PREFTOGGLE_2_BIG_BUTTONS) ? "Large" : "Small"]</a><br>"
+			dat += "<b>Button Location:</b> <a href='?_src_=prefs;preference=tgui_switched_buttons'>[(toggles2 & PREFTOGGLE_2_SWITCHED_BUTTONS) ? "OK - Cancel" : "Cancel - OK"]</a><br>"
+			dat += "<br>"
+			dat += "<h3>TGUI Say</h3>"
+			dat += "<b>Say Engine:</b> <a href='?_src_=prefs;preference=tgui_say'>[(toggles2 & PREFTOGGLE_2_TGUI_SAY) ? "TGUI" : "Classic"]</a><br>"
+			dat += "<b>Say Theme:</b> <a href='?_src_=prefs;preference=tgui_say_light'>[(toggles2 & PREFTOGGLE_2_SAY_LIGHT_THEME) ? "Light" : "Dark"]</a><br>"
+			dat += "<b>Radio Prefixes:</b> <a href='?_src_=prefs;preference=tgui_say_radio_prefix'>[(toggles2 & PREFTOGGLE_2_SAY_SHOW_PREFIX) ? "Show" : "Hidden"]</a><br>"
+
 			dat += "<h2>Graphics Settings</h2>"
 			dat += "<b>FPS:</b> <a href='?_src_=prefs;preference=clientfps;task=input'>[clientfps]</a><br>"
 
@@ -675,8 +687,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 			dat += "<b>Ambient Occlusion:</b> <a href='?_src_=prefs;preference=ambientocclusion'>[toggles2 & PREFTOGGLE_2_AMBIENT_OCCLUSION ? "Enabled" : "Disabled"]</a><br>"
 			dat += "<b>Fit Viewport:</b> <a href='?_src_=prefs;preference=auto_fit_viewport'>[toggles2 & PREFTOGGLE_2_AUTO_FIT_VIEWPORT ? "Auto" : "Manual"]</a><br>"
-			if (CONFIG_GET(flag/widescreen)) //Nsv13 - widescreen
+			if (CONFIG_GET(flag/widescreen)) //NSV13 - widescreen
 				dat += "<b>Widescreen:</b> <a href='?_src_=prefs;preference=widescreenpref'>[toggles2 & PREFTOGGLE_2_WIDESCREEN ? "Enabled" : "Disabled"]</a><br>"
+			dat += "<b>Fullscreen:</b> <a href='?_src_=prefs;preference=fullscreenpref'>[toggles2 & PREFTOGGLE_2_FULLSCREEN ? "Enabled" : "Disabled"]</a><br>"
+			//NSV13 - fullscreen
 
 			button_name = pixel_size
 			dat += "<b>Pixel Scaling:</b> <a href='?_src_=prefs;preference=pixel_size'>[(button_name) ? "Pixel Perfect [button_name]x" : "Stretch to fit"]</a><br>"
@@ -2140,6 +2154,32 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				if("pull_requests")
 					chat_toggles ^= CHAT_PULLR
 
+				if("tgui_input")
+					toggles2 ^= PREFTOGGLE_2_TGUI_INPUT
+
+				if("tgui_big_buttons")
+					toggles2 ^= PREFTOGGLE_2_BIG_BUTTONS
+
+				if("tgui_switched_buttons")
+					toggles2 ^= PREFTOGGLE_2_SWITCHED_BUTTONS
+
+				if("tgui_say")
+					toggles2 ^= PREFTOGGLE_2_TGUI_SAY
+					if(parent)
+						if(parent.tgui_say)
+							parent.tgui_say.close()
+						parent.set_macros()
+
+				if("tgui_say_light")
+					toggles2 ^= PREFTOGGLE_2_SAY_LIGHT_THEME
+					if(parent && parent.tgui_say) // change the theme
+						parent.tgui_say.load()
+
+				if("tgui_say_radio_prefix")
+					toggles2 ^= PREFTOGGLE_2_SAY_SHOW_PREFIX
+					if(parent && parent.tgui_say) // update the UI
+						parent.tgui_say.load()
+
 				if("parallaxup")
 					parallax = WRAP(parallax + 1, PARALLAX_INSANE, PARALLAX_DISABLE + 1)
 					if (parent && parent.mob && parent.mob.hud_used)
@@ -2162,10 +2202,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 						parent.fit_viewport()
 
 				if("widescreenpref")//Nsv13 - Widescreen
-					var/client/C = (istype(user, /client)) ? user : user.client
 					toggles2 ^= PREFTOGGLE_2_WIDESCREEN
-					C.change_view(getScreenSize(toggles2 & PREFTOGGLE_2_WIDESCREEN))
-					C.view_size.default = (toggles2 & PREFTOGGLE_2_WIDESCREEN) ? CONFIG_GET(string/default_view) : "15x15" // This view size wrapper is extremely inconsistent and we need to finagle it a bit.
+					parent.change_view(getScreenSize(toggles2 & PREFTOGGLE_2_WIDESCREEN))
+					parent.view_size.default = (toggles2 & PREFTOGGLE_2_WIDESCREEN) ? CONFIG_GET(string/default_view) : "15x15" // This view size wrapper is extremely inconsistent and we need to finagle it a bit.
+
+				if("fullscreenpref") //NSV13 - Fullscreen
+					toggles2 ^= PREFTOGGLE_2_FULLSCREEN
+					parent.toggle_fullscreen(toggles2 & PREFTOGGLE_2_FULLSCREEN)
 
 				if("pixel_size")
 					switch(pixel_size)

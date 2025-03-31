@@ -23,6 +23,8 @@
 	/turf/open/chasm,
 	/turf/open/lava))
 	var/slippery_foam = TRUE
+	///Creation time of the foam tile, used for diminishing returns on foam-time prolonging reactions.
+	var/creation_time //NSV13
 
 /obj/effect/particle_effect/foam/firefighting
 	name = "firefighting foam"
@@ -46,7 +48,6 @@
 		absorbed_plasma += plas_amt
 		if(G.return_temperature() > T20C)
 			G.set_temperature(max(G.return_temperature()/2,T20C))
-		T.air_update_turf()
 
 /obj/effect/particle_effect/foam/firefighting/kill_foam()
 	STOP_PROCESSING(SSfastprocess, src)
@@ -91,6 +92,7 @@
 
 /obj/effect/particle_effect/foam/Initialize(mapload)
 	. = ..()
+	creation_time = world.time //NSV13
 	create_reagents(1000) //limited by the size of the reagent holder anyway.
 	START_PROCESSING(SSfastprocess, src)
 	playsound(src, 'sound/effects/bubbles2.ogg', 80, 1, -3)
@@ -271,7 +273,7 @@
 
 /obj/structure/foamedmetal/Initialize(mapload)
 	. = ..()
-	air_update_turf(1)
+	air_update_turf()
 
 /obj/structure/foamedmetal/Move()
 	var/turf/T = loc
@@ -321,7 +323,6 @@
 				if(I == GAS_O2 || I == GAS_N2)
 					continue
 				G.set_moles(I, 0)
-			O.air_update_turf()
 		for(var/obj/machinery/atmospherics/components/unary/U in O)
 			if(!U.welded)
 				U.welded = TRUE

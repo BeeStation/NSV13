@@ -31,6 +31,9 @@
 //#define VISUALIZE_ACTIVE_TURFS	//Highlights atmos active turfs in green
 #endif //ifdef TESTING
 
+// Enables a few verbs to help track down skin-related issues. Not production safe.
+//#define MACROTEST
+
 /// If this is uncommented, will profile mapload atom initializations
 // #define PROFILE_MAPLOAD_INIT_ATOM
 
@@ -72,10 +75,10 @@
 //End NSV
 
 //Update this whenever the byond version is stable so people stop updating to hilariously broken versions
-#define MAX_COMPILER_VERSION 514
-#define MAX_COMPILER_BUILD 1589
+#define MAX_COMPILER_VERSION 515
+#define MAX_COMPILER_BUILD 1700
 #if DM_VERSION > MAX_COMPILER_VERSION || DM_BUILD > MAX_COMPILER_BUILD
-#warn WARNING: Your BYOND version is over the recommended version (514.1589)! Stability is not guaranteed.
+#warn WARNING: Your BYOND version is over the recommended version (515.1700)! Stability is not guaranteed.
 #endif
 //Log the full sendmaps profile on 514.1556+, any earlier and we get bugs or it not existing
 #if DM_VERSION >= 514 && DM_BUILD >= 1556
@@ -114,18 +117,3 @@
 #error Building with Dream Maker is no longer supported and will result in errors.
 #error Switch to VSCode and when prompted install the recommended extensions, you can then either use the UI or press Ctrl+Shift+B to build the codebase.
 #endif
-
-#define AUXMOS (world.system_type == MS_WINDOWS ? "auxtools/auxmos.dll" : __detect_auxmos())
-
-/proc/__detect_auxmos()
-	var/static/auxmos_path
-	if(!auxmos_path)
-		if (fexists("./libauxmos.so"))
-			auxmos_path = "./libauxmos.so"
-		else if (fexists("./auxtools/libauxmos.so"))
-			auxmos_path = "./auxtools/libauxmos.so"
-		else if (fexists("[world.GetConfig("env", "HOME")]/.byond/bin/libauxmos.so"))
-			auxmos_path = "[world.GetConfig("env", "HOME")]/.byond/bin/libauxmos.so"
-		else
-			CRASH("Could not find libauxmos.so")
-	return auxmos_path

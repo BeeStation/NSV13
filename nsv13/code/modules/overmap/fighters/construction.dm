@@ -14,8 +14,7 @@
 
 /obj/item/fighter_component/targeting_sensor
 	name = "\improper Fighter Targeting Sensors"
-	icon = 'icons/obj/crates.dmi'
-	icon_state = "weapon_crate"
+	icon_state = "targeting_sensor"
 	tier = null //Cannot be upgraded.
 
 //Woe betide all ye who venture here.
@@ -510,6 +509,10 @@
 	.=..()
 	if(build_state == LBS_PAINT_DETAILING)
 		if(alert(user, "Finalize [src]?",name,"Yes","No") == "Yes" && Adjacent(user))
+			var/obj/structure/overmap/overmap_check = get_overmap(src)
+			if(overmap_check && istype(overmap_check, /obj/structure/overmap/small_craft))	//NO.
+				to_chat(user, "<span class='boldwarning'>No Sabreception.</span>")
+				return
 			var/list/components = list()
 			for(var/obj/item/fighter_component/FC in contents)
 				components += FC.type
@@ -517,6 +520,10 @@
 			new output_path(get_turf(src), components)
 			qdel(src)
 
+/**
+ * Force Finishes a Fighter frame.
+ * * This is a Debug proc.
+ */
 /obj/structure/fighter_frame/proc/fuck()
 	var/list/components = list(/obj/item/fighter_component/fuel_tank,
 						/obj/item/fighter_component/avionics,
