@@ -217,8 +217,8 @@
 	bound_width = 128
 	mass = MASS_LARGE
 	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 30)
-	obj_integrity = 450
-	max_integrity = 450
+	obj_integrity = 550
+	max_integrity = 550
 	bounty = 3000
 	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/cruiser
@@ -363,7 +363,7 @@
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
-/obj/structure/overmap/syndicate/ai/gunboat //A big box of tank which is hard to take down, and lethal up close.
+/obj/structure/overmap/syndicate/ai/gunboat
 	name = "Syndicate anti-air frigate"
 	desc = "A nimble, but lightly armoured frigate which specialises in taking down enemy fighters."
 	icon = 'nsv13/icons/overmap/syndicate/gunboat.dmi'
@@ -392,7 +392,7 @@
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
-/obj/structure/overmap/syndicate/ai/submarine //A big box of tank which is hard to take down, and lethal up close.
+/obj/structure/overmap/syndicate/ai/submarine
 	name = "Aspala class sub-spacemarine"
 	desc = "A highly advanced Syndicate cruiser which can mask its sensor signature drastically."
 	icon = 'nsv13/icons/overmap/new/syndicate/cruiser.dmi'

@@ -45,3 +45,7 @@
 	system_name = "Dolos Remnants"
 	extension_supported = TRUE //Only if Rubicon is not available
 	required_players = 10
+
+/datum/overmap_objective/clear_system/dolos/instance()
+	. = ..()
+	target_system.spawn_fleet(/datum/fleet/remnant) //Make sure we have someone to fight
