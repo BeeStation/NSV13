@@ -64,26 +64,6 @@
 
 //AI Versions
 
-/obj/structure/overmap/syndicate/ai/Initialize(mapload)
-	. = ..()
-	name = "[name] ([rand(0,999)])"
-
-/obj/structure/overmap/hostile/ai/fighter/Initialize()
-	. = ..()
-	name = "[name] ([rand(0,999)])"
-
-/obj/structure/overmap/syndicate/ai/Destroy()
-	SSstar_system.bounty_pool += bounty //Adding payment for services rendered
-	. = ..()
-
-/datum/map_template/boarding
-    name = "Mako class patrol frigate (interior)"
-    mappath = "_maps/templates/boarding/syndicate/mako.dmm"
-
-/datum/map_template/boarding/mako
-    name = "Mako class patrol frigate (interior)"
-    mappath = "_maps/templates/boarding/syndicate/mako.dmm"
-
 /obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
 	name = "Mako class patrol frigate"
 	icon = 'nsv13/icons/overmap/new/syndicate/frigate.dmi'
@@ -106,6 +86,21 @@
 	combat_dice_type = /datum/combat_dice/frigate
 	possible_interior_maps = list(/datum/map_template/boarding/mako)
 
+/obj/structure/overmap/syndicate/ai/Initialize(mapload)
+	. = ..()
+	name = "[name] ([rand(0,999)])"
+
+/obj/structure/overmap/syndicate/ai/Destroy()
+	SSstar_system.bounty_pool += bounty //Adding payment for services rendered
+	. = ..()
+
+/datum/map_template/boarding
+    name = "Mako class patrol frigate (interior)"
+    mappath = "_maps/templates/boarding/syndicate/mako.dmm"
+
+/datum/map_template/boarding/mako
+    name = "Mako class patrol frigate (interior)"
+    mappath = "_maps/templates/boarding/syndicate/mako.dmm"
 
 /datum/map_template/boarding/mako_carrier
     name = "Sturgeon class escort carrier (interior)"
@@ -579,6 +574,10 @@
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/quadgauss(src)
 	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/prototype_bsa(src)
 	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
+
+/obj/structure/overmap/hostile/ai/fighter/Initialize()
+	. = ..()
+	name = "[name] ([rand(0,999)])"
 
 /obj/structure/overmap/hostile/ai/fighter
 	name = "Rattlesnake Strike fighter"
