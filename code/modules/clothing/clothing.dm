@@ -198,7 +198,7 @@
 			readout += "\n<b>NO PROTECTION</b>"
 		readout += "</span>"
 
-		to_chat(usr, "[readout.Join()]")
+		to_chat(usr, EXAMINE_BLOCK("[readout.Join()]"))
 
 /**
   * Rounds armor_value to nearest 10, divides it by 10 and then expresses it in roman numerals up to 10
