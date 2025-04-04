@@ -1,15 +1,5 @@
 //The NSV13 Version of Game Mode, except it for the overmap and runs parallel to Game Mode
 
-#define STATUS_INPROGRESS 0
-#define STATUS_COMPLETED 1
-#define STATUS_FAILED 2
-#define STATUS_OVERRIDE 3
-
-#define REMINDER_OBJECTIVES 0
-#define REMINDER_COMBAT_RESET 1
-#define REMINDER_COMBAT_DELAY 2
-#define REMINDER_OVERRIDE 3
-
 SUBSYSTEM_DEF(overmap_mode)
 	name = "overmap_mode"
 	wait = 10
@@ -146,14 +136,14 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/controller/subsystem/overmap_mode/proc/setup_overmap_mode()
 	mode_initialised = TRUE
 	switch(mode.objective_reminder_setting) //Load the reminder settings
-		if(REMINDER_OBJECTIVES)
+		if(MODE_REMINDER_OBJECTIVES)
 			objective_resets_reminder = TRUE
-		if(REMINDER_COMBAT_RESET)
+		if(MODE_REMINDER_COMBAT_RESET)
 			combat_resets_reminder = TRUE
-		if(REMINDER_COMBAT_DELAY)
+		if(MODE_REMINDER_COMBAT_DELAY)
 			combat_delays_reminder = TRUE
 			combat_delay_amount = mode.combat_delay
-		if(REMINDER_OVERRIDE)
+		if(MODE_REMINDER_OVERRIDE)
 			objective_reminder_override = TRUE
 
 	var/list/objective_pool = list() //Create instances of our objectives
@@ -372,7 +362,7 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/difficulty = null									//Difficulty of the gamemode as determined by player count / abus abuse: 1 is minimum, 10 is maximum
 	var/starting_system = null								//Here we define where our player ships will start
 	var/starting_faction = null 							//Here we define which faction our player ships belong
-	var/objective_reminder_setting = REMINDER_OBJECTIVES	//0 - Objectives reset remind. 1 - Combat resets reminder. 2 - Combat delays reminder. 3 - Disables reminder
+	var/objective_reminder_setting = MODE_REMINDER_OBJECTIVES	//0 - Objectives reset remind. 1 - Combat resets reminder. 2 - Combat delays reminder. 3 - Disables reminder
 	var/objective_reminder_interval = 15 MINUTES			//Interval between objective reminders
 	var/combat_delay = 0									//How much time is added to the reminder timer
 	var/list/objectives = list()							//The actual gamemode objectives go here after being selected
@@ -390,16 +380,10 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/reminder_four = "This is Centcomm to the vessel currently assigned to the Rosetta Cluster, you are expected to fulfill your assigned mission"
 	var/reminder_five = "This is Centcomm, due to your slow pace, a Syndicate Interdiction fleet has tracked you down, prepare for combat!"
 
-/datum/overmap_gamemode/New()
-	objectives = list(
-		/datum/overmap_objective/perform_jumps
-	)
-
 /datum/overmap_gamemode/Destroy()
-	for(var/datum/overmap_objective/objective in objectives)
-		QDEL_NULL(objective)
-	objectives.Cut()
-	. = ..()
+	QDEL_LIST(objectives)
+	objectives = null
+	return ..()
 
 /datum/overmap_gamemode/proc/consequence_one()
 
@@ -443,25 +427,27 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/failed = FALSE
 	for(var/datum/overmap_objective/O in objectives)
 		O.check_completion() 	//First we try to check completion on each objective
-		if(O.status == STATUS_OVERRIDE) //Victory override check
+		if(O.status == OBJECTIVE_STATUS_OVERRIDE) //Victory override check
 			victory()
 			return
-		else if(O.status == STATUS_COMPLETED)
+		else if(O.status == OBJECTIVE_STATUS_COMPLETED)
 			objective_check ++
 			successes++
-		else if(O.status == STATUS_FAILED)
+		else if(O.status == OBJECTIVE_STATUS_FAILED)
 			objective_check ++
 			if(O.ignore_check == TRUE) //This was a gamemode objective
 				failed = TRUE
 	if(successes > SSovermap_mode.highest_objective_completion)
 		SSovermap_mode.modify_threat_elevation(-TE_OBJECTIVE_THREAT_NEGATION * (successes - SSovermap_mode.highest_objective_completion))
 		SSovermap_mode.highest_objective_completion = successes
+	/*
 	if(istype(SSticker.mode, /datum/game_mode/pvp)) //If the gamemode is PVP and a faction has over a 700 points, they win.
 		for(var/datum/faction/F in SSstar_system.factions)
 			var/datum/game_mode/pvp/mode = SSticker.mode
 			if(F.tickets >= 700)
 				mode.winner = F //This should allow the mode to finish up by itself
 				mode.check_finished()
+	*/
 	if((objective_check >= objective_length) && !failed)
 		var/achievement_type
 		if(!SSovermap_mode.round_extended)
@@ -518,15 +504,13 @@ SUBSYSTEM_DEF(overmap_mode)
 	var/binary = TRUE								//Is this just a simple T/F objective?
 	var/tally = 0									//How many of the objective goal has been completed
 	var/target = 0									//How many of the objective goal is required
-	var/status = STATUS_INPROGRESS					//0 = In-progress, 1 = Completed, 2 = Failed, 3 = Victory Override (this will end the round)
+	var/status = OBJECTIVE_STATUS_INPROGRESS					//0 = In-progress, 1 = Completed, 2 = Failed, 3 = Victory Override (this will end the round)
 	var/extension_supported = FALSE 				//Is this objective available to be a random extended round objective?
 	var/ignore_check = FALSE						//Used for checking extended rounds
 	var/instanced = FALSE							//Have we yet run the instance proc for this objective?
 	var/objective_number = 0						//The objective's index in the list. Useful for creating arbitrary report titles
 	var/required_players = 0						//Minimum number of players to get this if it's a random/extended objective
 	var/maximum_players = 0							//Maximum number of players to get this if it's a random/extended objective. 0 is unlimited.
-
-/datum/overmap_objective/New()
 
 /datum/overmap_objective/proc/instance() //Used to generate any in world assets
 	if ( SSovermap_mode.announced_objectives )
@@ -642,13 +626,13 @@ SUBSYSTEM_DEF(overmap_mode)
 									"Victory Override")
 			var/new_state = input("Select state to set", "Change Objective State") as null|anything in o_state
 			if(new_state == "In-Progress")
-				new_state = STATUS_INPROGRESS
+				new_state = OBJECTIVE_STATUS_INPROGRESS
 			else if(new_state == "Completed")
-				new_state = STATUS_COMPLETED
+				new_state = OBJECTIVE_STATUS_COMPLETED
 			else if(new_state == "Failed")
-				new_state = STATUS_FAILED
+				new_state = OBJECTIVE_STATUS_FAILED
 			else if(new_state == "Victory Override")
-				new_state = STATUS_OVERRIDE
+				new_state = OBJECTIVE_STATUS_OVERRIDE
 			var/datum/overmap_objective/O = locate(params["target"])
 			O.status = new_state
 			return
@@ -749,24 +733,15 @@ SUBSYSTEM_DEF(overmap_mode)
 		objective_data["name"] = O.name
 		objective_data["desc"] = O.desc
 		switch(O.status)
-			if(STATUS_INPROGRESS)
+			if(OBJECTIVE_STATUS_INPROGRESS)
 				objective_data["status"] = "In-Progress"
-			if(STATUS_COMPLETED)
+			if(OBJECTIVE_STATUS_COMPLETED)
 				objective_data["status"] = "Completed"
-			if(STATUS_FAILED)
+			if(OBJECTIVE_STATUS_FAILED)
 				objective_data["status"] = "Failed"
-			if(STATUS_OVERRIDE)
+			if(OBJECTIVE_STATUS_OVERRIDE)
 				objective_data["status"] = "Completed - VICTORY OVERRIDE"
 		objective_data["datum"] = "\ref[O]"
 		objectives[++objectives.len] = objective_data
 	data["objectives_list"] = objectives
 	return data
-
-#undef STATUS_INPROGRESS
-#undef STATUS_COMPLETED
-#undef STATUS_FAILED
-#undef STATUS_OVERRIDE
-#undef REMINDER_OBJECTIVES
-#undef REMINDER_COMBAT_RESET
-#undef REMINDER_COMBAT_DELAY
-#undef REMINDER_OVERRIDE
