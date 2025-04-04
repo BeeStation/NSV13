@@ -152,6 +152,7 @@
 #define INIT_ORDER_SHUTTLE			-21
 #define INIT_ORDER_MINOR_MAPPING	-40
 #define INIT_ORDER_PATH				-50
+#define INIT_ORDER_HOLOMAPS			-68 // NSV13 - holomaps should init as late as possible so potential late stuff (e.g. escape pods, elevators) is caught by it.
 #define INIT_ORDER_EXPLOSIONS		-69
 #define INIT_ORDER_OVERMAP_MODE		-120 //NSV13 - As late as possible to get a better grab of player numbers
 #define INIT_ORDER_CHAT				-150 //Should be last to ensure chat remains smooth during init.
