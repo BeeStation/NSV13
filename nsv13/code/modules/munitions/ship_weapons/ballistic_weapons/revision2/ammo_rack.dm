@@ -221,7 +221,11 @@
 
 /obj/machinery/ammo_sorter/AltClick(mob/user)
 	. = ..()
-	setDir(turn(src.dir, -90))
+	var/turf/T = get_turf(src)
+	if(!user.TurfAdjacent(T)) //Checks if mob is adjacent to the machine's turf before allowing rotation
+		return
+	else
+		setDir(turn(src.dir, -90))
 
 /obj/machinery/ammo_sorter/ex_act(severity, target)
 	for(var/obj/item/X in loaded)

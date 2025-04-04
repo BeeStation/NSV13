@@ -5,7 +5,7 @@
 /obj/item/ship_weapon/parts/missile/warhead
 	name = "NTP-2 standard missile payload"
 	icon = 'nsv13/icons/obj/munitions.dmi'
-	icon_state = "warhead"
+	icon_state = "warhead_highvelocity"
 	desc = "A heavy warhead designed to be fitted to a missile. It's currently inert."
 	w_class = WEIGHT_CLASS_HUGE
 	target_state = 6
