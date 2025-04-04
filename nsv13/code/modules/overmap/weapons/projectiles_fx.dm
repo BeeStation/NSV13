@@ -655,6 +655,10 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_heavy"
 	spread = 15
 	speed = 1
+	relay_projectile_type = /obj/item/projectile/bullet/broadside/relayed
+
+/obj/item/projectile/bullet/broadside/relayed
+	damage = 20
 
 /obj/item/projectile/bullet/broadside/plasma
 	name = "plasma-packed broadside shell"
@@ -662,6 +666,26 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "broadside_plasma"
 	damage = 175
 	armour_penetration = 10
+	speed = 0.4
+	relay_projectile_type = /obj/item/projectile/bullet/broadside/plasma/relayed
+
+
+/obj/item/projectile/bullet/broadside/plasma/relayed
+	damage = 25
+	projectile_piercing = ALL
+
+/obj/item/projectile/bullet/broadside/uranium
+	name = "depleted uranium broadside shell"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "broadside_uranium"
+	damage = 200
+	armour_penetration = 25
+	speed = 2
+	relay_projectile_type = /obj/item/projectile/bullet/broadside/uranium/relayed
+
+/obj/item/projectile/bullet/broadside/uranium/relayed
+	damage = 35
+	projectile_piercing = ALL
 	speed = 0.4
 
 /obj/effect/temp_visual/overmap_explosion
