@@ -90,13 +90,13 @@
 /obj/structure/overmap/nanotrasen/carrier
 	name = "enterprise class carrier"
 	desc = "A gigantic ship which is capable of staying deployed in space for extended periods while supporting an impressive complement of fighters."
-	icon = 'nsv13/icons/overmap/new/nanotrasen/cruiser.dmi'
-	icon_state = "cruiser"
+	icon = 'nsv13/icons/overmap/new/nanotrasen/carrier.dmi'
+	icon_state = "carrier"
 	bound_width = 96
 	bound_height = 96
 	mass = MASS_LARGE
 	sprite_size = 48
-	damage_states = FALSE //TODO
+	damage_states = TRUE
 	obj_integrity = 700
 	max_integrity = 700
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 10)
