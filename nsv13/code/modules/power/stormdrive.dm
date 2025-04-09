@@ -273,7 +273,7 @@ Control Rods
 		var/obj/item/stack/sheet/duranium/D = I
 		if(state == REACTOR_STATE_REPAIR)
 			if(D.get_amount() < 25)
-				to_chat(user, "<span class='notice'>You need at least twenty five pieces of durnaium to reline the reactor pit!</span>")
+				to_chat(user, "<span class='notice'>You need at least twenty five pieces of duranium to reline the reactor pit!</span>")
 				return
 			to_chat(user, "<span class='notice'>You start relining the reactor pit with duranium...</span>")
 			repairing = TRUE
@@ -1108,14 +1108,14 @@ Control Rods
 	if(state == REACTOR_STATE_MELTDOWN)
 		icon_state = "broken"
 		return
-	if(state == REACTOR_STATE_REPAIR) //TEMP
-		icon_state = "broken"
+	if(state == REACTOR_STATE_REPAIR) //Loads of angry lights to tell the engineer things are very broken
+		icon_state = "clean"
 		return
-	if(state == REACTOR_STATE_REINFORCE) //TEMP
-		icon_state = "broken"
+	if(state == REACTOR_STATE_REINFORCE) //Lights running down the depth of the pit over where there should be lining
+		icon_state = "needreinforcedrandom"
 		return
-	if(state == REACTOR_STATE_REINFORCE) //TEMP
-		icon_state = "broken"
+	if(state == REACTOR_STATE_REFIT) //gotta have some osha-violating scaffolding
+		icon_state = "coreprep"
 		return
 	cut_overlays()
 	if(can_cool()) //If control rods aren't destroyed.
@@ -1779,9 +1779,9 @@ Control Rods
 
 /obj/item/stormdrive_core
 	name = "\improper Class IV Nuclear Storm Drive Reactor Core"
-	desc = "This crate contains a live reactor core for a class IV nuclear storm drive."
-	icon = 'icons/obj/crates.dmi'
-	icon_state = "crate"
+	desc = "A live reactor core for a class IV nuclear storm drive, packaged and ready for transport by heavy-duty lifting equipment."
+	icon = 'nsv13/icons/obj/control_rod.dmi'
+	icon_state = "reactor_core"
 	w_class = WEIGHT_CLASS_GIGANTIC
 
 /obj/item/stormdrive_core/Initialize(mapload)
