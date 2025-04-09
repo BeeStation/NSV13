@@ -27,6 +27,24 @@
 	hud = null
 	return ..()
 
+/atom/movable/screen/healths/ShiftClick(mob/user)
+	return
+
+/atom/movable/screen/mood/ShiftClick(mob/user)
+	return
+
+/atom/movable/screen/sanity/ShiftClick(mob/user)
+	return
+
+/atom/movable/screen/ling/chems/ShiftClick(mob/user)
+	return
+
+/atom/movable/screen/alien/plasma_display/ShiftClick(mob/user)
+	return
+
+/atom/movable/screen/alien/alien_queen_finder/ShiftClick(mob/user)
+	return
+
 /atom/movable/screen/examine(mob/user)
 	return list()
 
