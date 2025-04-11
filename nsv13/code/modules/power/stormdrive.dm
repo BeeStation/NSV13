@@ -1109,13 +1109,13 @@ Control Rods
 		icon_state = "broken"
 		return
 	if(state == REACTOR_STATE_REPAIR)
-		icon_state = "clean"
+		icon_state = "repair-1"
 		return
 	if(state == REACTOR_STATE_REINFORCE)
-		icon_state = "needreinforcedrandom"
+		icon_state = "reinforce-2"
 		return
 	if(state == REACTOR_STATE_REFIT)
-		icon_state = "coreprep"
+		icon_state = "refit-3"
 		return
 	cut_overlays()
 	if(can_cool()) //If control rods aren't destroyed.
@@ -1781,7 +1781,7 @@ Control Rods
 	name = "\improper Class IV Nuclear Storm Drive Reactor Core"
 	desc = "A live reactor core for a class IV nuclear storm drive, packaged and ready for transport by heavy-duty lifting equipment."
 	icon = 'nsv13/icons/obj/control_rod.dmi'
-	icon_state = "reactor_core"
+	icon_state = "stormdrive_core"
 	w_class = WEIGHT_CLASS_GIGANTIC
 
 /obj/item/stormdrive_core/Initialize(mapload)
