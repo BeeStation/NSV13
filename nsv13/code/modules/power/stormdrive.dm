@@ -1108,13 +1108,13 @@ Control Rods
 	if(state == REACTOR_STATE_MELTDOWN)
 		icon_state = "broken"
 		return
-	if(state == REACTOR_STATE_REPAIR) //Loads of angry lights to tell the engineer things are very broken
+	if(state == REACTOR_STATE_REPAIR)
 		icon_state = "clean"
 		return
-	if(state == REACTOR_STATE_REINFORCE) //Lights running down the depth of the pit over where there should be lining
+	if(state == REACTOR_STATE_REINFORCE)
 		icon_state = "needreinforcedrandom"
 		return
-	if(state == REACTOR_STATE_REFIT) //gotta have some osha-violating scaffolding
+	if(state == REACTOR_STATE_REFIT)
 		icon_state = "coreprep"
 		return
 	cut_overlays()
