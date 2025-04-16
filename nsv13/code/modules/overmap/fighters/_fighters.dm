@@ -1839,9 +1839,11 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	allowed_roles = OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER
 
 /obj/structure/overmap/small_craft/proc/update_visuals()
-	if(canopy)
+	if(canopy && canopy.icon == icon)
 		cut_overlay(canopy)
 	else
+		if(canopy)
+			cut_overlay(canopy)
 		canopy = mutable_appearance(icon = icon, icon_state = "canopy_missing")
 	var/obj/item/fighter_component/canopy/C = loadout?.get_slot(HARDPOINT_SLOT_CANOPY)
 	if(QDELETED(C))
