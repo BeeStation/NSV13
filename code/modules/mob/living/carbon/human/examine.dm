@@ -25,7 +25,7 @@
 	display_name += name
 	if(dna?.species && !skipface)
 		apparent_species = ", <span class='[species_examine_font()]'>\an [dna.species.name]</span>" //NSV13 - species name is colored depending on special conditions.
-	. = list("<span class='info'>*---------*\nThis is <EM>[!obscure_name ? display_name : "Unknown"][apparent_species]</EM>!")
+	. = list("<span class='info'>This is <EM>[!obscure_name ? display_name : "Unknown"][apparent_species]</EM>!")
 
 	//uniform
 	if(w_uniform && !(obscured & ITEM_SLOT_ICLOTHING))
@@ -392,7 +392,6 @@
 			. += line
 
 	//NSV13 - Roleplaying Records - End
-	. += "*---------*</span>"
 
 /mob/living/proc/status_effect_examines(pronoun_replacement) //You can include this in any mob's examine() to show the examine texts of status effects!
 	var/list/dat = list()

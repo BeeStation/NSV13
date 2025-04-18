@@ -70,9 +70,10 @@
 /obj/item/reagent_containers/food/snacks/grown/attackby(obj/item/O, mob/user, params)
 	..()
 	if (istype(O, /obj/item/plant_analyzer))
-		var/msg = "<span class='info'>*---------*\n This is \a <span class='name'>[src]</span>.\n"
+		var/msg = "<span class='info'>This is \a <span class='name'>[src]</span>.\n"
 		if(seed)
 			msg += seed.get_analyzer_text()
+			msg += "\n*---------*"
 		var/reag_txt = ""
 		if(seed)
 			for(var/reagent_id in seed.reagents_add)
@@ -82,8 +83,7 @@
 
 		if(reag_txt)
 			msg += reag_txt
-			msg += "<br><span class='info'>*---------*</span>"
-		to_chat(user, msg)
+		to_chat(user, EXAMINE_BLOCK(msg))
 	else
 		if(seed)
 			for(var/datum/plant_gene/trait/T in seed.genes)
