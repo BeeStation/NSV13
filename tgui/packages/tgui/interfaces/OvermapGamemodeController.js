@@ -26,11 +26,10 @@ export const OvermapGamemodeController = (props, context) => {
                     <br /><br />
                     <Button
                       icon="shield-alt"
-                      content={data.mode_initalised ? "Unable To Change Gamemode" : "Change Gamemode"}
-                      color={data.mode_initalised ? "grey" : "green"}
+                      content={data.game_started ? "Unable To Change Gamemode" : "Change Gamemode"}
+                      color={data.game_started ? "grey" : "green"}
                       onClick={() => act('change_gamemode')} />
                   </LabeledList.Item>
-                  <br />
                   <LabeledList.Item label="Threat">
                     {"Current threat points: " + data.threat_elevation}
                     <br />
@@ -42,8 +41,14 @@ export const OvermapGamemodeController = (props, context) => {
                       color="grey"
                       onClick={() => act('adjust_threat')} />
                   </LabeledList.Item>
-                  <br />
                   <LabeledList.Item label="Difficulty">
+                    <Button
+                      icon="skull-crossbones"
+                      color={data.hard_mode && "green"}
+                      content={"HARD MODE " + (data.hard_mode ? "ENABLED" : "DISABLED")}
+                      onClick={() => act('toggle_hardmode')}
+                    />
+                    <br />
                     Current Global Difficulty: {data.current_difficulty}
                     <br />
                     <br />
@@ -58,7 +63,6 @@ export const OvermapGamemodeController = (props, context) => {
                         adjust: value,
                       })} />
                   </LabeledList.Item>
-                  <br />
                   <LabeledList.Item label="Reminder">
                     <Flex spacing={1}>
                       <Flex.Item width="220px">
@@ -106,6 +110,7 @@ export const OvermapGamemodeController = (props, context) => {
                       color={data.toggle_ghost_boarders ? "green" : "red"}
                       onClick={() => act('toggle_ghost_boarders')} />
                   </LabeledList.Item>
+                  <LabeledList.Divider size={1} />
                 </LabeledList>
               </Section>
             </Flex.Item>
