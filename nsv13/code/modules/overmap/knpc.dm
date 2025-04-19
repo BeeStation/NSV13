@@ -31,7 +31,9 @@ GLOBAL_LIST_EMPTY(knpcs)
 	///Time since when we have been disabled.
 	var/failsafe_timer = 0
 	///Each knpc has their own level of restraint before deciding to take desperate measures, but this is the base value.
-	var/failsafe_trust = 5 SECONDS
+	var/failsafe_trust = 3 SECONDS
+	///This determines the maximum variance freom the base value of a particular knpc. Modifies upwards only.
+	var/failsafe_trust_variance = 3 SECONDS
 
 /mob/living/carbon/human/ai_boarder
 	faction = list("Neutral")
@@ -65,7 +67,8 @@ GLOBAL_LIST_EMPTY(knpcs)
 /datum/component/knpc/Initialize()
 	if(!iscarbon(parent))
 		return COMPONENT_INCOMPATIBLE
-	failsafe_trust = rand((2 SECONDS), (5 SECONDS))
+	if(failsafe_trust_variance)
+		failsafe_trust = rand(failsafe_trust, (failsafe_trust + failsafe_trust_variance))
 	if(!ai_goals)
 		for(var/gtype in subtypesof(/datum/ai_goal/human))
 			LAZYADD(ai_goals, new gtype)
