@@ -29,6 +29,10 @@
 		component_mixture.set_volume(startingvolume)
 		airs[i] = component_mixture
 
+/obj/machinery/atmospherics/components/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>[src] is on layer [piping_layer].</span>"
+
 // Iconnery
 
 /obj/machinery/atmospherics/components/proc/update_icon_nopipes()
