@@ -67,7 +67,7 @@
 #if !defined(SPACEMAN_DMM) && (DM_VERSION < MIN_COMPILER_VERSION || DM_BUILD < MIN_COMPILER_BUILD) && !defined(FASTDMM)
 //Don't forget to update this part
 #error Your version of BYOND is too out-of-date to compile this project. Go to https://secure.byond.com/download and update.
-#error You need version 514.1583 or higher.
+#error You need version 515.1633 or higher.
 #endif
 //NSV - Donator Items
 // Enable personal donator items. Disabled by default. Might marginally improve compile performance.
