@@ -16,7 +16,7 @@
 			if("Cancel")
 				return
 			if("Open")
-				var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [src.faction] [src.name]?", ROLE_GHOSTSHIP, /datum/role_preference/midround_ghost/ghost_ship, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
+				var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [faction] [src]?", ROLE_GHOSTSHIP, /datum/role_preference/midround_ghost/ghost_ship, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
 				if(LAZYLEN(candidates))
 					var/mob/dead/observer/C = pick(candidates)
 					target_ghost = C
@@ -26,8 +26,8 @@
 				target_ghost = input(usr, "Select player to pilot ghost ship:", "Select Player") as null|anything in GLOB.clients
 
 		ghost_ship(target_ghost)
-		message_admins("[key_name_admin(usr)] has ghost shipped [src.name]!")
-		log_admin("[key_name_admin(usr)] has ghost shipped [src.name]!")
+		message_admins("[key_name_admin(usr)] has ghost shipped [src]!")
+		log_admin("[key_name_admin(usr)] has ghost shipped [src]!")
 
 
 //Creation of the ghost ship pilot entity
@@ -36,7 +36,7 @@
 		return
 
 	//Prevent the mainship being skeleton crewed
-	if(src.role == MAIN_OVERMAP)
+	if(role == MAIN_OVERMAP)
 		message_admins("[src] is the main overmap and cannot be ghost controlled! Take manual control via the Z-level")
 		return
 
@@ -77,7 +77,7 @@
 	weapon_types[FIRE_MODE_FLAK] = null //Resolve this later to be a toggle
 
 	//Insert trackable player pilot here
-	var/mob/living/carbon/human/species/skeleton/ghost = new (src.contents)
+	var/mob/living/carbon/human/species/skeleton/ghost = new(src)
 	ghost.loc = src
 	ghost.name = src.name
 	ghost.real_name = src.name

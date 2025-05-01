@@ -18,10 +18,10 @@
 ///Called on jump start if the jump is a misjump.
 /obj/structure/overmap/proc/on_misjump_start(datum/star_system/target_system, jump_length)
 	if(!occupying_levels || !linked_areas)
-		take_damage(0.4 * max_integrity, BRUTE, bypasses_shields = TRUE, sound_effect = FALSE)
+		take_damage(0.4 * max_integrity, BRUTE, sound_effect = FALSE)
 		return
 	else
-		take_damage((rand(5, 10) / 100) * max_integrity, BRUTE, bypasses_shields = TRUE, sound_effect = FALSE)
+		take_damage((rand(5, 10) / 100) * max_integrity, BRUTE, sound_effect = FALSE)
 	handle_concerning_noises(jump_length)
 	addtimer(CALLBACK(src, PROC_REF(fry_phasestate)), rand(35, 180) SECONDS)
 	disjoint_phasestate()
@@ -29,12 +29,12 @@
 ///Called on jump end if the jump is a misjump.
 /obj/structure/overmap/proc/on_misjump_end(datum/star_system/target_system)
 	if(!occupying_levels || !linked_areas)
-		take_damage(0.5 * max_integrity, BRUTE, bypasses_shields = TRUE, sound_effect = FALSE, nsv_damagesound = FALSE)
+		take_damage(0.5 * max_integrity, BRUTE, sound_effect = FALSE, nsv_damagesound = FALSE)
 		return
 	else
 		var/structure_stress = prob(25) ? 10 : rand(15,75)
 		var/structure_damage = (structure_stress / 100) * max_integrity
-		take_damage(structure_damage, BRUTE, bypasses_shields = TRUE, sound_effect = FALSE, nsv_damagesound = FALSE)
+		take_damage(structure_damage, BRUTE, sound_effect = FALSE, nsv_damagesound = FALSE)
 
 	var/fun_meteors = pick(0,0,0,0,1,2,2,3,4)
 	var/oops_asteroid_collision = 25
@@ -169,7 +169,7 @@
 /obj/structure/overmap/ref_0x000000/handle_cloak(state)
 	return
 
-/obj/structure/overmap/ref_0x000000/take_damage(damage_amount, damage_type, damage_flag, sound_effect, bypasses_shields, nsv_damagesound)
+/obj/structure/overmap/ref_0x000000/take_damage(damage_amount, damage_type, damage_flag, sound_effect, nsv_damagesound)
 	return
 
 /obj/structure/overmap/ref_0x000000/bullet_act(obj/item/projectile/P)
