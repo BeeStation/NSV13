@@ -953,7 +953,7 @@ Returns a faction datum by its name (case insensitive!)
 		var/roid_type = pick(/obj/structure/overmap/asteroid, /obj/structure/overmap/asteroid/medium, /obj/structure/overmap/asteroid/large)
 		SSstar_system.spawn_ship(roid_type, src)
 
-/datum/star_system/proc/spawn_enemies(difficulty) //spawns a
+/datum/star_system/proc/spawn_enemies(difficulty) //spawns a random set of enemies
 	if(!difficulty)
 		difficulty = round(difficulty_budget*1.5) //On average these spawn a bit easier, but they can scale
 		if(difficulty <= 0)

@@ -421,6 +421,7 @@ SUBSYSTEM_DEF(overmap_mode)
 /datum/overmap_gamemode/Destroy()
 	if(length(objectives))
 		QDEL_LIST(objectives)
+	objectives = null
 	. = ..()
 
 /datum/overmap_gamemode/proc/consequence_one()
@@ -738,20 +739,26 @@ SUBSYSTEM_DEF(overmap_mode)
 			return
 		if("toggle_ghost_ships")
 			SSovermap_mode.override_ghost_ships = !SSovermap_mode.override_ghost_ships
-			message_admins("[key_name_admin(usr)] has [SSovermap_mode.override_ghost_ships ? "ENABLED" : "DISABLED"] player ghost ships.")
+			message_admins("[key_name_admin(usr)] has [SSovermap_mode.override_ghost_ships ? "DISABLED" : "ENABLED"] player ghost ships.")
 			return TRUE
 		if("toggle_ghost_boarders")
 			SSovermap_mode.override_ghost_boarders = !SSovermap_mode.override_ghost_boarders
-			message_admins("[key_name_admin(usr)] has [SSovermap_mode.override_ghost_boarders ? "ENABLED" : "DISABLED"] player antag boarders.")
+			message_admins("[key_name_admin(usr)] has [SSovermap_mode.override_ghost_boarders ? "DISABLED" : "ENABLED"] player antag boarders.")
 			return TRUE
 
 /datum/overmap_mode_controller/ui_data(mob/user)
 	var/list/data = list()
 	var/list/objectives = list()
 	if(SSovermap_mode.forced_mode) //Forced mode gets priority
-		data["current_gamemode"] = SSovermap_mode.forced_mode?.name
+		if(ispath(SSovermap_mode.forced_mode))
+			data["current_gamemode"] = initial(SSovermap_mode.forced_mode.name)
+		else
+			data["current_gamemode"] = SSovermap_mode.forced_mode?.name
 	else if(SSovermap_mode.mode)
-		data["current_gamemode"] = SSovermap_mode.mode?.name
+		if(ispath(SSovermap_mode.mode))
+			data["current_gamemode"] = initial(SSovermap_mode.forced_mode.name)
+		else
+			data["current_gamemode"] = SSovermap_mode.mode?.name
 	data["current_description"] = SSovermap_mode.mode?.desc
 	data["game_started"] = SSticker.HasRoundStarted()
 	data["hard_mode"] = SSovermap_mode.hard_mode_enabled
