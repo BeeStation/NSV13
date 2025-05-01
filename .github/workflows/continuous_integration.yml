@@ -96,7 +96,7 @@ jobs:
         run: |
           sudo dpkg --add-architecture i386
           sudo apt update || true
-          sudo apt install libssl3.4:i386
+          sudo apt install libssl3:i386
           bash tools/ci/install_rust_g.sh
       - name: Install auxmos
         run: |
