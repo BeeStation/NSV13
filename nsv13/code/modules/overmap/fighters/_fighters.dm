@@ -79,6 +79,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	. = ..()
 	if(.)
 		RegisterSignal(src, COMSIG_MOB_OVERMAP_CHANGE, PROC_REF(pilot_overmap_change))
+		RegisterSignal(user, COMSIG_MOB_DEATH, PROC_REF(pilot_death))
 
 /obj/structure/overmap/small_craft/key_down(key, client/user)
 	if(disruption && prob(min(95, disruption)))
@@ -352,7 +353,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			if(!ftl.anchored_to)
 				to_chat(usr, "<span class='warning'>Unable to comply. FTL tether lost.</span>")
 				return
-			var/datum/star_system/dest = SSstar_system.ships[ftl.anchored_to]["current_system"]
+			var/datum/star_system/dest = ftl.anchored_to.current_system
 			if(!dest)
 				to_chat(usr, "<span class='warning'>Unable to comply. Target beacon is currently in FTL transit.</span>")
 				return
@@ -407,7 +408,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	name = "Peregrine class attack fighter"
 	desc = "A Peregrine class attack fighter, solgov's only premiere fighter, mounting minature capital grade phasers and a tiny shield generator."
 	icon = 'nsv13/icons/overmap/new/solgov/playablefighter.dmi'
-	armor = list("melee" = 60, "bullet" = 60, "laser" = 60, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 5, "overmap_medium" = 0, "overmap_heavy" = 10) 
+	armor = list("melee" = 60, "bullet" = 60, "laser" = 60, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 5, "overmap_medium" = 0, "overmap_heavy" = 10)
 	sprite_size = 32
 	damage_states = FALSE //temp
 	max_integrity = 25 //shields.
@@ -600,6 +601,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	if(eject_mob && !eject(M, force))
 		return FALSE
 	UnregisterSignal(src, COMSIG_MOB_OVERMAP_CHANGE)
+	UnregisterSignal(M, COMSIG_MOB_DEATH)
 	M.stop_sound_channel(CHANNEL_SHIP_ALERT)
 	M.remove_verb(overmap_verbs)
 	return ..()
@@ -627,6 +629,13 @@ Been a mess since 2018, we'll fix it someday (probably)
 	SIGNAL_HANDLER
 	if(newOM != src)
 		INVOKE_ASYNC(src, PROC_REF(stop_piloting), M, FALSE, TRUE)
+
+/obj/structure/overmap/small_craft/proc/pilot_death(mob/living/M)
+	SIGNAL_HANDLER
+	var/obj/item/fighter_component/docking_computer/DC = loadout.get_slot(HARDPOINT_SLOT_DOCKING)
+	if(!DC)
+		return
+	DC.docking_mode = TRUE
 
 /obj/structure/overmap/small_craft/escapepod/eject(mob/living/M, force=FALSE)
 	. = ..()
@@ -770,7 +779,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	return ..()
 
 
-/obj/structure/overmap/small_craft/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, bypasses_shields = FALSE)
+/obj/structure/overmap/small_craft/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, nsv_damagesound = TRUE)
 	var/obj/item/fighter_component/armour_plating/A = loadout.get_slot(HARDPOINT_SLOT_ARMOUR)
 	if(A && istype(A))
 		A.take_damage(damage_amount, damage_type, damage_flag, sound_effect)
@@ -940,6 +949,21 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 
 /obj/item/fighter_component/proc/toggle()
 	active = !active
+
+/obj/item/fighter_component/AltClick(mob/user)
+	. = ..()
+	if(!Adjacent(user))
+		return
+	if(!isliving(user))
+		return
+	if(!length(contents))
+		to_chat(user, "<span class='warning'>There is nothing to unload from [src]!</span>")
+		return
+	to_chat(user, "<span class='notice'>You start to unload [src]'s stored contents...</span>")
+	if(!do_after(user, 5 SECONDS, target=src))
+		return
+	to_chat(user, "<span class='notice>You dump [src]'s contents.</span>")
+	dump_contents()
 
 /obj/item/fighter_component/proc/dump_contents()
 	if(!length(contents))
@@ -1824,9 +1848,11 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	allowed_roles = OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER
 
 /obj/structure/overmap/small_craft/proc/update_visuals()
-	if(canopy)
+	if(canopy && canopy.icon == icon)
 		cut_overlay(canopy)
 	else
+		if(canopy)
+			cut_overlay(canopy)
 		canopy = mutable_appearance(icon = icon, icon_state = "canopy_missing")
 	var/obj/item/fighter_component/canopy/C = loadout?.get_slot(HARDPOINT_SLOT_CANOPY)
 	if(QDELETED(C))

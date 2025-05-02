@@ -6,6 +6,7 @@
 	anchored = TRUE
 	density = FALSE
 	layer = ABOVE_MOB_LAYER
+	pass_flags = ALL //Cease.
 	animate_movement = NO_STEPS
 	max_integrity = 300
 	integrity_failure = 100
@@ -14,6 +15,8 @@
 	var/damage = 100
 	var/damage_type = BRUTE
 	var/damage_flag = "overmap_heavy"
+	///Var that tracks if we already blew up because some proc chains are potentially funny like that.
+	var/blew_up = FALSE
 	alpha = 110 //They're supposed to be sneaky, their main advantage is being cloaked
 
 /obj/structure/space_mine/Initialize(mapload, var/new_faction, var/datum/star_system/system)
@@ -53,6 +56,14 @@
 /obj/structure/space_mine/Process_Spacemove(movement_dir = 0)
 	return 1
 
+//OVerride
+/obj/structure/space_mine/Bump(atom/A)
+	return
+
+//Override
+/obj/structure/space_mine/physics_collide(atom/movable/A)
+	return FALSE
+
 /obj/structure/space_mine/proc/on_entered(datum/source, atom/movable/AM)
 	SIGNAL_HANDLER
 
@@ -74,6 +85,9 @@
 		icon_state = "mine_unaligned"
 
 /obj/structure/space_mine/obj_break(damage_flag)
+	if(broken)
+		return
+	broken = TRUE
 	if(prob(80))
 		obj_destruction()
 	else //Whoops, IFF broke!
@@ -81,16 +95,18 @@
 
 /obj/structure/space_mine/obj_destruction(damage_flag)
 	mine_explode() //Why you mine explode? To the woods with you
-	. = ..()
 
 /obj/structure/space_mine/proc/mine_explode(obj/structure/overmap/OM)
+	if(blew_up)
+		return
+	blew_up = TRUE
 	var/armour_penetration = 0
 	if(OM) //You just flew into a mine
 		armour_penetration = 20 //It's blowing up right next to you, this is what it was designed for
 		if(OM.use_armour_quadrants)
 			OM.take_quadrant_hit(OM.run_obj_armor(damage, damage_type, damage_flag, null, armour_penetration), OM.quadrant_impact(src))
 		else
-			OM.take_damage(damage, damage_type, damage_flag, FALSE, TRUE)
+			OM.take_damage(damage, damage_type, damage_flag, FALSE)
 		if(OM.linked_areas) //Hope nothing precious was in that room.
 			var/area/A = pick(OM.linked_areas)
 			var/turf/T = pick(get_area_turfs(A))
@@ -101,7 +117,9 @@
 			if(OM.use_armour_quadrants)
 				OM.take_quadrant_hit(OM.run_obj_armor(damage, damage_type, damage_flag, null, armour_penetration), OM.quadrant_impact(src))
 			else
-				OM.take_damage(damage, damage_type, damage_flag, FALSE, TRUE)
+				OM.take_damage(damage, damage_type, damage_flag, FALSE)
 	new /obj/effect/temp_visual/fading_overmap(get_turf(src), name, icon, icon_state, alpha)
+	if(!QDELETED(src))
+		qdel(src)
 
 
