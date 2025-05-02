@@ -548,7 +548,11 @@
   * Produces a signal COMSIG_PARENT_EXAMINE
   */
 /atom/proc/examine(mob/user)
-	. = list("[get_examine_string(user, TRUE)].")
+	var/examine_string = get_examine_string(user, thats = TRUE)
+	if(examine_string)
+		. = list("[examine_string].")
+	else
+		. = list()
 
 	if(desc)
 		. += desc
@@ -1212,7 +1216,7 @@
 	if(href_list[VV_HK_EDIT_COLOR_MATRIX] && check_rights(R_VAREDIT))
 		var/client/C = usr.client
 		C?.open_color_matrix_editor(src)
-		
+
 /atom/vv_get_header()
 	. = ..()
 	var/refid = REF(src)
