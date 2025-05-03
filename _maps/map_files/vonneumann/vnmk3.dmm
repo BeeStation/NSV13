@@ -537,6 +537,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/effect/mapping_helpers/airlock/abandoned,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/nsv/weapons)
 "asL" = (
@@ -1102,8 +1103,8 @@
 /turf/open/floor/engine/o2,
 /area/engine/atmos/port_atmos)
 "aMe" = (
-/obj/machinery/computer/atmos_control/tank/oxygen_tank{
-	dir = 4
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
@@ -1167,6 +1168,16 @@
 /obj/structure/reagent_dispensers/fueltank,
 /turf/open/floor/plating,
 /area/maintenance/starboard/aft)
+"aQs" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/landmark/event_spawn,
+/turf/open/floor/carpet/ship,
+/area/hallway/upper/primary/starboard)
 "aQz" = (
 /obj/structure/bed/dogbed/ian,
 /mob/living/simple_animal/pet/dog/corgi/Ian,
@@ -1998,8 +2009,7 @@
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/lab)
 "brT" = (
-/obj/machinery/portable_atmospherics/canister/constricted_plasma,
-/obj/machinery/light_switch/north,
+/obj/machinery/light/floor,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "brV" = (
@@ -2107,11 +2117,9 @@
 /turf/open/floor/carpet/ship,
 /area/security)
 "bvF" = (
-/obj/machinery/missile_builder/wirer{
-	dir = 8
-	},
-/turf/open/floor/circuit/green/anim,
-/area/nsv/weapons/port)
+/obj/machinery/light/floor,
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/engine/engineering/reactor_control)
 "bvP" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 1
@@ -3106,7 +3114,7 @@
 "chT" = (
 /obj/machinery/computer/laser_pd{
 	dir = 8;
-	gun_id = 5
+	gun_id = 2
 	},
 /turf/open/floor/circuit/green/anim,
 /area/nsv/weapons)
@@ -4789,6 +4797,15 @@
 /obj/item/extinguisher/advanced/hull_repair_juice,
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
+"dqX" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible/layer4{
+	dir = 4
+	},
+/obj/machinery/computer/atmos_control/tank/nitrogen_tank{
+	dir = 4
+	},
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/engine/atmos/port_atmos)
 "dre" = (
 /obj/machinery/status_display/ai/west,
 /obj/structure/reagent_dispensers/fueltank/cryogenic_fuel,
@@ -5085,6 +5102,7 @@
 	},
 /obj/machinery/door/firedoor/border_only,
 /obj/structure/disposalpipe/segment,
+/obj/effect/mapping_helpers/airlock/abandoned,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/nsv/weapons/port)
 "dCF" = (
@@ -5404,12 +5422,6 @@
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
 "dMB" = (
-/obj/machinery/computer/atmos_control/tank/toxin_tank{
-	dir = 4
-	},
-/obj/machinery/light{
-	dir = 8
-	},
 /obj/machinery/camera/autoname{
 	dir = 5
 	},
@@ -6186,6 +6198,22 @@
 	dir = 10
 	},
 /obj/item/storage/box/bodybags,
+/obj/item/clothing/glasses/welding,
+/obj/item/clothing/glasses/welding{
+	pixel_y = 11;
+	pixel_x = -6
+	},
+/obj/item/clothing/head/welding{
+	pixel_x = 2;
+	pixel_y = 4
+	},
+/obj/item/clothing/head/welding{
+	pixel_x = -9
+	},
+/obj/item/clothing/head/welding{
+	pixel_y = 1;
+	pixel_x = 8
+	},
 /turf/open/floor/durasteel/techfloor_grid,
 /area/science/robotics)
 "etw" = (
@@ -6394,7 +6422,8 @@
 /area/engine/engineering/reactor_control)
 "ezU" = (
 /obj/machinery/door/airlock/ship/maintenance{
-	dir = 4
+	dir = 4;
+	req_one_access_txt = "9;47"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 4
@@ -9925,6 +9954,22 @@
 /obj/structure/disposalpipe/segment,
 /turf/open/floor/carpet/ship,
 /area/ai_monitored/storage/eva)
+"hal" = (
+/obj/machinery/atmospherics/pipe/simple/yellow/visible{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/cyan/visible/layer4{
+	dir = 8;
+	icon_state = "pipe11-1";
+	piping_layer = 1;
+	name = "layer1"
+	},
+/obj/machinery/firealarm/directional/north,
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/engine/atmos/port_atmos)
 "hay" = (
 /obj/structure/sign/ship/pods{
 	pixel_y = -26
@@ -10498,6 +10543,7 @@
 	dir = 1
 	},
 /obj/machinery/door/firedoor/border_only,
+/obj/effect/mapping_helpers/airlock/abandoned,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/nsv/weapons/port)
 "huJ" = (
@@ -15970,7 +16016,7 @@
 "lxZ" = (
 /obj/machinery/computer/laser_pd{
 	dir = 8;
-	gun_id = 4
+	gun_id = 1
 	},
 /turf/open/floor/circuit/green/anim,
 /area/nsv/weapons)
@@ -16480,6 +16526,9 @@
 	dir = 8
 	},
 /obj/machinery/meter,
+/obj/machinery/computer/atmos_control/tank/oxygen_tank{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "lWQ" = (
@@ -17368,6 +17417,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/effect/mapping_helpers/airlock/abandoned,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/nsv/weapons/port)
 "mKb" = (
@@ -17648,9 +17698,8 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/maintenance/nsv/ftlroom)
 "mTL" = (
-/obj/machinery/computer/laser_pd{
-	dir = 4;
-	gun_id = 3
+/obj/structure/frame/computer{
+	dir = 4
 	},
 /turf/open/floor/circuit/red/anim,
 /area/nsv/weapons)
@@ -18018,7 +18067,10 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/turf/open/floor/carpet/ship/beige_carpet,
+/obj/machinery/missile_builder/wirer{
+	dir = 8
+	},
+/turf/open/floor/circuit/green/anim,
 /area/nsv/weapons/port)
 "nhT" = (
 /obj/structure/disposalpipe/segment{
@@ -18063,6 +18115,13 @@
 /obj/structure/cable,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
+"niQ" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/effect/landmark/event_spawn,
+/turf/open/floor/carpet/ship,
+/area/hallway/primary/starboard)
 "njP" = (
 /obj/machinery/missile_builder,
 /obj/structure/cable/yellow{
@@ -20192,13 +20251,7 @@
 /obj/machinery/camera/autoname{
 	dir = 5
 	},
-/obj/machinery/firealarm/directional/west,
-/obj/machinery/light{
-	dir = 8
-	},
-/obj/machinery/computer/atmos_control/tank/nitrous_tank{
-	dir = 4
-	},
+/obj/item/radio/intercom/directional/west,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "oXu" = (
@@ -22456,6 +22509,15 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/ftlroom)
+"qFg" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible/layer4{
+	dir = 4
+	},
+/obj/machinery/computer/atmos_control/tank/oxygen_tank{
+	dir = 4
+	},
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/engine/atmos/port_atmos)
 "qFl" = (
 /obj/structure/rack,
 /obj/item/ship_weapon/ammunition/missile,
@@ -22721,14 +22783,9 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
 "qRx" = (
-/obj/machinery/computer/atmos_control/tank/carbon_tank{
-	dir = 4
-	},
-/obj/machinery/light{
-	dir = 8
-	},
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/engine/atmos/port_atmos)
+/obj/effect/landmark/event_spawn,
+/turf/open/floor/carpet/ship,
+/area/hallway/nsv/deck1/frame2/starboard)
 "qRB" = (
 /obj/structure/cable{
 	icon_state = "1-8"
@@ -23623,7 +23680,7 @@
 "rJb" = (
 /obj/machinery/computer/laser_pd{
 	dir = 4;
-	gun_id = 2
+	gun_id = 4
 	},
 /turf/open/floor/circuit/green/anim,
 /area/nsv/weapons)
@@ -24643,6 +24700,15 @@
 /obj/item/radio/intercom/directional/north,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory)
+"sAZ" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible/layer4{
+	dir = 4
+	},
+/obj/machinery/computer/atmos_control/tank/nitrous_tank{
+	dir = 4
+	},
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/engine/atmos/port_atmos)
 "sBb" = (
 /obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
 /obj/structure/cable{
@@ -24654,14 +24720,11 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible/layer4{
 	dir = 4
 	},
-/obj/machinery/requests_console{
-	department = "Atmospherics";
-	departmentType = 3;
-	name = "Atmos RC";
-	pixel_y = -32
-	},
 /obj/machinery/camera/autoname{
 	dir = 10
+	},
+/obj/machinery/computer/atmos_control/tank/carbon_tank{
+	dir = 4
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
@@ -25356,6 +25419,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/firealarm/directional/north,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "tah" = (
@@ -26864,7 +26928,7 @@
 "umo" = (
 /obj/machinery/computer/laser_pd{
 	dir = 4;
-	gun_id = 1
+	gun_id = 3
 	},
 /turf/open/floor/circuit/green/anim,
 /area/nsv/weapons)
@@ -28120,6 +28184,7 @@
 /obj/machinery/light{
 	dir = 1
 	},
+/obj/structure/bodycontainer/crematorium,
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
 "vre" = (
@@ -29855,9 +29920,8 @@
 /turf/open/floor/durasteel/techfloor_grid,
 /area/science/robotics)
 "wFB" = (
-/obj/machinery/computer/laser_pd{
-	dir = 8;
-	gun_id = 6
+/obj/structure/frame/computer{
+	dir = 8
 	},
 /turf/open/floor/circuit/red/anim,
 /area/nsv/weapons)
@@ -30303,8 +30367,12 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/obj/machinery/computer/atmos_control/tank/nitrogen_tank{
-	dir = 4
+/obj/machinery/requests_console{
+	department = "Atmospherics";
+	departmentType = 3;
+	name = "Atmos RC";
+	pixel_y = -7;
+	pixel_x = -30
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
@@ -31224,6 +31292,15 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/starboard)
+"xQj" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible/layer4{
+	dir = 4
+	},
+/obj/machinery/computer/atmos_control/tank/toxin_tank{
+	dir = 4
+	},
+/turf/open/floor/carpet/ship/orange_carpet,
+/area/engine/atmos/port_atmos)
 "xQw" = (
 /obj/structure/table/reinforced,
 /obj/item/paper_bin,
@@ -42271,10 +42348,10 @@ quO
 xwB
 iJb
 wcI
-dbP
-qRx
+qFg
+aMe
 fPU
-dbP
+dqX
 xdM
 prZ
 sBl
@@ -42472,7 +42549,7 @@ jfJ
 vre
 xwB
 iJb
-cUS
+hal
 dbP
 pEo
 cUS
@@ -42482,12 +42559,12 @@ dkV
 dbP
 oXs
 dIb
-dbP
+sAZ
 aMe
 nJV
-dbP
+xQj
 dMB
-brT
+dIa
 cOY
 vaP
 ssy
@@ -43098,7 +43175,7 @@ iJb
 ifj
 gBO
 jxf
-yjs
+bvF
 lCU
 dKN
 wDf
@@ -43108,7 +43185,7 @@ dKN
 kFl
 vzp
 yjs
-yjs
+bvF
 wvV
 xMK
 pZX
@@ -43282,16 +43359,16 @@ xwB
 iJb
 gin
 pEo
-pEo
+brT
 uDn
 pEo
 adb
-pEo
+brT
 pEo
 uqo
 kcU
 xvk
-pEo
+brT
 pEo
 pEo
 rfF
@@ -45540,7 +45617,7 @@ dSh
 ngp
 aUe
 dWv
-dWv
+niQ
 fzC
 hce
 vHl
@@ -52000,7 +52077,7 @@ mIj
 gZO
 feb
 hbv
-hbv
+qRx
 rkn
 sSN
 qFL
@@ -57449,7 +57526,7 @@ sVd
 sVd
 sVd
 fGc
-rPL
+aQs
 iin
 fUi
 efH
@@ -58666,7 +58743,7 @@ iin
 bcQ
 sNY
 efH
-bvF
+efH
 nhQ
 ogq
 jGg
