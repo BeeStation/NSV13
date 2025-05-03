@@ -2107,7 +2107,9 @@
 /turf/open/floor/carpet/ship,
 /area/security)
 "bvF" = (
-/obj/machinery/missile_builder/wirer,
+/obj/machinery/missile_builder/wirer{
+	dir = 8
+	},
 /turf/open/floor/circuit/green/anim,
 /area/nsv/weapons/port)
 "bvP" = (
@@ -3012,7 +3014,7 @@
 /area/medical/medbay)
 "cgx" = (
 /obj/structure/closet/secure_closet/engineering_welding{
-	req_access = list(0)
+	req_access = "0"
 	},
 /turf/open/floor/monotile/steel/airless,
 /area/nsv/hanger/mining)
@@ -8152,7 +8154,9 @@
 /turf/open/floor/durasteel/techfloor_grid,
 /area/science/xenobiology)
 "fLa" = (
-/obj/machinery/missile_builder/welder,
+/obj/machinery/missile_builder/welder{
+	dir = 8
+	},
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
@@ -13532,8 +13536,7 @@
 "jJI" = (
 /obj/machinery/conveyor/slow{
 	dir = 6;
-	id = "atlas_torp";
-	verted = -1
+	id = "atlas_torp"
 	},
 /obj/structure/lattice/catwalk/over/ship/dark,
 /obj/structure/cable/yellow{
@@ -18061,9 +18064,7 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
 "njP" = (
-/obj/machinery/missile_builder{
-	dir = 1
-	},
+/obj/machinery/missile_builder,
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
@@ -18244,8 +18245,7 @@
 "nqk" = (
 /obj/machinery/conveyor/slow{
 	dir = 5;
-	id = "atlas_torp";
-	verted = -1
+	id = "atlas_torp"
 	},
 /obj/structure/lattice/catwalk/over/ship/dark,
 /turf/open/floor/carpet/ship/beige_carpet,
@@ -19288,7 +19288,9 @@
 /turf/open/floor/carpet/ship,
 /area/security)
 "ogq" = (
-/obj/machinery/missile_builder,
+/obj/machinery/missile_builder{
+	dir = 8
+	},
 /turf/open/floor/circuit/green/anim,
 /area/nsv/weapons/port)
 "ogE" = (
@@ -23851,7 +23853,7 @@
 /area/bridge/cic)
 "rUx" = (
 /obj/structure/closet/secure_closet/engineering_welding{
-	req_access = list(0)
+	req_access = "0"
 	},
 /turf/open/floor/plasteel,
 /area/quartermaster/miningoffice)
