@@ -3,7 +3,7 @@
 /obj/machinery/reagentgrinder
 	name = "\improper All-In-One Grinder"
 	desc = "From BlenderTech. Will It Blend? Let's test it out!"
-	icon = 'icons/obj/kitchen.dmi'
+	icon = 'nsv13/icons/obj/kitchen.dmi' //NSV13
 	icon_state = "juicer1"
 	layer = BELOW_OBJ_LAYER
 	use_power = IDLE_POWER_USE
@@ -101,10 +101,13 @@
 	holdingitems = list()
 
 /obj/machinery/reagentgrinder/update_icon()
-	if(beaker)
-		icon_state = "juicer1"
-	else
-		icon_state = "juicer0"
+	if(operating) //NSV13
+		icon_state = "juicer1_animated" //NSV13
+	else //NSV13
+		if(beaker)  //NSV13
+			icon_state = "juicer1" //NSV13
+		else
+			icon_state = "juicer0" //NSV13
 
 /obj/machinery/reagentgrinder/proc/replace_beaker(mob/living/user, obj/item/reagent_containers/new_beaker)
 	if(beaker)
@@ -247,6 +250,7 @@
 /obj/machinery/reagentgrinder/proc/operate_for(time, silent = FALSE, juicing = FALSE)
 	shake_for(time / speed)
 	operating = TRUE
+	update_icon() //NSV13
 	if(!silent)
 		if(!juicing)
 			playsound(src, 'sound/machines/blender.ogg', 50, 1)
@@ -256,6 +260,7 @@
 
 /obj/machinery/reagentgrinder/proc/stop_operating()
 	operating = FALSE
+	update_icon()
 
 /obj/machinery/reagentgrinder/proc/juice()
 	power_change()
