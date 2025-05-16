@@ -163,7 +163,7 @@
 	name = "\proper The Remnant"
 	size = FLEET_DIFFICULTY_WHAT_ARE_YOU_DOING
 	allow_difficulty_scaling = FALSE
-	audio_cues = list()
+	audio_cues = list("https://www.youtube.com/watch?v=4N6MNV1bjk8")
 	taunts = list("<pre>\[DECRYPTION FAILURE]</pre>")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 	destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer/elite, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/cruiser/elite, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
@@ -175,7 +175,7 @@
 	size = 1
 	allow_difficulty_scaling = FALSE
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/battleship)
-	audio_cues = list()
+	audio_cues = list("https://www.youtube.com/watch?v=4N6MNV1bjk8")
 	taunts = list("Your assault on Rubicon only served to distract you from the real threat. It's time to end this war in one swift blow.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
@@ -184,6 +184,7 @@
 	faction = FACTION_ID_SYNDICATE
 	size = 1
 	allow_difficulty_scaling = FALSE
+	audio_cues = list("https://www.youtube.com/watch?v=G2gVAPKlgqA")
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/fistofsol)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 	taunts = list("What a pleasure that we should meet again. I hope you won't disappoint!")
@@ -194,6 +195,7 @@
 	size = 1
 	hide_movements = TRUE
 	allow_difficulty_scaling = FALSE
+	audio_cues = list("https://www.youtube.com/watch?v=bOn7B3Xw_Rs")
 	fighter_types = list(/obj/structure/overmap/hostile/ai/fighter)
 	supply_types = list(/obj/structure/overmap/hostile/ai/alicorn)
 	taunts = list("A powerful ship, a powerful gun, powerful ammunition. The graceful slaughter of a billion lives to save billions more, you'll be the first of many.")
@@ -279,6 +281,8 @@
 			shield_scan_target.relay_to_nearby('nsv13/sound/effects/ship/solgov_scan_alert.ogg', ignore_self=FALSE)
 			shield_scan_target.faction = shield_scan_target.name
 			grant_oopsie_achievement(shield_scan_target)
+			sleep(2 SECONDS)
+			play_soundtrack_music(/datum/soundtrack_song/bee/future_perception , volume = 100)
 
 /datum/fleet/solgov/proc/grant_oopsie_achievement(obj/structure/overmap/fugitive)
 	for(var/mob/living/traitor in fugitive.mobs_in_ship)
