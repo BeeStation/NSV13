@@ -339,15 +339,11 @@
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/department/crew_quarters/dorms)
 "alV" = (
-/obj/machinery/camera{
-	c_tag = "External Viewport Munitions 1";
-	dir = 8
+/obj/structure/shuttle/engine/propulsion{
+	dir = 4
 	},
-/obj/structure/hull_plate/end{
-	dir = 1
-	},
-/turf/open/floor/plating/airless,
-/area/space/nearstation)
+/turf/open/space/basic,
+/area/space)
 "aml" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -363,12 +359,11 @@
 /turf/open/floor/plating,
 /area/quartermaster/lobby)
 "amF" = (
-/obj/machinery/camera{
-	c_tag = "External Viewport Munitions 2";
-	dir = 4
+/obj/machinery/atmospherics/components/unary/portables_connector{
+	dir = 8
 	},
-/turf/open/space/basic,
-/area/nsv/weapons/fore)
+/turf/closed/wall/r_wall/ship,
+/area/space/nearstation)
 "amO" = (
 /obj/structure/table/wood,
 /obj/structure/cable{
@@ -880,12 +875,9 @@
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/medical/genetics)
 "aDf" = (
-/obj/structure/sign/solgov_flag/right{
-	layer = 2.79;
-	pixel_y = 26
-	},
-/obj/machinery/cooling/cooler,
-/turf/open/floor/carpet/ship/orange_carpet,
+/obj/structure/lattice,
+/obj/structure/grille,
+/turf/open/space/basic,
 /area/nsv/weapons/fore)
 "aDF" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
@@ -1059,11 +1051,10 @@
 	},
 /area/bridge)
 "aKh" = (
-/obj/machinery/light{
-	dir = 1
-	},
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/nsv/weapons/fore)
+/obj/structure/lattice,
+/obj/structure/grille,
+/turf/open/space/basic,
+/area/space)
 "aKo" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
@@ -1157,9 +1148,11 @@
 	},
 /area/bridge)
 "aMY" = (
-/obj/structure/sign/solgov_flag{
-	layer = 2.79;
-	pixel_y = 26
+/obj/structure/sign/poster/official/random{
+	pixel_x = 32
+	},
+/obj/machinery/camera/autoname{
+	dir = 8
 	},
 /obj/machinery/cooling/storage,
 /turf/open/floor/carpet/ship/orange_carpet,
@@ -1218,7 +1211,7 @@
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
 	dir = 6
 	},
-/turf/open/floor/carpet/ship/orange_carpet,
+/turf/closed/wall/r_wall/ship,
 /area/nsv/weapons/fore)
 "aQu" = (
 /obj/machinery/atmospherics/pipe/simple/purple/hidden{
@@ -4046,6 +4039,7 @@
 	dir = 4
 	},
 /obj/machinery/firealarm/directional/east,
+/obj/machinery/cooling/storage,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nsv/weapons/fore)
 "cHv" = (
@@ -5867,13 +5861,7 @@
 /turf/open/floor/circuit,
 /area/ai_monitored/turret_protected/aisat_interior)
 "edT" = (
-/obj/structure/cable/white{
-	icon_state = "1-2"
-	},
-/obj/structure/cable/white{
-	icon_state = "2-4"
-	},
-/obj/machinery/cooling/cooler,
+/obj/machinery/atmospherics/pipe/manifold/purple/hidden,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nsv/weapons/fore)
 "eex" = (
@@ -6102,10 +6090,13 @@
 /turf/open/floor/plating,
 /area/quartermaster/warehouse)
 "emk" = (
-/obj/machinery/atmospherics/pipe/simple/purple/hidden,
-/obj/machinery/cooling/storage,
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/nsv/weapons/fore)
+/obj/structure/hull_plate,
+/obj/machinery/camera{
+	c_tag = "External Viewport Munitions 1";
+	dir = 8
+	},
+/turf/open/floor/plating/airless,
+/area/space/nearstation)
 "emS" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -6504,9 +6495,6 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
 "ezt" = (
-/obj/structure/cable/white{
-	icon_state = "1-4"
-	},
 /obj/machinery/cooling/cooler,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nsv/weapons/fore)
@@ -8760,15 +8748,11 @@
 	dir = 4
 	},
 /obj/structure/cable/white{
-	icon_state = "4-8"
-	},
-/obj/structure/cable/white{
 	icon_state = "1-8"
 	},
 /obj/structure/cable/white{
 	icon_state = "2-8"
 	},
-/obj/machinery/cooling/cooler,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nsv/weapons/fore)
 "fTg" = (
@@ -10234,9 +10218,9 @@
 /turf/open/floor/holofloor/wood,
 /area/science/computer_lab)
 "gRQ" = (
-/obj/machinery/ship_weapon/energy,
-/obj/machinery/atmospherics/pipe/simple/purple/hidden{
-	dir = 4
+/obj/machinery/ship_weapon/energy/ams,
+/obj/item/paper{
+	default_raw_text = "<p>Munitions notice: Reminder that the laser anti missile systems provided must have power allocated, must be enabled, and must have Anti-missile countermeasures enabled in the AMS control console!</p>"
 	},
 /obj/structure/cable/white{
 	icon_state = "0-8"
@@ -12162,11 +12146,11 @@
 	},
 /area/bridge)
 "imE" = (
+/obj/machinery/light{
+	dir = 4
+	},
 /obj/structure/sign/poster/official/random{
 	pixel_x = 32
-	},
-/obj/machinery/camera/autoname{
-	dir = 8
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nsv/weapons/fore)
@@ -15104,15 +15088,12 @@
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
 "kui" = (
-/obj/machinery/ship_weapon/energy/ams,
-/obj/structure/cable/white{
-	icon_state = "0-8"
+/obj/machinery/camera{
+	c_tag = "External Viewport Munitions 2";
+	dir = 4
 	},
-/obj/item/paper{
-	default_raw_text = "<p>Munitions notice: Reminder that the laser anti missile systems provided must have power allocated, must be enabled, and must have Anti-missile countermeasures enabled in the AMS control console!</p>"
-	},
-/turf/open/floor/carpet/ship/orange_carpet,
-/area/nsv/weapons/fore)
+/turf/open/space/basic,
+/area/space/nearstation)
 "kut" = (
 /obj/machinery/camera/autoname,
 /turf/open/floor/fakespace,
@@ -18603,11 +18584,9 @@
 /turf/open/floor/plating,
 /area/quartermaster/warehouse)
 "mUo" = (
-/obj/structure/sign/poster/official/random{
-	pixel_x = 32
-	},
-/obj/machinery/light{
-	dir = 4
+/obj/machinery/cooling/cooler,
+/obj/structure/cable/white{
+	icon_state = "1-4"
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nsv/weapons/fore)
@@ -18979,7 +18958,6 @@
 /obj/structure/sign/solgov_seal{
 	pixel_y = 26
 	},
-/obj/machinery/cooling/storage,
 /turf/open/floor/plating,
 /area/nsv/weapons/fore)
 "njC" = (
@@ -20834,10 +20812,10 @@
 /obj/structure/cable/white{
 	icon_state = "1-2"
 	},
+/obj/machinery/cooling/cooler,
 /obj/structure/cable/white{
 	icon_state = "1-4"
 	},
-/obj/machinery/cooling/cooler,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/nsv/weapons/fore)
 "otN" = (
@@ -79262,8 +79240,8 @@ nZT
 nZT
 nZT
 nZT
-alV
-awB
+aan
+emk
 hbT
 aKK
 bsy
@@ -79519,7 +79497,7 @@ nZT
 nZT
 nZT
 nZT
-aKK
+aan
 aKK
 aKK
 aKK
@@ -79776,10 +79754,10 @@ nZT
 nZT
 nZT
 nZT
+aan
 aKK
 vnw
 aKK
-fDP
 fDP
 fDP
 ecq
@@ -79790,7 +79768,7 @@ fDP
 fDP
 fDP
 fDP
-fDP
+wow
 hza
 hIh
 eSn
@@ -80033,21 +80011,21 @@ nZT
 nZT
 nZT
 nZT
+aan
 aKK
 vnw
 aKK
-aKh
+fDP
 cmO
 fzt
-edT
 fzt
 fTa
+otL
+otL
 fzt
 otL
 fzt
-ezt
-fDP
-wow
+mUo
 fDP
 hIh
 tWA
@@ -80290,22 +80268,22 @@ nZT
 nZT
 nZT
 nZT
+aan
 aKK
 vnw
 aKK
-aMY
-bvR
 fDP
+bvR
+ezt
+fDP
+fXN
+cVB
 cVB
 fDP
 gRQ
 fDP
-kui
-fDP
 bnc
 fDP
-fDP
-qjG
 hIh
 tXU
 xdB
@@ -80547,22 +80525,22 @@ nZT
 nZT
 nZT
 nZT
+bJj
 aKK
 aKK
 aKK
-aDf
 fDP
 fDP
-fDP
+qjG
 fDP
 fXN
-imE
 fDP
-mUo
 fDP
-qjG
 fDP
-qjG
+fDP
+fDP
+fDP
+fDP
 hIh
 uhs
 xem
@@ -80804,22 +80782,22 @@ nZT
 nZT
 nZT
 nZT
-amF
-hbT
-aKK
+nZT
+kui
+aDf
 aQt
 kJD
 cGU
-emk
-cII
-hfr
-aKK
-aKK
-aKK
-aKK
-hjY
-aKK
-aKK
+kJD
+kJD
+edT
+aMY
+qjG
+imE
+qjG
+fDP
+qjG
+fDP
 hIh
 vEs
 wBL
@@ -81062,21 +81040,21 @@ nZT
 nZT
 nZT
 nZT
-hbT
-aKK
+nZT
+aDf
 bbt
 aKK
 aKK
 aKK
+cII
+hfr
 aKK
-ciQ
-iDh
-iDh
-iDh
-gag
-pwi
-qBT
-sUy
+aKK
+aKK
+aKK
+hjY
+aKK
+aKK
 hIh
 vGa
 wBL
@@ -81326,14 +81304,14 @@ hbT
 hbT
 sdP
 aKK
-bbt
-aKK
-aKK
-aKK
-ovU
-pwR
-vnw
-vnw
+ciQ
+iDh
+iDh
+iDh
+gag
+pwi
+qBT
+sUy
 hIh
 vRT
 wBL
@@ -81582,15 +81560,15 @@ agZ
 nZT
 nZT
 nZT
-agZ
-bvn
-hbT
-hbT
-mXo
-bbt
-bbt
-aKK
-aKK
+dKR
+amF
+dKR
+dKR
+dKR
+ovU
+pwR
+vnw
+vnw
 hIh
 fyA
 xDN
@@ -81840,14 +81818,14 @@ nZT
 nZT
 nZT
 agZ
-agZ
-nZT
-nZT
-nZT
-oIn
-oIn
+bvn
 hbT
 hbT
+mXo
+amF
+amF
+dKR
+dKR
 dKR
 hIh
 xLV
@@ -82101,10 +82079,10 @@ nZT
 nZT
 nZT
 nZT
-nZT
-nZT
-nZT
-nZT
+alV
+alV
+aKh
+aKh
 nZT
 sdP
 hbT

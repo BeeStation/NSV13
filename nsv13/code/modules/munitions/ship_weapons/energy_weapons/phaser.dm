@@ -352,8 +352,9 @@
 	// dilithium crystal alignment minigame stolen from ds13 - I need to rip this out and rewrite it to not be completely cursed - TODO
 /obj/machinery/ship_weapon/energy/screwdriver_act(mob/user, obj/item/tool)
 	. = ..()
-	if(maint_state == MSTATE_UNBOLTED)
+	if(maint_state == MSTATE_UNBOLTED && !lockout)
 		.=TRUE
+		lockout = 1
 		var/sound/thesound = pick('nsv13/sound/effects/computer/beep.ogg','nsv13/sound/effects/computer/beep2.ogg','nsv13/sound/effects/computer/beep3.ogg','nsv13/sound/effects/computer/beep4.ogg','nsv13/sound/effects/computer/beep5.ogg','nsv13/sound/effects/computer/beep6.ogg','nsv13/sound/effects/computer/beep7.ogg','nsv13/sound/effects/computer/beep8.ogg','nsv13/sound/effects/computer/beep9.ogg','nsv13/sound/effects/computer/beep10.ogg','nsv13/sound/effects/computer/beep11.ogg','nsv13/sound/effects/computer/beep12.ogg',)
 		SEND_SOUND(user, thesound)
 		var/list/options = letters
@@ -361,6 +362,7 @@
 			options[option] = image(icon = 'nsv13/icons/actions/engine_actions.dmi', icon_state = "[option]")
 		var/dowhat = show_radial_menu(user,src,options)
 		if(!dowhat)
+			lockout = 0
 			return
 		combo += "[dowhat]"
 		combocount ++
@@ -375,6 +377,7 @@
 				freq = max_freq
 				combo = null
 				combocount = 0
+				lockout = 0
 			else
 				to_chat(user, "<span class='warning'>Realignment failed. Continued failure risks dangerous heat overload. Rotating command sequence.</span>")
 				playsound(src, 'nsv13/sound/effects/warpcore/overload.ogg', 100, 1)
@@ -382,8 +385,11 @@
 				heat = max(heat+(heat_per_shot*4),max_heat) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
 				combocount = 0
 				combo = null
+				lockout = 0
 
 /obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/multitool/I)
+	if(lockout)
+		return FALSE
 	switch(maint_state)
 		if(MSTATE_CLOSED)
 			if(istype(I))
@@ -395,13 +401,16 @@
 			return TRUE
 		if(MSTATE_UNBOLTED)
 			to_chat(user, "<span class='notice'>You being aligning the lenses.</span>")
+			lockout = 1
 			while(alignment < 100)
 				if(!do_after(user, 5, target = src))
+					lockout = 0
 					return TRUE
 				alignment += rand(1,2)
 				if(alignment >= 100)
 					alignment = 100
 					to_chat(user, "<span class='notice'>You finish aligning the lenses.</span>")
+					lockout = 0
 					return TRUE
 	return ..()
 
