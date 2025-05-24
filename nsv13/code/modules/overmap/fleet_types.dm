@@ -122,7 +122,7 @@
 	size = FLEET_DIFFICULTY_INSANE
 	allow_difficulty_scaling = FALSE
 	taunts = list("We're coming for Sol, and you can't stop us. All batteries fire at will.", "Lay down your arms now, you're outnumbered.", "All hands, assume assault formation. Begin bombardment.")
-	audio_cues = list()
+	audio_cues = list(/datum/soundtrack_song/bee/countdown)
 
 /datum/fleet/interdiction	//Pretty strong fleet with unerring hunting senses, Adminspawn for now.
 	name = "\improper Syndicate interdiction fleet"	//These fun guys can and will hunt the player ship down, no matter how far away they are.
@@ -184,7 +184,7 @@
 	faction = FACTION_ID_SYNDICATE
 	size = 1
 	allow_difficulty_scaling = FALSE
-	audio_cues = list(/datum/soundtrack_song/bee/countdown)
+	audio_cues = list(/datum/soundtrack_song/bee/countdownext)
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/fistofsol)
 	supply_types = list(/obj/structure/overmap/syndicate/ai/carrier/elite)
 	taunts = list("What a pleasure that we should meet again. I hope you won't disappoint!")
@@ -279,10 +279,9 @@
 		if((shield_scan_target.faction != shield_scan_target.name) && shield_scan_target.shields && shield_scan_target.shields.active && length(shield_scan_target.occupying_levels))
 			shield_scan_target.hail("Scans have detected that you are in posession of prohibited technology. \n Your IFF signature has been marked as 'persona non grata'. \n In accordance with SGC-reg #10124, your ship and lives are now forfeit. Evacuate all civilian personnel immediately and surrender yourselves.", name)
 			shield_scan_target.relay_to_nearby('nsv13/sound/effects/ship/solgov_scan_alert.ogg', ignore_self=FALSE)
-			shield_scan_target.faction = shield_scan_target.name
 			grant_oopsie_achievement(shield_scan_target)
-			sleep(2 SECONDS)
-			play_soundtrack_music(/datum/soundtrack_song/bee/mind_crawler , volume = 100)
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(play_soundtrack_music), /datum/soundtrack_song/bee/mind_crawler, null, 120), 2 SECONDS)
+			shield_scan_target.faction = shield_scan_target.name
 
 /datum/fleet/solgov/proc/grant_oopsie_achievement(obj/structure/overmap/fugitive)
 	for(var/mob/living/traitor in fugitive.mobs_in_ship)
@@ -296,6 +295,7 @@
 	var/list/traitor_taunts = list("Rogue vessel, reset your identification codes immediately or be destroyed.", "The penalty for defection is death.", "Your crew is charged with treason and breach of contract. Lethal force is authorized.")
 	size = FLEET_DIFFICULTY_INSANE
 	var/players_fired_upon = FALSE
+	audio_cues = list(/datum/soundtrack_song/bee/mind_crawler)
 	var/obj/structure/overmap/hunted_ship
 
 /datum/fleet/solgov/interdiction/New()
