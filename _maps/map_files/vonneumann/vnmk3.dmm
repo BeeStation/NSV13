@@ -1100,7 +1100,9 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/atmos/oxygen_output{
 	dir = 4
 	},
-/turf/open/floor/engine/o2,
+/turf/open/floor/engine/o2{
+	initial_gas_mix = "o2=210000;TEMP=293.15"
+	},
 /area/engine/atmos/port_atmos)
 "aMe" = (
 /obj/machinery/light{
@@ -3292,6 +3294,9 @@
 	},
 /turf/open/floor/durasteel/techfloor_grid,
 /area/science/xenobiology)
+"cow" = (
+/turf/open/floor/engine/co2,
+/area/engine/atmos/port_atmos)
 "coD" = (
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Escape Pod";
@@ -5262,7 +5267,9 @@
 /area/maintenance/aft)
 "dHE" = (
 /obj/machinery/air_sensor/atmos/nitrous_tank,
-/turf/open/floor/engine/n2o,
+/turf/open/floor/engine/n2o{
+	initial_gas_mix = "n2o=21000;TEMP=293.15"
+	},
 /area/engine/atmos/port_atmos)
 "dHM" = (
 /obj/structure/cable{
@@ -7542,7 +7549,9 @@
 /area/maintenance/starboard/fore)
 "fsn" = (
 /obj/machinery/air_sensor/atmos/oxygen_tank,
-/turf/open/floor/engine/o2,
+/turf/open/floor/engine/o2{
+	initial_gas_mix = "o2=210000;TEMP=293.15"
+	},
 /area/engine/atmos/port_atmos)
 "fsr" = (
 /obj/effect/turf_decal/plaque,
@@ -9067,6 +9076,11 @@
 /obj/item/radio/intercom/directional/west,
 /turf/open/floor/plasteel,
 /area/cargo/lobby)
+"gxS" = (
+/turf/open/floor/engine/plasma{
+	initial_gas_mix = "plasma=210000;TEMP=293.15"
+	},
+/area/engine/atmos/port_atmos)
 "gyi" = (
 /obj/machinery/suit_storage_unit/standard_unit,
 /turf/open/floor/plating,
@@ -11422,7 +11436,9 @@
 /area/nsv/weapons/fore)
 "ifI" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
-/turf/open/floor/engine/o2,
+/turf/open/floor/engine/o2{
+	initial_gas_mix = "o2=210000;TEMP=293.15"
+	},
 /area/engine/atmos/port_atmos)
 "ifS" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
@@ -13903,6 +13919,9 @@
 	},
 /turf/open/floor/durasteel/techfloor_grid,
 /area/engine/gravity_generator)
+"jVm" = (
+/turf/open/floor/engine/n2o,
+/area/engine/atmos/port_atmos)
 "jVw" = (
 /obj/machinery/armour_plating_nanorepair_pump/forward_port{
 	apnw_id = "thegame";
@@ -14454,19 +14473,8 @@
 /turf/open/floor/durasteel/techfloor_grid,
 /area/science/robotics)
 "knh" = (
-/obj/machinery/shieldwallgen{
-	req_access_txt = "24;10";
-	req_access = null;
-	name = "Reactor shield generator";
-	maximum_stored_power = 1000;
-	shield_range = 10;
-	anchored = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 10
-	},
-/turf/open/floor/durasteel,
-/area/engine/storage)
+/turf/closed/wall/ship,
+/area/engine/atmos/port_atmos)
 "knD" = (
 /obj/machinery/air_sensor/atmos/nitrogen_tank,
 /turf/open/floor/engine/n2,
@@ -14837,11 +14845,13 @@
 /area/medical/medbay)
 "kDg" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 1
+	dir = 10
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 10
+	},
 /obj/structure/cable/yellow{
-	icon_state = "2-8"
+	icon_state = "0-2"
 	},
 /obj/machinery/shieldwallgen{
 	req_access_txt = "24;10";
@@ -14851,6 +14861,7 @@
 	shield_range = 10;
 	anchored = 1
 	},
+/obj/machinery/power/apc/auto_name/north,
 /turf/open/floor/durasteel,
 /area/engine/storage)
 "kDF" = (
@@ -18052,7 +18063,7 @@
 	icon_state = "1-2"
 	},
 /turf/open/floor/engine,
-/area/space)
+/area/storage/tech)
 "nhs" = (
 /obj/machinery/door/airlock/ship/command/glass{
 	name = "Chief Medical Officer Office";
@@ -18584,6 +18595,19 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/aft)
+"nAV" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/shieldwallgen{
+	req_access_txt = "24;10";
+	req_access = null;
+	name = "Reactor shield generator";
+	maximum_stored_power = 1000;
+	shield_range = 10;
+	anchored = 1
+	},
+/turf/open/floor/durasteel,
+/area/engine/storage)
 "nAZ" = (
 /obj/structure/cable{
 	icon_state = "2-8"
@@ -24154,11 +24178,13 @@
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/nsv/starboard_substation)
 "seT" = (
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/obj/machinery/power/apc/auto_name/south,
 /obj/machinery/portable_atmospherics/canister/constricted_plasma,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 5
+	},
 /turf/open/floor/durasteel,
 /area/engine/storage)
 "sfd" = (
@@ -25906,9 +25932,7 @@
 	},
 /area/crew_quarters/heads/captain/private)
 "trI" = (
-/obj/machinery/air_sensor/atmos/toxin_tank{
-	id_tag = "constricted_tox_sensor"
-	},
+/obj/machinery/air_sensor/atmos/toxin_tank,
 /turf/open/floor/engine/plasma{
 	initial_gas_mix = "plasma=210000;TEMP=293.15"
 	},
@@ -27621,8 +27645,12 @@
 /turf/open/floor/monofloor/airless,
 /area/nsv/hanger/mining)
 "uRq" = (
-/turf/closed/wall/r_wall/ship,
-/area/space)
+/obj/structure/cable{
+	icon_state = "2-8";
+	tag = ""
+	},
+/turf/open/floor/plating,
+/area/maintenance/aft)
 "uRz" = (
 /obj/machinery/armour_plating_nanorepair_well{
 	apnw_id = "thegame"
@@ -28698,7 +28726,9 @@
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos/oxygen_input{
 	dir = 4
 	},
-/turf/open/floor/engine/o2,
+/turf/open/floor/engine/o2{
+	initial_gas_mix = "o2=210000;TEMP=293.15"
+	},
 /area/engine/atmos/port_atmos)
 "vFD" = (
 /obj/machinery/holopad,
@@ -28915,19 +28945,10 @@
 	},
 /area/nsv/weapons)
 "vLO" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/machinery/shieldwallgen{
-	req_access_txt = "24;10";
-	req_access = null;
-	name = "Reactor shield generator";
-	maximum_stored_power = 1000;
-	shield_range = 10;
-	anchored = 1
+/turf/open/floor/engine/o2{
+	initial_gas_mix = "o2=210000;TEMP=293.15"
 	},
-/obj/machinery/airalarm/directional/east,
-/turf/open/floor/durasteel,
-/area/engine/storage)
+/area/engine/atmos/port_atmos)
 "vLS" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -29423,6 +29444,21 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
+"wis" = (
+/obj/machinery/shieldwallgen{
+	req_access_txt = "24;10";
+	req_access = null;
+	name = "Reactor shield generator";
+	maximum_stored_power = 1000;
+	shield_range = 10;
+	anchored = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 10
+	},
+/obj/machinery/airalarm/directional/east,
+/turf/open/floor/durasteel,
+/area/engine/storage)
 "wiv" = (
 /obj/machinery/cryopod{
 	dir = 1
@@ -30349,6 +30385,9 @@
 	},
 /turf/open/floor/durasteel/techfloor_grid,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
+"xaH" = (
+/turf/open/floor/engine/n2,
+/area/engine/atmos/port_atmos)
 "xbU" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -36141,8 +36180,8 @@ lfF
 lfF
 lfF
 lfF
-lfF
 wIv
+sWg
 sWg
 sWg
 sWg
@@ -36342,8 +36381,8 @@ lfF
 lfF
 lfF
 lfF
-lfF
 dsp
+lYg
 lYg
 lYg
 lYg
@@ -36542,9 +36581,9 @@ lfF
 lfF
 lfF
 lfF
-lfF
-lfF
-dsp
+vYj
+wIv
+lYg
 lYg
 lYg
 lYg
@@ -36745,7 +36784,7 @@ lfF
 lfF
 lfF
 vYj
-wIv
+bWQ
 lYg
 lYg
 lYg
@@ -37149,7 +37188,7 @@ lfF
 lfF
 lfF
 vYj
-bWQ
+ero
 lYg
 lYg
 vhD
@@ -37351,8 +37390,8 @@ lfF
 lfF
 lfF
 vYj
+wEM
 ero
-lYg
 lYg
 vhD
 kxX
@@ -37552,9 +37591,9 @@ lfF
 lfF
 lfF
 lfF
-vYj
+keL
 wEM
-ero
+jRk
 lYg
 vhD
 kxX
@@ -38160,7 +38199,7 @@ lfF
 lfF
 vYj
 wEM
-jRk
+wIv
 lYg
 vhD
 kxX
@@ -38361,8 +38400,8 @@ lfF
 lfF
 lfF
 vYj
-wEM
 wIv
+lYg
 lYg
 vhD
 kxX
@@ -38562,9 +38601,9 @@ lfF
 lfF
 lfF
 lfF
-vYj
 wIv
 lYg
+tQX
 lYg
 vhD
 kxX
@@ -38756,17 +38795,17 @@ lfF
 lfF
 lfF
 lfF
-lfF
-lfF
-lfF
-lfF
-lfF
-lfF
-lfF
-lfF
-wIv
+dsp
+kFW
+xSG
+gft
 lYg
+kFW
+xSG
+gft
 lYg
+tQX
+tQX
 lYg
 fCn
 cRZ
@@ -38958,19 +38997,19 @@ lfF
 lfF
 lfF
 lfF
-dsp
-kFW
+lYg
 xSG
-gft
-lYg
-kFW
 xSG
-gft
+xSG
 lYg
-lYg
-lYg
-lYg
-lYg
+xSG
+xSG
+xSG
+tQX
+tQX
+tQX
+tQX
+tQX
 qiJ
 tDV
 tDV
@@ -39156,10 +39195,10 @@ lfF
 lfF
 lfF
 lfF
-lfF
-lfF
-lfF
-lfF
+dsp
+kFW
+xSG
+gft
 lYg
 xSG
 xSG
@@ -39169,9 +39208,9 @@ xSG
 xSG
 xSG
 tQX
-tQX
-tQX
-tQX
+hnq
+hnq
+hKB
 tQX
 fLX
 tDV
@@ -39358,22 +39397,22 @@ lfF
 lfF
 lfF
 lfF
-dsp
-kFW
-xSG
-gft
-lYg
-xSG
-xSG
-xSG
 lYg
 xSG
 xSG
 xSG
 tQX
+tQX
+tQX
+tQX
+tQX
+tQX
+tQX
+tQX
+tQX
 hnq
 hnq
-hKB
+hnq
 tQX
 rjk
 aEd
@@ -39564,15 +39603,15 @@ lYg
 xSG
 xSG
 xSG
-lYg
-lYg
-lYg
-lYg
-lYg
-lYg
-lYg
-lYg
 tQX
+aJm
+hnq
+hnq
+hnq
+pxK
+aJm
+gmq
+aJm
 hnq
 hnq
 hnq
@@ -39762,22 +39801,22 @@ lYg
 xSG
 xSG
 xSG
-lYg
-xSG
-xSG
-xSG
+tQX
+tQX
+tQX
+tQX
 tQX
 aJm
 hnq
 hnq
 hnq
-pxK
+hnq
 aJm
-gmq
+jSc
 aJm
-hnq
-hnq
-hnq
+aJm
+sPP
+aJm
 tQX
 doS
 jpS
@@ -39965,21 +40004,21 @@ xSG
 xSG
 xSG
 tQX
-tQX
-tQX
-tQX
-tQX
+vVV
+dlk
+gyi
+osh
 aJm
 hnq
-hnq
-hnq
-hnq
-aJm
-jSc
-aJm
-aJm
-sPP
-aJm
+gaL
+chV
+chV
+qjt
+nAL
+fQT
+xUT
+xdU
+sXe
 tQX
 eyJ
 jpS
@@ -40166,22 +40205,22 @@ tQX
 tQX
 tQX
 tQX
-tQX
-vVV
-dlk
-gyi
-osh
+aJm
+jsZ
+gob
+xdU
+asG
 aJm
 hnq
-gaL
-chV
-chV
-qjt
+oWz
+hnq
+hnq
+aJm
+jLW
+umm
+umm
+umm
 nAL
-fQT
-xUT
-xdU
-sXe
 aJm
 fKg
 sAx
@@ -40368,22 +40407,22 @@ tQX
 hnq
 hnq
 hKB
-aJm
-jsZ
-gob
-xdU
+pJk
+esn
+gkw
+mjj
 asG
 aJm
 hnq
 oWz
 hnq
 hnq
-aJm
-jLW
-umm
-umm
-umm
-umm
+tQX
+oHM
+vtk
+dnJ
+nMw
+uRq
 pdc
 mBz
 aJm
@@ -40570,21 +40609,21 @@ tQX
 hnq
 hnq
 hnq
-pJk
-esn
-gkw
-mjj
-asG
 aJm
-hnq
-oWz
-hnq
-hnq
-tQX
-oHM
-vtk
-dnJ
+gmq
 nMw
+gmq
+gmq
+aJm
+aJm
+szk
+abH
+abH
+abH
+abH
+abH
+abH
+abH
 dVi
 aJm
 fKg
@@ -40773,20 +40812,20 @@ hnq
 hnq
 hnq
 aJm
-gmq
+ezh
+xdU
+xdU
+xdU
+vvQ
 nMw
-gmq
-gmq
-aJm
-aJm
-szk
-tQX
-tQX
-tQX
-tQX
+rij
 abH
-abH
-abH
+xZh
+nFA
+gzb
+gzb
+fND
+rMh
 abH
 abH
 fKg
@@ -40974,21 +41013,21 @@ jfJ
 eZi
 eZi
 eZi
-aJm
-ezh
-xdU
-xdU
-xdU
-vvQ
-nMw
-rij
+umm
+umm
+umm
+umm
+umm
+umm
+uYN
+pVn
 abH
-xZh
-nFA
+gCH
 gzb
 gzb
-fND
-rMh
+gzb
+qZW
+qZW
 oYn
 abH
 qRm
@@ -41176,21 +41215,21 @@ nPs
 aii
 aHQ
 mPt
-umm
-umm
-umm
-umm
-umm
-umm
-uYN
-pVn
+nMw
+nMw
+oHM
+neO
+xZQ
+nMw
+nMw
+nMw
 abH
-gCH
-gzb
-gzb
-gzb
-qZW
-qZW
+sVn
+lnI
+qzo
+tbK
+eIJ
+gTU
 oYn
 abH
 sAi
@@ -41212,7 +41251,7 @@ nwo
 nhK
 tSj
 mmr
-uRq
+txA
 txA
 txA
 txA
@@ -41377,22 +41416,22 @@ jfJ
 ddf
 rJc
 xwB
-eZi
-nMw
-nMw
-oHM
-neO
-xZQ
-nMw
-nMw
-nMw
+knh
+iJb
+iJb
+iJb
+iJb
+iJb
+iJb
+iJb
+iJb
 abH
-sVn
 lnI
 qzo
-tbK
-eIJ
-gTU
+qzo
+kkv
+wis
+nAV
 seT
 abH
 vHZ
@@ -41414,7 +41453,7 @@ nwo
 iCv
 nJy
 qhM
-uRq
+txA
 tDk
 vdy
 sKs
@@ -41579,22 +41618,22 @@ jfJ
 nSj
 tod
 xwB
-jfJ
 iJb
-iJb
-iJb
-iJb
-iJb
-iJb
-iJb
-iJb
-abH
-lnI
-qzo
-qzo
-kkv
-knh
 vLO
+vLO
+iJb
+xaH
+xaH
+iJb
+cow
+cow
+iJb
+iJb
+iJb
+iJb
+iJb
+iJb
+iJb
 kDg
 qke
 enI
@@ -41781,7 +41820,7 @@ jfJ
 gvw
 ibj
 xVp
-jfJ
+iJb
 ifI
 fsn
 iJb
@@ -41791,11 +41830,11 @@ iJb
 pJN
 kjo
 iJb
+jVm
+jVm
 iJb
-iJb
-iJb
-iJb
-iJb
+gxS
+gxS
 iJb
 nnj
 fYi
@@ -41818,7 +41857,7 @@ rMS
 mpx
 gyk
 tLG
-uRq
+txA
 lir
 iTe
 tzM
@@ -41983,7 +42022,7 @@ jfJ
 dYQ
 uof
 xwB
-jfJ
+iJb
 aLM
 vFy
 iJb
@@ -42020,7 +42059,7 @@ nwo
 pAp
 nwo
 sMi
-uRq
+txA
 txA
 mRc
 txA
@@ -42185,7 +42224,7 @@ eZi
 eZi
 eZi
 sze
-jfJ
+iJb
 pyq
 pyq
 iJb
