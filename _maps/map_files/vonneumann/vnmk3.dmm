@@ -214,6 +214,9 @@
 	dir = 4;
 	id = "garbage"
 	},
+/obj/structure/window/reinforced{
+	dir = 8
+	},
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
 "aiB" = (
@@ -898,7 +901,7 @@
 	dir = 1
 	},
 /obj/machinery/camera/autoname{
-	dir = 8
+	dir = 4
 	},
 /obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable/yellow{
@@ -958,20 +961,11 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering)
 "aHQ" = (
-/obj/machinery/button/massdriver{
-	id = "disposalgun";
-	pixel_x = -20;
-	pixel_y = -1;
-	req_one_access_txt = "12"
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 5
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
-	},
-/obj/structure/cable{
-	icon_state = "2-4"
 	},
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
@@ -2188,7 +2182,6 @@
 /obj/effect/turf_decal/tile/blue/flat_side{
 	dir = 1
 	},
-/obj/machinery/status_display/evac/north,
 /obj/machinery/atmospherics/components/unary/cryo_cell,
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
@@ -4709,6 +4702,9 @@
 	dir = 8;
 	icon_state = "guideline_mid_alt-s"
 	},
+/obj/structure/sign/poster/official/random{
+	pixel_y = 30
+	},
 /turf/open/floor/carpet/ship,
 /area/hallway/upper/primary/port)
 "doS" = (
@@ -5558,9 +5554,6 @@
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/lab)
 "dQI" = (
-/obj/machinery/light{
-	dir = 4
-	},
 /obj/effect/turf_decal/tile/blue/flat_side{
 	dir = 6
 	},
@@ -8893,6 +8886,15 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/aft)
+"gof" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 1
+	},
+/obj/structure/disposalpipe/segment,
+/obj/machinery/status_display/evac/west,
+/turf/open/floor/wood,
+/area/crew_quarters/dorms)
 "gom" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -8936,6 +8938,9 @@
 /obj/item/ship_weapon/ammunition/torpedo/plushtide,
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/nsv/weapons/port)
+"gpZ" = (
+/turf/open/floor/monotile/dark/airless,
+/area/space)
 "gqi" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -9057,7 +9062,6 @@
 "gxt" = (
 /obj/effect/landmark/start/scientist,
 /obj/machinery/camera/autoname,
-/obj/machinery/computer/ship/viewscreen,
 /obj/machinery/airalarm/directional/north,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
 /obj/effect/turf_decal/tile/purple/tile_side{
@@ -9409,7 +9413,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/machinery/camera/autoname,
 /obj/structure/cable{
 	icon_state = "0-8"
 	},
@@ -11309,6 +11312,10 @@
 /obj/effect/turf_decal/tile/purple/tile_side{
 	dir = 9
 	},
+/obj/machinery/computer/ship/viewscreen{
+	pixel_y = -7;
+	pixel_x = 31
+	},
 /turf/open/floor/durasteel/techfloor_grid,
 /area/science/xenobiology)
 "iaA" = (
@@ -11634,6 +11641,7 @@
 /obj/structure/cable{
 	icon_state = "2-4"
 	},
+/obj/machinery/status_display/evac/west,
 /turf/open/floor/carpet/ship,
 /area/hallway/secondary/service)
 "ipo" = (
@@ -11887,9 +11895,6 @@
 	icon_state = "2-8"
 	},
 /obj/machinery/camera/autoname,
-/obj/structure/sign/poster/official/random{
-	pixel_y = 30
-	},
 /obj/effect/turf_decal/guideline/guideline_mid_arrow_con/yellow{
 	dir = 5;
 	icon_state = "guideline_mid_arrow_con-s"
@@ -12634,33 +12639,9 @@
 /turf/open/floor/circuit,
 /area/bridge/cic)
 "iVE" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
-/obj/effect/turf_decal/guideline/guideline_in_arrow_con/blue{
-	dir = 5;
-	icon_state = "guideline_in_arrow_con-s"
-	},
-/obj/effect/turf_decal/guideline/guideline_mid_arrow_con/yellow{
-	dir = 5;
-	icon_state = "guideline_mid_arrow_con-s"
-	},
-/obj/effect/turf_decal/guideline/guideline_in_arrow_con/red{
-	dir = 4;
-	icon_state = "guideline_in_arrow_con-s"
-	},
-/obj/effect/turf_decal/guideline/guideline_mid_arrow_con/purple{
-	dir = 4;
-	icon_state = "guideline_mid_arrow_con-s"
-	},
-/turf/open/floor/carpet/ship,
-/area/hallway/upper/primary/port)
+/obj/structure/grille,
+/turf/open/space/basic,
+/area/maintenance/aft)
 "iVJ" = (
 /obj/structure/closet/crate/freezer/surplus_limbs,
 /obj/effect/turf_decal/tile/blue/flat_side,
@@ -13292,8 +13273,10 @@
 /turf/open/floor/wood,
 /area/crew_quarters/dorms)
 "jwM" = (
-/obj/structure/table/wood,
 /obj/machinery/photocopier,
+/obj/machinery/light{
+	dir = 4
+	},
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -14677,6 +14660,35 @@
 	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
+"kwX" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/effect/turf_decal/guideline/guideline_in/blue{
+	icon_state = "guideline_in-s"
+	},
+/obj/effect/turf_decal/guideline/guideline_mid/yellow{
+	icon_state = "guideline_mid-s"
+	},
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 1;
+	icon_state = "guideline_in-s"
+	},
+/obj/effect/turf_decal/guideline/guideline_mid/purple{
+	dir = 1;
+	icon_state = "guideline_mid-s"
+	},
+/obj/structure/sign/poster/official/random{
+	pixel_y = 30
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/upper/primary/port)
 "kxc" = (
 /obj/machinery/door/airlock/ship/engineering/glass{
 	name = "Reactor control Room";
@@ -18046,9 +18058,9 @@
 /turf/open/floor/plating,
 /area/maintenance/port/aft)
 "nhi" = (
-/obj/machinery/door/airlock/ship/engineering/glass{
-	name = "Tech Storage";
-	req_one_access_txt = "23"
+/obj/machinery/door/airlock/vault/ship{
+	req_access_txt = "23";
+	name = "Tech Storage"
 	},
 /obj/machinery/door/firedoor/border_only{
 	dir = 1
@@ -20003,9 +20015,6 @@
 /turf/open/floor/plasteel,
 /area/cargo/lobby)
 "oKH" = (
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
 /obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable{
 	icon_state = "0-8"
@@ -20620,6 +20629,13 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/nsv/deck1/frame2/starboard)
+"pjn" = (
+/obj/structure/lattice,
+/obj/structure/hull_plate/end{
+	dir = 8
+	},
+/turf/open/space/basic,
+/area/space)
 "pka" = (
 /obj/effect/landmark/start/geneticist,
 /obj/effect/landmark/start/geneticist,
@@ -23292,6 +23308,7 @@
 	dir = 4;
 	layer = 3.5
 	},
+/obj/machinery/status_display/evac/north,
 /turf/open/floor/plating,
 /area/medical/medbay)
 "rqA" = (
@@ -24399,7 +24416,6 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 4
 	},
-/obj/machinery/camera/autoname,
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
@@ -26084,7 +26100,7 @@
 /obj/structure/closet/crate/secure/engineering,
 /obj/effect/spawner/lootdrop/techstorage/medical,
 /obj/effect/spawner/lootdrop/techstorage/rnd,
-/obj/item/circuitboard/machine/protolathe,
+/obj/item/circuitboard/machine/autolathe,
 /turf/open/floor/engine,
 /area/storage/tech)
 "tzY" = (
@@ -27495,10 +27511,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/machinery/camera/autoname,
-/obj/structure/sign/poster/official/random{
-	pixel_y = 30
-	},
 /obj/effect/turf_decal/guideline/guideline_in_arrow_con/blue{
 	dir = 5;
 	icon_state = "guideline_in_arrow_con-s"
@@ -27515,6 +27527,7 @@
 	dir = 4;
 	icon_state = "guideline_mid_arrow_con-s"
 	},
+/obj/machinery/camera/autoname,
 /turf/open/floor/carpet/ship,
 /area/hallway/upper/primary/port)
 "uLH" = (
@@ -27803,6 +27816,16 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/upper/primary/port)
+"uZN" = (
+/obj/structure/shuttle/engine/huge{
+	dir = 8
+	},
+/obj/structure/lattice,
+/obj/structure/hull_plate/end{
+	dir = 8
+	},
+/turf/open/space/basic,
+/area/space)
 "vam" = (
 /mob/living/simple_animal/chicken{
 	name = "Kentucky";
@@ -28068,6 +28091,18 @@
 	},
 /turf/open/floor/carpet/ship/blue,
 /area/crew_quarters/cryopods)
+"vkH" = (
+/obj/structure/cable{
+	icon_state = "2-4"
+	},
+/obj/machinery/button/massdriver{
+	id = "disposalgun";
+	pixel_x = -20;
+	pixel_y = -1;
+	req_one_access_txt = "12"
+	},
+/turf/open/floor/plating,
+/area/maintenance/port/aft)
 "vkS" = (
 /obj/structure/closet/crate/internals,
 /turf/open/floor/plating,
@@ -28444,6 +28479,12 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
+"vxd" = (
+/obj/structure/hull_plate/end{
+	dir = 9
+	},
+/turf/open/space/basic,
+/area/space)
 "vxV" = (
 /obj/structure/closet,
 /obj/effect/spawner/lootdrop/maintenance/two,
@@ -31602,6 +31643,9 @@
 /obj/machinery/light_switch/north{
 	pixel_y = -5;
 	pixel_x = -20
+	},
+/obj/machinery/camera/autoname{
+	dir = 4
 	},
 /turf/open/floor/carpet/ship,
 /area/ai_monitored/storage/eva)
@@ -38626,14 +38670,14 @@ lYg
 lYg
 lYg
 nix
-lfF
-lfF
-lfF
-lfF
-lfF
-lfF
-lfF
-lfF
+kFW
+xSG
+gft
+tmU
+kFW
+xSG
+gft
+mcW
 lfF
 lfF
 lfF
@@ -38828,6 +38872,14 @@ lYg
 kYY
 lYg
 lYg
+xSG
+xSG
+xSG
+lYg
+xSG
+xSG
+xSG
+lYg
 kFW
 xSG
 gft
@@ -38836,14 +38888,6 @@ kFW
 xSG
 gft
 mcW
-lfF
-lfF
-lfF
-lfF
-lfF
-lfF
-lfF
-lfF
 lfF
 lfF
 lfF
@@ -39038,14 +39082,14 @@ xSG
 xSG
 xSG
 lYg
-kFW
 xSG
-gft
-mcW
-lfF
-lfF
-lfF
-lfF
+xSG
+xSG
+lYg
+xSG
+xSG
+xSG
+lYg
 lfF
 lfF
 lfF
@@ -39232,9 +39276,13 @@ ptl
 xdU
 mjF
 tQX
-xSG
-xSG
-xSG
+tQX
+tQX
+tQX
+tQX
+tQX
+tQX
+tQX
 lYg
 xSG
 xSG
@@ -39244,10 +39292,6 @@ xSG
 xSG
 xSG
 lYg
-kFW
-xSG
-gft
-mcW
 lfF
 lfF
 lfF
@@ -39393,10 +39437,10 @@ lfF
 lfF
 lfF
 lfF
-lfF
-lfF
-lfF
-lfF
+vxd
+pjn
+gpZ
+uZN
 lYg
 xSG
 xSG
@@ -39434,21 +39478,21 @@ nPV
 aJm
 aJm
 tQX
+xdU
+gMO
+xdU
+nMw
+xdU
+xdU
+upQ
+tQX
+tQX
+tQX
+tQX
+tQX
 lYg
 lYg
 lYg
-lYg
-lYg
-lYg
-lYg
-lYg
-xSG
-xSG
-xSG
-lYg
-xSG
-xSG
-xSG
 lYg
 lfF
 lfF
@@ -39595,10 +39639,10 @@ lfF
 lfF
 lfF
 lfF
-dsp
-kFW
+lYg
 xSG
-gft
+xSG
+xSG
 lYg
 xSG
 xSG
@@ -39636,22 +39680,22 @@ qJg
 gMO
 xdU
 xdU
-xdU
 gMO
+aJm
+aJm
+aJm
+aJm
+aJm
+aJm
+aJm
 xdU
-nMw
 xdU
+mjF
 xdU
-upQ
+aJm
+aJm
+aJm
 tQX
-lYg
-lYg
-lYg
-lYg
-xSG
-xSG
-xSG
-lYg
 lfF
 lfF
 lfF
@@ -39838,22 +39882,22 @@ nPV
 aJm
 aJm
 aJm
+xdU
+gMO
+xdU
+gMO
+xdU
+nMw
+dVi
+aJm
 gMO
 aJm
 aJm
-aJm
-aJm
-aJm
-aJm
+xdU
 aJm
 xdU
-xdU
-mjF
-xdU
-lYg
-lYg
-lYg
-lYg
+dVi
+tQX
 lfF
 lfF
 lfF
@@ -40000,9 +40044,9 @@ lfF
 lfF
 lfF
 lYg
-xSG
-xSG
-xSG
+lYg
+lYg
+lYg
 tQX
 vVV
 dlk
@@ -40041,20 +40085,20 @@ xdU
 vnm
 aJm
 xdU
+aJm
+aJm
+aJm
+aJm
+aJm
+xdU
 gMO
 xdU
+udy
 aJm
-gmq
-nMw
-dVi
-aJm
+mjF
 gMO
-aJm
-aJm
 xdU
-aJm
-xdU
-dVi
+anz
 tQX
 lfF
 lfF
@@ -40202,9 +40246,9 @@ lfF
 lfF
 lfF
 tQX
-tQX
-tQX
-tQX
+hnq
+hnq
+hKB
 aJm
 jsZ
 gob
@@ -40244,19 +40288,19 @@ gmq
 aJm
 xdU
 aJm
-xdU
-gMO
-xdU
-xdU
-xdU
-gMO
-xdU
-udy
+hnq
+hnq
+hKB
 aJm
-mjF
+aJm
+aJm
 gMO
-xdU
-anz
+aJm
+aJm
+gMO
+aJm
+aJm
+aJm
 tQX
 lfF
 lfF
@@ -40406,7 +40450,7 @@ lfF
 tQX
 hnq
 hnq
-hKB
+hnq
 pJk
 esn
 gkw
@@ -40445,20 +40489,20 @@ jMc
 jMc
 tQX
 xdU
+xHe
+hnq
+hnq
+hnq
 aJm
+iMB
 aJm
+xdU
+moO
 aJm
-aJm
-aJm
-aJm
-aJm
+nMw
 gMO
-aJm
-aJm
-gMO
-aJm
-aJm
-aJm
+xdU
+cOZ
 tQX
 lfF
 lfF
@@ -40650,17 +40694,17 @@ xdU
 aJm
 hnq
 hnq
-hKB
-aJm
-iMB
-aJm
-xdU
-moO
+hnq
 aJm
 nMw
+aJm
+aJm
+aJm
+aJm
 gMO
+aJm
 xdU
-cOZ
+dQV
 tQX
 lfF
 lfF
@@ -40808,9 +40852,9 @@ lfF
 lfF
 lfF
 tQX
-hnq
-hnq
-hnq
+aJm
+aJm
+aJm
 aJm
 ezh
 xdU
@@ -40848,21 +40892,21 @@ nXB
 wrc
 wrf
 tQX
+aJm
+aJm
+aJm
+aJm
+aJm
+aJm
 xdU
-xHe
-hnq
-hnq
-hnq
-aJm
-nMw
-aJm
-aJm
-aJm
-aJm
 gMO
+xdU
+mxd
 aJm
 xdU
-dQV
+aJm
+xdU
+ixz
 tQX
 lfF
 lfF
@@ -41010,9 +41054,9 @@ lfF
 lfF
 jfJ
 jfJ
-eZi
-eZi
-eZi
+txh
+vkH
+mPt
 umm
 umm
 umm
@@ -41050,21 +41094,21 @@ jfs
 kKV
 pJK
 tQX
+iVE
+iVE
+iVE
+iVE
+aJm
+aJm
+xdU
+aJm
 nMw
-aJm
-hnq
-hnq
-hnq
-aJm
 xdU
 gMO
 xdU
-mxd
 aJm
 xdU
-aJm
-xdU
-ixz
+mET
 tQX
 jRk
 jRk
@@ -41214,7 +41258,7 @@ mnt
 nPs
 aii
 aHQ
-mPt
+eZi
 nMw
 nMw
 oHM
@@ -41260,13 +41304,13 @@ quF
 quF
 quF
 quF
-nMw
 xdU
-gMO
 xdU
 aJm
 xdU
-mET
+aJm
+xdU
+xdU
 tQX
 jRk
 jRk
@@ -47933,7 +47977,7 @@ qvu
 xzg
 xyv
 fyr
-kyw
+fyr
 jgk
 iTH
 iTH
@@ -48134,7 +48178,7 @@ cxt
 jnd
 pJj
 fyr
-kyw
+fyr
 jgk
 teH
 lfF
@@ -48335,7 +48379,7 @@ wYa
 cxt
 bAe
 fyr
-kyw
+fyr
 jgk
 teH
 lfF
@@ -56582,7 +56626,7 @@ rqD
 txK
 qTC
 kcR
-geC
+gof
 geC
 nrT
 fPL
@@ -56989,7 +57033,7 @@ xcD
 paz
 ofd
 tRG
-mzB
+kwX
 uZF
 gvT
 sVd
@@ -57797,7 +57841,7 @@ hou
 paz
 qNB
 tRG
-iVE
+uKM
 uZF
 rMw
 rns
