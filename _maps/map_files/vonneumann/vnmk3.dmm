@@ -301,9 +301,6 @@
 /obj/effect/turf_decal/tile/brown/tile_side{
 	dir = 1
 	},
-/obj/machinery/camera/autoname{
-	dir = 5
-	},
 /obj/machinery/status_display/supply/west,
 /turf/open/floor/plasteel,
 /area/cargo/lobby)
@@ -1497,6 +1494,13 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/upper/primary/starboard)
+"bba" = (
+/obj/machinery/computer/lore_terminal{
+	pixel_y = -5;
+	pixel_x = 35
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/secondary/service)
 "bbg" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
@@ -2891,6 +2895,7 @@
 /area/science/lab)
 "bWk" = (
 /obj/structure/closet/emcloset,
+/obj/machinery/camera/autoname,
 /turf/open/floor/circuit,
 /area/bridge/cic)
 "bWJ" = (
@@ -3152,7 +3157,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/machinery/camera/autoname,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -3460,10 +3464,8 @@
 /turf/open/floor/carpet/ship/red_carpet,
 /area/crew_quarters/heads/hos)
 "cst" = (
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
 /obj/machinery/status_display/evac/east,
+/obj/machinery/camera/autoname,
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -5086,6 +5088,13 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/starboard)
+"dCa" = (
+/obj/structure/closet/emcloset,
+/obj/machinery/camera/autoname{
+	dir = 10
+	},
+/turf/open/floor/circuit,
+/area/bridge/cic)
 "dCD" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -5208,7 +5217,6 @@
 /obj/item/storage/secure/safe/caps_spare{
 	pixel_y = 28
 	},
-/obj/machinery/camera/autoname,
 /turf/open/floor/circuit,
 /area/bridge/cic)
 "dGh" = (
@@ -5597,9 +5605,13 @@
 /turf/open/floor/grass,
 /area/maintenance/fore/secondary)
 "dRx" = (
-/obj/machinery/computer/lore_terminal,
-/turf/closed/wall/ship,
-/area/hallway/secondary/service)
+/obj/structure/closet/secure_closet/security/sec,
+/obj/item/holosign_creator/security,
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
+/turf/open/floor/carpet/ship/red_carpet,
+/area/security/brig)
 "dRN" = (
 /obj/structure/hull_plate/end{
 	dir = 4
@@ -6490,9 +6502,6 @@
 "eER" = (
 /obj/structure/sign/ship/pods/north{
 	pixel_y = 30
-	},
-/obj/machinery/light{
-	dir = 1
 	},
 /turf/open/floor/engine/airless,
 /area/nsv/hanger)
@@ -7961,9 +7970,6 @@
 "fDn" = (
 /obj/structure/sign/poster/official/random{
 	pixel_y = 30
-	},
-/obj/machinery/light{
-	dir = 1
 	},
 /turf/open/floor/engine/airless,
 /area/nsv/hanger)
@@ -9554,9 +9560,6 @@
 /turf/open/floor/engine/airless,
 /area/nsv/hanger)
 "gPk" = (
-/obj/machinery/camera/autoname{
-	dir = 10
-	},
 /obj/machinery/light_switch/south,
 /obj/structure/closet/firecloset/full,
 /turf/open/floor/circuit,
@@ -9754,6 +9757,35 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/starboard)
+"gTK" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/effect/turf_decal/guideline/guideline_in/blue{
+	icon_state = "guideline_in-s"
+	},
+/obj/effect/turf_decal/guideline/guideline_mid/yellow{
+	icon_state = "guideline_mid-s"
+	},
+/obj/effect/turf_decal/guideline/guideline_in/red{
+	dir = 1;
+	icon_state = "guideline_in-s"
+	},
+/obj/effect/turf_decal/guideline/guideline_mid/purple{
+	dir = 1;
+	icon_state = "guideline_mid-s"
+	},
+/obj/structure/sign/poster/official/random{
+	pixel_y = 30
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/upper/primary/port)
 "gTU" = (
 /obj/machinery/portable_atmospherics/canister/constricted_plasma,
 /turf/open/floor/durasteel,
@@ -10864,6 +10896,9 @@
 	},
 /obj/machinery/light_switch/south{
 	pixel_x = -9
+	},
+/obj/machinery/camera/autoname{
+	dir = 10
 	},
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
@@ -12639,9 +12674,34 @@
 /turf/open/floor/circuit,
 /area/bridge/cic)
 "iVE" = (
-/obj/structure/grille,
-/turf/open/space/basic,
-/area/maintenance/aft)
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con/blue{
+	dir = 5;
+	icon_state = "guideline_in_arrow_con-s"
+	},
+/obj/effect/turf_decal/guideline/guideline_mid_arrow_con/yellow{
+	dir = 5;
+	icon_state = "guideline_mid_arrow_con-s"
+	},
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con/red{
+	dir = 4;
+	icon_state = "guideline_in_arrow_con-s"
+	},
+/obj/effect/turf_decal/guideline/guideline_mid_arrow_con/purple{
+	dir = 4;
+	icon_state = "guideline_mid_arrow_con-s"
+	},
+/obj/machinery/camera/autoname,
+/turf/open/floor/carpet/ship,
+/area/hallway/upper/primary/port)
 "iVJ" = (
 /obj/structure/closet/crate/freezer/surplus_limbs,
 /obj/effect/turf_decal/tile/blue/flat_side,
@@ -14294,6 +14354,9 @@
 	pixel_y = 26;
 	name = "Medical RC"
 	},
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
 "kiS" = (
@@ -14661,34 +14724,9 @@
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
 "kwX" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
-/obj/effect/turf_decal/guideline/guideline_in/blue{
-	icon_state = "guideline_in-s"
-	},
-/obj/effect/turf_decal/guideline/guideline_mid/yellow{
-	icon_state = "guideline_mid-s"
-	},
-/obj/effect/turf_decal/guideline/guideline_in/red{
-	dir = 1;
-	icon_state = "guideline_in-s"
-	},
-/obj/effect/turf_decal/guideline/guideline_mid/purple{
-	dir = 1;
-	icon_state = "guideline_mid-s"
-	},
-/obj/structure/sign/poster/official/random{
-	pixel_y = 30
-	},
-/turf/open/floor/carpet/ship,
-/area/hallway/upper/primary/port)
+/obj/structure/grille,
+/turf/open/space/basic,
+/area/maintenance/aft)
 "kxc" = (
 /obj/machinery/door/airlock/ship/engineering/glass{
 	name = "Reactor control Room";
@@ -15860,9 +15898,6 @@
 	dir = 1
 	},
 /obj/machinery/airalarm/directional/east,
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
 /turf/open/floor/durasteel/techfloor_grid,
 /area/engine/gravity_generator)
 "lqH" = (
@@ -20654,9 +20689,6 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/machinery/camera/autoname{
-	dir = 5
-	},
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
@@ -20830,9 +20862,6 @@
 	dir = 9
 	},
 /obj/machinery/firealarm/directional/east,
-/obj/machinery/camera/autoname{
-	dir = 8
-	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
 "pqj" = (
@@ -22621,6 +22650,9 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/camera/autoname{
+	dir = 5
+	},
 /turf/open/floor/durasteel/techfloor_grid,
 /area/nsv/hanger/notkmcstupidhanger/pilot)
 "qGB" = (
@@ -27130,7 +27162,6 @@
 	pixel_y = 9;
 	pixel_x = 22
 	},
-/obj/machinery/camera/autoname,
 /obj/structure/sign/solgov_flag{
 	pixel_y = 26
 	},
@@ -27502,34 +27533,9 @@
 /turf/open/floor/carpet/ship,
 /area/hallway/nsv/deck1/frame1/central)
 "uKM" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
-/obj/effect/turf_decal/guideline/guideline_in_arrow_con/blue{
-	dir = 5;
-	icon_state = "guideline_in_arrow_con-s"
-	},
-/obj/effect/turf_decal/guideline/guideline_mid_arrow_con/yellow{
-	dir = 5;
-	icon_state = "guideline_mid_arrow_con-s"
-	},
-/obj/effect/turf_decal/guideline/guideline_in_arrow_con/red{
-	dir = 4;
-	icon_state = "guideline_in_arrow_con-s"
-	},
-/obj/effect/turf_decal/guideline/guideline_mid_arrow_con/purple{
-	dir = 4;
-	icon_state = "guideline_mid_arrow_con-s"
-	},
 /obj/machinery/camera/autoname,
-/turf/open/floor/carpet/ship,
-/area/hallway/upper/primary/port)
+/turf/open/floor/durasteel/techfloor_grid,
+/area/engine/gravity_generator)
 "uLH" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 8
@@ -27637,6 +27643,7 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/camera/autoname,
 /turf/open/floor/plasteel,
 /area/cargo/lobby)
 "uPB" = (
@@ -41094,10 +41101,10 @@ jfs
 kKV
 pJK
 tQX
-iVE
-iVE
-iVE
-iVE
+kwX
+kwX
+kwX
+kwX
 aJm
 aJm
 xdU
@@ -48774,7 +48781,7 @@ nqu
 nnq
 ulp
 dsP
-rxD
+uKM
 cCQ
 gJu
 cCQ
@@ -56213,7 +56220,7 @@ cOA
 fVD
 vtF
 olf
-nGW
+dRx
 mFO
 nNu
 xtl
@@ -56831,7 +56838,7 @@ jwH
 dMS
 dMS
 tRG
-uKM
+iVE
 dvq
 gvT
 sVd
@@ -57033,7 +57040,7 @@ xcD
 paz
 ofd
 tRG
-kwX
+gTK
 uZF
 gvT
 sVd
@@ -57841,7 +57848,7 @@ hou
 paz
 qNB
 tRG
-uKM
+iVE
 uZF
 rMw
 rns
@@ -58640,7 +58647,7 @@ pUm
 wol
 wQZ
 vDu
-eaQ
+bba
 dIh
 eaQ
 oXr
@@ -58843,7 +58850,7 @@ oDf
 oDf
 mbt
 oDf
-dRx
+oDf
 oDf
 dMS
 nUL
@@ -62077,7 +62084,7 @@ oLI
 oLI
 oLI
 oLI
-qEo
+oLI
 vcm
 xSG
 xSG
@@ -63102,7 +63109,7 @@ mKi
 iCl
 gCK
 iXX
-bWk
+dCa
 wuv
 wuv
 wuv
