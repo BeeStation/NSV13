@@ -2131,12 +2131,13 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "gC" = (
-/turf/open/floor/plating,
-/area/nsv/weapons/gauss/battery/deck2/port{
-	lighting_colour_bulb = "#FF3232";
-	lighting_colour_night = "#FF3232";
-	lighting_colour_tube = "#FF3232"
-	})
+/obj/effect/turf_decal/caution/stand_clear,
+/obj/machinery/atmospherics/pipe/heat_exchanging/junction,
+/obj/machinery/door/poddoor/ship{
+	id = "stormdrive_blastdoors"
+	},
+/turf/open/floor/engine,
+/area/engine/stormdrive)
 "gF" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 4
@@ -3468,6 +3469,7 @@
 	dir = 4;
 	name = "Supermatter Products to Scrubbers"
 	},
+/obj/structure/extinguisher_cabinet/south,
 /turf/open/floor/plating,
 /area/engine/atmos/port_atmos)
 "lo" = (
@@ -6984,10 +6986,10 @@
 /obj/machinery/atmospherics/pipe/heat_exchanging/junction{
 	dir = 1
 	},
+/obj/effect/turf_decal/caution/stand_clear,
 /obj/machinery/door/poddoor/ship{
 	id = "stormdrive_blastdoors"
 	},
-/obj/effect/turf_decal/caution/stand_clear,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "xs" = (
@@ -8079,7 +8081,7 @@
 /obj/machinery/atmospherics/components/unary/portables_connector{
 	dir = 1
 	},
-/turf/open/floor/plating/rusty_techgrid,
+/turf/open/floor/monofloor,
 /area/engine/stormdrive)
 "Ao" = (
 /obj/structure/fluff/support_beam{
@@ -8196,10 +8198,10 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "AE" = (
-/obj/structure/frame/machine{
-	anchored = 1
+/obj/machinery/atmospherics/components/unary/thermomachine/freezer,
+/turf/open/floor/monofloor/corner{
+	dir = 10
 	},
-/turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "AH" = (
 /obj/machinery/camera/autoname{
@@ -8317,18 +8319,6 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
-"Bh" = (
-/obj/effect/spawner/bundle/costume/elpresidente,
-/obj/structure/closet/body_bag{
-	opened = 1
-	},
-/obj/effect/decal/remains/human,
-/turf/open/floor/plating,
-/area/nsv/weapons/gauss/battery/deck2/starboard{
-	lighting_colour_bulb = "#FF3232";
-	lighting_colour_night = "#FF3232";
-	lighting_colour_tube = "#FF3232"
-	})
 "Bi" = (
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/east,
@@ -9970,13 +9960,6 @@
 /obj/machinery/camera/autoname,
 /turf/open/floor/durasteel/techfloor_grid,
 /area/security/main)
-"Gg" = (
-/turf/open/floor/plating,
-/area/nsv/weapons/gauss/battery/deck2/starboard{
-	lighting_colour_bulb = "#FF3232";
-	lighting_colour_night = "#FF3232";
-	lighting_colour_tube = "#FF3232"
-	})
 "Gj" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk{
@@ -12140,9 +12123,13 @@
 /obj/machinery/light{
 	dir = 8
 	},
-/turf/open/floor/monofloor/corner{
-	dir = 8
+/obj/machinery/atmospherics/pipe/multiz/layer2{
+	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/simple/general/visible{
+	dir = 1
+	},
+/turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "Mk" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
@@ -13320,12 +13307,6 @@
 /obj/structure/grille,
 /turf/open/floor/plating,
 /area/maintenance/nsv/weapons)
-"PE" = (
-/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
-	dir = 6
-	},
-/turf/open/floor/engine,
-/area/engine/stormdrive)
 "PF" = (
 /turf/open/floor/plasteel/dark/side,
 /area/nsv/weapons/fore{
@@ -13495,14 +13476,6 @@
 "PY" = (
 /turf/closed/wall/r_wall/ship,
 /area/engine/supermatter)
-"Qb" = (
-/obj/structure/grille,
-/turf/open/floor/plating,
-/area/nsv/weapons/gauss/battery/deck2/starboard{
-	lighting_colour_bulb = "#FF3232";
-	lighting_colour_night = "#FF3232";
-	lighting_colour_tube = "#FF3232"
-	})
 "Qc" = (
 /obj/machinery/atmospherics/pipe/heat_exchanging/junction/layer2,
 /obj/machinery/atmospherics/pipe/heat_exchanging/junction/layer4,
@@ -14065,7 +14038,6 @@
 /turf/open/floor/monotile/steel,
 /area/crew_quarters/kitchen)
 "RP" = (
-/obj/structure/fluff/support_beam,
 /turf/open/floor/plating,
 /area/nsv/weapons/gauss/battery/deck2/starboard{
 	lighting_colour_bulb = "#FF3232";
@@ -14118,17 +14090,9 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/medical)
 "RX" = (
-/obj/item/circuitboard/machine/thermomachine,
-/obj/item/storage/box/stockparts/basic{
-	pixel_x = -3;
-	pixel_y = 6
-	},
-/obj/item/stack/sheet/glass,
-/obj/item/stack/cable_coil/random,
-/obj/structure/closet/crate/engineering,
-/turf/open/floor/monofloor/corner{
-	dir = 4
-	},
+/obj/structure/table,
+/obj/machinery/atmospherics/pipe/layer_manifold/visible,
+/turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "RZ" = (
 /obj/machinery/light{
@@ -14398,7 +14362,8 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/theatre)
 "SO" = (
-/turf/open/floor/plating/foam,
+/obj/structure/grille,
+/turf/open/floor/plating,
 /area/nsv/weapons/gauss/battery/deck2/starboard{
 	lighting_colour_bulb = "#FF3232";
 	lighting_colour_night = "#FF3232";
@@ -16345,14 +16310,6 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/starboard)
-"Yo" = (
-/obj/structure/foamedmetal,
-/turf/open/floor/plating/foam,
-/area/nsv/weapons/gauss/battery/deck2/starboard{
-	lighting_colour_bulb = "#FF3232";
-	lighting_colour_night = "#FF3232";
-	lighting_colour_tube = "#FF3232"
-	})
 "Yq" = (
 /obj/structure/cable/green{
 	icon_state = "1-2"
@@ -46706,8 +46663,8 @@ eg
 GO
 RX
 Mj
-Uq
-PE
+gC
+dw
 cU
 eu
 mB
@@ -55734,7 +55691,7 @@ gi
 gi
 gi
 gi
-gi
+KI
 KI
 jY
 Wv
@@ -55991,7 +55948,7 @@ gi
 gi
 gi
 gi
-gi
+KI
 KI
 SS
 PT
@@ -56187,7 +56144,7 @@ CY
 SG
 KI
 KI
-gi
+KI
 gi
 gi
 gi
@@ -56248,9 +56205,9 @@ gi
 gi
 gi
 gi
-gi
 KI
 KI
+Tj
 Tj
 eP
 FC
@@ -56442,6 +56399,7 @@ hO
 gR
 is
 XX
+XX
 KI
 KI
 gi
@@ -56470,7 +56428,6 @@ gi
 gi
 gi
 gi
-gi
 KI
 KI
 KI
@@ -56483,7 +56440,6 @@ KI
 KI
 KI
 KI
-gi
 gi
 gi
 gi
@@ -56509,6 +56465,7 @@ gi
 KI
 KI
 Tj
+Zy
 Zy
 Hu
 zO
@@ -56690,8 +56647,8 @@ KI
 KI
 KI
 Tj
-Tj
-Tj
+XX
+eR
 XX
 ek
 vL
@@ -56699,6 +56656,7 @@ aL
 Kl
 iu
 XX
+WB
 KI
 KI
 gi
@@ -56728,7 +56686,6 @@ gi
 gi
 gi
 gi
-gi
 KI
 KI
 KI
@@ -56739,7 +56696,6 @@ KI
 KI
 KI
 KI
-gi
 gi
 gi
 gi
@@ -56766,6 +56722,7 @@ gi
 KI
 KI
 Tj
+WB
 Zy
 np
 ZO
@@ -56773,7 +56730,7 @@ Ye
 fL
 Ww
 Zy
-Bh
+SO
 Zy
 KI
 KI
@@ -56946,9 +56903,9 @@ gi
 KI
 KI
 KI
-KI
-KI
 Tj
+XX
+XX
 XX
 em
 eC
@@ -56956,10 +56913,9 @@ fB
 cV
 iz
 XX
+WB
 KI
 KI
-gi
-gi
 gi
 gi
 gi
@@ -57023,6 +56979,7 @@ gi
 KI
 KI
 Tj
+WB
 Zy
 Rq
 rn
@@ -57030,7 +56987,7 @@ Ir
 Us
 HH
 Zy
-Qb
+Zy
 Zy
 KI
 KI
@@ -57200,12 +57157,12 @@ gi
 gi
 gi
 gi
-gi
-KI
 KI
 KI
 KI
 Tj
+XX
+eR
 XX
 XX
 XX
@@ -57213,6 +57170,7 @@ hW
 gU
 iG
 XX
+WB
 KI
 KI
 gi
@@ -57275,11 +57233,10 @@ gi
 gi
 gi
 gi
-gi
-KI
 KI
 KI
 Tj
+WB
 Zy
 fw
 kz
@@ -57457,12 +57414,12 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
 KI
 KI
 Tj
+XX
+XX
 XX
 es
 vL
@@ -57470,10 +57427,10 @@ aL
 jx
 YX
 XX
+WB
 KI
 KI
 KI
-KI
 gi
 gi
 gi
@@ -57533,19 +57490,19 @@ gi
 gi
 gi
 gi
-KI
 KI
 KI
 Tj
+WB
 Zy
 eS
 gS
 Ye
 fL
 zc
-Yo
-SO
-Yo
+Zy
+Zy
+Zy
 KI
 KI
 gi
@@ -57714,12 +57671,12 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
 KI
 KI
 Tj
+XX
+eR
 XX
 eQ
 eC
@@ -57727,7 +57684,7 @@ mm
 jx
 jM
 XX
-KI
+WB
 KI
 KI
 KI
@@ -57793,7 +57750,7 @@ gi
 KI
 KI
 Tj
-Tj
+WB
 Zy
 jw
 gS
@@ -57802,7 +57759,7 @@ Us
 Uz
 Zy
 SO
-Yo
+Zy
 KI
 KI
 gi
@@ -57971,12 +57928,12 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
 KI
 KI
 Tj
+XX
+XX
 XX
 XX
 XX
@@ -58058,8 +58015,8 @@ Zy
 Zy
 Zy
 Zy
-SO
-Yo
+Zy
+Zy
 KI
 KI
 gi
@@ -58228,15 +58185,15 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
 KI
 KI
 Tj
 XX
 eR
-gC
+XX
+eR
+XX
 DA
 Lg
 qt
@@ -58312,10 +58269,10 @@ iQ
 zd
 BJ
 RP
-Qb
-Gg
-RP
-Gg
+Zy
+SO
+Zy
+SO
 Zy
 KI
 KI
@@ -58485,12 +58442,12 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
 KI
 KI
 Tj
+XX
+XX
 XX
 XX
 XX
@@ -58742,11 +58699,11 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
 KI
 KI
+KI
+Tj
+Tj
 Tj
 Tj
 Tj
@@ -58999,9 +58956,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
+KI
 KI
 KI
 KI
@@ -59256,9 +59213,9 @@ gi
 gi
 gi
 gi
-gi
-gi
-gi
+KI
+KI
+KI
 KI
 KI
 KI
