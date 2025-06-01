@@ -30,12 +30,6 @@ MAP_REMOVE_JOB(air_traffic_controller)
 
 //Disabled objects
 
-/obj/item/circuitboard/machine/ore_silo/New()
-	.=..()
-	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
-		return
-	build_path = null
-
 /obj/item/circuitboard/machine/ore_redemption/New()
 	.=..()
 	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
