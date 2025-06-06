@@ -23,6 +23,7 @@
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
+/mob/living/simple_animal/hostile/nsv/syndicate/space/sword,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "aF" = (
@@ -56,8 +57,8 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "bm" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/shotgun,
 /obj/structure/hull_plate,
+/mob/living/simple_animal/hostile/nsv/syndicate/ranged/shotgun,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "bq" = (
@@ -155,7 +156,6 @@
 	icon_state = "5-8"
 	},
 /obj/structure/chair/stool,
-/mob/living/simple_animal/hostile/syndicate/melee,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "gH" = (
@@ -274,7 +274,7 @@
 /obj/structure/chair{
 	dir = 1
 	},
-/mob/living/simple_animal/hostile/syndicate/ranged/infiltrator,
+/mob/living/simple_animal/hostile/nsv/syndicate,
 /turf/open/floor/carpet/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "mW" = (
@@ -554,6 +554,7 @@
 /obj/structure/peacekeeper_barricade/metal{
 	dir = 8
 	},
+/mob/living/simple_animal/hostile/nsv/syndicate/ranged,
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "yM" = (
@@ -592,7 +593,9 @@
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "AI" = (
-/mob/living/simple_animal/hostile/syndicate/civilian,
+/mob/living/simple_animal/hostile/nsv/syndicate/ranged{
+	name = "Syndicate frigate captain"
+	},
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/nsv13/boarding_interior)
 "AR" = (
@@ -630,7 +633,7 @@
 	name = "bridge chair"
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
-/mob/living/simple_animal/hostile/syndicate/ranged/smg/pilot,
+/mob/living/simple_animal/hostile/nsv/syndicate/ranged/smg,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "CE" = (
@@ -666,8 +669,9 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "DL" = (
 /obj/machinery/holopad,
-/mob/living/simple_animal/hostile/syndicate/melee/sword/space{
-	name = "Syndicate Frigate HOS"
+/mob/living/simple_animal/hostile/nsv/syndicate/space/sword{
+	name = "Syndicate frigate HoS";
+	desc = "None to happy to see you."
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
@@ -837,7 +841,7 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "Om" = (
 /obj/structure/peacekeeper_barricade/metal,
-/mob/living/simple_animal/hostile/syndicate/ranged/shotgun,
+/mob/living/simple_animal/hostile/nsv/syndicate/ranged,
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "Oo" = (
@@ -870,7 +874,7 @@
 /turf/closed/wall/r_wall,
 /area/ruin/powered/nsv13/boarding_interior)
 "Qk" = (
-/mob/living/simple_animal/hostile/syndicate/civilian,
+/mob/living/simple_animal/hostile/nsv/syndicate,
 /turf/open/floor/carpet/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "Qz" = (
@@ -890,7 +894,7 @@
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "RU" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/shotgun,
+/mob/living/simple_animal/hostile/nsv/syndicate/space/ranged/shotgun,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "Se" = (
@@ -929,8 +933,8 @@
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/nsv13/boarding_interior)
 "Tb" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/infiltrator,
-/turf/open/floor/plating,
+/mob/living/simple_animal/hostile/nsv/syndicate/space,
+/turf/open/floor/engine/airless/light,
 /area/ruin/powered/nsv13/boarding_interior)
 "Tx" = (
 /obj/effect/spawner/lootdrop/ruinloot/medical,
@@ -953,11 +957,11 @@
 	dir = 4;
 	name = "captain's chair"
 	},
-/mob/living/simple_animal/hostile/syndicate/civilian{
-	name = "Syndicate Frigate Captain"
-	},
 /obj/machinery/light{
 	dir = 8
+	},
+/mob/living/simple_animal/hostile/nsv/syndicate/ranged{
+	name = "Syndicate frigate captain"
 	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
@@ -1005,10 +1009,8 @@
 /turf/closed/wall/r_wall,
 /area/ruin/powered/nsv13/boarding_interior)
 "VH" = (
-/mob/living/simple_animal/hostile/syndicate/melee/space/stormtrooper{
-	name = "Syndicate Chief Engineer"
-	},
-/turf/open/floor/engine,
+/mob/living/simple_animal/hostile/nsv/syndicate/space/ranged,
+/turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "VL" = (
 /obj/effect/landmark/iff_console_spawner{
@@ -1020,6 +1022,10 @@
 /obj/structure/rack,
 /obj/effect/spawner/lootdrop/pdc,
 /obj/item/multitool,
+/turf/open/floor/plasteel/tech/grid,
+/area/ruin/powered/nsv13/boarding_interior)
+"VU" = (
+/mob/living/simple_animal/hostile/nsv/syndicate/space,
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
 "Wd" = (
@@ -30142,10 +30148,10 @@ sy
 JR
 YX
 fG
-VH
+HN
 wv
 fG
-oT
+Tb
 oT
 fC
 fC
@@ -35258,7 +35264,7 @@ ST
 vt
 sE
 zq
-Tb
+Ca
 hC
 kw
 vL
@@ -36272,7 +36278,7 @@ fC
 fC
 dz
 fG
-Cb
+VU
 Cb
 fG
 Mf
@@ -36533,9 +36539,9 @@ fG
 fG
 mn
 NH
-Wd
-Wd
 mD
+Wd
+Wd
 Wd
 sE
 Mf
@@ -36793,7 +36799,7 @@ Wd
 Wd
 Wd
 Wd
-sE
+Qk
 Mf
 hC
 oT
@@ -38077,7 +38083,7 @@ fG
 fG
 oT
 oT
-oT
+Tb
 fC
 fC
 fC
@@ -38831,7 +38837,7 @@ fC
 fC
 fC
 fG
-Ca
+VH
 zG
 fG
 fG
