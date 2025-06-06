@@ -31,10 +31,10 @@
 
 /datum/overmap_objective/clear_system/check_completion()
 	.=..()
-	if(status != 0)
+	if(status != OBJECTIVE_STATUS_INPROGRESS)
 		return
 	if(!length(target_system.enemies_in_system))
-		status = 1
+		status = OBJECTIVE_STATUS_COMPLETED
 
 /datum/overmap_objective/clear_system/rubicon
 	system_name = "Rubicon"
