@@ -27,3 +27,28 @@ GLOBAL_LIST_EMPTY(soundtrack_this_round) // A running list of soundtrack songs t
 	artist = "Merct"
 	url = "https://www.youtube.com/watch?v=EiLBxoBNsNo"
 	file = 'sound/soundtrack/mind_crawler.ogg'
+
+/datum/soundtrack_song/bee/bubblegum
+	title = "Bubblegum"
+	artist = "qwertyquerty"
+	url = "https://www.youtube.com/watch?v=bOn7B3Xw_Rs"
+	file = 'sound/soundtrack/bubblegum.ogg'
+
+/datum/soundtrack_song/bee/hierophant
+	title = "Hierophant"
+	artist = "qwertyquerty"
+	url = "https://static.madeline.sh/music/ss13/hierophant_extended.wav"
+	file = 'sound/soundtrack/hierophantext.ogg'
+
+/datum/soundtrack_song/bee/finale
+	title = "Finale"
+	artist = "qwertyquerty"
+	url = "https://www.youtube.com/watch?v=4N6MNV1bjk8"
+	file = 'sound/soundtrack/finale.ogg'
+
+/datum/soundtrack_song/bee/countdownext
+	title = "Countdown (Extended)"
+	artist = "qwertyquerty"
+	url = "https://static.madeline.sh/music/ss13/countdown_remastered_extended.wav"
+	file = 'sound/soundtrack/countdownext.ogg'
+
