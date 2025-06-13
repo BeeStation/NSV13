@@ -159,6 +159,7 @@
 /obj/machinery/ship_weapon/gauss_gun/Destroy() //Yeet them out before we die.
 	remove_gunner()
 	gunner_chair?.gun = null
+	gunner_chair?.locked = FALSE
 	QDEL_NULL(ammo_rack)
 	QDEL_NULL(cabin_air)
 	QDEL_NULL(internal_tank)
@@ -338,6 +339,10 @@
 	return t_air.merge(giver)
 
 /obj/machinery/ship_weapon/gauss_gun/process()
+	if(gunner)
+		if(gunner.incapacitated() || !gunner.client)
+			remove_gunner()
+
 	if(cabin_air && cabin_air.return_volume() > 0)
 		var/delta = cabin_air.return_temperature() - T20C
 		cabin_air.set_temperature(cabin_air.return_temperature() - max(-10, min(10, round(delta/4,0.1))))
@@ -423,8 +428,8 @@
 	update_icon()
 
 /obj/structure/gauss_rack/Destroy()
-	for(var/atom/movable/A in contents)
-		A.forceMove(loc)
+	for(var/atom/movable/A in src)
+		unload(A,FALSE)
 	. = ..()
 
 /obj/structure/gauss_rack/update_icon()
@@ -608,6 +613,9 @@ Chair + rack handling
 	var/feed_direction = SOUTH //Where does the ammo feed drop down to? By default, south of the chair by one tile.
 
 /obj/structure/chair/fancy/gauss/Destroy()
+	occupant?.pixel_y = 0
+	locked = FALSE
+	unbuckle_all_mobs(TRUE)
 	if(gun)
 		gun.gunner_chair = null
 	return ..()
@@ -633,17 +641,19 @@ Chair + rack handling
 	. += "Currently feeding from the [dir2text(feed_direction)]."
 
 /obj/structure/chair/fancy/gauss/unbuckle_mob(mob/buckled_mob, force=FALSE)
-	if(locked)
-		to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
-		return FALSE
+	if(!force && locked && gun)
+		if(buckled_mob.loc == src.loc)
+			to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
+			return FALSE
 	. = ..()
 	if(.)
 		occupant = null
 
 /obj/structure/chair/fancy/gauss/user_unbuckle_mob(mob/buckled_mob, mob/user)
-	if(locked)
-		to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
-		return FALSE
+	if(!force && locked && gun)
+		if(buckled_mob.loc == src.loc)
+			to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
+			return FALSE
 	. = ..()
 	if(.)
 		occupant = null
@@ -717,6 +727,8 @@ Chair + rack handling
 	gunner_chair.pixel_y = 0
 	M.pixel_y = 0
 	if(M.loc != gunner_chair.loc) //They got out of the chair somehow. Probably admin fuckery.
+		return FALSE
+	if(QDELETED(src)) //Gun was destroyed somehow.
 		return FALSE
 	set_gunner(M) //Up we go!
 	gunner_chair.forceMove(src)
