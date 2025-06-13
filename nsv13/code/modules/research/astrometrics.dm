@@ -121,7 +121,7 @@ Clean override of the navigation computer to provide scan functionality.
 			var/obj/effect/overmap_anomaly/target = locate(params["anomaly_id"])
 			if(!istype(target))
 				return
-			to_chat(usr, "<span class='notice'>[icon2html(target)]: [target.desc]</span>")
+			to_chat(usr, "<span class='notice'>[target][icon2html(target)]: [target.desc]</span>")
 		if("broadcast")
 			broadcast = !broadcast
 	if(broadcast && message)
