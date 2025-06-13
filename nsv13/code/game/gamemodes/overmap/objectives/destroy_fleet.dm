@@ -25,7 +25,7 @@
 
 /datum/overmap_objective/destroy_fleets/check_completion()
 	.=..()
-	if(status != 0)
+	if(status != OBJECTIVE_STATUS_INPROGRESS)
 		return
 	if(tally >= target)
-		status = 1
+		status = OBJECTIVE_STATUS_COMPLETED
