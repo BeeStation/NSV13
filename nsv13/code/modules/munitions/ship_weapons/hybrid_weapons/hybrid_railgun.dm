@@ -1,6 +1,6 @@
 //Highly Expensive to replace and maintain, hence limited to round start
 //Use both power and physical projectiles
-//Fires both Railgun Slugs and NAC Shells
+//Fires both Railgun Slugs and Railgun Canisters
 
 /obj/machinery/ship_weapon/hybrid_rail
 	name = "NT-ST049 'Sturm' coaxial railgun"
@@ -12,11 +12,11 @@
 	bound_height = 64
 	pixel_y = -64
 	fire_mode = FIRE_MODE_HYBRID_RAIL
-	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo //preset to slug
+	ammo_type = /obj/item/ship_weapon/ammunition/railgun_slug_forged //preset to slug
 	max_ammo = 5 //preset to slug
 	semi_auto = TRUE
 
-	var/slug_shell = 0 //Use Slugs = 0. Use Shells = 1
+	var/slug_shell = 0 //Use Slugs = 0. Use Canisters = 1
 	var/switching = 0 //Track if we are switching types
 
 	var/alignment = 100 //Degrading stat used to alter projectile spread
@@ -31,14 +31,12 @@
 	var/capacitor_current_charge_rate = 0 //Current charge rate - as determined by players
 	var/capacitor_max_charge_rate = 200000 //Maximum rate of charge ie max power draw - 200kW
 
-	var/projectile_velo = 5 //For our projectile - preset to slug
-
 /obj/machinery/ship_weapon/hybrid_rail/examine(mob/user)
 	.=..()
 	if(slug_shell == 0)
 		. += "<span class='notice'>Selected Munition: Slug type</span>"
 	if(slug_shell == 1)
-		. += "<span class='notice'>Selected Munition: Shell type</span>"
+		. += "<span class='notice'>Selected Munition: Canister type</span>"
 
 /obj/machinery/ship_weapon/hybrid_rail/process()
 	if(capacitor_charge == capacitor_max_charge)
@@ -78,19 +76,19 @@
 /obj/machinery/ship_weapon/hybrid_rail/proc/switch_munition()
 	switching = FALSE
 	capacitor_charge = 0 //Reset
-	if(slug_shell == 0)	//change to using Shells
+	if(slug_shell == 0)	//change to using Canisters
 		slug_shell = 1
-		ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
+		ammo_type = /obj/item/ship_weapon/ammunition/railgun_canister_forged
 		max_ammo = 1
-		projectile_velo = 2.5 //Not so great at handling shells
+		//projectile_velo = 2.5 //Not so great at handling shells
 		capacitor_max_charge = 1000000 //1MW
 		say("Cycling complete: Configuration - 800mm Shell Selected")
 
 	else if(slug_shell == 1)	//change to using Slugs
 		slug_shell = 0
-		ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
+		ammo_type = /obj/item/ship_weapon/ammunition/railgun_slug_forged
 		max_ammo = 5
-		projectile_velo = 5 //Designed for slugs
+		//projectile_velo = 5 //Designed for slugs
 		capacitor_max_charge = 400000 //400kW
 		say("Cycling complete: Configuration - 400mm Slug Selected")
 
@@ -136,10 +134,41 @@
 		return TRUE
 
 /obj/machinery/ship_weapon/hybrid_rail/animate_projectile(atom/target)
-	var/obj/item/ship_weapon/ammunition/T = chambered
-	if(T)
-		var/final_velo = projectile_velo - ((100 - alignment) / 100) //Misalignment slows projectiles
-		linked.fire_projectile(T.projectile_type, target, speed=final_velo, user_override=TRUE, lateral=TRUE) //CHECK THIS CODE LATERAL WAS RECEIVING NULL, REPLACED TO TRUE
+	//retrieve current munition
+	//check its stats
+	//calculate what it should do when fired
+	//coat gives 75% of speed value, core gives 25%
+	//coat gives 15% of mass value, core gives 85%
+	//coat gives 50% of penetration value, core gives 50%
+	var/projectile_velocity = 0 //Velocity inherited from the material properties of the munition
+	var/projectile_damage = 0 //Damage inherited from the material properties of the munition
+	var/projectile_penetration = 0//Armour Penetration inherited from the material properties of the munition
+
+	var/obj/item/ship_weapon/ammunition/C = chambered
+	if(C)
+		if(istype(C, /obj/item/ship_weapon/ammunition/railgun_slug_forged))
+			var/obj/item/ship_weapon/ammunition/railgun_slug_forged/T = C
+			projectile_velocity = T.material_conductivity - ((100 - alignment) / 100)
+			projectile_damage = T.material_density * projectile_velocity
+			projectile_penetration = T.material_hardness
+
+		else if(istype(C, /obj/item/ship_weapon/ammunition/railgun_canister_forged))
+			var/obj/item/ship_weapon/ammunition/railgun_canister_forged/T = C
+			projectile_velocity = T.material_conductivity - ((100 - alignment) / 100)
+			projectile_penetration = T.material_hardness
+
+			var/datum/gas_mixture/gas = T.canister_gas[1] //fix later
+			var/gas_mix = gas.get_moles(GAS_O2) + \
+							gas.get_moles(GAS_PLUOXIUM) + \
+							gas.get_moles(GAS_PLASMA) * 1.25 + \
+							gas.get_moles(GAS_CONSTRICTED_PLASMA) * 1.25 + \
+							gas.get_moles(GAS_TRITIUM) * 1.5 + \
+							gas.get_moles(GAS_NUCLEIUM) * 1.75 //Add some sort of EMP effect here for subsystems later
+
+			projectile_damage = (T.material_density * 0.2) + (gas_mix * (T.material_charge / 100)) //temp numbers
+
+		linked.fire_projectile(C.projectile_type, target, speed=projectile_velocity, user_override=TRUE, lateral=TRUE)
+		message_admins("DEBUG OUTPUT - Projectile: [C.name], Velocity: [projectile_velocity], Damage: [projectile_damage], Penetration: [projectile_penetration]") //REMOVE ME
 
 /obj/machinery/ship_weapon/hybrid_rail/after_fire()
 	if(maint_state != 0) //MSTATE_CLOSED

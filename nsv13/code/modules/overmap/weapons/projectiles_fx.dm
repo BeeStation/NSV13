@@ -306,6 +306,16 @@ Misc projectile types, effects, think of this as the special FX file.
 	. = ..()
 	homing = FALSE
 
+/obj/item/projectile/bullet/railgun_forged //The properties of this projectile will be generated on each instance of it being fired
+	icon_state = "mac"
+	name = "railgun slug"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	damage = 1
+	speed = 1
+	armour_penetration = 1
+	flag = "overmap_heavy"
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+
 /obj/item/projectile/bullet/gauss_slug
 	icon_state = "gaussgun"
 	name = "tungsten round"
