@@ -1,0 +1,252 @@
+/*
+Welp here we go.
+The long needed ship weapon datum refactor.
+Aims to have more integrated functionalities & be more modular / versality than the old version.
+
+Any flags related to this should start with OSW.
+*/
+
+//OSW WIP DENOTES WIP THINGS - search for it and address.
+
+/datum/overmap_ship_weapon
+	//===SECTION - Fluff vars===
+
+	///Name of the weapon.
+	var/name = "Generic ship weapon. You shouldn't see this."
+	///Sound relayed to internal z levels on fire.
+	var/list/overmap_firing_sounds
+	///Sound relayed to internal z levels on select.
+	var/overmap_select_sound
+	///Displayed to operator when weapon is cycled to.
+	var/select_alert
+	///Displayed to operator if weapon fails to fire. - OSW WIP - Change this to be handled by weapon datum depending on error?
+	var/failure_alert
+	///Screen shake caused to interior z of firer - use sparingly.
+	var/screen_shake = 0
+
+
+	//===SECTION - object linkage relevant vars===
+
+	///Overmap ship datum this is linked to.
+	var/obj/structure/overmap/linked_overmap = null
+	/**
+	 * List of all physically present weapon objects / machinery.
+	 * Does not have any type limitations, use wisely for your purposes by overriding / amending procs.
+	 */
+	var/list/weapons = list()
+	///If this NEEDS physical weapons in its weapons list to fire (& interacts with them). Should be FALSE for AI and small craft.
+	var/requires_physical_guns = TRUE //OSW WIP - should probably just be handled in checks?
+
+
+	//===SECTION - projectile / firing related vars===
+
+	///Standard projectile used if not changed elsewhere.
+	var/standard_projectile_type
+	///Standard burst size
+	var/burst_size = 1
+	///Next `world.time` this weapon can fire. Determined by fire delays.
+	var/next_firetime = 0
+	///Delay between shots even if fully loaded.
+	var/fire_delay
+	///Delay between individual shots of a burst.
+	var/burst_fire_delay = 1
+
+
+	//===SECTION - AI control related vars===
+
+	///Determines which weapons AI tends to prefer at range. - OSW WIP NEEDS CONSIDERATION
+	var/range_modifier
+	//Percentage change AI firing this weapon will not predict target movement as well as it should.
+	var/miss_chance = 5
+	///Maximum tile distance the AI may misaim by if `miss_chance` triggers
+	var/max_miss_distance = 4
+	///Additional fire delay applied if an AI fires this weapon.
+	var/ai_fire_delay = 0
+	///Determines which type of ammo the AI uses to fire this & potentially some behavior stuff - OSW WIP - integrate torp / missile ammo use into this & turn into bitfield?
+	var/weapon_class = WEAPON_CLASS_HEAVY
+
+
+	//===SECTION - Handling vars===
+
+	///Bitfield used to control who can access a ship weapon. Should not be `NONE`, if you are exclusively using manual control, use that flag.
+	var/weapon_control_flags = OSW_CONTROL_GUNNER|OSW_CONTROL_AI
+	//OSW WIP - make sure ghost ship players can control any weapon with OSW_CONTROL_AI.
+	///Bitfield used to control which directions a weapon can fire in. Should never be `NONE`.
+	var/weapon_facing_flags = OSW_FACING_OMNI
+	/**
+	 * Valid arc used for relevant weapon facing flags.
+	 * Note that this usually is checked for in either direction of the arc, making the effective total angle double of this var.
+	 */
+	var/firing_arc = 0
+
+	/**
+	 * Used to sort the weapons for cycling / overmap weapon list order.
+	 * Inserted before the first object with a lower priority (or at [1] if list is empty)
+	 */
+	var/sort_priority = 1
+
+
+	//===SECTION - DEPRECATED / WEIRD VARS===
+
+	///OSW WIP - DEPRECATE. Replaced with control flags
+	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
+
+	///OSW WIP - DEPRECATE. Kept as reminder to replace integration with new stuff (facing flags)
+	var/lateral = TRUE //Does this weapon need you to face the enemy? Mostly no.
+
+	///OSW WIP - DEPRECATE - integrate handling into ship weapon datums.
+	var/special_fire_proc = null //Override this if you need to replace the firing weapons behaviour with a custom proc. See torpedoes and missiles for this.
+
+	///OSW WIP - Should determine weapon base range for AI? Or Deprecate.
+	var/range = 255
+
+	///OSW WIP - CONSIDER HOW IN THE NAME TO IMPLEMENT THIS, VLS / potential backend for better automated guns. control flag? Might be wise. Potentially using secondary var.
+	var/autonomous = FALSE // Is this a gun that can automatically fire? Keep in mind variables selectable and autonomous can both be TRUE
+
+	///OSW WIP - CONSIDER THIS if reworking autonomous weapons / ams
+	var/permitted_ams_modes = list( "Anti-ship" = 1, "Anti-missile countermeasures" = 1 ) // Overwrite the list with a specific firing mode if you want to restrict its targets
+
+//You can pass link target and weapon list calc override during new.
+/datum/overmap_ship_weapon/New(obj/structure/overmap/link_to, update_role_weapon_lists = TRUE, ...)
+	. = ..()
+	//OSW WIP - integrate handling for this, likely via proc marking on osw level.
+	weapons["loaded"] = list()
+	weapons["all"] = list()
+	//Soft runtimes for invalid inputs that exist mostly for code-side reading consistency.
+	if(weapon_control_flags == NONE)
+		log_runtime("Invalid weapon control flags. Must not be NONE.")
+	if(weapon_facing_flags == NONE)
+		log_runtime("Invalid weapon facing flags. Must not be NONE.")
+	if(link_to)
+		link_weapon(link_to, update_role_weapon_lists)
+
+//OSW WIP - Make SURE to properly handle unlink from the physical weapons once that is implemented!!
+/datum/overmap_ship_weapon/Destroy(force, ...)
+	if(linked_overmap)
+		unlink_weapon()
+	/*
+	if(length(weapons)) OSW WIP see proc comment
+		unlink_physical_weapons()
+	*/
+	return ..()
+
+/**
+ * CORE PROC of datum - overmap linkage.
+ * * YOU ARE EXPECTED TO CALL THIS.
+ * * Alternatively, passing an overmap to `New()` will also automatically call this proc with that overmap.
+ * * `update_role_weapon_lists` = FALSE will not update those, but you must call it at a later time (useful for bulk adds).
+ */
+/datum/overmap_ship_weapon/proc/link_weapon(obj/structure/overmap/link_to, update_role_weapon_lists = TRUE)
+	if(linked_overmap)
+		CRASH("[src] was already linked to [linked_overmap] when an attempt to link to [link_to] was made. This is not allowed.")
+	if(!link_to)
+		CRASH("[src] attempted to link weapon without a link target. This is not allowed.")
+	linked_overmap = link_to
+	insert_into_overmap_weapons()
+	//OSW WIP - account for physical inner z weapon handling vs. nonphysical weapons.
+
+/**
+ * Inserts this datum into the overmap's weapon list depending on priority.
+ * Inserted before the first datum with lower priority, or at the first place if list empty.
+ * * MUST BE LINKED TO AN OVERMAP BEFORE THIS.
+ * * `update_role_weapon_lists` = FALSE will not update those, but you must call it at a later time (useful for bulk adds).
+ */
+/datum/overmap_ship_weapon/proc/insert_into_overmap_weapons(update_role_weapon_lists = TRUE)
+	var/osw_list_length = length(linked_overmap.overmap_weapon_datums)
+	if(!osw_list_length)
+		linked_overmap.overmap_weapon_datums += src //This is the same ref.
+	else
+		var/insertion_point = 0
+		for(var/iter = 1; iter <= osw_list_length; iter++)
+			var/datum/overmap_ship_weapon/comparing_datum = linked_overmap.overmap_weapon_datums[iter]
+			if(comparing_datum.sort_priority < sort_priority)
+				insertion_point = iter
+				break
+		if(!insertion_point)
+			linked_overmap.overmap_weapon_datums += src
+		else
+			//Insertion handled NON INPLACE to avoid race conditions.
+			var/list/datum/overmap_ship_weapon/osw_list_copy = linked_overmap.overmap_weapon_datums.Copy()
+			osw_list_copy.Insert(insertion_point, src)
+			linked_overmap.overmap_weapon_datums = osw_list_copy
+
+	if(!update_role_weapon_lists)
+		return
+	linked_overmap.recalc_role_weapon_lists()
+
+/**
+ * Removes this weapon from the linke overmap weapon datum list and then reinserts it.
+ * Used to handle changes in priority when already linked.
+ * Must be linked to something to call this. Use `insert_into_overmap_weapons()` otherwise.
+ */
+/datum/overmap_ship_weapon/proc/reinsert_into_overmap_weapons(update_role_weapon_lists = TRUE)
+	linked_overmap.overmap_weapon_datums -= src
+	insert_into_overmap_weapons(update_role_weapon_lists)
+
+
+/**
+ * Unlinks weapon from its current linked ship.
+ * Does not have safeties. Make sure you only call this if it is needed.
+ */
+/datum/overmap_ship_weapon/proc/unlink_weapon()
+	if(weapon_control_flags & OSW_CONTROL_PILOT)
+		linked_overmap.pilot_weapon_datums -= src
+	if(weapon_control_flags & OSW_CONTROL_GUNNER)
+		linked_overmap.gunner_weapon_datums -= src
+	linked_overmap.overmap_weapon_datums -= src
+	linked_overmap = null
+
+/**
+ * Wrapper proc.
+ * Unlinks weapon from its current linked ship, then deletes it.
+ * Does not have safeties. Make sure you call this only if needed.
+ */
+/datum/overmap_ship_weapon/proc/unlink_and_delete_weapon()
+	unlink_weapon()
+	qdel(src)
+
+//OSW WIP - ALL overmap related procs and stuff should be moved either to the overmap file or to a seperate file in this folder.
+
+//OSW WIP - TEMPORARY LOCAL AMEND TO OVERMAPS - MOVE THIS TO THE RIGHT PLACES WHEN DONE!!!!!!
+/obj/structure/overmap
+	///List of overmap weapon datums. Sorted by priority.
+	var/list/datum/overmap_ship_weapon/overmap_weapon_datums = list()
+	///Weapons controllable by PILOT. Recalced if main list changes.
+	var/list/datum/overmap_ship_weapon/pilot_weapon_datums = list()
+	///Weapons controllable by GUNNER. Recalced if main list changes.
+	var/list/datum/overmap_ship_weapon/gunner_weapon_datums = list()
+
+	//OSW WIP - potentially have another list for AI accessible weapons?
+
+/**
+ * Recalculates the role specific weapon lists.
+ */
+/obj/structure/overmap/proc/recalc_role_weapon_lists()
+	if(length(pilot_weapon_datums))
+		pilot_weapon_datums.Cut()
+	if(length(gunner_weapon_datums))
+		gunner_weapon_datums.Cut()
+
+	for(var/datum/overmap_ship_weapon/osw as() in overmap_weapon_datums)
+		if(osw.weapon_control_flags & OSW_CONTROL_PILOT)
+			pilot_weapon_datums += osw
+		if(osw.weapon_control_flags & OSW_CONTROL_GUNNER)
+			gunner_weapon_datums += osw
+
+/**
+ * Deletes all linked weapon datums.
+ */
+/obj/structure/overmap/proc/purge_overmap_weapon_datums()
+	for(var/datum/overmap_ship_weapon/osw as() in overmap_weapon_datums)
+		qdel(osw) //Qdel handles unlink here.
+
+
+//OSW WIP - TEMPORARY LOCAL AMEND TO OVERMAP DESTROY. INTEGRATE INTO MAIN PROC WHEN DONE!!!!!
+/obj/structure/overmap/Destroy()
+	purge_overmap_weapon_datums()
+	overmap_weapon_datums = null
+	pilot_weapon_datums = null
+	gunner_weapon_datums = null
+	return ..()
+
+

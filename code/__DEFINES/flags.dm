@@ -189,4 +189,16 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define STARSYSTEM_NO_ASTEROIDS 1<<1	//Prevents Asteroids Spawning
 #define STARSYSTEM_NO_WORMHOLE 1<<2		//Prevents Incoming Wormholes
 #define STARSYSTEM_END_ON_ENTER 1<<3  //End the round after entering this system (Outpost 45)
+
+//Overmap ship weapon datum control flags
+#define OSW_CONTROL_PILOT (1<<0)		//!This weapon can be accessed by a pilot.
+#define OSW_CONTROL_GUNNER (1<<1)		//!This weapon can be accessed by a gunner.
+#define OSW_CONTROL_MANUAL (1<<2)		//!Denotes manual handling of the weapon.
+#define OSW_CONTROL_AI (1<<3)			//!Denotes AI being able to use this weapon if the ship it is on is AI controlled.
+
+//Overmap ship weapon facing flags
+#define OSW_FACING_OMNI (1<<0)			//!Standard 360° aim. Mostly for ease-of-read purpose.
+#define OSW_FACING_FRONT (1<<1)			//!Only fires forward. Uses firing arc angle.
+#define OSW_FACING_SIDES (1<<2)			//!Only fires towards the sides. Uses firing arc angle for both sides.
+#define OSW_FACING_FIXED (1<<3)			//! OSW WIP - think about if having arbitrarily turned fixed weapons should be a var on the weapon datum.
 //NSV13 change end
