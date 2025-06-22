@@ -33,6 +33,8 @@
 	var/list/gauss_verbs = list(.verb/show_computer, .verb/show_view, .verb/swap_firemode)
 	circuit = /obj/item/circuitboard/machine/gauss_turret
 
+	weapon_datum_type = /datum/overmap_ship_weapon/gauss
+
 /obj/machinery/ship_weapon/gauss_gun/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
 	if(!isliving(user))

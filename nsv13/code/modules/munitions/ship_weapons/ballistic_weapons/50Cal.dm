@@ -15,6 +15,7 @@
 	circuit = /obj/item/circuitboard/machine/anti_air
 	var/gunning_component_type = /datum/component/overmap_gunning/anti_air
 	var/mob/living/gunner
+	//weapon_datum_type = ??? These are super deprecated and we don't even have a proper type.. so probably just don't use them?
 
 /obj/machinery/ship_weapon/anti_air/examine(mob/user)
 	. = ..()

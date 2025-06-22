@@ -14,6 +14,8 @@
 	fire_mode = FIRE_MODE_AMS
 	ammo_type = /obj/item/ship_weapon/ammunition/torpedo
 
+	weapon_datum_type = /datum/overmap_ship_weapon/torpedo_launcher
+
 /obj/machinery/ship_weapon/torpedo_launcher/north
 	dir = NORTH
 	pixel_x = -16

@@ -16,6 +16,8 @@
 		/obj/item/ship_weapon/parts/mac_barrel = 1
 		)
 
+	weapon_datum_type = /datum/overmap_ship_weapon/mac
+
 /obj/machinery/ship_weapon/mac/north // South-facing monitor looks for a gun to its north that's probably facing north
 	dir = NORTH
 

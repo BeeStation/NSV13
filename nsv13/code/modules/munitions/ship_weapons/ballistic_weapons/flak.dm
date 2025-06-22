@@ -36,6 +36,8 @@
 	chamber_delay = 0
 	bang = FALSE
 
+	weapon_datum_type = /datum/overmap_ship_weapon/flak
+
 /obj/machinery/ship_weapon/pdc_mount/flak/animate_projectile(atom/target)
 	var/obj/item/projectile/bullet/B = ..()
 	if(istype(B, /obj/item/projectile/bullet/flak))

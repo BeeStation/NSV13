@@ -56,6 +56,8 @@
 
 	processing_flags = START_PROCESSING_ON_INIT
 
+	weapon_datum_type = /datum/overmap_ship_weapon/plasma_caster
+
 
 /obj/machinery/ship_weapon/plasma_caster/update_overlay()
 	. = ..()

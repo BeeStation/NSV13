@@ -13,6 +13,7 @@
 	ammo_type = /obj/item/ship_weapon/ammunition/broadside_shell
 	circuit = /obj/item/circuitboard/machine/broadside
 
+	weapon_datum_type = /datum/overmap_ship_weapon/broadside
 	fire_mode = FIRE_MODE_BROADSIDE
 
 	auto_load = TRUE

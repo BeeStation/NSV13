@@ -19,7 +19,7 @@
 	var/max_charge = 3300000 //5 shots before it has to recharge.
 	var/power_modifier = 0 //Power youre inputting into this thing.
 	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
-	var/energy_weapon_type = /datum/ship_weapon/burst_phaser
+	weapon_datum_type = /datum/overmap_ship_weapon/burst_phaser
 	var/static_charge = FALSE //Controls whether power and energy cost scale with power modifier. True = no scaling
 
 /obj/machinery/ship_weapon/energy/beam
@@ -27,7 +27,7 @@
 	desc = "An extremely powerful directed energy weapon which is capable of delivering a devastating beam attack."
 	icon_state = "ion_cannon"
 	fire_mode = FIRE_MODE_BLUE_LASER
-	energy_weapon_type = /datum/ship_weapon/phaser
+	weapon_datum_type = /datum/overmap_ship_weapon/phaser
 	circuit = /obj/item/circuitboard/machine/phase_cannon
 	charge_rate = 600000 // At power level 5, requires 3MW per tick to charge
 	charge_per_shot = 4000000 // At power level 5, requires 20MW total to fire, takes about 12 seconds to gain 1 charge

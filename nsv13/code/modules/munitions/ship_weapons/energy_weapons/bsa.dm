@@ -8,7 +8,7 @@
 	charge_per_shot = 7.5e+7 //75 MW to fire once.
 	max_charge = 7.5e+7 //This thing chews through power.
 	power_modifier_cap = 3 //Can go up to 225 MW for a oneshot instadeath beam.
-	energy_weapon_type = /datum/ship_weapon/bsa
+	weapon_datum_type = /datum/overmap_ship_weapon/bsa
 	obj_integrity = 2000
 	max_integrity = 2000
 

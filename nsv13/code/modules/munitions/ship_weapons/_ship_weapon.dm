@@ -43,7 +43,7 @@
 
 	var/firing_sound = 'nsv13/sound/effects/ship/tri_mount_fire.ogg'
 	var/fire_animation_length = 5
-	var/fire_mode
+	var/fire_mode //OSW WIP - kill this since we now do sorting via FUN.
 
 	var/malfunction_sound = 'sound/effects/alert.ogg'
 
@@ -59,6 +59,7 @@
 	var/magazine_type = null
 	var/max_ammo = 1
 
+	//OSW WIP - link these for ALL physical ship weapons once done copying the datums.
 	///This determines what ship weapon type this weapon links to, or autogenerates if not already present.
 	var/weapon_datum_type
 	///The ship weapon datum this is linked to

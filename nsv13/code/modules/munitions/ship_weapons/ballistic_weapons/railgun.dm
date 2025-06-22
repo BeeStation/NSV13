@@ -14,6 +14,8 @@
 	semi_auto = TRUE
 	max_ammo = 4 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack
 
+	weapon_datum_type = /datum/overmap_ship_weapon/railgun
+
 	var/req_components = list(
 		/obj/item/stock_parts/capacitor = 4,
 		/obj/item/ship_weapon/parts/loading_tray = 1,

@@ -155,8 +155,8 @@
  */
 /datum/overmap_ship_weapon/proc/fires_lateral()
 	if(weapon_facing_flags & OSW_ALWAYS_FIRES_FORWARD)
-		return TRUE
-	return FALSE
+		return FALSE
+	return TRUE
 
 /**
  * Returns whether this overmap ship weapon fires broadsides (bursts towards the sides of the ship)

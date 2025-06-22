@@ -46,6 +46,8 @@
 	max_ammo = 2
 	density = FALSE
 	circuit = /obj/item/circuitboard/machine/vls
+	weapon_datum_type = /datum/overmap_ship_weapon/vls
+
 	var/obj/structure/fluff/vls_hatch/hatch = null
 
 /obj/machinery/ship_weapon/vls/proc/on_entered(datum/source, atom/movable/torp, oldloc)
@@ -381,6 +383,8 @@
 		fire_weapon(incoming_missile, mode=FIRE_MODE_PDC, lateral=TRUE, ai_aim = TRUE)
 		if(!light_shots_left)
 			return
+
+//OSW WIP: Check the following for rework (change into control flag)
 
 /**
  * Handles the AMS system

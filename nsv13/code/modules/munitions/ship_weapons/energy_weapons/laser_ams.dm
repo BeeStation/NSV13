@@ -22,7 +22,7 @@
 
 	power_modifier = 0 //Power you're inputting into this thing.
 	power_modifier_cap = 2
-	energy_weapon_type = /datum/ship_weapon/laser_ams
+	weapon_datum_type = /datum/overmap_ship_weapon/laser_ams
 
 /datum/ship_weapon/laser_ams
 	name = "Laser Anti Missile System"

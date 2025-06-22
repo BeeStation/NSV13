@@ -24,6 +24,7 @@
 	var/obj/machinery/deck_turret/core/core
 	var/id = null //N.B. This is NOT intended to allow them to manual link deck guns. This is for certain boarding maps and is thus a UNIQUE CONSTRAINT for this one case. ~KMC
 	circuit = /obj/item/circuitboard/machine/deck_turret
+	weapon_datum_type = /datum/overmap_ship_weapon/mac
 
 /obj/machinery/ship_weapon/deck_turret/Topic(href, href_list)
 	. = ..() //Sanity checks.

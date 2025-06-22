@@ -34,6 +34,8 @@
 	chamber_delay_rapid = 0
 	chamber_delay = 0
 	bang = FALSE
+
+	weapon_datum_type = /datum/overmap_ship_weapon/pdc_mount
 	var/sound/lastsound // PDCs only switch sounds after the user stops firing. (Rapidfire uses the same sound)
 	var/soundcooldown = 0
 

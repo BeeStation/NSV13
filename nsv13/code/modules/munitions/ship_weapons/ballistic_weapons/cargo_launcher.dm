@@ -4,6 +4,7 @@
 	color = "#f5d1b0" // I have better things to do than to modify 100+ sprite frames just to add funny orange stripes
 	var/obj/machinery/computer/ship/dradis/minor/cargo/linked_dradis = null
 	ammo_type = /obj/item/ship_weapon/ammunition/torpedo/freight
+	weapon_datum_type = null //Set here again just as a reminder this is supposed to not get links.
 	var/launcher_id = null
 
 /obj/machinery/ship_weapon/torpedo_launcher/cargo/north

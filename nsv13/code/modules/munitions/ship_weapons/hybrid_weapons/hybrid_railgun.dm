@@ -15,6 +15,7 @@
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo //preset to slug
 	max_ammo = 5 //preset to slug
 	semi_auto = TRUE
+	weapon_datum_type = /datum/overmap_ship_weapon/hybrid_railgun
 
 	var/slug_shell = 0 //Use Slugs = 0. Use Shells = 1
 	var/switching = 0 //Track if we are switching types
