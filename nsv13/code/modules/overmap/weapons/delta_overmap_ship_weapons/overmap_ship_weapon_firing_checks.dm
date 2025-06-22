@@ -94,6 +94,8 @@
 /datum/overmap_ship_weapon/proc/can_fire(atom/target)
 	if(next_firetime > world.time)
 		return FALSE
+	if(target && QDELETED(target))
+		return FALSE
 	if(!get_ammo())
 		return FALSE
 	if(!check_valid_fire_angle()) //OSW WIP - Note to self, some ships launch their missiles / torps in fixed dirs but allow locks anyways, override those things there.
@@ -172,10 +174,3 @@
  */
 /datum/overmap_ship_weapon/proc/play_weapon_sound()
 	linked_overmap.relay_to_nearby(pick(overmap_firing_sounds))
-
-
-// ======== OSW WIP
-
-/datum/overmap_ship_weapon/proc/autonomous_handling()
-
-//AI related stuff tha should maybe be in a different file?

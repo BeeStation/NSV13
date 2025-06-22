@@ -191,10 +191,13 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define STARSYSTEM_END_ON_ENTER 1<<3  //End the round after entering this system (Outpost 45)
 
 //Overmap ship weapon datum control flags
-#define OSW_CONTROL_PILOT (1<<0)		//!This weapon can be accessed by a pilot.
-#define OSW_CONTROL_GUNNER (1<<1)		//!This weapon can be accessed by a gunner.
-#define OSW_CONTROL_MANUAL (1<<2)		//!Denotes manual handling of the weapon.
-#define OSW_CONTROL_AI (1<<3)			//!Denotes AI being able to use this weapon if the ship it is on is AI controlled.
+#define OSW_CONTROL_PILOT (1<<0)			//!This weapon can be accessed by a pilot.
+#define OSW_CONTROL_GUNNER (1<<1)			//!This weapon can be accessed by a gunner.
+#define OSW_CONTROL_MANUAL (1<<2)			//!Denotes manual handling of the weapon.
+#define OSW_CONTROL_AI (1<<3)				//!Denotes AI being able to use this weapon if the ship it is on is AI controlled.
+#define OSW_CONTROL_AUTONOMOUS (1<<4)		//!This weapon has some form of autonomous control handling.
+#define OSW_CONTROL_FULL_AUTONOMY (1<<5)	//!This weapon operates independantly when using autonomy handling. Ones with autonomy but without this are implied to be controlled by ams modes.
+#define OSW_CONTROL_AI_FULL_AUTONOMY (1<<6)	//!Like Full Autonomy, except only used if the ship is controlled by AI.
 
 //Overmap ship weapon facing flags
 #define OSW_FACING_OMNI (1<<0)				//!Standard 360° aim. Mostly for ease-of-read purpose.

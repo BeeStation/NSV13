@@ -1,4 +1,5 @@
 /**
+ * OSW WIP: Update this guide.
  *	Ship-to-ship weapons
  *	To add a weapon type:
  *	Define a FIRE_MODE in nsv13/_DEFINES/overmap.dm
@@ -51,6 +52,7 @@
 	var/maintainable = TRUE //Does the weapon require maintenance?
 	var/bang = TRUE //Is firing loud?
 	var/bang_range = 8
+	//OSW WIP: Pull this from OSW control flags.
 	var/broadside = FALSE //Does the weapon only fire to the sides?
 	var/auto_load = FALSE //Does the weapon feed and chamber the round once we load it?
 	var/semi_auto = FALSE //Does the weapon re-chamber for us after firing?
@@ -59,7 +61,6 @@
 	var/magazine_type = null
 	var/max_ammo = 1
 
-	//OSW WIP - link these for ALL physical ship weapons once done copying the datums.
 	///This determines what ship weapon type this weapon links to, or autogenerates if not already present.
 	var/weapon_datum_type
 	///The ship weapon datum this is linked to

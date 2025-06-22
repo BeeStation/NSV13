@@ -86,6 +86,7 @@ Any flags related to this should start with OSW.
 	 * Inserted before the first object with a lower priority (or at [1] if list is empty)
 	 */
 	var/sort_priority = 1
+	///OSW WIP: Consider: Var that determines if this weapon is currently selected by at least one user (suppresses autonomy)
 
 
 	//===SECTION - DEPRECATED / WEIRD VARS===
@@ -211,6 +212,8 @@ Any flags related to this should start with OSW.
 	var/list/datum/overmap_ship_weapon/pilot_weapon_datums = list()
 	///Weapons controllable by GUNNER. Recalced if main list changes.
 	var/list/datum/overmap_ship_weapon/gunner_weapon_datums = list()
+	///Weapons that are able to operate independantly.
+	var/list/datum/overmap_ship_weapon/autonomous_weapon_datums = list()
 
 	//OSW WIP - potentially have another list for AI accessible weapons?
 
@@ -222,12 +225,16 @@ Any flags related to this should start with OSW.
 		pilot_weapon_datums.Cut()
 	if(length(gunner_weapon_datums))
 		gunner_weapon_datums.Cut()
+	if(length(autonomous_weapon_datums))
+		autonomous_weapon_datums.Cut()
 
 	for(var/datum/overmap_ship_weapon/osw as() in overmap_weapon_datums)
 		if(osw.weapon_control_flags & OSW_CONTROL_PILOT)
 			pilot_weapon_datums += osw
 		if(osw.weapon_control_flags & OSW_CONTROL_GUNNER)
 			gunner_weapon_datums += osw
+		if(osw.weapon_control_flags & OSW_CONTROL_AUTONOMOUS)
+			autonomous_weapon_datums += osw
 
 /**
  * Deletes all linked weapon datums.

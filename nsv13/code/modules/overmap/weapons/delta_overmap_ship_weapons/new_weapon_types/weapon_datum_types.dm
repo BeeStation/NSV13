@@ -312,7 +312,7 @@
 	miss_chance = 33
 	max_miss_distance = 6
 	ai_fire_delay = 0.5 SECONDS
-	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_GUNNER|OSW_CONTROL_AI
+	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_GUNNER|OSW_CONTROL_AI|OSW_CONTROL_AUTONOMOUS|OSW_CONTROL_AI_FULL_AUTONOMY
 	var/sound/lastsound // Special PDC sound handling
 
 /datum/overmap_ship_weapon/pdc_mount/New()
@@ -339,7 +339,17 @@
 	max_miss_distance = 8
 	ai_fire_delay = 0.5 SECONDS
 	weapon_facing_flags = OSW_ALWAYS_FIRES_FORWARD
-	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI
+	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI|OSW_CONTROL_FULL_AUTONOMY
+	///flak aims at one consistent target until it is out of range.
+	var/obj/structure/overmap/last_auto_target
+
+/datum/overmap_ship_weapon/flak/New(obj/structure/overmap/link_to, update_role_weapon_lists = TRUE, flak_battery_count,...)
+	. = ..()
+	burst_size = flak_battery_count //Instead of the old flak battery var determining burst size, this does it better.
+
+/datum/overmap_ship_weapon/flak/Destroy(force, ...)
+	last_auto_target = null
+	return ..()
 
 //Broadside
 
