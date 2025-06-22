@@ -306,7 +306,9 @@
  * Animates an overmap projectile matching whatever we're shooting.
  */
 /obj/machinery/ship_weapon/gauss_gun/animate_projectile(atom/target)
-	linked.fire_projectile(weapon_type.default_projectile_type, target, user_override=gunner, lateral=weapon_type.lateral)
+	var/lateral_fire = linked_overmap_ship_weapon.fires_lateral()
+	var/broadside_fire = linked_overmap_ship_weapon.fires_broadsides()
+	linked.fire_projectile(linked_overmap_ship_weapon.standard_projectile_type, target, user_override = gunner,  lateral = lateral_fire, broadside = broadside_fire)
 
 //Atmos handling
 

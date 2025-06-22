@@ -160,6 +160,6 @@
 	return default_deconstruction_crowbar(user, tool)
 
 /obj/machinery/ship_weapon/pdc_mount/overmap_sound()
-	if(world.time > soundcooldown)
-		lastsound = pick(weapon_type.overmap_firing_sounds)
+	if(world.time > soundcooldown && linked_overmap_ship_weapon)
+		lastsound = pick(linked_overmap_ship_weapon.overmap_firing_sounds)
 	linked.relay_to_nearby(lastsound)

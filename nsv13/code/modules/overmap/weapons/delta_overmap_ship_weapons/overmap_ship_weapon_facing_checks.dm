@@ -9,16 +9,16 @@
 	var/our_angle = (linked_overmap.angle + 360) % 360
 	var/angle_to_target = get_angle(linked_overmap, target)
 
-	if(weapon_control_flags & OSW_FACING_FRONT)
+	if(weapon_facing_flags & OSW_FACING_FRONT)
 		var/angle_diff_fore = abs(angle_to_target - our_angle) % 360
 		if(angle_diff_fore <= firing_arc)
 			return TRUE
-	if(weapon_control_flags & OSW_FACING_SIDES)
+	if(weapon_facing_flags & OSW_FACING_SIDES)
 		var/angle_diff_left = abs(angle_to_target - (our_angle - 90)) % 360
 		var/angle_diff_right = abs(angle_to_target - (our_angle + 90)) % 360
 		if(angle_diff_left <= firing_arc || angle_diff_right <= firing_arc)
 			return TRUE
-	if(weapon_control_flags & OSW_FACING_BACK)
+	if(weapon_facing_flags & OSW_FACING_BACK)
 		var/angle_diff_back = abs(angle_to_target - (our_angle + 180)) % 360
 		if(angle_diff_back <= firing_arc)
 			return TRUE

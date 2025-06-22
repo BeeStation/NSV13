@@ -59,7 +59,10 @@
 	var/magazine_type = null
 	var/max_ammo = 1
 
-	var/datum/ship_weapon/weapon_type = null
+	///This determines what ship weapon type this weapon links to, or autogenerates if not already present.
+	var/weapon_datum_type
+	///The ship weapon datum this is linked to
+	var/datum/overmap_ship_weapon/linked_overmap_ship_weapon
 
 	// Things that change while we're operating
 	var/maint_req = 0 //Number of times a weapon can fire until a maintenance cycle is required. This will countdown to 0.
@@ -129,17 +132,17 @@
 /**
  * Tries to link the ship to an overmap by finding the overmap linked it the area we are in.
  */
-/obj/machinery/ship_weapon/proc/get_ship(error_log=TRUE)
+/obj/machinery/ship_weapon/proc/get_ship()
 	linked = get_overmap()
-	if(linked)
-		set_position(linked)
+	if(linked && !linked_overmap_ship_weapon)
+		link_to_overmap_weapon_datum(linked)
 	else
 		message_admins("[z] not linked to an overmap - [src] will not be linked.")
 
 /**
- * Adds the weapon to the overmap ship's list of weapons of this type
+ * Links the physical weapon to a ship weapon datum, or creates one if needed.
  */
-/obj/machinery/ship_weapon/proc/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
+/obj/machinery/ship_weapon/proc/link_to_overmap_weapon_datum(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
 	OM.add_weapon(src)
 
 /**
@@ -387,11 +390,12 @@
 	update()
 
 /obj/machinery/ship_weapon/proc/update()
-	if(weapon_type) // Who would've thought creating a weapon with no weapon_type would break everything!
-		if(!safety && chambered)
-			weapon_type.weapons["loaded"] |= src //OR to avoid duplicating refs
-		else
-			weapon_type.weapons["loaded"] -= src
+	if(!linked_overmap_ship_weapon)
+		return
+	if(!safety && chambered)
+		linked_overmap_ship_weapon.mark_physical_weapon_loaded(src)
+	else
+		linked_overmap_ship_weapon.mark_physical_weapon_unloaded(src)
 
 /obj/machinery/ship_weapon/proc/lazyload()
 	if(magazine_type)
@@ -453,7 +457,7 @@
  * Checks if the weapon is able to fire the given number of shots.
  * Need to have a round in the chamber, not already be shooting, not be in maintenance, not be malfunctioning, and have enough shots in our ammo pool. Also checks if the direction of a broadside gun is correct.
  */
-/obj/machinery/ship_weapon/proc/can_fire(atom/target, shots = weapon_type.burst_size)
+/obj/machinery/ship_weapon/proc/can_fire(atom/target, shots = linked_overmap_ship_weapon.burst_size)
 	if((state < STATE_CHAMBERED) || !chambered) //Do we have a round ready to fire
 		return FALSE
 	if (maint_state > MSTATE_UNSCREWED) //Are we in maintenance?
@@ -464,7 +468,7 @@
 		return FALSE
 	if(safety) // Is the safety on?
 		return FALSE
-	if(length(ammo) < shots) //Do we have enough ammo?
+	if(get_ammo() < shots) //Do we have ammo?
 		return FALSE
 	if(broadside && target)
 		return dir == angle2dir_ship(overmap_angle(linked, target) - linked.angle) ? TRUE : FALSE
@@ -480,9 +484,11 @@
  *   from STATE_CHAMBERED if semi-auto and have ammo.
  * Returns projectile if successfully fired, FALSE otherwise.
  */
-/obj/machinery/ship_weapon/proc/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+/obj/machinery/ship_weapon/proc/fire(atom/target, shots = linked_overmap_ship_weapon.burst_size, manual = TRUE)
 	//Fun fact: set [waitfor, etc] is special, and is inherited by child procs even if they do not call parent!
 	set waitfor = FALSE //As to not hold up any feedback messages.
+
+	//OSW WIP - MAKE SURE THIS IS HANDLED CORRECTLY!! Potentially check for single shot in weapon datum prefire checks?
 	if(can_fire(target, shots))
 		if(manual)
 			linked.last_fired = overlay
@@ -508,11 +514,11 @@
 				chamber(rapidfire = TRUE)
 			after_fire()
 			if(shots > 1)
-				sleep(weapon_type.burst_fire_delay)
+				sleep(linked_overmap_ship_weapon.burst_fire_delay)
 		return TRUE
 	return FALSE
 
-/obj/machinery/ship_weapon/energy/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+/obj/machinery/ship_weapon/energy/fire(atom/target, shots = linked_overmap_ship_weapon.burst_size, manual = TRUE)
 	if(can_fire(target, shots))
 		if(manual)
 			linked.last_fired = overlay
@@ -524,7 +530,7 @@
 			after_fire()
 			. = TRUE
 			if(shots > 1)
-				sleep(weapon_type.burst_fire_delay)
+				sleep(linked_overmap_ship_weapon.burst_fire_delay)
 		return TRUE
 	return FALSE
 
@@ -544,23 +550,26 @@
  */
 /obj/machinery/ship_weapon/proc/overmap_fire(atom/target)
 
-	if(weapon_type?.overmap_firing_sounds)
-		overmap_sound()
+	overmap_sound()
 
 	if(overlay)
 		overlay.do_animation()
-	if( weapon_type )
+	if( linked_overmap_ship_weapon )
 		animate_projectile(target)
 
 /obj/machinery/ship_weapon/proc/overmap_sound()
-	var/sound/chosen = pick(weapon_type.overmap_firing_sounds)
-	linked.relay_to_nearby(chosen)
+	if(linked_overmap_ship_weapon.overmap_firing_sounds)
+		linked_overmap_ship_weapon.play_weapon_sound()
 
 /**
  * Animates an overmap projectile matching whatever we're shooting.
  */
 /obj/machinery/ship_weapon/proc/animate_projectile(atom/target)
-	return linked.fire_projectile(weapon_type.default_projectile_type, target, lateral=weapon_type.lateral)
+	var/lateral_fire = linked_overmap_ship_weapon.fires_lateral()
+	var/broadside_fire = linked_overmap_ship_weapon.fires_broadsides()
+	return linked.fire_projectile(linked_overmap_ship_weapon.standard_projectile_type, target, lateral = lateral_fire, broadside = broadside_fire)
+
+//OSW WIP - CHANGE ALL THESE MANUAL CALCS TO JUST HAVE A GETTER PROC.
 
 /**
  * Updates maintenance counter after firing if applicable.

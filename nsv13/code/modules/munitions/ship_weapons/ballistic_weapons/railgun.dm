@@ -102,6 +102,3 @@
 
 /obj/machinery/ship_weapon/railgun/MouseDrop_T(obj/structure/A, mob/user)
 	return
-
-/obj/machinery/ship_weapon/railgun/animate_projectile(atom/target)
-	linked.fire_projectile(weapon_type.default_projectile_type, target, TRUE)

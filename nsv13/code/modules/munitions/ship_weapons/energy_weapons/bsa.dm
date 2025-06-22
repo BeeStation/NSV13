@@ -185,7 +185,7 @@
 	point.Beam(turf_target, icon_state = "bsa_beam", time = 50, maxdistance = world.maxx) //ZZZAP
 	new /obj/effect/temp_visual/bsa_splash(point, dir)
 	//Recharging...
-	linked.relay_to_nearby(weapon_type.overmap_select_sound)
+	linked.relay_to_nearby(linked_overmap_ship_weapon.overmap_select_sound)
 	if(blocker) //We hit something on the ship
 		var/turf/location = get_turf(blocker)
 		var/admin_message = "The ship BSA has hit [blocker] at [ADMIN_VERBOSEJMP(location)]!"

@@ -36,6 +36,8 @@ Any flags related to this should start with OSW.
 	var/list/weapons = list()
 	///If this needs physical weapon machinery to use if ship has linked physical areas and is not AI controlled. Should be TRUE for most except small craft weapons.
 	var/requires_physical_guns = TRUE //OSW WIP - should probably just be handled in checks?
+	///Causes the weapon to delete if the last weapon in its list loses linkage. False by default, usually TRUE for ones added by weapon creation.
+	var/delete_if_last_weapon_removed = FALSE
 
 
 	//===SECTION - projectile / firing related vars===
@@ -118,10 +120,10 @@ Any flags related to this should start with OSW.
 /datum/overmap_ship_weapon/Destroy(force, ...)
 	if(linked_overmap)
 		unlink_weapon()
-	/*
-	if(length(weapons)) OSW WIP see proc comment
-		unlink_physical_weapons()
-	*/
+
+	if(length(weapons))
+		unlink_all_physical_weapons(TRUE)
+
 	return ..()
 
 /**

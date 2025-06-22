@@ -1,11 +1,5 @@
 #define FIRE_INTERCEPTED 2 //For special_fire()
 
-//These procs should *really* not be here
-/obj/structure/overmap/proc/add_weapon(obj/machinery/ship_weapon/weapon)
-	if(weapon_types[weapon.fire_mode])
-		var/datum/ship_weapon/SW = weapon_types[weapon.fire_mode]
-		SW.add_weapon(weapon) //hand it over to the datum for sane things like adding it idk
-
 /datum/ship_weapon
 	var/name = "Ship weapon"
 	var/default_projectile_type
@@ -54,7 +48,7 @@
 		return
 	requires_physical_guns = TRUE //If we're adding a physical weapon, we want to shoot it.
 	all_weapons += weapon //Record-keeping
-	weapon.weapon_type = src
+	//weapon.weapon_type = src
 	weapon.update() //Ok is this thing loaded or what.
 
 /datum/ship_weapon/proc/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)

@@ -83,38 +83,27 @@
 	return data
 
 /obj/machinery/ship_weapon/energy/update()
+	if(!linked_overmap_ship_weapon)
+		return
 	if(!safety)
-		if(src in weapon_type.weapons["loaded"])
-			return
-		LAZYADD(weapon_type.weapons["loaded"] , src)
+		linked_overmap_ship_weapon.mark_physical_weapon_loaded(src)
 	else
-		if(src in weapon_type.weapons["loaded"])
-			LAZYREMOVE(weapon_type.weapons["loaded"] , src)
+		linked_overmap_ship_weapon.mark_physical_weapon_unloaded(src)
 
-/obj/machinery/ship_weapon/energy/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
-	for(var/I = FIRE_MODE_ANTI_AIR; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
-		var/datum/ship_weapon/SW = OM.weapon_types[I]
-		if(!SW)
-			continue
-		if(istype(SW, energy_weapon_type)) //Does this ship have a weapon type registered for us? Prevents phantom weapon groups.
-			OM.add_weapon(src)
-			return TRUE
-	OM.weapon_types[fire_mode] = new energy_weapon_type(OM)
-	OM.add_weapon(src)
-
-/obj/machinery/ship_weapon/energy/can_fire(shots = weapon_type.burst_size)
-	if (maint_state != MSTATE_CLOSED) //Are we in maintenance?
+//OSW WIP - MAKE SURE ENERGY WEAPONS ONLY COUNT AS VALID CANFIRE with at least one shot AND properly calc things like that!!!!
+/obj/machinery/ship_weapon/energy/can_fire(atom/target, shots = linked_overmap_ship_weapon.burst_size)
+	if(maint_state != MSTATE_CLOSED) //Are we in maintenance?
 		return FALSE
-	if(charge < charge_per_shot*shots) //Do we have enough ammo?
+	if(get_ammo() < shots) //Do we have enough ammo?
 		return FALSE
 	else
 		return TRUE
 
 /obj/machinery/ship_weapon/energy/get_max_ammo()
-	return max_charge
+	return round(max_charge / charge_per_shot)
 
 /obj/machinery/ship_weapon/energy/get_ammo()
-	return charge
+	return round(charge / charge_per_shot)
 
 /obj/machinery/ship_weapon/energy/beam/animate_projectile(atom/target)
 	var/obj/item/projectile/P = ..()

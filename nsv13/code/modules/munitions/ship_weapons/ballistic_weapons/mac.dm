@@ -98,6 +98,6 @@
 /obj/machinery/ship_weapon/mac/MouseDrop_T(obj/structure/A, mob/user)
 	return
 
-/obj/machinery/ship_weapon/mac/set_position(obj/structure/overmap/OM)
+/obj/machinery/ship_weapon/mac/link_to_overmap_weapon_datum(obj/structure/overmap/OM)
 	..()
 	overlay = linked.add_weapon_overlay("/obj/weapon_overlay/railgun")

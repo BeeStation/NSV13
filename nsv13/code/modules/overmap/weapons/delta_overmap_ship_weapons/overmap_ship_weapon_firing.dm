@@ -25,7 +25,7 @@
 	//OSW WIP - CHECK IF THIS IS ACTUALLY FINE
 	var/fire_count = burst_size
 	for(var/obj/machinery/ship_weapon/firing_weapon in weapons["loaded"])
-		if(!firing_weapon.can_fire())
+		if(!firing_weapon.can_fire(target, 1))
 			continue
 		var/this_burst = min(burst_size, get_ammo(firing_weapon))
 		if(fire_count == burst_size)
@@ -45,12 +45,8 @@
 
 /datum/overmap_ship_weapon/proc/async_nonphysical_fire(atom/target, mob/living/firer, ai_aim = FALSE, active_burst_size)
 	set waitfor = FALSE
-	var/fires_lateral = FALSE
-	var/fires_broadsides = FALSE
-	if(weapon_control_flags & OSW_ALWAYS_FIRES_FORWARD)
-		fires_lateral = TRUE
-	else if(weapon_control_flags & OSW_ALWAYS_FIRES_BROADSIDES)
-		fires_broadsides = TRUE
+	var/fires_lateral = fires_lateral()
+	var/fires_broadsides = fires_broadsides()
 
 	for(var/cycle = 1; cycle <= active_burst_size; cycle++)
 		if(QDELETED(src))	//We might get shot.
@@ -58,7 +54,8 @@
 		if(QDELETED(target))
 			target = null
 		linked_overmap.fire_projectile(standard_projectile_type, target, user_override = firer, lateral = fires_lateral, ai_aim = ai_aim, broadside = fires_broadsides)
-		play_weapon_sound()
+		if(length(overmap_firing_sounds))
+			play_weapon_sound()
 		sleep(burst_fire_delay)
 
 /datum/overmap_ship_weapon/proc/use_nonphysical_ammo(amount)

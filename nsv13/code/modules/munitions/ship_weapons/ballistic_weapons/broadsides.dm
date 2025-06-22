@@ -172,7 +172,7 @@
 		overlay.do_animation()
 	animate_projectile(target)
 
-/obj/machinery/ship_weapon/broadside/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+/obj/machinery/ship_weapon/broadside/fire(atom/target, shots = linked_overmap_ship_weapon.burst_size, manual = TRUE)
 	. = ..()
 	if(.)
 		new /obj/effect/particle_effect/muzzleflash(loc)
@@ -187,7 +187,7 @@
 			new /obj/effect/particle_effect/smoke(C)
 			new /obj/effect/particle_effect/smoke(D)
 
-/obj/machinery/ship_weapon/broadside/local_fire(shots = weapon_type.burst_size, atom/target) //For the broadside cannons, we want to eject spent casings
+/obj/machinery/ship_weapon/broadside/local_fire(shots = linked_overmap_ship_weapon.burst_size, atom/target) //For the broadside cannons, we want to eject spent casings
 	. = ..()
 	cut_overlay(list("[dir]_chambered_1", "[dir]_chambered_2", "[dir]_chambered_3", "[dir]_chambered_4", "[dir]_chambered_5"))
 	if(dir == SOUTH)

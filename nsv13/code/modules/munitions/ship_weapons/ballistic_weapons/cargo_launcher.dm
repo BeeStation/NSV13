@@ -39,5 +39,5 @@
 					linked_dradis = W
 					W.linked_launcher = src
 
-/obj/machinery/ship_weapon/torpedo_launcher/cargo/set_position()
-	// Don't register cargo torpedo tube for weapons fire by tactical console
+/obj/machinery/ship_weapon/torpedo_launcher/cargo/link_to_overmap_weapon_datum()
+	return // Don't register cargo torpedo tube for weapons fire by tactical console

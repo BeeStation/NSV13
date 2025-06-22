@@ -168,7 +168,7 @@
 	radio.canhear_range = 0
 	radio.recalculateChannels()
 
-/obj/machinery/ship_weapon/plasma_caster/can_fire(shots = weapon_type.burst_size)
+/obj/machinery/ship_weapon/plasma_caster/can_fire(atom/target, shots = linked_overmap_ship_weapon.burst_size)
 	if((state < STATE_CHAMBERED) || !chambered)
 		return FALSE
 	if(state >= STATE_FIRING)
@@ -225,7 +225,9 @@
 	icon_state = initial(icon_state)
 
 /obj/machinery/ship_weapon/plasma_caster/animate_projectile(atom/target)
-	return linked.fire_projectile(weapon_type.default_projectile_type, target, speed = 2, lateral=weapon_type.lateral)
+	var/lateral_fire = linked_overmap_ship_weapon.fires_lateral()
+	var/broadside_fire = linked_overmap_ship_weapon.fires_broadsides()
+	return linked.fire_projectile(linked_overmap_ship_weapon.standard_projectile_type, target, speed = 2, lateral = lateral_fire, broadside = broadside_fire)
 
 /obj/machinery/ship_weapon/plasma_caster/proc/misfire()
 	if(COOLDOWN_FINISHED(src, radio_cooldown))
@@ -250,13 +252,12 @@
 
 /obj/machinery/ship_weapon/plasma_caster/overmap_fire(atom/target)
 
-	if(weapon_type?.overmap_firing_sounds)
-		overmap_sound()
+	overmap_sound()
 
 	if(overlay)
 		overlay.do_animation()
 	sleep(4 SECONDS)
-	if( weapon_type )
+	if(linked_overmap_ship_weapon)
 		animate_projectile(target)
 
 /obj/machinery/ship_weapon/plasma_caster/after_fire()
