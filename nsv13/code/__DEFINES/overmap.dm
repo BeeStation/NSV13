@@ -35,6 +35,7 @@
 #define MAX_POSSIBLE_FIREMODE 18 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
 
 //Weapon classes for AIs
+//OSW WIP - Remove these - being replaced.
 #define WEAPON_CLASS_LIGHT 1
 #define WEAPON_CLASS_HEAVY 2
 
@@ -132,3 +133,9 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 
 //Interior instancing comsig, aka cursed things.
 #define COMSIG_INTERIOR_DONE_LOADING "interior_done_loading"
+
+//Defines for what type of ammo AI weapons use.
+#define OSW_AMMO_LIGHT 1		//! Weapon uses light ammo.
+#define OSW_AMMO_HEAVY 2		//! Weapon uses heavy ammo.
+#define OSW_AMMO_MISSILE 3		//! Weapon uses missiles.
+#define OSW_AMMO_TORPEDO 4		//! Weapon uses torpedoes.

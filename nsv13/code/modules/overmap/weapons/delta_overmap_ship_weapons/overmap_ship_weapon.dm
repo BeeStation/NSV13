@@ -13,7 +13,7 @@ Any flags related to this should start with OSW.
 
 	///Name of the weapon.
 	var/name = "Generic ship weapon. You shouldn't see this."
-	///Sound relayed to internal z levels on fire.
+	///One of these sounds is relayed to internal z levels on fire.
 	var/list/overmap_firing_sounds
 	///Sound relayed to internal z levels on select.
 	var/overmap_select_sound
@@ -34,7 +34,7 @@ Any flags related to this should start with OSW.
 	 * Does not have any type limitations, use wisely for your purposes by overriding / amending procs.
 	 */
 	var/list/weapons = list()
-	///If this NEEDS physical weapons in its weapons list to fire (& interacts with them). Should be FALSE for AI and small craft.
+	///If this needs physical weapon machinery to use if ship has linked physical areas and is not AI controlled. Should be TRUE for most except small craft weapons.
 	var/requires_physical_guns = TRUE //OSW WIP - should probably just be handled in checks?
 
 
@@ -62,8 +62,8 @@ Any flags related to this should start with OSW.
 	var/max_miss_distance = 4
 	///Additional fire delay applied if an AI fires this weapon.
 	var/ai_fire_delay = 0
-	///Determines which type of ammo the AI uses to fire this & potentially some behavior stuff - OSW WIP - integrate torp / missile ammo use into this & turn into bitfield?
-	var/weapon_class = WEAPON_CLASS_HEAVY
+	///Determines which type of ammo is used if the weapon isn't physically present.
+	var/used_nonphysical_ammo = OSW_AMMO_HEAVY
 
 
 	//===SECTION - Handling vars===
@@ -90,12 +90,6 @@ Any flags related to this should start with OSW.
 
 	///OSW WIP - DEPRECATE. Replaced with control flags
 	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
-
-	///OSW WIP - DEPRECATE. Kept as reminder to replace integration with new stuff (facing flags)
-	var/lateral = TRUE //Does this weapon need you to face the enemy? Mostly no.
-
-	///OSW WIP - DEPRECATE - integrate handling into ship weapon datums.
-	var/special_fire_proc = null //Override this if you need to replace the firing weapons behaviour with a custom proc. See torpedoes and missiles for this.
 
 	///OSW WIP - Should determine weapon base range for AI? Or Deprecate.
 	var/range = 255
@@ -175,7 +169,7 @@ Any flags related to this should start with OSW.
 	linked_overmap.recalc_role_weapon_lists()
 
 /**
- * Removes this weapon from the linke overmap weapon datum list and then reinserts it.
+ * Removes this weapon from the linked overmap weapon datum list and then reinserts it.
  * Used to handle changes in priority when already linked.
  * Must be linked to something to call this. Use `insert_into_overmap_weapons()` otherwise.
  */
