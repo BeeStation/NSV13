@@ -13,11 +13,6 @@
 	var/ai_can_launch_fighters = FALSE //AI variable. Allows your ai ships to spawn fighter craft
 	var/list/ai_fighter_type = list()
 
-/obj/structure/overmap/Initialize(mapload)
-	. = ..()
-	if(mass <= MASS_TINY)
-		weapons[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/light_cannon(src)
-
 /**
 *
 *
@@ -53,7 +48,7 @@
 		if(ship == src || ship.faction == faction || ship.z != z)
 			continue
 		if ( ship.essential )
-			continue // These checks are literally everywhere why 
+			continue // These checks are literally everywhere why
 		ai_target(ship)
 
 /**

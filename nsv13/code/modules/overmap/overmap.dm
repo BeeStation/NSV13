@@ -136,10 +136,6 @@
 	*/
 	var/obj/machinery/computer/ship/dradis/dradis //So that pilots can check the radar easily
 
-	// Ship weapons
-	var/list/weapon_types[MAX_POSSIBLE_FIREMODE]
-
-	var/fire_mode = FIRE_MODE_TORPEDO //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
 	var/faction = null //Used for target acquisition by AIs
 
@@ -204,9 +200,6 @@
 	var/torpedo_type = /obj/item/projectile/guided_munition/torpedo
 	var/missile_type = /obj/item/projectile/guided_munition/missile
 	var/next_maneuvre = 0 //When can we pull off a fancy trick like boost or kinetic turn?
-	var/flak_battery_amount = 0
-	var/broadside = FALSE //Whether the ship is allowed to have broadside cannons or not
-	var/plasma_caster = FALSE //Wehther the ship is allowed to have plasma gun or not
 	var/role = NORMAL_OVERMAP
 
 	var/list/missions = list()
@@ -424,9 +417,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			max_angular_acceleration = 6
 			bounce_factor = 0.20 //But you can plow through enemy ships with ease.
 			lateral_bounce_factor = 0.20
-			//If we've not already got a special flak battery amount set.
-			if(flak_battery_amount <= 0)
-				flak_battery_amount = 1
 		//Supercapitals are EXTREMELY hard to move, you'll find that they fight your every command, it's a side-effect of their immense power.
 		if(MASS_TITAN)
 			forward_maxthrust = 0.35
@@ -435,9 +425,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			max_angular_acceleration = 2.75
 			bounce_factor = 0.10// But nothing can really stop you in your tracks.
 			lateral_bounce_factor = 0.10
-			//If we've not already got a special flak battery amount set.
-			if(flak_battery_amount <= 0)
-				flak_battery_amount = 2
 	switch(role)
 		if(MAIN_OVERMAP)
 			name = station_name()
@@ -471,28 +458,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	UnregisterSignal(src, COMSIG_INTERIOR_DONE_LOADING)
 	apply_weapons()
 
-//Method to apply weapon types to a ship. Override to your liking, this just handles generic rules and behaviours
+//Method to apply weapon types to a ship. By default applies NO weapons.
 /obj/structure/overmap/proc/apply_weapons()
-	//Prevent fighters from getting access to the AMS.
-	if(mass <= MASS_TINY)
-		weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/light_cannon(src)
-	//Gauss is the true PDC replacement...
-	else
-		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	if(mass >= MASS_SMALL || length(occupying_levels))
-		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
-		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
-	if(flak_battery_amount > 0)
-		weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
-	if(mass > MASS_MEDIUM || length(occupying_levels))
-		weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
-	if(ai_controlled)
-		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
-		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	if(broadside)
-		weapon_types[FIRE_MODE_BROADSIDE] = new/datum/ship_weapon/broadside(src)
-	if(plasma_caster)
-		weapon_types[FIRE_MODE_PHORON] = new/datum/ship_weapon/plasma_caster(src)
+	return
 
 /obj/item/projectile/Destroy()
 	if(physics2d)
@@ -503,6 +471,16 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(block_deletion || (CHECK_BITFIELD(overmap_deletion_traits, NEVER_DELETE_OCCUPIED) && has_occupants()))
 		message_admins("[src] has occupants and will not be deleted")
 		return QDEL_HINT_LETMELIVE
+
+	//Handles all osw var releases.
+	purge_overmap_weapon_datums()
+	overmap_weapon_datums = null
+	pilot_weapon_datums = null
+	gunner_weapon_datums = null
+	autonomous_weapon_datums = null
+	controlled_weapons = null
+	controlled_weapon_datum = null
+	//osw end.
 
 	GLOB.poi_list -= src
 	if(current_system)

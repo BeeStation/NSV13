@@ -205,8 +205,9 @@
 	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
-	if(M != OM.gunner) return
-	OM.cycle_firemode()
+	if(M != OM.gunner && M != OM.pilot)
+		return
+	OM.cycle_firemode(M) //L-OSW WIP - Make sure this kind of verb call actually works.
 	if(OM.tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
 		playsound(OM.tactical, sound, 100, 1)

@@ -18,6 +18,12 @@
 	icon_state = "default"
 	faction = "nanotrasen"
 
+/obj/structure/overmap/nanotrasen/apply_weapons()
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/gauss(src)
+	new/datum/overmap_ship_weapon/missile_launcher(src)
+	new/datum/overmap_ship_weapon/torpedo_launcher(src)
+
 /obj/structure/overmap/nanotrasen/light_cruiser
 	name = "raptor class light frigate"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/frigate.dmi'
@@ -135,8 +141,13 @@
 
 /obj/structure/overmap/nanotrasen/gunstar/apply_weapons()
 	. = ..()
-	weapon_types[FIRE_MODE_RED_LASER] = new /datum/ship_weapon/burst_phaser(src)
-	weapon_types[FIRE_MODE_BLUE_LASER] = new /datum/ship_weapon/phaser(src)
+	new /datum/overmap_ship_weapon/burst_phaser(src)
+	new /datum/overmap_ship_weapon/phaser(src)
+
+/*
+L-OSW WIP - all starter ships should only generate with the weapon datums they need by default.
+Technically zero are needed, but those manually set are immune to deletion from machinery destruction
+*/
 
 /obj/structure/overmap/nanotrasen/serendipity
 	name = "DLV Serendipity"
@@ -151,7 +162,14 @@
 	obj_integrity = 1250
 	max_integrity = 1250
 	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
-	plasma_caster = TRUE //One day we'll assign these a smarter way..
+	//The day is today.
+
+/obj/structure/overmap/nanotrasen/serendipity/starter/apply_weapons()
+	new /datum/overmap_ship_weapon/gauss(src)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/vls(src)
+	new /datum/overmap_ship_weapon/plasma_caster(src)
+
 
 //Player Versions
 // deletion_behavior = DAMAGE_STARTS_COUNTDOWN
@@ -164,13 +182,18 @@
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
+/obj/structure/overmap/nanotrasen/light_cruiser/starter/apply_weapons()
+	new /datum/overmap_ship_weapon/mac(src)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/gauss(src)
+
 /obj/structure/overmap/nanotrasen/frigate/starter/shrike //TEMP UNTIL WE DIVERSIFY TYPES MORE
 	icon_state = "shrike"
 
 /obj/structure/overmap/nanotrasen/frigate/starter/shrike/apply_weapons()
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	weapon_types[FIRE_MODE_HYBRID_RAIL] = new /datum/ship_weapon/hybrid_railgun(src)
+	new /datum/overmap_ship_weapon/gauss(src)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/hybrid_railgun(src)
 
 /obj/structure/overmap/nanotrasen/frigate/starter //Currently assigned to Jeppison and Atlas
 	role = MAIN_OVERMAP
@@ -179,6 +202,13 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
+
+/obj/structure/overmap/nanotrasen/frigate/starter/apply_weapons()
+	new /datum/overmap_ship_weapon/mac(src)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/gauss(src)
+	new /datum/overmap_ship_weapon/vls(src)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src)
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to the Snake
 	role = MAIN_OVERMAP
@@ -189,7 +219,12 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
-	broadside = TRUE
+
+/obj/structure/overmap/nanotrasen/patrol_cruiser/starter/apply_weapons()
+	new /datum/overmap_ship_weapon/mac(src)
+	new /datum/overmap_ship_weapon/broadside(src)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/gauss(src)
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter //Currently assigned to Hammerhead
 	icon = 'nsv13/icons/overmap/new/nanotrasen/heavy_cruiser.dmi'
@@ -200,7 +235,6 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 60, "overmap_heavy" = 20)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
-	broadside = TRUE
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter/spec_collision_handling(obj/structure/overmap/other_ship, list/impact_powers, impact_angle)
 	var/modified_angle = 360 - ((angle + 630) % 360)
@@ -211,10 +245,9 @@
 	impact_powers[2] *= 2.5 // x 2.5 other damage
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter/apply_weapons()
-	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	weapon_types[FIRE_MODE_BROADSIDE] = new /datum/ship_weapon/broadside(src)
+	new /datum/overmap_ship_weapon/broadside(src)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/vls(src)
 
 /obj/structure/overmap/nanotrasen/carrier/starter //NOT CURRENTLY ASSIGNED
 	role = MAIN_OVERMAP
@@ -232,6 +265,13 @@
 	armor = list("overmap_light" = 95, "overmap_medium" = 67, "overmap_heavy" = 35) //Cruisers should be able to take substantially more damage than Frigates and destroyers
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
+/obj/structure/overmap/nanotrasen/battlecruiser/starter/apply_weapons()
+	new /datum/overmap_ship_weapon/mac(src)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/gauss(src)
+	new /datum/overmap_ship_weapon/vls(src)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src)
+
 /obj/structure/overmap/nanotrasen/battleship/starter //Galactica
 	role = MAIN_OVERMAP //Player controlled variant
 	obj_integrity = 2400
@@ -240,6 +280,13 @@
 	armor = list("overmap_light" = 98, "overmap_medium" = 85, "overmap_heavy" = 45) //This ship is a dreadnaught, is armored accordingly and should largely not care about lighter munitions.
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
+/obj/structure/overmap/nanotrasen/battleship/starter/apply_weapons()
+	new /datum/overmap_ship_weapon/bsa(src) //My beloved...
+	new /datum/overmap_ship_weapon/mac(src)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/vls(src)
+	//L-OSW WIP - Galactica has no gauss? Check that.
+
 /obj/structure/overmap/nanotrasen/serendipity/starter
 	role = MAIN_OVERMAP
 	obj_integrity = 1200
@@ -247,12 +294,6 @@
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 95, "overmap_medium" = 50, "overmap_heavy" = 10)
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
-
-/obj/structure/overmap/nanotrasen/serendipity/starter/apply_weapons()
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
-	weapon_types[FIRE_MODE_PHORON] = new /datum/ship_weapon/plasma_caster(src)
 
 //AI Versions
 
@@ -329,12 +370,11 @@
 	combat_dice_type = /datum/combat_dice/carrier
 
 /obj/structure/overmap/nanotrasen/carrier/ai/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	weapon_types[FIRE_MODE_RAILGUN] = null
-	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
-	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+	new /datum/overmap_ship_weapon/aa_guns(src)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src)
+	new /datum/overmap_ship_weapon/flak(src)
+	new /datum/overmap_ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
+	new /datum/overmap_ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/nanotrasen/ai/fighter
 	name = "Viper class light fighter"
@@ -355,8 +395,8 @@
 	combat_dice_type = /datum/combat_dice/fighter
 
 /obj/structure/overmap/nanotrasen/ai/fighter/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
-	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+	new /datum/overmap_ship_weapon/light_cannon(src)
+	new /datum/overmap_ship_weapon/missile_launcher(src)
 
 
 

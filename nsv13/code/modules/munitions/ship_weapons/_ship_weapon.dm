@@ -1,15 +1,17 @@
 /**
- * OSW WIP: Update this guide.
  *	Ship-to-ship weapons
  *	To add a weapon type:
- *	Define a FIRE_MODE in nsv13/_DEFINES/overmap.dm
- *	Up the size of weapon_types and weapons in nsv13/code/modules/overmap/weapons.dm
- *	Add weapon specifics as a datum in nsv13/code/datums/weapon_types.dm
- *	Add a new datum of your type to weapon_types in nsv13/code/modules/overmap/overmap.dm Initialize()
- *	Subclass this
- *	Make firing_mode in the subclass equal to that define
- *	Set weapon_type in the subclass to a new datum of the kind you just created
- *	Define an ammo_type or magazine_type so you can load the weapon
+ *
+ *
+ * *	Add weapon specifics as a datum in nsv13\code\modules\overmap\weapons\delta_overmap_ship_weapons\new_weapon_types\weapon_datum_types.dm
+ * *	Link the datum to overmap(s) via `apply_weapons()` (This is optional for players, but recommended for ships that start with the weapon)
+ * *	The previous step is required for AI weaopns.
+ * *	Following steps only matter for player weapons:
+ * *	Create a subtype of this (you can also handle that differently but it requires a lot of expertise).
+ * *	Set `linked_overmap_ship_weapon` on that subtype to the path to your new weapon datum.
+ * *	(technically you can also use previous ones, might get a bit weird though).
+ * *	Setup your weapon specific stuff, like ammo & magazine.
+ * *	(Optional: ask Delta if you need help. (yes that is the one writing this, this time))
  */
 /obj/machinery/ship_weapon //CREDIT TO CM FOR THE SPRITES!
 	name = "A ship weapon"
@@ -487,7 +489,7 @@
 	//Fun fact: set [waitfor, etc] is special, and is inherited by child procs even if they do not call parent!
 	set waitfor = FALSE //As to not hold up any feedback messages.
 
-	//OSW WIP - MAKE SURE THIS IS HANDLED CORRECTLY!! Potentially check for single shot in weapon datum prefire checks?
+	//OSW WIP - MAKE SURE THIS IS HANDLED CORRECTLY!!
 	if(can_fire(target, shots))
 		if(manual)
 			linked.last_fired = overlay
@@ -567,8 +569,6 @@
 	var/lateral_fire = linked_overmap_ship_weapon.fires_lateral()
 	var/broadside_fire = linked_overmap_ship_weapon.fires_broadsides()
 	return linked.fire_projectile(linked_overmap_ship_weapon.standard_projectile_type, target, lateral = lateral_fire, broadside = broadside_fire)
-
-//OSW WIP - CHANGE ALL THESE MANUAL CALCS TO JUST HAVE A GETTER PROC.
 
 /**
  * Updates maintenance counter after firing if applicable.

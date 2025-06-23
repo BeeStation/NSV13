@@ -1,4 +1,4 @@
-//OSW WIP - This file is for all the overmap weapon datum procs and stuff related to the firing chain, procs, checks, etc.
+//This file is for all the overmap weapon datum procs and stuff related to the firing chain, procs, checks, etc.
 
 /**
  * Checks whether we need real weapons to fire.
@@ -26,7 +26,7 @@
  * Gets the maximum ammo for the current weapon class as an AI ship would see it.
  */
 /datum/overmap_ship_weapon/proc/get_ai_max_ammo_by_current_weapon_class()
-	switch(used_nonphysical_ammo) //OSW WIP - we should be using maximum ammo vars as opposed to initial for all the stuff we have!
+	switch(used_nonphysical_ammo) //L-OSW WIP - we should be using maximum ammo vars as opposed to initial for all the stuff we have!
 		if(OSW_AMMO_LIGHT)
 			return initial(linked_overmap.light_shots_left)
 		if(OSW_AMMO_HEAVY)
@@ -98,7 +98,11 @@
 		return FALSE
 	if(!get_ammo())
 		return FALSE
-	if(!check_valid_fire_angle()) //OSW WIP - Note to self, some ships launch their missiles / torps in fixed dirs but allow locks anyways, override those things there.
+	if(target && isovermap(target))
+		var/obj/structure/overmap/overmap_target = target
+		if(overmap_target.faction == linked_overmap.faction)
+			return FALSE
+	if(!check_valid_fire_angle())
 		return FALSE
 	if(needs_real_weapons())
 		if(!can_fire_physical(target))

@@ -74,7 +74,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	deletion_teleports_occupants = TRUE
 
 /obj/structure/overmap/asteroid/apply_weapons()
-	return FALSE //Lol, no.
+	return //Lol, no.
 
 /obj/structure/overmap/asteroid/medium
 	name = "Asteroid (Non Ferrous)"

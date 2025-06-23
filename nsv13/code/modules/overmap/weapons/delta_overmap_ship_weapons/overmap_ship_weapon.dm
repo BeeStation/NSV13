@@ -7,6 +7,7 @@ Any flags related to this should start with OSW.
 */
 
 //OSW WIP DENOTES WIP THINGS - search for it and address.
+//OSW WIP - implement priority changing by gunner.
 
 /datum/overmap_ship_weapon
 	//===SECTION - Fluff vars===
@@ -19,7 +20,7 @@ Any flags related to this should start with OSW.
 	var/overmap_select_sound
 	///Displayed to operator when weapon is cycled to.
 	var/select_alert
-	///Displayed to operator if weapon fails to fire. - OSW WIP - Change this to be handled by weapon datum depending on error?
+	///Displayed to operator if weapon fails to fire.
 	var/failure_alert
 	///Screen shake caused to interior z of firer - use sparingly.
 	var/screen_shake = 0
@@ -35,7 +36,7 @@ Any flags related to this should start with OSW.
 	 */
 	var/list/weapons = list()
 	///If this needs physical weapon machinery to use if ship has linked physical areas and is not AI controlled. Should be TRUE for most except small craft weapons.
-	var/requires_physical_guns = TRUE //OSW WIP - should probably just be handled in checks?
+	var/requires_physical_guns = TRUE
 	///Causes the weapon to delete if the last weapon in its list loses linkage. False by default, usually TRUE for ones added by weapon creation.
 	var/delete_if_last_weapon_removed = FALSE
 
@@ -72,7 +73,7 @@ Any flags related to this should start with OSW.
 
 	///Bitfield used to control who can access a ship weapon. Should not be `NONE`, if you are exclusively using manual control, use that flag.
 	var/weapon_control_flags = OSW_CONTROL_GUNNER|OSW_CONTROL_AI
-	//OSW WIP - make sure ghost ship players can control any weapon with OSW_CONTROL_AI.
+	//L-OSW WIP - make sure ghost ship players can control any weapon with OSW_CONTROL_AI - for now decent enough even if not exactly that.
 	///Bitfield used to control which directions a weapon can fire in. Should never be `NONE`.
 	var/weapon_facing_flags = OSW_FACING_OMNI
 	/**
@@ -92,14 +93,8 @@ Any flags related to this should start with OSW.
 
 	//===SECTION - DEPRECATED / WEIRD VARS===
 
-	///OSW WIP - DEPRECATE. Replaced with control flags
-	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
-
 	///OSW WIP - Should determine weapon base range for AI? Or Deprecate.
 	var/range = 255
-
-	///OSW WIP - CONSIDER HOW IN THE NAME TO IMPLEMENT THIS, VLS / potential backend for better automated guns. control flag? Might be wise. Potentially using secondary var.
-	var/autonomous = FALSE // Is this a gun that can automatically fire? Keep in mind variables selectable and autonomous can both be TRUE
 
 	///OSW WIP - CONSIDER THIS if reworking autonomous weapons / ams
 	var/permitted_ams_modes = list( "Anti-ship" = 1, "Anti-missile countermeasures" = 1 ) // Overwrite the list with a specific firing mode if you want to restrict its targets
@@ -107,7 +102,6 @@ Any flags related to this should start with OSW.
 //You can pass link target and weapon list calc override during new.
 /datum/overmap_ship_weapon/New(obj/structure/overmap/link_to, update_role_weapon_lists = TRUE, ...)
 	. = ..()
-	//OSW WIP - integrate handling for this, likely via proc marking on osw level.
 	weapons["loaded"] = list()
 	weapons["all"] = list()
 	//Soft runtimes for invalid inputs that exist mostly for code-side reading consistency.
@@ -118,13 +112,16 @@ Any flags related to this should start with OSW.
 	if(link_to)
 		link_weapon(link_to, update_role_weapon_lists)
 
-//OSW WIP - Make SURE to properly handle unlink from the physical weapons once that is implemented!!
 /datum/overmap_ship_weapon/Destroy(force, ...)
 	if(linked_overmap)
 		unlink_weapon()
 
 	if(length(weapons))
 		unlink_all_physical_weapons(TRUE)
+
+	//Safety scream
+	if(controller_count != 0)
+		log_runtime("Ship weapon deleting with nonstandard controller count ([controller_count]). This points to codeside issues.")
 
 	return ..()
 
@@ -141,7 +138,6 @@ Any flags related to this should start with OSW.
 		CRASH("[src] attempted to link weapon without a link target. This is not allowed.")
 	linked_overmap = link_to
 	insert_into_overmap_weapons()
-	//OSW WIP - account for physical inner z weapon handling vs. nonphysical weapons.
 
 /**
  * Inserts this datum into the overmap's weapon list depending on priority.
@@ -171,6 +167,7 @@ Any flags related to this should start with OSW.
 	if(!update_role_weapon_lists)
 		return
 	linked_overmap.recalc_role_weapon_lists()
+	//linked_overmap.drop_all_weapon_selection() OSW WIP - See if this is needed?
 
 /**
  * Removes this weapon from the linked overmap weapon datum list and then reinserts it.
@@ -189,13 +186,14 @@ Any flags related to this should start with OSW.
 /datum/overmap_ship_weapon/proc/unlink_weapon()
 	if(weapon_control_flags & OSW_CONTROL_PILOT)
 		linked_overmap.pilot_weapon_datums -= src
-		linked_overmap.pilotgunner_weapon_datums -= src
 	if(weapon_control_flags & OSW_CONTROL_GUNNER)
 		linked_overmap.gunner_weapon_datums -= src
-		linked_overmap.pilotgunner_weapon_datums -= src
 	if(weapon_control_flags & OSW_CONTROL_AUTONOMOUS)
 		linked_overmap.autonomous_weapon_datums -= src
+	linked_overmap.pilotgunner_weapon_datums -= src
 	linked_overmap.overmap_weapon_datums -= src
+
+	linked_overmap.drop_all_weapon_selection()
 	linked_overmap = null
 
 /**
@@ -206,27 +204,6 @@ Any flags related to this should start with OSW.
 /datum/overmap_ship_weapon/proc/unlink_and_delete_weapon()
 	unlink_weapon()
 	qdel(src)
-
-//OSW WIP - ALL overmap related procs and stuff should be moved either to the overmap file or to a seperate file in this folder.
-
-//OSW WIP - TEMPORARY LOCAL AMEND TO OVERMAPS - MOVE THIS TO THE RIGHT PLACES WHEN DONE!!!!!!
-/obj/structure/overmap
-	///Current controlled weapons by mob key -> selected weapon number. Reset on piloting end.
-	var/list/controlled_weapons = list()
-	///Current controlled weapon datum by user. Should be updated when `controlled_weapons` is.
-	var/list/controlled_weapon_datum = list() //OSW WIP - remember to update these when a weapon is deleted.
-	///List of overmap weapon datums. Sorted by priority.
-	var/list/datum/overmap_ship_weapon/overmap_weapon_datums = list()
-	///Weapons controllable by PILOT. Recalced if main list changes.
-	var/list/datum/overmap_ship_weapon/pilot_weapon_datums = list()
-	///Weapons controllable by GUNNER. Recalced if main list changes.
-	var/list/datum/overmap_ship_weapon/gunner_weapon_datums = list()
-	///Weapons controllable by someone with both PILOT and GUNNER - this is kinda :/ but I'm not supersure how to implement hybrid control roles otherwise.
-	var/list/datum/overmap_ship_weapon/pilotgunner_weapon_datums = list()
-	///Weapons that are able to operate independantly.
-	var/list/datum/overmap_ship_weapon/autonomous_weapon_datums = list()
-
-	//OSW WIP - potentially have another list for AI accessible weapons?
 
 /**
  * Recalculates the role specific weapon lists.
@@ -257,30 +234,3 @@ Any flags related to this should start with OSW.
 /obj/structure/overmap/proc/purge_overmap_weapon_datums()
 	for(var/datum/overmap_ship_weapon/osw as() in overmap_weapon_datums)
 		qdel(osw) //Qdel handles unlink here.
-
-
-//OSW WIP - TEMPORARY LOCAL AMEND TO OVERMAP DESTROY. INTEGRATE INTO MAIN PROC WHEN DONE!!!!!
-/obj/structure/overmap/Destroy()
-	purge_overmap_weapon_datums()
-	overmap_weapon_datums = null
-	pilot_weapon_datums = null
-	gunner_weapon_datums = null
-	autonomous_weapon_datums = null
-	controlled_weapons = null
-	controlled_weapon_datum = null
-	return ..()
-
-//OSW WIP: Think about how to implement control / selection since one user can have multiple roles.
-/obj/structure/overmap/Initialize(mapload)
-	. = ..()
-
-/obj/structure/overmap/proc/mob_weapon_datum_list(mob/living/user)
-	if(!user)
-		return
-	if(gunner == user)
-		if(pilot == user)
-			return pilotgunner_weapon_datums
-		else
-			return gunner_weapon_datums
-	else
-		return pilot_weapon_datums

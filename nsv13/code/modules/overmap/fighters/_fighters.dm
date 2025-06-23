@@ -1566,7 +1566,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	return FALSE
 
 /obj/structure/overmap/small_craft/hardpoint_fire(obj/structure/overmap/target, datum/overmap_ship_weapon/used_ship_weapon, osw_mode)
-	for(var/slot in loadout.equippable_slots) //OSW WIP - This sucks, just switch by firemode.
+	for(var/slot in loadout.equippable_slots) //OSW WIP - This sucks, just switch by firemode & grab component.
 		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
 		//Look for any "primary" hardpoints, be those guns or utility slots
 		if(!weapon || !istype(weapon) || weapon.fighter_fire_mode != osw_mode)
@@ -1578,7 +1578,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	return FALSE
 
 /obj/structure/overmap/small_craft/hardpoint_get_ammo(fire_mode)
-	for(var/slot in loadout.equippable_slots) //OSW WIP - This sucks, just switch by firemode
+	for(var/slot in loadout.equippable_slots) //OSW WIP - This sucks, just switch by firemode & grab component.
 		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
 		if(!weapon || !istype(weapon) || weapon.fighter_fire_mode != fire_mode)
 			continue
@@ -1588,7 +1588,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	return FALSE
 
 /obj/structure/overmap/small_craft/hardpoint_get_max_ammo(fire_mode)
-	for(var/slot in loadout.equippable_slots) //OSW WIP - This sucks, just switch by firemode
+	for(var/slot in loadout.equippable_slots) //OSW WIP - This sucks, just switch by firemode & grab component.
 		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
 		if(!weapon || !istype(weapon) || weapon.fighter_fire_mode != fire_mode)
 			continue

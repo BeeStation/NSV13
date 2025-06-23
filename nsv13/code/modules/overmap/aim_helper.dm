@@ -14,11 +14,12 @@
 		user_gun.onMouseDrag(src_object, over_object, src_location, over_location, params, M)
 		return TRUE
 	if(aiming)
+		var/datum/overmap_ship_weapon/aimed_weapon = controlled_weapon_datum[M]
 		aiming_target = over_object
 		aiming_params = params
 		if(target_lock)
 			lastangle = get_angle(src, get_turf(over_object))
-		else if (fire_mode == FIRE_MODE_BROADSIDE)
+		else if(aimed_weapon && (aimed_weapon.weapon_facing_flags & OSW_ALWAYS_FIRES_BROADSIDES))
 			if((overmap_angle(src, over_location) - angle) <= 180)
 				lastangle = (src.angle + 90)
 			else
@@ -40,24 +41,26 @@
 		return TRUE
 	if(M != gunner)
 		return
-	if((fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER || fire_mode == FIRE_MODE_HYBRID_RAIL))
-		aiming_target = object
-		aiming_params = params
-		if(target_lock)
-			lastangle = get_angle(src, get_turf(object))
+	var/datum/overmap_ship_weapon/aimed_weapon = controlled_weapon_datum[M]
+	if(aimed_weapon)
+		if(aimed_weapon.weapon_control_flags & OSW_CONTROL_AIMING_BEAM)
+			aiming_target = object
+			aiming_params = params
+			if(target_lock)
+				lastangle = get_angle(src, get_turf(object))
+			else
+				lastangle = getMouseAngle(params, M)
+			start_aiming(params, M)
+		else if(aimed_weapon.weapon_facing_flags & OSW_ALWAYS_FIRES_BROADSIDES) //If the weapon fires from the sides, we want the aiming laser to lock to the sides
+			aiming_target = object
+			aiming_params = params
+			if((overmap_angle(src, location) - angle) <= 180)
+				lastangle = (src.angle + 90)
+			else
+				lastangle = (src.angle + 270)
+			start_aiming(params, M)
 		else
-			lastangle = getMouseAngle(params, M)
-		start_aiming(params, M)
-	else if(fire_mode == FIRE_MODE_BROADSIDE) //If the weapon fires from the sides, we want the aiming laser to lock to the sides
-		aiming_target = object
-		aiming_params = params
-		if((overmap_angle(src, location) - angle) <= 180)
-			lastangle = (src.angle + 90)
-		else
-			lastangle = (src.angle + 270)
-		start_aiming(params, M)
-	else
-		autofire_target = object
+			autofire_target = object
 
 /obj/structure/overmap/proc/onMouseUp(object, location, params, mob/M)
 	if(istype(object, /atom/movable/screen) && !istype(object, /atom/movable/screen/click_catcher))
@@ -72,10 +75,10 @@
 	lastangle = get_angle(src, get_turf(object))
 	stop_aiming()
 	var/datum/overmap_ship_weapon/aimed_weapon = controlled_weapon_datum[M]
-	if(istype(aimed_weapon))
+	if(aimed_weapon && istype(aimed_weapon))
 		if(aimed_weapon.weapon_control_flags & OSW_CONTROL_AIMING_BEAM)
 			fire_weapon(object, M, aimed_weapon)
-		if(aimed_weapon.weapon_facing_flags & OSW_ALWAYS_FIRES_BROADSIDES)
+		if(aimed_weapon.weapon_facing_flags & OSW_ALWAYS_FIRES_BROADSIDES) //L-OSW WIP - make sure the intendation here is right (compare to pre-PR)
 			if((overmap_angle(src, location) - angle) <= 180)
 				lastangle = (src.angle + 90)
 			else

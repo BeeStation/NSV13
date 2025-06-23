@@ -65,23 +65,6 @@
 	GLOB.critical_muni_items -= src
 	return ..()
 
-/datum/ship_weapon/broadside
-	name = "SNBC"
-	burst_size = 5
-	fire_delay = 0.5 SECONDS
-	range_modifier = 10
-	default_projectile_type = /obj/item/projectile/bullet/broadside
-	select_alert = "<span class='notice'>Locking Broadside Cannons...</span>"
-	failure_alert = "<span class='warning'>DANGER: No Shells Loaded In Broadside Cannons!</span>"
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/broadside.ogg')
-	overmap_select_sound = 'nsv13/sound/effects/ship/mac_load_unjam.ogg'
-	weapon_class = WEAPON_CLASS_HEAVY
-	miss_chance = 10
-	max_miss_distance = 6
-	ai_fire_delay = 10 SECONDS
-	allowed_roles = OVERMAP_USER_ROLE_GUNNER
-	screen_shake = 10
-
 /obj/machinery/ship_weapon/broadside/animate_projectile(atom/target, lateral=TRUE)
 	var/obj/item/ship_weapon/ammunition/broadside_shell/T = chambered
 	if(T)

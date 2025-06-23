@@ -10,7 +10,6 @@
 	if(!target)
 		return FALSE
 	if(!can_fire(target))
-		//OSW wip - display error message to firer here if one exists.
 		return FALSE
 	. = fire(target, firer, ai_aim) //Amount of shots fired is returned.
 	if(.)
@@ -79,7 +78,7 @@
  * Determines which ammo we fire when using nonphysically present guns.
  */
 /datum/overmap_ship_weapon/proc/get_nonphysical_projectile_type()
-	return standard_projectile_type //OSW WIP - Override this for AI torp!!!!
+	return standard_projectile_type
 
 /**
  * Uses ammunition for nonphysical weapons, aka the same ammo the AI usually uses.

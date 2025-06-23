@@ -1340,6 +1340,25 @@ Seek a ship thich we'll station ourselves around
 	var/obj/structure/overmap/last_overmap = null
 	var/switchsound_cooldown = 0
 
+	//Variables related to the new overmap ship weapon datums.
+
+	///Current controlled weapons by mob key -> selected weapon number. Reset on piloting end.
+	var/list/controlled_weapons = list()
+	///Current controlled weapon datum by user. Should be updated when `controlled_weapons` is.
+	var/list/controlled_weapon_datum = list() //OSW WIP - remember to update these when a weapon is deleted.
+	///List of overmap weapon datums. Sorted by priority.
+	var/list/datum/overmap_ship_weapon/overmap_weapon_datums = list()
+	///Weapons controllable by PILOT. Recalced if main list changes.
+	var/list/datum/overmap_ship_weapon/pilot_weapon_datums = list()
+	///Weapons controllable by GUNNER. Recalced if main list changes.
+	var/list/datum/overmap_ship_weapon/gunner_weapon_datums = list()
+	///Weapons controllable by someone with both PILOT and GUNNER - this is kinda :/ but I'm not supersure how to implement hybrid control roles otherwise.
+	var/list/datum/overmap_ship_weapon/pilotgunner_weapon_datums = list()
+	///Weapons that are able to operate independantly.
+	var/list/datum/overmap_ship_weapon/autonomous_weapon_datums = list()
+
+	//OSW WIP - potentially have another list for AI accessible weapons?
+
 /**
  * Fires a single weapon of the AI.
  */

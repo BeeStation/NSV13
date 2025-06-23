@@ -2,8 +2,6 @@
 
 //OSW WIP: Consider range modified var.
 //OSW WIP: Implement base priority settings.
-//OSW WIP: Doublecheck all laterals ended up correct due to previous oopsie.
-//OSW WIP: OH NO FIGHTER GUNCODE.
 
 //The big MAC. Fired by the gunner.
 /datum/overmap_ship_weapon/mac
@@ -18,6 +16,7 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_ready.ogg'
 	screen_shake = 2
 	ai_fire_delay = 2 SECONDS
+	weapon_control_flags = OSW_CONTROL_GUNNER|OSW_CONTROL_AI|OSW_CONTROL_AIMING_BEAM
 
 /datum/overmap_ship_weapon/mac/is_target_size_valid(obj/structure/overmap/target)
 	if(target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
@@ -64,6 +63,7 @@
 	failure_alert = "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded or charged.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/mac_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_charge.ogg'
+	weapon_control_flags = OSW_CONTROL_GUNNER|OSW_CONTROL_AI|OSW_CONTROL_AIMING_BEAM
 
 //Deprecated by AMS. Still kept around for AI ships
 /datum/overmap_ship_weapon/torpedo_launcher
@@ -157,6 +157,7 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg' //Sound effect provided by: "All Sounds" https://www.youtube.com/watch?v=EpaCJ75T3fo under creative commons. Trimmed by Kmc2000
 	screen_shake = 1
 	ai_fire_delay = 3 SECONDS
+	weapon_control_flags = OSW_CONTROL_GUNNER|OSW_CONTROL_AI|OSW_CONTROL_AIMING_BEAM
 
 /datum/overmap_ship_weapon/phaser/is_target_size_valid(obj/structure/overmap/target)
 	if(target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
@@ -259,8 +260,6 @@
 	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
 	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
 
-//OSW WIP: Fighters WILL need manual addressing.
-
 //Fighters
 
 /datum/overmap_ship_weapon/fighter
@@ -298,7 +297,7 @@
 	weapon_slot = OSW_FIGHTER_MAIN_WEAPON
 	sort_priority = 999 //Cursed code - These MUST always be the first two (and in the right order)
 
-//OSW WIP: Block Fighter weapons (/ Fighters) from using sort.
+//L-OSW WIP: Block Fighter weapons (/ Fighters) from using sort.
 
 /datum/overmap_ship_weapon/fighter/secondary
 	name = "Secondary Equipment Mount"

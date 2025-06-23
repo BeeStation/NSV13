@@ -7,30 +7,6 @@
 	anchored = TRUE
 	density = TRUE
 
-/datum/ship_weapon/vls
-	name = "STS Missile System"
-	default_projectile_type = /obj/item/projectile/guided_munition/missile
-	burst_size = 1
-	fire_delay = 0.35 SECONDS
-	range_modifier = 30
-	select_alert = "<span class='notice'>Missile target acquisition systems: online.</span>"
-	failure_alert = "<span class='warning'>DANGER: Launch failure! Missile tubes are not loaded.</span>"
-	overmap_firing_sounds = list(
-		'nsv13/sound/effects/ship/torpedo.ogg',
-		'nsv13/sound/effects/ship/freespace2/m_shrike.wav',
-		'nsv13/sound/effects/ship/freespace2/m_stiletto.wav',
-		'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
-		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
-	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
-	autonomous = TRUE // Capable of firing autonomously
-
-/datum/ship_weapon/vls/valid_target(obj/structure/overmap/source, obj/structure/overmap/target, override_mass_check = FALSE)
-	if(!istype(source) || !istype(target))
-		return FALSE
-	if(!source.missiles)
-		return FALSE
-	return TRUE
-
 /obj/machinery/ship_weapon/vls
 	name = "M14 VLS Loader"
 	desc = "A highly advanced launch platform for missiles inspired by recently discovered old-earth technology. The VLS allows for launching cruise missiles from any angle, and directly interfaces with the AMS for lethal precision."

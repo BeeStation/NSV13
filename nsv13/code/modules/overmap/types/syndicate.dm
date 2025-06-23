@@ -10,6 +10,12 @@
 	supply_pod_type = /obj/structure/closet/supplypod/syndicate_odst
 	returns_rejected_cargo = FALSE // We won't send freight torpedoes to our enemies, we'll send actual torpedoes to our enemies
 
+/obj/structure/overmap/syndicate/apply_weapons()
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/gauss(src)
+	new /datum/overmap_ship_weapon/missile_launcher(src)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src)
+
 //Player Versions
 
 /obj/structure/overmap/syndicate/pvp //Syndie PVP ship.
@@ -39,13 +45,11 @@
 	bound_height = 256
 
 /obj/structure/overmap/syndicate/pvp/apply_weapons()
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
-	if(flak_battery_amount > 0)
-		weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
-	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/vls(src)
+	new /datum/overmap_ship_weapon/gauss(src)
+	new /datum/overmap_ship_weapon/mac(src)
 
 /obj/structure/overmap/syndicate/pvp/hulk //Larger PVP ship for larger pops.
 	name = "SSV Hulk"
@@ -120,10 +124,13 @@
 /obj/structure/overmap/syndicate/ai/mako_flak
 	name = "Mauler class flak frigate"
 	icon_state = "mako_flak"
-	flak_battery_amount = 1
 	mines_left = 10
 	mass = MASS_MEDIUM
 	combat_dice_type = /datum/combat_dice/frigate
+
+/obj/structure/overmap/syndicate/ai/mako_flak/apply_weapons()
+	. = ..()
+	new /datum/overmap_ship_weapon/flak(src)
 
 /datum/map_template/boarding/nuclear
     name = "Thermonuclear destroyer (interior)"
@@ -201,13 +208,16 @@
 	name = "Hammerhead class flak destroyer"
 	icon_state = "hammerhead"
 	mass = MASS_LARGE
-	flak_battery_amount = 2
 	missiles = 0
 	torpedoes = 0
 	obj_integrity = 450
 	max_integrity = 450
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher
+
+/obj/structure/overmap/syndicate/ai/destroyer/flak/apply_weapons()
+	. = ..()
+	new /datum/overmap_ship_weapon/flak(src, 2)
 
 /obj/structure/overmap/syndicate/ai/cruiser
 	name = "Barracuda class tactical cruiser"
@@ -223,6 +233,10 @@
 	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/cruiser
 	possible_interior_maps = list()
+
+/obj/structure/overmap/syndicate/ai/cruiser/apply_weapons()
+	. = ..()
+	new /datum/overmap_ship_weapon/mac(src)
 
 /obj/structure/overmap/syndicate/ai/cruiser/elite
 	name = "Special ops tactical cruiser"
@@ -275,12 +289,11 @@
 	possible_interior_maps = list(/datum/map_template/boarding/carrier)
 
 /obj/structure/overmap/syndicate/ai/carrier/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
-	weapon_types[FIRE_MODE_RAILGUN] = null
-	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
-	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
+	new /datum/overmap_ship_weapon/aa_guns(src)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src)
+	new /datum/overmap_ship_weapon/flak(src)
+	new /datum/overmap_ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
+	new /datum/overmap_ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/syndicate/ai/battleship //Larger ship which is much harder to kill
 	name = "SSV Sol's Revenge"
@@ -303,11 +316,12 @@
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire
 
 /obj/structure/overmap/syndicate/ai/battleship/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
-	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/aa_guns(src)
-	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
-	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
+	new /datum/overmap_ship_weapon/aa_guns(src)
+	var/datum/overmap_ship_weapon/second_aa_gun = new /datum/overmap_ship_weapon/aa_guns(src)
+	second_aa_gun.fire_delay += 5 //Lets make these not sync up!
+	new /datum/overmap_ship_weapon/flak(src)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src)
+	new /datum/overmap_ship_weapon/mac(src)
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser //A big box of tank which is hard to take down, and lethal up close.
 	name = "Inquisitior class assault cruiser"
@@ -327,12 +341,9 @@
 	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
-	weapon_types[FIRE_MODE_TORPEDO] = null
-	weapon_types[FIRE_MODE_RAILGUN] = null
-	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
-	weapon_types[FIRE_MODE_MISSILE] = null
+	new /datum/overmap_ship_weapon/aa_guns(src)
+	new /datum/overmap_ship_weapon/flak(src)
+	new /datum/overmap_ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 
 /datum/map_template/boarding/boarding_frigate
     name = "Astartes class marine frigate (interior)"
@@ -356,12 +367,10 @@
 	possible_interior_maps = list(/datum/map_template/boarding/boarding_frigate)
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser/boarding_frigate/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
-	weapon_types[FIRE_MODE_TORPEDO] = null
-	weapon_types[FIRE_MODE_RAILGUN] = null
-	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
-	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+	new /datum/overmap_ship_weapon/aa_guns(src)
+	new /datum/overmap_ship_weapon/flak(src)
+	new /datum/overmap_ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
+	new /datum/overmap_ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/syndicate/ai/gunboat
 	name = "Syndicate anti-air frigate"
@@ -385,12 +394,10 @@
 	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/gunboat/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
-	weapon_types[FIRE_MODE_TORPEDO] = null
-	weapon_types[FIRE_MODE_RAILGUN] = null
-	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
-	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+	new /datum/overmap_ship_weapon/aa_guns(src)
+	new /datum/overmap_ship_weapon/flak(src)
+	new /datum/overmap_ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
+	new /datum/overmap_ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/syndicate/ai/submarine
 	name = "Aspala class sub-spacemarine"
@@ -419,12 +426,11 @@
 	handle_cloak(TRUE)
 
 /obj/structure/overmap/syndicate/ai/submarine/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/light_cannon/integrated(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher/burst_disruptor(src)
-	weapon_types[FIRE_MODE_RAILGUN] = null
-	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
-	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+	new /datum/overmap_ship_weapon/light_cannon/integrated(src)
+	new /datum/overmap_ship_weapon/torpedo_launcher/burst_disruptor(src)
+	new /datum/overmap_ship_weapon/flak(src)
+	new /datum/overmap_ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
+	new /datum/overmap_ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/syndicate/ai/submarine/elite
 	name = "Stalker class sub-spacemarine"
@@ -465,7 +471,6 @@
 	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 50)
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	max_tracking_range = 70	//Big sensors, they gotta be useful
-	flak_battery_amount = 2
 	mass = MASS_LARGE
 	shots_left = 26	//8 for missiles, 18 for the main gun.
 	missiles = 8
@@ -478,14 +483,12 @@
 	AddComponent(/datum/component/interdiction)
 
 /obj/structure/overmap/syndicate/ai/kadesh/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
-	weapon_types[FIRE_MODE_TORPEDO] = null
-	weapon_types[FIRE_MODE_RAILGUN] = null
-	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
-	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
-	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
-	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
+	new /datum/overmap_ship_weapon/aa_guns(src)
+	new /datum/overmap_ship_weapon/mac(src)
+	new /datum/overmap_ship_weapon/vls(src)
+	new /datum/overmap_ship_weapon/flak(src, 2)
+	new /datum/overmap_ship_weapon/gauss(src)
+	new /datum/overmap_ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/syndicate/ai/kadesh/on_interdict()
 	add_sensor_profile_penalty(150, 10 SECONDS)
@@ -504,7 +507,6 @@
 	obj_integrity = 5000
 	max_integrity = 5000
 	speed_limit = 16
-	flak_battery_amount = 3
 	max_tracking_range = 90
 	armor = list("overmap_light" = 99, "overmap_medium" = 65, "overmap_heavy" = 40)
 	ai_controlled = TRUE
@@ -519,12 +521,12 @@
 							/obj/structure/overmap/syndicate/ai/bomber)
 
 /obj/structure/overmap/syndicate/ai/fistofsol/apply_weapons()
-	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/twinmac(src)
-	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/hailstorm(src)
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/quadgauss(src)
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
-	weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
+	new /datum/overmap_ship_weapon/twinmac(src)
+	new /datum/overmap_ship_weapon/hailstorm(src)
+	new /datum/overmap_ship_weapon/quadgauss(src)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/flak(src, 3)
+	new /datum/overmap_ship_weapon/missile_launcher(src)
 
 /obj/structure/overmap/syndicate/ai/fistofsol/Destroy()
 	if(!current_system)
@@ -562,18 +564,17 @@
 	ai_can_launch_fighters = TRUE
 	ai_fighter_type = list(/obj/structure/overmap/hostile/ai/fighter)
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire
-	flak_battery_amount = 3
 
 /obj/structure/overmap/hostile/ai/alicorn/Initialize(mapload)
 	. = ..()
 	handle_cloak(TRUE)
 
 /obj/structure/overmap/hostile/ai/alicorn/apply_weapons()
-	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/quadgauss(src)
-	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/prototype_bsa(src)
-	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
+	new /datum/overmap_ship_weapon/vls(src)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src)
+	new /datum/overmap_ship_weapon/quadgauss(src)
+	new /datum/overmap_ship_weapon/prototype_bsa(src)
+	new /datum/overmap_ship_weapon/flak(src, 3)
 
 /obj/structure/overmap/hostile/ai/fighter/Initialize()
 	. = ..()
@@ -601,9 +602,9 @@
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/disruptor
 
 /obj/structure/overmap/hostile/ai/fighter/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
-	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
+	new /datum/overmap_ship_weapon/light_cannon(src)
+	new /datum/overmap_ship_weapon/missile_launcher(src)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src)
 
 
 /obj/structure/overmap/syndicate/ai/fighter //need custom AI behaviour to escort bombers if applicable
@@ -628,8 +629,8 @@
 	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/fighter/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
-	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+	new/datum/overmap_ship_weapon/light_cannon(src)
+	new/datum/overmap_ship_weapon/missile_launcher(src)
 
 
 /obj/structure/overmap/syndicate/ai/bomber //need custom AI behaviour to target capitals only
@@ -652,7 +653,7 @@
 	possible_interior_maps = list()
 
 /obj/structure/overmap/syndicate/ai/bomber/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/light_cannon(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
+	new /datum/overmap_ship_weapon/light_cannon(src)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src)
 
 

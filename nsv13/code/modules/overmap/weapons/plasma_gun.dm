@@ -346,21 +346,6 @@
 
 	return
 
-/datum/ship_weapon/plasma_caster
-	name = "MPAC"
-	burst_size = 1
-	fire_delay = 5 SECONDS //Everyone's right, weapon code is jank...
-	range = 25000 //It will continue to
-	default_projectile_type = /obj/item/projectile/bullet/plasma_caster
-	select_alert = "<span class='notice'>Charging magnetic accelerator...</span>"
-	failure_alert = "<span class='warning'>Magnetic Accelerator not ready!</span>"
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/plasma_gun_fire.ogg')
-	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg'
-	weapon_class = WEAPON_CLASS_HEAVY
-	ai_fire_delay = 180 SECONDS
-	allowed_roles = OVERMAP_USER_ROLE_GUNNER
-	lateral = FALSE
-
 /obj/item/ship_weapon/ammunition/plasma_core
 	name = "\improper Condensed Phoron Core"
 	desc = "A heavy, condensed ball of phoron coated in a thick shell to prevent accidents."
