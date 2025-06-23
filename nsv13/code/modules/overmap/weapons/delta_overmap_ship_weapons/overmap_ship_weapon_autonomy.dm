@@ -216,7 +216,7 @@
 			continue
 		if(!amm.able_to_operate(src))
 			continue
-		var/list/amm_targets = amm.acquire_targets()
+		var/list/amm_targets = amm.acquire_targets(src)
 		if(!length(amm_targets))
 			continue
 		var/atom/amm_target = pick(amm_targets) //One activation always fires on a single target.
