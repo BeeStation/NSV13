@@ -125,10 +125,10 @@ Credit to TGMC for the interior sprites for all these!
     mappath = "_maps/templates/boarding/gunship.dmm"
 
 /obj/structure/overmap/small_craft/transport/gunship/apply_weapons()
-	new /datum/overmap_ship_weapon/fighter/primary(src)
-	new /datum/overmap_ship_weapon/torpedo_launcher(src)
-	new /datum/overmap_ship_weapon/vls(src)
-	new /datum/overmap_ship_weapon/gauss(src)
+	new /datum/overmap_ship_weapon/fighter/primary(src, FALSE)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src, FALSE)
+	new /datum/overmap_ship_weapon/vls(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
 	new /datum/overmap_ship_weapon/pdc_mount(src)
 
 /obj/structure/overmap/small_craft/transport/sabre

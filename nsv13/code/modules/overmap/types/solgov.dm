@@ -77,7 +77,7 @@
 
 /obj/structure/overmap/nanotrasen/solgov/ai/interdictor/apply_weapons()
 	. = ..()
-	new /datum/overmap_ship_weapon/flak(src, 2)
+	new /datum/overmap_ship_weapon/flak(src, TRUE, 2)
 
 /obj/structure/overmap/nanotrasen/solgov/ai/interdictor/Initialize(mapload)
 	. = ..()
@@ -125,9 +125,9 @@
 	AddComponent(/datum/component/overmap_shields, mass*600, mass*600, mass*15)
 
 /obj/structure/overmap/nanotrasen/solgov/proc/apply_medium_ai_weapons()
-	new /datum/overmap_ship_weapon/burst_phaser(src)
-	new /datum/overmap_ship_weapon/phaser(src)
-	new /datum/overmap_ship_weapon/phaser_pd(src)
+	new /datum/overmap_ship_weapon/burst_phaser(src, FALSE)
+	new /datum/overmap_ship_weapon/phaser(src, FALSE)
+	new /datum/overmap_ship_weapon/phaser_pd(src, FALSE)
 	new /datum/overmap_ship_weapon/laser_ams(src)
 
 	// Need to enable the AI ship's countermeasures mode so they can actually use laser ams

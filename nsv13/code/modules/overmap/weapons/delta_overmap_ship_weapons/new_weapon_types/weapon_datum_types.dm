@@ -380,7 +380,7 @@
 	///flak aims at one consistent target until it is out of range.
 	var/obj/structure/overmap/last_auto_target
 
-/datum/overmap_ship_weapon/flak/New(obj/structure/overmap/link_to, update_role_weapon_lists = TRUE, flak_battery_count,...)
+/datum/overmap_ship_weapon/flak/New(obj/structure/overmap/link_to, update_role_weapon_lists = TRUE, flak_battery_count, ...)
 	. = ..()
 	burst_size = flak_battery_count //Instead of the old flak battery var determining burst size, this does it better.
 

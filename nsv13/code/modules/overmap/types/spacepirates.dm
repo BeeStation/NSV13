@@ -18,9 +18,9 @@
 	role = INSTANCED_MIDROUND_SHIP
 
 /obj/structure/overmap/spacepirate/HomeOne/apply_weapons()
-	new /datum/overmap_ship_weapon/gauss(src)
-	new /datum/overmap_ship_weapon/pdc_mount(src)
-	new /datum/overmap_ship_weapon/hybrid_railgun(src)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src, FALSE)
+	new /datum/overmap_ship_weapon/hybrid_railgun(src, FALSE)
 	new /datum/overmap_ship_weapon/vls(src)
 //AI versions
 
@@ -50,27 +50,27 @@
 	var/random_weapons = pick(1, 2, 3, 4, 5)
 	switch(random_weapons) //Dakkagang
 		if(1)
-			new /datum/overmap_ship_weapon/aa_guns(src)
-			new /datum/overmap_ship_weapon/torpedo_launcher(src)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/torpedo_launcher(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
 			torpedoes = 10
 		if(2)
-			new /datum/overmap_ship_weapon/aa_guns(src)
-			new /datum/overmap_ship_weapon/railgun(src)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/railgun(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
 			shots_left = 10
 		if(3)
-			new /datum/overmap_ship_weapon/aa_guns(src)
-			new /datum/overmap_ship_weapon/gauss(src)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/gauss(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
 		if(4)
-			new /datum/overmap_ship_weapon/aa_guns(src)
-			new /datum/overmap_ship_weapon/missile_launcher(src)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/missile_launcher(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
 			missiles = 10
 		if(5)
-			new /datum/overmap_ship_weapon/aa_guns(src)
-			new /datum/overmap_ship_weapon/flak(src)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/flak(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
 
 /obj/structure/overmap/spacepirate/ai/boarding //our boarding capable variant (we want to control how many of these there are)
@@ -97,26 +97,26 @@
 	var/random_weapons = pick(1, 2, 3, 4, 5)
 	switch(random_weapons) //Dakkagang
 		if(1)
-			new /datum/overmap_ship_weapon/aa_guns(src)
-			new /datum/overmap_ship_weapon/torpedo_launcher(src)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/torpedo_launcher(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
 			torpedoes = 10
 		if(2)
-			new /datum/overmap_ship_weapon/aa_guns(src)
-			new /datum/overmap_ship_weapon/railgun(src)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/railgun(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
 			shots_left = 10
 		if(3)
-			new /datum/overmap_ship_weapon/aa_guns(src)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
 		if(4)
-			new /datum/overmap_ship_weapon/aa_guns(src)
-			new /datum/overmap_ship_weapon/missile_launcher(src)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/missile_launcher(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
 			missiles = 10
 		if(5)
-			new /datum/overmap_ship_weapon/aa_guns(src)
-			new /datum/overmap_ship_weapon/flak(src)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/flak(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
 
 /obj/structure/overmap/spacepirate/ai/syndie_gunboat
@@ -136,9 +136,9 @@
 	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/spacepirate/ai/syndie_gunboat/apply_weapons() //Dakka+
-	new /datum/overmap_ship_weapon/aa_guns(src)
-	new /datum/overmap_ship_weapon/mac/dirty(src)
-	new /datum/overmap_ship_weapon/gauss(src)
+	new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+	new /datum/overmap_ship_weapon/mac/dirty(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
 	new /datum/overmap_ship_weapon/pdc_mount(src)
 
 /obj/structure/overmap/spacepirate/ai/dreadnought //And you thought the pirates only had small ships
@@ -161,10 +161,10 @@
 	combat_dice_type = /datum/combat_dice/flagship
 
 /obj/structure/overmap/spacepirate/ai/dreadnought/apply_weapons()
-	new /datum/overmap_ship_weapon/aa_guns(src)
-	new /datum/overmap_ship_weapon/torpedo_launcher(src)
-	new /datum/overmap_ship_weapon/railgun(src)
-	new /datum/overmap_ship_weapon/flak(src, 2)
-	new /datum/overmap_ship_weapon/gauss(src)
+	new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src, FALSE)
+	new /datum/overmap_ship_weapon/railgun(src, FALSE)
+	new /datum/overmap_ship_weapon/flak(src, FALSE, 2)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
 	new /datum/overmap_ship_weapon/pdc_mount(src)
 

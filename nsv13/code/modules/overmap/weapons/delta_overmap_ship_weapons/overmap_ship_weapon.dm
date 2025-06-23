@@ -137,7 +137,7 @@ Any flags related to this should start with OSW.
 	if(!link_to)
 		CRASH("[src] attempted to link weapon without a link target. This is not allowed.")
 	linked_overmap = link_to
-	insert_into_overmap_weapons()
+	insert_into_overmap_weapons(update_role_weapon_lists)
 
 /**
  * Inserts this datum into the overmap's weapon list depending on priority.

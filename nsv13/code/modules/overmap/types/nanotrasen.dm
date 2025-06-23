@@ -19,10 +19,10 @@
 	faction = "nanotrasen"
 
 /obj/structure/overmap/nanotrasen/apply_weapons()
-	new /datum/overmap_ship_weapon/pdc_mount(src)
-	new /datum/overmap_ship_weapon/gauss(src)
-	new/datum/overmap_ship_weapon/missile_launcher(src)
-	new/datum/overmap_ship_weapon/torpedo_launcher(src)
+	new /datum/overmap_ship_weapon/pdc_mount(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/missile_launcher(src, FALSE)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src)
 
 /obj/structure/overmap/nanotrasen/light_cruiser
 	name = "raptor class light frigate"
@@ -141,7 +141,7 @@
 
 /obj/structure/overmap/nanotrasen/gunstar/apply_weapons()
 	. = ..()
-	new /datum/overmap_ship_weapon/burst_phaser(src)
+	new /datum/overmap_ship_weapon/burst_phaser(src, FALSE)
 	new /datum/overmap_ship_weapon/phaser(src)
 
 /*
@@ -165,9 +165,9 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	//The day is today.
 
 /obj/structure/overmap/nanotrasen/serendipity/starter/apply_weapons()
-	new /datum/overmap_ship_weapon/gauss(src)
-	new /datum/overmap_ship_weapon/pdc_mount(src)
-	new /datum/overmap_ship_weapon/vls(src)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src, FALSE)
+	new /datum/overmap_ship_weapon/vls(src, FALSE)
 	new /datum/overmap_ship_weapon/plasma_caster(src)
 
 
@@ -183,16 +183,16 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
 /obj/structure/overmap/nanotrasen/light_cruiser/starter/apply_weapons()
-	new /datum/overmap_ship_weapon/mac(src)
-	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/mac(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src, FALSE)
 	new /datum/overmap_ship_weapon/gauss(src)
 
 /obj/structure/overmap/nanotrasen/frigate/starter/shrike //TEMP UNTIL WE DIVERSIFY TYPES MORE
 	icon_state = "shrike"
 
 /obj/structure/overmap/nanotrasen/frigate/starter/shrike/apply_weapons()
-	new /datum/overmap_ship_weapon/gauss(src)
-	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src, FALSE)
 	new /datum/overmap_ship_weapon/hybrid_railgun(src)
 
 /obj/structure/overmap/nanotrasen/frigate/starter //Currently assigned to Jeppison and Atlas
@@ -204,10 +204,10 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
 /obj/structure/overmap/nanotrasen/frigate/starter/apply_weapons()
-	new /datum/overmap_ship_weapon/mac(src)
-	new /datum/overmap_ship_weapon/pdc_mount(src)
-	new /datum/overmap_ship_weapon/gauss(src)
-	new /datum/overmap_ship_weapon/vls(src)
+	new /datum/overmap_ship_weapon/mac(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/vls(src, FALSE)
 	new /datum/overmap_ship_weapon/torpedo_launcher(src)
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter //Currently assigned to the Snake
@@ -221,9 +221,9 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
 /obj/structure/overmap/nanotrasen/patrol_cruiser/starter/apply_weapons()
-	new /datum/overmap_ship_weapon/mac(src)
-	new /datum/overmap_ship_weapon/broadside(src)
-	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/mac(src, FALSE)
+	new /datum/overmap_ship_weapon/broadside(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src, FALSE)
 	new /datum/overmap_ship_weapon/gauss(src)
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter //Currently assigned to Hammerhead
@@ -245,8 +245,8 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	impact_powers[2] *= 2.5 // x 2.5 other damage
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/starter/apply_weapons()
-	new /datum/overmap_ship_weapon/broadside(src)
-	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/broadside(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src, FALSE)
 	new /datum/overmap_ship_weapon/vls(src)
 
 /obj/structure/overmap/nanotrasen/carrier/starter //NOT CURRENTLY ASSIGNED
@@ -266,10 +266,10 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
 /obj/structure/overmap/nanotrasen/battlecruiser/starter/apply_weapons()
-	new /datum/overmap_ship_weapon/mac(src)
-	new /datum/overmap_ship_weapon/pdc_mount(src)
-	new /datum/overmap_ship_weapon/gauss(src)
-	new /datum/overmap_ship_weapon/vls(src)
+	new /datum/overmap_ship_weapon/mac(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/vls(src, FALSE)
 	new /datum/overmap_ship_weapon/torpedo_launcher(src)
 
 /obj/structure/overmap/nanotrasen/battleship/starter //Galactica
@@ -281,9 +281,9 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN
 
 /obj/structure/overmap/nanotrasen/battleship/starter/apply_weapons()
-	new /datum/overmap_ship_weapon/bsa(src) //My beloved...
-	new /datum/overmap_ship_weapon/mac(src)
-	new /datum/overmap_ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/bsa(src, FALSE) //My beloved...
+	new /datum/overmap_ship_weapon/mac(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src, FALSE)
 	new /datum/overmap_ship_weapon/vls(src)
 	//L-OSW WIP - Galactica has no gauss? Check that.
 
@@ -370,11 +370,11 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	combat_dice_type = /datum/combat_dice/carrier
 
 /obj/structure/overmap/nanotrasen/carrier/ai/apply_weapons()
-	new /datum/overmap_ship_weapon/aa_guns(src)
-	new /datum/overmap_ship_weapon/torpedo_launcher(src)
-	new /datum/overmap_ship_weapon/flak(src)
-	new /datum/overmap_ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
-	new /datum/overmap_ship_weapon/missile_launcher(src)
+	new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src, FALSE)
+	new /datum/overmap_ship_weapon/flak(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE) //AI ships want to be able to use gauss too. I say let them...
+	new /datum/overmap_ship_weapon/missile_launcher(src, FALSE)
 
 /obj/structure/overmap/nanotrasen/ai/fighter
 	name = "Viper class light fighter"
@@ -395,7 +395,7 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	combat_dice_type = /datum/combat_dice/fighter
 
 /obj/structure/overmap/nanotrasen/ai/fighter/apply_weapons()
-	new /datum/overmap_ship_weapon/light_cannon(src)
+	new /datum/overmap_ship_weapon/light_cannon(src, FALSE)
 	new /datum/overmap_ship_weapon/missile_launcher(src)
 
 

@@ -1559,7 +1559,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 //Ensure we get the genericised equipment mounts.
 /obj/structure/overmap/small_craft/apply_weapons()
-	 new /datum/overmap_ship_weapon/fighter/primary(src)
+	 new /datum/overmap_ship_weapon/fighter/primary(src, FALSE)
 	 new /datum/overmap_ship_weapon/fighter/secondary(src)
 
 /obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, datum/overmap_ship_weapon/used_ship_weapon, osw_mode)

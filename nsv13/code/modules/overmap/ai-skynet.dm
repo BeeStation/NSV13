@@ -1345,7 +1345,7 @@ Seek a ship thich we'll station ourselves around
 	///Current controlled weapons by mob key -> selected weapon number. Reset on piloting end.
 	var/list/controlled_weapons = list()
 	///Current controlled weapon datum by user. Should be updated when `controlled_weapons` is.
-	var/list/controlled_weapon_datum = list() //OSW WIP - remember to update these when a weapon is deleted.
+	var/list/controlled_weapon_datum = list()
 	///List of overmap weapon datums. Sorted by priority.
 	var/list/datum/overmap_ship_weapon/overmap_weapon_datums = list()
 	///Weapons controllable by PILOT. Recalced if main list changes.
