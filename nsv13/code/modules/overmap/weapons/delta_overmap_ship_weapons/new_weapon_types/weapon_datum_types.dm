@@ -16,7 +16,7 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_ready.ogg'
 	screen_shake = 2
 	ai_fire_delay = 2 SECONDS
-	weapon_control_flags = OSW_CONTROL_GUNNER|OSW_CONTROL_AI|OSW_CONTROL_AIMING_BEAM
+	weapon_aim_flags = OSW_AIMING_BEAM
 
 /datum/overmap_ship_weapon/mac/is_target_size_valid(obj/structure/overmap/target)
 	if(target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
@@ -63,7 +63,7 @@
 	failure_alert = "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded or charged.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/mac_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_charge.ogg'
-	weapon_control_flags = OSW_CONTROL_GUNNER|OSW_CONTROL_AI|OSW_CONTROL_AIMING_BEAM
+	weapon_aim_flags = OSW_AIMING_BEAM
 
 //Deprecated by AMS. Still kept around for AI ships
 /datum/overmap_ship_weapon/torpedo_launcher
@@ -84,6 +84,12 @@
 	used_nonphysical_ammo = OSW_AMMO_TORPEDO
 	ai_fire_delay = 2 SECONDS
 	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
+	has_special_action = TRUE
+
+/datum/overmap_ship_weapon/torpedo_launcher/special_action(mob/user)
+	if(!needs_real_weapons())
+		return
+	cycle_ammo_filter(user)
 
 /datum/overmap_ship_weapon/torpedo_launcher/get_nonphysical_projectile_type()
 	if(!linked_overmap.torpedo_type)
@@ -157,7 +163,7 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg' //Sound effect provided by: "All Sounds" https://www.youtube.com/watch?v=EpaCJ75T3fo under creative commons. Trimmed by Kmc2000
 	screen_shake = 1
 	ai_fire_delay = 3 SECONDS
-	weapon_control_flags = OSW_CONTROL_GUNNER|OSW_CONTROL_AI|OSW_CONTROL_AIMING_BEAM
+	weapon_aim_flags = OSW_AIMING_BEAM
 
 /datum/overmap_ship_weapon/phaser/is_target_size_valid(obj/structure/overmap/target)
 	if(target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
@@ -220,6 +226,12 @@
 	firing_arc = 45 //Broad side of a barn...
 	ai_fire_delay = 1 SECONDS
 	weapon_facing_flags = OSW_FACING_FRONT|OSW_ALWAYS_FIRES_FORWARD
+	has_special_action = TRUE
+
+/datum/overmap_ship_weapon/missile_launcher/special_action(mob/user)
+	if(!needs_real_weapons())
+		return
+	cycle_ammo_filter(user)
 
 /datum/overmap_ship_weapon/missile_launcher/get_nonphysical_projectile_type()
 	if(!linked_overmap.missile_type)
@@ -376,7 +388,7 @@
 	miss_chance = 33
 	max_miss_distance = 8
 	ai_fire_delay = 0.5 SECONDS
-	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI|OSW_CONTROL_FULL_AUTONOMY
+	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI|OSW_CONTROL_AUTONOMOUS|OSW_CONTROL_FULL_AUTONOMY
 	///flak aims at one consistent target until it is out of range.
 	var/obj/structure/overmap/last_auto_target
 
@@ -405,7 +417,8 @@
 	ai_fire_delay = 10 SECONDS
 	screen_shake = 10
 	used_nonphysical_ammo = OSW_AMMO_HEAVY
-	weapon_control_flags = OSW_CONTROL_GUNNER|OSW_CONTROL_AI
+	weapon_facing_flags = OSW_ALWAYS_FIRES_BROADSIDES
+	weapon_aim_flags = OSW_SIDE_AIMING_BEAM
 
 /datum/overmap_ship_weapon/vls
 	name = "STS Missile System"
@@ -423,6 +436,12 @@
 		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	weapon_control_flags = OSW_CONTROL_AUTONOMOUS|OSW_CONTROL_GUNNER|OSW_CONTROL_AI
+	has_special_action = TRUE
+
+/datum/overmap_ship_weapon/vls/special_action(mob/user)
+	if(!needs_real_weapons())
+		return
+	cycle_ammo_filter(user)
 
 /datum/overmap_ship_weapon/laser_ams
 	name = "Laser Anti Missile System"

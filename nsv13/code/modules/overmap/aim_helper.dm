@@ -13,19 +13,25 @@
 		var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
 		user_gun.onMouseDrag(src_object, over_object, src_location, over_location, params, M)
 		return TRUE
+	//L-OSW WIP - This aim stuff could use just being on the weapon datums, right?
 	if(aiming)
 		var/datum/overmap_ship_weapon/aimed_weapon = controlled_weapon_datum[M]
 		aiming_target = over_object
 		aiming_params = params
-		if(target_lock)
-			lastangle = get_angle(src, get_turf(over_object))
-		else if(aimed_weapon && (aimed_weapon.weapon_facing_flags & OSW_ALWAYS_FIRES_BROADSIDES))
-			if((overmap_angle(src, over_location) - angle) <= 180)
-				lastangle = (src.angle + 90)
+		if(aimed_weapon)
+			if(aimed_weapon.weapon_aim_flags & OSW_AIMING_BEAM)
+				lastangle = getMouseAngle(params, M)
+			else if((aimed_weapon.weapon_aim_flags & OSW_SIDE_AIMING_BEAM))
+				if((overmap_angle(src, over_location) - angle) <= 180)
+					lastangle = (src.angle + 90)
+				else
+					lastangle = (src.angle + 270)
 			else
-				lastangle = (src.angle + 270)
+				stop_aiming()
+				return
 		else
-			lastangle = getMouseAngle(params, M)
+			stop_aiming()
+			return
 		draw_beam()
 	else
 		autofire_target = over_object
@@ -43,21 +49,16 @@
 		return
 	var/datum/overmap_ship_weapon/aimed_weapon = controlled_weapon_datum[M]
 	if(aimed_weapon)
-		if(aimed_weapon.weapon_control_flags & OSW_CONTROL_AIMING_BEAM)
+		if(aimed_weapon.weapon_aim_flags & (OSW_AIMING_BEAM|OSW_SIDE_AIMING_BEAM))
 			aiming_target = object
 			aiming_params = params
-			if(target_lock)
-				lastangle = get_angle(src, get_turf(object))
-			else
+			if(aimed_weapon.weapon_aim_flags & OSW_AIMING_BEAM)
 				lastangle = getMouseAngle(params, M)
-			start_aiming(params, M)
-		else if(aimed_weapon.weapon_facing_flags & OSW_ALWAYS_FIRES_BROADSIDES) //If the weapon fires from the sides, we want the aiming laser to lock to the sides
-			aiming_target = object
-			aiming_params = params
-			if((overmap_angle(src, location) - angle) <= 180)
-				lastangle = (src.angle + 90)
-			else
-				lastangle = (src.angle + 270)
+			else if(aimed_weapon.weapon_aim_flags & OSW_SIDE_AIMING_BEAM) //If the weapon fires from the sides, we want the aiming laser to lock to the sides
+				if((overmap_angle(src, location) - angle) <= 180)
+					lastangle = (src.angle + 90)
+				else
+					lastangle = (src.angle + 270)
 			start_aiming(params, M)
 		else
 			autofire_target = object
@@ -76,13 +77,8 @@
 	stop_aiming()
 	var/datum/overmap_ship_weapon/aimed_weapon = controlled_weapon_datum[M]
 	if(aimed_weapon && istype(aimed_weapon))
-		if(aimed_weapon.weapon_control_flags & OSW_CONTROL_AIMING_BEAM)
+		if(aimed_weapon.weapon_aim_flags & (OSW_AIMING_BEAM|OSW_SIDE_AIMING_BEAM))
 			fire_weapon(object, M, aimed_weapon)
-		if(aimed_weapon.weapon_facing_flags & OSW_ALWAYS_FIRES_BROADSIDES) //L-OSW WIP - make sure the intendation here is right (compare to pre-PR)
-			if((overmap_angle(src, location) - angle) <= 180)
-				lastangle = (src.angle + 90)
-			else
-				lastangle = (src.angle + 270)
 	QDEL_LIST(current_tracers)
 
 /obj/structure/overmap

@@ -2,7 +2,7 @@
 
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Button, Section, ProgressBar, LabeledList } from '../components';
+import { Box, Button, Section, ProgressBar, LabeledList } from '../components';
 import { Window } from '../layouts';
 
 export const TacticalConsole = (props, context) => {
@@ -81,7 +81,12 @@ export const TacticalConsole = (props, context) => {
               )}
             </Section>
           </Section>
-          <Section title="Armaments:">
+          <Section title="Armaments:"
+            buttons={(<Button
+              icon="cog"
+              color={data.additional_weapon_info ? "good" : "bad"}
+              content="Expanded Info"
+              onClick={() => act("toggle_additional_weapon_info")} />)}>
             <LabeledList>
               {Object.keys(data.weapons).map(key => {
                 let value = data.weapons[key];
@@ -96,6 +101,19 @@ export const TacticalConsole = (props, context) => {
                             average: [0.15, 0.9],
                             bad: [-Infinity, 0.15],
                           }} />
+                        {!!value.controllers && (
+                          <Box>
+                            <br />
+                            {'Weapon controllers: ' + value.controllers}
+                          </Box>
+                        )}
+                        {!!value.ammo_filter && (
+                          <Box>
+                            <br />
+                            {"Filtered ammo: " + value.ammo_filter}
+                          </Box>
+                        )}
+                        <br />
                       </LabeledList.Item>
                     )}
                   </Fragment>);

@@ -509,7 +509,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 	. = ..()
 	if(random_name)
 		name = generate_fighter_name()
-	apply_weapons()
 	loadout = AddComponent(loadout_type)
 	if(dradis_type)
 		dradis = new dradis_type(src) //Fighters need a way to find their way home.

@@ -24,6 +24,12 @@ Any flags related to this should start with OSW.
 	var/failure_alert
 	///Screen shake caused to interior z of firer - use sparingly.
 	var/screen_shake = 0
+	///Next world.time a user trying to fire can get an error.
+	var/next_error_report = 0
+	///Used to see if the controller string needs to be updated
+	var/cached_control_flags = NONE
+	///Lists who can control this in readable form.
+	var/control_flag_string = null
 
 
 	//===SECTION - object linkage relevant vars===
@@ -37,7 +43,7 @@ Any flags related to this should start with OSW.
 	var/list/weapons = list()
 	///If this needs physical weapon machinery to use if ship has linked physical areas and is not AI controlled. Should be TRUE for most except small craft weapons.
 	var/requires_physical_guns = TRUE
-	///Causes the weapon to delete if the last weapon in its list loses linkage. False by default, usually TRUE for ones added by weapon creation.
+	///Causes the weapon to delete if the last weapon in its list loses linkage. FALSE by default, usually TRUE for ones added by weapon creation.
 	var/delete_if_last_weapon_removed = FALSE
 
 
@@ -50,9 +56,11 @@ Any flags related to this should start with OSW.
 	///Next `world.time` this weapon can fire. Determined by fire delays.
 	var/next_firetime = 0
 	///Delay between shots even if fully loaded.
-	var/fire_delay
+	var/fire_delay = 0
 	///Delay between individual shots of a burst.
 	var/burst_fire_delay = 1
+	///Ammo type that is filtered to; Not used if null. Note that this only filters for at least one shot of this being in a weapon.
+	var/ammo_filter = null
 
 
 	//===SECTION - AI control related vars===
@@ -76,6 +84,8 @@ Any flags related to this should start with OSW.
 	//L-OSW WIP - make sure ghost ship players can control any weapon with OSW_CONTROL_AI - for now decent enough even if not exactly that.
 	///Bitfield used to control which directions a weapon can fire in. Should never be `NONE`.
 	var/weapon_facing_flags = OSW_FACING_OMNI
+	///Bitfield for aim-related stuff, mainly if the weapon uses an aiming beam when used by the gunner. Not supported for non-Gunner weapons.
+	var/weapon_aim_flags = NONE
 	/**
 	 * Valid arc used for relevant weapon facing flags.
 	 * Note that this usually is checked for in either direction of the arc, making the effective total angle double of this var.
@@ -89,6 +99,8 @@ Any flags related to this should start with OSW.
 	var/sort_priority = 1
 	///How many controllers of the ship (TAC / Flight) have this weapon selected. Suppresses autonomy.
 	var/controller_count = 0
+	///Does this weapon have a special action used by its keybind when selected?
+	var/has_special_action = FALSE
 
 
 	//===SECTION - DEPRECATED / WEIRD VARS===
@@ -204,6 +216,91 @@ Any flags related to this should start with OSW.
 /datum/overmap_ship_weapon/proc/unlink_and_delete_weapon()
 	unlink_weapon()
 	qdel(src)
+
+/**
+ * Special action that is executed with a certain keybind with the weapon selected.
+ * * By default does nothing. `has_special_action` must be TRUE for this proc to be considered.
+ */
+/datum/overmap_ship_weapon/proc/special_action(mob/user)
+	return
+
+/**
+ * Returns all types of ammo loaded in all physical weapons of this as a typecache (ammo type = TRUE)
+ */
+/datum/overmap_ship_weapon/proc/get_loaded_ammo_types()
+	if(!needs_real_weapons())
+		return
+	var/list/ammo_cache = list()
+	for(var/obj/machinery/ship_weapon/weapon in weapons["all"])
+		for(var/obj/ammo_obj in weapon.get_ammo_list())
+			ammo_cache[ammo_obj.type] = TRUE
+	return ammo_cache
+
+/**
+ * Cycles ammo filter of this weapon by one, or clears it if we reached the end or have no ammo.
+ */
+/datum/overmap_ship_weapon/proc/cycle_ammo_filter(user)
+	var/list/loaded_ammo = get_loaded_ammo_types()
+	if(!length(loaded_ammo))
+		ammo_filter = null
+		to_chat(user, "<span class='notice'>No loaded ammunition detected, clearing filter.</span>")
+		return
+	if(!ammo_filter)
+		for(var/key as() in loaded_ammo)
+			ammo_filter = key
+			break
+	else
+		#define FILTER_BEFORE_CURRENT 0
+		#define FILTER_FOUND_CURRENT 1
+		#define FILTER_FOUND_NEW 2
+		var/state = FILTER_BEFORE_CURRENT
+		for(var/key as() in loaded_ammo)
+			if(state == FILTER_BEFORE_CURRENT)
+				if(key != ammo_filter)
+					continue
+				state = FILTER_FOUND_CURRENT
+				continue
+			else
+				ammo_filter = key
+				state = FILTER_FOUND_NEW
+				break
+		if(state < FILTER_FOUND_NEW)
+			ammo_filter = null
+		#undef FILTER_BEFORE_CURRENT
+		#undef FILTER_FOUND_CURRENT
+		#undef FILTER_FOUND_NEW
+
+	if(!ammo_filter)
+		to_chat(user, "<span class='notice'>Ammunition filter cleared.</span>")
+	else
+		var/obj/prototype_ammo = ammo_filter
+		to_chat(user, "<span class='notice'>Ammunition filter set to [initial(prototype_ammo.name)].</span>")
+
+/**
+ * Gets this weapons possible controllers in readable (String) form.
+ */
+/datum/overmap_ship_weapon/proc/get_controller_string()
+	if(cached_control_flags == weapon_control_flags)
+		return control_flag_string
+	var/list/controller_strings = list()
+	if(weapon_control_flags & OSW_CONTROL_PILOT)
+		controller_strings += "Pilot"
+	if(weapon_control_flags & OSW_CONTROL_GUNNER)
+		controller_strings += "Gunner"
+	if(weapon_control_flags & OSW_CONTROL_MANUAL)
+		controller_strings += "Operated Manually"
+	if(weapon_control_flags & OSW_CONTROL_AUTONOMOUS)
+		if(weapon_control_flags & OSW_CONTROL_AI_FULL_AUTONOMY)
+			//This is a blocking case, AI autonomy weapons usually aren't normally autonomous.
+		else if(weapon_control_flags & OSW_CONTROL_FULL_AUTONOMY)
+			controller_strings += "Autonomous"
+		else
+			controller_strings += "AMS Control"
+	control_flag_string = controller_strings.Join(", ")
+	cached_control_flags = weapon_control_flags
+	return control_flag_string
+
+//Overmap object procs
 
 /**
  * Recalculates the role specific weapon lists.

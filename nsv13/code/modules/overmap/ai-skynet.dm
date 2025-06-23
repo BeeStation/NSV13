@@ -1342,6 +1342,8 @@ Seek a ship thich we'll station ourselves around
 
 	//Variables related to the new overmap ship weapon datums.
 
+	///Physical weapons will only link to datums once this is TRUE. Enabled after applying weapons.
+	var/weapons_initialized = FALSE
 	///Current controlled weapons by mob key -> selected weapon number. Reset on piloting end.
 	var/list/controlled_weapons = list()
 	///Current controlled weapon datum by user. Should be updated when `controlled_weapons` is.

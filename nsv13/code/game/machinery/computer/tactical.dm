@@ -5,6 +5,8 @@
 	icon_screen = "tactical"
 	position = OVERMAP_USER_ROLE_GUNNER
 	circuit = /obj/item/circuitboard/computer/ship/tactical_computer
+	///If additional info about our weapons is shown
+	var/additional_weapon_info = TRUE
 
 /obj/machinery/computer/ship/tactical/Destroy()
 	if(linked && linked.tactical == src)
@@ -71,6 +73,8 @@
 				if(OM.name == target_name)
 					linked.dump_lock(OM)
 					break
+		if("toggle_additional_weapon_info")
+			additional_weapon_info = !additional_weapon_info
 
 /obj/machinery/computer/ship/tactical/ui_data(mob/user)
 	if(!linked)
@@ -98,11 +102,19 @@
 	data["weapons"] = list()
 	data["target_name"] = (linked.target_lock) ? linked.target_lock.name : "none"
 	data["no_gun_cam"] = linked.no_gun_cam
+	data["additional_weapon_info"] = additional_weapon_info
 	for(var/datum/overmap_ship_weapon/osw in linked.overmap_weapon_datums)
 		var/ammo = osw.get_ammo()
 		var/max_ammo = osw.get_max_ammo()
 		var/thename = osw.name
-		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo))
+		var/controllers = null
+		var/ammo_filter = null
+		if(additional_weapon_info)
+			controllers = osw.get_controller_string()
+			if(osw.ammo_filter)
+				var/obj/prototype_ammo = osw.ammo_filter
+				ammo_filter = initial(prototype_ammo.name)
+		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo, "controllers" = controllers, "ammo_filter" = ammo_filter))
 	data["ships"] = list()
 	data["painted_targets"] = list()
 	data["target_lock"] = linked.target_lock?.name

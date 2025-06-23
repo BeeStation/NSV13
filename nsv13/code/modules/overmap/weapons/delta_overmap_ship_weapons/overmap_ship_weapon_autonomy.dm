@@ -205,6 +205,8 @@
 		return
 
 	for(var/datum/overmap_ship_weapon/osw as() in autonomous_weapon_datums)
+		if(osw.controller_count > 0)
+			continue
 		if(!(osw.weapon_control_flags & OSW_CONTROL_FULL_AUTONOMY) && !(ai_controlled && (osw.weapon_control_flags & OSW_CONTROL_AI_FULL_AUTONOMY)))
 			continue
 		if(!osw.can_fire())
@@ -221,6 +223,8 @@
 			continue
 		var/atom/amm_target = pick(amm_targets) //One activation always fires on a single target.
 		for(var/datum/overmap_ship_weapon/osw as() in autonomous_weapon_datums)
+			if(osw.controller_count > 0)
+				continue
 			if(osw.weapon_control_flags & OSW_CONTROL_FULL_AUTONOMY)
 				continue
 			if(osw.weapon_control_flags & OSW_CONTROL_AI_FULL_AUTONOMY)

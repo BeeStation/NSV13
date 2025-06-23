@@ -198,7 +198,6 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define OSW_CONTROL_AUTONOMOUS (1<<4)			//!This weapon has some form of autonomous control handling.
 #define OSW_CONTROL_FULL_AUTONOMY (1<<5)		//!This weapon operates independantly when using autonomy handling. Ones with autonomy but without this are implied to be controlled by ams modes.
 #define OSW_CONTROL_AI_FULL_AUTONOMY (1<<6)		//!Like Full Autonomy, except only used if the ship is controlled by AI.
-#define OSW_CONTROL_AIMING_BEAM (1<<7)			//!This weapon uses the aiming beam feature.
 
 //Overmap ship weapon facing flags
 #define OSW_FACING_OMNI (1<<0)					//!Standard 360° aim. Mostly for ease-of-read purpose.
@@ -207,4 +206,8 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define OSW_FACING_BACK (1<<3)					//!Only fires backwards(?). Uses firing arc angle.
 #define OSW_ALWAYS_FIRES_FORWARD (1<<4)			//!Always fires directly forward regardless of where you aim (but still passes target)
 #define OSW_ALWAYS_FIRES_BROADSIDES (1<<5)		//!Always fires inaccurate sideways bursts (but preserves target)
+
+//Flags related to aiming a weapon
+#define OSW_AIMING_BEAM (1<<0)					//!This weapon uses the aiming beam feature.
+#define OSW_SIDE_AIMING_BEAM (1<<1)				//!Aiming beam specialized for broadsides.
 //NSV13 change end

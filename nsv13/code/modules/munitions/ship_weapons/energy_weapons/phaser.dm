@@ -21,6 +21,10 @@
 	weapon_datum_type = /datum/overmap_ship_weapon/burst_phaser
 	var/static_charge = FALSE //Controls whether power and energy cost scale with power modifier. True = no scaling
 
+/obj/machinery/ship_weapon/energy/get_ammo_list()
+	log_runtime("Attempting to get physical ammo of an energy weapon. Check your proc chains.")
+	return //Energy weapons have no ammo. You should never be calling this for them.
+
 /obj/machinery/ship_weapon/energy/beam
 	name = "phase cannon"
 	desc = "An extremely powerful directed energy weapon which is capable of delivering a devastating beam attack."

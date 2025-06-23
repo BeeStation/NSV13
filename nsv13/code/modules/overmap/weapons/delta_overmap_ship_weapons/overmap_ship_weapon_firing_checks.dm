@@ -129,9 +129,22 @@
 	if(!length(weapons["loaded"]))
 		return FALSE
 	for(var/obj/machinery/ship_weapon/physical_weapon in weapons["loaded"])
-		if(!physical_weapon.can_fire(target, 1)) //OSW WIP - change the physical weapon canfire to not check shots by default (except certain weapons like broadside)
+		if(ammo_filter && !check_valid_physical_ammo(physical_weapon))
+			continue
+		if(!physical_weapon.can_fire(target, 1))
 			continue
 		return TRUE //We have at least one weapon that can fire.
+	return FALSE
+
+/**
+ * Checks if a passed weapon has at least one shot of valid ammo loaded.
+ */
+/datum/overmap_ship_weapon/proc/check_valid_physical_ammo(checking_thing)
+	var/obj/machinery/ship_weapon/checking_weapon = checking_thing
+	for(var/obj/ammo_obj in checking_weapon.get_ammo_list())
+		if(ammo_obj.type != ammo_filter)
+			continue
+		return TRUE
 	return FALSE
 
 /**

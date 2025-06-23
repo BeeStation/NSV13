@@ -135,15 +135,19 @@
  */
 /obj/machinery/ship_weapon/proc/get_ship()
 	linked = get_overmap()
-	if(linked && !linked_overmap_ship_weapon)
-		link_to_overmap_weapon_datum(linked)
+	if(linked)
+		if(!linked.weapons_initialized)
+			addtimer(CALLBACK(src, PROC_REF(get_ship)), 10 SECONDS) //Lets try this again at some later point in time.
+			return
+		if(!linked_overmap_ship_weapon)
+			link_to_overmap_weapon_datum(linked)
 	else
 		message_admins("[z] not linked to an overmap - [src] will not be linked.")
 
 /**
  * Links the physical weapon to a ship weapon datum, or creates one if needed.
  */
-/obj/machinery/ship_weapon/proc/link_to_overmap_weapon_datum(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
+/obj/machinery/ship_weapon/proc/link_to_overmap_weapon_datum(obj/structure/overmap/OM)
 	OM.add_weapon(src)
 
 /**
@@ -256,6 +260,10 @@
 
 /obj/machinery/ship_weapon/proc/get_ammo()
 	return length(ammo)
+
+///Returns loaded ammo objs. Done this way for ease of overrides.
+/obj/machinery/ship_weapon/proc/get_ammo_list()
+	return ammo
 
 /**
  * Transitions from STATE_NOTLOADED to STATE_LOADED.
@@ -471,7 +479,7 @@
 		return FALSE
 	if(get_ammo() < shots) //Do we have ammo?
 		return FALSE
-	if(linked_overmap_ship_weapon && (linked_overmap_ship_weapon.weapon_facing_flags & OSW_ALWAYS_FIRES_BROADSIDES) && target)
+	if(target && linked_overmap_ship_weapon && (linked_overmap_ship_weapon.weapon_facing_flags & OSW_ALWAYS_FIRES_BROADSIDES))
 		return dir == angle2dir_ship(overmap_angle(linked, target) - linked.angle) ? TRUE : FALSE
 	else
 		return TRUE
@@ -555,7 +563,7 @@
 
 	if(overlay)
 		overlay.do_animation()
-	if( linked_overmap_ship_weapon )
+	if(linked_overmap_ship_weapon)
 		animate_projectile(target)
 
 /obj/machinery/ship_weapon/proc/overmap_sound()

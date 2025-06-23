@@ -51,6 +51,7 @@
 	else
 		. = FALSE
 		if(user_override && firing_weapon) //Tell them we failed
-			if(world.time < firing_weapon.next_firetime) //Silence, SPAM.
+			if(world.time < firing_weapon.next_error_report) //Silence, SPAM.
 				return
 			to_chat(user_override, firing_weapon.failure_alert)
+			firing_weapon.next_error_report = world.time + 0.5 SECONDS

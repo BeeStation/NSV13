@@ -36,6 +36,8 @@
 	for(var/obj/machinery/ship_weapon/firing_weapon in weapons["loaded"])
 		if(!firing_weapon.can_fire(target, 1))
 			continue
+		if(ammo_filter && !check_valid_physical_ammo(firing_weapon))
+			continue
 		var/this_burst = min(burst_size, get_ammo(firing_weapon))
 		if(fire_count == burst_size)
 			firing_weapon.fire(target, this_burst)

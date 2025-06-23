@@ -333,6 +333,9 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	else
 		npc_combat_dice = new combat_dice_type()
 
+	apply_weapons() //Standard armament MUST be applied before weapon linkage to avoid dupes.
+	weapons_initialized = TRUE //We're not going to get weird behavior now.
+
 	if(!istype(src, /obj/structure/overmap/asteroid))
 		GLOB.poi_list += src
 	return INITIALIZE_HINT_LATELOAD
@@ -448,15 +451,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			SSstar_system.queue_for_interior_load(src)
 
 	RegisterSignal(src, list(COMSIG_FTL_STATE_CHANGE, COMSIG_SHIP_KILLED), PROC_REF(dump_locks)) // Setup lockon handling
-	//We have a lot of types but not that many weapons per ship, so let's just worry about the ones we do have
-	if(interior_mode != INTERIOR_DYNAMIC)
-		apply_weapons()
 
 ///Listens for when the interior is done initing and finishes up some variables when it is.
 /obj/structure/overmap/proc/after_init_load_interior()
 	SIGNAL_HANDLER
 	UnregisterSignal(src, COMSIG_INTERIOR_DONE_LOADING)
-	apply_weapons()
 
 //Method to apply weapon types to a ship. By default applies NO weapons.
 /obj/structure/overmap/proc/apply_weapons()

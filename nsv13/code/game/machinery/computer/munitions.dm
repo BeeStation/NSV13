@@ -147,6 +147,8 @@
 	desc = "This console provides a succinct overview of the ship-to-ship weapons."
 	icon_screen = "tactical"
 	circuit = /obj/item/circuitboard/computer/ship/ordnance_computer
+	///If additional info about our weapons is shown
+	var/additional_weapon_info = TRUE
 
 /obj/machinery/computer/ship/ordnance/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -159,10 +161,25 @@
 /obj/machinery/computer/ship/ordnance/ui_data(mob/user)
 	. = ..()
 	var/list/data = list()
+	data["additional_weapon_info"] = additional_weapon_info
 	for(var/datum/overmap_ship_weapon/osw in linked.overmap_weapon_datums)
 		var/ammo = osw.get_ammo()
 		var/max_ammo = osw.get_max_ammo()
 		var/thename = osw.name
-		//OSW WIP: Display who can use a gun here? Blue / Red / Purple Marker / text?
-		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo))
+		var/controllers = null
+		var/ammo_filter = null
+		if(additional_weapon_info)
+			controllers = osw.get_controller_string()
+			if(osw.ammo_filter)
+				var/obj/prototype_ammo = osw.ammo_filter
+				ammo_filter = initial(prototype_ammo.name)
+		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo, "controllers" = controllers, "ammo_filter" = ammo_filter))
 	return data
+
+/obj/machinery/computer/ship/ordnance/ui_act(action, params)
+	. = ..()
+	if(.)
+		return
+	switch(action)
+		if("toggle_additional_weapon_info")
+			additional_weapon_info = !additional_weapon_info

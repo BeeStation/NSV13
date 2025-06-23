@@ -213,6 +213,34 @@
 		playsound(OM.tactical, sound, 100, 1)
 	return TRUE
 
+/datum/keybinding/overmap/special_weapon_action
+	key = "F"
+	name = "special_weapon_action"
+	full name = "Special Weapon Action"
+	description = "Executes a selected weapon's special action, if one exists."
+	keybind_signal = COMSIG_KB_OVERMAP_SPECIAL_WEAPON_ACTION_DOWN
+
+/datum/keybinding/overmap/special_weapon_action/down(client/user)
+	. = ..()
+	if(.)
+		return
+	if(!user.mob)
+		return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/OM = M.overmap_ship
+	if(!OM)
+		return
+	if(M != OM.gunner && M != OM.pilot)
+		return
+	var/datum/overmap_ship_weapon/current_weapon = OM.controlled_weapon_datum[M]
+	if(!current_weapon)
+		return
+	. = TRUE
+	if(!current_weapon.has_special_action)
+		to_chat(user, "<span class='warning'>Current weapon has no special action!</span>")
+		return
+	current_weapon.special_action(M)
+
 // Small craft - safeties and countermeasures
 
 /datum/keybinding/overmap/deploy_countermeasure
