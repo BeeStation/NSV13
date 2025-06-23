@@ -86,7 +86,8 @@ Any flags related to this should start with OSW.
 	 * Inserted before the first object with a lower priority (or at [1] if list is empty)
 	 */
 	var/sort_priority = 1
-	///OSW WIP: Consider: Var that determines if this weapon is currently selected by at least one user (suppresses autonomy)
+	///How many controllers of the ship (TAC / Flight) have this weapon selected. Suppresses autonomy.
+	var/controller_count = 0
 
 
 	//===SECTION - DEPRECATED / WEIRD VARS===
@@ -188,8 +189,12 @@ Any flags related to this should start with OSW.
 /datum/overmap_ship_weapon/proc/unlink_weapon()
 	if(weapon_control_flags & OSW_CONTROL_PILOT)
 		linked_overmap.pilot_weapon_datums -= src
+		linked_overmap.pilotgunner_weapon_datums -= src
 	if(weapon_control_flags & OSW_CONTROL_GUNNER)
 		linked_overmap.gunner_weapon_datums -= src
+		linked_overmap.pilotgunner_weapon_datums -= src
+	if(weapon_control_flags & OSW_CONTROL_AUTONOMOUS)
+		linked_overmap.autonomous_weapon_datums -= src
 	linked_overmap.overmap_weapon_datums -= src
 	linked_overmap = null
 
@@ -206,12 +211,18 @@ Any flags related to this should start with OSW.
 
 //OSW WIP - TEMPORARY LOCAL AMEND TO OVERMAPS - MOVE THIS TO THE RIGHT PLACES WHEN DONE!!!!!!
 /obj/structure/overmap
+	///Current controlled weapons by mob key -> selected weapon number. Reset on piloting end.
+	var/list/controlled_weapons = list()
+	///Current controlled weapon datum by user. Should be updated when `controlled_weapons` is.
+	var/list/controlled_weapon_datum = list() //OSW WIP - remember to update these when a weapon is deleted.
 	///List of overmap weapon datums. Sorted by priority.
 	var/list/datum/overmap_ship_weapon/overmap_weapon_datums = list()
 	///Weapons controllable by PILOT. Recalced if main list changes.
 	var/list/datum/overmap_ship_weapon/pilot_weapon_datums = list()
 	///Weapons controllable by GUNNER. Recalced if main list changes.
 	var/list/datum/overmap_ship_weapon/gunner_weapon_datums = list()
+	///Weapons controllable by someone with both PILOT and GUNNER - this is kinda :/ but I'm not supersure how to implement hybrid control roles otherwise.
+	var/list/datum/overmap_ship_weapon/pilotgunner_weapon_datums = list()
 	///Weapons that are able to operate independantly.
 	var/list/datum/overmap_ship_weapon/autonomous_weapon_datums = list()
 
@@ -227,6 +238,8 @@ Any flags related to this should start with OSW.
 		gunner_weapon_datums.Cut()
 	if(length(autonomous_weapon_datums))
 		autonomous_weapon_datums.Cut()
+	if(length(pilotgunner_weapon_datums))
+		pilotgunner_weapon_datums.Cut()
 
 	for(var/datum/overmap_ship_weapon/osw as() in overmap_weapon_datums)
 		if(osw.weapon_control_flags & OSW_CONTROL_PILOT)
@@ -235,6 +248,8 @@ Any flags related to this should start with OSW.
 			gunner_weapon_datums += osw
 		if(osw.weapon_control_flags & OSW_CONTROL_AUTONOMOUS)
 			autonomous_weapon_datums += osw
+	pilotgunner_weapon_datums |= pilot_weapon_datums
+	pilotgunner_weapon_datums |= gunner_weapon_datums //Do not add datums twice.
 
 /**
  * Deletes all linked weapon datums.
@@ -250,6 +265,22 @@ Any flags related to this should start with OSW.
 	overmap_weapon_datums = null
 	pilot_weapon_datums = null
 	gunner_weapon_datums = null
+	autonomous_weapon_datums = null
+	controlled_weapons = null
+	controlled_weapon_datum = null
 	return ..()
 
+//OSW WIP: Think about how to implement control / selection since one user can have multiple roles.
+/obj/structure/overmap/Initialize(mapload)
+	. = ..()
 
+/obj/structure/overmap/proc/mob_weapon_datum_list(mob/living/user)
+	if(!user)
+		return
+	if(gunner == user)
+		if(pilot == user)
+			return pilotgunner_weapon_datums
+		else
+			return gunner_weapon_datums
+	else
+		return pilot_weapon_datums

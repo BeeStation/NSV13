@@ -44,7 +44,6 @@
 
 // Overmap gunning component for laser PD
 /datum/component/overmap_gunning/laser_pd
-	fire_mode = FIRE_MODE_LASER_PD
 	fire_delay = 1.5 SECONDS
 
 // The laser PD turret itself
@@ -61,7 +60,6 @@
 	idle_power_usage = 2500
 	active = FALSE
 
-	fire_mode = FIRE_MODE_LASER_PD
 	weapon_datum_type = /datum/overmap_ship_weapon/phaser_pd
 	charge = 0
 	charge_rate = 500000

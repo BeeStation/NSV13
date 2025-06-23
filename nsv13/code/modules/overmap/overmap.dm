@@ -138,7 +138,6 @@
 
 	// Ship weapons
 	var/list/weapon_types[MAX_POSSIBLE_FIREMODE]
-	var/list/weapon_numkeys_map = list() // I hate this
 
 	var/fire_mode = FIRE_MODE_TORPEDO //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
@@ -465,20 +464,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	//We have a lot of types but not that many weapons per ship, so let's just worry about the ones we do have
 	if(interior_mode != INTERIOR_DYNAMIC)
 		apply_weapons()
-		for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
-			var/datum/ship_weapon/SW = weapon_types[firemode]
-			if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
-				weapon_numkeys_map += firemode
 
 ///Listens for when the interior is done initing and finishes up some variables when it is.
 /obj/structure/overmap/proc/after_init_load_interior()
 	SIGNAL_HANDLER
 	UnregisterSignal(src, COMSIG_INTERIOR_DONE_LOADING)
 	apply_weapons()
-	for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
-		var/datum/ship_weapon/SW = weapon_types[firemode]
-		if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
-			weapon_numkeys_map += firemode
 
 //Method to apply weapon types to a ship. Override to your liking, this just handles generic rules and behaviours
 /obj/structure/overmap/proc/apply_weapons()
@@ -610,13 +601,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				gauss_gunners -= user
 	if(user != gunner)
 		if(user == pilot)
-			for(var/mode = 1; mode <= MAX_POSSIBLE_FIREMODE; mode++)
-				var/datum/ship_weapon/SW = weapon_types[mode] //For annoying ships like whisp
-				if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))
-					continue
-				var/list/loaded = SW?.weapons["loaded"]
-				if(length(loaded))
-					fire_weapon(target, mode)
+			fire(target, user)
 		return FALSE
 	if(tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
@@ -625,11 +610,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		start_lockon(target)
 		ams_shots_fired = 0
 		return TRUE
-	if(user == gunner)
-		var/datum/ship_weapon/SW = weapon_types[fire_mode]
-		if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
-			return FALSE
-	fire(target)
+	fire(target, user)
 	return TRUE
 
 // Placeholder to allow targeting with utility modules

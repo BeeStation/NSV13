@@ -336,9 +336,6 @@
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
-/obj/structure/overmap/nanotrasen/carrier/ai/get_max_firemode() //This boy really doesn't need a railgun
-	return FIRE_MODE_ANTI_AIR
-
 /obj/structure/overmap/nanotrasen/ai/fighter
 	name = "Viper class light fighter"
 	icon = 'nsv13/icons/overmap/new/nanotrasen/fighter_overmap.dmi'

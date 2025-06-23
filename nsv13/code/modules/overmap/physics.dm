@@ -414,10 +414,12 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	user_thrust_dir = 0
 	update_icon()
 	if(autofire_target && !aiming)
-		if(!gunner) //Just...just no. If we don't have this, you can get shot to death by your own fighter after youve already left it :))
+		if(!gunner || !controlled_weapon_datum[gunner]) //Just...just no. If we don't have this, you can get shot to death by your own fighter after youve already left it :))
 			autofire_target = null
-			return
-		fire(autofire_target)
+		else
+			var/datum/overmap_ship_weapon/autofire_weapon = controlled_weapon_datum[gunner]
+			if(istype(autofire_weapon))
+				fire(autofire_target, gunner, autofire_weapon)
 
 	// Lock handling
 	for(var/obj/structure/overmap/OM in target_painted)

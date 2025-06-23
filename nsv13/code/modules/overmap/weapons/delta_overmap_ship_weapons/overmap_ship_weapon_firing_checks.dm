@@ -143,7 +143,7 @@
  * Checks if the target is valid for AI to aim at. General AI checks should be done before this.
  */
 /datum/overmap_ship_weapon/proc/is_valid_ai_target(obj/structure/overmap/target)
-	return !QDELETED(target) && is_target_size_valid(target)
+	return !QDELETED(target) && is_target_size_valid(target) && !(target.type in linked_overmap.warcrime_blacklist) && !target.essential
 
 /**
  * Determines whether a target is valid for the AI to target.

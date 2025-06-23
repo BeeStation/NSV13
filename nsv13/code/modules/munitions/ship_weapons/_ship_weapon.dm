@@ -44,7 +44,6 @@
 
 	var/firing_sound = 'nsv13/sound/effects/ship/tri_mount_fire.ogg'
 	var/fire_animation_length = 5
-	var/fire_mode //OSW WIP - kill this since we now do sorting via FUN.
 
 	var/malfunction_sound = 'sound/effects/alert.ogg'
 
@@ -52,8 +51,6 @@
 	var/maintainable = TRUE //Does the weapon require maintenance?
 	var/bang = TRUE //Is firing loud?
 	var/bang_range = 8
-	//OSW WIP: Pull this from OSW control flags.
-	var/broadside = FALSE //Does the weapon only fire to the sides?
 	var/auto_load = FALSE //Does the weapon feed and chamber the round once we load it?
 	var/semi_auto = FALSE //Does the weapon re-chamber for us after firing?
 
@@ -472,7 +469,7 @@
 		return FALSE
 	if(get_ammo() < shots) //Do we have ammo?
 		return FALSE
-	if(broadside && target)
+	if(linked_overmap_ship_weapon && (linked_overmap_ship_weapon.weapon_facing_flags & OSW_ALWAYS_FIRES_BROADSIDES) && target)
 		return dir == angle2dir_ship(overmap_angle(linked, target) - linked.angle) ? TRUE : FALSE
 	else
 		return TRUE

@@ -7,7 +7,6 @@
 	bound_height = 64
 	pixel_y = -64
 
-	fire_mode = FIRE_MODE_RAILGUN
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
 
 	dir = 4

@@ -139,3 +139,7 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 #define OSW_AMMO_HEAVY 2		//! Weapon uses heavy ammo.
 #define OSW_AMMO_MISSILE 3		//! Weapon uses missiles.
 #define OSW_AMMO_TORPEDO 4		//! Weapon uses torpedoes.
+
+//Fighter FIre Modes
+#define OSW_FIGHTER_MAIN_WEAPON 1		//!THis is a primary weapon.
+#define OSW_FIGHTER_SECONDARY_WEAPON 2	//!This is a secondary weapon.

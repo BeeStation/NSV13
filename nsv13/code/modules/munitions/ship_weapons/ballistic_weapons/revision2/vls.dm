@@ -38,7 +38,6 @@
 	icon_state = "loader"
 	firing_sound = 'nsv13/sound/effects/ship/plasma.ogg'
 	load_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
-	fire_mode = FIRE_MODE_AMS
 	ammo_type = list(/obj/item/ship_weapon/ammunition/missile, /obj/item/ship_weapon/ammunition/torpedo)
 	CanAtmosPass = FALSE
 	CanAtmosPassVertical = FALSE

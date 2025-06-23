@@ -83,7 +83,17 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	used_nonphysical_ammo = OSW_AMMO_TORPEDO
 	ai_fire_delay = 2 SECONDS
-	weapon_facing_flags = OSW_ALWAYS_FIRES_FORWARD
+	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
+
+/datum/overmap_ship_weapon/torpedo_launcher/get_nonphysical_projectile_type()
+	if(!linked_overmap.torpedo_type)
+		return ..()
+	return linked_overmap.torpedo_type
+
+/datum/overmap_ship_weapon/torpedo_launcher/is_target_size_valid(obj/structure/overmap/target)
+	if(!target.mass < MASS_SMALL)
+		return FALSE
+	return TRUE
 
 /datum/overmap_ship_weapon/torpedo_launcher/burst_disruptor
 	name = "Burst Disruption Torpedo tubes"
@@ -92,10 +102,6 @@
 	fire_delay = 4 SECONDS
 	range_modifier = 35
 
-/datum/overmap_ship_weapon/torpedo_launcher/is_target_size_valid(obj/structure/overmap/target)
-	if(!target.mass < MASS_SMALL)
-		return FALSE
-	return TRUE
 
 /datum/overmap_ship_weapon/aa_guns
 	name = "Anti air guns"
@@ -137,7 +143,7 @@
 	ai_fire_delay = 0.5 SECONDS
 	used_nonphysical_ammo = OSW_AMMO_LIGHT
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI
-	weapon_facing_flags = OSW_ALWAYS_FIRES_FORWARD
+	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
 
 /datum/overmap_ship_weapon/phaser // Big blue laser
 	name = "Phaser Banks"
@@ -214,6 +220,12 @@
 	ai_fire_delay = 1 SECONDS
 	weapon_facing_flags = OSW_FACING_FRONT|OSW_ALWAYS_FIRES_FORWARD
 
+/datum/overmap_ship_weapon/missile_launcher/get_nonphysical_projectile_type()
+	if(!linked_overmap.missile_type)
+		return ..()
+	return linked_overmap.missile_type
+
+
 /datum/overmap_ship_weapon/missile_launcher/is_target_size_valid(obj/structure/overmap/target)
 	if(target.mass > MASS_SMALL)
 		return FALSE
@@ -229,7 +241,7 @@
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
 	select_alert = "<span class='notice'>Cannon selected. DRADIS assisted targeting: online.</span>"
 	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
-	weapon_facing_flags = OSW_ALWAYS_FIRES_FORWARD
+	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
 
 /datum/overmap_ship_weapon/light_cannon/integrated	//Weapon for ships big enough that autocannon ammo concerns shouldn't matter this much anymore. Changes their class from HEAVY to LIGHT
 	name = "integrated light autocannon"
@@ -245,14 +257,35 @@
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg')
 	select_alert = "<span class='notice'>Cannon selected. DRADIS assisted targeting: online..</span>"
 	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
-	weapon_facing_flags = OSW_ALWAYS_FIRES_FORWARD
+	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
 
 //OSW WIP: Fighters WILL need manual addressing.
 
-/*
-/datum/ship_weapon/fighter_primary
+//Fighters
+
+/datum/overmap_ship_weapon/fighter
+	requires_physical_guns = FALSE
+	///Which weapon datum this uses. Fighters should only ever have two (Primary first, Secondary second)
+	var/weapon_slot = 0
+
+/datum/overmap_ship_weapon/fighter/fire_nonphysical(atom/target, mob/living/firer, ai_aim)
+	var/hardpoint_response = linked_overmap.hardpoint_fire(target, src, weapon_slot)
+	if(hardpoint_response)
+		. = async_nonphysical_fire(target, firer, ai_aim, burst_size)
+
+/datum/overmap_ship_weapon/fighter/get_ammo()
+	. = linked_overmap.hardpoint_get_ammo(weapon_slot)
+
+/datum/overmap_ship_weapon/fighter/get_max_ammo()
+	. = linked_overmap.hardpoint_get_max_ammo(weapon_slot)
+
+//Fighter already handles ammo use (technically unneeded since `fire_nonphysical()`, the calling proc, is already overridden)
+/datum/overmap_ship_weapon/fighter/use_nonphysical_ammo(amount)
+	return TRUE
+
+/datum/overmap_ship_weapon/fighter/primary
 	name = "Primary Equipment Mount"
-	default_projectile_type = /obj/item/projectile/bullet/light_cannon_round //This is overridden anyway
+	standard_projectile_type = /obj/item/projectile/bullet/light_cannon_round //This is overridden anyway
 	burst_size = 1
 	fire_delay = 0.25 SECONDS
 	range_modifier = 10
@@ -260,12 +293,16 @@
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
 	select_alert = "<span class='notice'>Primary mount selected.</span>"
 	failure_alert = "<span class='warning'>DANGER: Primary mount not responding to fire command.</span>"
-	lateral = FALSE
-	special_fire_proc = /obj/structure/overmap/proc/primary_fire
+	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_GUNNER
+	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
+	weapon_slot = OSW_FIGHTER_MAIN_WEAPON
+	sort_priority = 999 //Cursed code - These MUST always be the first two (and in the right order)
 
-/datum/ship_weapon/fighter_secondary
+//OSW WIP: Block Fighter weapons (/ Fighters) from using sort.
+
+/datum/overmap_ship_weapon/fighter/secondary
 	name = "Secondary Equipment Mount"
-	default_projectile_type = /obj/item/projectile/guided_munition/missile //This is overridden anyway
+	standard_projectile_type = /obj/item/projectile/guided_munition/missile //This is overridden anyway
 	burst_size = 1
 	fire_delay = 0.5 SECONDS
 	range_modifier = 30
@@ -279,9 +316,11 @@
 		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	firing_arc = 45 //Broad side of a barn...
-	special_fire_proc = /obj/structure/overmap/proc/secondary_fire
 	ai_fire_delay = 1 SECONDS
-*/
+	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_GUNNER
+	weapon_facing_flags = OSW_FACING_FRONT
+	weapon_slot = OSW_FIGHTER_SECONDARY_WEAPON
+	sort_priority = 998
 
 //You don't ever actually select this. Crew act as gunners.
 /datum/overmap_ship_weapon/gauss
@@ -338,7 +377,6 @@
 	miss_chance = 33
 	max_miss_distance = 8
 	ai_fire_delay = 0.5 SECONDS
-	weapon_facing_flags = OSW_ALWAYS_FIRES_FORWARD
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI|OSW_CONTROL_FULL_AUTONOMY
 	///flak aims at one consistent target until it is out of range.
 	var/obj/structure/overmap/last_auto_target
@@ -385,8 +423,7 @@
 		'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
 		'nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
-	//autonomous = TRUE // Capable of firing autonomously OSW WIP - figure out how to handle these (likely control flag)
-	//weapon_control_flags = NONE <<<
+	weapon_control_flags = OSW_CONTROL_AUTONOMOUS|OSW_CONTROL_GUNNER|OSW_CONTROL_AI
 
 /datum/overmap_ship_weapon/laser_ams
 	name = "Laser Anti Missile System"
@@ -398,10 +435,8 @@
 	failure_alert = "<span class='warning'>DANGER: Launch failure!</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/burst_phaser.ogg', 'nsv13/sound/effects/ship/burst_phaser2.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
-	//autonomous = TRUE See above
 	permitted_ams_modes = list( "Anti-missile countermeasures" = 1 )
-	//allowed_roles = 0 - likely uses manual?
-	//weapon_control_flags = NONE <<<
+	weapon_control_flags = OSW_CONTROL_AUTONOMOUS
 	used_nonphysical_ammo = OSW_AMMO_LIGHT
 
 /datum/overmap_ship_weapon/plasma_caster
@@ -416,7 +451,7 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg'
 	ai_fire_delay = 180 SECONDS
 	weapon_control_flags = OSW_CONTROL_GUNNER|OSW_CONTROL_AI
-	weapon_facing_flags = OSW_ALWAYS_FIRES_FORWARD
+	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
 
 /*
 =======================================

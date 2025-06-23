@@ -13,7 +13,7 @@
 	if(QDELETED(target))
 		return FALSE
 	. = fire_proc_chain(target)
-	OM.ams_shots_fired += .
+	OM.ams_shots_fired += . //OSW WIP: Integrate this (resetting in particular)
 	OM.next_ams_shot = world.time + OM.ams_targeting_cooldown
 
 /**
@@ -223,6 +223,8 @@
 		for(var/datum/overmap_ship_weapon/osw as() in autonomous_weapon_datums)
 			if(osw.weapon_control_flags & OSW_CONTROL_FULL_AUTONOMY)
 				continue
+			if(osw.weapon_control_flags & OSW_CONTROL_AI_FULL_AUTONOMY)
+				continue //These weapons are usually only autonomous in AI hands.
 			var/list/permitted_ams_modes = osw.permitted_ams_modes
 			if(!permitted_ams_modes.len || !permitted_ams_modes[amm.name])
 				continue

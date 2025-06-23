@@ -71,13 +71,15 @@
 	autofire_target = null
 	lastangle = get_angle(src, get_turf(object))
 	stop_aiming()
-	if(fire_mode == FIRE_MODE_MAC || fire_mode == FIRE_MODE_BLUE_LASER || fire_mode == FIRE_MODE_HYBRID_RAIL || FIRE_MODE_BROADSIDE)
-		fire_weapon(object)
-	if(fire_mode == FIRE_MODE_BROADSIDE)
-		if((overmap_angle(src, location) - angle) <= 180)
-			lastangle = (src.angle + 90)
-		else
-			lastangle = (src.angle + 270)
+	var/datum/overmap_ship_weapon/aimed_weapon = controlled_weapon_datum[M]
+	if(istype(aimed_weapon))
+		if(aimed_weapon.weapon_control_flags & OSW_CONTROL_AIMING_BEAM)
+			fire_weapon(object, M, aimed_weapon)
+		if(aimed_weapon.weapon_facing_flags & OSW_ALWAYS_FIRES_BROADSIDES)
+			if((overmap_angle(src, location) - angle) <= 180)
+				lastangle = (src.angle + 90)
+			else
+				lastangle = (src.angle + 270)
 	QDEL_LIST(current_tracers)
 
 /obj/structure/overmap

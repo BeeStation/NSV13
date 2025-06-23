@@ -20,7 +20,6 @@
 	appearance_flags = NONE //Removes default TILE_BOUND
 	dir = EAST //Default.
 	var/id = null
-	fire_mode = FIRE_MODE_RAILGUN
 	var/built = FALSE //Station goal fuckery
 	//circuit =
 

@@ -11,7 +11,6 @@
 	bound_width = 128
 	bound_height = 64
 	pixel_y = -64
-	fire_mode = FIRE_MODE_HYBRID_RAIL
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo //preset to slug
 	max_ammo = 5 //preset to slug
 	semi_auto = TRUE

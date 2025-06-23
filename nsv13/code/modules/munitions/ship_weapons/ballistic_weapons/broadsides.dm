@@ -14,7 +14,6 @@
 	circuit = /obj/item/circuitboard/machine/broadside
 
 	weapon_datum_type = /datum/overmap_ship_weapon/broadside
-	fire_mode = FIRE_MODE_BROADSIDE
 
 	auto_load = TRUE
 	semi_auto = TRUE
@@ -23,7 +22,6 @@
 	feeding_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
 	fed_sound = null
 	chamber_sound = null
-	broadside = TRUE
 
 	load_delay = 20
 	unload_delay = 20

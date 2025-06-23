@@ -125,16 +125,11 @@ Credit to TGMC for the interior sprites for all these!
     mappath = "_maps/templates/boarding/gunship.dmm"
 
 /obj/structure/overmap/small_craft/transport/gunship/apply_weapons()
-	if(!weapon_types[FIRE_MODE_ANTI_AIR])
-		weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/fighter_primary(src)
-	if(!weapon_types[FIRE_MODE_TORPEDO])
-		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	if(!weapon_types[FIRE_MODE_AMS])
-		weapon_types[FIRE_MODE_AMS] = new/datum/ship_weapon/vls(src)
-	if(!weapon_types[FIRE_MODE_GAUSS])
-		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
-	if(!weapon_types[FIRE_MODE_PDC])
-		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/fighter/primary(src)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src)
+	new /datum/overmap_ship_weapon/vls(src)
+	new /datum/overmap_ship_weapon/gauss(src)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
 
 /obj/structure/overmap/small_craft/transport/sabre
 	name = "\improper Su-437 Sabre"

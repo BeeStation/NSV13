@@ -275,7 +275,7 @@
 	if(!OM) return
 
 	if(M != OM.gunner) return
-	OM.select_weapon(1)
+	OM.select_weapon(1, M)
 	return TRUE
 
 /datum/keybinding/overmap/weapon_2
@@ -295,7 +295,7 @@
 	if(!OM) return
 
 	if(M != OM.gunner) return
-	OM.select_weapon(2)
+	OM.select_weapon(2, M)
 	return TRUE
 
 /datum/keybinding/overmap/weapon_3
@@ -315,7 +315,7 @@
 	if(!OM) return
 
 	if(M != OM.gunner) return
-	OM.select_weapon(3)
+	OM.select_weapon(3, M)
 	return TRUE
 
 /datum/keybinding/overmap/weapon_4
@@ -335,7 +335,7 @@
 	if(!OM) return
 
 	if(M != OM.gunner) return
-	OM.select_weapon(4)
+	OM.select_weapon(4, M)
 	return TRUE
 
 /datum/keybinding/overmap/unlock

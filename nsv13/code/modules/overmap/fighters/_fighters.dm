@@ -163,15 +163,15 @@ Been a mess since 2018, we'll fix it someday (probably)
 		data["ftl_active"] = FALSE
 		data["ftl_target"] = FALSE
 
-	for(var/slot in loadout.equippable_slots)
+	for(var/slot in loadout.equippable_slots) //OSW WIP - This sucks, why not directly grab the component?
 		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
 		//Look for any "primary" hardpoints, be those guns or utility slots
 		if(!weapon)
 			continue
-		if(weapon.fire_mode == FIRE_MODE_ANTI_AIR)
+		if(weapon.fighter_fire_mode == OSW_FIGHTER_MAIN_WEAPON)
 			data["primary_ammo"] = weapon.get_ammo()
 			data["max_primary_ammo"] = weapon.get_max_ammo()
-		if(weapon.fire_mode == FIRE_MODE_TORPEDO)
+		if(weapon.fighter_fire_mode == OSW_FIGHTER_SECONDARY_WEAPON)
 			data["secondary_ammo"] = weapon.get_ammo()
 			data["max_secondary_ammo"] = weapon.get_max_ammo()
 	var/list/hardpoints_info = list()
@@ -849,10 +849,12 @@ Been a mess since 2018, we'll fix it someday (probably)
 	return ..()
 
 /obj/structure/overmap/small_craft/can_friendly_fire()
-	if(fire_mode == 1)
+	if(!gunner)
+		return FALSE
+	if(controlled_weapons[gunner] == OSW_FIGHTER_MAIN_WEAPON)
 		var/obj/item/fighter_component/primary/P = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
 		return (P && istype(P) && P.bypass_safety)
-	else if(fire_mode == 2)
+	else if(controlled_weapons[gunner] == OSW_FIGHTER_SECONDARY_WEAPON)
 		var/obj/item/fighter_component/secondary/S = loadout.get_slot(HARDPOINT_SLOT_UTILITY_SECONDARY)
 		return (S && istype(S) && S.bypass_safety)
 	return FALSE
@@ -940,7 +942,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 	var/slot = null //Change me!
 	var/weight = 0 //Some more advanced modules will weigh your fighter down some.
 	var/power_usage = 0 //Does this module require power to process()?
-	var/fire_mode = null //Used if this is a weapon style hardpoint
+	var/fighter_fire_mode = null //Used if this is a weapon style hardpoint
 	var/active = TRUE
 
 /obj/item/fighter_component/examine(mob/user)
@@ -1006,7 +1008,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 	return power_tick(delta_time)
 
 //Used for weapon style hardpoints
-/obj/item/fighter_component/proc/fire(obj/structure/overmap/target)
+/obj/item/fighter_component/proc/fire(obj/structure/overmap/target, datum/overmap_ship_weapon/linked_weapon)
 	return FALSE
 
 /*
@@ -1531,7 +1533,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/primary
 	name = "\improper primary weapon"
 	slot = HARDPOINT_SLOT_PRIMARY
-	fire_mode = FIRE_MODE_ANTI_AIR
+	fighter_fire_mode = OSW_FIGHTER_MAIN_WEAPON
 	var/overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	var/overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
 	var/accepted_ammo = /obj/item/ammo_box/magazine
@@ -1539,7 +1541,6 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/list/ammo = list()
 	var/burst_size = 1
 	var/fire_delay = 0
-	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
 	var/bypass_safety = FALSE
 
 /obj/item/fighter_component/primary/dump_contents()
@@ -1558,34 +1559,40 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 //Ensure we get the genericised equipment mounts.
 /obj/structure/overmap/small_craft/apply_weapons()
-	if(!weapon_types[FIRE_MODE_ANTI_AIR])
-		weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/fighter_primary(src)
-	if(!weapon_types[FIRE_MODE_TORPEDO])
-		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/fighter_secondary(src)
+	 new /datum/overmap_ship_weapon/fighter/primary(src)
+	 new /datum/overmap_ship_weapon/fighter/secondary(src)
 
-//Burst arg currently unused for this proc.
-/obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target, ai_aim = FALSE, burst = 1)
-	hardpoint_fire(target, FIRE_MODE_ANTI_AIR)
-
-/obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, fireMode)
-	if(istype(src, /obj/structure/overmap/small_craft))
-		var/obj/structure/overmap/small_craft/F = src
-		for(var/slot in F.loadout.equippable_slots)
-			var/obj/item/fighter_component/weapon = F.loadout.hardpoint_slots[slot]
-			//Look for any "primary" hardpoints, be those guns or utility slots
-			if(!weapon || weapon.fire_mode != fireMode)
-				continue
-			var/datum/ship_weapon/SW = weapon_types[weapon.fire_mode]
-			spawn()
-				for(var/I = 0; I < SW.burst_size; I++)
-					weapon.fire(target)
-					sleep(1)
-			return TRUE
+/obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, datum/overmap_ship_weapon/used_ship_weapon, osw_mode)
 	return FALSE
 
-//Burst arg currently unused for this proc.
-/obj/structure/overmap/proc/secondary_fire(obj/structure/overmap/target, ai_aim = FALSE, burst = 1)
-	hardpoint_fire(target, FIRE_MODE_TORPEDO)
+/obj/structure/overmap/small_craft/hardpoint_fire(obj/structure/overmap/target, datum/overmap_ship_weapon/used_ship_weapon, osw_mode)
+	for(var/slot in loadout.equippable_slots) //OSW WIP - This sucks, just switch by firemode.
+		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
+		//Look for any "primary" hardpoints, be those guns or utility slots
+		if(!weapon || !istype(weapon) || weapon.fighter_fire_mode != osw_mode)
+			continue
+		return weapon.fire(target, used_ship_weapon)
+	return FALSE
+
+/obj/structure/overmap/proc/hardpoint_get_ammo(fire_mode)
+	return FALSE
+
+/obj/structure/overmap/small_craft/hardpoint_get_ammo(fire_mode)
+	for(var/slot in loadout.equippable_slots) //OSW WIP - This sucks, just switch by firemode
+		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
+		if(!weapon || !istype(weapon) || weapon.fighter_fire_mode != fire_mode)
+			continue
+		return weapon.get_ammo()
+
+/obj/structure/overmap/proc/hardpoint_get_max_ammo(fire_mode)
+	return FALSE
+
+/obj/structure/overmap/small_craft/hardpoint_get_max_ammo(fire_mode)
+	for(var/slot in loadout.equippable_slots) //OSW WIP - This sucks, just switch by firemode
+		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
+		if(!weapon || !istype(weapon) || weapon.fighter_fire_mode != fire_mode)
+			continue
+		return weapon.get_max_ammo()
 
 /obj/item/fighter_component/primary/load(obj/structure/overmap/target, atom/movable/AM)
 	if(!istype(AM, accepted_ammo))
@@ -1603,7 +1610,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	playsound(target, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	return TRUE
 
-/obj/item/fighter_component/primary/fire(obj/structure/overmap/target)
+/obj/item/fighter_component/primary/fire(obj/structure/overmap/target, datum/overmap_ship_weapon/linked_weapon)
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F))
 		return FALSE
@@ -1611,23 +1618,20 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		F.relay('sound/weapons/gun_dry_fire.ogg')
 		return FALSE
 	var/obj/item/ammo_casing/chambered = ammo[ammo.len]
-	var/datum/ship_weapon/SW = F.weapon_types[fire_mode]
-	SW.default_projectile_type = chambered.projectile_type
-	SW.fire_fx_only(target)
+	linked_weapon.standard_projectile_type = chambered.projectile_type
 	ammo -= chambered
 	qdel(chambered)
 	return TRUE
 
 /obj/item/fighter_component/primary/on_install(obj/structure/overmap/target)
 	. = ..()
-	if(!fire_mode)
+	if(!fighter_fire_mode)
 		return FALSE
-	var/datum/ship_weapon/SW = target.weapon_types[fire_mode]
-	SW.overmap_firing_sounds = overmap_firing_sounds
-	SW.overmap_select_sound = overmap_select_sound
-	SW.burst_size = burst_size
-	SW.fire_delay = fire_delay
-	SW.allowed_roles = allowed_roles
+	var/datum/overmap_ship_weapon/osw = target.overmap_weapon_datums[fighter_fire_mode]
+	osw.overmap_firing_sounds = overmap_firing_sounds
+	osw.overmap_select_sound = overmap_select_sound
+	osw.burst_size = burst_size
+	osw.fire_delay = fire_delay
 
 /obj/item/fighter_component/primary/remove_from(obj/structure/overmap/target)
 	. = ..()
@@ -1681,7 +1685,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		return 0
 	return B.maxcharge
 
-/obj/item/fighter_component/primary/laser/fire(obj/structure/overmap/target)
+/obj/item/fighter_component/primary/laser/fire(obj/structure/overmap/target, datum/overmap_ship_weapon/linked_weapon)
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F))
 		return FALSE
@@ -1691,9 +1695,6 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		F.relay('sound/weapons/gun_dry_fire.ogg')
 		return FALSE
 
-	var/datum/ship_weapon/SW = F.weapon_types[fire_mode]
-	SW.default_projectile_type = projectile
-	SW.fire_fx_only(target, lateral = TRUE)
 	B.charge -= charge_to_fire
 	return TRUE
 
@@ -1701,7 +1702,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/secondary
 	name = "secondary weapon"
 	slot = HARDPOINT_SLOT_SECONDARY
-	fire_mode = FIRE_MODE_TORPEDO
+	fighter_fire_mode = OSW_FIGHTER_SECONDARY_WEAPON
 	var/overmap_firing_sounds = list(
 		'nsv13/sound/effects/ship/torpedo.ogg',
 		'nsv13/sound/effects/ship/freespace2/m_shrike.wav',
@@ -1714,7 +1715,6 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/max_ammo = 5
 	var/burst_size = 1 //Cluster torps...UNLESS?
 	var/fire_delay = 0.25 SECONDS
-	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
 	var/bypass_safety = FALSE
 
 /obj/item/fighter_component/secondary/dump_contents()
@@ -1732,14 +1732,13 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 /obj/item/fighter_component/secondary/on_install(obj/structure/overmap/target)
 	. = ..()
-	if(!fire_mode)
+	if(!fighter_fire_mode)
 		return FALSE
-	var/datum/ship_weapon/SW = target.weapon_types[fire_mode]
-	SW.overmap_firing_sounds = overmap_firing_sounds
-	SW.overmap_select_sound = overmap_select_sound
-	SW.burst_size = burst_size
-	SW.fire_delay = fire_delay
-	SW.allowed_roles = allowed_roles
+	var/datum/overmap_ship_weapon/osw = target.overmap_weapon_datums[fighter_fire_mode]
+	osw.overmap_firing_sounds = overmap_firing_sounds
+	osw.overmap_select_sound = overmap_select_sound
+	osw.burst_size = burst_size
+	osw.fire_delay = fire_delay
 
 /obj/item/fighter_component/secondary/remove_from(obj/structure/overmap/target)
 	. = ..()
@@ -1812,7 +1811,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	playsound(target, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	return TRUE
 
-/obj/item/fighter_component/secondary/ordnance_launcher/fire(obj/structure/overmap/target)
+/obj/item/fighter_component/secondary/ordnance_launcher/fire(obj/structure/overmap/target, datum/overmap_ship_weapon/linked_weapon)
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F))
 		return FALSE
@@ -1820,32 +1819,29 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		F.relay('sound/weapons/gun_dry_fire.ogg')
 		return FALSE
 	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
-	var/proj_speed = 1
 	var/obj/item/ship_weapon/ammunition/americagobrr = pick_n_take(ammo)
 	proj_type = americagobrr.projectile_type
-	proj_speed = istype(americagobrr.projectile_type, /obj/item/projectile/guided_munition/missile) ? 5 : 1
 	qdel(americagobrr)
 	if(proj_type)
+		linked_weapon.standard_projectile_type = proj_type
 		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
 		F.relay_to_nearby(chosen)
-		F.fire_projectile(proj_type, target, speed=proj_speed, lateral = FALSE)
-	return TRUE
+		return TRUE
+	return FALSE
 
 //Utility modules.
 
 /obj/item/fighter_component/primary/utility
 	name = "No :)"
 	slot = HARDPOINT_SLOT_UTILITY_PRIMARY
-	allowed_roles = OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER
 
-/obj/item/fighter_component/primary/utility/fire(obj/structure/overmap/target)
+/obj/item/fighter_component/primary/utility/fire(obj/structure/overmap/target, datum/overmap_ship_weapon/linked_weapon)
 	return FALSE
 
 /obj/item/fighter_component/secondary/utility
 	name = "Utility Module"
 	slot = HARDPOINT_SLOT_UTILITY_SECONDARY
 	power_usage = 200
-	allowed_roles = OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER
 
 /obj/structure/overmap/small_craft/proc/update_visuals()
 	if(canopy && canopy.icon == icon)

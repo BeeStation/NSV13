@@ -35,7 +35,7 @@
 		return 0
 	return B.maxcharge
 
-/obj/item/fighter_component/primary/plasmacutter/fire(obj/structure/overmap/target)
+/obj/item/fighter_component/primary/plasmacutter/fire(obj/structure/overmap/target, datum/overmap_ship_weapon/linked_weapon)
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F))
 		return FALSE
@@ -45,9 +45,7 @@
 		F.relay('sound/weapons/gun_dry_fire.ogg')
 		return FALSE
 
-	var/datum/ship_weapon/SW = F.weapon_types[fire_mode]
-	SW.default_projectile_type = projectile
-	SW.fire_fx_only(target, lateral = TRUE)
+	linked_weapon.standard_projectile_type = projectile
 	B.charge -= charge_to_fire
 	return TRUE
 

@@ -4,7 +4,6 @@
 	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload. Use a multitool on it to re-register loading aparatus."
 	icon = 'nsv13/icons/obj/munitions/deck_turret.dmi'
 	icon_state = "deck_turret"
-	fire_mode = FIRE_MODE_MAC
 	ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
 	pixel_x = -43
 	pixel_y = -64

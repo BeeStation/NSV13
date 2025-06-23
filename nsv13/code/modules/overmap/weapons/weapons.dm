@@ -8,82 +8,54 @@
 	weapon_overlays += OL
 	return OL
 
-/obj/structure/overmap/proc/fire(atom/target)
+/obj/structure/overmap/proc/fire(atom/target, mob/user, datum/overmap_ship_weapon/firing_weapon)
 	if(weapon_safety)
-		if(gunner)
-			to_chat(gunner, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
+		if(user)
+			to_chat(user, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
 		return
+	if(!firing_weapon && !ai_controlled)
+		if(!user)
+			return
+		else
+			if(!controlled_weapon_datum[user])
+				return
+			var/datum/overmap_ship_weapon/selected_weapon = controlled_weapon_datum
+			if(!istype(selected_weapon))
+				return
+			firing_weapon = selected_weapon
+
 	handle_cloak(CLOAK_TEMPORARY_LOSS)
 	last_target = target
-	var/obj/structure/overmap/ship = target
 	if(ai_controlled) //Let the AI switch weapons according to range
 		ai_fire(target)
-		return	//end if(ai_controlled)
+		return
 	if(istype(target, /obj/structure/overmap))
+		var/obj/structure/overmap/ship = target
 		ship.add_enemy(src)
-	fire_weapon(target)
+	if(user)
+		fire_weapon(target, user, firing_weapon)
+	else
+		fire_weapon(target, firing_weapon = firing_weapon)
 
-/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=gunner, ai_aim=FALSE) //"Lateral" means that your ship doesnt have to face the target
-	var/datum/ship_weapon/SW = weapon_types[mode]
+/obj/structure/overmap/proc/fire_weapon(atom/target, mob/user_override=gunner, datum/overmap_ship_weapon/firing_weapon, ai_aim=FALSE) //"Lateral" means that your ship doesnt have to face the target
 	if(ghost_controlled) //Hook in our ghost ship functions
-		if(!SW.special_fire_proc)
-			var/uses_main_shot = FALSE
-			if(SW.weapon_class > WEAPON_CLASS_LIGHT)
-				if(shots_left <= 0)
-					if(!ai_resupply_scheduled)
-						ai_resupply_scheduled = TRUE
-						addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
-					return FALSE
-				else if(light_shots_left <= 0)
-					spawn(150)
-						light_shots_left = initial(light_shots_left) // make them reload like real people, sort of
-					return FALSE
-
-			if(SW.weapon_class > WEAPON_CLASS_LIGHT)
-				uses_main_shot = TRUE
-			else
-				uses_main_shot = FALSE
-
-			if(uses_main_shot)
-				shots_left --
-			else
-				light_shots_left --
+		if(!firing_weapon.get_ammo())
+			if(!ai_resupply_scheduled)
+				ai_resupply_scheduled = TRUE
+				addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
 
 	if(weapon_safety)
 		return FALSE
-	if(mode == FIRE_MODE_AMS)
-		ams_shots_fired = 0
-	if(SW?.fire(target, ai_aim=ai_aim))
+	if((firing_weapon.fire_proc_chain(target, user_override, ai_aim=ai_aim)))
 		return TRUE
 	else
-		if(user_override && SW) //Tell them we failed
-			if(world.time < SW.next_firetime) //Silence, SPAM.
-				return FALSE
-			to_chat(user_override, SW.failure_alert)
+		. = FALSE
+		if(user_override && firing_weapon) //Tell them we failed
+			if(world.time < firing_weapon.next_firetime) //Silence, SPAM.
+				return
+			to_chat(user_override, firing_weapon.failure_alert)
 
-/obj/structure/overmap/proc/get_max_firemode()
-	if(mass < MASS_MEDIUM) //Small craft dont get a railgun
-		return FIRE_MODE_TORPEDO
-	return FIRE_MODE_MAC
-
-/obj/structure/overmap/proc/select_weapon(number)
-	if(number > 0 && number <= length(weapon_numkeys_map))
-		swap_to(weapon_numkeys_map[number])
-		return TRUE
-
-/obj/structure/overmap/proc/swap_to(what=FIRE_MODE_ANTI_AIR)
-	if(!weapon_types[what])
-		return FALSE
-	var/datum/ship_weapon/SW = weapon_types[what]
-	if(!(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
-		return FALSE
-	fire_mode = what
-	if(world.time > switchsound_cooldown)
-		relay(SW.overmap_select_sound)
-		switchsound_cooldown = world.time + 5 SECONDS
-	if(gunner)
-		to_chat(gunner, SW.select_alert)
-	return TRUE
+//OSW WIP - DELETE ALL AFTER THIS
 
 /obj/structure/overmap/proc/fire_torpedo(atom/target, ai_aim = FALSE, burst = 1)
 	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors

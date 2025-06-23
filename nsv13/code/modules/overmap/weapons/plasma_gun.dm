@@ -15,7 +15,6 @@
 	ammo_type = /obj/item/ship_weapon/ammunition/plasma_core
 	circuit = /obj/item/circuitboard/machine/plasma_caster
 
-	fire_mode = FIRE_MODE_PHORON
 
 	auto_load = FALSE
 	semi_auto = FALSE

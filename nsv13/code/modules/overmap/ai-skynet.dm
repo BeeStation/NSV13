@@ -1340,82 +1340,13 @@ Seek a ship thich we'll station ourselves around
 	var/obj/structure/overmap/last_overmap = null
 	var/switchsound_cooldown = 0
 
-/obj/structure/overmap/proc/ai_fire(atom/target)
-	if(istype(target, /obj/structure/overmap))
-		add_enemy(target)
-		var/target_range = overmap_dist(src,target)
-		var/new_firemode = FIRE_MODE_GAUSS
-		if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
-			if(fleet)
-				fleet.stop_reporting(target, src)
-			last_target = null
-			return
-		var/best_distance = INFINITY //Start off infinitely high, as we have not selected a distance yet.
-		var/uses_main_shot = FALSE //Will this shot count as depleting "shots left"? Heavy weapons eat ammo, PDCs do not.
-		//So! now we pick a weapon.. We start off with PDCs, which have an effective range of "5". On ships with gauss, gauss will be chosen 90% of the time over PDCs, because you can fire off a PDC salvo anyway.
-		//Heavy weapons take ammo, stuff like PDC and gauss do NOT for AI ships. We make decisions on the fly as to which gun we get to shoot. If we've run out of ammo, we have to resort to PDCs only.
-		for(var/I = FIRE_MODE_ANTI_AIR; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
-			var/datum/ship_weapon/SW = weapon_types[I]
-			if(!SW)
-				continue
-			var/distance = target_range - SW.range_modifier //How close to the effective range of the given weapon are we?
-			if(distance < best_distance)
-				if(!SW.valid_target(src, target))
-					continue
-				if(SW.next_firetime > world.time)
-					continue
-				if(SW.weapon_class > WEAPON_CLASS_LIGHT)
-					if(shots_left <= 0)
-						if(!ai_resupply_scheduled)
-							ai_resupply_scheduled = TRUE
-							addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
-						continue //If we are out of shots. Continue.
-				else if(light_shots_left <= 0)
-					spawn(150)
-						light_shots_left = initial(light_shots_left) // make them reload like real people, sort of
-					continue
-				var/arc = overmap_angle(src, target)
-				if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
-					continue
-				if(SW.weapon_class > WEAPON_CLASS_LIGHT)
-					uses_main_shot = TRUE
-				else
-					uses_main_shot = FALSE
-				new_firemode = I
-				best_distance = distance
-		if(!weapon_types[new_firemode]) //I have no physical idea how this even happened, but ok. Sure. If you must. If you REALLY must. We can do this, Sarah. We still gonna do this? It's been 5 years since the divorce, can't you just let go?
-			new_firemode = FIRE_MODE_GAUSS
-		if(new_firemode != FIRE_MODE_GAUSS && current_system) //If we're not on PDCs, let's fire off some PDC salvos while we're busy shooting people. This is still affected by weapon cooldowns so that they lay off on their target a bit.
-			var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_GAUSS]
-			if(SW)
-				for(var/obj/structure/overmap/ship in current_system.system_contents)
-					if(warcrime_blacklist[ship.type])
-						continue
-					if(!ship || QDELETED(ship) || ship == src || overmap_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
-						continue
-					if(fire_weapon(ship, FIRE_MODE_GAUSS, ai_aim=TRUE))
-						SW.next_firetime += SW.ai_fire_delay
-					break
-		fire_mode = new_firemode
-		if(!weapon_types[new_firemode]) //We lack gun
-			return
-		if(uses_main_shot) //Don't penalise them for weapons that are designed to be spammed.
-			shots_left --
-		else
-			light_shots_left --
-
-		if(fire_weapon(target, new_firemode, ai_aim=TRUE))
-			var/datum/ship_weapon/SW = weapon_types[new_firemode]
-			SW.next_firetime += SW.ai_fire_delay
-		handle_cloak(CLOAK_TEMPORARY_LOSS)
-
 /**
- * # `ai_elite_fire(atom/target)`
- * This proc is a slightly more advanced form of the normal 'fire' proc.
- * Most menacing trait is that this allows AI elites to effectively broadside every single of their guns thats off cooldown. (if they have ammo)
-*/
-/obj/structure/overmap/proc/ai_elite_fire(atom/target)
+ * Fires a single weapon of the AI.
+ */
+/obj/structure/overmap/proc/ai_fire(obj/structure/overmap/target)
 	if(!istype(target, /obj/structure/overmap))
+		return
+	if((target.type in warcrime_blacklist) || target.essential)
 		return
 	add_enemy(target)
 	var/target_range = overmap_dist(src,target)
@@ -1425,39 +1356,56 @@ Seek a ship thich we'll station ourselves around
 		last_target = null
 		return
 	var/did_fire = FALSE
-	var/ammo_use = 0
-
-	for(var/iter = FIRE_MODE_ANTI_AIR, iter <= MAX_POSSIBLE_FIREMODE, iter++)
-		if(iter == FIRE_MODE_AMS || iter == FIRE_MODE_FLAK)
-			continue	//These act independantly
-		var/will_use_ammo = FALSE
-		var/datum/ship_weapon/SW = weapon_types[iter]
-		if(!SW)
+	//OSW WIP - update certain weapons being better at certain distances - take number as optimal range and see didtance from it as bad? Scale by priority?
+	for(var/datum/overmap_ship_weapon/ai_weapon in overmap_weapon_datums)
+		if(!(ai_weapon.weapon_control_flags & OSW_CONTROL_AI))
+			continue	//Only weapons the AI can use.
+		if(!ai_weapon.get_ammo())
+			if(!ai_resupply_scheduled)
+				ai_resupply_scheduled = TRUE
+				addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
+			continue //If we are out of shots. Continue.
+		if(!ai_weapon.can_fire(target))
 			continue
-		if(!SW.next_firetime)
-			SW.next_firetime = world.time
-		else if(SW.next_firetime > world.time)
-			continue
-		if(!SW.valid_target(src, target, TRUE))
-			continue
-		if(SW.weapon_class > WEAPON_CLASS_LIGHT)
-			if((shots_left - ammo_use) <= 0)
-				if(!ai_resupply_scheduled)
-					ai_resupply_scheduled = TRUE
-					addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
-				continue //If we are out of shots. Continue.
-			will_use_ammo = TRUE
-		var/arc = overmap_angle(src, target)
-		if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
-			continue
-		fire_weapon(target, iter, ai_aim=TRUE)
-		if(will_use_ammo)
-			ammo_use++
-		did_fire = TRUE
-		SW.next_firetime = world.time + SW.fire_delay + SW.ai_fire_delay
+		if(fire_weapon(target, firing_weapon = ai_weapon, ai_aim=TRUE))
+			did_fire = TRUE
+			break //Base fire only fires one.
 
 	if(did_fire)
-		shots_left -= ammo_use
+		handle_cloak(CLOAK_TEMPORARY_LOSS)
+
+/**
+ * # `ai_elite_fire(atom/target)`
+ * This proc is a slightly more advanced form of the normal 'fire' proc.
+ * Most menacing trait is that this allows AI elites to effectively broadside every single of their guns thats off cooldown. (if they have ammo)
+*/
+/obj/structure/overmap/proc/ai_elite_fire(obj/structure/overmap/target)
+	if(!istype(target, /obj/structure/overmap))
+		return
+	if((target.type in warcrime_blacklist) || target.essential)
+		return
+	add_enemy(target)
+	var/target_range = overmap_dist(src,target)
+	if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
+		if(fleet)
+			fleet.stop_reporting(target, src)
+		last_target = null
+		return
+	var/did_fire = FALSE
+	for(var/datum/overmap_ship_weapon/ai_weapon in overmap_weapon_datums)
+		if(!(ai_weapon.weapon_control_flags & OSW_CONTROL_AI))
+			continue	//Only weapons the AI can use.
+		if(!ai_weapon.get_ammo())
+			if(!ai_resupply_scheduled)
+				ai_resupply_scheduled = TRUE
+				addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
+			continue //If we are out of shots. Continue.
+		if(!ai_weapon.can_fire(target))
+			continue
+		if(fire_weapon(target, firing_weapon = ai_weapon, ai_aim=TRUE))
+			did_fire = TRUE
+
+	if(did_fire)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)
 
 // Not as good as a carrier, but something

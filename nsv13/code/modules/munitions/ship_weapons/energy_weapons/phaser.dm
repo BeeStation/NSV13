@@ -3,7 +3,6 @@
 	desc = "A coaxial laser system, capable of firing controlled laser bursts at a target."
 	icon ='nsv13/icons/obj/energy_weapons.dmi'
 	icon_state = "phase_cannon"
-	fire_mode = FIRE_MODE_RED_LASER //Shot by the pilot.
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
 	circuit = /obj/item/circuitboard/machine/burst_phaser
 	bound_width = 64
@@ -26,7 +25,6 @@
 	name = "phase cannon"
 	desc = "An extremely powerful directed energy weapon which is capable of delivering a devastating beam attack."
 	icon_state = "ion_cannon"
-	fire_mode = FIRE_MODE_BLUE_LASER
 	weapon_datum_type = /datum/overmap_ship_weapon/phaser
 	circuit = /obj/item/circuitboard/machine/phase_cannon
 	charge_rate = 600000 // At power level 5, requires 3MW per tick to charge

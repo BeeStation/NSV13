@@ -98,15 +98,10 @@
 	data["weapons"] = list()
 	data["target_name"] = (linked.target_lock) ? linked.target_lock.name : "none"
 	data["no_gun_cam"] = linked.no_gun_cam
-	for(var/datum/ship_weapon/SW_type in linked.weapon_types)
-		var/ammo = 0
-		var/max_ammo = 0
-		var/thename = SW_type.name
-		for(var/obj/machinery/ship_weapon/SW in SW_type.weapons["all"])
-			if(!SW)
-				continue
-			max_ammo += SW.get_max_ammo()
-			ammo += SW.get_ammo()
+	for(var/datum/overmap_ship_weapon/osw in linked.overmap_weapon_datums)
+		var/ammo = osw.get_ammo()
+		var/max_ammo = osw.get_max_ammo()
+		var/thename = osw.name
 		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo))
 	data["ships"] = list()
 	data["painted_targets"] = list()
