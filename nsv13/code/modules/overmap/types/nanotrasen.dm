@@ -145,8 +145,8 @@
 	new /datum/overmap_ship_weapon/phaser(src)
 
 /*
-L-OSW WIP - all starter ships should only generate with the weapon datums they need by default.
-Technically zero are needed, but those manually set are immune to deletion from machinery destruction
+All starter ships should only generate with the weapon datums they need by default.
+Technically zero are needed, but those manually set are immune to deletion from machinery destruction.
 */
 
 /obj/structure/overmap/nanotrasen/serendipity

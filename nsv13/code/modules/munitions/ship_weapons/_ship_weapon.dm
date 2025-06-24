@@ -141,6 +141,7 @@
 			return
 		if(!linked_overmap_ship_weapon)
 			link_to_overmap_weapon_datum(linked)
+			return
 	else
 		message_admins("[z] not linked to an overmap - [src] will not be linked.")
 

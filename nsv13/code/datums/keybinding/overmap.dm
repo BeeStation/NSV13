@@ -207,7 +207,7 @@
 
 	if(M != OM.gunner && M != OM.pilot)
 		return
-	OM.cycle_firemode(M) //L-OSW WIP - Make sure this kind of verb call actually works.
+	OM.cycle_firemode(M)
 	if(OM.tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
 		playsound(OM.tactical, sound, 100, 1)

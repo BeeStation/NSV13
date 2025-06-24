@@ -13,7 +13,7 @@
 	if(QDELETED(target))
 		return FALSE
 	. = fire_proc_chain(target)
-	OM.ams_shots_fired += . //L-OSW WIP: Integrate this /- resetting seems done by locks
+	OM.ams_shots_fired += .
 	OM.next_ams_shot = world.time + OM.ams_targeting_cooldown
 
 /**

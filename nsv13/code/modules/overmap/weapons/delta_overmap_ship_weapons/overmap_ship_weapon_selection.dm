@@ -16,6 +16,22 @@
 	return list()
 
 /**
+ * Adjusts the sort priority of the weapon (affecting cycling & AI selection)
+ * * Drops all current weapon selection on use
+ */
+/datum/overmap_ship_weapon/proc/adjust_priority(new_priority)
+	if(new_priority == sort_priority)
+		return
+	sort_priority = new_priority
+	var/list/current_users = list() //List of users to carryover through reorganization
+	for(var/mob/user in linked_overmap.controlled_weapon_datum)
+		current_users += user
+	linked_overmap.drop_all_weapon_selection()
+	reinsert_into_overmap_weapons()
+	for(var/mob/user in current_users)
+		linked_overmap.increment_selected_weapon(user, no_sound = TRUE)
+
+/**
  * Selects the weapon of this number.
  * * Called by e.g. the select weapon keybind.
  */
@@ -54,7 +70,7 @@
 /**
  * Moves selected weapon up by 1 for the selected user.
  */
-/obj/structure/overmap/proc/increment_selected_weapon(mob/user)
+/obj/structure/overmap/proc/increment_selected_weapon(mob/user, no_message = FALSE, no_sound = FALSE)
 	var/list/available_weapons = mob_weapon_datum_list(usr)
 	if(!length(available_weapons))
 		return
@@ -63,27 +79,27 @@
 		dropping_weapon.on_swap_from()
 	if(length(available_weapons) == 1 || !controlled_weapons[usr] || !controlled_weapon_datum[usr])
 		var/datum/overmap_ship_weapon/new_weapon = available_weapons[1]
-		return new_weapon.swap_to(user, 1)
+		return new_weapon.swap_to(user, 1, no_message, no_sound)
 	var/current_weapon_index = controlled_weapons[usr]
 	var/maximum_mode = length(available_weapons)
 	var/target_index = current_weapon_index + 1
 	if(target_index > maximum_mode)
 		target_index = target_index % maximum_mode
 	var/datum/overmap_ship_weapon/new_selection = available_weapons[target_index]
-	return new_selection.swap_to(user, target_index)
+	return new_selection.swap_to(user, target_index, no_message, no_sound)
 
 
 /**
  * Handles swapping to this weapon
  */
-/datum/overmap_ship_weapon/proc/swap_to(mob/user, control_index)
+/datum/overmap_ship_weapon/proc/swap_to(mob/user, control_index, no_message = FALSE, no_sound = FALSE)
 	linked_overmap.controlled_weapons[user] = control_index
 	linked_overmap.controlled_weapon_datum[user] = src
 	on_swap_to()
-	if(world.time > linked_overmap.switchsound_cooldown)
+	if(!no_sound && world.time > linked_overmap.switchsound_cooldown)
 		linked_overmap.relay(overmap_select_sound)
 		linked_overmap.switchsound_cooldown = world.time + 5 SECONDS
-	if(user)
+	if(!no_message && user)
 		to_chat(user, select_alert)
 	return TRUE
 

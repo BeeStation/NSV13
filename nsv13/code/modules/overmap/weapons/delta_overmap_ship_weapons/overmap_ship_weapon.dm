@@ -97,6 +97,11 @@ Any flags related to this should start with OSW.
 	 * Inserted before the first object with a lower priority (or at [1] if list is empty)
 	 */
 	var/sort_priority = 1
+	/**
+	 * If TAC can modify this weapon's priority
+	 * * TRUE for most non-weird (Fighter) weapons.
+	 */
+	var/can_modify_priority = TRUE
 	///How many controllers of the ship (TAC / Flight) have this weapon selected. Suppresses autonomy.
 	var/controller_count = 0
 	///Does this weapon have a special action used by its keybind when selected?

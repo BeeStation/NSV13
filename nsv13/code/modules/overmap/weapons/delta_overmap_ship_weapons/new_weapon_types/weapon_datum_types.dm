@@ -308,8 +308,7 @@
 	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
 	weapon_slot = OSW_FIGHTER_MAIN_WEAPON
 	sort_priority = 999 //Cursed code - These MUST always be the first two (and in the right order)
-
-//L-OSW WIP: Block Fighter weapons (/ Fighters) from using sort.
+	can_modify_priority = FALSE
 
 /datum/overmap_ship_weapon/fighter/secondary
 	name = "Secondary Equipment Mount"
@@ -332,6 +331,7 @@
 	weapon_facing_flags = OSW_FACING_FRONT
 	weapon_slot = OSW_FIGHTER_SECONDARY_WEAPON
 	sort_priority = 998
+	can_modify_priority = FALSE
 
 //You don't ever actually select this. Crew act as gunners.
 /datum/overmap_ship_weapon/gauss

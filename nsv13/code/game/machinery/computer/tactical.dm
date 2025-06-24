@@ -7,6 +7,8 @@
 	circuit = /obj/item/circuitboard/computer/ship/tactical_computer
 	///If additional info about our weapons is shown
 	var/additional_weapon_info = TRUE
+	///If we are currently modifying weapon priorities through this TAC.
+	var/modifying_weapon_priorities = FALSE
 
 /obj/machinery/computer/ship/tactical/Destroy()
 	if(linked && linked.tactical == src)
@@ -75,6 +77,23 @@
 					break
 		if("toggle_additional_weapon_info")
 			additional_weapon_info = !additional_weapon_info
+			if(modifying_weapon_priorities)
+				modifying_weapon_priorities = FALSE
+			return TRUE
+		if("toggle_weapon_priority_modification")
+			modifying_weapon_priorities = !modifying_weapon_priorities
+			return TRUE
+		if("change_weapon_priority")
+			var/datum/overmap_ship_weapon/modifying_weapon = locate(params["target_weapon"])
+			if(!modifying_weapon || QDELETED(modifying_weapon))
+				return TRUE
+			var/input_value = text2num(params["new_priority"])
+			if(!input_value || !isnum(input_value))
+				return FALSE
+			input_value = clamp(input_value, 1, 900) //I don't trust people.
+			modifying_weapon.adjust_priority(input_value)
+			return TRUE
+
 
 /obj/machinery/computer/ship/tactical/ui_data(mob/user)
 	if(!linked)
@@ -103,18 +122,24 @@
 	data["target_name"] = (linked.target_lock) ? linked.target_lock.name : "none"
 	data["no_gun_cam"] = linked.no_gun_cam
 	data["additional_weapon_info"] = additional_weapon_info
+	data["modifying_weapon_priorities"] = modifying_weapon_priorities
 	for(var/datum/overmap_ship_weapon/osw in linked.overmap_weapon_datums)
 		var/ammo = osw.get_ammo()
 		var/max_ammo = osw.get_max_ammo()
 		var/thename = osw.name
 		var/controllers = null
 		var/ammo_filter = null
+		var/weapon_priority = null
+		var/can_modify_priority = null
 		if(additional_weapon_info)
 			controllers = osw.get_controller_string()
 			if(osw.ammo_filter)
 				var/obj/prototype_ammo = osw.ammo_filter
 				ammo_filter = initial(prototype_ammo.name)
-		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo, "controllers" = controllers, "ammo_filter" = ammo_filter))
+			weapon_priority = osw.sort_priority
+			can_modify_priority = osw.can_modify_priority
+		var/weapon_ref = "\ref[osw]"
+		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo, "controllers" = controllers, "ammo_filter" = ammo_filter, "weapon_priority" = weapon_priority, "can_modify_priority" = can_modify_priority, "weapon_ref" = weapon_ref))
 	data["ships"] = list()
 	data["painted_targets"] = list()
 	data["target_lock"] = linked.target_lock?.name
