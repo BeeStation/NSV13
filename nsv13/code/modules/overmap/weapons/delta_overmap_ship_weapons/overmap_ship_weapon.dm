@@ -7,7 +7,6 @@ Any flags related to this should start with OSW.
 */
 
 //OSW WIP DENOTES WIP THINGS - search for it and address.
-//OSW WIP - implement priority changing by gunner.
 
 /datum/overmap_ship_weapon
 	//===SECTION - Fluff vars===
@@ -65,8 +64,13 @@ Any flags related to this should start with OSW.
 
 	//===SECTION - AI control related vars===
 
-	///Determines which weapons AI tends to prefer at range. - OSW WIP NEEDS CONSIDERATION
-	var/range_modifier
+	///Maximum range if used by AI.
+	var/max_ai_range = 255
+	/**
+	 * Range considered optimal by AI. 0 implies always good. Further is penalized for selection
+	 * * This is only relevant for "standard" AI that only fires a single weapon.
+	 */
+	var/optimal_range = 0
 	//Percentage change AI firing this weapon will not predict target movement as well as it should.
 	var/miss_chance = 5
 	///Maximum tile distance the AI may misaim by if `miss_chance` triggers
@@ -82,10 +86,10 @@ Any flags related to this should start with OSW.
 	///Bitfield used to control who can access a ship weapon. Should not be `NONE`, if you are exclusively using manual control, use that flag.
 	var/weapon_control_flags = OSW_CONTROL_GUNNER|OSW_CONTROL_AI
 	//L-OSW WIP - make sure ghost ship players can control any weapon with OSW_CONTROL_AI - for now decent enough even if not exactly that.
-	///Bitfield used to control which directions a weapon can fire in. Should never be `NONE`.
-	var/weapon_facing_flags = OSW_FACING_OMNI
 	///Bitfield for aim-related stuff, mainly if the weapon uses an aiming beam when used by the gunner. Not supported for non-Gunner weapons.
 	var/weapon_aim_flags = NONE
+	///Bitfield used to control which directions a weapon can fire in. Should never be `NONE`.
+	var/weapon_facing_flags = OSW_FACING_OMNI
 	/**
 	 * Valid arc used for relevant weapon facing flags.
 	 * Note that this usually is checked for in either direction of the arc, making the effective total angle double of this var.
@@ -107,13 +111,7 @@ Any flags related to this should start with OSW.
 	///Does this weapon have a special action used by its keybind when selected?
 	var/has_special_action = FALSE
 
-
-	//===SECTION - DEPRECATED / WEIRD VARS===
-
-	///OSW WIP - Should determine weapon base range for AI? Or Deprecate.
-	var/range = 255
-
-	///OSW WIP - CONSIDER THIS if reworking autonomous weapons / ams
+	///AMS modes this weapon can fire in if autonomous but not fully autonomous.
 	var/permitted_ams_modes = list( "Anti-ship" = 1, "Anti-missile countermeasures" = 1 ) // Overwrite the list with a specific firing mode if you want to restrict its targets
 
 //You can pass link target and weapon list calc override during new.
@@ -184,7 +182,6 @@ Any flags related to this should start with OSW.
 	if(!update_role_weapon_lists)
 		return
 	linked_overmap.recalc_role_weapon_lists()
-	//linked_overmap.drop_all_weapon_selection() OSW WIP - See if this is needed?
 
 /**
  * Removes this weapon from the linked overmap weapon datum list and then reinserts it.

@@ -24,9 +24,8 @@
 
 //Flak fires at nearby ships automatically.
 /datum/overmap_ship_weapon/flak/autonomous_handling()
-	//OSW WIP: add a distance check here maybe using one fo the old range vars.
 	if(last_auto_target)
-		if(!QDELETED(last_auto_target) && last_auto_target.faction != linked_overmap.faction && last_auto_target.z == linked_overmap.z)
+		if(!QDELETED(last_auto_target) && last_auto_target.faction != linked_overmap.faction && last_auto_target.z == linked_overmap.z && overmap_dist(linked_overmap, last_auto_target) <= max_ai_range)
 			fire_proc_chain(last_auto_target)
 		else
 			last_auto_target = null
@@ -42,7 +41,7 @@
 		if(ship.essential)
 			continue
 		var/target_range = get_dist(ship,linked_overmap)
-		if((target_range > 30 && !(ship in linked_overmap.enemies)))
+		if(target_range > max_ai_range)
 			continue
 		if(QDELETED(ship) || !isovermap(ship) || ship.is_sensor_visible(linked_overmap) < SENSOR_VISIBILITY_TARGETABLE)
 			continue

@@ -53,7 +53,7 @@
 	if(controlled_weapon_datum[user])
 		var/datum/overmap_ship_weapon/dropping_weapon = controlled_weapon_datum[user]
 		dropping_weapon.on_swap_from()
-	controlled_weapons -= user //OSW WIP - CHECK THAT THIS ACTUALLY WORKS.
+	controlled_weapons -= user
 	controlled_weapon_datum -= user
 
 /**

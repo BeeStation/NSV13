@@ -14,6 +14,7 @@
 	. = fire(target, firer, ai_aim) //Amount of shots fired is returned.
 	if(.)
 		next_firetime = world.time + fire_delay
+		linked_overmap.handle_cloak(CLOAK_TEMPORARY_LOSS)
 		if(ai_aim)
 			next_firetime += ai_fire_delay
 	return

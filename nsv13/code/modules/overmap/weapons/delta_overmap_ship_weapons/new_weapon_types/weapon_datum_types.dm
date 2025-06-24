@@ -1,15 +1,12 @@
 //A new home for weaon datum types that were migrated.
 
-//OSW WIP: Consider range modified var.
-//OSW WIP: Implement base priority settings.
-
 //The big MAC. Fired by the gunner.
 /datum/overmap_ship_weapon/mac
 	name = "Naval Artillery"
 	standard_projectile_type = /obj/item/projectile/bullet/mac_round
 	burst_size = 1
 	fire_delay = 3.5 SECONDS
-	range_modifier = 50
+	optimal_range = 50
 	select_alert = "<span class='notice'>Naval artillery primed.</span>"
 	failure_alert = "<span class='warning'>DANGER: Launch failure! Naval artillery systems are not loaded.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/battleship_gun2.ogg')
@@ -38,7 +35,7 @@
 	standard_projectile_type = /obj/item/projectile/bullet/railgun_slug
 	burst_size = 1
 	fire_delay = 1.5 SECONDS
-	range_modifier = 20
+	optimal_range = 20
 	select_alert = "<span class='notice'>Charging railgun hardpoints...</span>"
 	failure_alert = "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/railgun_fire.ogg')
@@ -60,7 +57,7 @@
 	standard_projectile_type = /obj/item/projectile/bullet //This is ultra dodgy
 	burst_size = 1
 	fire_delay = 1 SECONDS
-	range_modifier = 50
+	optimal_range = 50
 	select_alert = "<span class='notice'>Charging railgun hardpoints...</span>"
 	failure_alert = "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded or charged.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/mac_fire.ogg')
@@ -74,7 +71,6 @@
 	standard_projectile_type = /obj/item/projectile/guided_munition/torpedo
 	burst_size = 1
 	fire_delay = 0.5 SECONDS
-	range_modifier = 30
 	select_alert = "<span class='notice'>Torpedo target acquisition systems: online.</span>"
 	failure_alert = "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>"
 	overmap_firing_sounds = list(
@@ -110,7 +106,6 @@
 	standard_projectile_type = /obj/item/projectile/guided_munition/torpedo/disruptor
 	burst_size = 3
 	fire_delay = 4 SECONDS
-	range_modifier = 35
 
 
 /datum/overmap_ship_weapon/aa_guns
@@ -118,7 +113,7 @@
 	standard_projectile_type = /obj/item/projectile/bullet/aa_round
 	burst_size = 4
 	fire_delay = 0.6 SECONDS
-	range_modifier = 10
+	optimal_range = 15
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/weapons/pdc_single.ogg')
 	select_alert = "<span class='notice'>Activating anti-air guns..</span>"
@@ -133,7 +128,7 @@
 	standard_projectile_type = /obj/item/projectile/bullet/aa_round/heavy
 	burst_size = 2
 	fire_delay = 0.25 SECONDS
-	range_modifier = 5
+	optimal_range = 12
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
 
 //Energy Weapons
@@ -143,7 +138,7 @@
 	standard_projectile_type = /obj/item/projectile/beam/laser/phaser
 	burst_size = 1
 	fire_delay = 0.5 SECONDS
-	range_modifier = 10
+	optimal_range = 20
 	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_adjust.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/burst_phaser.ogg', 'nsv13/sound/effects/ship/burst_phaser2.ogg')
 	select_alert = "<span class='notice'>Activating frontal phasers..</span>"
@@ -161,7 +156,7 @@
 	standard_projectile_type = /obj/item/projectile/beam/laser/heavylaser/phaser
 	burst_size = 1
 	fire_delay = 1.5 SECONDS
-	range_modifier = 60
+	optimal_range = 60
 	select_alert = "<span class='notice'>Phaser banks standing by...</span>"
 	failure_alert = "<span class='warning'>Unable to comply. Phaser banks recharging.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/phaser.ogg')
@@ -182,14 +177,13 @@
 	burst_size = 4
 	burst_fire_delay = 0.25 SECONDS
 	fire_delay = 1.5 SECONDS
-	range_modifier = 20
+	optimal_range = 16
 	select_alert = "<span class='notice'>Light phaser banks standing by...</span>"
 	failure_alert = "<span class='warning'>Unable to comply. Capacitor banks recharging.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/burst_phaser.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg'
 	miss_chance = 20
 	ai_fire_delay = 3 SECONDS
-	//allowed_roles = OVERMAP_USER_ROLE_SECONDARY_GUNNER //OSW WIP: ???? Adjust this. Probably manual here for now? Have to hook later.
 	weapon_control_flags = OSW_CONTROL_MANUAL|OSW_CONTROL_AI
 	used_nonphysical_ammo = OSW_AMMO_LIGHT
 	sort_priority = 6
@@ -199,7 +193,6 @@
 	standard_projectile_type = /obj/item/projectile/beam/laser/heavylaser/bsa
 	burst_size = 1
 	fire_delay = 20 SECONDS
-	range_modifier = 255
 	select_alert = "<span class='notice'>Bluespace artillery ready.</span>"
 	failure_alert = "<span class='warning'>Unable to comply. Bluespace artillery recharging...</span>"
 	overmap_firing_sounds = list('nsv13/sound/weapons/bsa_fire.ogg')
@@ -221,7 +214,7 @@
 	standard_projectile_type = /obj/item/projectile/guided_munition/missile
 	burst_size = 1
 	fire_delay = 0.5 SECONDS
-	range_modifier = 30
+	optimal_range = 30
 	select_alert = "<span class='notice'>Missile target acquisition systems: online.</span>"
 	failure_alert = "<span class='warning'>DANGER: Launch failure! Missile racks are not loaded.</span>"
 	overmap_firing_sounds = list(
@@ -259,7 +252,7 @@
 	standard_projectile_type = /obj/item/projectile/bullet/light_cannon_round
 	burst_size = 2
 	fire_delay = 0.25 SECONDS
-	range_modifier = 10
+	optimal_range = 18
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
 	select_alert = "<span class='notice'>Cannon selected. DRADIS assisted targeting: online.</span>"
@@ -276,7 +269,7 @@
 	standard_projectile_type = /obj/item/projectile/bullet/heavy_cannon_round
 	burst_size = 2
 	fire_delay = 0.5 SECONDS
-	range_modifier = 10
+	optimal_range = 18
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg')
 	select_alert = "<span class='notice'>Cannon selected. DRADIS assisted targeting: online..</span>"
@@ -312,7 +305,7 @@
 	standard_projectile_type = /obj/item/projectile/bullet/light_cannon_round //This is overridden anyway
 	burst_size = 1
 	fire_delay = 0.25 SECONDS
-	range_modifier = 10
+	optimal_range = 18
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
 	select_alert = "<span class='notice'>Primary mount selected.</span>"
@@ -328,7 +321,7 @@
 	standard_projectile_type = /obj/item/projectile/guided_munition/missile //This is overridden anyway
 	burst_size = 1
 	fire_delay = 0.5 SECONDS
-	range_modifier = 30
+	optimal_range = 30
 	select_alert = "<span class='notice'>Secondary mount selected.</span>"
 	failure_alert = "<span class='warning'>DANGER: Secondary mount not responding to fire command.</span>"
 	overmap_firing_sounds = list(
@@ -352,7 +345,7 @@
 	standard_projectile_type = /obj/item/projectile/bullet/gauss_slug
 	burst_size = 2
 	fire_delay = 3 SECONDS
-	range_modifier = 10
+	optimal_range = 18
 	select_alert = "<span class='notice'>Activating gauss weapon systems...</span>"
 	failure_alert = "<span class='warning'>DANGER: Gauss gun systems not loaded.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/gauss.ogg')
@@ -368,7 +361,7 @@
 	standard_projectile_type = /obj/item/projectile/bullet/pdc_round
 	burst_size = 3
 	fire_delay = 0.25 SECONDS
-	range_modifier = 10
+	optimal_range = 10
 	select_alert = "<span class='notice'>Activating point defense system...</span>"
 	failure_alert = "<span class='warning'>DANGER: point defense system not loaded.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
@@ -395,7 +388,7 @@
 	standard_projectile_type = /obj/item/projectile/bullet/flak
 	burst_size = 1
 	fire_delay = 0.5 SECONDS
-	range_modifier = 1
+	optimal_range = 8
 	overmap_select_sound = 'nsv13/sound/effects/ship/freespace2/computer/escape.wav'
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/flak/flakhit1.ogg','nsv13/sound/effects/ship/flak/flakhit2.ogg','nsv13/sound/effects/ship/flak/flakhit3.ogg')
 	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual flak control.</span>"
@@ -406,6 +399,7 @@
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI|OSW_CONTROL_AUTONOMOUS|OSW_CONTROL_FULL_AUTONOMY
 	///flak aims at one consistent target until it is out of range.
 	var/obj/structure/overmap/last_auto_target
+	max_ai_range = 30
 	sort_priority = 2
 
 /datum/overmap_ship_weapon/flak/New(obj/structure/overmap/link_to, update_role_weapon_lists = TRUE, flak_battery_count, ...)
@@ -422,7 +416,7 @@
 	name = "SNBC"
 	burst_size = 5
 	fire_delay = 0.5 SECONDS
-	range_modifier = 10
+	optimal_range = 12
 	standard_projectile_type = /obj/item/projectile/bullet/broadside
 	select_alert = "<span class='notice'>Locking Broadside Cannons...</span>"
 	failure_alert = "<span class='warning'>DANGER: No Shells Loaded In Broadside Cannons!</span>"
@@ -442,7 +436,7 @@
 	standard_projectile_type = /obj/item/projectile/guided_munition/missile
 	burst_size = 1
 	fire_delay = 0.35 SECONDS
-	range_modifier = 30
+	optimal_range = 30
 	select_alert = "<span class='notice'>Missile target acquisition systems: online.</span>"
 	failure_alert = "<span class='warning'>DANGER: Launch failure! Missile tubes are not loaded.</span>"
 	overmap_firing_sounds = list(
@@ -472,7 +466,7 @@
 	standard_projectile_type = /obj/item/projectile/beam/laser/point_defense
 	burst_size = 1
 	fire_delay = 0.35 SECONDS
-	range_modifier = 30
+	optimal_range = 30
 	select_alert = "<span class='notice'>Laser target acquisition systems: online.</span>"
 	failure_alert = "<span class='warning'>DANGER: Launch failure!</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/burst_phaser.ogg', 'nsv13/sound/effects/ship/burst_phaser2.ogg')
@@ -486,7 +480,7 @@
 	name = "MPAC"
 	burst_size = 1
 	fire_delay = 5 SECONDS //Everyone's right, weapon code is jank...
-	range = 25000 //It will continue to
+	max_ai_range = 25000 //It will continue to
 	standard_projectile_type = /obj/item/projectile/bullet/plasma_caster
 	select_alert = "<span class='notice'>Charging magnetic accelerator...</span>"
 	failure_alert = "<span class='warning'>Magnetic Accelerator not ready!</span>"
@@ -508,7 +502,7 @@
 	standard_projectile_type = /obj/item/projectile/bullet/mac_round
 	burst_size = 2
 	fire_delay = 3 SECONDS
-	range_modifier = 65
+	optimal_range = 65
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/battleship_gun2.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_ready.ogg'
 	ai_fire_delay = 3 SECONDS
@@ -519,7 +513,7 @@
 	standard_projectile_type = /obj/item/projectile/bullet/gauss_slug
 	burst_size = 4
 	fire_delay = 0.5 SECONDS
-	range_modifier = 25
+	optimal_range = 25
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	miss_chance = 15
@@ -532,7 +526,7 @@
 	standard_projectile_type = /obj/item/projectile/bullet/hailstorm_bullet
 	burst_size = 80
 	fire_delay = 20 SECONDS
-	range_modifier = 40
+	optimal_range = 20
 	overmap_firing_sounds = list('nsv13/sound/weapons/bsa_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
 	ai_fire_delay = 20 SECONDS
@@ -544,7 +538,6 @@
 	standard_projectile_type = /obj/item/projectile/bullet/prototype_bsa
 	burst_size = 1
 	fire_delay = 22 SECONDS
-	range_modifier = 200
 	overmap_firing_sounds = list('nsv13/sound/weapons/bsa_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
 	ai_fire_delay = 32 SECONDS

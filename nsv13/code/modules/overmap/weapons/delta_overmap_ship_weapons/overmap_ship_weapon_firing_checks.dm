@@ -104,6 +104,8 @@
 			return FALSE
 	if(!check_valid_fire_angle())
 		return FALSE
+	if(linked_overmap.ai_controlled && target && isovermap(target) && !is_valid_ai_target(target))
+		return FALSE
 	if(needs_real_weapons())
 		if(!can_fire_physical(target))
 			return FALSE
@@ -151,16 +153,28 @@
  * Checks for nonphysical ship weapons in particular.
  */
 /datum/overmap_ship_weapon/proc/can_fire_nonphysical(atom/target)
-	if(linked_overmap.ai_controlled)
-		if(isovermap(target) && !is_valid_ai_target(target))
-			return FALSE
 	return TRUE
 
 /**
  * Checks if the target is valid for AI to aim at. General AI checks should be done before this.
  */
 /datum/overmap_ship_weapon/proc/is_valid_ai_target(obj/structure/overmap/target)
-	return !QDELETED(target) && is_target_size_valid(target) && !(target.type in linked_overmap.warcrime_blacklist) && !target.essential
+	return !QDELETED(target) && is_target_size_valid(target) && !(linked_overmap.warcrime_blacklist[target.type]) && !target.essential && overmap_dist(linked_overmap, target) <= max_ai_range
+
+/**
+ * Calculates a weapon's range penalty by how far out of the optimal range it is (standard AI selection relevant)
+ * * `optimal range` = 0 symbolizes lack of penalty
+ * * `passed_distance` arg is optional and bypasses dist proc call.
+ */
+/datum/overmap_ship_weapon/proc/get_ai_range_penalty(obj/structure/overmap/target, passed_distance)
+	if(!optimal_range)
+		return 0
+	var/target_distance
+	if(passed_distance != null)
+		target_distance = passed_distance
+	else
+		target_distance = overmap_dist(target, linked_overmap)
+	return max(0, target_distance - optimal_range)
 
 /**
  * Determines whether a target is valid for the AI to target.

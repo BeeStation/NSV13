@@ -65,10 +65,10 @@
 	GLOB.critical_muni_items -= src
 	return ..()
 
-/obj/machinery/ship_weapon/broadside/animate_projectile(atom/target, lateral=TRUE)
+/obj/machinery/ship_weapon/broadside/animate_projectile(atom/target)
 	var/obj/item/ship_weapon/ammunition/broadside_shell/T = chambered
 	if(T)
-		linked.fire_projectile(T.projectile_type, target, FALSE, null, null, TRUE, null, 5, 5, TRUE)
+		linked.fire_projectile(T.projectile_type, target, miss_chance = 5, max_miss_distance = 5, broadside = TRUE)
 
 /obj/machinery/ship_weapon/broadside/examine()
 	. = ..()

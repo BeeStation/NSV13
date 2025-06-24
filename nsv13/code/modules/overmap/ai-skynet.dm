@@ -1359,7 +1359,6 @@ Seek a ship thich we'll station ourselves around
 	///Weapons that are able to operate independantly.
 	var/list/datum/overmap_ship_weapon/autonomous_weapon_datums = list()
 
-	//OSW WIP - potentially have another list for AI accessible weapons?
 
 /**
  * Fires a single weapon of the AI.
@@ -1367,7 +1366,7 @@ Seek a ship thich we'll station ourselves around
 /obj/structure/overmap/proc/ai_fire(obj/structure/overmap/target)
 	if(!istype(target, /obj/structure/overmap))
 		return
-	if((target.type in warcrime_blacklist) || target.essential)
+	if(warcrime_blacklist[target.type] || target.essential)
 		return
 	add_enemy(target)
 	var/target_range = overmap_dist(src,target)
@@ -1376,7 +1375,8 @@ Seek a ship thich we'll station ourselves around
 			fleet.stop_reporting(target, src)
 		last_target = null
 		return
-	var/did_fire = FALSE
+	var/datum/overmap_ship_weapon/current_considered_weapon
+	var/lowest_range_penalty = 999
 	//OSW WIP - update certain weapons being better at certain distances - take number as optimal range and see didtance from it as bad? Scale by priority?
 	for(var/datum/overmap_ship_weapon/ai_weapon in overmap_weapon_datums)
 		if(!(ai_weapon.weapon_control_flags & OSW_CONTROL_AI))
@@ -1388,12 +1388,14 @@ Seek a ship thich we'll station ourselves around
 			continue //If we are out of shots. Continue.
 		if(!ai_weapon.can_fire(target))
 			continue
-		if(fire_weapon(target, firing_weapon = ai_weapon, ai_aim=TRUE))
-			did_fire = TRUE
-			break //Base fire only fires one.
+		var/range_penalty = ai_weapon.get_ai_range_penalty(target, target_range)
+		if(range_penalty < lowest_range_penalty)
+			lowest_range_penalty = range_penalty
+			current_considered_weapon = ai_weapon
 
-	if(did_fire)
-		handle_cloak(CLOAK_TEMPORARY_LOSS)
+	if(!current_considered_weapon)
+		return
+	fire_weapon(target, firing_weapon = current_considered_weapon, ai_aim=TRUE)
 
 /**
  * # `ai_elite_fire(atom/target)`
@@ -1403,7 +1405,7 @@ Seek a ship thich we'll station ourselves around
 /obj/structure/overmap/proc/ai_elite_fire(obj/structure/overmap/target)
 	if(!istype(target, /obj/structure/overmap))
 		return
-	if((target.type in warcrime_blacklist) || target.essential)
+	if(warcrime_blacklist[target.type] || target.essential)
 		return
 	add_enemy(target)
 	var/target_range = overmap_dist(src,target)
@@ -1412,7 +1414,6 @@ Seek a ship thich we'll station ourselves around
 			fleet.stop_reporting(target, src)
 		last_target = null
 		return
-	var/did_fire = FALSE
 	for(var/datum/overmap_ship_weapon/ai_weapon in overmap_weapon_datums)
 		if(!(ai_weapon.weapon_control_flags & OSW_CONTROL_AI))
 			continue	//Only weapons the AI can use.
@@ -1423,11 +1424,7 @@ Seek a ship thich we'll station ourselves around
 			continue //If we are out of shots. Continue.
 		if(!ai_weapon.can_fire(target))
 			continue
-		if(fire_weapon(target, firing_weapon = ai_weapon, ai_aim=TRUE))
-			did_fire = TRUE
-
-	if(did_fire)
-		handle_cloak(CLOAK_TEMPORARY_LOSS)
+		fire_weapon(target, firing_weapon = ai_weapon, ai_aim=TRUE)
 
 // Not as good as a carrier, but something
 /obj/structure/overmap/proc/ai_self_resupply()

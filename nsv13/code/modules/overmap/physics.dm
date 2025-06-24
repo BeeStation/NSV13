@@ -629,7 +629,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		log_combat(pilot, M, "impacted", src, "with velocity of [bump_velocity]")
 	return ..()
 
-/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, speed=null, user_override=null, lateral=FALSE, ai_aim = FALSE, miss_chance=5, max_miss_distance=5, broadside=FALSE) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
+/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, speed = null, user_override = null, lateral = TRUE, ai_aim = FALSE, miss_chance = 5, max_miss_distance = 5, broadside = FALSE) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
 	if(!z || QDELETED(src))
 		return FALSE
 	var/turf/T = get_center()
@@ -653,6 +653,9 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	proj.pixel_x = round(pixel_x)
 	proj.pixel_y = round(pixel_y)
 	proj.faction = faction
+	//Sometimes we want to override speed.
+	if(speed)
+		proj.speed = speed
 	if(physics2d && physics2d.collider2d)
 		proj.setup_collider()
 	if(proj.can_home)	// Handles projectile homing and alerting the target
@@ -672,24 +675,14 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	LAZYINITLIST(proj.impacted) //The spawn call after this might be causing some issues so the list should exist before async actions.
 
 	spawn()
-		proj.preparePixelProjectileOvermap(target, src, null, round((rand() - 0.5) * proj.spread), lateral=lateral)
-		proj.fire()
-		if(!lateral)
-			proj.setAngle(src.angle)
-		if(broadside)
-			if(angle2dir_ship(overmap_angle(src, target) - angle) == SOUTH)
-				proj.setAngle(src.angle + rand(90 - proj.spread, 90 + proj.spread))
-			else
-				proj.setAngle(src.angle + rand(270 - proj.spread, 270 + proj.spread))
-		//Sometimes we want to override speed.
-		if(speed)
-			proj.set_pixel_speed(speed)
-	//	else
-	//		proj.set_pixel_speed(proj.speed)
+		proj.preparePixelProjectileOvermap(target, src, lateral, broadside)
+		if(!QDELETED(proj))
+			proj.fire()
 	return proj
 
 //Jank as hell. This needs to happen to properly set the visual offset :/
-/obj/item/projectile/proc/preparePixelProjectileOvermap(obj/structure/overmap/target, obj/structure/overmap/source, params, spread = 0, lateral=TRUE)
+//This entire proc is super cursed and I'm not sure why it was the way it was.
+/obj/item/projectile/proc/preparePixelProjectileOvermap(obj/structure/overmap/target, obj/structure/overmap/source, lateral = TRUE, broadside = FALSE)
 	var/turf/curloc = source.get_center()
 	var/turf/targloc = istype(target, /obj/structure/overmap) ? target.get_center() : get_turf(target)
 	trajectory_ignore_forcemove = TRUE
@@ -697,23 +690,19 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	trajectory_ignore_forcemove = FALSE
 	starting = curloc
 	original = target
-	if(!lateral)
+
+	if(broadside)
+		if(angle2dir_ship(overmap_angle(src, target) - source.angle) == SOUTH)
+			setAngle(source.angle + 90)
+		else
+			setAngle(source.angle + 270)
+	else if(!lateral)
 		setAngle(source.angle)
-
-	if(isliving(source) && params)
-		var/list/calculated = calculate_projectile_angle_and_pixel_offsets(source, params)
-		p_x = calculated[2]
-		p_y = calculated[3]
-
-		if(lateral)
-			setAngle(calculated[1] + spread)
 	else if(targloc && curloc)
-		yo = targloc.y - curloc.y
-		xo = targloc.x - curloc.x
-		if(lateral)
-			setAngle(overmap_angle(src, targloc) + spread)
-	else
-		stack_trace("WARNING: Projectile [type] fired without either mouse parameters, or a target atom to aim at!")
+		setAngle(overmap_angle(curloc, targloc))
+	else if(curloc) //Lost target, just fire forwards.
+		setAngle(source.angle)
+	else //No loc, lets leave.
 		qdel(src)
 
 /// This makes us not drift like normal objects in space do
