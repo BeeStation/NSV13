@@ -125,7 +125,7 @@
 	data["modifying_weapon_priorities"] = modifying_weapon_priorities
 	for(var/datum/overmap_ship_weapon/osw in linked.overmap_weapon_datums)
 		var/ammo = osw.get_ammo()
-		var/max_ammo = osw.get_max_ammo()
+		var/max_ammo = max(1, osw.get_max_ammo()) //Has to be like this because of divby0
 		var/thename = osw.name
 		var/controllers = null
 		var/ammo_filter = null
@@ -191,6 +191,7 @@
 /obj/machinery/computer/ship/tactical/internal/ui_state(mob/user)
 	return GLOB.always_state
 
+//OSW WIP - with my rework, can ghost ships just use the standard dradis ui (with always state)?
 /obj/machinery/computer/ship/tactical/internal/ui_data(mob/user)
 	if(!linked)
 		return

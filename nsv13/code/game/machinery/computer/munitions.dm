@@ -164,7 +164,7 @@
 	data["additional_weapon_info"] = additional_weapon_info
 	for(var/datum/overmap_ship_weapon/osw in linked.overmap_weapon_datums)
 		var/ammo = osw.get_ammo()
-		var/max_ammo = osw.get_max_ammo()
+		var/max_ammo = max(1, osw.get_max_ammo()) //Has to be like this because of divby0
 		var/thename = osw.name
 		var/controllers = null
 		var/ammo_filter = null

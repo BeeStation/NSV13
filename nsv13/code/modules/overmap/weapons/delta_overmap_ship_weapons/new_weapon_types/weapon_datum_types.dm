@@ -226,6 +226,7 @@
 	firing_arc = 45 //Broad side of a barn...
 	ai_fire_delay = 1 SECONDS
 	weapon_facing_flags = OSW_FACING_FRONT|OSW_ALWAYS_FIRES_FORWARD
+	used_nonphysical_ammo = OSW_AMMO_MISSILE
 	has_special_action = TRUE
 
 /datum/overmap_ship_weapon/missile_launcher/special_action(mob/user)
@@ -437,6 +438,12 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	weapon_control_flags = OSW_CONTROL_AUTONOMOUS|OSW_CONTROL_GUNNER|OSW_CONTROL_AI
 	has_special_action = TRUE
+	used_nonphysical_ammo = OSW_AMMO_MISSILE
+
+/datum/overmap_ship_weapon/vls/get_nonphysical_projectile_type()
+	if(!linked_overmap.missile_type)
+		return ..()
+	return linked_overmap.missile_type
 
 /datum/overmap_ship_weapon/vls/special_action(mob/user)
 	if(!needs_real_weapons())
