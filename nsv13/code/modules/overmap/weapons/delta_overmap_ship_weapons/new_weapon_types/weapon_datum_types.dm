@@ -17,6 +17,7 @@
 	screen_shake = 2
 	ai_fire_delay = 2 SECONDS
 	weapon_aim_flags = OSW_AIMING_BEAM
+	sort_priority = 12
 
 /datum/overmap_ship_weapon/mac/is_target_size_valid(obj/structure/overmap/target)
 	if(target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
@@ -47,6 +48,7 @@
 	firing_arc = 45 //Broad side of a barn...
 	weapon_facing_flags = OSW_FACING_FRONT|OSW_ALWAYS_FIRES_FORWARD
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI
+	sort_priority = 8
 
 /datum/overmap_ship_weapon/railgun/is_target_size_valid(obj/structure/overmap/target)
 	if(target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
@@ -64,6 +66,7 @@
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/mac_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_charge.ogg'
 	weapon_aim_flags = OSW_AIMING_BEAM
+	sort_priority = 8
 
 //Deprecated by AMS. Still kept around for AI ships
 /datum/overmap_ship_weapon/torpedo_launcher
@@ -85,6 +88,7 @@
 	ai_fire_delay = 2 SECONDS
 	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
 	has_special_action = TRUE
+	sort_priority = 10
 
 /datum/overmap_ship_weapon/torpedo_launcher/special_action(mob/user)
 	if(!needs_real_weapons())
@@ -150,6 +154,7 @@
 	used_nonphysical_ammo = OSW_AMMO_LIGHT
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI
 	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
+	sort_priority = 8
 
 /datum/overmap_ship_weapon/phaser // Big blue laser
 	name = "Phaser Banks"
@@ -164,6 +169,7 @@
 	screen_shake = 1
 	ai_fire_delay = 3 SECONDS
 	weapon_aim_flags = OSW_AIMING_BEAM
+	sort_priority = 12
 
 /datum/overmap_ship_weapon/phaser/is_target_size_valid(obj/structure/overmap/target)
 	if(target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
@@ -186,6 +192,7 @@
 	//allowed_roles = OVERMAP_USER_ROLE_SECONDARY_GUNNER //OSW WIP: ???? Adjust this. Probably manual here for now? Have to hook later.
 	weapon_control_flags = OSW_CONTROL_MANUAL|OSW_CONTROL_AI
 	used_nonphysical_ammo = OSW_AMMO_LIGHT
+	sort_priority = 6
 
 /datum/overmap_ship_weapon/bsa
 	name = "Bluespace Artillery"
@@ -201,6 +208,7 @@
 	firing_arc = 45 //Yeah have fun turning the galactica to shoot this thing :)
 	weapon_facing_flags = OSW_FACING_FRONT|OSW_ALWAYS_FIRES_FORWARD
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI
+	sort_priority = 100
 
 /datum/overmap_ship_weapon/bsa/is_target_size_valid(obj/structure/overmap/target)
 	if(target.mass <= MASS_TINY) //Fighters do not get turned into dust (intentionally at least).
@@ -228,6 +236,7 @@
 	weapon_facing_flags = OSW_FACING_FRONT|OSW_ALWAYS_FIRES_FORWARD
 	used_nonphysical_ammo = OSW_AMMO_MISSILE
 	has_special_action = TRUE
+	sort_priority = 9
 
 /datum/overmap_ship_weapon/missile_launcher/special_action(mob/user)
 	if(!needs_real_weapons())
@@ -256,6 +265,7 @@
 	select_alert = "<span class='notice'>Cannon selected. DRADIS assisted targeting: online.</span>"
 	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
 	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
+	sort_priority = 4
 
 /datum/overmap_ship_weapon/light_cannon/integrated	//Weapon for ships big enough that autocannon ammo concerns shouldn't matter this much anymore. Changes their class from HEAVY to LIGHT
 	name = "integrated light autocannon"
@@ -272,10 +282,12 @@
 	select_alert = "<span class='notice'>Cannon selected. DRADIS assisted targeting: online..</span>"
 	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
 	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
+	sort_priority = 6
 
 //Fighters
 
 /datum/overmap_ship_weapon/fighter
+	name = "Uh oh, this is a basetype, you shouldn't be seeing this!"
 	requires_physical_guns = FALSE
 	///Which weapon datum this uses. Fighters should only ever have two (Primary first, Secondary second)
 	var/weapon_slot = 0
@@ -349,6 +361,7 @@
 	ai_fire_delay = 2 SECONDS
 	weapon_control_flags = OSW_CONTROL_MANUAL|OSW_CONTROL_AI
 	used_nonphysical_ammo = OSW_AMMO_LIGHT
+	sort_priority = 6
 
 /datum/overmap_ship_weapon/pdc_mount //! .50 cal flavored PDC bullets, which were previously just PDC flavored .50 cal turrets
 	name = "PDC"
@@ -365,6 +378,7 @@
 	ai_fire_delay = 0.5 SECONDS
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_GUNNER|OSW_CONTROL_AI|OSW_CONTROL_AUTONOMOUS|OSW_CONTROL_AI_FULL_AUTONOMY
 	var/sound/lastsound // Special PDC sound handling
+	sort_priority = 4
 
 /datum/overmap_ship_weapon/pdc_mount/New()
 	. = ..()
@@ -392,6 +406,7 @@
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI|OSW_CONTROL_AUTONOMOUS|OSW_CONTROL_FULL_AUTONOMY
 	///flak aims at one consistent target until it is out of range.
 	var/obj/structure/overmap/last_auto_target
+	sort_priority = 2
 
 /datum/overmap_ship_weapon/flak/New(obj/structure/overmap/link_to, update_role_weapon_lists = TRUE, flak_battery_count, ...)
 	. = ..()
@@ -420,6 +435,7 @@
 	used_nonphysical_ammo = OSW_AMMO_HEAVY
 	weapon_facing_flags = OSW_ALWAYS_FIRES_BROADSIDES
 	weapon_aim_flags = OSW_SIDE_AIMING_BEAM
+	sort_priority = 12
 
 /datum/overmap_ship_weapon/vls
 	name = "STS Missile System"
@@ -439,6 +455,7 @@
 	weapon_control_flags = OSW_CONTROL_AUTONOMOUS|OSW_CONTROL_GUNNER|OSW_CONTROL_AI
 	has_special_action = TRUE
 	used_nonphysical_ammo = OSW_AMMO_MISSILE
+	sort_priority = 9
 
 /datum/overmap_ship_weapon/vls/get_nonphysical_projectile_type()
 	if(!linked_overmap.missile_type)
@@ -463,6 +480,7 @@
 	permitted_ams_modes = list( "Anti-missile countermeasures" = 1 )
 	weapon_control_flags = OSW_CONTROL_AUTONOMOUS
 	used_nonphysical_ammo = OSW_AMMO_LIGHT
+	sort_priority = 2
 
 /datum/overmap_ship_weapon/plasma_caster
 	name = "MPAC"
@@ -477,6 +495,7 @@
 	ai_fire_delay = 180 SECONDS
 	weapon_control_flags = OSW_CONTROL_GUNNER|OSW_CONTROL_AI
 	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
+	sort_priority = 12
 
 /*
 =======================================
@@ -493,6 +512,7 @@
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/battleship_gun2.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_ready.ogg'
 	ai_fire_delay = 3 SECONDS
+	sort_priority = 12
 
 /datum/overmap_ship_weapon/quadgauss
 	name = "Quad Gauss"
@@ -505,6 +525,7 @@
 	miss_chance = 15
 	ai_fire_delay = 0.5 SECONDS
 	used_nonphysical_ammo = OSW_AMMO_LIGHT
+	sort_priority = 6
 
 /datum/overmap_ship_weapon/hailstorm
 	name = "Hailstorm System"
@@ -516,6 +537,7 @@
 	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
 	ai_fire_delay = 20 SECONDS
 	used_nonphysical_ammo = OSW_AMMO_LIGHT
+	sort_priority = 4
 
 /datum/overmap_ship_weapon/prototype_bsa
 	name = "Prototype Bluespace Artillery"
@@ -526,5 +548,6 @@
 	overmap_firing_sounds = list('nsv13/sound/weapons/bsa_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
 	ai_fire_delay = 32 SECONDS
+	sort_priority = 100
 
 

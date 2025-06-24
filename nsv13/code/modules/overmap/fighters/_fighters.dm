@@ -702,8 +702,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 			to_chat(user, "<span class='notice'>Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
 						Press <b>Space</b> to cycle fire modes. \
 						Press <b>X</b> to cycle inertial dampners. \
-						Press <b>Alt<b> to cycle the handbrake. \
-						Press <b>C<b> to cycle mouse free movement.</span>")
+						Press <b>Alt</b> to cycle the handbrake. \
+						Press <b>C</b> to cycle mouse free movement.</span>")
 			return TRUE
 
 /obj/structure/overmap/small_craft/proc/force_eject(force = FALSE)

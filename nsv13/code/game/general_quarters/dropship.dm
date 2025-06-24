@@ -181,8 +181,8 @@
 	to_chat(user, "<span class='notice'>Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
 			Press <b>Space</b> to cycle fire modes. \
 			Press <b>X</b> to cycle inertial dampners. \
-			Press <b>Alt<b> to cycle the handbrake. \
-			Press <b>C<b> to cycle mouse free movement.</span>")
+			Press <b>Alt</b> to cycle the handbrake. \
+			Press <b>C</b> to cycle mouse free movement.</span>")
 
 /obj/machinery/computer/ship/helm/console/dropship/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)

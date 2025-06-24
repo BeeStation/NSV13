@@ -67,7 +67,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		to_chat(user, "<span class='notice'>Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
 					Press <b>Space</b> to cycle fire modes. \
 					Press <b>X</b> to cycle inertial dampners. \
-					Press <b>Alt<b> to cycle the handbrake.</span>")
+					Press <b>Alt</b> to cycle the handbrake.</span>")
 
 	else
 		to_chat(user, "<span class='notice'>Large craft use the up and down arrow keys (W & S in hotkey mode) to accelerate/decelerate craft. Use the left and right arrow keys (A & D) to rotate the craft. \
@@ -77,7 +77,9 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 		to_chat(user, "<span class='notice'> Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
 						Press <b>C</b> to cycle between mouse and keyboard steering. \
 						Press <b>X</b> to cycle inertial dampners. \
-						Press <b>Alt<b> to cycle the handbrake.</span>")
+						Press <b>Alt</b> to cycle the handbrake. \
+						Presa <b>Space</b> to cycle available weapons. \
+						Press <b>F</b> for the current weapon's special action (if available).</span>")
 
 	return linked.start_piloting(user, position)
 
