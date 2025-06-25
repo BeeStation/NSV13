@@ -1427,9 +1427,9 @@ Seek a ship thich we'll station ourselves around
 // Not as good as a carrier, but something
 /obj/structure/overmap/proc/ai_self_resupply()
 	ai_resupply_scheduled = FALSE
-	missiles = round(max(missiles + max_missiles/4, 1))
-	torpedoes = round(max(torpedoes + max_torpedoes/4, 1))
-	shots_left = round(max(shots_left + max_shots_left/4, 1))
+	missiles = round(CLAMP(missiles + max_missiles/4, 1, max_missiles))
+	torpedoes = round(CLAMP(torpedoes + max_torpedoes/4, 1, max_torpedoes))
+	shots_left = round(CLAMP(shots_left + max_shots_left/4, 1, max_shots_left))
 
 ///Rearms light weapons
 /obj/structure/overmap/proc/ai_self_resupply_light()
