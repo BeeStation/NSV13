@@ -86,7 +86,7 @@ export const TacticalConsole = (props, context) => {
               <>
                 <Button
                   icon="cog"
-                  color={data.additional_weapon_info ? "good" : "bad"}
+                  color={data.additional_weapon_info ? "good" : "default"}
                   content="Expanded Info"
                   onClick={() => act("toggle_additional_weapon_info")} />
                 <Button
