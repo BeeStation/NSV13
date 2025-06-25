@@ -108,7 +108,7 @@
 		if("power")
 			cannon.power_modifier = value
 		if("activeToggle")
-			cannon.active = !cannon.active
+			cannon.toggle_active()
 	return
 
 

@@ -283,9 +283,9 @@ Technically zero are needed, but those manually set are immune to deletion from 
 /obj/structure/overmap/nanotrasen/battleship/starter/apply_weapons()
 	new /datum/overmap_ship_weapon/bsa(src, FALSE) //My beloved...
 	new /datum/overmap_ship_weapon/mac(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
 	new /datum/overmap_ship_weapon/pdc_mount(src, FALSE)
 	new /datum/overmap_ship_weapon/vls(src)
-	//L-OSW WIP - Galactica has no gauss? Check that.
 
 /obj/structure/overmap/nanotrasen/serendipity/starter
 	role = MAIN_OVERMAP

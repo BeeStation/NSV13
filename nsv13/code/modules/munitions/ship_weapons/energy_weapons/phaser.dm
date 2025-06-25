@@ -44,6 +44,10 @@
 	sleep(10)
 	charge = max_charge
 
+/obj/machinery/ship_weapon/energy/proc/toggle_active()
+	active = !active
+	update()
+
 /obj/machinery/ship_weapon/energy/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -60,7 +64,7 @@
 		if("power")
 			power_modifier = value
 		if("activeToggle")
-			active = !active
+			toggle_active()
 	return
 
 /obj/machinery/ship_weapon/energy/attack_hand(mob/user)
@@ -87,7 +91,7 @@
 /obj/machinery/ship_weapon/energy/update()
 	if(!linked_overmap_ship_weapon)
 		return
-	if(!safety)
+	if(!safety && active)
 		linked_overmap_ship_weapon.mark_physical_weapon_loaded(src)
 	else
 		linked_overmap_ship_weapon.mark_physical_weapon_unloaded(src)
