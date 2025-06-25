@@ -34,6 +34,17 @@
 		linked_gun = null
 	return ..()
 
+/obj/machinery/atmospherics/components/unary/plasma_loader/multitool_act(mob/living/user, obj/item/I)
+	. = TRUE
+	if(linked_gun)
+		return
+	var/obj/machinery/ship_weapon/plasma_caster/caster = locate() in orange(1, src)
+	if(!caster || caster.loader)
+		return
+	caster.loader = src
+	linked_gun = caster
+	to_chat(user, "<span class='notice'>You connect [src] to [caster].</span>")
+
 /obj/machinery/atmospherics/components/unary/plasma_loader/on_construction()
 	var/obj/item/circuitboard/machine/thermomachine/board = circuit
 	if(board)

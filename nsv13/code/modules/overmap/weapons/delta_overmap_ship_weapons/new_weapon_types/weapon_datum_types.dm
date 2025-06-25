@@ -95,7 +95,7 @@
 	return linked_overmap.torpedo_type
 
 /datum/overmap_ship_weapon/torpedo_launcher/is_target_size_valid(obj/structure/overmap/target)
-	if(!target.mass < MASS_SMALL)
+	if(target.mass < MASS_SMALL)
 		return FALSE
 	return TRUE
 

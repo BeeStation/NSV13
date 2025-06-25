@@ -60,6 +60,7 @@
 /**
  * Gets the total ammo of all linked weapons.
  * * If you do weird things, like not having machinery in the `weapons` list, override this.
+ * * Note that should specifically be "the amount of shots left that a weapon can currently fire"
  */
 /datum/overmap_ship_weapon/proc/get_physical_ammo()
 	. = 0

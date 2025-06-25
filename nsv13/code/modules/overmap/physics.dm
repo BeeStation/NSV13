@@ -705,10 +705,11 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 			setAngle(source.angle + 270)
 	else if(!lateral)
 		setAngle(source.angle)
-	else if(targloc && curloc)
-		setAngle(overmap_angle(curloc, targloc))
-	else if(curloc) //Lost target, just fire forwards.
-		setAngle(source.angle)
+	else if(curloc)
+		if(targloc)
+			setAngle(overmap_angle(curloc, targloc))
+		else//Lost target, just fire forwards.
+			setAngle(source.angle)
 	else //No loc, lets leave.
 		qdel(src)
 
