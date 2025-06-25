@@ -1413,7 +1413,7 @@ Seek a ship thich we'll station ourselves around
 		if(!(ai_weapon.weapon_control_flags & OSW_CONTROL_AI))
 			continue	//Only weapons the AI can use.
 		if(!ai_weapon.get_ammo())
-			if(!ai_resupply_scheduled)
+			if(!ai_resupply_scheduled && ai_weapon.get_max_ammo() > 0)
 				ai_resupply_scheduled = TRUE
 				if(ai_weapon.used_nonphysical_ammo == OSW_AMMO_LIGHT)
 					addtimer(CALLBACK(src, PROC_REF(ai_self_resupply_light)), ai_light_resupply_time)
@@ -1427,9 +1427,9 @@ Seek a ship thich we'll station ourselves around
 // Not as good as a carrier, but something
 /obj/structure/overmap/proc/ai_self_resupply()
 	ai_resupply_scheduled = FALSE
-	missiles = round(CLAMP(missiles + max_missiles/4, 1, max_missiles/4))
-	torpedoes = round(CLAMP(torpedoes + max_torpedoes/4, 1, max_torpedoes/4))
-	shots_left = round(CLAMP(shots_left + max_shots_left/4, 1, max_shots_left/4))
+	missiles = round(max(missiles + max_missiles/4, 1))
+	torpedoes = round(max(torpedoes + max_torpedoes/4, 1))
+	shots_left = round(max(shots_left + max_shots_left/4, 1))
 
 ///Rearms light weapons
 /obj/structure/overmap/proc/ai_self_resupply_light()

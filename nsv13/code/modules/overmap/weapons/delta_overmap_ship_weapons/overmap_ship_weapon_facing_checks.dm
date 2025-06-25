@@ -1,5 +1,4 @@
 //This is for all the angle check procs.
-//OSW WIP - MAKE SURE ANGLE AND GET_ANGLE WORK LIKE YOU THINK THEY DO.
 
 /**
  * Checks valid firing angles depending on weapon control flags.

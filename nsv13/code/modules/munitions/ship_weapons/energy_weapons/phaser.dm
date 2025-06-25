@@ -96,7 +96,6 @@
 	else
 		linked_overmap_ship_weapon.mark_physical_weapon_unloaded(src)
 
-//L-OSW WIP - MAKE SURE ENERGY WEAPONS ONLY COUNT AS VALID CANFIRE with at least one shot AND properly calc things like that!!!!
 /obj/machinery/ship_weapon/energy/can_fire(atom/target, shots = linked_overmap_ship_weapon.burst_size)
 	if(maint_state != MSTATE_CLOSED) //Are we in maintenance?
 		return FALSE
