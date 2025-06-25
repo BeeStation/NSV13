@@ -189,7 +189,7 @@
 			radio.talk_into(src, "DANGER! Not enough phoron to safely dischard core! Please ensure enough gas is present before firing!", RADIO_CHANNEL_MUNITIONS)
 			say("DANGER! Not enough phoron to safely dischard core! Please ensure enough gas is present before firing!")
 		return FALSE
-	if(loader.on)
+	if(loader && loader.on)
 		if(COOLDOWN_FINISHED(src, radio_cooldown))
 			COOLDOWN_START(src, radio_cooldown, 5 SECONDS)
 			radio.talk_into(src, "DANGER! Phoron Gas Regulator back pressure surge avoided! Ensure the regulator is off before operating!", RADIO_CHANNEL_MUNITIONS)

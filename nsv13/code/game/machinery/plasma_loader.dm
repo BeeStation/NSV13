@@ -28,6 +28,12 @@
 		GAS_NUCLEIUM,
 	)
 
+/obj/machinery/atmospherics/components/unary/plasma_loader/Destroy()
+	if(linked_gun)
+		linked_gun.loader = null
+		linked_gun = null
+	return ..()
+
 /obj/machinery/atmospherics/components/unary/plasma_loader/on_construction()
 	var/obj/item/circuitboard/machine/thermomachine/board = circuit
 	if(board)
