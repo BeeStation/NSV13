@@ -129,12 +129,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
 	data["countermeasures"] = CD ? CD.charges : 0
 	data["max_countermeasures"] = CD ? CD.max_charges : 0
-	var/obj/item/fighter_component/primary/P = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
-	data["primary_ammo"] = P ? P.get_ammo() : 0
-	data["max_primary_ammo"] = P ? P.get_max_ammo() : 0
-	var/obj/item/fighter_component/secondary/S = loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
-	data["secondary_ammo"] = S ? S.get_ammo() : 0
-	data["max_secondary_ammo"] = S ? S.get_max_ammo() : 0
 
 	var/obj/item/fighter_component/apu/APU = loadout.get_slot(HARDPOINT_SLOT_APU)
 	data["fuel_pump"] = APU ? APU.fuel_line : FALSE
@@ -163,17 +157,32 @@ Been a mess since 2018, we'll fix it someday (probably)
 		data["ftl_active"] = FALSE
 		data["ftl_target"] = FALSE
 
-	for(var/slot in loadout.equippable_slots) //OSW WIP - This sucks, why not directly grab the component?
-		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
-		//Look for any "primary" hardpoints, be those guns or utility slots
-		if(!weapon)
-			continue
-		if(weapon.fighter_fire_mode == OSW_FIGHTER_MAIN_WEAPON)
-			data["primary_ammo"] = weapon.get_ammo()
-			data["max_primary_ammo"] = weapon.get_max_ammo()
-		if(weapon.fighter_fire_mode == OSW_FIGHTER_SECONDARY_WEAPON)
-			data["secondary_ammo"] = weapon.get_ammo()
-			data["max_secondary_ammo"] = weapon.get_max_ammo()
+	var/primary_ammo = 0
+	var/primary_max_ammo = 0
+	var/secondary_ammo = 0
+	var/secondary_max_ammo = 0
+
+	var/obj/item/fighter_component/primary/prim
+	prim = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
+	if(!prim)
+		prim = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
+	var/obj/item/fighter_component/secondary/sec
+	sec = loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
+	if(!sec)
+		sec = loadout.get_slot(HARDPOINT_SLOT_UTILITY_SECONDARY)
+
+	if(prim)
+		primary_ammo = prim.get_ammo()
+		primary_max_ammo = prim.get_max_ammo()
+	if(sec)
+		secondary_ammo = sec.get_ammo()
+		secondary_max_ammo = sec.get_max_ammo()
+
+	data["primary_ammo"] = primary_ammo
+	data["max_primary_ammo"] = primary_max_ammo
+	data["secondary_ammo"] = secondary_ammo
+	data["max_secondary_ammo"] = secondary_max_ammo
+
 	var/list/hardpoints_info = list()
 	var/list/occupants_info = list()
 	for(var/obj/item/fighter_component/FC in contents)
@@ -570,7 +579,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 				playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
 				user.visible_message("<span class='warning'>You bang on the canopy.</span>", "<span class='warning'>[user] bangs on [src]'s canopy.</span>")
 				return FALSE
-			if(operators.len >= max_passengers)
+			if(length(operators) >= max_passengers)
 				to_chat(user, "<span class='warning'>[src]'s passenger compartment is full!")
 				return FALSE
 			to_chat(target, "[(user == target) ? "You start to climb into [src]'s passenger compartment" : "[user] starts to lift you into [src]'s passenger compartment"]")
@@ -851,10 +860,16 @@ Been a mess since 2018, we'll fix it someday (probably)
 	if(!gunner)
 		return FALSE
 	if(controlled_weapons[gunner] == OSW_FIGHTER_MAIN_WEAPON)
-		var/obj/item/fighter_component/primary/P = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
+		var/obj/item/fighter_component/primary/P
+		P = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
+		if(!P)
+			P = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
 		return (P && istype(P) && P.bypass_safety)
 	else if(controlled_weapons[gunner] == OSW_FIGHTER_SECONDARY_WEAPON)
-		var/obj/item/fighter_component/secondary/S = loadout.get_slot(HARDPOINT_SLOT_UTILITY_SECONDARY)
+		var/obj/item/fighter_component/secondary/S
+		S = loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
+		if(!S)
+			S = loadout.get_slot(HARDPOINT_SLOT_UTILITY_SECONDARY)
 		return (S && istype(S) && S.bypass_safety)
 	return FALSE
 
@@ -975,10 +990,10 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 		. += AM
 
 /obj/item/fighter_component/proc/get_ammo()
-	return FALSE
+	return 0
 
 /obj/item/fighter_component/proc/get_max_ammo()
-	return FALSE
+	return 0
 
 /obj/item/fighter_component/Initialize(mapload)
 	.=..()
@@ -1561,36 +1576,67 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	 new /datum/overmap_ship_weapon/fighter/primary(src, FALSE)
 	 new /datum/overmap_ship_weapon/fighter/secondary(src)
 
-/obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, datum/overmap_ship_weapon/used_ship_weapon, osw_mode)
-	return FALSE
+/obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, datum/overmap_ship_weapon/used_ship_weapon, osw_mode, active_burst_size)
+	return
 
-/obj/structure/overmap/small_craft/hardpoint_fire(obj/structure/overmap/target, datum/overmap_ship_weapon/used_ship_weapon, osw_mode)
-	for(var/slot in loadout.equippable_slots) //OSW WIP - This sucks, just switch by firemode & grab component.
-		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
-		//Look for any "primary" hardpoints, be those guns or utility slots
-		if(!weapon || !istype(weapon) || weapon.fighter_fire_mode != osw_mode)
-			continue
-		return weapon.fire(target, used_ship_weapon)
-	return FALSE
+/obj/structure/overmap/small_craft/hardpoint_fire(obj/structure/overmap/target, datum/overmap_ship_weapon/used_ship_weapon, osw_mode, active_burst_size)
+	var/obj/item/fighter_component/weapon
+	switch(osw_mode)
+		if(OSW_FIGHTER_MAIN_WEAPON)
+			weapon = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
+			if(!weapon)
+				weapon = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
+		if(OSW_FIGHTER_SECONDARY_WEAPON)
+			weapon = loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
+			if(!weapon)
+				weapon = loadout.get_slot(HARDPOINT_SLOT_UTILITY_SECONDARY)
+		else
+			stack_trace("HEY hardpoint_fire is being called with an invalid mode ([osw_mode])")
+	if(weapon && istype(weapon))
+		var/list/response = list()
+		for(var/iter = 1;iter<=active_burst_size;iter++)
+			var/fire_response = weapon.fire(target, used_ship_weapon)
+			if(fire_response)
+				response += fire_response
+		return response
+	return
 
 /obj/structure/overmap/proc/hardpoint_get_ammo(fire_mode)
 	return FALSE
 
 /obj/structure/overmap/small_craft/hardpoint_get_ammo(fire_mode)
-	for(var/slot in loadout.equippable_slots) //OSW WIP - This sucks, just switch by firemode & grab component.
-		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
-		if(!weapon || !istype(weapon) || weapon.fighter_fire_mode != fire_mode)
-			continue
+	var/obj/item/fighter_component/weapon
+	switch(fire_mode)
+		if(OSW_FIGHTER_MAIN_WEAPON)
+			weapon = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
+			if(!weapon)
+				weapon = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
+		if(OSW_FIGHTER_SECONDARY_WEAPON)
+			weapon = loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
+			if(!weapon)
+				weapon = loadout.get_slot(HARDPOINT_SLOT_UTILITY_SECONDARY)
+		else
+			stack_trace("HEY hardpoint_fire is being called with an invalid mode ([fire_mode])")
+	if(weapon && istype(weapon))
 		return weapon.get_ammo()
 
 /obj/structure/overmap/proc/hardpoint_get_max_ammo(fire_mode)
 	return FALSE
 
 /obj/structure/overmap/small_craft/hardpoint_get_max_ammo(fire_mode)
-	for(var/slot in loadout.equippable_slots) //OSW WIP - This sucks, just switch by firemode & grab component.
-		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
-		if(!weapon || !istype(weapon) || weapon.fighter_fire_mode != fire_mode)
-			continue
+	var/obj/item/fighter_component/weapon
+	switch(fire_mode)
+		if(OSW_FIGHTER_MAIN_WEAPON)
+			weapon = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
+			if(!weapon)
+				weapon = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
+		if(OSW_FIGHTER_SECONDARY_WEAPON)
+			weapon = loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
+			if(!weapon)
+				weapon = loadout.get_slot(HARDPOINT_SLOT_UTILITY_SECONDARY)
+		else
+			stack_trace("HEY hardpoint_fire is being called with an invalid mode ([fire_mode])")
+	if(weapon && istype(weapon))
 		return weapon.get_max_ammo()
 
 /obj/item/fighter_component/primary/load(obj/structure/overmap/target, atom/movable/AM)
@@ -1617,10 +1663,9 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		F.relay('sound/weapons/gun_dry_fire.ogg')
 		return FALSE
 	var/obj/item/ammo_casing/chambered = ammo[ammo.len]
-	linked_weapon.standard_projectile_type = chambered.projectile_type
+	. = chambered.projectile_type
 	ammo -= chambered
 	qdel(chambered)
-	return TRUE
 
 /obj/item/fighter_component/primary/on_install(obj/structure/overmap/target)
 	. = ..()
@@ -1673,7 +1718,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 	if(!istype(B))
 		return 0
-	return B.charge
+	return round(B.charge/charge_to_fire)
 
 /obj/item/fighter_component/primary/laser/get_max_ammo()
 	var/obj/structure/overmap/small_craft/F = loc
@@ -1682,7 +1727,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 	if(!istype(B))
 		return 0
-	return B.maxcharge
+	return round(B.maxcharge/charge_to_fire)
 
 /obj/item/fighter_component/primary/laser/fire(obj/structure/overmap/target, datum/overmap_ship_weapon/linked_weapon)
 	var/obj/structure/overmap/small_craft/F = loc
@@ -1695,7 +1740,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		return FALSE
 
 	B.charge -= charge_to_fire
-	return TRUE
+	. = projectile
 
 
 /obj/item/fighter_component/secondary
@@ -1817,16 +1862,9 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	if(!ammo.len)
 		F.relay('sound/weapons/gun_dry_fire.ogg')
 		return FALSE
-	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
 	var/obj/item/ship_weapon/ammunition/americagobrr = pick_n_take(ammo)
-	proj_type = americagobrr.projectile_type
+	. = americagobrr.projectile_type //Pass torp back towards datum.
 	qdel(americagobrr)
-	if(proj_type)
-		linked_weapon.standard_projectile_type = proj_type
-		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
-		F.relay_to_nearby(chosen)
-		return TRUE
-	return FALSE
 
 //Utility modules.
 

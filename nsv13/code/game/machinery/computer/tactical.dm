@@ -29,7 +29,7 @@
 		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Automated flight protocols are still active. Unable to comply.</span>")
 		return FALSE
 	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
+	if(!ui) //This is wonky and can lead to issues (especially when stopping to pilot in a depowered room)
 		if(linked.gunner && !linked.gunner.client)
 			linked.stop_piloting(linked.gunner)
 		if(!linked.gunner && isliving(user))
@@ -182,6 +182,12 @@
 		return FALSE
 	return TRUE
 
+/obj/machinery/computer/ship/tactical/internal/ui_state(mob/user)
+	return GLOB.always_state
+
+
+//Old snowflake ghost TAC commented out in case something does appear that still needs that.
+/*
 /obj/machinery/computer/ship/tactical/internal/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -189,10 +195,6 @@
 		ui.open()
 		ui.set_autoupdate(TRUE)
 
-/obj/machinery/computer/ship/tactical/internal/ui_state(mob/user)
-	return GLOB.always_state
-
-//OSW WIP - with my rework, can ghost ships just use the standard dradis ui (with always state)?
 /obj/machinery/computer/ship/tactical/internal/ui_data(mob/user)
 	if(!linked)
 		return
@@ -223,20 +225,20 @@
 	data["torpedo_ammo"] = linked.torpedoes
 
  	//Logic to read 0% if not available
-	if(initial(linked.shots_left))
-		data["heavy_ammo_max"] = initial(linked.shots_left)
+	if(linked.max_shots_left)
+		data["heavy_ammo_max"] = linked.max_shots_left
 	else
 		data["heavy_ammo_max"] = 1
-	if(initial(linked.light_shots_left))
-		data["light_ammo_max"] = initial(linked.light_shots_left)
+	if(linked.max_light_shots_left)
+		data["light_ammo_max"] = linked.max_light_shots_left
 	else
 		data["light_ammo_max"] = 1
-	if(initial(linked.missiles))
-		data["missile_ammo_max"] = initial(linked.missiles)
+	if(linked.max_missiles)
+		data["missile_ammo_max"] = linked.max_missiles
 	else
 		data["missile_ammo_max"] = 1
-	if(initial(linked.torpedoes))
-		data["torpedo_ammo_max"] = initial(linked.torpedoes)
+	if(linked.max_torpedoes)
+		data["torpedo_ammo_max"] = linked.max_torpedoes
 	else
 		data["torpedo_ammo_max"] = 1
 
@@ -258,3 +260,5 @@
 			"quadrant_fp_armour_current" = OM.armour_quadrants["forward_port"]["current_armour"], \
 			"quadrant_fp_armour_max" = OM.armour_quadrants["forward_port"]["max_armour"]))
 	return data
+
+*/

@@ -19,7 +19,7 @@
 		else
 			if(!controlled_weapon_datum[user])
 				return
-			var/datum/overmap_ship_weapon/selected_weapon = controlled_weapon_datum
+			var/datum/overmap_ship_weapon/selected_weapon = controlled_weapon_datum[user]
 			if(!istype(selected_weapon))
 				return
 			firing_weapon = selected_weapon
@@ -48,15 +48,24 @@
 		if(!firing_weapon.get_ammo())
 			if(!ai_resupply_scheduled)
 				ai_resupply_scheduled = TRUE
-				addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
+				if(firing_weapon.used_nonphysical_ammo == OSW_AMMO_LIGHT)
+					addtimer(CALLBACK(src, PROC_REF(ai_self_resupply_light)), ai_light_resupply_time)
+				else
+					addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
 
 	if(weapon_safety)
 		return FALSE
-	. = firing_weapon.fire_proc_chain(target, user_override, ai_aim=ai_aim)
+	var/list/report_list
+	if(user_override)
+		report_list = list(null)
+		. = firing_weapon.fire_proc_chain(target, user_override, ai_aim, report_list)
+	else
+		. = firing_weapon.fire_proc_chain(target, user_override, ai_aim)
+
 	if(!.)
 		. = FALSE
-		if(user_override && firing_weapon) //Tell them we failed
+		if(user_override && length(report_list) && report_list[1] != null && firing_weapon) //Tell them we failed
 			if(world.time < firing_weapon.next_error_report) //Silence, SPAM.
 				return
-			to_chat(user_override, firing_weapon.failure_alert)
+			to_chat(user_override, "<span class='warning'>[report_list[1]]</span>")
 			firing_weapon.next_error_report = world.time + 0.5 SECONDS

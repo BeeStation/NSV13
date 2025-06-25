@@ -8,7 +8,6 @@
 	fire_delay = 3.5 SECONDS
 	optimal_range = 50
 	select_alert = "<span class='notice'>Naval artillery primed.</span>"
-	failure_alert = "<span class='warning'>DANGER: Launch failure! Naval artillery systems are not loaded.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/battleship_gun2.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_ready.ogg'
 	screen_shake = 2
@@ -37,13 +36,13 @@
 	fire_delay = 1.5 SECONDS
 	optimal_range = 20
 	select_alert = "<span class='notice'>Charging railgun hardpoints...</span>"
-	failure_alert = "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/railgun_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	screen_shake = 1
 	ai_fire_delay = 5 SECONDS
 	firing_arc = 45 //Broad side of a barn...
-	weapon_facing_flags = OSW_FACING_FRONT|OSW_ALWAYS_FIRES_FORWARD
+	weapon_facing_flags = OSW_FACING_FRONT
+	weapon_firing_flags = OSW_ALWAYS_FIRES_FORWARD
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI
 	sort_priority = 8
 
@@ -59,7 +58,6 @@
 	fire_delay = 1 SECONDS
 	optimal_range = 50
 	select_alert = "<span class='notice'>Charging railgun hardpoints...</span>"
-	failure_alert = "<span class='warning'>DANGER: Launch failure! Railgun systems are not loaded or charged.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/mac_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_charge.ogg'
 	weapon_aim_flags = OSW_AIMING_BEAM
@@ -72,7 +70,6 @@
 	burst_size = 1
 	fire_delay = 0.5 SECONDS
 	select_alert = "<span class='notice'>Torpedo target acquisition systems: online.</span>"
-	failure_alert = "<span class='warning'>DANGER: Launch failure! Torpedo tubes are not loaded.</span>"
 	overmap_firing_sounds = list(
 		'nsv13/sound/effects/ship/torpedo.ogg',
 		'nsv13/sound/effects/ship/freespace2/m_shrike.wav',
@@ -82,9 +79,10 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	used_nonphysical_ammo = OSW_AMMO_TORPEDO
 	ai_fire_delay = 2 SECONDS
-	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
+	weapon_firing_flags = OSW_ALWAYS_FIRES_FORWARD
 	has_special_action = TRUE
 	sort_priority = 10
+	nonphysical_firing_sounds_local = FALSE
 
 /datum/overmap_ship_weapon/torpedo_launcher/special_action(mob/user)
 	if(!needs_real_weapons())
@@ -117,7 +115,6 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/weapons/pdc_single.ogg')
 	select_alert = "<span class='notice'>Activating anti-air guns..</span>"
-	failure_alert = "<span class='warning'>DANGER: Anti-air guns are unable to fire due to lack of ammunition.</span>"
 	miss_chance = 33
 	max_miss_distance = 6
 	ai_fire_delay = 1 SECONDS
@@ -142,13 +139,12 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_adjust.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/burst_phaser.ogg', 'nsv13/sound/effects/ship/burst_phaser2.ogg')
 	select_alert = "<span class='notice'>Activating frontal phasers..</span>"
-	failure_alert = "<span class='warning'>DANGER: Point defense emplacements are unable to fire due to lack of ammunition.</span>"
 	miss_chance = 33
 	max_miss_distance = 6
 	ai_fire_delay = 0.5 SECONDS
 	used_nonphysical_ammo = OSW_AMMO_LIGHT
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI
-	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
+	weapon_firing_flags = OSW_ALWAYS_FIRES_FORWARD
 	sort_priority = 8
 
 /datum/overmap_ship_weapon/phaser // Big blue laser
@@ -158,7 +154,6 @@
 	fire_delay = 1.5 SECONDS
 	optimal_range = 60
 	select_alert = "<span class='notice'>Phaser banks standing by...</span>"
-	failure_alert = "<span class='warning'>Unable to comply. Phaser banks recharging.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/phaser.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg' //Sound effect provided by: "All Sounds" https://www.youtube.com/watch?v=EpaCJ75T3fo under creative commons. Trimmed by Kmc2000
 	screen_shake = 1
@@ -179,7 +174,6 @@
 	fire_delay = 1.5 SECONDS
 	optimal_range = 16
 	select_alert = "<span class='notice'>Light phaser banks standing by...</span>"
-	failure_alert = "<span class='warning'>Unable to comply. Capacitor banks recharging.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/burst_phaser.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg'
 	miss_chance = 20
@@ -194,14 +188,16 @@
 	burst_size = 1
 	fire_delay = 20 SECONDS
 	select_alert = "<span class='notice'>Bluespace artillery ready.</span>"
-	failure_alert = "<span class='warning'>Unable to comply. Bluespace artillery recharging...</span>"
 	overmap_firing_sounds = list('nsv13/sound/weapons/bsa_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
 	screen_shake = 5
 	firing_arc = 45 //Yeah have fun turning the galactica to shoot this thing :)
-	weapon_facing_flags = OSW_FACING_FRONT|OSW_ALWAYS_FIRES_FORWARD
+	weapon_facing_flags = OSW_FACING_FRONT
+	weapon_firing_flags = OSW_ALWAYS_FIRES_FORWARD
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI
+	used_nonphysical_ammo = OSW_AMMO_FREE
 	sort_priority = 100
+	nonphysical_firing_sounds_local = FALSE
 
 /datum/overmap_ship_weapon/bsa/is_target_size_valid(obj/structure/overmap/target)
 	if(target.mass <= MASS_TINY) //Fighters do not get turned into dust (intentionally at least).
@@ -216,7 +212,6 @@
 	fire_delay = 0.5 SECONDS
 	optimal_range = 30
 	select_alert = "<span class='notice'>Missile target acquisition systems: online.</span>"
-	failure_alert = "<span class='warning'>DANGER: Launch failure! Missile racks are not loaded.</span>"
 	overmap_firing_sounds = list(
 		'nsv13/sound/effects/ship/torpedo.ogg',
 		'nsv13/sound/effects/ship/freespace2/m_shrike.wav',
@@ -226,10 +221,12 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	firing_arc = 45 //Broad side of a barn...
 	ai_fire_delay = 1 SECONDS
-	weapon_facing_flags = OSW_FACING_FRONT|OSW_ALWAYS_FIRES_FORWARD
+	weapon_facing_flags = OSW_FACING_FRONT
+	weapon_firing_flags = OSW_ALWAYS_FIRES_FORWARD
 	used_nonphysical_ammo = OSW_AMMO_MISSILE
 	has_special_action = TRUE
 	sort_priority = 9
+	nonphysical_firing_sounds_local = FALSE
 
 /datum/overmap_ship_weapon/missile_launcher/special_action(mob/user)
 	if(!needs_real_weapons())
@@ -256,8 +253,9 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
 	select_alert = "<span class='notice'>Cannon selected. DRADIS assisted targeting: online.</span>"
-	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
-	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
+	firing_arc = 20
+	weapon_facing_flags = OSW_FACING_FRONT
+	weapon_firing_flags = OSW_ALWAYS_FIRES_FORWARD
 	sort_priority = 4
 
 /datum/overmap_ship_weapon/light_cannon/integrated	//Weapon for ships big enough that autocannon ammo concerns shouldn't matter this much anymore. Changes their class from HEAVY to LIGHT
@@ -273,8 +271,9 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/BRRTTTTTT.ogg')
 	select_alert = "<span class='notice'>Cannon selected. DRADIS assisted targeting: online..</span>"
-	failure_alert = "<span class='warning'>DANGER: Cannon ammunition reserves are depleted.</span>"
-	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
+	firing_arc = 20
+	weapon_facing_flags = OSW_FACING_FRONT
+	weapon_firing_flags = OSW_ALWAYS_FIRES_FORWARD
 	sort_priority = 6
 
 //Fighters
@@ -284,11 +283,14 @@
 	requires_physical_guns = FALSE
 	///Which weapon datum this uses. Fighters should only ever have two (Primary first, Secondary second)
 	var/weapon_slot = 0
+	nonphysical_firing_sounds_local = FALSE //Brrr
 
 /datum/overmap_ship_weapon/fighter/fire_nonphysical(atom/target, mob/living/firer, ai_aim)
-	var/hardpoint_response = linked_overmap.hardpoint_fire(target, src, weapon_slot)
-	if(hardpoint_response)
-		. = async_nonphysical_fire(target, firer, ai_aim, burst_size)
+	var/active_burst_size = min(burst_size, get_ammo())
+	var/list/hardpoint_response = linked_overmap.hardpoint_fire(target, src, weapon_slot, active_burst_size)
+	. = length(hardpoint_response)
+	if(.)
+		async_nonphysical_fire(target, firer, ai_aim, ., hardpoint_response)
 
 /datum/overmap_ship_weapon/fighter/get_ammo()
 	. = linked_overmap.hardpoint_get_ammo(weapon_slot)
@@ -309,9 +311,8 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
 	select_alert = "<span class='notice'>Primary mount selected.</span>"
-	failure_alert = "<span class='warning'>DANGER: Primary mount not responding to fire command.</span>"
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_GUNNER
-	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
+	weapon_firing_flags = OSW_ALWAYS_FIRES_FORWARD
 	weapon_slot = OSW_FIGHTER_MAIN_WEAPON
 	sort_priority = 999 //Cursed code - These MUST always be the first two (and in the right order)
 	can_modify_priority = FALSE
@@ -323,7 +324,6 @@
 	fire_delay = 0.5 SECONDS
 	optimal_range = 30
 	select_alert = "<span class='notice'>Secondary mount selected.</span>"
-	failure_alert = "<span class='warning'>DANGER: Secondary mount not responding to fire command.</span>"
 	overmap_firing_sounds = list(
 		'nsv13/sound/effects/ship/torpedo.ogg',
 		'nsv13/sound/effects/ship/freespace2/m_shrike.wav',
@@ -347,7 +347,6 @@
 	fire_delay = 3 SECONDS
 	optimal_range = 18
 	select_alert = "<span class='notice'>Activating gauss weapon systems...</span>"
-	failure_alert = "<span class='warning'>DANGER: Gauss gun systems not loaded.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/gauss.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	miss_chance = 20
@@ -363,13 +362,13 @@
 	fire_delay = 0.25 SECONDS
 	optimal_range = 10
 	select_alert = "<span class='notice'>Activating point defense system...</span>"
-	failure_alert = "<span class='warning'>DANGER: point defense system not loaded.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/pdc.ogg','nsv13/sound/effects/ship/pdc2.ogg','nsv13/sound/effects/ship/pdc3.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_hold.ogg'
 	miss_chance = 33
 	max_miss_distance = 6
 	ai_fire_delay = 0.5 SECONDS
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_GUNNER|OSW_CONTROL_AI|OSW_CONTROL_AUTONOMOUS|OSW_CONTROL_AI_FULL_AUTONOMY
+	used_nonphysical_ammo = OSW_AMMO_LIGHT
 	var/sound/lastsound // Special PDC sound handling
 	sort_priority = 4
 
@@ -392,11 +391,11 @@
 	overmap_select_sound = 'nsv13/sound/effects/ship/freespace2/computer/escape.wav'
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/flak/flakhit1.ogg','nsv13/sound/effects/ship/flak/flakhit2.ogg','nsv13/sound/effects/ship/flak/flakhit3.ogg')
 	select_alert = "<span class='notice'>Defensive flak screens: <b>OFFLINE</b>. Activating manual flak control.</span>"
-	failure_alert = "<span class='warning'>DANGER: flak guns unable to fire due to lack of ammunition.</span>"
 	miss_chance = 33
 	max_miss_distance = 8
 	ai_fire_delay = 0.5 SECONDS
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI|OSW_CONTROL_AUTONOMOUS|OSW_CONTROL_FULL_AUTONOMY
+	used_nonphysical_ammo = OSW_AMMO_LIGHT
 	///flak aims at one consistent target until it is out of range.
 	var/obj/structure/overmap/last_auto_target
 	max_ai_range = 30
@@ -415,11 +414,11 @@
 /datum/overmap_ship_weapon/broadside
 	name = "SNBC"
 	burst_size = 5
+	minimum_ammo_per_physical_gun = 5 //Physical version only fires full bursts.
 	fire_delay = 0.5 SECONDS
 	optimal_range = 12
 	standard_projectile_type = /obj/item/projectile/bullet/broadside
 	select_alert = "<span class='notice'>Locking Broadside Cannons...</span>"
-	failure_alert = "<span class='warning'>DANGER: No Shells Loaded In Broadside Cannons!</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/broadside.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_load_unjam.ogg'
 	miss_chance = 10
@@ -427,7 +426,9 @@
 	ai_fire_delay = 10 SECONDS
 	screen_shake = 10
 	used_nonphysical_ammo = OSW_AMMO_HEAVY
-	weapon_facing_flags = OSW_ALWAYS_FIRES_BROADSIDES
+	weapon_facing_flags = OSW_FACING_SIDES
+	firing_arc = 30 //Twice that of spread, probably update this is you update that.
+	weapon_firing_flags = OSW_ALWAYS_FIRES_BROADSIDES
 	weapon_aim_flags = OSW_SIDE_AIMING_BEAM
 	sort_priority = 12
 
@@ -438,7 +439,6 @@
 	fire_delay = 0.35 SECONDS
 	optimal_range = 30
 	select_alert = "<span class='notice'>Missile target acquisition systems: online.</span>"
-	failure_alert = "<span class='warning'>DANGER: Launch failure! Missile tubes are not loaded.</span>"
 	overmap_firing_sounds = list(
 		'nsv13/sound/effects/ship/torpedo.ogg',
 		'nsv13/sound/effects/ship/freespace2/m_shrike.wav',
@@ -450,6 +450,7 @@
 	has_special_action = TRUE
 	used_nonphysical_ammo = OSW_AMMO_MISSILE
 	sort_priority = 9
+	nonphysical_firing_sounds_local = FALSE
 
 /datum/overmap_ship_weapon/vls/get_nonphysical_projectile_type()
 	if(!linked_overmap.missile_type)
@@ -468,7 +469,6 @@
 	fire_delay = 0.35 SECONDS
 	optimal_range = 30
 	select_alert = "<span class='notice'>Laser target acquisition systems: online.</span>"
-	failure_alert = "<span class='warning'>DANGER: Launch failure!</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/burst_phaser.ogg', 'nsv13/sound/effects/ship/burst_phaser2.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
 	permitted_ams_modes = list( "Anti-missile countermeasures" = 1 )
@@ -483,12 +483,11 @@
 	max_ai_range = 25000 //It will continue to
 	standard_projectile_type = /obj/item/projectile/bullet/plasma_caster
 	select_alert = "<span class='notice'>Charging magnetic accelerator...</span>"
-	failure_alert = "<span class='warning'>Magnetic Accelerator not ready!</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/plasma_gun_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg'
 	ai_fire_delay = 180 SECONDS
 	weapon_control_flags = OSW_CONTROL_GUNNER|OSW_CONTROL_AI
-	weapon_facing_flags = OSW_FACING_OMNI|OSW_ALWAYS_FIRES_FORWARD
+	weapon_firing_flags = OSW_ALWAYS_FIRES_FORWARD
 	sort_priority = 12
 
 /*
@@ -542,5 +541,7 @@
 	overmap_select_sound = 'nsv13/sound/weapons/bsa_select.ogg'
 	ai_fire_delay = 32 SECONDS
 	sort_priority = 100
+	used_nonphysical_ammo = OSW_AMMO_FREE
+	nonphysical_firing_sounds_local = FALSE
 
 

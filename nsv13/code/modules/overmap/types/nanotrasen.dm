@@ -164,7 +164,7 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
 	//The day is today.
 
-/obj/structure/overmap/nanotrasen/serendipity/starter/apply_weapons()
+/obj/structure/overmap/nanotrasen/serendipity/apply_weapons()
 	new /datum/overmap_ship_weapon/gauss(src, FALSE)
 	new /datum/overmap_ship_weapon/pdc_mount(src, FALSE)
 	new /datum/overmap_ship_weapon/vls(src, FALSE)

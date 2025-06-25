@@ -53,12 +53,13 @@
 			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
 			new /datum/overmap_ship_weapon/torpedo_launcher(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
-			torpedoes = 10
+			torpedoes = 10 //I am not actually adjusting the max ammo for the pirate versions because they probably bolted on a launcher.
 		if(2)
 			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
 			new /datum/overmap_ship_weapon/railgun(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
 			shots_left = 10
+			max_shots_left = 10 //Lower than base so I am adjusting here.
 		if(3)
 			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
 			new /datum/overmap_ship_weapon/gauss(src, FALSE)
@@ -100,12 +101,12 @@
 			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
 			new /datum/overmap_ship_weapon/torpedo_launcher(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
-			torpedoes = 10
 		if(2)
 			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
 			new /datum/overmap_ship_weapon/railgun(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
 			shots_left = 10
+			max_shots_left = 10
 		if(3)
 			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
@@ -113,7 +114,6 @@
 			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
 			new /datum/overmap_ship_weapon/missile_launcher(src, FALSE)
 			new /datum/overmap_ship_weapon/pdc_mount(src)
-			missiles = 10
 		if(5)
 			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
 			new /datum/overmap_ship_weapon/flak(src, FALSE)

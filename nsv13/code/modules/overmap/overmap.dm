@@ -143,10 +143,39 @@
 	var/obj/weapon_overlay/last_fired //Last weapon overlay that fired, so we can rotate guns independently
 	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 
+	//Ammo related vars
+
+	///Delay to resupply all main ammo types except light.
 	var/static/ai_resupply_time = 1.5 MINUTES
+	///Delay to resupply light ammo.
+	var/static/ai_light_resupply_time = 20 SECONDS
+	///If we are currently rearming.
 	var/ai_resupply_scheduled = FALSE
-	var/torpedoes = 0 //If this starts at above 0, then the ship can use torpedoes when AI controlled
-	var/missiles = 0 //If this starts at above 0, then the ship can use missiles when AI controlled
+
+	//Max ammo vars. By default, set to the defined starting ammo of that type, but if you change that outside of the code, modify them too.
+
+	///Maximum ammunition for light weapons.
+	var/max_light_shots_left
+	///Maximum ammunition for heavy weapons.
+	var/max_shots_left
+	///Maximum missiles this ship can carry.
+	var/max_missiles
+	///Maximum torpedoes this ship can carry.
+	var/max_torpedoes
+
+	//Current ammo vars. On initialize, determine max ammo.
+
+	///Current amount of ammunition for light weapons.
+	var/light_shots_left = 300
+	///Current amount of ammunition for heavy weapons.
+	var/shots_left = 15
+	///Current amount of missiles.
+	var/missiles = 0
+	///Current amount of torpedoes.
+	var/torpedoes = 0
+
+	///Current amount of mines.
+	var/mines_left = 0
 
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
 	var/atom/target_lock = null // Our "locked" target. This is what manually fired guided weapons will track towards.
@@ -174,7 +203,7 @@
 	var/mob/listeningTo
 	var/obj/aiming_target
 	var/aiming_params
-	var/atom/autofire_target = null
+	var/atom/autofire_target = null //L-OSW WIP - This should be split by user like weapon control sometime, so more than one person can use autofire.
 
 	// Trader delivery locations
 	var/list/trader_beacons = null
@@ -333,6 +362,10 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	else
 		npc_combat_dice = new combat_dice_type()
 
+	max_light_shots_left = light_shots_left
+	max_shots_left = shots_left
+	max_missiles = missiles
+	max_torpedoes = torpedoes
 	apply_weapons() //Standard armament MUST be applied before weapon linkage to avoid dupes.
 	weapons_initialized = TRUE //We're not going to get weird behavior now.
 

@@ -15,12 +15,12 @@ Any flags related to this should start with OSW.
 	var/name = "Generic ship weapon. You shouldn't see this."
 	///One of these sounds is relayed to internal z levels on fire.
 	var/list/overmap_firing_sounds
+	///IF true, only relays firing sound to the linked overmap. Otherwise, aoe.
+	var/nonphysical_firing_sounds_local = TRUE
 	///Sound relayed to internal z levels on select.
 	var/overmap_select_sound
 	///Displayed to operator when weapon is cycled to.
 	var/select_alert
-	///Displayed to operator if weapon fails to fire.
-	var/failure_alert
 	///Screen shake caused to interior z of firer - use sparingly.
 	var/screen_shake = 0
 	///Next world.time a user trying to fire can get an error.
@@ -42,6 +42,8 @@ Any flags related to this should start with OSW.
 	var/list/weapons = list()
 	///If this needs physical weapon machinery to use if ship has linked physical areas and is not AI controlled. Should be TRUE for most except small craft weapons.
 	var/requires_physical_guns = TRUE
+	///Minimum ammo available in a single physical weapon of this osw for it to count as available to fire.
+	var/minimum_ammo_per_physical_gun = 1
 	///Causes the weapon to delete if the last weapon in its list loses linkage. FALSE by default, usually TRUE for ones added by weapon creation.
 	var/delete_if_last_weapon_removed = FALSE
 
@@ -50,14 +52,16 @@ Any flags related to this should start with OSW.
 
 	///Standard projectile used if not changed elsewhere.
 	var/standard_projectile_type
-	///Standard burst size
-	var/burst_size = 1
 	///Next `world.time` this weapon can fire. Determined by fire delays.
 	var/next_firetime = 0
 	///Delay between shots even if fully loaded.
 	var/fire_delay = 0
+	///Standard burst size
+	var/burst_size = 1
 	///Delay between individual shots of a burst.
 	var/burst_fire_delay = 1
+	///Nonphysical only. Spread that overrides base projectile spread. If null, base projectile spread is used.
+	var/spread_override = null
 	///Ammo type that is filtered to; Not used if null. Note that this only filters for at least one shot of this being in a weapon.
 	var/ammo_filter = null
 
@@ -85,9 +89,10 @@ Any flags related to this should start with OSW.
 
 	///Bitfield used to control who can access a ship weapon. Should not be `NONE`, if you are exclusively using manual control, use that flag.
 	var/weapon_control_flags = OSW_CONTROL_GUNNER|OSW_CONTROL_AI
-	//L-OSW WIP - make sure ghost ship players can control any weapon with OSW_CONTROL_AI - for now decent enough even if not exactly that.
 	///Bitfield for aim-related stuff, mainly if the weapon uses an aiming beam when used by the gunner. Not supported for non-Gunner weapons.
 	var/weapon_aim_flags = NONE
+	///Bitflag for firing-related behavior, such as overrides the firing angle of projectiles.
+	var/weapon_firing_flags = NONE
 	///Bitfield used to control which directions a weapon can fire in. Should never be `NONE`.
 	var/weapon_facing_flags = OSW_FACING_OMNI
 	/**
@@ -324,8 +329,8 @@ Any flags related to this should start with OSW.
 			gunner_weapon_datums += osw
 		if(osw.weapon_control_flags & OSW_CONTROL_AUTONOMOUS)
 			autonomous_weapon_datums += osw
-	pilotgunner_weapon_datums |= pilot_weapon_datums
 	pilotgunner_weapon_datums |= gunner_weapon_datums //Do not add datums twice.
+	pilotgunner_weapon_datums |= pilot_weapon_datums //Pilot guns will always end up ordered after gunner ones regardless of priority.
 
 /**
  * Deletes all linked weapon datums.

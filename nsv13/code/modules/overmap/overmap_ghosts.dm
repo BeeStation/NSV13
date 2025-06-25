@@ -67,8 +67,9 @@
 		tactical = new /obj/machinery/computer/ship/tactical/internal(src)
 		tactical.linked = src
 
-	for(var/datum/overmap_ship_weapon/gauss/gauss in overmap_weapon_datums) //L-OSW WIP - Kinda sucks, maybe a seperate ghost ship flag? Good enough
+	for(var/datum/overmap_ship_weapon/gauss/gauss in overmap_weapon_datums) //Could use a seperate flag sometime maybe, but for now this is just fine.
 		gauss.weapon_control_flags |= OSW_CONTROL_GUNNER
+	recalc_role_weapon_lists()
 
 	//Insert trackable player pilot here
 	var/mob/living/carbon/human/species/skeleton/ghost = new(src)
@@ -100,6 +101,8 @@
 
 	if(ghost.key) //Is there a player in control of our ghost?
 		start_piloting(ghost, (OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER))
+		if(tactical)
+			tactical.interact(ghost)
 		ghost_controlled = TRUE
 
 	else //Try again later
@@ -115,4 +118,5 @@
 		max_angular_acceleration *= 2
 		speed_limit *= 2.5
 		shots_left = 500 //Having 15 max cannon shots isn't fun
+		max_shots_left = 500 //pewpewpew
 

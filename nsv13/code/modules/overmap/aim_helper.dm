@@ -13,7 +13,7 @@
 		var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
 		user_gun.onMouseDrag(src_object, over_object, src_location, over_location, params, M)
 		return TRUE
-	//L-OSW WIP - This aim stuff could use just being on the weapon datums, right?
+	//This aim stuff could use just being on the weapon datums, right? Might be messy to implement though, leaving that for now.
 	if(aiming)
 		var/datum/overmap_ship_weapon/aimed_weapon = controlled_weapon_datum[M]
 		aiming_target = over_object
@@ -79,26 +79,31 @@
 	if(aimed_weapon && istype(aimed_weapon))
 		if(aimed_weapon.weapon_aim_flags & (OSW_AIMING_BEAM|OSW_SIDE_AIMING_BEAM))
 			fire_weapon(object, M, aimed_weapon)
-	QDEL_LIST(current_tracers)
 
 /obj/structure/overmap
 	var/next_beam = 0
 
 /obj/structure/overmap/proc/draw_beam(force_update = FALSE)
 	var/diff = abs(aiming_lastangle - lastangle)
-	check_user()
-	if(diff < AIMING_BEAM_ANGLE_CHANGE_THRESHOLD || world.time < next_beam && !force_update)
+	if(!check_user())
+		return
+	if((diff < AIMING_BEAM_ANGLE_CHANGE_THRESHOLD || world.time < next_beam) && !force_update)
 		return
 	next_beam = world.time + 0.05 SECONDS
 	aiming_lastangle = lastangle
 	var/obj/item/projectile/beam/overmap/aiming_beam/P = new
 	P.gun = src
 	P.color = "#99ff99"
-	var/turf/curloc = get_turf(src)
-	var/turf/targloc = get_turf(aiming_target)
+	var/turf/curloc = get_center()
+	var/turf/targloc
+	if(istype(aiming_target, /obj/structure/overmap))
+		var/obj/structure/overmap/overmap_aim_target = aiming_target
+		targloc = overmap_aim_target.get_center()
+	else
+		targloc = get_turf(aiming_target)
 	if(!istype(targloc) || !istype(curloc))
 		return
-	P.preparePixelProjectile(targloc, src, aiming_params, 0)
+	P.preparePixelProjectile(targloc, curloc, aiming_params, 0)
 	P.layer = BULLET_HOLE_LAYER
 	P.fire(lastangle)
 

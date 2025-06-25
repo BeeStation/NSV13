@@ -202,6 +202,8 @@
 /obj/structure/overmap/proc/handle_autonomous_targeting()
 	if(!current_system) //Not worth the hassle.
 		return
+	if(!length(autonomous_weapon_datums))
+		return //Short circuit to avoiunneeded processing.
 
 	for(var/datum/overmap_ship_weapon/osw as() in autonomous_weapon_datums)
 		if(osw.controller_count > 0)

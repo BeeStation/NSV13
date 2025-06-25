@@ -303,7 +303,7 @@
 	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
-	if(M != OM.gunner) return
+	if(M != OM.gunner && M != OM.pilot) return
 	OM.select_weapon(1, M)
 	return TRUE
 
@@ -323,7 +323,7 @@
 	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
-	if(M != OM.gunner) return
+	if(M != OM.gunner && M != OM.pilot) return
 	OM.select_weapon(2, M)
 	return TRUE
 
@@ -343,7 +343,7 @@
 	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
-	if(M != OM.gunner) return
+	if(M != OM.gunner && M != OM.pilot) return
 	OM.select_weapon(3, M)
 	return TRUE
 
@@ -363,7 +363,7 @@
 	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
-	if(M != OM.gunner) return
+	if(M != OM.gunner && M != OM.pilot) return
 	OM.select_weapon(4, M)
 	return TRUE
 

@@ -5,7 +5,7 @@
  * * Returns TRUE if yes, FALSE if not.
  */
 /datum/overmap_ship_weapon/proc/needs_real_weapons()
-	return requires_physical_guns && !linked_overmap.ai_controlled && linked_overmap.linked_areas
+	return requires_physical_guns && !linked_overmap.ai_controlled && length(linked_overmap.linked_areas)
 
 /**
  * Gets the current ammo left for the weapon class as an AI ship would see it.
@@ -20,21 +20,25 @@
 			return linked_overmap.missiles
 		if(OSW_AMMO_TORPEDO)
 			return linked_overmap.torpedoes
+		if(OSW_AMMO_FREE)
+			return INFINITY
 		else
 			CRASH("Invalid nonphysical ammunition define used. ([used_nonphysical_ammo])")
 /**
  * Gets the maximum ammo for the current weapon class as an AI ship would see it.
  */
 /datum/overmap_ship_weapon/proc/get_ai_max_ammo_by_current_weapon_class()
-	switch(used_nonphysical_ammo) //L-OSW WIP - we should be using maximum ammo vars as opposed to initial for all the stuff we have!
+	switch(used_nonphysical_ammo)
 		if(OSW_AMMO_LIGHT)
-			return initial(linked_overmap.light_shots_left)
+			return linked_overmap.max_light_shots_left
 		if(OSW_AMMO_HEAVY)
-			return initial(linked_overmap.shots_left)
+			return linked_overmap.max_shots_left
 		if(OSW_AMMO_MISSILE)
-			return initial(linked_overmap.missiles)
+			return linked_overmap.max_missiles
 		if(OSW_AMMO_TORPEDO)
-			return initial(linked_overmap.torpedoes)
+			return linked_overmap.max_torpedoes
+		if(OSW_AMMO_FREE)
+			return INFINITY
 		else
 			CRASH("Invalid nonphysical ammunition define used. ([used_nonphysical_ammo])")
 
@@ -90,27 +94,38 @@
 
 /**
  * Checks if this ship weapon can fire.
+ * * Pass a list as `inplace_report` if you want to get verbose info back (nice for a gunner)
  */
-/datum/overmap_ship_weapon/proc/can_fire(atom/target)
+/datum/overmap_ship_weapon/proc/can_fire(atom/target, list/inplace_report)
 	if(next_firetime > world.time)
-		return FALSE
+		return FALSE //No message for cooldown.
 	if(target && QDELETED(target))
+		if(inplace_report)
+			inplace_report[1] = "Error - invalid target. ([src])"
 		return FALSE
 	if(!get_ammo())
+		if(inplace_report)
+			inplace_report[1] = "Error - ammunition or charge depleted. ([src])"
 		return FALSE
 	if(target && isovermap(target))
 		var/obj/structure/overmap/overmap_target = target
 		if(overmap_target.faction == linked_overmap.faction)
+			if(inplace_report)
+				inplace_report[1] = "Error - Target IFF friendly. ([src])"
 			return FALSE
-	if(!check_valid_fire_angle())
+	if(target && !check_valid_fire_angle(target))
+		if(inplace_report)
+			inplace_report[1] = "Error - invalid angle. ([src])"
 		return FALSE
 	if(linked_overmap.ai_controlled && target && isovermap(target) && !is_valid_ai_target(target))
+		if(inplace_report)
+			inplace_report[1] = "Error - target did not pass analysis. ([src])"
 		return FALSE
 	if(needs_real_weapons())
-		if(!can_fire_physical(target))
+		if(!can_fire_physical(target, inplace_report))
 			return FALSE
 	else
-		if(!can_fire_nonphysical(target))
+		if(!can_fire_nonphysical(target, inplace_report))
 			return FALSE
 	return TRUE
 
@@ -127,15 +142,19 @@
 /**
  * Checks for physical ship weapons in particular
  */
-/datum/overmap_ship_weapon/proc/can_fire_physical(atom/target)
+/datum/overmap_ship_weapon/proc/can_fire_physical(atom/target, list/inplace_report)
 	if(!length(weapons["loaded"]))
+		if(inplace_report)
+			inplace_report[1] = "Error - No ready weapons in control group. ([src])"
 		return FALSE
 	for(var/obj/machinery/ship_weapon/physical_weapon in weapons["loaded"])
 		if(ammo_filter && !check_valid_physical_ammo(physical_weapon))
 			continue
-		if(!physical_weapon.can_fire(target, 1))
+		if(!physical_weapon.can_fire(target, minimum_ammo_per_physical_gun))
 			continue
 		return TRUE //We have at least one weapon that can fire.
+	if(inplace_report)
+		inplace_report[1] = "Error - no weapon in control group ready to fire. ([src])"
 	return FALSE
 
 /**
@@ -152,7 +171,7 @@
 /**
  * Checks for nonphysical ship weapons in particular.
  */
-/datum/overmap_ship_weapon/proc/can_fire_nonphysical(atom/target)
+/datum/overmap_ship_weapon/proc/can_fire_nonphysical(atom/target, list/inplace_report)
 	return TRUE
 
 /**
@@ -187,7 +206,7 @@
  * Returns whether this overmap ship weapon fires laterally (directly forward).
  */
 /datum/overmap_ship_weapon/proc/fires_lateral()
-	if(weapon_facing_flags & OSW_ALWAYS_FIRES_FORWARD)
+	if(weapon_firing_flags & OSW_ALWAYS_FIRES_FORWARD)
 		return FALSE
 	return TRUE
 
@@ -195,7 +214,15 @@
  * Returns whether this overmap ship weapon fires broadsides (bursts towards the sides of the ship)
  */
 /datum/overmap_ship_weapon/proc/fires_broadsides()
-	if(weapon_facing_flags & OSW_ALWAYS_FIRES_BROADSIDES)
+	if(weapon_firing_flags & OSW_ALWAYS_FIRES_BROADSIDES)
+		return TRUE
+	return FALSE
+
+/**
+ * Returns whether this overmap ship weapon fires erratic broadsides (like broadsides, but independant from positioning of target)
+ */
+/datum/overmap_ship_weapon/proc/fires_erratic_broadsides()
+	if(weapon_firing_flags & OSW_ALWAYS_FIRES_ERRATIC_BROADSIDES)
 		return TRUE
 	return FALSE
 
@@ -203,5 +230,8 @@
  * Plays the firing sound of the weapon.
  * * Does not have internal checks if we have any. Check before calling.
  */
-/datum/overmap_ship_weapon/proc/play_weapon_sound()
-	linked_overmap.relay_to_nearby(pick(overmap_firing_sounds))
+/datum/overmap_ship_weapon/proc/play_weapon_sound(local = FALSE)
+	if(!local)
+		linked_overmap.relay_to_nearby(pick(overmap_firing_sounds))
+	else
+		linked_overmap.relay(pick(overmap_firing_sounds))

@@ -162,7 +162,8 @@
 	. = ..()
 	power_change()
 	loader = locate(/obj/machinery/atmospherics/components/unary/plasma_loader) in orange(1, src)
-	loader.linked_gun = src
+	if(loader)
+		loader.linked_gun = src
 	radio = new(src)
 	radio.keyslot = new /obj/item/encryptionkey/munitions_tech
 	radio.subspace_transmission = TRUE

@@ -898,7 +898,7 @@ Adding tasks is easy! Just define a datum for it.
 		return 0
 	if(OM.obj_integrity < OM.max_integrity/3)
 		return AI_SCORE_SUPERPRIORITY
-	if(OM.shots_left < initial(OM.shots_left)/3)
+	if(OM.max_shots_left && OM.shots_left < OM.max_shots_left/3)
 		return AI_SCORE_PRIORITY
 	return 0
 
@@ -1158,7 +1158,7 @@ Seek a ship thich we'll station ourselves around
 		return 0	//Can't defend ourselves
 
 	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_BATTLESHIP))
-		if(OM.obj_integrity < OM.max_integrity/3 || OM.shots_left < initial(OM.shots_left)/3)
+		if(OM.obj_integrity < OM.max_integrity/3 || (OM.max_shots_left && OM.shots_left < OM.max_shots_left/3))
 			return AI_SCORE_PRIORITY - 1	//If we are out of ammo, prioritize rearming over chasing.
 		return AI_SCORE_CRITICAL
 	return score //If you've got nothing better to do, come group with the main fleet.
@@ -1314,20 +1314,13 @@ Seek a ship thich we'll station ourselves around
 	var/speed_cargo_check = 30 SECONDS // Time it takes for a ship to respond to a shipment
 	var/speed_cargo_return = 30 SECONDS // Time it takes for a ship to return shipment results (approved paperwork, rejected shipment)
 
-	var/last_decision = 0
-	var/decision_delay = 2 SECONDS
 	var/move_mode = 0
 	var/next_boarding_attempt = 0
 	var/mine_cooldown = 0
 
-	var/reloading_torpedoes = FALSE
-	var/reloading_missiles = FALSE
 	var/static/list/warcrime_blacklist = typecacheof(list(/obj/structure/overmap/small_craft/escapepod, /obj/structure/overmap/asteroid, /obj/structure/overmap/trader/independent))//Ok. I'm not THAT mean...yet. (Hello karmic, it's me karmic 2) Hello Karmic this is Bokkie being extremely lazy (TODO: make the unaligned faction excluded from targeting)
 
 	//Fleet organisation
-	var/shots_left = 15 //Number of arbitrary shots an AI can fire with its heavy weapons before it has to resupply with a supply ship.
-	var/light_shots_left = 300
-	var/mines_left = 0
 	var/resupply_range = 15
 	var/resupplying = 0	//Are we resupplying things right now? If yes, how many?
 	var/can_resupply = FALSE //Can this ship resupply other ships?
@@ -1377,14 +1370,16 @@ Seek a ship thich we'll station ourselves around
 		return
 	var/datum/overmap_ship_weapon/current_considered_weapon
 	var/lowest_range_penalty = 999
-	//OSW WIP - update certain weapons being better at certain distances - take number as optimal range and see didtance from it as bad? Scale by priority?
 	for(var/datum/overmap_ship_weapon/ai_weapon in overmap_weapon_datums)
 		if(!(ai_weapon.weapon_control_flags & OSW_CONTROL_AI))
 			continue	//Only weapons the AI can use.
 		if(!ai_weapon.get_ammo())
 			if(!ai_resupply_scheduled)
 				ai_resupply_scheduled = TRUE
-				addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
+				if(ai_weapon.used_nonphysical_ammo == OSW_AMMO_LIGHT)
+					addtimer(CALLBACK(src, PROC_REF(ai_self_resupply_light)), ai_light_resupply_time)
+				else
+					addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
 			continue //If we are out of shots. Continue.
 		if(!ai_weapon.can_fire(target))
 			continue
@@ -1420,7 +1415,10 @@ Seek a ship thich we'll station ourselves around
 		if(!ai_weapon.get_ammo())
 			if(!ai_resupply_scheduled)
 				ai_resupply_scheduled = TRUE
-				addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
+				if(ai_weapon.used_nonphysical_ammo == OSW_AMMO_LIGHT)
+					addtimer(CALLBACK(src, PROC_REF(ai_self_resupply_light)), ai_light_resupply_time)
+				else
+					addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
 			continue //If we are out of shots. Continue.
 		if(!ai_weapon.can_fire(target))
 			continue
@@ -1429,9 +1427,15 @@ Seek a ship thich we'll station ourselves around
 // Not as good as a carrier, but something
 /obj/structure/overmap/proc/ai_self_resupply()
 	ai_resupply_scheduled = FALSE
-	missiles = round(CLAMP(missiles + initial(missiles)/4, 1, initial(missiles)/4))
-	torpedoes = round(CLAMP(torpedoes + initial(torpedoes)/4, 1, initial(torpedoes)/4))
-	shots_left = round(CLAMP(shots_left + initial(shots_left)/2, 1, initial(shots_left)/4))
+	missiles = round(CLAMP(missiles + max_missiles/4, 1, max_missiles/4))
+	torpedoes = round(CLAMP(torpedoes + max_torpedoes/4, 1, max_torpedoes/4))
+	shots_left = round(CLAMP(shots_left + max_shots_left/4, 1, max_shots_left/4))
+
+///Rearms light weapons
+/obj/structure/overmap/proc/ai_self_resupply_light()
+	ai_resupply_scheduled = FALSE
+	light_shots_left = max_light_shots_left
+
 /**
 * Given target ship and projectile speed, calculate aim point for intercept
 * See: https://stackoverflow.com/a/3487761
@@ -1530,7 +1534,7 @@ Seek a ship thich we'll station ourselves around
 		for(var/obj/structure/overmap/OM in maybe_resupply)
 			if(OM.z != z || OM == src || OM.faction != faction || overmap_dist(src, OM) > resupply_range) //No self healing
 				continue
-			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= initial(OM.shots_left) && OM.missiles >= initial(OM.missiles) && OM.torpedoes >= initial(OM.torpedoes)) //No need to resupply this ship at all.
+			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= OM.max_shots_left && OM.missiles >= OM.max_missiles && OM.torpedoes >= OM.max_torpedoes) //No need to resupply this ship at all.
 				continue
 			resupply_target = OM
 			addtimer(CALLBACK(src, PROC_REF(resupply)), 5 SECONDS)	//Resupply comperatively fast, but not instant. Repairs take longer.
@@ -1543,13 +1547,13 @@ Seek a ship thich we'll station ourselves around
 	if(!resupply_target || QDELETED(resupply_target) || overmap_dist(src, resupply_target) > resupply_range)
 		resupply_target = null
 		return
-	var/missileStock = initial(resupply_target.missiles)
+	var/missileStock = resupply_target.max_missiles
 	if(missileStock > 0)
 		resupply_target.missiles = missileStock
-	var/torpStock = initial(resupply_target.torpedoes)
+	var/torpStock = resupply_target.max_torpedoes
 	if(torpStock > 0)
 		resupply_target.torpedoes = torpStock
-	resupply_target.shots_left = initial(resupply_target.shots_left)
+	resupply_target.shots_left = resupply_target.max_shots_left
 	resupply_target.try_repair(resupply_target.max_integrity  * 0.1)
 	resupply_target = null
 

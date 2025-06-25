@@ -111,6 +111,8 @@
  * Try to unlink from a munitions computer, so it can re-link to other things
  */
 /obj/machinery/ship_weapon/Destroy(force=FALSE)
+	if(linked_overmap_ship_weapon)
+		linked_overmap_ship_weapon.unlink_physical_weapon(src)
 	var/obj/item/circuitboard/C = circuit
 	if(C)
 		component_parts?.Remove(C)
@@ -126,9 +128,9 @@
 				qdel(P, force)
 			else
 				P.forceMove(loc)
-	. = ..()
 	if(linked_computer)
 		linked_computer.SW = null
+	return ..()
 
 /**
  * Tries to link the ship to an overmap by finding the overmap linked it the area we are in.
@@ -334,18 +336,14 @@
 			playsound(src, unload_sound, 100, 1)
 		sleep(unload_delay)
 
-		if(ammo[1])
-			var/atom/movable/AM = ammo[1]
-			AM.forceMove(get_turf(src))
-			ammo -= AM
+		if(length(ammo))
+			for(var/atom/movable/AM in ammo)
+				AM.forceMove(get_turf(src))
+				ammo -= AM
 		state = STATE_NOTLOADED
 		icon_state = initial(icon_state)
 
 		//If we have more ammo, spit those out too
-		if(length(ammo))
-			for(var/atom/movable/AM as() in ammo)
-				AM.forceMove(get_turf(src))
-			ammo.len = 0
 	//end if((state >= STATE_LOADED) && !magazine)
 
 /**
@@ -480,7 +478,7 @@
 		return FALSE
 	if(get_ammo() < shots) //Do we have ammo?
 		return FALSE
-	if(target && linked_overmap_ship_weapon && (linked_overmap_ship_weapon.weapon_facing_flags & OSW_ALWAYS_FIRES_BROADSIDES))
+	if(target && linked_overmap_ship_weapon && (linked_overmap_ship_weapon.weapon_firing_flags & OSW_ALWAYS_FIRES_BROADSIDES))
 		return dir == angle2dir_ship(overmap_angle(linked, target) - linked.angle) ? TRUE : FALSE
 	else
 		return TRUE
@@ -568,7 +566,7 @@
 		animate_projectile(target)
 
 /obj/machinery/ship_weapon/proc/overmap_sound()
-	if(linked_overmap_ship_weapon.overmap_firing_sounds)
+	if(length(linked_overmap_ship_weapon.overmap_firing_sounds))
 		linked_overmap_ship_weapon.play_weapon_sound()
 
 /**

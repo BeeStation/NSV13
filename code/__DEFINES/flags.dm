@@ -204,8 +204,11 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define OSW_FACING_FRONT (1<<1)					//!Only fires forward. Uses firing arc angle.
 #define OSW_FACING_SIDES (1<<2)					//!Only fires towards the sides. Uses firing arc angle for both sides.
 #define OSW_FACING_BACK (1<<3)					//!Only fires backwards(?). Uses firing arc angle.
-#define OSW_ALWAYS_FIRES_FORWARD (1<<4)			//!Always fires directly forward regardless of where you aim (but still passes target)
-#define OSW_ALWAYS_FIRES_BROADSIDES (1<<5)		//!Always fires inaccurate sideways bursts (but preserves target)
+
+//Firing flags (actual firing behavior)
+#define OSW_ALWAYS_FIRES_FORWARD (1<<0)				//!Always fires directly forward regardless of where you aim (but still passes target)
+#define OSW_ALWAYS_FIRES_BROADSIDES (1<<1)			//!Always fires inaccurate sideways bursts (but still passes target)
+#define OSW_ALWAYS_FIRES_ERRATIC_BROADSIDES (1<<2)	//!Like broadsides, but does not care about target direction (still passes target).
 
 //Flags related to aiming a weapon
 #define OSW_AIMING_BEAM (1<<0)					//!This weapon uses the aiming beam feature.
