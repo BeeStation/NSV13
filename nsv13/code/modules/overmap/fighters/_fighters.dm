@@ -546,20 +546,65 @@ Been a mess since 2018, we'll fix it someday (probably)
 	add_overlay(canopy)
 	update_visuals()
 
+/obj/structure/overmap/small_craft/tool_act(mob/living/user, obj/item/I, tool_type)
+	if(operators && LAZYFIND(operators, user))
+		to_chat(user, "<span class='warning'>You can't reach [src]'s exterior from in here.</span>")
+		return TRUE
+	return ..()
 
 /obj/structure/overmap/small_craft/attackby(obj/item/W, mob/user, params)
 	if(operators && LAZYFIND(operators, user))
 		to_chat(user, "<span class='warning'>You can't reach [src]'s exterior from in here.</span>")
-		return FALSE
+		return TRUE
+
+	add_fingerprint(user)
+	if(istype(W, /obj/item/card/id) || istype(W, /obj/item/modular_computer/tablet/pda))
+		if(!allowed(user))
+			var/ersound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+			playsound(src, ersound, 100, 1)
+			to_chat(user, "<span class='warning'>Access denied</span>")
+			return TRUE
+		if(alert("What do you want to do?",name,"Eject Occupants","Maintenance Mode") == "Eject Occupants")
+			if(!Adjacent(user))
+				return TRUE
+			to_chat(user, "<span class='warning'>Ejecting all current occupants from [src] and activating inertial dampeners...</span>")
+			force_eject()
+		else
+			if(!Adjacent(user))
+				return TRUE
+			to_chat(user, "<span class='warning'>You swipe your card and [maintenance_mode ? "disable" : "enable"] maintenance protocols.</span>")
+			maintenance_mode = !maintenance_mode
+		return TRUE
+
+	if(istype(W, /obj/item/ship_weapon/ammunition/countermeasure_charge))
+		var/obj/item/ship_weapon/ammunition/countermeasure_charge/CC = W
+		var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
+		if(CD)
+			if(CD.charges == CD.max_charges)
+				to_chat("<span class='warning'>You try to insert the countermeasure charge, but there's no space for more charges in the countermeasure dispenser!</span>")
+				return TRUE
+			else
+				var/ChargeChange = clamp(CC.restock_amount + CD.charges, CD.max_charges, 0) - CD.charges
+				to_chat("<span>You successfully reload the countermeasure dispenser in [src]</span>")
+				CC.restock_amount -= ChargeChange
+				CD.charges += ChargeChange
+				if(CC.restock_amount == 0)
+					qdel(W)
+				return TRUE
+		else
+			to_chat("<span class='warning'>You try to insert the countermeasure charge, but there's nothing to put it in!</span>")
+			return TRUE
+
 	for(var/slot in loadout.equippable_slots)
 		var/obj/item/fighter_component/FC = loadout.get_slot(slot)
 		if(FC?.load(src, W))
-			return FALSE
+			return TRUE
 	if(istype(W, /obj/item/fighter_component))
 		var/obj/item/fighter_component/FC = W
 		loadout.install_hardpoint(FC)
-		return FALSE
-	..()
+		return TRUE
+
+	return ..()
 
 /obj/structure/overmap/small_craft/MouseDrop_T(atom/movable/target, mob/user)
 	. = ..()
@@ -748,44 +793,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/list/victims = force_eject(TRUE)
 	for(var/mob/living/M as() in victims)
 		M.apply_damage(damage)
-
-
-/obj/structure/overmap/small_craft/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
-	add_fingerprint(user)
-	if(istype(W, /obj/item/card/id) || istype(W, /obj/item/modular_computer/tablet/pda) && length(operators))
-		if(!allowed(user))
-			var/ersound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-			playsound(src, ersound, 100, 1)
-			to_chat(user, "<span class='warning'>Access denied</span>")
-			return
-		if(alert("What do you want to do?",name,"Eject Occupants","Maintenance Mode") == "Eject Occupants")
-			if(!Adjacent(user))
-				return
-			to_chat(user, "<span class='warning'>Ejecting all current occupants from [src] and activating inertial dampeners...</span>")
-			force_eject()
-		else
-			if(!Adjacent(user))
-				return
-			to_chat(user, "<span class='warning'>You swipe your card and [maintenance_mode ? "disable" : "enable"] maintenance protocols.</span>")
-			maintenance_mode = !maintenance_mode
-
-	if(istype(W, /obj/item/ship_weapon/ammunition/countermeasure_charge))
-		var/obj/item/ship_weapon/ammunition/countermeasure_charge/CC = W
-		var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
-		if(CD)
-			if(CD.charges == CD.max_charges)
-				to_chat("<span class='warning'>You try to insert the countermeasure charge, but there's no space for more charges in the countermeasure dispenser!</span>")
-			else
-				var/ChargeChange = clamp(CC.restock_amount + CD.charges, CD.max_charges, 0) - CD.charges
-				to_chat("<span>You successfully reload the countermeasure dispenser in [src]</span>")
-				CC.restock_amount -= ChargeChange
-				CD.charges += ChargeChange
-				if(CC.restock_amount == 0)
-					qdel(W)
-		else
-			to_chat("<span class='warning'>You try to insert the countermeasure charge, but there's nothing to put it in!</span>")
-	return ..()
-
 
 /obj/structure/overmap/small_craft/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, nsv_damagesound = TRUE)
 	var/obj/item/fighter_component/armour_plating/A = loadout.get_slot(HARDPOINT_SLOT_ARMOUR)

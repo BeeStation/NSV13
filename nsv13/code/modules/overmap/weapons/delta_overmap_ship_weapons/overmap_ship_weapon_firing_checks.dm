@@ -134,11 +134,12 @@
 
 /**
  * Checks if the angle of this ship to target location is valid.
+ * * Can use either a passed target, or a specific angle to check against. Angle is used at priority.
  */
-/datum/overmap_ship_weapon/proc/check_valid_fire_angle(atom/target)
+/datum/overmap_ship_weapon/proc/check_valid_fire_angle(atom/target, passed_angle)
 	if((weapon_facing_flags & OSW_FACING_OMNI))
 		return TRUE
-	if((weapon_facing_flags & (OSW_FACING_FRONT|OSW_FACING_SIDES|OSW_FACING_BACK)) && check_weapon_angle(target)) //Only one flag needs to be met.
+	if((weapon_facing_flags & (OSW_FACING_FRONT|OSW_FACING_SIDES|OSW_FACING_BACK)) && check_weapon_angle(target, passed_angle)) //Only one flag needs to be met.
 		return TRUE
 	return FALSE
 

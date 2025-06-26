@@ -212,5 +212,5 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 
 //Flags related to aiming a weapon
 #define OSW_AIMING_BEAM (1<<0)					//!This weapon uses the aiming beam feature.
-#define OSW_SIDE_AIMING_BEAM (1<<1)				//!Aiming beam specialized for broadsides.
+#define OSW_SIDE_AIMING_BEAM (1<<1)				//!Aiming beam specialized for broadsides, only points in a single angle per side.
 //NSV13 change end

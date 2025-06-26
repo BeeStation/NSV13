@@ -175,23 +175,22 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	last_offset.copy(offset)
 	var/last_angle = angle
 	if(!move_by_mouse && !ai_controlled)
-		desired_angle = angle + keyboard_delta_angle_left + keyboard_delta_angle_right + movekey_delta_angle
+		desired_angle = ((angle + keyboard_delta_angle_left + keyboard_delta_angle_right + movekey_delta_angle) + 360) % 360
 		movekey_delta_angle = 0
 	var/desired_angular_velocity = 0
 	if(isnum(desired_angle))
-		// do some finagling to make sure that our angles end up rotating the short way
-		while(angle > desired_angle + 180)
-			angle -= 360
-			last_angle -= 360
-		while(angle < desired_angle - 180)
-			angle += 360
-			last_angle += 360
-		if(abs(desired_angle - angle) < (max_angular_acceleration * time))
-			desired_angular_velocity = (desired_angle - angle) / time
-		else if(desired_angle > angle)
-			desired_angular_velocity = 2 * sqrt((desired_angle - angle) * max_angular_acceleration * 0.25)
+		var/bounded_desired_angle = desired_angle
+		if(bounded_desired_angle - angle > 180) //So far right we should be going left.
+			bounded_desired_angle -= 360
+		else if(bounded_desired_angle - angle < -180) //So far left we should be going right.
+			bounded_desired_angle += 360
+
+		if(abs(bounded_desired_angle - angle) < (max_angular_acceleration * time)) //<< ??? \/
+			desired_angular_velocity = (bounded_desired_angle - angle) / time //I'll be honest I have no idea what is going on here.
+		else if(bounded_desired_angle > angle)	//At least this part makes sense.
+			desired_angular_velocity = 2 * sqrt((bounded_desired_angle - angle) * max_angular_acceleration * 0.25)
 		else
-			desired_angular_velocity = -2 * sqrt((angle - desired_angle) * max_angular_acceleration * 0.25)
+			desired_angular_velocity = -2 * sqrt((-(bounded_desired_angle - angle)) * max_angular_acceleration * 0.25)
 
 	var/angular_velocity_adjustment = CLAMP(desired_angular_velocity - angular_velocity, -max_angular_acceleration*time, max_angular_acceleration*time)
 	if(angular_velocity_adjustment)
@@ -200,6 +199,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	else
 		last_rotate = 0
 	angle += angular_velocity * time
+	angle = (angle + 360) % 360 //Nightmare Nightmare Nightmare.
+
 	// calculate drag and shit
 
 	var/velocity_mag = velocity.ln() // magnitude
@@ -693,7 +694,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	starting = curloc
 	original = target
 
-	if(firing_flags & OSW_ALWAYS_FIRES_ERRATIC_BROADSIDES)
+	if(firing_flags & OSW_ALWAYS_FIRES_BROADSIDES)
 		if(angle2dir_ship(overmap_angle(src, target) - source.angle) == SOUTH)
 			setAngle(source.angle + 90)
 		else

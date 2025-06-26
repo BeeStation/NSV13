@@ -19,20 +19,22 @@
 		aiming_target = over_object
 		aiming_params = params
 		if(aimed_weapon)
+			var/real_aim_angle = overmap_angle(src, over_location) //OSW WIP - experi getMouseAngle(params, M)
+			last_aiming_angle = real_aim_angle
 			if(aimed_weapon.weapon_aim_flags & OSW_AIMING_BEAM)
-				lastangle = getMouseAngle(params, M)
+				lastangle = real_aim_angle
 			else if((aimed_weapon.weapon_aim_flags & OSW_SIDE_AIMING_BEAM))
-				if((overmap_angle(src, over_location) - angle) <= 180)
-					lastangle = (src.angle + 90)
+				if((((overmap_angle(src, over_location) - angle)%360)+360)%360 <= 180)
+					lastangle = (angle + 90) % 360
 				else
-					lastangle = (src.angle + 270)
+					lastangle = (angle + 270) % 360
 			else
 				stop_aiming()
 				return
+			draw_beam(aimed_weapon = aimed_weapon)
 		else
 			stop_aiming()
 			return
-		draw_beam()
 	else
 		autofire_target = over_object
 
@@ -52,14 +54,16 @@
 		if(aimed_weapon.weapon_aim_flags & (OSW_AIMING_BEAM|OSW_SIDE_AIMING_BEAM))
 			aiming_target = object
 			aiming_params = params
+			var/real_aim_angle =  overmap_angle(src, location) //OSW WIP - experi getMouseAngle(params, M)
+			last_aiming_angle = real_aim_angle
 			if(aimed_weapon.weapon_aim_flags & OSW_AIMING_BEAM)
-				lastangle = getMouseAngle(params, M)
+				lastangle = real_aim_angle
 			else if(aimed_weapon.weapon_aim_flags & OSW_SIDE_AIMING_BEAM) //If the weapon fires from the sides, we want the aiming laser to lock to the sides
-				if((overmap_angle(src, location) - angle) <= 180)
-					lastangle = (src.angle + 90)
+				if((((overmap_angle(src, location) - angle)%360)+360)%360 <= 180)
+					lastangle = (angle + 90) % 360
 				else
-					lastangle = (src.angle + 270)
-			start_aiming(params, M)
+					lastangle = (angle + 270) % 360
+			start_aiming(params, M, aimed_weapon)
 		else
 			autofire_target = object
 
@@ -73,7 +77,7 @@
 	if(M != gunner)
 		return
 	autofire_target = null
-	lastangle = get_angle(src, get_turf(object))
+	lastangle = overmap_angle(src, get_turf(object))
 	stop_aiming()
 	var/datum/overmap_ship_weapon/aimed_weapon = controlled_weapon_datum[M]
 	if(aimed_weapon && istype(aimed_weapon))
@@ -82,14 +86,44 @@
 
 /obj/structure/overmap
 	var/next_beam = 0
+	///The real user aim that was aimed at last
+	var/last_aiming_angle = 0
+	var/last_aim_ship_angle = 0
 
-/obj/structure/overmap/proc/draw_beam(force_update = FALSE)
-	var/diff = abs(aiming_lastangle - lastangle)
+
+/obj/structure/overmap/Move(atom/newloc, direct)
+	. = ..()
+	if(!.)
+		return
+	if(!aiming || ai_controlled || !gunner || !controlled_weapon_datum[gunner]) //LL-OSW WIP - if you ever make aiming beams linked to the weapon datum, this has to go too.
+		return
+	var/datum/overmap_ship_weapon/aimed_weapon = controlled_weapon_datum[gunner]
+	switch(aimed_weapon.weapon_aim_flags)
+		if(OSW_AIMING_BEAM)
+			draw_beam(aimed_weapon = aimed_weapon, force_update = TRUE)
+		if(OSW_SIDE_AIMING_BEAM)
+			draw_beam(aimed_weapon = aimed_weapon, force_update = TRUE)
+		else
+			return
+
+
+//LL-OSW WIP One day aimed_angle should replace lastangle and all those other vars on the overmap so multiple people can use it. Tracers potentially a var on OSW?
+/**
+ * Draws this ship's aiming beam
+ * * draws using lastangle as angle, however last_aiming_angle is used for checks.
+ * * force_update will cause the beam to be drawn bypassing delay or angular distance checks.
+ * * aimed_weapon is the overmap weapon datum of the aiming weapon and used for behavior.
+ */
+/obj/structure/overmap/proc/draw_beam(force_update = FALSE, datum/overmap_ship_weapon/aimed_weapon)
+	var/diff = max(abs(aiming_lastangle - lastangle)) //L-OSW WIP - make fixed side beams update smoother when turning, my current takes are kind of :/
 	if(!check_user())
 		return
-	if((diff < AIMING_BEAM_ANGLE_CHANGE_THRESHOLD || world.time < next_beam) && !force_update)
+	if(world.time < next_beam || (diff < AIMING_BEAM_ANGLE_CHANGE_THRESHOLD && !force_update))
 		return
 	next_beam = world.time + 0.05 SECONDS
+	if(aimed_weapon && !aimed_weapon.check_valid_fire_angle(passed_angle = last_aiming_angle))
+		QDEL_LIST(current_tracers) //Only draw beam if we can fire right now.
+		return
 	aiming_lastangle = lastangle
 	var/obj/item/projectile/beam/overmap/aiming_beam/P = new
 	P.gun = src
@@ -114,13 +148,14 @@
 		return FALSE
 	return TRUE
 
-/obj/structure/overmap/proc/start_aiming(params, mob/M)
+/obj/structure/overmap/proc/start_aiming(params, mob/M, datum/overmap_ship_weapon/aimed_weapon)
 	aiming = TRUE
-	draw_beam(TRUE)
+	draw_beam(TRUE, aimed_weapon)
 
 /obj/structure/overmap/proc/stop_aiming()
 	aiming = FALSE
 	QDEL_LIST(current_tracers)
+	aiming_target = null
 
 /obj/structure/overmap/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover, /obj/item/projectile/beam/overmap/aiming_beam))
@@ -139,7 +174,7 @@
 	nodamage = TRUE
 	damage_type = BURN
 	flag = "energy"
-	range = 150
+	range = 40	//We don't need to cover 2/3rds of the system with our beam if we can barely see 30 tiles far.
 	jitter = 10
 	var/obj/structure/overmap/gun
 	icon_state = ""

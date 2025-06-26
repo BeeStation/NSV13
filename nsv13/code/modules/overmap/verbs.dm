@@ -114,4 +114,4 @@
 	if(!verb_check() || !tactical)
 		return
 
-	tactical.attack_hand(usr)
+	tactical.ui_interact(usr)

@@ -15,7 +15,7 @@
 		linked.tactical = null
 	return ..()
 
-/obj/machinery/computer/ship/tactical/ui_interact(mob/user, datum/tgui/ui)
+/obj/machinery/computer/ship/tactical/interact(mob/user, special_state)
 	if(isobserver(user))
 		return
 	if(!has_overmap())
@@ -27,21 +27,27 @@
 		var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 		playsound(src, sound, 100, 1)
 		to_chat(user, "<span class='warning'>A warning flashes across [src]'s screen: Automated flight protocols are still active. Unable to comply.</span>")
-		return FALSE
+		return TRUE
+	if(linked.gunner && !linked.gunner.client)
+		linked.stop_piloting(linked.gunner)
+	if(!linked.gunner && isliving(user))
+		ui_users += user //This sucks but I doubt the edge case here will come up.
+		playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
+		linked.start_piloting(user, position)
+		to_chat(user, "<span class='notice'> TACTICAL CONTROL: \
+					Mouse 1 will fire the selected weapon (if applicable).</span>")
+		to_chat(user, "<span class='warning'>=Hotkeys=</span>")
+		to_chat(user, "<span class='notice'> Use <b>tab</b> to activate hotkey mode, then:</span>")
+		to_chat(user, "<span class='notice'> Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
+						Press <b>Space</b> to cycle fire modes. \
+						Press <b>F</b> for the current weapon's special action (if available).</span>")
+		return ..()
+	return
+
+
+/obj/machinery/computer/ship/tactical/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui) //This is wonky and can lead to issues (especially when stopping to pilot in a depowered room)
-		if(linked.gunner && !linked.gunner.client)
-			linked.stop_piloting(linked.gunner)
-		if(!linked.gunner && isliving(user))
-			playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
-			linked.start_piloting(user, position)
-			to_chat(user, "<span class='notice'> TACTICAL CONTROL: \
-						Mouse 1 will fire the selected weapon (if applicable).</span>")
-			to_chat(user, "<span class='warning'>=Hotkeys=</span>")
-			to_chat(user, "<span class='notice'> Use <b>tab</b> to activate hotkey mode, then:</span>")
-			to_chat(user, "<span class='notice'> Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
-							Press <b>Space</b> to cycle fire modes. \
-							Press <b>F</b> for the current weapon's special action (if available).</span>")
 		ui = new(user, src, "TacticalConsole")
 		ui.open()
 		ui.set_autoupdate(TRUE)
@@ -95,6 +101,10 @@
 			modifying_weapon.adjust_priority(input_value)
 			return TRUE
 
+/obj/machinery/computer/ship/tactical/ui_status(mob/user, datum/ui_state/state)
+	if(!linked || !(user in linked.operators))
+		return UI_CLOSE
+	return ..()
 
 /obj/machinery/computer/ship/tactical/ui_data(mob/user)
 	if(!linked)

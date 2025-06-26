@@ -4,22 +4,27 @@
  * Checks valid firing angles depending on weapon control flags.
  * * Yes this means you can have a weapon that only fires forward and to the sides if you really want to.
  */
-/datum/overmap_ship_weapon/proc/check_weapon_angle(atom/target)
-	var/our_angle = (linked_overmap.angle + 360) % 360
-	var/angle_to_target = get_angle(linked_overmap, target)
+/datum/overmap_ship_weapon/proc/check_weapon_angle(atom/target, passed_angle)
+	var/our_angle = ((linked_overmap.angle % 360) + 360) % 360 //Negative angles my behated.
+
+	var/target_angle
+	if(!isnull(passed_angle))
+		target_angle = passed_angle
+	else
+		target_angle = overmap_angle(linked_overmap, target)
+
+	var/angle_diff = (target_angle - our_angle)
+	if(angle_diff < 0)
+		angle_diff += 360
 
 	if(weapon_facing_flags & OSW_FACING_FRONT)
-		var/angle_diff_fore = abs(angle_to_target - our_angle) % 360
-		if(angle_diff_fore <= firing_arc)
+		if(angle_diff >= 360 - firing_arc || angle_diff <= firing_arc)
 			return TRUE
 	if(weapon_facing_flags & OSW_FACING_SIDES)
-		var/angle_diff_left = abs(angle_to_target - (our_angle - 90)) % 360
-		var/angle_diff_right = abs(angle_to_target - (our_angle + 90)) % 360
-		if(angle_diff_left <= firing_arc || angle_diff_right <= firing_arc)
+		if(abs(270 - angle_diff) <= firing_arc || abs(90 - angle_diff) <= firing_arc)
 			return TRUE
 	if(weapon_facing_flags & OSW_FACING_BACK)
-		var/angle_diff_back = abs(angle_to_target - (our_angle + 180)) % 360
-		if(angle_diff_back <= firing_arc)
+		if(abs(180 - angle_diff) <= firing_arc)
 			return TRUE
 
 	return FALSE

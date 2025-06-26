@@ -478,7 +478,7 @@
 		return FALSE
 	if(get_ammo() < shots) //Do we have ammo?
 		return FALSE
-	if(target && linked_overmap_ship_weapon && (linked_overmap_ship_weapon.weapon_firing_flags & OSW_ALWAYS_FIRES_BROADSIDES))
+	if(target && linked_overmap_ship_weapon && (linked_overmap_ship_weapon.weapon_facing_flags & OSW_FACING_SIDES))
 		return dir == angle2dir_ship(overmap_angle(linked, target) - linked.angle) ? TRUE : FALSE
 	else
 		return TRUE

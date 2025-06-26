@@ -68,7 +68,7 @@
 /obj/machinery/ship_weapon/broadside/animate_projectile(atom/target)
 	var/obj/item/ship_weapon/ammunition/broadside_shell/T = chambered
 	if(T)
-		linked.fire_projectile(T.projectile_type, target, firing_flags = OSW_ALWAYS_FIRES_BROADSIDES)
+		linked.fire_projectile(T.projectile_type, target, firing_flags = linked_overmap_ship_weapon.weapon_firing_flags)
 
 /obj/machinery/ship_weapon/broadside/examine()
 	. = ..()

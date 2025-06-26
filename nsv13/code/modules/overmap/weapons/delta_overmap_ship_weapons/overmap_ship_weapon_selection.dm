@@ -74,9 +74,6 @@
 	var/list/available_weapons = mob_weapon_datum_list(usr)
 	if(!length(available_weapons))
 		return
-	if(controlled_weapon_datum[user])
-		var/datum/overmap_ship_weapon/dropping_weapon = controlled_weapon_datum[user]
-		dropping_weapon.on_swap_from()
 	if(length(available_weapons) == 1 || !controlled_weapons[usr] || !controlled_weapon_datum[usr])
 		var/datum/overmap_ship_weapon/new_weapon = available_weapons[1]
 		return new_weapon.swap_to(user, 1, no_message, no_sound)
@@ -93,8 +90,13 @@
  * Handles swapping to this weapon
  */
 /datum/overmap_ship_weapon/proc/swap_to(mob/user, control_index, no_message = FALSE, no_sound = FALSE)
+	var/datum/overmap_ship_weapon/old_weapon = linked_overmap.controlled_weapon_datum[user]
 	linked_overmap.controlled_weapons[user] = control_index
 	linked_overmap.controlled_weapon_datum[user] = src
+	if(old_weapon == src)
+		return TRUE //No changes being applied.
+	if(old_weapon)
+		old_weapon.on_swap_from()
 	on_swap_to()
 	if(!no_sound && world.time > linked_overmap.switchsound_cooldown)
 		linked_overmap.relay(overmap_select_sound)

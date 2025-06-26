@@ -42,7 +42,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 /obj/machinery/computer/ship/proc/set_position(obj/structure/overmap/OM)
 	return
 
-/obj/machinery/computer/ship/ui_interact(mob/user)
+/obj/machinery/computer/ship/ui_interact(mob/user, datum/tgui/ui)
 	if(isobserver(user))
 		return FALSE
 	if(!has_overmap())
@@ -58,7 +58,7 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
 	if(!position)
 		return TRUE
-	ui_users += user
+	ui_users += user //This is bad. We do not have an UI so we never unset this. Except for qdel, where we will throw anyone who ever piloted us out of contrls.
 	if(linked.mass < MASS_SMALL)
 		to_chat(user, "<span class='notice'>Small craft use directional keys (WASD in hotkey mode) to accelerate/decelerate in a given direction and the mouse to change the direction of craft.\
 					Mouse 1 will fire the selected weapon (if applicable).</span>")

@@ -102,7 +102,7 @@
 	if(ghost.key) //Is there a player in control of our ghost?
 		start_piloting(ghost, (OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER))
 		if(tactical)
-			tactical.interact(ghost)
+			tactical.ui_interact(ghost)
 		ghost_controlled = TRUE
 
 	else //Try again later
