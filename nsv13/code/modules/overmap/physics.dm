@@ -629,7 +629,7 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		log_combat(pilot, M, "impacted", src, "with velocity of [bump_velocity]")
 	return ..()
 
-/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, speed = null, user_override = null, lateral = FALSE, ai_aim = FALSE, miss_chance = 5, max_miss_distance = 5, broadside = FALSE, erratic_broadside = FALSE, spread_override = null) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
+/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, speed = null, user_override = null, firing_flags = NONE, ai_aim = FALSE, miss_chance = 5, max_miss_distance = 5, spread_override = null) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
 	if(!z || QDELETED(src))
 		return FALSE
 	var/turf/T = get_center()
@@ -677,14 +677,14 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	LAZYINITLIST(proj.impacted) //The spawn call after this might be causing some issues so the list should exist before async actions.
 
 	spawn()
-		proj.preparePixelProjectileOvermap(target, src, lateral, broadside, erratic_broadside)
+		proj.preparePixelProjectileOvermap(target, src, firing_flags)
 		if(!QDELETED(proj))
 			proj.fire()
 	return proj
 
 //Jank as hell. This needs to happen to properly set the visual offset :/
 //This entire proc is super cursed and I'm not sure why it was the way it was.
-/obj/item/projectile/proc/preparePixelProjectileOvermap(obj/structure/overmap/target, obj/structure/overmap/source, lateral = TRUE, broadside = FALSE, erratic_broadside = FALSE)
+/obj/item/projectile/proc/preparePixelProjectileOvermap(obj/structure/overmap/target, obj/structure/overmap/source, firing_flags)
 	var/turf/curloc = source.get_center()
 	var/turf/targloc = istype(target, /obj/structure/overmap) ? target.get_center() : get_turf(target)
 	trajectory_ignore_forcemove = TRUE
@@ -693,17 +693,17 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	starting = curloc
 	original = target
 
-	if(broadside)
+	if(firing_flags & OSW_ALWAYS_FIRES_ERRATIC_BROADSIDES)
 		if(angle2dir_ship(overmap_angle(src, target) - source.angle) == SOUTH)
 			setAngle(source.angle + 90)
 		else
 			setAngle(source.angle + 270)
-	else if(erratic_broadside)
+	else if(firing_flags & OSW_ALWAYS_FIRES_ERRATIC_BROADSIDES)
 		if(prob(50))
 			setAngle(source.angle + 90)
 		else
 			setAngle(source.angle + 270)
-	else if(!lateral)
+	else if(firing_flags & OSW_ALWAYS_FIRES_FORWARD)
 		setAngle(source.angle)
 	else if(curloc)
 		if(targloc)

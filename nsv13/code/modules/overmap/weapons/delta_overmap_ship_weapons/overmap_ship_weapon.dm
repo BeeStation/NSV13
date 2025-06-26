@@ -42,8 +42,6 @@ Any flags related to this should start with OSW.
 	var/list/weapons = list()
 	///If this needs physical weapon machinery to use if ship has linked physical areas and is not AI controlled. Should be TRUE for most except small craft weapons.
 	var/requires_physical_guns = TRUE
-	///Minimum ammo available in a single physical weapon of this osw for it to count as available to fire.
-	var/minimum_ammo_per_physical_gun = 1
 	///Causes the weapon to delete if the last weapon in its list loses linkage. FALSE by default, usually TRUE for ones added by weapon creation.
 	var/delete_if_last_weapon_removed = FALSE
 
@@ -62,9 +60,20 @@ Any flags related to this should start with OSW.
 	var/burst_fire_delay = 1
 	///Nonphysical only. Spread that overrides base projectile spread. If null, base projectile spread is used.
 	var/spread_override = null
+
+
+	//===SECTION - ammunition related vars
+
 	///Ammo type that is filtered to; Not used if null. Note that this only filters for at least one shot of this being in a weapon.
 	var/ammo_filter = null
-
+	///Determines which type of ammo is used if the weapon isn't physically present.
+	var/used_nonphysical_ammo = OSW_AMMO_HEAVY
+	///Minimum ammo available in a single physical weapon of this osw for it to count as available to fire.
+	var/minimum_ammo_per_physical_gun = 1
+	///If TRUE, nonphysical fire will only play one sound per burst instead of per shot.
+	var/nonphysical_fire_single_sound = FALSE
+	///If TRUE, nonphysical fire will only use one shot per burst instead of as many as shots.
+	var/nonphysical_fire_single_ammo_use = FALSE
 
 	//===SECTION - AI control related vars===
 
@@ -81,8 +90,6 @@ Any flags related to this should start with OSW.
 	var/max_miss_distance = 4
 	///Additional fire delay applied if an AI fires this weapon.
 	var/ai_fire_delay = 0
-	///Determines which type of ammo is used if the weapon isn't physically present.
-	var/used_nonphysical_ammo = OSW_AMMO_HEAVY
 
 
 	//===SECTION - Handling vars===
@@ -126,9 +133,9 @@ Any flags related to this should start with OSW.
 	weapons["all"] = list()
 	//Soft runtimes for invalid inputs that exist mostly for code-side reading consistency.
 	if(weapon_control_flags == NONE)
-		log_runtime("Invalid weapon control flags. Must not be NONE.")
+		stack_trace("Invalid weapon control flags. Must not be NONE.")
 	if(weapon_facing_flags == NONE)
-		log_runtime("Invalid weapon facing flags. Must not be NONE.")
+		stack_trace("Invalid weapon facing flags. Must not be NONE.")
 	if(link_to)
 		link_weapon(link_to, update_role_weapon_lists)
 
@@ -141,7 +148,7 @@ Any flags related to this should start with OSW.
 
 	//Safety scream
 	if(controller_count != 0)
-		log_runtime("Ship weapon deleting with nonstandard controller count ([controller_count]). This points to codeside issues.")
+		stack_trace("Ship weapon deleting with nonstandard controller count ([controller_count]). This points to codeside issues.")
 
 	return ..()
 

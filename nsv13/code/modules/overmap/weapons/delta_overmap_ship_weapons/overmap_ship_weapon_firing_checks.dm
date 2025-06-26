@@ -23,7 +23,8 @@
 		if(OSW_AMMO_FREE)
 			return INFINITY
 		else
-			CRASH("Invalid nonphysical ammunition define used. ([used_nonphysical_ammo])")
+			stack_trace("Invalid nonphysical ammunition define used. ([used_nonphysical_ammo])")
+			return 0
 /**
  * Gets the maximum ammo for the current weapon class as an AI ship would see it.
  */
@@ -40,7 +41,8 @@
 		if(OSW_AMMO_FREE)
 			return INFINITY
 		else
-			CRASH("Invalid nonphysical ammunition define used. ([used_nonphysical_ammo])")
+			stack_trace("Invalid nonphysical ammunition define used. ([used_nonphysical_ammo])")
+			return 0
 
 /**
  * Determines how much ammo is available for the weapon.
@@ -202,30 +204,6 @@
  */
 /datum/overmap_ship_weapon/proc/is_target_size_valid(obj/structure/overmap/target)
 	return TRUE
-
-/**
- * Returns whether this overmap ship weapon fires laterally (directly forward).
- */
-/datum/overmap_ship_weapon/proc/fires_lateral()
-	if(weapon_firing_flags & OSW_ALWAYS_FIRES_FORWARD)
-		return FALSE
-	return TRUE
-
-/**
- * Returns whether this overmap ship weapon fires broadsides (bursts towards the sides of the ship)
- */
-/datum/overmap_ship_weapon/proc/fires_broadsides()
-	if(weapon_firing_flags & OSW_ALWAYS_FIRES_BROADSIDES)
-		return TRUE
-	return FALSE
-
-/**
- * Returns whether this overmap ship weapon fires erratic broadsides (like broadsides, but independant from positioning of target)
- */
-/datum/overmap_ship_weapon/proc/fires_erratic_broadsides()
-	if(weapon_firing_flags & OSW_ALWAYS_FIRES_ERRATIC_BROADSIDES)
-		return TRUE
-	return FALSE
 
 /**
  * Plays the firing sound of the weapon.

@@ -5,10 +5,10 @@
  *
  * *	Add weapon specifics as a datum in nsv13\code\modules\overmap\weapons\delta_overmap_ship_weapons\new_weapon_types\weapon_datum_types.dm
  * *	Link the datum to overmap(s) via `apply_weapons()` (This is optional for players, but recommended for ships that start with the weapon)
- * *	The previous step is required for AI weaopns.
+ * *	The previous step is required for AI weapons.
  * *	Following steps only matter for player weapons:
  * *	Create a subtype of this (you can also handle that differently but it requires a lot of expertise).
- * *	Set `linked_overmap_ship_weapon` on that subtype to the path to your new weapon datum.
+ * *	Set `weapon_datum_type` on that subtype to the path of your new weapon datum.
  * *	(technically you can also use previous ones, might get a bit weird though).
  * *	Setup your weapon specific stuff, like ammo & magazine.
  * *	(Optional: ask Delta if you need help. (yes that is the one writing this, this time))
@@ -573,9 +573,7 @@
  * Animates an overmap projectile matching whatever we're shooting.
  */
 /obj/machinery/ship_weapon/proc/animate_projectile(atom/target)
-	var/lateral_fire = linked_overmap_ship_weapon.fires_lateral()
-	var/broadside_fire = linked_overmap_ship_weapon.fires_broadsides()
-	return linked.fire_projectile(linked_overmap_ship_weapon.standard_projectile_type, target, lateral = lateral_fire, broadside = broadside_fire)
+	return linked.fire_projectile(linked_overmap_ship_weapon.standard_projectile_type, target, firing_flags = linked_overmap_ship_weapon.weapon_firing_flags)
 
 /**
  * Updates maintenance counter after firing if applicable.

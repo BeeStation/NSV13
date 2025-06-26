@@ -55,8 +55,14 @@
  * This proc handles ammo use and calls the async proc actually firing the nonphysical weapon.
  */
 /datum/overmap_ship_weapon/proc/fire_nonphysical(atom/target, mob/living/firer, ai_aim = FALSE)
+	. = 0
 	var/active_burst = min(burst_size, get_ammo())
-	use_nonphysical_ammo(active_burst)
+	if(!active_burst)
+		return
+	if(nonphysical_fire_single_ammo_use)
+		use_nonphysical_ammo(1)
+	else
+		use_nonphysical_ammo(active_burst)
 	async_nonphysical_fire(target, firer, ai_aim, active_burst)
 	. = active_burst
 
@@ -65,10 +71,10 @@
  */
 /datum/overmap_ship_weapon/proc/async_nonphysical_fire(atom/target, mob/living/firer, ai_aim = FALSE, active_burst_size, list/snowflake_projectile_list)
 	set waitfor = FALSE
-	var/fires_lateral = fires_lateral()
-	var/fires_broadsides = fires_broadsides()
-	var/fires_erratic_broadsides = fires_erratic_broadsides()
 	var/fired_projectile = get_nonphysical_projectile_type()
+
+	if(nonphysical_fire_single_sound && length(overmap_firing_sounds))
+		play_weapon_sound(nonphysical_firing_sounds_local)
 
 	for(var/cycle = 1; cycle <= active_burst_size; cycle++)
 		if(QDELETED(src))	//We might get shot.
@@ -81,8 +87,8 @@
 			snowflake_projectile_list.Cut(1,2)
 		else
 			actually_fired_projectile = fired_projectile
-		linked_overmap.fire_projectile(actually_fired_projectile, target, user_override = firer, lateral = fires_lateral, ai_aim = ai_aim, miss_chance = miss_chance, max_miss_distance = max_miss_distance, broadside = fires_broadsides, erratic_broadside = fires_erratic_broadsides, spread_override = spread_override)
-		if(length(overmap_firing_sounds))
+		linked_overmap.fire_projectile(actually_fired_projectile, target, user_override = firer, firing_flags = weapon_firing_flags, ai_aim = ai_aim, miss_chance = miss_chance, max_miss_distance = max_miss_distance, spread_override = spread_override)
+		if(!nonphysical_fire_single_sound && length(overmap_firing_sounds))
 			play_weapon_sound(nonphysical_firing_sounds_local)
 		sleep(burst_fire_delay)
 

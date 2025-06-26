@@ -431,6 +431,8 @@
 	weapon_firing_flags = OSW_ALWAYS_FIRES_BROADSIDES
 	weapon_aim_flags = OSW_SIDE_AIMING_BEAM
 	sort_priority = 12
+	nonphysical_fire_single_sound = TRUE //This will blow up ghost ship player ears otherwise.
+	nonphysical_fire_single_ammo_use = TRUE //Easier to balance with other AI weapons.
 
 /datum/overmap_ship_weapon/vls
 	name = "STS Missile System"
