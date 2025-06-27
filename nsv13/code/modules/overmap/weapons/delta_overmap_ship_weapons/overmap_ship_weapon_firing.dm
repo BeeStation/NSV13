@@ -15,6 +15,8 @@
 	if(.)
 		next_firetime = world.time + fire_delay
 		linked_overmap.handle_cloak(CLOAK_TEMPORARY_LOSS)
+		if(screen_shake && linked_overmap.linked_areas) //Lets be nice to people who have no chance of making dampeners.
+			linked_overmap.shake_everyone(screen_shake)
 		if(ai_aim)
 			next_firetime += ai_fire_delay
 	else if(inplace_report)

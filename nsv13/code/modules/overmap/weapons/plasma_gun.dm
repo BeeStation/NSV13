@@ -365,10 +365,17 @@
 	flag = "overmap_medium"
 	speed = 8
 	projectile_piercing = ALL
+	///Maximum amount of hits the plasma ball can inflict before losing cohesion
+	var/plasma_charge = 200 //Lets not have plasma balls fly around for all of eternity if the target is immune to medium damage.
 
 /obj/item/projectile/bullet/plasma_caster/process_hit(turf/T, atom/target, atom/bumped, hit_something)
 	. = ..()
-	impacted[target] = FALSE
+	if(hit_something)
+		plasma_charge-- //We end up in here twice each contact which points to doublehitting going on but oh well good enough for now.
+		if(plasma_charge <= 0)
+			projectile_piercing = NONE
+	if(target)
+		impacted[target] = FALSE //This should probably be in a different proc.
 
 /obj/item/projectile/bullet/plasma_caster/fire()
 	. = ..()
@@ -377,10 +384,14 @@
 		return
 	RegisterSignal(homing_target, COMSIG_PARENT_QDELETING, PROC_REF(find_target))
 
-/obj/item/projectile/bullet/plasma_caster/proc/find_target() //Tracking Proc when the weapon initially fires
+/obj/item/projectile/bullet/plasma_caster/proc/find_target(obj/structure/overmap/old_target) //Tracking Proc when the weapon initially fires or its target is destroyed
 	SIGNAL_HANDLER
 	if(homing_target)
 		UnregisterSignal(homing_target, COMSIG_PARENT_QDELETING)
+	homing_target = null
+	if(old_target && old_target.mass > MASS_TINY) //Destroys itself when tracked target blows up, unless it was a fighter.
+		range = 1
+		return
 	if(!overmap_firer)
 		return
 	var/obj/structure/overmap/target_lock
@@ -390,10 +401,6 @@
 		return
 	var/list/targets = target_system.system_contents
 	for(var/obj/structure/overmap/ship in targets)
-		if(QDELETED(ship) && ship.mass != MASS_TINY) //It destroys itself when its target is destroyed, ignoring destroyed fighters
-			new /obj/effect/particle_effect/phoron_explosion(loc) //It shouldn't cause problems unless the weapon is fired at the EXACT time a ship it can target is being destroyed
-			qdel(src)
-			return
 		if(overmap_firer.warcrime_blacklist[ship.type]) //Doesn't target asteroids, same faction, essentials, ships on diff Z Levels, or fighters
 			continue
 		if(ship.mass == MASS_TINY)
@@ -409,10 +416,16 @@
 			continue
 		target_lock = ship
 		target_distance = new_target_distance
-	if(!target_lock)
+	if(!target_lock)	//Lets not have a 25000(!!!) range projectile have a joyride across the system for all of eternity.
+		range = 1
 		return
 	set_homing_target(target_lock)
 	RegisterSignal(homing_target, COMSIG_PARENT_QDELETING, PROC_REF(find_target))
+
+/obj/item/projectile/bullet/plasma_caster/Destroy()
+	if(isturf(loc))
+		new /obj/effect/particle_effect/phoron_explosion(loc)
+	return ..()
 
 /obj/machinery/ship_weapon/plasma_caster/proc/makedarkpurpleslime()
 	if(plasma_mole_amount > 0)
