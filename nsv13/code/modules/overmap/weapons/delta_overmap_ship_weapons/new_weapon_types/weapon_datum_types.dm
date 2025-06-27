@@ -52,12 +52,12 @@
 	return TRUE
 
 /datum/overmap_ship_weapon/hybrid_railgun //Railgun+
-	name = "Coaxial Railguns"
+	name = "Hybrid Railguns"
 	standard_projectile_type = /obj/item/projectile/bullet //This is ultra dodgy
 	burst_size = 1
 	fire_delay = 1 SECONDS
 	optimal_range = 50
-	select_alert = "<span class='notice'>Charging railgun hardpoints...</span>"
+	select_alert = "<span class='notice'>Charging hybrid railgun hardpoints...</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/mac_fire.ogg')
 	overmap_select_sound = 'nsv13/sound/effects/ship/mac_charge.ogg'
 	weapon_aim_flags = OSW_AIMING_BEAM
@@ -440,7 +440,7 @@
 	burst_size = 1
 	fire_delay = 0.35 SECONDS
 	optimal_range = 30
-	select_alert = "<span class='notice'>Missile target acquisition systems: online.</span>"
+	select_alert = "<span class='notice'>STS missile target acquisition systems: online.</span>" //Tiny message difference for ghost ships with both.
 	overmap_firing_sounds = list(
 		'nsv13/sound/effects/ship/torpedo.ogg',
 		'nsv13/sound/effects/ship/freespace2/m_shrike.wav',
