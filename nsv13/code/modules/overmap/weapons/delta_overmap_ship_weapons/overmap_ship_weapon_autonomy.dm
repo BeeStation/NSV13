@@ -231,7 +231,7 @@
 			if(osw.weapon_control_flags & OSW_CONTROL_AI_FULL_AUTONOMY)
 				continue //These weapons are usually only autonomous in AI hands.
 			var/list/permitted_ams_modes = osw.permitted_ams_modes
-			if(!permitted_ams_modes.len || !permitted_ams_modes[amm.name])
+			if(!length(permitted_ams_modes) || !permitted_ams_modes[amm.name])
 				continue
 			if(!osw.can_fire(amm_target))
 				continue

@@ -98,10 +98,10 @@
 	if(old_weapon)
 		old_weapon.on_swap_from()
 	on_swap_to()
-	if(!no_sound && world.time > linked_overmap.switchsound_cooldown)
+	if(overmap_select_sound && !no_sound && world.time > linked_overmap.switchsound_cooldown)
 		linked_overmap.relay(overmap_select_sound)
 		linked_overmap.switchsound_cooldown = world.time + 5 SECONDS
-	if(!no_message && user)
+	if(select_alert && !no_message && user)
 		to_chat(user, select_alert)
 	return TRUE
 
