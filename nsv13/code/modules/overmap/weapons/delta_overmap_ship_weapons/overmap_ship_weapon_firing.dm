@@ -36,7 +36,6 @@
  * Fires available physical weapons, up to burst_size or available ammo, whichever is smaller.
  */
 /datum/overmap_ship_weapon/proc/fire_physical(atom/target, mob/living/firer, ai_aim = FALSE)
-	//OSW WIP - CHECK IF THIS IS ACTUALLY FINE
 	var/fire_count = burst_size
 	for(var/obj/machinery/ship_weapon/firing_weapon in weapons["loaded"])
 		if(!firing_weapon.can_fire(target, minimum_ammo_per_physical_gun))

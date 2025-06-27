@@ -202,7 +202,6 @@
 	var/list/obj/effect/projectile/tracer/current_tracers
 	var/mob/listeningTo
 	var/obj/aiming_target
-	var/aiming_params
 	var/atom/autofire_target = null //LL-OSW WIP - This should be split by user like weapon control sometime, so more than one person can use autofire.
 
 	// Trader delivery locations

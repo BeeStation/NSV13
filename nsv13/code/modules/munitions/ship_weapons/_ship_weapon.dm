@@ -496,7 +496,6 @@
 	//Fun fact: set [waitfor, etc] is special, and is inherited by child procs even if they do not call parent!
 	set waitfor = FALSE //As to not hold up any feedback messages.
 
-	//OSW WIP - MAKE SURE THIS IS HANDLED CORRECTLY!!
 	if(can_fire(target, shots))
 		if(manual)
 			linked.last_fired = overlay

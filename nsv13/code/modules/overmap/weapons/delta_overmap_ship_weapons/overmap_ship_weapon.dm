@@ -6,7 +6,8 @@ Aims to have more integrated functionalities & be more modular / versality than 
 Any flags related to this should start with OSW.
 */
 
-//OSW WIP DENOTES WIP THINGS - search for it and address.
+//OSW WIP DENOTES WIP THINGS.
+//LL Prefix indicates it is somewhat relevant, but is likely not worth implementing right now.
 
 /datum/overmap_ship_weapon
 	//===SECTION - Fluff vars===

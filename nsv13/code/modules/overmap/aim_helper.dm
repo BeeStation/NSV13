@@ -4,6 +4,8 @@
 		if(move_by_mouse && can_move() && !pilot.incapacitated())
 			desired_angle = getMouseAngle(params, M)
 
+	if(!over_object)
+		return
 	// If we're the pilot but not the gunner, don't update gunner-specific information
 	if(!LAZYFIND(gauss_gunners, M) && M != gunner)
 		return
@@ -17,9 +19,8 @@
 	if(aiming)
 		var/datum/overmap_ship_weapon/aimed_weapon = controlled_weapon_datum[M]
 		aiming_target = over_object
-		aiming_params = params
 		if(aimed_weapon)
-			var/real_aim_angle = overmap_angle(src, over_location) //OSW WIP - experi getMouseAngle(params, M)
+			var/real_aim_angle = overmap_angle(get_center(), over_location)
 			last_aiming_angle = real_aim_angle
 			if(aimed_weapon.weapon_aim_flags & OSW_AIMING_BEAM)
 				lastangle = real_aim_angle
@@ -41,6 +42,8 @@
 /obj/structure/overmap/proc/onMouseDown(object, location, params, mob/M)
 	if(istype(object, /atom/movable/screen) && !istype(object, /atom/movable/screen/click_catcher))
 		return
+	if(!object)
+		return
 	if((object in M.contents) || (object == M))
 		return
 	var/datum/component/overmap_gunning/user_gun = M.GetComponent(/datum/component/overmap_gunning)
@@ -53,13 +56,12 @@
 	if(aimed_weapon)
 		if(aimed_weapon.weapon_aim_flags & (OSW_AIMING_BEAM|OSW_SIDE_AIMING_BEAM))
 			aiming_target = object
-			aiming_params = params
-			var/real_aim_angle =  overmap_angle(src, location) //OSW WIP - experi getMouseAngle(params, M)
+			var/real_aim_angle =  overmap_angle(get_center(), location)
 			last_aiming_angle = real_aim_angle
 			if(aimed_weapon.weapon_aim_flags & OSW_AIMING_BEAM)
 				lastangle = real_aim_angle
 			else if(aimed_weapon.weapon_aim_flags & OSW_SIDE_AIMING_BEAM) //If the weapon fires from the sides, we want the aiming laser to lock to the sides
-				if((((overmap_angle(src, location) - angle)%360)+360)%360 <= 180)
+				if((((overmap_angle(get_center(), location) - angle)%360)+360)%360 <= 180)
 					lastangle = (angle + 90) % 360
 				else
 					lastangle = (angle + 270) % 360
@@ -77,8 +79,10 @@
 	if(M != gunner)
 		return
 	autofire_target = null
-	lastangle = overmap_angle(src, get_turf(object))
 	stop_aiming()
+	if(!object)
+		return
+	lastangle = overmap_angle(get_center(), location)
 	var/datum/overmap_ship_weapon/aimed_weapon = controlled_weapon_datum[M]
 	if(aimed_weapon && istype(aimed_weapon))
 		if(aimed_weapon.weapon_aim_flags & (OSW_AIMING_BEAM|OSW_SIDE_AIMING_BEAM))
@@ -109,7 +113,7 @@
  * * aimed_weapon is the overmap weapon datum of the aiming weapon and used for behavior.
  */
 /obj/structure/overmap/proc/draw_beam(force_update = FALSE, datum/overmap_ship_weapon/aimed_weapon)
-	var/diff = max(abs(aiming_lastangle - lastangle)) //L-OSW WIP - make fixed side beams update smoother when turning, my current takes are kind of :/
+	var/diff = abs(aiming_lastangle - lastangle)
 	if(!check_user())
 		return
 	if(world.time < next_beam || (diff < AIMING_BEAM_ANGLE_CHANGE_THRESHOLD && !force_update))
@@ -122,16 +126,7 @@
 	var/obj/item/projectile/beam/overmap/aiming_beam/P = new
 	P.gun = src
 	P.color = "#99ff99"
-	var/turf/curloc = get_center()
-	var/turf/targloc
-	if(istype(aiming_target, /obj/structure/overmap))
-		var/obj/structure/overmap/overmap_aim_target = aiming_target
-		targloc = overmap_aim_target.get_center()
-	else
-		targloc = get_turf(aiming_target)
-	if(!istype(targloc) || !istype(curloc))
-		return
-	P.preparePixelProjectile(targloc, curloc, aiming_params, 0)
+	P.preparePixelProjectileOvermap(aiming_target, src)
 	P.layer = BULLET_HOLE_LAYER
 	P.fire(lastangle)
 
