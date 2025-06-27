@@ -699,11 +699,15 @@ SUBSYSTEM_DEF(overmap_mode)
 
 			//Choose spawn location logic
 			var/target_location
+			var/datum/star_system/target_system
 			switch(alert(usr, "Spawn at a random spot in the current mainship Z level or your location?", "Select Spawn Location", "Ship Z", "Current Loc", "Cancel"))
 				if("Cancel")
 					return
 				if("Ship Z")
 					var/obj/structure/overmap/MS = SSstar_system.find_main_overmap()
+					if(!MS)
+						return //guh?
+					target_system = MS.current_system
 					target_location = locate(rand(round(world.maxx/2) + 10, world.maxx - 39), rand(40, world.maxy - 39), MS.z)
 				if("Current Loc")
 					target_location = usr.loc
@@ -733,6 +737,9 @@ SUBSYSTEM_DEF(overmap_mode)
 
 			//Now the actual spawning
 			var/obj/structure/overmap/GS = new target_ship(target_location)
+			if(target_system)
+				GS.current_system = target_system
+				target_system.system_contents |= GS
 			GS.ghost_ship(target_ghost)
 			message_admins("[key_name_admin(usr)] has spawned a ghost [GS.name]!")
 			log_admin("[key_name_admin(usr)] has spawned a ghost [GS.name]!")

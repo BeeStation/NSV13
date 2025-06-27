@@ -56,7 +56,11 @@
  */
 /datum/overmap_ship_weapon/proc/fire_nonphysical(atom/target, mob/living/firer, ai_aim = FALSE)
 	. = 0
-	var/active_burst = min(burst_size, get_ammo())
+	var/active_burst
+	if(nonphysical_fire_single_ammo_use)
+		active_burst = burst_size //We know we have one ammo because otherwise we wouldn't have passed the can_fire()
+	else
+		active_burst = min(burst_size, get_ammo())
 	if(!active_burst)
 		return
 	if(nonphysical_fire_single_ammo_use)

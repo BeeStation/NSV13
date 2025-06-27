@@ -726,6 +726,9 @@ Adding tasks is easy! Just define a datum for it.
 				var/mob/dead/observer/C = pick(candidates)
 				target_ghost = C
 				var/obj/structure/overmap/GS = new selected_ship(target_location)
+				if(OM.current_system)
+					GS.current_system = OM.current_system
+					OM.current_system |= GS
 				GS.ghost_ship(target_ghost)
 
 

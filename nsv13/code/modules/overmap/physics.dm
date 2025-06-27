@@ -201,6 +201,18 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	angle += angular_velocity * time
 	angle = (angle + 360) % 360 //Nightmare Nightmare Nightmare.
 
+	if(aiming && gunner && controlled_weapon_datum[gunner])
+		var/datum/overmap_ship_weapon/aimed_weapon = controlled_weapon_datum[gunner]
+		if(aimed_weapon.weapon_aim_flags & OSW_SIDE_AIMING_BEAM)
+			var/positive_diff = last_aiming_angle - angle //I swear everytime I write something like this I write it in a different way..
+			if(positive_diff < 0)
+				positive_diff += 360
+			if(positive_diff <= 180) //Adjust broadside angle for turn.
+				lastangle = (angle + 90) % 360
+			else
+				lastangle = (angle + 270) % 360
+			draw_beam(aimed_weapon = aimed_weapon)
+
 	// calculate drag and shit
 
 	var/velocity_mag = velocity.ln() // magnitude

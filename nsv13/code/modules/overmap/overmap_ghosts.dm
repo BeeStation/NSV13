@@ -101,6 +101,7 @@
 
 	if(ghost.key) //Is there a player in control of our ghost?
 		start_piloting(ghost, (OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER))
+		ghost.add_verb(/mob/living/verb/reassume_ship_control)
 		if(tactical)
 			tactical.ui_interact(ghost)
 		ghost_controlled = TRUE
@@ -119,4 +120,16 @@
 		speed_limit *= 2.5
 		shots_left = 500 //Having 15 max cannon shots isn't fun
 		max_shots_left = 500 //pewpewpew
+
+//If you for some reason decided to press the stop piloting button as a ghost ship like a silly gremlin.
+/mob/living/verb/reassume_ship_control()
+	set name = "Reassume Ship Control"
+	set category = "Object"
+
+	if(!isovermap(loc))
+		return
+	var/obj/structure/overmap/ghostie = loc
+	if(ghostie.pilot)
+		return //How even?
+	ghostie.start_piloting(src, OVERMAP_USER_ROLE_PILOT|OVERMAP_USER_ROLE_GUNNER)
 

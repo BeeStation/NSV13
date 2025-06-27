@@ -88,7 +88,6 @@
 	var/next_beam = 0
 	///The real user aim that was aimed at last
 	var/last_aiming_angle = 0
-	var/last_aim_ship_angle = 0
 
 
 /obj/structure/overmap/Move(atom/newloc, direct)
@@ -98,13 +97,8 @@
 	if(!aiming || ai_controlled || !gunner || !controlled_weapon_datum[gunner]) //LL-OSW WIP - if you ever make aiming beams linked to the weapon datum, this has to go too.
 		return
 	var/datum/overmap_ship_weapon/aimed_weapon = controlled_weapon_datum[gunner]
-	switch(aimed_weapon.weapon_aim_flags)
-		if(OSW_AIMING_BEAM)
-			draw_beam(aimed_weapon = aimed_weapon, force_update = TRUE)
-		if(OSW_SIDE_AIMING_BEAM)
-			draw_beam(aimed_weapon = aimed_weapon, force_update = TRUE)
-		else
-			return
+	if(aimed_weapon.weapon_aim_flags & (OSW_AIMING_BEAM|OSW_SIDE_AIMING_BEAM))
+		draw_beam(aimed_weapon = aimed_weapon, force_update = TRUE)
 
 
 //LL-OSW WIP One day aimed_angle should replace lastangle and all those other vars on the overmap so multiple people can use it. Tracers potentially a var on OSW?
