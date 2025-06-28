@@ -50,22 +50,14 @@
 		return
 	dradis.attack_hand(usr)
 
-/obj/structure/overmap/verb/cycle_firemode()
+/obj/structure/overmap/verb/cycle_firemode(mob/M)
 	set name = "Switch firemode"
 	set category = "Ship"
 	set src = usr.loc
-	if(usr != gunner)
+	var/checking_target = M ? M : usr
+	if(checking_target != gunner && checking_target != pilot)
 		return
-
-	var/stop = fire_mode
-	fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapon_types.len + 1)
-
-	for(fire_mode; fire_mode != stop; fire_mode = WRAP_AROUND_VALUE(fire_mode + 1, 1, weapon_types.len + 1))
-		if(swap_to(fire_mode))
-			return TRUE
-
-	// No other weapons available, go with whatever we had before
-	fire_mode = stop
+	increment_selected_weapon(checking_target)
 
 //Small Craft Specific Verbs
 /obj/structure/overmap/small_craft/verb/show_control_panel()
@@ -122,4 +114,4 @@
 	if(!verb_check() || !tactical)
 		return
 
-	tactical.attack_hand(usr)
+	tactical.ui_interact(usr)
