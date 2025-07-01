@@ -804,6 +804,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 		relay(pick('nsv13/sound/effects/ship/freespace2/ding1.wav', 'nsv13/sound/effects/ship/freespace2/ding2.wav', 'nsv13/sound/effects/ship/freespace2/ding3.wav', 'nsv13/sound/effects/ship/freespace2/ding4.wav', 'nsv13/sound/effects/ship/freespace2/ding5.wav'))
 	else
 		. = ..()
+		if(obj_integrity <= 0)
+			return //We're already ejecting or blowing up.
+
 	var/obj/item/fighter_component/canopy/C = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
 	if(!C) //Riding without a canopy is not without consequences
 		if(prob(30)) //Ouch!
