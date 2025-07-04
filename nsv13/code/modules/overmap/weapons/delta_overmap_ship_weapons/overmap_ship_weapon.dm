@@ -346,3 +346,15 @@ Any flags related to this should start with OSW.
 /obj/structure/overmap/proc/purge_overmap_weapon_datums()
 	for(var/datum/overmap_ship_weapon/osw as() in overmap_weapon_datums)
 		qdel(osw) //Qdel handles unlink here.
+
+/**
+ * Admin proc (do not use in the code)
+ * * Creates a new ship weapon datum of the passed type, and automatically links it to this ship.
+ * * weapon_type determines type of weapon created.
+ * * update_role_weapon_lists = FALSE prevents updating the weapon lists. Can be useful if you want to add several weapons before updating.
+ * * Does not have safeties. Make sure the type you hand it is actually a weapon or you'll get a free runtime.
+ */
+/obj/structure/overmap/proc/create_weapon_datum(weapon_type, update_role_weapon_lists = TRUE)
+	var/datum/overmap_ship_weapon/new_weapon = new weapon_type(src, update_role_weapon_lists)
+	return new_weapon
+
