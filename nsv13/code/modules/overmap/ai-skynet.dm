@@ -1377,12 +1377,15 @@ Seek a ship thich we'll station ourselves around
 		if(!(ai_weapon.weapon_control_flags & OSW_CONTROL_AI))
 			continue	//Only weapons the AI can use.
 		if(!ai_weapon.get_ammo())
-			if(!ai_resupply_scheduled)
-				ai_resupply_scheduled = TRUE
-				if(ai_weapon.used_nonphysical_ammo == OSW_AMMO_LIGHT)
-					addtimer(CALLBACK(src, PROC_REF(ai_self_resupply_light)), ai_light_resupply_time)
-				else
-					addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
+			if(ai_resupply_scheduled)
+				continue
+			if(ai_weapon.get_max_ammo() <= 0)
+				continue
+			ai_resupply_scheduled = TRUE
+			if(ai_weapon.used_nonphysical_ammo == OSW_AMMO_LIGHT)
+				addtimer(CALLBACK(src, PROC_REF(ai_self_resupply_light)), ai_light_resupply_time)
+			else
+				addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
 			continue //If we are out of shots. Continue.
 		if(!ai_weapon.can_fire(target))
 			continue
@@ -1416,12 +1419,15 @@ Seek a ship thich we'll station ourselves around
 		if(!(ai_weapon.weapon_control_flags & OSW_CONTROL_AI))
 			continue	//Only weapons the AI can use.
 		if(!ai_weapon.get_ammo())
-			if(!ai_resupply_scheduled && ai_weapon.get_max_ammo() > 0)
-				ai_resupply_scheduled = TRUE
-				if(ai_weapon.used_nonphysical_ammo == OSW_AMMO_LIGHT)
-					addtimer(CALLBACK(src, PROC_REF(ai_self_resupply_light)), ai_light_resupply_time)
-				else
-					addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
+			if(ai_resupply_scheduled)
+				continue
+			if(ai_weapon.get_max_ammo() <= 0)
+				continue
+			ai_resupply_scheduled = TRUE
+			if(ai_weapon.used_nonphysical_ammo == OSW_AMMO_LIGHT)
+				addtimer(CALLBACK(src, PROC_REF(ai_self_resupply_light)), ai_light_resupply_time)
+			else
+				addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
 			continue //If we are out of shots. Continue.
 		if(!ai_weapon.can_fire(target))
 			continue
