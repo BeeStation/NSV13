@@ -313,6 +313,10 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	missile_type = /obj/item/projectile/guided_munition/missile/ai
 	combat_dice_type = /datum/combat_dice/frigate
 
+/obj/structure/overmap/nanotrasen/ai/apply_weapons()
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+
 /obj/structure/overmap/nanotrasen/patrol_cruiser/ai
 	ai_controlled = TRUE
 	ai_behaviour = AI_AGGRESSIVE
@@ -321,6 +325,11 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
 	ai_flags  = AI_FLAG_BATTLESHIP | AI_FLAG_DESTROYER
 	combat_dice_type = /datum/combat_dice/destroyer
+
+/obj/structure/overmap/nanotrasen/patrol_cruiser/ai/apply_weapons()
+	new /datum/overmap_ship_weapon/mac(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
 
 /obj/structure/overmap/nanotrasen/heavy_cruiser/ai
 	ai_controlled = TRUE
@@ -331,6 +340,11 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/cruiser
 
+/obj/structure/overmap/nanotrasen/heavy_cruiser/ai/apply_weapons()
+	new /datum/overmap_ship_weapon/mac(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+
 /obj/structure/overmap/nanotrasen/battleship/ai
 	obj_integrity = 1000
 	max_integrity = 1000
@@ -338,6 +352,11 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	ai_controlled = TRUE
 	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/battleship
+
+/obj/structure/overmap/nanotrasen/battleship/ai/apply_weapons()
+	new /datum/overmap_ship_weapon/mac(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
 
 /obj/structure/overmap/nanotrasen/frigate/ai
 	ai_controlled = TRUE
@@ -349,6 +368,12 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	armor = list("overmap_light" = 90, "overmap_medium" = 60, "overmap_heavy" = 20)
 	combat_dice_type = /datum/combat_dice/cruiser
 
+/obj/structure/overmap/nanotrasen/frigate/ai/apply_weapons()
+	new /datum/overmap_ship_weapon/torpedo_launcher(src, FALSE)
+	new /datum/overmap_ship_weapon/missile_launcher(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+
 /obj/structure/overmap/nanotrasen/battlecruiser/ai
 	ai_controlled = TRUE
 	ai_flags = AI_FLAG_BATTLESHIP
@@ -356,6 +381,11 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	max_integrity = 450
 	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 30)
 	combat_dice_type = /datum/combat_dice/cruiser
+
+/obj/structure/overmap/nanotrasen/battlecruiser/ai/apply_weapons()
+	new /datum/overmap_ship_weapon/mac(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
 
 /obj/structure/overmap/nanotrasen/carrier/ai
 	ai_controlled = TRUE
@@ -370,11 +400,10 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	combat_dice_type = /datum/combat_dice/carrier
 
 /obj/structure/overmap/nanotrasen/carrier/ai/apply_weapons()
+	new /datum/overmap_ship_weapon/mac(src, FALSE)
 	new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
-	new /datum/overmap_ship_weapon/torpedo_launcher(src, FALSE)
 	new /datum/overmap_ship_weapon/flak(src, FALSE)
-	new /datum/overmap_ship_weapon/gauss(src, FALSE) //AI ships want to be able to use gauss too. I say let them...
-	new /datum/overmap_ship_weapon/missile_launcher(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 
 /obj/structure/overmap/nanotrasen/ai/fighter
 	name = "Viper class light fighter"
@@ -393,6 +422,7 @@ Technically zero are needed, but those manually set are immune to deletion from 
 	bound_width = 32 //Change this on a per ship basis
 	bound_height = 32
 	combat_dice_type = /datum/combat_dice/fighter
+	missiles = 3 //Just like ours.
 
 /obj/structure/overmap/nanotrasen/ai/fighter/apply_weapons()
 	new /datum/overmap_ship_weapon/light_cannon(src, FALSE)
