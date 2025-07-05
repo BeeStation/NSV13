@@ -903,6 +903,8 @@ Adding tasks is easy! Just define a datum for it.
 		return AI_SCORE_SUPERPRIORITY
 	if(OM.max_shots_left && OM.shots_left < OM.max_shots_left/3)
 		return AI_SCORE_PRIORITY
+	if(OM.max_torpedoes && OM.torpedoes == 0) //For torp, we only go back to rearm if we don't have any left at all.
+		return AI_SCORE_PRIORITY //For now, lets deem missiles as not important enough to run to rearm.
 	return 0
 
 /datum/ai_goal/rearm/action(obj/structure/overmap/OM)
