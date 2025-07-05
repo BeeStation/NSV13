@@ -28,6 +28,12 @@ GLOBAL_LIST_EMPTY(knpcs)
 		)) // climbable things
 	var/pathfind_timeout = 0 //If pathfinding fails, it is püt in timeout for a while to avoid spamming the server with pathfinding calls.
 	var/timeout_stacks = 0 //Consecutive pathfind fails add additional delay stacks to further counteract the effects of knpcs in unreachable locations.
+	///Time since when we have been disabled.
+	var/failsafe_timer = 0
+	///Each knpc has their own level of restraint before deciding to take desperate measures, but this is the base value.
+	var/failsafe_trust = 3 SECONDS
+	///This determines the maximum variance freom the base value of a particular knpc. Modifies upwards only.
+	var/failsafe_trust_variance = 3 SECONDS
 
 /mob/living/carbon/human/ai_boarder
 	faction = list("Neutral")
@@ -61,6 +67,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 /datum/component/knpc/Initialize()
 	if(!iscarbon(parent))
 		return COMPONENT_INCOMPATIBLE
+	failsafe_trust = rand(failsafe_trust, (failsafe_trust + failsafe_trust_variance))
 	if(!ai_goals)
 		for(var/gtype in subtypesof(/datum/ai_goal/human))
 			LAZYADD(ai_goals, new gtype)
@@ -273,13 +280,13 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/mob/living/carbon/human/ai_boarder/H = parent
 	if(H.stat == DEAD)
 		return PROCESS_KILL
-	if(!H.can_resist())
-		if(H.incapacitated()) //In crit or something....
-			return
 	if(world.time >= next_action)
 		next_action = world.time + H.action_delay
 		pick_goal()
 		current_goal?.action(src)
+	if(!H.can_resist())
+		if(H.incapacitated()) //In crit or something....
+			return
 	if(length(path))
 		next_path_step()
 	else //They should always be pathing somewhere...
@@ -630,7 +637,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		support_text += text
 	else
 		support_text += pick(H.call_lines)
-	H.say(support_text)
+	H.say(support_text, forced = "knpc AI")
 
 	// Call for other intelligent AIs
 	for(var/datum/component/knpc/HH as() in GLOB.knpcs - HA)
@@ -643,7 +650,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 			var/thetext = (other_radio) ? "; " : ""
 			thetext += pick(H.response_lines)
 			HH.pathfind_to(H)
-			other.say(thetext)
+			other.say(thetext, forced = "knpc AI")
 	//Firstly! Call for the simplemobs..
 	for(var/mob/living/simple_animal/hostile/M in oview(HA.view_range, HA.parent))
 		if(H.faction_check_mob(M, TRUE))
@@ -869,6 +876,41 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		H.put_in_active_hand(P) //Roll Up Your Sleeve
 		P.attack(H, H) //Self Vax
 		P.forceMove(get_turf(H)) //Litter because doing one good thing is enugh for today
+
+//Alternate capture reaction for those with microbombs.
+/datum/ai_goal/human/deny_capture
+	name = "Deny Capture"
+	score = AI_SCORE_SUPERCRITICAL
+	required_ai_flags = NONE
+
+/datum/ai_goal/human/deny_capture/check_score(datum/component/knpc/HA)
+	. = ..()
+	if(!.)
+		return 0
+	var/mob/living/carbon/human/knpc_mob = HA.parent
+	if(!(locate(/datum/action/item_action/explosive_implant) in knpc_mob.actions))
+		return 0
+	if(knpc_mob.handcuffed || knpc_mob.get_num_arms() == 0 || knpc_mob.IsUnconscious() || knpc_mob.IsSleeping() || (knpc_mob.stat && knpc_mob.health <= -20))
+		if(!HA.failsafe_timer)
+			HA.failsafe_timer = world.time
+		else if(world.time - HA.failsafe_timer >= HA.failsafe_trust)
+			return score
+	else
+		HA.failsafe_timer = 0
+	return 0
+
+//Override.
+/datum/ai_goal/human/deny_capture/action(datum/component/knpc/HA)
+	var/mob/living/carbon/human/knpc_mob = HA.parent
+	if(QDELETED(knpc_mob) || knpc_mob.client)
+		return
+	var/datum/action/item_action/explosive_implant/boom_action = (locate() in knpc_mob.actions)
+	if(!boom_action) //Guh?
+		return
+	if(knpc_mob.stat == CONSCIOUS)
+		knpc_mob.say(pick("No retreat, no surrender!", "YOU WILL NEVER TAKE ME ALIVE!!", "TAKE THAT!!"), forced = "knpc AI")
+	boom_action.Trigger()
+
 
 #undef AI_TRAIT_BRAWLER
 #undef AI_TRAIT_SUPPORT
