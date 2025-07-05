@@ -75,6 +75,13 @@ Been a mess since 2018, we'll fix it someday (probably)
 	last_overmap?.overmaps_in_ship -= src
 	return ..()
 
+/obj/structure/overmap/small_craft/fire_weapon(atom/target, mob/user, datum/overmap_ship_weapon/firing_weapon, ai_aim=FALSE)
+	if(weapon_safety) //If you get in here with safeties active.
+		if(user)
+			to_chat(user, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
+		return
+	return ..()
+
 /obj/structure/overmap/small_craft/start_piloting(mob/living/carbon/user, position)
 	. = ..()
 	if(.)
