@@ -90,6 +90,10 @@
 	combat_dice_type = /datum/combat_dice/frigate
 	possible_interior_maps = list(/datum/map_template/boarding/mako)
 
+/obj/structure/overmap/syndicate/ai/apply_weapons()
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+
 /obj/structure/overmap/syndicate/ai/Initialize(mapload)
 	. = ..()
 	name = "[name] ([rand(0,999)])"
@@ -152,6 +156,12 @@
 	combat_dice_type = /datum/combat_dice/destroyer/conflagration
 	possible_interior_maps = list(/datum/map_template/boarding/nuclear)
 
+/obj/structure/overmap/syndicate/ai/conflagration/apply_weapons()
+	new /datum/overmap_ship_weapon/torpedo_launcher(src, FALSE)
+	new /datum/overmap_ship_weapon/missile_launcher(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+
 /obj/structure/overmap/syndicate/ai/conflagration/elite
 	name = "Nightmare class hellfire deterrent"
 	icon_state = "megamouth_elite"
@@ -184,6 +194,11 @@
 	combat_dice_type = /datum/combat_dice/destroyer
 	possible_interior_maps = list(/datum/map_template/boarding/destroyer)
 
+/obj/structure/overmap/syndicate/ai/destroyer/apply_weapons()
+	new /datum/overmap_ship_weapon/missile_launcher(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+
 /obj/structure/overmap/syndicate/ai/destroyer/spec_collision_handling(obj/structure/overmap/other_ship, list/impact_powers, impact_angle)
 	var/modified_angle = 360 - ((angle + 630) % 360)
 	var/angle_diff = impact_angle - modified_angle
@@ -204,6 +219,10 @@
 	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	combat_dice_type = /datum/combat_dice/destroyer
 
+/obj/structure/overmap/syndicate/ai/destroyer/elite/apply_weapons()
+	. = ..()
+	new /datum/overmap_ship_weapon/torpedo_launcher(src)
+
 /obj/structure/overmap/syndicate/ai/destroyer/flak
 	name = "Hammerhead class flak destroyer"
 	icon_state = "hammerhead"
@@ -216,8 +235,10 @@
 	combat_dice_type = /datum/combat_dice/destroyer/flycatcher
 
 /obj/structure/overmap/syndicate/ai/destroyer/flak/apply_weapons()
-	. = ..()
-	new /datum/overmap_ship_weapon/flak(src, TRUE, 2)
+	new /datum/overmap_ship_weapon/mac(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/flak(src, FALSE, 2)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
 
 /obj/structure/overmap/syndicate/ai/cruiser
 	name = "Barracuda class tactical cruiser"
@@ -247,6 +268,10 @@
 	missiles = 10
 	bounty = 4000
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_ELITE
+
+/obj/structure/overmap/syndicate/ai/cruiser/elite/apply_weapons()
+	. = ..()
+	new /datum/overmap_ship_weapon/missile_launcher(src)
 
 /datum/map_template/boarding/carrier
 	name = "carrier (interior)"
@@ -290,10 +315,8 @@
 
 /obj/structure/overmap/syndicate/ai/carrier/apply_weapons()
 	new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
-	new /datum/overmap_ship_weapon/torpedo_launcher(src, FALSE)
 	new /datum/overmap_ship_weapon/flak(src, FALSE)
-	new /datum/overmap_ship_weapon/gauss(src, FALSE) //AI ships want to be able to use gauss too. I say let them...
-	new /datum/overmap_ship_weapon/missile_launcher(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 
 /obj/structure/overmap/syndicate/ai/battleship //Larger ship which is much harder to kill
 	name = "SSV Sol's Revenge"
@@ -319,8 +342,8 @@
 	new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
 	var/datum/overmap_ship_weapon/second_aa_gun = new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
 	second_aa_gun.fire_delay += 5 //Lets make these not sync up!
+	second_aa_gun.burst_fire_delay += 1
 	new /datum/overmap_ship_weapon/flak(src, FALSE)
-	new /datum/overmap_ship_weapon/torpedo_launcher(src, FALSE)
 	new /datum/overmap_ship_weapon/mac(src)
 
 /obj/structure/overmap/syndicate/ai/assault_cruiser //A big box of tank which is hard to take down, and lethal up close.
@@ -452,10 +475,12 @@
 	. = ..()
 	if(obj_integrity > integrity_failure) //Reset our torp type if we have been healed
 		torpedo_type = initial(torpedo_type)
+		max_torpedoes = 20
 
 /obj/structure/overmap/syndicate/ai/submarine/elite/obj_break() //Unused for overmaps, so we just steal it to make damage phases :3c
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/viscerator/ai
 	torpedoes = CLAMP((torpedoes),2 , 3) //This is their secret weapon, they only have a few of these
+	max_torpedoes = 3
 
 /obj/structure/overmap/syndicate/ai/kadesh	//I sure wonder what this one does....
 	name = "Kadesh class advanced cruiser"
