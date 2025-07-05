@@ -23,6 +23,7 @@ you build.
 	var/obj/item/radio/radio //For engineering alerts.
 	var/radio_key = /obj/item/encryptionkey/headset_sci
 	var/channel = "Science"
+	var/broadcast = TRUE
 
 /obj/machinery/computer/ship/navigation/astrometrics/Initialize(mapload)
 	. = ..()
@@ -74,6 +75,7 @@ Clean override of the navigation computer to provide scan functionality.
 	data["can_cancel"] = (scan_target) ? TRUE : FALSE
 	data["scan_progress"] = scan_progress
 	data["scan_goal"] = scan_goal
+	data["broadcast"] = broadcast
 	return data
 
 /obj/machinery/computer/ship/navigation/astrometrics/is_in_range(datum/star_system/current_system, datum/star_system/system)
@@ -90,6 +92,7 @@ Clean override of the navigation computer to provide scan functionality.
 		return
 	var/list/info = SSstar_system.ships[linked]
 	var/datum/star_system/current_system = info["current_system"]
+	var/message
 	switch(action)
 		if("scan")
 			if(!is_in_range(current_system, selected_system))
@@ -97,9 +100,8 @@ Clean override of the navigation computer to provide scan functionality.
 			scan_progress = 0 //Jus' in case.
 			scan_goal = scan_goal_system
 			scan_target = selected_system
-			say("Initiating scan of: [scan_target]")
 			playsound(src, 'nsv13/sound/voice/scan_start.wav', 100, FALSE)
-			radio.talk_into(src, "Initiating scan of: [scan_target]", channel)
+			message = "Initiating scan of: [scan_target]"
 		if("scan_anomaly")
 			var/obj/effect/overmap_anomaly/target = locate(params["anomaly_id"])
 			if(!istype(target))
@@ -107,21 +109,24 @@ Clean override of the navigation computer to provide scan functionality.
 			scan_progress = 0 //Jus' in case.
 			scan_goal = scan_goal_anomaly
 			scan_target = target
-			say("Initiating scan of: [scan_target]")
-			radio.talk_into(src, "Initiating scan of: [scan_target]", channel)
+			message = "Initiating scan of: [scan_target]"
 		if("cancel_scan")
 			if(!scan_target)
 				return
-			say("Scan of [scan_target] cancelled!")
 			playsound(src, 'nsv13/sound/voice/scanning_cancelled.wav', 100, FALSE)
-			radio.talk_into(src, "Scan of [scan_target] cancelled!", channel)
+			message = "Scan of [scan_target] cancelled!"
 			scan_progress = 0
 			scan_target = null
 		if("info")
 			var/obj/effect/overmap_anomaly/target = locate(params["anomaly_id"])
 			if(!istype(target))
 				return
-			to_chat(usr, "<span class='notice'>[icon2html(target)]: [target.desc]</span>")
+			to_chat(usr, "<span class='notice'>[target][icon2html(target)]: [target.desc]</span>")
+		if("broadcast")
+			broadcast = !broadcast
+	if(broadcast && message)
+		say(message)
+		radio.talk_into(src, message, channel)
 
 /obj/machinery/computer/ship/navigation/astrometrics/process(delta_time)
 	if(scan_target)

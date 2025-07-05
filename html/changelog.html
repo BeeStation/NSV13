@@ -56,179 +56,49 @@
 		-->
 		<div class="commit sansserif">
 
-			<h2 class="date">01 May 2025</h2>
+			<h2 class="date">04 July 2025</h2>
+			<h3 class="author">DeltaFire15, PowerfulBacon updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Objects no longer continue drifting as if at 0 gravity when picked up / moved into another object.</li>
+			</ul>
+			<h3 class="author">riquewright updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added missing sprites for the Stormdrive repair steps</li>
+				<li class="rscadd">Added a proper sprite for the Stormdrive core</li>
+			</ul>
+
+			<h2 class="date">28 June 2025</h2>
 			<h3 class="author">Bokkiewokkie updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Added Hardmode</li>
-				<li class="bugfix">Fixed the overmap gamemode panel being unable to switch gamemodes properly</li>
-				<li class="refactor">Added spawn fleet proc for starsystems</li>
-				<li class="config">Updated minimum build version to 515.1633 and max client version to 515.1647</li>
-			</ul>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="balance">Being warm no longer bypasses insulation (sort of, it was worse than that but I'm not elaborating here) when in a colder environment than you.</li>
-			</ul>
-			<h3 class="author">HowToLoLu updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Buttons on nuclear bomb interfaces no longer overlap.</li>
-			</ul>
-			<h3 class="author">Invictus282, etherware-novice, 13spacemen, Gandalf2k15, Absolucy updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Examine boxes for examining, scanners, usage of multitools on cables, Geiger counters, clothing tags, tips of the round, status effects, inspecting one's self for injuries, and mood.</li>
-				<li class="rscadd">Nanite scanners display program rules.</li>
-				<li class="rscadd">Examining a squad leader finder when there is no squad leader says "_Your squad leader is: UNASSIGNED._"</li>
-				<li class="bugfix">Squad leader finder examination messages have periods and the message for syncing a gene sequencer with a scanning console has a capitalized start.</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">pilots dying in fighters turns on docking mode</li>
+				<li class="rscadd">Added a mute button to the Astrometrics console</li>
 			</ul>
 
-			<h2 class="date">18 April 2025</h2>
-			<h3 class="author">BetaCentari updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added crate loading for the broadside cannons</li>
-				<li class="rscadd">Added swabber for cleaning the broadsides</li>
-				<li class="rscadd">Added depleted uranium broadside shells</li>
-				<li class="rscadd">Added backblast to the broadsides</li>
-				<li class="rscadd">Added misfiring to the broadsides</li>
-				<li class="rscadd">Added aiming laser to the broadside cannons</li>
-				<li class="rscadd">Added swabbers to appropriate ships</li>
-				<li class="balance">Increased rate of fire for broadsides</li>
-				<li class="bugfix">fixed duplicating empty shells on the broadsides</li>
-				<li class="soundadd">Added swabbing sound effect</li>
-				<li class="imageadd">Added sprites for how dirty the broadsides are</li>
-				<li class="code_imp">Changed order of code for fire() proc</li>
-			</ul>
+			<h2 class="date">13 June 2025</h2>
 			<h3 class="author">DeltaFire15 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Escape pods now show up on the minimap during relevant times (aka when the escape shuttle is doing something).</li>
-				<li class="imageadd">Escape pod minimap marker.</li>
-				<li class="tweak">Escape pods are now valid areas for the holomap.</li>
-				<li class="bugfix">Holomaps now init later to allow them to render shuttles (when said shuttle area is allowed).</li>
-				<li class="bugfix">Hangar areas are now displayed in the correct color when on the holomap.</li>
-				<li class="code_imp">Shifted around a bit of code in the holomap subsystem which should have no additional effect.</li>
-				<li class="bugfix">Engineering areas should now more consistently be colored in engineering's color on the holomap.</li>
-			</ul>
-
-			<h2 class="date">16 April 2025</h2>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="balance">keycard authentication devices require an ID to use.</li>
-				<li class="balance">IDs used to initiate / confirm keycard auth events must not be the same ID.</li>
-				<li class="bugfix">GQ (red) lights auto-disabling after some time isn't broken anymore.</li>
-				<li class="bugfix">Zebra alert doesn't allow non-operational firelocks to operate.</li>
-				<li class="tweak">the zebra interlock mapping helper is now deprecated (as it didn't actually do anything).</li>
-				<li class="rscdel">Window spawners no longer contain a zebra interlock mapping helper.</li>
-				<li class="bugfix">Corrected some global proc callbacks.</li>
-				<li class="bugfix">Manually triggering a lightning discharge via tesla coils now respects current grid load when deciding zap power.</li>
+				<li class="rscadd">Syndicate boarders are fairly likely to react rather explosively to attempts to subdue them.</li>
+				<li class="bugfix">Some knpc voicelines now correctly declare they are forced by the game.</li>
 			</ul>
 			<h3 class="author">EvilDragonfiend updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="code_imp">fixed some code that didn't use random pill shape correctly</li>
-				<li class="rscdel">weirdly implemented pill image folder</li>
-				<li class="code_imp">medicine_containers image asset that is used by chemmaster tgui. old pill asset list is removed.</li>
-				<li class="tweak">chem master will now use more wider pill & patch options</li>
-				<li class="imagedel">removed unused pill image (pill0) which is actually a duplication of a pill image(pill18). also arranged pill image order.</li>
-				<li class="imageadd">angry pill, sad pill, and question pill (random pick one)... new pill colours - pink, indigo, red, orange, etc... and pill example dummy image.</li>
-				<li class="imageadd">blank patch sprites</li>
+				<li class="bugfix">Fixed /image ref was identified as /appearance in vv editor</li>
+				<li class="code_imp">VV now shows which color a RGB text refers to.</li>
 			</ul>
-			<h3 class="author">QAI-07 updated:</h3>
+			<h3 class="author">Ikalpo updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Added 9 new Syndicate Simplemobs.</li>
-				<li class="rscadd">Added 5 new friendly Nanotrasen simplemobs</li>
-			</ul>
-			<h3 class="author">SerynEngi updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added Conquest beacons to Aetherwhisp and Eclipse</li>
-				<li class="rscadd">Added O2/N2/Plasma Gas miners to the Aetherwhisp</li>
-				<li class="rscdel">Removed firelock mapping helpers from Aetherwhisp</li>
-			</ul>
-			<h3 class="author">riquewright updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added an admin-spawn Cindy Kate colorizer</li>
-				<li class="tweak">The Ace colorizer should now properly apply the associated canopy sprites</li>
-				<li class="imageadd">Ace fighter additional canopy sprites & Cindy Kate rapier sprite</li>
-				<li class="code_imp">canopy overlay code should now actively update colorized fighters</li>
+				<li class="bugfix">Fixed gauss ammo being invisible and unclickable when the gun is destroyed.</li>
+				<li class="bugfix">Fixed getting stuck in gauss chairs.</li>
+				<li class="bugfix">Fixed getting sent to nullspace when entering a destroyed gauss gun.</li>
+				<li class="rscadd">Incapacitated or disconnected players get booted out of gauss guns automatically.</li>
 			</ul>
 
-			<h2 class="date">04 April 2025</h2>
-			<h3 class="author">Bokkiewokkie updated:</h3>
+			<h2 class="date">30 May 2025</h2>
+			<h3 class="author">BetaCentari updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed various runtimes to do with the FTL and parallax</li>
-			</ul>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscdel">Removed a broken shield hook that hasn't been working for I don't even know how long.</li>
-				<li class="bugfix">Space mines can't blow up several times.</li>
-				<li class="bugfix">Some weird space mine collision behavior I have been unable to reproduce might no longer occur.</li>
-				<li class="bugfix">Space mine obj_break is only fully executed once.</li>
-			</ul>
-			<h3 class="author">SerynEngi updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="balance">Increased the armor and health of Tycoon, Gladius, and Galactica</li>
-				<li class="bugfix">Fixed the Atlas Damage Control Monitoring telescreen.</li>
-				<li class="rscadd">Added variants of torpedos and missiles for AI usage</li>
-				<li class="balance">Buffed the durability of player ship missiles and torps</li>
-			</ul>
-			<h3 class="author">riquewright updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="imageadd">pirate boarding pod sprites</li>
-			</ul>
-
-			<h2 class="date">28 March 2025</h2>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Ghosts can no longer turn on / off cryo tubes.</li>
-				<li class="bugfix">Resolved some edge case behavior when an ai ship lacks gun to shoot.</li>
-			</ul>
-			<h3 class="author">bluewasabi24 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added radio announcements to MPAC.</li>
-				<li class="tweak">Moved BSRPED and heavy inducers to be more accessible to non-command engineers on Serendipity.</li>
-				<li class="tweak">Expanded atmos on Serendipity.</li>
-				<li class="bugfix">Fixed power grid overlap on Serendipity.</li>
-				<li class="bugfix">Resolved piping issues on Serendipity.</li>
-				<li class="tweak">Expanded munitions on Serendipity.</li>
-				<li class="imageadd">Updated tesla coil and grounding rod anchor state sprites</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Alt-click fighter components to unload its contents</li>
-			</ul>
-
-			<h2 class="date">27 March 2025</h2>
-			<h3 class="author">SerynEngi updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Added public tool storage to the upper deck squad vendor area of Tycoon</li>
-				<li class="tweak">Reworked Tycoon supply and service department</li>
-				<li class="tweak">Cleaned up various atmospheric piping and wiring on the Tycoon</li>
-			</ul>
-
-			<h2 class="date">26 March 2025</h2>
-			<h3 class="author">Tsar-Salat, Ghilker, RKz updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Examining atmos components and pipes now show their piping layer.</li>
-			</ul>
-			<h3 class="author">red031000 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fix mobs being able to flap their wings when they don't have wings</li>
-			</ul>
-			<h3 class="author">someone543 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">fixed helmet camera installation</li>
-			</ul>
-
-			<h2 class="date">21 March 2025</h2>
-			<h3 class="author">DeltaFire15 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">Emergency Jumps, a highly hazardous get-out-of-jail card.</li>
-				<li class="soundadd">Sounds related to emergency jumps.</li>
-				<li class="bugfix">relay() no longer tries to play null sounds if no sound is provided to it (something done quite a lot)</li>
-			</ul>
-			<h3 class="author">bluewasabi24 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">updated zones on the Snake to reflect accurately</li>
+				<li class="bugfix">Fixed issue where anyone could alt click rotate ammo stackers or torp factory machines from range</li>
+				<li class="imageadd">Added sprites for missile casings</li>
+				<li class="imageadd">Slightly modified torpedo and missile warhead sprites</li>
+				<li class="imageadd">Added animation sprites for Blender, Gibber, and Processor</li>
 			</ul>
 		</div>
 
