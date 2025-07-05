@@ -175,7 +175,7 @@
 	size = 1
 	allow_difficulty_scaling = FALSE
 	battleship_types = list(/obj/structure/overmap/syndicate/ai/battleship)
-	audio_cues = list("/datum/soundtrack_song/bee/finale")
+	audio_cues = list(/datum/soundtrack_song/bee/finale)
 	taunts = list("Your assault on Rubicon only served to distract you from the real threat. It's time to end this war in one swift blow.")
 	fleet_trait = FLEET_TRAIT_DEFENSE
 
