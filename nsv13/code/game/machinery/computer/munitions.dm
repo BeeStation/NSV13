@@ -126,7 +126,6 @@
 		data["max_ammo"] = 0
 		data["maint_req"] = 25
 		data["max_maint_req"] = 0
-	data["pdc_mode"] = FALSE //Gauss overrides this behaviour.
 	return data
 
 /obj/machinery/computer/ship/munitions_computer/proc/get_multitool(mob/user)
@@ -148,6 +147,8 @@
 	desc = "This console provides a succinct overview of the ship-to-ship weapons."
 	icon_screen = "tactical"
 	circuit = /obj/item/circuitboard/computer/ship/ordnance_computer
+	///If additional info about our weapons is shown
+	var/additional_weapon_info = TRUE
 
 /obj/machinery/computer/ship/ordnance/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -160,14 +161,25 @@
 /obj/machinery/computer/ship/ordnance/ui_data(mob/user)
 	. = ..()
 	var/list/data = list()
-	for(var/datum/ship_weapon/SW_type in linked.weapon_types)
-		var/ammo = 0
-		var/max_ammo = 0
-		var/thename = SW_type.name
-		for(var/obj/machinery/ship_weapon/SW in SW_type.weapons["all"])
-			if(!SW)
-				continue
-			max_ammo += SW.get_max_ammo()
-			ammo += SW.get_ammo()
-		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo))
+	data["additional_weapon_info"] = additional_weapon_info
+	for(var/datum/overmap_ship_weapon/osw in linked.overmap_weapon_datums)
+		var/ammo = osw.get_ammo()
+		var/max_ammo = max(1, osw.get_max_ammo()) //Has to be like this because of divby0
+		var/thename = osw.name
+		var/controllers = null
+		var/ammo_filter = null
+		if(additional_weapon_info)
+			controllers = osw.get_controller_string()
+			if(osw.ammo_filter)
+				var/obj/prototype_ammo = osw.ammo_filter
+				ammo_filter = initial(prototype_ammo.name)
+		data["weapons"] += list(list("name" = thename, "ammo" = ammo, "maxammo" = max_ammo, "controllers" = controllers, "ammo_filter" = ammo_filter))
 	return data
+
+/obj/machinery/computer/ship/ordnance/ui_act(action, params)
+	. = ..()
+	if(.)
+		return
+	switch(action)
+		if("toggle_additional_weapon_info")
+			additional_weapon_info = !additional_weapon_info

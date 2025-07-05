@@ -190,7 +190,7 @@
 			target.angle = target.desired_angle
 			target.velocity.a = 20
 		if(dir & WEST)
-			target.desired_angle -= 90
+			target.desired_angle += 270
 			target.velocity.a = -20
 		target.angle = target.desired_angle
 		var/obj/structure/overmap/our_overmap = get_overmap()
