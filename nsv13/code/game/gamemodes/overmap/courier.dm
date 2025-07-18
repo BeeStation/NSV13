@@ -6,7 +6,7 @@
 	starting_system = "Argo"
 	starting_faction = "nanotrasen"
 
-	objective_reminder_setting = 0
+	objective_reminder_setting = MODE_REMINDER_OBJECTIVES
 	reminder_one = "This is Centcomm to all vessels assigned to patrol the Rosetta Cluster, please continue on your delivery."
 	reminder_two = "This is Centcomm to all vessels assigned to patrol the Rosetta Cluster, we are not paying you to idle in space during your assignment."
 	reminder_three = "This is Centcomm to all vessels assigned to patrol the Rosetta Cluster, your inactivity has been noted and will not be tolerated."
@@ -21,6 +21,7 @@
 	debug_mode = FALSE
 
 /datum/overmap_gamemode/courier/New()
+	. = ..()
 	random_objectives = subtypesof( /datum/overmap_objective/cargo/donation ) + subtypesof( /datum/overmap_objective/cargo/transfer )
 
 	if ( debug_mode ) // I upend your code for my personal pleasure
