@@ -7,12 +7,13 @@
 	bound_height = 64
 	pixel_y = -64
 
-	fire_mode = FIRE_MODE_RAILGUN
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
 
 	dir = 4
 	semi_auto = TRUE
 	max_ammo = 4 //Until you have to manually load it back up again. Battleships IRL have 3-4 shots before you need to reload the rack
+
+	weapon_datum_type = /datum/overmap_ship_weapon/railgun
 
 	var/req_components = list(
 		/obj/item/stock_parts/capacitor = 4,
@@ -102,6 +103,3 @@
 
 /obj/machinery/ship_weapon/railgun/MouseDrop_T(obj/structure/A, mob/user)
 	return
-
-/obj/machinery/ship_weapon/railgun/animate_projectile(atom/target)
-	linked.fire_projectile(weapon_type.default_projectile_type, target, TRUE)
