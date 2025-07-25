@@ -181,8 +181,8 @@
 
 	// If the person attempting to buckle is stood on this atom's turf and they're not buckling themselves,
 	// buckling shouldn't be possible as they're blocking it.
-	if((target != user) && (get_turf(user) == get_turf(src)))
-		to_chat(target, "<span class='warning'>You are unable to buckle [target] to [src] while it is blocked!</span>")
+	if((target != user) && (user != src) && (get_turf(user) == get_turf(src)))
+		to_chat(user, "<span class='warning'>You are unable to buckle [target] to [src] while it is blocked!</span>")
 		return FALSE
 
 	return TRUE
