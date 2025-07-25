@@ -12,7 +12,6 @@
 
 //	circuit = /obj/item/circuitboard/machine/pdc_mount
 
-	fire_mode = FIRE_MODE_FLAK
 	magazine_type = /obj/item/ammo_box/magazine/nsv/flak
 
 	auto_load = TRUE
@@ -35,6 +34,8 @@
 	chamber_delay_rapid = 0
 	chamber_delay = 0
 	bang = FALSE
+
+	weapon_datum_type = /datum/overmap_ship_weapon/flak
 
 /obj/machinery/ship_weapon/pdc_mount/flak/animate_projectile(atom/target)
 	var/obj/item/projectile/bullet/B = ..()
