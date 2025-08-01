@@ -150,7 +150,6 @@ GLOBAL_LIST_EMPTY(bluespace_slime_crystals)
 		return
 	var/datum/gas_mixture/gas = T.return_air()
 	gas.set_temperature(T0C + 200)
-	T.air_update_turf()
 
 /obj/structure/slime_crystal/purple
 	colour = "purple"
@@ -191,7 +190,6 @@ GLOBAL_LIST_EMPTY(bluespace_slime_crystals)
 			continue
 		var/datum/gas_mixture/gas = T.return_air()
 		gas.parse_gas_string(OPENTURF_DEFAULT_ATMOS)
-		T.air_update_turf()
 
 /obj/structure/slime_crystal/metal
 	colour = "metal"
@@ -396,16 +394,23 @@ GLOBAL_LIST_EMPTY(bluespace_slime_crystals)
 	uses_process = FALSE
 	var/crystals = 0
 
+//NSV13 - cerulean crystal logic modified to not stall the server.
+
 /obj/structure/slime_crystal/cerulean/Initialize(mapload)
 	. = ..()
-	while(crystals < 3)
+	for(var/iter = 0; iter < 3; iter++)
 		spawn_crystal()
 
 /obj/structure/slime_crystal/cerulean/proc/spawn_crystal()
 	if(crystals >= 3)
 		return
-	for(var/turf/T as() in RANGE_TURFS(2,src))
-		if(is_blocked_turf(T) || isspaceturf(T)  || T == get_turf(src) || prob(50))
+	var/list/crystal_candidate_turfs = RANGE_TURFS(2,src) - get_turf(src)
+	var/list/crystal_fallback_turfs = list()
+	for(var/turf/T as() in crystal_candidate_turfs)
+		if(is_blocked_turf(T) || isspaceturf(T))
+			continue
+		if(prob(50))
+			crystal_fallback_turfs += T
 			continue
 		var/obj/structure/cerulean_slime_crystal/CSC = locate() in range(1,T)
 		if(CSC)
@@ -413,6 +418,17 @@ GLOBAL_LIST_EMPTY(bluespace_slime_crystals)
 		new /obj/structure/cerulean_slime_crystal(T, src)
 		crystals++
 		return
+
+	//We had valid turfs, but skipped them due to rng and didn't find one later = we use one as fallback.
+	for(var/turf/T as() in crystal_fallback_turfs)
+		var/obj/structure/cerulean_slime_crystal/CSC = locate() in range(1,T)
+		if(CSC)
+			continue
+		new /obj/structure/cerulean_slime_crystal(T, src)
+		crystals++
+		return
+
+//NSV13 end.
 
 /obj/structure/slime_crystal/pyrite
 	colour = "pyrite"

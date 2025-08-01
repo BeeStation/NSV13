@@ -27,7 +27,7 @@
 /obj/effect/turf_decal/stripes/red/line{
 	dir = 4
 	},
-/mob/living/simple_animal/hostile/syndicate/ranged,
+/mob/living/simple_animal/hostile/nsv/syndicate/ranged,
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
 "bQ" = (
@@ -47,7 +47,7 @@
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
 "cj" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/smg,
+/mob/living/simple_animal/hostile/nsv/syndicate/ranged/smg,
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
 "cn" = (
@@ -152,9 +152,9 @@
 	dir = 4;
 	name = "safety seat"
 	},
-/mob/living/simple_animal/hostile/syndicate/melee,
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/north,
+/mob/living/simple_animal/hostile/nsv/syndicate/ranged,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "fA" = (
@@ -178,7 +178,14 @@
 	color = "#5e5e5c";
 	dir = 1
 	},
+/obj/structure/table/reinforced,
+/obj/item/paper_bin,
+/obj/item/pen/red,
 /turf/open/floor/engine,
+/area/ruin/powered/nsv13/boarding_interior)
+"gb" = (
+/mob/living/simple_animal/hostile/nsv/syndicate/space,
+/turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "gB" = (
 /obj/structure/closet/secure_closet/hydroponics,
@@ -201,11 +208,11 @@
 /turf/open/floor/plating/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "gY" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/shotgun,
+/mob/living/simple_animal/hostile/nsv/syndicate/ranged/shotgun,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "hg" = (
-/obj/machinery/computer/iff_console/boarding{
+/obj/effect/landmark/iff_console_spawner{
 	dir = 8
 	},
 /turf/open/floor/engine,
@@ -240,7 +247,7 @@
 /obj/effect/turf_decal/arrows{
 	dir = 8
 	},
-/mob/living/simple_animal/hostile/syndicate/melee/sword,
+/mob/living/simple_animal/hostile/nsv/syndicate,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "iv" = (
@@ -447,6 +454,11 @@
 	},
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
+"oq" = (
+/obj/structure/table/reinforced,
+/obj/item/kitchen/knife/combat,
+/turf/open/floor/monotile/dark,
+/area/ruin/powered/nsv13/boarding_interior)
 "ov" = (
 /obj/machinery/light{
 	dir = 4
@@ -502,6 +514,14 @@
 	},
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
+"qQ" = (
+/obj/structure/fluff/support_beam{
+	color = "#5e5e5c";
+	dir = 1
+	},
+/obj/structure/filingcabinet/chestdrawer,
+/turf/open/floor/engine,
+/area/ruin/powered/nsv13/boarding_interior)
 "rk" = (
 /obj/structure/chair{
 	dir = 4;
@@ -541,7 +561,7 @@
 /turf/open/space/basic,
 /area/space)
 "sa" = (
-/mob/living/simple_animal/hostile/syndicate/ranged/smg,
+/mob/living/simple_animal/hostile/nsv/syndicate/ranged/smg,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "sc" = (
@@ -555,8 +575,8 @@
 /turf/open/floor/monotile/dark,
 /area/ruin/powered/nsv13/boarding_interior)
 "sh" = (
-/mob/living/simple_animal/hostile/syndicate/melee,
-/turf/open/floor/mineral/plastitanium/red,
+/mob/living/simple_animal/hostile/nsv/syndicate,
+/turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "sp" = (
 /obj/structure/hull_plate/end{
@@ -589,7 +609,7 @@
 /turf/open/floor/grass,
 /area/ruin/powered/nsv13/boarding_interior)
 "tJ" = (
-/mob/living/simple_animal/hostile/syndicate/ranged,
+/mob/living/simple_animal/hostile/nsv/syndicate/ranged,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "tL" = (
@@ -625,6 +645,13 @@
 	req_one_access_txt = "150"
 	},
 /turf/open/floor/mineral/plastitanium,
+/area/ruin/powered/nsv13/boarding_interior)
+"vV" = (
+/obj/effect/turf_decal/ship/techfloor{
+	dir = 8
+	},
+/mob/living/simple_animal/hostile/nsv/syndicate/space,
+/turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "vX" = (
 /obj/effect/turf_decal/stripes/line{
@@ -667,10 +694,10 @@
 	},
 /area/ruin/powered/nsv13/boarding_interior)
 "xg" = (
-/mob/living/simple_animal/hostile/syndicate/melee,
 /obj/machinery/light{
 	dir = 4
 	},
+/mob/living/simple_animal/hostile/nsv/syndicate/space,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "xz" = (
@@ -709,11 +736,13 @@
 /turf/open/floor/plating/airless,
 /area/ruin/powered/nsv13/boarding_interior)
 "yt" = (
-/obj/machinery/power/smes,
+/obj/machinery/computer/telecomms/monitor{
+	dir = 1
+	},
 /turf/open/floor/circuit/red/anim,
 /area/ruin/powered/nsv13/boarding_interior)
 "yI" = (
-/mob/living/simple_animal/hostile/syndicate/melee/sword,
+/mob/living/simple_animal/hostile/nsv/syndicate/space/sword,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "yS" = (
@@ -903,6 +932,11 @@
 	},
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
+"GJ" = (
+/obj/structure/table/reinforced,
+/obj/structure/bedsheetbin,
+/turf/open/floor/mineral/plastitanium/red,
+/area/ruin/powered/nsv13/boarding_interior)
 "GO" = (
 /obj/machinery/computer/ship/helm{
 	dir = 8;
@@ -943,7 +977,7 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "Ix" = (
 /obj/structure/railing,
-/mob/living/simple_animal/hostile/syndicate/civilian,
+/mob/living/simple_animal/hostile/nsv/syndicate,
 /turf/open/floor/plasteel/dark,
 /area/ruin/powered/nsv13/boarding_interior)
 "IL" = (
@@ -978,7 +1012,7 @@
 	dir = 8;
 	name = "safety seat"
 	},
-/mob/living/simple_animal/hostile/syndicate/ranged,
+/mob/living/simple_animal/hostile/nsv/syndicate/ranged,
 /turf/open/floor/mineral/plastitanium,
 /area/ruin/powered/nsv13/boarding_interior)
 "Jq" = (
@@ -1018,6 +1052,10 @@
 /obj/machinery/light/small{
 	dir = 8
 	},
+/turf/open/floor/plasteel/tech/grid,
+/area/ruin/powered/nsv13/boarding_interior)
+"KD" = (
+/mob/living/simple_animal/hostile/nsv/syndicate,
 /turf/open/floor/plasteel/tech/grid,
 /area/ruin/powered/nsv13/boarding_interior)
 "KF" = (
@@ -1240,6 +1278,10 @@
 	dir = 1
 	},
 /area/ruin/powered/nsv13/boarding_interior)
+"QA" = (
+/mob/living/simple_animal/hostile/nsv/syndicate/ranged/shotgun,
+/turf/open/floor/plasteel/tech/grid,
+/area/ruin/powered/nsv13/boarding_interior)
 "QH" = (
 /obj/structure/chair{
 	dir = 1
@@ -1268,7 +1310,7 @@
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "RS" = (
-/mob/living/simple_animal/hostile/syndicate/melee/sword,
+/mob/living/simple_animal/hostile/nsv/syndicate/space/sword,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "Se" = (
@@ -1359,6 +1401,7 @@
 /obj/effect/turf_decal/ship/techfloor{
 	dir = 4
 	},
+/mob/living/simple_animal/hostile/nsv/syndicate/space/ranged,
 /turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "Uw" = (
@@ -1404,9 +1447,9 @@
 	dir = 4;
 	name = "safety seat"
 	},
-/mob/living/simple_animal/hostile/syndicate/ranged,
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/south,
+/mob/living/simple_animal/hostile/nsv/syndicate/ranged/smg,
 /turf/open/floor/engine,
 /area/ruin/powered/nsv13/boarding_interior)
 "Wn" = (
@@ -1437,9 +1480,14 @@
 /turf/open/space/basic,
 /area/ruin/powered/nsv13/boarding_interior)
 "WT" = (
-/obj/machinery/power/smes,
-/obj/machinery/computer/ship/viewscreen,
+/obj/effect/landmark/iff_console_spawner,
 /turf/open/floor/circuit/red/anim,
+/area/ruin/powered/nsv13/boarding_interior)
+"Xa" = (
+/obj/effect/landmark/iff_console_spawner{
+	dir = 8
+	},
+/turf/open/floor/mineral/plastitanium/red,
 /area/ruin/powered/nsv13/boarding_interior)
 "Xb" = (
 /obj/effect/turf_decal/box/red,
@@ -1512,6 +1560,7 @@
 /area/ruin/powered/nsv13/boarding_interior)
 "Ym" = (
 /obj/effect/spawner/lootdrop/maintenance/four,
+/mob/living/simple_animal/hostile/nsv/syndicate,
 /turf/open/floor/plating,
 /area/ruin/powered/nsv13/boarding_interior)
 "Yv" = (
@@ -19347,7 +19396,7 @@ rw
 rX
 rX
 rw
-cr
+Pq
 cr
 Qg
 RS
@@ -21133,7 +21182,7 @@ gP
 Vw
 rw
 Jw
-Jw
+sh
 Jw
 FY
 nd
@@ -21914,7 +21963,7 @@ qm
 gM
 gM
 iv
-gM
+vV
 gM
 Aa
 Fu
@@ -22160,7 +22209,7 @@ rX
 Fu
 Dz
 cr
-cr
+gb
 cr
 cr
 dZ
@@ -29579,8 +29628,8 @@ rX
 BV
 rw
 ws
-xM
-sh
+QA
+cr
 rw
 Pq
 cr
@@ -29842,7 +29891,7 @@ IY
 mJ
 mJ
 mJ
-IY
+GJ
 rw
 Tf
 xM
@@ -30091,8 +30140,8 @@ rX
 BV
 rw
 Wy
-Wy
-cr
+oq
+Xa
 rw
 rw
 rw
@@ -31378,7 +31427,7 @@ xM
 xM
 xM
 xM
-xM
+KD
 xM
 xM
 LV
@@ -32149,7 +32198,7 @@ cr
 cr
 JZ
 cr
-xM
+KD
 cr
 JZ
 aA
@@ -33426,7 +33475,7 @@ Jw
 Jw
 xz
 rw
-fX
+qQ
 cr
 cr
 PK
@@ -33936,7 +33985,7 @@ oZ
 rw
 Jw
 rw
-Jw
+sh
 rw
 OJ
 cr
@@ -34203,7 +34252,7 @@ fh
 Tm
 rw
 Jw
-Jw
+sh
 rw
 rw
 rX

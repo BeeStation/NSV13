@@ -51,8 +51,11 @@
 	var/field_integrity = 100 //Degrades over time when safety's off, don't let it reach zero
 	var/next_warning = 0 //Helps keep warning spam away
 	var/cooldown = 0 //A janky timer that keeps the weapon from being optimized too hard, it takes around 1.5 minutes between shots
+	var/obj/item/radio/radio //Adding radio to communicate what, if anything, goes wrong
+	COOLDOWN_DECLARE(radio_cooldown)
 
 	processing_flags = START_PROCESSING_ON_INIT
+
 
 /obj/machinery/ship_weapon/plasma_caster/update_overlay()
 	. = ..()
@@ -103,6 +106,7 @@
 			if(next_warning == 1)
 				next_warning --
 				say("Local phoron containment field fully stabilized.")
+				radio.talk_into(src, "Local phoron containment field fully stabilized.", RADIO_CHANNEL_MUNITIONS)
 				cut_overlays()
 				add_overlay("on")
 		if(76 to 99)
@@ -142,6 +146,7 @@
 			if(next_warning == 3)
 				next_warning ++
 				say("WARNING! 25% Integrity! Containment Failure Imminent!")
+				radio.talk_into(src, "WARNING! 25% Integrity! Containment Failure Imminent!", RADIO_CHANNEL_MUNITIONS)
 				cut_overlays()
 				add_overlay("integ_25")
 		if(-INFINITY to 0)
@@ -157,6 +162,11 @@
 	power_change()
 	loader = locate(/obj/machinery/atmospherics/components/unary/plasma_loader) in orange(1, src)
 	loader.linked_gun = src
+	radio = new(src)
+	radio.keyslot = new /obj/item/encryptionkey/munitions_tech
+	radio.subspace_transmission = TRUE
+	radio.canhear_range = 0
+	radio.recalculateChannels()
 
 /obj/machinery/ship_weapon/plasma_caster/can_fire(shots = weapon_type.burst_size)
 	if((state < STATE_CHAMBERED) || !chambered)
@@ -164,15 +174,24 @@
 	if(state >= STATE_FIRING)
 		return FALSE
 	if(cooldown > 0)
-		say("DANGER! Splines unreticulated, spline reticulization process may take up to [cooldown] seconds to complete.")
+		if(COOLDOWN_FINISHED(src, radio_cooldown))
+			COOLDOWN_START(src, radio_cooldown, 5 SECONDS)
+			radio.talk_into(src, "DANGER! Splines unreticulated, spline reticulization process may take up to [cooldown] seconds to complete.", RADIO_CHANNEL_MUNITIONS)
+			say("DANGER! Splines unreticulated, spline reticulization process may take up to [cooldown] seconds to complete.")
 		return FALSE
 	if(maintainable && malfunction) //Do we need maintenance?
 		return FALSE
 	if(plasma_mole_amount < plasma_fire_moles) //Is there enough Plasma Gas to fire?
-		say("DANGER! Not enough phoron to safely dischard core! Please ensure enough gas is present before firing!")
+		if(COOLDOWN_FINISHED(src, radio_cooldown))
+			COOLDOWN_START(src, radio_cooldown, 5 SECONDS)
+			radio.talk_into(src, "DANGER! Not enough phoron to safely dischard core! Please ensure enough gas is present before firing!", RADIO_CHANNEL_MUNITIONS)
+			say("DANGER! Not enough phoron to safely dischard core! Please ensure enough gas is present before firing!")
 		return FALSE
 	if(loader.on)
-		say("DANGER! Phoron Gas Regulator back pressure surge avoided! Ensure the regulator is off before operating!")
+		if(COOLDOWN_FINISHED(src, radio_cooldown))
+			COOLDOWN_START(src, radio_cooldown, 5 SECONDS)
+			radio.talk_into(src, "DANGER! Phoron Gas Regulator back pressure surge avoided! Ensure the regulator is off before operating!", RADIO_CHANNEL_MUNITIONS)
+			say("DANGER! Phoron Gas Regulator back pressure surge avoided! Ensure the regulator is off before operating!")
 		return FALSE
 	if(alignment < 90)
 		if(prob(10))
@@ -209,7 +228,10 @@
 	return linked.fire_projectile(weapon_type.default_projectile_type, target, speed = 2, lateral=weapon_type.lateral)
 
 /obj/machinery/ship_weapon/plasma_caster/proc/misfire()
-	say("WARNING! Phoron containment field failure, ejecting gas!")
+	if(COOLDOWN_FINISHED(src, radio_cooldown))
+		COOLDOWN_START(src, radio_cooldown, 5 SECONDS)
+		radio.talk_into(src, "WARNING! Phoron containment field failure, ejecting gas!", RADIO_CHANNEL_MUNITIONS)
+		say("WARNING! Phoron containment field failure, ejecting gas!")
 	if(prob(15))
 		do_sparks(4, FALSE, src)
 	if(plasma_mole_amount > 0 && prob(5))

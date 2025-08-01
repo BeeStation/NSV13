@@ -91,37 +91,19 @@ export const drawStarmap = (props, context, starCallback) => {
   let Connections = (data.lines).map(drawLines);
 
   return (
-    <>
-      <Button
-        content="Ship Information"
-        icon="info-circle"
-        onClick={() =>
-          act('shipinf')} />
-      <Button
-        content="Show Map"
-        icon="map"
-        ilstyle="position:absolute;left:10px"
-        onClick={() =>
-          act('map')} />
-      <Button
-        content="Change Sector"
-        icon="bullseye"
-        onClick={() =>
-          act('sector')} />
-      <Map initial_focus_x={data.focus_x}
-        initial_focus_y={data.focus_y}
-        initial_scale_factor={scale_factor}>
-        <>
-          {data.star_systems && SystemNodes}
-          {data.lines && Connections}
-          {!!travelling && (
-            <span unselectable="on" style={arrowStyle}>
-              <i class="fa fa-arrow-right" />
-            </span>
-          )}
-        </>
-      </Map>
-    </>
+    <Map initial_focus_x={data.focus_x}
+      initial_focus_y={data.focus_y}
+      initial_scale_factor={scale_factor}>
+      <>
+        {data.star_systems && SystemNodes}
+        {data.lines && Connections}
+        {!!travelling && (
+          <span unselectable="on" style={arrowStyle}>
+            <i class="fa fa-arrow-right" />
+          </span>
+        )}
+      </>
+    </Map>
   );
 };
 
@@ -191,7 +173,26 @@ export const Starmap = (props, context) => {
               )}
             </>
           )}
-          {screen === 1 && drawStarmap(props, context, handleSystemAction)}
+          {screen === 1 && (
+            <>
+              <Button
+                content="Ship Information"
+                icon="info-circle"
+                onClick={() =>
+                  act('shipinf')} />
+              <Button
+                content="Show Map"
+                icon="map"
+                ilstyle="position:absolute;left:10px"
+                onClick={() =>
+                  act('map')} />
+              <Button
+                content="Change Sector"
+                icon="bullseye"
+                onClick={() =>
+                  act('sector')} />
+            </>
+          )}{screen === 1 && drawStarmap(props, context, handleSystemAction)}
           {screen === 2 && (
             <>
               <Button
@@ -212,6 +213,7 @@ export const Starmap = (props, context) => {
                 <Button
                   content="Jump"
                   icon="arrow-right"
+                  color={data.ftl_safety_override ? "red" : "default"}
                   disabled={!data.can_jump}
                   onClick={() =>
                     act('jump')} />

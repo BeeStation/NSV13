@@ -14,7 +14,7 @@ on:
 
 jobs:
   run_linters:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     if: github.repository == 'BeeStation/NSV13'
     steps:
       - uses: actions/checkout@v2
@@ -24,7 +24,7 @@ jobs:
           python-version: "3.11"
       - name: Setup cache
         id: cache-spacemandmm
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/dreamchecker
           key: ${{ runner.os }}-spacemandmm-cache-${{ hashFiles('dependencies.sh') }}
@@ -49,12 +49,12 @@ jobs:
           tools/bootstrap/python -m mapmerge2.dmm_test
           ~/dreamchecker
   compile_all_maps:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
       - name: Setup cache
         id: cache-byond
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/BYOND
           key: ${{ runner.os }}-byond-cache-${{ hashFiles('Dockerfile') }}
@@ -67,7 +67,7 @@ jobs:
           python3 tools/ci/template_dm_generator.py
           tools/build/build --ci dm -DCIBUILDING -DCITESTING -DALL_MAPS
   run_all_tests:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     services:
       mysql:
         image: mysql:latest
@@ -80,7 +80,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Setup cache
         id: cache-byond
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/BYOND
           key: ${{ runner.os }}-byond-cache-${{ hashFiles('Dockerfile') }}
@@ -96,7 +96,7 @@ jobs:
         run: |
           sudo dpkg --add-architecture i386
           sudo apt update || true
-          sudo apt install libssl1.1:i386
+          sudo apt install libssl3:i386
           bash tools/ci/install_rust_g.sh
       - name: Install auxmos
         run: |

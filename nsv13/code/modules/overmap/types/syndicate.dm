@@ -64,11 +64,29 @@
 
 //AI Versions
 
-/obj/structure/overmap/syndicate/ai/Initialize(mapload)
-	. = ..()
-	name = "[name] ([rand(0,999)])"
+/obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
+	name = "Mako class patrol frigate"
+	icon = 'nsv13/icons/overmap/new/syndicate/frigate.dmi'
+	icon_state = "mako"
+	ai_controlled = TRUE
+	ai_behaviour = AI_AGGRESSIVE
+	mass = MASS_SMALL
+	bound_height = 96
+	bound_width = 96
+	sprite_size = 48
+	damage_states = FALSE
+	obj_integrity = 300
+	max_integrity = 300
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/ai
+	missile_type = /obj/item/projectile/guided_munition/missile/ai
+	area_type = /area/ruin/powered/nsv13/gunship
+	var/bounty = 1000
+	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
+	ai_flags = AI_FLAG_DESTROYER
+	combat_dice_type = /datum/combat_dice/frigate
+	possible_interior_maps = list(/datum/map_template/boarding/mako)
 
-/obj/structure/overmap/hostile/ai/fighter/Initialize()
+/obj/structure/overmap/syndicate/ai/Initialize(mapload)
 	. = ..()
 	name = "[name] ([rand(0,999)])"
 
@@ -83,27 +101,6 @@
 /datum/map_template/boarding/mako
     name = "Mako class patrol frigate (interior)"
     mappath = "_maps/templates/boarding/syndicate/mako.dmm"
-
-/obj/structure/overmap/syndicate/ai //Generic bad guy #10000. GRR.
-	name = "Mako class patrol frigate"
-	icon = 'nsv13/icons/overmap/new/syndicate/frigate.dmi'
-	icon_state = "mako"
-	ai_controlled = TRUE
-	ai_behaviour = AI_AGGRESSIVE
-	mass = MASS_SMALL
-	bound_height = 96
-	bound_width = 96
-	sprite_size = 48
-	damage_states = FALSE
-	obj_integrity = 300
-	max_integrity = 300
-	area_type = /area/ruin/powered/nsv13/gunship
-	var/bounty = 1000
-	armor = list("overmap_light" = 30, "overmap_medium" = 20, "overmap_heavy" = 30)
-	ai_flags = AI_FLAG_DESTROYER
-	combat_dice_type = /datum/combat_dice/frigate
-	possible_interior_maps = list(/datum/map_template/boarding/mako)
-
 
 /datum/map_template/boarding/mako_carrier
     name = "Sturgeon class escort carrier (interior)"
@@ -220,8 +217,8 @@
 	bound_width = 128
 	mass = MASS_LARGE
 	armor = list("overmap_light" = 90, "overmap_medium" = 70, "overmap_heavy" = 30)
-	obj_integrity = 450
-	max_integrity = 450
+	obj_integrity = 550
+	max_integrity = 550
 	bounty = 3000
 	ai_flags = AI_FLAG_BATTLESHIP
 	combat_dice_type = /datum/combat_dice/cruiser
@@ -366,7 +363,7 @@
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
-/obj/structure/overmap/syndicate/ai/gunboat //A big box of tank which is hard to take down, and lethal up close.
+/obj/structure/overmap/syndicate/ai/gunboat
 	name = "Syndicate anti-air frigate"
 	desc = "A nimble, but lightly armoured frigate which specialises in taking down enemy fighters."
 	icon = 'nsv13/icons/overmap/syndicate/gunboat.dmi'
@@ -395,8 +392,8 @@
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
 
-/obj/structure/overmap/syndicate/ai/submarine //A big box of tank which is hard to take down, and lethal up close.
-	name = "Aspala Class Sub-spacemarine"
+/obj/structure/overmap/syndicate/ai/submarine
+	name = "Aspala class sub-spacemarine"
 	desc = "A highly advanced Syndicate cruiser which can mask its sensor signature drastically."
 	icon = 'nsv13/icons/overmap/new/syndicate/cruiser.dmi'
 	icon_state = "aspala"
@@ -428,6 +425,31 @@
 	weapon_types[FIRE_MODE_FLAK] = new/datum/ship_weapon/flak(src)
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src) //AI ships want to be able to use gauss too. I say let them...
 	weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
+
+/obj/structure/overmap/syndicate/ai/submarine/elite
+	name = "Stalker class sub-spacemarine"
+	icon_state = "aspala_elite"
+	obj_integrity = 1000
+	max_integrity = 1000 //Max health
+	integrity_failure = 200 //At this integrity it will start phase 2
+	armor = list("overmap_light" = 90, "overmap_medium" = 65, "overmap_heavy" = 35)
+	shots_left = 35
+	torpedoes = 20 //Many torps 4u
+	missiles = 15
+	bounty = 3500
+	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
+	cloak_factor = 80 //Harder to see
+	combat_dice_type = /datum/combat_dice/destroyer
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/disruptor
+
+/obj/structure/overmap/syndicate/ai/submarine/elite/try_repair(amount)
+	. = ..()
+	if(obj_integrity > integrity_failure) //Reset our torp type if we have been healed
+		torpedo_type = initial(torpedo_type)
+
+/obj/structure/overmap/syndicate/ai/submarine/elite/obj_break() //Unused for overmaps, so we just steal it to make damage phases :3c
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/viscerator/ai
+	torpedoes = CLAMP((torpedoes),2 , 3) //This is their secret weapon, they only have a few of these
 
 /obj/structure/overmap/syndicate/ai/kadesh	//I sure wonder what this one does....
 	name = "Kadesh class advanced cruiser"
@@ -469,7 +491,7 @@
 	add_sensor_profile_penalty(150, 10 SECONDS)
 
 /obj/structure/overmap/syndicate/ai/fistofsol
-	name = "\improper SSV Fist of Sol"
+	name = "SSV Fist of Sol"
 	icon = 'nsv13/icons/overmap/syndicate/tuningfork.dmi'
 	icon_state = "tuningfork"
 	desc = "A terrifying vessel packing every inch of the Syndicate's abhorrent arsenal."
@@ -552,6 +574,10 @@
 	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/quadgauss(src)
 	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/prototype_bsa(src)
 	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
+
+/obj/structure/overmap/hostile/ai/fighter/Initialize()
+	. = ..()
+	name = "[name] ([rand(0,999)])"
 
 /obj/structure/overmap/hostile/ai/fighter
 	name = "Rattlesnake Strike fighter"
