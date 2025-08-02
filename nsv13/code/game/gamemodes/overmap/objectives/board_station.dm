@@ -43,7 +43,7 @@
 	target_system.objective_sector = TRUE
 	// give it some friends :)
 	var/datum/faction/S = SSstar_system.faction_by_id(FACTION_ID_SYNDICATE)
-S.send_fleet(target_system, null, TRUE)
+	S.send_fleet(target_system, null, TRUE)
 	var/datum/fleet/F = pick(target_system.fleets)
 	F.fleet_trait = FLEET_TRAIT_DEFENSE
 	F.add_ship(target_station, "supply")
