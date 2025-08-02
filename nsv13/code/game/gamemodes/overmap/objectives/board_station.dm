@@ -67,15 +67,15 @@
 	if(defense_complete)
 		target_station.block_deletion = FALSE
 		status = 1
-		UnregisterSignal(target_ship, COMSIG_SHIP_RELEASE_BOARDING) //Now that you've captured it you can do whatever
+		UnregisterSignal(target_system, COMSIG_SHIP_RELEASE_BOARDING) //Now that you've captured it you can do whatever
 
-/datum/overmap_objective/board_ship/proc/release_boarding()
+/datum/overmap_objective/board_station/proc/release_boarding()
 	// Don't let them kill the ship if they haven't won yet
 	if(status != 1 && status != 3) // complete or admin override
 		return COMSIG_SHIP_BLOCKS_RELEASE_BOARDING
 	return 0
 
-/datum/overmap_objective/board_ship/proc/iff_change()
+/datum/overmap_objective/board_station/proc/iff_change()
 	if(target_station.faction == SSovermap_mode.mode.starting_faction)
 		target_station.essential = FALSE
 		UnregisterSignal(target_station, COMSIG_SHIP_BOARDED)
