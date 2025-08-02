@@ -100,7 +100,7 @@
 	if(!has_cover)
 		INVOKE_ASYNC(src, PROC_REF(popUp))
 	//NSV13 Keep track of turrets on a ship
-	get_overmap().turrets_in_ship |= src
+	get_overmap()?.turrets_in_ship |= src
 
 /obj/machinery/porta_turret/proc/toggle_on(var/set_to)
 	var/current = on
