@@ -68,11 +68,13 @@
 
 /obj/structure/overmap/trader/syndicate/outpost
 	name = "Syndicate Outpost"
-	icon_state = "smalloutpost"
+	icon = 'nsv13/icons/overmap/smallstation.dmi'
+	icon_state = "outpost"
 	ai_controlled = TRUE
 	ai_behaviour = AI_GUARD
 	missiles = 4
 	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 40)
+	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN //When it's been boarded, it can break
 	can_resupply = TRUE //Of course the station can supply
 	ai_flags = AI_FLAG_STATIONARY
 	combat_dice_type = /datum/combat_dice/civilian
@@ -80,7 +82,7 @@
 	possible_interior_maps = list(/datum/map_template/boarding/smalloutpost)
 
 /obj/structure/overmap/trader/syndicate/outpost/set_trader()
-	return //They're for boarding, so they do get AI
+	return //They're for boarding, not trading
 
 //General items:
 

@@ -641,7 +641,7 @@ SUBSYSTEM_DEF(overmap_mode)
 			if(isnull(S))
 				return
 			var/extra
-			if(ispath(S,/datum/overmap_objective/clear_system))
+			if(ispath(S,/datum/overmap_objective/clear_system) || ispath(S,/datum/overmap_objective/board_station))
 				extra = input(usr, "Select a target system", "Select System") as null|anything in SSstar_system.systems
 			SSovermap_mode.mode.objectives += new S(extra)
 			SSovermap_mode.instance_objectives()
