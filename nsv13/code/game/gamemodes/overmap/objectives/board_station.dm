@@ -9,7 +9,7 @@
 /datum/overmap_objective/board_station/New(datum/star_system/passed_input)
 	.=..()
 	if(passed_input) //Let us select a system in the gamemode controller
-		target_system = passed_input.name
+		target_system = passed_input
 	if(!target_system)
 		var/list/candidates = list()
 		for(var/datum/star_system/S in SSstar_system.neutral_zone_systems)
