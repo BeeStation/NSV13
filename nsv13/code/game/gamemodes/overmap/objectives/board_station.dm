@@ -14,7 +14,7 @@
 		var/list/candidates = list()
 		for(var/datum/star_system/S in SSstar_system.neutral_zone_systems)
 			// Is this even in a reasonable location?
-			if(S.hidden || (S.sector != 2) || S.get_info()?["Black hole"])
+			if(S.hidden || (S.sector != 2) || S.get_info()?["Black hole"] || S.name == "Rubicon")
 				continue
 			// Don't put it where it will immediately get shot
 			if((S.alignment != "syndicate") && (S.alignment != "unaligned") && (S.alignment != "uncharted"))
