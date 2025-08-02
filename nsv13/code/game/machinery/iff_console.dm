@@ -174,3 +174,12 @@ If someone hacks it, you can always rebuild it.
 				F.encounter(ship)
 		message_admins("Solgov interdictor fleet created at [starting_point].")
 		priority_announce("Contact with [GLOB.station_name] lost. Code Charlie Foxtrot One Niner Eight Four.", "White Rapids Fleet Command")
+	for(var/obj/machinery/porta_turret/T in turrets_in_ship) //Update the turrets too, those will be a pain otherwise
+		T.faction = list("turret")
+		switch(new_faction)
+			if("syndicate")
+				T.faction += FACTION_SYNDICATE
+			if("nanotrasen")
+				T.faction += list("neutral","silicon", "Station")
+			else
+				T.faction += new_faction

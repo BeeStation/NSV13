@@ -68,6 +68,7 @@
 		target_station.block_deletion = FALSE
 		status = 1
 		UnregisterSignal(target_system, COMSIG_SHIP_RELEASE_BOARDING) //Now that you've captured it you can do whatever
+		.=..()
 
 /datum/overmap_objective/board_station/proc/release_boarding()
 	// Don't let them kill the ship if they haven't won yet
@@ -82,3 +83,8 @@
 		var/datum/star_system/adjacent = SSstar_system.system_by_id(pick(target_system.adjacency_list))
 		var/datum/fleet/reinforcements = adjacent.spawn_fleet(/datum/fleet/boarding, 5) //Harder fight
 		reinforcements.move(target_system, TRUE)
+		RegisterSignal(target_station, COMSIG_SHIP_KILLED_FLEET, PROC_REF(fleet_destroyed), target_station) //Kill the fleet and you're done
+
+/datum/overmap_objective/board_station/proc/fleet_destroyed()
+	defense_complete = 1
+	check_completion()
