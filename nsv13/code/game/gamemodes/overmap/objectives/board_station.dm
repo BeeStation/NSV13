@@ -80,5 +80,5 @@
 		target_station.essential = FALSE
 		UnregisterSignal(target_station, COMSIG_SHIP_BOARDED)
 		var/datum/star_system/adjacent = SSstar_system.system_by_id(pick(target_system.adjacency_list))
-		var/datum/fleet/reinforcements = adjacent.spawn_fleet(/datum/fleet/boarding, SSstar_system.difficulty_budget * 2) //Harder fight
+		var/datum/fleet/reinforcements = adjacent.spawn_fleet(/datum/fleet/boarding, 5) //Harder fight
 		reinforcements.move(target_system, TRUE)
