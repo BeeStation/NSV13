@@ -138,6 +138,7 @@ If someone hacks it, you can always rebuild it.
 		if("nanotrasen")
 			var/new_faction = "syndicate"
 			if(faction_check(user.faction, list("pirate")))
+				new_faction = "pirate"
 			OM.swap_faction(new_faction)
 			faction = OM.faction
 			return
