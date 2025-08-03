@@ -360,22 +360,27 @@
 	range = 25000 //Relentlessly tracks original target until the target is destroyed
 	homing_turn_speed = 180
 	damage = 150
-	obj_integrity = 500
-	max_integrity = 500
+	obj_integrity = 3000
+	max_integrity = 3000
 	flag = "overmap_medium"
 	speed = 8
 	projectile_piercing = ALL
-	///Maximum amount of hits the plasma ball can inflict before losing cohesion
+	projectile_relaying_allowed = FALSE //Too insane to allow this. Already very powerful anyways.
+	///Amount of hits the plasma ball can inflict before losing cohesion
 	var/plasma_charge = 200 //Lets not have plasma balls fly around for all of eternity if the target is immune to medium damage.
 
 /obj/item/projectile/bullet/plasma_caster/process_hit(turf/T, atom/target, atom/bumped, hit_something)
 	. = ..()
 	if(hit_something)
-		plasma_charge-- //We end up in here twice each contact which points to doublehitting going on but oh well good enough for now.
+		plasma_charge--
 		if(plasma_charge <= 0)
 			projectile_piercing = NONE
-	if(target)
-		impacted[target] = FALSE //This should probably be in a different proc.
+
+/obj/item/projectile/bullet/plasma_caster/Move(atom/newloc, direct)
+	. = ..()
+	if(!.)
+		return
+	impacted = list() //Only reset the hit check after moving a tile because otherwise due to how we check impacts it would cause double hitting per move.
 
 /obj/item/projectile/bullet/plasma_caster/fire()
 	. = ..()

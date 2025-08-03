@@ -119,6 +119,7 @@ Credit to TGMC for the interior sprites for all these!
 						/obj/item/fighter_component/battery,
 						/obj/item/fighter_component/ftl,
 						/obj/item/fighter_component/countermeasure_dispenser)
+	weapon_addition_allowed = TRUE //Gunships get to have a little fun.
 
 /datum/map_template/dropship/gunship
     name = "SC-130 Halberd Gunship"

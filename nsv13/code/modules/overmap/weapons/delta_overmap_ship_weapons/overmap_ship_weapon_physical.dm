@@ -6,6 +6,8 @@
  * Links a physical ship weapon on this (src) ship to an appropriate ship weapon datum or creates one if needed.
  */
 /obj/structure/overmap/proc/add_weapon(obj/machinery/ship_weapon/weapon)
+	if(!weapon_addition_allowed)
+		return
 	var/desired_type = weapon.weapon_datum_type
 	for(var/datum/overmap_ship_weapon/ship_weapon_datum in overmap_weapon_datums)
 		if(ship_weapon_datum.type != desired_type)

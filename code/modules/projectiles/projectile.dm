@@ -147,6 +147,8 @@
 	var/impact_effect_type //what type of impact effect to show when hitting something
 	var/log_override = FALSE //is this type spammed enough to not log? (KAs)
 	var/faction = null //NSV13 - bullets need factions for collision checks
+	///NSV13 - if this projectile is allowed to relay from overmap -> shipmap
+	var/projectile_relaying_allowed = TRUE
 	var/relay_projectile_type = null	//NSV13 - backend for some projectiles creating a different projectile than they are when relayed to a ship after hitting. I hate having this this far up in inheritance, but no overmap bullet subtype.
 	var/next_homing_process = 0 //Nsv13 - performance enhancements
 	var/homing_delay = 0.7 SECONDS //Nsv13 - performance enhancements. 1 second delay is noticeably slow
@@ -320,12 +322,12 @@
 /obj/item/projectile/CanPass(atom/movable/mover, turf/target)
 	. = ..()
 	if(!check_faction(mover))
-		return TRUE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
+		return TRUE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out. - what is this even supposed to achieve? - Delta
 
 /obj/item/projectile/Bump(atom/A)
 	SEND_SIGNAL(src, COMSIG_MOVABLE_BUMP, A)
 	if(!can_hit_target(A, A == original, TRUE, TRUE))
-		return 2 //NSV13 - return 2 for overmap projectile fixes
+		return 2 //NSV13 - return 2 for overmap projectile fixes -- WHAT? I genuinely have no idea why you would return a "2" here. - Delta
 	Impact(A)
 
 /**

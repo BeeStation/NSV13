@@ -46,8 +46,9 @@ Bullet reactions
 			else
 				return FALSE //Shields absorbed the hit, so don't relay the projectile
 	P.spec_overmap_hit(src)
-	var/relayed_type = P.relay_projectile_type ? P.relay_projectile_type : P.type
-	relay_damage(relayed_type)
+	if(P.projectile_relaying_allowed)
+		var/relayed_type = P.relay_projectile_type ? P.relay_projectile_type : P.type
+		relay_damage(relayed_type)
 	if(!use_armour_quadrants)
 		return ..()
 	else

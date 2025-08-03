@@ -56,6 +56,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/random_name = TRUE
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/change_name, .verb/countermeasure)
 	var/busy = FALSE
+	weapon_addition_allowed = FALSE
 
 /obj/structure/overmap/small_craft/Destroy()
 	var/mob/last_pilot = pilot // Old pilot gets first shot

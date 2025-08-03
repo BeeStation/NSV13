@@ -1342,6 +1342,8 @@ Seek a ship thich we'll station ourselves around
 
 	///Physical weapons will only link to datums once this is TRUE. Enabled after applying weapons.
 	var/weapons_initialized = FALSE
+	///Whether new weapons creating new weapon datums is allowed
+	var/weapon_addition_allowed = TRUE
 	///Current controlled weapons by mob key -> selected weapon number. Reset on piloting end.
 	var/list/controlled_weapons = list()
 	///Current controlled weapon datum by user. Should be updated when `controlled_weapons` is.
