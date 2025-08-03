@@ -87,6 +87,8 @@
 	next_fire = world.time + fire_delay
 	if(special_fx)
 		fx_target.setDir(get_dir(OM, target))  //Makes the gun turn and shoot the target, wow!
+	if(!fx_target.linked_overmap_ship_weapon)
+		return FALSE
 	fx_target.fire(target)//You can only fire your gun, not someone else's.
 
 /datum/component/overmap_gunning/process()
