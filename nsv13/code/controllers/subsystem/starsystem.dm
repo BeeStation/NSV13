@@ -1257,7 +1257,7 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 		message_admins("Error setting up Badlands - No Rubicon found!") //This should never happen unless admins do bad things.
 		return
 
-	for(var/I=0;I<amount,I++){
+	for(var/I=0;I<amount;I++){
 		var/datum/star_system/random/randy = new /datum/star_system/random()
 		randy.system_type = pick(
 			list(
@@ -1452,7 +1452,7 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 		message_admins("Error setting up Badlands Lite - No connector found!") //This should never happen unless admins do bad things.
 		return
 
-	for(var/I=0;I<amount,I++){
+	for(var/I=0;I<amount;I++){
 		var/datum/star_system/random/randy = new /datum/star_system/random()
 		randy.system_type = pick(
 			list(

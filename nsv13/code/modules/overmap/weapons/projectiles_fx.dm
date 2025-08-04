@@ -281,7 +281,7 @@ Misc projectile types, effects, think of this as the special FX file.
 		L.flash_act(affect_silicon = TRUE)
 	var/list/throwat_turfs = RANGE_TURFS(6, detonation_turf) - RANGE_TURFS(5, detonation_turf)
 	var/list/plushtypes = subtypesof(/obj/item/toy/plush)
-	for(var/i = 1; i<= 8, i++)
+	for(var/i = 1; i<= 8; i++)
 		var/plushpath = pick(plushtypes)
 		var/obj/item/toy/plush/plushie = new plushpath(detonation_turf)
 		plushie.throw_at(pick(throwat_turfs), 7, 2, spin = TRUE)
