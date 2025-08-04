@@ -42,5 +42,5 @@
 		if(8 to INFINITY)
 			warningstrings = list("ahyguabngaghabyugbauwf", "You feel sick", "It feels like you drank too much", "You feel like doing something unwise")
 	M.drunkenness = CLAMP(M.drunkenness + target * ((A.stage - 1) * 0.1), M.drunkenness, target)
-	if(prob(5 * A.stage))
+	if(length(warningstrings) && prob(5 * A.stage)) //NSV13 - stop runtiming from empty warnings
 		to_chat(M, "<span class='warning'>[pick(warningstrings)]</span>")
