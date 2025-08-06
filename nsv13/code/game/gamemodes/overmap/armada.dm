@@ -7,7 +7,7 @@
 	starting_system = "Argo"
 	starting_faction = "nanotrasen"
 
-	objective_reminder_setting = 0				//We have strict timelines on this
+	objective_reminder_setting = MODE_REMINDER_OBJECTIVES				//We have strict timelines on this
 	objective_reminder_interval = 3 MINUTES	//60 Minutes Until Vanguard Arrives
 	reminder_one = ""							//Countdown 1
 	reminder_two = ""							//Countdown 2
@@ -55,7 +55,7 @@
 
 	for(var/datum/overmap_objective/O in objectives)
 		O.check_completion()
-		if(O.status == 1) //STATUS_COMPLETED
+		if(O.status == OBJECTIVE_STATUS_COMPLETED)
 			reinforcements ++ //For each side objective completed, add an NT fleet
 
 	addtimer(CALLBACK(src, PROC_REF(vanguard)), 1 MINUTES)
