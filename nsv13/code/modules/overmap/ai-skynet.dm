@@ -689,7 +689,7 @@ Adding tasks is easy! Just define a datum for it.
 			OM.hail(pick(taunts), name)
 			last_encounter_time = world.time
 			if(audio_cues?.len)
-				OM.play_music(pick(audio_cues))
+				play_soundtrack_music(pick(audio_cues) , volume = 100)
 
 			//Ghost Ship Spawn Here
 			if(SSovermap_mode.override_ghost_ships)
