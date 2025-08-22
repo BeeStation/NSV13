@@ -67,7 +67,7 @@
 		return
 	// The component isn't installed, we're not on that mode, or we have no potential targets
 	var/obj/structure/overmap/small_craft/us = loc
-	if(!us || !istype(us) || (us.fire_mode != fire_mode) || !length(us.target_painted))
+	if(!us || !istype(us) || !length(us.target_painted))
 		return
 	// The target isn't an overmap somehow, we're targeting ourselves, or they're an enemy
 	var/obj/structure/overmap/small_craft/them = us.target_lock

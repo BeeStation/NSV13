@@ -11,7 +11,6 @@
 
 	circuit = /obj/item/circuitboard/machine/pdc_mount
 
-	fire_mode = FIRE_MODE_PDC
 	magazine_type = /obj/item/ammo_box/magazine/nsv/pdc
 
 	auto_load = TRUE
@@ -34,6 +33,8 @@
 	chamber_delay_rapid = 0
 	chamber_delay = 0
 	bang = FALSE
+
+	weapon_datum_type = /datum/overmap_ship_weapon/pdc_mount
 	var/sound/lastsound // PDCs only switch sounds after the user stops firing. (Rapidfire uses the same sound)
 	var/soundcooldown = 0
 
@@ -160,6 +161,6 @@
 	return default_deconstruction_crowbar(user, tool)
 
 /obj/machinery/ship_weapon/pdc_mount/overmap_sound()
-	if(world.time > soundcooldown)
-		lastsound = pick(weapon_type.overmap_firing_sounds)
+	if(world.time > soundcooldown && linked_overmap_ship_weapon)
+		lastsound = pick(linked_overmap_ship_weapon.overmap_firing_sounds)
 	linked.relay_to_nearby(lastsound)
