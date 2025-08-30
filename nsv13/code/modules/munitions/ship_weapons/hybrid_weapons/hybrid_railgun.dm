@@ -149,13 +149,43 @@
 		if(istype(C, /obj/item/ship_weapon/ammunition/railgun_slug_forged))
 			var/obj/item/ship_weapon/ammunition/railgun_slug_forged/T = C
 			projectile_velocity = T.material_conductivity - ((100 - alignment) / 100)
-			projectile_damage = T.material_density * projectile_velocity
-			projectile_penetration = T.material_hardness
+			if(projectile_velocity < 0)
+				projectile_velocity = 0.1
+			projectile_damage = (T.material_hardness * T.material_density) * projectile_velocity
+			if(projectile_damage < 0)
+				projectile_damage = 0
+			switch(T.material_hardness) //Linear projection of the Mohs scale, assuming hulls are made of fairly soft materials
+				if(0 to 5)
+					projectile_penetration = 0
+				if(5 to 6)
+					projectile_penetration = 5
+				if(6 to 7)
+					projectile_penetration = 10
+				if(7 to 8)
+					projectile_penetration = 15
+				if(8 to 9)
+					projectile_penetration = 20
+				if(9 to 10)
+					projectile_penetration = 25
 
 		else if(istype(C, /obj/item/ship_weapon/ammunition/railgun_canister_forged))
 			var/obj/item/ship_weapon/ammunition/railgun_canister_forged/T = C
 			projectile_velocity = T.material_conductivity - ((100 - alignment) / 100)
-			projectile_penetration = T.material_hardness
+			if(projectile_velocity < 0)
+				projectile_velocity = 0.1
+			switch(T.material_hardness) //Linear projection of the Mohs scale, assuming hulls are made of fairly soft materials
+				if(0 to 5)
+					projectile_penetration = 0
+				if(5 to 6)
+					projectile_penetration = 5
+				if(6 to 7)
+					projectile_penetration = 10
+				if(7 to 8)
+					projectile_penetration = 15
+				if(8 to 9)
+					projectile_penetration = 20
+				if(9 to 10)
+					projectile_penetration = 25
 
 			var/datum/gas_mixture/gas = T.canister_gas[1] //fix later
 			var/gas_mix = gas.get_moles(GAS_O2) + \

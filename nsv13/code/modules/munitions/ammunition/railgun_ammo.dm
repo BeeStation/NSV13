@@ -60,6 +60,7 @@
 	var/canister_integrity = 100
 	var/canister_volume = 100 //or should this be mols?
 	var/canister_gas
+	var/stabilized = FALSE
 
 /obj/item/ship_weapon/ammunition/railgun_canister_forged/Initialize(mapload)
 	. = ..()
@@ -83,7 +84,7 @@
 			if(prob(75))
 				material_charge --
 
-	if(material_charge > 0)
+	if(material_charge > 0 && !stabilized)
 		if(prob(material_charge))
 			canister_integrity --
 
