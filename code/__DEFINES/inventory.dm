@@ -1,12 +1,14 @@
 /*ALL DEFINES RELATED TO INVENTORY OBJECTS, MANAGEMENT, ETC, GO HERE*/
 
 //! ## ITEM INVENTORY WEIGHT, FOR w_class
+//NSV13 info: These defines DO NOT actually affect anything related to picking items up. You have to hook into the either the attack_hand chain or INTERACT_ITEM_ATTACK_HAND_PICKUP for that. Comments adjusted.
 #define WEIGHT_CLASS_TINY     1 //! Usually items smaller then a human hand, (e.g. playing cards, lighter, scalpel, coins/holochips)
 #define WEIGHT_CLASS_SMALL    2 //! Pockets can hold small and tiny items, (e.g. flashlight, multitool, grenades, GPS device)
 #define WEIGHT_CLASS_NORMAL   3 //! Standard backpacks can carry tiny, small & normal items, (e.g. fire extinguisher, stun baton, gas mask, iron sheets)
 #define WEIGHT_CLASS_BULKY    4 //! Items that can be wielded or equipped but not stored in an inventory, (e.g. defibrillator, backpack, space suits)
-#define WEIGHT_CLASS_HUGE     5 //! Usually represents objects that require two hands to operate, (e.g. shotgun, two-handed melee weapons)
-#define WEIGHT_CLASS_GIGANTIC 6 //! Essentially means it cannot be picked up or placed in an inventory, (e.g. mech parts, safe)
+#define WEIGHT_CLASS_HUGE     5 //! Usually represents objects that should require two hands to operate (e.g. shotgun, two-handed melee weapons), BUT DOES NOT REQUIRE THIS BY DEFAULT.
+#define WEIGHT_CLASS_GIGANTIC 6 //! Essentially means it cannot be placed in an inventory, (e.g. mech parts, safe), BUT NOT DOES PREVENT PICKUP BY DEFAULT.
+//NSV13 comment adjust end.
 
 //Inventory depth: limits how many nested storage items you can access directly.
 //1: stuff in mob, 2: stuff in backpack, 3: stuff in box in backpack, etc

@@ -134,6 +134,9 @@
 	dir = 9
 	},
 /obj/machinery/airalarm/directional/east,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
 /turf/open/floor/engine,
 /area/nsv/engine/engine_room/core)
 "aJ" = (
@@ -751,6 +754,10 @@
 	},
 /obj/machinery/atmospherics/pipe/multiz/layer2,
 /obj/machinery/atmospherics/pipe/multiz/layer4,
+/obj/structure/cable{
+	icon_state = "2-8";
+	tag = ""
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "dV" = (
@@ -1765,6 +1772,9 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
@@ -2484,7 +2494,8 @@
 /obj/machinery/atmospherics/components/unary/outlet_injector/layer2{
 	dir = 4;
 	id = "o2_in_alt";
-	name = "Oxygen input tank Injector"
+	name = "Oxygen input tank Injector";
+	on = 1
 	},
 /turf/open/floor/engine/o2,
 /area/engine/atmos)
@@ -4506,6 +4517,9 @@
 	req_one_access_txt = "48"
 	},
 /obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 4
+	},
+/obj/machinery/camera/autoname{
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark,
@@ -8429,6 +8443,9 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 1
 	},
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
 /turf/open/floor/plasteel/dark,
 /area/nsv/weapons)
 "Nw" = (
@@ -9423,6 +9440,9 @@
 /area/engine/engine_room)
 "Rs" = (
 /obj/structure/extinguisher_cabinet/east,
+/obj/machinery/camera/autoname{
+	dir = 9
+	},
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
 "Rt" = (
@@ -10049,7 +10069,8 @@
 /obj/machinery/atmospherics/components/unary/outlet_injector/layer4{
 	dir = 8;
 	id = "n2_in_alt";
-	name = "nitrogen tank input injector"
+	name = "nitrogen tank input injector";
+	on = 1
 	},
 /turf/open/floor/engine/n2,
 /area/engine/atmos)

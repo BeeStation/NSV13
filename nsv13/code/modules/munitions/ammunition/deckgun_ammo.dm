@@ -17,6 +17,11 @@
 	var/armed = FALSE //Do it do the big boom?
 	var/speed = 0.5 //Needs powder to increase speed.
 
+/obj/item/ship_weapon/ammunition/naval_artillery/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
+
+
 /obj/item/ship_weapon/ammunition/naval_artillery/armed //This is literally just for mail.
 	armed = TRUE
 
@@ -36,6 +41,11 @@
 	climb_stun = 3
 	volatility = 0
 	explode_when_hit = FALSE //Literally just iron
+
+/obj/item/ship_weapon/ammunition/naval_artillery/cannonball/attack_hand(mob/user)
+	if(has_gravity()) //These things are far too unwieldy to handle with any gravity.
+		return FALSE
+	return ..()
 
 /obj/item/ship_weapon/ammunition/naval_artillery/cannonball/admin
 	desc = "This cannon ball seems to be so comically large it's impossible to scale!"
