@@ -152,7 +152,7 @@
 			if(EAST)
 				OM.desired_angle = 90
 			if(WEST)
-				OM.desired_angle = -90
+				OM.desired_angle = 270
 		if(!linked)
 			linkup()
 
