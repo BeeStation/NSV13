@@ -12,7 +12,7 @@
 	bound_height = 64
 	pixel_y = -64
 	fire_mode = FIRE_MODE_HYBRID_RAIL
-	ammo_type = /obj/item/ship_weapon/ammunition/railgun_slug_forged //preset to slug
+	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo/forged //preset to slug
 	max_ammo = 5 //preset to slug
 	semi_auto = TRUE
 
@@ -78,7 +78,7 @@
 	capacitor_charge = 0 //Reset
 	if(slug_shell == 0)	//change to using Canisters
 		slug_shell = 1
-		ammo_type = /obj/item/ship_weapon/ammunition/railgun_canister_forged
+		ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo/forged/canister
 		max_ammo = 1
 		//projectile_velo = 2.5 //Not so great at handling shells
 		capacitor_max_charge = 1000000 //1MW
@@ -86,7 +86,7 @@
 
 	else if(slug_shell == 1)	//change to using Slugs
 		slug_shell = 0
-		ammo_type = /obj/item/ship_weapon/ammunition/railgun_slug_forged
+		ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo/forged
 		max_ammo = 5
 		//projectile_velo = 5 //Designed for slugs
 		capacitor_max_charge = 400000 //400kW
@@ -146,8 +146,8 @@
 
 	var/obj/item/ship_weapon/ammunition/C = chambered
 	if(C)
-		if(istype(C, /obj/item/ship_weapon/ammunition/railgun_slug_forged))
-			var/obj/item/ship_weapon/ammunition/railgun_slug_forged/T = C
+		if(istype(C, /obj/item/ship_weapon/ammunition/railgun_ammo/forged))
+			var/obj/item/ship_weapon/ammunition/railgun_ammo/forged/T = C
 			projectile_velocity = T.material_conductivity - ((100 - alignment) / 100)
 			if(projectile_velocity < 0)
 				projectile_velocity = 0.1
@@ -167,35 +167,16 @@
 					projectile_penetration = 20
 				if(9 to 10)
 					projectile_penetration = 25
-
-		else if(istype(C, /obj/item/ship_weapon/ammunition/railgun_canister_forged))
-			var/obj/item/ship_weapon/ammunition/railgun_canister_forged/T = C
-			projectile_velocity = T.material_conductivity - ((100 - alignment) / 100)
-			if(projectile_velocity < 0)
-				projectile_velocity = 0.1
-			switch(T.material_hardness) //Linear projection of the Mohs scale, assuming hulls are made of fairly soft materials
-				if(0 to 5)
-					projectile_penetration = 0
-				if(5 to 6)
-					projectile_penetration = 5
-				if(6 to 7)
-					projectile_penetration = 10
-				if(7 to 8)
-					projectile_penetration = 15
-				if(8 to 9)
-					projectile_penetration = 20
-				if(9 to 10)
-					projectile_penetration = 25
-
-			var/datum/gas_mixture/gas = T.canister_gas[1] //fix later
-			var/gas_mix = gas.get_moles(GAS_O2) + \
-							gas.get_moles(GAS_PLUOXIUM) + \
-							gas.get_moles(GAS_PLASMA) * 1.25 + \
-							gas.get_moles(GAS_CONSTRICTED_PLASMA) * 1.25 + \
-							gas.get_moles(GAS_TRITIUM) * 1.5 + \
-							gas.get_moles(GAS_NUCLEIUM) * 1.75 //Add some sort of EMP effect here for subsystems later
-
-			projectile_damage = (T.material_density * 0.2) + (gas_mix * (T.material_charge / 100)) //temp numbers
+			if(T.canister) //Use the gases for damage instead
+				var/obj/item/ship_weapon/ammunition/railgun_ammo/forged/canister/R = C
+				var/datum/gas_mixture/gas = R.canister_gas[1] //fix later
+				var/gas_mix = gas.get_moles(GAS_O2) + \
+								gas.get_moles(GAS_PLUOXIUM) + \
+								gas.get_moles(GAS_PLASMA) * 1.25 + \
+								gas.get_moles(GAS_CONSTRICTED_PLASMA) * 1.25 + \
+								gas.get_moles(GAS_TRITIUM) * 1.5 + \
+								gas.get_moles(GAS_NUCLEIUM) * 1.75 //Add some sort of EMP effect here for subsystems later
+				projectile_damage = (R.material_density * 0.2) + (gas_mix * (R.material_charge / 100)) //temp numbers
 
 		linked.fire_projectile(C.projectile_type, target, speed=projectile_velocity, user_override=TRUE, lateral=TRUE)
 		message_admins("DEBUG OUTPUT - Projectile: [C.name], Velocity: [projectile_velocity], Damage: [projectile_damage], Penetration: [projectile_penetration]") //REMOVE ME
