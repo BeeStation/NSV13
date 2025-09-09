@@ -249,5 +249,6 @@
 	projectile_type = /obj/item/projectile/bullet/torpedo/probe
 
 /obj/item/projectile/bullet/torpedo/probe
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
 	icon_state = "probe"
 	damage = 5
