@@ -80,8 +80,7 @@ Bullet reactions
 		else
 			effective_side = WEST //Aft impact
 
-	var/startside = pick(effective_side)
-	var/turf/pickedstart = spaceDebrisStartLoc(startside, theZ)
+	var/turf/pickedstart = spaceDebrisStartLoc(effective_side, theZ)
 	var/turf/pickedgoal = locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), theZ)
 	var/obj/item/projectile/proj = new proj_type(pickedstart)
 	proj.starting = pickedstart
