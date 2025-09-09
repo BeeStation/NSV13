@@ -47,7 +47,7 @@ Bullet reactions
 				return FALSE //Shields absorbed the hit, so don't relay the projectile
 	P.spec_overmap_hit(src)
 	var/relayed_type = P.relay_projectile_type ? P.relay_projectile_type : P.type
-	relay_damage(relayed_type)
+	relay_damage(relayed_type, P.Angle)
 	if(!use_armour_quadrants)
 		return ..()
 	else
@@ -60,13 +60,27 @@ Bullet reactions
 /**
  * Used to relay a projectile impacting an overmap onto an overmap's interior zlevels.
  * * proj_type = The type of the projectile to create.
+ * * original_proj_angle = The angle of the impacted projectile, used to decide on the side of the z the projectile relays from.
  */
-/obj/structure/overmap/proc/relay_damage(proj_type)
+/obj/structure/overmap/proc/relay_damage(proj_type, original_proj_angle)
 	if(!length(occupying_levels))
 		return
 	var/datum/space_level/SL = pick(occupying_levels)
 	var/theZ = SL.z_value
-	var/startside = pick(GLOB.cardinals)
+
+	var/effective_angle = (720 + original_proj_angle - angle) % 360 //Don't ask, I don't trust angles to be positive anymore.
+	var/effective_side
+	switch(effective_angle)
+		if(45 to 135)
+			effective_side = NORTH //Port impact
+		if(135 to 225)
+			effective_side = EAST //Front impact
+		if(225 to 315)
+			effective_side = SOUTH //Starboard impact
+		else
+			effective_side = WEST //Aft impact
+
+	var/startside = pick(effective_side)
 	var/turf/pickedstart = spaceDebrisStartLoc(startside, theZ)
 	var/turf/pickedgoal = locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), theZ)
 	var/obj/item/projectile/proj = new proj_type(pickedstart)
