@@ -55,7 +55,7 @@ Bullet reactions
 		visible_message("<span class='danger'>[src] is hit by \a [P]!</span>", null, null, COMBAT_MESSAGE_RANGE)
 		if(!QDELETED(src)) //Bullet on_hit effect might have already destroyed this object
 			//var/datum/vector2d/point_of_collision = src.physics2d?.collider2d.get_collision_point(P.physics2d?.collider2d)//Get the collision point, see if the armour quadrants need to absorb this hit.
-			take_quadrant_hit(run_obj_armor(P.damage, P.damage_type, P.flag, null, P.armour_penetration), quadrant_impact(P)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
+			take_quadrant_hit(run_obj_armor(P.damage, P.damage_type, P.flag, null, P.armour_penetration), projectile_quadrant_impact(P)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
 
 /**
  * Used to relay a projectile impacting an overmap onto an overmap's interior zlevels.
