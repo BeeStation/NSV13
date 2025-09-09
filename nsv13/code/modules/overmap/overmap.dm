@@ -150,7 +150,7 @@
 	///Delay to resupply light ammo.
 	var/static/ai_light_resupply_time = 20 SECONDS
 	///If we are currently rearming.
-	var/ai_resupply_scheduled = FALSE
+	var/ai_resupply_scheduled = NONE
 
 	//Max ammo vars. By default, set to the defined starting ammo of that type, but if you change that outside of the code, modify them too.
 

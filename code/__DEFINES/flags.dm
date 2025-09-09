@@ -190,6 +190,10 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define STARSYSTEM_NO_WORMHOLE 1<<2		//Prevents Incoming Wormholes
 #define STARSYSTEM_END_ON_ENTER 1<<3  //End the round after entering this system (Outpost 45)
 
+//AI ship reload flags, used to not stack resupply timers.
+#define SHIP_RESUPPLYING_LIGHT (1<<0)	//!If enabled, currently busy resupplying light weapons (light shots)
+#define SHIP_RESUPPLYING_HEAVY (1<<1)	//!If enabled, currently busy resupplying heavy weapons (shots, torp, missiles)
+
 //Overmap ship weapon datum control flags
 #define OSW_CONTROL_PILOT (1<<0)				//!This weapon can be accessed by a pilot.
 #define OSW_CONTROL_GUNNER (1<<1)				//!This weapon can be accessed by a gunner.

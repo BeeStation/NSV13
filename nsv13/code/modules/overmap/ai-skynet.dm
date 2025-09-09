@@ -1381,15 +1381,9 @@ Seek a ship thich we'll station ourselves around
 		if(!(ai_weapon.weapon_control_flags & OSW_CONTROL_AI))
 			continue	//Only weapons the AI can use.
 		if(!ai_weapon.get_ammo())
-			if(ai_resupply_scheduled)
-				continue
 			if(ai_weapon.get_max_ammo() <= 0)
 				continue
-			ai_resupply_scheduled = TRUE
-			if(ai_weapon.used_nonphysical_ammo == OSW_AMMO_LIGHT)
-				addtimer(CALLBACK(src, PROC_REF(ai_self_resupply_light)), ai_light_resupply_time)
-			else
-				addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
+			ai_weapon.try_initiating_resupply()
 			continue //If we are out of shots. Continue.
 		if(!ai_weapon.can_fire(target))
 			continue
@@ -1423,15 +1417,9 @@ Seek a ship thich we'll station ourselves around
 		if(!(ai_weapon.weapon_control_flags & OSW_CONTROL_AI))
 			continue	//Only weapons the AI can use.
 		if(!ai_weapon.get_ammo())
-			if(ai_resupply_scheduled)
-				continue
 			if(ai_weapon.get_max_ammo() <= 0)
 				continue
-			ai_resupply_scheduled = TRUE
-			if(ai_weapon.used_nonphysical_ammo == OSW_AMMO_LIGHT)
-				addtimer(CALLBACK(src, PROC_REF(ai_self_resupply_light)), ai_light_resupply_time)
-			else
-				addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
+			ai_weapon.try_initiating_resupply()
 			continue //If we are out of shots. Continue.
 		if(!ai_weapon.can_fire(target))
 			continue
@@ -1439,15 +1427,15 @@ Seek a ship thich we'll station ourselves around
 
 // Not as good as a carrier, but something
 /obj/structure/overmap/proc/ai_self_resupply()
-	ai_resupply_scheduled = FALSE
 	missiles = round(CLAMP(missiles + max_missiles/4, 1, max_missiles))
 	torpedoes = round(CLAMP(torpedoes + max_torpedoes/4, 1, max_torpedoes))
 	shots_left = round(CLAMP(shots_left + max_shots_left/4, 1, max_shots_left))
+	ai_resupply_scheduled &= ~(SHIP_RESUPPLYING_HEAVY)
 
 ///Rearms light weapons
 /obj/structure/overmap/proc/ai_self_resupply_light()
-	ai_resupply_scheduled = FALSE
 	light_shots_left = max_light_shots_left
+	ai_resupply_scheduled &= ~(SHIP_RESUPPLYING_LIGHT)
 
 /**
 * Given target ship and projectile speed, calculate aim point for intercept

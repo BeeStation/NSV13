@@ -315,6 +315,29 @@ Any flags related to this should start with OSW.
 	cached_control_flags = weapon_control_flags
 	return control_flag_string
 
+/**
+ * Called when AI tries to use a weapon when out of ammo. Attempts to initiate the rearm process.
+ * * Base implementation is generic, but you can override this if you want to do nonstandard rearms for a weapon :)
+ */
+/datum/overmap_ship_weapon/proc/try_initiating_resupply()
+	var/rearm_type
+	if(used_nonphysical_ammo == OSW_AMMO_LIGHT)
+		rearm_type = SHIP_RESUPPLYING_LIGHT
+	else
+		rearm_type = SHIP_RESUPPLYING_HEAVY
+
+	if(linked_overmap.ai_resupply_scheduled & rearm_type)
+		return
+	linked_overmap.ai_resupply_scheduled |= rearm_type
+
+	if(rearm_type == SHIP_RESUPPLYING_LIGHT)
+		addtimer(CALLBACK(linked_overmap, TYPE_PROC_REF(/obj/structure/overmap, ai_self_resupply_light)), linked_overmap.ai_light_resupply_time)
+	else
+		addtimer(CALLBACK(linked_overmap, TYPE_PROC_REF(/obj/structure/overmap, ai_self_resupply)), linked_overmap.ai_resupply_time)
+
+
+
+
 //Overmap object procs
 
 /**
