@@ -74,8 +74,9 @@ Bullet reactions
 	proj.firer = null
 	proj.def_zone = "chest"
 	proj.original = pickedgoal
+	var/targeting_angle = get_angle(pickedstart,pickedgoal) + ((rand() - 0.5) * 40) //Target center +- 20°
 	spawn()
-		proj.fire(get_angle(pickedstart,pickedgoal))
+		proj.fire(targeting_angle)
 		proj.set_pixel_speed(4)
 
 /obj/structure/overmap/small_craft/relay_damage(proj_type)
