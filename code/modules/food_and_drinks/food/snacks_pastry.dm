@@ -30,6 +30,7 @@
 	is_decorated = TRUE
 	name = "[decorated_adjective] [name]"
 	icon_state = decorated_icon //delish~!
+	reagents.add_reagent(/datum/reagent/consumable/sprinkles, 1)
 	bonus_reagents += list(/datum/reagent/consumable/sprinkles = 1) //adds extra sprinkles if sprinkled, works with varients.
 	filling_color = "#FF69B4"
 	return TRUE
