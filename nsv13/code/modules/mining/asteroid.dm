@@ -72,9 +72,14 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	armor = list("overmap_light" = 100, "overmap_medium" = 100, "overmap_heavy" = 25)
 	overmap_deletion_traits = DELETE_UNOCCUPIED_ON_DEPARTURE | DAMAGE_DELETES_UNOCCUPIED | DAMAGE_STARTS_COUNTDOWN | FIGHTERS_ARE_OCCUPANTS
 	deletion_teleports_occupants = TRUE
+	weapon_addition_allowed = FALSE
 
 /obj/structure/overmap/asteroid/apply_weapons()
-	return FALSE //Lol, no.
+	return //Lol, no.
+
+/obj/structure/overmap/asteroid/start_piloting(mob/living/carbon/user, position)
+	. = ..()
+	stop_piloting(user) //Dirty but that is what you get for trying to do this.
 
 /obj/structure/overmap/asteroid/medium
 	name = "Asteroid (Non Ferrous)"

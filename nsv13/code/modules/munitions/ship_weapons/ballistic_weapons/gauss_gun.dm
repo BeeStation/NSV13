@@ -12,7 +12,6 @@
 	obj_integrity = 500
 	max_integrity = 500
 
-	fire_mode = FIRE_MODE_GAUSS
 	ammo_type = /obj/item/ship_weapon/ammunition/gauss
 
 	semi_auto = TRUE
@@ -27,11 +26,12 @@
 	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
 	var/climbing_in = FALSE //Stop it. Just stop.
 	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
-	var/pdc_mode = FALSE
 	var/last_pdc_fire = 0 //Pdc cooldown
 	var/BeingLoaded //Used for gunner load
-	var/list/gauss_verbs = list(.verb/show_computer, .verb/show_view, .verb/swap_firemode)
+	var/list/gauss_verbs = list(.verb/show_computer, .verb/show_view)
 	circuit = /obj/item/circuitboard/machine/gauss_turret
+
+	weapon_datum_type = /datum/overmap_ship_weapon/gauss
 
 /obj/machinery/ship_weapon/gauss_gun/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
@@ -116,19 +116,6 @@
 		return
 	remove_gunner()
 */
-
-/obj/machinery/ship_weapon/gauss_gun/verb/swap_firemode()
-	set name = "Cycle firemode"
-	set category = "Gauss gun"
-	set src = usr.loc
-
-	if(gunner.incapacitated() || !isliving(gunner))
-		return
-	cycle_firemode()
-
-/obj/machinery/ship_weapon/gauss_gun/proc/cycle_firemode()
-	to_chat(gunner, "<span class='warning'>[pdc_mode ? "You swap back to gauss mode" : "You swap to point defense mode"]</span>")
-	pdc_mode = !pdc_mode
 
 //Overrides
 
@@ -283,10 +270,6 @@
 		setDir(ndir)
 
 /obj/machinery/ship_weapon/gauss_gun/proc/onClick(atom/target)
-	if(pdc_mode && world.time >= last_pdc_fire + 2 SECONDS)
-		linked.fire_weapon(target=target, mode=FIRE_MODE_PDC)
-		last_pdc_fire = world.time
-		return
 	fire(target)
 
 /obj/machinery/ship_weapon/gauss_gun/after_fire()
@@ -306,7 +289,7 @@
  * Animates an overmap projectile matching whatever we're shooting.
  */
 /obj/machinery/ship_weapon/gauss_gun/animate_projectile(atom/target)
-	linked.fire_projectile(weapon_type.default_projectile_type, target, user_override=gunner, lateral=weapon_type.lateral)
+	linked.fire_projectile(linked_overmap_ship_weapon.standard_projectile_type, target, user_override = gunner, firing_flags = linked_overmap_ship_weapon.weapon_firing_flags)
 
 //Atmos handling
 
@@ -860,6 +843,5 @@ Chair + rack handling
 	data["max_ammo"] = max_ammo
 	data["maint_req"] = (maintainable) ? maint_req : 25
 	data["max_maint_req"] = 25
-	data["pdc_mode"] = pdc_mode
 	data["canReload"] = ammo_rack && (ammo_rack.contents?.len >= 2)
 	return data
