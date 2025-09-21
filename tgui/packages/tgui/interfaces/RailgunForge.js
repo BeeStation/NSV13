@@ -1,6 +1,6 @@
 import { toTitleCase } from 'common/string';
 import { useBackend } from '../backend';
-import { Box, Button, Dropdown, NumberInput, Section, Table } from '../components';
+import { Box, Button, Dropdown, NumberInput, ProgressBar, Flex, Section, Table } from '../components';
 import { Window } from '../layouts';
 import { round, scale } from 'common/math';
 
@@ -31,12 +31,81 @@ export const RailgunForge = (props, context) => {
             content="Print Canister Round"
             icon="tg-air-tank"
             onClick={() => act('print_canister')} />
-          <Dropdown // Example of a dropdown menu for selecting materials, I've omitted the alloys here for now
-            over // Make the drop down menu go over other elements
-            selected={t1_material} // Shows that t1_material is currently selected, the UI should update after ui_act when that proc returns
-            options={["Iron", "Silver", "Gold", "Diamond", "Uranium", "Plasma", "Bluespace", "Bananium", "Titanium", "Copper"]}
-            onselected={() => act('t1_set_material', { value })} // This is passed to byond in the ui_act proc as the action and params (list) variables
-          />
+        </Section>
+        <br />
+        <Section title="Coating Tank">
+          <Flex>
+            <Flex.Item>
+              <Dropdown // Example of a dropdown menu for selecting materials, I've omitted the alloys here for now
+                over:true // Make the drop down menu go over other elements
+                selected={t1_material} // Shows that t1_material is currently selected, the UI should update after ui_act when that proc returns
+                options={["Iron", "Silver", "Gold", "Diamond", "Uranium", "Plasma", "Bluespace", "Bananium", "Titanium", "Copper"]}
+                onSelected={value => act('t1_list', { value })} // This is passed to byond in the ui_act proc as the action and params (list) variables
+              />
+            </Flex.Item>
+            Tank Volume:
+            <Flex.Item width="200px">
+              <ProgressBar
+                value={(data.t1_volume / 100)}
+                ranges={{
+                  good: [0.75, Infinity],
+                  average: [0.25, 0.75],
+                  bad: [-Infinity, 0.25],
+                }} />
+            </Flex.Item>
+          </Flex>
+         <Button
+            content="Set Coating Tank Material"
+            icon="exclamation-triangle"
+            color={data.t1_alloy_lock && "good"}
+            onClick={() => act('t1_set_material')} />
+         <Button
+            content="Process Tank 1"
+            icon="exclamation-triangle"
+            color={data.t1_processing && "good"}
+            onClick={() => act('t1_set_processing')} />
+          <Button
+            content="Purge Tank 1"
+            icon="exclamation-triangle"
+            color={"bad"}
+            onClick={() => act('purge_t1')} />
+        </Section>
+        <Section title="Core Tank">
+          <Flex>
+            <Flex.Item>
+              <Dropdown // Example of a dropdown menu for selecting materials, I've omitted the alloys here for now
+                over:true // Make the drop down menu go over other elements
+                selected={t2_material} // Shows that t1_material is currently selected, the UI should update after ui_act when that proc returns
+                options={["Iron", "Silver", "Gold", "Diamond", "Uranium", "Plasma", "Bluespace", "Bananium", "Titanium", "Copper"]}
+                onSelected={value => act('t2_list', { value })} // This is passed to byond in the ui_act proc as the action and params (list) variables
+              />
+            </Flex.Item>
+            Tank Volume:
+            <Flex.Item width="200px">
+              <ProgressBar
+                value={(data.t2_volume / 100)}
+                ranges={{
+                  good: [0.75, Infinity],
+                  average: [0.25, 0.75],
+                  bad: [-Infinity, 0.25],
+                }} />
+            </Flex.Item>
+          </Flex>
+         <Button
+            content="Set Core Tank Material"
+            icon="exclamation-triangle"
+            color={data.t2_alloy_lock && "good"}
+            onClick={() => act('t2_set_material')} />
+         <Button
+            content="Process Tank 2"
+            icon="exclamation-triangle"
+            color={data.t2_processing && "good"}
+            onClick={() => act('t2_set_processing')} />
+          <Button
+            content="Purge Tank 2"
+            icon="exclamation-triangle"
+            color={"bad"}
+            onClick={() => act('purge_t2')} />
         </Section>
       </Window.Content>
     </Window>

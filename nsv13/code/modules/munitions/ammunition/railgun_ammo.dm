@@ -25,7 +25,6 @@
 	desc = "A gigantic slug that's designed to be fired out of a railgun. It's extremely heavy, but doesn't actually contain any volatile components, so it's safe to manhandle."
 	icon_state = "railgun_ammo"
 	projectile_type = /obj/item/projectile/bullet/railgun_forged
-	var/canister = FALSE
 	var/material_conductivity = 0
 	var/material_density = 0
 	var/material_hardness = 0
@@ -36,7 +35,7 @@
 	material_density = 30
 	material_hardness = 10
 
-/obj/item/ship_weapon/ammunition/railgun_ammo/forged/canister
+/obj/item/ship_weapon/ammunition/railgun_ammo_canister
 	name = "\improper Forged 800mm" //Partial name - to be completed by the forging proc
 	desc = "A gigantic cansiter that's designed to be fired out of a railgun. It's extremely heavy, containing an internal chamber for charged ions, unsafe for direct handling."
 	icon_state = "railgun_ammo"
@@ -45,25 +44,34 @@
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	w_class = 5 //larger
 	projectile_type = /obj/item/projectile/bullet/railgun_forged
-	canister = TRUE
-	//Repeated for clarity that these still matter
-	material_conductivity = 0
-	material_density = 0
-	material_hardness = 0
+	var/material_conductivity = 0
+	var/material_density = 0
+	var/material_hardness = 0
 	var/next_slowprocess = 0
 	var/material_charge = 0
 	var/canister_integrity = 100
-	var/canister_volume = 100 //or should this be mols? //Volume is how much space it takes up, the amount of moles is how much gas is filling that space
-	var/canister_gas
+	var/canister_moles = 100  //Hmm?
+	var/canister_volume = 50
+	var/canister_sealed = FALSE
 	var/stabilized = FALSE
+	var/datum/gas_mixture/canister_gas = null
 
-/obj/item/ship_weapon/ammunition/railgun_ammo/forged/canister/process()
+/obj/item/ship_weapon/ammunition/railgun_ammo_canister/Initialize(mapload)
+	. = ..()
+	canister_gas = new(canister_volume)
+	canister_gas.set_temperature(T20C)
+
+/obj/item/ship_weapon/ammunition/railgun_ammo_canister/Destroy()
+	. = ..()
+	QDEL_NULL(canister_gas)
+
+/obj/item/ship_weapon/ammunition/railgun_ammo_canister/process()
 	.=..()
 	if(next_slowprocess < world.time)
 		slowprocess()
 		next_slowprocess = world.time + 1 SECONDS //Set to process only once a second
 
-/obj/item/ship_weapon/ammunition/railgun_ammo/forged/canister/proc/slowprocess()
+/obj/item/ship_weapon/ammunition/railgun_ammo_canister/proc/slowprocess()
 	switch(material_charge)
 		if(80 to 100)
 			if(prob(25))
@@ -84,12 +92,12 @@
 
 	update_overlay()
 
-/obj/item/ship_weapon/ammunition/railgun_ammo/forged/canister/proc/update_overlay()
+/obj/item/ship_weapon/ammunition/railgun_ammo_canister/proc/update_overlay()
 	//here we enter in the overlays when we have them
 	//overlay is blue above 20% integrity, red below 20%
 	//overlay shifts and shimmers more with higher charge value
 
-/obj/item/ship_weapon/ammunition/railgun_ammo/forged/canister/proc/burst()
+/obj/item/ship_weapon/ammunition/railgun_ammo_canister/proc/burst()
 	if(material_charge > 50)
 		empulse(src, 4, 7, log=TRUE)
 		for(var/mob/living/carbon/C in orange(7, src))
@@ -102,7 +110,7 @@
 	explosion(get_turf(src), 0, 0, 1, 2, TRUE, TRUE)
 	Destroy(src)
 
-/obj/item/ship_weapon/ammunition/railgun_ammo/forged/canister/attack_hand(mob/living/carbon/user)
+/obj/item/ship_weapon/ammunition/railgun_ammo_canister/attack_hand(mob/living/carbon/user)
 	.=..()
 	var/mob/living/carbon/human/H = user
 	if(material_charge)

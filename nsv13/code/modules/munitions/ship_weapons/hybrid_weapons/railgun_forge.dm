@@ -27,8 +27,8 @@
 
 	name = "Railgun Forge"
 	desc = "Device for forging railgun munitions"
-	icon = 'icons/obj/stationobjs.dmi'
-	icon_state = "autolathe"
+	icon = 'icons/obj/stock_parts.dmi'
+	icon_state = "box_0"
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 100
@@ -42,30 +42,23 @@
 	var/tank_1_alloy_lock = FALSE //Is the alloy selection locked in?
 	var/tank_1_processing = FALSE //Is the alloy being produced?
 	var/material_selection_1 //Tank 1 material selection
+	var/t1_holder
 
 	//Core Alloy Tank
 	var/tank_2_volume = 0
 	var/tank_2_alloy_lock = FALSE
 	var/tank_2_processing = FALSE
 	var/material_selection_2
+	var/t2_holder
 
 /obj/machinery/railgun_forge/Initialize(mapload)
 	.=..()
 	r_materials = AddComponent(/datum/component/remote_materials, "railgun_forge", mapload)
 
 /obj/machinery/railgun_forge/process(delta_time)
-	. = ..()
 	if(auto_use_power()) //check proc
 		handle_material_processing_t1()
 		handle_material_processing_t2()
-
-/obj/machinery/railgun_forge/proc/set_alloy_tank_1()
-	tank_1_alloy_lock = TRUE //For simplicity sake, we aren't allowing mixing of additional materials in an active batch
-
-
-/obj/machinery/railgun_forge/proc/set_alloy_tank_2()
-	tank_2_alloy_lock = TRUE
-
 
 /obj/machinery/railgun_forge/proc/handle_material_processing_t1()
 	if(tank_1_processing)
@@ -77,68 +70,68 @@
 			switch(material_selection_1)
 				if(0) //No Selection
 					return
-				if(1) //Iron
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 100)
+				if("Iron")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/iron)
 						tank_1_volume += 10
-				if(2) //Silver
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/silver, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/silver, 100)
+				if("Silver")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/silver, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/silver)
 						tank_1_volume += 10
-				if(3) //Gold
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/gold, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/gold, 100)
+				if("Gold")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/gold, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/gold)
 						tank_1_volume += 10
-				if(4) //Diamond
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/diamond, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/diamond, 100)
+				if("Diamond")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/diamond, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/diamond)
 						tank_1_volume += 10
-				if(5) //Uranium
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/uranium, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/uranium, 100)
+				if("Uranium")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/uranium, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/uranium)
 						tank_1_volume += 10
-				if(6) //Plasma
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/plasma, 100)
+				if("Plasma")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/plasma)
 						tank_1_volume += 10
-				if(7) //Bluespace
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/bluespace, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/bluespace, 100)
+				if("Bluespace")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/bluespace, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/bluespace)
 						tank_1_volume += 10
-				if(8) //Bananium
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/bananium, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/bananium, 100)
+				if("Bananium")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/bananium, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/bananium)
 						tank_1_volume += 10
-				if(9) //Titanium
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/titanium, 100)
+				if("Titanium")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/titanium)
 						tank_1_volume += 10
-				if(10) //Copper
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/copper, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/copper, 100)
+				if("Copper")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/copper, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/copper)
 						tank_1_volume += 10
-				if(11) //Plasteel
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 50) && r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 50) )
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 50)
-						r_materials.mat_container.use_amount_mat(/datum/material/plasma, 50)
+				if("Plasteel")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 500) && r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 500) )
+						r_materials.mat_container.use_amount_mat(500, /datum/material/iron)
+						r_materials.mat_container.use_amount_mat(500, /datum/material/plasma)
 						tank_1_volume += 10
-				if(12) //Ferrotitaium
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 25) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 75))
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 25)
-						r_materials.mat_container.use_amount_mat(/datum/material/titanium, 75)
+				if("Ferrotitanium")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 250) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 750))
+						r_materials.mat_container.use_amount_mat(250, /datum/material/iron)
+						r_materials.mat_container.use_amount_mat(750, /datum/material/titanium)
 						tank_1_volume += 10
-				if(13) //Durasteel
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 20) && r_materials.mat_container.has_enough_of_material(/datum/material/silver, 15) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 65))
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 20)
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 15)
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 65)
+				if("Durasteel")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 200) && r_materials.mat_container.has_enough_of_material(/datum/material/silver, 150) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 650))
+						r_materials.mat_container.use_amount_mat(200, /datum/material/iron)
+						r_materials.mat_container.use_amount_mat(150, /datum/material/iron)
+						r_materials.mat_container.use_amount_mat(650, /datum/material/iron)
 						tank_1_volume += 10
-				if(14) //Duranium
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 17.5) && r_materials.mat_container.has_enough_of_material(/datum/material/silver, 15) && r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 5) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 62.5))
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 17.5)
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 15)
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 5)
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 62.5)
+				if("Duranium")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 175) && r_materials.mat_container.has_enough_of_material(/datum/material/silver, 150) && r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 50) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 625))
+						r_materials.mat_container.use_amount_mat(175, /datum/material/iron)
+						r_materials.mat_container.use_amount_mat(150, /datum/material/iron)
+						r_materials.mat_container.use_amount_mat(50, /datum/material/iron)
+						r_materials.mat_container.use_amount_mat(625, /datum/material/iron)
 						tank_1_volume += 10
 
 /obj/machinery/railgun_forge/proc/handle_material_processing_t2()
@@ -151,68 +144,68 @@
 			switch(material_selection_1)
 				if(0) //No Selection
 					return
-				if(1) //Iron
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 100)
+				if("Iron")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/iron)
 						tank_2_volume += 10
-				if(2) //Silver
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/silver, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/silver, 100)
+				if("Silver")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/silver, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/silver)
 						tank_2_volume += 10
-				if(3) //Gold
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/gold, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/gold, 100)
+				if("Gold")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/gold, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/gold)
 						tank_2_volume += 10
-				if(4) //Diamond
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/diamond, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/diamond, 100)
+				if("Diamond")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/diamond, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/diamond)
 						tank_2_volume += 10
-				if(5) //Uranium
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/uranium, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/uranium, 100)
+				if("Uranium")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/uranium, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/uranium)
 						tank_2_volume += 10
-				if(6) //Plasma
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/plasma, 100)
+				if("Plasma")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/plasma)
 						tank_2_volume += 10
-				if(7) //Bluespace
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/bluespace, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/bluespace, 100)
+				if("Bluespace")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/bluespace, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/bluespace)
 						tank_2_volume += 10
-				if(8) //Bananium
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/bananium, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/bananium, 100)
+				if("Bananium")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/bananium, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/bananium)
 						tank_2_volume += 10
-				if(9) //Titanium
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/titanium, 100)
+				if("Titanium")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/titanium)
 						tank_2_volume += 10
-				if(10) //Copper
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/copper, 100))
-						r_materials.mat_container.use_amount_mat(/datum/material/copper, 100)
+				if("Copper")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/copper, 1000))
+						r_materials.mat_container.use_amount_mat(1000, /datum/material/copper)
 						tank_2_volume += 10
-				if(11) //Plasteel
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 50) && r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 50) )
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 50)
-						r_materials.mat_container.use_amount_mat(/datum/material/plasma, 50)
+				if("Plasteel")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 500) && r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 500) )
+						r_materials.mat_container.use_amount_mat(500, /datum/material/iron)
+						r_materials.mat_container.use_amount_mat(500, /datum/material/plasma)
 						tank_2_volume += 10
-				if(12) //Ferrotitaium
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 25) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 75))
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 25)
-						r_materials.mat_container.use_amount_mat(/datum/material/titanium, 75)
+				if("Ferrotitanium")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 250) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 750))
+						r_materials.mat_container.use_amount_mat(250, /datum/material/iron)
+						r_materials.mat_container.use_amount_mat(750, /datum/material/titanium)
 						tank_2_volume += 10
-				if(13) //Durasteel
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 20) && r_materials.mat_container.has_enough_of_material(/datum/material/silver, 15) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 65))
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 20)
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 15)
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 65)
+				if("Durasteel")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 200) && r_materials.mat_container.has_enough_of_material(/datum/material/silver, 150) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 650))
+						r_materials.mat_container.use_amount_mat(200, /datum/material/iron)
+						r_materials.mat_container.use_amount_mat(150, /datum/material/iron)
+						r_materials.mat_container.use_amount_mat(650, /datum/material/iron)
 						tank_2_volume += 10
-				if(14) //Duranium
-					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 17.5) && r_materials.mat_container.has_enough_of_material(/datum/material/silver, 15) && r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 5) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 62.5))
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 17.5)
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 15)
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 5)
-						r_materials.mat_container.use_amount_mat(/datum/material/iron, 62.5)
+				if("Duranium")
+					if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 175) && r_materials.mat_container.has_enough_of_material(/datum/material/silver, 150) && r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 50) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 625))
+						r_materials.mat_container.use_amount_mat(175, /datum/material/iron)
+						r_materials.mat_container.use_amount_mat(150, /datum/material/iron)
+						r_materials.mat_container.use_amount_mat(50, /datum/material/iron)
+						r_materials.mat_container.use_amount_mat(625, /datum/material/iron)
 						tank_2_volume += 10
 
 /obj/machinery/railgun_forge/proc/getConductivity(var/T)
@@ -221,63 +214,63 @@
 	var/conductivity_2 = 0
 
 	switch(material_selection_1)
-		if(1) //Iron
+		if("Iron")
 			conductivity_1 = 1.0
-		if(2) //Silver
+		if("Silver")
 			conductivity_1 = 6.3
-		if(3) //Gold
+		if("Gold")
 			conductivity_1 = 4.1
-		if(4) //Diamond
+		if("Diamond")
 			conductivity_1 = 0.001
-		if(5) //Uranium
+		if("Uranium")
 			conductivity_1 = 0.36
-		if(6) //Plasma
+		if("Plasma")
 			conductivity_1 = 0.001
-		if(7) //Bluespace
+		if("Bluespace")
 			conductivity_1 = 0.001
-		if(8) //Bananium
+		if("Bananium")
 			conductivity_1 = 0.001
-		if(9) //Titanium
+		if("Titanium")
 			conductivity_1 = 0.24
-		if(10) //Copper
+		if("Copper")
 			conductivity_1 = 5.9
-		if(11) //Plasteel
+		if("Plasteel")
 			conductivity_1 = 0 //<-------
-		if(12) //Ferrotitanium
+		if("Ferrotitanium")
 			conductivity_1 = 0 //<-------
-		if(13) //Durasteel
+		if("Durasteel")
 			conductivity_1 = 0 //<-------
-		if(14) //Duranium
+		if("Duranium")
 			conductivity_1 = 0 //<-------
 
 	switch(material_selection_2)
-		if(1) //Iron
+		if("Iron")
 			conductivity_2 = 1.0
-		if(2) //Silver
+		if("Silver")
 			conductivity_2 = 6.3
-		if(3) //Gold
+		if("Gold")
 			conductivity_2 = 4.1
-		if(4) //Diamond
+		if("Diamond")
 			conductivity_2 = 0.001
-		if(5) //Uranium
+		if("Uranium")
 			conductivity_2 = 0.36
-		if(6) //Plasma
+		if("Plasma")
 			conductivity_2 = 0.001
-		if(7) //Bluespace
+		if("Bluespace")
 			conductivity_2 = 0.001
-		if(8) //Bananium
+		if("Bananium")
 			conductivity_2 = 0.001
-		if(9) //Titanium
+		if("Titanium")
 			conductivity_2 = 0.24
-		if(10) //Copper
+		if("Copper")
 			conductivity_2 = 5.9
-		if(11) //Plasteel
+		if("Plasteel")
 			conductivity_2 = 0 //<-------
-		if(12) //Ferrotitanium
+		if("Ferrotitanium")
 			conductivity_2 = 0 //<-------
-		if(13) //Durasteel
+		if("Durasteel")
 			conductivity_2 = 0 //<-------
-		if(14) //Duranium
+		if("Duranium")
 			conductivity_2 = 0 //<-------
 /*
 		silver, = 6.3x10^7					-> 6.3
@@ -311,63 +304,63 @@
 	var/density_2 = 0
 
 	switch(material_selection_1)
-		if(1) //Iron
+		if("Iron")
 			density_1 = 14
-		if(2) //Silver
+		if("Silver")
 			density_1 = 22
-		if(3) //Gold
+		if("Gold")
 			density_1 = 40
-		if(4) //Diamond
+		if("Diamond")
 			density_1 = 7
-		if(5) //Uranium
+		if("Uranium")
 			density_1 = 38
-		if(6) //Plasma
+		if("Plasma")
 			density_1 = 0 //<-------
-		if(7) //Bluespace
+		if("Bluespace")
 			density_1 = 0 //<-------
-		if(8) //Bananium
+		if("Bananium")
 			density_1 = 0 //<-------
-		if(9) //Titanium
+		if("Titanium")
 			density_1 = 9
-		if(10) //Copper
+		if("Copper")
 			density_1 = 18
-		if(11) //Plasteel
+		if("Plasteel")
 			density_1 = 0 //<-------
-		if(12) //Ferrotitanium
+		if("Ferrotitanium")
 			density_1 = 0 //<-------
-		if(13) //Durasteel
+		if("Durasteel")
 			density_1 = 0 //<-------
-		if(14) //Duranium
+		if("Duranium")
 			density_1 = 0 //<-------
 
 	switch(material_selection_2)
-		if(1) //Iron
+		if("Iron")
 			density_2 = 14
-		if(2) //Silver
+		if("Silver")
 			density_2 = 22
-		if(3) //Gold
+		if("Gold")
 			density_2 = 40
-		if(4) //Diamond
+		if("Diamond")
 			density_2 = 7
-		if(5) //Uranium
+		if("Uranium")
 			density_2 = 38
-		if(6) //Plasma
+		if("Plasma")
 			density_2 = 0 //<-------
-		if(7) //Bluespace
+		if("Bluespace")
 			density_2 = 0 //<-------
-		if(8) //Bananium
+		if("Bananium")
 			density_2 = 0 //<-------
-		if(9) //Titanium
+		if("Titanium")
 			density_2 = 9
-		if(10) //Copper
+		if("Copper")
 			density_2 = 18
-		if(11) //Plasteel
+		if("Plasteel")
 			density_2 = 0 //<-------
-		if(12) //Ferrotitanium
+		if("Ferrotitanium")
 			density_2 = 0 //<-------
-		if(13) //Durasteel
+		if("Durasteel")
 			density_2 = 0 //<-------
-		if(14) //Duranium
+		if("Duranium")
 			density_2 = 0 //<-------
 /*
 		gold, = 19.282						-> 40
@@ -401,63 +394,63 @@
 	var/hardness_2 = 0
 
 	switch(material_selection_1)
-		if(1) //Iron
+		if("Iron")
 			hardness_1 = 4
-		if(2) //Silver
+		if("Silver")
 			hardness_1 = 2.5
-		if(3) //Gold
+		if("Gold")
 			hardness_1 = 2.5
-		if(4) //Diamond
+		if("Diamond")
 			hardness_1 = 10
-		if(5) //Uranium
+		if("Uranium")
 			hardness_1 = 6
-		if(6) //Plasma
+		if("Plasma")
 			hardness_1 = 0 //<-------
-		if(7) //Bluespace
+		if("Bluespace")
 			hardness_1 = 0 //<-------
-		if(8) //Bananium
+		if("Bananium")
 			hardness_1 = 0 //<-------
-		if(9) //Titanium
+		if("Titanium")
 			hardness_1 = 6
-		if(10) //Copper
+		if("Copper")
 			hardness_1 = 5
-		if(11) //Plasteel
+		if("Plasteel")
 			hardness_1 = 0 //<-------
-		if(12) //Ferrotitanium
+		if("Ferrotitanium")
 			hardness_1 = 0 //<-------
-		if(13) //Durasteel
+		if("Durasteel")
 			hardness_1 = 0 //<-------
-		if(14) //Duranium
+		if("Duranium")
 			hardness_1 = 0 //<-------
 
 	switch(material_selection_2)
-		if(1) //Iron
+		if("Iron")
 			hardness_2 = 4
-		if(2) //Silver
+		if("Silver")
 			hardness_2 = 2.5
-		if(3) //Gold
+		if("Gold")
 			hardness_2 = 2.5
-		if(4) //Diamond
+		if("Diamond")
 			hardness_2 = 10
-		if(5) //Uranium
+		if("Uranium")
 			hardness_2 = 6
-		if(6) //Plasma
+		if("Plasma")
 			hardness_2 = 0 //<-------
-		if(7) //Bluespace
+		if("Bluespace")
 			hardness_2 = 0 //<-------
-		if(8) //Bananium
+		if("Bananium")
 			hardness_2 = 0 //<-------
-		if(9) //Titanium
+		if("Titanium")
 			hardness_2 = 6
-		if(10) //Copper
+		if("Copper")
 			hardness_2 = 5
-		if(11) //Plasteel
+		if("Plasteel")
 			hardness_2 = 0 //<-------
-		if(12) //Ferrotitanium
+		if("Ferrotitanium")
 			hardness_2 = 0 //<-------
-		if(13) //Durasteel
+		if("Durasteel")
 			hardness_2 = 0 //<-------
-		if(14) //Duranium
+		if("Duranium")
 			hardness_2 = 0 //<-------
 /*
 		diamond, = 10.0
@@ -489,7 +482,9 @@
 	if(tank_1_volume >= 10 && tank_2_volume >= 2) //Duplicate checks
 		tank_1_volume -= 10
 		tank_2_volume -= 2
-		var/obj/item/ship_weapon/ammunition/railgun_ammo/forged/F = new(src)
+		var/turf/T = loc
+		var/obj/item/ship_weapon/ammunition/railgun_ammo/forged/F = new(T)
+		F.name = "\improper Forged 400mm [material_selection_1] coated [material_selection_2] slug"
 		F.material_conductivity = getConductivity("slug")
 		F.material_density = getDensity("slug")
 		F.material_hardness = getHardness("slug")
@@ -500,7 +495,9 @@
 	if(tank_1_volume >= 10 && tank_2_volume >= 15) //Duplicate checks
 		tank_1_volume -= 10
 		tank_2_volume -= 15
-		var/obj/item/ship_weapon/ammunition/railgun_ammo/forged/canister/F = new(src)
+		var/turf/T = loc
+		var/obj/item/ship_weapon/ammunition/railgun_ammo_canister/F = new(T)
+		F.name = "\improper Forged 800mm [material_selection_1] coated [material_selection_2] canister"
 		F.material_conductivity = getConductivity("canister")
 		F.material_density = getDensity("canister")
 		F.material_hardness = getHardness("canister")
@@ -531,11 +528,14 @@
 		ui.set_autoupdate(TRUE)
 
 /obj/machinery/railgun_forge/ui_act(action, params)
-	if(..())
+	. = ..()
+	if(.)
+		return
+	if(!(in_range(src, usr) || IsAdminGhost(usr)))
 		return
 	switch(action)
 		if("print_slug")
-			if(material_selection_1 == 0 || material_selection_2 == 0)
+			if(tank_1_alloy_lock == FALSE || tank_2_alloy_lock == FALSE)
 				to_chat(usr, "<span class='notice'>Error: Fabrication materials not selected</span>")
 				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 				playsound(src, sound, 100, 1)
@@ -549,7 +549,7 @@
 				forge_slug()
 
 		if("print_canister")
-			if(material_selection_1 == 0 || material_selection_2 == 0)
+			if(tank_1_alloy_lock == FALSE || tank_2_alloy_lock == FALSE)
 				to_chat(usr, "<span class='notice'>Error: Fabrication materials not selected</span>")
 				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 				playsound(src, sound, 100, 1)
@@ -567,151 +567,79 @@
 			if(alert("Allocated resources will not be recoverable when purging the coating tank",name,"Continue","Abort") != "Abort" && Adjacent(usr))
 				to_chat(usr, "<span class='warning'>Purging coating tank</span>")
 				material_selection_1 = 0
+				tank_1_alloy_lock = FALSE
+				tank_1_processing = FALSE
 				tank_1_volume = 0
+				return
 
 		if("purge_t2")
 			if(alert("Allocated resources will not be recoverable when purging the core tank",name,"Continue","Abort") != "Abort" && Adjacent(usr))
 				to_chat(usr, "<span class='warning'>Purging core tank</span>")
 				material_selection_2 = 0
+				tank_2_alloy_lock = FALSE
+				tank_2_processing = FALSE
 				tank_2_volume = 0
 				return
 
+		if("t1_list")
+			t1_holder = params["value"]
+			return
+
+		if("t2_list")
+			t2_holder = params["value"]
+			return
+
 		if("t1_set_material")
-			if(material_selection_1 != 0)
+			if(tank_1_alloy_lock)
 				to_chat(usr, "<span class='notice'>Error: Coating tank must be purged before selecting another material</span>")
 				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 				playsound(src, sound, 100, 1)
+				return
 			else
-				material_selection_1 = params[1] //Because I've only used strings in the tgui materials list, we will also just use those here.
+				material_selection_1 = t1_holder //Because I've only used strings in the tgui materials list, we will also just use those here.
+				tank_1_alloy_lock = TRUE
 				return TRUE //We can safely return after having completed our action TRUE will make the ui reload itself to update any ui_data that may have changed.
-			return //You generally write this in the actual action and not at the end of the proc itself. I don't think there is a specific reason
 
-		if("t2-1-a")
-			if(material_selection_2 != 0)
+		if("t2_set_material")
+			if(tank_2_alloy_lock)
 				to_chat(usr, "<span class='notice'>Error: Core tank must be purged before selecting another material</span>")
 				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 				playsound(src, sound, 100, 1)
 				return
 			else
-				material_selection_2 = 1
-				. = TRUE
-		if("t2-2-a")
-			if(material_selection_2 != 0)
-				to_chat(usr, "<span class='notice'>Error: Core tank must be purged before selecting another material</span>")
+				material_selection_2 = t2_holder
+				tank_2_alloy_lock = TRUE
+				return TRUE
+
+		if("t1_set_processing")
+			if(tank_1_processing)
+				tank_1_processing = FALSE
+				to_chat(usr, "<span class='notice'>Coating Tank Processing: Disabled.</span>")
+				return
+			else if(!tank_1_alloy_lock)
+				to_chat(usr, "<span class='notice'>Error: Material selection must be locked before processing.</span>")
 				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 				playsound(src, sound, 100, 1)
 				return
 			else
-				material_selection_2 = 2
-				. = TRUE
-		if("t2-3-a")
-			if(material_selection_2 != 0)
-				to_chat(usr, "<span class='notice'>Error: Core tank must be purged before selecting another material</span>")
+				tank_1_processing = TRUE
+				to_chat(usr, "<span class='notice'>Coating Tank Processing: Enabled.</span>")
+				return
+
+		if("t2_set_processing")
+			if(tank_2_processing)
+				tank_2_processing = FALSE
+				to_chat(usr, "<span class='notice'>Core Tank Processing: Disabled.</span>")
+				return
+			else if(!tank_2_alloy_lock)
+				to_chat(usr, "<span class='notice'>Error: Material selection must be locked before processing.</span>")
 				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 				playsound(src, sound, 100, 1)
 				return
 			else
-				material_selection_2 = 3
-				. = TRUE
-		if("t2-4-a")
-			if(material_selection_2 != 0)
-				to_chat(usr, "<span class='notice'>Error: Core tank must be purged before selecting another material</span>")
-				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-				playsound(src, sound, 100, 1)
+				tank_2_processing = TRUE
+				to_chat(usr, "<span class='notice'>Core Tank Processing: Enabled.</span>")
 				return
-			else
-				material_selection_2 = 4
-				. = TRUE
-		if("t2-5-a")
-			if(material_selection_2 != 0)
-				to_chat(usr, "<span class='notice'>Error: Core tank must be purged before selecting another material</span>")
-				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-				playsound(src, sound, 100, 1)
-				return
-			else
-				material_selection_2 = 5
-				. = TRUE
-		if("t2-6-a")
-			if(material_selection_2 != 0)
-				to_chat(usr, "<span class='notice'>Error: Core tank must be purged before selecting another material</span>")
-				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-				playsound(src, sound, 100, 1)
-				return
-			else
-				material_selection_2 = 6
-				. = TRUE
-		if("t2-7-a")
-			if(material_selection_2 != 0)
-				to_chat(usr, "<span class='notice'>Error: Core tank must be purged before selecting another material</span>")
-				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-				playsound(src, sound, 100, 1)
-				return
-			else
-				material_selection_2 = 7
-				. = TRUE
-		if("t2-8-a")
-			if(material_selection_2 != 0)
-				to_chat(usr, "<span class='notice'>Error: Core tank must be purged before selecting another material</span>")
-				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-				playsound(src, sound, 100, 1)
-				return
-			else
-				material_selection_2 = 8
-				. = TRUE
-		if("t2-9-a")
-			if(material_selection_2 != 0)
-				to_chat(usr, "<span class='notice'>Error: Core tank must be purged before selecting another material</span>")
-				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-				playsound(src, sound, 100, 1)
-				return
-			else
-				material_selection_2 = 9
-				. = TRUE
-		if("t2-10-a")
-			if(material_selection_2 != 0)
-				to_chat(usr, "<span class='notice'>Error: Core tank must be purged before selecting another material</span>")
-				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-				playsound(src, sound, 100, 1)
-				return
-			else
-				material_selection_2 = 10
-				. = TRUE
-		if("t2-11-a")
-			if(material_selection_2 != 0)
-				to_chat(usr, "<span class='notice'>Error: Core tank must be purged before selecting another material</span>")
-				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-				playsound(src, sound, 100, 1)
-				return
-			else
-				material_selection_2 = 11
-				. = TRUE
-		if("t2-12-a")
-			if(material_selection_2 != 0)
-				to_chat(usr, "<span class='notice'>Error: Core tank must be purged before selecting another material</span>")
-				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-				playsound(src, sound, 100, 1)
-				return
-			else
-				material_selection_2 = 12
-				. = TRUE
-		if("t2-13-a")
-			if(material_selection_2 != 0)
-				to_chat(usr, "<span class='notice'>Error: Core tank must be purged before selecting another material</span>")
-				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-				playsound(src, sound, 100, 1)
-				return
-			else
-				material_selection_2 = 13
-				. = TRUE
-		if("t2-14-a")
-			if(material_selection_2 != 0)
-				to_chat(usr, "<span class='notice'>Error: Core tank must be purged before selecting another material</span>")
-				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-				playsound(src, sound, 100, 1)
-				return
-			else
-				material_selection_2 = 14
-				. = TRUE
 
 	return
 
@@ -730,11 +658,172 @@
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/obj/machinery/atmospherics/components/binary/railgun_filler
+	name = "Railgun Canister Filler"
+	desc = "Device for filling and sealing railgun canister munitions"
+	icon = 'icons/obj/stock_parts.dmi'
+	icon_state = "box_0"
+	density = TRUE
+	anchored = TRUE
+	dir = 8
+	var/loading = FALSE
+	var/obj/item/ship_weapon/ammunition/railgun_ammo_canister/F
+
+/obj/machinery/atmospherics/components/binary/railgun_filler/proc/fill_canister()
+	if(F)
+		var/pressure_check = F.canister_gas.return_volume()
+		if(pressure_check != 0)
+			return
+		else
+			var/datum/gas_mixture/air1 = airs[1]
+			var/datum/gas_mixture/buffer = air1.remove(50)
+			buffer.set_temperature(T20C) //Simplification
+			F.canister_gas.merge(buffer)
+			update_parents()
+
+/obj/machinery/atmospherics/components/binary/railgun_filler/proc/empty_canister()
+	if(F)
+		var/pressure_check = F.canister_gas.return_volume()
+		if(pressure_check != 0)
+			return
+		else
+			var/datum/gas_mixture/air2 = airs[2]
+			var/datum/gas_mixture/buffer = F.canister_gas.remove(50)
+			air2.merge(buffer)
+			update_parents()
+
+/obj/machinery/atmospherics/components/binary/railgun_filler/proc/eject_canister()
+	if(F)
+		F.forceMove(get_turf(src))
+		F = null
+
+/obj/machinery/atmospherics/components/binary/railgun_filler/proc/eject_unsealed_canister()
+	var/turf/T = get_turf(src)
+	if(T)
+		var/datum/gas_mixture/env = T.return_air()
+		var/datum/gas_mixture/buffer = F.canister_gas.remove(50)
+		env.merge(buffer)
+	eject_canister()
+
+/obj/machinery/atmospherics/components/binary/railgun_filler/attackby(obj/item/I, mob/user)
+	if(!loading)
+		if(istype(I, /obj/item/ship_weapon/ammunition/railgun_ammo_canister))
+			if(user)
+				to_chat(user, "<span class='notice'>You start to load [I] into [src]...</span>")
+				loading = TRUE
+			if(!user || !do_after(user, 20, target = src))
+				loading = FALSE
+				return
+			F = I
+			F.forceMove(src)
+			loading = FALSE
+			to_chat(user, "<span class='notice'>You load [I] into [src].</span>")
+	if(F)
+		if(user)
+			to_chat(user, "<span class='notice'>There is already an [F] in [src].</span>")
+
+/obj/machinery/atmospherics/components/binary/railgun_filler/attack_hand(mob/living/carbon/user)
+	ui_interact(user)
+
+/obj/machinery/atmospherics/components/binary/railgun_filler/attack_ai(mob/user)
+	.=..()
+	ui_interact(user)
+
+/obj/machinery/atmospherics/components/binary/railgun_filler/attack_robot(mob/user)
+	.=..()
+	ui_interact(user)
+
+/obj/machinery/atmospherics/components/binary/railgun_filler/attack_ghost(mob/user)
+	.=..()
+	ui_interact(user)
+
+/obj/machinery/atmospherics/components/binary/railgun_filler/ui_interact(mob/user, datum/tgui/ui)
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "RailgunFiller")
+		ui.open()
+		ui.set_autoupdate(TRUE)
+
+/obj/machinery/atmospherics/components/binary/railgun_filler/ui_act(action, params)
+	. = ..()
+	if(.)
+		return
+	if(!(in_range(src, usr) || IsAdminGhost(usr)))
+		return
+	switch(action)
+		if("fill")
+			if(F)
+				if(F.canister_sealed)
+					to_chat(usr, "<span class='notice'>Error: Unable to fill canister as it has been permanently sealed shut.</span>")
+					var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+					playsound(src, sound, 100, 1)
+					return
+				else
+					fill_canister()
+					return
+			return
+		if("empty")
+			if(F)
+				if(F.canister_sealed)
+					to_chat(usr, "<span class='notice'>Error: Unabled to empty canister as it has been permanently sealed shut.</span>")
+					var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+					playsound(src, sound, 100, 1)
+					return
+				else
+					empty_canister()
+			return
+		if("seal")
+			if(F)
+				if(F.canister_sealed)
+					to_chat(usr, "<span class='notice'>Error: Canister has already been sealed shut.</span>")
+					var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+					playsound(src, sound, 100, 1)
+					return
+				else
+					F.canister_sealed = TRUE
+					to_chat(usr, "<span class='notice'>Attention: [F.name] has been been permamently sealed")
+					return
+			return
+		if("eject")
+			if(!F)
+				return
+			else if(F.canister_sealed)
+				eject_canister()
+				return
+			else
+				to_chat(usr, "<span class='danger'>The canister vents its contents!</span>")
+				eject_unsealed_canister()
+				return
+	return
+
+/obj/machinery/atmospherics/components/binary/railgun_filler/ui_data(mob/user)
+	. = ..()
+	var/list/data = list()
+	data["canister_name"] = F ? F.name : 0
+	data["gas_moles"] = airs[1].total_moles()
+	data["o2"] = airs[1].get_moles(GAS_O2)
+	data["pluox"] = airs[1].get_moles(GAS_PLUOXIUM)
+	data["plasma"] = airs[1].get_moles(GAS_PLASMA)
+	data["c_plasma"] = airs[1].get_moles(GAS_CONSTRICTED_PLASMA)
+	data["trit"] = airs[1].get_moles(GAS_TRITIUM)
+	data["nucleium"] = airs[1].get_moles(GAS_NUCLEIUM)
+	data["canister_gas_moles"] = F ? F.canister_gas.total_moles() : 0
+	data["canister_o2"] = F ? F.canister_gas.get_moles(GAS_O2) : 0
+	data["canister_pluox"] = F ? F.canister_gas.get_moles(GAS_PLUOXIUM) : 0
+	data["canister_plasma"] = F ? F.canister_gas.get_moles(GAS_PLASMA) : 0
+	data["canister_c_plasma"] = F ? F.canister_gas.get_moles(GAS_CONSTRICTED_PLASMA) : 0
+	data["canister_trit"] = F ? F.canister_gas.get_moles(GAS_TRITIUM) : 0
+	data["canister_nucleium"] = F ? F.canister_gas.get_moles(GAS_NUCLEIUM) : 0
+
+	return data
+
+///////////////////////////////////////////////////////////////////////////////
+
 /obj/machinery/railgun_charger
 	name = "Railgun Canister Charger"
 	desc = "Device for charging and discharging railgun canister munitions"
-	icon = 'icons/obj/stationobjs.dmi'
-	icon_state = "autolathe"
+	icon = 'icons/obj/stock_parts.dmi'
+	icon_state = "box_0"
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 15
@@ -743,7 +832,7 @@
 	var/discharge = FALSE
 	var/loading = FALSE
 	var/charge_rate = 0
-	var/obj/item/ship_weapon/ammunition/railgun_ammo/forged/canister/F
+	var/obj/item/ship_weapon/ammunition/railgun_ammo_canister/F
 
 /obj/machinery/railgun_charger/process(delta_time)
 	. = ..()
@@ -785,7 +874,7 @@
 		return FALSE
 	return FALSE
 
-/obj/machinery/railgun_charger/proc/eject_canister() //Probably bad code practice
+/obj/machinery/railgun_charger/proc/eject_canister()
 	if(F)
 		F.forceMove(get_turf(src))
 		F.stabilized = FALSE
@@ -793,7 +882,7 @@
 
 /obj/machinery/railgun_charger/attackby(obj/item/I, mob/user)
 	if(!loading)
-		if(istype(I, /obj/item/ship_weapon/ammunition/railgun_ammo/forged/canister))
+		if(istype(I, /obj/item/ship_weapon/ammunition/railgun_ammo_canister))
 			if(user)
 				to_chat(user, "<span class='notice'>You start to load [I] into [src]...</span>")
 				loading = TRUE
@@ -831,7 +920,10 @@
 		ui.set_autoupdate(TRUE)
 
 /obj/machinery/railgun_charger/ui_act(action, params)
-	if(..())
+	. = ..()
+	if(.)
+		return
+	if(!(in_range(src, usr) || IsAdminGhost(usr)))
 		return
 	var/adjust = text2num(params["adjust"])
 	switch(action)
@@ -847,8 +939,8 @@
 /obj/machinery/railgun_charger/ui_data(mob/user)
 	. = ..()
 	var/list/data = list()
-	data["canister_charge"] = F.material_charge
-	data["canister_name"] = F.name
+	data["canister_charge"] = F ? F.material_charge : 0
+	data["canister_name"] = F ? F.name : 0
 	data["canister_charge_rate"] = charge_rate
 	var/turf/T = get_turf(src)
 	var/obj/structure/cable/C = T.get_cable_node()
