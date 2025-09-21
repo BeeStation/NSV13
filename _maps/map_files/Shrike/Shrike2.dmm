@@ -12,9 +12,10 @@
 /turf/open/floor/engine,
 /area/engine/stormdrive)
 "ad" = (
-/turf/open/floor/plasteel/dark/side{
-	dir = 10
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 8
 	},
+/turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "af" = (
 /obj/structure/shuttle/engine/large{
@@ -25,6 +26,10 @@
 "ag" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
+/obj/machinery/meter{
+	target_layer = 2
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -237,16 +242,13 @@
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
 	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/green/visible{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer4{
+/obj/machinery/atmospherics/pipe/manifold/green/visible{
 	dir = 1
 	},
-/obj/machinery/meter{
-	target_layer = 2
-	},
+/obj/machinery/meter,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "aK" = (
@@ -312,6 +314,13 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"aV" = (
+/obj/structure/grille,
+/obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 4
+	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/nsv/weapons)
 "aX" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -1228,11 +1237,12 @@
 /area/engine/stormdrive)
 "dH" = (
 /obj/machinery/computer/atmos_control/tank{
-	input_tag = "sdplasma_in";
-	name = "Stormdrive Plasma Tank";
-	output_tag = "sdplasma_out";
-	sensors = list("sdplasma_sensor"="Stormdrive Plasma Tank")
+	input_tag = "sdpluoxium_in";
+	name = "Stormdrive Pluoxium Tank Control";
+	output_tag = "sdpluoxium_out";
+	sensors = list("sdpluoxium_sensor"="Stormdrive Pluoxium Tank")
 	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/durasteel,
 /area/engine/atmos/port_atmos)
 "dI" = (
@@ -1270,11 +1280,9 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 10
-	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 9
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -1304,6 +1312,14 @@
 	dir = 4
 	},
 /area/security)
+"dQ" = (
+/obj/machinery/light{
+	dir = 4
+	},
+/turf/open/floor/plasteel/dark/side{
+	dir = 8
+	},
+/area/nsv/weapons)
 "dV" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -1374,7 +1390,7 @@
 	dir = 4
 	},
 /turf/open/floor/plating/rusty_techgrid,
-/area/maintenance/nsv/port_substation)
+/area/engine/atmos/port_atmos)
 "ei" = (
 /obj/machinery/computer/crew,
 /turf/open/floor/plasteel/white/side{
@@ -1448,11 +1464,12 @@
 	})
 "er" = (
 /obj/machinery/computer/atmos_control/tank{
-	input_tag = "sdpluoxium_in";
-	name = "Stormdrive Pluoxium Tank Control";
-	output_tag = "sdpluoxium_out";
-	sensors = list("sdpluoxium_sensor"="Stormdrive Pluoxium Tank")
+	input_tag = "sdplasma_in";
+	name = "Stormdrive Plasma Tank";
+	output_tag = "sdplasma_out";
+	sensors = list("sdplasma_sensor"="Stormdrive Plasma Tank")
 	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/durasteel,
 /area/engine/atmos/port_atmos)
 "es" = (
@@ -1507,6 +1524,16 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"ez" = (
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+	dir = 10
+	},
+/obj/machinery/atmospherics/components/trinary/mixer/layer2,
+/turf/open/floor/plating,
+/area/engine/atmos/port_atmos)
 "eB" = (
 /obj/structure/shuttle/engine/large,
 /turf/open/space/basic,
@@ -1590,6 +1617,15 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/weapons)
+"eN" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/engine/atmos/port_atmos)
 "eP" = (
 /turf/closed/wall/ship,
 /area/hallway/nsv/deck2/frame2/starboard{
@@ -2057,8 +2093,11 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/purple/visible/layer2{
-	dir = 8
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 6
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -2661,6 +2700,7 @@
 	output_tag = "sdo2_out";
 	sensors = list("sdo2_sensor"="Stormdrive Oxygen Tank")
 	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/durasteel,
 /area/engine/atmos/port_atmos)
 "is" = (
@@ -3108,12 +3148,11 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/crew_quarters/bar)
 "jD" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 9
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 9
+/obj/machinery/atmospherics/components/trinary/mixer/flipped/layer2{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/engine/atmos/port_atmos)
@@ -3218,6 +3257,9 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "jT" = (
@@ -3601,7 +3643,7 @@
 "kV" = (
 /obj/structure/window/reinforced/spawner/west,
 /turf/open/floor/mineral/plastitanium/airless{
-	initial_gas_mix = "plasma=10000;TEMP=293.15"
+	initial_gas_mix = "pluox=10000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
 "kW" = (
@@ -3612,10 +3654,13 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 5
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer4{
+/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/atmospherics/pipe/simple/orange/hidden{
+	dir = 5
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/port{
 	lighting_colour_bulb = "#c1e1ff";
@@ -3632,6 +3677,9 @@
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer4,
 /obj/structure/cable/white{
 	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 4
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
@@ -3685,11 +3733,10 @@
 /turf/open/floor/plasteel/dark,
 /area/security)
 "ln" = (
-/obj/machinery/atmospherics/components/binary/pump{
-	dir = 4;
-	name = "Supermatter Products to Scrubbers"
+/obj/item/radio/intercom/directional/south,
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 4
 	},
-/obj/structure/extinguisher_cabinet/south,
 /turf/open/floor/plating,
 /area/engine/atmos/port_atmos)
 "lo" = (
@@ -3854,7 +3901,6 @@
 /obj/machinery/door/poddoor/shutters/ship{
 	id = "atmos_shutters"
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plating,
 /area/engine/stormdrive)
 "mb" = (
@@ -3922,6 +3968,12 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"mp" = (
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+	dir = 6
+	},
+/turf/open/floor/plating,
+/area/engine/atmos/port_atmos)
 "mq" = (
 /obj/machinery/light/small,
 /turf/open/floor/plating,
@@ -4428,12 +4480,9 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
+/obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
-	dir = 8
-	},
-/obj/machinery/meter{
-	target_layer = 2
+	dir = 10
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -4468,7 +4517,7 @@
 /area/medical/nsv)
 "oe" = (
 /obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 5
+	dir = 9
 	},
 /turf/open/floor/plating,
 /area/engine/atmos/port_atmos)
@@ -4547,6 +4596,9 @@
 	icon_state = "2-8"
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/atmospherics/pipe/simple/orange/hidden{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/port{
 	lighting_colour_bulb = "#c1e1ff";
@@ -4896,7 +4948,7 @@
 "pI" = (
 /obj/machinery/atmospherics/components/trinary/filter/flipped/on{
 	dir = 4;
-	filter_type = "plasma"
+	filter_type = "pluox"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -5396,6 +5448,7 @@
 	name = "Munitions";
 	req_one_access_txt = "31;69"
 	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "qW" = (
@@ -5618,6 +5671,9 @@
 	name = "Munitions";
 	req_one_access_txt = "31;69"
 	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "rB" = (
@@ -5740,11 +5796,11 @@
 "rQ" = (
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/east,
-/obj/machinery/air_sensor/atmos{
-	id_tag = "sdplasma_sensor"
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on/layer2{
+	id_tag = "sdpluoxium_out"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
-	initial_gas_mix = "plasma=10000;TEMP=293.15"
+	initial_gas_mix = "pluox=10000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
 "rS" = (
@@ -5781,6 +5837,7 @@
 	output_tag = "sdn2_out";
 	sensors = list("sdn2_sensor"="Stormdrive Nitrogen Tank")
 	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/durasteel,
 /area/engine/atmos/port_atmos)
 "rX" = (
@@ -6050,18 +6107,14 @@
 	},
 /area/nsv/weapons)
 "sT" = (
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
 	dir = 8
 	},
-/obj/machinery/meter{
-	target_layer = 2
+/obj/machinery/atmospherics/components/trinary/filter/on{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 10
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -6461,8 +6514,11 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "ub" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 10
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer4{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 4
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/ordnance{
@@ -6470,6 +6526,17 @@
 	lighting_colour_night = "#FF3232";
 	lighting_colour_tube = "#FF3232"
 	})
+"uc" = (
+/obj/structure/table,
+/obj/structure/railing{
+	dir = 4;
+	pixel_x = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/maintenance/nsv/weapons)
 "ud" = (
 /obj/structure/fluff/support_beam{
 	dir = 4
@@ -6630,6 +6697,13 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
+"uC" = (
+/obj/machinery/atmospherics/components/binary/magnetic_constrictor{
+	dir = 4;
+	piping_layer = 2
+	},
+/turf/open/floor/plating,
+/area/engine/atmos/port_atmos)
 "uE" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 5
@@ -6639,6 +6713,9 @@
 	},
 /obj/structure/cable/white{
 	icon_state = "1-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 5
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/ordnance{
@@ -7139,15 +7216,13 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/weapons)
 "wk" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 10
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
 	dir = 8
 	},
-/obj/machinery/atmospherics/components/trinary/filter/on{
+/obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "wn" = (
@@ -7730,6 +7805,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/orange/hidden{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/port{
 	lighting_colour_bulb = "#c1e1ff";
@@ -7788,13 +7866,13 @@
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/segment,
-/obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 4
 	},
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/port{
 	lighting_colour_bulb = "#c1e1ff";
@@ -8020,22 +8098,13 @@
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/east,
 /obj/structure/window/reinforced/spawner/west,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on/layer2{
-	id_tag = "sdn2_out";
-	tgui_id = null
+/obj/machinery/air_sensor/atmos{
+	id_tag = "sdn2_sensor"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "n2=100000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
-"yv" = (
-/obj/machinery/light{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark/side{
-	dir = 8
-	},
-/area/nsv/weapons)
 "yA" = (
 /turf/open/floor/plasteel/white/corner,
 /area/medical/nsv)
@@ -8087,7 +8156,6 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "yJ" = (
-/obj/machinery/atmospherics/components/trinary/mixer,
 /turf/open/floor/plating,
 /area/engine/atmos/port_atmos)
 "yN" = (
@@ -8347,7 +8415,7 @@
 "zl" = (
 /obj/machinery/atmospherics/components/trinary/filter/flipped/on{
 	dir = 4;
-	filter_type = "pluox"
+	filter_type = "plasma"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -8633,11 +8701,11 @@
 /obj/structure/window/reinforced/spawner/west,
 /obj/machinery/atmospherics/components/unary/outlet_injector/on{
 	dir = 1;
-	id = "sdpluoxium_in";
-	tag = "sdpluoxium_in"
+	id = "sdplasma_in";
+	tag = "sdplasma_in"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
-	initial_gas_mix = "pluox=10000;TEMP=293.15"
+	initial_gas_mix = "plasma=10000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
 "Ab" = (
@@ -8677,13 +8745,17 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
-/obj/machinery/atmospherics/components/trinary/filter/on{
-	dir = 4;
-	filter_type = "water_vapor"
-	},
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
 	dir = 8
 	},
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 4
+	},
+/obj/machinery/meter{
+	target_layer = 2
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "Ag" = (
@@ -8702,15 +8774,15 @@
 "Ai" = (
 /obj/structure/window/reinforced/spawner/west,
 /turf/open/floor/mineral/plastitanium/airless{
-	initial_gas_mix = "pluox=10000;TEMP=293.15"
+	initial_gas_mix = "plasma=10000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
 "Ak" = (
+/obj/machinery/portable_atmospherics/canister/constricted_plasma,
 /obj/structure/window/reinforced/spawner/north,
 /obj/structure/window/reinforced/spawner/east,
-/obj/machinery/portable_atmospherics/canister/pluoxium,
 /turf/open/floor/mineral/plastitanium/airless{
-	initial_gas_mix = "pluox=10000;TEMP=293.15"
+	initial_gas_mix = "plasma=10000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
 "An" = (
@@ -8842,9 +8914,8 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
-	dir = 10
-	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "AO" = (
@@ -8931,11 +9002,11 @@
 "Bi" = (
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/east,
-/obj/machinery/air_sensor/atmos{
-	id_tag = "sdpluoxium_sensor"
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on/layer2{
+	id_tag = "sdplasma_out"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
-	initial_gas_mix = "pluox=10000;TEMP=293.15"
+	initial_gas_mix = "plasma=10000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
 "Bj" = (
@@ -8945,9 +9016,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/manifold/green/visible{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "Bk" = (
@@ -8969,8 +9042,8 @@
 "Bm" = (
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/east,
-/obj/machinery/air_sensor/atmos{
-	id_tag = "sdo2_sensor"
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on/layer2{
+	id_tag = "sdo2_out"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "n2o=10000;TEMP=293.15"
@@ -9100,8 +9173,9 @@
 "BD" = (
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/east,
-/obj/machinery/air_sensor/atmos{
-	id_tag = "sdn2_sensor"
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on/layer2{
+	id_tag = "sdn2_out";
+	tgui_id = null
 	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "n2=100000;TEMP=293.15"
@@ -9401,8 +9475,8 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/starboard)
 "Cz" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 10
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 8
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/port)
@@ -9414,9 +9488,11 @@
 /obj/structure/cable{
 	icon_state = "2-6"
 	},
-/obj/machinery/atmospherics/pipe/simple/brown,
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/pipe/manifold/brown/hidden{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/port)
 "CK" = (
@@ -9426,22 +9502,22 @@
 /turf/open/floor/plating,
 /area/engine/atmos/port_atmos)
 "CL" = (
-/obj/machinery/portable_atmospherics/canister/constricted_plasma,
 /obj/structure/window/reinforced/spawner/north,
 /obj/structure/window/reinforced/spawner/east,
+/obj/machinery/portable_atmospherics/canister/pluoxium,
 /turf/open/floor/mineral/plastitanium/airless{
-	initial_gas_mix = "plasma=10000;TEMP=293.15"
+	initial_gas_mix = "pluox=10000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
 "CM" = (
-/obj/structure/window/reinforced/spawner/west,
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/east,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on/layer2{
-	id_tag = "sdpluoxium_out"
+/obj/structure/window/reinforced/spawner/west,
+/obj/machinery/air_sensor/atmos{
+	id_tag = "sdplasma_sensor"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
-	initial_gas_mix = "pluox=10000;TEMP=293.15"
+	initial_gas_mix = "plasma=10000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
 "CO" = (
@@ -9490,6 +9566,7 @@
 /obj/structure/cable/white{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /obj/machinery/door/poddoor/shutters/ship{
 	id = "atmos_shutters"
 	},
@@ -9612,8 +9689,8 @@
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/east,
 /obj/structure/window/reinforced/spawner/west,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on/layer2{
-	id_tag = "sdo2_out"
+/obj/machinery/air_sensor/atmos{
+	id_tag = "sdo2_sensor"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "n2o=10000;TEMP=293.15"
@@ -9782,8 +9859,8 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "DM" = (
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer4{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 10
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/deck2/port)
@@ -9915,11 +9992,11 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/manifold/green/visible{
 	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer4{
+	dir = 1
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -10024,9 +10101,8 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Em" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
-/obj/machinery/meter{
-	target_layer = 2
+/obj/machinery/atmospherics/pipe/manifold/purple/visible/layer2{
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/engine/atmos/port_atmos)
@@ -10050,6 +10126,9 @@
 	dir = 1;
 	name = "Stormdrive Tanks Supply"
 	},
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 1
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "Er" = (
@@ -10059,11 +10138,8 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/starboard_atmos)
 "Et" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 5
-	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
-	dir = 1
+/obj/machinery/atmospherics/pipe/manifold/green/visible{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/engine/atmos/port_atmos)
@@ -10071,9 +10147,11 @@
 /obj/structure/disposalpipe/segment{
 	dir = 6
 	},
-/obj/machinery/atmospherics/pipe/simple/green/visible,
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/obj/machinery/atmospherics/components/binary/pump{
+	dir = 4;
+	name = "Supermatter Products to Scrubbers"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -10085,10 +10163,11 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/obj/machinery/atmospherics/pipe/layer_manifold{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/green/visible,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "Ey" = (
@@ -10101,9 +10180,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/atmospherics/components/trinary/mixer/flipped{
-	dir = 8
-	},
+/obj/machinery/atmospherics/pipe/manifold/green/visible,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "EA" = (
@@ -10188,7 +10265,7 @@
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 4
+	dir = 5
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
@@ -10196,11 +10273,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 10
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/atmospherics/pipe/simple/green/visible,
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "ET" = (
@@ -10300,6 +10373,9 @@
 	},
 /obj/structure/cable/white{
 	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 10
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
@@ -10540,6 +10616,9 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 5
 	},
+/obj/machinery/atmospherics/pipe/simple/orange/hidden{
+	dir = 6
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/port{
 	lighting_colour_bulb = "#c1e1ff";
@@ -10547,12 +10626,20 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Gd" = (
+/obj/structure/extinguisher_cabinet/south,
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 5
+	},
 /turf/open/floor/plating,
 /area/engine/atmos/port_atmos)
 "Ge" = (
 /obj/structure/disposalpipe/segment,
-/obj/machinery/atmospherics/pipe/manifold/green/visible{
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 10
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -10593,6 +10680,9 @@
 	},
 /obj/structure/cable/white{
 	icon_state = "6-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/hidden{
+	dir = 10
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/port{
@@ -10733,13 +10823,8 @@
 /area/engine/atmos/starboard_atmos)
 "GN" = (
 /obj/structure/disposalpipe/segment,
-/obj/machinery/door/airlock/ship/engineering{
-	name = "Port Atmos";
-	req_one_access_txt = "24"
-	},
-/obj/machinery/door/firedoor/border_only/directional/north,
-/obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/atmospherics/pipe/simple/green/visible,
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "GO" = (
@@ -10781,11 +10866,11 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/bar/mess_hall)
 "GS" = (
-/obj/machinery/door/poddoor/shutters/ship{
-	id = "atmos_shutters"
+/obj/machinery/atmospherics/components/unary/portables_connector/visible{
+	dir = 4
 	},
-/turf/open/floor/plating,
-/area/engine/stormdrive)
+/turf/open/floor/durasteel,
+/area/maintenance/nsv/deck2/port)
 "GY" = (
 /turf/closed/wall/ship,
 /area/maintenance/department/medical)
@@ -10796,11 +10881,17 @@
 /obj/structure/cable/white{
 	icon_state = "4-8"
 	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "Ha" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 4
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -10862,6 +10953,9 @@
 	icon_state = "1-8"
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/atmospherics/pipe/simple/orange/hidden{
+	dir = 9
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/port{
 	lighting_colour_bulb = "#c1e1ff";
@@ -11223,7 +11317,7 @@
 	req_one_access_txt = "10;24"
 	},
 /turf/open/floor/plating/rusty_techgrid,
-/area/maintenance/nsv/port_substation)
+/area/engine/atmos/port_atmos)
 "Im" = (
 /obj/structure/cable/green{
 	icon_state = "1-4"
@@ -11264,16 +11358,20 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 9
 	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+	dir = 5
+	},
 /turf/open/floor/plating/rusty_techgrid,
-/area/maintenance/nsv/port_substation)
+/area/engine/atmos/port_atmos)
 "Ix" = (
-/obj/machinery/door/airlock/ship/external/glass{
-	dir = 4;
-	name = "Maintenance Access";
-	req_one_access_txt = "10;24"
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+	dir = 4
+	},
+/obj/effect/turf_decal/caution{
+	dir = 8
 	},
 /turf/open/floor/plating,
-/area/engine/stormdrive)
+/area/engine/atmos/port_atmos)
 "Iz" = (
 /obj/structure/closet/crate/freezer{
 	opened = 1
@@ -11301,6 +11399,9 @@
 	},
 /obj/structure/cable/white{
 	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/components/binary/passive_gate{
+	on = 1
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
@@ -11422,12 +11523,10 @@
 	},
 /area/nsv/weapons)
 "Jg" = (
-/obj/effect/turf_decal/tile/orange{
-	dir = 4
-	},
-/turf/open/floor/plasteel/dark/corner{
+/obj/machinery/atmospherics/components/unary/portables_connector/visible{
 	dir = 8
 	},
+/turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "Ji" = (
 /turf/open/floor/plating,
@@ -11940,10 +12039,10 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "KO" = (
-/obj/machinery/atmospherics/components/binary/magnetic_constrictor{
-	piping_layer = 2;
-	pixel_x = -5
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+	dir = 4
 	},
+/obj/machinery/atmospherics/components/trinary/mixer,
 /turf/open/floor/plating,
 /area/engine/atmos/port_atmos)
 "KP" = (
@@ -11951,11 +12050,11 @@
 /obj/structure/window/reinforced/spawner/west,
 /obj/machinery/atmospherics/components/unary/outlet_injector/on{
 	dir = 1;
-	id = "sdplasma_in";
-	tag = "sdplasma_in"
+	id = "sdpluoxium_in";
+	tag = "sdpluoxium_in"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
-	initial_gas_mix = "plasma=10000;TEMP=293.15"
+	initial_gas_mix = "pluox=10000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
 "KQ" = (
@@ -12112,12 +12211,9 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2,
-/obj/machinery/meter{
-	target_layer = 2
+/obj/machinery/atmospherics/components/trinary/filter/on{
+	dir = 4;
+	filter_type = "water_vapor"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -12159,14 +12255,17 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/nsv)
 "Ls" = (
-/obj/machinery/atmospherics/pipe/simple/purple/visible{
-	dir = 5
+/obj/structure/disposalpipe/segment{
+	dir = 4
 	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
-/turf/open/floor/monofloor{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 9
 	},
-/area/engine/stormdrive)
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 9
+	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/engine/atmos/port_atmos)
 "Lt" = (
 /obj/machinery/vending/dinnerware,
 /turf/open/floor/plasteel/checker,
@@ -12234,13 +12333,6 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/medical)
-"LC" = (
-/obj/structure/grille,
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
-	},
-/turf/open/floor/plating/rusty_techgrid,
-/area/nsv/weapons)
 "LE" = (
 /obj/item/radio/intercom/directional/north,
 /obj/structure/cable/white{
@@ -12254,6 +12346,16 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/starboard_atmos)
+"LG" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/cable/white{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/turf/open/floor/plating/rusty_techgrid,
+/area/nsv/weapons)
 "LH" = (
 /obj/machinery/computer/ship/navigation/public,
 /obj/structure/extinguisher_cabinet/north,
@@ -12690,6 +12792,9 @@
 /obj/structure/cable/white{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/manifold/orange/visible{
+	dir = 8
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "MR" = (
@@ -12800,14 +12905,14 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/starboard_atmos)
 "Nk" = (
+/obj/structure/window/reinforced/spawner/west,
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/east,
-/obj/structure/window/reinforced/spawner/west,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on/layer2{
-	id_tag = "sdplasma_out"
+/obj/machinery/air_sensor/atmos{
+	id_tag = "sdpluoxium_sensor"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
-	initial_gas_mix = "plasma=10000;TEMP=293.15"
+	initial_gas_mix = "pluox=10000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
 "Nm" = (
@@ -13378,8 +13483,12 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/kitchen)
 "OS" = (
-/obj/machinery/atmospherics/pipe/manifold/green/visible,
-/obj/item/radio/intercom/directional/south,
+/obj/machinery/atmospherics/components/trinary/mixer/flipped{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+	dir = 5
+	},
 /turf/open/floor/plating,
 /area/engine/atmos/port_atmos)
 "OU" = (
@@ -13473,17 +13582,6 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
-"Po" = (
-/obj/structure/table,
-/obj/structure/railing{
-	dir = 4;
-	pixel_x = 10
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
-/turf/open/floor/plating/rusty_techgrid,
-/area/maintenance/nsv/weapons)
 "Pp" = (
 /obj/machinery/rnd/server,
 /obj/structure/window/reinforced/spawner/east,
@@ -13531,6 +13629,7 @@
 /obj/structure/cable/white{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "Pu" = (
@@ -13796,6 +13895,11 @@
 /obj/machinery/cryopod,
 /turf/open/floor/durasteel,
 /area/crew_quarters/cryopods)
+"Qq" = (
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/turf/open/floor/plating/rusty_techgrid,
+/area/maintenance/nsv/weapons)
 "Qr" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
@@ -14453,11 +14557,6 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
-"Sp" = (
-/obj/structure/disposalpipe/segment,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/turf/open/floor/plating/rusty_techgrid,
-/area/maintenance/nsv/weapons)
 "Sq" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -14532,8 +14631,9 @@
 /obj/structure/cable/white{
 	icon_state = "2-4"
 	},
-/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
-	dir = 9
+/obj/machinery/atmospherics/components/trinary/mixer/layer2,
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 4
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -14718,8 +14818,11 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/security)
 "Th" = (
-/obj/machinery/atmospherics/pipe/manifold/purple/visible/layer2{
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 5
 	},
 /turf/open/floor/plating,
 /area/engine/atmos/port_atmos)
@@ -15011,6 +15114,9 @@
 	},
 /obj/structure/cable/white{
 	icon_state = "2-8"
+	},
+/obj/machinery/atmospherics/components/binary/pump{
+	name = "Purge Railgun Line"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
@@ -15346,10 +15452,10 @@
 /turf/open/floor/plasteel/dark,
 /area/security)
 "UZ" = (
-/obj/machinery/camera/autoname{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/layer_manifold{
+/obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -15643,6 +15749,9 @@
 /obj/structure/cable/white{
 	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/manifold/orange/visible{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "VF" = (
@@ -15736,6 +15845,9 @@
 	icon_state = "4-9"
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/atmospherics/pipe/simple/orange/hidden{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/port{
 	lighting_colour_bulb = "#c1e1ff";
@@ -15772,9 +15884,10 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "VT" = (
-/turf/open/floor/plasteel/dark/side{
-	dir = 10
+/obj/machinery/atmospherics/pipe/layer_manifold{
+	dir = 4
 	},
+/turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/ordnance{
 	lighting_colour_bulb = "#FF3232";
 	lighting_colour_night = "#FF3232";
@@ -15800,6 +15913,9 @@
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
 	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/simple/orange/hidden{
+	dir = 4
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/port{
@@ -15973,8 +16089,9 @@
 /turf/open/floor/plating,
 /area/maintenance/department/medical)
 "Wu" = (
+/obj/machinery/atmospherics/pipe/manifold/purple/visible/layer2,
 /turf/open/floor/plating,
-/area/engine/stormdrive)
+/area/engine/atmos/port_atmos)
 "Wv" = (
 /obj/structure/lattice,
 /obj/structure/railing{
@@ -45982,7 +46099,7 @@ vn
 yD
 zI
 vn
-DJ
+GS
 DJ
 tM
 Gz
@@ -47272,7 +47389,7 @@ aI
 Et
 Gd
 PG
-eg
+eN
 GO
 VM
 IJ
@@ -47785,7 +47902,7 @@ Do
 Ln
 Ez
 ln
-GO
+PG
 Ix
 GO
 Lh
@@ -48042,7 +48159,7 @@ in
 Af
 Ex
 OS
-GO
+mp
 Wu
 YW
 Qf
@@ -48297,10 +48414,10 @@ AJ
 BC
 yu
 sT
-Ez
+Ls
 UZ
-GO
-GO
+uC
+uC
 GO
 Lk
 Mk
@@ -48558,7 +48675,7 @@ ER
 jD
 Em
 oe
-GS
+GO
 Lp
 Ml
 Uq
@@ -48816,7 +48933,7 @@ KO
 Th
 yJ
 ma
-Ls
+Qf
 tQ
 Uq
 Uq
@@ -49069,7 +49186,7 @@ rQ
 dH
 AL
 dM
-KO
+ez
 SE
 ag
 CV
@@ -51642,10 +51759,10 @@ fR
 Gl
 kW
 KV
-Sp
-Sp
-Sp
-Sp
+Qq
+Qq
+Qq
+Qq
 XU
 eU
 VW
@@ -51903,7 +52020,7 @@ PD
 Yh
 Jm
 Yh
-Po
+uc
 Gb
 fx
 tY
@@ -52160,7 +52277,7 @@ Gb
 Gb
 Gb
 Gb
-LC
+aV
 Gb
 lP
 RO
@@ -52672,7 +52789,7 @@ Fi
 IB
 qS
 MQ
-MQ
+LG
 Pt
 VE
 TW
@@ -53186,7 +53303,7 @@ Oh
 Ik
 Gb
 Jg
-yv
+dQ
 PC
 Rj
 Pk
