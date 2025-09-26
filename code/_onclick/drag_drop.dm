@@ -74,8 +74,15 @@
 	var/obj/item/H = get_active_held_item()
 	if(H)
 		. = H.canItemMouseDown(object, location, params)
-	else if(src.overmap_ship && (src.overmap_ship.gunner == src || (GetComponent(/datum/component/overmap_gunning)))) //NSV13 - let us mouse-down if we're a ship operator
-		. = src.overmap_ship
+	//NSV13 - let us mouse-down if we're a ship operator or in an automatic crew-mounted turret.
+	else if(overmap_ship)
+		if(overmap_ship.gunner == src)
+			. = overmap_ship
+		else
+			var/datum/component/overmap_gunning/guncomp = GetComponent(/datum/component/overmap_gunning)
+			if(guncomp && guncomp.automatic) //Please do not allow very expensive behavior if we do not even have an automatic weapon, thanks.
+				. = overmap_ship
+	//NSV13 end.
 
 /obj/item/proc/CanItemAutoclick(object, location, params)
 
