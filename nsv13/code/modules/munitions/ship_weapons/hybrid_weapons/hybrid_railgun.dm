@@ -180,12 +180,12 @@
 				if(9 to 10)
 					projectile_penetration = 25
 			var/gas_mix = 	T.canister_gas.get_moles(GAS_O2) + \
-							T.canister_gas.get_moles(GAS_PLUOXIUM) + \
-							T.canister_gas.get_moles(GAS_PLASMA) * 1.25 + \
-							T.canister_gas.get_moles(GAS_CONSTRICTED_PLASMA) * 1.25 + \
-							T.canister_gas.get_moles(GAS_TRITIUM) * 1.5 + \
-							T.canister_gas.get_moles(GAS_NUCLEIUM) * 1.75 //Add some sort of EMP effect here for subsystems later
-			projectile_damage = (T.material_density * 0.2) + (gas_mix * (T.material_charge / 100)) //temp numbers
+							T.canister_gas.get_moles(GAS_PLUOXIUM) * 1.25 + \
+							T.canister_gas.get_moles(GAS_PLASMA) * 1.5 + \
+							T.canister_gas.get_moles(GAS_CONSTRICTED_PLASMA) * 1.5 + \
+							T.canister_gas.get_moles(GAS_TRITIUM) * 2 + \
+							T.canister_gas.get_moles(GAS_NUCLEIUM) * 1.25 //Add some sort of EMP effect here for subsystems later
+			projectile_damage = (T.material_density * 0.4) + ((gas_mix * 4) * (T.material_charge / 100)) //temp numbers
 
 		linked.fire_projectile(C.projectile_type, target, speed=projectile_velocity, user_override=TRUE, lateral=TRUE)
 		message_admins("DEBUG OUTPUT - Projectile: [C.name], Velocity: [projectile_velocity], Damage: [projectile_damage], Penetration: [projectile_penetration]") //REMOVE ME

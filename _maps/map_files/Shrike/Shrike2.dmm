@@ -1494,19 +1494,16 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive)
 "ev" = (
-/obj/effect/turf_decal/guideline/guideline_out/blue,
-/obj/effect/turf_decal/guideline/guideline_in/red,
-/obj/machinery/light{
-	color = "#c1e1ff";
+/obj/machinery/camera/autoname{
 	dir = 1
 	},
-/turf/open/floor/monofloor{
+/turf/open/floor/plasteel/dark/side{
 	dir = 1
 	},
-/area/hallway/nsv/deck2/frame1/starboard{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
+/area/nsv/weapons/fore{
+	lighting_colour_bulb = "#FF3232";
+	lighting_colour_night = "#FF3232";
+	lighting_colour_tube = "#FF3232"
 	})
 "ex" = (
 /turf/closed/wall/ship,
@@ -1787,8 +1784,9 @@
 /obj/machinery/cryopod{
 	dir = 1
 	},
-/obj/machinery/camera/autoname{
-	dir = 5
+/obj/machinery/light{
+	color = "#c1e1ff";
+	dir = 8
 	},
 /turf/open/floor/durasteel,
 /area/crew_quarters/cryopods)
@@ -2568,6 +2566,9 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/crew_quarters/bar)
 "hO" = (
@@ -2862,7 +2863,9 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/crew_quarters/bar)
 "iU" = (
-/obj/machinery/camera/autoname,
+/obj/machinery/light/small{
+	dir = 1
+	},
 /turf/open/floor/plating,
 /area/maintenance/department/crew_quarters/bar)
 "iV" = (
@@ -3065,6 +3068,14 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/science/robotics)
+"js" = (
+/obj/machinery/cryopod,
+/obj/machinery/light{
+	color = "#c1e1ff";
+	dir = 8
+	},
+/turf/open/floor/durasteel,
+/area/crew_quarters/cryopods)
 "jt" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 1
@@ -4523,6 +4534,7 @@
 /obj/machinery/atmospherics/pipe/simple/purple/visible/layer2{
 	dir = 9
 	},
+/obj/machinery/light,
 /turf/open/floor/plating,
 /area/engine/atmos/port_atmos)
 "oh" = (
@@ -7200,9 +7212,9 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
-/obj/machinery/door/airlock/ship/security{
-	name = "Security";
-	req_access_txt = "2"
+/obj/machinery/door/airlock/ship/medical{
+	name = "Morgue Access";
+	req_access_txt = "5;12"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/surgery/aux)
@@ -8296,9 +8308,6 @@
 	})
 "yZ" = (
 /obj/structure/closet/bombcloset,
-/obj/machinery/light{
-	dir = 1
-	},
 /turf/open/floor/plasteel/dark/side,
 /area/nsv/weapons)
 "za" = (
@@ -9347,9 +9356,6 @@
 /area/maintenance/department/medical)
 "BX" = (
 /obj/structure/closet/secure_closet/munitions_technician,
-/obj/machinery/light{
-	dir = 1
-	},
 /turf/open/floor/plasteel/dark/side,
 /area/nsv/weapons)
 "BY" = (
@@ -9422,6 +9428,9 @@
 "Cl" = (
 /obj/structure/closet/secure_closet/munitions_technician,
 /obj/effect/turf_decal/tile/orange{
+	dir = 4
+	},
+/obj/machinery/light{
 	dir = 4
 	},
 /turf/open/floor/plasteel/dark/corner{
@@ -13870,16 +13879,19 @@
 	},
 /area/engine/stormdrive)
 "Qh" = (
-/obj/machinery/camera/autoname{
-	dir = 8
+/obj/effect/turf_decal/guideline/guideline_out/blue,
+/obj/effect/turf_decal/guideline/guideline_in/red,
+/obj/machinery/light{
+	color = "#c1e1ff";
+	dir = 1
 	},
-/turf/open/floor/plasteel/dark/side{
-	dir = 8
+/turf/open/floor/monofloor{
+	dir = 1
 	},
-/area/nsv/weapons/fore{
-	lighting_colour_bulb = "#FF3232";
-	lighting_colour_night = "#FF3232";
-	lighting_colour_tube = "#FF3232"
+/area/hallway/nsv/deck2/frame1/starboard{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
 	})
 "Qk" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
@@ -13933,6 +13945,18 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/supermatter)
+"Qt" = (
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
+/obj/structure/cable/green{
+	icon_state = "1-2"
+	},
+/obj/structure/disposalpipe/segment,
+/obj/machinery/light/small{
+	dir = 4
+	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/security)
 "Qu" = (
 /obj/machinery/atmospherics/components/unary/portables_connector/visible/layer4{
 	dir = 8
@@ -16150,17 +16174,14 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "WD" = (
+/obj/machinery/cryopod{
+	dir = 1
+	},
 /obj/machinery/camera/autoname{
-	dir = 1
+	dir = 8
 	},
-/turf/open/floor/plasteel/dark/side{
-	dir = 1
-	},
-/area/nsv/weapons/fore{
-	lighting_colour_bulb = "#FF3232";
-	lighting_colour_night = "#FF3232";
-	lighting_colour_tube = "#FF3232"
-	})
+/turf/open/floor/durasteel,
+/area/crew_quarters/cryopods)
 "WF" = (
 /obj/structure/window/reinforced/spawner/west,
 /turf/open/floor/mineral/plastitanium/airless{
@@ -16868,6 +16889,9 @@
 /obj/structure/closet/bombcloset,
 /obj/effect/turf_decal/tile/orange{
 	dir = 1
+	},
+/obj/machinery/light{
+	dir = 8
 	},
 /turf/open/floor/plasteel/dark/corner,
 /area/nsv/weapons)
@@ -46927,7 +46951,7 @@ Lj
 Lj
 Lj
 NY
-mM
+hU
 LX
 LX
 jf
@@ -50779,7 +50803,7 @@ Mv
 Yt
 nY
 PQ
-ZI
+Qt
 Ju
 TV
 TV
@@ -52321,7 +52345,7 @@ Ko
 fm
 Oa
 Ow
-Qo
+js
 RH
 SN
 ll
@@ -52571,7 +52595,7 @@ gi
 KI
 KI
 Mv
-ev
+Yy
 YT
 HW
 Ko
@@ -53089,7 +53113,7 @@ Yy
 YT
 HW
 Ko
-JP
+WD
 vc
 vc
 Qo
@@ -53342,7 +53366,7 @@ gi
 KI
 KI
 Mv
-Yy
+Qh
 YT
 HE
 RH
@@ -54607,7 +54631,7 @@ YV
 Ar
 YV
 Qr
-WD
+MT
 OH
 pE
 On
@@ -54864,7 +54888,7 @@ YV
 YV
 YV
 wx
-MT
+ev
 yg
 aq
 Yv
@@ -55890,7 +55914,7 @@ Mw
 tj
 tj
 Jx
-Qh
+tj
 tj
 Fw
 yg

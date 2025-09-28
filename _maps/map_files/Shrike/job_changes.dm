@@ -13,7 +13,6 @@ MAP_REMOVE_JOB(chaplain)
 MAP_REMOVE_JOB(mime)
 //Security
 MAP_REMOVE_JOB(warden)
-MAP_REMOVE_JOB(detective)
 MAP_REMOVE_JOB(deputy)
 MAP_REMOVE_JOB(brig_phys)
 //Munitions
