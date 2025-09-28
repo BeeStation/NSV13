@@ -671,8 +671,9 @@
 
 /obj/machinery/atmospherics/components/binary/railgun_filler/proc/fill_canister()
 	if(F)
-		var/pressure_check = F.canister_gas.return_volume()
-		if(pressure_check != 0)
+		var/moles_check = F.canister_gas.total_moles()
+		if(moles_check != 0)
+			message_admins("Pressure Check:[moles_check]")
 			return
 		else
 			var/datum/gas_mixture/air1 = airs[1]
@@ -683,8 +684,8 @@
 
 /obj/machinery/atmospherics/components/binary/railgun_filler/proc/empty_canister()
 	if(F)
-		var/pressure_check = F.canister_gas.return_volume()
-		if(pressure_check != 0)
+		var/moles_check = F.canister_gas.total_moles()
+		if(moles_check != 0)
 			return
 		else
 			var/datum/gas_mixture/air2 = airs[2]
@@ -703,6 +704,7 @@
 		var/datum/gas_mixture/env = T.return_air()
 		var/datum/gas_mixture/buffer = F.canister_gas.remove(50)
 		env.merge(buffer)
+		update_parents()
 	eject_canister()
 
 /obj/machinery/atmospherics/components/binary/railgun_filler/attackby(obj/item/I, mob/user)
@@ -831,11 +833,11 @@
 	circuit = /obj/item/circuitboard/machine/railgun_charger
 	var/discharge = FALSE
 	var/loading = FALSE
-	var/charge_rate = 0
+	var/charge_rate = 0 //In watts
+	var/max_charge_rate = 100000 //In watts
 	var/obj/item/ship_weapon/ammunition/railgun_ammo_canister/F
 
 /obj/machinery/railgun_charger/process(delta_time)
-	. = ..()
 	if(!try_use_power(active_power_usage))
 		if(F)
 			if(F.stabilized)
@@ -853,7 +855,7 @@
 					active_power_usage = 100 //Reduced power operation
 		else
 			if(F.material_charge < 100)
-				F.material_charge += charge_rate
+				F.material_charge += (charge_rate / 10000)
 				if(F.material_charge > 100)
 					F.material_charge = 100
 			else
@@ -926,6 +928,10 @@
 	if(!(in_range(src, usr) || IsAdminGhost(usr)))
 		return
 	var/adjust = text2num(params["adjust"])
+	if(action == "canister_charge_rate")
+		if(isnum(adjust))
+			charge_rate = CLAMP(adjust, 0, max_charge_rate)
+			return TRUE
 	switch(action)
 		if("charge_rate")
 			charge_rate = adjust
@@ -941,7 +947,9 @@
 	var/list/data = list()
 	data["canister_charge"] = F ? F.material_charge : 0
 	data["canister_name"] = F ? F.name : 0
+	data["canister_integrity"] = F ? F.canister_integrity : 0
 	data["canister_charge_rate"] = charge_rate
+	data["canister_max_charge_rate"] = max_charge_rate
 	var/turf/T = get_turf(src)
 	var/obj/structure/cable/C = T.get_cable_node()
 	if(C)

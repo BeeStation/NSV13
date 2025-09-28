@@ -42,7 +42,7 @@ export const HybridWeapons = (props, context) => {
             fluid
             icon="cog"
             color={data.slug_shell ? "orange" : "yellow"}
-            content={data.slug_shell ? "I4 - Configuration: Shell Type" : "I4 - Configuration: Slug Type"}
+            content={data.slug_shell ? "I4 - Configuration: Canister Type" : "I4 - Configuration: Slug Type"}
             onClick={() => act('switch_type')}
           />
           <br />

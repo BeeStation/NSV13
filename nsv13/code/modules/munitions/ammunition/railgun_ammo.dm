@@ -48,7 +48,7 @@
 	var/material_density = 0
 	var/material_hardness = 0
 	var/next_slowprocess = 0
-	var/material_charge = 0
+	var/material_charge = 0 //As a percentile
 	var/canister_integrity = 100
 	var/canister_moles = 100  //Hmm?
 	var/canister_volume = 50
@@ -60,6 +60,13 @@
 	. = ..()
 	canister_gas = new(canister_volume)
 	canister_gas.set_temperature(T20C)
+
+/obj/item/ship_weapon/ammunition/railgun_ammo_canister/examine(mob/user)
+	. = ..()
+	if(canister_sealed == TRUE)
+		. += "<span class='notice'>The canister has been permamently sealed.</span>"
+	else
+		. += "<span class='notice'>The canister isn't sealed.</span>"
 
 /obj/item/ship_weapon/ammunition/railgun_ammo_canister/Destroy()
 	. = ..()
@@ -98,16 +105,50 @@
 	//overlay shifts and shimmers more with higher charge value
 
 /obj/item/ship_weapon/ammunition/railgun_ammo_canister/proc/burst()
-	if(material_charge > 50)
-		empulse(src, 4, 7, log=TRUE)
-		for(var/mob/living/carbon/C in orange(7, src))
-			C.apply_damage(25, damagetype=CLONE)
-	else
-		empulse(src, 3, 5, log=TRUE)
-		for(var/mob/living/carbon/C in orange(5, src))
-			C.apply_damage(10, damagetype=CLONE)
+	if(istype(loc, /obj/machinery/ship_weapon/hybrid_rail))
+		var/obj/machinery/ship_weapon/hybrid_rail/G = loc
+		if(material_charge > 50)
+			G.alignment -= rand(25, 75)
+			G.maint_req -= rand(20, 45)
+		else
+			G.alignment -= rand(10, 50)
+			G.maint_req -= rand(10, 20)
 
-	explosion(get_turf(src), 0, 0, 1, 2, TRUE, TRUE)
+		if(G.alignment < 0)
+			G.alignment = 0
+		if(G.maint_req < 0)
+			G.maint_req = 0
+
+		G.misfire()
+		G.unload()
+
+	else if(istype(loc, /obj/machinery/ammo_sorter))
+		var/obj/machinery/ammo_sorter/A
+		if(material_charge > 50)
+			Destroy(A)
+			empulse(src, 3, 5, log=TRUE)
+			for(var/mob/living/carbon/C in orange(5, src))
+				C.apply_damage(10, damagetype=CLONE)
+
+		else
+			A.durability = 0
+			A.jammed = TRUE
+			empulse(A.loc, 2, 4, log=TRUE)
+			for(var/mob/living/carbon/C in orange(3, src))
+				C.apply_damage(10, damagetype=CLONE)
+
+	else
+		if(material_charge > 50)
+			empulse(src, 4, 7, log=TRUE)
+			for(var/mob/living/carbon/C in orange(7, src))
+				C.apply_damage(25, damagetype=CLONE)
+		else
+			empulse(src, 3, 5, log=TRUE)
+			for(var/mob/living/carbon/C in orange(5, src))
+				C.apply_damage(10, damagetype=CLONE)
+
+		explosion(get_turf(src), 0, 0, 1, 2, TRUE, TRUE)
+
 	Destroy(src)
 
 /obj/item/ship_weapon/ammunition/railgun_ammo_canister/attack_hand(mob/living/carbon/user)
@@ -120,3 +161,8 @@
 			user.apply_damage(5, damagetype=CLONE)
 			to_chat(user,"<span class='notice'>Your hand tingles and feels warm when touching the [src].</span>")
 
+/obj/item/ship_weapon/ammunition/railgun_ammo_canister/pre_gen_copper_iron //test round
+	name = "\improper Forged 800mm copper coated iron canister"
+	material_conductivity = 5
+	material_density = 30
+	material_hardness = 10
