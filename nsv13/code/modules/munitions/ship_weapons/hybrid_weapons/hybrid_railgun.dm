@@ -126,6 +126,18 @@
 		return FALSE
 	if(capacitor_charge < capacitor_max_charge) //Is the capacitor charged?
 		return FALSE
+	if(istype(chambered, /obj/item/ship_weapon/ammunition/railgun_ammo/forged))
+		var/obj/item/ship_weapon/ammunition/railgun_ammo/forged/F = chambered
+		if(F.railgun_flags & RAIL_BLUESPACE)
+			if(prob(25))
+				bluespace()
+				return FALSE
+	if(istype(chambered, /obj/item/ship_weapon/ammunition/railgun_ammo_canister))
+		var/obj/item/ship_weapon/ammunition/railgun_ammo_canister/R = chambered
+		if(R.railgun_flags & RAIL_BLUESPACE)
+			if(prob(25))
+				bluespace()
+				return FALSE
 	if(alignment < 25)
 		if(prob(25))
 			misfire()
@@ -137,6 +149,9 @@
 	var/projectile_velocity = 0 //Velocity inherited from the material properties of the munition
 	var/projectile_damage = 0 //Damage inherited from the material properties of the munition
 	var/projectile_penetration = 0//Armour Penetration inherited from the material properties of the munition
+	var/projectile_burn = 0 //Burn damage inherited from material and gas properties
+	var/projectile_emp = 0 //EMP intensity inherited from material and gas properties
+	var/projectile_flag = "overmap_heavy" //Inherited from material properties
 
 	var/obj/item/ship_weapon/ammunition/C = chambered
 	if(C)
@@ -148,47 +163,80 @@
 			projectile_damage = (T.material_hardness * T.material_density) * projectile_velocity
 			if(projectile_damage < 0)
 				projectile_damage = 0
-			switch(T.material_hardness) //Linear projection of the Mohs scale, assuming hulls are made of fairly soft materials
-				if(0 to 5)
-					projectile_penetration = 0
-				if(5 to 6)
-					projectile_penetration = 5
-				if(6 to 7)
-					projectile_penetration = 10
-				if(7 to 8)
-					projectile_penetration = 15
-				if(8 to 9)
-					projectile_penetration = 20
-				if(9 to 10)
-					projectile_penetration = 25
+			if(T.railgun_flags & RAIL_BANANA)
+				projectile_flag = "overmap_light"
+			else
+				switch(T.material_hardness) //Linear projection of the Mohs scale, assuming hulls are made of fairly soft materials
+					if(0 to 5)
+						projectile_penetration = 0
+					if(5 to 6)
+						projectile_penetration = 5
+					if(6 to 7)
+						projectile_penetration = 10
+					if(7 to 8)
+						projectile_penetration = 15
+					if(8 to 9)
+						projectile_penetration = 20
+					if(9 to 10)
+						projectile_penetration = 25
+			if(T.railgun_flags & RAIL_BURN)
+				projectile_burn = 20
 		if(istype(C, /obj/item/ship_weapon/ammunition/railgun_ammo_canister))
 			var/obj/item/ship_weapon/ammunition/railgun_ammo_canister/T = C
 			projectile_velocity = T.material_conductivity - ((100 - alignment) / 100)
 			if(projectile_velocity < 0)
 				projectile_velocity = 0.1
-			switch(T.material_hardness) //Linear projection of the Mohs scale, assuming hulls are made of fairly soft materials
-				if(0 to 5)
-					projectile_penetration = 0
-				if(5 to 6)
-					projectile_penetration = 5
-				if(6 to 7)
-					projectile_penetration = 10
-				if(7 to 8)
-					projectile_penetration = 15
-				if(8 to 9)
-					projectile_penetration = 20
-				if(9 to 10)
-					projectile_penetration = 25
+			if(T.railgun_flags & RAIL_BANANA)
+				projectile_flag = "overmap_light"
+			else
+				switch(T.material_hardness) //Linear projection of the Mohs scale, assuming hulls are made of fairly soft materials
+					if(0 to 5)
+						projectile_penetration = 0
+					if(5 to 6)
+						projectile_penetration = 5
+					if(6 to 7)
+						projectile_penetration = 10
+					if(7 to 8)
+						projectile_penetration = 15
+					if(8 to 9)
+						projectile_penetration = 20
+					if(9 to 10)
+						projectile_penetration = 25
 			var/gas_mix = 	T.canister_gas.get_moles(GAS_O2) + \
 							T.canister_gas.get_moles(GAS_PLUOXIUM) * 1.25 + \
 							T.canister_gas.get_moles(GAS_PLASMA) * 1.5 + \
 							T.canister_gas.get_moles(GAS_CONSTRICTED_PLASMA) * 1.5 + \
 							T.canister_gas.get_moles(GAS_TRITIUM) * 2 + \
 							T.canister_gas.get_moles(GAS_NUCLEIUM) * 1.25 //Add some sort of EMP effect here for subsystems later
+			switch(T.canister_gas.get_moles(GAS_NUCLEIUM))
+				if(20 to 30)
+					projectile_emp = 5
+				if(30 to 40)
+					projectile_emp = 10
+				if(40 to 50)
+					projectile_emp = 15
+			var/plasma_total = T.canister_gas.get_moles(GAS_PLASMA) + T.canister_gas.get_moles(GAS_CONSTRICTED_PLASMA)
+			switch(plasma_total)
+				if(10 to 20)
+					projectile_burn = 10
+				if(20 to 30)
+					projectile_burn = 20
+				if(30 to 40)
+					projectile_burn = 30
+				if(40 to 50)
+					projectile_burn = 40
 			projectile_damage = (T.material_density * 0.4) + ((gas_mix * 4) * (T.material_charge / 100)) //temp numbers
 
-		linked.fire_projectile(C.projectile_type, target, speed=projectile_velocity, user_override=TRUE, lateral=TRUE)
-		message_admins("DEBUG OUTPUT - Projectile: [C.name], Velocity: [projectile_velocity], Damage: [projectile_damage], Penetration: [projectile_penetration]") //REMOVE ME
+		var/P = linked.fire_projectile(C.projectile_type, target, speed=projectile_velocity, user_override=TRUE, lateral=TRUE)
+		if(istype(P, /obj/item/projectile/bullet/railgun_forged))
+			var/obj/item/projectile/bullet/railgun_forged/F = P
+			F.damage = projectile_damage
+			F.armour_penetration = projectile_penetration
+			F.speed = projectile_velocity
+			F.burn = projectile_burn
+			F.emp = projectile_emp
+			F.flag = projectile_flag
+			message_admins("DEBUG OUTPUT P1 - Projectile: [F.name], Velocity: [F.speed], Damage: [F.damage], Penetration: [F.armour_penetration], Burn: [F.burn], EMP: [F.emp], Flag: [F.flag]") //REMOVE ME
 
 /obj/machinery/ship_weapon/hybrid_rail/after_fire()
 	if(maint_state != 0) //MSTATE_CLOSED
@@ -235,6 +283,18 @@
 			M.visible_message("<span class='danger'>[M] was shocked by \the [name]!</span>", \
 		"<span class='userdanger'>You feel a powerful shock coursing through your body!</span>", \
 		"<span class='italics'>You hear a heavy electrical crack.</span>")
+
+/obj/machinery/ship_weapon/hybrid_rail/proc/bluespace()
+	ammo -= chambered
+	qdel(chambered)
+	chambered = null
+	capacitor_charge = 0
+	if(ammo?.len)
+		state = STATE_FED
+		chamber(rapidfire = TRUE)
+	else
+		state = STATE_NOTLOADED
+	playsound(src, 'sound/magic/wand_teleport.ogg', 100, TRUE)
 
 /obj/machinery/ship_weapon/hybrid_rail/multitool_act(mob/living/user, obj/item/I)
 	. = TRUE

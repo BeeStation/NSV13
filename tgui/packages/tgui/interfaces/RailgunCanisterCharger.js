@@ -13,6 +13,8 @@ export const RailgunCanisterCharger = (props, context) => {
     canister_charge_rate,
     canister_max_charge_rate,
     canister_integrity,
+    charging,
+    discharging,
     available_power,
   } = data;
   return (
@@ -71,10 +73,15 @@ export const RailgunCanisterCharger = (props, context) => {
           </ProgressBar>
           <br />
           <Button
-            content="Toggle Charge"
+            content="Charge"
             icon="radiation-alt"
-            color="yellow"
+            color={charging && "yellow"}
             onClick={() => act('toggle_charge')} />
+          <Button
+            content="Discharge"
+            icon="radiation-alt"
+            color={discharging && "yellow"}
+            onClick={() => act('toggle_discharge')} />
         </Section>
       </Window.Content>
     </Window>

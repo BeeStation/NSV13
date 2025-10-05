@@ -682,10 +682,12 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		//Sometimes we want to override stats.
 		if(speed)
 			proj.set_pixel_speed(speed)
+		/*
 		if(damage)
 			proj.damage = damage
 		if(armour_penetration)
 			proj.armour_penetration = armour_penetration
+		*/
 	//	else
 	//		proj.set_pixel_speed(proj.speed)
 	return proj

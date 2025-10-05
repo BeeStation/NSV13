@@ -208,7 +208,7 @@
 						r_materials.mat_container.use_amount_mat(625, /datum/material/iron)
 						tank_2_volume += 10
 
-/obj/machinery/railgun_forge/proc/getConductivity(var/T)
+/obj/machinery/railgun_forge/proc/getConductivity(var/T) //Extrapolated from electric conductivity at 20C
 	var/final_conductivty = 0
 	var/conductivity_1 = 0
 	var/conductivity_2 = 0
@@ -225,11 +225,11 @@
 		if("Uranium")
 			conductivity_1 = 0.36
 		if("Plasma")
-			conductivity_1 = 0.001
+			conductivity_1 = 2 //TEST
 		if("Bluespace")
-			conductivity_1 = 0.001
+			conductivity_1 = 20 //TEST
 		if("Bananium")
-			conductivity_1 = 0.001
+			conductivity_1 = 1 //TEST
 		if("Titanium")
 			conductivity_1 = 0.24
 		if("Copper")
@@ -255,11 +255,11 @@
 		if("Uranium")
 			conductivity_2 = 0.36
 		if("Plasma")
-			conductivity_2 = 0.001
+			conductivity_2 = 2 //TEST
 		if("Bluespace")
-			conductivity_2 = 0.001
+			conductivity_2 = 20 //TEST
 		if("Bananium")
-			conductivity_2 = 0.001
+			conductivity_2 = 1 //TEST
 		if("Titanium")
 			conductivity_2 = 0.24
 		if("Copper")
@@ -292,13 +292,13 @@
 */
 
 	if(T == "slug")
-		final_conductivty = ((0.25 * conductivity_1) + (0.75 * conductivity_2))
+		final_conductivty = ((0.75 * conductivity_1) + (0.25 * conductivity_2))
 	else if(T == "canister")
-		final_conductivty = ((0.4 * conductivity_1) + (0.6 * conductivity_2))
+		final_conductivty = ((0.6 * conductivity_1) + (0.4 * conductivity_2))
 
 	return final_conductivty
 
-/obj/machinery/railgun_forge/proc/getDensity(var/T)
+/obj/machinery/railgun_forge/proc/getDensity(var/T) //extrapolated from g/cm3
 	var/final_density = 0
 	var/density_1 = 0
 	var/density_2 = 0
@@ -315,11 +315,11 @@
 		if("Uranium")
 			density_1 = 38
 		if("Plasma")
-			density_1 = 0 //<-------
+			density_1 = 10 //TEST
 		if("Bluespace")
-			density_1 = 0 //<-------
+			density_1 = 4 //TEST
 		if("Bananium")
-			density_1 = 0 //<-------
+			density_1 = 25 //TEST
 		if("Titanium")
 			density_1 = 9
 		if("Copper")
@@ -345,11 +345,11 @@
 		if("Uranium")
 			density_2 = 38
 		if("Plasma")
-			density_2 = 0 //<-------
+			density_2 = 10 //TEST
 		if("Bluespace")
-			density_2 = 0 //<-------
+			density_2 = 4 //TEST
 		if("Bananium")
-			density_2 = 0 //<-------
+			density_2 = 25 //TEST
 		if("Titanium")
 			density_2 = 9
 		if("Copper")
@@ -405,11 +405,11 @@
 		if("Uranium")
 			hardness_1 = 6
 		if("Plasma")
-			hardness_1 = 0 //<-------
+			hardness_1 = 3 //TEST
 		if("Bluespace")
-			hardness_1 = 0 //<-------
+			hardness_1 = NUM_E ^ 1.5 //TEST
 		if("Bananium")
-			hardness_1 = 0 //<-------
+			hardness_1 = 1 //TESTs
 		if("Titanium")
 			hardness_1 = 6
 		if("Copper")
@@ -435,11 +435,11 @@
 		if("Uranium")
 			hardness_2 = 6
 		if("Plasma")
-			hardness_2 = 0 //<-------
+			hardness_2 = 3 //TEST
 		if("Bluespace")
-			hardness_2 = 0 //<-------
+			hardness_2 = NUM_E ^ 1.5 //TEST
 		if("Bananium")
-			hardness_2 = 0 //<-------
+			hardness_2 = 1 //TEST
 		if("Titanium")
 			hardness_2 = 6
 		if("Copper")
@@ -488,6 +488,14 @@
 		F.material_conductivity = getConductivity("slug")
 		F.material_density = getDensity("slug")
 		F.material_hardness = getHardness("slug")
+		if(material_selection_1 == "Bananium" || material_selection_2 == "Bananium")
+			F.railgun_flags += RAIL_BANANA
+			F.AddComponent(/datum/component/slippery, 40, null, 20, TRUE)
+		if(material_selection_1 == "Bluespace" || material_selection_2 == "Bluespace")
+			F.railgun_flags += RAIL_BLUESPACE
+		if(material_selection_1 == "Plasma" || material_selection_2 == "Plasma")
+			F.railgun_flags += RAIL_BURN
+			F.AddComponent(/datum/component/volatile, 3, TRUE, 1)
 		playsound(src, 'sound/items/welder.ogg', 100, TRUE)
 		do_sparks(5, FALSE, src)
 
@@ -501,9 +509,16 @@
 		F.material_conductivity = getConductivity("canister")
 		F.material_density = getDensity("canister")
 		F.material_hardness = getHardness("canister")
+		if(material_selection_1 == "Bananium" || material_selection_2 == "Bananium")
+			F.railgun_flags += RAIL_BANANA
+			F.AddComponent(/datum/component/slippery, 40, null, 20, TRUE)
+		if(material_selection_1 == "Bluespace" || material_selection_2 == "Bluespace")
+			F.railgun_flags += RAIL_BLUESPACE
+		if(material_selection_1 == "Plasma" || material_selection_2 == "Plasma")
+			F.railgun_flags += RAIL_BURN
+			F.AddComponent(/datum/component/volatile, 3, TRUE, 1)
 		playsound(src, 'sound/items/welder.ogg', 100, TRUE)
 		do_sparks(5, FALSE, src)
-
 
 /obj/machinery/railgun_forge/attack_hand(mob/living/carbon/user)
 	ui_interact(user)
@@ -783,6 +798,7 @@
 					return
 				else
 					F.canister_sealed = TRUE
+					F.icon_state = "railgun_canister_sealed"
 					to_chat(usr, "<span class='notice'>Attention: [F.name] has been been permamently sealed")
 					return
 			return
@@ -832,6 +848,7 @@
 	active_power_usage = 0
 	circuit = /obj/item/circuitboard/machine/railgun_charger
 	var/discharge = FALSE
+	var/charge = FALSE
 	var/loading = FALSE
 	var/charge_rate = 0 //In watts
 	var/max_charge_rate = 100000 //In watts
@@ -853,11 +870,15 @@
 					F.material_charge = 0
 				else
 					active_power_usage = 100 //Reduced power operation
-		else
+		else if(charge)
 			if(F.material_charge < 100)
 				F.material_charge += (charge_rate / 10000)
 				if(F.material_charge > 100)
 					F.material_charge = 100
+				if(F.railgun_flags & RAIL_BLUESPACE)
+					if(prob(0.1)) //Just bluespaces itself out of existence
+						qdel(F)
+						F = null
 			else
 				active_power_usage = 100 //Reduced power operation
 
@@ -936,8 +957,12 @@
 		if("charge_rate")
 			charge_rate = adjust
 			active_power_usage = adjust
+		if("toggle_discharge")
+			if(!charge)
+				discharge = !discharge
 		if("toggle_charge")
-			discharge = !discharge
+			if(!discharge)
+				charge = !charge
 		if("eject")
 			eject_canister()
 	return
@@ -950,6 +975,8 @@
 	data["canister_integrity"] = F ? F.canister_integrity : 0
 	data["canister_charge_rate"] = charge_rate
 	data["canister_max_charge_rate"] = max_charge_rate
+	data["charging"] = charge
+	data["discharging"] = discharge
 	var/turf/T = get_turf(src)
 	var/obj/structure/cable/C = T.get_cable_node()
 	if(C)

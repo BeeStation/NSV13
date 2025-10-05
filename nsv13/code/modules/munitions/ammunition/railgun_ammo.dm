@@ -1,3 +1,9 @@
+//Railgun bitflags
+#define RAIL_BANANA					(1<<0)
+#define RAIL_BLUESPACE				(1<<1)
+#define RAIL_EMP					(1<<2)
+#define RAIL_BURN					(1<<3)
+
 //Legacy Ammo
 /obj/item/ship_weapon/ammunition/railgun_ammo //The big slugs that you load into the railgun. These are able to be carried...one at a time
 	name = "\improper M4 NTRS 400mm teflon coated tungsten round"
@@ -25,25 +31,27 @@
 	desc = "A gigantic slug that's designed to be fired out of a railgun. It's extremely heavy, but doesn't actually contain any volatile components, so it's safe to manhandle."
 	icon_state = "railgun_ammo"
 	projectile_type = /obj/item/projectile/bullet/railgun_forged
+	var/railgun_flags = null
 	var/material_conductivity = 0
 	var/material_density = 0
 	var/material_hardness = 0
 
 /obj/item/ship_weapon/ammunition/railgun_ammo/forged/pre_gen_copper_iron //test round
 	name = "\improper Forged 400mm copper coated iron slug"
-	material_conductivity = 5
-	material_density = 30
-	material_hardness = 10
+	material_conductivity = 4.675
+	material_density = 10.5
+	material_hardness = 4.25
 
 /obj/item/ship_weapon/ammunition/railgun_ammo_canister
 	name = "\improper Forged 800mm" //Partial name - to be completed by the forging proc
 	desc = "A gigantic cansiter that's designed to be fired out of a railgun. It's extremely heavy, containing an internal chamber for charged ions, unsafe for direct handling."
-	icon_state = "railgun_ammo"
+	icon_state = "railgun_canister_unsealed"
 	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
 	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	w_class = 5 //larger
 	projectile_type = /obj/item/projectile/bullet/railgun_forged
+	var/railgun_flags = null
 	var/material_conductivity = 0
 	var/material_density = 0
 	var/material_hardness = 0
@@ -58,8 +66,10 @@
 
 /obj/item/ship_weapon/ammunition/railgun_ammo_canister/Initialize(mapload)
 	. = ..()
+	START_PROCESSING(SSobj, src) //Requires processing due integrity/charge deg
 	canister_gas = new(canister_volume)
 	canister_gas.set_temperature(T20C)
+	AddComponent(/datum/component/two_handed, require_twohands=TRUE)
 
 /obj/item/ship_weapon/ammunition/railgun_ammo_canister/examine(mob/user)
 	. = ..()
@@ -73,7 +83,6 @@
 	QDEL_NULL(canister_gas)
 
 /obj/item/ship_weapon/ammunition/railgun_ammo_canister/process()
-	.=..()
 	if(next_slowprocess < world.time)
 		slowprocess()
 		next_slowprocess = world.time + 1 SECONDS //Set to process only once a second
@@ -91,7 +100,7 @@
 				material_charge --
 
 	if(material_charge > 0 && !stabilized)
-		if(prob(material_charge))
+		if(prob(material_charge)) //This likely needs to be divided by 2
 			canister_integrity --
 
 		if(canister_integrity <= 0)
@@ -100,6 +109,26 @@
 	update_overlay()
 
 /obj/item/ship_weapon/ammunition/railgun_ammo_canister/proc/update_overlay()
+	if(canister_sealed)
+		if(canister_integrity > 20)
+			cut_overlays()
+			switch(material_charge)
+				if(66 to 100)
+					add_overlay("railgun_canister_charge_100_integrity_high")
+				if(33 to 66)
+					add_overlay("railgun_canister_charge_66_integrity_high")
+				if(1 to 33)
+					add_overlay("railgun_canister_charge_33_integrity_high")
+		else
+			cut_overlays()
+			switch(material_charge)
+				if(66 to 100)
+					add_overlay("railgun_canister_charge_100_integrity_low")
+				if(33 to 66)
+					add_overlay("railgun_canister_charge_66_integrity_low")
+				if(1 to 33)
+					add_overlay("railgun_canister_charge_33_integrity_low")
+
 	//here we enter in the overlays when we have them
 	//overlay is blue above 20% integrity, red below 20%
 	//overlay shifts and shimmers more with higher charge value
@@ -163,6 +192,6 @@
 
 /obj/item/ship_weapon/ammunition/railgun_ammo_canister/pre_gen_copper_iron //test round
 	name = "\improper Forged 800mm copper coated iron canister"
-	material_conductivity = 5
-	material_density = 30
-	material_hardness = 10
+	material_conductivity = 3.94
+	material_density = 16
+	material_hardness = 4.8
