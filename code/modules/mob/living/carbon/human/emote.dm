@@ -67,7 +67,7 @@
 		return 'sound/voice/moth/scream_moth.ogg'
 	else if(iscatperson(H))
 		if(user.gender == FEMALE)
-			return 'nsv13/sound/voice/felinid/cat_scream.ogg'
+			return 'nsv13/sound/voice/felinid/scream_cat.ogg'
 		else
 			return pick('nsv13/sound/voice/felinid/cat_yelp.ogg', 'nsv13/sound/voice/felinid/cat_yelp2.ogg')
 	else if(islizard(H))
