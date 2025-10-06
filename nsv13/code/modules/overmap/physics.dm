@@ -679,15 +679,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 				proj.setAngle(src.angle + rand(90 - proj.spread, 90 + proj.spread))
 			else
 				proj.setAngle(src.angle + rand(270 - proj.spread, 270 + proj.spread))
-		//Sometimes we want to override stats.
 		if(speed)
 			proj.set_pixel_speed(speed)
-		/*
-		if(damage)
-			proj.damage = damage
-		if(armour_penetration)
-			proj.armour_penetration = armour_penetration
-		*/
 	//	else
 	//		proj.set_pixel_speed(proj.speed)
 	return proj

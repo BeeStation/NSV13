@@ -1,30 +1,4 @@
 /obj/machinery/railgun_forge
-	/*
-
-	Material Allocation:
-	0 - None
-	1 - Iron
-	# - GLASS
-	2 - Silver
-	3 - Gold
-	4 - Diamond
-	5 - Uranium
-	6 - Plasma
-	7 - Bluespace
-	8 - Bananium
-	9 - Titanium
-	# - PLASTIC
-	# - BIOMASS
-	10 - Copper
-	/ALLOYS\
-	11 - Plasteel
-	12 - Ferrotitanium
-	13 - Durasteel
-	14 - Duranium
-	15 -
-
-	*/
-
 	name = "Railgun Forge"
 	desc = "Device for forging railgun munitions"
 	icon = 'icons/obj/stock_parts.dmi'
@@ -227,7 +201,7 @@
 		if("Plasma")
 			conductivity_1 = 2 //TEST
 		if("Bluespace")
-			conductivity_1 = 20 //TEST
+			conductivity_1 = 10 //TEST
 		if("Bananium")
 			conductivity_1 = 1 //TEST
 		if("Titanium")
@@ -257,7 +231,7 @@
 		if("Plasma")
 			conductivity_2 = 2 //TEST
 		if("Bluespace")
-			conductivity_2 = 20 //TEST
+			conductivity_2 = 10 //TEST
 		if("Bananium")
 			conductivity_2 = 1 //TEST
 		if("Titanium")
@@ -479,9 +453,9 @@
 	return final_hardness
 
 /obj/machinery/railgun_forge/proc/forge_slug()
-	if(tank_1_volume >= 10 && tank_2_volume >= 2) //Duplicate checks
-		tank_1_volume -= 10
-		tank_2_volume -= 2
+	if(tank_1_volume >= 4 && tank_2_volume >= 20) //Duplicate checks
+		tank_1_volume -= 4
+		tank_2_volume -= 20
 		var/turf/T = loc
 		var/obj/item/ship_weapon/ammunition/railgun_ammo/forged/F = new(T)
 		F.name = "\improper Forged 400mm [material_selection_1] coated [material_selection_2] slug"
@@ -500,9 +474,9 @@
 		do_sparks(5, FALSE, src)
 
 /obj/machinery/railgun_forge/proc/forge_canister()
-	if(tank_1_volume >= 10 && tank_2_volume >= 15) //Duplicate checks
-		tank_1_volume -= 10
-		tank_2_volume -= 15
+	if(tank_1_volume >= 20 && tank_2_volume >= 30) //Duplicate checks
+		tank_1_volume -= 20
+		tank_2_volume -= 30
 		var/turf/T = loc
 		var/obj/item/ship_weapon/ammunition/railgun_ammo_canister/F = new(T)
 		F.name = "\improper Forged 800mm [material_selection_1] coated [material_selection_2] canister"
@@ -555,7 +529,7 @@
 				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 				playsound(src, sound, 100, 1)
 				return
-			else if(tank_1_volume < 10 || tank_2_volume < 2)
+			else if(tank_1_volume < 4 || tank_2_volume < 20)
 				to_chat(usr, "<span class='notice'>Error: Insufficent fabrication resources</span>")
 				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 				playsound(src, sound, 100, 1)
@@ -569,12 +543,11 @@
 				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
 				playsound(src, sound, 100, 1)
 				return
-			else if(tank_1_volume < 10 || tank_2_volume < 15)
-				if(tank_1_volume >= 10 && tank_2_volume >= 15) //Double Check?
-					to_chat(usr, "<span class='notice'>Error: Insufficent fabrication resources</span>")
-					var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-					playsound(src, sound, 100, 1)
-					return
+			else if(tank_1_volume < 20 || tank_2_volume < 30)
+				to_chat(usr, "<span class='notice'>Error: Insufficent fabrication resources</span>")
+				var/sound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+				playsound(src, sound, 100, 1)
+				return
 			else
 				forge_canister()
 
@@ -876,9 +849,8 @@
 				if(F.material_charge > 100)
 					F.material_charge = 100
 				if(F.railgun_flags & RAIL_BLUESPACE)
-					if(prob(0.1)) //Just bluespaces itself out of existence
-						qdel(F)
-						F = null
+					if(prob(0.1))
+						bluespace()
 			else
 				active_power_usage = 100 //Reduced power operation
 
@@ -902,6 +874,19 @@
 		F.forceMove(get_turf(src))
 		F.stabilized = FALSE
 		F = null //wipe our ref
+
+/obj/machinery/railgun_charger/proc/bluespace() //Mirror the proc in hybrid_railgun.dm
+	F.stabilized = FALSE
+	var/obj/item/ship_weapon/ammunition/A = F
+	F = null //reference in our charger
+	var/bluespace_roll = rand(0, 100) //Random effect table here
+	switch(bluespace_roll) //ADD MORE HERE PLEASE
+		if(0 to 50) //Send to the aether
+			qdel(A)
+			return
+		if(51 to 100) //Teleport somewhere randomly on the ship - hope this wasn't a charged canister
+			var/turf/T = find_safe_turf()
+			do_teleport(A, T)
 
 /obj/machinery/railgun_charger/attackby(obj/item/I, mob/user)
 	if(!loading)

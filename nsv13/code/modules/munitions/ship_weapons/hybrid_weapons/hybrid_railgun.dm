@@ -157,10 +157,10 @@
 	if(C)
 		if(istype(C, /obj/item/ship_weapon/ammunition/railgun_ammo/forged))
 			var/obj/item/ship_weapon/ammunition/railgun_ammo/forged/T = C
-			projectile_velocity = T.material_conductivity - ((100 - alignment) / 100)
+			projectile_velocity = (T.material_conductivity * 1.5) - ((100 - alignment) / 100)
 			if(projectile_velocity < 0)
 				projectile_velocity = 0.1
-			projectile_damage = (T.material_hardness * T.material_density) * projectile_velocity
+			projectile_damage = ((T.material_hardness * 0.25) * T.material_density) * projectile_velocity
 			if(projectile_damage < 0)
 				projectile_damage = 0
 			if(T.railgun_flags & RAIL_BANANA)
@@ -183,7 +183,7 @@
 				projectile_burn = 20
 		if(istype(C, /obj/item/ship_weapon/ammunition/railgun_ammo_canister))
 			var/obj/item/ship_weapon/ammunition/railgun_ammo_canister/T = C
-			projectile_velocity = T.material_conductivity - ((100 - alignment) / 100)
+			projectile_velocity = (T.material_conductivity * 1.5) - ((100 - alignment) / 100)
 			if(projectile_velocity < 0)
 				projectile_velocity = 0.1
 			if(T.railgun_flags & RAIL_BANANA)
@@ -225,7 +225,7 @@
 					projectile_burn = 30
 				if(40 to 50)
 					projectile_burn = 40
-			projectile_damage = (T.material_density * 0.4) + ((gas_mix * 4) * (T.material_charge / 100)) //temp numbers
+			projectile_damage = ((((T.material_hardness * 0.25) * T.material_density) * projectile_velocity) * 0.2) + ((gas_mix * 4) * (T.material_charge / 100)) //temp numbers
 
 		var/P = linked.fire_projectile(C.projectile_type, target, speed=projectile_velocity, user_override=TRUE, lateral=TRUE)
 		if(istype(P, /obj/item/projectile/bullet/railgun_forged))
@@ -236,7 +236,7 @@
 			F.burn = projectile_burn
 			F.emp = projectile_emp
 			F.flag = projectile_flag
-			message_admins("DEBUG OUTPUT P1 - Projectile: [F.name], Velocity: [F.speed], Damage: [F.damage], Penetration: [F.armour_penetration], Burn: [F.burn], EMP: [F.emp], Flag: [F.flag]") //REMOVE ME
+			message_admins("DEBUG OUTPUT - Projectile: [C.name], Velocity: [F.speed], Damage: [F.damage], Penetration: [F.armour_penetration], Burn: [F.burn], EMP: [F.emp], Flag: [F.flag]") //REMOVE ME
 
 /obj/machinery/ship_weapon/hybrid_rail/after_fire()
 	if(maint_state != 0) //MSTATE_CLOSED
@@ -284,9 +284,9 @@
 		"<span class='userdanger'>You feel a powerful shock coursing through your body!</span>", \
 		"<span class='italics'>You hear a heavy electrical crack.</span>")
 
-/obj/machinery/ship_weapon/hybrid_rail/proc/bluespace()
+/obj/machinery/ship_weapon/hybrid_rail/proc/bluespace() //Mirror the proc in railgun_forge.dm
+	var/obj/item/ship_weapon/ammunition/A = chambered
 	ammo -= chambered
-	qdel(chambered)
 	chambered = null
 	capacitor_charge = 0
 	if(ammo?.len)
@@ -295,6 +295,16 @@
 	else
 		state = STATE_NOTLOADED
 	playsound(src, 'sound/magic/wand_teleport.ogg', 100, TRUE)
+
+	var/bluespace_roll = rand(0, 100) //Random effect table here
+	switch(bluespace_roll) //ADD MORE HERE PLEASE
+		if(0 to 50) //Send to the aether
+			qdel(A)
+			return
+		if(51 to 100) //Teleport somewhere randomly on the ship - hope this wasn't a charged canister
+			var/turf/T = find_safe_turf()
+			do_teleport(A, T)
+		//if(1000) What if we shot Narsie by accident? :)
 
 /obj/machinery/ship_weapon/hybrid_rail/multitool_act(mob/living/user, obj/item/I)
 	. = TRUE
