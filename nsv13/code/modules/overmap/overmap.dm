@@ -241,11 +241,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 */
 
 /proc/instance_overmap(_path, folder = null, interior_map_files = null, traits = null, default_traits = ZTRAITS_BOARDABLE_SHIP, midround=FALSE) //By default we apply the boardable ship traits, as they make fighters and that lark work
+	RETURN_TYPE(/obj/structure/overmap)
 	if(!islist(interior_map_files))
 		interior_map_files = list(interior_map_files)
 	if(!_path)
 		_path = /obj/structure/overmap/nanotrasen/heavy_cruiser/starter
-	RETURN_TYPE(/obj/structure/overmap)
 	var/datum/space_level/new_ship_z = SSmapping.add_new_zlevel("Overmap ship level [length(SSmapping.z_list)+1]", ZTRAITS_OVERMAP)
 	if(!folder || !interior_map_files)
 		SSmapping.setup_map_transitions(new_ship_z) //We usually recalculate transitions later, but not if there's no interior.

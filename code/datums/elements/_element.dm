@@ -21,9 +21,9 @@
 /// Deactivates the functionality defines by the element on the given datum
 /datum/element/proc/Detach(datum/source, ...)
 	SIGNAL_HANDLER
+	SHOULD_CALL_PARENT(TRUE) //nsv13 - set calls need to be first in proc.
 
 	SEND_SIGNAL(source, COMSIG_ELEMENT_DETACH, src)
-	SHOULD_CALL_PARENT(TRUE)
 	UnregisterSignal(source, COMSIG_PARENT_QDELETING)
 
 /datum/element/Destroy(force)
