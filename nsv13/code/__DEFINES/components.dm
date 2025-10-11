@@ -8,5 +8,6 @@
 #define COMSIG_TARGET_LOCKED "target_locked" //! from base of /obj/structure/overmap/proc/select_target: (target)
 #define COMSIG_LOCK_LOST "lock_lost" //! from base of /obj/structure/overmap/proc/dump_lock: (target)
 
+#define COMSIG_SHIP_IFF_CHANGE "iff_change"
 #define COMSIG_SHIP_RELEASE_BOARDING "release_boarding"
 	#define COMSIG_SHIP_BLOCKS_RELEASE_BOARDING 1
