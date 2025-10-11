@@ -12,7 +12,6 @@
 
 //	circuit = /obj/item/circuitboard/machine/pdc_mount
 
-	fire_mode = FIRE_MODE_FLAK
 	magazine_type = /obj/item/ammo_box/magazine/nsv/flak
 
 	auto_load = TRUE
@@ -35,6 +34,8 @@
 	chamber_delay_rapid = 0
 	chamber_delay = 0
 	bang = FALSE
+
+	weapon_datum_type = /datum/overmap_ship_weapon/flak
 
 /obj/machinery/ship_weapon/pdc_mount/flak/animate_projectile(atom/target)
 	var/obj/item/projectile/bullet/B = ..()
@@ -141,11 +142,18 @@
 		return
 
 	if(isprojectile(AM) && P.faction != faction) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
+		//Why do we have the exact same intercept check pipeline twice (on enter and on impact) :(
 		if(obj_integrity <= P.damage) //Tank the hit, take some damage
-			qdel(P)
+			if((P.projectile_piercing & PASSCLOSEDTURF) && P.obj_integrity > damage) //Check for arbitrary pass flag that makes senseish.
+				P.obj_integrity -= damage
+			else
+				qdel(P)
 			explode()
 		else
-			qdel(P)
+			if((P.projectile_piercing & PASSCLOSEDTURF) && P.obj_integrity > damage) //Check for arbitrary pass flag that makes senseish.
+				P.obj_integrity -= damage
+			else
+				qdel(P)
 			take_damage(P.damage)
 			new /obj/effect/temp_visual/impact_effect(get_turf(src), rand(0,20), rand(0,20))
 

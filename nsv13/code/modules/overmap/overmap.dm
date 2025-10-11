@@ -136,11 +136,6 @@
 	*/
 	var/obj/machinery/computer/ship/dradis/dradis //So that pilots can check the radar easily
 
-	// Ship weapons
-	var/list/weapon_types[MAX_POSSIBLE_FIREMODE]
-	var/list/weapon_numkeys_map = list() // I hate this
-
-	var/fire_mode = FIRE_MODE_TORPEDO //What gun do we want to fire? Defaults to railgun, with PDCs there for flak
 	var/weapon_safety = FALSE //Like a gun safety. Entirely un-used except for fighters to stop brainlets from shooting people on the ship unintentionally :)
 	var/faction = null //Used for target acquisition by AIs
 
@@ -148,10 +143,39 @@
 	var/obj/weapon_overlay/last_fired //Last weapon overlay that fired, so we can rotate guns independently
 	var/atom/last_target //Last thing we shot at, used to point the railgun at an enemy.
 
+	//Ammo related vars
+
+	///Delay to resupply all main ammo types except light.
 	var/static/ai_resupply_time = 1.5 MINUTES
-	var/ai_resupply_scheduled = FALSE
-	var/torpedoes = 0 //If this starts at above 0, then the ship can use torpedoes when AI controlled
-	var/missiles = 0 //If this starts at above 0, then the ship can use missiles when AI controlled
+	///Delay to resupply light ammo.
+	var/static/ai_light_resupply_time = 20 SECONDS
+	///If we are currently rearming.
+	var/ai_resupply_scheduled = NONE
+
+	//Max ammo vars. By default, set to the defined starting ammo of that type, but if you change that outside of the code, modify them too.
+
+	///Maximum ammunition for light weapons.
+	var/max_light_shots_left
+	///Maximum ammunition for heavy weapons.
+	var/max_shots_left
+	///Maximum missiles this ship can carry.
+	var/max_missiles
+	///Maximum torpedoes this ship can carry.
+	var/max_torpedoes
+
+	//Current ammo vars. On initialize, determine max ammo.
+
+	///Current amount of ammunition for light weapons.
+	var/light_shots_left = 300
+	///Current amount of ammunition for heavy weapons.
+	var/shots_left = 15
+	///Current amount of missiles.
+	var/missiles = 0
+	///Current amount of torpedoes.
+	var/torpedoes = 0
+
+	///Current amount of mines.
+	var/mines_left = 0
 
 	var/list/torpedoes_to_target = list() //Torpedoes that have been fired explicitly at us, and that the PDCs need to worry about.
 	var/atom/target_lock = null // Our "locked" target. This is what manually fired guided weapons will track towards.
@@ -178,8 +202,7 @@
 	var/list/obj/effect/projectile/tracer/current_tracers
 	var/mob/listeningTo
 	var/obj/aiming_target
-	var/aiming_params
-	var/atom/autofire_target = null
+	var/atom/autofire_target = null //LL-OSW WIP - This should be split by user like weapon control sometime, so more than one person can use autofire.
 
 	// Trader delivery locations
 	var/list/trader_beacons = null
@@ -205,9 +228,6 @@
 	var/torpedo_type = /obj/item/projectile/guided_munition/torpedo
 	var/missile_type = /obj/item/projectile/guided_munition/missile
 	var/next_maneuvre = 0 //When can we pull off a fancy trick like boost or kinetic turn?
-	var/flak_battery_amount = 0
-	var/broadside = FALSE //Whether the ship is allowed to have broadside cannons or not
-	var/plasma_caster = FALSE //Wehther the ship is allowed to have plasma gun or not
 	var/role = NORMAL_OVERMAP
 
 	var/list/missions = list()
@@ -341,6 +361,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	else
 		npc_combat_dice = new combat_dice_type()
 
+	max_light_shots_left = light_shots_left
+	max_shots_left = shots_left
+	max_missiles = missiles
+	max_torpedoes = torpedoes
+	apply_weapons() //Standard armament MUST be applied before weapon linkage to avoid dupes.
+	weapons_initialized = TRUE //We're not going to get weird behavior now.
+
 	if(!istype(src, /obj/structure/overmap/asteroid))
 		GLOB.poi_list += src
 	return INITIALIZE_HINT_LATELOAD
@@ -425,9 +452,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			max_angular_acceleration = 6
 			bounce_factor = 0.20 //But you can plow through enemy ships with ease.
 			lateral_bounce_factor = 0.20
-			//If we've not already got a special flak battery amount set.
-			if(flak_battery_amount <= 0)
-				flak_battery_amount = 1
 		//Supercapitals are EXTREMELY hard to move, you'll find that they fight your every command, it's a side-effect of their immense power.
 		if(MASS_TITAN)
 			forward_maxthrust = 0.35
@@ -436,9 +460,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			max_angular_acceleration = 2.75
 			bounce_factor = 0.10// But nothing can really stop you in your tracks.
 			lateral_bounce_factor = 0.10
-			//If we've not already got a special flak battery amount set.
-			if(flak_battery_amount <= 0)
-				flak_battery_amount = 2
 	switch(role)
 		if(MAIN_OVERMAP)
 			name = station_name()
@@ -462,46 +483,15 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			SSstar_system.queue_for_interior_load(src)
 
 	RegisterSignal(src, list(COMSIG_FTL_STATE_CHANGE, COMSIG_SHIP_KILLED), PROC_REF(dump_locks)) // Setup lockon handling
-	//We have a lot of types but not that many weapons per ship, so let's just worry about the ones we do have
-	if(interior_mode != INTERIOR_DYNAMIC)
-		apply_weapons()
-		for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
-			var/datum/ship_weapon/SW = weapon_types[firemode]
-			if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
-				weapon_numkeys_map += firemode
 
 ///Listens for when the interior is done initing and finishes up some variables when it is.
 /obj/structure/overmap/proc/after_init_load_interior()
 	SIGNAL_HANDLER
 	UnregisterSignal(src, COMSIG_INTERIOR_DONE_LOADING)
-	apply_weapons()
-	for(var/firemode = 1; firemode <= MAX_POSSIBLE_FIREMODE; firemode++)
-		var/datum/ship_weapon/SW = weapon_types[firemode]
-		if(istype(SW) && (SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
-			weapon_numkeys_map += firemode
 
-//Method to apply weapon types to a ship. Override to your liking, this just handles generic rules and behaviours
+//Method to apply weapon types to a ship. By default applies NO weapons.
 /obj/structure/overmap/proc/apply_weapons()
-	//Prevent fighters from getting access to the AMS.
-	if(mass <= MASS_TINY)
-		weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/light_cannon(src)
-	//Gauss is the true PDC replacement...
-	else
-		weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	if(mass >= MASS_SMALL || length(occupying_levels))
-		weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
-		weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
-	if(flak_battery_amount > 0)
-		weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
-	if(mass > MASS_MEDIUM || length(occupying_levels))
-		weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac(src)
-	if(ai_controlled)
-		weapon_types[FIRE_MODE_MISSILE] = new/datum/ship_weapon/missile_launcher(src)
-		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)
-	if(broadside)
-		weapon_types[FIRE_MODE_BROADSIDE] = new/datum/ship_weapon/broadside(src)
-	if(plasma_caster)
-		weapon_types[FIRE_MODE_PHORON] = new/datum/ship_weapon/plasma_caster(src)
+	return
 
 /obj/item/projectile/Destroy()
 	if(physics2d)
@@ -512,6 +502,16 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	if(block_deletion || (CHECK_BITFIELD(overmap_deletion_traits, NEVER_DELETE_OCCUPIED) && has_occupants()))
 		message_admins("[src] has occupants and will not be deleted")
 		return QDEL_HINT_LETMELIVE
+
+	//Handles all osw var releases.
+	purge_overmap_weapon_datums()
+	overmap_weapon_datums = null
+	pilot_weapon_datums = null
+	gunner_weapon_datums = null
+	autonomous_weapon_datums = null
+	controlled_weapons = null
+	controlled_weapon_datum = null
+	//osw end.
 
 	GLOB.poi_list -= src
 	if(current_system)
@@ -610,13 +610,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 				gauss_gunners -= user
 	if(user != gunner)
 		if(user == pilot)
-			for(var/mode = 1; mode <= MAX_POSSIBLE_FIREMODE; mode++)
-				var/datum/ship_weapon/SW = weapon_types[mode] //For annoying ships like whisp
-				if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_PILOT))
-					continue
-				var/list/loaded = SW?.weapons["loaded"]
-				if(length(loaded))
-					fire_weapon(target, mode)
+			fire(target, user)
 		return FALSE
 	if(tactical && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
@@ -625,11 +619,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		start_lockon(target)
 		ams_shots_fired = 0
 		return TRUE
-	if(user == gunner)
-		var/datum/ship_weapon/SW = weapon_types[fire_mode]
-		if(!SW || !(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
-			return FALSE
-	fire(target)
+	fire(target, user)
 	return TRUE
 
 // Placeholder to allow targeting with utility modules
