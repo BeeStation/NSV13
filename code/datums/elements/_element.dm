@@ -22,6 +22,7 @@
 /datum/element/proc/Detach(datum/source, ...)
 	SHOULD_CALL_PARENT(TRUE)
 	SIGNAL_HANDLER
+	SHOULD_CALL_PARENT(TRUE) //nsv13 - set calls need to be first in proc.
 
 	SEND_SIGNAL(source, COMSIG_ELEMENT_DETACH, src)
 	UnregisterSignal(source, COMSIG_PARENT_QDELETING)
