@@ -1,4 +1,4 @@
-//Highly Expensive to replace and maintain, hence limited to round start
+//Highly Expensive to replace and maintain, limited to Shrike for the sake of actually having unique ship characteristics
 //Use both power and physical projectiles
 //Fires both Railgun Slugs and Railgun Canisters
 
@@ -130,13 +130,13 @@
 		var/obj/item/ship_weapon/ammunition/railgun_ammo/forged/F = chambered
 		if(F.railgun_flags & RAIL_BLUESPACE)
 			if(prob(25))
-				bluespace()
+				bluespace(target)
 				return FALSE
 	if(istype(chambered, /obj/item/ship_weapon/ammunition/railgun_ammo_canister))
 		var/obj/item/ship_weapon/ammunition/railgun_ammo_canister/R = chambered
 		if(R.railgun_flags & RAIL_BLUESPACE)
 			if(prob(25))
-				bluespace()
+				bluespace(target)
 				return FALSE
 	if(alignment < 25)
 		if(prob(25))
@@ -284,7 +284,7 @@
 		"<span class='userdanger'>You feel a powerful shock coursing through your body!</span>", \
 		"<span class='italics'>You hear a heavy electrical crack.</span>")
 
-/obj/machinery/ship_weapon/hybrid_rail/proc/bluespace() //Mirror the proc in railgun_forge.dm
+/obj/machinery/ship_weapon/hybrid_rail/proc/bluespace(target) //Mirror the proc in railgun_forge.dm
 	var/obj/item/ship_weapon/ammunition/A = chambered
 	ammo -= chambered
 	chambered = null
@@ -298,12 +298,14 @@
 
 	var/bluespace_roll = rand(0, 100) //Random effect table here
 	switch(bluespace_roll) //ADD MORE HERE PLEASE
-		if(0 to 50) //Send to the aether
+		if(0 to 30) //Send to the aether
 			qdel(A)
 			return
-		if(51 to 100) //Teleport somewhere randomly on the ship - hope this wasn't a charged canister
+		if(31 to 80) //Teleport somewhere randomly on the ship - hope this wasn't a charged canister
 			var/turf/T = find_safe_turf()
 			do_teleport(A, T)
+		if(81 to 100)
+			linked.railgun_bluespace_recoil(target)
 		//if(1000) What if we shot Narsie by accident? :)
 
 /obj/machinery/ship_weapon/hybrid_rail/multitool_act(mob/living/user, obj/item/I)
