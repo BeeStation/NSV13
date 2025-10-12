@@ -98,6 +98,15 @@
 	var/giftwrapped = 0
 	var/sortTag = 0
 
+//NSV13 - examine for these to convey size.
+/obj/item/small_delivery/examine(mob/user)
+	. = ..()
+	if(!CHECK_BITFIELD(interaction_flags_item, INTERACT_ITEM_ATTACK_HAND_PICKUP))
+		. += "<span class='notice'>It's far too large to pick up!</span>"
+	if(density)
+		. += "<span class='notice'>It's far too bulky to squeeze past!</span>"
+//NSV13 end.
+
 /obj/item/small_delivery/contents_explosion(severity, target)
 	for(var/thing in contents)
 		switch(severity)
@@ -161,6 +170,18 @@
 			user.visible_message("[user] wraps the package in festive paper!")
 		else
 			to_chat(user, "<span class='warning'>You need more paper!</span>")
+	//NSV13 - cutting open packages. Required if too large to handle inhand.
+	else if(W.force > 0 && W.is_sharp())
+		user.visible_message("<span class='notice'>[user] starts to cut open [src].</span>", "<span class='notice'>You start to cut open [src].</span>")
+		if(!do_after(user, 3 SECONDS, target = src))
+			return TRUE
+		user.visible_message("<span class='notice'>[user] cuts apart [src].</span>", "<span class='notice'>You cut apart [src]!</span>", "<span class='warning'>You hear wrap being cut apart!</span>")
+		var/turf/dest_turf = get_turf(src)
+		for(var/atom/movable/AM in contents)
+			AM.forceMove(dest_turf)
+		qdel(src)
+		return TRUE
+	//NSV13 end.
 
 /obj/item/small_delivery/Initialize(mapload)
 	. = ..()
