@@ -1138,10 +1138,10 @@
 /obj/structure/cable/green{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+/obj/effect/landmark/event_spawn,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 1
 	},
-/obj/effect/landmark/event_spawn,
 /turf/open/floor/plating/rusty_techgrid,
 /area/science/lab)
 "dp" = (
@@ -2533,11 +2533,11 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "hJ" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 6
-	},
 /obj/machinery/atmospherics/pipe/simple/violet/hidden{
 	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
+	dir = 6
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/science/lab)
@@ -3171,9 +3171,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
 	dir = 6
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 6
-	},
 /obj/effect/turf_decal/stripes/corner{
 	dir = 4
 	},
@@ -3456,21 +3453,18 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/visible/layer2{
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer4{
-	dir = 1
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
+	dir = 8
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "kx" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 1
-	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 1
 	},
@@ -3732,6 +3726,7 @@
 /area/maintenance/department/medical)
 "ll" = (
 /obj/effect/landmark/start/security_officer,
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
 /turf/open/floor/plasteel/dark,
 /area/security)
 "ln" = (
@@ -3782,10 +3777,16 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/science/robotics)
 "lz" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+/obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/turf/open/floor/monotile/dark,
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
+	dir = 8
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "lB" = (
 /obj/structure/closet/crate/wooden/toy,
@@ -4052,9 +4053,6 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "mI" = (
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
@@ -4063,6 +4061,9 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
+	dir = 9
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/security)
@@ -4585,9 +4586,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
-	},
-/obj/structure/cable/white{
-	icon_state = "2-8"
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/orange/hidden{
@@ -5727,10 +5725,7 @@
 	},
 /area/engine/atmos/starboard_atmos)
 "rI" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 1
-	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
 /turf/open/floor/monotile/dark,
 /area/quartermaster/storage)
 "rJ" = (
@@ -6779,7 +6774,9 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/manifold/supply/visible/layer2,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer4,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
 "uW" = (
@@ -7605,7 +7602,6 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "xo" = (
-/obj/machinery/holopad,
 /obj/machinery/airalarm/directional/east,
 /obj/effect/landmark/start/security_officer,
 /turf/open/floor/plasteel/dark,
@@ -8069,11 +8065,11 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "yq" = (
-/obj/machinery/atmospherics/pipe/manifold/supply/visible/layer2{
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer4{
 	dir = 4
 	},
-/obj/structure/disposalpipe/segment,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/starboard_substation)
 "yr" = (
@@ -8919,11 +8915,11 @@
 	})
 "AP" = (
 /obj/structure/disposalpipe/segment,
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer4{
+/obj/machinery/firealarm/directional/east,
+/obj/machinery/atmospherics/pipe/manifold/supply/visible/layer2{
 	dir = 4
 	},
-/obj/machinery/firealarm/directional/east,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/starboard_substation)
 "AQ" = (
@@ -10484,7 +10480,9 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/weapons)
 "FA" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+	dir = 1
+	},
 /turf/open/floor/monotile/dark,
 /area/quartermaster/storage)
 "FC" = (
@@ -11289,7 +11287,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/port_substation)
 "Ie" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -11371,7 +11369,7 @@
 	lighting_colour_tube = "#FF3232"
 	})
 "Is" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 4
 	},
 /turf/open/floor/plating,
@@ -12859,9 +12857,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
-	dir = 9
-	},
 /obj/structure/cable/green{
 	icon_state = "4-8"
 	},
@@ -14114,10 +14109,12 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/visible/layer2,
 /obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer4,
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
+	dir = 8
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/quartermaster/storage)
@@ -14673,11 +14670,11 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/port_substation)
 "SA" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
-	dir = 1
-	},
 /obj/machinery/atmospherics/pipe/manifold/violet/hidden{
 	dir = 4
+	},
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 1
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/science/lab)
@@ -14787,6 +14784,10 @@
 /obj/structure/railing,
 /turf/open/space/basic,
 /area/space/nearstation)
+"ST" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
+/turf/open/floor/monotile/dark,
+/area/quartermaster/storage)
 "SU" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -14808,7 +14809,6 @@
 /obj/structure/chair/office{
 	dir = 1
 	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2,
 /obj/effect/landmark/start/security_officer,
 /turf/open/floor/plasteel/dark,
 /area/security)
@@ -14816,8 +14816,8 @@
 /obj/structure/cable/green{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
 	dir = 9
 	},
 /turf/open/floor/plating/rusty_techgrid,
@@ -47709,12 +47709,12 @@ bZ
 jR
 jG
 kx
-lz
+OJ
 fy
 OJ
 OJ
 fy
-FA
+OJ
 rI
 QN
 tX
@@ -47964,7 +47964,7 @@ fi
 jT
 hm
 jV
-Nv
+lz
 nf
 UP
 QO
@@ -48221,7 +48221,7 @@ fU
 fU
 fi
 jV
-Nv
+lz
 ZR
 ZR
 pv
@@ -48478,7 +48478,7 @@ fU
 fU
 fi
 jV
-Nv
+lz
 ZR
 ZR
 pv
@@ -48735,7 +48735,7 @@ fU
 fU
 fi
 jV
-Nv
+lz
 ku
 UP
 rl
@@ -48993,14 +48993,14 @@ fU
 fi
 jV
 kw
-kx
-lz
-fy
-OJ
-OJ
-fy
 FA
-rI
+OJ
+fy
+OJ
+OJ
+fy
+OJ
+ST
 uU
 tX
 kt

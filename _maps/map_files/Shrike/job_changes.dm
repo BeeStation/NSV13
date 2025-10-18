@@ -56,6 +56,12 @@ MAP_REMOVE_JOB(air_traffic_controller)
 					return
 	. = ..()
 
+/obj/item/circuitboard/machine/techfab/department/Initialize(mapload)
+	. = ..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	return INITIALIZE_HINT_QDEL
+
 //Bottle Chemistry Packs
 
 /datum/supply_pack/medical/chemical_supply_compounds/New()
