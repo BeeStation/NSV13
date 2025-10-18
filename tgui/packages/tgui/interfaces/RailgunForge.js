@@ -23,7 +23,6 @@ export const RailgunForge = (props, context) => {
       <Window.Content scrollable>
         <Section>
           <Button
-            // disabled={!data.XYZ} //You can use this to grey out the button entirely if a requirement is or isn't met, like nothing being selected
             content="Print Slug"
             icon="paperclip"
             onClick={() => act('print_slug')} />
@@ -36,11 +35,11 @@ export const RailgunForge = (props, context) => {
         <Section title="Coating Tank">
           <Flex>
             <Flex.Item>
-              <Dropdown // Example of a dropdown menu for selecting materials, I've omitted the alloys here for now
-                over:true // Make the drop down menu go over other elements
-                selected={t1_material} // Shows that t1_material is currently selected, the UI should update after ui_act when that proc returns
+              <Dropdown
+                over:true
+                selected={t1_material}
                 options={["Iron", "Silver", "Gold", "Diamond", "Uranium", "Plasma", "Bluespace", "Bananium", "Titanium", "Copper"]}
-                onSelected={value => act('t1_list', { value })} // This is passed to byond in the ui_act proc as the action and params (list) variables
+                onSelected={value => act('t1_list', { value })}
               />
             </Flex.Item>
             Tank Volume:
@@ -73,11 +72,11 @@ export const RailgunForge = (props, context) => {
         <Section title="Core Tank">
           <Flex>
             <Flex.Item>
-              <Dropdown // Example of a dropdown menu for selecting materials, I've omitted the alloys here for now
-                over:true // Make the drop down menu go over other elements
-                selected={t2_material} // Shows that t1_material is currently selected, the UI should update after ui_act when that proc returns
+              <Dropdown
+                over:true
+                selected={t2_material}
                 options={["Iron", "Silver", "Gold", "Diamond", "Uranium", "Plasma", "Bluespace", "Bananium", "Titanium", "Copper"]}
-                onSelected={value => act('t2_list', { value })} // This is passed to byond in the ui_act proc as the action and params (list) variables
+                onSelected={value => act('t2_list', { value })}
               />
             </Flex.Item>
             Tank Volume:
