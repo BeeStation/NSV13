@@ -1,3 +1,5 @@
+//NSV13
+
 import { toTitleCase } from 'common/string';
 import { useBackend } from '../backend';
 import { Box, Button, Dropdown, NumberInput, ProgressBar, Flex, Section, Table } from '../components';
@@ -53,12 +55,12 @@ export const RailgunForge = (props, context) => {
                 }} />
             </Flex.Item>
           </Flex>
-         <Button
+          <Button
             content="Set Coating Tank Material"
             icon="exclamation-triangle"
             color={data.t1_alloy_lock && "good"}
             onClick={() => act('t1_set_material')} />
-         <Button
+          <Button
             content="Process Tank 1"
             icon="exclamation-triangle"
             color={data.t1_processing && "good"}
@@ -90,12 +92,12 @@ export const RailgunForge = (props, context) => {
                 }} />
             </Flex.Item>
           </Flex>
-         <Button
+          <Button
             content="Set Core Tank Material"
             icon="exclamation-triangle"
             color={data.t2_alloy_lock && "good"}
             onClick={() => act('t2_set_material')} />
-         <Button
+          <Button
             content="Process Tank 2"
             icon="exclamation-triangle"
             color={data.t2_processing && "good"}
