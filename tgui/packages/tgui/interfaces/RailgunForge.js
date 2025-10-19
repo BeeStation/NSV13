@@ -1,4 +1,4 @@
-//NSV13
+// NSV13
 
 import { toTitleCase } from 'common/string';
 import { useBackend } from '../backend';
@@ -38,7 +38,7 @@ export const RailgunForge = (props, context) => {
           <Flex>
             <Flex.Item>
               <Dropdown
-                over:true
+                overflow-y="scroll"
                 selected={t1_material}
                 options={["Iron", "Silver", "Gold", "Diamond", "Uranium", "Plasma", "Bluespace", "Bananium", "Titanium", "Copper"]}
                 onSelected={value => act('t1_list', { value })}
@@ -75,7 +75,7 @@ export const RailgunForge = (props, context) => {
           <Flex>
             <Flex.Item>
               <Dropdown
-                over:true
+                overflow-y="scroll"
                 selected={t2_material}
                 options={["Iron", "Silver", "Gold", "Diamond", "Uranium", "Plasma", "Bluespace", "Bananium", "Titanium", "Copper"]}
                 onSelected={value => act('t2_list', { value })}
