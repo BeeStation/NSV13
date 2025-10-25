@@ -132,7 +132,6 @@
 	icon_state = "cap"
 
 /obj/structure/closet/secure_closet/captains/solgov/PopulateContents()
-	..()
 	new /obj/item/storage/box/suitbox/cap(src)
 	new /obj/item/storage/backpack/captain(src)
 	new /obj/item/storage/backpack/satchel/cap(src)
@@ -172,7 +171,6 @@
 	icon_state = "hop"
 
 /obj/structure/closet/secure_closet/hop/solgov/PopulateContents()
-	..()
 	new /obj/item/storage/box/suitbox/hop(src)
 	new /obj/item/radio/headset/heads/xo(src) //NSV13 - HoP to XO
 
@@ -204,7 +202,6 @@
 	icon_state = "hos"
 
 /obj/structure/closet/secure_closet/hos/solgov/PopulateContents()
-	..()
 	new /obj/item/storage/box/suitbox/hos(src)
 	new /obj/item/clothing/suit/armor/vest/leather(src)
 	new /obj/item/clothing/mask/gas/sechailer/swat(src)
@@ -235,7 +232,6 @@
 	new /obj/item/clothing/suit/armor/hos/trenchcoat(src)
 	new /obj/item/shield/riot/tele(src)
 	new /obj/item/storage/belt/security/full(src)
-	new /obj/item/ammo_box/c9mm/rubber(src)
 	new /obj/item/flashlight/seclite(src)
 	new /obj/item/gun/energy/e_gun/hos(src)
 	new /obj/item/pinpointer/nuke(src)
@@ -246,7 +242,6 @@
 	icon_state = "warden"
 
 /obj/structure/closet/secure_closet/warden/solgov/PopulateContents()
-	..()
 	new /obj/item/radio/headset/headset_sec(src)
 	new /obj/item/clothing/suit/armor/vest/warden(src)
 	new /obj/item/clothing/head/warden(src)
@@ -256,7 +251,6 @@
 	new /obj/item/clothing/suit/armor/vest/warden/alt(src)
 	new /obj/item/clothing/under/rank/security/warden/formal(src)
 	new /obj/item/clothing/under/rank/security/warden(src)
-	//new /obj/item/clothing/under/rank/security/warden/skirt(src) //NSV13 no skirts
 	new /obj/item/clothing/glasses/hud/security/sunglasses(src)
 	new /obj/item/clothing/mask/gas/sechailer(src)
 	new /obj/item/storage/box/zipties(src)
@@ -276,7 +270,6 @@
 	icon_state = "sec"
 
 /obj/structure/closet/secure_closet/security/solgov/PopulateContents()
-	..()
 	new /obj/item/clothing/suit/armor/vest(src)
 	new /obj/item/clothing/head/helmet/sec(src)
 	new /obj/item/radio/headset/headset_sec(src)

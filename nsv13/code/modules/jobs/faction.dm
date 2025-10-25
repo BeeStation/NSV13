@@ -179,7 +179,7 @@
 	name = JOB_NAME_SECURITYOFFICER + " (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
 	accessory = /obj/item/clothing/accessory/solgov_jacket/engsec
-	suit_store = /obj/item/gun/energy/laser/retro/old
+	suit_store = /obj/item/gun/energy/laser/retro
 
 /datum/outfit/job/miner/solgov
 	name = JOB_NAME_SHAFTMINER + " (SolGov)"
@@ -200,4 +200,4 @@
 	name = JOB_NAME_WARDEN + " (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
 	accessory = /obj/item/clothing/accessory/solgov_jacket/engsec
-	suit_store = /obj/item/gun/energy/laser/retro/old
+	suit_store = /obj/item/gun/energy/laser/retro
