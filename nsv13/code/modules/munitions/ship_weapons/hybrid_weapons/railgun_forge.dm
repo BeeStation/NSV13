@@ -1,8 +1,8 @@
 /obj/machinery/railgun_forge
 	name = "Railgun Forge"
 	desc = "Device for forging railgun munitions"
-	icon = 'icons/obj/stock_parts.dmi'
-	icon_state = "box_0"
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "railgun_forge_core"
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 100
@@ -492,6 +492,7 @@
 			if(T1.material_selection == "Plasma" || T2.material_selection == "Plasma")
 				F.railgun_flags += RAIL_BURN
 				F.AddComponent(/datum/component/volatile, 3, TRUE, 1)
+			set_tint(F)
 			playsound(src, 'sound/items/welder.ogg', 100, TRUE)
 			do_sparks(5, FALSE, src)
 
@@ -514,8 +515,34 @@
 			if(T1.material_selection == "Plasma" || T2.material_selection == "Plasma")
 				F.railgun_flags += RAIL_BURN
 				F.AddComponent(/datum/component/volatile, 3, TRUE, 1)
+			set_tint(F)
 			playsound(src, 'sound/items/welder.ogg', 100, TRUE)
 			do_sparks(5, FALSE, src)
+
+/obj/machinery/railgun_forge/proc/set_tint(var/obj/item/ship_weapon/ammunition/A)
+	if(!A)
+		return
+	switch(T1.material_selection)
+		if("Iron")
+			A.color = "#BBBBBB"
+		if("Silver")
+			A.color = "#FFFFFF"
+		if("Gold")
+			A.color = "#FFD27D"
+		if("Diamond")
+			A.color = "#ABF7FF"
+		if("Uranium")
+			A.color = "#D9FFE0"
+		if("Plasma")
+			A.color = "#FF88F4"
+		if("Bluespace")
+			A.color = "#A9BDFF"
+		if("Bananium")
+			A.color = "#FEFFA3"
+		if("Titanium")
+			A.color = "#EEEEEE"
+		if("Copper")
+			A.color = "#FFB888"
 
 /obj/machinery/railgun_forge/multitool_act(mob/user, obj/item/tool)
 	. = TRUE
@@ -690,8 +717,8 @@
 /obj/machinery/railgun_forge_coating_tank
 	name = "Railgun Forge Coating Tank"
 	desc = "Device for forging railgun munitions"
-	icon = 'icons/obj/stock_parts.dmi'
-	icon_state = "box_0"
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "railgun_forge_tank"
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 100
@@ -717,8 +744,8 @@
 /obj/machinery/railgun_forge_core_tank
 	name = "Railgun Forge Core Tank"
 	desc = "Device for forging railgun munitions"
-	icon = 'icons/obj/stock_parts.dmi'
-	icon_state = "box_0"
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "railgun_forge_tank"
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 100
@@ -745,8 +772,8 @@
 /obj/machinery/atmospherics/components/binary/railgun_filler
 	name = "Railgun Canister Filler"
 	desc = "Device for filling and sealing railgun canister munitions"
-	icon = 'icons/obj/stock_parts.dmi'
-	icon_state = "box_0"
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "railgun_filler"
 	density = TRUE
 	anchored = TRUE
 	dir = 8
@@ -909,8 +936,8 @@
 /obj/machinery/railgun_charger
 	name = "Railgun Canister Charger"
 	desc = "Device for charging and discharging railgun canister munitions"
-	icon = 'icons/obj/stock_parts.dmi'
-	icon_state = "box_0"
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	icon_state = "railgun_charger"
 	density = TRUE
 	anchored = TRUE
 	idle_power_usage = 15
@@ -1040,10 +1067,16 @@
 			active_power_usage = adjust
 		if("toggle_discharge")
 			if(!charge)
+				cut_overlays()
 				discharge = !discharge
+				if(discharge)
+					add_overlay("railgun_charger_d")
 		if("toggle_charge")
 			if(!discharge)
+				cut_overlays()
 				charge = !charge
+				if(charge)
+					add_overlay("railgun_charger_c")
 		if("eject")
 			eject_canister()
 	return

@@ -171,12 +171,12 @@
 			empulse(src, 4, 7, log=TRUE)
 			for(var/mob/living/carbon/C in orange(7, src))
 				C.apply_damage(25, damagetype=CLONE)
+			explosion(get_turf(src), 0, 0, 2, 5, TRUE, TRUE)
 		else
 			empulse(src, 3, 5, log=TRUE)
 			for(var/mob/living/carbon/C in orange(5, src))
 				C.apply_damage(10, damagetype=CLONE)
-
-		explosion(get_turf(src), 0, 0, 1, 2, TRUE, TRUE)
+			explosion(get_turf(src), 0, 0, 1, 3, TRUE, TRUE)
 
 	Destroy(src)
 
