@@ -226,7 +226,7 @@
 	build_path = /obj/machinery/computer/deckgun
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
-/obj/item/circuitboard/machine/deck_gun/
+/obj/item/circuitboard/machine/deck_gun
 	needs_anchored = FALSE
 
 /obj/item/circuitboard/machine/deck_gun/core
