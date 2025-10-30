@@ -577,7 +577,8 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 			A.afterattack(target, H, TRUE)
 
 		else
-			if(iscarbon(target)) //You can't knee a mech in the stomach
+			//Stop them from trying to knee a mech in the stomach
+			if(iscarbon(target))
 				H.dna.species.spec_attack_hand(H, target)
 				if(target.incapacitated())
 					//I know kung-fu.
@@ -622,10 +623,9 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 						H.MouseDrop(target)
 						return
 			else
-				if(A) //If the target isn't a carbon mob, bash them with your weapon
-					A.melee_attack_chain(H,target)
-				else //If you aren't holding anything, punch them instead
-					H.UnarmedAttack(target)
+				//Used when punching non-carbon targets
+				H.UnarmedAttack(target)
+
 		if(CHECK_BITFIELD(H.knpc_traits, KNPC_IS_DODGER))
 			HA.kite(target)
 
