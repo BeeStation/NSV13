@@ -174,7 +174,6 @@
 			to_chat(user, "<span class='notice'>You release the magnetic locks, the shells come loose!</span>")
 			unload()
 			update_overlay()
-			icon_state = "broadside_open"
 			return TRUE
 
 /obj/machinery/ship_weapon/broadside/Initialize(mapload)
