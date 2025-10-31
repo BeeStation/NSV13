@@ -170,10 +170,10 @@
 			return TRUE
 		else
 			playsound(src, 'sound/machines/locktoggle.ogg', 100, TRUE)
-			playsound(src, 'sound/effects/bang.ogg', 100, TRUE)
 			to_chat(user, "<span class='notice'>You release the magnetic locks, the shells come loose!</span>")
 			unload()
 			update_overlay()
+			playsound(src, 'sound/effects/bang.ogg', 100, TRUE)
 			return TRUE
 
 /obj/machinery/ship_weapon/broadside/Initialize(mapload)
