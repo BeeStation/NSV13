@@ -261,7 +261,7 @@
 	new /obj/item/clothing/gloves/krav_maga(src)
 	new /obj/item/door_remote/head_of_security(src)
 	new /obj/item/gun/energy/laser/scatter(src)
-	new /obj/item/gun/energy/e_gun/(src)
+	new /obj/item/gun/energy/e_gun(src)
 	new /obj/item/storage/box/deputy(src)
 
 /obj/structure/closet/secure_closet/security/solgov
