@@ -303,13 +303,8 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "aV" = (
-/obj/structure/grille,
-/obj/machinery/atmospherics/pipe/layer_manifold{
-	dir = 4
-	},
-/obj/machinery/door/firedoor/window,
-/turf/open/floor/plating/rusty_techgrid,
-/area/nsv/weapons)
+/turf/closed/wall/ship,
+/area/space/nearstation)
 "aX" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -397,9 +392,8 @@
 /turf/closed/wall/r_wall/ship,
 /area/maintenance/department/crew_quarters/bar)
 "bm" = (
-/obj/machinery/airalarm/directional/west,
-/obj/machinery/light{
-	dir = 8
+/obj/structure/mirror{
+	pixel_x = -24
 	},
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/toilet/restrooms)
@@ -510,9 +504,6 @@
 "bG" = (
 /obj/machinery/power/apc/auto_name/east,
 /obj/structure/cable,
-/obj/machinery/light{
-	dir = 4
-	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/toilet/restrooms)
 "bI" = (
@@ -610,10 +601,10 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
-/obj/machinery/door/airlock/ship/medical{
+/obj/machinery/door/airlock/ship/medical/glass{
 	dir = 4;
-	name = "Medical Storage";
-	req_one_access_txt = "5"
+	name = "Medical Storage - Deck 2";
+	req_access_txt = "5"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/nsv)
@@ -740,6 +731,7 @@
 /obj/machinery/camera/autoname{
 	dir = 5
 	},
+/obj/machinery/light,
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/toilet/restrooms)
 "cm" = (
@@ -859,6 +851,8 @@
 /area/crew_quarters/toilet/restrooms)
 "cD" = (
 /obj/machinery/firealarm/directional/east,
+/obj/machinery/airalarm/directional/south,
+/obj/machinery/light,
 /turf/open/floor/plasteel/showroomfloor,
 /area/crew_quarters/toilet/restrooms)
 "cF" = (
@@ -945,11 +939,11 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
-/obj/structure/sink{
-	pixel_y = 28
-	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/structure/sink{
+	pixel_y = 28
 	},
 /obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
@@ -1459,6 +1453,9 @@
 /obj/structure/cable/white{
 	icon_state = "4-8"
 	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 5
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/ordnance{
 	lighting_colour_bulb = "#FF3232";
@@ -1907,6 +1904,7 @@
 /obj/structure/window/reinforced/spawner/west,
 /obj/structure/window/reinforced/spawner,
 /obj/machinery/atmospherics/components/unary/outlet_injector/on/layer4{
+	frequency = 1441;
 	id = "co2_in";
 	tag = "co2_in"
 	},
@@ -2306,7 +2304,7 @@
 "gK" = (
 /obj/structure/window/reinforced/spawner/west,
 /turf/open/floor/mineral/plastitanium/airless{
-	initial_gas_mix = "n2o=10000;TEMP=293.15"
+	initial_gas_mix = "o2=100000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
 "gL" = (
@@ -2460,7 +2458,9 @@
 	})
 "hl" = (
 /obj/machinery/vending/wardrobe/medi_wardrobe,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/white/side{
+	dir = 1
+	},
 /area/medical/break_room)
 "hm" = (
 /obj/machinery/light/floor,
@@ -2683,6 +2683,7 @@
 /obj/structure/window/reinforced/spawner/west,
 /obj/structure/window/reinforced/spawner,
 /obj/machinery/atmospherics/components/unary/outlet_injector/on/layer4{
+	frequency = 1441;
 	tag = "o2_in"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
@@ -2797,6 +2798,7 @@
 /obj/structure/window/reinforced/spawner/west,
 /obj/structure/window/reinforced/spawner,
 /obj/machinery/atmospherics/components/unary/vent_pump/high_volume/siphon/on/layer2{
+	frequency = 1441;
 	id_tag = "air_out"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
@@ -2940,7 +2942,9 @@
 	icon_state = "med";
 	name = "Plasmaman Emergency Supply Closet"
 	},
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/white/side{
+	dir = 9
+	},
 /area/medical/break_room)
 "je" = (
 /obj/machinery/light/small{
@@ -3650,13 +3654,13 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 5
 	},
-/obj/structure/lattice/catwalk/over/ship,
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/simple/orange/hidden{
 	dir = 5
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 5
+	},
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/port{
 	lighting_colour_bulb = "#c1e1ff";
@@ -5014,8 +5018,9 @@
 /turf/open/space/basic,
 /area/space/nearstation)
 "pQ" = (
-/obj/machinery/firealarm/directional/east,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/white/side{
+	dir = 4
+	},
 /area/medical/break_room)
 "pR" = (
 /obj/effect/turf_decal/tile/orange{
@@ -5791,6 +5796,7 @@
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/east,
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/on/layer2{
+	frequency = 1441;
 	id_tag = "sdpluoxium_out"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
@@ -6094,10 +6100,8 @@
 	},
 /area/nsv/weapons)
 "sR" = (
-/obj/machinery/atmospherics/components/binary/railgun_filler,
-/obj/structure/railing{
-	dir = 8;
-	pixel_x = -10
+/obj/machinery/atmospherics/components/binary/railgun_filler{
+	dir = 2
 	},
 /turf/open/floor/plasteel/dark/side{
 	dir = 4
@@ -6474,7 +6478,7 @@
 /obj/machinery/door/airlock/ship/maintenance{
 	dir = 4;
 	name = "Munitions Maintenance";
-	req_one_access_txt = "12"
+	req_one_access_txt = "12;69"
 	},
 /turf/open/floor/plating,
 /area/nsv/weapons/ordnance{
@@ -6512,16 +6516,11 @@
 	lighting_colour_tube = "#FF3232"
 	})
 "uc" = (
-/obj/structure/table,
-/obj/structure/railing{
-	dir = 4;
-	pixel_x = 10
+/obj/structure/closet/secure_closet/medical3,
+/turf/open/floor/plasteel/white/side{
+	dir = 5
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
-	},
-/turf/open/floor/plating/rusty_techgrid,
-/area/maintenance/nsv/weapons)
+/area/medical/break_room)
 "ud" = (
 /obj/structure/fluff/support_beam{
 	dir = 4
@@ -6692,9 +6691,7 @@
 /obj/structure/cable/white{
 	icon_state = "1-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/orange/visible{
-	dir = 5
-	},
+/obj/machinery/atmospherics/pipe/manifold/orange/visible,
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons/ordnance{
 	lighting_colour_bulb = "#FF3232";
@@ -6763,6 +6760,7 @@
 /obj/structure/window/reinforced/spawner/west,
 /obj/structure/window/reinforced/spawner,
 /obj/machinery/atmospherics/components/unary/outlet_injector/on/layer4{
+	frequency = 1441;
 	tag = "n2_in"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
@@ -8691,6 +8689,7 @@
 /obj/structure/window/reinforced/spawner/west,
 /obj/machinery/atmospherics/components/unary/outlet_injector/on{
 	dir = 1;
+	frequency = 1441;
 	id = "sdplasma_in";
 	piping_layer = 5;
 	tag = "sdplasma_in"
@@ -8732,6 +8731,22 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/crew_quarters/bar)
+"Af" = (
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/structure/cable/green{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/firealarm/directional/south,
+/turf/open/floor/plating/rusty_techgrid,
+/area/medical/break_room)
 "Ag" = (
 /obj/structure/railing{
 	dir = 1;
@@ -8817,12 +8832,13 @@
 /obj/structure/window/reinforced/spawner/west,
 /obj/machinery/atmospherics/components/unary/outlet_injector/on{
 	dir = 1;
+	frequency = 1441;
 	id = "sdo2_in";
 	piping_layer = 5;
 	tag = "sdo2_in"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
-	initial_gas_mix = "n2o=10000;TEMP=293.15"
+	initial_gas_mix = "o2=100000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
 "AA" = (
@@ -8830,7 +8846,7 @@
 /obj/structure/window/reinforced/spawner/north,
 /obj/structure/window/reinforced/spawner/east,
 /turf/open/floor/mineral/plastitanium/airless{
-	initial_gas_mix = "n2o=10000;TEMP=293.15"
+	initial_gas_mix = "o2=100000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
 "AB" = (
@@ -8876,6 +8892,7 @@
 /obj/structure/window/reinforced/spawner/west,
 /obj/machinery/atmospherics/components/unary/outlet_injector/on{
 	dir = 1;
+	frequency = 1441;
 	id = "sdn2_in";
 	piping_layer = 5;
 	tag = "sdn2_in"
@@ -8984,6 +9001,7 @@
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/east,
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/on/layer2{
+	frequency = 1441;
 	id_tag = "sdplasma_out"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
@@ -9025,10 +9043,11 @@
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/east,
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/on/layer2{
+	frequency = 1441;
 	id_tag = "sdo2_out"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
-	initial_gas_mix = "n2o=10000;TEMP=293.15"
+	initial_gas_mix = "o2=100000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
 "Bo" = (
@@ -9156,8 +9175,8 @@
 /obj/structure/window/reinforced/spawner,
 /obj/structure/window/reinforced/spawner/east,
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/on/layer2{
-	id_tag = "sdn2_out";
-	tgui_id = null
+	frequency = 1441;
+	id_tag = "sdn2_out"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "n2=100000;TEMP=293.15"
@@ -9685,7 +9704,7 @@
 	id_tag = "sdo2_sensor"
 	},
 /turf/open/floor/mineral/plastitanium/airless{
-	initial_gas_mix = "n2o=10000;TEMP=293.15"
+	initial_gas_mix = "o2=100000;TEMP=293.15"
 	},
 /area/engine/atmos/port_atmos)
 "Dq" = (
@@ -10446,6 +10465,7 @@
 /obj/structure/cable/white{
 	icon_state = "0-4"
 	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "Fr" = (
@@ -10680,7 +10700,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 10
 	},
-/obj/structure/lattice/catwalk/over/ship,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 10
 	},
@@ -10690,6 +10709,7 @@
 /obj/machinery/atmospherics/pipe/simple/orange/hidden{
 	dir = 10
 	},
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/port{
 	lighting_colour_bulb = "#c1e1ff";
@@ -11700,7 +11720,7 @@
 /area/quartermaster/storage)
 "JL" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel,
 /area/medical/break_room)
 "JM" = (
 /obj/structure/lattice/catwalk,
@@ -12077,6 +12097,7 @@
 /obj/structure/window/reinforced/spawner/west,
 /obj/machinery/atmospherics/components/unary/outlet_injector/on{
 	dir = 1;
+	frequency = 1441;
 	id = "sdpluoxium_in";
 	piping_layer = 5;
 	tag = "sdpluoxium_in"
@@ -12102,7 +12123,6 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/weapons)
 "KY" = (
@@ -12281,12 +12301,12 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/door/airlock/ship/medical{
-	name = "Treatment Room 2";
-	req_one_access_txt = "5"
-	},
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
+/obj/machinery/door/airlock/ship/medical/glass{
+	name = "Treatment Room 2";
+	req_access_txt = "5"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/nsv)
 "Ls" = (
@@ -13594,9 +13614,10 @@
 /obj/machinery/railgun_forge_core_tank{
 	forge_ID = "shrike"
 	},
-/turf/open/floor/plasteel/dark/side{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/orange/visible{
+	dir = 6
 	},
+/turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "Pm" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
@@ -13662,7 +13683,9 @@
 /obj/structure/cable/white{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/orange/visible,
+/obj/machinery/atmospherics/pipe/manifold/orange/visible{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "Pu" = (
@@ -13932,10 +13955,8 @@
 /turf/open/floor/durasteel,
 /area/crew_quarters/cryopods)
 "Qq" = (
-/obj/structure/disposalpipe/segment,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/turf/open/floor/plating/rusty_techgrid,
-/area/maintenance/nsv/weapons)
+/turf/open/floor/plasteel,
+/area/medical/break_room)
 "Qr" = (
 /obj/structure/cable/white{
 	icon_state = "4-8"
@@ -14465,6 +14486,10 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"RT" = (
+/obj/effect/spawner/structure/window/reinforced/ship,
+/turf/open/floor/plating/rusty_techgrid,
+/area/medical/nsv)
 "RU" = (
 /obj/machinery/power/rad_collector/anchored,
 /obj/structure/cable/yellow{
@@ -15382,7 +15407,9 @@
 	})
 "UA" = (
 /obj/structure/closet/secure_closet/medical3,
-/turf/open/floor/plating,
+/turf/open/floor/plasteel/white/side{
+	dir = 1
+	},
 /area/medical/break_room)
 "UB" = (
 /obj/structure/cable/green{
@@ -15822,9 +15849,7 @@
 /obj/structure/cable/white{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/manifold/orange/visible{
-	dir = 4
-	},
+/obj/machinery/atmospherics/pipe/simple/orange/visible,
 /turf/open/floor/plating/rusty_techgrid,
 /area/nsv/weapons)
 "VF" = (
@@ -16623,9 +16648,6 @@
 /obj/structure/disposalpipe/segment{
 	dir = 9
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 5
-	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/nsv/weapons)
 "XV" = (
@@ -16633,7 +16655,7 @@
 	icon_state = "0-2"
 	},
 /obj/machinery/power/apc/auto_name/west,
-/turf/open/floor/plating,
+/turf/open/floor/plating/rusty_techgrid,
 /area/medical/break_room)
 "XW" = (
 /obj/effect/turf_decal/box,
@@ -17217,16 +17239,16 @@
 	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/machinery/door/airlock/ship/medical{
-	name = "Treatment Room 1";
-	req_one_access_txt = "5"
-	},
 /obj/machinery/door/firedoor/border_only/directional/south,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/structure/cable/green{
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/segment,
+/obj/machinery/door/airlock/ship/medical/glass{
+	name = "Treatment Room 1";
+	req_access_txt = "5"
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/nsv)
 "Zl" = (
@@ -43362,7 +43384,7 @@ gi
 gi
 gi
 gi
-gi
+KI
 KI
 KI
 KI
@@ -43380,7 +43402,7 @@ KI
 KI
 KI
 KI
-gi
+KI
 gi
 gi
 gi
@@ -43618,9 +43640,9 @@ gi
 gi
 gi
 gi
-gi
 KI
 KI
+vb
 KI
 vb
 vb
@@ -43636,9 +43658,9 @@ vb
 vb
 vb
 KI
+vb
 KI
 KI
-gi
 gi
 gi
 gi
@@ -43874,11 +43896,11 @@ gi
 gi
 gi
 gi
-gi
 KI
 KI
 KI
-KI
+vb
+Tj
 HQ
 VK
 KJ
@@ -43892,11 +43914,11 @@ XG
 KJ
 ZZ
 qz
+Tj
+vb
 KI
 KI
 KI
-gi
-gi
 gi
 gi
 gi
@@ -44130,11 +44152,11 @@ gi
 gi
 gi
 gi
-gi
 KI
 KI
 KI
 KI
+vb
 KI
 vb
 JM
@@ -44150,11 +44172,11 @@ PY
 JM
 vb
 KI
+vb
 KI
 KI
 KI
-gi
-gi
+KI
 gi
 gi
 gi
@@ -44410,9 +44432,9 @@ vb
 KI
 KI
 KI
-gi
-gi
-gi
+KI
+KI
+KI
 gi
 gi
 gi
@@ -44647,8 +44669,8 @@ KI
 KI
 KI
 KI
-KI
 xv
+KI
 HQ
 JB
 KN
@@ -44666,10 +44688,10 @@ pN
 qz
 KI
 KI
+xv
 KI
 KI
 KI
-gi
 gi
 gi
 gi
@@ -44922,11 +44944,11 @@ PY
 JM
 vb
 KI
-xv
 KI
 KI
 KI
-gi
+KI
+KI
 gi
 gi
 gi
@@ -45178,9 +45200,9 @@ Ma
 BT
 KN
 vb
-KI
-KI
-KI
+vb
+aV
+aV
 KI
 KI
 WB
@@ -45433,8 +45455,8 @@ VP
 XY
 YY
 yh
-eV
-eV
+yh
+yh
 eV
 eV
 Kd
@@ -46479,7 +46501,7 @@ KI
 KI
 ex
 UA
-Ji
+Qq
 yN
 ET
 Ji
@@ -46735,9 +46757,9 @@ PN
 PN
 PN
 ex
-UA
+uc
 pQ
-yN
+Af
 ex
 TE
 YZ
@@ -46993,7 +47015,7 @@ tg
 yV
 PN
 Lj
-Lj
+RT
 bT
 Lj
 Lj
@@ -51846,10 +51868,10 @@ fR
 Gl
 kW
 KV
-Qq
-Qq
-Qq
-Qq
+QX
+QX
+QX
+QX
 XU
 eU
 VW
@@ -52107,7 +52129,7 @@ PD
 Yh
 Jm
 Yh
-uc
+VN
 Gb
 fx
 tY
@@ -52364,7 +52386,7 @@ Gb
 Gb
 Gb
 Gb
-aV
+Gb
 Gb
 lP
 RO

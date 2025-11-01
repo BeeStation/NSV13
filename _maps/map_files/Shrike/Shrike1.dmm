@@ -5617,10 +5617,10 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/airlock/ship/medical{
+/obj/machinery/door/airlock/ship/medical/glass{
 	dir = 4;
-	name = "Medical Storage";
-	req_one_access_txt = "5"
+	name = "Medical Storage - Deck 1";
+	req_access_txt = "5"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/storage)
@@ -5818,10 +5818,10 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
-/obj/machinery/door/airlock/ship/medical{
+/obj/machinery/door/airlock/ship/medical/glass{
 	dir = 4;
 	name = "Cloning";
-	req_one_access_txt = "5"
+	req_access_txt = "5"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/genetics/cloning)
@@ -6068,9 +6068,9 @@
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
-/obj/machinery/door/airlock/ship/medical{
-	name = "Medical Storage";
-	req_one_access_txt = "5"
+/obj/machinery/door/airlock/ship/medical/glass{
+	name = "Medical Storage - Deck 1";
+	req_access_txt = "5"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/storage)
@@ -8423,7 +8423,6 @@
 "LZ" = (
 /obj/machinery/disposal/bin,
 /obj/structure/disposalpipe/trunk,
-/obj/machinery/computer/ship/viewscreen,
 /obj/structure/disposalpipe/trunk{
 	dir = 4
 	},
@@ -9280,6 +9279,7 @@
 "Pm" = (
 /obj/machinery/refillable_chem_dispenser/full,
 /obj/item/radio/intercom/directional/south,
+/obj/machinery/firealarm/directional/west,
 /turf/open/floor/plasteel/white/corner,
 /area/medical/storage)
 "Pn" = (
@@ -9728,6 +9728,10 @@
 "QC" = (
 /turf/open/floor/carpet/black,
 /area/crew_quarters/dorms)
+"QE" = (
+/obj/machinery/vending/clothing,
+/turf/open/floor/carpet/black,
+/area/crew_quarters/dorms)
 "QF" = (
 /obj/machinery/atmospherics/components/unary/portables_connector{
 	dir = 8
@@ -10100,9 +10104,9 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/north,
 /obj/machinery/door/firedoor/border_only/directional/south,
-/obj/machinery/door/airlock/ship/medical{
+/obj/machinery/door/airlock/ship/medical/glass{
 	name = "Chemical Dispensary";
-	req_one_access_txt = "5"
+	req_access_txt = "5"
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/storage)
@@ -11293,7 +11297,10 @@
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
-/obj/machinery/firealarm/directional/east,
+/obj/machinery/computer/ship/viewscreen{
+	pixel_x = 32;
+	pixel_y = 0
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/storage)
 "WA" = (
@@ -42233,7 +42240,7 @@ pL
 PT
 Lq
 GD
-ZM
+VK
 LZ
 UN
 yW
@@ -47841,7 +47848,7 @@ QC
 QC
 nu
 dk
-ra
+QE
 fn
 KO
 Wm

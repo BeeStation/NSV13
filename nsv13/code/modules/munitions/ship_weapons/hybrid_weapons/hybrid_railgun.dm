@@ -157,10 +157,11 @@
 	if(C)
 		if(istype(C, /obj/item/ship_weapon/ammunition/railgun_ammo/forged))
 			var/obj/item/ship_weapon/ammunition/railgun_ammo/forged/T = C
-			projectile_velocity = (T.material_conductivity * 1.5) - ((100 - alignment) / 100)
+			projectile_velocity = (T.material_conductivity ** 1.5) - ((100 - alignment) / 100) //what if ^ instead of *?
 			if(projectile_velocity < 0)
 				projectile_velocity = 0.1
-			projectile_damage = ((T.material_hardness * 0.25) * T.material_density) * projectile_velocity
+//			projectile_damage = ((T.material_hardness * 0.25) * T.material_density) * projectile_velocity
+			projectile_damage = T.material_density * projectile_velocity
 			if(projectile_damage < 0)
 				projectile_damage = 0
 			if(T.railgun_flags & RAIL_BANANA)
@@ -213,18 +214,28 @@
 					projectile_emp = 5
 				if(30 to 40)
 					projectile_emp = 10
-				if(40 to 50)
+				if(40 to 60)
 					projectile_emp = 15
+				if(60 to 80)
+					projectile_emp = 20
+
 			var/plasma_total = T.canister_gas.get_moles(GAS_PLASMA) + T.canister_gas.get_moles(GAS_CONSTRICTED_PLASMA)
 			switch(plasma_total)
 				if(10 to 20)
 					projectile_burn = 10
 				if(20 to 30)
-					projectile_burn = 20
+					projectile_burn = 15
 				if(30 to 40)
-					projectile_burn = 30
+					projectile_burn = 20
 				if(40 to 50)
+					projectile_burn = 25
+				if(50 to 60)
+					projectile_burn = 30
+				if(60 to 70)
+					projectile_burn = 35
+				if(70 to 80)
 					projectile_burn = 40
+
 			projectile_damage = ((((T.material_hardness * 0.25) * T.material_density) * projectile_velocity) * 0.2) + ((gas_mix * 4) * (T.material_charge / 100)) //temp numbers
 
 		var/P = linked.fire_projectile(C.projectile_type, target, speed=projectile_velocity, user_override=TRUE, lateral=TRUE)

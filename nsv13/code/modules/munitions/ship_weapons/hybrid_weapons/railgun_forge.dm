@@ -12,6 +12,7 @@
 	var/datum/component/remote_materials/r_materials //Ore Silo Link
 	var/obj/structure/overmap/OM //Our overmap entity for round start linking
 	var/forge_ID = null //Set on mapping for linking
+	var/average_component_tier = 1
 
 	//Coating Alloy Tank
 	var/obj/machinery/railgun_forge_coating_tank/T1 = null
@@ -59,71 +60,60 @@
 				T1.tank_processing = FALSE
 				return
 			if(T1.tank_volume < 100)
+				var/tank_tier = T1.average_component_tier
+				var/single_material_amount = 1000
+				switch(tank_tier)
+					if(1)
+						single_material_amount = 1000
+					if(2)
+						single_material_amount = 950
+					if(3)
+						single_material_amount = 900
+					if(4)
+						single_material_amount = 850
+
 				switch(T1.material_selection)
 					if(0) //No Selection
 						return
 					if("Iron")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/iron)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/iron)
 							T1.tank_volume += 10
 					if("Silver")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/silver, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/silver)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/silver, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/silver)
 							T1.tank_volume += 10
 					if("Gold")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/gold, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/gold)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/gold, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/gold)
 							T1.tank_volume += 10
 					if("Diamond")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/diamond, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/diamond)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/diamond, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/diamond)
 							T1.tank_volume += 10
 					if("Uranium")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/uranium, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/uranium)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/uranium, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/uranium)
 							T1.tank_volume += 10
 					if("Plasma")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/plasma)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/plasma, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/plasma)
 							T1.tank_volume += 10
 					if("Bluespace")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/bluespace, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/bluespace)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/bluespace, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/bluespace)
 							T1.tank_volume += 10
 					if("Bananium")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/bananium, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/bananium)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/bananium, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/bananium)
 							T1.tank_volume += 10
 					if("Titanium")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/titanium)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/titanium, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/titanium)
 							T1.tank_volume += 10
 					if("Copper")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/copper, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/copper)
-							T1.tank_volume += 10
-					if("Plasteel")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 500) && r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 500) )
-							r_materials.mat_container.use_amount_mat(500, /datum/material/iron)
-							r_materials.mat_container.use_amount_mat(500, /datum/material/plasma)
-							T1.tank_volume += 10
-					if("Ferrotitanium")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 250) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 750))
-							r_materials.mat_container.use_amount_mat(250, /datum/material/iron)
-							r_materials.mat_container.use_amount_mat(750, /datum/material/titanium)
-							T1.tank_volume += 10
-					if("Durasteel")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 200) && r_materials.mat_container.has_enough_of_material(/datum/material/silver, 150) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 650))
-							r_materials.mat_container.use_amount_mat(200, /datum/material/iron)
-							r_materials.mat_container.use_amount_mat(150, /datum/material/iron)
-							r_materials.mat_container.use_amount_mat(650, /datum/material/iron)
-							T1.tank_volume += 10
-					if("Duranium")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 175) && r_materials.mat_container.has_enough_of_material(/datum/material/silver, 150) && r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 50) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 625))
-							r_materials.mat_container.use_amount_mat(175, /datum/material/iron)
-							r_materials.mat_container.use_amount_mat(150, /datum/material/iron)
-							r_materials.mat_container.use_amount_mat(50, /datum/material/iron)
-							r_materials.mat_container.use_amount_mat(625, /datum/material/iron)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/copper, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/copper)
 							T1.tank_volume += 10
 
 /obj/machinery/railgun_forge/proc/handle_material_processing_t2()
@@ -134,71 +124,60 @@
 				T2.tank_processing = FALSE
 				return
 			if(T2.tank_volume < 100)
+				var/tank_tier = T2.average_component_tier
+				var/single_material_amount = 1000
+				switch(tank_tier)
+					if(1)
+						single_material_amount = 1000
+					if(2)
+						single_material_amount = 950
+					if(3)
+						single_material_amount = 900
+					if(4)
+						single_material_amount = 850
+
 				switch(T2.material_selection)
 					if(0) //No Selection
 						return
 					if("Iron")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/iron)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/iron)
 							T2.tank_volume += 10
 					if("Silver")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/silver, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/silver)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/silver, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/silver)
 							T2.tank_volume += 10
 					if("Gold")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/gold, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/gold)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/gold, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/gold)
 							T2.tank_volume += 10
 					if("Diamond")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/diamond, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/diamond)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/diamond, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/diamond)
 							T2.tank_volume += 10
 					if("Uranium")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/uranium, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/uranium)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/uranium, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/uranium)
 							T2.tank_volume += 10
 					if("Plasma")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/plasma)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/plasma, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/plasma)
 							T2.tank_volume += 10
 					if("Bluespace")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/bluespace, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/bluespace)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/bluespace, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/bluespace)
 							T2.tank_volume += 10
 					if("Bananium")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/bananium, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/bananium)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/bananium, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/bananium)
 							T2.tank_volume += 10
 					if("Titanium")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/titanium)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/titanium, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/titanium)
 							T2.tank_volume += 10
 					if("Copper")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/copper, 1000))
-							r_materials.mat_container.use_amount_mat(1000, /datum/material/copper)
-							T2.tank_volume += 10
-					if("Plasteel")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 500) && r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 500) )
-							r_materials.mat_container.use_amount_mat(500, /datum/material/iron)
-							r_materials.mat_container.use_amount_mat(500, /datum/material/plasma)
-							T2.tank_volume += 10
-					if("Ferrotitanium")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 250) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 750))
-							r_materials.mat_container.use_amount_mat(250, /datum/material/iron)
-							r_materials.mat_container.use_amount_mat(750, /datum/material/titanium)
-							T2.tank_volume += 10
-					if("Durasteel")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 200) && r_materials.mat_container.has_enough_of_material(/datum/material/silver, 150) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 650))
-							r_materials.mat_container.use_amount_mat(200, /datum/material/iron)
-							r_materials.mat_container.use_amount_mat(150, /datum/material/iron)
-							r_materials.mat_container.use_amount_mat(650, /datum/material/iron)
-							T2.tank_volume += 10
-					if("Duranium")
-						if(r_materials.mat_container.has_enough_of_material(/datum/material/iron, 175) && r_materials.mat_container.has_enough_of_material(/datum/material/silver, 150) && r_materials.mat_container.has_enough_of_material(/datum/material/plasma, 50) && r_materials.mat_container.has_enough_of_material(/datum/material/titanium, 625))
-							r_materials.mat_container.use_amount_mat(175, /datum/material/iron)
-							r_materials.mat_container.use_amount_mat(150, /datum/material/iron)
-							r_materials.mat_container.use_amount_mat(50, /datum/material/iron)
-							r_materials.mat_container.use_amount_mat(625, /datum/material/iron)
+						if(r_materials.mat_container.has_enough_of_material(/datum/material/copper, single_material_amount))
+							r_materials.mat_container.use_amount_mat(single_material_amount, /datum/material/copper)
 							T2.tank_volume += 10
 
 /obj/machinery/railgun_forge/proc/getConductivity(var/T) //Extrapolated from electric conductivity at 20C
@@ -227,14 +206,6 @@
 				conductivity_1 = 0.24
 			if("Copper")
 				conductivity_1 = 5.9
-			if("Plasteel")
-				conductivity_1 = 0 //<-------
-			if("Ferrotitanium")
-				conductivity_1 = 0 //<-------
-			if("Durasteel")
-				conductivity_1 = 0 //<-------
-			if("Duranium")
-				conductivity_1 = 0 //<-------
 
 		switch(T2.material_selection)
 			if("Iron")
@@ -257,14 +228,6 @@
 				conductivity_2 = 0.24
 			if("Copper")
 				conductivity_2 = 5.9
-			if("Plasteel")
-				conductivity_2 = 0 //<-------
-			if("Ferrotitanium")
-				conductivity_2 = 0 //<-------
-			if("Durasteel")
-				conductivity_2 = 0 //<-------
-			if("Duranium")
-				conductivity_2 = 0 //<-------
 /*
 		silver, = 6.3x10^7					-> 6.3
 		copper, = 5.9x10^7 					-> 5.9
@@ -283,7 +246,6 @@
 		durasteel, //?
 		duranium, //?
 */
-
 	if(T == "slug")
 		final_conductivty = ((0.75 * conductivity_1) + (0.25 * conductivity_2))
 	else if(T == "canister")
@@ -318,14 +280,6 @@
 				density_1 = 9
 			if("Copper")
 				density_1 = 18
-			if("Plasteel")
-				density_1 = 0 //<-------
-			if("Ferrotitanium")
-				density_1 = 0 //<-------
-			if("Durasteel")
-				density_1 = 0 //<-------
-			if("Duranium")
-				density_1 = 0 //<-------
 
 		switch(T2.material_selection)
 			if("Iron")
@@ -348,14 +302,6 @@
 				density_2 = 9
 			if("Copper")
 				density_2 = 18
-			if("Plasteel")
-				density_2 = 0 //<-------
-			if("Ferrotitanium")
-				density_2 = 0 //<-------
-			if("Durasteel")
-				density_2 = 0 //<-------
-			if("Duranium")
-				density_2 = 0 //<-------
 /*
 		gold, = 19.282						-> 40
 		uranium, = 18.95					-> 38
@@ -374,7 +320,6 @@
 		durasteel, //?
 		duranium, //?
 */
-
 	if(T == "slug")
 		final_density = ((0.25 * density_1) + (0.75 * density_2))
 	else if(T == "canister")
@@ -402,21 +347,13 @@
 			if("Plasma")
 				hardness_1 = 3 //TEST
 			if("Bluespace")
-				hardness_1 = NUM_E ^ 1.5 //TEST
+				hardness_1 = NUM_E ** 1.2 //TEST
 			if("Bananium")
 				hardness_1 = 1 //TESTs
 			if("Titanium")
 				hardness_1 = 6
 			if("Copper")
 				hardness_1 = 5
-			if("Plasteel")
-				hardness_1 = 0 //<-------
-			if("Ferrotitanium")
-				hardness_1 = 0 //<-------
-			if("Durasteel")
-				hardness_1 = 0 //<-------
-			if("Duranium")
-				hardness_1 = 0 //<-------
 
 		switch(T2.material_selection)
 			if("Iron")
@@ -432,21 +369,13 @@
 			if("Plasma")
 				hardness_2 = 3 //TEST
 			if("Bluespace")
-				hardness_2 = NUM_E ^ 1.5 //TEST
+				hardness_2 = NUM_E ** 1.2 //TEST
 			if("Bananium")
 				hardness_2 = 1 //TEST
 			if("Titanium")
 				hardness_2 = 6
 			if("Copper")
 				hardness_2 = 5
-			if("Plasteel")
-				hardness_2 = 0 //<-------
-			if("Ferrotitanium")
-				hardness_2 = 0 //<-------
-			if("Durasteel")
-				hardness_2 = 0 //<-------
-			if("Duranium")
-				hardness_2 = 0 //<-------
 /*
 		diamond, = 10.0
 		*carbon steel, = 7.5
@@ -475,9 +404,20 @@
 
 /obj/machinery/railgun_forge/proc/forge_slug()
 	if(T1 && T2)
-		if(T1.tank_volume >= 4 && T2.tank_volume >= 20) //Duplicate checks
-			T1.tank_volume -= 4
-			T2.tank_volume -= 20
+		var/component_multiplier = 1
+		switch(average_component_tier)
+			if(1)
+				component_multiplier = 1
+			if(2)
+				component_multiplier = 0.95
+			if(3)
+				component_multiplier = 0.9
+			if(4)
+				component_multiplier = 0.85
+
+		if(T1.tank_volume >= (4 * component_multiplier) && T2.tank_volume >= (20 * component_multiplier)) //Duplicate checks
+			T1.tank_volume -= (4 * component_multiplier)
+			T2.tank_volume -= (20 * component_multiplier)
 			var/turf/T = loc
 			var/obj/item/ship_weapon/ammunition/railgun_ammo/forged/F = new(T)
 			F.name = "\improper Forged 400mm [T1.material_selection] coated [T2.material_selection] slug"
@@ -498,9 +438,25 @@
 
 /obj/machinery/railgun_forge/proc/forge_canister()
 	if(T1 && T2)
-		if(T1.tank_volume >= 20 && T2.tank_volume >= 30) //Duplicate checks
-			T1.tank_volume -= 20
-			T2.tank_volume -= 30
+		var/component_multiplier = 1
+		var/modified_integrity = 100
+		switch(average_component_tier)
+			if(1)
+				component_multiplier = 1
+				modified_integrity = 100
+			if(2)
+				component_multiplier = 0.95
+				modified_integrity = 110
+			if(3)
+				component_multiplier = 0.9
+				modified_integrity = 120
+			if(4)
+				component_multiplier = 0.85
+				modified_integrity = 130
+
+		if(T1.tank_volume >= (20 * component_multiplier) && T2.tank_volume >= (30 * component_multiplier)) //Duplicate checks
+			T1.tank_volume -= (20 * component_multiplier)
+			T2.tank_volume -= (30 * component_multiplier)
 			var/turf/T = loc
 			var/obj/item/ship_weapon/ammunition/railgun_ammo_canister/F = new(T)
 			F.name = "\improper Forged 800mm [T1.material_selection] coated [T2.material_selection] canister"
@@ -518,6 +474,7 @@
 			set_tint(F)
 			playsound(src, 'sound/items/welder.ogg', 100, TRUE)
 			do_sparks(5, FALSE, src)
+			F.canister_integrity = modified_integrity
 
 /obj/machinery/railgun_forge/proc/set_tint(var/obj/item/ship_weapon/ammunition/A)
 	if(!A)
@@ -543,6 +500,24 @@
 			A.color = "#EEEEEE"
 		if("Copper")
 			A.color = "#FFB888"
+
+/obj/machinery/railgun_forge/RefreshParts()
+	var/comp_number = 0
+	var/comp_total = 0
+	var/comp_averaged = 0
+	for(var/obj/item/stock_parts/S in component_parts)
+		comp_total += S.rating
+		comp_number ++
+	comp_averaged = comp_total / comp_number
+	switch(comp_averaged)
+		if(1 to 1.99)
+			average_component_tier = 1
+		if(2 to 2.99)
+			average_component_tier = 2
+		if(3 to 3.99)
+			average_component_tier = 3
+		if(4)
+			average_component_tier = 4
 
 /obj/machinery/railgun_forge/multitool_act(mob/user, obj/item/tool)
 	. = TRUE
@@ -729,6 +704,7 @@
 	var/tank_alloy_lock = FALSE //Is the alloy selection locked in?
 	var/tank_processing = FALSE //Is the alloy being produced?
 	var/material_selection //Tank material selection
+	var/average_component_tier = 1
 
 /obj/machinery/railgun_forge_coating_tank/attackby(obj/item/I, mob/user, params)
 	.=..()
@@ -739,6 +715,24 @@
 		M.buffer = src
 		playsound(src, 'sound/items/flashlight_on.ogg', 100, TRUE)
 		to_chat(user, "<span class='notice'>Buffer loaded</span>")
+
+/obj/machinery/railgun_forge_coating_tank/RefreshParts()
+	var/comp_number = 0
+	var/comp_total = 0
+	var/comp_averaged = 0
+	for(var/obj/item/stock_parts/S in component_parts)
+		comp_total += S.rating
+		comp_number ++
+	comp_averaged = comp_total / comp_number
+	switch(comp_averaged)
+		if(1 to 1.99)
+			average_component_tier = 1
+		if(2 to 2.99)
+			average_component_tier = 2
+		if(3 to 3.99)
+			average_component_tier = 3
+		if(4)
+			average_component_tier = 4
 
 ///////////////////////////////////////////////////////////////////////////////
 /obj/machinery/railgun_forge_core_tank
@@ -756,6 +750,7 @@
 	var/tank_alloy_lock = FALSE //Is the alloy selection locked in?
 	var/tank_processing = FALSE //Is the alloy being produced?
 	var/material_selection //Tank material selection
+	var/average_component_tier = 1
 
 /obj/machinery/railgun_forge_core_tank/attackby(obj/item/I, mob/user, params)
 	.=..()
@@ -766,6 +761,24 @@
 		M.buffer = src
 		playsound(src, 'sound/items/flashlight_on.ogg', 100, TRUE)
 		to_chat(user, "<span class='notice'>Buffer loaded</span>")
+
+/obj/machinery/railgun_forge_core_tank/RefreshParts()
+	var/comp_number = 0
+	var/comp_total = 0
+	var/comp_averaged = 0
+	for(var/obj/item/stock_parts/S in component_parts)
+		comp_total += S.rating
+		comp_number ++
+	comp_averaged = comp_total / comp_number
+	switch(comp_averaged)
+		if(1 to 1.99)
+			average_component_tier = 1
+		if(2 to 2.99)
+			average_component_tier = 2
+		if(3 to 3.99)
+			average_component_tier = 3
+		if(4)
+			average_component_tier = 4
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -780,6 +793,7 @@
 	circuit = /obj/item/circuitboard/machine/railgun_filler
 	var/loading = FALSE
 	var/obj/item/ship_weapon/ammunition/railgun_ammo_canister/F
+	var/fill_amount = 50
 
 /obj/machinery/atmospherics/components/binary/railgun_filler/proc/fill_canister()
 	if(F)
@@ -788,7 +802,7 @@
 			return
 		else
 			var/datum/gas_mixture/air1 = airs[1]
-			var/datum/gas_mixture/buffer = air1.remove(50)
+			var/datum/gas_mixture/buffer = air1.remove(fill_amount)
 			buffer.set_temperature(T20C) //Simplification
 			F.canister_gas.merge(buffer)
 			update_parents()
@@ -800,7 +814,7 @@
 			return
 		else
 			var/datum/gas_mixture/air2 = airs[2]
-			var/datum/gas_mixture/buffer = F.canister_gas.remove(50)
+			var/datum/gas_mixture/buffer = F.canister_gas.remove(fill_amount)
 			air2.merge(buffer)
 			update_parents()
 
@@ -813,10 +827,28 @@
 	var/turf/T = get_turf(src)
 	if(T)
 		var/datum/gas_mixture/env = T.return_air()
-		var/datum/gas_mixture/buffer = F.canister_gas.remove(50)
+		var/datum/gas_mixture/buffer = F.canister_gas.remove(fill_amount)
 		env.merge(buffer)
 		update_parents()
 	eject_canister()
+
+/obj/machinery/atmospherics/components/binary/railgun_filler/RefreshParts()
+	var/comp_number = 0
+	var/comp_total = 0
+	var/comp_averaged = 0
+	for(var/obj/item/stock_parts/S in component_parts)
+		comp_total += S.rating
+		comp_number ++
+	comp_averaged = comp_total / comp_number
+	switch(comp_averaged)
+		if(1 to 1.99)
+			fill_amount = 50
+		if(2 to 2.99)
+			fill_amount = 60
+		if(3 to 3.99)
+			fill_amount = 70
+		if(4)
+			fill_amount = 80
 
 /obj/machinery/atmospherics/components/binary/railgun_filler/attackby(obj/item/I, mob/user)
 	if(!loading)
@@ -949,6 +981,7 @@
 	var/charge_rate = 0 //In watts
 	var/max_charge_rate = 100000 //In watts
 	var/obj/item/ship_weapon/ammunition/railgun_ammo_canister/F
+	var/max_canister_charge = 100
 
 /obj/machinery/railgun_charger/process(delta_time)
 	if(!try_use_power(active_power_usage))
@@ -967,16 +1000,15 @@
 				else
 					active_power_usage = 100 //Reduced power operation
 		else if(charge)
-			if(F.material_charge < 100)
+			if(F.material_charge < max_canister_charge)
 				F.material_charge += (charge_rate / 10000)
-				if(F.material_charge > 100)
-					F.material_charge = 100
+				if(F.material_charge > max_canister_charge)
+					F.material_charge = max_canister_charge
 				if(F.railgun_flags & RAIL_BLUESPACE)
 					if(prob(0.1))
 						bluespace()
 			else
 				active_power_usage = 100 //Reduced power operation
-
 
 /obj/machinery/railgun_charger/proc/try_use_power(amount)
 	var/turf/T = get_turf(src)
@@ -1010,6 +1042,24 @@
 		if(51 to 100) //Teleport somewhere randomly on the ship - hope this wasn't a charged canister
 			var/turf/T = find_safe_turf()
 			do_teleport(A, T)
+
+/obj/machinery/railgun_charger/RefreshParts()
+	var/comp_number = 0
+	var/comp_total = 0
+	var/comp_averaged = 0
+	for(var/obj/item/stock_parts/S in component_parts)
+		comp_total += S.rating
+		comp_number ++
+	comp_averaged = comp_total / comp_number
+	switch(comp_averaged)
+		if(1 to 1.99)
+			max_canister_charge = 100
+		if(2 to 2.99)
+			max_canister_charge = 133
+		if(3 to 3.99)
+			max_canister_charge = 166
+		if(4)
+			max_canister_charge = 200
 
 /obj/machinery/railgun_charger/attackby(obj/item/I, mob/user)
 	if(!loading)
@@ -1104,21 +1154,18 @@
 	name = "Railgun Forge (Machine Board)"
 	build_path = /obj/machinery/railgun_forge
 	req_components = list(
-		/obj/item/stock_parts/matter_bin = 10,
-		/obj/item/stock_parts/manipulator = 5,
-		/obj/item/stock_parts/scanning_module = 2,
-		/obj/item/stock_parts/capacitor = 8,
-		/obj/item/stock_parts/micro_laser = 2)
+		/obj/item/stock_parts/manipulator = 12,
+		/obj/item/stock_parts/scanning_module = 4,
+		/obj/item/stock_parts/capacitor = 2,
+		/obj/item/stock_parts/micro_laser = 10)
 
 /obj/item/circuitboard/machine/railgun_charger //update my components
 	name = "Railgun Charger (Machine Board)"
 	build_path = /obj/machinery/railgun_charger
 	req_components = list(
-		/obj/item/stock_parts/matter_bin = 10,
-		/obj/item/stock_parts/manipulator = 5,
-		/obj/item/stock_parts/scanning_module = 2,
-		/obj/item/stock_parts/capacitor = 8,
-		/obj/item/stock_parts/micro_laser = 2)
+		/obj/item/stock_parts/scanning_module = 10,
+		/obj/item/stock_parts/capacitor = 25,
+		/obj/item/stock_parts/micro_laser = 5)
 
 /obj/item/circuitboard/machine/railgun_filler //update my components
 	name = "Railgun Filler (Machine Board)"
@@ -1130,22 +1177,18 @@
 		/obj/item/stock_parts/capacitor = 8,
 		/obj/item/stock_parts/micro_laser = 2)
 
-/obj/item/circuitboard/machine/railgun_forge_coating_tank //update my components
+/obj/item/circuitboard/machine/railgun_forge_coating_tank
 	name = "Railgun Forge Coating Tank (Machine Board)"
 	build_path = /obj/machinery/railgun_forge_coating_tank
 	req_components = list(
-		/obj/item/stock_parts/matter_bin = 10,
+		/obj/item/stock_parts/matter_bin = 20,
 		/obj/item/stock_parts/manipulator = 5,
-		/obj/item/stock_parts/scanning_module = 2,
-		/obj/item/stock_parts/capacitor = 8,
-		/obj/item/stock_parts/micro_laser = 2)
+		/obj/item/stock_parts/scanning_module = 2)
 
-/obj/item/circuitboard/machine/railgun_forge_core_tank //update my components
+/obj/item/circuitboard/machine/railgun_forge_core_tank
 	name = "Railgun Forge Core Tank (Machine Board)"
 	build_path = /obj/machinery/railgun_forge_core_tank
 	req_components = list(
-		/obj/item/stock_parts/matter_bin = 10,
+		/obj/item/stock_parts/matter_bin = 20,
 		/obj/item/stock_parts/manipulator = 5,
-		/obj/item/stock_parts/scanning_module = 2,
-		/obj/item/stock_parts/capacitor = 8,
-		/obj/item/stock_parts/micro_laser = 2)
+		/obj/item/stock_parts/scanning_module = 2)

@@ -89,7 +89,7 @@
 
 /obj/item/ship_weapon/ammunition/railgun_ammo_canister/proc/slowprocess()
 	switch(material_charge)
-		if(80 to 100)
+		if(80 to 200)
 			if(prob(25))
 				material_charge --
 		if(50 to 80)
@@ -100,7 +100,7 @@
 				material_charge --
 
 	if(material_charge > 0 && !stabilized)
-		if(prob(material_charge)) //This likely needs to be divided by 2
+		if(prob(material_charge))
 			canister_integrity --
 
 		if(canister_integrity <= 0)
@@ -113,6 +113,12 @@
 		if(canister_integrity > 20)
 			cut_overlays()
 			switch(material_charge)
+				if(166 to 200)
+					add_overlay("railgun_canister_charge_200_integrity_high")
+				if(133 to 166)
+					add_overlay("railgun_canister_charge_166_integrity_high")
+				if(100 to 133)
+					add_overlay("railgun_canister_charge_133_integrity_high")
 				if(66 to 100)
 					add_overlay("railgun_canister_charge_100_integrity_high")
 				if(33 to 66)
@@ -122,6 +128,12 @@
 		else
 			cut_overlays()
 			switch(material_charge)
+				if(166 to 200)
+					add_overlay("railgun_canister_charge_200_integrity_low")
+				if(133 to 166)
+					add_overlay("railgun_canister_charge_166_integrity_low")
+				if(100 to 133)
+					add_overlay("railgun_canister_charge_133_integrity_low")
 				if(66 to 100)
 					add_overlay("railgun_canister_charge_100_integrity_low")
 				if(33 to 66)
@@ -136,7 +148,11 @@
 /obj/item/ship_weapon/ammunition/railgun_ammo_canister/proc/burst()
 	if(istype(loc, /obj/machinery/ship_weapon/hybrid_rail))
 		var/obj/machinery/ship_weapon/hybrid_rail/G = loc
-		if(material_charge > 50)
+		if(material_charge > 100)
+			G.alignment -= rand(50, 100)
+			G.maint_req -= rand(40, 75)
+			empulse(src, 1, 3, log=TRUE)
+		else if(material_charge > 50)
 			G.alignment -= rand(25, 75)
 			G.maint_req -= rand(20, 45)
 		else
@@ -153,12 +169,17 @@
 
 	else if(istype(loc, /obj/machinery/ammo_sorter))
 		var/obj/machinery/ammo_sorter/A
-		if(material_charge > 50)
+		if(material_charge > 100)
+			Destroy(A)
+			explosion(src, 0, 1, 3, 5)
+			empulse(src, 3, 5, log=TRUE)
+			for(var/mob/living/carbon/C in orange(5, src))
+				C.apply_damage(20, damagetype=CLONE)
+		else if(material_charge > 50)
 			Destroy(A)
 			empulse(src, 3, 5, log=TRUE)
 			for(var/mob/living/carbon/C in orange(5, src))
 				C.apply_damage(10, damagetype=CLONE)
-
 		else
 			A.durability = 0
 			A.jammed = TRUE
@@ -167,7 +188,17 @@
 				C.apply_damage(10, damagetype=CLONE)
 
 	else
-		if(material_charge > 50)
+		if(material_charge > 100)
+			var/turf/T = get_turf(src)
+			if(T)
+				var/datum/gas_mixture/env = T.return_air()
+				var/datum/gas_mixture/buffer = canister_gas.remove(100) //hope there was nothing spicy in there
+				env.merge(buffer)
+			empulse(src, 4, 7, log=TRUE)
+			for(var/mob/living/carbon/C in orange(7, src))
+				C.apply_damage(40, damagetype=CLONE)
+			explosion(get_turf(src), 0, 0, 2, 7, TRUE, TRUE, 1)
+		else if(material_charge > 50)
 			empulse(src, 4, 7, log=TRUE)
 			for(var/mob/living/carbon/C in orange(7, src))
 				C.apply_damage(25, damagetype=CLONE)
