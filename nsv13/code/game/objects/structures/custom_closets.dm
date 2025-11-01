@@ -166,7 +166,7 @@
 	new /obj/item/gun/energy/e_gun/mini/heads(src) //no balistics for solgov
 
 /obj/structure/closet/secure_closet/hop/solgov
-	name = "\proper head of personnel's locker"
+	name = "\proper executive officer's locker"
 	req_access = list(ACCESS_HOP)
 	icon_state = "hop"
 
