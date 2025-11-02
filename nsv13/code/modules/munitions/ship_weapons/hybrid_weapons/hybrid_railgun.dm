@@ -18,11 +18,8 @@
 
 	var/slug_shell = 0 //Use Slugs = 0. Use Canisters = 1
 	var/switching = 0 //Track if we are switching types
-
 	var/alignment = 100 //Degrading stat used to alter projectile spread
-
 	maintainable = TRUE //override this with hybrid version
-
 	active_power_usage = 0 //Going to pull from a wire rather then APC
 	idle_power_usage = 50 //we'll scale this with charge - if its charged, its gonna be leaking
 
@@ -30,33 +27,38 @@
 	var/capacitor_max_charge = 400000 //Maximum charge required for firing - as determined by ammo type - preset to slug
 	var/capacitor_current_charge_rate = 0 //Current charge rate - as determined by players
 	var/capacitor_max_charge_rate = 200000 //Maximum rate of charge ie max power draw - 200kW
+	var/functional_crit = FALSE
 
 /obj/machinery/ship_weapon/hybrid_rail/examine(mob/user)
 	.=..()
+	if(functional_crit)
+		. += "<span class='danger'>The railgun is in a critical state and requires repairing to function!</span>"
+		. += "<span class='notice'>Repair Status: [obj_integrity] / [max_integrity]</span>"
 	if(slug_shell == 0)
 		. += "<span class='notice'>Selected Munition: Slug type</span>"
 	if(slug_shell == 1)
 		. += "<span class='notice'>Selected Munition: Canister type</span>"
 
 /obj/machinery/ship_weapon/hybrid_rail/process()
-	if(capacitor_charge == capacitor_max_charge)
-		active_power_usage = capacitor_charge / 10 //We still draw to maintain charge
-	if(!try_use_power(active_power_usage))
-		if(capacitor_charge > 0)
-			capacitor_charge -= (capacitor_charge / capacitor_max_charge) * 500 //Slowly depletes capacitor if not maintaining power supply
+	if(!functional_crit)
+		if(capacitor_charge == capacitor_max_charge)
+			active_power_usage = capacitor_charge / 10 //We still draw to maintain charge
+		if(!try_use_power(active_power_usage))
+			if(capacitor_charge > 0)
+				capacitor_charge -= (capacitor_charge / capacitor_max_charge) * 500 //Slowly depletes capacitor if not maintaining power supply
+				set_light(3, 4, LIGHT_COLOR_RED)
+				if(capacitor_charge <= 0)
+					capacitor_charge = 0
+			return FALSE
+		if(capacitor_current_charge_rate == 0)
 			set_light(3, 4, LIGHT_COLOR_RED)
-			if(capacitor_charge <= 0)
-				capacitor_charge = 0
-		return FALSE
-	if(capacitor_current_charge_rate == 0)
-		set_light(3, 4, LIGHT_COLOR_RED)
-		return FALSE
-	if(capacitor_charge < capacitor_max_charge)
-		capacitor_charge += capacitor_current_charge_rate
-		set_light(3, 4, LIGHT_COLOR_LIGHT_CYAN)
-	if(capacitor_charge >= capacitor_max_charge)
-		capacitor_charge = capacitor_max_charge
-		set_light(3, 4, LIGHT_COLOR_LIGHT_CYAN)
+			return FALSE
+		if(capacitor_charge < capacitor_max_charge)
+			capacitor_charge += capacitor_current_charge_rate
+			set_light(3, 4, LIGHT_COLOR_LIGHT_CYAN)
+		if(capacitor_charge >= capacitor_max_charge)
+			capacitor_charge = capacitor_max_charge
+			set_light(3, 4, LIGHT_COLOR_LIGHT_CYAN)
 
 
 /obj/machinery/ship_weapon/hybrid_rail/proc/try_use_power(amount) //Pulling power from wires rather then APCs
@@ -80,7 +82,6 @@
 		slug_shell = 1
 		ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo_canister
 		max_ammo = 1
-		//projectile_velo = 2.5 //Not so great at handling shells
 		capacitor_max_charge = 1000000 //1MW
 		say("Cycling complete: Configuration - 800mm Shell Selected")
 
@@ -88,11 +89,12 @@
 		slug_shell = 0
 		ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
 		max_ammo = 5
-		//projectile_velo = 5 //Designed for slugs
 		capacitor_max_charge = 400000 //400kW
 		say("Cycling complete: Configuration - 400mm Slug Selected")
 
 /obj/machinery/ship_weapon/hybrid_rail/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+	if(functional_crit)
+		return FALSE
 	if(can_fire(target, shots))
 		if(manual)
 			linked.last_fired = overlay
@@ -129,13 +131,15 @@
 	if(istype(chambered, /obj/item/ship_weapon/ammunition/railgun_ammo/forged))
 		var/obj/item/ship_weapon/ammunition/railgun_ammo/forged/F = chambered
 		if(F.railgun_flags & RAIL_BLUESPACE)
-			if(prob(25))
+			alignment -= rand(1, 10) //Additional misalignment due space magic
+			if(prob(33))
 				bluespace(target)
 				return FALSE
 	if(istype(chambered, /obj/item/ship_weapon/ammunition/railgun_ammo_canister))
 		var/obj/item/ship_weapon/ammunition/railgun_ammo_canister/R = chambered
 		if(R.railgun_flags & RAIL_BLUESPACE)
-			if(prob(25))
+			alignment -= rand(1, 10) //Additional misalignment due space magic
+			if(prob(33))
 				bluespace(target)
 				return FALSE
 	if(alignment < 25)
@@ -160,7 +164,6 @@
 			projectile_velocity = (T.material_conductivity ** 1.5) - ((100 - alignment) / 100) //what if ^ instead of *?
 			if(projectile_velocity < 0)
 				projectile_velocity = 0.1
-//			projectile_damage = ((T.material_hardness * 0.25) * T.material_density) * projectile_velocity
 			projectile_damage = T.material_density * projectile_velocity
 			if(projectile_damage < 0)
 				projectile_damage = 0
@@ -205,10 +208,10 @@
 						projectile_penetration = 25
 			var/gas_mix = 	T.canister_gas.get_moles(GAS_O2) + \
 							T.canister_gas.get_moles(GAS_PLUOXIUM) * 1.25 + \
-							T.canister_gas.get_moles(GAS_PLASMA) * 1.5 + \
-							T.canister_gas.get_moles(GAS_CONSTRICTED_PLASMA) * 1.5 + \
-							T.canister_gas.get_moles(GAS_TRITIUM) * 2 + \
-							T.canister_gas.get_moles(GAS_NUCLEIUM) * 1.25 //Add some sort of EMP effect here for subsystems later
+							T.canister_gas.get_moles(GAS_PLASMA) * 1.75 + \
+							T.canister_gas.get_moles(GAS_CONSTRICTED_PLASMA) * 1.75 + \
+							T.canister_gas.get_moles(GAS_TRITIUM) * 2.5 + \
+							T.canister_gas.get_moles(GAS_NUCLEIUM) * 1.5
 			switch(T.canister_gas.get_moles(GAS_NUCLEIUM))
 				if(20 to 30)
 					projectile_emp = 5
@@ -276,6 +279,7 @@
 
 /obj/machinery/ship_weapon/hybrid_rail/proc/misfire()
 	maint_req -= 5
+	obj_integrity -= 10
 	if(maint_req < 0)
 		maint_req = 0
 
@@ -333,12 +337,37 @@
 				alignment = 100
 				break
 
+/obj/machinery/ship_weapon/hybrid_rail/welder_act(mob/user, obj/item/tool)
+	. = FALSE
+	if(functional_crit)
+		to_chat(user, "<span class='notice'>You start repairing the railgun...</span>")
+		if(tool.use_tool(src, user, 5 SECONDS, volume=100))
+			obj_integrity += 25
+			if(obj_integrity >= max_integrity)
+				obj_integrity = max_integrity
+				to_chat(user, "<span class='notice'>You finishing repairing the railgun.</span>")
+				functional_crit = FALSE
+				icon_state = "OBC"
+			return TRUE
+
 /obj/machinery/ship_weapon/hybrid_rail/crowbar_act(mob/user, obj/item/tool)
 	return //prevent deconstructing
+
+/obj/machinery/ship_weapon/hybrid_rail/Destroy()
+	if(linked.role == MAIN_OVERMAP)
+		functional_crit = TRUE
+		icon_state = "OBC_destroyed"
+		obj_integrity = 0 //If not already there
+		return QDEL_HINT_LETMELIVE
+	else
+		return ..()
 
 /obj/machinery/ship_weapon/hybrid_rail/attackby(obj/item/I, mob/user)
 	if(!linked)
 		get_ship()
+	if(functional_crit)
+		to_chat(usr, "<span class='notice'>Error: Unable to load ordnance while railgun is in a critical state.</span>")
+		return FALSE
 	if(switching && istype(I, /obj/item/ship_weapon/ammunition))
 		to_chat(usr, "<span class='notice'>Error: Unable to load ordnance while cycling chamber configuration.</span>")
 		return FALSE
@@ -360,19 +389,23 @@
 	return ..()
 
 /obj/machinery/ship_weapon/hybrid_rail/attack_hand(mob/living/carbon/user)
-	ui_interact(user)
+	if(!functional_crit)
+		ui_interact(user)
 
 /obj/machinery/ship_weapon/hybrid_rail/attack_ai(mob/user)
 	.=..()
-	ui_interact(user)
+	if(!functional_crit)
+		ui_interact(user)
 
 /obj/machinery/ship_weapon/hybrid_rail/attack_robot(mob/user)
 	.=..()
-	ui_interact(user)
+	if(!functional_crit)
+		ui_interact(user)
 
 /obj/machinery/ship_weapon/hybrid_rail/attack_ghost(mob/user)
 	.=..()
-	ui_interact(user)
+	if(!functional_crit)
+		ui_interact(user)
 
 /obj/machinery/ship_weapon/hybrid_rail/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)

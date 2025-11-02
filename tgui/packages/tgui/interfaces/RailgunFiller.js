@@ -62,7 +62,7 @@ export const RailgunFiller = (props, context) => {
           <ProgressBar
             value={canister_gas_moles}
             minValue={0}
-            maxValue={100}
+            maxValue={80}
             color="white">
             {toFixed(canister_gas_moles)}
           </ProgressBar>
@@ -70,7 +70,7 @@ export const RailgunFiller = (props, context) => {
           <ProgressBar
             value={canister_o2}
             minValue={0}
-            maxValue={100}
+            maxValue={80}
             color="blue">
             {toFixed(canister_o2)}
           </ProgressBar>
@@ -78,7 +78,7 @@ export const RailgunFiller = (props, context) => {
           <ProgressBar
             value={canister_pluox}
             minValue={0}
-            maxValue={100}
+            maxValue={80}
             color="olive">
             {toFixed(canister_pluox)}
           </ProgressBar>
@@ -86,7 +86,7 @@ export const RailgunFiller = (props, context) => {
           <ProgressBar
             value={canister_plasma}
             minValue={0}
-            maxValue={100}
+            maxValue={80}
             color="purple">
             {toFixed(canister_plasma)}
           </ProgressBar>
@@ -94,7 +94,7 @@ export const RailgunFiller = (props, context) => {
           <ProgressBar
             value={canister_c_plasma}
             minValue={0}
-            maxValue={100}
+            maxValue={80}
             color="violet">
             {toFixed(canister_c_plasma)}
           </ProgressBar>
@@ -102,7 +102,7 @@ export const RailgunFiller = (props, context) => {
           <ProgressBar
             value={canister_trit}
             minValue={0}
-            maxValue={100}
+            maxValue={80}
             color="pink">
             {toFixed(canister_trit)}
           </ProgressBar>
@@ -110,7 +110,7 @@ export const RailgunFiller = (props, context) => {
           <ProgressBar
             value={canister_nucleium}
             minValue={0}
-            maxValue={100}
+            maxValue={80}
             color="brown">
             {toFixed(canister_nucleium)}
           </ProgressBar>
@@ -120,7 +120,7 @@ export const RailgunFiller = (props, context) => {
           <ProgressBar
             value={gas_moles}
             minValue={0}
-            maxValue={100}
+            maxValue={80}
             color="white">
             {toFixed(gas_moles)}
           </ProgressBar>
@@ -128,7 +128,7 @@ export const RailgunFiller = (props, context) => {
           <ProgressBar
             value={o2}
             minValue={0}
-            maxValue={100}
+            maxValue={80}
             color="blue">
             {toFixed(o2)}
           </ProgressBar>
@@ -136,7 +136,7 @@ export const RailgunFiller = (props, context) => {
           <ProgressBar
             value={pluox}
             minValue={0}
-            maxValue={100}
+            maxValue={80}
             color="olive">
             {toFixed(pluox)}
           </ProgressBar>
@@ -144,7 +144,7 @@ export const RailgunFiller = (props, context) => {
           <ProgressBar
             value={plasma}
             minValue={0}
-            maxValue={100}
+            maxValue={80}
             color="purple">
             {toFixed(plasma)}
           </ProgressBar>
@@ -152,7 +152,7 @@ export const RailgunFiller = (props, context) => {
           <ProgressBar
             value={c_plasma}
             minValue={0}
-            maxValue={100}
+            maxValue={80}
             color="violet">
             {toFixed(c_plasma)}
           </ProgressBar>
@@ -160,7 +160,7 @@ export const RailgunFiller = (props, context) => {
           <ProgressBar
             value={trit}
             minValue={0}
-            maxValue={100}
+            maxValue={80}
             color="pink">
             {toFixed(trit)}
           </ProgressBar>
@@ -168,7 +168,7 @@ export const RailgunFiller = (props, context) => {
           <ProgressBar
             value={nucleium}
             minValue={0}
-            maxValue={100}
+            maxValue={80}
             color="brown">
             {toFixed(nucleium)}
           </ProgressBar>

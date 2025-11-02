@@ -22,7 +22,7 @@ export const RailgunCanisterCharger = (props, context) => {
   return (
     <Window
       width={440}
-      height={550}>
+      height={450}>
       <Window.Content scrollable>
         <Section title="Canister Statistics">
           <Button

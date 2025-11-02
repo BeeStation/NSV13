@@ -20,8 +20,8 @@ export const RailgunForge = (props, context) => {
   } = data;
   return (
     <Window
-      width={440}
-      height={550}>
+      width={460}
+      height={350}>
       <Window.Content scrollable>
         <Section>
           <Button

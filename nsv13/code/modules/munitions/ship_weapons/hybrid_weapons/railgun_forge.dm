@@ -199,7 +199,7 @@
 			if("Plasma")
 				conductivity_1 = 2 //TEST
 			if("Bluespace")
-				conductivity_1 = 10 //TEST
+				conductivity_1 = 8 //TEST
 			if("Bananium")
 				conductivity_1 = 1 //TEST
 			if("Titanium")
@@ -221,7 +221,7 @@
 			if("Plasma")
 				conductivity_2 = 2 //TEST
 			if("Bluespace")
-				conductivity_2 = 10 //TEST
+				conductivity_2 = 8 //TEST
 			if("Bananium")
 				conductivity_2 = 1 //TEST
 			if("Titanium")
@@ -347,7 +347,7 @@
 			if("Plasma")
 				hardness_1 = 3 //TEST
 			if("Bluespace")
-				hardness_1 = NUM_E ** 1.2 //TEST
+				hardness_1 = NUM_E //TEST
 			if("Bananium")
 				hardness_1 = 1 //TESTs
 			if("Titanium")
@@ -369,7 +369,7 @@
 			if("Plasma")
 				hardness_2 = 3 //TEST
 			if("Bluespace")
-				hardness_2 = NUM_E ** 1.2 //TEST
+				hardness_2 = NUM_E //TEST
 			if("Bananium")
 				hardness_2 = 1 //TEST
 			if("Titanium")
