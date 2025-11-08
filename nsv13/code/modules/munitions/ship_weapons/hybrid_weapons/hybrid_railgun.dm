@@ -28,6 +28,8 @@
 	var/capacitor_current_charge_rate = 0 //Current charge rate - as determined by players
 	var/capacitor_max_charge_rate = 200000 //Maximum rate of charge ie max power draw - 200kW
 	var/functional_crit = FALSE
+	var/repairing = FALSE //Is someone already repairing this?
+	var/deletion_protection = TRUE //Used to prevent object disappearing when taking damage
 
 /obj/machinery/ship_weapon/hybrid_rail/examine(mob/user)
 	.=..()
@@ -330,7 +332,7 @@
 	else
 		to_chat(user, "<span class='notice'>You being realigning the magnetic coils.</span>")
 		while(alignment < 100)
-			if(!do_after(user, 5, target = src))
+			if(!do_after(user, 5, target = src) || !Adjacent(user))
 				return
 			alignment += rand(1,2)
 			if(alignment >= 100)
@@ -340,21 +342,29 @@
 /obj/machinery/ship_weapon/hybrid_rail/welder_act(mob/user, obj/item/tool)
 	. = FALSE
 	if(functional_crit)
+		if(repairing)
+			to_chat(user, "<span class='warning'>Someone's already repairing [src]!</span>")
+			return TRUE
 		to_chat(user, "<span class='notice'>You start repairing the railgun...</span>")
-		if(tool.use_tool(src, user, 5 SECONDS, volume=100))
+		repairing = TRUE
+		while(obj_integrity < max_integrity)
+			if(!tool.use_tool(src, user, 5 SECONDS, volume=100))
+				repairing = FALSE
+				return TRUE
 			obj_integrity += 25
 			if(obj_integrity >= max_integrity)
 				obj_integrity = max_integrity
-				to_chat(user, "<span class='notice'>You finishing repairing the railgun.</span>")
 				functional_crit = FALSE
 				icon_state = "OBC"
-			return TRUE
+				break
+		to_chat(user, "<span class='notice'>You finishing repairing the railgun.</span>")
+		repairing = FALSE
 
 /obj/machinery/ship_weapon/hybrid_rail/crowbar_act(mob/user, obj/item/tool)
 	return //prevent deconstructing
 
 /obj/machinery/ship_weapon/hybrid_rail/Destroy()
-	if(linked.role == MAIN_OVERMAP)
+	if(deletion_protection) //Just var edit this to false if you want to actually delete it
 		functional_crit = TRUE
 		icon_state = "OBC_destroyed"
 		obj_integrity = 0 //If not already there
@@ -450,16 +460,54 @@
 	data["loaded"] = (state > STATE_LOADED) ? TRUE : FALSE
 	data["chambered"] = (state > STATE_FED) ? TRUE : FALSE
 	data["safety"] = safety
-	data["ammo"] = ammo.len
-	data["max_ammo"] = max_ammo
 	data["maint_req"] = maint_req
-	data["max_maint_req"] = 25
 	data["capacitor_charge"] = capacitor_charge
 	data["capacitor_max_charge"] = capacitor_max_charge
 	data["capacitor_current_charge_rate"] = capacitor_current_charge_rate
 	data["capacitor_max_charge_rate"] = capacitor_max_charge_rate
 	data["slug_shell"] = slug_shell
 	data["alignment"] = alignment
+	data["obj_integ"] = obj_integrity
+	data["max_obj_integ"] = max_integrity
+	var/list/magazine = list()
+	for(var/obj/item/ship_weapon/ammunition/railgun_ammo_canister/C in ammo)
+		var/list/canister_stats = list()
+		canister_stats["name"] = C.name
+		canister_stats["conductivity"] = C.material_conductivity
+		canister_stats["density"] = C.material_density
+		canister_stats["hardness"] = C.material_hardness
+		switch(C.material_charge)
+			if(0)
+				canister_stats["charge"] = "Null"
+			if(1 to 33)
+				canister_stats["charge"] = "Low"
+			if(33 to 66)
+				canister_stats["charge"] = "Moderate"
+			if(66 to 100)
+				canister_stats["charge"] = "High"
+			if(100 to 150)
+				canister_stats["charge"] = "Overcharged"
+			if(150 to INFINITY)
+				canister_stats["charge"] = "DANGER"
+		switch(C.canister_integrity)
+			if(0 to 20)
+				canister_stats["integrity"] = "DANGER"
+			if(20 to 50)
+				canister_stats["integrity"] = "Degraded"
+			if(50 to INFINITY)
+				canister_stats["integrity"] = "Stable"
+		magazine[++magazine.len] = canister_stats
+
+	for(var/obj/item/ship_weapon/ammunition/railgun_ammo/forged/F in ammo)
+		var/list/forged_stats = list()
+		forged_stats["name"] = F.name
+		forged_stats["conductivity"] = F.material_conductivity
+		forged_stats["density"] = F.material_density
+		forged_stats["hardness"] = F.material_hardness
+		forged_stats["charge"] = "Null"
+		forged_stats["integrity"] = "Stable"
+		magazine[++magazine.len] = forged_stats
+	data["magazine"] = magazine
 	var/turf/T = get_turf(src)
 	var/obj/structure/cable/C = T.get_cable_node()
 	if(C)
