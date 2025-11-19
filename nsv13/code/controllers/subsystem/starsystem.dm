@@ -1316,13 +1316,14 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 		generated += randy
 		if(prob(10))
 			//10 percent of systems have a trader for resupply.
-			var/x = pick(typesof(/datum/trader)-/datum/trader)
+			var/x = pick(subtypesof(/datum/trader))
 			var/datum/trader/randytrader = new x
 			var/obj/structure/overmap/trader/randystation = SSstar_system.spawn_anomaly(randytrader.station_type, randy)
 			randystation.starting_system = randy.name
 			randystation.current_system = randy
 			randystation.set_trader(randytrader)
 			randy.trader = randytrader
+			randytrader.system = randy
 			// randytrader.generate_missions()
 
 		else if(prob(10))
@@ -1508,13 +1509,14 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 		generated += randy
 		if(prob(10))
 			//10 percent of systems have a trader for resupply.
-			var/x = pick(typesof(/datum/trader)-/datum/trader-/datum/trader/randy)
+			var/x = pick(subtypesof(/datum/trader) - /datum/trader/randy)
 			var/datum/trader/randytrader = new x
 			var/obj/structure/overmap/trader/randystation = SSstar_system.spawn_anomaly(randytrader.station_type, randy)
 			randystation.starting_system = randy.name
 			randystation.current_system = randy
 			randystation.set_trader(randytrader)
 			randy.trader = randytrader
+			randytrader.system = randy
 			// randytrader.generate_missions()
 
 		else if(prob(10))
