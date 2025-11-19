@@ -3,6 +3,7 @@
 	desc = "The gas regulator that pumps gaseous phoron into the Phoron Caster"
 	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
 	icon_state = "plasma_condenser"
+	circuit = /obj/item/circuitboard/machine/plasma_loader
 	pixel_y = 5 //So it lines up with layer 3 piping
 	layer = OBJ_LAYER
 	density = TRUE
