@@ -45,8 +45,16 @@ SUBSYSTEM_DEF(star_system)
 
 	if(enable_npc_combat)
 		if(world.time >= next_combat_cycle)
+			var/new_announcements = FALSE
 			for(var/datum/star_system/SS in contested_systems)
+				var/previous_system_state = SS.already_announced_combat
 				SS.handle_combat()
+				if(SS.already_announced_combat > previous_system_state) //TRUE > FALSE to save on an operator use. (!= and == for alt)
+					new_announcements = TRUE
+			if(new_announcements)
+				for(var/mob/M in GLOB.player_list)
+					if(!isnewplayer(M) && M.can_hear() && (M.client.prefs.toggles & PREFTOGGLE_SOUND_ANNOUNCEMENTS))
+						SEND_SOUND(M, sound('sound/misc/notice2.ogg'))
 			next_combat_cycle = world.time + COMBAT_CYCLE_INTERVAL
 
 	for(var/datum/faction/F in factions)

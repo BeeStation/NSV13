@@ -75,7 +75,7 @@
 
 	SScommunications.send_message(M)
 
-/proc/minor_announce(message, title = "Attention:", alert, from, html_encode = TRUE)
+/proc/minor_announce(message, title = "Attention:", alert, from, html_encode = TRUE, silent = FALSE) //nsv13 - silent arg
 	if(!message)
 		return
 
@@ -89,7 +89,7 @@
 			if(from)
 				complete_msg += "<span class='alert'>-[from]</span>"
 			to_chat(M, complete_msg)
-			if(M.client.prefs.toggles & PREFTOGGLE_SOUND_ANNOUNCEMENTS)
+			if(!silent && (M.client.prefs.toggles & PREFTOGGLE_SOUND_ANNOUNCEMENTS)) //nsv13 - silent arg integration
 				if(alert)
 					SEND_SOUND(M, sound('sound/misc/notice1.ogg'))
 				else
