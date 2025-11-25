@@ -4,6 +4,7 @@
 	var/list/vv_values
 	var/list/stored_access
 	var/update_id_name = FALSE //If the name of the human is same as the name on the id they're wearing we'll update provided id when equipping
+	can_be_admin_equipped = FALSE //nsv13 - This outfit shouldn't be accounted for in the normal select outfit options.
 
 /datum/outfit/varedit/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	H.delete_equipment() //Applying VV to wrong objects is not reccomended.
