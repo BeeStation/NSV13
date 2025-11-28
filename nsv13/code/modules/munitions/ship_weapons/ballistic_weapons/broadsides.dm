@@ -160,6 +160,22 @@
 		return TRUE
 	return default_deconstruction_crowbar(user, tool)
 
+/obj/machinery/ship_weapon/broadside/multitool_act(mob/user, obj/item/tool)
+	if(!panel_open)
+		..()
+		return TRUE
+	else
+		if(length(ammo) == 0)
+			to_chat(user, "<span class='warning'>There are no shells to unload!</span>")
+			return TRUE
+		else
+			playsound(src, 'sound/machines/locktoggle.ogg', 100, TRUE)
+			to_chat(user, "<span class='notice'>You release the magnetic locks, the shells come loose!</span>")
+			unload()
+			update_overlay()
+			playsound(src, 'sound/effects/bang.ogg', 100, TRUE)
+			return TRUE
+
 /obj/machinery/ship_weapon/broadside/Initialize(mapload)
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(RefreshParts)), world.tick_lag)
