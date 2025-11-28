@@ -166,7 +166,7 @@
 		return TRUE
 	else
 		if(length(ammo) == 0)
-			to_chat(user, "<span class='warning'>There's no shells to unload!</span>")
+			to_chat(user, "<span class='warning'>There are no shells to unload!</span>")
 			return TRUE
 		else
 			playsound(src, 'sound/machines/locktoggle.ogg', 100, TRUE)
