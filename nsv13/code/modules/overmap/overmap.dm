@@ -593,6 +593,11 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	var/list/params_list = params2list(params)
 	if(target == src || istype(target, /atom/movable/screen) || (target in user.GetAllContents()) || params_list["alt"] || params_list["shift"])
 		return FALSE
+	if(disruption)
+		if(user)
+			to_chat(user, "<span class='warning'>The controls buzz angrily!</span>")
+		playsound(helm, 'sound/machines/buzz-sigh.ogg', 75, 1)
+		return
 	if(LAZYFIND(gauss_gunners, user)) //Special case for gauss gunners here. Takes priority over them being the regular gunner.
 		var/datum/component/overmap_gunning/user_gun = user.GetComponent(/datum/component/overmap_gunning)
 		if(user_gun)
@@ -1030,3 +1035,12 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
  */
 /obj/structure/overmap/proc/spec_collision_handling(obj/structure/overmap/other_ship, list/impact_powers, impact_angle)
 	return
+
+
+/obj/structure/overmap/key_down(key, client/user)
+	if(disruption)
+		if(user)
+			to_chat(user, "<span class='warning'>The controls buzz angrily!</span>")
+		playsound(helm, 'sound/machines/buzz-sigh.ogg', 75, 1)
+		return
+	. = ..()

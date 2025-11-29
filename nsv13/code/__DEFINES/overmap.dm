@@ -31,8 +31,9 @@
 #define FIRE_MODE_LASER_PD 16
 #define FIRE_MODE_BLUE_LASER 17
 #define FIRE_MODE_HYBRID_RAIL 18
+#define FIRE_MODE_EMP 19
 
-#define MAX_POSSIBLE_FIREMODE 18 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
+#define MAX_POSSIBLE_FIREMODE 19 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
 
 //Weapon classes for AIs
 #define WEAPON_CLASS_LIGHT 1
