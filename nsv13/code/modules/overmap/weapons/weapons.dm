@@ -47,9 +47,9 @@
 	if(ghost_controlled) //Hook in our ghost ship functions
 		if(!firing_weapon.get_ammo())
 			if(firing_weapon.get_max_ammo() <= 0)
-				return
+				return FALSE
 			firing_weapon.try_initiating_resupply()
-			return
+			return FALSE
 
 	if(weapon_safety)
 		return FALSE

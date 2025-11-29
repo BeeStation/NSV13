@@ -208,9 +208,16 @@
 	if(M != OM.gunner && M != OM.pilot)
 		return
 	OM.cycle_firemode(M)
-	if(OM.tactical && prob(80))
-		var/sound = pick(GLOB.computer_beeps)
-		playsound(OM.tactical, sound, 100, 1)
+
+	if(OM.tactical && M == OM.gunner)
+		if(prob(80))
+			var/sound = pick(GLOB.computer_beeps)
+			playsound(OM.tactical, sound, 100, 1)
+	else if(OM.helm && M == OM.pilot)
+		if(prob(80))
+			var/sound = pick(GLOB.computer_beeps)
+			playsound(OM.helm, sound, 100, 1)
+
 	return TRUE
 
 /datum/keybinding/overmap/special_weapon_action

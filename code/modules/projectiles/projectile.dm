@@ -322,12 +322,12 @@
 /obj/item/projectile/CanPass(atom/movable/mover, turf/target)
 	. = ..()
 	if(!check_faction(mover))
-		return TRUE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out. - what is this even supposed to achieve? - Delta
+		return TRUE 	 //Nsv13 - faction checking for overmaps. We're gonna just cut off real early and save some math if the IFF doesn't check out.
 
 /obj/item/projectile/Bump(atom/A)
 	SEND_SIGNAL(src, COMSIG_MOVABLE_BUMP, A)
 	if(!can_hit_target(A, A == original, TRUE, TRUE))
-		return 2 //NSV13 - return 2 for overmap projectile fixes -- WHAT? I genuinely have no idea why you would return a "2" here. - Delta
+		return 2 //NSV13 - return 2 for overmap projectile fixes
 	Impact(A)
 
 /**

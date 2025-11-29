@@ -728,7 +728,7 @@ Adding tasks is easy! Just define a datum for it.
 				var/obj/structure/overmap/GS = new selected_ship(target_location)
 				if(OM.current_system)
 					GS.current_system = OM.current_system
-					OM.current_system |= GS
+					OM.current_system.system_contents |= GS
 				GS.ghost_ship(target_ghost)
 
 

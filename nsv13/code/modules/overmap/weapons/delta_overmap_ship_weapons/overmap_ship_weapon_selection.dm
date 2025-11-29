@@ -71,13 +71,13 @@
  * Moves selected weapon up by 1 for the selected user.
  */
 /obj/structure/overmap/proc/increment_selected_weapon(mob/user, no_message = FALSE, no_sound = FALSE)
-	var/list/available_weapons = mob_weapon_datum_list(usr)
+	var/list/available_weapons = mob_weapon_datum_list(user)
 	if(!length(available_weapons))
 		return
-	if(length(available_weapons) == 1 || !controlled_weapons[usr] || !controlled_weapon_datum[usr])
+	if(length(available_weapons) == 1 || !controlled_weapons[user] || !controlled_weapon_datum[user])
 		var/datum/overmap_ship_weapon/new_weapon = available_weapons[1]
 		return new_weapon.swap_to(user, 1, no_message, no_sound)
-	var/current_weapon_index = controlled_weapons[usr]
+	var/current_weapon_index = controlled_weapons[user]
 	var/maximum_mode = length(available_weapons)
 	var/target_index = current_weapon_index + 1
 	if(target_index > maximum_mode)

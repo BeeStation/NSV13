@@ -117,8 +117,7 @@
 
 /obj/machinery/ship_weapon/broadside/crowbar_act(mob/user, obj/item/tool)
 	if(panel_open && !stovepipe)
-		tool.play_tool_sound(src, 50)
-		deconstruct(TRUE)
+		default_deconstruction_crowbar(tool)
 		return TRUE
 	if(busy)
 		return TRUE
@@ -140,7 +139,7 @@
 				L.throw_at(P, 12, 20)
 		busy = FALSE
 		return TRUE
-	return default_deconstruction_crowbar(tool)
+	return TRUE
 
 /obj/machinery/ship_weapon/broadside/Initialize(mapload)
 	. = ..()

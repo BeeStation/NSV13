@@ -17,7 +17,7 @@
 	OM.next_ams_shot = world.time + OM.ams_targeting_cooldown
 
 /**
- * Used by ship weapons will `FULL_AUTONOMY` as opposed to AMS controlled ones.
+ * Used by ship weapons with `FULL_AUTONOMY` as opposed to AMS controlled ones.
  */
 /datum/overmap_ship_weapon/proc/autonomous_handling()
 	return

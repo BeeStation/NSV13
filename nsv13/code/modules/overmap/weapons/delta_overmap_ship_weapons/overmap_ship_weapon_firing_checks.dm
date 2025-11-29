@@ -68,7 +68,6 @@
 	. = 0
 	for(var/obj/machinery/ship_weapon/physical_weapon in weapons["all"])
 		. += physical_weapon.get_ammo()
-	//owo
 
 /**
  * Determines the maximum ammo of the weapon.
