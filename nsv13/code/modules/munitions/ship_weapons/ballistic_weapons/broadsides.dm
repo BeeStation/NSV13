@@ -139,7 +139,7 @@
 				L.throw_at(P, 12, 20)
 		busy = FALSE
 		return TRUE
-	return TRUE
+	return FALSE
 
 /obj/machinery/ship_weapon/broadside/Initialize(mapload)
 	. = ..()

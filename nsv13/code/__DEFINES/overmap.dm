@@ -97,6 +97,8 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 //Interior instancing comsig, aka cursed things.
 #define COMSIG_INTERIOR_DONE_LOADING "interior_done_loading"
 
+#define COMSIG_STOPPED_PILOTING "stopped_piloting" //! Sent when someone stops piloting any overmap. Signal target is the user.
+
 //Defines for what type of ammo AI weapons use.
 #define OSW_AMMO_LIGHT 1		//! Weapon uses light ammo.
 #define OSW_AMMO_HEAVY 2		//! Weapon uses heavy ammo.

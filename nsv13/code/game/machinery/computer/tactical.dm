@@ -31,9 +31,12 @@
 	if(linked.gunner && !linked.gunner.client)
 		linked.stop_piloting(linked.gunner)
 	if(!linked.gunner && isliving(user))
-		ui_users += user //This sucks but I doubt the edge case here will come up.
 		playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
-		linked.start_piloting(user, position)
+		if(!linked.start_piloting(user, position))
+			return TRUE
+		ui_users |= user //This sucks but I doubt the edge case here will come up.
+		RegisterSignal(user, COMSIG_STOPPED_PILOTING, PROC_REF(on_user_stopped_piloting))
+
 		to_chat(user, "<span class='notice'> TACTICAL CONTROL: \
 					Mouse 1 will fire the selected weapon (if applicable).</span>")
 		to_chat(user, "<span class='warning'>=Hotkeys=</span>")
@@ -47,7 +50,7 @@
 
 /obj/machinery/computer/ship/tactical/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui) //This is wonky and can lead to issues (especially when stopping to pilot in a depowered room)
+	if(!ui)
 		ui = new(user, src, "TacticalConsole")
 		ui.open()
 		ui.set_autoupdate(TRUE)

@@ -58,7 +58,14 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 	playsound(src, 'nsv13/sound/effects/computer/startup.ogg', 75, 1)
 	if(!position)
 		return TRUE
-	ui_users += user //This is bad. We do not have an UI so we never unset this. Except for qdel, where we will throw anyone who ever piloted us out of contrls.
+	. = linked.start_piloting(user, position)
+
+	if(!.) //If we didn't actually start piloting, no need to show them info nor to change ui users.
+		return
+
+	ui_users |= user
+	RegisterSignal(user, COMSIG_STOPPED_PILOTING, PROC_REF(on_user_stopped_piloting))
+
 	if(linked.mass < MASS_SMALL)
 		to_chat(user, "<span class='notice'>Small craft use directional keys (WASD in hotkey mode) to accelerate/decelerate in a given direction and the mouse to change the direction of craft.\
 					Mouse 1 will fire the selected weapon (if applicable).</span>")
@@ -81,16 +88,20 @@ GLOBAL_LIST_INIT(computer_beeps, list('nsv13/sound/effects/computer/beep.ogg','n
 						Presa <b>Space</b> to cycle available weapons. \
 						Press <b>F</b> for the current weapon's special action (if available).</span>")
 
-	return linked.start_piloting(user, position)
+/obj/machinery/computer/ship/proc/on_user_stopped_piloting(mob/previous_user)
+	SIGNAL_HANDLER
+	ui_users -= previous_user
+	if(linked.dradis)
+		SStgui.close_user_uis(previous_user, linked.dradis)
+	UnregisterSignal(previous_user, COMSIG_STOPPED_PILOTING)
 
 /obj/machinery/computer/ship/ui_close(mob/user)
-	ui_users -= user
 	return ..()
 
 /obj/machinery/computer/ship/Destroy()
 	for(var/mob/living/M in ui_users)
-		ui_close(M)
 		linked?.stop_piloting(M)
+
 	linked = null
 	ui_users = null //drop list to the GC
 	return ..()

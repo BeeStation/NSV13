@@ -52,6 +52,7 @@
 	user.click_intercept = src
 
 /obj/structure/overmap/proc/stop_piloting(mob/living/M)
+	SEND_SIGNAL(M, COMSIG_STOPPED_PILOTING)
 	LAZYREMOVE(operators,M)
 	M.remove_verb(overmap_verbs)
 	drop_weapon_selection(M)
