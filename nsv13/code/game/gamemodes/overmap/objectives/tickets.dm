@@ -7,6 +7,7 @@
 	var/assigned_faction = null
 
 /datum/overmap_objective/tickets/New()
+	. = ..()
 	if(!assigned_faction)
 		assigned_faction = FACTION_ID_NT
 	var/datum/faction/F = SSstar_system.faction_by_id(assigned_faction)
@@ -15,12 +16,12 @@
 
 /datum/overmap_objective/tickets/check_completion()
 	. = ..()
-	if(status != 0)
+	if(status != OBJECTIVE_STATUS_INPROGRESS)
 		return
 	var/datum/faction/F = SSstar_system.faction_by_id(assigned_faction)
 	tally = F.tickets
 	if(F.tickets >= target) //Check if we have the required tickets
-		status = 1
+		status = OBJECTIVE_STATUS_COMPLETED
 
 /datum/overmap_objective/tickets/nt
 	name = "Nanotrasen Tickets"

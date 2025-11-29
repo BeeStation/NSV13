@@ -9,7 +9,7 @@
 	brief = "You have been assigned to standard patrol duty beyond the Foothold sector. Patrol this area and eliminate any Syndicate forces with extreme prejudice, then return back to Outpost 45."
 	starting_system = "Argo"
 	starting_faction = "nanotrasen"
-	objective_reminder_setting = 1
+	objective_reminder_setting = MODE_REMINDER_COMBAT_RESET
 	selection_weight = 5
 	required_players = 10
-	fixed_objectives = list(/datum/overmap_objective/tickets/nt)
+	fixed_objectives = list(/datum/overmap_objective/perform_jumps, /datum/overmap_objective/tickets/nt)
