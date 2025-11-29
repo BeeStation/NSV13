@@ -206,3 +206,9 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	if(isspaceturf(T))
 		return FALSE
 	return TRUE
+
+/turf/open/openspace/singularity_act()
+	return
+
+/turf/open/openspace/singularity_pull()
+	return
