@@ -207,8 +207,10 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 		return FALSE
 	return TRUE
 
+//nsv13 - singulo-immune openspace
 /turf/open/openspace/singularity_act()
 	return
 
 /turf/open/openspace/singularity_pull()
 	return
+//nsv13 end.
