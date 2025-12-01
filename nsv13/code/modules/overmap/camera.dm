@@ -31,6 +31,7 @@
 			stop_piloting(gunner)
 		gunner = user
 	observe_ship(user)
+	increment_selected_weapon(user)
 	dradis?.attack_hand(user)
 	if(position & (OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER))
 		user.add_verb(overmap_verbs) //Add the ship panel verbs
@@ -51,8 +52,10 @@
 	user.click_intercept = src
 
 /obj/structure/overmap/proc/stop_piloting(mob/living/M)
+	SEND_SIGNAL(M, COMSIG_STOPPED_PILOTING)
 	LAZYREMOVE(operators,M)
 	M.remove_verb(overmap_verbs)
+	drop_weapon_selection(M)
 	M.overmap_ship = null
 	if(M.click_intercept == src)
 		M.click_intercept = null

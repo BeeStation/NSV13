@@ -379,14 +379,22 @@ Misc projectile types, effects, think of this as the special FX file.
 	if(isovermap(target)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
 		return BULLET_ACT_HIT
 	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
+
+	//We don't even reach this case, looks like this is usually just done in guided_munition/entered :(
 	if(isprojectile(target) && P.faction != faction && !P.nodamage) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
 		if(obj_integrity <= P.damage) //Tank the hit, take some damage
-			qdel(P)
+			if((P.projectile_piercing & PASSCLOSEDTURF) && P.obj_integrity > damage) //Check for arbitrary pass flag that makes senseish.
+				P.obj_integrity -= damage
+			else
+				qdel(P)
 			explode()
 			return BULLET_ACT_HIT
 		else
+			if((P.projectile_piercing & PASSCLOSEDTURF) && P.obj_integrity > damage) //Check for arbitrary pass flag that makes senseish.
+				P.obj_integrity -= damage
+			else
+				qdel(P)
 			take_damage(P.damage)
-			qdel(P)
 			return FALSE //Didn't take the hit
 	if(!isprojectile(target)) //This is lazy as shit but is necessary to prevent explosions triggering on the overmap when two bullets collide. Fix this shit please.
 		if(isliving(target))
@@ -398,9 +406,13 @@ Misc projectile types, effects, think of this as the special FX file.
 		return FALSE
 	return BULLET_ACT_HIT
 
+//OVERRIDE.
 /obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
-	. = ..()
 	on_hit(P)
+	if((P.projectile_piercing & PASSCLOSEDTURF) && P.obj_integrity > 0)
+		. = BULLET_ACT_FORCE_PIERCE
+	else
+		. = BULLET_ACT_HIT
 
 /obj/item/projectile/guided_munition/proc/detonate(atom/target)
 	explosion(target, 2, 4, 4)

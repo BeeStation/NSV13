@@ -2,7 +2,7 @@
 
 import { Fragment } from 'inferno';
 import { useBackend, useLocalState } from '../backend';
-import { Button, Section, ProgressBar, LabeledList } from '../components';
+import { Box, Button, NumberInput, Section, ProgressBar, LabeledList } from '../components';
 import { Window } from '../layouts';
 
 export const TacticalConsole = (props, context) => {
@@ -81,7 +81,21 @@ export const TacticalConsole = (props, context) => {
               )}
             </Section>
           </Section>
-          <Section title="Armaments:">
+          <Section title="Armaments:"
+            buttons={(
+              <>
+                <Button
+                  icon="cog"
+                  color={data.additional_weapon_info ? "good" : "default"}
+                  content="Expanded Info"
+                  onClick={() => act("toggle_additional_weapon_info")} />
+                <Button
+                  icon="wrench"
+                  color={data.modifying_weapon_priorities ? "blue" : "grey"}
+                  disabled={!data.additional_weapon_info}
+                  onClick={() => act('toggle_weapon_priority_modification')} />
+              </>
+            )}>
             <LabeledList>
               {Object.keys(data.weapons).map(key => {
                 let value = data.weapons[key];
@@ -96,6 +110,39 @@ export const TacticalConsole = (props, context) => {
                             average: [0.15, 0.9],
                             bad: [-Infinity, 0.15],
                           }} />
+                        {!!data.additional_weapon_info && ((!!data.modifying_weapon_priorities && !!value.can_modify_priority && (
+                          <Box>
+                            <br />
+                            {"Priority: "}
+                            <NumberInput
+                              value={value.weapon_priority}
+                              width="47px"
+                              minValue={1}
+                              maxValue={900}
+                              onChange={(e, input_number) => act('change_weapon_priority', {
+                                target_weapon: value.weapon_ref,
+                                new_priority: input_number,
+                              })} />
+                          </Box>
+                        )) || (
+                          <Box>
+                            <br />
+                            {'Priority: ' + value.weapon_priority}
+                          </Box>
+                        ))}
+                        {!!value.controllers && (
+                          <Box>
+                            <br />
+                            {'Weapon controllers: ' + value.controllers}
+                          </Box>
+                        )}
+                        {!!value.ammo_filter && (
+                          <Box>
+                            <br />
+                            {"Filtered ammo: " + value.ammo_filter}
+                          </Box>
+                        )}
+                        <br />
                       </LabeledList.Item>
                     )}
                   </Fragment>);
