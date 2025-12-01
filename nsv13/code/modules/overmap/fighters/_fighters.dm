@@ -75,6 +75,12 @@ Been a mess since 2018, we'll fix it someday (probably)
 	last_overmap?.overmaps_in_ship -= src
 	return ..()
 
+/obj/structure/overmap/small_craft/GetAllContents(T, ignore_flag_1) //I'm doing this on small craft just in case anyone considers calling this on a full sized ship and gets every single atom on it returned
+	. = ..(T, ignore_flag_1)
+	if(length(linked_areas) > 0)
+		var/area/A = linked_areas[1]
+		. += A.GetAllContents(T, ignore_flag_1) //Count what's inside of any *ship level* too
+
 /obj/structure/overmap/small_craft/start_piloting(mob/living/carbon/user, position)
 	. = ..()
 	if(.)
