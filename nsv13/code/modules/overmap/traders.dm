@@ -45,6 +45,7 @@
 		qdel(item)
 	stonks = list() //Reset our stores of supplies
 	var/datum/faction/F = SSstar_system.faction_by_id(faction_type)
+	yellow_pages_dat = ""
 	yellow_pages_dat += "<h3>[F ? F.name : "neutral"]-aligned station [name] at [system.name]</h3>"
 	yellow_pages_dat += "<font size = \"2\">"
 	for(var/itemPath in sold_items)
