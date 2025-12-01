@@ -139,7 +139,7 @@
 	var/obj/item/ship_weapon/ammunition/T = chambered
 	if(T)
 		var/final_velo = projectile_velo - ((100 - alignment) / 100) //Misalignment slows projectiles
-		linked.fire_projectile(T.projectile_type, target, speed=final_velo)
+		linked.fire_projectile(T.projectile_type, target, pixel_speed=final_velo)
 
 /obj/machinery/ship_weapon/hybrid_rail/after_fire()
 	if(maint_state != 0) //MSTATE_CLOSED

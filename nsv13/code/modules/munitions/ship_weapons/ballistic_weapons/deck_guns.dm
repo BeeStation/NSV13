@@ -112,7 +112,7 @@
 /obj/machinery/ship_weapon/deck_turret/animate_projectile(atom/target, lateral=TRUE)
 	var/obj/item/ship_weapon/ammunition/naval_artillery/T = chambered
 	if(T)
-		var/obj/item/projectile/proj = linked.fire_projectile(T.projectile_type, target,speed=T.speed, firing_flags = linked_overmap_ship_weapon.weapon_firing_flags)
+		var/obj/item/projectile/proj = linked.fire_projectile(T.projectile_type, target,pixel_speed = T.speed, firing_flags = linked_overmap_ship_weapon.weapon_firing_flags)
 		T.handle_shell_modifiers(proj)
 
 /**

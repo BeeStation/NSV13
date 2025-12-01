@@ -227,7 +227,7 @@
 	icon_state = initial(icon_state)
 
 /obj/machinery/ship_weapon/plasma_caster/animate_projectile(atom/target)
-	return linked.fire_projectile(linked_overmap_ship_weapon.standard_projectile_type, target, speed = 2, firing_flags = linked_overmap_ship_weapon.weapon_firing_flags)
+	return linked.fire_projectile(linked_overmap_ship_weapon.standard_projectile_type, target, pixel_speed = 2, firing_flags = linked_overmap_ship_weapon.weapon_firing_flags)
 
 /obj/machinery/ship_weapon/plasma_caster/proc/misfire()
 	if(COOLDOWN_FINISHED(src, radio_cooldown))

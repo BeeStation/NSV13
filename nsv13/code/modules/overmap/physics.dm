@@ -642,7 +642,14 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		log_combat(pilot, M, "impacted", src, "with velocity of [bump_velocity]")
 	return ..()
 
-/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, speed = null, user_override = null, firing_flags = NONE, ai_aim = FALSE, miss_chance = 5, max_miss_distance = 5, spread_override = null) //Fire one shot. Used for big, hyper accelerated shots rather than PDCs
+/**
+ * Causes the overmap to fire one projectile of passed proj_type and returns the object.
+ * * Careful: features two seperate speed args.
+ * * pixel_speed = effectively amount of iterations the vector advances in a single calculation. More efficient, but can cause phasing at high values.
+ * * projectile_speed = standard projectile speed, amount of delay in ticks per move (higher is slower).
+ * * Use whichever seems more appropriate.
+ */
+/obj/structure/overmap/proc/fire_projectile(proj_type, atom/target, pixel_speed = null, user_override = null, firing_flags = NONE, ai_aim = FALSE, miss_chance = 5, max_miss_distance = 5, spread_override = null, projectile_speed = null)
 	if(!z || QDELETED(src))
 		return FALSE
 	var/turf/T = get_center()
@@ -666,9 +673,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	proj.pixel_x = round(pixel_x)
 	proj.pixel_y = round(pixel_y)
 	proj.faction = faction
-	//Sometimes we want to override speed.
-	if(speed)
-		proj.speed = speed
+	if(projectile_speed)
+		proj.speed = projectile_speed //This one is projectile speed. Delay in ticks per move.
 	if(!isnull(spread_override))
 		proj.spread = spread_override
 	if(physics2d && physics2d.collider2d)
@@ -693,6 +699,8 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 		proj.preparePixelProjectileOvermap(target, src, firing_flags)
 		if(!QDELETED(proj))
 			proj.fire()
+			if(pixel_speed) //Careful, this is regarded as different to standard projectile.speed and sets its vector's pixel_speed instead (default:2).
+				proj.set_pixel_speed(pixel_speed) //Can cause phasing jank at high values, achieve bahavior with normal speed if your projectile is very fast.
 	return proj
 
 //Jank as hell. This needs to happen to properly set the visual offset :/
