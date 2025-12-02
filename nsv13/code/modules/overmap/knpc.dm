@@ -347,21 +347,22 @@ of a specific action goes up, to encourage skynet to go for that one instead.
 			continue
 		. += M
 	//Check for nearby mechas....
-	if(length(GLOB.mechas_list))
-		for(var/obj/mecha/OM as() in GLOB.mechas_list)
-			if(OM.z != H.z)
-				continue
-			if(get_dist(H, OM) > HA.view_range || !can_see(H, OM, HA.view_range))
-				continue
-			if(OM.occupant && !H.faction_check_mob(OM.occupant))
-				. += OM.occupant
+	for(var/obj/mecha/OM in guessed_objects)
+		if(!ismecha(OM))
+			continue
+		if(OM.z != H.z)
+			continue
+		if(get_dist(H, OM) > HA.view_range || !can_see(H, OM, HA.view_range))
+			continue
+		if(OM.occupant && !H.faction_check_mob(OM.occupant))
+			. += OM
 	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects) //Has to go through global objects due to happening on a ship's z level.
 		if(OM.z != H.z)
 			continue
 		if(get_dist(H, OM) > HA.view_range || !can_see(H, OM, HA.view_range))
 			continue
 		if(OM.pilot && !H.faction_check_mob(OM.pilot))
-			. += OM.pilot
+			. += OM
 
 ///What happens when this action is selected? You'll override this and check_score mostly.
 /datum/ai_goal/human/action(datum/component/knpc/HA)
@@ -577,49 +578,55 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 			A.afterattack(target, H, TRUE)
 
 		else
-			H.dna.species.spec_attack_hand(H, target)
-			if(target.incapacitated())
-				//I know kung-fu.
+			//Stop them from trying to knee a mech in the stomach
+			if(iscarbon(target))
+				H.dna.species.spec_attack_hand(H, target)
+				if(target.incapacitated())
+					//I know kung-fu.
 
-				var/obj/item/card/id/their_id = target.get_idcard()
-				if(their_id && !HA.stealing_id)
-					H.visible_message("<span class='warning'>[H] starts to take [their_id] from [target]!</span>")
-					HA.stealing_id = TRUE
-					addtimer(CALLBACK(HA, TYPE_PROC_REF(/datum/component/knpc, steal_id), their_id), 5 SECONDS)
+					var/obj/item/card/id/their_id = target.get_idcard()
+					if(their_id && !HA.stealing_id)
+						H.visible_message("<span class='warning'>[H] starts to take [their_id] from [target]!</span>")
+						HA.stealing_id = TRUE
+						addtimer(CALLBACK(HA, TYPE_PROC_REF(/datum/component/knpc, steal_id), their_id), 5 SECONDS)
 
-				if(istype(H) && CHECK_BITFIELD(H.knpc_traits, KNPC_IS_MARTIAL_ARTIST))
-					switch(rand(0, 2))
-						//Throw!
-						if(0)
-							H.start_pulling(target, supress_message = FALSE)
-							H.setGrabState(GRAB_AGGRESSIVE)
-							H.visible_message("<span class='warning'>[H] judo throws [target]!</span>")
-							playsound(get_turf(target), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
-							target.shake_animation(10)
-							target.throw_at(get_turf(get_step(H, pick(GLOB.cardinals))), 5, 5)
-						if(1)
-							H.do_attack_animation(target, ATTACK_EFFECT_PUNCH)
-							target.visible_message("<span class='warning'>[H] grabs [target]'s wrist and wrenches it sideways!</span>", \
-											"<span class='userdanger'>[H] grabs your wrist and violently wrenches it to the side!</span>")
-							playsound(get_turf(H), 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
-							target.emote("scream")
-							target.dropItemToGround(target.get_active_held_item())
-							target.apply_damage(5, BRUTE, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
-						if(2)
-							H.do_attack_animation(target, ATTACK_EFFECT_KICK)
-							target.visible_message("<span class='warning'>[H] knees [target] in the stomach!</span>", \
-											"<span class='userdanger'>[H] winds you with a knee in the stomach!</span>")
-							target.audible_message("<b>[target]</b> gags!")
-							target.losebreath += 3
+					if(istype(H) && CHECK_BITFIELD(H.knpc_traits, KNPC_IS_MARTIAL_ARTIST))
+						switch(rand(0, 2))
+							//Throw!
+							if(0)
+								H.start_pulling(target, supress_message = FALSE)
+								H.setGrabState(GRAB_AGGRESSIVE)
+								H.visible_message("<span class='warning'>[H] judo throws [target]!</span>")
+								playsound(get_turf(target), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
+								target.shake_animation(10)
+								target.throw_at(get_turf(get_step(H, pick(GLOB.cardinals))), 5, 5)
+							if(1)
+								H.do_attack_animation(target, ATTACK_EFFECT_PUNCH)
+								target.visible_message("<span class='warning'>[H] grabs [target]'s wrist and wrenches it sideways!</span>", \
+												"<span class='userdanger'>[H] grabs your wrist and violently wrenches it to the side!</span>")
+								playsound(get_turf(H), 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
+								target.emote("scream")
+								target.dropItemToGround(target.get_active_held_item())
+								target.apply_damage(5, BRUTE, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
+							if(2)
+								H.do_attack_animation(target, ATTACK_EFFECT_KICK)
+								target.visible_message("<span class='warning'>[H] knees [target] in the stomach!</span>", \
+												"<span class='userdanger'>[H] winds you with a knee in the stomach!</span>")
+								target.audible_message("<b>[target]</b> gags!")
+								target.losebreath += 3
 
-				else
-					//So they actually execute the curbstomp.
-					if(dist <= 1)
-						H.forceMove(get_turf(target))
-					H.zone_selected = BODY_ZONE_HEAD
-					//Curbstomp!
-					H.MouseDrop(target)
-					return
+					else
+						//So they actually execute the curbstomp.
+						if(dist <= 1)
+							H.forceMove(get_turf(target))
+						H.zone_selected = BODY_ZONE_HEAD
+						//Curbstomp!
+						H.MouseDrop(target)
+						return
+			else
+				//Used when punching non-carbon targets
+				H.UnarmedAttack(target)
+
 		if(CHECK_BITFIELD(H.knpc_traits, KNPC_IS_DODGER))
 			HA.kite(target)
 

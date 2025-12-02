@@ -56,6 +56,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/random_name = TRUE
 	overmap_verbs = list(.verb/toggle_brakes, .verb/toggle_inertia, .verb/toggle_safety, .verb/show_dradis, .verb/cycle_firemode, .verb/show_control_panel, .verb/change_name, .verb/countermeasure)
 	var/busy = FALSE
+	weapon_addition_allowed = FALSE
 
 /obj/structure/overmap/small_craft/Destroy()
 	var/mob/last_pilot = pilot // Old pilot gets first shot
@@ -73,6 +74,13 @@ Been a mess since 2018, we'll fix it someday (probably)
 				eject(M, force=TRUE)
 
 	last_overmap?.overmaps_in_ship -= src
+	return ..()
+
+/obj/structure/overmap/small_craft/fire_weapon(atom/target, mob/user, datum/overmap_ship_weapon/firing_weapon, ai_aim=FALSE)
+	if(weapon_safety) //If you get in here with safeties active.
+		if(user)
+			to_chat(user, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
+		return
 	return ..()
 
 /obj/structure/overmap/small_craft/start_piloting(mob/living/carbon/user, position)
@@ -129,12 +137,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 	var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
 	data["countermeasures"] = CD ? CD.charges : 0
 	data["max_countermeasures"] = CD ? CD.max_charges : 0
-	var/obj/item/fighter_component/primary/P = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
-	data["primary_ammo"] = P ? P.get_ammo() : 0
-	data["max_primary_ammo"] = P ? P.get_max_ammo() : 0
-	var/obj/item/fighter_component/secondary/S = loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
-	data["secondary_ammo"] = S ? S.get_ammo() : 0
-	data["max_secondary_ammo"] = S ? S.get_max_ammo() : 0
 
 	var/obj/item/fighter_component/apu/APU = loadout.get_slot(HARDPOINT_SLOT_APU)
 	data["fuel_pump"] = APU ? APU.fuel_line : FALSE
@@ -163,17 +165,32 @@ Been a mess since 2018, we'll fix it someday (probably)
 		data["ftl_active"] = FALSE
 		data["ftl_target"] = FALSE
 
-	for(var/slot in loadout.equippable_slots)
-		var/obj/item/fighter_component/weapon = loadout.hardpoint_slots[slot]
-		//Look for any "primary" hardpoints, be those guns or utility slots
-		if(!weapon)
-			continue
-		if(weapon.fire_mode == FIRE_MODE_ANTI_AIR)
-			data["primary_ammo"] = weapon.get_ammo()
-			data["max_primary_ammo"] = weapon.get_max_ammo()
-		if(weapon.fire_mode == FIRE_MODE_TORPEDO)
-			data["secondary_ammo"] = weapon.get_ammo()
-			data["max_secondary_ammo"] = weapon.get_max_ammo()
+	var/primary_ammo = 0
+	var/primary_max_ammo = 0
+	var/secondary_ammo = 0
+	var/secondary_max_ammo = 0
+
+	var/obj/item/fighter_component/primary/prim
+	prim = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
+	if(!prim)
+		prim = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
+	var/obj/item/fighter_component/secondary/sec
+	sec = loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
+	if(!sec)
+		sec = loadout.get_slot(HARDPOINT_SLOT_UTILITY_SECONDARY)
+
+	if(prim)
+		primary_ammo = prim.get_ammo()
+		primary_max_ammo = prim.get_max_ammo()
+	if(sec)
+		secondary_ammo = sec.get_ammo()
+		secondary_max_ammo = sec.get_max_ammo()
+
+	data["primary_ammo"] = primary_ammo
+	data["max_primary_ammo"] = primary_max_ammo
+	data["secondary_ammo"] = secondary_ammo
+	data["max_secondary_ammo"] = secondary_max_ammo
+
 	var/list/hardpoints_info = list()
 	var/list/occupants_info = list()
 	for(var/obj/item/fighter_component/FC in contents)
@@ -509,7 +526,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 	. = ..()
 	if(random_name)
 		name = generate_fighter_name()
-	apply_weapons()
 	loadout = AddComponent(loadout_type)
 	if(dradis_type)
 		dradis = new dradis_type(src) //Fighters need a way to find their way home.
@@ -538,20 +554,65 @@ Been a mess since 2018, we'll fix it someday (probably)
 	add_overlay(canopy)
 	update_visuals()
 
+/obj/structure/overmap/small_craft/tool_act(mob/living/user, obj/item/I, tool_type)
+	if(operators && LAZYFIND(operators, user))
+		to_chat(user, "<span class='warning'>You can't reach [src]'s exterior from in here.</span>")
+		return TRUE
+	return ..()
 
 /obj/structure/overmap/small_craft/attackby(obj/item/W, mob/user, params)
 	if(operators && LAZYFIND(operators, user))
 		to_chat(user, "<span class='warning'>You can't reach [src]'s exterior from in here.</span>")
-		return FALSE
+		return TRUE
+
+	add_fingerprint(user)
+	if(istype(W, /obj/item/card/id) || istype(W, /obj/item/modular_computer/tablet/pda))
+		if(!allowed(user))
+			var/ersound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
+			playsound(src, ersound, 100, 1)
+			to_chat(user, "<span class='warning'>Access denied</span>")
+			return TRUE
+		if(alert("What do you want to do?",name,"Eject Occupants","Maintenance Mode") == "Eject Occupants")
+			if(!Adjacent(user))
+				return TRUE
+			to_chat(user, "<span class='warning'>Ejecting all current occupants from [src] and activating inertial dampeners...</span>")
+			force_eject()
+		else
+			if(!Adjacent(user))
+				return TRUE
+			to_chat(user, "<span class='warning'>You swipe your card and [maintenance_mode ? "disable" : "enable"] maintenance protocols.</span>")
+			maintenance_mode = !maintenance_mode
+		return TRUE
+
+	if(istype(W, /obj/item/ship_weapon/ammunition/countermeasure_charge))
+		var/obj/item/ship_weapon/ammunition/countermeasure_charge/CC = W
+		var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
+		if(CD)
+			if(CD.charges == CD.max_charges)
+				to_chat("<span class='warning'>You try to insert the countermeasure charge, but there's no space for more charges in the countermeasure dispenser!</span>")
+				return TRUE
+			else
+				var/ChargeChange = clamp(CC.restock_amount + CD.charges, CD.max_charges, 0) - CD.charges
+				to_chat("<span>You successfully reload the countermeasure dispenser in [src]</span>")
+				CC.restock_amount -= ChargeChange
+				CD.charges += ChargeChange
+				if(CC.restock_amount == 0)
+					qdel(W)
+				return TRUE
+		else
+			to_chat("<span class='warning'>You try to insert the countermeasure charge, but there's nothing to put it in!</span>")
+			return TRUE
+
 	for(var/slot in loadout.equippable_slots)
 		var/obj/item/fighter_component/FC = loadout.get_slot(slot)
 		if(FC?.load(src, W))
-			return FALSE
+			return TRUE
 	if(istype(W, /obj/item/fighter_component))
 		var/obj/item/fighter_component/FC = W
 		loadout.install_hardpoint(FC)
-		return FALSE
-	..()
+		return TRUE
+
+	return ..()
 
 /obj/structure/overmap/small_craft/MouseDrop_T(atom/movable/target, mob/user)
 	. = ..()
@@ -571,7 +632,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 				playsound(src, 'sound/effects/glasshit.ogg', 75, 1)
 				user.visible_message("<span class='warning'>You bang on the canopy.</span>", "<span class='warning'>[user] bangs on [src]'s canopy.</span>")
 				return FALSE
-			if(operators.len >= max_passengers)
+			if(length(operators) >= max_passengers)
 				to_chat(user, "<span class='warning'>[src]'s passenger compartment is full!")
 				return FALSE
 			to_chat(target, "[(user == target) ? "You start to climb into [src]'s passenger compartment" : "[user] starts to lift you into [src]'s passenger compartment"]")
@@ -703,8 +764,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 			to_chat(user, "<span class='notice'>Use the <b> Ctrl + Scroll Wheel</b> to zoom in / out. \
 						Press <b>Space</b> to cycle fire modes. \
 						Press <b>X</b> to cycle inertial dampners. \
-						Press <b>Alt<b> to cycle the handbrake. \
-						Press <b>C<b> to cycle mouse free movement.</span>")
+						Press <b>Alt</b> to cycle the handbrake. \
+						Press <b>C</b> to cycle mouse free movement.</span>")
 			return TRUE
 
 /obj/structure/overmap/small_craft/proc/force_eject(force = FALSE)
@@ -741,44 +802,6 @@ Been a mess since 2018, we'll fix it someday (probably)
 	for(var/mob/living/M as() in victims)
 		M.apply_damage(damage)
 
-
-/obj/structure/overmap/small_craft/attackby(obj/item/W, mob/user, params)   //fueling and changing equipment
-	add_fingerprint(user)
-	if(istype(W, /obj/item/card/id) || istype(W, /obj/item/modular_computer/tablet/pda) && length(operators))
-		if(!allowed(user))
-			var/ersound = pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg')
-			playsound(src, ersound, 100, 1)
-			to_chat(user, "<span class='warning'>Access denied</span>")
-			return
-		if(alert("What do you want to do?",name,"Eject Occupants","Maintenance Mode") == "Eject Occupants")
-			if(!Adjacent(user))
-				return
-			to_chat(user, "<span class='warning'>Ejecting all current occupants from [src] and activating inertial dampeners...</span>")
-			force_eject()
-		else
-			if(!Adjacent(user))
-				return
-			to_chat(user, "<span class='warning'>You swipe your card and [maintenance_mode ? "disable" : "enable"] maintenance protocols.</span>")
-			maintenance_mode = !maintenance_mode
-
-	if(istype(W, /obj/item/ship_weapon/ammunition/countermeasure_charge))
-		var/obj/item/ship_weapon/ammunition/countermeasure_charge/CC = W
-		var/obj/item/fighter_component/countermeasure_dispenser/CD = loadout.get_slot(HARDPOINT_SLOT_COUNTERMEASURE)
-		if(CD)
-			if(CD.charges == CD.max_charges)
-				to_chat("<span class='warning'>You try to insert the countermeasure charge, but there's no space for more charges in the countermeasure dispenser!</span>")
-			else
-				var/ChargeChange = clamp(CC.restock_amount + CD.charges, CD.max_charges, 0) - CD.charges
-				to_chat("<span>You successfully reload the countermeasure dispenser in [src]</span>")
-				CC.restock_amount -= ChargeChange
-				CD.charges += ChargeChange
-				if(CC.restock_amount == 0)
-					qdel(W)
-		else
-			to_chat("<span class='warning'>You try to insert the countermeasure charge, but there's nothing to put it in!</span>")
-	return ..()
-
-
 /obj/structure/overmap/small_craft/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, nsv_damagesound = TRUE)
 	var/obj/item/fighter_component/armour_plating/A = loadout.get_slot(HARDPOINT_SLOT_ARMOUR)
 	if(A && istype(A))
@@ -789,6 +812,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 		relay(pick('nsv13/sound/effects/ship/freespace2/ding1.wav', 'nsv13/sound/effects/ship/freespace2/ding2.wav', 'nsv13/sound/effects/ship/freespace2/ding3.wav', 'nsv13/sound/effects/ship/freespace2/ding4.wav', 'nsv13/sound/effects/ship/freespace2/ding5.wav'))
 	else
 		. = ..()
+		if(obj_integrity <= 0)
+			return //We're already ejecting or blowing up.
+
 	var/obj/item/fighter_component/canopy/C = loadout.get_slot(HARDPOINT_SLOT_CANOPY)
 	if(!C) //Riding without a canopy is not without consequences
 		if(prob(30)) //Ouch!
@@ -849,11 +875,19 @@ Been a mess since 2018, we'll fix it someday (probably)
 	return ..()
 
 /obj/structure/overmap/small_craft/can_friendly_fire()
-	if(fire_mode == 1)
-		var/obj/item/fighter_component/primary/P = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
+	if(!gunner)
+		return FALSE
+	if(controlled_weapons[gunner] == OSW_FIGHTER_MAIN_WEAPON)
+		var/obj/item/fighter_component/primary/P
+		P = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
+		if(!P)
+			P = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
 		return (P && istype(P) && P.bypass_safety)
-	else if(fire_mode == 2)
-		var/obj/item/fighter_component/secondary/S = loadout.get_slot(HARDPOINT_SLOT_UTILITY_SECONDARY)
+	else if(controlled_weapons[gunner] == OSW_FIGHTER_SECONDARY_WEAPON)
+		var/obj/item/fighter_component/secondary/S
+		S = loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
+		if(!S)
+			S = loadout.get_slot(HARDPOINT_SLOT_UTILITY_SECONDARY)
 		return (S && istype(S) && S.bypass_safety)
 	return FALSE
 
@@ -940,7 +974,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 	var/slot = null //Change me!
 	var/weight = 0 //Some more advanced modules will weigh your fighter down some.
 	var/power_usage = 0 //Does this module require power to process()?
-	var/fire_mode = null //Used if this is a weapon style hardpoint
+	var/fighter_fire_mode = null //Used if this is a weapon style hardpoint
 	var/active = TRUE
 
 /obj/item/fighter_component/examine(mob/user)
@@ -974,10 +1008,10 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 		. += AM
 
 /obj/item/fighter_component/proc/get_ammo()
-	return FALSE
+	return 0
 
 /obj/item/fighter_component/proc/get_max_ammo()
-	return FALSE
+	return 0
 
 /obj/item/fighter_component/Initialize(mapload)
 	.=..()
@@ -1006,7 +1040,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 	return power_tick(delta_time)
 
 //Used for weapon style hardpoints
-/obj/item/fighter_component/proc/fire(obj/structure/overmap/target)
+/obj/item/fighter_component/proc/fire(obj/structure/overmap/target, datum/overmap_ship_weapon/linked_weapon)
 	return FALSE
 
 /*
@@ -1531,7 +1565,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 /obj/item/fighter_component/primary
 	name = "\improper primary weapon"
 	slot = HARDPOINT_SLOT_PRIMARY
-	fire_mode = FIRE_MODE_ANTI_AIR
+	fighter_fire_mode = OSW_FIGHTER_MAIN_WEAPON
 	var/overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
 	var/overmap_firing_sounds = list('nsv13/sound/effects/fighters/autocannon.ogg')
 	var/accepted_ammo = /obj/item/ammo_box/magazine
@@ -1539,7 +1573,6 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/list/ammo = list()
 	var/burst_size = 1
 	var/fire_delay = 0
-	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
 	var/bypass_safety = FALSE
 
 /obj/item/fighter_component/primary/dump_contents()
@@ -1558,34 +1591,71 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 //Ensure we get the genericised equipment mounts.
 /obj/structure/overmap/small_craft/apply_weapons()
-	if(!weapon_types[FIRE_MODE_ANTI_AIR])
-		weapon_types[FIRE_MODE_ANTI_AIR] = new/datum/ship_weapon/fighter_primary(src)
-	if(!weapon_types[FIRE_MODE_TORPEDO])
-		weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/fighter_secondary(src)
+	 new /datum/overmap_ship_weapon/fighter/primary(src, FALSE)
+	 new /datum/overmap_ship_weapon/fighter/secondary(src)
 
-//Burst arg currently unused for this proc.
-/obj/structure/overmap/proc/primary_fire(obj/structure/overmap/target, ai_aim = FALSE, burst = 1)
-	hardpoint_fire(target, FIRE_MODE_ANTI_AIR)
+/obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, datum/overmap_ship_weapon/used_ship_weapon, osw_mode, active_burst_size)
+	return
 
-/obj/structure/overmap/proc/hardpoint_fire(obj/structure/overmap/target, fireMode)
-	if(istype(src, /obj/structure/overmap/small_craft))
-		var/obj/structure/overmap/small_craft/F = src
-		for(var/slot in F.loadout.equippable_slots)
-			var/obj/item/fighter_component/weapon = F.loadout.hardpoint_slots[slot]
-			//Look for any "primary" hardpoints, be those guns or utility slots
-			if(!weapon || weapon.fire_mode != fireMode)
-				continue
-			var/datum/ship_weapon/SW = weapon_types[weapon.fire_mode]
-			spawn()
-				for(var/I = 0; I < SW.burst_size; I++)
-					weapon.fire(target)
-					sleep(1)
-			return TRUE
+/obj/structure/overmap/small_craft/hardpoint_fire(obj/structure/overmap/target, datum/overmap_ship_weapon/used_ship_weapon, osw_mode, active_burst_size)
+	var/obj/item/fighter_component/weapon
+	switch(osw_mode)
+		if(OSW_FIGHTER_MAIN_WEAPON)
+			weapon = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
+			if(!weapon)
+				weapon = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
+		if(OSW_FIGHTER_SECONDARY_WEAPON)
+			weapon = loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
+			if(!weapon)
+				weapon = loadout.get_slot(HARDPOINT_SLOT_UTILITY_SECONDARY)
+		else
+			stack_trace("HEY hardpoint_fire is being called with an invalid mode ([osw_mode])")
+	if(weapon && istype(weapon))
+		var/list/response = list()
+		for(var/iter = 1;iter<=active_burst_size;iter++)
+			var/fire_response = weapon.fire(target, used_ship_weapon)
+			if(fire_response)
+				response += fire_response
+		return response
+	return
+
+/obj/structure/overmap/proc/hardpoint_get_ammo(fire_mode)
 	return FALSE
 
-//Burst arg currently unused for this proc.
-/obj/structure/overmap/proc/secondary_fire(obj/structure/overmap/target, ai_aim = FALSE, burst = 1)
-	hardpoint_fire(target, FIRE_MODE_TORPEDO)
+/obj/structure/overmap/small_craft/hardpoint_get_ammo(fire_mode)
+	var/obj/item/fighter_component/weapon
+	switch(fire_mode)
+		if(OSW_FIGHTER_MAIN_WEAPON)
+			weapon = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
+			if(!weapon)
+				weapon = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
+		if(OSW_FIGHTER_SECONDARY_WEAPON)
+			weapon = loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
+			if(!weapon)
+				weapon = loadout.get_slot(HARDPOINT_SLOT_UTILITY_SECONDARY)
+		else
+			stack_trace("HEY hardpoint_fire is being called with an invalid mode ([fire_mode])")
+	if(weapon && istype(weapon))
+		return weapon.get_ammo()
+
+/obj/structure/overmap/proc/hardpoint_get_max_ammo(fire_mode)
+	return FALSE
+
+/obj/structure/overmap/small_craft/hardpoint_get_max_ammo(fire_mode)
+	var/obj/item/fighter_component/weapon
+	switch(fire_mode)
+		if(OSW_FIGHTER_MAIN_WEAPON)
+			weapon = loadout.get_slot(HARDPOINT_SLOT_PRIMARY)
+			if(!weapon)
+				weapon = loadout.get_slot(HARDPOINT_SLOT_UTILITY_PRIMARY)
+		if(OSW_FIGHTER_SECONDARY_WEAPON)
+			weapon = loadout.get_slot(HARDPOINT_SLOT_SECONDARY)
+			if(!weapon)
+				weapon = loadout.get_slot(HARDPOINT_SLOT_UTILITY_SECONDARY)
+		else
+			stack_trace("HEY hardpoint_fire is being called with an invalid mode ([fire_mode])")
+	if(weapon && istype(weapon))
+		return weapon.get_max_ammo()
 
 /obj/item/fighter_component/primary/load(obj/structure/overmap/target, atom/movable/AM)
 	if(!istype(AM, accepted_ammo))
@@ -1603,7 +1673,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	playsound(target, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	return TRUE
 
-/obj/item/fighter_component/primary/fire(obj/structure/overmap/target)
+/obj/item/fighter_component/primary/fire(obj/structure/overmap/target, datum/overmap_ship_weapon/linked_weapon)
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F))
 		return FALSE
@@ -1611,23 +1681,19 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		F.relay('sound/weapons/gun_dry_fire.ogg')
 		return FALSE
 	var/obj/item/ammo_casing/chambered = ammo[ammo.len]
-	var/datum/ship_weapon/SW = F.weapon_types[fire_mode]
-	SW.default_projectile_type = chambered.projectile_type
-	SW.fire_fx_only(target)
+	. = chambered.projectile_type
 	ammo -= chambered
 	qdel(chambered)
-	return TRUE
 
 /obj/item/fighter_component/primary/on_install(obj/structure/overmap/target)
 	. = ..()
-	if(!fire_mode)
+	if(!fighter_fire_mode)
 		return FALSE
-	var/datum/ship_weapon/SW = target.weapon_types[fire_mode]
-	SW.overmap_firing_sounds = overmap_firing_sounds
-	SW.overmap_select_sound = overmap_select_sound
-	SW.burst_size = burst_size
-	SW.fire_delay = fire_delay
-	SW.allowed_roles = allowed_roles
+	var/datum/overmap_ship_weapon/osw = target.overmap_weapon_datums[fighter_fire_mode]
+	osw.overmap_firing_sounds = overmap_firing_sounds
+	osw.overmap_select_sound = overmap_select_sound
+	osw.burst_size = burst_size
+	osw.fire_delay = fire_delay
 
 /obj/item/fighter_component/primary/remove_from(obj/structure/overmap/target)
 	. = ..()
@@ -1670,7 +1736,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 	if(!istype(B))
 		return 0
-	return B.charge
+	return round(B.charge/charge_to_fire)
 
 /obj/item/fighter_component/primary/laser/get_max_ammo()
 	var/obj/structure/overmap/small_craft/F = loc
@@ -1679,9 +1745,9 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 	if(!istype(B))
 		return 0
-	return B.maxcharge
+	return round(B.maxcharge/charge_to_fire)
 
-/obj/item/fighter_component/primary/laser/fire(obj/structure/overmap/target)
+/obj/item/fighter_component/primary/laser/fire(obj/structure/overmap/target, datum/overmap_ship_weapon/linked_weapon)
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F))
 		return FALSE
@@ -1691,17 +1757,14 @@ Utility modules can be either one of these types, just ensure you set its slot t
 		F.relay('sound/weapons/gun_dry_fire.ogg')
 		return FALSE
 
-	var/datum/ship_weapon/SW = F.weapon_types[fire_mode]
-	SW.default_projectile_type = projectile
-	SW.fire_fx_only(target, lateral = TRUE)
 	B.charge -= charge_to_fire
-	return TRUE
+	. = projectile
 
 
 /obj/item/fighter_component/secondary
 	name = "secondary weapon"
 	slot = HARDPOINT_SLOT_SECONDARY
-	fire_mode = FIRE_MODE_TORPEDO
+	fighter_fire_mode = OSW_FIGHTER_SECONDARY_WEAPON
 	var/overmap_firing_sounds = list(
 		'nsv13/sound/effects/ship/torpedo.ogg',
 		'nsv13/sound/effects/ship/freespace2/m_shrike.wav',
@@ -1714,7 +1777,6 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/max_ammo = 5
 	var/burst_size = 1 //Cluster torps...UNLESS?
 	var/fire_delay = 0.25 SECONDS
-	var/allowed_roles = OVERMAP_USER_ROLE_GUNNER
 	var/bypass_safety = FALSE
 
 /obj/item/fighter_component/secondary/dump_contents()
@@ -1732,14 +1794,13 @@ Utility modules can be either one of these types, just ensure you set its slot t
 
 /obj/item/fighter_component/secondary/on_install(obj/structure/overmap/target)
 	. = ..()
-	if(!fire_mode)
+	if(!fighter_fire_mode)
 		return FALSE
-	var/datum/ship_weapon/SW = target.weapon_types[fire_mode]
-	SW.overmap_firing_sounds = overmap_firing_sounds
-	SW.overmap_select_sound = overmap_select_sound
-	SW.burst_size = burst_size
-	SW.fire_delay = fire_delay
-	SW.allowed_roles = allowed_roles
+	var/datum/overmap_ship_weapon/osw = target.overmap_weapon_datums[fighter_fire_mode]
+	osw.overmap_firing_sounds = overmap_firing_sounds
+	osw.overmap_select_sound = overmap_select_sound
+	osw.burst_size = burst_size
+	osw.fire_delay = fire_delay
 
 /obj/item/fighter_component/secondary/remove_from(obj/structure/overmap/target)
 	. = ..()
@@ -1812,40 +1873,30 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	playsound(target, 'nsv13/sound/effects/ship/mac_load.ogg', 100, 1)
 	return TRUE
 
-/obj/item/fighter_component/secondary/ordnance_launcher/fire(obj/structure/overmap/target)
+/obj/item/fighter_component/secondary/ordnance_launcher/fire(obj/structure/overmap/target, datum/overmap_ship_weapon/linked_weapon)
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F))
 		return FALSE
 	if(!ammo.len)
 		F.relay('sound/weapons/gun_dry_fire.ogg')
 		return FALSE
-	var/proj_type = null //If this is true, we've got a launcher shipside that's been able to fire.
-	var/proj_speed = 1
 	var/obj/item/ship_weapon/ammunition/americagobrr = pick_n_take(ammo)
-	proj_type = americagobrr.projectile_type
-	proj_speed = istype(americagobrr.projectile_type, /obj/item/projectile/guided_munition/missile) ? 5 : 1
+	. = americagobrr.projectile_type //Pass torp back towards datum.
 	qdel(americagobrr)
-	if(proj_type)
-		var/sound/chosen = pick('nsv13/sound/effects/ship/torpedo.ogg','nsv13/sound/effects/ship/freespace2/m_shrike.wav','nsv13/sound/effects/ship/freespace2/m_stiletto.wav','nsv13/sound/effects/ship/freespace2/m_tsunami.wav','nsv13/sound/effects/ship/freespace2/m_wasp.wav')
-		F.relay_to_nearby(chosen)
-		F.fire_projectile(proj_type, target, speed=proj_speed, lateral = FALSE)
-	return TRUE
 
 //Utility modules.
 
 /obj/item/fighter_component/primary/utility
 	name = "No :)"
 	slot = HARDPOINT_SLOT_UTILITY_PRIMARY
-	allowed_roles = OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER
 
-/obj/item/fighter_component/primary/utility/fire(obj/structure/overmap/target)
+/obj/item/fighter_component/primary/utility/fire(obj/structure/overmap/target, datum/overmap_ship_weapon/linked_weapon)
 	return FALSE
 
 /obj/item/fighter_component/secondary/utility
 	name = "Utility Module"
 	slot = HARDPOINT_SLOT_UTILITY_SECONDARY
 	power_usage = 200
-	allowed_roles = OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER
 
 /obj/structure/overmap/small_craft/proc/update_visuals()
 	if(canopy && canopy.icon == icon)
