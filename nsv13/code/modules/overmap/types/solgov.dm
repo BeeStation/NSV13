@@ -9,8 +9,8 @@
 	mass = MASS_MEDIUM
 	sprite_size = 48
 	damage_states = TRUE
-	bound_width = 64
-	bound_height = 64
+	bound_width = 96
+	bound_height = 96
 	obj_integrity = 250
 	max_integrity = 250
 	armor = list("overmap_light" = 90, "overmap_medium" = 20, "overmap_heavy" = 5)
@@ -127,7 +127,8 @@
 	ai_can_launch_fighters = TRUE //AI variable. Allows your ai ships to spawn fighter craft
 	ai_fighter_type = list(/obj/structure/overmap/nanotrasen/solgov/ai/fighter)
 	shots_left = 10000 //Issa laser.
-	torpedoes = 15
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/hellfire
+	torpedoes = 10
 	can_resupply = TRUE
 	combat_dice_type = /datum/combat_dice/frigate
 
@@ -173,10 +174,10 @@
 	AddComponent(/datum/component/overmap_shields, mass*600, mass*600, mass*15)
 
 /obj/structure/overmap/nanotrasen/solgov/proc/apply_light_ai_weapons()  // this is the von neumann only for now, but maybe....
-	weapon_types[ FIRE_MODE_RED_LASER ] = new /datum/ship_weapon/burst_phaser( src )
-	weapon_types[ FIRE_MODE_LASER_PD ] = new /datum/ship_weapon/phaser_pd( src )
-	weapon_types[ FIRE_MODE_AMS_LASER ] = new /datum/ship_weapon/laser_ams( src )
-	weapon_types[FIRE_MODE_TORPEDO] = new/datum/ship_weapon/torpedo_launcher(src)  // Full spread, fire
+	new /datum/overmap_ship_weapon/burst_phaser(src, FALSE)
+	new /datum/overmap_ship_weapon/phaser_pd(src, FALSE)
+	new /datum/overmap_ship_weapon/laser_ams(src)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src)  // Full spread, fire
 
 	// Need to enable the AI ship's countermeasures mode so they can actually use laser ams
 	for( var/datum/ams_mode/atype in src.ams_modes )
