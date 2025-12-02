@@ -23,7 +23,7 @@ GLOBAL_LIST_EMPTY(critical_muni_items)
 
 	var/list/found_items = list()
 	var/obj/structure/overmap/current_overmap = get_overmap()
-	for(var/obj/critical_item as anything in GLOB.critical_muni_items)
+	for(var/obj/critical_item in GLOB.critical_muni_items) //something can occasionally introduce nulls into this list and I can't reproduce it, so back to safe casting we go :(
 		if(critical_item.get_overmap() != current_overmap)
 			continue
 		if(isnull(critical_item.loc))

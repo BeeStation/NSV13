@@ -388,6 +388,17 @@
 	req_components = list(
 		/obj/item/stock_parts/capacitor = 1,
 		/obj/item/stock_parts/manipulator = 1)
+	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
+
+/obj/item/circuitboard/machine/plasma_loader/Initialize(mapload)
+	. = ..()
+	GLOB.critical_muni_items += src
+
+/obj/item/circuitboard/machine/plasma_loader/Destroy(forced=FALSE)
+	if(!forced)
+		return QDEL_HINT_LETMELIVE
+	GLOB.critical_muni_items -= src
+	return ..()
 
 /obj/item/circuitboard/machine/plasma_loader/multitool_act(mob/living/user, obj/item/multitool/I)
 	. = ..()
@@ -414,6 +425,16 @@
 	)
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	build_path = /obj/machinery/ship_weapon/plasma_caster
+
+/obj/item/circuitboard/machine/plasma_caster/Initialize(mapload)
+	. = ..()
+	GLOB.critical_muni_items += src
+
+/obj/item/circuitboard/machine/plasma_caster/Destroy(forced=FALSE)
+	if(!forced)
+		return QDEL_HINT_LETMELIVE
+	GLOB.critical_muni_items -= src
+	return ..()
 
 // Laser PD console
 /obj/item/circuitboard/computer/laser_pd
