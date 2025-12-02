@@ -16,7 +16,12 @@ export const OrdnanceConsole = (props, context) => {
       height={600}>
       <Window.Content scrollable>
         <Section>
-          <Section title="Armaments:">
+          <Section title="Armaments:"
+            buttons={(<Button
+              icon="cog"
+              color={data.additional_weapon_info ? "good" : "bad"}
+              content="Expanded Info"
+              onClick={() => act("toggle_additional_weapon_info")} />)}>
             {Object.keys(data.weapons).map(key => {
               let value = data.weapons[key];
               return (
@@ -30,6 +35,18 @@ export const OrdnanceConsole = (props, context) => {
                           average: [0.15, 0.9],
                           bad: [-Infinity, 0.15],
                         }} />
+                      {!!value.controllers && (
+                        <Box>
+                          <br />
+                          {'Weapon controllers: ' + value.controllers}
+                        </Box>
+                      )}
+                      {!!value.ammo_filter && (
+                        <Box>
+                          <br />
+                          {"Filtered ammo: " + value.ammo_filter}
+                        </Box>
+                      )}
                     </Section>
                   )}
                 </Fragment>);

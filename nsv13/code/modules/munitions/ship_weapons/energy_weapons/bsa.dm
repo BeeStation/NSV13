@@ -8,7 +8,7 @@
 	charge_per_shot = 7.5e+7 //75 MW to fire once.
 	max_charge = 7.5e+7 //This thing chews through power.
 	power_modifier_cap = 3 //Can go up to 225 MW for a oneshot instadeath beam.
-	energy_weapon_type = /datum/ship_weapon/bsa
+	weapon_datum_type = /datum/overmap_ship_weapon/bsa
 	obj_integrity = 2000
 	max_integrity = 2000
 
@@ -20,7 +20,6 @@
 	appearance_flags = NONE //Removes default TILE_BOUND
 	dir = EAST //Default.
 	var/id = null
-	fire_mode = FIRE_MODE_RAILGUN
 	var/built = FALSE //Station goal fuckery
 	//circuit =
 
@@ -109,7 +108,7 @@
 		if("power")
 			cannon.power_modifier = value
 		if("activeToggle")
-			cannon.active = !cannon.active
+			cannon.toggle_active()
 	return
 
 
@@ -185,7 +184,7 @@
 	point.Beam(turf_target, icon_state = "bsa_beam", time = 50, maxdistance = world.maxx) //ZZZAP
 	new /obj/effect/temp_visual/bsa_splash(point, dir)
 	//Recharging...
-	linked.relay_to_nearby(weapon_type.overmap_select_sound)
+	linked.relay_to_nearby(linked_overmap_ship_weapon.overmap_select_sound)
 	if(blocker) //We hit something on the ship
 		var/turf/location = get_turf(blocker)
 		var/admin_message = "The ship BSA has hit [blocker] at [ADMIN_VERBOSEJMP(location)]!"
