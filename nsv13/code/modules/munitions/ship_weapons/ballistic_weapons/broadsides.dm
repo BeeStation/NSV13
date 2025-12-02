@@ -13,7 +13,7 @@
 	ammo_type = /obj/item/ship_weapon/ammunition/broadside_shell
 	circuit = /obj/item/circuitboard/machine/broadside
 
-	fire_mode = FIRE_MODE_BROADSIDE
+	weapon_datum_type = /datum/overmap_ship_weapon/broadside
 
 	auto_load = TRUE
 	semi_auto = TRUE
@@ -22,7 +22,6 @@
 	feeding_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
 	fed_sound = null
 	chamber_sound = null
-	broadside = TRUE
 
 	load_delay = 20
 	unload_delay = 20
@@ -66,27 +65,10 @@
 	GLOB.critical_muni_items -= src
 	return ..()
 
-/datum/ship_weapon/broadside
-	name = "SNBC"
-	burst_size = 5
-	fire_delay = 0.5 SECONDS
-	range_modifier = 10
-	default_projectile_type = /obj/item/projectile/bullet/broadside
-	select_alert = "<span class='notice'>Locking Broadside Cannons...</span>"
-	failure_alert = "<span class='warning'>DANGER: No Shells Loaded In Broadside Cannons!</span>"
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/broadside.ogg')
-	overmap_select_sound = 'nsv13/sound/effects/ship/mac_load_unjam.ogg'
-	weapon_class = WEAPON_CLASS_HEAVY
-	miss_chance = 10
-	max_miss_distance = 6
-	ai_fire_delay = 10 SECONDS
-	allowed_roles = OVERMAP_USER_ROLE_GUNNER
-	screen_shake = 10
-
-/obj/machinery/ship_weapon/broadside/animate_projectile(atom/target, lateral=TRUE)
+/obj/machinery/ship_weapon/broadside/animate_projectile(atom/target)
 	var/obj/item/ship_weapon/ammunition/broadside_shell/T = chambered
 	if(T)
-		linked.fire_projectile(T.projectile_type, target, FALSE, null, null, TRUE, null, 5, 5, TRUE)
+		linked.fire_projectile(T.projectile_type, target, firing_flags = linked_overmap_ship_weapon.weapon_firing_flags)
 
 /obj/machinery/ship_weapon/broadside/examine()
 	. = ..()
@@ -135,8 +117,7 @@
 
 /obj/machinery/ship_weapon/broadside/crowbar_act(mob/user, obj/item/tool)
 	if(panel_open && !stovepipe)
-		tool.play_tool_sound(src, 50)
-		deconstruct(TRUE)
+		default_deconstruction_crowbar(tool)
 		return TRUE
 	if(busy)
 		return TRUE
@@ -158,7 +139,23 @@
 				L.throw_at(P, 12, 20)
 		busy = FALSE
 		return TRUE
-	return default_deconstruction_crowbar(user, tool)
+	return FALSE
+
+/obj/machinery/ship_weapon/broadside/multitool_act(mob/user, obj/item/tool)
+	if(!panel_open)
+		..()
+		return TRUE
+	else
+		if(length(ammo) == 0)
+			to_chat(user, "<span class='warning'>There are no shells to unload!</span>")
+			return TRUE
+		else
+			playsound(src, 'sound/machines/locktoggle.ogg', 100, TRUE)
+			to_chat(user, "<span class='notice'>You release the magnetic locks, the shells come loose!</span>")
+			unload()
+			update_overlay()
+			playsound(src, 'sound/effects/bang.ogg', 100, TRUE)
+			return TRUE
 
 /obj/machinery/ship_weapon/broadside/Initialize(mapload)
 	. = ..()
@@ -172,7 +169,7 @@
 		overlay.do_animation()
 	animate_projectile(target)
 
-/obj/machinery/ship_weapon/broadside/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+/obj/machinery/ship_weapon/broadside/fire(atom/target, shots = linked_overmap_ship_weapon.burst_size, manual = TRUE)
 	. = ..()
 	if(.)
 		new /obj/effect/particle_effect/muzzleflash(loc)
@@ -187,7 +184,7 @@
 			new /obj/effect/particle_effect/smoke(C)
 			new /obj/effect/particle_effect/smoke(D)
 
-/obj/machinery/ship_weapon/broadside/local_fire(shots = weapon_type.burst_size, atom/target) //For the broadside cannons, we want to eject spent casings
+/obj/machinery/ship_weapon/broadside/local_fire(shots = linked_overmap_ship_weapon.burst_size, atom/target) //For the broadside cannons, we want to eject spent casings
 	. = ..()
 	cut_overlay(list("[dir]_chambered_1", "[dir]_chambered_2", "[dir]_chambered_3", "[dir]_chambered_4", "[dir]_chambered_5"))
 	if(dir == SOUTH)

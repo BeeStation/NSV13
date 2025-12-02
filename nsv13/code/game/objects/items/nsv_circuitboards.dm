@@ -226,13 +226,15 @@
 	build_path = /obj/machinery/computer/deckgun
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
+/obj/item/circuitboard/machine/deck_gun
+	needs_anchored = FALSE
+
 /obj/item/circuitboard/machine/deck_gun/core
 	name = "deck gun core (Machine Board)"
 	req_components = list(
 		/obj/item/stack/sheet/mineral/titanium = 10,
 		/obj/item/stack/cable_coil = 5)
 	build_path = /obj/machinery/deck_turret/core
-	needs_anchored = FALSE
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 
 /obj/item/circuitboard/machine/deck_gun/powder

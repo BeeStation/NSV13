@@ -122,13 +122,13 @@
 		return
 	throw_mode = THROW_MODE_DISABLED
 	if(client && hud_used)
-		hud_used.throw_icon.icon_state = "act_throw_off"
+		hud_used.throw_icon?.icon_state = "act_throw_off" //NSV13 - some mobs don't have this HUD.
 
 
 /mob/living/carbon/proc/throw_mode_on(mode = THROW_MODE_TOGGLE)
 	throw_mode = mode
 	if(client && hud_used)
-		hud_used.throw_icon.icon_state = "act_throw_on"
+		hud_used.throw_icon?.icon_state = "act_throw_on" //NSV13 - some mobs don't have this HUD.
 
 /mob/proc/throw_item(atom/target)
 	SEND_SIGNAL(src, COMSIG_MOB_THROW, target)
