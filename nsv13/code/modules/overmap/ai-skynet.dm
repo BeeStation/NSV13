@@ -726,6 +726,9 @@ Adding tasks is easy! Just define a datum for it.
 				var/mob/dead/observer/C = pick(candidates)
 				target_ghost = C
 				var/obj/structure/overmap/GS = new selected_ship(target_location)
+				if(OM.current_system)
+					GS.current_system = OM.current_system
+					OM.current_system.system_contents |= GS
 				GS.ghost_ship(target_ghost)
 
 
@@ -898,8 +901,10 @@ Adding tasks is easy! Just define a datum for it.
 		return 0
 	if(OM.obj_integrity < OM.max_integrity/3)
 		return AI_SCORE_SUPERPRIORITY
-	if(OM.shots_left < initial(OM.shots_left)/3)
+	if(OM.max_shots_left && OM.shots_left < OM.max_shots_left/3)
 		return AI_SCORE_PRIORITY
+	if(OM.max_torpedoes && OM.torpedoes == 0) //For torp, we only go back to rearm if we don't have any left at all.
+		return AI_SCORE_PRIORITY //For now, lets deem missiles as not important enough to run to rearm.
 	return 0
 
 /datum/ai_goal/rearm/action(obj/structure/overmap/OM)
@@ -1158,7 +1163,7 @@ Seek a ship thich we'll station ourselves around
 		return 0	//Can't defend ourselves
 
 	if(CHECK_BITFIELD(OM.ai_flags, AI_FLAG_BATTLESHIP))
-		if(OM.obj_integrity < OM.max_integrity/3 || OM.shots_left < initial(OM.shots_left)/3)
+		if(OM.obj_integrity < OM.max_integrity/3 || (OM.max_shots_left && OM.shots_left < OM.max_shots_left/3))
 			return AI_SCORE_PRIORITY - 1	//If we are out of ammo, prioritize rearming over chasing.
 		return AI_SCORE_CRITICAL
 	return score //If you've got nothing better to do, come group with the main fleet.
@@ -1314,20 +1319,13 @@ Seek a ship thich we'll station ourselves around
 	var/speed_cargo_check = 30 SECONDS // Time it takes for a ship to respond to a shipment
 	var/speed_cargo_return = 30 SECONDS // Time it takes for a ship to return shipment results (approved paperwork, rejected shipment)
 
-	var/last_decision = 0
-	var/decision_delay = 2 SECONDS
 	var/move_mode = 0
 	var/next_boarding_attempt = 0
 	var/mine_cooldown = 0
 
-	var/reloading_torpedoes = FALSE
-	var/reloading_missiles = FALSE
 	var/static/list/warcrime_blacklist = typecacheof(list(/obj/structure/overmap/small_craft/escapepod, /obj/structure/overmap/asteroid, /obj/structure/overmap/trader/independent))//Ok. I'm not THAT mean...yet. (Hello karmic, it's me karmic 2) Hello Karmic this is Bokkie being extremely lazy (TODO: make the unaligned faction excluded from targeting)
 
 	//Fleet organisation
-	var/shots_left = 15 //Number of arbitrary shots an AI can fire with its heavy weapons before it has to resupply with a supply ship.
-	var/light_shots_left = 300
-	var/mines_left = 0
 	var/resupply_range = 15
 	var/resupplying = 0	//Are we resupplying things right now? If yes, how many?
 	var/can_resupply = FALSE //Can this ship resupply other ships?
@@ -1340,82 +1338,35 @@ Seek a ship thich we'll station ourselves around
 	var/obj/structure/overmap/last_overmap = null
 	var/switchsound_cooldown = 0
 
-/obj/structure/overmap/proc/ai_fire(atom/target)
-	if(istype(target, /obj/structure/overmap))
-		add_enemy(target)
-		var/target_range = overmap_dist(src,target)
-		var/new_firemode = FIRE_MODE_GAUSS
-		if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
-			if(fleet)
-				fleet.stop_reporting(target, src)
-			last_target = null
-			return
-		var/best_distance = INFINITY //Start off infinitely high, as we have not selected a distance yet.
-		var/uses_main_shot = FALSE //Will this shot count as depleting "shots left"? Heavy weapons eat ammo, PDCs do not.
-		//So! now we pick a weapon.. We start off with PDCs, which have an effective range of "5". On ships with gauss, gauss will be chosen 90% of the time over PDCs, because you can fire off a PDC salvo anyway.
-		//Heavy weapons take ammo, stuff like PDC and gauss do NOT for AI ships. We make decisions on the fly as to which gun we get to shoot. If we've run out of ammo, we have to resort to PDCs only.
-		for(var/I = FIRE_MODE_ANTI_AIR; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
-			var/datum/ship_weapon/SW = weapon_types[I]
-			if(!SW)
-				continue
-			var/distance = target_range - SW.range_modifier //How close to the effective range of the given weapon are we?
-			if(distance < best_distance)
-				if(!SW.valid_target(src, target))
-					continue
-				if(SW.next_firetime > world.time)
-					continue
-				if(SW.weapon_class > WEAPON_CLASS_LIGHT)
-					if(shots_left <= 0)
-						if(!ai_resupply_scheduled)
-							ai_resupply_scheduled = TRUE
-							addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
-						continue //If we are out of shots. Continue.
-				else if(light_shots_left <= 0)
-					spawn(150)
-						light_shots_left = initial(light_shots_left) // make them reload like real people, sort of
-					continue
-				var/arc = overmap_angle(src, target)
-				if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
-					continue
-				if(SW.weapon_class > WEAPON_CLASS_LIGHT)
-					uses_main_shot = TRUE
-				else
-					uses_main_shot = FALSE
-				new_firemode = I
-				best_distance = distance
-		if(!weapon_types[new_firemode]) //I have no physical idea how this even happened, but ok. Sure. If you must. If you REALLY must. We can do this, Sarah. We still gonna do this? It's been 5 years since the divorce, can't you just let go?
-			new_firemode = FIRE_MODE_GAUSS
-		if(new_firemode != FIRE_MODE_GAUSS && current_system) //If we're not on PDCs, let's fire off some PDC salvos while we're busy shooting people. This is still affected by weapon cooldowns so that they lay off on their target a bit.
-			var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_GAUSS]
-			if(SW)
-				for(var/obj/structure/overmap/ship in current_system.system_contents)
-					if(warcrime_blacklist[ship.type])
-						continue
-					if(!ship || QDELETED(ship) || ship == src || overmap_dist(src, ship) > max_weapon_range || ship.faction == src.faction || ship.z != z)
-						continue
-					if(fire_weapon(ship, FIRE_MODE_GAUSS, ai_aim=TRUE))
-						SW.next_firetime += SW.ai_fire_delay
-					break
-		fire_mode = new_firemode
-		if(!weapon_types[new_firemode]) //We lack gun
-			return
-		if(uses_main_shot) //Don't penalise them for weapons that are designed to be spammed.
-			shots_left --
-		else
-			light_shots_left --
+	//Variables related to the new overmap ship weapon datums.
 
-		if(fire_weapon(target, new_firemode, ai_aim=TRUE))
-			var/datum/ship_weapon/SW = weapon_types[new_firemode]
-			SW.next_firetime += SW.ai_fire_delay
-		handle_cloak(CLOAK_TEMPORARY_LOSS)
+	///Physical weapons will only link to datums once this is TRUE. Enabled after applying weapons.
+	var/weapons_initialized = FALSE
+	///Whether new weapons creating new weapon datums is allowed
+	var/weapon_addition_allowed = TRUE
+	///Current controlled weapons by mob key -> selected weapon number. Reset on piloting end.
+	var/list/controlled_weapons = list()
+	///Current controlled weapon datum by user. Should be updated when `controlled_weapons` is.
+	var/list/controlled_weapon_datum = list()
+	///List of overmap weapon datums. Sorted by priority.
+	var/list/datum/overmap_ship_weapon/overmap_weapon_datums = list()
+	///Weapons controllable by PILOT. Recalced if main list changes.
+	var/list/datum/overmap_ship_weapon/pilot_weapon_datums = list()
+	///Weapons controllable by GUNNER. Recalced if main list changes.
+	var/list/datum/overmap_ship_weapon/gunner_weapon_datums = list()
+	///Weapons controllable by someone with both PILOT and GUNNER - this is kinda :/ but I'm not supersure how to implement hybrid control roles otherwise.
+	var/list/datum/overmap_ship_weapon/pilotgunner_weapon_datums = list()
+	///Weapons that are able to operate independantly.
+	var/list/datum/overmap_ship_weapon/autonomous_weapon_datums = list()
+
 
 /**
- * # `ai_elite_fire(atom/target)`
- * This proc is a slightly more advanced form of the normal 'fire' proc.
- * Most menacing trait is that this allows AI elites to effectively broadside every single of their guns thats off cooldown. (if they have ammo)
-*/
-/obj/structure/overmap/proc/ai_elite_fire(atom/target)
+ * Fires a single weapon of the AI.
+ */
+/obj/structure/overmap/proc/ai_fire(obj/structure/overmap/target)
 	if(!istype(target, /obj/structure/overmap))
+		return
+	if(warcrime_blacklist[target.type] || target.essential)
 		return
 	add_enemy(target)
 	var/target_range = overmap_dist(src,target)
@@ -1424,48 +1375,68 @@ Seek a ship thich we'll station ourselves around
 			fleet.stop_reporting(target, src)
 		last_target = null
 		return
-	var/did_fire = FALSE
-	var/ammo_use = 0
+	var/datum/overmap_ship_weapon/current_considered_weapon
+	var/lowest_range_penalty = 999
+	for(var/datum/overmap_ship_weapon/ai_weapon in overmap_weapon_datums)
+		if(!(ai_weapon.weapon_control_flags & OSW_CONTROL_AI))
+			continue	//Only weapons the AI can use.
+		if(!ai_weapon.get_ammo())
+			if(ai_weapon.get_max_ammo() <= 0)
+				continue
+			ai_weapon.try_initiating_resupply()
+			continue //If we are out of shots. Continue.
+		if(!ai_weapon.can_fire(target))
+			continue
+		var/range_penalty = ai_weapon.get_ai_range_penalty(target, target_range)
+		if(range_penalty < lowest_range_penalty)
+			lowest_range_penalty = range_penalty
+			current_considered_weapon = ai_weapon
 
-	for(var/iter = FIRE_MODE_ANTI_AIR, iter <= MAX_POSSIBLE_FIREMODE, iter++)
-		if(iter == FIRE_MODE_AMS || iter == FIRE_MODE_FLAK)
-			continue	//These act independantly
-		var/will_use_ammo = FALSE
-		var/datum/ship_weapon/SW = weapon_types[iter]
-		if(!SW)
-			continue
-		if(!SW.next_firetime)
-			SW.next_firetime = world.time
-		else if(SW.next_firetime > world.time)
-			continue
-		if(!SW.valid_target(src, target, TRUE))
-			continue
-		if(SW.weapon_class > WEAPON_CLASS_LIGHT)
-			if((shots_left - ammo_use) <= 0)
-				if(!ai_resupply_scheduled)
-					ai_resupply_scheduled = TRUE
-					addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
-				continue //If we are out of shots. Continue.
-			will_use_ammo = TRUE
-		var/arc = overmap_angle(src, target)
-		if(SW.firing_arc && arc > SW.firing_arc) //So AIs don't fire their railguns into nothing.
-			continue
-		fire_weapon(target, iter, ai_aim=TRUE)
-		if(will_use_ammo)
-			ammo_use++
-		did_fire = TRUE
-		SW.next_firetime = world.time + SW.fire_delay + SW.ai_fire_delay
+	if(!current_considered_weapon)
+		return
+	fire_weapon(target, firing_weapon = current_considered_weapon, ai_aim=TRUE)
 
-	if(did_fire)
-		shots_left -= ammo_use
-		handle_cloak(CLOAK_TEMPORARY_LOSS)
+/**
+ * # `ai_elite_fire(atom/target)`
+ * This proc is a slightly more advanced form of the normal 'fire' proc.
+ * Most menacing trait is that this allows AI elites to effectively broadside every single of their guns thats off cooldown. (if they have ammo)
+*/
+/obj/structure/overmap/proc/ai_elite_fire(obj/structure/overmap/target)
+	if(!istype(target, /obj/structure/overmap))
+		return
+	if(warcrime_blacklist[target.type] || target.essential)
+		return
+	add_enemy(target)
+	var/target_range = overmap_dist(src,target)
+	if(target_range > max_weapon_range) //Our max range is the maximum possible range we can engage in. This is to stop you getting hunted from outside of your view range.
+		if(fleet)
+			fleet.stop_reporting(target, src)
+		last_target = null
+		return
+	for(var/datum/overmap_ship_weapon/ai_weapon in overmap_weapon_datums)
+		if(!(ai_weapon.weapon_control_flags & OSW_CONTROL_AI))
+			continue	//Only weapons the AI can use.
+		if(!ai_weapon.get_ammo())
+			if(ai_weapon.get_max_ammo() <= 0)
+				continue
+			ai_weapon.try_initiating_resupply()
+			continue //If we are out of shots. Continue.
+		if(!ai_weapon.can_fire(target))
+			continue
+		fire_weapon(target, firing_weapon = ai_weapon, ai_aim=TRUE)
 
 // Not as good as a carrier, but something
 /obj/structure/overmap/proc/ai_self_resupply()
-	ai_resupply_scheduled = FALSE
-	missiles = round(CLAMP(missiles + initial(missiles)/4, 1, initial(missiles)/4))
-	torpedoes = round(CLAMP(torpedoes + initial(torpedoes)/4, 1, initial(torpedoes)/4))
-	shots_left = round(CLAMP(shots_left + initial(shots_left)/2, 1, initial(shots_left)/4))
+	missiles = round(CLAMP(missiles + max_missiles/4, 1, max_missiles))
+	torpedoes = round(CLAMP(torpedoes + max_torpedoes/4, 1, max_torpedoes))
+	shots_left = round(CLAMP(shots_left + max_shots_left/4, 1, max_shots_left))
+	ai_resupply_scheduled &= ~(SHIP_RESUPPLYING_HEAVY)
+
+///Rearms light weapons
+/obj/structure/overmap/proc/ai_self_resupply_light()
+	light_shots_left = max_light_shots_left
+	ai_resupply_scheduled &= ~(SHIP_RESUPPLYING_LIGHT)
+
 /**
 * Given target ship and projectile speed, calculate aim point for intercept
 * See: https://stackoverflow.com/a/3487761
@@ -1564,7 +1535,7 @@ Seek a ship thich we'll station ourselves around
 		for(var/obj/structure/overmap/OM in maybe_resupply)
 			if(OM.z != z || OM == src || OM.faction != faction || overmap_dist(src, OM) > resupply_range) //No self healing
 				continue
-			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= initial(OM.shots_left) && OM.missiles >= initial(OM.missiles) && OM.torpedoes >= initial(OM.torpedoes)) //No need to resupply this ship at all.
+			if(OM.obj_integrity >= OM.max_integrity && OM.shots_left >= OM.max_shots_left && OM.missiles >= OM.max_missiles && OM.torpedoes >= OM.max_torpedoes) //No need to resupply this ship at all.
 				continue
 			resupply_target = OM
 			addtimer(CALLBACK(src, PROC_REF(resupply)), 5 SECONDS)	//Resupply comperatively fast, but not instant. Repairs take longer.
@@ -1577,13 +1548,13 @@ Seek a ship thich we'll station ourselves around
 	if(!resupply_target || QDELETED(resupply_target) || overmap_dist(src, resupply_target) > resupply_range)
 		resupply_target = null
 		return
-	var/missileStock = initial(resupply_target.missiles)
+	var/missileStock = resupply_target.max_missiles
 	if(missileStock > 0)
 		resupply_target.missiles = missileStock
-	var/torpStock = initial(resupply_target.torpedoes)
+	var/torpStock = resupply_target.max_torpedoes
 	if(torpStock > 0)
 		resupply_target.torpedoes = torpStock
-	resupply_target.shots_left = initial(resupply_target.shots_left)
+	resupply_target.shots_left = resupply_target.max_shots_left
 	resupply_target.try_repair(resupply_target.max_integrity  * 0.1)
 	resupply_target = null
 

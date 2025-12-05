@@ -58,10 +58,10 @@
 		return
 	// The component isn't installed, we're not on that mode, or we have no potential targets
 	var/obj/structure/overmap/small_craft/us = loc
-	if(!us || !istype(us) || (us.fire_mode != fire_mode) || !length(us.target_painted))
+	if(!us || !istype(us) || !length(us.target_painted))
 		return
 	// The target isn't an overmap somehow, we're targeting ourselves, or they're an enemy
-	var/obj/structure/overmap/small_craft/them = us.target_lock
+	var/obj/structure/overmap/them = us.target_lock //Lets not block them frm fixing big ships, it'll be super slow anyways.
 	if(!them || !istype(them) || (them == us) || (them.faction != us.faction))
 		cancel_action(us, them)
 		return
@@ -79,10 +79,16 @@
 		cancel_action(us, them, "<span class='warning'>Repair foam reserves depleted.</span>")
 		return
 	// They're fixed
-	var/obj/item/fighter_component/armour_plating/theirArmour = them.loadout.get_slot(HARDPOINT_SLOT_ARMOUR)
-	if((them.obj_integrity >= them.max_integrity) && (theirArmour.obj_integrity >= theirArmour.max_integrity))
-		cancel_action(us, them, "<span class='notice'>Target fully repaired.</span>")
-		return
+	if(them.obj_integrity >= them.max_integrity)
+		if(istype(them, /obj/structure/overmap/small_craft))
+			var/obj/structure/overmap/small_craft/fighter_them = them
+			var/obj/item/fighter_component/armour_plating/theirArmour = fighter_them.loadout.get_slot(HARDPOINT_SLOT_ARMOUR)
+			if((!theirArmour || theirArmour.obj_integrity >= theirArmour.max_integrity))
+				cancel_action(us, them, "<span class='notice'>Target fully repaired.</span>")
+				return
+		else
+			cancel_action(us, them, "<span class='notice'>Target fully repaired.</span>")
+			return
 
 	// Getting here means we should actually try repairing them
 	next_repair = world.time + fire_delay
@@ -95,6 +101,11 @@
 	tank.reagents.remove_reagent(/datum/reagent/hull_repair_juice, foam_consumption)
 	// You can repair the main ship too, but at a much slower rate than normal due to the increased mass.
 	// For reference: Fighters are repaired at a speed of 25 damage per second if done by hand.
-	them.try_repair(CEILING(10 * tier - (them.mass - us.mass), 5))
+	var/repair_amount = 0
+	if(istype(them, /obj/structure/overmap/small_craft))
+		repair_amount = CEILING(10 * tier - (them.mass - us.mass), 5)
+	else
+		repair_amount = CEILING(10 * tier - (them.mass - us.mass), 1) //Big ships can be slow to fix.
+	them.try_repair(repair_amount)
 	us.relay('sound/items/welder.ogg')
 	them.relay('sound/items/welder2.ogg')

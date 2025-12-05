@@ -15,6 +15,7 @@
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo/forged //preset to slug
 	max_ammo = 5 //preset to slug
 	semi_auto = TRUE
+	weapon_datum_type = /datum/overmap_ship_weapon/hybrid_railgun
 
 	var/slug_shell = 0 //Use Slugs = 0. Use Canisters = 1
 	var/switching = 0 //Track if we are switching types
@@ -94,7 +95,7 @@
 		capacitor_max_charge = 400000 //400kW
 		say("Cycling complete: Configuration - 400mm Slug Selected")
 
-/obj/machinery/ship_weapon/hybrid_rail/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+/obj/machinery/ship_weapon/hybrid_rail/fire(atom/target, shots = linked_overmap_ship_weapon.burst_size, manual = TRUE)
 	if(functional_crit)
 		return FALSE
 	if(can_fire(target, shots))
@@ -119,14 +120,14 @@
 		return TRUE //I don't know why it didn't return true if successful but I assume someone just forgot.
 	return FALSE
 
-/obj/machinery/ship_weapon/hybrid_rail/can_fire(target, shots = weapon_type.burst_size) //Target is for the passed target variable, Shots is for the burst fire size
+/obj/machinery/ship_weapon/hybrid_rail/can_fire(atom/target, shots = linked_overmap_ship_weapon.burst_size) //Target is for the passed target variable, Shots is for the burst fire size
 	if((state < STATE_CHAMBERED) || !chambered)
 		return FALSE
 	if(state >= STATE_FIRING)
 		return FALSE
 	if(maintainable && malfunction) //Do we need maintenance?
 		return FALSE
-	if(ammo?.len < shots) //Do we have ammo?
+	if(get_ammo() < shots)
 		return FALSE
 	if(capacitor_charge < capacitor_max_charge) //Is the capacitor charged?
 		return FALSE
@@ -243,7 +244,7 @@
 
 			projectile_damage = ((((T.material_hardness * 0.25) * T.material_density) * projectile_velocity) * 0.2) + ((gas_mix * 4) * (T.material_charge / 100)) //temp numbers
 
-		var/P = linked.fire_projectile(C.projectile_type, target, speed=projectile_velocity, user_override=TRUE, lateral=TRUE)
+		var/P = linked.fire_projectile(C.projectile_type, target, pixel_speed=projectile_velocity, user_override=TRUE)
 		if(istype(P, /obj/item/projectile/bullet/railgun_forged))
 			var/obj/item/projectile/bullet/railgun_forged/F = P
 			F.damage = projectile_damage
