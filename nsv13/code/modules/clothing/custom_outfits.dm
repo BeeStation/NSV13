@@ -26,6 +26,7 @@
 	uniform = /obj/item/clothing/under/rank/prisoner
 	shoes = /obj/item/clothing/shoes/sneakers/orange
 	id = /obj/item/card/id/prisoner
+	can_be_admin_equipped = TRUE
 
 /datum/outfit/syndicate/odst
 	name = "Syndicate Boarder - Base"

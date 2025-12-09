@@ -233,6 +233,7 @@
 
 /datum/outfit/centcom/commander
 	name = JOB_CENTCOM_COMMANDER
+	can_be_admin_equipped = TRUE //nsv13 - adjustment for basetype.
 
 	uniform = /obj/item/clothing/under/rank/centcom/commander
 	suit = /obj/item/clothing/suit/armor/bulletproof
