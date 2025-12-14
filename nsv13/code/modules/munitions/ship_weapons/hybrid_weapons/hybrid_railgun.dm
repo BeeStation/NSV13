@@ -163,7 +163,7 @@
 	if(C)
 		if(istype(C, /obj/item/ship_weapon/ammunition/railgun_ammo/forged))
 			var/obj/item/ship_weapon/ammunition/railgun_ammo/forged/T = C
-			projectile_velocity = (T.material_conductivity ** 1.5) - ((100 - alignment) / 100) //what if ^ instead of *?
+			projectile_velocity = (T.material_conductivity * 1.5) - ((100 - alignment) / 100) //ignoring the actual mass of the projectile here
 			if(projectile_velocity < 0)
 				projectile_velocity = 0.1
 			projectile_damage = T.material_density * projectile_velocity
@@ -243,16 +243,15 @@
 
 			projectile_damage = ((((T.material_hardness * 0.25) * T.material_density) * projectile_velocity) * 0.2) + ((gas_mix * 4) * (T.material_charge / 100)) //temp numbers
 
-		var/P = linked.fire_projectile(C.projectile_type, target, pixel_speed=projectile_velocity, user_override=TRUE)
+		var/P = linked.fire_projectile(C.projectile_type, target, pixel_speed=projectile_velocity)
 		if(istype(P, /obj/item/projectile/bullet/railgun_forged))
 			var/obj/item/projectile/bullet/railgun_forged/F = P
 			F.damage = projectile_damage
 			F.armour_penetration = projectile_penetration
-			F.speed = projectile_velocity
 			F.burn = projectile_burn
 			F.emp = projectile_emp
 			F.flag = projectile_flag
-			message_admins("DEBUG OUTPUT - Projectile: [C.name], Velocity: [F.speed], Damage: [F.damage], Penetration: [F.armour_penetration], Burn: [F.burn], EMP: [F.emp], Flag: [F.flag]") //REMOVE ME
+			message_admins("DEBUG OUTPUT - Projectile: [C.name], Velocity: [projectile_velocity], Damage: [F.damage], Penetration: [F.armour_penetration], Burn: [F.burn], EMP: [F.emp], Flag: [F.flag], Faction: [F.faction]") //REMOVE ME
 
 /obj/machinery/ship_weapon/hybrid_rail/after_fire()
 	if(maint_state != 0) //MSTATE_CLOSED

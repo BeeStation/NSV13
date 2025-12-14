@@ -39,7 +39,7 @@
 /obj/item/ship_weapon/ammunition/railgun_ammo/forged/pre_gen_copper_iron //test round
 	name = "\improper Forged 400mm copper coated iron slug"
 	material_conductivity = 4.675
-	material_density = 10.5
+	material_density = 15
 	material_hardness = 4.25
 
 /obj/item/ship_weapon/ammunition/railgun_ammo_canister
