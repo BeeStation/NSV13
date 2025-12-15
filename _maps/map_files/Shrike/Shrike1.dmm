@@ -167,15 +167,11 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/storage)
 "aH" = (
-/obj/docking_port/stationary{
-	dwidth = 6;
-	height = 6;
-	id = "supply_home";
-	name = "Deck 2 Cargo Port";
-	width = 14
+/obj/machinery/door/poddoor/shutters/ship{
+	id = "cargo_lift_shutters"
 	},
-/turf/open/space/basic,
-/area/space/nearstation)
+/turf/open/floor/monotile/dark,
+/area/maintenance/department/cargo)
 "aL" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
 	dir = 8
@@ -223,6 +219,12 @@
 /obj/machinery/telecomms/receiver/preset_left,
 /turf/open/floor/circuit/telecomms/mainframe,
 /area/tcommsat/server)
+"aR" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
+/turf/closed/wall/ship,
+/area/engine/stormdrive/monitor)
 "aU" = (
 /obj/structure/hull_plate/end{
 	dir = 1
@@ -245,10 +247,13 @@
 /turf/open/floor/plasteel/techmaint,
 /area/quartermaster/miningoffice)
 "ba" = (
-/obj/machinery/door/poddoor/shutters/ship{
-	id = "cargo_lift_shutters"
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
 	},
-/turf/open/floor/monotile/dark,
+/obj/structure/sign/warning/docking{
+	pixel_x = -32
+	},
+/turf/open/floor/monotile/steel,
 /area/maintenance/department/cargo)
 "bc" = (
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
@@ -350,6 +355,7 @@
 	name = "AI Maint Access";
 	req_one_access_txt = "10;24"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plating,
 /area/engine/stormdrive/monitor)
 "bu" = (
@@ -391,7 +397,7 @@
 /area/crew_quarters/dorms)
 "bC" = (
 /obj/effect/turf_decal/stripes/line,
-/obj/effect/turf_decal/stripes/line{
+/obj/effect/turf_decal/caution{
 	dir = 1
 	},
 /turf/open/floor/monotile/steel,
@@ -478,9 +484,6 @@
 /area/ai_monitored/records)
 "bZ" = (
 /obj/effect/turf_decal/stripes/line,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
 /obj/machinery/light/small{
 	dir = 8
 	},
@@ -768,6 +771,7 @@
 /obj/machinery/atmospherics/pipe/layer_manifold/visible{
 	dir = 4
 	},
+/obj/machinery/advanced_airlock_controller/directional/west,
 /turf/open/floor/plating,
 /area/engine/stormdrive/monitor)
 "dB" = (
@@ -2008,6 +2012,12 @@
 /obj/machinery/advanced_airlock_controller/directional/east,
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/dorms)
+"je" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
+/turf/closed/wall/ship,
+/area/engine/stormdrive/monitor)
 "jf" = (
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
@@ -2558,6 +2568,7 @@
 	req_one_access_txt = "10;24"
 	},
 /obj/structure/lattice/catwalk,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
 /turf/open/floor/plating,
 /area/engine/stormdrive/monitor)
 "lT" = (
@@ -2762,10 +2773,14 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/tcommsat/computer)
 "mI" = (
-/obj/structure/sign/warning/docking{
-	pixel_y = -30
+/obj/docking_port/stationary{
+	dwidth = 6;
+	height = 6;
+	id = "supply_home";
+	name = "Deck 2 Cargo Port";
+	width = 14
 	},
-/turf/open/floor/monotile/dark/airless,
+/turf/open/space/basic,
 /area/space/nearstation)
 "mL" = (
 /obj/structure/railing{
@@ -3264,6 +3279,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 10
 	},
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/heads/captain/private)
 "oV" = (
@@ -4169,6 +4185,7 @@
 /obj/structure/cable/white{
 	icon_state = "1-8"
 	},
+/obj/machinery/advanced_airlock_controller/directional/east,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive/monitor)
 "su" = (
@@ -4587,6 +4604,9 @@
 	dir = 4;
 	name = "Engineering Monitoring";
 	req_one_access_txt = "10;24"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/engine/stormdrive/monitor)
@@ -5276,6 +5296,9 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
+	},
 /turf/open/floor/durasteel,
 /area/engine/stormdrive/monitor)
 "xc" = (
@@ -5329,6 +5352,7 @@
 /obj/structure/cable/white{
 	icon_state = "0-2"
 	},
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/locker{
 	lighting_colour_bulb = "#c1e1ff";
@@ -5596,6 +5620,12 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/turret_protected/ai_upload_foyer)
+"yk" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
+/turf/closed/wall/ship,
+/area/tcommsat/computer)
 "ym" = (
 /obj/structure/closet/firecloset{
 	anchored = 1
@@ -5748,6 +5778,7 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/turret_protected/ai_upload_foyer)
 "yT" = (
+/obj/machinery/advanced_airlock_controller/directional/west,
 /turf/open/floor/plating,
 /area/engine/stormdrive/monitor)
 "yU" = (
@@ -5918,6 +5949,9 @@
 	dir = 4;
 	name = "Engineering Monitoring";
 	req_one_access_txt = "10;24"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 8
 	},
 /turf/open/floor/plating,
 /area/engine/stormdrive/monitor)
@@ -6250,7 +6284,7 @@
 "Be" = (
 /obj/structure/table/reinforced,
 /obj/item/wirecutters/abductor{
-	name = "pruning sheers";
+	name = "bonsai pruning sheers";
 	pixel_x = 5;
 	pixel_y = 13;
 	toolspeed = 1
@@ -6300,6 +6334,7 @@
 /obj/structure/cable/cyan{
 	icon_state = "4-10"
 	},
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/turret_protected/ai)
 "Bq" = (
@@ -6337,6 +6372,7 @@
 /obj/structure/cable/cyan{
 	icon_state = "4-8"
 	},
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/turret_protected/ai)
 "Bz" = (
@@ -6347,6 +6383,7 @@
 /obj/structure/cable/cyan{
 	icon_state = "0-8"
 	},
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/turret_protected/ai)
 "BB" = (
@@ -6496,6 +6533,7 @@
 	c_tag = "AI Chamber";
 	dir = 1
 	},
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/turret_protected/ai)
 "Ct" = (
@@ -6504,6 +6542,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/turret_protected/ai)
 "Cv" = (
@@ -6579,7 +6618,7 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "CO" = (
-/obj/machinery/modular_computer/console/preset/engineering,
+/obj/machinery/computer/ship/salvage,
 /turf/open/floor/plasteel/ridged/steel,
 /area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
@@ -6702,6 +6741,9 @@
 /obj/machinery/door/airlock/ship/external/glass{
 	name = "Telecomms Access";
 	req_one_access_txt = "10;24"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
 	},
 /turf/open/floor/plating,
 /area/engine/stormdrive/monitor)
@@ -6883,6 +6925,9 @@
 	dir = 4;
 	name = "Engineering Storage";
 	req_one_access_txt = "10;24"
+	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive/monitor)
@@ -7096,6 +7141,10 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/storage/tools)
+"EW" = (
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/monotile/steel,
+/area/maintenance/department/cargo)
 "EZ" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -7154,9 +7203,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/structure/disposalpipe/segment,
-/obj/structure/cable/white{
-	icon_state = "2-4"
-	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/storage/tech)
 "Fu" = (
@@ -7297,6 +7343,9 @@
 	},
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/firedoor/border_only/directional/east,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
 /turf/open/floor/durasteel,
 /area/engine/stormdrive/monitor)
 "Gb" = (
@@ -7673,6 +7722,7 @@
 /obj/structure/cable/white{
 	icon_state = "2-8"
 	},
+/obj/machinery/advanced_airlock_controller/directional/east,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive/monitor)
 "Hv" = (
@@ -7932,6 +7982,7 @@
 	color = "#c1e1ff";
 	dir = 4
 	},
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
@@ -8104,6 +8155,7 @@
 	dir = 6
 	},
 /obj/machinery/power/apc/auto_name/north,
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/nsv/observation{
 	lighting_colour_bulb = "#c1e1ff";
@@ -8644,6 +8696,13 @@
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/ai_monitored/turret_protected/ai_upload_foyer)
+"Lu" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/caution,
+/turf/open/floor/monotile/steel,
+/area/maintenance/department/cargo)
 "Ly" = (
 /obj/machinery/firealarm/directional/east,
 /turf/open/floor/plating,
@@ -8758,6 +8817,9 @@
 	name = "Nano-repair Pumps";
 	req_one_access_txt = "10"
 	},
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive/monitor)
 "Mf" = (
@@ -8835,6 +8897,10 @@
 /obj/structure/cable/white{
 	icon_state = "2-9"
 	},
+/obj/structure/cable/white{
+	icon_state = "0-2"
+	},
+/obj/machinery/power/apc/auto_name/north,
 /turf/open/floor/plating/rusty_techgrid,
 /area/storage/tech)
 "Ms" = (
@@ -9406,6 +9472,12 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck1/starboard)
+"OG" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/turf/open/floor/monotile/steel,
+/area/maintenance/department/cargo)
 "OI" = (
 /obj/structure/railing{
 	dir = 6
@@ -9856,7 +9928,6 @@
 "PP" = (
 /obj/structure/rack,
 /obj/effect/spawner/lootdrop/techstorage/security,
-/obj/machinery/power/apc/auto_name/east,
 /obj/item/circuitboard/machine/vls,
 /obj/item/circuitboard/computer/ship/munitions_computer,
 /obj/item/circuitboard/computer/ship/munitions_computer,
@@ -10450,6 +10521,9 @@
 	req_one_access_txt = "10"
 	},
 /obj/structure/lattice/catwalk,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper{
+	dir = 1
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/stormdrive/monitor)
 "RW" = (
@@ -10916,6 +10990,7 @@
 	},
 /obj/structure/table/reinforced,
 /obj/item/book/manual/wiki/sop/command,
+/obj/structure/lattice/catwalk/over/ship,
 /turf/open/floor/plating/rusty_techgrid,
 /area/bridge{
 	lighting_colour_bulb = "#c1e1ff";
@@ -12436,6 +12511,10 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"YV" = (
+/obj/effect/mapping_helpers/airlock/cyclelink_helper,
+/turf/closed/wall/ship,
+/area/engine/stormdrive/monitor)
 "Zd" = (
 /obj/machinery/suit_storage_unit/security,
 /obj/effect/turf_decal/box/white,
@@ -12493,6 +12572,7 @@
 /obj/machinery/camera/autoname{
 	dir = 1
 	},
+/obj/machinery/advanced_airlock_controller/directional/south,
 /turf/open/floor/durasteel,
 /area/engine/stormdrive/monitor)
 "Zp" = (
@@ -41357,13 +41437,13 @@ BU
 VJ
 Nh
 Wn
-Wn
+yk
 Wn
 TL
 ep
 YA
 Wn
-Wn
+yk
 Wn
 UR
 zb
@@ -41573,7 +41653,7 @@ IH
 IH
 IH
 IH
-IH
+Bh
 Bh
 Bh
 Bh
@@ -41615,11 +41695,11 @@ KV
 Nm
 bs
 dA
-bO
+je
 Wn
 oo
 QL
-bO
+YV
 yT
 Dx
 ep
@@ -41830,7 +41910,7 @@ IH
 IH
 IH
 IH
-IH
+Bh
 Bh
 Bh
 Bh
@@ -42087,7 +42167,7 @@ IH
 IH
 IH
 IH
-IH
+Bh
 Bh
 Bh
 Bh
@@ -42344,7 +42424,7 @@ IH
 IH
 IH
 IH
-IH
+Bh
 Bh
 Bh
 ah
@@ -42601,7 +42681,7 @@ IH
 IH
 IH
 IH
-IH
+Bh
 Bh
 Bh
 li
@@ -42858,9 +42938,9 @@ IH
 IH
 IH
 IH
-IH
 Bh
 jF
+Rz
 Rz
 Rz
 dx
@@ -43115,8 +43195,8 @@ IH
 IH
 IH
 IH
-IH
 Bh
+mI
 aH
 ba
 bZ
@@ -43372,10 +43452,10 @@ IH
 IH
 IH
 IH
-IH
 Bh
 Bh
-ba
+aH
+Lu
 bC
 cu
 eF
@@ -43629,11 +43709,11 @@ IH
 IH
 IH
 IH
-IH
 Bh
 Bh
-ba
-bC
+aH
+OG
+EW
 cu
 eF
 eF
@@ -43886,11 +43966,11 @@ IH
 IH
 IH
 IH
-IH
 Bh
 Bh
-ba
-bC
+aH
+OG
+EW
 cu
 eF
 eF
@@ -43923,7 +44003,7 @@ xL
 Sx
 CJ
 wK
-bO
+YV
 Hu
 RV
 PF
@@ -43937,7 +44017,7 @@ BF
 Wg
 lR
 st
-bO
+je
 KL
 Rk
 QA
@@ -44143,10 +44223,10 @@ IH
 IH
 IH
 IH
-IH
 Bh
 Bh
-ba
+aH
+Lu
 bC
 cu
 eF
@@ -44181,7 +44261,7 @@ Fg
 zo
 wK
 bO
-bO
+aR
 bO
 OK
 Ri
@@ -44193,7 +44273,7 @@ zn
 wA
 PD
 bO
-bO
+aR
 bO
 BY
 Ur
@@ -44400,11 +44480,11 @@ IH
 IH
 IH
 IH
-IH
 Bh
 Bh
-ba
-bC
+aH
+OG
+EW
 cu
 dF
 ex
@@ -44658,8 +44738,8 @@ IH
 IH
 IH
 Bh
-Bh
-mI
+jF
+Rz
 Rz
 bM
 cw

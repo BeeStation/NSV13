@@ -39,7 +39,8 @@ MAP_REMOVE_JOB(air_traffic_controller)
 	.=..()
 	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
 		return
-	build_path = null
+	if(build_path == /obj/machinery/chem_dispenser)
+		build_path = null
 
 /obj/structure/frame/machine/attackby(obj/item/P, mob/user, params)
 	switch(state)
