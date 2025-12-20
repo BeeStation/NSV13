@@ -5920,6 +5920,13 @@
 "efH" = (
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/nsv/weapons/port)
+"egD" = (
+/obj/effect/gibspawner/human/bodypartless,
+/obj/effect/decal/cleanable/blood/tracks{
+	dir = 1
+	},
+/turf/open/floor/plasteel/cult,
+/area/maintenance/starboard/aft)
 "ehf" = (
 /turf/closed/wall/ship,
 /area/hallway/nsv/deck1/frame1/central)
@@ -9392,10 +9399,7 @@
 /turf/open/floor/circuit/green/anim,
 /area/engine/gravity_generator)
 "gJV" = (
-/obj/machinery/shower{
-	dir = 4;
-	layer = 3.5
-	},
+/obj/structure/curtain,
 /turf/open/floor/plasteel,
 /area/crew_quarters/toilet/restrooms)
 "gKe" = (
@@ -13234,6 +13238,12 @@
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
+"jnI" = (
+/obj/structure/hull_plate/end,
+/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
+/obj/item/extinguisher/advanced/hull_repair_juice,
+/turf/open/space/basic,
+/area/space/nearstation)
 "jnP" = (
 /obj/machinery/camera/autoname{
 	dir = 8
@@ -13454,6 +13464,11 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/starboard)
+"jyc" = (
+/obj/structure/bookcase/random/adult,
+/obj/effect/decal/cleanable/cobweb,
+/turf/open/floor/plasteel/cult,
+/area/maintenance/starboard/aft)
 "jyG" = (
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	dir = 8
@@ -13466,6 +13481,10 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/maintenance/nsv/ftlroom)
+"jyL" = (
+/obj/effect/decal/cleanable/cobweb,
+/turf/open/floor/plasteel/cult,
+/area/maintenance/starboard/aft)
 "jyW" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -15465,12 +15484,12 @@
 /turf/open/floor/carpet/ship,
 /area/hallway/upper/primary/starboard)
 "kYP" = (
-/obj/machinery/shower{
-	dir = 8;
-	pixel_y = -6
+/obj/effect/decal/cleanable/blood/tracks{
+	dir = 6
 	},
-/turf/open/floor/plasteel,
-/area/crew_quarters/toilet/restrooms)
+/obj/effect/decal/cleanable/cobweb/cobweb2,
+/turf/open/floor/plasteel/cult,
+/area/maintenance/starboard/aft)
 "kYU" = (
 /obj/structure/cable{
 	icon_state = "2-8";
@@ -15569,6 +15588,14 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/nsv/deck1/frame2/starboard)
+"lcs" = (
+/obj/structure/lattice/catwalk,
+/obj/machinery/atmospherics/components/unary/outlet_injector/on{
+	dir = 8
+	},
+/obj/structure/hull_plate/end,
+/turf/open/space/basic,
+/area/space/nearstation)
 "lcG" = (
 /obj/effect/spawner/structure/window/reinforced/ship,
 /obj/structure/cable{
@@ -17279,6 +17306,11 @@
 /obj/structure/window/reinforced/spawner/east,
 /turf/open/floor/engine,
 /area/cargo/lobby)
+"mtb" = (
+/obj/structure/closet/crate,
+/obj/effect/spawner/lootdrop/maintenance,
+/turf/open/floor/plating,
+/area/maintenance/starboard/aft)
 "mtd" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -17557,7 +17589,6 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 8
 	},
-/obj/effect/spawner/lootdrop/grille_or_trash,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
@@ -18337,6 +18368,16 @@
 /obj/effect/landmark/event_spawn,
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/starboard)
+"njK" = (
+/obj/effect/rune,
+/obj/item/kitchen/knife{
+	icon = 'icons/obj/wizard.dmi';
+	icon_state = "render";
+	desc = "The unearthly energies that once powered this blade are now dormant.";
+	name = "ritual knife"
+	},
+/turf/open/floor/plasteel/cult,
+/area/maintenance/starboard/aft)
 "njP" = (
 /obj/machinery/missile_builder,
 /obj/structure/cable/yellow{
@@ -18845,6 +18886,10 @@
 	name = "nanoweave carpet (puce)"
 	},
 /area/nsv/crew_quarters/heads/maa)
+"nCG" = (
+/obj/effect/gibspawner/human/bodypartless,
+/turf/open/floor/plasteel/cult,
+/area/maintenance/starboard/aft)
 "nEb" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -18939,9 +18984,10 @@
 /turf/open/floor/plasteel/cafeteria,
 /area/crew_quarters/kitchen)
 "nHC" = (
-/obj/effect/spawner/lootdrop/maintenance,
-/obj/structure/closet/crate,
-/turf/open/floor/plating,
+/obj/effect/decal/cleanable/blood/tracks{
+	dir = 4
+	},
+/turf/open/floor/plasteel/cult,
 /area/maintenance/starboard/aft)
 "nHH" = (
 /obj/structure/cable/yellow{
@@ -21866,6 +21912,17 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/security)
+"pUY" = (
+/obj/structure/hull_plate/end{
+	dir = 10
+	},
+/obj/structure/lattice{
+	layer = 2
+	},
+/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
+/obj/item/extinguisher/advanced/hull_repair_juice,
+/turf/open/space/basic,
+/area/space/nearstation)
 "pVg" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -23990,6 +24047,10 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/upper/primary/starboard)
+"rFe" = (
+/obj/structure/bookcase/random/religion,
+/turf/open/floor/plasteel/cult,
+/area/maintenance/starboard/aft)
 "rFj" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -24931,6 +24992,13 @@
 	name = "nanoweave carpet (bluer)"
 	},
 /area/crew_quarters/heads/captain/private)
+"sve" = (
+/obj/effect/decal/cleanable/blood/tracks{
+	dir = 9
+	},
+/obj/structure/spider/stickyweb,
+/turf/open/floor/plasteel/cult,
+/area/maintenance/starboard/aft)
 "svk" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -25148,6 +25216,10 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/ai_monitored/turret_protected/aisat/hallway)
+"sBR" = (
+/obj/structure/destructible/cult/pylon,
+/turf/open/floor/plasteel/cult,
+/area/maintenance/starboard/aft)
 "sCL" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -25804,12 +25876,10 @@
 /turf/open/floor/circuit/green/anim,
 /area/engine/engineering/reactor_core)
 "sZP" = (
-/obj/structure/hull_plate/end{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/brown/hidden{
 	dir = 4
 	},
+/obj/structure/hull_plate,
 /turf/open/space/basic,
 /area/space/nearstation)
 "taf" = (
@@ -26666,6 +26736,14 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
+"tId" = (
+/obj/structure/hull_plate/end{
+	dir = 1
+	},
+/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
+/obj/item/extinguisher/advanced/hull_repair_juice,
+/turf/open/space/basic,
+/area/space/nearstation)
 "tIN" = (
 /obj/effect/turf_decal/tile/brown/tile_side{
 	dir = 9
@@ -27381,6 +27459,11 @@
 /obj/machinery/vendor/mining,
 /turf/open/floor/monotile/steel/airless,
 /area/nsv/hanger/mining)
+"umJ" = (
+/mob/living/simple_animal/hostile/retaliate/ghost,
+/obj/effect/decal/cleanable/blood,
+/turf/open/floor/plasteel/cult,
+/area/maintenance/starboard/aft)
 "unL" = (
 /obj/structure/flora/stump,
 /turf/open/floor/grass,
@@ -28049,6 +28132,17 @@
 	name = "nanoweave carpet (puce)"
 	},
 /area/nsv/weapons/fore)
+"uWK" = (
+/obj/effect/gibspawner/human/bodypartless,
+/obj/effect/decal/cleanable/blood/tracks{
+	dir = 4
+	},
+/turf/open/floor/plasteel/cult,
+/area/maintenance/starboard/aft)
+"uXb" = (
+/obj/structure/falsewall/durasteel,
+/turf/open/floor/plating,
+/area/maintenance/starboard/aft)
 "uXj" = (
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
@@ -30336,6 +30430,10 @@
 	},
 /turf/open/floor/monotile/light,
 /area/medical/medbay)
+"wys" = (
+/obj/structure/bookcase/random/nonfiction,
+/turf/open/floor/plasteel/cult,
+/area/maintenance/starboard/aft)
 "wzb" = (
 /obj/machinery/newscaster/directional/east,
 /turf/open/floor/carpet/ship,
@@ -31286,6 +31384,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 8
 	},
+/obj/effect/spawner/lootdrop/grille_or_trash,
 /turf/open/floor/plating,
 /area/maintenance/starboard/aft)
 "xzH" = (
@@ -31678,6 +31777,17 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/security)
+"xLE" = (
+/obj/structure/hull_plate/end{
+	dir = 9
+	},
+/obj/structure/lattice{
+	layer = 2
+	},
+/obj/structure/reagent_dispensers/foamtank/hull_repair_juice,
+/obj/item/extinguisher/advanced/hull_repair_juice,
+/turf/open/space/basic,
+/area/space/nearstation)
 "xMg" = (
 /obj/structure/closet/wardrobe/atmospherics_yellow,
 /obj/item/radio/intercom/directional/north,
@@ -38629,7 +38739,7 @@ lfF
 lfF
 vYj
 wEM
-wIv
+xLE
 lYg
 vhD
 kxX
@@ -38649,7 +38759,7 @@ tDV
 fCc
 hEe
 lYg
-voM
+pUY
 wEM
 vYj
 lfF
@@ -48160,8 +48270,8 @@ qou
 ePh
 dLl
 gYS
-nHC
-fyr
+oio
+xZS
 jgk
 jgk
 jgk
@@ -48362,11 +48472,11 @@ cxt
 qvu
 xzg
 xyv
+xyv
+mtb
 fyr
-fyr
+wys
 jgk
-iTH
-iTH
 sZP
 iTH
 iTH
@@ -48563,13 +48673,13 @@ aGf
 cxt
 jnd
 pJj
+oio
+xyv
 fyr
-fyr
+jyL
+nCG
 jgk
-teH
-lfF
-lfF
-wkv
+lcs
 lfF
 lfF
 lfF
@@ -48766,12 +48876,12 @@ cxt
 bAe
 fyr
 fyr
+fyr
+jyc
+njK
+sBR
 jgk
-teH
-lfF
-lfF
-lfF
-lfF
+tYL
 lfF
 lfF
 lfF
@@ -48966,14 +49076,14 @@ ggj
 dsP
 mwd
 rcX
+xZS
 fyr
+sve
+egD
+umJ
 jgk
-tYL
-lfF
-lfF
-lfF
-lfF
-lfF
+jgk
+teH
 lfF
 lfF
 lfF
@@ -49169,12 +49279,12 @@ dsP
 eNX
 iuc
 jIl
+fyr
+uWK
+rFe
 jgk
-tYL
-lfF
-lfF
-lfF
-lfF
+jgk
+teH
 lfF
 lfF
 lfF
@@ -49371,11 +49481,11 @@ dsP
 lKJ
 ttK
 ckd
-npD
-tYL
-lfF
-lfF
-lfF
+fyr
+nHC
+jgk
+jgk
+teH
 lfF
 lfF
 lfF
@@ -49573,10 +49683,10 @@ dsP
 lKJ
 eDL
 hvR
-npD
+uXb
+kYP
+jgk
 tYL
-lfF
-lfF
 lfF
 lfF
 lfF
@@ -49775,10 +49885,10 @@ dsP
 bCs
 jZF
 oQP
-npD
-tYL
-lfF
-lfF
+fyr
+jgk
+jgk
+teH
 lfF
 lfF
 lfF
@@ -49977,9 +50087,9 @@ vpF
 vpF
 vMk
 mFb
-jgk
+xyv
+npD
 tYL
-lfF
 lfF
 lfF
 lfF
@@ -50179,9 +50289,9 @@ vpF
 vpF
 fKG
 nEK
-qaT
-tYL
-lfF
+fsl
+owJ
+jnI
 lfF
 lfF
 lfF
@@ -50381,9 +50491,9 @@ vpF
 vpF
 nbO
 wpu
+fct
 qaT
-qaT
-nix
+emO
 wEM
 lfF
 lfF
@@ -51746,7 +51856,7 @@ lfF
 lfF
 lfF
 lfF
-qjJ
+tId
 nJc
 vhg
 nJc
@@ -57203,7 +57313,7 @@ heX
 jFH
 jFH
 rGi
-kYP
+gJV
 thy
 txK
 xOk
