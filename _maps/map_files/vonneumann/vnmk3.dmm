@@ -364,8 +364,15 @@
 /turf/open/floor/wood,
 /area/crew_quarters/cafeteria)
 "apH" = (
-/obj/structure/sign/ship/pods/west{
-	pixel_y = -27
+/obj/machinery/door/airlock/ship/maintenance{
+	dir = 4
+	},
+/obj/effect/spawner/lootdrop/trap,
+/obj/machinery/door/firedoor/border_only{
+	dir = 4
+	},
+/obj/machinery/door/firedoor/border_only{
+	dir = 8
 	},
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -9009,8 +9016,9 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/nsv/weapons/port)
 "gpZ" = (
-/turf/open/floor/monotile/dark/airless,
-/area/space)
+/obj/effect/spawner/room/threexthree,
+/turf/template_noop,
+/area/maintenance/starboard/aft)
 "gqi" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -20991,12 +20999,8 @@
 /turf/open/floor/carpet/ship,
 /area/hallway/nsv/deck1/frame2/starboard)
 "pjn" = (
-/obj/structure/lattice,
-/obj/structure/hull_plate/end{
-	dir = 8
-	},
-/turf/open/space/basic,
-/area/space)
+/turf/template_noop,
+/area/maintenance/starboard/aft)
 "pka" = (
 /obj/effect/landmark/start/geneticist,
 /obj/effect/landmark/start/geneticist,
@@ -28265,16 +28269,6 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/upper/primary/port)
-"uZN" = (
-/obj/structure/shuttle/engine/huge{
-	dir = 8
-	},
-/obj/structure/lattice,
-/obj/structure/hull_plate/end{
-	dir = 8
-	},
-/turf/open/space/basic,
-/area/space)
 "vam" = (
 /mob/living/simple_animal/chicken{
 	name = "Kentucky";
@@ -28929,11 +28923,11 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
 "vxd" = (
-/obj/structure/hull_plate/end{
-	dir = 9
+/obj/structure/cable{
+	icon_state = "4-8"
 	},
-/turf/open/space/basic,
-/area/space)
+/turf/template_noop,
+/area/maintenance/starboard/aft)
 "vxV" = (
 /obj/structure/closet,
 /obj/effect/spawner/lootdrop/maintenance/two,
@@ -39933,10 +39927,10 @@ lfF
 lfF
 lfF
 lfF
-vxd
-pjn
-gpZ
-uZN
+dsp
+kFW
+xSG
+gft
 lYg
 xSG
 xSG
@@ -39990,9 +39984,9 @@ lYg
 lYg
 lYg
 lYg
-lfF
-lfF
-lfF
+jRk
+jRk
+jRk
 lfF
 lfF
 lfF
@@ -40192,9 +40186,9 @@ aJm
 aJm
 aJm
 tQX
-lfF
-lfF
-lfF
+jRk
+jRk
+jRk
 lfF
 lfF
 lfF
@@ -40394,9 +40388,9 @@ aJm
 xdU
 dVi
 tQX
-lfF
-lfF
-lfF
+jRk
+jRk
+jRk
 lfF
 lfF
 lfF
@@ -40596,9 +40590,9 @@ gMO
 xdU
 anz
 tQX
-lfF
-lfF
-lfF
+gQc
+gFT
+gQc
 lfF
 ido
 lfF
@@ -40798,10 +40792,10 @@ aJm
 aJm
 aJm
 tQX
-lfF
-lfF
-lfF
-lfF
+jgk
+coD
+jgk
+mcW
 lfF
 lfF
 lfF
@@ -41000,11 +40994,11 @@ gMO
 xdU
 cOZ
 tQX
-lfF
-lfF
-lfF
-lfF
-lfF
+mwd
+eDL
+jgk
+jgk
+mcW
 lfF
 lfF
 lfF
@@ -41202,11 +41196,11 @@ aJm
 xdU
 dQV
 tQX
-lfF
-lfF
-lfF
-lfF
-lfF
+oio
+eDL
+oio
+jgk
+tYL
 lfF
 lfF
 lfF
@@ -41404,11 +41398,11 @@ aJm
 xdU
 ixz
 tQX
-lfF
-lfF
-lfF
-lfF
-lfF
+fyr
+apH
+fyr
+jgk
+tYL
 lfF
 lfF
 lfF
@@ -41606,11 +41600,11 @@ aJm
 xdU
 mET
 tQX
-jRk
-jRk
-jRk
-lfF
-lfF
+pjn
+vxd
+gpZ
+jgk
+tYL
 lfF
 lfF
 lfF
@@ -41808,11 +41802,11 @@ aJm
 xdU
 xdU
 tQX
-jRk
-jRk
-jRk
-lfF
-lfF
+pjn
+vxd
+pjn
+jgk
+tYL
 lfF
 lfF
 lfF
@@ -42010,11 +42004,11 @@ jgk
 hnX
 fyr
 jgk
-jRk
-jRk
-jRk
-lfF
-lfF
+pjn
+vxd
+pjn
+jgk
+tYL
 lfF
 lfF
 lfF
@@ -42212,11 +42206,11 @@ jgk
 myT
 hGm
 jgk
-gQc
-gFT
-gQc
-mcW
-lfF
+pjn
+vxd
+pjn
+jgk
+tYL
 lfF
 lfF
 lfF
@@ -42414,11 +42408,11 @@ quF
 dLK
 mPG
 jgk
+pjn
+vxd
+pjn
 jgk
-coD
-jgk
-jgk
-mcW
+tYL
 lfF
 lfF
 lfF
