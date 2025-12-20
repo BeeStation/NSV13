@@ -6748,11 +6748,22 @@
 /area/maintenance/starboard/aft)
 "eOc" = (
 /obj/structure/table/glass,
-/obj/item/storage/lockbox/medal,
+/obj/item/storage/lockbox/medal{
+	pixel_y = 2;
+	pixel_x = -17
+	},
 /obj/machinery/recharger,
-/obj/item/storage/fancy/donut_box,
+/obj/item/storage/fancy/donut_box{
+	pixel_y = 12
+	},
 /obj/machinery/camera/autoname{
 	dir = 10
+	},
+/obj/item/paper_bin{
+	pixel_x = 12
+	},
+/obj/item/pen{
+	pixel_x = 11
 	},
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
@@ -8300,7 +8311,6 @@
 	dir = 4
 	},
 /obj/structure/sign/solgov_flag/right{
-	layer = 2;
 	pixel_y = 26;
 	icon_state = "smallsolgovflag-right"
 	},
@@ -12177,6 +12187,12 @@
 	name = "nanoweave carpet (puce)"
 	},
 /area/nsv/weapons/fore)
+"iFU" = (
+/obj/structure/filingcabinet{
+	pixel_x = 9
+	},
+/turf/closed/wall/r_wall/ship,
+/area/crew_quarters/heads/captain/private)
 "iGd" = (
 /obj/machinery/atmospherics/pipe/simple/brown/hidden,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
@@ -12451,6 +12467,13 @@
 	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
+	},
+/obj/item/paper_bin{
+	pixel_y = -2;
+	pixel_x = -5
+	},
+/obj/item/pen{
+	pixel_x = -4
 	},
 /turf/open/floor/circuit,
 /area/bridge/cic)
@@ -14994,6 +15017,13 @@
 	req_one_access_txt = "31;41"
 	},
 /obj/machinery/door/firedoor/border_only,
+/obj/item/paper_bin{
+	pixel_y = -2;
+	pixel_x = -5
+	},
+/obj/item/pen{
+	pixel_x = -4
+	},
 /turf/open/floor/engine,
 /area/cargo/lobby)
 "kEb" = (
@@ -17047,6 +17077,10 @@
 /area/science/lab)
 "mkK" = (
 /obj/structure/table/wood,
+/obj/item/paper_bin{
+	pixel_y = -2;
+	pixel_x = -5
+	},
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
 	name = "nanoweave carpet (bluer)"
@@ -17294,6 +17328,12 @@
 /obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/space/nearstation)
+"muH" = (
+/obj/structure/filingcabinet{
+	pixel_x = 14
+	},
+/turf/closed/wall/r_wall/ship,
+/area/crew_quarters/heads/xo)
 "mva" = (
 /obj/structure/window/reinforced,
 /obj/effect/turf_decal/tile/purple/tile_side{
@@ -19696,6 +19736,29 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/maintenance/nsv/ftlroom)
+"omG" = (
+/obj/structure/table/reinforced,
+/obj/machinery/door/window/northright{
+	req_one_access_txt = "57";
+	dir = 2
+	},
+/obj/machinery/door/window/southleft{
+	dir = 1
+	},
+/obj/machinery/door/poddoor/ship/preopen{
+	id = "hopoffice"
+	},
+/obj/machinery/door/firedoor/heavy,
+/obj/item/paper_bin{
+	pixel_y = -2;
+	pixel_x = -5
+	},
+/obj/item/pen,
+/turf/open/floor/carpet/ship/blue{
+	color = "#9999DD";
+	name = "nanoweave carpet (bluer)"
+	},
+/area/crew_quarters/heads/xo)
 "onb" = (
 /obj/structure/cable{
 	icon_state = "2-4"
@@ -20043,6 +20106,13 @@
 	},
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
+"oCO" = (
+/obj/structure/table/wood/bar,
+/obj/item/paper_bin{
+	pixel_x = 1
+	},
+/turf/open/floor/wood,
+/area/crew_quarters/cafeteria)
 "oDM" = (
 /obj/structure/closet/crate/hydroponics,
 /obj/item/storage/box/disks_plantgene,
@@ -22885,6 +22955,8 @@
 	pixel_x = -20;
 	pixel_y = 22
 	},
+/obj/structure/rack,
+/obj/item/storage/toolbox/electrical,
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/storage/tools)
 "qHN" = (
@@ -24947,9 +25019,18 @@
 /obj/machinery/power/apc/auto_name/north,
 /obj/structure/extinguisher_cabinet/east,
 /obj/structure/table/glass/plasma,
-/obj/item/clothing/glasses/welding,
+/obj/item/clothing/glasses/welding{
+	layer = 3.5
+	},
 /obj/structure/cable{
 	icon_state = "0-2"
+	},
+/obj/item/paper_bin{
+	pixel_x = 6;
+	pixel_y = 5
+	},
+/obj/item/pen{
+	pixel_x = -4
 	},
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/science/lab)
@@ -26216,10 +26297,18 @@
 	},
 /area/crew_quarters/heads/xo)
 "trG" = (
-/obj/item/hand_tele,
+/obj/item/hand_tele{
+	pixel_y = 13;
+	pixel_x = -12
+	},
 /obj/structure/table/glass,
-/obj/item/storage/lockbox/loyalty,
-/obj/item/storage/box/pinpointer_pairs,
+/obj/item/storage/lockbox/loyalty{
+	pixel_y = 12;
+	pixel_x = 15
+	},
+/obj/item/storage/box/pinpointer_pairs{
+	pixel_x = -9
+	},
 /obj/machinery/recharger,
 /turf/open/floor/carpet/ship/blue{
 	color = "#9999DD";
@@ -26795,6 +26884,7 @@
 /area/cargo/lobby)
 "tQH" = (
 /obj/machinery/airalarm/directional/north,
+/obj/structure/filingcabinet/chestdrawer,
 /turf/open/floor/circuit,
 /area/hallway/nsv/deck1/frame1/central)
 "tQX" = (
@@ -59347,7 +59437,7 @@ dMS
 dMS
 oRX
 tmP
-vUT
+oCO
 ruF
 cQp
 pSm
@@ -61377,7 +61467,7 @@ uXp
 ldl
 eas
 uqE
-trr
+omG
 sHm
 sDO
 lNp
@@ -61974,7 +62064,7 @@ vcm
 quY
 quY
 quY
-quY
+iFU
 xRO
 gSB
 quY
@@ -62995,7 +63085,7 @@ mkr
 mUv
 qao
 vtw
-qzq
+muH
 oqI
 vik
 qzq
