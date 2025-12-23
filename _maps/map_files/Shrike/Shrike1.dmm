@@ -2319,7 +2319,9 @@
 /turf/open/floor/plating/rusty_techgrid,
 /area/maintenance/department/crew_quarters/dorms)
 "kt" = (
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
+/obj/machinery/atmospherics/pipe/manifold/supply/visible/layer2{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/medical/genetics/cloning)
 "ku" = (
@@ -3872,6 +3874,9 @@
 	icon_state = "1-6"
 	},
 /obj/structure/lattice/catwalk/over/ship,
+/obj/machinery/camera/autoname{
+	dir = 1
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck1/frame1/central{
 	lighting_colour_bulb = "#c1e1ff";
@@ -3976,6 +3981,9 @@
 /area/security/brig)
 "rw" = (
 /obj/structure/table/glass,
+/obj/item/wrench/medical{
+	pixel_x = -6
+	},
 /obj/item/reagent_containers/food/drinks/bottle/synthflesh{
 	pixel_x = 7;
 	pixel_y = 10
@@ -8064,17 +8072,16 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Iv" = (
-/obj/structure/table/glass,
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 8
-	},
 /obj/machinery/airalarm/directional/east,
 /obj/machinery/camera/autoname{
 	dir = 8
 	},
-/turf/open/floor/plasteel/white/side{
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
+	dir = 9
 	},
+/obj/structure/table/glass,
+/obj/item/book/manual/wiki/sop/medical,
+/turf/open/floor/plating/rusty_techgrid,
 /area/medical/genetics/cloning)
 "Iw" = (
 /turf/open/floor/plasteel/white/side{
@@ -8224,12 +8231,12 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Jd" = (
-/obj/structure/table/glass,
-/obj/item/book/manual/wiki/sop/medical,
 /obj/machinery/firealarm/directional/east,
 /obj/machinery/light{
 	dir = 4
 	},
+/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer2,
+/obj/machinery/portable_atmospherics/canister/oxygen,
 /turf/open/floor/plasteel/white/side{
 	dir = 4
 	},
@@ -10973,6 +10980,14 @@
 /obj/machinery/atmospherics/pipe/simple/supply/visible/layer2,
 /turf/open/floor/plating/rusty_techgrid,
 /area/tcommsat/computer)
+"Te" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
+	dir = 4
+	},
+/turf/open/floor/plasteel/white/side{
+	dir = 8
+	},
+/area/medical/genetics/cloning)
 "Tg" = (
 /obj/structure/fluff/support_beam{
 	dir = 4
@@ -12559,10 +12574,6 @@
 "Yy" = (
 /turf/open/openspace,
 /area/maintenance/department/cargo)
-"Yz" = (
-/obj/structure/lattice/catwalk,
-/turf/open/openspace,
-/area/engine/stormdrive/monitor)
 "YA" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -12737,7 +12748,7 @@
 	dir = 4
 	},
 /obj/structure/lattice/catwalk,
-/turf/open/openspace,
+/turf/open/floor/plating,
 /area/engine/stormdrive/monitor)
 "Zn" = (
 /turf/open/floor/durasteel,
@@ -41646,7 +41657,7 @@ ZM
 ZM
 Qp
 SI
-SI
+Te
 SI
 bv
 iV
@@ -44702,8 +44713,8 @@ bO
 SR
 Ri
 QS
-Yz
-Yz
+wA
+wA
 Zm
 QS
 wA
