@@ -466,9 +466,9 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
 	if(istype(other, /obj/structure/overmap/small_craft))
 		var/obj/structure/overmap/small_craft/small_craft = other
 		if(small_craft.docking_act(src))
-			small_craft.brakes = TRUE //more likely to happen in nonstandard conditions, so lets be safe!
-			if(small_craft.pilot)
-				to_chat(small_craft.pilot, "<span class='danger'>Craft anchored by larger vessel, brakes have been engaged!</span>")
+			if(!small_craft.pilot || small_craft.pilot.incapacitated())
+				small_craft.brakes = TRUE
+				small_craft.relay(message = "<span class='danger'>Craft anchored by larger vessel, brakes have been engaged!</span>")
 			return
 	//No colliders. But we still get a lot of info anyways!
 	if(!c_response)
