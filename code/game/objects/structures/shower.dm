@@ -19,7 +19,7 @@
 	name = "shower frame"
 	icon = 'icons/obj/watercloset.dmi'
 	icon_state = "shower_frame"
-	desc = "A shower frame, that needs 2 plastic sheets to finish construction."
+	desc = "A shower frame, that needs 2 plastic sheets to finish construction into a basic shower, or can be made into a blast shower by adding a sheet of titanium instead." //NSV13 - blast shower construction info.
 	anchored = FALSE
 
 /obj/structure/showerframe/attackby(obj/item/I, mob/living/user, params)
