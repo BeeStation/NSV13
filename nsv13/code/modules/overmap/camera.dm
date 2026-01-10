@@ -55,7 +55,8 @@
 	SEND_SIGNAL(M, COMSIG_STOPPED_PILOTING)
 	LAZYREMOVE(operators,M)
 	M.remove_verb(overmap_verbs)
-	drop_weapon_selection(M)
+	if(length(controlled_weapon_datum)) //We sometimes end up in here after deleting.
+		drop_weapon_selection(M)
 	M.overmap_ship = null
 	if(M.click_intercept == src)
 		M.click_intercept = null
