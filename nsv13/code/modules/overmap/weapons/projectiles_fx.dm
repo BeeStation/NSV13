@@ -460,6 +460,12 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/guided_munition/torpedo/shredder/ai //AI Ship usage
 	obj_integrity = 40
 	max_integrity = 40
+	icon_state = "torpedo_shredder"
+
+/obj/item/projectile/guided_munition/torpedo/shredder/ai/vnc
+	damage = 300
+	armour_penetration = 20
+	icon_state = "torpedo_shredder_vn"
 
 /obj/item/projectile/guided_munition/torpedo/decoy
 	icon_state = "torpedo"
