@@ -19,7 +19,7 @@
 /obj/item/gun/energy/laser/retro
 	name ="retro laser gun"
 	icon_state = "retro"
-	desc = "A modern lasergun, used by Solgov's private security or military forces. it is quite deadly and easy to maintain, making it a favorite." //NSV13 changed description
+	desc = "A modern lasergun, used by Solgov's security or military forces. it is quite deadly and easy to maintain, making it a favorite." //NSV13 changed description
 	ammo_x_offset = 3
 
 /obj/item/gun/energy/laser/retro/old
