@@ -197,11 +197,11 @@
 			if("Uranium")
 				conductivity_1 = 0.36
 			if("Plasma")
-				conductivity_1 = 2 //TEST
+				conductivity_1 = 2
 			if("Bluespace")
-				conductivity_1 = 8 //TEST
+				conductivity_1 = 8
 			if("Bananium")
-				conductivity_1 = 1 //TEST
+				conductivity_1 = 1
 			if("Titanium")
 				conductivity_1 = 0.24
 			if("Copper")
@@ -219,33 +219,16 @@
 			if("Uranium")
 				conductivity_2 = 0.36
 			if("Plasma")
-				conductivity_2 = 2 //TEST
+				conductivity_2 = 2
 			if("Bluespace")
-				conductivity_2 = 8 //TEST
+				conductivity_2 = 8
 			if("Bananium")
-				conductivity_2 = 1 //TEST
+				conductivity_2 = 1
 			if("Titanium")
 				conductivity_2 = 0.24
 			if("Copper")
 				conductivity_2 = 5.9
-/*
-		silver, = 6.3x10^7					-> 6.3
-		copper, = 5.9x10^7 					-> 5.9
-		gold, = 4.1x10^7 					-> 4.1
-		iron, = 1x10^7						-> 1.0
-		uranium, = 3.6x10^6					-> 0.36
-		titanium, = 2.4x10^6				-> 0.24
-		*stainless steel, = 1.5x10^6
-		diamond, = 1x10^-13					-> 0.001
-		*carbon steel, = 1.4x10^-7
-		plasma, = 2x10^3 //not real			-> 0.001
-		bananium, //?
-		bluespace, //?
-		plasteel, //?
-		ferrotitanium, //?
-		durasteel, //?
-		duranium, //?
-*/
+
 	if(T == "slug")
 		final_conductivty = ((0.75 * conductivity_1) + (0.25 * conductivity_2))
 	else if(T == "canister")
@@ -271,11 +254,11 @@
 			if("Uranium")
 				density_1 = 38
 			if("Plasma")
-				density_1 = 10 //TEST
+				density_1 = 10
 			if("Bluespace")
-				density_1 = 4 //TEST
+				density_1 = 4
 			if("Bananium")
-				density_1 = 25 //TEST
+				density_1 = 25
 			if("Titanium")
 				density_1 = 9
 			if("Copper")
@@ -293,33 +276,16 @@
 			if("Uranium")
 				density_2 = 38
 			if("Plasma")
-				density_2 = 10 //TEST
+				density_2 = 10
 			if("Bluespace")
-				density_2 = 4 //TEST
+				density_2 = 4
 			if("Bananium")
-				density_2 = 25 //TEST
+				density_2 = 25
 			if("Titanium")
 				density_2 = 9
 			if("Copper")
 				density_2 = 18
-/*
-		gold, = 19.282						-> 40
-		uranium, = 18.95					-> 38
-		silver, = 10.501					-> 22
-		copper, = 8.933						-> 18
-		*stainless steel, = 8.05
-		iron, = 7.874						-> 14
-		*carbon steel, = 7.85
-		titanium, = 4.5						-> 9
-		diamond, = 3.5						-> 7
-		plasma,
-		bananium,
-		bluespace,
-		plasteel, //?
-		ferrotitanium, //?
-		durasteel, //?
-		duranium, //?
-*/
+
 	if(T == "slug")
 		final_density = ((0.25 * density_1) + (0.75 * density_2))
 	else if(T == "canister")
@@ -345,11 +311,11 @@
 			if("Uranium")
 				hardness_1 = 6
 			if("Plasma")
-				hardness_1 = 3 //TEST
+				hardness_1 = 3
 			if("Bluespace")
-				hardness_1 = NUM_E //TEST
+				hardness_1 = NUM_E
 			if("Bananium")
-				hardness_1 = 1 //TESTs
+				hardness_1 = 1
 			if("Titanium")
 				hardness_1 = 6
 			if("Copper")
@@ -367,33 +333,15 @@
 			if("Uranium")
 				hardness_2 = 6
 			if("Plasma")
-				hardness_2 = 3 //TEST
+				hardness_2 = 3
 			if("Bluespace")
-				hardness_2 = NUM_E //TEST
+				hardness_2 = NUM_E
 			if("Bananium")
-				hardness_2 = 1 //TEST
+				hardness_2 = 1
 			if("Titanium")
 				hardness_2 = 6
 			if("Copper")
 				hardness_2 = 5
-/*
-		diamond, = 10.0
-		*carbon steel, = 7.5
-		uranium, = 6.0
-		titanium, = 6.0
-		*stainless steel, = 4.5
-		copper, = 5.0
-		iron, = 4.0
-		silver, = 2.5
-		gold, = 2.5
-		plasma,
-		bananium,
-		bluespace,
-		plasteel, //?
-		ferrotitanium, //?
-		durasteel, //?
-		duranium, //?
-*/
 
 	if(T == "slug")
 		final_hardness = ((0.25 * hardness_1) + (0.75 * hardness_2))

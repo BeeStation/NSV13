@@ -195,7 +195,7 @@
 			if(T.railgun_flags & RAIL_BANANA)
 				projectile_flag = "overmap_light"
 			else
-				switch(T.material_hardness) //Linear projection of the Mohs scale, assuming hulls are made of fairly soft materials
+				switch(T.material_hardness)
 					if(0 to 5)
 						projectile_penetration = 0
 					if(5 to 6)
@@ -241,7 +241,7 @@
 				if(70 to 80)
 					projectile_burn = 40
 
-			projectile_damage = ((((T.material_hardness * 0.25) * T.material_density) * projectile_velocity) * 0.2) + ((gas_mix * 4) * (T.material_charge / 100)) //temp numbers
+			projectile_damage = ((((T.material_hardness * 0.25) * T.material_density) * projectile_velocity) * 0.2) + ((gas_mix * 4) * (T.material_charge / 100))
 
 		var/P = linked.fire_projectile(C.projectile_type, target, pixel_speed=projectile_velocity)
 		if(istype(P, /obj/item/projectile/bullet/railgun_forged))
@@ -251,7 +251,7 @@
 			F.burn = projectile_burn
 			F.emp = projectile_emp
 			F.flag = projectile_flag
-			message_admins("DEBUG OUTPUT - Projectile: [C.name], Velocity: [projectile_velocity], Damage: [F.damage], Penetration: [F.armour_penetration], Burn: [F.burn], EMP: [F.emp], Flag: [F.flag], Faction: [F.faction]") //REMOVE ME
+			//message_admins("DEBUG OUTPUT - Projectile: [C.name], Velocity: [projectile_velocity], Damage: [F.damage], Penetration: [F.armour_penetration], Burn: [F.burn], EMP: [F.emp], Flag: [F.flag], Faction: [F.faction]")
 
 /obj/machinery/ship_weapon/hybrid_rail/after_fire()
 	if(maint_state != 0) //MSTATE_CLOSED
