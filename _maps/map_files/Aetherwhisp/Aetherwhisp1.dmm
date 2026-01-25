@@ -277,7 +277,7 @@
 /area/security/detectives_office)
 "ahF" = (
 /obj/machinery/airalarm/directional/north,
-/obj/structure/closet/secure_closet/security/sec,
+/obj/structure/closet/secure_closet/security/solgov,
 /obj/item/gun/energy/laser,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/processing)
@@ -1561,6 +1561,7 @@
 /obj/item/storage/photo_album,
 /obj/item/reagent_containers/glass/rag,
 /obj/machinery/light_switch/south,
+/obj/machinery/recharger,
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "aQM" = (
@@ -2947,9 +2948,11 @@
 "bIw" = (
 /obj/structure/table/wood,
 /obj/item/storage/box/beanbag,
-/obj/item/gun/ballistic/shotgun/doublebarrel,
 /obj/item/clothing/glasses/sunglasses/advanced/reagent,
 /obj/item/book/manual/wiki/sop/service,
+/obj/item/gun/energy/laser/scatter/shotty{
+	pin = /obj/item/firing_pin
+	},
 /turf/open/floor/wood,
 /area/crew_quarters/bar)
 "bIH" = (
@@ -3405,7 +3408,7 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
 "bWv" = (
-/obj/structure/closet/secure_closet/warden,
+/obj/structure/closet/secure_closet/warden/solgov,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/warden)
 "bWG" = (
@@ -6727,7 +6730,7 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos)
 "ejW" = (
-/obj/structure/closet/secure_closet/security/sec,
+/obj/structure/closet/secure_closet/security/solgov,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
 	dir = 8
 	},
@@ -6862,45 +6865,20 @@
 	c_tag = "Armory"
 	},
 /obj/structure/rack,
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper{
-	pixel_x = 6;
-	pixel_y = 6
-	},
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/ammo_box/magazine/peacekeeper/lethal,
-/obj/item/gun/ballistic/automatic/peacekeeper,
-/obj/item/gun/ballistic/automatic/peacekeeper,
-/obj/item/gun/ballistic/automatic/peacekeeper,
+/obj/item/gun/ballistic/automatic/laser,
+/obj/item/gun/ballistic/automatic/laser,
+/obj/item/gun/ballistic/automatic/laser,
+/obj/item/ammo_box/magazine/recharge,
+/obj/item/ammo_box/magazine/recharge,
+/obj/item/ammo_box/magazine/recharge,
+/obj/item/ammo_box/magazine/recharge,
+/obj/item/ammo_box/magazine/recharge,
+/obj/item/ammo_box/magazine/recharge,
+/obj/item/ammo_box/magazine/recharge,
+/obj/item/ammo_box/magazine/recharge,
+/obj/item/ammo_box/magazine/recharge,
+/obj/item/ammo_box/magazine/recharge,
+/obj/item/ammo_box/magazine/recharge,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "eoF" = (
@@ -7424,8 +7402,7 @@
 /obj/machinery/meter/atmos/atmos_waste_loop{
 	layer = 3.1;
 	pixel_x = 5;
-	pixel_y = 5;
-	target_layer = 3
+	pixel_y = 5
 	},
 /obj/machinery/meter/atmos/distro_loop{
 	pixel_x = -6;
@@ -7985,18 +7962,10 @@
 /area/engine/atmos)
 "fbW" = (
 /obj/structure/rack,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/ammo_box/magazine/m45,
-/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
-/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
-/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
-/obj/item/gun/ballistic/automatic/pistol/m1911/no_mag,
+/obj/item/gun/energy/laser/retro,
+/obj/item/gun/energy/laser/retro,
+/obj/item/gun/energy/laser/retro,
+/obj/item/gun/energy/laser/retro,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "fca" = (
@@ -10801,7 +10770,7 @@
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/cryopods)
 "hbl" = (
-/obj/structure/closet/secure_closet/security/sec,
+/obj/structure/closet/secure_closet/security/solgov,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/main/warroom)
 "hbm" = (
@@ -13126,7 +13095,7 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/break_room)
 "iAJ" = (
-/obj/structure/closet/secure_closet/security/sec,
+/obj/structure/closet/secure_closet/security/solgov,
 /obj/structure/extinguisher_cabinet/north,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/main/warroom)
@@ -14163,7 +14132,7 @@
 /turf/open/floor/plating,
 /area/maintenance/department/engine/atmos)
 "jjR" = (
-/obj/structure/closet/secure_closet/security/sec,
+/obj/structure/closet/secure_closet/security/solgov,
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
@@ -16959,7 +16928,6 @@
 "liE" = (
 /obj/structure/bed,
 /obj/item/toy/plush/snakeplushie{
-	color = null;
 	desc = "An adorable plush that resembles a worm";
 	name = "worm on a string"
 	},
@@ -21220,11 +21188,11 @@
 	icon_state = "0-4"
 	},
 /obj/machinery/power/terminal,
+/obj/item/gun/energy/laser/scatter/shotty,
+/obj/item/gun/energy/laser/scatter/shotty,
+/obj/structure/closet,
 /obj/effect/spawner/lootdrop/armory_contraband,
 /obj/item/storage/fancy/donut_box,
-/obj/structure/closet/secure_closet/lethalshots{
-	anchored = 1
-	},
 /turf/open/floor/carpet/ship/red_carpet,
 /area/ai_monitored/security/armory/security)
 "nUx" = (
@@ -21571,7 +21539,7 @@
 /turf/open/floor/plating,
 /area/engine/atmos)
 "ogN" = (
-/obj/structure/closet/secure_closet/security/sec,
+/obj/structure/closet/secure_closet/security/solgov,
 /obj/item/holosign_creator/security,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/main/warroom)
@@ -25213,6 +25181,10 @@
 /obj/machinery/airalarm/directional/west,
 /turf/open/floor/carpet/ship/blue,
 /area/medical/patients_rooms/room_a)
+"qsi" = (
+/obj/item/gun/energy/kinetic_accelerator,
+/turf/open/space/basic,
+/area/space)
 "qss" = (
 /obj/effect/landmark/nuclear_waste_spawner,
 /turf/closed/wall/r_wall/ship,
@@ -27454,7 +27426,6 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /obj/machinery/door/firedoor/border_only/directional/west,
 /obj/machinery/door/airlock/ship/security/glass{
-	name = "Brig";
 	req_one_access_txt = "3;4;63"
 	},
 /obj/structure/cable/yellow{
@@ -29003,7 +28974,7 @@
 /turf/open/floor/carpet/ship,
 /area/medical/morgue)
 "taE" = (
-/obj/structure/closet/secure_closet/security/sec,
+/obj/structure/closet/secure_closet/security/solgov,
 /obj/item/holosign_creator/security,
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -31852,7 +31823,7 @@
 	layer = 2.79;
 	pixel_y = 26
 	},
-/obj/structure/closet/secure_closet/hos,
+/obj/structure/closet/secure_closet/hos/solgov,
 /obj/item/storage/box/seccarts,
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -32187,7 +32158,6 @@
 	},
 /obj/machinery/door/airlock/ship/security/glass{
 	id_tag = "pw_fd_outer";
-	name = "Brig";
 	req_one_access_txt = "3;4;38;63"
 	},
 /obj/structure/disposalpipe/segment{
@@ -34683,7 +34653,7 @@
 /turf/closed/wall/ship,
 /area/engine/engineering/reactor_core)
 "xbe" = (
-/obj/structure/closet/secure_closet/security/sec,
+/obj/structure/closet/secure_closet/security/solgov,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
@@ -35350,8 +35320,8 @@
 /obj/structure/rack,
 /obj/item/coin/iron,
 /obj/item/clothing/suit/armor/laserproof,
-/obj/item/gun/ballistic/automatic/sniper_rifle,
 /obj/item/gun/energy/ionrifle,
+/obj/item/gun/ballistic/automatic/sniper_rifle,
 /turf/open/floor/carpet/red,
 /area/ai_monitored/security/armory/lockup)
 "xCs" = (
@@ -35408,9 +35378,7 @@
 	dir = 4
 	},
 /obj/machinery/newscaster/directional/east,
-/obj/structure/closet/secure_closet/security/sec{
-	name = "security officer's locker (new evidence locker.)"
-	},
+/obj/structure/closet/secure_closet/security/solgov,
 /obj/effect/spawner/lootdrop/maintenance/three,
 /obj/item/paper{
 	default_raw_text = "<p><br>X <br>Sasha Mendell (Research Director) Bethany Joyce (Scientist) Nice!<br><br>X <br>Bethany Joyce (Scientist) Sasha Mendell (Research Director) Want me to do anything wihth them?<br><br>X <br>Julissa Carr (Ship Engineer) Alexis Catherina (Ship Engineer) Im back, did I miss anything<br><br>X <br>Ascalapha Modesta (Head of Security) Sasha Mendell (Research Director) Can you send us the PDA logs for this shift? We're trying to solve a few crimes and we think that might help <br><br>X <br>Sasha Mendell (Research Director) Ascalapha Modesta (Head of Security) Sure, I'll send that right over <br><br>X <br>Ascalapha Modesta (Head of Security) Sasha Mendell (Research Director) Thanks <br></p>";
@@ -35630,7 +35598,6 @@
 	},
 /obj/machinery/door/airlock/ship/security/glass{
 	id_tag = "pw_fd_outer";
-	name = "Brig";
 	req_one_access_txt = "3;4;38;63"
 	},
 /obj/structure/disposalpipe/segment{
@@ -36179,18 +36146,10 @@
 /area/engine/engineering/reactor_core)
 "yck" = (
 /obj/structure/rack,
-/obj/item/ammo_box/magazine/sniper_rounds/soporific{
-	pixel_x = -4
-	},
-/obj/item/ammo_box/magazine/sniper_rounds/soporific{
-	pixel_x = -4
-	},
-/obj/item/ammo_box/magazine/sniper_rounds/soporific{
-	pixel_x = -4
-	},
-/obj/item/ammo_box/magazine/sniper_rounds/soporific{
-	pixel_x = -4
-	},
+/obj/item/ammo_box/magazine/sniper_rounds/soporific,
+/obj/item/ammo_box/magazine/sniper_rounds/soporific,
+/obj/item/ammo_box/magazine/sniper_rounds/soporific,
+/obj/item/ammo_box/magazine/sniper_rounds/soporific,
 /turf/open/floor/carpet/red,
 /area/ai_monitored/security/armory/lockup)
 "ycq" = (
@@ -36349,7 +36308,7 @@
 /area/hydroponics)
 "ygO" = (
 /obj/machinery/firealarm/directional/west,
-/obj/structure/closet/secure_closet/security/sec,
+/obj/structure/closet/secure_closet/security/solgov,
 /obj/item/holosign_creator/security,
 /turf/open/floor/carpet/ship/red_carpet,
 /area/security/main/warroom)
@@ -80298,7 +80257,7 @@ drp
 drp
 drp
 drp
-drp
+qsi
 aek
 fyD
 xXO

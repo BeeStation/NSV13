@@ -8,123 +8,62 @@
 	weapon_overlays += OL
 	return OL
 
-/obj/structure/overmap/proc/fire(atom/target)
+/obj/structure/overmap/proc/fire(atom/target, mob/user, datum/overmap_ship_weapon/firing_weapon)
 	if(weapon_safety)
-		if(gunner)
-			to_chat(gunner, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
+		if(user)
+			to_chat(user, "<span class='warning'>Weapon safety interlocks are active! Use the ship verbs tab to disable them!</span>")
 		return
-	handle_cloak(CLOAK_TEMPORARY_LOSS)
+	if(!firing_weapon && !ai_controlled)
+		if(!user)
+			return
+		else
+			if(!controlled_weapon_datum[user])
+				return
+			var/datum/overmap_ship_weapon/selected_weapon = controlled_weapon_datum[user]
+			if(!istype(selected_weapon))
+				return
+			firing_weapon = selected_weapon
+
 	last_target = target
-	var/obj/structure/overmap/ship = target
-	if(ai_controlled) //Let the AI switch weapons according to range
-		ai_fire(target)
-		return	//end if(ai_controlled)
 	if(istype(target, /obj/structure/overmap))
+		var/obj/structure/overmap/ship = target
 		ship.add_enemy(src)
-	fire_weapon(target)
+	if(ai_controlled) //This part of the proc doesn't really get reached with current calls, but why not have it be working anyways.
+		if(firing_weapon)
+			fire_weapon(target, firing_weapon = firing_weapon, ai_aim = TRUE)
+			return
+		//Let the AI switch weapons according to range
+		if(ai_flags & AI_FLAG_ELITE)
+			ai_elite_fire(target)
+		else
+			ai_fire(target)
+		return
+	if(user)
+		fire_weapon(target, user, firing_weapon)
+	else
+		fire_weapon(target, firing_weapon = firing_weapon)
 
-/obj/structure/overmap/proc/fire_weapon(atom/target, mode=fire_mode, lateral=(mass > MASS_TINY), mob/user_override=gunner, ai_aim=FALSE) //"Lateral" means that your ship doesnt have to face the target
-	var/datum/ship_weapon/SW = weapon_types[mode]
+/obj/structure/overmap/proc/fire_weapon(atom/target, mob/user_override=gunner, datum/overmap_ship_weapon/firing_weapon, ai_aim=FALSE)
 	if(ghost_controlled) //Hook in our ghost ship functions
-		if(!SW.special_fire_proc)
-			var/uses_main_shot = FALSE
-			if(SW.weapon_class > WEAPON_CLASS_LIGHT)
-				if(shots_left <= 0)
-					if(!ai_resupply_scheduled)
-						ai_resupply_scheduled = TRUE
-						addtimer(CALLBACK(src, PROC_REF(ai_self_resupply)), ai_resupply_time)
-					return FALSE
-				else if(light_shots_left <= 0)
-					spawn(150)
-						light_shots_left = initial(light_shots_left) // make them reload like real people, sort of
-					return FALSE
-
-			if(SW.weapon_class > WEAPON_CLASS_LIGHT)
-				uses_main_shot = TRUE
-			else
-				uses_main_shot = FALSE
-
-			if(uses_main_shot)
-				shots_left --
-			else
-				light_shots_left --
+		if(!firing_weapon.get_ammo())
+			if(firing_weapon.get_max_ammo() <= 0)
+				return FALSE
+			firing_weapon.try_initiating_resupply()
+			return FALSE
 
 	if(weapon_safety)
 		return FALSE
-	if(mode == FIRE_MODE_AMS)
-		ams_shots_fired = 0
-	if(SW?.fire(target, ai_aim=ai_aim))
-		return TRUE
+	var/list/report_list
+	if(user_override)
+		report_list = list(null)
+		. = firing_weapon.fire_proc_chain(target, user_override, ai_aim, report_list)
 	else
-		if(user_override && SW) //Tell them we failed
-			if(world.time < SW.next_firetime) //Silence, SPAM.
-				return FALSE
-			to_chat(user_override, SW.failure_alert)
+		. = firing_weapon.fire_proc_chain(target, user_override, ai_aim)
 
-/obj/structure/overmap/proc/get_max_firemode()
-	if(mass < MASS_MEDIUM) //Small craft dont get a railgun
-		return FIRE_MODE_TORPEDO
-	return FIRE_MODE_MAC
-
-/obj/structure/overmap/proc/select_weapon(number)
-	if(number > 0 && number <= length(weapon_numkeys_map))
-		swap_to(weapon_numkeys_map[number])
-		return TRUE
-
-/obj/structure/overmap/proc/swap_to(what=FIRE_MODE_ANTI_AIR)
-	if(!weapon_types[what])
-		return FALSE
-	var/datum/ship_weapon/SW = weapon_types[what]
-	if(!(SW.allowed_roles & OVERMAP_USER_ROLE_GUNNER))
-		return FALSE
-	fire_mode = what
-	if(world.time > switchsound_cooldown)
-		relay(SW.overmap_select_sound)
-		switchsound_cooldown = world.time + 5 SECONDS
-	if(gunner)
-		to_chat(gunner, SW.select_alert)
-	return TRUE
-
-/obj/structure/overmap/proc/fire_torpedo(atom/target, ai_aim = FALSE, burst = 1)
-	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
-		if(torpedoes <= 0)
-			return FALSE
-		if(isovermap(target))
-			ai_aim = FALSE // This is a homing projectile
-		var/launches = min(torpedoes, burst)
-
-		fire_projectile(torpedo_type, target, speed=3, lateral = TRUE, ai_aim = ai_aim)
-		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
-		relay_to_nearby(pick(SW.overmap_firing_sounds))
-
-		if(launches > 1)
-			fire_torpedo_burst(target, ai_aim, launches - 1)
-		torpedoes -= launches
-		return TRUE
-
-/obj/structure/overmap/proc/fire_torpedo_burst(atom/target, ai_aim = FALSE, burst = 1)
-	set waitfor = FALSE
-	for(var/cycle = 1; cycle <= burst; cycle++)
-		sleep(3)
-		if(QDELETED(src))	//We might get shot.
-			return
-		if(QDELETED(target))
-			target = null
-		fire_projectile(torpedo_type, target, speed=3, lateral = TRUE, ai_aim = ai_aim)
-		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_TORPEDO]
-		relay_to_nearby(pick(SW.overmap_firing_sounds))
-
-
-//Burst arg currently unused for this proc.
-/obj/structure/overmap/proc/fire_missile(atom/target, ai_aim = FALSE, burst = 1)
-	if(ai_controlled || !linked_areas.len && role != MAIN_OVERMAP) //AI ships and fighters don't have interiors
-		if(missiles <= 0)
-			return FALSE
-		missiles --
-		var/obj/structure/overmap/OM = target
-		if(istype(OM))
-			ai_aim = FALSE // This is a homing projectile
-		fire_projectile(missile_type, target, lateral = FALSE, ai_aim = ai_aim)
-		var/datum/ship_weapon/SW = weapon_types[FIRE_MODE_MISSILE]
-		relay_to_nearby(pick(SW.overmap_firing_sounds))
-		return TRUE
+	if(!.)
+		. = FALSE
+		if(user_override && length(report_list) && report_list[1] != null && firing_weapon) //Tell them we failed
+			if(world.time < firing_weapon.next_error_report) //Silence, SPAM.
+				return
+			to_chat(user_override, "<span class='warning'>[report_list[1]]</span>")
+			firing_weapon.next_error_report = world.time + 0.5 SECONDS

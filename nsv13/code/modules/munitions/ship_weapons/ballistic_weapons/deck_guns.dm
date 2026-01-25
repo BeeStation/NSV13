@@ -4,7 +4,6 @@
 	desc = "A huge naval gun which uses chemical accelerants to propel rounds. Inspired by the classics, this gun packs a major punch and is quite easy to reload. Use a multitool on it to re-register loading aparatus."
 	icon = 'nsv13/icons/obj/munitions/deck_turret.dmi'
 	icon_state = "deck_turret"
-	fire_mode = FIRE_MODE_MAC
 	ammo_type = /obj/item/ship_weapon/ammunition/naval_artillery
 	pixel_x = -43
 	pixel_y = -64
@@ -24,6 +23,7 @@
 	var/obj/machinery/deck_turret/core/core
 	var/id = null //N.B. This is NOT intended to allow them to manual link deck guns. This is for certain boarding maps and is thus a UNIQUE CONSTRAINT for this one case. ~KMC
 	circuit = /obj/item/circuitboard/machine/deck_turret
+	weapon_datum_type = /datum/overmap_ship_weapon/mac
 
 /obj/machinery/ship_weapon/deck_turret/Topic(href, href_list)
 	. = ..() //Sanity checks.
@@ -112,7 +112,7 @@
 /obj/machinery/ship_weapon/deck_turret/animate_projectile(atom/target, lateral=TRUE)
 	var/obj/item/ship_weapon/ammunition/naval_artillery/T = chambered
 	if(T)
-		var/obj/item/projectile/proj = linked.fire_projectile(T.projectile_type, target,speed=T.speed, lateral=weapon_type.lateral)
+		var/obj/item/projectile/proj = linked.fire_projectile(T.projectile_type, target,pixel_speed = T.speed, firing_flags = linked_overmap_ship_weapon.weapon_firing_flags)
 		T.handle_shell_modifiers(proj)
 
 /**

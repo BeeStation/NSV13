@@ -10,7 +10,6 @@
 	desc = "A coaxial laser system, capable of firing controlled laser bursts at a target."
 	icon ='nsv13/icons/obj/energy_weapons.dmi'
 	icon_state = "phase_cannon"
-	fire_mode = FIRE_MODE_RED_LASER //Shot by the pilot.
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
 	circuit = /obj/item/circuitboard/machine/burst_phaser
 	bound_width = 64
@@ -23,42 +22,18 @@
 	var/max_charge = 3300000 //5 shots before it has to recharge.
 	var/power_modifier = 0 //Power youre inputting into this thing.
 	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
-	var/energy_weapon_type = /datum/ship_weapon/burst_phaser
+	weapon_datum_type = /datum/overmap_ship_weapon/burst_phaser
 	var/static_charge = FALSE //Controls whether power and energy cost scale with power modifier. True = no scaling
-	var/alignment = 100 //stolen from railguns and the plasma gun
-	var/freq = 100
-	var/max_freq = 100
-	var/combo_target = "omega" //Randomized sequence for the recalibration minigame.
-	var/list/letters = list("delta,", "omega,", "phi,")
-	var/combo = null
-	var/combocount = 0 //How far into the combo are they?
-	var/overheat_sound = 'sound/effects/smoke.ogg'
-	var/list/cooling = list()
-	var/cooling_amount = 0
-	var/storage_amount = 0
-	var/storage_rate = 100
-	var/weapon_state = STATE_NOTHING
-	var/ventnumber = 1
-	// These variables only pertain to energy weapons, but need to be checked later in /proc/fire //I moved these over to the energyweapon basetype. if everything explodes, someone else told me to
-	var/charge = 0
-	var/heat = 0
-	var/charge_rate = 430000 //How quickly do we charge?
-	var/charge_per_shot = 660000 //How much power per shot do we have to use?
-	var/heat_per_shot = 250 //how much heat do we make per shot
-	var/heat_rate = 10 // how fast do we discharge heat
-	var/max_heat = 1000 //how much heat before ::fun:: happens
-	var/overloaded = 0 //have we cooked ourself
-	var/complexenergy = 1 //todo, makes special energy weapons exempt
-	var/lockout = 0 //todo, make only one person work on something at a time
-	max_integrity = 1200 //don't blow up before we're ready
-	obj_integrity = 1200
+
+/obj/machinery/ship_weapon/energy/get_ammo_list()
+	stack_trace("Attempting to get physical ammo of an energy weapon. Check your proc chains.")
+	return //Energy weapons have no ammo. You should never be calling this for them.
 
 /obj/machinery/ship_weapon/energy/beam
 	name = "phase cannon"
 	desc = "An extremely powerful directed energy weapon which is capable of delivering a devastating beam attack."
 	icon_state = "ion_cannon"
-	fire_mode = FIRE_MODE_BLUE_LASER
-	energy_weapon_type = /datum/ship_weapon/phaser
+	weapon_datum_type = /datum/overmap_ship_weapon/phaser
 	circuit = /obj/item/circuitboard/machine/phase_cannon
 	charge_rate = 800000 // At power level 5, requires 3MW per tick to charge(this is wrong. but I don't have the proper numbers)
 	charge_per_shot = 3800000 // At power level 5, requires 20MW total to fire, takes about 12 seconds to gain 1 charge (ditto). I'm actually making this less demanding so that heat becomes the limiting factor, especially for this one.
@@ -94,6 +69,10 @@
 	sleep(10)
 	charge = max_charge
 
+/obj/machinery/ship_weapon/energy/proc/toggle_active()
+	active = !active
+	update()
+
 /obj/machinery/ship_weapon/energy/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
 	if(!ui)
@@ -120,7 +99,7 @@
 		if("power")
 			power_modifier = value
 		if("activeToggle")
-			active = !active
+			toggle_active()
 		if("vent")
 			vent()
 	return
@@ -151,53 +130,26 @@
 	return data
 
 /obj/machinery/ship_weapon/energy/update()
-	if(!safety)
-		if(src in weapon_type.weapons["loaded"])
-			return
-		LAZYADD(weapon_type.weapons["loaded"] , src)
+	if(!linked_overmap_ship_weapon)
+		return
+	if(!safety && active)
+		linked_overmap_ship_weapon.mark_physical_weapon_loaded(src)
 	else
-		if(src in weapon_type.weapons["loaded"])
-			LAZYREMOVE(weapon_type.weapons["loaded"] , src)
+		linked_overmap_ship_weapon.mark_physical_weapon_unloaded(src)
 
-/obj/machinery/ship_weapon/energy/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
-	for(var/I = FIRE_MODE_ANTI_AIR; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
-		var/datum/ship_weapon/SW = OM.weapon_types[I]
-		if(!SW)
-			continue
-		if(istype(SW, energy_weapon_type)) //Does this ship have a weapon type registered for us? Prevents phantom weapon groups.
-			OM.add_weapon(src)
-			return TRUE
-	OM.weapon_types[fire_mode] = new energy_weapon_type(OM)
-	OM.add_weapon(src)
-
-/obj/machinery/ship_weapon/energy/can_fire(shots = weapon_type.burst_size)
-	if (maint_state != MSTATE_CLOSED) //Are we in maintenance?
+/obj/machinery/ship_weapon/energy/can_fire(atom/target, shots = linked_overmap_ship_weapon.burst_size)
+	if(maint_state != MSTATE_CLOSED) //Are we in maintenance?
 		return FALSE
-	if(charge < charge_per_shot*shots) //Do we have enough ammo?
+	if(get_ammo() < shots) //Do we have enough ammo?
 		return FALSE
-	if(weapon_state == STATE_OVERLOAD) //have we overheated?
-		return FALSE
-	if(weapon_state == STATE_VENTING) //are we venting heat?)
-		return FALSE
-	if(freq <=10) //is the frequincy of the weapon high enough to fire?
-		overload()
-		return FALSE
-	if(alignment == 0)
-		playsound(src, malfunction_sound, 100, 1)
-		for(var/mob/living/M in get_hearers_in_view(7, src)) //burn out eyes in view
-			if(M.stat != DEAD && M.get_eye_protection() < 2) //checks for eye protec
-				M.flash_act(10)
-				to_chat(M, "<span class='warning'>You have a second to watch the casing of the gun glow a dull red before it erupts in a blinding flash as it self-destructs</span>")   // stealing this from the plasmagun as well
-		explosion(get_turf(src), 0, 1, 3, 5, flame_range = 4)
-		overload()
-		return FALSE
-	return TRUE
+	else
+		return TRUE
 
 /obj/machinery/ship_weapon/energy/get_max_ammo()
-	return max_charge
+	return round(max_charge / charge_per_shot)
 
 /obj/machinery/ship_weapon/energy/get_ammo()
-	return charge
+	return round(charge / charge_per_shot)
 
 /obj/machinery/ship_weapon/energy/beam/animate_projectile(atom/target)
 	var/obj/item/projectile/P = ..()

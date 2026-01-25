@@ -3,6 +3,8 @@
 	var/amount
 	var/burn_require
 	var/overlay
+	///Reference of the fire overlay so we call delete it if the component dels before the overlay.
+	var/obj/effect/overlay/thermite/fire_ref //nsv13
 
 	var/static/list/blacklist = typecacheof(list(
 		/turf/open/lava,
@@ -50,6 +52,10 @@
 /datum/component/thermite/Destroy()
 	var/turf/master = parent
 	master.cut_overlay(overlay)
+	//nsv13 - better fire tracking
+	if(fire_ref)
+		QDEL_NULL(fire_ref)
+	//nsv13 end
 	return ..()
 
 /datum/component/thermite/InheritComponent(datum/component/thermite/newC, i_am_original, _amount)
@@ -64,14 +70,18 @@
 	var/turf/master = parent
 	master.cut_overlay(overlay)
 	playsound(master, 'sound/items/welder.ogg', 100, 1)
-	var/obj/effect/overlay/thermite/fakefire = new(master)
-	addtimer(CALLBACK(src, PROC_REF(burn_parent), fakefire, user), min(amount * 0.35 SECONDS, 20 SECONDS))
+	//nsv13 - better fire ref
+	fire_ref = new /obj/effect/overlay/thermite(master)
+	addtimer(CALLBACK(src, PROC_REF(burn_parent), user), min(amount * 0.35 SECONDS, 20 SECONDS))
+	//nsv13 end
 	UnregisterFromParent()
 
-/datum/component/thermite/proc/burn_parent(var/datum/fakefire, mob/user)
+/datum/component/thermite/proc/burn_parent(mob/user) //nsv13 - call adjusted to not require fire overlay passed.
 	var/turf/master = parent
-	if(!QDELETED(fakefire))
-		qdel(fakefire)
+	//nsv13 - better fire ref
+	if(!QDELETED(fire_ref))
+		QDEL_NULL(fire_ref)
+	//nsv13 end
 	if(user)
 		master.add_hiddenprint(user)
 	if(amount >= burn_require)

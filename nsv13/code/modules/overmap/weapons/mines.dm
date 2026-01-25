@@ -107,7 +107,7 @@
 			OM.take_quadrant_hit(OM.run_obj_armor(damage, damage_type, damage_flag, null, armour_penetration), OM.quadrant_impact(src))
 		else
 			OM.take_damage(damage, damage_type, damage_flag, FALSE)
-		if(OM.linked_areas) //Hope nothing precious was in that room.
+		if(length(OM.linked_areas)) //Hope nothing precious was in that room.
 			var/area/A = pick(OM.linked_areas)
 			var/turf/T = pick(get_area_turfs(A))
 			new /obj/effect/temp_visual/explosion_telegraph(T, damage)

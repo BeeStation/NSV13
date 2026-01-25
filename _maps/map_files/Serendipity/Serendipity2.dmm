@@ -66,6 +66,9 @@
 "ao" = (
 /obj/structure/extinguisher_cabinet/north,
 /obj/machinery/light/floor,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
 /turf/open/floor/monotile/light,
 /area/quartermaster)
 "ap" = (
@@ -1061,8 +1064,8 @@
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/green/hidden/layer2,
-/obj/machinery/atmospherics/pipe/simple/green/hidden/layer4{
-	dir = 9
+/obj/machinery/atmospherics/pipe/manifold/green/hidden/layer4{
+	dir = 4
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -1253,8 +1256,9 @@
 /turf/open/floor/carpet/ship/beige_carpet,
 /area/hallway/nsv/deck1/hallway)
 "fQ" = (
-/obj/machinery/atmospherics/pipe/simple/green/hidden/layer2{
-	dir = 9
+/obj/machinery/atmospherics/pipe/simple/green/hidden/layer4,
+/obj/machinery/atmospherics/pipe/manifold/green/hidden/layer2{
+	dir = 4
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -1598,6 +1602,10 @@
 /area/nsv/weapons/starboard)
 "ha" = (
 /obj/machinery/status_display/supply/north,
+/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer4{
+	dir = 4;
+	name = "scrubbers injection port"
+	},
 /turf/open/floor/monotile/light,
 /area/quartermaster)
 "hb" = (
@@ -3413,6 +3421,10 @@
 "pR" = (
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 5
+	},
+/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer2{
+	dir = 4;
+	name = "o2 tank port"
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -7770,6 +7782,13 @@
 /turf/open/floor/plasteel/white,
 /area/engine/break_room)
 "Kz" = (
+/obj/machinery/atmospherics/components/unary/portables_connector/visible/layer4{
+	dir = 1;
+	name = "n2 tank port"
+	},
+/obj/machinery/atmospherics/pipe/simple/green/hidden/layer2{
+	dir = 9
+	},
 /turf/open/floor/engine,
 /area/engine/atmos)
 "KA" = (
@@ -7797,6 +7816,9 @@
 	input_tag = "o2_in_alt";
 	output_tag = "o2_out_alt";
 	sensors = list("o2_sensor_alt"="Oxygen Tank")
+	},
+/obj/machinery/atmospherics/pipe/simple/green/hidden/layer2{
+	dir = 8
 	},
 /turf/open/floor/engine,
 /area/engine/atmos)
@@ -10634,13 +10656,15 @@
 /turf/open/floor/plating,
 /area/maintenance/fore)
 "WR" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/manifold/scrubbers/hidden/layer4{
+	dir = 4
 	},
 /turf/open/floor/monotile/light,
 /area/quartermaster)

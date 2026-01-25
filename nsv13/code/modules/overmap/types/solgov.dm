@@ -73,8 +73,11 @@
 	max_integrity = 1200
 	ai_flags = AI_FLAG_BATTLESHIP | AI_FLAG_DESTROYER | AI_FLAG_ELITE
 	max_tracking_range = 70
-	flak_battery_amount = 2
 	combat_dice_type = /datum/combat_dice/cruiser
+
+/obj/structure/overmap/nanotrasen/solgov/ai/interdictor/apply_weapons()
+	. = ..()
+	new /datum/overmap_ship_weapon/flak(src, TRUE, 2)
 
 /obj/structure/overmap/nanotrasen/solgov/ai/interdictor/Initialize(mapload)
 	. = ..()
@@ -116,17 +119,16 @@
 
 /obj/structure/overmap/nanotrasen/solgov/ai/fighter/apply_weapons()
 	// Burst fire on solgov fighters
-	var/datum/ship_weapon/SW = new /datum/ship_weapon/burst_phaser( src )
-	SW.burst_size = 3
-	weapon_types[ FIRE_MODE_RED_LASER ] = SW
+	var/datum/overmap_ship_weapon/osw = new /datum/overmap_ship_weapon/burst_phaser(src)
+	osw.burst_size = 3
 	//The bigger the ship, the tankier the shields....
 	AddComponent(/datum/component/overmap_shields, mass*600, mass*600, mass*15)
 
 /obj/structure/overmap/nanotrasen/solgov/proc/apply_medium_ai_weapons()
-	weapon_types[ FIRE_MODE_RED_LASER ] = new /datum/ship_weapon/burst_phaser( src )
-	weapon_types[ FIRE_MODE_BLUE_LASER ] = new /datum/ship_weapon/phaser( src )
-	weapon_types[ FIRE_MODE_LASER_PD ] = new /datum/ship_weapon/phaser_pd( src )
-	weapon_types[ FIRE_MODE_AMS_LASER ] = new /datum/ship_weapon/laser_ams( src )
+	new /datum/overmap_ship_weapon/burst_phaser(src, FALSE)
+	new /datum/overmap_ship_weapon/phaser(src, FALSE)
+	new /datum/overmap_ship_weapon/phaser_pd(src, FALSE)
+	new /datum/overmap_ship_weapon/laser_ams(src)
 
 	// Need to enable the AI ship's countermeasures mode so they can actually use laser ams
 	for( var/datum/ams_mode/atype in src.ams_modes )
@@ -137,9 +139,7 @@
 	AddComponent(/datum/component/overmap_shields, mass*600, mass*600, mass*15)
 
 /obj/structure/overmap/nanotrasen/solgov/apply_weapons()
-	// Solgov do not need Nanotrasen weapons registered on roundstart. This bloats the ship's weapon_types and makes cycling via spacebar take much longer
-	// . = ..()
-	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
+	return
 
 /obj/structure/overmap/nanotrasen/solgov/carrier/ai/apply_weapons() // Kmc why didn't you use /solgov/ai for your ship childtypes
 	apply_medium_ai_weapons()

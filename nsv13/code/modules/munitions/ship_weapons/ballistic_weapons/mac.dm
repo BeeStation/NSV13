@@ -2,7 +2,6 @@
 	name = "Radial MAC cannon"
 	desc = "An extremely powerful electromagnet which can accelerate a projectile to devastating speeds."
 	icon_state = "MAC"
-	fire_mode = FIRE_MODE_MAC
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
 	pixel_y = -64
 	bound_width = 128
@@ -15,6 +14,8 @@
 		/obj/item/ship_weapon/parts/firing_electronics = 1,
 		/obj/item/ship_weapon/parts/mac_barrel = 1
 		)
+
+	weapon_datum_type = /datum/overmap_ship_weapon/mac
 
 /obj/machinery/ship_weapon/mac/north // South-facing monitor looks for a gun to its north that's probably facing north
 	dir = NORTH
@@ -98,6 +99,6 @@
 /obj/machinery/ship_weapon/mac/MouseDrop_T(obj/structure/A, mob/user)
 	return
 
-/obj/machinery/ship_weapon/mac/set_position(obj/structure/overmap/OM)
+/obj/machinery/ship_weapon/mac/link_to_overmap_weapon_datum(obj/structure/overmap/OM)
 	..()
 	overlay = linked.add_weapon_overlay("/obj/weapon_overlay/railgun")

@@ -28,8 +28,9 @@
 	data["card"] = !!get_id_name()
 
 	data["cyborgs"] = list()
+	var/linked_overmap = computer.get_overmap() //nsv13 - shipwide monitoring
 	for(var/mob/living/silicon/robot/R in GLOB.silicon_mobs)
-		if(!evaluate_borg(R))
+		if(!evaluate_borg(R, linked_overmap)) //nsv13 - shipwide monitoring
 			continue
 
 		var/list/upgrade
@@ -88,10 +89,10 @@
 			return TRUE
 
 ///This proc is used to determin if a borg should be shown in the list (based on the borg's scrambledcodes var). Syndicate version overrides this to show only syndicate borgs.
-/datum/computer_file/program/borg_monitor/proc/evaluate_borg(mob/living/silicon/robot/R)
+/datum/computer_file/program/borg_monitor/proc/evaluate_borg(mob/living/silicon/robot/R, linked_overmap) //nsv13 - call adjusted for shipwide monitoring
 	var/turf/computer_turf = get_turf(computer)
 	var/turf/robot_turf = get_turf(R)
-	if(computer_turf.get_virtual_z_level() != robot_turf.get_virtual_z_level())
+	if(!(linked_overmap && R.last_overmap == linked_overmap) && computer_turf.get_virtual_z_level() != robot_turf.get_virtual_z_level()) //nsv13 - shipwide monitoring.
 		return FALSE
 	if(R.scrambledcodes)
 		return FALSE
@@ -117,8 +118,8 @@
 /datum/computer_file/program/borg_monitor/syndicate/run_emag()
 	return FALSE
 
-/datum/computer_file/program/borg_monitor/syndicate/evaluate_borg(mob/living/silicon/robot/R)
-	if((get_turf(computer)).get_virtual_z_level() != (get_turf(R)).get_virtual_z_level())
+/datum/computer_file/program/borg_monitor/syndicate/evaluate_borg(mob/living/silicon/robot/R, linked_overmap) //nsv13 - call adjusted for shipwide monitoring
+	if(!(linked_overmap && R.last_overmap == linked_overmap) && (get_turf(computer)).get_virtual_z_level() != (get_turf(R)).get_virtual_z_level()) //nsv13 - shipwide monitoring.
 		return FALSE
 	if(!R.scrambledcodes)
 		return FALSE

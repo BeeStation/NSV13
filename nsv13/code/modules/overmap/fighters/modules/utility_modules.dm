@@ -24,7 +24,7 @@
 	var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 	if(!istype(B))
 		return 0
-	return B.charge
+	return round(B.charge/charge_to_fire)
 
 /obj/item/fighter_component/primary/plasmacutter/get_max_ammo()
 	var/obj/structure/overmap/small_craft/F = loc
@@ -33,9 +33,9 @@
 	var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 	if(!istype(B))
 		return 0
-	return B.maxcharge
+	return round(B.maxcharge/charge_to_fire)
 
-/obj/item/fighter_component/primary/plasmacutter/fire(obj/structure/overmap/target)
+/obj/item/fighter_component/primary/plasmacutter/fire(obj/structure/overmap/target, datum/overmap_ship_weapon/linked_weapon)
 	var/obj/structure/overmap/small_craft/F = loc
 	if(!istype(F))
 		return FALSE
@@ -45,11 +45,8 @@
 		F.relay('sound/weapons/gun_dry_fire.ogg')
 		return FALSE
 
-	var/datum/ship_weapon/SW = F.weapon_types[fire_mode]
-	SW.default_projectile_type = projectile
-	SW.fire_fx_only(target, lateral = TRUE)
 	B.charge -= charge_to_fire
-	return TRUE
+	. = projectile
 
 /obj/item/projectile/plasma/adv/sabre
 	range = 6

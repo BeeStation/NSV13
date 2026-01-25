@@ -56,17 +56,119 @@
 		-->
 		<div class="commit sansserif">
 
-			<h2 class="date">11 October 2025</h2>
+			<h2 class="date">10 January 2026</h2>
 			<h3 class="author">DeltaFire15 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed some compile warnings. No gameplay impact.</li>
+				<li class="bugfix">Multiple "entered combat" system announcements at once will no longer stack their noise.</li>
+				<li class="spellcheck">The highjack description isn't out of place anymore.</li>
+				<li class="tweak">Highjack bleeding is no longer fake.</li>
+				<li class="tweak">Shower frames now inform you that you can turn them into a blast shower.</li>
 			</ul>
 
-			<h2 class="date">19 September 2025</h2>
+			<h2 class="date">09 January 2026</h2>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Traders in the badlands no longer fail to generate their stock.</li>
+				<li class="bugfix">Space Yellow pages of neutral stations no longer runtime when sold.</li>
+				<li class="bugfix">Space yellow page info of stations now properly cleans up when a new iteration is generated.</li>
+			</ul>
+
+			<h2 class="date">03 January 2026</h2>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="admin">Equipping the Naked outfit now equips the real Naked outfit.</li>
+				<li class="bugfix">The muni pointer should now be more resistant to null entries.</li>
+				<li class="bugfix">The plasma loader machine now properly drops its board.</li>
+				<li class="tweak">The plasma loader board is now protected.</li>
+				<li class="tweak">The plasma caster board is now better protected.</li>
+				<li class="tweak">The plasma caster & loader boards can now be tracked.</li>
+				<li class="bugfix">Singularities no longer infinitely suck out material from reinforced floors.</li>
+				<li class="bugfix">Reinforced floors are now more resistant to ranged singularity pulls</li>
+				<li class="bugfix">Openspace is now unaffected by singularities.</li>
+				<li class="tweak">Relayed projectiles now have a higher degree of targeting randomness.</li>
+				<li class="tweak">Relayed projectile starting sides are now determined by the angle of the original projectile.</li>
+				<li class="tweak">Projectile impact quadrants are now determined by projectile facing rather than relative position to ship (hopefully feels more accurate).</li>
+			</ul>
 			<h3 class="author">Pockets-byte updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="soundadd">added music to special fleet encounters</li>
-				<li class="soundadd">added the other parts of the bee ost</li>
+				<li class="bugfix">changes the aetherwhisp bartender shotgun to having a standard firing pin</li>
+			</ul>
+
+			<h2 class="date">01 December 2025</h2>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">READ THIS: New / adjusted keys: TAC: "F" can filter missile weapon ammo when active; Pilot can also switch between active weapons; 1-4 keys can select weapons for either operator.</li>
+				<li class="refactor">Refactored everything about ship weapon datums. Elaborating would fill this changelog, check the PR.</li>
+				<li class="rscadd">Weapon order sorting can now be adjusted via TAC consoles.</li>
+				<li class="tweak">Ghost ships now use the real TAC UI.</li>
+				<li class="tweak">The aiming laser should now be more centered.</li>
+				<li class="tweak">Aiming beam trajectory should behave the same as the actual projectiles fired.</li>
+				<li class="tweak">ghost ship pilots can restart piloting if they somehow clicked the end piloting button.</li>
+				<li class="code_imp">AI ship maximum ammo is no longer implied by their initial ammo, instead being a seperate var.</li>
+				<li class="bugfix">Fighter air-to-air repair works on big ships now like it says it does (albeit much slower).</li>
+				<li class="bugfix">Broadside guns no longer runtime if you crowbar them.</li>
+				<li class="bugfix">The broadside gun machinery firing call is no longer malformed.</li>
+				<li class="bugfix">Probe torp projectiles once again have an icon.</li>
+				<li class="bugfix">Overmap pixel projectile firing should now be less janky.</li>
+				<li class="bugfix">Hybrid Railguns no longer runtime on fire due to a malform firing argument.</li>
+				<li class="bugfix">Unloading already empty weapons no longer runtimes.</li>
+				<li class="bugfix">The plasma caster no longer runtimes if created without an adjacent loader / its loader being deleted is now accounted for (can be linked via multitool).</li>
+				<li class="bugfix">Space mines no longer runtime when affecting an area-less ship.</li>
+				<li class="bugfix">The TAC console no longer yanks you back into control under some circumstances.</li>
+				<li class="bugfix">Some interior-exterior Fighter access attempts weren't caught before.</li>
+				<li class="bugfix">A lot of overmap related angle stuff should be less jank now.</li>
+				<li class="bugfix">Ghost ships are now semi-properly added to their systems.</li>
+				<li class="bugfix">Holomaps don't runtime on component destroy sometimes.</li>
+				<li class="bugfix">Prison grilles no longer runtime when exploded.</li>
+				<li class="bugfix">Throwmode doesn't runtime when keybind is used on weird hudded mobs (e.g. ghost ship pilots).</li>
+				<li class="bugfix">The MPAC projectile now behaves somewhat saner.</li>
+				<li class="bugfix">The overmap clickdrag procs no longer brick horribly if you mouse over chat.</li>
+				<li class="bugfix">The overmap gunning component no longer does expensive clickdrag reactions if not automatic (reads: for nothing).</li>
+				<li class="bugfix">Fighters should no longer runtime during destruction if their canopy was not broken beforehand</li>
+				<li class="bugfix">You cannot control space rocks.</li>
+				<li class="bugfix">The MPAC projectile no longer multihits targets on each tile move (it can still multihit them on seperate tile moves as is intended).</li>
+				<li class="balance">Turf piercing projectiles aren't always destroyed when intercepting missiles.</li>
+				<li class="balance">The MPAC projectile is much more resilient to guided warheads.</li>
+				<li class="balance">The MPAC projectile no longer relays to overmaps.</li>
+			</ul>
+
+			<h2 class="date">29 November 2025</h2>
+			<h3 class="author">BetaCentari updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added atmos connector port for the N2 Tank</li>
+				<li class="rscadd">Added atmos connector port for the O2 Tank</li>
+				<li class="rscadd">Added atmos connector port for cargo</li>
+				<li class="bugfix">Fixed Area designation in Captain's office</li>
+				<li class="rscadd">Added ability to unload shells from broadsides</li>
+			</ul>
+			<h3 class="author">Bokkiewokkie updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fixed cameras falling down pits from gravity</li>
+			</ul>
+			<h3 class="author">DeltaFire15 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="balance">The CE's APC remote control console now works shipwide (instead of single-z).</li>
+				<li class="bugfix">An asteroid ruin's ruined stormdrive isn't invisible anymore.</li>
+				<li class="balance">The robotics control console, cyborg monitoring program and robot control program now work ship-wide as opposed to single-z.</li>
+				<li class="bugfix">Burning thermite no longer lasts forever when certain conditions occur.</li>
+				<li class="balance">Hand teleporters take some time (3 seconds) to manually disengage their portals (as opposed to it being instantaneous). This is a channeled, stationary, action.</li>
+			</ul>
+			<h3 class="author">Ikalpo updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fixed a regression in NAC component construction</li>
+			</ul>
+			<h3 class="author">Pockets-byte updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="rscadd">Added a few more lasers to solgov ships</li>
+				<li class="rscdel">Removed most ballistic guns from solgov ships entirely</li>
+			</ul>
+			<h3 class="author">Poojawa updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="soundadd">adds the felinid scream</li>
+			</ul>
+			<h3 class="author">someone543 updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">fixed KNPCs shoving people out of exosuits</li>
 			</ul>
 		</div>
 

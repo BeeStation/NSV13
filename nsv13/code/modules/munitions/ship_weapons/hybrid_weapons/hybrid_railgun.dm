@@ -11,10 +11,10 @@
 	bound_width = 128
 	bound_height = 64
 	pixel_y = -64
-	fire_mode = FIRE_MODE_HYBRID_RAIL
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo //preset to slug
 	max_ammo = 5 //preset to slug
 	semi_auto = TRUE
+	weapon_datum_type = /datum/overmap_ship_weapon/hybrid_railgun
 
 	var/slug_shell = 0 //Use Slugs = 0. Use Shells = 1
 	var/switching = 0 //Track if we are switching types
@@ -94,7 +94,7 @@
 		capacitor_max_charge = 400000 //400kW
 		say("Cycling complete: Configuration - 400mm Slug Selected")
 
-/obj/machinery/ship_weapon/hybrid_rail/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+/obj/machinery/ship_weapon/hybrid_rail/fire(atom/target, shots = linked_overmap_ship_weapon.burst_size, manual = TRUE)
 	if(can_fire(target, shots))
 		if(manual)
 			linked.last_fired = overlay
@@ -117,14 +117,14 @@
 		return TRUE //I don't know why it didn't return true if successful but I assume someone just forgot.
 	return FALSE
 
-/obj/machinery/ship_weapon/hybrid_rail/can_fire(target, shots = weapon_type.burst_size) //Target is for the passed target variable, Shots is for the burst fire size
+/obj/machinery/ship_weapon/hybrid_rail/can_fire(atom/target, shots = linked_overmap_ship_weapon.burst_size) //Target is for the passed target variable, Shots is for the burst fire size
 	if((state < STATE_CHAMBERED) || !chambered)
 		return FALSE
 	if(state >= STATE_FIRING)
 		return FALSE
 	if(maintainable && malfunction) //Do we need maintenance?
 		return FALSE
-	if(ammo?.len < shots) //Do we have ammo?
+	if(get_ammo() < shots)
 		return FALSE
 	if(capacitor_charge < capacitor_max_charge) //Is the capacitor charged?
 		return FALSE
@@ -139,7 +139,7 @@
 	var/obj/item/ship_weapon/ammunition/T = chambered
 	if(T)
 		var/final_velo = projectile_velo - ((100 - alignment) / 100) //Misalignment slows projectiles
-		linked.fire_projectile(T.projectile_type, target, speed=final_velo, user_override=TRUE, lateral=TRUE) //CHECK THIS CODE LATERAL WAS RECEIVING NULL, REPLACED TO TRUE
+		linked.fire_projectile(T.projectile_type, target, pixel_speed=final_velo)
 
 /obj/machinery/ship_weapon/hybrid_rail/after_fire()
 	if(maint_state != 0) //MSTATE_CLOSED

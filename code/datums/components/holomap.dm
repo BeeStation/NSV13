@@ -41,7 +41,12 @@
 /datum/component/holomap/proc/get_user()
 	RETURN_TYPE(/mob/living)
 	var/atom/movable/holder = parent
-	return (isliving(holder) || !isatom(holder)) ? holder : holder.loc //FIXME - This proc is terrible (and can runtime). Just save the user and track if they get del'd like a sane person. Why is this like this??????
+	//NSV13 - stop runtiming on removal.
+	var/mob/living/return_value = (isliving(holder) || !isatom(holder)) ? holder : holder.loc //This is still bad but I am not dealing with it now.
+	if(!isliving(return_value))
+		return
+	return return_value
+	//NSV13 end.
 
 /datum/component/holomap/Initialize()
 	. = ..()

@@ -135,6 +135,7 @@
 	accessory = /obj/item/clothing/accessory/solgov_jacket/command
 	suit = null
 	gloves = /obj/item/clothing/gloves/color/black
+	suit_store = /obj/item/gun/energy/e_gun/mini/heads
 
 /datum/outfit/job/janitor/solgov
 	name = JOB_NAME_JANITOR + " (SolGov)"
@@ -178,6 +179,7 @@
 	name = JOB_NAME_SECURITYOFFICER + " (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
 	accessory = /obj/item/clothing/accessory/solgov_jacket/engsec
+	suit_store = /obj/item/gun/energy/laser/retro
 
 /datum/outfit/job/miner/solgov
 	name = JOB_NAME_SHAFTMINER + " (SolGov)"
@@ -198,3 +200,4 @@
 	name = JOB_NAME_WARDEN + " (SolGov)"
 	uniform = /obj/item/clothing/under/ship/solgov/engsec
 	accessory = /obj/item/clothing/accessory/solgov_jacket/engsec
+	suit_store = /obj/item/gun/energy/laser/retro

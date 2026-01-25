@@ -15,7 +15,6 @@
 	ammo_type = /obj/item/ship_weapon/ammunition/plasma_core
 	circuit = /obj/item/circuitboard/machine/plasma_caster
 
-	fire_mode = FIRE_MODE_PHORON
 
 	auto_load = FALSE
 	semi_auto = FALSE
@@ -55,6 +54,8 @@
 	COOLDOWN_DECLARE(radio_cooldown)
 
 	processing_flags = START_PROCESSING_ON_INIT
+
+	weapon_datum_type = /datum/overmap_ship_weapon/plasma_caster
 
 
 /obj/machinery/ship_weapon/plasma_caster/update_overlay()
@@ -161,14 +162,15 @@
 	. = ..()
 	power_change()
 	loader = locate(/obj/machinery/atmospherics/components/unary/plasma_loader) in orange(1, src)
-	loader.linked_gun = src
+	if(loader)
+		loader.linked_gun = src
 	radio = new(src)
 	radio.keyslot = new /obj/item/encryptionkey/munitions_tech
 	radio.subspace_transmission = TRUE
 	radio.canhear_range = 0
 	radio.recalculateChannels()
 
-/obj/machinery/ship_weapon/plasma_caster/can_fire(shots = weapon_type.burst_size)
+/obj/machinery/ship_weapon/plasma_caster/can_fire(atom/target, shots = linked_overmap_ship_weapon.burst_size)
 	if((state < STATE_CHAMBERED) || !chambered)
 		return FALSE
 	if(state >= STATE_FIRING)
@@ -187,7 +189,7 @@
 			radio.talk_into(src, "DANGER! Not enough phoron to safely dischard core! Please ensure enough gas is present before firing!", RADIO_CHANNEL_MUNITIONS)
 			say("DANGER! Not enough phoron to safely dischard core! Please ensure enough gas is present before firing!")
 		return FALSE
-	if(loader.on)
+	if(loader && loader.on)
 		if(COOLDOWN_FINISHED(src, radio_cooldown))
 			COOLDOWN_START(src, radio_cooldown, 5 SECONDS)
 			radio.talk_into(src, "DANGER! Phoron Gas Regulator back pressure surge avoided! Ensure the regulator is off before operating!", RADIO_CHANNEL_MUNITIONS)
@@ -225,7 +227,7 @@
 	icon_state = initial(icon_state)
 
 /obj/machinery/ship_weapon/plasma_caster/animate_projectile(atom/target)
-	return linked.fire_projectile(weapon_type.default_projectile_type, target, speed = 2, lateral=weapon_type.lateral)
+	return linked.fire_projectile(linked_overmap_ship_weapon.standard_projectile_type, target, pixel_speed = 2, firing_flags = linked_overmap_ship_weapon.weapon_firing_flags)
 
 /obj/machinery/ship_weapon/plasma_caster/proc/misfire()
 	if(COOLDOWN_FINISHED(src, radio_cooldown))
@@ -250,13 +252,12 @@
 
 /obj/machinery/ship_weapon/plasma_caster/overmap_fire(atom/target)
 
-	if(weapon_type?.overmap_firing_sounds)
-		overmap_sound()
+	overmap_sound()
 
 	if(overlay)
 		overlay.do_animation()
 	sleep(4 SECONDS)
-	if( weapon_type )
+	if(linked_overmap_ship_weapon)
 		animate_projectile(target)
 
 /obj/machinery/ship_weapon/plasma_caster/after_fire()
@@ -344,21 +345,6 @@
 
 	return
 
-/datum/ship_weapon/plasma_caster
-	name = "MPAC"
-	burst_size = 1
-	fire_delay = 5 SECONDS //Everyone's right, weapon code is jank...
-	range = 25000 //It will continue to
-	default_projectile_type = /obj/item/projectile/bullet/plasma_caster
-	select_alert = "<span class='notice'>Charging magnetic accelerator...</span>"
-	failure_alert = "<span class='warning'>Magnetic Accelerator not ready!</span>"
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/plasma_gun_fire.ogg')
-	overmap_select_sound = 'nsv13/sound/effects/ship/phaser_select.ogg'
-	weapon_class = WEAPON_CLASS_HEAVY
-	ai_fire_delay = 180 SECONDS
-	allowed_roles = OVERMAP_USER_ROLE_GUNNER
-	lateral = FALSE
-
 /obj/item/ship_weapon/ammunition/plasma_core
 	name = "\improper Condensed Phoron Core"
 	desc = "A heavy, condensed ball of phoron coated in a thick shell to prevent accidents."
@@ -374,15 +360,27 @@
 	range = 25000 //Relentlessly tracks original target until the target is destroyed
 	homing_turn_speed = 180
 	damage = 150
-	obj_integrity = 500
-	max_integrity = 500
+	obj_integrity = 3000
+	max_integrity = 3000
 	flag = "overmap_medium"
 	speed = 8
 	projectile_piercing = ALL
+	projectile_relaying_allowed = FALSE //Too insane to allow this. Already very powerful anyways.
+	///Amount of hits the plasma ball can inflict before losing cohesion
+	var/plasma_charge = 200 //Lets not have plasma balls fly around for all of eternity if the target is immune to medium damage.
 
 /obj/item/projectile/bullet/plasma_caster/process_hit(turf/T, atom/target, atom/bumped, hit_something)
 	. = ..()
-	impacted[target] = FALSE
+	if(hit_something)
+		plasma_charge--
+		if(plasma_charge <= 0)
+			projectile_piercing = NONE
+
+/obj/item/projectile/bullet/plasma_caster/Move(atom/newloc, direct)
+	. = ..()
+	if(!.)
+		return
+	impacted = list() //Only reset the hit check after moving a tile because otherwise due to how we check impacts it would cause double hitting per move.
 
 /obj/item/projectile/bullet/plasma_caster/fire()
 	. = ..()
@@ -391,10 +389,14 @@
 		return
 	RegisterSignal(homing_target, COMSIG_PARENT_QDELETING, PROC_REF(find_target))
 
-/obj/item/projectile/bullet/plasma_caster/proc/find_target() //Tracking Proc when the weapon initially fires
+/obj/item/projectile/bullet/plasma_caster/proc/find_target(obj/structure/overmap/old_target) //Tracking Proc when the weapon initially fires or its target is destroyed
 	SIGNAL_HANDLER
 	if(homing_target)
 		UnregisterSignal(homing_target, COMSIG_PARENT_QDELETING)
+	homing_target = null
+	if(old_target && old_target.mass > MASS_TINY) //Destroys itself when tracked target blows up, unless it was a fighter.
+		range = 1
+		return
 	if(!overmap_firer)
 		return
 	var/obj/structure/overmap/target_lock
@@ -404,10 +406,6 @@
 		return
 	var/list/targets = target_system.system_contents
 	for(var/obj/structure/overmap/ship in targets)
-		if(QDELETED(ship) && ship.mass != MASS_TINY) //It destroys itself when its target is destroyed, ignoring destroyed fighters
-			new /obj/effect/particle_effect/phoron_explosion(loc) //It shouldn't cause problems unless the weapon is fired at the EXACT time a ship it can target is being destroyed
-			qdel(src)
-			return
 		if(overmap_firer.warcrime_blacklist[ship.type]) //Doesn't target asteroids, same faction, essentials, ships on diff Z Levels, or fighters
 			continue
 		if(ship.mass == MASS_TINY)
@@ -423,10 +421,16 @@
 			continue
 		target_lock = ship
 		target_distance = new_target_distance
-	if(!target_lock)
+	if(!target_lock)	//Lets not have a 25000(!!!) range projectile have a joyride across the system for all of eternity.
+		range = 1
 		return
 	set_homing_target(target_lock)
 	RegisterSignal(homing_target, COMSIG_PARENT_QDELETING, PROC_REF(find_target))
+
+/obj/item/projectile/bullet/plasma_caster/Destroy()
+	if(isturf(loc))
+		new /obj/effect/particle_effect/phoron_explosion(loc)
+	return ..()
 
 /obj/machinery/ship_weapon/plasma_caster/proc/makedarkpurpleslime()
 	if(plasma_mole_amount > 0)

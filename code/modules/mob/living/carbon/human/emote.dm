@@ -58,7 +58,9 @@
 	var/mob/living/carbon/human/H = user
 	if(H.mind?.miming)
 		return
-	if(ishumanbasic(H) || iscatperson(H))
+	else if(iscatperson(H))			//nsv13 I always thought it weird this was missing
+		return 'nsv13/sound/voice/felinid/scream_cat.ogg'
+	if(ishumanbasic(H))			//nsv13 removed iscatperson
 		if(user.gender == FEMALE)
 			return pick('sound/voice/human/femalescream_1.ogg', 'sound/voice/human/femalescream_2.ogg', 'sound/voice/human/femalescream_3.ogg', 'sound/voice/human/femalescream_4.ogg')
 		else
