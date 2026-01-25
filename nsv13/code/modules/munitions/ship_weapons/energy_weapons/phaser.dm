@@ -24,33 +24,6 @@
 	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
 	weapon_datum_type = /datum/overmap_ship_weapon/burst_phaser
 	var/static_charge = FALSE //Controls whether power and energy cost scale with power modifier. True = no scaling
-	var/alignment = 100 //stolen from railguns and the plasma gun
-	var/freq = 100
-	var/max_freq = 100
-	var/combo_target = "omega" //Randomized sequence for the recalibration minigame.
-	var/list/letters = list("delta,", "omega,", "phi,")
-	var/combo = null
-	var/combocount = 0 //How far into the combo are they?
-	var/overheat_sound = 'sound/effects/smoke.ogg'
-	var/list/cooling = list()
-	var/cooling_amount = 0
-	var/storage_amount = 0
-	var/storage_rate = 100
-	var/weapon_state = STATE_NOTHING
-	var/ventnumber = 1
-	// These variables only pertain to energy weapons, but need to be checked later in /proc/fire //I moved these over to the energyweapon basetype. if everything explodes, someone else told me to
-	var/charge = 0
-	var/heat = 0
-	var/charge_rate = 430000 //How quickly do we charge?
-	var/charge_per_shot = 660000 //How much power per shot do we have to use?
-	var/heat_per_shot = 250 //how much heat do we make per shot
-	var/heat_rate = 10 // how fast do we discharge heat
-	var/max_heat = 1000 //how much heat before ::fun:: happens
-	var/overloaded = 0 //have we cooked ourself
-	var/complexenergy = 1 //todo, makes special energy weapons exempt
-	var/lockout = 0 //todo, make only one person work on something at a time
-	max_integrity = 1200 //don't blow up before we're ready
-	obj_integrity = 1200
 
 /obj/machinery/ship_weapon/energy/get_ammo_list()
 	stack_trace("Attempting to get physical ammo of an energy weapon. Check your proc chains.")
