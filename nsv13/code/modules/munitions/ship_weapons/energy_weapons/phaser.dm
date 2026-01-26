@@ -1,6 +1,9 @@
 #define STATE_OVERLOAD 2
 #define STATE_VENTING 1
 #define STATE_NOTHING 0
+#define DELTA 1
+#define PHI 2
+#define OMEGA 3
 //#define STATE(ACTIVE) 1
 //#define STATE(INACTIVE) 0 dunno how to adapt somem of these things right now
 
@@ -29,9 +32,9 @@
 	var/alignment = 100 //stolen from railguns and the plasma gun
 	var/freq = 100
 	var/max_freq = 100
-	var/combo_target = "omega" //Randomized sequence for the recalibration minigame.
-	var/list/letters = list("delta,", "omega,", "phi,")
-	var/combo = null
+	var/list/options = list("delta", "omega", "phi")
+	var/combo = 1
+	var/list/combo_target = list()
 	var/combocount = 0 //How far into the combo are they?
 	var/overheat_sound = 'sound/effects/smoke.ogg'
 	var/list/cooling = list()
@@ -218,7 +221,7 @@
 	if(in_range(user, src) || isobserver(user))
 		. += "<span class='notice'>The heatsink display reads <b>[(heat)]</b> out of <b>[(max_heat)]</b>.</span>"
 		if(maint_state != MSTATE_CLOSED)
-			. +=  "<span class='warning'>[src]'s realignment sequence is: [combo_target].</span>"
+			. +=  "<span class='warning'>[src]'s realignment sequence is: [jointext(combo_target,(", "))].</span>"
 		if(weapon_state == STATE_VENTING) //are we venting heat?)
 			. +=  "<span class='warning'>[src]'s thermal managment system is in overdrive.</span>"
 		if(weapon_state == STATE_OVERLOAD) //have we overheated?
@@ -338,7 +341,12 @@
 	// dilithium crystal alignment minigame stolen from ds13 - I need to rip this out and rewrite it to not be completely cursed - TODO
 /obj/machinery/ship_weapon/energy/screwdriver_act(mob/user, obj/item/tool)
 	. = ..()
-	if(maint_state == MSTATE_UNBOLTED && !lockout && !maintainable)
+	if(maint_state == MSTATE_UNBOLTED && !lockout && maintainable)
+		for(combocount, align(user)) lockout=1
+	else
+		return FALSE
+
+/** 	if(maint_state == MSTATE_UNBOLTED && !lockout && !maintainable)
 		.=TRUE
 		lockout = 1
 		var/sound/thesound = pick('nsv13/sound/effects/computer/beep.ogg','nsv13/sound/effects/computer/beep2.ogg','nsv13/sound/effects/computer/beep3.ogg','nsv13/sound/effects/computer/beep4.ogg','nsv13/sound/effects/computer/beep5.ogg','nsv13/sound/effects/computer/beep6.ogg','nsv13/sound/effects/computer/beep7.ogg','nsv13/sound/effects/computer/beep8.ogg','nsv13/sound/effects/computer/beep9.ogg','nsv13/sound/effects/computer/beep10.ogg','nsv13/sound/effects/computer/beep11.ogg','nsv13/sound/effects/computer/beep12.ogg',)
@@ -372,6 +380,46 @@
 				combocount = 0
 				combo = null
 				lockout = 0
+*/
+
+/obj/machinery/ship_weapon/energy/Initialize()
+	. = ..()
+	for(var/option in options)
+		options[option] = image(icon = 'nsv13/icons/actions/engine_actions.dmi', icon_state = "[option]")
+	realign()
+
+/obj/machinery/ship_weapon/energy/proc/realign()
+	var/N=rand(2,7)
+	combo_target=pick(options)
+	for(var/i,i<=N,i++)  //Randomized sequence for the recalibration minigame.
+		combo_target=combo_target+(pick(options))
+
+/obj/machinery/ship_weapon/energy/proc/align(mob/living/user)  //this is the replacement minigame for the KMCCODE from DS13.. it's still mostly the same
+	var/sound/thesound = pick('nsv13/sound/effects/computer/beep.ogg','nsv13/sound/effects/computer/beep2.ogg','nsv13/sound/effects/computer/beep3.ogg','nsv13/sound/effects/computer/beep4.ogg','nsv13/sound/effects/computer/beep5.ogg','nsv13/sound/effects/computer/beep6.ogg','nsv13/sound/effects/computer/beep7.ogg','nsv13/sound/effects/computer/beep8.ogg','nsv13/sound/effects/computer/beep9.ogg','nsv13/sound/effects/computer/beep10.ogg','nsv13/sound/effects/computer/beep11.ogg','nsv13/sound/effects/computer/beep12.ogg',)
+	SEND_SOUND(user, thesound)
+	var/dowhat = show_radial_menu(user,src,options)
+	if(!dowhat)
+		lockout = 0
+		return
+	to_chat(user, "<span class='warning'>You inputted [dowhat] into the command sequence.</span>")
+	playsound(src, 'sound/machines/sm/supermatter3.ogg', 20, 1)
+	if(combo_target?[combo++]==dowhat)
+		lockout = 0
+		if(combo==combo_target.len)
+			to_chat(user, "<span class='warning'>Realignment of weapon energy direction matrix complete.</span>")
+			playsound(src, 'sound/machines/sm/supermatter1.ogg', 30, 1)
+			freq = max_freq
+			combo = 1
+			realign()
+			return
+		return
+	else
+		to_chat(user, "<span class='warning'>Realignment failed. Continued failure risks dangerous heat overload. Rotating command sequence.</span>")
+		playsound(src, 'nsv13/sound/effects/warpcore/overload.ogg', 100, 1)
+		realign()
+		heat = max(heat+(heat_per_shot*4),max_heat) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
+		combo = 1
+		lockout = 0
 
 /obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/multitool/I)
 	if(lockout)
