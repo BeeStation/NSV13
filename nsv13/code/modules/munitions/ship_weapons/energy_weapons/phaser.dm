@@ -1,3 +1,9 @@
+#define STATE_OVERLOAD 2
+#define STATE_VENTING 1
+#define STATE_NOTHING 0
+//#define STATE(ACTIVE) 1
+//#define STATE(INACTIVE) 0 dunno how to adapt somem of these things right now
+
 /obj/machinery/ship_weapon/energy
 	name = "burst phaser MK2"
 	desc = "A coaxial laser system, capable of firing controlled laser bursts at a target."
@@ -39,8 +45,9 @@
 	var/heat_rate = 10 // how fast do we discharge heat
 	var/max_heat = 1000 //how much heat before ::fun:: happens
 	var/overloaded = 0 //have we cooked ourself
-	var/complexenergy = 1 //todo, makes special energy weapons exempt
+	var/maintainable = TRUE
 	var/lockout = 0 //todo, make only one person work on something at a time
+	var/weapon_state = STATE_NOTHING
 	max_integrity = 1200 //don't blow up before we're ready
 	obj_integrity = 1200
 
