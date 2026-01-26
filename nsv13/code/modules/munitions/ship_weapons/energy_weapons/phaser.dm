@@ -130,6 +130,22 @@
 		return FALSE
 	if(get_ammo() < shots) //Do we have enough ammo?
 		return FALSE
+	if(weapon_state == STATE_OVERLOAD) //have we overheated?
+		return FALSE
+	if(weapon_state == STATE_VENTING) //are we venting heat?)
+		return FALSE
+	if(freq <=10) //is the frequincy of the weapon high enough to fire?
+		overload()
+		return FALSE
+	if(alignment == 0)
+		playsound(src, malfunction_sound, 100, 1)
+		for(var/mob/living/M in get_hearers_in_view(7, src)) //burn out eyes in view
+			if(M.stat != DEAD && M.get_eye_protection() < 2) //checks for eye protec
+				M.flash_act(10)
+				to_chat(M, "<span class='warning'>You have a second to watch the casing of the gun glow a dull red before it erupts in a blinding flash as it self-destructs</span>")   // stealing this from the plasmagun as well
+		explosion(get_turf(src), 0, 1, 3, 5, flame_range = 4)
+		overload()
+		return FALSE
 	else
 		return TRUE
 
@@ -199,6 +215,8 @@
 			. +=  "<span class='warning'>[src]'s thermal managment system is in failure recovery mode.</span>"
 
 /obj/machinery/ship_weapon/energy/proc/vent()
+	if(!maintainable)
+		return
 	if(heat > max_heat*0.25)
 		weapon_state = STATE_VENTING
 		ventnumber = max_heat*0.25
@@ -209,8 +227,6 @@
 		playsound(src, overheat_sound, 100, 1)
 
 
-/obj/machinery/ship_weapon/energy/can_fire(shots = weapon_type.burst_size)
-	//todo
 
 /obj/machinery/ship_weapon/energy/after_fire()
 	if(maint_state != MSTATE_CLOSED) //MSTATE_CLOSED
@@ -223,6 +239,8 @@
 	..()
 
 /obj/machinery/ship_weapon/energy/proc/process_heat()//heat management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
+	if(!maintainable)
+		return
 	cooling_amount = 0
 	for(var/obj/machinery/cooling/cooler/C in cooling)
 		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
@@ -264,6 +282,8 @@
 	return
 
 /obj/machinery/ship_weapon/energy/proc/handle_alignment() //this is the basic bad stuff that happens, don't fire when your gun is at 0 alignment, or it'll blow itself up
+	if(!maintainable)
+		return
 	var/turf/detonation_turf = get_turf(src)
 	if(heat >= (3*(max_heat/4)))
 		freq -= rand(1,4)
@@ -308,7 +328,7 @@
 	// dilithium crystal alignment minigame stolen from ds13 - I need to rip this out and rewrite it to not be completely cursed - TODO
 /obj/machinery/ship_weapon/energy/screwdriver_act(mob/user, obj/item/tool)
 	. = ..()
-	if(maint_state == MSTATE_UNBOLTED && !lockout)
+	if(maint_state == MSTATE_UNBOLTED && !lockout && !maintainable)
 		.=TRUE
 		lockout = 1
 		var/sound/thesound = pick('nsv13/sound/effects/computer/beep.ogg','nsv13/sound/effects/computer/beep2.ogg','nsv13/sound/effects/computer/beep3.ogg','nsv13/sound/effects/computer/beep4.ogg','nsv13/sound/effects/computer/beep5.ogg','nsv13/sound/effects/computer/beep6.ogg','nsv13/sound/effects/computer/beep7.ogg','nsv13/sound/effects/computer/beep8.ogg','nsv13/sound/effects/computer/beep9.ogg','nsv13/sound/effects/computer/beep10.ogg','nsv13/sound/effects/computer/beep11.ogg','nsv13/sound/effects/computer/beep12.ogg',)
