@@ -29,27 +29,27 @@
 	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
 	weapon_datum_type = /datum/overmap_ship_weapon/burst_phaser
 	var/static_charge = FALSE //Controls whether power and energy cost scale with power modifier. True = no scaling
-	var/alignment = 100 //stolen from railguns and the plasma gun
-	var/freq = 100
+	var/alignment = 100 //! allignment is a maint stat that acts as a limit that ticks down and increases chances of malfunction until the gun explodes if it reaches zero
+	var/freq = 100	//! freqency is a stat that decreases faster the lower your allignment is, leading up to an overload once you reach 0 freqency
 	var/max_freq = 100
-	var/list/options = list("delta", "omega", "phi")
-	var/combo = 1
-	var/list/combo_target = list()
-	var/combocount = 0 //How far into the combo are they?
+	var/list/options = list("delta", "omega", "phi")  //! delta, omega, phi; options for the freq minigame code
+	var/combo = 1	//! at what point are we in the code. this is generated ingame
+	var/list/combo_target = list()	//! the minigame code that the user has to enter. this is generated ingame
+	var/combocount = 0 //! how many times to re-show the radial menu for entering the combo.this is generated ingame
 	var/overheat_sound = 'sound/effects/smoke.ogg'
 	var/list/cooling = list()
-	var/cooling_amount = 0
-	var/storage_amount = 0
-	var/storage_rate = 100
-	var/ventnumber = 1
+	var/cooling_amount = 0	//! the total amount of cooling all coolers provide. this is generated ingame
+	var/storage_amount = 0	//! the total amount of storage all heatsinks provide. this is generated ingame
+	var/storage_rate = 100	//! the amount that a heatsink increases this weapon's heat capacity
+	var/ventnumber = 1		//! the rate at which we discharge heat when venting. this is generated ingame
 	// These variables only pertain to energy weapons, but need to be checked later in /proc/fire //I moved these over to the energyweapon basetype. if everything explodes, someone else told me to
-	var/heat = 0
-	var/heat_per_shot = 250 //how much heat do we make per shot
-	var/heat_rate = 10 // how fast do we discharge heat
-	var/max_heat = 1000 //how much heat before ::fun:: happens
-	var/overloaded = 0 //have we cooked ourself
+	var/heat = 0	//! how much heat we current have. this is generated ingame
+	var/heat_per_shot = 250 //! how much heat do we make per shot
+	var/heat_rate = 10 //! how fast do we discharge heat per cooler
+	var/max_heat = 1000 //! how much heat before ::fun:: happens
+	var/overloaded = 0 //! have we triggered an overload by going over max_heat
 	maintainable = TRUE
-	var/lockout = 0 //todo, make only one person work on something at a time
+	var/lockout = 0 //! lockout for maintinence
 	var/weapon_state = STATE_NOTHING
 	max_integrity = 1200 //don't blow up before we're ready
 	obj_integrity = 1200
@@ -104,6 +104,7 @@
 
 /obj/machinery/ship_weapon/energy/attack_hand(mob/user)
 	if(maint_state == MSTATE_UNBOLTED && !lockout && maintainable)
+		combocount = length(combo_target)
 		for(combocount, align(user))
 			lockout=1
 	else
@@ -230,9 +231,9 @@
 		if(weapon_state == STATE_VENTING) //are we venting heat?)
 			. +=  "<span class='warning'>[src]'s thermal managment system is in overdrive.</span>"
 		if(weapon_state == STATE_OVERLOAD) //have we overheated?
-			. +=  "<span class='warning'>[src]'s thermal managment system is in failure recovery mode.</span>"
+			. +=  "<span class='danger'>[src]'s thermal managment system is in failure recovery mode.</span>"
 
-/obj/machinery/ship_weapon/energy/proc/vent()
+/obj/machinery/ship_weapon/energy/proc/vent() //! starsector esq venting that boosts heat dissipation in exchange for disabling your weapons. don't
 	if(!maintainable)
 		playsound(src, pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg'), 100, 1)
 		return
@@ -257,7 +258,7 @@
 	handle_alignment()
 	..()
 
-/obj/machinery/ship_weapon/energy/proc/process_heat()//heat management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
+/obj/machinery/ship_weapon/energy/proc/process_heat()//! heat management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
 	if(!maintainable)
 		return
 	cooling_amount = 0
@@ -287,7 +288,7 @@
 	if(heat >= max_heat)
 		overload()
 
-/obj/machinery/ship_weapon/energy/proc/overload() //this is what happens when you can't control yourself
+/obj/machinery/ship_weapon/energy/proc/overload() //! this is the second worst thing that can happen with an energy weapon - triggers when you go over max_heat, and both dumps hot water vapor into the room and wipes your freq and alignment stats. you really don't want to do this
 	playsound(src, malfunction_sound, 100, 1)
 	playsound(src, overheat_sound, 100, 1)
 	do_sparks(4, FALSE, src)
@@ -300,7 +301,7 @@
 	charge = 0
 	return
 
-/obj/machinery/ship_weapon/energy/proc/handle_alignment() //this is the basic bad stuff that happens, don't fire when your gun is at 0 alignment, or it'll blow itself up
+/obj/machinery/ship_weapon/energy/proc/handle_alignment() //!this is the basic bad stuff that happens, don't fire when your gun is at 0 alignment, or it'll blow itself up
 	if(!maintainable)
 		return
 	var/turf/detonation_turf = get_turf(src)
@@ -388,13 +389,13 @@
 		options[option] = image(icon = 'nsv13/icons/actions/engine_actions.dmi', icon_state = "[option]")
 	realign()
 
-/obj/machinery/ship_weapon/energy/proc/realign()
+/obj/machinery/ship_weapon/energy/proc/realign() //! regenerates the alignment code
 	var/N=rand(3,8)
 	combo_target=list()
 	for(var/i,i<=N,i++)  //Randomized sequence for the recalibration minigame.
 		combo_target+=(pick(options))
 
-/obj/machinery/ship_weapon/energy/proc/align(mob/living/user)  //this is the replacement minigame for the KMCCODE from DS13.. it's still mostly the same
+/obj/machinery/ship_weapon/energy/proc/align(mob/living/user)  //! this is the replacement minigame for the KMCCODE from DS13.. it's still mostly the same. you enter the generated 3-8 long code in via radial menu
 	SEND_SOUND(user, pick('nsv13/sound/effects/computer/beep.ogg','nsv13/sound/effects/computer/beep2.ogg','nsv13/sound/effects/computer/beep3.ogg','nsv13/sound/effects/computer/beep4.ogg','nsv13/sound/effects/computer/beep5.ogg','nsv13/sound/effects/computer/beep6.ogg','nsv13/sound/effects/computer/beep7.ogg','nsv13/sound/effects/computer/beep8.ogg','nsv13/sound/effects/computer/beep9.ogg','nsv13/sound/effects/computer/beep10.ogg','nsv13/sound/effects/computer/beep11.ogg','nsv13/sound/effects/computer/beep12.ogg',))
 	var/dowhat = show_radial_menu(user,src,options,require_near=TRUE)
 	if(!dowhat)

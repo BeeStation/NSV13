@@ -531,7 +531,8 @@
 			local_fire()
 			overmap_fire(target)
 			charge -= charge_per_shot
-			heat += heat_per_shot
+			if(maintainable)
+				heat += heat_per_shot
 			after_fire()
 			. = TRUE
 			if(shots > 1)
