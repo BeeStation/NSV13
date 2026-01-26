@@ -12,9 +12,9 @@
 	safety = FALSE //Ready to go right from the start.
 	idle_power_usage =  2500
 	var/active = FALSE
-	charge = 0
-	charge_rate = 330000 //How quickly do we charge?
-	charge_per_shot = 660000 //How much power per shot do we have to use?
+	var/charge = 0
+	var/charge_rate = 330000 //How quickly do we charge?
+	var/charge_per_shot = 660000 //How much power per shot do we have to use?
 	var/max_charge = 3300000 //5 shots before it has to recharge.
 	var/power_modifier = 0 //Power youre inputting into this thing.
 	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
@@ -32,7 +32,6 @@
 	var/cooling_amount = 0
 	var/storage_amount = 0
 	var/storage_rate = 100
-	var/weapon_state = STATE_NOTHING
 	var/ventnumber = 1
 	// These variables only pertain to energy weapons, but need to be checked later in /proc/fire //I moved these over to the energyweapon basetype. if everything explodes, someone else told me to
 	var/heat = 0
@@ -89,6 +88,8 @@
 			power_modifier = value
 		if("activeToggle")
 			toggle_active()
+		if("vent")
+			vent()
 	return
 
 /obj/machinery/ship_weapon/energy/attack_hand(mob/user)
@@ -105,6 +106,10 @@
 	var/list/data = list()
 	data["progress"] = charge
 	data["goal"] = max_charge
+	data["alignment"] = alignment
+	data["heat"] = heat
+	data["maxheat"] = max_heat
+	data["frequency"] = freq
 	data["chargeRate"] = charge_rate
 	data["maxChargeRate"] = initial(charge_rate)*power_modifier_cap
 	data["powerAlloc"] = power_modifier
@@ -140,6 +145,8 @@
 		P.damage *= power_modifier
 
 /obj/machinery/ship_weapon/energy/process()
+	process_heat()
+	//return if overloaded or venting
 	charge_rate = initial(charge_rate) * power_modifier
 	max_charge = initial(max_charge) * power_modifier
 	if(!static_charge)
@@ -177,3 +184,193 @@
 
 /obj/machinery/ship_weapon/energy/beam/admin //ez weapon for quickly testing.
 	charge_per_shot = 0
+
+
+/obj/machinery/ship_weapon/energy/examine(mob/user)
+	. = ..()
+	. += "<span class='notice'>The Thermal Transceiver is currently at <b>[length(cooling)]0%</b> connection capacity.</span>"
+	if(in_range(user, src) || isobserver(user))
+		. += "<span class='notice'>The heatsink display reads <b>[(heat)]</b> out of <b>[(max_heat)]</b>.</span>"
+		if(maint_state != MSTATE_CLOSED)
+			. +=  "<span class='warning'>[src]'s realignment sequence is: [combo_target].</span>"
+		if(weapon_state == STATE_VENTING) //are we venting heat?)
+			. +=  "<span class='warning'>[src]'s thermal managment system is in overdrive.</span>"
+		if(weapon_state == STATE_OVERLOAD) //have we overheated?
+			. +=  "<span class='warning'>[src]'s thermal managment system is in failure recovery mode.</span>"
+
+/obj/machinery/ship_weapon/energy/proc/vent()
+	if(heat > max_heat*0.25)
+		weapon_state = STATE_VENTING
+		ventnumber = max_heat*0.25
+	else
+		ventnumber = max_heat
+		weapon_state = STATE_VENTING
+		playsound(src, 'sound/effects/turbolift/turbolift-close.ogg', 100, 1)
+		playsound(src, overheat_sound, 100, 1)
+
+
+/obj/machinery/ship_weapon/energy/can_fire(shots = weapon_type.burst_size)
+	//todo
+
+/obj/machinery/ship_weapon/energy/after_fire()
+	if(maint_state != MSTATE_CLOSED) //MSTATE_CLOSED
+		tesla_zap(src, 4, 1000) //Munitions Officer definitely had the best uniform
+		for(var/mob/living/carbon/C in orange(4, src))
+			C.flash_act()
+		for(var/mob/living/carbon/C in orange(12, src))
+			to_chat(C, "<span class='danger'>Electricity arcs from the exposed firing mechanism.</span>")
+	handle_alignment()
+	..()
+
+/obj/machinery/ship_weapon/energy/proc/process_heat()//heat management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
+	cooling_amount = 0
+	for(var/obj/machinery/cooling/cooler/C in cooling)
+		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
+			cooling_amount++
+	storage_amount = 0
+	for(var/obj/machinery/cooling/storage/C in cooling)
+		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
+			storage_amount++
+	max_heat = initial(max_heat) + (storage_amount*storage_rate)
+	var/H = heat-cooling_amount*heat_rate
+	if(heat > 0)
+		heat = max((H),0)
+	switch(weapon_state)
+		if(STATE_OVERLOAD)
+			if(heat <= (max_heat/50))
+				weapon_state = STATE_NOTHING
+			else
+				return
+		if(STATE_VENTING)
+			if(heat <= ventnumber)
+				weapon_state = STATE_NOTHING
+				return
+			heat = max(heat-(cooling_amount*(heat_rate+(0.25*heat_rate))),0)
+			return
+	if(heat >= max_heat)
+		overload()
+
+/obj/machinery/ship_weapon/energy/proc/overload() //this is what happens when you can't control yourself
+	playsound(src, malfunction_sound, 100, 1)
+	playsound(src, overheat_sound, 100, 1)
+	do_sparks(4, FALSE, src)
+	weapon_state = STATE_OVERLOAD
+	alignment = 0
+	freq = 0
+	say("WARNING! Critical heat density, emergency venting and shutdown initiated!")
+	atmos_spawn_air("water_vapor=200;TEMP=1000")
+	heat = max_heat
+	charge = 0
+	return
+
+/obj/machinery/ship_weapon/energy/proc/handle_alignment() //this is the basic bad stuff that happens, don't fire when your gun is at 0 alignment, or it'll blow itself up
+	var/turf/detonation_turf = get_turf(src)
+	if(heat >= (3*(max_heat/4)))
+		freq -= rand(1,4)
+	switch(alignment)
+		if(51 to 75)
+			if(prob(50))
+				do_sparks(4, FALSE, src)
+				freq -= rand(1,10)
+		if(26 to 50)
+			var/roll = roll(1,20)
+			switch(roll)
+				if(1 to 9)
+					do_sparks(4, FALSE, src)
+					freq -= rand(1,10)
+					playsound(src, malfunction_sound, 100, 1)
+				if(10)
+					playsound(src, malfunction_sound, 100, 1)
+					freq -= rand(1,10)
+					explosion(detonation_turf, 0, 0, 2, 3, flame_range = 2)
+		if(0 to 25)
+			var/roll2 = roll(1,4)
+			switch(roll2)
+				if(1)
+					do_sparks(4, FALSE, src)
+					playsound(src, malfunction_sound, 100, 1)
+					freq -= rand(1,10)
+				if(2)
+					playsound(src, malfunction_sound, 100, 1)
+					freq -= rand(1,10)
+					explosion(detonation_turf, 0, 0, 3, 4, flame_range = 3)
+				if(3,4)
+					var/list/shootat_turf = RANGE_TURFS(5,detonation_turf) - RANGE_TURFS(4, detonation_turf)
+					var/obj/item/projectile/beam/laser/P = new(detonation_turf)
+					//Shooting Code:
+					P.range = 6
+					P.preparePixelProjectile(pick(shootat_turf), detonation_turf)
+					P.fire()
+					freq -= rand(1,10)
+	alignment = max(alignment-(rand(0, 4)),0)
+
+
+	// dilithium crystal alignment minigame stolen from ds13 - I need to rip this out and rewrite it to not be completely cursed - TODO
+/obj/machinery/ship_weapon/energy/screwdriver_act(mob/user, obj/item/tool)
+	. = ..()
+	if(maint_state == MSTATE_UNBOLTED && !lockout)
+		.=TRUE
+		lockout = 1
+		var/sound/thesound = pick('nsv13/sound/effects/computer/beep.ogg','nsv13/sound/effects/computer/beep2.ogg','nsv13/sound/effects/computer/beep3.ogg','nsv13/sound/effects/computer/beep4.ogg','nsv13/sound/effects/computer/beep5.ogg','nsv13/sound/effects/computer/beep6.ogg','nsv13/sound/effects/computer/beep7.ogg','nsv13/sound/effects/computer/beep8.ogg','nsv13/sound/effects/computer/beep9.ogg','nsv13/sound/effects/computer/beep10.ogg','nsv13/sound/effects/computer/beep11.ogg','nsv13/sound/effects/computer/beep12.ogg',)
+		SEND_SOUND(user, thesound)
+		var/list/options = letters
+		for(var/option in options)
+			options[option] = image(icon = 'nsv13/icons/actions/engine_actions.dmi', icon_state = "[option]")
+		var/dowhat = show_radial_menu(user,src,options)
+		if(!dowhat)
+			lockout = 0
+			return
+		combo += "[dowhat]"
+		combocount ++
+		to_chat(user, "<span class='warning'>You inputted [dowhat] into the command sequence.</span>")
+		playsound(src, 'sound/machines/sm/supermatter3.ogg', 20, 1)
+		if(combocount <= 4)
+			addtimer(CALLBACK(src, TYPE_PROC_REF(/atom,screwdriver_act), user),2)   // *scream  addtimer(CALLBACK(object|null, GLOBAL_PROC_REF(type/path|procstring), arg1, arg2, ... argn), time, timertype)
+		if(combocount >= 5) //Completed the sequence
+			if(combo == combo_target)
+				to_chat(user, "<span class='warning'>Realignment of weapon energy direction matrix complete.</span>")
+				playsound(src, 'sound/machines/sm/supermatter1.ogg', 30, 1)
+				freq = max_freq
+				combo = null
+				combocount = 0
+				lockout = 0
+			else
+				to_chat(user, "<span class='warning'>Realignment failed. Continued failure risks dangerous heat overload. Rotating command sequence.</span>")
+				playsound(src, 'nsv13/sound/effects/warpcore/overload.ogg', 100, 1)
+				combo_target = "[pick(letters)][pick(letters)][pick(letters)][pick(letters)][pick(letters)]"
+				heat = max(heat+(heat_per_shot*4),max_heat) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
+				combocount = 0
+				combo = null
+				lockout = 0
+
+/obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/multitool/I)
+	if(lockout)
+		return FALSE
+	switch(maint_state)
+		if(MSTATE_CLOSED)
+			if(istype(I))
+				to_chat(user, "<span class='notice'>You log [src] in the multitool's buffer.</span>")
+				I.buffer = src
+				return TRUE
+		if(MSTATE_UNSCREWED)
+			to_chat(user, "<span class='notice'>You must <I>unbolt</I> the protective casing before aligning the lenses!</span>")
+			return TRUE
+		if(MSTATE_UNBOLTED)
+			to_chat(user, "<span class='notice'>You being aligning the lenses.</span>")
+			lockout = 1
+			while(alignment < 100)
+				if(!do_after(user, 5, target = src))
+					lockout = 0
+					return TRUE
+				alignment += rand(1,2)
+				if(alignment >= 100)
+					alignment = 100
+					to_chat(user, "<span class='notice'>You finish aligning the lenses.</span>")
+					lockout = 0
+					return TRUE
+	return ..()
+
+/obj/machinery/ship_weapon/energy/Destroy()
+	for(var/obj/machinery/cooling/E in cooling)
+		E.parent = null
+	. = ..()
