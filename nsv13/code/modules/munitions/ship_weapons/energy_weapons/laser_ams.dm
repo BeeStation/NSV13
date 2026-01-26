@@ -8,7 +8,7 @@
 	bound_width = 64
 	pixel_x = -32
 	pixel_y = -32
-	// maintainable = TRUE //AMS will require some form of maintenance to operate
+	maintainable = TRUE //AMS requires some form of maintenance to operate
 	safety = FALSE //Ready to go right from the start.
 	idle_power_usage = 2500
 	active = FALSE
