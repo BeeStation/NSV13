@@ -396,7 +396,7 @@
 
 /obj/machinery/ship_weapon/energy/proc/align(mob/living/user)  //this is the replacement minigame for the KMCCODE from DS13.. it's still mostly the same
 	SEND_SOUND(user, pick('nsv13/sound/effects/computer/beep.ogg','nsv13/sound/effects/computer/beep2.ogg','nsv13/sound/effects/computer/beep3.ogg','nsv13/sound/effects/computer/beep4.ogg','nsv13/sound/effects/computer/beep5.ogg','nsv13/sound/effects/computer/beep6.ogg','nsv13/sound/effects/computer/beep7.ogg','nsv13/sound/effects/computer/beep8.ogg','nsv13/sound/effects/computer/beep9.ogg','nsv13/sound/effects/computer/beep10.ogg','nsv13/sound/effects/computer/beep11.ogg','nsv13/sound/effects/computer/beep12.ogg',))
-	var/dowhat = show_radial_menu(user,src,options)
+	var/dowhat = show_radial_menu(user,src,options,require_near=TRUE)
 	if(!dowhat)
 		lockout = 0
 		return
