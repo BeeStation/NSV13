@@ -103,7 +103,12 @@
 	return
 
 /obj/machinery/ship_weapon/energy/attack_hand(mob/user)
-	ui_interact(user)
+	if(maint_state == MSTATE_UNBOLTED && !lockout && maintainable)
+		for(combocount, align(user))
+			lockout=1
+	else
+		ui_interact(user)
+
 
 /obj/machinery/ship_weapon/energy/attack_ai(mob/user)
 	ui_interact(user)
@@ -229,6 +234,7 @@
 
 /obj/machinery/ship_weapon/energy/proc/vent()
 	if(!maintainable)
+		playsound(src, pick('nsv13/sound/effects/computer/error.ogg','nsv13/sound/effects/computer/error2.ogg','nsv13/sound/effects/computer/error3.ogg'), 100, 1)
 		return
 	if(heat > max_heat*0.25)
 		weapon_state = STATE_VENTING
@@ -339,12 +345,6 @@
 
 
 	// dilithium crystal alignment minigame stolen from ds13 - I need to rip this out and rewrite it to not be completely cursed - TODO
-/obj/machinery/ship_weapon/energy/screwdriver_act(mob/user, obj/item/tool)
-	. = ..()
-	if(maint_state == MSTATE_UNBOLTED && !lockout && maintainable)
-		for(combocount, align(user)) lockout=1
-	else
-		return FALSE
 
 /** 	if(maint_state == MSTATE_UNBOLTED && !lockout && !maintainable)
 		.=TRUE
@@ -389,43 +389,43 @@
 	realign()
 
 /obj/machinery/ship_weapon/energy/proc/realign()
-	var/N=rand(2,7)
-	combo_target=pick(options)
+	var/N=rand(3,8)
+	combo_target=list()
 	for(var/i,i<=N,i++)  //Randomized sequence for the recalibration minigame.
-		combo_target=combo_target+(pick(options))
+		combo_target+=(pick(options))
 
 /obj/machinery/ship_weapon/energy/proc/align(mob/living/user)  //this is the replacement minigame for the KMCCODE from DS13.. it's still mostly the same
-	var/sound/thesound = pick('nsv13/sound/effects/computer/beep.ogg','nsv13/sound/effects/computer/beep2.ogg','nsv13/sound/effects/computer/beep3.ogg','nsv13/sound/effects/computer/beep4.ogg','nsv13/sound/effects/computer/beep5.ogg','nsv13/sound/effects/computer/beep6.ogg','nsv13/sound/effects/computer/beep7.ogg','nsv13/sound/effects/computer/beep8.ogg','nsv13/sound/effects/computer/beep9.ogg','nsv13/sound/effects/computer/beep10.ogg','nsv13/sound/effects/computer/beep11.ogg','nsv13/sound/effects/computer/beep12.ogg',)
-	SEND_SOUND(user, thesound)
+	SEND_SOUND(user, pick('nsv13/sound/effects/computer/beep.ogg','nsv13/sound/effects/computer/beep2.ogg','nsv13/sound/effects/computer/beep3.ogg','nsv13/sound/effects/computer/beep4.ogg','nsv13/sound/effects/computer/beep5.ogg','nsv13/sound/effects/computer/beep6.ogg','nsv13/sound/effects/computer/beep7.ogg','nsv13/sound/effects/computer/beep8.ogg','nsv13/sound/effects/computer/beep9.ogg','nsv13/sound/effects/computer/beep10.ogg','nsv13/sound/effects/computer/beep11.ogg','nsv13/sound/effects/computer/beep12.ogg',))
 	var/dowhat = show_radial_menu(user,src,options)
 	if(!dowhat)
 		lockout = 0
 		return
 	to_chat(user, "<span class='warning'>You inputted [dowhat] into the command sequence.</span>")
 	playsound(src, 'sound/machines/sm/supermatter3.ogg', 20, 1)
-	if(combo_target?[combo++]==dowhat)
+	if(combo_target[combo]==dowhat)
 		lockout = 0
 		if(combo==combo_target.len)
-			to_chat(user, "<span class='warning'>Realignment of weapon energy direction matrix complete.</span>")
+			to_chat(user, "<span class='notice'>Realignment of weapon energy direction matrix complete.</span>")
 			playsound(src, 'sound/machines/sm/supermatter1.ogg', 30, 1)
 			freq = max_freq
 			combo = 1
 			realign()
 			return
+		combo++
 		return
 	else
 		to_chat(user, "<span class='warning'>Realignment failed. Continued failure risks dangerous heat overload. Rotating command sequence.</span>")
 		playsound(src, 'nsv13/sound/effects/warpcore/overload.ogg', 100, 1)
 		realign()
-		heat = max(heat+(heat_per_shot*4),max_heat) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
+		heat = min(heat+(heat_per_shot*4),max_heat) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
 		combo = 1
 		lockout = 0
 
 /obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/multitool/I)
 	if(lockout)
-		return FALSE
+		return TRUE
 	if(!maintainable)
-		return
+		return FALSE
 	switch(maint_state)
 		if(MSTATE_CLOSED)
 			if(istype(I))
