@@ -211,6 +211,9 @@
 
 /obj/machinery/ship_weapon/energy/examine(mob/user)
 	. = ..()
+	if(!maintainable)
+		. += "<span class='notice'>This weapon has an autonomic Thermal Managment System and nano-centered beam focuses.</span>"
+		return
 	. += "<span class='notice'>The Thermal Transceiver is currently at <b>[length(cooling)]0%</b> connection capacity.</span>"
 	if(in_range(user, src) || isobserver(user))
 		. += "<span class='notice'>The heatsink display reads <b>[(heat)]</b> out of <b>[(max_heat)]</b>.</span>"
@@ -373,6 +376,8 @@
 /obj/machinery/ship_weapon/energy/multitool_act(mob/living/user, obj/item/multitool/I)
 	if(lockout)
 		return FALSE
+	if(!maintainable)
+		return
 	switch(maint_state)
 		if(MSTATE_CLOSED)
 			if(istype(I))

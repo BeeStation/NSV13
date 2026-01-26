@@ -21,8 +21,12 @@
 /obj/machinery/cooling/Destroy()
 	if(parent)
 		parent.cooling -= src
-  . = ..()
+	. = ..()
 
+/obj/machinery/cooling/on_deconstruction()
+	if(parent)
+		parent.cooling -= src
+	return
 
 /obj/machinery/cooling/attack_hand(mob/user)
 	. = ..()
@@ -99,3 +103,48 @@
 	icon_state = "matter_bin"  //todo
 	materials = list(/datum/material/bluespace=2000, /datum/material/copper=30000, /datum/material/iron=1000)
 	w_class = WEIGHT_CLASS_BULKY
+
+/obj/machinery/cooling/attackby(obj/item/W, mob/user, params)
+	if(W.tool_behaviour == TOOL_SCREWDRIVER)
+		W.play_tool_sound(src, 100)
+		panel_open = !panel_open
+		if(panel_open)
+			to_chat(user, "<span class='notice'>You open the panel and expose the wiring.</span>")
+		else
+			to_chat(user, "<span class='notice'>You close the panel.</span>")
+	else if(istype(W, /obj/item/stack/cable_coil) && (machine_stat & BROKEN) && panel_open)
+		var/obj/item/stack/cable_coil/coil = W
+		if (coil.get_amount() < 1)
+			to_chat(user, "<span class='warning'>You need one length of cable to repair [src]!</span>")
+			return
+		to_chat(user, "<span class='notice'>You begin to replace the wires...</span>")
+		if(do_after(user, 30, target = src))
+			if(coil.get_amount() < 1)
+				return
+			coil.use(1)
+			obj_integrity = max_integrity
+			set_machine_stat(machine_stat & ~BROKEN)
+			to_chat(user, "<span class='notice'>You repair \the [src].</span>")
+			update_icon()
+
+	else if(W.tool_behaviour == TOOL_WRENCH)
+		if(!anchored && !isinspace())
+			W.play_tool_sound(src, 100)
+			to_chat(user, "<span class='notice'>You secure \the [src] to the floor!</span>")
+			setAnchored(TRUE)
+		else if(anchored)
+			W.play_tool_sound(src, 100)
+			to_chat(user, "<span class='notice'>You unsecure \the [src] from the floor!</span>")
+			if(on)
+				to_chat(user, "<span class='notice'>\The [src] shuts off!</span>")
+				on = 0
+			setAnchored(FALSE)
+	else if(W.tool_behaviour == TOOL_CROWBAR)
+		return
+
+	else
+		return ..()
+
+/obj/machinery/cooling/crowbar_act(mob/living/user, obj/item/tool)
+	if(!default_deconstruction_crowbar(tool))
+		return ..()
