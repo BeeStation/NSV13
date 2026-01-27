@@ -22,11 +22,11 @@
 	idle_power_usage =  2500
 	var/active = FALSE
 	var/charge = 0
-	var/charge_rate = 330000 //How quickly do we charge?
+	var/charge_rate = 400000 //How quickly do we charge?
 	var/charge_per_shot = 660000 //How much power per shot do we have to use?
 	var/max_charge = 3300000 //5 shots before it has to recharge.
 	var/power_modifier = 0 //Power youre inputting into this thing.
-	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
+	var/power_modifier_cap = 4 //Which means that your guns are spitting bursts that do 60 damage.
 	weapon_datum_type = /datum/overmap_ship_weapon/burst_phaser
 	var/static_charge = FALSE //Controls whether power and energy cost scale with power modifier. True = no scaling
 	var/alignment = 100 //! allignment is a maint stat that acts as a limit that ticks down and increases chances of malfunction until the gun explodes if it reaches zero
@@ -64,7 +64,7 @@
 	icon_state = "ion_cannon"
 	weapon_datum_type = /datum/overmap_ship_weapon/phaser
 	circuit = /obj/item/circuitboard/machine/phase_cannon
-	charge_rate = 600000 // At power level 5, requires 3MW per tick to charge
+	charge_rate = 700000 // At power level 5, requires 3.5MW per tick to charge
 	charge_per_shot = 4000000 // At power level 5, requires 20MW total to fire, takes about 12 seconds to gain 1 charge
 	max_charge = 8000000 // Store 2 charges
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
