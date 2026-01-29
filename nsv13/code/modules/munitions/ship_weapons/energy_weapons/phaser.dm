@@ -44,7 +44,7 @@
 	var/ventnumber = 1		//! the rate at which we discharge heat when venting. this is generated ingame
 	// These variables only pertain to energy weapons, but need to be checked later in /proc/fire //I moved these over to the energyweapon basetype. if everything explodes, someone else told me to
 	var/heat = 0	//! how much heat we current have. this is generated ingame
-	var/heat_per_shot = 250 //! how much heat do we make per shot
+	var/heat_per_shot = 150 //! how much heat do we make per shot
 	var/heat_rate = 10 //! how fast do we discharge heat per cooler
 	var/max_heat = 1000 //! how much heat before ::fun:: happens
 	var/overloaded = 0 //! have we triggered an overload by going over max_heat
