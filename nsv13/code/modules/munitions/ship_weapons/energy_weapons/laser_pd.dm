@@ -63,7 +63,7 @@
 	weapon_datum_type = /datum/overmap_ship_weapon/phaser_pd
 	charge = 0
 	charge_rate = 500000
-	charge_per_shot = 1000000 // requires 1 MW to fire a burst
+	charge_per_shot = 1000000 // requires 2 MW to fire a burst
 	max_charge = 4000000 // Stores 1 burst base
 	power_modifier_cap = 1 // PL cap of 2
 	static_charge = TRUE
