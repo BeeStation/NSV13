@@ -62,22 +62,19 @@
 
 	weapon_datum_type = /datum/overmap_ship_weapon/phaser_pd
 	charge = 0
-	charge_rate = 700000
+	charge_rate = 500000
 	charge_per_shot = 1000000 // requires 1 MW to fire a burst
 	max_charge = 4000000 // Stores 1 burst base
 	power_modifier_cap = 1 // PL cap of 2
 	static_charge = TRUE
 	firing_sound = null
 	bang = FALSE // It's a light laser weapon, not a cannon going off
+	maintainable = FALSE
 
 	circuit = /obj/item/circuitboard/machine/laser_pd
 	var/gunning_component_type = /datum/component/overmap_gunning/laser_pd
 	var/mob/gunner = null
 	var/gun_id = 0 // Used for map linkage
-	max_heat = 1000
-	heat_per_shot = 80
-	heat_rate = 15
-	storage_rate = 100
 
 
 /obj/machinery/ship_weapon/energy/laser_pd/proc/start_gunning(mob/user)
