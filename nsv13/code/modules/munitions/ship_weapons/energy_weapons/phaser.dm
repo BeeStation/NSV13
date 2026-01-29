@@ -68,6 +68,9 @@
 	charge_per_shot = 4000000 // At power level 5, requires 20MW total to fire, takes about 12 seconds to gain 1 charge
 	max_charge = 8000000 // Store 2 charges
 	power_modifier_cap = 5 //Allows you to do insanely powerful oneshot lasers. Maximum theoretical damage of 500.
+	heat_per_shot = 1000 //allows two shots before overheating with two coolers. default for atherwhisp
+	heat_rate = 20
+	storage_rate = 250
 
 /obj/machinery/ship_weapon/energy/lazyload()
 	active = TRUE
