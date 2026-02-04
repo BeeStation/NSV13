@@ -280,6 +280,7 @@
 		if(STATE_OVERLOAD)
 			if(heat <= (max_heat/50))
 				weapon_state = STATE_NOTHING
+				icon_state = initial(icon_state)
 			else
 				return
 		if(STATE_VENTING)
@@ -292,6 +293,10 @@
 		overload()
 
 /obj/machinery/ship_weapon/energy/proc/overload() //! this is the second worst thing that can happen with an energy weapon - triggers when you go over max_heat, and both dumps hot water vapor into the room and wipes your freq and alignment stats. you really don't want to do this
+	if("[initial(icon_state)]_overheat" in icon_state_list)
+		icon_state = "[initial(icon_state)]_overheat"
+	else
+		icon_state = "overheat"
 	playsound(src, malfunction_sound, 100, 1)
 	playsound(src, overheat_sound, 100, 1)
 	do_sparks(4, FALSE, src)
@@ -421,7 +426,7 @@
 		to_chat(user, "<span class='warning'>Realignment failed. Continued failure risks dangerous heat overload. Rotating command sequence.</span>")
 		playsound(src, 'nsv13/sound/effects/warpcore/overload.ogg', 100, 1)
 		realign()
-		heat = min(heat+(heat_per_shot*4),max_heat) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
+		heat = min(heat+(heat_per_shot*4),max_heat+50) //Penalty for fucking it up. You risk destroying the crystal... //well... actually overheating the gun
 		combo = 1
 		lockout = 0
 
