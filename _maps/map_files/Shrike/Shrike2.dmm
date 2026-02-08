@@ -849,6 +849,15 @@
 /obj/machinery/door/firedoor/border_only/directional/east,
 /turf/open/floor/plating/rusty_techgrid,
 /area/crew_quarters/toilet/restrooms)
+"cC" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	piping_layer = 5
+	},
+/obj/machinery/meter{
+	target_layer = 5
+	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/engine/atmos/port_atmos)
 "cD" = (
 /obj/machinery/firealarm/directional/east,
 /obj/machinery/airalarm/directional/south,
@@ -1587,6 +1596,9 @@
 /obj/structure/disposalpipe/segment{
 	dir = 10
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 9
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "eK" = (
@@ -2312,6 +2324,9 @@
 /area/engine/stormdrive)
 "gK" = (
 /obj/structure/window/reinforced/spawner/west,
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 4
+	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "o2=100000;TEMP=293.15"
 	},
@@ -3653,6 +3668,9 @@
 /area/quartermaster/storage)
 "kV" = (
 /obj/structure/window/reinforced/spawner/west,
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 4
+	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "pluox=10000;TEMP=293.15"
 	},
@@ -3727,6 +3745,9 @@
 /obj/machinery/portable_atmospherics/canister/nitrogen,
 /obj/structure/window/reinforced/spawner/north,
 /obj/structure/window/reinforced/spawner/east,
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 4
+	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "n2=100000;TEMP=293.15"
 	},
@@ -3973,17 +3994,17 @@
 	lighting_colour_tube = "#FF3232"
 	})
 "mn" = (
-/obj/machinery/firealarm/directional/west,
-/obj/effect/turf_decal/guideline/guideline_in/brown{
-	color = "#FF7F00";
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 4
 	},
-/obj/effect/turf_decal/guideline/guideline_out/yellow{
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 4
 	},
-/turf/open/floor/monofloor{
-	dir = 8
-	},
+/obj/structure/lattice/catwalk/over/ship,
+/turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/port{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
@@ -4498,6 +4519,9 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -5819,6 +5843,9 @@
 	frequency = 1441;
 	id_tag = "sdpluoxium_out"
 	},
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 9
+	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "pluox=10000;TEMP=293.15"
 	},
@@ -6041,17 +6068,16 @@
 /turf/open/floor/plasteel/dark,
 /area/science/robotics)
 "sJ" = (
-/obj/structure/cable{
-	icon_state = "4-8"
+/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/yellow{
+	dir = 10
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 4
+/obj/effect/turf_decal/guideline/guideline_in_arrow_con_alt/brown{
+	color = "#FF7F00";
+	dir = 10
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 4
+/turf/open/floor/monofloor{
+	dir = 8
 	},
-/obj/structure/lattice/catwalk/over/ship,
-/turf/open/floor/plating/rusty_techgrid,
 /area/hallway/nsv/deck2/frame1/port{
 	lighting_colour_bulb = "#c1e1ff";
 	lighting_colour_night = "#c1e1ff";
@@ -7242,6 +7268,9 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "wn" = (
@@ -7574,17 +7603,22 @@
 /turf/open/floor/plasteel/techmaint,
 /area/engine/gravity_generator)
 "xj" = (
-/obj/structure/cable{
-	icon_state = "2-8"
+/obj/effect/turf_decal/guideline/guideline_in/brown{
+	color = "#FF7F00";
+	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
-	dir = 10
+/obj/effect/turf_decal/guideline/guideline_out/yellow{
+	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 10
+/obj/machinery/firealarm/directional/west,
+/turf/open/floor/monofloor{
+	dir = 8
 	},
-/turf/open/floor/plating/rusty_techgrid,
-/area/maintenance/nsv/deck2/port)
+/area/hallway/nsv/deck2/frame1/port{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "xk" = (
 /obj/structure/grille,
 /obj/structure/cable/white{
@@ -7609,9 +7643,27 @@
 	lighting_colour_tube = "#FF3232"
 	})
 "xm" = (
-/obj/effect/spawner/lootdrop/grille_or_trash,
-/turf/open/floor/plating,
-/area/maintenance/nsv/deck2/port)
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 4
+	},
+/obj/machinery/door/airlock/ship/maintenance{
+	dir = 4;
+	req_one_access_txt = "12"
+	},
+/obj/machinery/door/firedoor/border_only/directional/west,
+/obj/machinery/door/firedoor/border_only/directional/east,
+/turf/open/floor/plating/rusty_techgrid,
+/area/hallway/nsv/deck2/frame1/port{
+	lighting_colour_bulb = "#c1e1ff";
+	lighting_colour_night = "#c1e1ff";
+	lighting_colour_tube = "#c1e1ff"
+	})
 "xn" = (
 /obj/machinery/atmospherics/components/trinary/filter/flipped/on{
 	dir = 4;
@@ -7830,42 +7882,18 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "xN" = (
-/obj/structure/cable{
-	icon_state = "1-4"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
-	dir = 5
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 5
-	},
-/obj/structure/fluff/support_beam{
-	dir = 1
-	},
-/turf/open/floor/plating/rusty_techgrid,
-/area/maintenance/nsv/deck2/port)
-"xO" = (
-/obj/structure/cable{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/supply/visible/layer2{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+/obj/machinery/atmospherics/components/unary/thermomachine/heater{
 	dir = 4
 	},
-/obj/machinery/door/airlock/ship/maintenance{
-	dir = 4;
-	req_one_access_txt = "12"
+/turf/open/floor/plating,
+/area/engine/atmos/port_atmos)
+"xO" = (
+/obj/machinery/atmospherics/pipe/manifold/general/visible{
+	dir = 1
 	},
-/obj/machinery/door/firedoor/border_only/directional/west,
-/obj/machinery/door/firedoor/border_only/directional/east,
-/turf/open/floor/plating/rusty_techgrid,
-/area/hallway/nsv/deck2/frame1/port{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
+/obj/machinery/camera/autoname,
+/turf/open/floor/plating,
+/area/engine/atmos/port_atmos)
 "xQ" = (
 /obj/structure/janitorialcart{
 	dir = 4
@@ -8485,7 +8513,6 @@
 	filter_type = "o2";
 	piping_layer = 5
 	},
-/obj/machinery/camera/autoname,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "zz" = (
@@ -8694,6 +8721,9 @@
 /obj/machinery/atmospherics/pipe/simple/green/visible{
 	piping_layer = 5
 	},
+/obj/machinery/camera/autoname{
+	dir = 4
+	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "zX" = (
@@ -8708,6 +8738,9 @@
 	id = "sdplasma_in";
 	piping_layer = 5;
 	tag = "sdplasma_in"
+	},
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 6
 	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "plasma=10000;TEMP=293.15"
@@ -8777,6 +8810,9 @@
 /area/engine/gravity_generator)
 "Ai" = (
 /obj/structure/window/reinforced/spawner/west,
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 5
+	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "plasma=10000;TEMP=293.15"
 	},
@@ -8785,6 +8821,9 @@
 /obj/machinery/portable_atmospherics/canister/constricted_plasma,
 /obj/structure/window/reinforced/spawner/north,
 /obj/structure/window/reinforced/spawner/east,
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 4
+	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "plasma=10000;TEMP=293.15"
 	},
@@ -8852,6 +8891,9 @@
 	piping_layer = 5;
 	tag = "sdo2_in"
 	},
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 4
+	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "o2=100000;TEMP=293.15"
 	},
@@ -8860,6 +8902,9 @@
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /obj/structure/window/reinforced/spawner/north,
 /obj/structure/window/reinforced/spawner/east,
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 4
+	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "o2=100000;TEMP=293.15"
 	},
@@ -8912,6 +8957,9 @@
 	piping_layer = 5;
 	tag = "sdn2_in"
 	},
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 4
+	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "n2=100000;TEMP=293.15"
 	},
@@ -8925,6 +8973,9 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -8976,6 +9027,14 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/nsv/deck2/port)
+"AX" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	dir = 4;
+	piping_layer = 5
+	},
+/obj/machinery/atmospherics/pipe/heat_exchanging/junction,
+/turf/open/floor/plating/rusty_techgrid,
+/area/engine/atmos/port_atmos)
 "Ba" = (
 /obj/structure/chair{
 	dir = 8
@@ -9019,6 +9078,9 @@
 	frequency = 1441;
 	id_tag = "sdplasma_out"
 	},
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 4
+	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "plasma=10000;TEMP=293.15"
 	},
@@ -9035,6 +9097,9 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -9060,6 +9125,9 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/on/layer2{
 	frequency = 1441;
 	id_tag = "sdo2_out"
+	},
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "o2=100000;TEMP=293.15"
@@ -9182,6 +9250,9 @@
 	})
 "BC" = (
 /obj/structure/window/reinforced/spawner/west,
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 4
+	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "n2=100000;TEMP=293.15"
 	},
@@ -9192,6 +9263,9 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/siphon/on/layer2{
 	frequency = 1441;
 	id_tag = "sdn2_out"
+	},
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 4
 	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "n2=100000;TEMP=293.15"
@@ -9238,12 +9312,7 @@
 /obj/machinery/light{
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/green/visible{
-	piping_layer = 5
-	},
-/obj/machinery/meter{
-	target_layer = 5
-	},
+/obj/machinery/atmospherics/pipe/layer_manifold,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "BO" = (
@@ -9535,6 +9604,9 @@
 /obj/structure/window/reinforced/spawner/north,
 /obj/structure/window/reinforced/spawner/east,
 /obj/machinery/portable_atmospherics/canister/pluoxium,
+/obj/machinery/atmospherics/pipe/heat_exchanging/manifold{
+	dir = 4
+	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "pluox=10000;TEMP=293.15"
 	},
@@ -10041,9 +10113,6 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
-/obj/machinery/atmospherics/pipe/manifold/scrubbers/visible/layer4{
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/manifold/green/visible{
 	dir = 1;
 	piping_layer = 5
@@ -10051,6 +10120,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/manifold4w/scrubbers/visible/layer4,
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
 "Ee" = (
@@ -12149,6 +12219,9 @@
 	piping_layer = 5;
 	tag = "sdpluoxium_in"
 	},
+/obj/machinery/atmospherics/pipe/heat_exchanging/simple{
+	dir = 4
+	},
 /turf/open/floor/mineral/plastitanium/airless{
 	initial_gas_mix = "pluox=10000;TEMP=293.15"
 	},
@@ -12311,6 +12384,9 @@
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
 	},
 /turf/open/floor/plating/rusty_techgrid,
 /area/engine/atmos/port_atmos)
@@ -14154,6 +14230,16 @@
 	lighting_colour_night = "#c1e1ff";
 	lighting_colour_tube = "#c1e1ff"
 	})
+"QG" = (
+/obj/machinery/atmospherics/pipe/simple/green/visible{
+	piping_layer = 5
+	},
+/obj/machinery/atmospherics/components/binary/pump/layer4{
+	dir = 1;
+	name = "Scrubbers to Supermatter Products"
+	},
+/turf/open/floor/plating/rusty_techgrid,
+/area/engine/atmos/port_atmos)
 "QH" = (
 /obj/structure/sign/departments/minsky/security/security{
 	pixel_x = -28
@@ -16118,21 +16204,14 @@
 	lighting_colour_tube = "#c1e1ff"
 	})
 "Wf" = (
-/obj/effect/turf_decal/guideline/guideline_in/brown{
-	color = "#FF7F00";
-	dir = 4
-	},
-/obj/effect/turf_decal/guideline/guideline_out_arrow_con_alt/yellow{
-	dir = 10
-	},
-/turf/open/floor/monofloor{
+/obj/machinery/atmospherics/components/unary/portables_connector/visible{
 	dir = 8
 	},
-/area/hallway/nsv/deck2/frame1/port{
-	lighting_colour_bulb = "#c1e1ff";
-	lighting_colour_night = "#c1e1ff";
-	lighting_colour_tube = "#c1e1ff"
-	})
+/obj/structure/sign/poster/official/moth5{
+	pixel_y = 32
+	},
+/turf/open/floor/plating,
+/area/engine/atmos/port_atmos)
 "Wg" = (
 /obj/machinery/lazylift/master{
 	id = null
@@ -48830,7 +48909,7 @@ vM
 vn
 ce
 qm
-vn
+PG
 PG
 Jv
 ld
@@ -49086,9 +49165,9 @@ kt
 vU
 vn
 Du
-xj
-xN
+qm
 PG
+xN
 pI
 KP
 kV
@@ -49342,11 +49421,11 @@ tX
 wn
 vW
 vn
-xm
-Rp
-qm
+vw
+Db
 PG
-Jv
+xO
+AX
 CL
 rQ
 dH
@@ -49600,13 +49679,13 @@ wr
 vY
 wJ
 Rp
-Rp
 qm
 PG
+Wf
 zH
-zW
+cC
 BK
-zW
+QG
 eJ
 Ff
 PG
@@ -49857,8 +49936,8 @@ fR
 fR
 fR
 fR
+xm
 fR
-xO
 fR
 fR
 fR
@@ -50113,10 +50192,10 @@ DL
 yd
 yd
 AO
-yd
+xj
 mn
 sJ
-Wf
+yd
 he
 bU
 Le
