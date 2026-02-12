@@ -85,15 +85,18 @@
 			if(prob(50))
 				ScrapeAway(flags = CHANGETURF_INHERIT_AIR)
 
+//nsv13 - proc adjusted for proper behavior (singularity resistance, non-infinite draining).
 /turf/open/floor/engine/singularity_pull(S, current_size)
-	..()
-	if(current_size >= STAGE_FIVE)
-		if(floor_tile)
-			if(prob(30))
-				new floor_tile(src)
-				make_plating()
-		else if(prob(30))
-			ReplaceWithLattice()
+	if(current_size < STAGE_FIVE)
+		return
+	if(floor_tile)
+		if(prob(30))
+			new floor_tile(src)
+			make_plating(TRUE)
+	else if(prob(30))
+		ReplaceWithLattice()
+	SEND_SIGNAL(src, COMSIG_ATOM_SING_PULL, S, current_size) //Sent here because calling parent would be unsafe.
+//nsv13 end.
 
 /turf/open/floor/engine/attack_paw(mob/user)
 	return attack_hand(user)

@@ -33,6 +33,23 @@
 		if(270 to 360) //Then this represents the last quadrant of the circle, the northwest one
 			return ARMOUR_FORWARD_STARBOARD
 
+/**
+ * Special armor quadrant proc for projectiles in particular
+ * Determines effective quadrant by projectile facing rather than relative location.
+ * Should on average feel more accurate than relative angles due to physics shenanegans.
+ */
+/obj/structure/overmap/proc/projectile_quadrant_impact(obj/item/projectile/P)
+	var/hit_angle = (720 + P.Angle - angle) % 360
+	switch(hit_angle)
+		if(0 to 89)
+			return ARMOUR_AFT_PORT
+		if(90 to 179)
+			return ARMOUR_FORWARD_PORT
+		if(180 to 269)
+			return ARMOUR_FORWARD_STARBOARD
+		else
+			return ARMOUR_AFT_STARBOARD
+
 /* UNUSED
 /obj/screen/alert/overmap_integrity
 	name = "Ship integrity"

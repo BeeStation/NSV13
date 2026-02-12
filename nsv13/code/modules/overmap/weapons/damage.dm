@@ -48,7 +48,7 @@ Bullet reactions
 	P.spec_overmap_hit(src)
 	if(P.projectile_relaying_allowed)
 		var/relayed_type = P.relay_projectile_type ? P.relay_projectile_type : P.type
-		relay_damage(relayed_type)
+		relay_damage(relayed_type, P.Angle)
 	if(!use_armour_quadrants)
 		return ..()
 	else
@@ -56,28 +56,42 @@ Bullet reactions
 		visible_message("<span class='danger'>[src] is hit by \a [P]!</span>", null, null, COMBAT_MESSAGE_RANGE)
 		if(!QDELETED(src)) //Bullet on_hit effect might have already destroyed this object
 			//var/datum/vector2d/point_of_collision = src.physics2d?.collider2d.get_collision_point(P.physics2d?.collider2d)//Get the collision point, see if the armour quadrants need to absorb this hit.
-			take_quadrant_hit(run_obj_armor(P.damage, P.damage_type, P.flag, null, P.armour_penetration), quadrant_impact(P)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
+			take_quadrant_hit(run_obj_armor(P.damage, P.damage_type, P.flag, null, P.armour_penetration), projectile_quadrant_impact(P)) //This looks horrible, but trust me, it isn't! Probably!. Armour_quadrant.dm for more info
 			return BULLET_ACT_HIT
 
 /**
  * Used to relay a projectile impacting an overmap onto an overmap's interior zlevels.
  * * proj_type = The type of the projectile to create.
+ * * original_proj_angle = The angle of the impacted projectile, used to decide on the side of the z the projectile relays from.
  */
-/obj/structure/overmap/proc/relay_damage(proj_type)
+/obj/structure/overmap/proc/relay_damage(proj_type, original_proj_angle)
 	if(!length(occupying_levels))
 		return
 	var/datum/space_level/SL = pick(occupying_levels)
 	var/theZ = SL.z_value
-	var/startside = pick(GLOB.cardinals)
-	var/turf/pickedstart = spaceDebrisStartLoc(startside, theZ)
+
+	var/effective_angle = (720 + original_proj_angle - angle) % 360 //Don't ask, I don't trust angles to be positive anymore.
+	var/effective_side
+	switch(effective_angle)
+		if(45 to 135)
+			effective_side = NORTH //Port impact
+		if(135 to 225)
+			effective_side = EAST //Front impact
+		if(225 to 315)
+			effective_side = SOUTH //Starboard impact
+		else
+			effective_side = WEST //Aft impact
+
+	var/turf/pickedstart = spaceDebrisStartLoc(effective_side, theZ)
 	var/turf/pickedgoal = locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), theZ)
 	var/obj/item/projectile/proj = new proj_type(pickedstart)
 	proj.starting = pickedstart
 	proj.firer = null
 	proj.def_zone = "chest"
 	proj.original = pickedgoal
+	var/targeting_angle = get_angle(pickedstart,pickedgoal) + ((rand() - 0.5) * 40) //Target center +- 20°
 	spawn()
-		proj.fire(get_angle(pickedstart,pickedgoal))
+		proj.fire(targeting_angle)
 		proj.set_pixel_speed(4)
 
 /obj/structure/overmap/small_craft/relay_damage(proj_type)

@@ -225,8 +225,15 @@
 	W.registered_name = H.real_name
 	W.update_label(H.real_name)
 
+//NSV13 - outfit basetype
+/datum/outfit/centcom
+	name = "Centcom Outfit basetype - Do Not Use"
+	can_be_admin_equipped = FALSE
+//NSV13 end.
+
 /datum/outfit/centcom/commander
 	name = JOB_CENTCOM_COMMANDER
+	can_be_admin_equipped = TRUE //nsv13 - adjustment for basetype.
 
 	uniform = /obj/item/clothing/under/rank/centcom/commander
 	suit = /obj/item/clothing/suit/armor/bulletproof
