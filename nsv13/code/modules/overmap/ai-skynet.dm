@@ -801,7 +801,7 @@ Adding tasks is easy! Just define a datum for it.
 		current_system.enemies_in_system += member
 	all_ships += member
 	RegisterSignal(member, COMSIG_PARENT_QDELETING , /datum/fleet/proc/remove_ship, member)
-	RegisterSignal(member, COMSIG_SHIP_BOARDED , /datum/fleet/proc/remove_ship, member)
+	RegisterSignal(member, COMSIG_SHIP_IFF_CHANGE , /datum/fleet/proc/remove_ship, member)
 
 	if(current_system.occupying_z)
 		current_system.add_ship(member)

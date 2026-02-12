@@ -14,7 +14,7 @@
 		var/list/candidates = list()
 		for(var/datum/star_system/S in SSstar_system.neutral_zone_systems)
 			// Is this even in a reasonable location?
-			if(S.hidden || (S.sector != 2) || S.get_info()?["Black hole"] || S.name == "Rubicon")
+			if(S.hidden || (S.sector != 2) || S.name == "Rubicon" || S.has_anomaly_type(/obj/effect/overmap_anomaly/singularity))
 				continue
 			// Don't put it where it will immediately get shot
 			if((S.alignment != "syndicate") && (S.alignment != "unaligned") && (S.alignment != "uncharted"))
@@ -27,12 +27,12 @@
 
 /datum/overmap_objective/board_station/instance()
 	. = ..()
-	// make a ship
+	// make a station
 	var/station = /obj/structure/overmap/trader/syndicate/outpost
 	target_station = instance_overmap(station)
 	target_station.block_deletion = TRUE
 	target_station.essential = TRUE
-	RegisterSignal(target_station, COMSIG_SHIP_BOARDED, PROC_REF(iff_change), target_station)
+	RegisterSignal(target_station, COMSIG_SHIP_IFF_CHANGE, PROC_REF(iff_change), target_station)
 	RegisterSignal(target_station, COMSIG_SHIP_RELEASE_BOARDING, PROC_REF(release_boarding), target_station)
 	target_station.ai_load_interior(SSstar_system.find_main_overmap())
 	var/ship_name = generate_ship_name()
@@ -49,9 +49,9 @@
 	F.add_ship(target_station, "supply")
 
 	// How long should this take?
-	var/list/fastest_route = find_route(SSstar_system.find_system(SSovermap_mode.mode.starting_system), target_system)
+	var/list/fastest_route = find_route(SSstar_system.find_system(SSovermap_mode.mode.starting_system), target_system, wormholes_allowed = FALSE)
 	var/distance = 0
-	for(var/i = 2; i < length(fastest_route); i++)
+	for(var/i = 2; i <= length(fastest_route); i++)
 		var/datum/star_system/start = fastest_route[i-1]
 		var/datum/star_system/finish = fastest_route[i]
 		distance += start.dist(finish)
@@ -65,26 +65,29 @@
 
 /datum/overmap_objective/board_station/check_completion()
 	if(defense_complete)
-		target_station.block_deletion = FALSE
 		status = 1
 		UnregisterSignal(target_system, COMSIG_SHIP_RELEASE_BOARDING) //Now that you've captured it you can do whatever
 		.=..()
 
 /datum/overmap_objective/board_station/proc/release_boarding()
+	SIGNAL_HANDLER
 	// Don't let them kill the ship if they haven't won yet
 	if(status != 1 && status != 3) // complete or admin override
 		return COMSIG_SHIP_BLOCKS_RELEASE_BOARDING
 	return 0
 
 /datum/overmap_objective/board_station/proc/iff_change()
+	SIGNAL_HANDLER
 	if(target_station.faction == SSovermap_mode.mode.starting_faction)
+		target_station.block_deletion = FALSE //You captured it, it's now your responsibility
 		target_station.essential = FALSE
-		UnregisterSignal(target_station, COMSIG_SHIP_BOARDED)
+		UnregisterSignal(target_station, COMSIG_SHIP_IFF_CHANGE)
 		var/datum/star_system/adjacent = SSstar_system.system_by_id(pick(target_system.adjacency_list))
 		var/datum/fleet/reinforcements = adjacent.spawn_fleet(/datum/fleet/boarding, 5) //Harder fight
 		reinforcements.move(target_system, TRUE)
 		RegisterSignal(target_station, COMSIG_SHIP_KILLED_FLEET, PROC_REF(fleet_destroyed), target_station) //Kill the fleet and you're done
 
 /datum/overmap_objective/board_station/proc/fleet_destroyed()
+	SIGNAL_HANDLER
 	defense_complete = 1
 	check_completion()

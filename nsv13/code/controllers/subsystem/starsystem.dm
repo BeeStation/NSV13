@@ -608,6 +608,12 @@ Returns a faction datum by its name (case insensitive!)
 			anomalies[++anomalies.len] = anomaly_info
 	return anomalies
 
+/datum/star_system/proc/has_anomaly_type(anomaly_type)
+	for(var/obj/effect/overmap_anomaly/OA in system_contents)
+		if(istype(OA, anomaly_type))
+			return TRUE
+	return FALSE
+
 /obj/effect/overmap_anomaly //Should not appear normally.
 	name = "Tear in reality"
 	desc = "Your mind is shattering just from looking at this."

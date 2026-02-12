@@ -126,7 +126,7 @@ If someone hacks it, you can always rebuild it.
 	var/obj/structure/overmap/OM = get_overmap()
 	if(!OM)
 		return FALSE
-	SEND_SIGNAL(OM, COMSIG_SHIP_BOARDED)
+	SEND_SIGNAL(OM, COMSIG_SHIP_IFF_CHANGE)
 	OM.relay(pick('sound/ambience/ambitech.ogg', 'sound/ambience/ambitech3.ogg'))
 	say(pick("981d5d2ef58bae5aec45eb7030e56d29","0d4b1c990a4d84aba5aa0560c55a3f4e", "e935f4417ad97a36e540bc67a807d5c4"))
 	playsound(loc, 'nsv13/sound/effects/computer/alarm_3.ogg', 80)
