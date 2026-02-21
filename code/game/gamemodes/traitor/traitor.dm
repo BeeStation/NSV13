@@ -14,6 +14,8 @@
 	false_report_weight = 20 //Reports of traitors are pretty common.
 	restricted_jobs = list(JOB_NAME_CYBORG)//They are part of the AI if he is traitor so are they, they use to get double chances
 	protected_jobs = list(JOB_NAME_SECURITYOFFICER, JOB_NAME_WARDEN, JOB_NAME_HEADOFSECURITY, JOB_NAME_CAPTAIN, JOB_NAME_PILOT, JOB_NAME_MASTERATARMS) //NSV13 added pilots and master at arms
+	///If ai is currently restricted due to low pop; used to short circuit some checks instead of editing the list every time.
+	var/ai_currently_restricted = FALSE //NSV13 - used by traitor ai config
 	required_players = 0
 	required_enemies = 1
 	recommended_enemies = 4
@@ -42,6 +44,8 @@
 
 	if(CONFIG_GET(flag/protect_heads_from_antagonist))
 		restricted_jobs += GLOB.command_positions
+
+	ai_pop_config_check() //NSV13
 
 	var/num_traitors = 1
 
@@ -84,6 +88,7 @@
 	return TRUE
 
 /datum/game_mode/traitor/make_antag_chance(mob/living/carbon/human/character) //Assigns traitor to latejoiners
+	ai_pop_config_check() //NSV13
 	var/tsc = CONFIG_GET(number/traitor_scaling_coeff)
 	var/traitorcap = min(round(GLOB.joined_player_list.len / (tsc * 2)) + 2 + num_modifier, round(GLOB.joined_player_list.len / tsc) + num_modifier)
 	if((SSticker.mode.traitors.len + pre_traitors.len) >= traitorcap) //Upper cap for number of latejoin antagonists
@@ -120,3 +125,29 @@
 
 	round_credits += ..()
 	return round_credits
+
+
+//NSV13 - AI traitor has a config'd min pop.
+
+///This is a hook into role restrictions that can change within the round, done in the way that is probably the least jank / copypasta.
+/datum/game_mode/traitor/proc/ai_pop_config_check()
+	var/min_ai_traitor_pop = CONFIG_GET(number/ai_traitor_min_players)
+	if(min_ai_traitor_pop <= 0)
+		return
+
+	var/player_number
+	if(SSticker.current_state < GAME_STATE_PLAYING)
+		player_number = num_players()
+	else
+		player_number = length(GLOB.joined_player_list)
+
+	if(!ai_currently_restricted)
+		if(player_number < min_ai_traitor_pop)
+			restricted_jobs += JOB_NAME_AI
+			ai_currently_restricted = TRUE
+	else
+		if(player_number >= min_ai_traitor_pop)
+			restricted_jobs -= JOB_NAME_AI
+			ai_currently_restricted = FALSE
+
+//NSV13 end
