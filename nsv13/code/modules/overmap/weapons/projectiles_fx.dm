@@ -646,7 +646,7 @@ Misc projectile types, effects, think of this as the special FX file.
 
 ///Designed to be spammed like crazy, but can be buffed to do extremely solid damage when you overclock the guns.
 /obj/item/projectile/beam/laser/phaser
-	damage = 30
+	damage = 35
 	flag = "overmap_medium"
 	relay_projectile_type = /obj/item/projectile/beam/laser/phaser/relayed
 

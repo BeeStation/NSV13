@@ -8,14 +8,19 @@
 	bound_width = 64
 	pixel_x = -32
 	pixel_y = -32
-	// maintainable = TRUE //AMS will require some form of maintenance to operate
+	maintainable = TRUE //AMS requires some form of maintenance to operate
 	safety = FALSE //Ready to go right from the start.
 	idle_power_usage = 2500
 	active = FALSE
 	charge = 0
+	max_heat = 800
+	heat_per_shot = 200
+	heat_rate = 30
+	storage_rate = 50
+
 
 	// Hitscan antimissile laser, charges relatively quickly, but can't hold a decent buffer!
-	charge_rate = 1000000 // At power level 2, requires 2MW per tick to charge
+	charge_rate = 1500000 // At power level 2, requires 3MW per tick to charge
 	charge_per_shot = 3000000 // At power level 2, requires 6MW total to fire, takes about 3 seconds to gain 1 charge
 	max_charge = 3000000 // Store 1 charge
 
