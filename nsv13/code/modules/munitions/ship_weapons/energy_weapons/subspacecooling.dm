@@ -51,18 +51,18 @@
 	if(!parent)
 		. += "The thermal transcever is waiting for pairing"
 
-
+/*
 /obj/machinery/cooling/update_icon()
 	cut_overlays()
 	if(panel_open)
-//		icon_state = "smes-o"
+		icon_state = "smes-o"
 	if(on && parent)
-//		add_overlay("smes-op1")
+		add_overlay("smes-op1")
 	if(on)
-//		add_overlay("smes-oc1")
+		add_overlay("smes-oc1")
 	else
-//		add_overlay("smes-op0")
-
+		add_overlay("smes-op0")
+*/
 
 /obj/machinery/cooling/multitool_act(mob/living/user, obj/item/multitool/I)
 	if(!multitool_check_buffer(user, I))
