@@ -1,0 +1,17 @@
+author: DeltaFire15
+delete-after: true
+changes:
+  - rscadd: Small craft can now be docked by valid craft initiating collision with
+      them, as opposed to it having to be the other way around, provided docking mode
+      is enabled. Doing it this way around forcibly enables the small craft's brakes
+      if it lacks a working pilot.
+  - tweak: Escape pods no longer have an access requirement (to eject occupants via
+      ID).
+  - bugfix: Fighter escape pods being destroyed no longer messes up the occupant(s)'s
+      movement once revived.
+  - bugfix: Fighter escape pods no longer drop part of their equipment on creation
+      (and as such actually have a canopy).
+  - bugfix: Weapon selection dropping no longer drops a single runtime if called by
+      a Fighter being destroyed.
+  - bugfix: Fighter escape pods being created on a non-overmap z no longer runtimes.
+  - imageadd: Overlay for escape pods missing their canopy.
