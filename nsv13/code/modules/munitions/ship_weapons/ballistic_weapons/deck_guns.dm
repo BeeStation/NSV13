@@ -382,8 +382,6 @@
 				var/obj/machinery/deck_turret/payload_gate/maybe_payload_gate = maybe_machine
 				if(maybe_payload_gate.core)
 					continue
-				if(!maybe_payload_gate.anchored)
-					continue
 				payload_gate = maybe_payload_gate
 				maybe_payload_gate.core = src
 				break
