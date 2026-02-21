@@ -463,6 +463,13 @@ This proc is to be used when someone gets stuck in an overmap ship, gauss, WHATE
  * * ^ ^ ^ ^ THIS IS REALLY IMPORTANT
  */
 /obj/structure/overmap/proc/collide(obj/structure/overmap/other, datum/collision_response/c_response, collision_velocity)
+	if(istype(other, /obj/structure/overmap/small_craft))
+		var/obj/structure/overmap/small_craft/small_craft = other
+		if(small_craft.docking_act(src))
+			if(!small_craft.pilot || small_craft.pilot.incapacitated())
+				small_craft.brakes = TRUE
+				small_craft.relay(message = "<span class='danger'>Craft anchored by larger vessel, brakes have been engaged!</span>")
+			return
 	//No colliders. But we still get a lot of info anyways!
 	if(!c_response)
 		handle_cloak(CLOAK_TEMPORARY_LOSS)

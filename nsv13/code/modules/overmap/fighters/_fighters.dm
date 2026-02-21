@@ -70,8 +70,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 			var/list/copy_of_mobs_in_ship = mobs_in_ship.Copy() //Sometimes you really need to iterate on a list while it's getting modified
 			for(var/mob/living/M in copy_of_mobs_in_ship)
 				to_chat(M, "<span class='warning'>This ship is not equipped with an escape pod! Unable to eject.</span>")
+				stop_piloting(M, TRUE, TRUE)
 				M.apply_damage(200)
-				eject(M, force=TRUE)
 
 	last_overmap?.overmaps_in_ship -= src
 	return ..()
@@ -465,7 +465,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	essential = TRUE
 	escape_pod_type = null // This would just be silly
 	speed_limit = 2 //This, for reference, will feel suuuuper slow, but this is intentional
-	loadout_type = LOADOUT_UTILITY_ONLY
+	loadout_type = LOADOUT_ESCAPE_POD
+	req_one_access = list() //Anyone can force eject people from escape pods.
 	components = list(/obj/item/fighter_component/fuel_tank,
 						/obj/item/fighter_component/avionics,
 						/obj/item/fighter_component/apu,
@@ -713,7 +714,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	escape_pod.faction = faction
 	escape_pod.last_overmap = last_overmap
 	escape_pod.current_system = current_system
-	current_system.system_contents += escape_pod
+	if(current_system) //Very rare case of manned craft blowing up on a ship z.
+		current_system.system_contents += escape_pod
 	escape_pod.desired_angle = 0
 	escape_pod.user_thrust_dir = NORTH
 	var/obj/item/fighter_component/docking_computer/DC = escape_pod.loadout.get_slot(HARDPOINT_SLOT_DOCKING)
@@ -795,7 +797,8 @@ Been a mess since 2018, we'll fix it someday (probably)
 	forceMove(locate(250, y, z))
 	//check_overmap_elegibility(TRUE)
 
-/obj/structure/overmap/small_craft/proc/throw_pilot(damage = 200) //Used when yeeting a pilot out of an exploding ship
+///Unused proc.
+/obj/structure/overmap/small_craft/proc/throw_pilot(damage = 200) //Could be used when yeeting a pilot out of an exploding ship
 	if(SSmapping.level_trait(z, ZTRAIT_OVERMAP)) //Check if we're on the overmap
 		damage *= 2
 	var/list/victims = force_eject(TRUE)
@@ -906,6 +909,9 @@ Been a mess since 2018, we'll fix it someday (probably)
 
 /datum/component/ship_loadout/utility
 	equippable_slots = HARDPOINT_SLOTS_UTILITY
+
+/datum/component/ship_loadout/escape_pod
+	equippable_slots = HARDPOINT_SLOTS_ESCAPE_POD
 
 /datum/component/ship_loadout/Initialize(source)
 	. = ..()
