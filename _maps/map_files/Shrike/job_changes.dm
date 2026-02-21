@@ -13,7 +13,6 @@ MAP_REMOVE_JOB(chaplain)
 MAP_REMOVE_JOB(mime)
 //Security
 MAP_REMOVE_JOB(warden)
-MAP_REMOVE_JOB(detective)
 MAP_REMOVE_JOB(deputy)
 MAP_REMOVE_JOB(brig_phys)
 //Munitions
@@ -30,12 +29,6 @@ MAP_REMOVE_JOB(air_traffic_controller)
 
 //Disabled objects
 
-/obj/item/circuitboard/machine/ore_silo/New()
-	.=..()
-	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
-		return
-	build_path = null
-
 /obj/item/circuitboard/machine/ore_redemption/New()
 	.=..()
 	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
@@ -46,7 +39,8 @@ MAP_REMOVE_JOB(air_traffic_controller)
 	.=..()
 	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
 		return
-	build_path = null
+	if(build_path == /obj/machinery/chem_dispenser)
+		build_path = null
 
 /obj/structure/frame/machine/attackby(obj/item/P, mob/user, params)
 	switch(state)
@@ -62,6 +56,12 @@ MAP_REMOVE_JOB(air_traffic_controller)
 					to_chat(user, "<span class='warning'>This ship cannot support this type of machine!</span>")
 					return
 	. = ..()
+
+/obj/item/circuitboard/machine/techfab/department/Initialize(mapload)
+	. = ..()
+	if(SSmapping?.config?.map_name != JOB_MODIFICATION_MAP_NAME)
+		return
+	return INITIALIZE_HINT_QDEL
 
 //Bottle Chemistry Packs
 

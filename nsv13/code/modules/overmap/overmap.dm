@@ -917,6 +917,19 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	src.max_angular_acceleration = max_angular_acceleration
 	src.speed_limit = speed_limit
 
+/obj/structure/overmap/proc/railgun_bluespace_recoil(target)
+	next_maneuvre = world.time + 5 SECONDS //Set booster on cooldown
+	relay('nsv13/sound/effects/ship/afterburner.ogg', message="<span class='warning'>You feel as the ship gets suddenly pulled away!</span>", loop=FALSE)
+	addtimer(CALLBACK(src, PROC_REF(reset_boost), forward_maxthrust, backward_maxthrust, side_maxthrust, max_angular_acceleration, speed_limit), 2 SECONDS)
+	var/direction = get_angle(src, target)
+	speed_limit += 10
+	user_thrust_dir = direction
+	max_angular_acceleration *= 0.01 //Turning not an option
+	forward_maxthrust *= 10
+	backward_maxthrust *= 10
+	side_maxthrust *= 10
+	shake_everyone(20)
+
 /// Check how aggressively the pilots are turning
 /obj/structure/overmap/proc/check_throwaround(theAngle, direction)
 	var/delta = abs(angular_velocity) //Where we started.

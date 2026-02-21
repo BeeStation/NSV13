@@ -306,6 +306,41 @@ Misc projectile types, effects, think of this as the special FX file.
 	. = ..()
 	homing = FALSE
 
+/obj/item/projectile/bullet/railgun_forged //The properties of this projectile will be generated on each instance of it being fired
+	icon_state = "mac"
+	name = "railgun slug"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	damage = 1
+	speed = 1
+	armour_penetration = 1
+	flag = "overmap_heavy"
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+	//effect vars passed from ammunition object
+	var/burn = 0
+	var/emp = 0
+
+
+/obj/item/projectile/bullet/railgun_forged/spec_overmap_hit(obj/structure/overmap/target) //Lifted and combined from torp code
+	if(length(target.occupying_levels))
+		return
+	if(burn) //Are we going to burn overmap objects?
+		if(target.ai_controlled || istype(target, /obj/structure/overmap/small_craft))
+			target.hullburn += burn
+			target.hullburn_power = max(target.hullburn_power, 6)
+
+	if(emp) //Are we going to EMP?
+		if(target.ai_controlled)
+			if(target.disruption <= (emp * 2))
+				target.disruption = min(target.disruption + emp, (emp * 2))
+			return
+
+		if(istype(target, /obj/structure/overmap/small_craft))
+			target.disruption += 25
+			return
+
+		target.add_sensor_profile_penalty(150, 10 SECONDS)
+
+
 /obj/item/projectile/bullet/gauss_slug
 	icon_state = "gaussgun"
 	name = "tungsten round"
