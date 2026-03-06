@@ -468,7 +468,7 @@
 	name = "Laser Anti Missile System"
 	standard_projectile_type = /obj/item/projectile/beam/laser/point_defense
 	burst_size = 1
-	fire_delay = 0.35 SECONDS
+	fire_delay = 0.20 SECONDS //buffed because of energy weapon maintinence
 	optimal_range = 30
 	select_alert = "<span class='notice'>Laser target acquisition systems: online.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/burst_phaser.ogg', 'nsv13/sound/effects/ship/burst_phaser2.ogg')
