@@ -69,11 +69,13 @@
 	static_charge = TRUE
 	firing_sound = null
 	bang = FALSE // It's a light laser weapon, not a cannon going off
+	maintainable = FALSE
 
 	circuit = /obj/item/circuitboard/machine/laser_pd
 	var/gunning_component_type = /datum/component/overmap_gunning/laser_pd
 	var/mob/gunner = null
 	var/gun_id = 0 // Used for map linkage
+
 
 /obj/machinery/ship_weapon/energy/laser_pd/proc/start_gunning(mob/user)
 	if(gunner)
