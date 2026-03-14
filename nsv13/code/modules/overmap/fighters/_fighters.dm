@@ -76,6 +76,12 @@ Been a mess since 2018, we'll fix it someday (probably)
 	last_overmap?.overmaps_in_ship -= src
 	return ..()
 
+/obj/structure/overmap/small_craft/GetAllContents(T, ignore_flag_1) //I'm doing this on small craft just in case anyone considers calling this on a full sized ship and gets every single atom on it returned
+	. = ..(T, ignore_flag_1)
+	if(length(linked_areas) > 0)
+		var/area/A = linked_areas[1]
+		. += A.GetAllContents(T, ignore_flag_1) //Count what's inside of any *ship level* too
+
 /obj/structure/overmap/small_craft/fire_weapon(atom/target, mob/user, datum/overmap_ship_weapon/firing_weapon, ai_aim=FALSE)
 	if(weapon_safety) //If you get in here with safeties active.
 		if(user)
