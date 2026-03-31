@@ -291,3 +291,18 @@
 	icon_state = "button"
 	result_path = /obj/machinery/button
 	materials = list(/datum/material/iron=MINERAL_MATERIAL_AMOUNT)
+
+//NSV EDIT START -beestation port lol
+
+
+/obj/machinery/button/shieldwallgen
+	name = "Atmospheric barrier switch"
+	desc = "A remote switch for a barrier generator"
+	icon_state = "launcher"
+	skin = "launcher"
+	device_type = /obj/item/assembly/control/shieldwallgen
+	req_access = list()
+	id = 1
+
+/obj/machinery/button/shieldwallgen/connect_to_shuttle(obj/docking_port/mobile/port, obj/docking_port/stationary/dock)
+	id = "[REF(port)][id]"
