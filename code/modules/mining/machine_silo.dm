@@ -271,3 +271,23 @@ GLOBAL_LIST_EMPTY(silo_access_logs)
 		sep = ", "
 		msg += "[amount < 0 ? "-" : "+"][val] [M.name]"
 	formatted = msg.Join()
+
+/obj/machinery/ore_silo/Bumped(atom/movable/AM) //NSV13 Throwing Upgrade
+	. = ..()
+	var/datum/component/material_container/materials = GetComponent(/datum/component/material_container)
+
+	if(!powered())
+		return ..()
+
+	if(istype(AM, /obj/item/stack))
+		var/obj/item/stack/S = AM
+
+		var/item_mats = S.materials & materials.materials
+		if(!length(item_mats))
+			return
+
+		var/amount = S.amount
+		materials.insert_item(S, 1)
+		silo_log(src, "deposited", amount, "sheets", item_mats)
+		return TRUE
+
