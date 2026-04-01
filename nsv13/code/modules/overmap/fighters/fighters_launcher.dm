@@ -152,7 +152,7 @@
 			if(EAST)
 				OM.desired_angle = 90
 			if(WEST)
-				OM.desired_angle = -90
+				OM.desired_angle = 270
 		if(!linked)
 			linkup()
 
@@ -389,6 +389,8 @@ d) the ships[] list of ssstarsystem is acting up again.
 	weapon_safety = TRUE
 	if(pilot)
 		to_chat(pilot, "<span class='notice'>Docking complete. <b>Gun safeties have been engaged automatically.</b></span>")
+	if(!pilot || pilot.incapacitated())
+		brakes = TRUE
 	SEND_SIGNAL(src, COMSIG_FTL_STATE_CHANGE)
 	if(reserved_z)
 		free_treadmills += reserved_z

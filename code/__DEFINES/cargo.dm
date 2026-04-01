@@ -12,6 +12,7 @@
 #define STYLE_INVISIBLE 12
 #define STYLE_GONDOLA 13
 #define STYLE_SEETHROUGH 14
+#define STYLE_PIRATE 15 //NSV13 - added pirate drop pod
 
 #define MAX_EMAG_ROCKETS 8
 #define BEACON_COST 500
@@ -48,6 +49,7 @@
 
 GLOBAL_LIST_EMPTY(supplypod_loading_bays)
 
+//NSV13 - added pirate drop pod
 GLOBAL_LIST_INIT(podstyles, list(\
 	list(POD_SHAPE_NORML, "pod",         TRUE, "default", "yellow",   RUBBLE_NORMAL, "supply pod",     "A Nanotrasen supply drop pod."),\
 	list(POD_SHAPE_NORML, "advpod",      TRUE, "bluespace", "blue",     RUBBLE_NORMAL, "bluespace supply pod" ,     "A Nanotrasen Bluespace supply pod. Teleports back to CentCom after delivery."),\
@@ -62,6 +64,7 @@ GLOBAL_LIST_INIT(podstyles, list(\
 	list(POD_SHAPE_OTHER, "orange",      TRUE, FALSE, FALSE,   RUBBLE_NONE,     "\improper Orange", "An angry orange."),\
 	list(POD_SHAPE_OTHER, FALSE,         FALSE,    FALSE,            FALSE,   RUBBLE_NONE,     "\improper S.T.E.A.L.T.H. pod MKVII", "A supply pod that, under normal circumstances, is completely invisible to conventional methods of detection. How are you even seeing this?"),\
 	list(POD_SHAPE_OTHER, "gondola",     FALSE, FALSE, FALSE,   RUBBLE_NONE,     "gondola",     "The silent walker. This one seems to be part of a delivery agency."),\
-	list(POD_SHAPE_OTHER, FALSE,         FALSE,    FALSE,            FALSE,   RUBBLE_NONE,         FALSE,      FALSE,      "rl_click", "give_po")\
+	list(POD_SHAPE_OTHER, FALSE,         FALSE,    FALSE,            FALSE,   RUBBLE_NONE,         FALSE,      FALSE,      "rl_click", "give_po"),\
+	list(POD_SHAPE_NORML, "ratpod",		 TRUE, "pirate", "yellow",		RUBBLE_NORMAL, "tortugan boarding pod",			"A remote mining charge drill. This one has been refitted for boarding use by the pirates of Tortuga.")\
 ))
 

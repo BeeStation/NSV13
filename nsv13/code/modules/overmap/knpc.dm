@@ -28,6 +28,12 @@ GLOBAL_LIST_EMPTY(knpcs)
 		)) // climbable things
 	var/pathfind_timeout = 0 //If pathfinding fails, it is püt in timeout for a while to avoid spamming the server with pathfinding calls.
 	var/timeout_stacks = 0 //Consecutive pathfind fails add additional delay stacks to further counteract the effects of knpcs in unreachable locations.
+	///Time since when we have been disabled.
+	var/failsafe_timer = 0
+	///Each knpc has their own level of restraint before deciding to take desperate measures, but this is the base value.
+	var/failsafe_trust = 3 SECONDS
+	///This determines the maximum variance freom the base value of a particular knpc. Modifies upwards only.
+	var/failsafe_trust_variance = 3 SECONDS
 
 /mob/living/carbon/human/ai_boarder
 	faction = list("Neutral")
@@ -61,6 +67,7 @@ GLOBAL_LIST_EMPTY(knpcs)
 /datum/component/knpc/Initialize()
 	if(!iscarbon(parent))
 		return COMPONENT_INCOMPATIBLE
+	failsafe_trust = rand(failsafe_trust, (failsafe_trust + failsafe_trust_variance))
 	if(!ai_goals)
 		for(var/gtype in subtypesof(/datum/ai_goal/human))
 			LAZYADD(ai_goals, new gtype)
@@ -273,13 +280,13 @@ GLOBAL_LIST_EMPTY(knpcs)
 	var/mob/living/carbon/human/ai_boarder/H = parent
 	if(H.stat == DEAD)
 		return PROCESS_KILL
-	if(!H.can_resist())
-		if(H.incapacitated()) //In crit or something....
-			return
 	if(world.time >= next_action)
 		next_action = world.time + H.action_delay
 		pick_goal()
 		current_goal?.action(src)
+	if(!H.can_resist())
+		if(H.incapacitated()) //In crit or something....
+			return
 	if(length(path))
 		next_path_step()
 	else //They should always be pathing somewhere...
@@ -340,21 +347,22 @@ of a specific action goes up, to encourage skynet to go for that one instead.
 			continue
 		. += M
 	//Check for nearby mechas....
-	if(length(GLOB.mechas_list))
-		for(var/obj/mecha/OM as() in GLOB.mechas_list)
-			if(OM.z != H.z)
-				continue
-			if(get_dist(H, OM) > HA.view_range || !can_see(H, OM, HA.view_range))
-				continue
-			if(OM.occupant && !H.faction_check_mob(OM.occupant))
-				. += OM.occupant
+	for(var/obj/mecha/OM in guessed_objects)
+		if(!ismecha(OM))
+			continue
+		if(OM.z != H.z)
+			continue
+		if(get_dist(H, OM) > HA.view_range || !can_see(H, OM, HA.view_range))
+			continue
+		if(OM.occupant && !H.faction_check_mob(OM.occupant))
+			. += OM
 	for(var/obj/structure/overmap/OM as() in GLOB.overmap_objects) //Has to go through global objects due to happening on a ship's z level.
 		if(OM.z != H.z)
 			continue
 		if(get_dist(H, OM) > HA.view_range || !can_see(H, OM, HA.view_range))
 			continue
 		if(OM.pilot && !H.faction_check_mob(OM.pilot))
-			. += OM.pilot
+			. += OM
 
 ///What happens when this action is selected? You'll override this and check_score mostly.
 /datum/ai_goal/human/action(datum/component/knpc/HA)
@@ -570,49 +578,55 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 			A.afterattack(target, H, TRUE)
 
 		else
-			H.dna.species.spec_attack_hand(H, target)
-			if(target.incapacitated())
-				//I know kung-fu.
+			//Stop them from trying to knee a mech in the stomach
+			if(iscarbon(target))
+				H.dna.species.spec_attack_hand(H, target)
+				if(target.incapacitated())
+					//I know kung-fu.
 
-				var/obj/item/card/id/their_id = target.get_idcard()
-				if(their_id && !HA.stealing_id)
-					H.visible_message("<span class='warning'>[H] starts to take [their_id] from [target]!</span>")
-					HA.stealing_id = TRUE
-					addtimer(CALLBACK(HA, TYPE_PROC_REF(/datum/component/knpc, steal_id), their_id), 5 SECONDS)
+					var/obj/item/card/id/their_id = target.get_idcard()
+					if(their_id && !HA.stealing_id)
+						H.visible_message("<span class='warning'>[H] starts to take [their_id] from [target]!</span>")
+						HA.stealing_id = TRUE
+						addtimer(CALLBACK(HA, TYPE_PROC_REF(/datum/component/knpc, steal_id), their_id), 5 SECONDS)
 
-				if(istype(H) && CHECK_BITFIELD(H.knpc_traits, KNPC_IS_MARTIAL_ARTIST))
-					switch(rand(0, 2))
-						//Throw!
-						if(0)
-							H.start_pulling(target, supress_message = FALSE)
-							H.setGrabState(GRAB_AGGRESSIVE)
-							H.visible_message("<span class='warning'>[H] judo throws [target]!</span>")
-							playsound(get_turf(target), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
-							target.shake_animation(10)
-							target.throw_at(get_turf(get_step(H, pick(GLOB.cardinals))), 5, 5)
-						if(1)
-							H.do_attack_animation(target, ATTACK_EFFECT_PUNCH)
-							target.visible_message("<span class='warning'>[H] grabs [target]'s wrist and wrenches it sideways!</span>", \
-											"<span class='userdanger'>[H] grabs your wrist and violently wrenches it to the side!</span>")
-							playsound(get_turf(H), 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
-							target.emote("scream")
-							target.dropItemToGround(target.get_active_held_item())
-							target.apply_damage(5, BRUTE, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
-						if(2)
-							H.do_attack_animation(target, ATTACK_EFFECT_KICK)
-							target.visible_message("<span class='warning'>[H] knees [target] in the stomach!</span>", \
-											"<span class='userdanger'>[H] winds you with a knee in the stomach!</span>")
-							target.audible_message("<b>[target]</b> gags!")
-							target.losebreath += 3
+					if(istype(H) && CHECK_BITFIELD(H.knpc_traits, KNPC_IS_MARTIAL_ARTIST))
+						switch(rand(0, 2))
+							//Throw!
+							if(0)
+								H.start_pulling(target, supress_message = FALSE)
+								H.setGrabState(GRAB_AGGRESSIVE)
+								H.visible_message("<span class='warning'>[H] judo throws [target]!</span>")
+								playsound(get_turf(target), 'nsv13/sound/effects/judo_throw.ogg', 100, TRUE)
+								target.shake_animation(10)
+								target.throw_at(get_turf(get_step(H, pick(GLOB.cardinals))), 5, 5)
+							if(1)
+								H.do_attack_animation(target, ATTACK_EFFECT_PUNCH)
+								target.visible_message("<span class='warning'>[H] grabs [target]'s wrist and wrenches it sideways!</span>", \
+												"<span class='userdanger'>[H] grabs your wrist and violently wrenches it to the side!</span>")
+								playsound(get_turf(H), 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
+								target.emote("scream")
+								target.dropItemToGround(target.get_active_held_item())
+								target.apply_damage(5, BRUTE, pick(BODY_ZONE_L_ARM, BODY_ZONE_R_ARM))
+							if(2)
+								H.do_attack_animation(target, ATTACK_EFFECT_KICK)
+								target.visible_message("<span class='warning'>[H] knees [target] in the stomach!</span>", \
+												"<span class='userdanger'>[H] winds you with a knee in the stomach!</span>")
+								target.audible_message("<b>[target]</b> gags!")
+								target.losebreath += 3
 
-				else
-					//So they actually execute the curbstomp.
-					if(dist <= 1)
-						H.forceMove(get_turf(target))
-					H.zone_selected = BODY_ZONE_HEAD
-					//Curbstomp!
-					H.MouseDrop(target)
-					return
+					else
+						//So they actually execute the curbstomp.
+						if(dist <= 1)
+							H.forceMove(get_turf(target))
+						H.zone_selected = BODY_ZONE_HEAD
+						//Curbstomp!
+						H.MouseDrop(target)
+						return
+			else
+				//Used when punching non-carbon targets
+				H.UnarmedAttack(target)
+
 		if(CHECK_BITFIELD(H.knpc_traits, KNPC_IS_DODGER))
 			HA.kite(target)
 
@@ -630,7 +644,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		support_text += text
 	else
 		support_text += pick(H.call_lines)
-	H.say(support_text)
+	H.say(support_text, forced = "knpc AI")
 
 	// Call for other intelligent AIs
 	for(var/datum/component/knpc/HH as() in GLOB.knpcs - HA)
@@ -643,7 +657,7 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 			var/thetext = (other_radio) ? "; " : ""
 			thetext += pick(H.response_lines)
 			HH.pathfind_to(H)
-			other.say(thetext)
+			other.say(thetext, forced = "knpc AI")
 	//Firstly! Call for the simplemobs..
 	for(var/mob/living/simple_animal/hostile/M in oview(HA.view_range, HA.parent))
 		if(H.faction_check_mob(M, TRUE))
@@ -869,6 +883,41 @@ This is to account for sec Ju-Jitsuing boarding commandos.
 		H.put_in_active_hand(P) //Roll Up Your Sleeve
 		P.attack(H, H) //Self Vax
 		P.forceMove(get_turf(H)) //Litter because doing one good thing is enugh for today
+
+//Alternate capture reaction for those with microbombs.
+/datum/ai_goal/human/deny_capture
+	name = "Deny Capture"
+	score = AI_SCORE_SUPERCRITICAL
+	required_ai_flags = NONE
+
+/datum/ai_goal/human/deny_capture/check_score(datum/component/knpc/HA)
+	. = ..()
+	if(!.)
+		return 0
+	var/mob/living/carbon/human/knpc_mob = HA.parent
+	if(!(locate(/datum/action/item_action/explosive_implant) in knpc_mob.actions))
+		return 0
+	if(knpc_mob.handcuffed || knpc_mob.get_num_arms() == 0 || knpc_mob.IsUnconscious() || knpc_mob.IsSleeping() || (knpc_mob.stat && knpc_mob.health <= -20))
+		if(!HA.failsafe_timer)
+			HA.failsafe_timer = world.time
+		else if(world.time - HA.failsafe_timer >= HA.failsafe_trust)
+			return score
+	else
+		HA.failsafe_timer = 0
+	return 0
+
+//Override.
+/datum/ai_goal/human/deny_capture/action(datum/component/knpc/HA)
+	var/mob/living/carbon/human/knpc_mob = HA.parent
+	if(QDELETED(knpc_mob) || knpc_mob.client)
+		return
+	var/datum/action/item_action/explosive_implant/boom_action = (locate() in knpc_mob.actions)
+	if(!boom_action) //Guh?
+		return
+	if(knpc_mob.stat == CONSCIOUS)
+		knpc_mob.say(pick("No retreat, no surrender!", "YOU WILL NEVER TAKE ME ALIVE!!", "TAKE THAT!!"), forced = "knpc AI")
+	boom_action.Trigger()
+
 
 #undef AI_TRAIT_BRAWLER
 #undef AI_TRAIT_SUPPORT

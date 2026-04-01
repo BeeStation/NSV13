@@ -25,7 +25,7 @@
 	my_faction = SSstar_system.faction_by_id(owner.faction_type)
 	title = "[my_system.name] yellow pages"
 	name = title
-	author = my_faction.name
+	author = my_faction ? my_faction.name : "Unknown"
 
 	nearby_traders = list()
 	for(var/datum/trader/T as() in SSstar_system.traders)
@@ -36,7 +36,7 @@
 		if(my_system.dist(T.system) > TOO_FAR)
 			continue
 		// Sanctions
-		if(T.faction_type in my_faction.preset_enemies)
+		if(my_faction && (T.faction_type in my_faction.preset_enemies))
 			continue
 		nearby_traders |= T
 

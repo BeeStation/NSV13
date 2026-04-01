@@ -29,7 +29,7 @@
 	. = ..(view)
 
 /atom/movable/screen/parallax_layer/ftl_parallax/proc/check_ftl_state()
-	if(!current_mob)
+	if(!current_mob?.z || !length(SSmapping.z_list) )
 		return FALSE //Something has gone horribly wrong.
 	var/datum/space_level/SL = SSmapping.z_list[current_mob.z]
 	var/in_transit = current_mob.get_overmap() && (SSstar_system.ships[current_mob.get_overmap()] && SSstar_system.ships[current_mob.get_overmap()]["target_system"] != null)

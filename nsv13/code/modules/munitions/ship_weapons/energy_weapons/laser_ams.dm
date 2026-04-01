@@ -3,7 +3,6 @@
 	desc = "A coaxial laser system, capable of firing controlled laser bursts at a target."
 	icon ='nsv13/icons/obj/energy_weapons.dmi'
 	icon_state = "missile_cannon"
-	fire_mode = FIRE_MODE_AMS_LASER //Shot automatically
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
 	circuit = /obj/item/circuitboard/machine/laser_ams
 	bound_width = 64
@@ -22,20 +21,5 @@
 
 	power_modifier = 0 //Power you're inputting into this thing.
 	power_modifier_cap = 2
-	energy_weapon_type = /datum/ship_weapon/laser_ams
+	weapon_datum_type = /datum/overmap_ship_weapon/laser_ams
 
-/datum/ship_weapon/laser_ams
-	name = "Laser Anti Missile System"
-	default_projectile_type = /obj/item/projectile/beam/laser/point_defense
-	// default_projectile_type = /obj/item/projectile/bullet/fiftycal
-	burst_size = 1
-	fire_delay = 0.35 SECONDS
-	range_modifier = 30
-	select_alert = "<span class='notice'>Laser target acquisition systems: online.</span>"
-	failure_alert = "<span class='warning'>DANGER: Launch failure!</span>"
-	overmap_firing_sounds = list('nsv13/sound/effects/ship/burst_phaser.ogg', 'nsv13/sound/effects/ship/burst_phaser2.ogg')
-	overmap_select_sound = 'nsv13/sound/effects/ship/reload.ogg'
-	weapon_class = WEAPON_CLASS_LIGHT
-	autonomous = TRUE
-	permitted_ams_modes = list( "Anti-missile countermeasures" = 1 )
-	allowed_roles = 0

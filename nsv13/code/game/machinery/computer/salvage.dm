@@ -100,7 +100,6 @@
 				linked.active_boarding_target = OM
 				addtimer(VARSET_CALLBACK(src, can_salvage, TRUE), salvage_cooldown)
 				OM.ai_controlled = FALSE
-				OM.apply_weapons()
 				radio.talk_into(src, "Enemy point defense systems scrambled. Bluefor strike teams cleared for approach.", radio_channel)
 			else
 				radio.talk_into(src, "Unable to scramble enemy point defense systems. Aborting...", radio_channel)

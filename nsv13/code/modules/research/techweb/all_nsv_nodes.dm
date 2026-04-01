@@ -25,7 +25,7 @@
 	display_name = "Munitions computer circuitry"
 	description = "Allows you to rebuild Munitions computers after they suffer from gunpowder overdose."
 	prereq_ids = list("comptech")
-	design_ids = list("fighter_computer_circuit", "ordnance_comp_circuit", "fighter_launcher_circuit", "ammo_sorter_computer", "ammo_sorter", "munitions_computer_circuit")
+	design_ids = list("fighter_computer_circuit", "ordnance_comp_circuit", "fighter_launcher_circuit", "ammo_sorter_computer", "ammo_sorter", "munitions_computer_circuit", "ams_console")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
 	export_price = 1000
 	tech_tier = 1
@@ -65,7 +65,7 @@
 	display_name = "Advanced Ballistics"
 	description = "More guns means better guns... Right?"
 	prereq_ids = list("ballistic_weapons")
-	design_ids = list("naval_shell", "powder_bag", "naval_artillery_comp", "artillery_loader", "powder_loader", "payload_gate", "broadside_casing", "broadside_load", "broadside_packer", "plasma_core")
+	design_ids = list("naval_shell", "powder_bag", "naval_artillery_comp", "artillery_loader", "powder_loader", "payload_gate", "broadside_casing", "broadside_load", "broadside_packer", "plasma_core", "swabber")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 5000
 	tech_tier = 3
@@ -75,7 +75,7 @@
 	display_name = "Macro-Ballistics"
 	description = "Asking important questions, like what if we made even bigger guns?"
 	prereq_ids = list("adv_ballistics", "adv_plasma")
-	design_ids = list("naval_shell_ap", "plasma_accelerant", "deck_gun_autorepair", "deck_gun_autoelevator", "gauss_rack_upgrade")
+	design_ids = list("naval_shell_ap", "plasma_accelerant", "deck_gun_autorepair", "deck_gun_autoelevator", "gauss_rack_upgrade", "broadside_load_uranium")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 7500)
 	export_price = 10000
 	tech_tier = 4
@@ -84,7 +84,7 @@
 	id = "missile_automation"
 	display_name = "Automated Missile Construction"
 	description = "Machines and tools to automate missile construction."
-	prereq_ids = list("explosive_weapons")
+	prereq_ids = list("basic_torpedo_components", "high_efficiency")
 	design_ids = list("missilebuilder", "slowconveyor", "missilewelder", "missilescrewer", "missilewirer", "missileassembler")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	export_price = 5000
@@ -98,6 +98,7 @@
 	prereq_ids = list("fighter_tier1")
 	design_ids = list("countermeasure_charge")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1500)
+	tech_tier = 2
 	export_price = 1000
 
 /datum/techweb_node/fighter_fabrication
@@ -117,7 +118,7 @@
 	design_ids = list("fuel_tank", "avionics", "apu", "armour_plating", "targeting_sensor", "fighter_engine", "countermeasure_dispenser", "oxygenator","docking_computer", "fighter_battery", "refuel_kit", "cargo_hold", "resupply")
 	prereq_ids = list("fighter_fabrication")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
-	export_price = 1000
+	export_price = 2000
 	tech_tier = 2
 
 /datum/techweb_node/fighter_tier2
@@ -254,7 +255,7 @@
 /// Munitions Upgrade for Engineering Borg
 /datum/techweb_node/cyborg_upg_muni
 	id = "cyborg_upg_muni"
-	tech_tier = 4
+	tech_tier = 3
 	display_name = "Cyborg Upgrades: Munitions"
 	description = "Munition related upgrades for cyborgs."
 	prereq_ids = list("adv_robotics", "adv_engi" , "adv_ballistics")

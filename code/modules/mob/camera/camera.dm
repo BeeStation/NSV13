@@ -10,6 +10,7 @@
 	see_in_dark = 7
 	invisibility = INVISIBILITY_ABSTRACT // No one can see us
 	sight = SEE_SELF
+	movement_type = FLYING // NSV13 - Added this line
 	move_on_shuttle = FALSE
 	/// Only used at init, assigning to this will do nothing after the camera is initialized
 	var/can_hear_init = FALSE

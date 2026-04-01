@@ -83,17 +83,26 @@
 		else if(!isturf(I.loc))
 			return
 		if(use(1))
+			//NSV13 - no bypassing "you cannot pick this up" limits, also adds twohand requirement for WEIGHT_CLASS_GIGANTIC items & inherits density properties.
 			var/obj/item/small_delivery/P = new /obj/item/small_delivery(get_turf(I.loc))
-			if(user.Adjacent(I))
-				P.add_fingerprint(user)
-				I.add_fingerprint(user)
-				user.put_in_hands(P)
 			I.forceMove(P)
 			var/size = round(I.w_class)
 			P.name = "[weight_class_to_text(size)] parcel"
 			P.w_class = size
+			if(!CHECK_BITFIELD(I.interaction_flags_item, INTERACT_ITEM_ATTACK_HAND_PICKUP))
+				DISABLE_BITFIELD(P.interaction_flags_item, INTERACT_ITEM_ATTACK_HAND_PICKUP)
+			if(size >= WEIGHT_CLASS_GIGANTIC)
+				P.AddComponent(/datum/component/two_handed, require_twohands = TRUE)
+			if(I.density)
+				P.density = TRUE
 			size = min(size, 5)
 			P.icon_state = "deliverypackage[size]"
+			if(user.Adjacent(P))
+				P.add_fingerprint(user)
+				I.add_fingerprint(user)
+				if(CHECK_BITFIELD(P.interaction_flags_item, INTERACT_ITEM_ATTACK_HAND_PICKUP))
+					user.put_in_hands(P)
+		//NSV13 end.
 
 	else if(istype (target, /obj/structure/closet))
 		var/obj/structure/closet/O = target

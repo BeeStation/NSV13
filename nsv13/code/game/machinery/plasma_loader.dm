@@ -3,6 +3,7 @@
 	desc = "The gas regulator that pumps gaseous phoron into the Phoron Caster"
 	icon = 'nsv13/icons/obj/machinery/reactor_parts.dmi'
 	icon_state = "plasma_condenser"
+	circuit = /obj/item/circuitboard/machine/plasma_loader
 	pixel_y = 5 //So it lines up with layer 3 piping
 	layer = OBJ_LAYER
 	density = TRUE
@@ -27,6 +28,23 @@
 		GAS_CONSTRICTED_PLASMA,
 		GAS_NUCLEIUM,
 	)
+
+/obj/machinery/atmospherics/components/unary/plasma_loader/Destroy()
+	if(linked_gun)
+		linked_gun.loader = null
+		linked_gun = null
+	return ..()
+
+/obj/machinery/atmospherics/components/unary/plasma_loader/multitool_act(mob/living/user, obj/item/I)
+	. = TRUE
+	if(linked_gun)
+		return
+	var/obj/machinery/ship_weapon/plasma_caster/caster = locate() in orange(1, src)
+	if(!caster || caster.loader)
+		return
+	caster.loader = src
+	linked_gun = caster
+	to_chat(user, "<span class='notice'>You connect [src] to [caster].</span>")
 
 /obj/machinery/atmospherics/components/unary/plasma_loader/on_construction()
 	var/obj/item/circuitboard/machine/thermomachine/board = circuit

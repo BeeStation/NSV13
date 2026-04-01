@@ -308,6 +308,10 @@
 
 /obj/structure/grille/prison/deconstruct()
 	var/turf/T = get_turf(src)
+	//NSV13 - cease runtiming when exploded.
+	if(!T)
+		return ..()
+	//NSV13 end.
 	var/obj/structure/cable/C = T.get_cable_node()
 	if(C?.powernet)
 		var/datum/powernet/P = C.powernet
@@ -317,6 +321,10 @@
 
 /obj/structure/grille/prison/obj_break()
 	var/turf/T = get_turf(src)
+	//NSV13 - cease runtiming when exploded.
+	if(!T)
+		return ..()
+	//NSV13 end.
 	var/obj/structure/cable/C = T.get_cable_node()
 	if(C?.powernet)
 		var/datum/powernet/P = C.powernet

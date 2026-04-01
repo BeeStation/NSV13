@@ -2,7 +2,7 @@
 /obj/machinery/processor
 	name = "food processor"
 	desc = "An industrial grinder used to process meat and other foods. Keep hands clear of intake area while operating."
-	icon = 'icons/obj/kitchen.dmi'
+	icon = 'nsv13/icons/obj/kitchen.dmi' //NSV13
 	icon_state = "processor1"
 	layer = BELOW_OBJ_LAYER
 	density = TRUE
@@ -103,6 +103,7 @@
 		to_chat(user, "<span class='warning'>[src] is empty!</span>")
 		return TRUE
 	processing = TRUE
+	update_icon() //NSV13
 	user.visible_message("[user] turns on [src].", \
 		"<span class='notice'>You turn on [src].</span>", \
 		"<span class='italics'>You hear a food processor.</span>")
@@ -126,7 +127,14 @@
 		process_food(P, O)
 	pixel_x = base_pixel_x //return to its spot after shaking
 	processing = FALSE
+	update_icon() //NSV13
 	visible_message("\The [src] finishes processing.")
+
+/obj/machinery/processor/update_icon() //NSV13
+	if(processing)
+		icon_state = "processor1_animated"
+	else
+		icon_state = "processor1"
 
 /obj/machinery/processor/verb/eject()
 	set category = "Object"

@@ -41,7 +41,10 @@
 		// get all of the hearers for this atom
 		var/list/newhearers = playsound_range(parent, S, volume, extra_range)
 		// create a dictionary of all of our hearers and their current position
-		for(var/atom/L as() in newhearers)
+		for(var/mob/L in newhearers)
+			if(QDELETED(L) || !istype(L)) //Begone
+				newhearers -= L
+				continue
 			listeners[parent][L] = list(L.x, L.y)
 	current_sound = S
 

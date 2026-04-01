@@ -3,7 +3,6 @@
 	desc = "A coaxial laser system, capable of firing controlled laser bursts at a target."
 	icon ='nsv13/icons/obj/energy_weapons.dmi'
 	icon_state = "phase_cannon"
-	fire_mode = FIRE_MODE_RED_LASER //Shot by the pilot.
 	ammo_type = /obj/item/ship_weapon/ammunition/railgun_ammo
 	circuit = /obj/item/circuitboard/machine/burst_phaser
 	bound_width = 64
@@ -19,15 +18,18 @@
 	var/max_charge = 3300000 //5 shots before it has to recharge.
 	var/power_modifier = 0 //Power youre inputting into this thing.
 	var/power_modifier_cap = 3 //Which means that your guns are spitting bursts that do 60 damage.
-	var/energy_weapon_type = /datum/ship_weapon/burst_phaser
+	weapon_datum_type = /datum/overmap_ship_weapon/burst_phaser
 	var/static_charge = FALSE //Controls whether power and energy cost scale with power modifier. True = no scaling
+
+/obj/machinery/ship_weapon/energy/get_ammo_list()
+	stack_trace("Attempting to get physical ammo of an energy weapon. Check your proc chains.")
+	return //Energy weapons have no ammo. You should never be calling this for them.
 
 /obj/machinery/ship_weapon/energy/beam
 	name = "phase cannon"
 	desc = "An extremely powerful directed energy weapon which is capable of delivering a devastating beam attack."
 	icon_state = "ion_cannon"
-	fire_mode = FIRE_MODE_BLUE_LASER
-	energy_weapon_type = /datum/ship_weapon/phaser
+	weapon_datum_type = /datum/overmap_ship_weapon/phaser
 	circuit = /obj/item/circuitboard/machine/phase_cannon
 	charge_rate = 600000 // At power level 5, requires 3MW per tick to charge
 	charge_per_shot = 4000000 // At power level 5, requires 20MW total to fire, takes about 12 seconds to gain 1 charge
@@ -41,6 +43,10 @@
 	//Comedy.
 	sleep(10)
 	charge = max_charge
+
+/obj/machinery/ship_weapon/energy/proc/toggle_active()
+	active = !active
+	update()
 
 /obj/machinery/ship_weapon/energy/ui_interact(mob/user, datum/tgui/ui)
 	ui = SStgui.try_update_ui(user, src, ui)
@@ -58,7 +64,7 @@
 		if("power")
 			power_modifier = value
 		if("activeToggle")
-			active = !active
+			toggle_active()
 	return
 
 /obj/machinery/ship_weapon/energy/attack_hand(mob/user)
@@ -83,38 +89,26 @@
 	return data
 
 /obj/machinery/ship_weapon/energy/update()
-	if(!safety)
-		if(src in weapon_type.weapons["loaded"])
-			return
-		LAZYADD(weapon_type.weapons["loaded"] , src)
+	if(!linked_overmap_ship_weapon)
+		return
+	if(!safety && active)
+		linked_overmap_ship_weapon.mark_physical_weapon_loaded(src)
 	else
-		if(src in weapon_type.weapons["loaded"])
-			LAZYREMOVE(weapon_type.weapons["loaded"] , src)
+		linked_overmap_ship_weapon.mark_physical_weapon_unloaded(src)
 
-/obj/machinery/ship_weapon/energy/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
-	for(var/I = FIRE_MODE_ANTI_AIR; I <= MAX_POSSIBLE_FIREMODE; I++) //We should ALWAYS default to PDCs.
-		var/datum/ship_weapon/SW = OM.weapon_types[I]
-		if(!SW)
-			continue
-		if(istype(SW, energy_weapon_type)) //Does this ship have a weapon type registered for us? Prevents phantom weapon groups.
-			OM.add_weapon(src)
-			return TRUE
-	OM.weapon_types[fire_mode] = new energy_weapon_type(OM)
-	OM.add_weapon(src)
-
-/obj/machinery/ship_weapon/energy/can_fire(shots = weapon_type.burst_size)
-	if (maint_state != MSTATE_CLOSED) //Are we in maintenance?
+/obj/machinery/ship_weapon/energy/can_fire(atom/target, shots = linked_overmap_ship_weapon.burst_size)
+	if(maint_state != MSTATE_CLOSED) //Are we in maintenance?
 		return FALSE
-	if(charge < charge_per_shot*shots) //Do we have enough ammo?
+	if(get_ammo() < shots) //Do we have enough ammo?
 		return FALSE
 	else
 		return TRUE
 
 /obj/machinery/ship_weapon/energy/get_max_ammo()
-	return max_charge
+	return round(max_charge / charge_per_shot)
 
 /obj/machinery/ship_weapon/energy/get_ammo()
-	return charge
+	return round(charge / charge_per_shot)
 
 /obj/machinery/ship_weapon/energy/beam/animate_projectile(atom/target)
 	var/obj/item/projectile/P = ..()

@@ -262,6 +262,12 @@
 	if(length(z_transitions))
 		legend += z_transitions
 
+	if(SSshuttle.emergency && (SSshuttle.emergency.mode in list(SHUTTLE_CALL, SHUTTLE_DOCKED, SHUTTLE_IGNITING)))
+		var/list/escape_pods = SSholomaps.holomap_pod_locations["[current_z_level]"]
+		if(length(escape_pods))
+			legend += escape_pods
+
+
 	return legend
 
 /obj/machinery/station_map/engineering

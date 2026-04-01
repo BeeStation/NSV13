@@ -205,12 +205,48 @@
 	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
-	if(M != OM.gunner) return
-	OM.cycle_firemode()
-	if(OM.tactical && prob(80))
-		var/sound = pick(GLOB.computer_beeps)
-		playsound(OM.tactical, sound, 100, 1)
+	if(M != OM.gunner && M != OM.pilot)
+		return
+	OM.cycle_firemode(M)
+
+	if(OM.tactical && M == OM.gunner)
+		if(prob(80))
+			var/sound = pick(GLOB.computer_beeps)
+			playsound(OM.tactical, sound, 100, 1)
+	else if(OM.helm && M == OM.pilot)
+		if(prob(80))
+			var/sound = pick(GLOB.computer_beeps)
+			playsound(OM.helm, sound, 100, 1)
+
 	return TRUE
+
+/datum/keybinding/overmap/special_weapon_action
+	key = "F"
+	name = "special_weapon_action"
+	full name = "Special Weapon Action"
+	description = "Executes a selected weapon's special action, if one exists."
+	keybind_signal = COMSIG_KB_OVERMAP_SPECIAL_WEAPON_ACTION_DOWN
+
+/datum/keybinding/overmap/special_weapon_action/down(client/user)
+	. = ..()
+	if(.)
+		return
+	if(!user.mob)
+		return
+	var/mob/M = user.mob
+	var/obj/structure/overmap/OM = M.overmap_ship
+	if(!OM)
+		return
+	if(M != OM.gunner && M != OM.pilot)
+		return
+	var/datum/overmap_ship_weapon/current_weapon = OM.controlled_weapon_datum[M]
+	if(!current_weapon)
+		return
+	. = TRUE
+	if(!current_weapon.has_special_action)
+		to_chat(user, "<span class='warning'>Current weapon has no special action!</span>")
+		return
+	current_weapon.special_action(M)
 
 // Small craft - safeties and countermeasures
 
@@ -274,8 +310,8 @@
 	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
-	if(M != OM.gunner) return
-	OM.select_weapon(1)
+	if(M != OM.gunner && M != OM.pilot) return
+	OM.select_weapon(1, M)
 	return TRUE
 
 /datum/keybinding/overmap/weapon_2
@@ -294,8 +330,8 @@
 	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
-	if(M != OM.gunner) return
-	OM.select_weapon(2)
+	if(M != OM.gunner && M != OM.pilot) return
+	OM.select_weapon(2, M)
 	return TRUE
 
 /datum/keybinding/overmap/weapon_3
@@ -314,8 +350,8 @@
 	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
-	if(M != OM.gunner) return
-	OM.select_weapon(3)
+	if(M != OM.gunner && M != OM.pilot) return
+	OM.select_weapon(3, M)
 	return TRUE
 
 /datum/keybinding/overmap/weapon_4
@@ -334,8 +370,8 @@
 	var/obj/structure/overmap/OM = M.overmap_ship
 	if(!OM) return
 
-	if(M != OM.gunner) return
-	OM.select_weapon(4)
+	if(M != OM.gunner && M != OM.pilot) return
+	OM.select_weapon(4, M)
 	return TRUE
 
 /datum/keybinding/overmap/unlock

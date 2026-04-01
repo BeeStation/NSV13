@@ -1,42 +1,6 @@
-//Weapon modes
-
-#define FIRE_MODE_ANTI_AIR 1
-#define FIRE_MODE_TORPEDO 2
-
-//Revision 2.
-#define FIRE_MODE_AMS_LASER 3 // Laser AMS should be fired before expensive missiles are fired, so this is prioritized first
-#define FIRE_MODE_AMS 4 //You don't get to physically fire this one.
-#define FIRE_MODE_MAC 5
-#define FIRE_MODE_RAILGUN 6
-#define FIRE_MODE_GAUSS 7
-#define FIRE_MODE_PDC 8
-#define FIRE_MODE_BROADSIDE 9
-#define FIRE_MODE_PHORON 10
-
 //Base Armor Values
 
 #define OM_ARMOR list("melee" = 100, "bullet" = 100, "laser" = 100, "energy" = 100, "bomb" = 80, "bio" = 100, "rad" = 100, "acid" = 100, "stamina" = 100)
-
-//Deprecated / legacy weapons.
-
-
-#define FIRE_MODE_FLAK 11
-#define FIRE_MODE_MISSILE 12
-#define FIRE_MODE_FIGHTER_SLOT_ONE 13
-#define FIRE_MODE_FIGHTER_SLOT_TWO 14
-
-//Special cases
-
-#define FIRE_MODE_RED_LASER 15
-#define FIRE_MODE_LASER_PD 16
-#define FIRE_MODE_BLUE_LASER 17
-#define FIRE_MODE_HYBRID_RAIL 18
-
-#define MAX_POSSIBLE_FIREMODE 18 //This should relate to the maximum number of weapons a ship can ever have. Keep this up to date please!
-
-//Weapon classes for AIs
-#define WEAPON_CLASS_LIGHT 1
-#define WEAPON_CLASS_HEAVY 2
 
 // AMS targeting modes for STS
 #define AMS_LOCKED_TARGETS "Locked Targets"
@@ -132,3 +96,16 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 
 //Interior instancing comsig, aka cursed things.
 #define COMSIG_INTERIOR_DONE_LOADING "interior_done_loading"
+
+#define COMSIG_STOPPED_PILOTING "stopped_piloting" //! Sent when someone stops piloting any overmap. Signal target is the user.
+
+//Defines for what type of ammo AI weapons use.
+#define OSW_AMMO_LIGHT 1		//! Weapon uses light ammo.
+#define OSW_AMMO_HEAVY 2		//! Weapon uses heavy ammo.
+#define OSW_AMMO_MISSILE 3		//! Weapon uses missiles.
+#define OSW_AMMO_TORPEDO 4		//! Weapon uses torpedoes.
+#define OSW_AMMO_FREE 5			//! This is free to fire, and available ammo is handled as infinite
+
+//Fighter FIre Modes
+#define OSW_FIGHTER_MAIN_WEAPON 1		//!This is a primary weapon.
+#define OSW_FIGHTER_SECONDARY_WEAPON 2	//!This is a secondary weapon.

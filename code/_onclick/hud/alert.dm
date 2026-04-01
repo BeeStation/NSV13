@@ -706,17 +706,12 @@ so as to remain in compliance with the most up-to-date laws."
 /mob
 	var/list/alerts = list() // contains /atom/movable/screen/alert only // On /mob so clientless mobs will throw alerts properly
 
-/atom/movable/screen/alert/Click(location, control, params)
+/atom/movable/screen/alert/examine(mob/user)
 	if(!usr || !usr.client)
-		return
-	var/paramslist = params2list(params)
-	if(paramslist["shift"]) // screen objects don't do the normal Click() stuff so we'll cheat
-		to_chat(usr, "<span class='boldnotice'>[name]</span> - <span class='info'>[desc]</span>")
 		return
 	if(usr != owner)
 		return
-	if(master)
-		return usr.client.Click(master, location, control, params)
+	. += "<span class='boldnotice'>[name]</span> - <span class='info'>[desc]</span>"
 
 /atom/movable/screen/alert/Destroy()
 	severity = 0

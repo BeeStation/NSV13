@@ -3,7 +3,7 @@ GLOBAL_LIST_EMPTY(monkey_recyclers)
 /obj/machinery/monkey_recycler
 	name = "monkey recycler"
 	desc = "A machine used for recycling dead monkeys into monkey cubes."
-	icon = 'icons/obj/kitchen.dmi'
+	icon = 'nsv13/icons/obj/kitchen.dmi' //NSV13
 	icon_state = "grinder"
 	layer = BELOW_OBJ_LAYER
 	density = TRUE
@@ -79,6 +79,7 @@ GLOBAL_LIST_EMPTY(monkey_recyclers)
 	var/offset = prob(50) ? -2 : 2
 	animate(src, pixel_x = pixel_x + offset, time = 0.2, loop = 200) //start shaking
 	use_power(500)
+	flick("grinder_animated", src)
 	stored_matter += cube_production
 	addtimer(VARSET_CALLBACK(src, pixel_x, initial(pixel_x)))
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(to_chat), user, "<span class='notice'>The machine now has [stored_matter] monkey\s worth of material stored.</span>"))

@@ -10,11 +10,11 @@
 	auto_load = TRUE
 	semi_auto = TRUE
 	maintainable = FALSE
-	fire_mode = FIRE_MODE_ANTI_AIR
 	max_ammo = 300
 	circuit = /obj/item/circuitboard/machine/anti_air
 	var/gunning_component_type = /datum/component/overmap_gunning/anti_air
 	var/mob/living/gunner
+	//weapon_datum_type = ??? These are super deprecated and we don't even have a proper type.. so probably just don't use them?
 
 /obj/machinery/ship_weapon/anti_air/examine(mob/user)
 	. = ..()
@@ -39,7 +39,6 @@
 
 //Unifying component for gauss / 50 cal gunning
 /datum/component/overmap_gunning
-	var/fire_mode = FIRE_MODE_GAUSS
 	var/automatic = FALSE
 	var/mob/living/holder = null
 	var/atom/movable/autofire_target
@@ -49,12 +48,10 @@
 	var/special_fx = FALSE
 
 /datum/component/overmap_gunning/anti_air
-	fire_mode = FIRE_MODE_ANTI_AIR
 	fire_delay = 0.25 SECONDS
 	automatic = TRUE
 
 /datum/component/overmap_gunning/anti_air/heavy
-	fire_mode = FIRE_MODE_ANTI_AIR
 	fire_delay = 0.1 SECONDS
 
 /datum/component/overmap_gunning/Initialize(obj/machinery/ship_weapon/fx_target)
@@ -90,7 +87,9 @@
 	next_fire = world.time + fire_delay
 	if(special_fx)
 		fx_target.setDir(get_dir(OM, target))  //Makes the gun turn and shoot the target, wow!
-	fx_target.fire(target)//You can only fire your gun, not someone else's.   //.fire_weapon(target, fire_mode)
+	if(!fx_target.linked_overmap_ship_weapon)
+		return FALSE
+	fx_target.fire(target)//You can only fire your gun, not someone else's.
 
 /datum/component/overmap_gunning/process()
 	if(!autofire_target || !automatic)

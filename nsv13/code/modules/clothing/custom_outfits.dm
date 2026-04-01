@@ -17,11 +17,16 @@
 	id = /obj/item/card/id/syndicate_command //create new id at some point
 	tc = 0
 
+/datum/outfit/sleeper
+	name = "Sleeper Outfit basetype - Do Not Use :)"
+	can_be_admin_equipped = FALSE
+
 /datum/outfit/sleeper/prisoner
 	name = "NT Prisoner - Sleeper"
 	uniform = /obj/item/clothing/under/rank/prisoner
 	shoes = /obj/item/clothing/shoes/sneakers/orange
 	id = /obj/item/card/id/prisoner
+	can_be_admin_equipped = TRUE
 
 /datum/outfit/syndicate/odst
 	name = "Syndicate Boarder - Base"
@@ -298,6 +303,10 @@ For when the marines are being irritating.
 	backpack_contents = list(/obj/item/storage/box/syndie=1, /obj/item/gun/ballistic/shotgun/bulldog=1,  /obj/item/ammo_box/magazine/m12g=5)
 	tc = 0
 	can_be_admin_equipped = FALSE // This presents problems
+
+/datum/outfit/space_pirate
+	name = "Space Pirate Boarder outfit basetype - Do Not Use :)"
+	can_be_admin_equipped = FALSE
 
 //Space Pirate - TEMP UNTIL REWORK
 /datum/outfit/space_pirate/knpc_pistol

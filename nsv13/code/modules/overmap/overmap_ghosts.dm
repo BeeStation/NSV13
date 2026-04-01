@@ -16,7 +16,7 @@
 			if("Cancel")
 				return
 			if("Open")
-				var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [src.faction] [src.name]?", ROLE_GHOSTSHIP, /datum/role_preference/midround_ghost/ghost_ship, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
+				var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to pilot a [faction] [src]?", ROLE_GHOSTSHIP, /datum/role_preference/midround_ghost/ghost_ship, 20 SECONDS, POLL_IGNORE_GHOSTSHIP)
 				if(LAZYLEN(candidates))
 					var/mob/dead/observer/C = pick(candidates)
 					target_ghost = C
@@ -26,8 +26,8 @@
 				target_ghost = input(usr, "Select player to pilot ghost ship:", "Select Player") as null|anything in GLOB.clients
 
 		ghost_ship(target_ghost)
-		message_admins("[key_name_admin(usr)] has ghost shipped [src.name]!")
-		log_admin("[key_name_admin(usr)] has ghost shipped [src.name]!")
+		message_admins("[key_name_admin(usr)] has ghost shipped [src]!")
+		log_admin("[key_name_admin(usr)] has ghost shipped [src]!")
 
 
 //Creation of the ghost ship pilot entity
@@ -36,7 +36,7 @@
 		return
 
 	//Prevent the mainship being skeleton crewed
-	if(src.role == MAIN_OVERMAP)
+	if(role == MAIN_OVERMAP)
 		message_admins("[src] is the main overmap and cannot be ghost controlled! Take manual control via the Z-level")
 		return
 
@@ -67,17 +67,12 @@
 		tactical = new /obj/machinery/computer/ship/tactical/internal(src)
 		tactical.linked = src
 
-	//Lets ships with gauss use them
-	if(weapon_types[FIRE_MODE_GAUSS])
-		var/datum/ship_weapon/GA = weapon_types[FIRE_MODE_GAUSS]
-		GA.allowed_roles = OVERMAP_USER_ROLE_GUNNER
-
-	//Override AMS
-	weapon_types[FIRE_MODE_AMS] = null //Resolve this later to be auto
-	weapon_types[FIRE_MODE_FLAK] = null //Resolve this later to be a toggle
+	for(var/datum/overmap_ship_weapon/gauss/gauss in overmap_weapon_datums) //Could use a seperate flag sometime maybe, but for now this is just fine.
+		gauss.weapon_control_flags |= OSW_CONTROL_GUNNER
+	recalc_role_weapon_lists()
 
 	//Insert trackable player pilot here
-	var/mob/living/carbon/human/species/skeleton/ghost = new (src.contents)
+	var/mob/living/carbon/human/species/skeleton/ghost = new(src)
 	ghost.loc = src
 	ghost.name = src.name
 	ghost.real_name = src.name
@@ -106,6 +101,9 @@
 
 	if(ghost.key) //Is there a player in control of our ghost?
 		start_piloting(ghost, (OVERMAP_USER_ROLE_PILOT | OVERMAP_USER_ROLE_GUNNER))
+		ghost.add_verb(/mob/living/verb/reassume_ship_control)
+		if(tactical)
+			tactical.ui_interact(ghost)
 		ghost_controlled = TRUE
 
 	else //Try again later
@@ -121,4 +119,17 @@
 		max_angular_acceleration *= 2
 		speed_limit *= 2.5
 		shots_left = 500 //Having 15 max cannon shots isn't fun
+		max_shots_left = 500 //pewpewpew
+
+//If you for some reason decided to press the stop piloting button as a ghost ship like a silly gremlin.
+/mob/living/verb/reassume_ship_control()
+	set name = "Reassume Ship Control"
+	set category = "Object"
+
+	if(!isovermap(loc))
+		return
+	var/obj/structure/overmap/ghostie = loc
+	if(ghostie.pilot)
+		return //How even?
+	ghostie.start_piloting(src, OVERMAP_USER_ROLE_PILOT|OVERMAP_USER_ROLE_GUNNER)
 

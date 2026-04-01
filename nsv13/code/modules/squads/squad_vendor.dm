@@ -225,42 +225,42 @@
 
 /datum/squad_loadout/solgov/marine
 	name = "Squad Marine (Standard)"
-	items = list(/obj/item/clothing/under/ship/marine, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/gun/energy/laser/retro/old)
+	items = list(/obj/item/clothing/under/ship/marine, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/gun/energy/laser/retro)
 
 /datum/squad_loadout/solgov/space
 	name = "Squad Marine (Hazardous Environment)"
 	desc = "For hazardous, low pressure environments. This kit contains a reinforced skinsuit which, while slow, will protect marines from the elements."
-	items = list(/obj/item/clothing/under/ship/marine, /obj/item/clothing/suit/ship/squad/space, /obj/item/clothing/head/helmet/ship/squad/space, /obj/item/gun/energy/laser/retro/old)
+	items = list(/obj/item/clothing/under/ship/marine, /obj/item/clothing/suit/ship/squad/space, /obj/item/clothing/head/helmet/ship/squad/space, /obj/item/gun/energy/laser/retro)
 
 /datum/squad_loadout/solgov/leader
 	name = "Squad Leader (Standard)"
 	desc = "For hazardous, low pressure environments. This kit contains a reinforced skinsuit which, while slow, will protect marines from the elements."
-	items = list(/obj/item/clothing/under/ship/marine, /obj/item/megaphone, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad/leader, /obj/item/gun/energy/laser/retro/old)
+	items = list(/obj/item/clothing/under/ship/marine, /obj/item/megaphone, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad/leader, /obj/item/gun/energy/laser/retro)
 	leader_only = TRUE
 
 /datum/squad_loadout/solgov/leader/space
 	name = "Squad Leader (Hazardous Environment)"
 	desc = "For hazardous, low pressure environments. This kit contains a reinforced skinsuit which, while slow, will protect marines from the elements."
-	items = list(/obj/item/clothing/under/ship/marine, /obj/item/megaphone, /obj/item/clothing/suit/ship/squad/space, /obj/item/clothing/head/helmet/ship/squad/space, /obj/item/gun/energy/laser/retro/old)
+	items = list(/obj/item/clothing/under/ship/marine, /obj/item/megaphone, /obj/item/clothing/suit/ship/squad/space, /obj/item/clothing/head/helmet/ship/squad/space, /obj/item/gun/energy/laser/retro)
 
 /datum/squad_loadout/solgov/engineer
 	name = "Squad Engineer (Standard)"
 	desc = "This kit contains everything a squad engineer needs to effect repairs in non-hazardous environments. Recommended only for planetside operations where speed is necessary."
-	items = list(/obj/item/clothing/under/ship/marine/engineer, /obj/item/storage/belt/utility/full, /obj/item/storage/box/damage_control, /obj/item/clothing/glasses/welding, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/gun/energy/laser/retro/old)
+	items = list(/obj/item/clothing/under/ship/marine/engineer, /obj/item/storage/belt/utility/full, /obj/item/storage/box/damage_control, /obj/item/clothing/glasses/welding, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/gun/energy/laser/retro)
 	allowed_roles = list(DC_SQUAD, MUNITIONS_SUPPORT, COMBAT_AIR_PATROL)
 
 /datum/squad_loadout/solgov/engineer/space
 	name = "Squad Engineer (Hazardous Environment)"
 	desc = "For hazardous, low pressure environments. This kit contains everything a squad engineer needs to effect repairs in the heat of battle, no matter the condition of the ship they're on."
-	items = list(/obj/item/clothing/under/ship/marine/engineer, /obj/item/storage/belt/utility/full, /obj/item/storage/box/damage_control, /obj/item/clothing/glasses/welding, /obj/item/clothing/suit/ship/squad/space,/obj/item/clothing/head/helmet/ship/squad/space, /obj/item/gun/energy/laser/retro/old)
+	items = list(/obj/item/clothing/under/ship/marine/engineer, /obj/item/storage/belt/utility/full, /obj/item/storage/box/damage_control, /obj/item/clothing/glasses/welding, /obj/item/clothing/suit/ship/squad/space,/obj/item/clothing/head/helmet/ship/squad/space, /obj/item/gun/energy/laser/retro)
 
 /datum/squad_loadout/solgov/medic
 	name = "Squad Medic (Standard)"
 	desc = "A kit containing battlefield medical equipment and light squad armour."
-	items = list(/obj/item/clothing/under/ship/marine/medic, /obj/item/storage/firstaid/regular, /obj/item/reagent_containers/medspray/sterilizine, /obj/item/reagent_containers/medspray/styptic, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/gun/energy/laser/retro/old)
+	items = list(/obj/item/clothing/under/ship/marine/medic, /obj/item/storage/firstaid/regular, /obj/item/reagent_containers/medspray/sterilizine, /obj/item/reagent_containers/medspray/styptic, /obj/item/clothing/suit/ship/squad, /obj/item/clothing/head/helmet/ship/squad, /obj/item/gun/energy/laser/retro)
 	allowed_roles = list(MEDICAL_SQUAD)
 
 /datum/squad_loadout/solgov/medic/space
 	name = "Squad Medic (Hazardous Environment)"
 	desc = "For hazardous, low pressure environments. This kit contains specialist equipment for treating common battlefield injuries."
-	items = list(/obj/item/clothing/under/ship/marine/medic, /obj/item/storage/firstaid/regular, /obj/item/reagent_containers/medspray/sterilizine, /obj/item/reagent_containers/medspray/styptic, /obj/item/storage/firstaid/o2, /obj/item/clothing/suit/ship/squad/space, /obj/item/clothing/head/helmet/ship/squad/space, /obj/item/gun/energy/laser/retro/old)
+	items = list(/obj/item/clothing/under/ship/marine/medic, /obj/item/storage/firstaid/regular, /obj/item/reagent_containers/medspray/sterilizine, /obj/item/reagent_containers/medspray/styptic, /obj/item/storage/firstaid/o2, /obj/item/clothing/suit/ship/squad/space, /obj/item/clothing/head/helmet/ship/squad/space, /obj/item/gun/energy/laser/retro)

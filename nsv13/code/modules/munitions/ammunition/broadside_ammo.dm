@@ -18,6 +18,16 @@
 	w_class = WEIGHT_CLASS_BULKY
 	projectile_type = /obj/item/projectile/bullet/broadside/plasma
 
+/obj/item/ship_weapon/ammunition/broadside_shell/uranium
+	name = "\improper SNBC Type N Shell"
+	desc = "A large packed shell, complete with depleted uranium payload, ready to be loaded and fired."
+	icon_state = "broadside_uranium"
+	lefthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_lefthand.dmi'
+	righthand_file = 'nsv13/icons/mob/inhands/weapons/bombs_righthand.dmi'
+	icon = 'nsv13/icons/obj/munitions.dmi'
+	w_class = WEIGHT_CLASS_BULKY
+	projectile_type = /obj/item/projectile/bullet/broadside/uranium
+
 /obj/item/ship_weapon/ammunition/broadside_shell/can_be_pulled(mob/user)
 	return TRUE
 
@@ -47,6 +57,7 @@
 	var/amount_to_pack = 5
 	var/obj/item/powder_bag/plasma/plasma = FALSE
 	var/obj/item/powder_bag/gunpowder = FALSE
+	var/obj/item/ship_weapon/parts/broadside_load/uranium = FALSE
 	var/static/list/whitelist = typecacheof(list(
 		/obj/item/ship_weapon/parts/broadside_casing,
 		/obj/item/ship_weapon/parts/broadside_load,
@@ -82,7 +93,10 @@
 		sleep(0.5 SECONDS)
 		for(var/i in 1 to amount_to_pack)
 			if(plasma)
-				new /obj/item/ship_weapon/ammunition/broadside_shell/plasma(get_turf(src))
+				if(uranium)
+					new /obj/item/ship_weapon/ammunition/broadside_shell/uranium(get_turf(src))
+				else
+					new /obj/item/ship_weapon/ammunition/broadside_shell/plasma(get_turf(src))
 			else if(gunpowder)
 				new /obj/item/ship_weapon/ammunition/broadside_shell(get_turf(src))
 		reset()
@@ -107,6 +121,18 @@
 
 	if(istype(A, /obj/item/ship_weapon/parts/broadside_load))
 		if(load_amount < amount_to_pack)
+			if(!load_amount)
+				if(istype(A, /obj/item/ship_weapon/parts/broadside_load/uranium))
+					uranium = TRUE
+				else
+					uranium = FALSE
+			if(uranium)
+				if(!istype(A, /obj/item/ship_weapon/parts/broadside_load/uranium))
+					to_chat(user, "<span class='warning'>The packer can only handle one type of shell at a time!</span>")
+					return FALSE
+				if(gunpowder)
+					to_chat(user, "<span class='warning'>Only plasma powder is compatible with uranium loads!</span>")
+					return FALSE
 			load_amount++
 			to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
 			A.forceMove(src)
@@ -114,7 +140,6 @@
 			playsound(user, 'sound/items/screwdriver2.ogg', 30)
 			add_overlay("load-[load_amount]")
 			return TRUE
-
 		if(load_amount == amount_to_pack)
 			to_chat(user, "<span class='warning'>The table is already full of loads!</span>")
 			return FALSE
@@ -125,6 +150,9 @@
 				plasma = TRUE
 				to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
 			else if(istype(A, /obj/item/powder_bag))
+				if(uranium)
+					to_chat(user, "<span class='warning'>Only plasma powder is compatible with uranium loads!.</span>")
+					return FALSE
 				gunpowder = TRUE
 				to_chat(user, "<span class='notice'>You add [A] to the table.</span>")
 			A.forceMove(src)
@@ -169,6 +197,7 @@
 	bag_amount = 0
 	plasma = FALSE
 	gunpowder = FALSE
+	uranium = FALSE
 	icon_state = "packing_bench"
 	update_icon()
 	return

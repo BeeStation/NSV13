@@ -72,6 +72,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	armor = list("overmap_light" = 99, "overmap_medium" = 99, "overmap_heavy" = 25)
 	overmap_deletion_traits = DELETE_UNOCCUPIED_ON_DEPARTURE | DAMAGE_DELETES_UNOCCUPIED | DAMAGE_STARTS_COUNTDOWN | FIGHTERS_ARE_OCCUPANTS
 	deletion_teleports_occupants = TRUE
+	weapon_addition_allowed = FALSE
 	ai_flags = AI_FLAG_STATIONARY
 	combat_dice_type = /datum/combat_dice/rock
 	ai_controlled = TRUE
@@ -79,7 +80,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	faction = "stone"
 
 /obj/structure/overmap/asteroid/apply_weapons()
-	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac/rock(src) //~
+	new /datum/ship_weapon/mac/rock(src) //~
 
 /obj/structure/overmap/asteroid/seek_new_target(max_weight_class, min_weight_class, interior_check, max_distance)
 	if(obj_integrity >= max_integrity)
@@ -100,7 +101,6 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	if(obj_integrity >= max_integrity)
 		return
 	return ..()
-
 
 /obj/structure/overmap/asteroid/medium
 	name = "Asteroid (Non Ferrous)"

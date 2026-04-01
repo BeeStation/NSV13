@@ -3,7 +3,7 @@
 	hud_type = /datum/hud/human
 	possible_a_intents = list(INTENT_HELP, INTENT_DISARM, INTENT_GRAB, INTENT_HARM)
 	pressure_resistance = 25
-	can_buckle = TRUE
+	can_buckle = FALSE
 	buckle_lying = FALSE
 	mob_biotypes = list(MOB_ORGANIC, MOB_HUMANOID)
 	blocks_emissive = EMISSIVE_BLOCK_UNIQUE

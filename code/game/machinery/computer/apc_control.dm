@@ -36,8 +36,10 @@
 		return
 	..(user)
 
-/obj/machinery/computer/apc_control/proc/check_apc(obj/machinery/power/apc/APC)
-	return APC.get_virtual_z_level() == get_virtual_z_level() && !APC.malfhack && !APC.aidisabled && !(APC.obj_flags & EMAGGED) && !APC.machine_stat && !istype(APC.area, /area/ai_monitored) && !APC.area.outdoors
+//nsv13 - adjusted for shipwide APC control
+/obj/machinery/computer/apc_control/proc/check_apc(obj/machinery/power/apc/APC, linked_overmap)
+	return ((linked_overmap && linked_overmap == APC.get_overmap()) || APC.get_virtual_z_level() == get_virtual_z_level()) && !APC.malfhack && !APC.aidisabled && !(APC.obj_flags & EMAGGED) && !APC.machine_stat && !istype(APC.area, /area/ai_monitored) && !APC.area.outdoors
+//nsv13 end
 
 /obj/machinery/computer/apc_control/ui_interact(mob/living/user)
 	. = ..()
@@ -49,8 +51,9 @@
 			dat += "<b>Name:</b> <a href='?src=[REF(src)];name_filter=1'>[result_filters["Name"] ? result_filters["Name"] : "None set"]</a><br>"
 			dat += "<b>Charge:</b> <a href='?src=[REF(src)];above_filter=1'>\>[result_filters["Charge Above"] ? result_filters["Charge Above"] : "NaN"]%</a> and <a href='?src=[REF(src)];below_filter=1'>\<[result_filters["Charge Below"] ? result_filters["Charge Below"] : "NaN"]%</a><br>"
 			dat += "<b>Accessible:</b> <a href='?src=[REF(src)];access_filter=1'>[result_filters["Responsive"] ? "Non-Responsive Only" : "All"]</a><br><br>"
+			var/linked_overmap = get_overmap() //nsv13 - console works shipwide
 			for(var/A in GLOB.apcs_list)
-				if(check_apc(A))
+				if(check_apc(A, linked_overmap)) //nsv13 - console works shipwide
 					var/obj/machinery/power/apc/APC = A
 					if(result_filters["Name"] && !findtext(APC.name, result_filters["Name"]) && !findtext(APC.area.name, result_filters["Name"]))
 						continue

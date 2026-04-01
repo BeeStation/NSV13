@@ -55,31 +55,33 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 			else
 				minor_announce(CONFIG_GET(string/alert_red_downto), "Attention! General Quarters!")
 			toggle_gq_lights(TRUE)
-			addtimer(CALLBACK(GLOBAL_PROC, PROC_REF(toggle_gq_lights), FALSE), 45 SECONDS)
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(toggle_gq_lights), FALSE), 45 SECONDS)
 			for(var/obj/machinery/firealarm/FA in GLOB.machines)
 				if(is_station_level(FA.z))
 					FA.update_icon()
 			for(var/obj/machinery/computer/shuttle_flight/pod/pod in GLOB.machines)
 				pod.admin_controlled = 0
 
+		//Nsv13 - Condition Z
 		if(SEC_LEVEL_ZEBRA)
 			if(GLOB.security_level < SEC_LEVEL_ZEBRA)
-				gq_announce(CONFIG_GET(string/alert_zebra_upto), sound='nsv13/sound/effects/ship/condition_zebra.ogg')//Nsv13 - Condition Z
+				gq_announce(CONFIG_GET(string/alert_zebra_upto), sound='nsv13/sound/effects/ship/condition_zebra.ogg')
 				if(SSshuttle.emergency.mode == SHUTTLE_CALL || SSshuttle.emergency.mode == SHUTTLE_RECALL)
 					if(GLOB.security_level == SEC_LEVEL_GREEN)
 						SSshuttle.emergency.modTimer(0.25)
-					else
+					else if(GLOB.security_level == SEC_LEVEL_BLUE)
 						SSshuttle.emergency.modTimer(0.5)
 			else
-				gq_announce(CONFIG_GET(string/alert_zebra_downto), sound='nsv13/sound/effects/ship/condition_zebra.ogg') //Nsv13 - Condition Z
+				gq_announce(CONFIG_GET(string/alert_zebra_downto), sound='nsv13/sound/effects/ship/condition_zebra.ogg')
 			toggle_gq_lights(TRUE)
-			addtimer(CALLBACK(GLOBAL_PROC, PROC_REF(toggle_gq_lights), FALSE), 30 SECONDS)
+			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(toggle_gq_lights), FALSE), 30 SECONDS)
 			for(var/obj/machinery/firealarm/FA in GLOB.machines)
 				if(is_station_level(FA.z))
 					FA.update_icon()
 			for(var/obj/machinery/computer/shuttle_flight/pod/pod in GLOB.machines)
 				pod.admin_controlled = 0
 		//Nsv13 - end
+
 		if(SEC_LEVEL_DELTA)
 			minor_announce(CONFIG_GET(string/alert_delta), "Attention! Delta security level reached!",1)
 			if(SSshuttle.emergency.mode == SHUTTLE_CALL || SSshuttle.emergency.mode == SHUTTLE_RECALL)

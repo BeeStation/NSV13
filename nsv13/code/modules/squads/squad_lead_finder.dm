@@ -21,7 +21,9 @@
 /atom/movable/screen/squad_lead_finder/examine(mob/user)
 	. = ..()
 	if(squad && squad.leader)
-		. += "<span class='warning'>Your squad leader is: [squad.leader.real_name]</span>"
+		. += "<span class='warning'>Your squad leader is: [squad.leader.real_name].</span>"
+	else
+		. += "<span class='warning'>Your squad leader is: UNASSIGNED.</span>"
 
 /atom/movable/screen/squad_lead_finder/proc/set_squad(datum/squad/squad, mob/living/user)
 	src.squad = squad

@@ -143,7 +143,7 @@
 		if("fleetAct")
 			var/datum/fleet/target = locate(params["id"])
 			if(!istype(target))
-				return
+				return FALSE
 			var/command = tgui_alert(usr, "What do you want to do with [target]?", "Starsystem Management", list("Jump", "Variables", "Delete"))
 			if(!command)
 				return FALSE
@@ -153,11 +153,13 @@
 					return FALSE
 				message_admins("[key_name(usr)] forced [target] to jump to [sys].")
 				target.move(sys, TRUE)
+				return TRUE
 			if(command == "Delete")
-				var/list/all_ships = target.all_ships
-				// Do the fleet first then the ships so the announcement doesn't trigger
+				var/fleetname = target.name
+				var/sysname = target.current_system
 				if(usr.client.cmd_admin_delete(target))
-					QDEL_LIST(all_ships)
+					message_admins("[key_name(usr)] deleted [fleetname] in [sysname].")
+				return TRUE
 			if(command == "Variables")
 				usr.client.debug_variables(target)
 		if("createFleet")
@@ -186,6 +188,7 @@
 				SSstar_system.spawn_ship(object_type, target)
 			else if(ispath(object_type, /obj/effect/overmap_anomaly))
 				SSstar_system.spawn_anomaly(object_type, target)
+			return TRUE
 		if("objectAct")
 			var/obj/structure/overmap/target = locate(params["id"])
 			if(!istype(target))
@@ -212,16 +215,19 @@
 						return TRUE
 				message_admins("[key_name(usr)] forced [target] to jump to [sys].")
 				SSstar_system.move_existing_object(target, sys)
+				return TRUE
 			if(command == "Hail")
 				var/message = capped_input(usr, "Enter message", "Hail")
 				var/from = capped_input(usr, "Who is it from?", "Hail")
 				if(!message || !from)
 					return FALSE
 				target.hail(message, from)
-			if(command == "Variables")
-				usr.client.debug_variables(target)
+				return
 			if(command == "Delete")
 				usr.client.cmd_admin_delete(target)
+				return TRUE
+			if(command == "Variables")
+				usr.client.debug_variables(target)
 		if("hideSystem")
 			var/datum/star_system/target = locate(params["sys_id"])
 			if(!istype(target))
@@ -237,3 +243,4 @@
 			if(!sector)
 				return
 			current_sector = sector
+			return TRUE

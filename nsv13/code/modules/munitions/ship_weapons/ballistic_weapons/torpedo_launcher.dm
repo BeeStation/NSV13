@@ -11,8 +11,9 @@
 
 	firing_sound = 'nsv13/sound/effects/ship/plasma.ogg'
 	load_sound = 'nsv13/sound/effects/ship/freespace2/m_load.wav'
-	fire_mode = FIRE_MODE_AMS
 	ammo_type = /obj/item/ship_weapon/ammunition/torpedo
+
+	weapon_datum_type = /datum/overmap_ship_weapon/torpedo_launcher
 
 /obj/machinery/ship_weapon/torpedo_launcher/north
 	dir = NORTH
@@ -77,7 +78,7 @@
 	// We have different sprites and behaviors for each torpedo
 	var/obj/item/ship_weapon/ammunition/torpedo/T = chambered
 	if(T)
-		var/obj/item/projectile/P = linked.fire_projectile(T.projectile_type, target, lateral = TRUE)
+		var/obj/item/projectile/P = linked.fire_projectile(T.projectile_type, target)
 		if(T.contents.len)
 			for(var/atom/movable/AM in T.contents)
 				to_chat(AM, "<span class='warning'>You feel slightly nauseous as you're shot out into space...</span>")

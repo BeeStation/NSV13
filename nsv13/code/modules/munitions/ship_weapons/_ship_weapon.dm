@@ -1,14 +1,17 @@
 /**
  *	Ship-to-ship weapons
  *	To add a weapon type:
- *	Define a FIRE_MODE in nsv13/_DEFINES/overmap.dm
- *	Up the size of weapon_types and weapons in nsv13/code/modules/overmap/weapons.dm
- *	Add weapon specifics as a datum in nsv13/code/datums/weapon_types.dm
- *	Add a new datum of your type to weapon_types in nsv13/code/modules/overmap/overmap.dm Initialize()
- *	Subclass this
- *	Make firing_mode in the subclass equal to that define
- *	Set weapon_type in the subclass to a new datum of the kind you just created
- *	Define an ammo_type or magazine_type so you can load the weapon
+ *
+ *
+ * *	Add weapon specifics as a datum in nsv13\code\modules\overmap\weapons\delta_overmap_ship_weapons\new_weapon_types\weapon_datum_types.dm
+ * *	Link the datum to overmap(s) via `apply_weapons()` (This is optional for players, but recommended for ships that start with the weapon)
+ * *	The previous step is required for AI weapons.
+ * *	Following steps only matter for player weapons:
+ * *	Create a subtype of this (you can also handle that differently but it requires a lot of expertise).
+ * *	Set `weapon_datum_type` on that subtype to the path of your new weapon datum.
+ * *	(technically you can also use previous ones, might get a bit weird though).
+ * *	Setup your weapon specific stuff, like ammo & magazine.
+ * *	(Optional: ask Delta if you need help. (yes that is the one writing this, this time))
  */
 /obj/machinery/ship_weapon //CREDIT TO CM FOR THE SPRITES!
 	name = "A ship weapon"
@@ -43,7 +46,6 @@
 
 	var/firing_sound = 'nsv13/sound/effects/ship/tri_mount_fire.ogg'
 	var/fire_animation_length = 5
-	var/fire_mode
 
 	var/malfunction_sound = 'sound/effects/alert.ogg'
 
@@ -51,7 +53,6 @@
 	var/maintainable = TRUE //Does the weapon require maintenance?
 	var/bang = TRUE //Is firing loud?
 	var/bang_range = 8
-	var/broadside = FALSE //Does the weapon only fire to the sides?
 	var/auto_load = FALSE //Does the weapon feed and chamber the round once we load it?
 	var/semi_auto = FALSE //Does the weapon re-chamber for us after firing?
 
@@ -59,7 +60,10 @@
 	var/magazine_type = null
 	var/max_ammo = 1
 
-	var/datum/ship_weapon/weapon_type = null
+	///This determines what ship weapon type this weapon links to, or autogenerates if not already present.
+	var/weapon_datum_type
+	///The ship weapon datum this is linked to
+	var/datum/overmap_ship_weapon/linked_overmap_ship_weapon
 
 	// Things that change while we're operating
 	var/maint_req = 0 //Number of times a weapon can fire until a maintenance cycle is required. This will countdown to 0.
@@ -107,6 +111,8 @@
  * Try to unlink from a munitions computer, so it can re-link to other things
  */
 /obj/machinery/ship_weapon/Destroy(force=FALSE)
+	if(linked_overmap_ship_weapon)
+		linked_overmap_ship_weapon.unlink_physical_weapon(src)
 	var/obj/item/circuitboard/C = circuit
 	if(C)
 		component_parts?.Remove(C)
@@ -122,24 +128,29 @@
 				qdel(P, force)
 			else
 				P.forceMove(loc)
-	. = ..()
 	if(linked_computer)
 		linked_computer.SW = null
+	return ..()
 
 /**
  * Tries to link the ship to an overmap by finding the overmap linked it the area we are in.
  */
-/obj/machinery/ship_weapon/proc/get_ship(error_log=TRUE)
+/obj/machinery/ship_weapon/proc/get_ship()
 	linked = get_overmap()
 	if(linked)
-		set_position(linked)
+		if(!linked.weapons_initialized)
+			addtimer(CALLBACK(src, PROC_REF(get_ship)), 10 SECONDS) //Lets try this again at some later point in time.
+			return
+		if(!linked_overmap_ship_weapon)
+			link_to_overmap_weapon_datum(linked)
+			return
 	else
 		message_admins("[z] not linked to an overmap - [src] will not be linked.")
 
 /**
- * Adds the weapon to the overmap ship's list of weapons of this type
+ * Links the physical weapon to a ship weapon datum, or creates one if needed.
  */
-/obj/machinery/ship_weapon/proc/set_position(obj/structure/overmap/OM) //Use this to tell your ship what weapon category this belongs in
+/obj/machinery/ship_weapon/proc/link_to_overmap_weapon_datum(obj/structure/overmap/OM)
 	OM.add_weapon(src)
 
 /**
@@ -191,7 +202,7 @@
 /**
  * If we can accept it as ammo, try to load it.
  */
-/obj/machinery/ship_weapon/MouseDrop_T(obj/item/A, mob/user)
+/obj/machinery/ship_weapon/MouseDrop_T(atom/movable/A, mob/user)
 	. = ..()
 	if(!isliving(user))
 		return FALSE
@@ -252,6 +263,10 @@
 
 /obj/machinery/ship_weapon/proc/get_ammo()
 	return length(ammo)
+
+///Returns loaded ammo objs. Done this way for ease of overrides.
+/obj/machinery/ship_weapon/proc/get_ammo_list()
+	return ammo
 
 /**
  * Transitions from STATE_NOTLOADED to STATE_LOADED.
@@ -321,18 +336,14 @@
 			playsound(src, unload_sound, 100, 1)
 		sleep(unload_delay)
 
-		if(ammo[1])
-			var/atom/movable/AM = ammo[1]
-			AM.forceMove(get_turf(src))
-			ammo -= AM
+		if(length(ammo))
+			for(var/atom/movable/AM in ammo)
+				AM.forceMove(get_turf(src))
+				ammo -= AM
 		state = STATE_NOTLOADED
 		icon_state = initial(icon_state)
 
 		//If we have more ammo, spit those out too
-		if(length(ammo))
-			for(var/atom/movable/AM as() in ammo)
-				AM.forceMove(get_turf(src))
-			ammo.len = 0
 	//end if((state >= STATE_LOADED) && !magazine)
 
 /**
@@ -387,11 +398,12 @@
 	update()
 
 /obj/machinery/ship_weapon/proc/update()
-	if(weapon_type) // Who would've thought creating a weapon with no weapon_type would break everything!
-		if(!safety && chambered)
-			weapon_type.weapons["loaded"] |= src //OR to avoid duplicating refs
-		else
-			weapon_type.weapons["loaded"] -= src
+	if(!linked_overmap_ship_weapon)
+		return
+	if(!safety && chambered)
+		linked_overmap_ship_weapon.mark_physical_weapon_loaded(src)
+	else
+		linked_overmap_ship_weapon.mark_physical_weapon_unloaded(src)
 
 /obj/machinery/ship_weapon/proc/lazyload()
 	if(magazine_type)
@@ -453,7 +465,7 @@
  * Checks if the weapon is able to fire the given number of shots.
  * Need to have a round in the chamber, not already be shooting, not be in maintenance, not be malfunctioning, and have enough shots in our ammo pool. Also checks if the direction of a broadside gun is correct.
  */
-/obj/machinery/ship_weapon/proc/can_fire(atom/target, shots = weapon_type.burst_size)
+/obj/machinery/ship_weapon/proc/can_fire(atom/target, shots = linked_overmap_ship_weapon.burst_size)
 	if((state < STATE_CHAMBERED) || !chambered) //Do we have a round ready to fire
 		return FALSE
 	if (maint_state > MSTATE_UNSCREWED) //Are we in maintenance?
@@ -464,9 +476,9 @@
 		return FALSE
 	if(safety) // Is the safety on?
 		return FALSE
-	if(length(ammo) < shots) //Do we have enough ammo?
+	if(get_ammo() < shots) //Do we have ammo?
 		return FALSE
-	if(broadside && target)
+	if(target && linked_overmap_ship_weapon && (linked_overmap_ship_weapon.weapon_facing_flags & OSW_FACING_SIDES))
 		return dir == angle2dir_ship(overmap_angle(linked, target) - linked.angle) ? TRUE : FALSE
 	else
 		return TRUE
@@ -480,15 +492,17 @@
  *   from STATE_CHAMBERED if semi-auto and have ammo.
  * Returns projectile if successfully fired, FALSE otherwise.
  */
-/obj/machinery/ship_weapon/proc/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+/obj/machinery/ship_weapon/proc/fire(atom/target, shots = linked_overmap_ship_weapon.burst_size, manual = TRUE)
 	//Fun fact: set [waitfor, etc] is special, and is inherited by child procs even if they do not call parent!
 	set waitfor = FALSE //As to not hold up any feedback messages.
+
 	if(can_fire(target, shots))
 		if(manual)
 			linked.last_fired = overlay
 
 		for(var/i = 0, i < shots, i++)
 			state = STATE_FIRING
+			. = TRUE //waitfor = FALSE early return returns the current . value at the time of sleeping, so this makes it return the correct value for burst fire weapons.
 			do_animation()
 			overmap_fire(target)
 
@@ -506,13 +520,12 @@
 			if(semi_auto)
 				chamber(rapidfire = TRUE)
 			after_fire()
-			. = TRUE //waitfor = FALSE early return returns the current . value at the time of sleeping, so this makes it return the correct value for burst fire weapons.
 			if(shots > 1)
-				sleep(weapon_type.burst_fire_delay)
+				sleep(linked_overmap_ship_weapon.burst_fire_delay)
 		return TRUE
 	return FALSE
 
-/obj/machinery/ship_weapon/energy/fire(atom/target, shots = weapon_type.burst_size, manual = TRUE)
+/obj/machinery/ship_weapon/energy/fire(atom/target, shots = linked_overmap_ship_weapon.burst_size, manual = TRUE)
 	if(can_fire(target, shots))
 		if(manual)
 			linked.last_fired = overlay
@@ -524,7 +537,7 @@
 			after_fire()
 			. = TRUE
 			if(shots > 1)
-				sleep(weapon_type.burst_fire_delay)
+				sleep(linked_overmap_ship_weapon.burst_fire_delay)
 		return TRUE
 	return FALSE
 
@@ -544,23 +557,22 @@
  */
 /obj/machinery/ship_weapon/proc/overmap_fire(atom/target)
 
-	if(weapon_type?.overmap_firing_sounds)
-		overmap_sound()
+	overmap_sound()
 
 	if(overlay)
 		overlay.do_animation()
-	if( weapon_type )
+	if(linked_overmap_ship_weapon)
 		animate_projectile(target)
 
 /obj/machinery/ship_weapon/proc/overmap_sound()
-	var/sound/chosen = pick(weapon_type.overmap_firing_sounds)
-	linked.relay_to_nearby(chosen)
+	if(length(linked_overmap_ship_weapon.overmap_firing_sounds))
+		linked_overmap_ship_weapon.play_weapon_sound()
 
 /**
  * Animates an overmap projectile matching whatever we're shooting.
  */
 /obj/machinery/ship_weapon/proc/animate_projectile(atom/target)
-	return linked.fire_projectile(weapon_type.default_projectile_type, target, lateral=weapon_type.lateral)
+	return linked.fire_projectile(linked_overmap_ship_weapon.standard_projectile_type, target, firing_flags = linked_overmap_ship_weapon.weapon_firing_flags)
 
 /**
  * Updates maintenance counter after firing if applicable.

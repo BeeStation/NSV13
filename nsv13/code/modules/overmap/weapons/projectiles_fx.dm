@@ -281,7 +281,7 @@ Misc projectile types, effects, think of this as the special FX file.
 		L.flash_act(affect_silicon = TRUE)
 	var/list/throwat_turfs = RANGE_TURFS(6, detonation_turf) - RANGE_TURFS(5, detonation_turf)
 	var/list/plushtypes = subtypesof(/obj/item/toy/plush)
-	for(var/i = 1; i<= 8, i++)
+	for(var/i = 1; i<= 8; i++)
 		var/plushpath = pick(plushtypes)
 		var/obj/item/toy/plush/plushie = new plushpath(detonation_turf)
 		plushie.throw_at(pick(throwat_turfs), 7, 2, spin = TRUE)
@@ -305,6 +305,41 @@ Misc projectile types, effects, think of this as the special FX file.
 /obj/item/projectile/bullet/railgun_slug/process_homing()
 	. = ..()
 	homing = FALSE
+
+/obj/item/projectile/bullet/railgun_forged //The properties of this projectile will be generated on each instance of it being fired
+	icon_state = "mac"
+	name = "railgun slug"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	damage = 1
+	speed = 1
+	armour_penetration = 1
+	flag = "overmap_heavy"
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
+	//effect vars passed from ammunition object
+	var/burn = 0
+	var/emp = 0
+
+
+/obj/item/projectile/bullet/railgun_forged/spec_overmap_hit(obj/structure/overmap/target) //Lifted and combined from torp code
+	if(length(target.occupying_levels))
+		return
+	if(burn) //Are we going to burn overmap objects?
+		if(target.ai_controlled || istype(target, /obj/structure/overmap/small_craft))
+			target.hullburn += burn
+			target.hullburn_power = max(target.hullburn_power, 6)
+
+	if(emp) //Are we going to EMP?
+		if(target.ai_controlled)
+			if(target.disruption <= (emp * 2))
+				target.disruption = min(target.disruption + emp, (emp * 2))
+			return
+
+		if(istype(target, /obj/structure/overmap/small_craft))
+			target.disruption += 25
+			return
+
+		target.add_sensor_profile_penalty(150, 10 SECONDS)
+
 
 /obj/item/projectile/bullet/gauss_slug
 	icon_state = "gaussgun"
@@ -379,14 +414,22 @@ Misc projectile types, effects, think of this as the special FX file.
 	if(isovermap(target)) //Were we to explode on an actual overmap, this would oneshot the ship as it's a powerful explosion.
 		return BULLET_ACT_HIT
 	var/obj/item/projectile/P = target //This is hacky, refactor check_faction to unify both of these. I'm bodging it for now.
+
+	//We don't even reach this case, looks like this is usually just done in guided_munition/entered :(
 	if(isprojectile(target) && P.faction != faction && !P.nodamage) //Because we could be in the same faction and collide with another bullet. Let's not blow ourselves up ok?
 		if(obj_integrity <= P.damage) //Tank the hit, take some damage
-			qdel(P)
+			if((P.projectile_piercing & PASSCLOSEDTURF) && P.obj_integrity > damage) //Check for arbitrary pass flag that makes senseish.
+				P.obj_integrity -= damage
+			else
+				qdel(P)
 			explode()
 			return BULLET_ACT_HIT
 		else
+			if((P.projectile_piercing & PASSCLOSEDTURF) && P.obj_integrity > damage) //Check for arbitrary pass flag that makes senseish.
+				P.obj_integrity -= damage
+			else
+				qdel(P)
 			take_damage(P.damage)
-			qdel(P)
 			return FALSE //Didn't take the hit
 	if(!isprojectile(target)) //This is lazy as shit but is necessary to prevent explosions triggering on the overmap when two bullets collide. Fix this shit please.
 		if(isliving(target))
@@ -398,9 +441,13 @@ Misc projectile types, effects, think of this as the special FX file.
 		return FALSE
 	return BULLET_ACT_HIT
 
+//OVERRIDE.
 /obj/item/projectile/guided_munition/bullet_act(obj/item/projectile/P)
-	. = ..()
 	on_hit(P)
+	if((P.projectile_piercing & PASSCLOSEDTURF) && P.obj_integrity > 0)
+		. = BULLET_ACT_FORCE_PIERCE
+	else
+		. = BULLET_ACT_HIT
 
 /obj/item/projectile/guided_munition/proc/detonate(atom/target)
 	explosion(target, 2, 4, 4)
@@ -413,13 +460,18 @@ Misc projectile types, effects, think of this as the special FX file.
 	valid_angle = 150
 	homing_turn_speed = 35
 	damage = 250
-	obj_integrity = 40
-	max_integrity = 40
+	obj_integrity = 120
+	max_integrity = 120
 	range = 250
 	armor = list("overmap_light" = 20, "overmap_medium" = 10, "overmap_heavy" = 0)
 	flag = "overmap_heavy"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	spread = 5 //Helps them not get insta-bonked when launching
+
+/obj/item/projectile/guided_munition/torpedo/ai //AI Ship usage
+	icon_state = "torpedo"
+	obj_integrity = 40
+	max_integrity = 40
 
 /obj/item/projectile/guided_munition/torpedo/viscerator
 	//icon_state = "???"	- alt sprite would be nice
@@ -427,6 +479,10 @@ Misc projectile types, effects, think of this as the special FX file.
 	relay_projectile_type = /obj/item/projectile/bullet/delayed_prime/relayed_viscerator_torpedo
 	damage = 75	//Simply kinetic damagewise..
 	flag = "overmap_medium"
+	obj_integrity = 240
+	max_integrity = 240
+
+/obj/item/projectile/guided_munition/torpedo/viscerator/ai //AI Ship usage
 	obj_integrity = 80
 	max_integrity = 80
 
@@ -436,11 +492,20 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 200
 	armour_penetration = 40
 
+/obj/item/projectile/guided_munition/torpedo/shredder/ai //AI Ship usage
+	obj_integrity = 40
+	max_integrity = 40
+
 /obj/item/projectile/guided_munition/torpedo/decoy
 	icon_state = "torpedo"
 	damage = 0
-	obj_integrity = 200
-	max_integrity = 200
+	obj_integrity = 500
+	max_integrity = 500
+
+/obj/item/projectile/guided_munition/torpedo/decoy/ai //AI Ship usage
+	icon_state = "torpedo"
+	obj_integrity = 120
+	max_integrity = 120
 
 /obj/item/projectile/guided_munition/torpedo/hellfire
 	icon_state = "torpedo_hellfire"
@@ -454,6 +519,9 @@ Misc projectile types, effects, think of this as the special FX file.
 
 /obj/item/projectile/guided_munition/torpedo/hellfire/player_version
 	damage = 300	//A bit less initial damage to compensate for the /guaranteed/ hellburn effect dealing hefty damage.
+	obj_integrity = 75
+	max_integrity = 75
+
 
 /obj/item/projectile/guided_munition/torpedo/hellfire/spec_overmap_hit(obj/structure/overmap/target)
 	if(length(target.occupying_levels))
@@ -480,14 +548,18 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "torpedo_disruptor"
 	name = "disruption torpedo"
 	damage = 140	//Lower damage, does some special stuff when it hits a target.
+	obj_integrity = 40
+	max_integrity = 40
 	var/ai_disruption = 30
 	var/ai_disruption_cap = 120
 
-///Player-accessible version of parent. Weaker because reverse engineered ~~and balance~~
+///Player-accessible version of parent. Weaker effect because reverse engineered, buffed durability because player ship
 /obj/item/projectile/guided_munition/torpedo/disruptor/prototype
 	name = "prototype disruption torpedo"
 	ai_disruption = 15 //Do you like stuncombat? Well the AI doesn't.
 	ai_disruption_cap = 30 //Very effective if applied spaced out over time against damage-resistant ships.
+	obj_integrity = 120
+	max_integrity = 120
 
 /obj/item/projectile/guided_munition/torpedo/disruptor/spec_overmap_hit(obj/structure/overmap/target)
 	if(length(target.occupying_levels))
@@ -523,10 +595,16 @@ Misc projectile types, effects, think of this as the special FX file.
 	damage = 175
 	valid_angle = 120
 	homing_turn_speed = 25
+	obj_integrity = 120
+	max_integrity = 120
 	range = 250
 	flag = "overmap_medium"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/torpedo
 	spread = 5 //!Helps them not get insta-bonked when launching
+
+/obj/item/projectile/guided_munition/missile/ai //AI ship usage
+	obj_integrity = 40
+	max_integrity = 40
 
 /* Sleep for now, we'll see you again
 /obj/item/projectile/guided_munition/torpedo/nuclear/detonate(atom/target)
@@ -538,7 +616,6 @@ Misc projectile types, effects, think of this as the special FX file.
 
 	return BULLET_ACT_HIT
 */
-
 
 /obj/item/projectile/bullet/pdc_round
 	icon_state = "pdc"
@@ -625,6 +702,10 @@ Misc projectile types, effects, think of this as the special FX file.
 	flag = "overmap_heavy"
 	spread = 15
 	speed = 1
+	relay_projectile_type = /obj/item/projectile/bullet/broadside/relayed
+
+/obj/item/projectile/bullet/broadside/relayed
+	damage = 20
 
 /obj/item/projectile/bullet/broadside/plasma
 	name = "plasma-packed broadside shell"
@@ -632,6 +713,26 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon_state = "broadside_plasma"
 	damage = 175
 	armour_penetration = 10
+	speed = 0.4
+	relay_projectile_type = /obj/item/projectile/bullet/broadside/plasma/relayed
+
+
+/obj/item/projectile/bullet/broadside/plasma/relayed
+	damage = 25
+	projectile_piercing = ALL
+
+/obj/item/projectile/bullet/broadside/uranium
+	name = "depleted uranium broadside shell"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "broadside_uranium"
+	damage = 200
+	armour_penetration = 25
+	speed = 2
+	relay_projectile_type = /obj/item/projectile/bullet/broadside/uranium/relayed
+
+/obj/item/projectile/bullet/broadside/uranium/relayed
+	damage = 35
+	projectile_piercing = ALL
 	speed = 0.4
 
 /obj/effect/temp_visual/overmap_explosion

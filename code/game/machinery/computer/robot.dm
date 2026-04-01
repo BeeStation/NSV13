@@ -70,10 +70,11 @@
 		data["can_hack"] = TRUE
 
 	data["cyborgs"] = list()
+	var/linked_overmap = get_overmap() //nsv13 - used for shipwide robotics control.
 	for(var/mob/living/silicon/robot/R in GLOB.silicon_mobs)
 		if(!can_control(user, R))
 			continue
-		if(get_virtual_z_level() != (get_turf(R)).get_virtual_z_level())
+		if(!(linked_overmap && R.last_overmap == linked_overmap) && get_virtual_z_level() != (get_turf(R)).get_virtual_z_level()) //nsv13 - shipwide robotics control.
 			continue
 		var/list/cyborg_data = list(
 			name = R.name,
@@ -91,7 +92,7 @@
 	for(var/mob/living/simple_animal/drone/D in GLOB.drones_list)
 		if(D.hacked)
 			continue
-		if(get_virtual_z_level() != (get_turf(D)).get_virtual_z_level())
+		if(!(linked_overmap && D.last_overmap == linked_overmap) && get_virtual_z_level() != (get_turf(D)).get_virtual_z_level()) //nsv13 - shipwide robotics control.
 			continue
 		var/list/drone_data = list(
 			name = D.name,

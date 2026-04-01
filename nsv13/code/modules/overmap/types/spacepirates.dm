@@ -18,10 +18,10 @@
 	role = INSTANCED_MIDROUND_SHIP
 
 /obj/structure/overmap/spacepirate/HomeOne/apply_weapons()
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	weapon_types[FIRE_MODE_HYBRID_RAIL] = new /datum/ship_weapon/hybrid_railgun(src)
-	weapon_types[FIRE_MODE_AMS] = new /datum/ship_weapon/vls(src)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src, FALSE)
+	new /datum/overmap_ship_weapon/hybrid_railgun(src, FALSE)
+	new /datum/overmap_ship_weapon/vls(src)
 //AI versions
 
 /obj/structure/overmap/spacepirate/ai
@@ -33,6 +33,8 @@
 	mass = MASS_SMALL
 	max_integrity = 400
 	armor = list("overmap_light" = 80, "overmap_medium" = 45, "overmap_heavy" = 10)
+	torpedo_type = /obj/item/projectile/guided_munition/torpedo/ai
+	missile_type = /obj/item/projectile/guided_munition/missile/ai
 	bound_height = 64
 	bound_width = 64
 	ai_controlled = TRUE
@@ -48,49 +50,29 @@
 	var/random_weapons = pick(1, 2, 3, 4, 5)
 	switch(random_weapons) //Dakkagang
 		if(1)
-			weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
-			weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
-			weapon_types[FIRE_MODE_RAILGUN] = null
-			weapon_types[FIRE_MODE_FLAK] = null
-			weapon_types[FIRE_MODE_GAUSS] = null
-			weapon_types[FIRE_MODE_MISSILE] = null
-			weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-			torpedoes = 10
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/torpedo_launcher(src, FALSE)
+			new /datum/overmap_ship_weapon/pdc_mount(src)
+			torpedoes = 10 //I am not actually adjusting the max ammo for the pirate versions because they probably bolted on a launcher.
 		if(2)
-			weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
-			weapon_types[FIRE_MODE_TORPEDO] = null
-			weapon_types[FIRE_MODE_RAILGUN] = new /datum/ship_weapon/railgun(src)
-			weapon_types[FIRE_MODE_FLAK] = null
-			weapon_types[FIRE_MODE_GAUSS] = null
-			weapon_types[FIRE_MODE_MISSILE] = null
-			weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/railgun(src, FALSE)
+			new /datum/overmap_ship_weapon/pdc_mount(src)
 			shots_left = 10
+			max_shots_left = 10 //Lower than base so I am adjusting here.
 		if(3)
-			weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
-			weapon_types[FIRE_MODE_TORPEDO] = null
-			weapon_types[FIRE_MODE_RAILGUN] = null
-			weapon_types[FIRE_MODE_FLAK] = null
-			weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
-			weapon_types[FIRE_MODE_MISSILE] = null
-			weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/gauss(src, FALSE)
+			new /datum/overmap_ship_weapon/pdc_mount(src)
 		if(4)
-			weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
-			weapon_types[FIRE_MODE_TORPEDO] = null
-			weapon_types[FIRE_MODE_RAILGUN] = null
-			weapon_types[FIRE_MODE_FLAK] = null
-			weapon_types[FIRE_MODE_GAUSS] = null
-			weapon_types[FIRE_MODE_MISSILE] = new /datum/ship_weapon/missile_launcher(src)
-			weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/missile_launcher(src, FALSE)
+			new /datum/overmap_ship_weapon/pdc_mount(src)
 			missiles = 10
 		if(5)
-			weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
-			weapon_types[FIRE_MODE_TORPEDO] = null
-			weapon_types[FIRE_MODE_RAILGUN] = null
-			weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
-			weapon_types[FIRE_MODE_GAUSS] = null
-			weapon_types[FIRE_MODE_MISSILE] = null
-			weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-			flak_battery_amount = 1
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/flak(src, FALSE)
+			new /datum/overmap_ship_weapon/pdc_mount(src)
 
 /obj/structure/overmap/spacepirate/ai/boarding //our boarding capable variant (we want to control how many of these there are)
 	ai_flags = AI_FLAG_BOARDER
@@ -113,8 +95,29 @@
 	missiles = 30
 
 /obj/structure/overmap/spacepirate/ai/nt_missile/apply_weapons()
-	.=..()
-	weapon_types[FIRE_MODE_GAUSS] = null //removed the guass to load more torp
+	var/random_weapons = pick(1, 2, 3, 4, 5)
+	switch(random_weapons) //Dakkagang
+		if(1)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/torpedo_launcher(src, FALSE)
+			new /datum/overmap_ship_weapon/pdc_mount(src)
+		if(2)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/railgun(src, FALSE)
+			new /datum/overmap_ship_weapon/pdc_mount(src)
+			shots_left = 10
+			max_shots_left = 10
+		if(3)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/pdc_mount(src)
+		if(4)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/missile_launcher(src, FALSE)
+			new /datum/overmap_ship_weapon/pdc_mount(src)
+		if(5)
+			new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+			new /datum/overmap_ship_weapon/flak(src, FALSE)
+			new /datum/overmap_ship_weapon/pdc_mount(src)
 
 /obj/structure/overmap/spacepirate/ai/syndie_gunboat
 	name = "Space Pirate Gunboat"
@@ -133,15 +136,10 @@
 	combat_dice_type = /datum/combat_dice/destroyer
 
 /obj/structure/overmap/spacepirate/ai/syndie_gunboat/apply_weapons() //Dakka+
-	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
-	weapon_types[FIRE_MODE_AMS] = null
-	weapon_types[FIRE_MODE_TORPEDO] = null
-	weapon_types[FIRE_MODE_MAC] = new /datum/ship_weapon/mac/dirty(src)
-	weapon_types[FIRE_MODE_RAILGUN] = null
-	weapon_types[FIRE_MODE_FLAK] = null
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
-	weapon_types[FIRE_MODE_MISSILE] = null
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
+	new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+	new /datum/overmap_ship_weapon/mac/dirty(src, FALSE)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
 
 /obj/structure/overmap/spacepirate/ai/dreadnought //And you thought the pirates only had small ships
 	name = "Space Pirate Dreadnought"
@@ -163,12 +161,10 @@
 	combat_dice_type = /datum/combat_dice/flagship
 
 /obj/structure/overmap/spacepirate/ai/dreadnought/apply_weapons()
-	weapon_types[FIRE_MODE_ANTI_AIR] = new /datum/ship_weapon/aa_guns(src)
-	weapon_types[FIRE_MODE_TORPEDO] = new /datum/ship_weapon/torpedo_launcher(src)
-	weapon_types[FIRE_MODE_MISSILE] = null
-	weapon_types[FIRE_MODE_RAILGUN] = new /datum/ship_weapon/railgun(src)
-	weapon_types[FIRE_MODE_FLAK] = new /datum/ship_weapon/flak(src)
-	weapon_types[FIRE_MODE_GAUSS] = new /datum/ship_weapon/gauss(src)
-	weapon_types[FIRE_MODE_PDC] = new /datum/ship_weapon/pdc_mount(src)
-	flak_battery_amount = 2
+	new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+	new /datum/overmap_ship_weapon/torpedo_launcher(src, FALSE)
+	new /datum/overmap_ship_weapon/railgun(src, FALSE)
+	new /datum/overmap_ship_weapon/flak(src, FALSE, 2)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
 

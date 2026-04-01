@@ -382,7 +382,7 @@ GLOBAL_LIST_EMPTY(conveyors_by_id)
 	if(position == 0)
 		if(oneway)   //is it a oneway switch
 			if(altClicked) //NSV13 conveyor switch changes
-				position = -1
+				position = oneway * -1
 			else
 				position = oneway
 		else

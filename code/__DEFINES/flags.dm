@@ -189,4 +189,32 @@ GLOBAL_LIST_INIT(bitflags, list(1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 204
 #define STARSYSTEM_NO_ASTEROIDS 1<<1	//Prevents Asteroids Spawning
 #define STARSYSTEM_NO_WORMHOLE 1<<2		//Prevents Incoming Wormholes
 #define STARSYSTEM_END_ON_ENTER 1<<3  //End the round after entering this system (Outpost 45)
+
+//AI ship reload flags, used to not stack resupply timers.
+#define SHIP_RESUPPLYING_LIGHT (1<<0)	//!If enabled, currently busy resupplying light weapons (light shots)
+#define SHIP_RESUPPLYING_HEAVY (1<<1)	//!If enabled, currently busy resupplying heavy weapons (shots, torp, missiles)
+
+//Overmap ship weapon datum control flags
+#define OSW_CONTROL_PILOT (1<<0)				//!This weapon can be accessed by a pilot.
+#define OSW_CONTROL_GUNNER (1<<1)				//!This weapon can be accessed by a gunner.
+#define OSW_CONTROL_MANUAL (1<<2)				//!Denotes manual handling of the weapon.
+#define OSW_CONTROL_AI (1<<3)					//!Denotes AI being able to use this weapon if the ship it is on is AI controlled.
+#define OSW_CONTROL_AUTONOMOUS (1<<4)			//!This weapon has some form of autonomous control handling.
+#define OSW_CONTROL_FULL_AUTONOMY (1<<5)		//!This weapon operates independantly when using autonomy handling. Ones with autonomy but without this are implied to be controlled by ams modes.
+#define OSW_CONTROL_AI_FULL_AUTONOMY (1<<6)		//!Like Full Autonomy, except only used if the ship is controlled by AI.
+
+//Overmap ship weapon facing flags
+#define OSW_FACING_OMNI (1<<0)					//!Standard 360° aim. Mostly for ease-of-read purpose.
+#define OSW_FACING_FRONT (1<<1)					//!Only fires forward. Uses firing arc angle.
+#define OSW_FACING_SIDES (1<<2)					//!Only fires towards the sides. Uses firing arc angle for both sides.
+#define OSW_FACING_BACK (1<<3)					//!Only fires backwards(?). Uses firing arc angle.
+
+//Firing flags (actual firing behavior)
+#define OSW_ALWAYS_FIRES_FORWARD (1<<0)				//!Always fires directly forward regardless of where you aim (but still passes target)
+#define OSW_ALWAYS_FIRES_BROADSIDES (1<<1)			//!Always fires inaccurate sideways bursts (but still passes target)
+#define OSW_ALWAYS_FIRES_ERRATIC_BROADSIDES (1<<2)	//!Like broadsides, but does not care about target direction (still passes target).
+
+//Flags related to aiming a weapon
+#define OSW_AIMING_BEAM (1<<0)					//!This weapon uses the aiming beam feature.
+#define OSW_SIDE_AIMING_BEAM (1<<1)				//!Aiming beam specialized for broadsides, only points in a single angle per side.
 //NSV13 change end

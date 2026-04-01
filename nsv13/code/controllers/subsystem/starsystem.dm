@@ -45,8 +45,16 @@ SUBSYSTEM_DEF(star_system)
 
 	if(enable_npc_combat)
 		if(world.time >= next_combat_cycle)
+			var/new_announcements = FALSE
 			for(var/datum/star_system/SS in contested_systems)
+				var/previous_system_state = SS.already_announced_combat
 				SS.handle_combat()
+				if(SS.already_announced_combat > previous_system_state) //TRUE > FALSE to save on an operator use. (!= and == for alt)
+					new_announcements = TRUE
+			if(new_announcements)
+				for(var/mob/M in GLOB.player_list)
+					if(!isnewplayer(M) && M.can_hear() && (M.client.prefs.toggles & PREFTOGGLE_SOUND_ANNOUNCEMENTS))
+						SEND_SOUND(M, sound('sound/misc/notice2.ogg'))
 			next_combat_cycle = world.time + COMBAT_CYCLE_INTERVAL
 
 	for(var/datum/faction/F in factions)
@@ -865,6 +873,9 @@ Returns a faction datum by its name (case insensitive!)
 		if("blacksite") //this a special one!
 			adjacency_list += SSstar_system.return_system.name //you're going to risa, damnit.
 			SSstar_system.spawn_anomaly(/obj/effect/overmap_anomaly/wormhole, src, center=TRUE)
+	if(alignment == "random")
+		alignment = pick(list("syndicate", "nanotrasen", "pirate", "unaligned"))
+		owner = alignment //They obviously own this if they control it at the start
 	if(alignment == "syndicate")
 		spawn_enemies() //Syndicate systems are even more dangerous, and come pre-loaded with some Syndie ships.
 		if(prob(20)) //Watch your step!
@@ -874,10 +885,7 @@ Returns a faction datum by its name (case insensitive!)
 			spawn_enemies()
 		else if (prob(33))
 			var/pickedF = pick(list(/datum/fleet/nanotrasen/light, /datum/fleet/nanotrasen)) //This should probably be a seperate proc to spawn friendlies
-			var/datum/fleet/F = new pickedF
-			F.current_system = src
-			fleets += F
-			F.assemble(src)
+			spawn_fleet(pickedF)
 	if(!anomaly_type)
 		anomaly_type = pick(subtypesof(/obj/effect/overmap_anomaly/safe))
 	SSstar_system.spawn_anomaly(anomaly_type, src)
@@ -953,19 +961,22 @@ Returns a faction datum by its name (case insensitive!)
 		var/roid_type = pick(/obj/structure/overmap/asteroid, /obj/structure/overmap/asteroid/medium, /obj/structure/overmap/asteroid/large)
 		SSstar_system.spawn_ship(roid_type, src)
 
-/datum/star_system/proc/spawn_enemies(enemy_type, amount)
-	if(!amount)
-		amount = difficulty_budget
-		if(amount <= 0)
-			amount = 1 //Why else are you calling this?
-	for(var/i = 0, i < amount, i++) //number of enemies is set via the star_system vars
-		if(!enemy_type)
-			enemy_type = pick(SSstar_system.enemy_types) //Spawn a random set of enemies.
-		SSstar_system.spawn_ship(enemy_type, src)
+/datum/star_system/proc/spawn_enemies(difficulty) //spawns a random set of enemies
+	if(!difficulty)
+		difficulty = round(difficulty_budget*1.5) //On average these spawn a bit easier, but they can scale
+		if(difficulty <= 0)
+			difficulty = 1 //Why else are you calling this?
+	var/fleet_type
+	if(alignment == owner && alignment == "syndicate") //defending their system
+		fleet_type = /datum/fleet/light_defense
+	else
+		var/datum/faction/FC = SSstar_system.faction_by_name("syndicate")
+		fleet_type = pick(FC.fleet_types)
+	spawn_fleet(fleet_type, difficulty)
 
 /datum/star_system/proc/spawn_mines(faction, amount)
 	if(!amount)
-		amount = difficulty_budget*2
+		amount = difficulty_budget*3
 		if(amount <= 0)
 			amount = 1 //Why else are you calling this?
 	if(!faction) //Someone forgot to set their IFF
@@ -976,6 +987,19 @@ Returns a faction datum by its name (case insensitive!)
 			contents_positions[M] = list("x" = rand(5, world.maxx - 5),"y" = rand(5, world.maxy - 5))
 	for(var/i = 0, i < amount, i++)
 		new /obj/structure/space_mine(get_turf(locate(rand(5, world.maxx - 5), rand(5, world.maxy - 5), occupying_z)), faction, src) //random location in the system
+
+/datum/star_system/proc/spawn_fleet(fleet_type, difficulty)
+	RETURN_TYPE(/datum/fleet)
+	if(!fleet_type) //What is even the point
+		return
+	var/datum/fleet/F = new fleet_type
+	F.current_system = src
+	fleets += F
+	if(difficulty)
+		F.assemble(src, difficulty)
+	else
+		F.assemble(src)
+	return F
 
 /datum/star_system/proc/lerp_x(datum/star_system/other, t)
 	return x + (t * (other.x - x))
@@ -1241,7 +1265,7 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 		message_admins("Error setting up Badlands - No Rubicon found!") //This should never happen unless admins do bad things.
 		return
 
-	for(var/I=0;I<amount,I++){
+	for(var/I=0;I<amount;I++){
 		var/datum/star_system/random/randy = new /datum/star_system/random()
 		randy.system_type = pick(
 			list(
@@ -1300,13 +1324,14 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 		generated += randy
 		if(prob(10))
 			//10 percent of systems have a trader for resupply.
-			var/x = pick(typesof(/datum/trader)-/datum/trader)
+			var/x = pick(subtypesof(/datum/trader))
 			var/datum/trader/randytrader = new x
 			var/obj/structure/overmap/trader/randystation = SSstar_system.spawn_anomaly(randytrader.station_type, randy)
 			randystation.starting_system = randy.name
 			randystation.current_system = randy
 			randystation.set_trader(randytrader)
 			randy.trader = randytrader
+			randytrader.system = randy
 			// randytrader.generate_missions()
 
 		else if(prob(10))
@@ -1436,7 +1461,7 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 		message_admins("Error setting up Badlands Lite - No connector found!") //This should never happen unless admins do bad things.
 		return
 
-	for(var/I=0;I<amount,I++){
+	for(var/I=0;I<amount;I++){
 		var/datum/star_system/random/randy = new /datum/star_system/random()
 		randy.system_type = pick(
 			list(
@@ -1492,13 +1517,14 @@ Random starsystem. Excluded from starmap saving, as they're generated at init.
 		generated += randy
 		if(prob(10))
 			//10 percent of systems have a trader for resupply.
-			var/x = pick(typesof(/datum/trader)-/datum/trader-/datum/trader/randy)
+			var/x = pick(subtypesof(/datum/trader) - /datum/trader/randy)
 			var/datum/trader/randytrader = new x
 			var/obj/structure/overmap/trader/randystation = SSstar_system.spawn_anomaly(randytrader.station_type, randy)
 			randystation.starting_system = randy.name
 			randystation.current_system = randy
 			randystation.set_trader(randytrader)
 			randy.trader = randytrader
+			randytrader.system = randy
 			// randytrader.generate_missions()
 
 		else if(prob(10))

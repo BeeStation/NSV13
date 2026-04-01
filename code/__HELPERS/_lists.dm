@@ -695,3 +695,26 @@
 	for(var/i in L)
 		if(condition.Invoke(i))
 			. |= LIST_VALUE_WRAP_LISTS(i)
+
+
+// NOTE: This proc was added for vv improvement PR, without porting a proper PR that added this. You might want to relocate this code.
+// Return a list with no duplicate entries inplace
+/proc/unique_list_in_place(list/inserted_list)
+	var/temp = inserted_list.Copy()
+	inserted_list.len = 0
+	for(var/key in temp)
+		if (isnum_safe(key))
+			inserted_list |= key
+		else
+			inserted_list[key] = temp[key]
+
+// NOTE: This proc was added for vv improvement PR, without porting a proper PR that added this. You might want to relocate this code.
+/**
+ * Removes any null entries from the list
+ * Returns TRUE if the list had nulls, FALSE otherwise
+**/
+/proc/list_clear_nulls(list/list_to_clear)
+	var/start_len = list_to_clear.len
+	var/list/new_list = new(start_len)
+	list_to_clear -= new_list
+	return list_to_clear.len < start_len

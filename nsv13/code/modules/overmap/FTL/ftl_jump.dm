@@ -63,7 +63,7 @@
 	for(var/datum/fleet/F as() in fleets)
 		if(length(F.audio_cues) && F.alignment != OM.faction && !F.federation_check(OM))
 			return TRUE
-	OM.play_music(pick(audio_cues))
+	play_soundtrack_music(pick(audio_cues) , volume = 100)
 
 /datum/star_system/proc/restore_contents()
 	if(enemy_queue)

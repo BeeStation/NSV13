@@ -137,6 +137,8 @@
 		return TRUE
 
 /obj/item/geiger_counter/proc/scan(atom/A, mob/user)
+	var/list/message = list()
+
 	var/rad_strength = 0
 	for(var/i in get_rad_contents(A)) // Yes it's intentional that you can't detect radioactive things under rad protection. Gives traitors a way to hide their glowing green rocks.
 		var/atom/thing = i
@@ -149,14 +151,16 @@
 	if(isliving(A))
 		var/mob/living/M = A
 		if(!M.radiation)
-			to_chat(user, "<span class='notice'>[icon2html(src, user)] Radiation levels within normal boundaries.</span>")
+			message += "<span class='notice'>[icon2html(src, user)] Radiation levels within normal boundaries.</span>"
 		else
-			to_chat(user, "<span class='boldannounce'>[icon2html(src, user)] Subject is irradiated. Radiation levels: [M.radiation].</span>")
+			message += "<span class='boldannounce'>[icon2html(src, user)] Subject is irradiated. Radiation levels: [M.radiation].</span>"
 
 	if(rad_strength)
-		to_chat(user, "<span class='boldannounce'>[icon2html(src, user)] Target contains radioactive contamination. Radioactive strength: [rad_strength]</span>")
+		message += "<span class='boldannounce'>[icon2html(src, user)] Target contains radioactive contamination. Radioactive strength: [rad_strength]</span>"
 	else
-		to_chat(user, "<span class='notice'>[icon2html(src, user)] Target is free of radioactive contamination.</span>")
+		message += "<span class='notice'>[icon2html(src, user)] Target is free of radioactive contamination.</span>"
+
+	to_chat(user, EXAMINE_BLOCK(jointext(message, "\n")))
 
 /obj/item/geiger_counter/attackby(obj/item/I, mob/user, params)
 	if(I.tool_behaviour == TOOL_SCREWDRIVER && (obj_flags & EMAGGED))

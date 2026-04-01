@@ -12,7 +12,6 @@
 	obj_integrity = 500
 	max_integrity = 500
 
-	fire_mode = FIRE_MODE_GAUSS
 	ammo_type = /obj/item/ship_weapon/ammunition/gauss
 
 	semi_auto = TRUE
@@ -27,11 +26,12 @@
 	var/datum/gas_mixture/cabin_air //Cabin air mix used for small ships like fighters (see overmap/fighters/fighters.dm)
 	var/climbing_in = FALSE //Stop it. Just stop.
 	var/obj/machinery/portable_atmospherics/canister/internal_tank //Internal air tank reference. Used mostly in small ships. If you want to sabotage a fighter, load a plasma tank into its cockpit :)
-	var/pdc_mode = FALSE
 	var/last_pdc_fire = 0 //Pdc cooldown
 	var/BeingLoaded //Used for gunner load
-	var/list/gauss_verbs = list(.verb/show_computer, .verb/show_view, .verb/swap_firemode)
+	var/list/gauss_verbs = list(.verb/show_computer, .verb/show_view)
 	circuit = /obj/item/circuitboard/machine/gauss_turret
+
+	weapon_datum_type = /datum/overmap_ship_weapon/gauss
 
 /obj/machinery/ship_weapon/gauss_gun/MouseDrop_T(obj/structure/A, mob/user)
 	. = ..()
@@ -117,19 +117,6 @@
 	remove_gunner()
 */
 
-/obj/machinery/ship_weapon/gauss_gun/verb/swap_firemode()
-	set name = "Cycle firemode"
-	set category = "Gauss gun"
-	set src = usr.loc
-
-	if(gunner.incapacitated() || !isliving(gunner))
-		return
-	cycle_firemode()
-
-/obj/machinery/ship_weapon/gauss_gun/proc/cycle_firemode()
-	to_chat(gunner, "<span class='warning'>[pdc_mode ? "You swap back to gauss mode" : "You swap to point defense mode"]</span>")
-	pdc_mode = !pdc_mode
-
 //Overrides
 
 /obj/machinery/ship_weapon/gauss_gun/Initialize(mapload)
@@ -159,6 +146,7 @@
 /obj/machinery/ship_weapon/gauss_gun/Destroy() //Yeet them out before we die.
 	remove_gunner()
 	gunner_chair?.gun = null
+	gunner_chair?.locked = FALSE
 	QDEL_NULL(ammo_rack)
 	QDEL_NULL(cabin_air)
 	QDEL_NULL(internal_tank)
@@ -282,10 +270,6 @@
 		setDir(ndir)
 
 /obj/machinery/ship_weapon/gauss_gun/proc/onClick(atom/target)
-	if(pdc_mode && world.time >= last_pdc_fire + 2 SECONDS)
-		linked.fire_weapon(target=target, mode=FIRE_MODE_PDC)
-		last_pdc_fire = world.time
-		return
 	fire(target)
 
 /obj/machinery/ship_weapon/gauss_gun/after_fire()
@@ -305,7 +289,7 @@
  * Animates an overmap projectile matching whatever we're shooting.
  */
 /obj/machinery/ship_weapon/gauss_gun/animate_projectile(atom/target)
-	linked.fire_projectile(weapon_type.default_projectile_type, target, user_override=gunner, lateral=weapon_type.lateral)
+	linked.fire_projectile(linked_overmap_ship_weapon.standard_projectile_type, target, user_override = gunner, firing_flags = linked_overmap_ship_weapon.weapon_firing_flags)
 
 //Atmos handling
 
@@ -338,6 +322,10 @@
 	return t_air.merge(giver)
 
 /obj/machinery/ship_weapon/gauss_gun/process()
+	if(gunner)
+		if(gunner.incapacitated() || !gunner.client)
+			remove_gunner()
+
 	if(cabin_air && cabin_air.return_volume() > 0)
 		var/delta = cabin_air.return_temperature() - T20C
 		cabin_air.set_temperature(cabin_air.return_temperature() - max(-10, min(10, round(delta/4,0.1))))
@@ -423,8 +411,8 @@
 	update_icon()
 
 /obj/structure/gauss_rack/Destroy()
-	for(var/atom/movable/A in contents)
-		A.forceMove(loc)
+	for(var/atom/movable/A in src)
+		unload(A,FALSE)
 	. = ..()
 
 /obj/structure/gauss_rack/update_icon()
@@ -608,6 +596,9 @@ Chair + rack handling
 	var/feed_direction = SOUTH //Where does the ammo feed drop down to? By default, south of the chair by one tile.
 
 /obj/structure/chair/fancy/gauss/Destroy()
+	occupant?.pixel_y = 0
+	locked = FALSE
+	unbuckle_all_mobs(TRUE)
 	if(gun)
 		gun.gunner_chair = null
 	return ..()
@@ -633,17 +624,19 @@ Chair + rack handling
 	. += "Currently feeding from the [dir2text(feed_direction)]."
 
 /obj/structure/chair/fancy/gauss/unbuckle_mob(mob/buckled_mob, force=FALSE)
-	if(locked)
-		to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
-		return FALSE
+	if(!force && locked && gun)
+		if(buckled_mob.loc == src.loc)
+			to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
+			return FALSE
 	. = ..()
 	if(.)
 		occupant = null
 
 /obj/structure/chair/fancy/gauss/user_unbuckle_mob(mob/buckled_mob, mob/user)
-	if(locked)
-		to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
-		return FALSE
+	if(!force && locked && gun)
+		if(buckled_mob.loc == src.loc)
+			to_chat(buckled_mob, "<span class='warning'>[src]'s restraints are clamped down onto you!</span>")
+			return FALSE
 	. = ..()
 	if(.)
 		occupant = null
@@ -717,6 +710,8 @@ Chair + rack handling
 	gunner_chair.pixel_y = 0
 	M.pixel_y = 0
 	if(M.loc != gunner_chair.loc) //They got out of the chair somehow. Probably admin fuckery.
+		return FALSE
+	if(QDELETED(src)) //Gun was destroyed somehow.
 		return FALSE
 	set_gunner(M) //Up we go!
 	gunner_chair.forceMove(src)
@@ -848,6 +843,5 @@ Chair + rack handling
 	data["max_ammo"] = max_ammo
 	data["maint_req"] = (maintainable) ? maint_req : 25
 	data["max_maint_req"] = 25
-	data["pdc_mode"] = pdc_mode
 	data["canReload"] = ammo_rack && (ammo_rack.contents?.len >= 2)
 	return data

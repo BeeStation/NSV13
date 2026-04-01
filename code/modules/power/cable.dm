@@ -168,7 +168,7 @@ By design, d1 is the smallest direction and d2 is the highest
 			R.is_empty(user)
 
 	else if(W.tool_behaviour == TOOL_MULTITOOL)
-		to_chat(user, get_power_info())
+		to_chat(user, EXAMINE_BLOCK(get_power_info()))
 		shock(user, 5, 0.2)
 
 	add_fingerprint(user)
