@@ -81,7 +81,6 @@
 	damage_states = FALSE
 	obj_integrity = 300
 	max_integrity = 300
-	torpedo_type = /obj/item/projectile/guided_munition/torpedo/ai
 	missile_type = /obj/item/projectile/guided_munition/missile/ai
 	area_type = /area/ruin/powered/nsv13/gunship
 	var/bounty = 1000
@@ -682,7 +681,7 @@
 	new /datum/overmap_ship_weapon/torpedo_launcher(src)
 
 
-//This is some mildly cursed effectively modularization code so I don't have to solve merge conflicts :)
+//This is some mildly cursed effectively modularization code so I don't have to solve merge conflicts :) - Thank you past Delta, this did help ~present Delta
 
 /obj/structure/overmap/syndicate/ai/submarine
 	torpedo_type = list(/obj/item/projectile/guided_munition/torpedo/disruptor = 12, /obj/item/projectile/guided_munition/torpedo/biohazard_one = 2, /obj/item/projectile/guided_munition/torpedo/biohazard_two = 2)

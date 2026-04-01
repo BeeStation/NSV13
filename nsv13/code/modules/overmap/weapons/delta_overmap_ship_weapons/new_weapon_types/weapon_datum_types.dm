@@ -92,6 +92,8 @@
 /datum/overmap_ship_weapon/torpedo_launcher/get_nonphysical_projectile_type()
 	if(!linked_overmap.torpedo_type)
 		return ..()
+	if(islist(linked_overmap.torpedo_type))
+		return pick(linked_overmap.torpedo_type)
 	return linked_overmap.torpedo_type
 
 /datum/overmap_ship_weapon/torpedo_launcher/is_target_size_valid(obj/structure/overmap/target)

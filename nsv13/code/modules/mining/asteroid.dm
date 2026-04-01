@@ -80,7 +80,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	faction = "stone"
 
 /obj/structure/overmap/asteroid/apply_weapons()
-	new /datum/ship_weapon/mac/rock(src) //~
+	new /datum/overmap_ship_weapon/mac/rock(src) //~
 
 /obj/structure/overmap/asteroid/seek_new_target(max_weight_class, min_weight_class, interior_check, max_distance)
 	if(obj_integrity >= max_integrity)

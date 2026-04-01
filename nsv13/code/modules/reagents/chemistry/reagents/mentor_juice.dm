@@ -323,9 +323,9 @@
 
 	return null
 
-/datum/ship_weapon/mac/rock
+/datum/overmap_ship_weapon/mac/rock
 	name = "Rock Launcher"
-	default_projectile_type = /obj/item/projectile/bullet/mac_round/stone
+	standard_projectile_type = /obj/item/projectile/bullet/mac_round/stone
 
 /obj/effect/dangerrock
 	vis_flags = VIS_INHERIT_PLANE|VIS_INHERIT_LAYER|VIS_INHERIT_ID
