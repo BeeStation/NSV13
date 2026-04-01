@@ -64,6 +64,7 @@
 	flags_1 = CAN_BE_DIRTY_1
 
 	var/list/firedoors
+	var/list/atmosshields
 	var/list/cameras
 	var/list/firealarms
 	var/firedoors_last_closed_on = 0
@@ -368,6 +369,21 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 					D.nextstate = opening ? FIREDOOR_OPEN : FIREDOOR_CLOSED
 				else if(!(D.density ^ opening))
 					INVOKE_ASYNC(D, (opening ? TYPE_PROC_REF(/obj/machinery/door/firedoor, open) : TYPE_PROC_REF(/obj/machinery/door/, close)))
+	if(atmosshields)
+		for(var/eachshield in atmosshields)
+			var/obj/machinery/power/shieldwallgen/atmos/shield = eachshield
+			if(opening)
+				for(var/b in shield.affecting_areas)
+					var/area/area2 = b
+					if(area2.fire)
+						break
+			if(shield.is_operational & opening & shield.shieldstate < 0)
+				INVOKE_ASYNC(shield.toggle())
+			else if(shield.is_operational & shield.shieldstate == 0)
+				INVOKE_ASYNC(shield.toggle())
+
+
+
 
 /**
   * Generate an firealarm alert for this area

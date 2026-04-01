@@ -234,6 +234,7 @@
 	var/locked = TRUE
 	var/shield_range = 8
 	var/shocked = FALSE
+	var/list/affecting_areas
 	var/obj/structure/cable/attached // the attached cable
 
 /obj/machinery/power/shieldwallgen/Initialize(mapload)
@@ -253,10 +254,13 @@
 	wires = new /datum/wires/shieldwallgen(src)
 	if(anchored)
 		connect_to_network()
+		CalculateAffectingAreas()
+		UpdateAdjacencyFlags()
 
 /obj/machinery/power/shieldwallgen/Destroy()
 	for(var/direction in GLOB.cardinals)
 		cleanup_field(direction)
+	remove_from_areas()
 	QDEL_NULL(wires)
 	return ..()
 
@@ -363,6 +367,7 @@
 		if(!silent)
 			to_chat(user, "<span class='warning'>Turn off the shield generator first!</span>")
 		return FAILED_UNFASTEN
+	remove_from_areas()
 	return ..()
 
 /obj/machinery/power/shieldwallgen/wrench_act(mob/living/user, obj/item/item)
@@ -370,12 +375,13 @@
 	. |= default_unfasten_wrench(user, item, 0)
 	var/turf/turf = get_turf(src)
 //	update_cable_icons_on_turf(T) - Removed because smartwire Revert
-	var/obj/structure/cable/cable = locate(/obj/structure/cable) in turf
-	if(cable)
-		cable.update_icon()
 	if(. == SUCCESSFUL_UNFASTEN && anchored)
 		connect_to_network()
 
+/obj/machinery/power/shieldwallgen/setAnchored()
+		.=..()
+		CalculateAffectingAreas()
+		UpdateAdjacencyFlags()
 
 /obj/machinery/power/shieldwallgen/attackby(obj/item/item, mob/user, params)
 	if(default_deconstruction_screwdriver(user, icon_state, icon_state, item))
@@ -485,6 +491,37 @@
 		if(WIRE_SHOCK)
 			if(!wires.is_cut(wire))
 				shocked = FALSE
+
+/obj/machinery/power/shieldwallgen/proc/CalculateAffectingAreas()
+	remove_from_areas()
+	affecting_areas = get_adjacent_open_areas(src) | get_area(src)
+	for(var/I in affecting_areas)
+		var/area/A = I
+		LAZYADD(A.atmosshields, src)
+
+/obj/machinery/power/shieldwallgen/proc/UpdateAdjacencyFlags()
+	var/turf/T = get_turf(src)
+	if(flags_1 & ON_BORDER_1)
+		for(var/t in T.atmos_adjacent_turfs)
+			if(get_dir(loc, t) == dir)
+				var/turf/open/T2 = t
+				if(T2 in T.atmos_adjacent_turfs)
+					T.atmos_adjacent_turfs[T2] |= ATMOS_ADJACENT_FIRELOCK
+				if(T in T2.atmos_adjacent_turfs)
+					T2.atmos_adjacent_turfs[T] |= ATMOS_ADJACENT_FIRELOCK
+	else
+		for(var/t in T.atmos_adjacent_turfs)
+			var/turf/open/T2 = t
+			if(T2 in T.atmos_adjacent_turfs)
+				T.atmos_adjacent_turfs[T2] |= ATMOS_ADJACENT_FIRELOCK
+			if(T in T2.atmos_adjacent_turfs)
+				T2.atmos_adjacent_turfs[T] |= ATMOS_ADJACENT_FIRELOCK
+
+/obj/machinery/power/shieldwallgen/proc/remove_from_areas()
+	if(affecting_areas)
+		for(var/I in affecting_areas)
+			var/area/A = I
+			LAZYREMOVE(A.atmosshields, src)
 
 /obj/machinery/power/shieldwallgen/atmos
 	name = "atmospheric barrier generator"
