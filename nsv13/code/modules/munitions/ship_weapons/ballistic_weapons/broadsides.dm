@@ -314,7 +314,15 @@
 			state = STATE_CHAMBERED
 			update()
 		busy = FALSE
-	if((ismoth(A) || istype(A, /mob/living/simple_animal/mothroach)) && A != user)
+	var/validmothclean = 0
+	if(ismoth(A) || istype(A, /mob/living/simple_animal/mothroach))
+		validmothclean = 1
+	else if(istype(A, /mob/living/simple_animal/pipe_cleaner))
+		validmothclean = 2 //Yes these are magic numbers. I didn't feel like defining for a temp PR :)
+		var/mob/living/living_thing = A
+		if(living_thing.stat >= UNCONSCIOUS)
+			return FALSE
+	if(validmothclean && (A != user || validmothclean == 2))
 		mothclean(A, user)
 		return TRUE
 
@@ -333,14 +341,25 @@
 	if(stovepipe)
 		to_chat(user, "<span class='warning'>The [src] is all jammed up, you can't clean it like this!</span>")
 		return
-	visible_message("<span class='warning'>[user] is stuffing [moth] into the [src]!</span>", ignored_mobs = list(moth))
-	to_chat(moth, "<span class='userdanger'>[user] is shoving you into the [src]!</span>")
-	if(do_after(user, 5 SECONDS, target = src, extra_checks = CALLBACK(src, PROC_REF(proximity_check), user, moth)))
+	if(moth == user)
+		moth.visible_message("<span class='notice'>[moth] starts to climb into the [src]!</span>", "<span class='notice'>You start climbing into the [src]!</span>")
+	else
+		visible_message("<span class='warning'>[user] is stuffing [moth] into the [src]!</span>", ignored_mobs = list(moth))
+		to_chat(moth, "<span class='userdanger'>[user] is shoving you into the [src]!</span>")
+	var/correct_pipe_cleaner = FALSE //If you use the RIGHT cleaning tools, things go FAST.
+	var/input_delay = 5 SECONDS
+	if(istype(moth, /mob/living/simple_animal/pipe_cleaner))
+		correct_pipe_cleaner = TRUE
+		input_delay = round(input_delay *= 0.33)
+	if(do_after(user, input_delay, target = src, extra_checks = CALLBACK(src, PROC_REF(proximity_check), user, moth)))
+		if(moth == user)
+			moth.visible_message("<span class='notice'>[moth] disappears into [src]'s internals!</span>", "<span class='notice'>You enter [src] and begin your work.</span>")
 		moth.forceMove(src)
-		moth.emote("scream")
+		if(!correct_pipe_cleaner)
+			moth.emote("scream")
 		playsound(src, 'nsv13/sound/effects/swab.ogg', 100, TRUE)
 		while(soot > 0)
-			if(!do_after(user, 1 SECONDS, target = src))
+			if(!do_after(user, round(input_delay * 0.2), target = src))
 				if(dir == NORTH)
 					moth.forceMove(get_turf(src))
 				else
@@ -351,7 +370,10 @@
 				soot = 0
 				cut_overlays()
 				to_chat(user, "<span class='notice'>The [src] is spic and span!</span>")
-				moth.reagents.add_reagent(/datum/reagent/colorful_reagent/powder/black, 5)
+				if(moth.reagents) //I should port this outside the branch since this is a runtime!
+					moth.reagents.add_reagent(/datum/reagent/colorful_reagent/powder/black, 5)
+				else
+					moth.add_atom_colour("#404040", WASHABLE_COLOUR_PRIORITY)
 				if(dir == NORTH)
 					moth.forceMove(get_turf(src))
 				else

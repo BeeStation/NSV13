@@ -45,6 +45,9 @@
 
 #define STATUS_EFFECT_ANTIMAGIC /datum/status_effect/antimagic //! grants antimagic (and reapplies if lost) for the duration
 
+//NSV13 status effect
+#define STATUS_EFFECT_HIBERNATING /datum/status_effect/hibernating //! Rapid regeneration, removed if not asleep.
+
 //---------//
 // DEBUFFS //
 //---------//

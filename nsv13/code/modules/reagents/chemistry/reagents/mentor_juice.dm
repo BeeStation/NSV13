@@ -57,7 +57,7 @@
 					if(isanimal(victim) || !isliving(victim))
 						seen -= victim
 				if(LAZYLEN(seen))
-					to_chat(M, "You notice [pick(seen)]'s bulge [pick("OwO!", "uwu!")]")
+					to_chat(M, "You notice something about [pick(seen)].. [pick("OwO!", "uwu!")]")
 		if(16)
 			T = M.getorganslot(ORGAN_SLOT_TONGUE)
 			if(!istype(T, /obj/item/organ/tongue/fluffy))
@@ -82,7 +82,7 @@
 					if(isanimal(victim) || !isliving(victim))
 						seen -= victim
 				if(LAZYLEN(seen))
-					to_chat(M, "You notice [pick(seen)]'s bulge [pick("OwO!", "uwu!")]")
+					to_chat(M, "You notice something about [pick(seen)].. [pick("OwO!", "uwu!")]")
 	..()
 
 /datum/reagent/furranium/on_mob_delete(mob/living/carbon/M)
@@ -527,3 +527,305 @@
 	damage_bonus = 6
 
 	affinity_flags = NONE
+
+//It's me again, this time in 2266!! This time, pipe cleaners and maybe some other things~
+
+/mob/living/simple_animal/pipe_cleaner
+	name = "\improper pipe cleaner"
+	desc = "Some strange creature, here to clean pipes!"
+	icon = 'nsv13/icons/mob/legally_distinct_creature/pipe_cleaner.dmi'
+	icon_state = "pipe_cleaner"
+	icon_living = "pipe_cleaner"
+	icon_dead = "pipe_cleaner_dead"
+	mob_size = MOB_SIZE_HUMAN
+	mob_biotypes = list(MOB_ORGANIC, MOB_BEAST)
+	blood_volume = BLOOD_VOLUME_NORMAL
+	ventcrawler = VENTCRAWLER_ALWAYS
+	dextrous = TRUE //you bet.
+	held_items = list(null, null)
+	possible_a_intents = list(INTENT_HELP, INTENT_HARM)
+	health = 200
+	maxHealth = 200
+	status_flags = CANUNCONSCIOUS|CANPUSH
+	friendly = "baps" //Needs tools to be of any threat.
+	attack_sound = 'sound/weapons/tap.ogg'
+	gold_core_spawnable = FRIENDLY_SPAWN
+	see_in_dark = 6
+	response_help  = "pets"
+	response_disarm = "shoves"
+	response_harm   = "kicks"
+	attacktext = "mauls" //In case someone DOES adjust the values.
+	verb_say = "wawas"
+	verb_yell = "wawas"
+	verb_sing = "wawas harmonically"
+	verb_exclaim = "wawas"
+	verb_ask = "wawas questioningly"
+	verb_whisper = "wawas quietly"
+	speed = -0.2 //Test - prev 0.1
+	turns_per_move = 5
+	wander = TRUE
+	emote_see = list("stares at the ceiling.", "shivers.", "looks startled.")
+	speak_chance = 1
+	stop_automated_movement_when_pulled = TRUE
+	atmos_requirements = list(list("min_oxy" = 5, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0))
+	///They get one of these colors or none.
+	var/static/valid_colors = list("#2d6e7e","#7200b4","#8b2941","#008341","#006781","#b45927","#b48e27","#008744","#004fce","#bd271c","#ce8602") //Yes, this is just the colorful reagent spread copied. (okay I guess I did adjust it some by now!)
+
+/mob/living/simple_animal/pipe_cleaner/examine(mob/user)
+	. = ..()
+	var/t_He = p_they(TRUE)
+	var/t_His = p_their(TRUE)
+	var/t_his = p_their()
+	var/t_him = p_them()
+	var/t_has = p_have()
+	var/t_is = p_are()
+	for(var/obj/item/I in held_items)
+		if(!(I.item_flags & ABSTRACT))
+			. += "[t_He] [t_is] holding [I.get_examine_string(user)] in [t_his] [get_held_index_name(get_held_index_of_item(I))]."
+
+	var/list/msg = list("<span class='warning'>")
+	var/temp = getBruteLoss()
+	if(temp)
+		if (temp < 25)
+			msg += "[t_He] [t_has] minor bruising.\n"
+		else if (temp < 50)
+			msg += "[t_He] [t_has] <b>moderate</b> bruising!\n"
+		else
+			msg += "<B>[t_He] [t_has] severe bruising!</B>\n"
+
+	temp = getFireLoss()
+	if(temp)
+		if (temp < 25)
+			msg += "[t_He] [t_has] minor burns.\n"
+		else if (temp < 50)
+			msg += "[t_He] [t_has] <b>moderate</b> burns!\n"
+		else
+			msg += "<B>[t_He] [t_has] severe burns!</B>\n"
+
+	if(fire_stacks > 0)
+		msg += "[t_He] [t_is] covered in something flammable.\n"
+	if(fire_stacks < 0)
+		msg += "[t_He] look[p_s()] a little soaked.\n"
+
+	if(pulledby?.grab_state)
+		msg += "[t_He] [t_is] restrained by [pulledby]'s grip.\n"
+
+	msg += "</span>"
+
+	. += msg.Join("")
+
+	if(stat == DEAD)
+		. += "<span class='deadsay'>[t_He] [t_is] limp and unresponsive, with no signs of life.</span>"
+	else if(stat == UNCONSCIOUS)
+		. += "[t_He] [t_is]n't responding to anything around [t_him] and seems to be asleep."
+	else if(InCritical())
+		. += "[t_His] breathing is shallow and labored."
+
+GLOBAL_VAR_INIT(pipe_cleaner_count, 0)
+
+/mob/living/simple_animal/pipe_cleaner/Initialize(mapload)
+	. = ..()
+	var/obj/effect/proc_holder/spell/self/hibernate/hibernate_action = new /obj/effect/proc_holder/spell/self/hibernate(src)
+	hibernate_action.action.Grant(src)
+	mob_spell_list += hibernate_action
+	var/obj/effect/proc_holder/spell/aimed/chuck/chuck_action = new /obj/effect/proc_holder/spell/aimed/chuck(src)
+	chuck_action.action.Grant(src)
+	mob_spell_list += chuck_action
+	GLOB.pipe_cleaner_count++
+	if(prob(75)) //Default is the most common color; even split between others.
+		add_atom_colour(pick(valid_colors), FIXED_COLOUR_PRIORITY)
+
+/mob/living/simple_animal/pipe_cleaner/Destroy()
+	GLOB.pipe_cleaner_count--
+	return ..()
+
+/mob/living/simple_animal/pipe_cleaner/treat_message(message)
+	message = wa(message)
+	return ..()
+
+/mob/living/simple_animal/pipe_cleaner/put_in_hand(obj/item/I, hand_index, forced, ignore_anim)
+	. = ..()
+	if(.)
+		update_icons()
+
+/mob/living/simple_animal/pipe_cleaner/doUnEquip(obj/item/I, force, newloc, no_move, invdrop, was_thrown, silent)
+	. = ..()
+	if(.)
+		update_icons()
+
+/mob/living/simple_animal/update_mobility(value_otherwise = TRUE)
+	. = ..()
+	update_icons()
+
+/mob/living/simple_animal/pipe_cleaner/update_icons()
+	if(stat == DEAD)
+		return
+	if(stat == UNCONSCIOUS || IsUnconscious())
+		icon_state = "pipe_cleaner_rest"
+		return
+	var/active_held = get_active_held_item()
+	var/inactive_held = get_inactive_held_item() //This is kinda :/ but it's okay.
+	if(active_held && istype(active_held, /obj/item/spear))
+		icon_state = "pipe_cleaner_spear"
+	else if(inactive_held && istype(inactive_held, /obj/item/spear))
+		icon_state = "pipe_cleaner_spear"
+	else
+		icon_state = icon_living
+
+/mob/living/simple_animal/pipe_cleaner/Moved()
+	. = ..()
+	last_move_time = world.time //For some reason this seems to have gotten deprecated? I need this, though!
+
+/proc/wa(message)
+	message = html_decode(message)
+	var/message_length = length(message)
+	var/end = copytext(message, length(message))
+	var/valid_final = FALSE
+	if(end in list("!", ".", "?", ":", "\"", "-", "~"))
+		message_length--
+		valid_final = TRUE
+	var/iterate = CEILING(message_length / 2, 1)
+	var/wa = ""
+	for(var/iter = 0; iter < iterate; iter++)
+		switch(rand(1,5))
+			if(1,2)
+				wa += "wa"
+			if(3,4)
+				wa += "waa"
+			else
+				wa += "wawa"
+	if(valid_final)
+		wa += end
+	return sanitize(wa)
+
+/obj/effect/proc_holder/spell/self/hibernate
+	name = "Hibernate"
+	desc = "Hibernate within a she- uhm, 'vent' to rapidly regenerate."
+	clothes_req = FALSE
+	antimagic_allowed = TRUE
+	charge_max = 200
+	action_icon_state = "time"
+
+/obj/effect/proc_holder/spell/self/hibernate/can_cast(mob/user)
+	. = ..()
+	if(!.)
+		return
+	if(!(user.movement_type & VENTCRAWLING))
+		return FALSE
+
+/obj/effect/proc_holder/spell/self/hibernate/cast(mob/user = usr)
+	if(!isliving(user))
+		return
+	var/mob/living/living_user = user
+	living_user.AdjustUnconscious(20 SECONDS)
+	living_user.apply_status_effect(STATUS_EFFECT_HIBERNATING)
+
+/datum/status_effect/hibernating
+	id = "Hibernating"
+	alert_type = /atom/movable/screen/alert/status_effect/hibernating
+	duration = -1 //Lasts Until awake
+	tick_interval = 0.5 SECONDS
+	status_type = STATUS_EFFECT_UNIQUE
+
+/datum/status_effect/hibernating/tick()
+	if(!owner.IsUnconscious())
+		duration = 0
+	owner.heal_overall_damage(5,5)
+
+/atom/movable/screen/alert/status_effect/hibernating
+	name = "Hibernating"
+	desc = "You are Hibernating. You should wake up soon. Will you still be in the same place?"
+	icon_state = "hibernating"
+
+/obj/effect/proc_holder/spell/aimed/chuck
+	name = "CHUCK"
+	desc = "Throw whatever you are holding with FORCE. Only in exact cardinal directions, for some reason.. Will leave you tired for a while."
+	charge_max = 50
+	clothes_req = FALSE
+	antimagic_allowed = TRUE
+	range = 20
+	base_icon_state = "projectile"
+	action_icon_state = "projectile0"
+	sound = null
+	active_msg = "You ready your throwing arm!"
+	deactive_msg = "You reconsider throwing that.."
+	///These throws HURT
+	var/force_multiplier = 3
+	///Currently debuffed? (some backend is questionable so I am doing my own linkage check)
+	var/exhausted = FALSE
+
+/obj/effect/proc_holder/spell/aimed/chuck/can_cast(mob/user)
+	. = ..()
+	if(!.)
+		return
+	if(!isliving(user))
+		return FALSE
+
+/obj/effect/proc_holder/spell/aimed/chuck/process(delta_time)
+	if(exhausted && recharging && action.owner.last_move_time + 2 SECONDS > world.time)
+		return //Rest a little you goober.
+	return ..()
+
+/obj/effect/proc_holder/spell/aimed/chuck/end_timer_animation()
+	if(exhausted && action.owner)
+		if(action.owner.stat != DEAD)
+			to_chat(action.owner, "<span class='notice'>You feel rested again!</span>")
+		action.owner.remove_movespeed_modifier(MOVESPEED_ID_CHUCKING_RECOVERY, TRUE)
+		exhausted = FALSE
+	return ..()
+
+/obj/effect/proc_holder/spell/aimed/chuck/start_recharge()
+	. = ..()
+
+/obj/effect/proc_holder/spell/aimed/chuck/cast_check(skipcharge, mob/user)
+	. = ..()
+	if(!.)
+		return
+	if(!action.owner)
+		return
+	if(!action.owner.get_active_held_item())
+		return FALSE
+	var/turf/T = action.owner.loc
+	if(!isturf(T))
+		return FALSE
+
+//OVERRIDE
+/obj/effect/proc_holder/spell/aimed/chuck/cast(list/targets, mob/living/user)
+	var/target = targets[1]
+	var/turf/T = user.loc
+	if(!isturf(T))
+		return FALSE
+	var/obj/item/to_chuck = user.get_active_held_item()
+	if(!user.dropItemToGround(to_chuck))
+		return FALSE
+	var/chuck_dir = get_cardinal_dir(user, target)
+	var/chuck_angle = get_angle(T, get_step(T, chuck_dir))
+	var/target_turf = get_turf_in_angle(chuck_angle, T, 20)
+	if(!target_turf)
+		return FALSE
+	var/effective_force_multiplier = 1.5
+	if(istype(to_chuck, /obj/item/spear))
+		effective_force_multiplier = force_multiplier
+	if(effective_force_multiplier != 1)
+		to_chuck.throwforce *= effective_force_multiplier
+	playsound(T, 'sound/weapons/punchmiss.ogg', 40, 1, -1)
+	to_chuck.throw_at(target_turf, 30, 8, user, spin = TRUE, callback = CALLBACK(src, TYPE_PROC_REF(/obj/effect/proc_holder/spell/aimed/chuck, reset_chucking_force), to_chuck, effective_force_multiplier))
+	user.newtonian_move(get_dir(target_turf, T))
+	action.owner?.add_movespeed_modifier(MOVESPEED_ID_CHUCKING_RECOVERY, TRUE, 100, override=TRUE, multiplicative_slowdown=1)
+	exhausted = TRUE
+	remove_ranged_ability()
+	charge_counter = 0
+	start_recharge()
+	on_deactivation(user)
+	return TRUE
+
+/obj/effect/proc_holder/spell/aimed/chuck/proc/reset_chucking_force(obj/item/chucked, effective_force_multiplier)
+	if(!chucked || effective_force_multiplier == 0 || effective_force_multiplier == 1)
+		return
+	chucked.throwforce /= effective_force_multiplier
+
+//OVERRIDE
+/obj/item/swabber/Initialize(mapload)
+	if(GLOB.pipe_cleaner_count <= 64) //Look this may be a special time but I would still like the server to run.
+		new /mob/living/simple_animal/pipe_cleaner(get_turf(src))
+	return INITIALIZE_HINT_QDEL

@@ -260,8 +260,8 @@
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
 /datum/design/swabber
-	name = "Space Naval Broadside Barrel Swab & Scrubber"
-	desc = "Allows you to construct the cleaning Swabber"
+	name = "Space Naval Broadside Barrel Swab & Scrubber...?"
+	desc = "Allows you to construct the cleaning Swabber.. Or at least, it supposedly does?"
 	id = "swabber"
 	build_type = PROTOLATHE
 	materials = list(/datum/material/iron=1000)
