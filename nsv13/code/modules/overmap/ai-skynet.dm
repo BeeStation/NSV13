@@ -25,7 +25,7 @@ Adding tasks is easy! Just define a datum for it.
 	//Ai fleet type enum. Add your new one here. Use a define, or text if youre lazy.
 	var/list/taskforces = list("fighters" = list(), "destroyers" = list(), "battleships" = list(), "supply" = list())
 	var/list/fighter_types = list(/obj/structure/overmap/syndicate/ai/fighter, /obj/structure/overmap/syndicate/ai/bomber)
-	var/list/destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier)
+	var/list/destroyer_types = list(/obj/structure/overmap/syndicate/ai, /obj/structure/overmap/syndicate/ai/destroyer, /obj/structure/overmap/syndicate/ai/destroyer/flak, /obj/structure/overmap/syndicate/ai/mako_flak, /obj/structure/overmap/syndicate/ai/mako_carrier, /obj/structure/overmap/syndicate/ai/destroyer/flak/ram)
 	var/list/battleship_types = list(/obj/structure/overmap/syndicate/ai/cruiser, /obj/structure/overmap/syndicate/ai/assault_cruiser)
 	var/list/supply_types = list(/obj/structure/overmap/syndicate/ai/carrier)
 	var/list/all_ships = list()
@@ -1511,8 +1511,9 @@ Seek a ship thich we'll station ourselves around
 		gunner = pilot
 	if(last_target) //Have we got a target?
 		var/obj/structure/overmap/OM = last_target
-		if(overmap_dist(last_target, src) > max(max_tracking_range, OM.sensor_profile) || istype(OM) && OM.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE) //Out of range - Give up the chase
-			if(istype(OM) && CHECK_BITFIELD(ai_flags, AI_FLAG_DESTROYER) && OM.z == z)
+		//FOOL-WIP - dropping target after qdel seems kinda important too, why was it not already doing that?? port to main. (also investigate)
+		if(QDELETED(OM) || overmap_dist(last_target, src) > max(max_tracking_range, OM.sensor_profile) || (istype(OM) && (OM.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE))) //Out of range - Give up the chase
+			if(istype(OM) && !QDELETED(OM) && CHECK_BITFIELD(ai_flags, AI_FLAG_DESTROYER) && OM.z == z)
 				patrol_target = get_turf(last_target)	//Destroyers are wary and will actively investigate when their target exits their sensor range. You might be able to use this to your advantage though!
 			if(fleet)
 				fleet.stop_reporting(last_target, src)

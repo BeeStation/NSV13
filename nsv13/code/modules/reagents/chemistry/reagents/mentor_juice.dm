@@ -889,3 +889,76 @@ GLOBAL_VAR_INIT(pipe_cleaner_count, 0)
 		next_homing_process = world.time + homing_delay
 		return
 	return ..()
+
+/obj/structure/overmap/syndicate/ai/destroyer/flak/ram
+	name = "Hammerhead class reinforced Destroyer"
+	desc = "This seems to be a Flak Hammerhead.. with the frontal plating of another Hammerhead welded onto it..? And even more plating on top of that?"
+	icon = 'nsv13/icons/overmap/new/syndicate/questionable_destroyer.dmi'
+	icon_state = "rammerhead"
+	missiles = 0
+	torpedoes = 0
+	obj_integrity = 1200
+	max_integrity = 1200
+	armor = list("overmap_light" = 90, "overmap_medium" = 75, "overmap_heavy" = 40)
+	combat_dice_type = /datum/combat_dice/destroyer/flycatcher
+	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_LEEEEEEROY
+
+/obj/structure/overmap/syndicate/ai/destroyer/flak/ram/apply_weapons()
+	new /datum/overmap_ship_weapon/mac(src, FALSE)
+	new /datum/overmap_ship_weapon/flak(src, FALSE, 2)
+	new /datum/overmap_ship_weapon/gauss(src, FALSE)
+
+//Mmmmmm head plating
+/obj/structure/overmap/syndicate/ai/destroyer/flak/ram/spec_collision_handling(obj/structure/overmap/other_ship, list/impact_powers, impact_angle)
+	var/modified_angle = 360 - ((angle + 630) % 360)
+	var/angle_diff = impact_angle - modified_angle
+	if(other_ship == last_target)
+		managed_to_ram = TRUE //If I were actually writing this to get merged this would hook into the general condition handling, instead of being here on this specific one.
+	if(abs(angle_diff) > HAMMERHEAD_COLLISION_GUARD_ANGLE)
+		return
+	impact_powers[1] *= 0.1 // x 0.1 self damage
+	impact_powers[2] *= 4 // x 4 other damage
+
+/obj/structure/overmap/syndicate/ai/destroyer/flak/ram/LateInitialize()
+	. = ..()
+	forward_maxthrust = 0.8 //Has the power of the hammerhead carcination-tier-spaceship-equivalent on its side.
+	backward_maxthrust = 0.5
+	side_maxthrust = 0.45
+	max_angular_acceleration = 12
+	bounce_factor = 0.25
+	lateral_bounce_factor = 0.25
+
+/obj/structure/overmap/syndicate/ai/destroyer/flak/ram/boost(direction)
+	if(direction != NORTH)
+		return FALSE //We only charge ONE way.
+	return ..()
+
+//Modular attachment - I wouldn't be doing this if I actually wanted this fullmerged.
+/obj/structure/overmap
+	///Yes this is an overmap level var that only one ship (rammerhead) uses. Saves me some typecasts :)
+	var/managed_to_ram = FALSE
+
+/datum/ai_goal/LEEEEEEROY //Yes I know this is against our type path convention.
+	name = "LOCK THAT TARGET, FULL SPEED AHEAD"
+	score = AI_SCORE_SUPERCRITICAL
+	required_ai_flags = AI_FLAG_LEEEEEEROY
+
+/datum/ai_goal/LEEEEEEROY/check_score(obj/structure/overmap/OM)
+	if(!..())
+		return 0
+
+	if(QDELETED(OM.last_target))
+		return 0
+	if(OM.managed_to_ram && OM.obj_integrity < OM.max_integrity/3 && length(OM.fleet?.taskforces["supply"]) > 0)
+		return 0
+
+	return score
+
+/datum/ai_goal/LEEEEEEROY/action(obj/structure/overmap/OM)
+	..()
+	if(!OM.managed_to_ram)
+		OM.move_toward(OM.last_target, ram_target = TRUE)
+	else
+		OM.move_away_from(OM.last_target)
+		if(overmap_dist(OM, OM.last_target) > 25)
+			OM.managed_to_ram = FALSE
