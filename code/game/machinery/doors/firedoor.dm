@@ -408,6 +408,8 @@
 //this is here to prevent sleeps from messing with decomp, by closing firedoors instantly
 /obj/machinery/door/firedoor/proc/emergency_pressure_close()
 	density = TRUE
+	var/area/A = get_area(src)
+	A.shieldsup()
 	air_update_turf()
 	layer = closingLayer
 	update_icon()

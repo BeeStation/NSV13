@@ -235,6 +235,7 @@
 	var/shield_range = 8
 	var/shocked = FALSE
 	var/list/affecting_areas
+	var/fields = 0
 	var/obj/structure/cable/attached // the attached cable
 
 /obj/machinery/power/shieldwallgen/Initialize(mapload)
@@ -278,7 +279,7 @@
 /obj/machinery/power/shieldwallgen/process()
 	if(shieldstate)
 		if(shieldstate == SHIELD_SETUPFIELDS)
-			var/fields = 0
+			fields = 0
 			for(var/direction in GLOB.cardinals)
 				if(setup_field(direction))
 					fields++
@@ -298,6 +299,12 @@
 		for(var/direction in GLOB.cardinals)
 			cleanup_field(direction)
 	update_appearance()
+
+/obj/machinery/power/shieldwallgen/proc/rapidsetup()
+	for(var/direction in GLOB.cardinals)
+		setup_field(direction)
+		fields++
+		shieldstate = SHIELD_HASFIELDS
 
 /obj/machinery/power/shieldwallgen/update_icon_state()
 	if(shieldstate)
@@ -373,7 +380,6 @@
 /obj/machinery/power/shieldwallgen/wrench_act(mob/living/user, obj/item/item)
 	. = ..()
 	. |= default_unfasten_wrench(user, item, 0)
-	var/turf/turf = get_turf(src)
 //	update_cable_icons_on_turf(T) - Removed because smartwire Revert
 	if(. == SUCCESSFUL_UNFASTEN && anchored)
 		connect_to_network()

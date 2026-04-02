@@ -14731,6 +14731,13 @@
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/nsv/deck2/forward)
+"jVx" = (
+/obj/machinery/power/shieldwallgen/atmos{
+	anchored = 1;
+	dir = 8
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/nsv/deck2/primary)
 "jVK" = (
 /obj/structure/bookcase/random/reference,
 /turf/open/floor/wood,
@@ -18304,7 +18311,7 @@
 	dir = 1
 	},
 /obj/machinery/button/shieldwallgen{
-	id = hangar;
+	id = "mining";
 	pixel_y = 27;
 	pixel_x = -6
 	},
@@ -22862,6 +22869,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/engine,
 /area/hallway/nsv/deck2/primary)
 "pCw" = (
@@ -23206,6 +23214,7 @@
 	},
 /obj/machinery/recharge_station,
 /obj/effect/landmark/start/cyborg,
+/obj/machinery/door/firedoor/border_only/directional/west,
 /turf/open/floor/engine,
 /area/hallway/nsv/deck2/primary)
 "pOE" = (
@@ -33476,14 +33485,10 @@
 /turf/open/floor/engine,
 /area/quartermaster/storage)
 "wXh" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
-/obj/structure/disposalpipe/segment,
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
+/obj/machinery/power/shieldwallgen/atmos{
+	anchored = 1;
+	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
-/obj/machinery/door/firedoor/border_only/directional/north,
-/obj/machinery/door/firedoor/border_only/directional/south,
 /turf/open/floor/carpet/ship,
 /area/hallway/nsv/deck2/primary)
 "wXr" = (
@@ -67447,7 +67452,7 @@ vMA
 lnt
 vMA
 vMA
-nNT
+wXh
 ecO
 gYn
 oWJ
@@ -67704,7 +67709,7 @@ nzz
 pBk
 vGD
 ioz
-wXh
+ioz
 pkV
 kgx
 sPK
@@ -67961,7 +67966,7 @@ nIf
 vMA
 vMA
 vMA
-nNT
+jVx
 wNF
 vMA
 orC
