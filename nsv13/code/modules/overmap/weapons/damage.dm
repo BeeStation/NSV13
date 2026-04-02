@@ -110,6 +110,7 @@ Bullet reactions
 	var/turf/pickedstart = spaceDebrisStartLoc(effective_side, theZ)
 	var/turf/pickedgoal = locate(round(world.maxx * 0.5, 1), round(world.maxy * 0.5, 1), theZ)
 	var/obj/item/projectile/proj = new proj_type(pickedstart)
+	LAZYINITLIST(proj.impacted) //FOOL-WIP - this is an actual fix, backport that once done here :)
 	proj.starting = pickedstart
 	proj.firer = null
 	proj.def_zone = "chest"

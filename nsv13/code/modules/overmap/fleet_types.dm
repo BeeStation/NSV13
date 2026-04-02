@@ -61,7 +61,7 @@
 	name = "\proper Tortuga Raiders Fleet"
 	fighter_types = null
 	destroyer_types = list(/obj/structure/overmap/spacepirate/ai)
-	battleship_types = list(/obj/structure/overmap/spacepirate/ai/nt_missile, /obj/structure/overmap/spacepirate/ai/syndie_gunboat)
+	battleship_types = list(/obj/structure/overmap/spacepirate/ai/nt_missile, /obj/structure/overmap/spacepirate/ai/syndie_gunboat, /obj/structure/overmap/spacepirate/ai/so_called_missile_carrier)
 	default_ghost_ship = /obj/structure/overmap/spacepirate/ai
 	supply_types = null
 	alignment = "pirate"
@@ -77,7 +77,7 @@
 
 /datum/fleet/pirate/raiding
 	name = "\improper Tortuga Raiders raiding fleet"
-	destroyer_types = list(/obj/structure/overmap/spacepirate/ai, /obj/structure/overmap/spacepirate/ai/boarding)
+	destroyer_types = list(/obj/structure/overmap/spacepirate/ai, /obj/structure/overmap/spacepirate/ai/boarding, /obj/structure/overmap/spacepirate/ai/so_called_missile_carrier)
 	audio_cues = list()
 	taunts = list("Avast! A fine hold of loot sails our way", "Prepare the boarding crews, they've got enough loot for us all!")
 	size = FLEET_DIFFICULTY_MEDIUM

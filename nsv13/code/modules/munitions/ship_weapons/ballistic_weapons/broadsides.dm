@@ -370,7 +370,7 @@
 				soot = 0
 				cut_overlays()
 				to_chat(user, "<span class='notice'>The [src] is spic and span!</span>")
-				if(moth.reagents) //I should port this outside the branch since this is a runtime!
+				if(moth.reagents) //I should port this outside the branch since this is a runtime! - FOOL-WIP
 					moth.reagents.add_reagent(/datum/reagent/colorful_reagent/powder/black, 5)
 				else
 					moth.add_atom_colour("#404040", WASHABLE_COLOUR_PRIORITY)

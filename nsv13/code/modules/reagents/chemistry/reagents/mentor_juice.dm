@@ -829,3 +829,63 @@ GLOBAL_VAR_INIT(pipe_cleaner_count, 0)
 	if(GLOB.pipe_cleaner_count <= 64) //Look this may be a special time but I would still like the server to run.
 		new /mob/living/simple_animal/pipe_cleaner(get_turf(src))
 	return INITIALIZE_HINT_QDEL
+
+/obj/structure/overmap/spacepirate/ai/so_called_missile_carrier
+	name = "Ramshackle Missile Carrier"
+	desc = "This hull resembles a cruiser, albeit several armor plates and weapon mounts appear to have been replaced to make way for an inadvisable amount of launch tubes."
+	icon = 'nsv13/icons/overmap/syndicate/syn_light_cruiser.dmi'
+	icon_state = "spacepirate_mistake"
+	mass = MASS_MEDIUM
+	sprite_size = 96
+	damage_states = FALSE
+	bound_height = 128
+	bound_width = 128
+	max_integrity = 350
+	shots_left = 20
+	missiles = 32
+	armor = list("overmap_light" = 70, "overmap_medium" = 35, "overmap_heavy" = 5) //-10 -10 -5, to keep true to the flavortext
+	ai_flags = AI_FLAG_DESTROYER | AI_FLAG_ELITE
+	combat_dice_type = /datum/combat_dice/destroyer
+	missile_type = /obj/item/projectile/guided_munition/missile/ai/randomdelay
+
+/obj/structure/overmap/spacepirate/ai/so_called_missile_carrier/apply_weapons()
+	new /datum/overmap_ship_weapon/aa_guns(src, FALSE)
+	new /datum/overmap_ship_weapon/missile_launcher/ramshackle_ultraburst(src, FALSE)
+	new /datum/overmap_ship_weapon/pdc_mount(src)
+
+/datum/overmap_ship_weapon/missile_launcher/ramshackle_ultraburst
+	name = "Highly Questionable Burst Missile Launchers"
+	burst_size = 16
+	fire_delay = 25 SECONDS
+	burst_fire_delay = 0.2 SECONDS
+	optimal_range = 30
+	select_alert = "<span class='notice'>Burst missile tubes: online.</span>"
+	firing_arc = 0
+	ai_fire_delay = 0
+	weapon_facing_flags = OSW_FACING_OMNI
+	weapon_firing_flags = OSW_ALWAYS_FIRES_ERRATIC_BROADSIDES
+	used_nonphysical_ammo = OSW_AMMO_MISSILE
+	sort_priority = 50
+	spread_override = 30
+
+//OVERRIDE
+/datum/overmap_ship_weapon/missile_launcher/ramshackle_ultraburst/is_target_size_valid(obj/structure/overmap/target)
+	return TRUE
+
+/obj/item/projectile/guided_munition/missile/ai/randomdelay
+	///Delays guidance for N cycles
+	var/guidance_error = 0
+
+/obj/item/projectile/guided_munition/missile/ai/randomdelay/Initialize(mapload)
+	. = ..()
+	if(prob(25))
+		homing = FALSE //Guidance is hecc
+	else
+		guidance_error = rand(4, 10)
+
+/obj/item/projectile/guided_munition/missile/ai/randomdelay/process_homing(atom/A)
+	if(guidance_error > 0)
+		guidance_error--
+		next_homing_process = world.time + homing_delay
+		return
+	return ..()
