@@ -301,7 +301,7 @@
 	update_appearance()
 
 /obj/machinery/power/shieldwallgen/proc/rapidsetup()
-	if(shield.is_operational & !shield.shieldstate)
+	if(is_operational & !shieldstate)
 		for(var/direction in GLOB.cardinals)
 			setup_field(direction)
 			fields++
@@ -537,6 +537,7 @@
 	locked = FALSE
 	shield_range = 8
 	layer = WALL_OBJ_LAYER
+	wire_compatible = FALSE
 
 /obj/machinery/power/shieldwallgen/atmos/roundstart
 	anchored = TRUE
