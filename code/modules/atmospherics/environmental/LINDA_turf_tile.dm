@@ -203,6 +203,14 @@
 		FD.emergency_pressure_stop()
 	for(var/obj/machinery/door/firedoor/FD in src)
 		FD.emergency_pressure_stop()
+	for(var/obj/machinery/power/shieldwallgen/atmos/AG in range(2,T2))
+		AG.rapidsetup()
+	for(var/obj/machinery/power/shieldwallgen/atmos/AG in range(2,src))
+		AG.rapidsetup()
+	var/area/A = get_area(src)
+	A.shieldsup()
+
+
 
 /turf/proc/handle_decompression_floor_rip()
 /turf/open/floor/handle_decompression_floor_rip(sum)

@@ -386,8 +386,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 
 /area/proc/shieldsup()
 	for(var/obj/machinery/power/shieldwallgen/atmos/shield in atmosshields)
-		if(shield.is_operational & !shield.shieldstate)
-			shield.rapidsetup()
+		shield.rapidsetup()
 
 /**
   * Generate an firealarm alert for this area

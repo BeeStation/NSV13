@@ -301,10 +301,11 @@
 	update_appearance()
 
 /obj/machinery/power/shieldwallgen/proc/rapidsetup()
-	for(var/direction in GLOB.cardinals)
-		setup_field(direction)
-		fields++
-		shieldstate = SHIELD_HASFIELDS
+	if(shield.is_operational & !shield.shieldstate)
+		for(var/direction in GLOB.cardinals)
+			setup_field(direction)
+			fields++
+			shieldstate = SHIELD_HASFIELDS
 
 /obj/machinery/power/shieldwallgen/update_icon_state()
 	if(shieldstate)
@@ -507,21 +508,16 @@
 
 /obj/machinery/power/shieldwallgen/proc/UpdateAdjacencyFlags()
 	var/turf/T = get_turf(src)
-	if(flags_1 & ON_BORDER_1)
-		for(var/t in T.atmos_adjacent_turfs)
-			if(get_dir(loc, t) == dir)
-				var/turf/open/T2 = t
-				if(T2 in T.atmos_adjacent_turfs)
-					T.atmos_adjacent_turfs[T2] |= ATMOS_ADJACENT_FIRELOCK
-				if(T in T2.atmos_adjacent_turfs)
-					T2.atmos_adjacent_turfs[T] |= ATMOS_ADJACENT_FIRELOCK
-	else
-		for(var/t in T.atmos_adjacent_turfs)
-			var/turf/open/T2 = t
-			if(T2 in T.atmos_adjacent_turfs)
-				T.atmos_adjacent_turfs[T2] |= ATMOS_ADJACENT_FIRELOCK
-			if(T in T2.atmos_adjacent_turfs)
-				T2.atmos_adjacent_turfs[T] |= ATMOS_ADJACENT_FIRELOCK
+	var/turf/turf = loc
+	for(var/direction in GLOB.cardinals)
+		for(var/i in 1 to shield_range)
+			turf = get_step(turf, direction)
+	for(var/t in T.atmos_adjacent_turfs & turf.atmos_adjacent_turfs)
+		var/turf/open/T2 = t
+		if(T2 in T.atmos_adjacent_turfs)
+			T.atmos_adjacent_turfs[T2] |= ATMOS_ADJACENT_FIRELOCK
+		if(T in T2.atmos_adjacent_turfs)
+			T2.atmos_adjacent_turfs[T] |= ATMOS_ADJACENT_FIRELOCK
 
 /obj/machinery/power/shieldwallgen/proc/remove_from_areas()
 	if(affecting_areas)
