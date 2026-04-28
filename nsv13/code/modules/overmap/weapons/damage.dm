@@ -90,6 +90,7 @@ Bullet reactions
 	proj.def_zone = "chest"
 	proj.original = pickedgoal
 	var/targeting_angle = get_angle(pickedstart,pickedgoal) + ((rand() - 0.5) * 40) //Target center +- 20°
+	LAZYINITLIST(proj.impacted)
 	spawn()
 		proj.fire(targeting_angle)
 		proj.set_pixel_speed(4)
