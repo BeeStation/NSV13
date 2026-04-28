@@ -26,7 +26,7 @@
 	var/charge_per_shot = 660000 //How much power per shot do we have to use?
 	var/max_charge = 3300000 //5 shots before it has to recharge.
 	var/power_modifier = 0 //Power youre inputting into this thing.
-	var/power_modifier_cap = 8 //Which means that your guns are spitting bursts that do ?? damage.
+	var/power_modifier_cap = 8 //Which means that your guns are spitting bursts that do 120? damage.
 	weapon_datum_type = /datum/overmap_ship_weapon/burst_phaser
 	var/static_charge = FALSE //Controls whether power and energy cost scale with power modifier. True = no scaling
 	var/alignment = 100 //! allignment is a maint stat that acts as a limit that ticks down and increases chances of malfunction until the gun explodes if it reaches zero
@@ -469,6 +469,27 @@
 					lockout = 0
 					return TRUE
 	return ..()
+
+
+
+/obj/machinery/ship_weapon/energy/default_deconstruction_crowbar(obj/item/I, ignore_panel)
+	if(freq >= 100| alignment >= 100 )
+	var/confirm = alert("The weapon is not in a good state for deconstruction. if you take it apart now, the fragile quantum bluespace lenses may shatter \
+						 Are you sure this is a good idea?", "Deconstruct [src]", "Yes", "No")
+	if(confirm == "Yes")
+		if(rand(1,0))
+			visible_message("<span class='danger'>you hear a horrible cracking noise coming from the complex machinery as [usr] disassembles it!</span>")
+			playsound(usr.loc, 'sound/effects/glass_step.ogg', 100, 1, extrarange = 30)
+			for(var/obj/item/stack/ore/bluespace_crystal/C in component_parts)
+				C.Destroy()
+			.=..()
+		else
+			visible_message("<span class='notice'>[usr] manage to remove the delicate lenses before removing the main assembly!</span>")
+			.=..()
+		return
+	else
+		visible_message("<span class 'notice'>[usr] wisely lowers their crowbar.")
+		return
 
 /obj/machinery/ship_weapon/energy/Destroy()
 	for(var/obj/machinery/cooling/E in cooling)
