@@ -53,6 +53,7 @@
 	var/weapon_state = STATE_NOTHING
 	max_integrity = 1200 //don't blow up before we're ready
 	obj_integrity = 1200
+	var/freq_max = 10
 
 /obj/machinery/ship_weapon/energy/get_ammo_list()
 	stack_trace("Attempting to get physical ammo of an energy weapon. Check your proc chains.")
@@ -145,8 +146,8 @@
 		linked_overmap_ship_weapon.mark_physical_weapon_unloaded(src)
 
 /obj/machinery/ship_weapon/energy/can_fire(atom/target, shots = linked_overmap_ship_weapon.burst_size)
-	if(maint_state != MSTATE_CLOSED) //Are we in maintenance?
-		return FALSE
+//	if(maint_state != MSTATE_CLOSED) //Are we in maintenance?
+//		return FALSE
 	if(get_ammo() < shots) //Do we have enough ammo?
 		return FALSE
 	if(weapon_state == STATE_OVERLOAD) //have we overheated?
@@ -154,6 +155,9 @@
 	if(weapon_state == STATE_VENTING) //are we venting heat?)
 		return FALSE
 	if(freq <=10) //is the frequincy of the weapon high enough to fire?
+		for(var/mob/living/M in range(10, get_turf(src)))
+			shake_with_inertia(M, 2, 1)
+		visible_message("<span class=userdanger>Malfunction detected in [src]! Firing sequence aborted!</span>") //perhaps additional flavour text of a non angry red kind?
 		overload()
 		return FALSE
 	if(alignment == 0)
@@ -314,22 +318,22 @@
 		return
 	var/turf/detonation_turf = get_turf(src)
 	if(heat >= (3*(max_heat/4)))
-		freq -= rand(1,4)
+		freq -= rand(1,(freq_max*0.4))
 	switch(alignment)
 		if(51 to 75)
 			if(prob(50))
 				do_sparks(4, FALSE, src)
-				freq -= rand(1,10)
+				freq -= rand(1,freq_max)
 		if(26 to 50)
 			var/roll = roll(1,20)
 			switch(roll)
 				if(1 to 9)
 					do_sparks(4, FALSE, src)
-					freq -= rand(1,10)
+					freq -= rand(1,freq_max)
 					playsound(src, malfunction_sound, 100, 1)
 				if(10)
 					playsound(src, malfunction_sound, 100, 1)
-					freq -= rand(1,10)
+					freq -= rand(1,freq_max)
 					explosion(detonation_turf, 0, 0, 2, 3, flame_range = 2)
 		if(0 to 25)
 			var/roll2 = roll(1,4)
@@ -337,10 +341,10 @@
 				if(1)
 					do_sparks(4, FALSE, src)
 					playsound(src, malfunction_sound, 100, 1)
-					freq -= rand(1,10)
+					freq -= rand(1,freq_max)
 				if(2)
 					playsound(src, malfunction_sound, 100, 1)
-					freq -= rand(1,10)
+					freq -= rand(1,freq_max)
 					explosion(detonation_turf, 0, 0, 3, 4, flame_range = 3)
 				if(3,4)
 					var/list/shootat_turf = RANGE_TURFS(5,detonation_turf) - RANGE_TURFS(4, detonation_turf)
@@ -349,7 +353,7 @@
 					P.range = 6
 					P.preparePixelProjectile(pick(shootat_turf), detonation_turf)
 					P.fire()
-					freq -= rand(1,10)
+					freq -= rand(1,freq_max)
 	alignment = max(alignment-(rand(0, 4)),0)
 
 
@@ -434,7 +438,8 @@
 	if(lockout)
 		return TRUE
 	if(!maintainable)
-		return FALSE
+		. = ..()	//still comedy
+		return
 	switch(maint_state)
 		if(MSTATE_CLOSED)
 			if(istype(I))

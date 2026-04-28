@@ -14,9 +14,10 @@
 	active = FALSE
 	charge = 0
 	max_heat = 800
-	heat_per_shot = 200
+	heat_per_shot = 100
 	heat_rate = 30
-	storage_rate = 50
+	storage_rate = 100
+	freq_max = 4
 
 
 	// Hitscan antimissile laser, charges relatively quickly, but can't hold a decent buffer!
