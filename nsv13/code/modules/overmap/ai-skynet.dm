@@ -1502,12 +1502,9 @@ Seek a ship thich we'll station ourselves around
 		return	//Timeout.
 	choose_goal()
 	if(!pilot) //AI ships need a pilot so that they aren't hit by their own bullets. Projectiles.dm's can_hit needs a mob to be the firer, so here we are.
-		pilot = new /mob/living(get_turf(src))
+		pilot = new /mob/living/dummy_pilot(src)
+		pilot.RegisterSignal(src, COMSIG_PARENT_QDELETING, TYPE_PROC_REF(/mob/living/dummy_pilot, destroy_dummy_pilot), src)
 		pilot.overmap_ship = src
-		pilot.name = "Dummy AI pilot"
-		pilot.mouse_opacity = FALSE
-		pilot.alpha = FALSE
-		pilot.forceMove(src)
 		gunner = pilot
 	if(last_target) //Have we got a target?
 		var/obj/structure/overmap/OM = last_target
