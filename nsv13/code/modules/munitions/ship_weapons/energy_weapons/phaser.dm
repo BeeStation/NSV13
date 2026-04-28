@@ -26,7 +26,7 @@
 	var/charge_per_shot = 660000 //How much power per shot do we have to use?
 	var/max_charge = 3300000 //5 shots before it has to recharge.
 	var/power_modifier = 0 //Power youre inputting into this thing.
-	var/power_modifier_cap = 4 //Which means that your guns are spitting bursts that do 60 damage.
+	var/power_modifier_cap = 8 //Which means that your guns are spitting bursts that do ?? damage.
 	weapon_datum_type = /datum/overmap_ship_weapon/burst_phaser
 	var/static_charge = FALSE //Controls whether power and energy cost scale with power modifier. True = no scaling
 	var/alignment = 100 //! allignment is a maint stat that acts as a limit that ticks down and increases chances of malfunction until the gun explodes if it reaches zero
@@ -54,6 +54,7 @@
 	max_integrity = 1200 //don't blow up before we're ready
 	obj_integrity = 1200
 	var/freq_max = 10
+	var/thermal = 1
 
 /obj/machinery/ship_weapon/energy/get_ammo_list()
 	stack_trace("Attempting to get physical ammo of an energy weapon. Check your proc chains.")
@@ -72,6 +73,7 @@
 	heat_per_shot = 1000 //allows two shots before overheating with two coolers. default for atherwhisp
 	heat_rate = 20
 	storage_rate = 250
+	thermal = 0
 
 /obj/machinery/ship_weapon/energy/lazyload()
 	active = TRUE
@@ -182,6 +184,8 @@
 	var/obj/item/projectile/P = ..()
 	if(!static_charge)
 		P.damage *= power_modifier
+	if(thermal)
+		P.damage + P.damage *0.2 * heat/max_heat
 
 /obj/machinery/ship_weapon/energy/process()
 	process_heat()
@@ -231,6 +235,8 @@
 		. += "<span class='notice'>This weapon has an autonomic Thermal Managment System and nano-centered beam focuses.</span>"
 		return
 	. += "<span class='notice'>The Thermal Transceiver is currently at <b>[length(cooling)]0%</b> connection capacity.</span>"
+	if(thermal)
+		. += "span class='notice'>The quantum thermal lenses of this weapon allows the beam to absorb power from their own thermal mass </span>"
 	if(in_range(user, src) || isobserver(user))
 		. += "<span class='notice'>The heatsink display reads <b>[(heat)]</b> out of <b>[(max_heat)]</b>.</span>"
 		if(maint_state != MSTATE_CLOSED)

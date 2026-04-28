@@ -70,6 +70,7 @@
 	firing_sound = null
 	bang = FALSE // It's a light laser weapon, not a cannon going off
 	maintainable = FALSE
+	thermal = 0
 
 	circuit = /obj/item/circuitboard/machine/laser_pd
 	var/gunning_component_type = /datum/component/overmap_gunning/laser_pd

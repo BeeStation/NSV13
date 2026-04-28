@@ -18,6 +18,7 @@
 	heat_rate = 30
 	storage_rate = 100
 	freq_max = 4
+	thermal = 0
 
 
 	// Hitscan antimissile laser, charges relatively quickly, but can't hold a decent buffer!

@@ -67,17 +67,17 @@
 /obj/machinery/cooling/multitool_act(mob/living/user, obj/item/multitool/I)
 	if(!multitool_check_buffer(user, I))
 		return
-	var/obj/item/multitool/P = I
+	var/obj/item/multitool/muti = I
 
-	if(istype(P.buffer, /obj/machinery/ship_weapon/energy))
-		if(get_area(P.buffer) != get_area(src))
+	if(istype(muti.buffer, /obj/machinery/ship_weapon/energy))
+		if(get_area(muti.buffer) != get_area(src))
 			to_chat(user, "<font color = #666633>-% Cannot link machines across power zones. %-</font color>")
 			return
 
 		if(parent)
 			parent.cooling -= src
 			parent = null
-		parent = P.buffer
+		parent = muti.buffer
 		.=TRUE
 		parent.cooling |= src
 		to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
