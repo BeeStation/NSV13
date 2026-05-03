@@ -58,7 +58,6 @@
 	message_admins("Reminder interval set to [(SSovermap_mode.mode.objective_reminder_interval) / 600] minutes")
 
 /datum/overmap_objective/board_ship/check_completion()
-	SIGNAL_HANDLER
 	if (target_ship.faction == SSovermap_mode.mode.starting_faction)
 		status = 1
 		target_ship.block_deletion = FALSE

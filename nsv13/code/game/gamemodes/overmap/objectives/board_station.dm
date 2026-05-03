@@ -77,7 +77,6 @@
 	return 0
 
 /datum/overmap_objective/board_station/proc/iff_change()
-	SIGNAL_HANDLER
 	if(target_station.faction == SSovermap_mode.mode.starting_faction)
 		target_station.block_deletion = FALSE //You captured it, it's now your responsibility
 		target_station.essential = FALSE
