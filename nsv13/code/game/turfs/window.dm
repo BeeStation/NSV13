@@ -27,6 +27,7 @@
 	color = "#EE82EE"
 	smooth = SMOOTH_TRUE
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
+	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile, /obj/structure/window/depleteduranium/fulltile)
 	icon_state = "rwindow"
 	icon = 'nsv13/icons/obj/window.dmi'
 
