@@ -478,6 +478,12 @@
 	used_nonphysical_ammo = OSW_AMMO_LIGHT
 	sort_priority = 2
 
+
+/datum/overmap_ship_weapon/laser_ams/fire_physical(atom/target, mob/living/firer, ai_aim = FALSE)
+	burst_size = length(weapons)
+	pick(/obj/machinery/ship_weapon/energy/ams/weapons).visible_message("<span class=userdanger>burst size = [burst_size] length(weapons) = [length(weapons)] </span>")
+	.=..()
+
 /datum/overmap_ship_weapon/plasma_caster
 	name = "MPAC"
 	burst_size = 1

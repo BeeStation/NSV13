@@ -80,7 +80,7 @@
 		parent = muti.buffer
 		.=TRUE
 		parent.cooling |= src
-		to_chat(user, "<font color = #666633>-% Successfully linked [P.buffer] with [src] %-</font color>")
+		to_chat(user, "<font color = #666633>-% Successfully linked [muti.buffer] with [src] %-</font color>")
 		if(length(parent.cooling) >= 11)
 			var/E = pick(parent.cooling)
 			explosion(get_turf(E), 0, 1, 3, 5, flame_range = 4)

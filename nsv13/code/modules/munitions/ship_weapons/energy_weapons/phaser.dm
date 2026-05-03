@@ -40,7 +40,7 @@
 	var/list/cooling = list()
 	var/cooling_amount = 0	//! the total amount of cooling all coolers provide. this is generated ingame
 	var/storage_amount = 0	//! the total amount of storage all heatsinks provide. this is generated ingame
-	var/storage_rate = 100	//! the amount that a heatsink increases this weapon's heat capacity
+	var/storage_rate = 150	//! the amount that a heatsink increases this weapon's heat capacity
 	var/ventnumber = 1		//! the rate at which we discharge heat when venting. this is generated ingame
 	// These variables only pertain to energy weapons, but need to be checked later in /proc/fire //I moved these over to the energyweapon basetype. if everything explodes, someone else told me to
 	var/heat = 0	//! how much heat we current have. this is generated ingame
@@ -185,7 +185,7 @@
 	if(!static_charge)
 		P.damage *= power_modifier
 	if(thermal)
-		P.damage + P.damage *0.2 * heat/max_heat
+		P.damage += P.damage *0.6 * heat/max_heat
 
 /obj/machinery/ship_weapon/energy/process()
 	process_heat()
@@ -473,23 +473,25 @@
 
 
 /obj/machinery/ship_weapon/energy/default_deconstruction_crowbar(obj/item/I, ignore_panel)
-	if(freq >= 100| alignment >= 100 )
-	var/confirm = alert("The weapon is not in a good state for deconstruction. if you take it apart now, the fragile quantum bluespace lenses may shatter \
+	if(freq < 100| alignment < 100 )
+		var/confirm = alert("The weapon is not in a good state for deconstruction. if you take it apart now, the fragile quantum bluespace lenses may shatter \
 						 Are you sure this is a good idea?", "Deconstruct [src]", "Yes", "No")
-	if(confirm == "Yes")
-		if(rand(1,0))
-			visible_message("<span class='danger'>you hear a horrible cracking noise coming from the complex machinery as [usr] disassembles it!</span>")
-			playsound(usr.loc, 'sound/effects/glass_step.ogg', 100, 1, extrarange = 30)
-			for(var/obj/item/stack/ore/bluespace_crystal/C in component_parts)
-				C.Destroy()
-			.=..()
+		if(confirm == "Yes")
+			if(rand(1,0))
+				visible_message("<span class='danger'>you hear a horrible cracking noise coming from the complex machinery as [usr] disassembles it!</span>")
+				playsound(usr.loc, 'sound/effects/glass_step.ogg', 100, 1, extrarange = 30)
+				for(var/obj/item/stack/ore/bluespace_crystal/C in component_parts)
+					visible_message("<span class='danger'>[C] shatters!</span>")
+					C.Destroy()
+				.=..()
+			else
+				visible_message("<span class='notice'>[usr] manage to remove the delicate lenses before removing the main assembly!</span>")
+				.=..()
+			return
 		else
-			visible_message("<span class='notice'>[usr] manage to remove the delicate lenses before removing the main assembly!</span>")
-			.=..()
-		return
-	else
-		visible_message("<span class 'notice'>[usr] wisely lowers their crowbar.")
-		return
+			visible_message("<span class 'notice'>[usr] wisely lowers their crowbar.")
+			return
+	.=..()
 
 /obj/machinery/ship_weapon/energy/Destroy()
 	for(var/obj/machinery/cooling/E in cooling)

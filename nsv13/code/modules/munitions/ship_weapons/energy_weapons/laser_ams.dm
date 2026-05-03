@@ -30,3 +30,31 @@
 	power_modifier_cap = 2
 	weapon_datum_type = /datum/overmap_ship_weapon/laser_ams
 
+/obj/machinery/ship_weapon/energy/ams/fire(atom/target, shots = linked_overmap_ship_weapon.burst_size, manual = TRUE)
+	var/list/targets = linked.torpedoes_to_target.Copy()
+	for(var/obj/item/projectile/guided_munition/incoming_missile in targets)
+		var/target_range = overmap_dist(incoming_missile,linked)
+		if(target_range > 30)
+			targets -= incoming_missile
+			visible_message("<span class=userdanger>[incoming_missile] at [target_range] discarded</span>")
+	if ((length(targets))<=0)
+		visible_message("<span class=userdanger>burst canceled</span>")
+		return
+	if(can_fire(target, shots))
+		if(manual)
+			linked.last_fired = overlay
+		for(var/i = 0, i < shots, i++)
+			do_animation()
+			local_fire()
+			target = pick(targets)
+			visible_message("<span class=userdanger>[target] targeted</span>")
+			overmap_fire(target)
+			charge -= charge_per_shot
+			if(maintainable)
+				heat += heat_per_shot
+			after_fire()
+			. = TRUE
+			if(shots > 1)
+				sleep(linked_overmap_ship_weapon.burst_fire_delay)
+		return TRUE
+	return FALSE
