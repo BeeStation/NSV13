@@ -261,6 +261,12 @@
 
 
 
+/obj/machinery/ship_weapon/energy/maint_wear()
+	if(maintainable)
+		heat += heat_per_shot
+		handle_alignment()
+
+
 /obj/machinery/ship_weapon/energy/after_fire()
 	if(maint_state != MSTATE_CLOSED) //MSTATE_CLOSED
 		tesla_zap(src, 4, 1000) //Munitions Officer definitely had the best uniform
@@ -268,8 +274,6 @@
 			C.flash_act()
 		for(var/mob/living/carbon/C in orange(12, src))
 			to_chat(C, "<span class='danger'>Electricity arcs from the exposed firing mechanism.</span>")
-	handle_alignment()
-	maint_req = 10
 	..()
 
 

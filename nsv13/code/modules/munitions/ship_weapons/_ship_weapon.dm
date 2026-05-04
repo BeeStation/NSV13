@@ -531,8 +531,6 @@
 			local_fire()
 			overmap_fire(target)
 			charge -= charge_per_shot
-			if(maintainable)
-				heat += heat_per_shot
 			after_fire()
 			. = TRUE
 			if(shots > 1)
@@ -576,13 +574,16 @@
 /**
  * Updates maintenance counter after firing if applicable.
  */
-/obj/machinery/ship_weapon/proc/after_fire()
-	//Count down towards maintenance
+/obj/machinery/ship_weapon/proc/maint_wear()
 	if(maintainable)
 		if(maint_req > 0)
 			maint_req --
 		else
 			weapon_malfunction()
+
+/obj/machinery/ship_weapon/proc/after_fire()
+	//Count down towards maintenance
+	maint_wear()
 	update()
 
 /**
