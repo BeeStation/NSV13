@@ -269,7 +269,11 @@
 		for(var/mob/living/carbon/C in orange(12, src))
 			to_chat(C, "<span class='danger'>Electricity arcs from the exposed firing mechanism.</span>")
 	handle_alignment()
+	maint_req = 10
 	..()
+
+
+
 
 /obj/machinery/ship_weapon/energy/proc/process_heat()//! heat management. don't push your weapons too hard. actual heat generation is in _ship_weapons.dm
 	if(!maintainable)

@@ -578,7 +578,7 @@
  */
 /obj/machinery/ship_weapon/proc/after_fire()
 	//Count down towards maintenance
-	if(maintainable & !/obj/machinery/ship_weapon/energy)
+	if(maintainable)
 		if(maint_req > 0)
 			maint_req --
 		else
