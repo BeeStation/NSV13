@@ -144,7 +144,8 @@
 	ai_fire_delay = 0.5 SECONDS
 	used_nonphysical_ammo = OSW_AMMO_LIGHT
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI
-	weapon_firing_flags = OSW_ALWAYS_FIRES_FORWARD
+	weapon_facing_flags = OSW_FACING_FRONT
+	firing_arc = 60
 	sort_priority = 8
 
 /datum/overmap_ship_weapon/phaser // Big blue laser
