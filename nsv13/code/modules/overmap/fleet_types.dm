@@ -355,3 +355,17 @@
 			// Anger
 			hunted_ship = source
 			goal_system = null
+
+
+//debug and testing
+
+/datum/fleet/conflagration/debugdonotuse
+	name = "\improper Syndicate conflagration swarm"
+	taunts = list("Enemy ship, surrender now. your point defenses are offline.")
+	audio_cues = list()
+	fighter_types = list(/obj/structure/overmap/syndicate/ai/bomber, /obj/structure/overmap/syndicate/ai/conflagration)
+	destroyer_types = list(/obj/structure/overmap/syndicate/ai/conflagration/elite)
+	battleship_types = list(/obj/structure/overmap/syndicate/ai/submarine/elite)
+	supply_types = list(/obj/structure/overmap/syndicate/ai/conflagration/elite)
+	size = FLEET_DIFFICULTY_DEATH
+	fleet_trait = FLEET_TRAIT_BORDER_PATROL

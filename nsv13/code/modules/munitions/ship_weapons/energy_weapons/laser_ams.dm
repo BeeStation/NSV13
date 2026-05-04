@@ -24,20 +24,15 @@
 	// Hitscan antimissile laser, charges relatively quickly, but can't hold a decent buffer!
 	charge_rate = 1500000 // At power level 2, requires 3MW per tick to charge
 	charge_per_shot = 3000000 // At power level 2, requires 6MW total to fire, takes about 3 seconds to gain 1 charge
-	max_charge = 3000000 // Store 1 charge
+	max_charge = 6000000 // Store 2 charge
 
 	power_modifier = 0 //Power you're inputting into this thing.
 	power_modifier_cap = 2
 	weapon_datum_type = /datum/overmap_ship_weapon/laser_ams
 
 /obj/machinery/ship_weapon/energy/ams/fire(atom/target, shots = linked_overmap_ship_weapon.burst_size, manual = TRUE)
-	var/list/targets = linked.torpedoes_to_target.Copy()
-	for(var/obj/item/projectile/guided_munition/incoming_missile in targets)
-		var/target_range = overmap_dist(incoming_missile,linked)
-		if(target_range > 30)
-			targets -= incoming_missile
-			visible_message("<span class=userdanger>[incoming_missile] at [target_range] discarded</span>")
-	if ((length(targets))<=0)
+	var/list/amm_targets = linked.torpedoes_to_target.Copy(1, min(length(linked.torpedoes_to_target), 10))
+	if (!length(amm_targets))
 		visible_message("<span class=userdanger>burst canceled</span>")
 		return
 	if(can_fire(target, shots))
@@ -46,7 +41,7 @@
 		for(var/i = 0, i < shots, i++)
 			do_animation()
 			local_fire()
-			target = pick(targets)
+			target = pick(amm_targets)
 			visible_message("<span class=userdanger>[target] targeted</span>")
 			overmap_fire(target)
 			charge -= charge_per_shot

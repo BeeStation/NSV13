@@ -467,7 +467,7 @@
 /datum/overmap_ship_weapon/laser_ams
 	name = "Laser Anti Missile System"
 	standard_projectile_type = /obj/item/projectile/beam/laser/point_defense
-	burst_size = 1
+	burst_size = 2
 	fire_delay = 0.10 SECONDS //buffed because of energy weapon maintinence
 	optimal_range = 30
 	select_alert = "<span class='notice'>Laser target acquisition systems: online.</span>"
@@ -479,10 +479,6 @@
 	sort_priority = 2
 
 
-/datum/overmap_ship_weapon/laser_ams/fire_physical(atom/target, mob/living/firer, ai_aim = FALSE)
-	burst_size = length(weapons)
-	pick(/obj/machinery/ship_weapon/energy/ams/weapons).visible_message("<span class=userdanger>burst size = [burst_size] length(weapons) = [length(weapons)] </span>")
-	.=..()
 
 /datum/overmap_ship_weapon/plasma_caster
 	name = "MPAC"
