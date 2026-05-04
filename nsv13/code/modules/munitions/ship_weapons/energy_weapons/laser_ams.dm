@@ -33,7 +33,6 @@
 /obj/machinery/ship_weapon/energy/ams/fire(atom/target, shots = linked_overmap_ship_weapon.burst_size, manual = TRUE)
 	var/list/amm_targets = linked.torpedoes_to_target.Copy(1, min(length(linked.torpedoes_to_target), 10))
 	if (!length(amm_targets))
-		visible_message("<span class=userdanger>burst canceled</span>")
 		return
 	if(can_fire(target, shots))
 		if(manual)
@@ -42,7 +41,6 @@
 			do_animation()
 			local_fire()
 			target = pick(amm_targets)
-			visible_message("<span class=userdanger>[target] targeted</span>")
 			overmap_fire(target)
 			charge -= charge_per_shot
 			if(maintainable)
