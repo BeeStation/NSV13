@@ -8,13 +8,15 @@
 	var/filterprogress = 50
 //	var/image/progressbar
 	var/obj/effect/overlay/heat_progressbar/bar
+	var/alpha_mask_filter
 
 
 /atom/movable/screen/overheat/Initialize(mapload)
 	transform *= 4
 	if(!bar) bar = new
 	vis_contents |= bar
-	bar.filters += filter(type = "alpha", y = filterprogress , flags = MASK_INVERSE , icon =  'nsv13/icons/overmap/gui/mask.dmi',  name = "progressbarmask")
+	bar.add_filter("alpha_mask_filter", alpha_mask_filter(0 , 50, 'nsv13/icons/overmap/gui/mask.dmi'))
+	//filters += filter(type = "alpha", y = filterprogress , flags = MASK_INVERSE , icon =  'nsv13/icons/overmap/gui/mask.dmi',  name = "progressbarmask")
 //	cut_overlay()
 //	progressbar = image('nsv13/icons/overmap/gui/overheat_gauge.dmi', icon_state= "7" )
 //	progressbar.filters += filter(type = "alpha", y = filterprogress , flags = MASK_INVERSE , icon =  'icons/obj/doors/airlocks/mask_32x32_airlocks.dmi',  name = "progressbarmask")
@@ -22,7 +24,8 @@
 //	add_overlay(progressbar)
 
 /atom/movable/screen/overheat/proc/set_offset(y)
-	bar.filters += filter(type = "alpha", y = y , flags = MASK_INVERSE , icon =  'nsv13/icons/overmap/gui/mask.dmi',  name = "progressbarmask")
+	bar.update_filters("alpha_mask_filter", alpha_mask_filter(0 , y, 'icons/obj/doors/airlocks/mask_32x32_airlocks.dmi'))
+	//filters += filter(type = "alpha", y = y , flags = MASK_INVERSE , icon =  'nsv13/icons/overmap/gui/mask.dmi',  name = "progressbarmask")
 
 
 /obj/effect/overlay/heat_progressbar
