@@ -15,7 +15,7 @@
 	transform *= 4
 	if(!bar) bar = new
 	vis_contents |= bar
-	bar.add_filter("alpha_mask_filter", alpha_mask_filter(0 , 50, 'nsv13/icons/overmap/gui/mask.dmi'))
+	bar.add_filter("alpha_mask_filter", 1, alpha_mask_filter(0 , filterprogress, 'nsv13/icons/overmap/gui/mask.dmi'))
 	//filters += filter(type = "alpha", y = filterprogress , flags = MASK_INVERSE , icon =  'nsv13/icons/overmap/gui/mask.dmi',  name = "progressbarmask")
 //	cut_overlay()
 //	progressbar = image('nsv13/icons/overmap/gui/overheat_gauge.dmi', icon_state= "7" )
@@ -24,7 +24,7 @@
 //	add_overlay(progressbar)
 
 /atom/movable/screen/overheat/proc/set_offset(y)
-	bar.update_filters("alpha_mask_filter", alpha_mask_filter(0 , y, 'icons/obj/doors/airlocks/mask_32x32_airlocks.dmi'))
+	bar.transition_filter("alpha_mask_filter", 0.1, alpha_mask_filter(0 , y, 'nsv13/icons/overmap/gui/mask.dmi'))
 	//filters += filter(type = "alpha", y = y , flags = MASK_INVERSE , icon =  'nsv13/icons/overmap/gui/mask.dmi',  name = "progressbarmask")
 
 
