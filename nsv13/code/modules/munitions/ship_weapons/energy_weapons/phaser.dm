@@ -193,6 +193,7 @@
 	linked_overmap_ship_weapon.overheat_hud.filterprogress -= 1
 	if(linked_overmap_ship_weapon.overheat_hud.filterprogress < 1)
 		linked_overmap_ship_weapon.overheat_hud.filterprogress = 100
+	linked_overmap_ship_weapon.overheat_hud.set_offset(linked_overmap_ship_weapon.overheat_hud.filterprogress)
 	charge_rate = initial(charge_rate) * power_modifier
 	max_charge = initial(max_charge) * power_modifier
 	if(!static_charge)
