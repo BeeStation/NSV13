@@ -283,10 +283,17 @@
 	if(!maintainable)
 		return
 	cooling_amount = 0
+	/*
+	if(!heat)
+		linked_overmap_ship_weapon.heat = 0
+	else
+		linked_overmap_ship_weapon.heat = (max_heat-heat)/(max_heat) *100
+		*/
 	for(var/obj/machinery/cooling/cooler/C in cooling)
 		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
 			cooling_amount++
 	storage_amount = 0
+
 	for(var/obj/machinery/cooling/storage/C in cooling)
 		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
 			storage_amount++

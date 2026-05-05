@@ -97,7 +97,7 @@
 		return TRUE //No changes being applied.
 	if(old_weapon)
 		old_weapon.on_swap_from()
-	on_swap_to()
+	on_swap_to(user)
 	if(overmap_select_sound && !no_sound && world.time > linked_overmap.switchsound_cooldown)
 		linked_overmap.relay(overmap_select_sound)
 		linked_overmap.switchsound_cooldown = world.time + 5 SECONDS
