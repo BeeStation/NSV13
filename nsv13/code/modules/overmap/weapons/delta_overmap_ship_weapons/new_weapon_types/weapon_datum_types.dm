@@ -185,6 +185,24 @@
 		return FALSE
 	return TRUE
 
+/datum/overmap_ship_weapon/phaser/New()
+	.=..()
+	overheat_hud = new /atom/movable/screen/overheat()
+
+
+
+/datum/overmap_ship_weapon/phaser/on_swap_to(mob/user)
+	user.client.screen += overheat_hud
+	.=..()
+
+/datum/overmap_ship_weapon/phaser/on_swap_from(mob/user)
+	user.client.screen -= overheat_hud
+	.=..()
+
+/datum/overmap_ship_weapon/phaser/Destroy()
+	QDEL_NULL(overheat_hud)
+	.=..()
+
 /datum/overmap_ship_weapon/phaser_pd // Gauss laser
 	name = "Point-Defense Phasers"
 	standard_projectile_type = /obj/item/projectile/beam/laser/phaser/pd
@@ -497,6 +515,21 @@
 	used_nonphysical_ammo = OSW_AMMO_LIGHT
 	sort_priority = 2
 
+/datum/overmap_ship_weapon/laser_ams/New()
+	.=..()
+	overheat_hud = new /atom/movable/screen/overheat()
+
+/datum/overmap_ship_weapon/laser_ams/on_swap_to(mob/user)
+	user.client.screen += overheat_hud
+	.=..()
+
+/datum/overmap_ship_weapon/laser_ams/on_swap_from(mob/user)
+	user.client.screen -= overheat_hud
+	.=..()
+
+/datum/overmap_ship_weapon/laser_ams/Destroy()
+	QDEL_NULL(overheat_hud)
+	.=..()
 
 
 /datum/overmap_ship_weapon/plasma_caster

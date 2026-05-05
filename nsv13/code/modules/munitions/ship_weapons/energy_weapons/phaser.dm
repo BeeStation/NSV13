@@ -190,10 +190,6 @@
 /obj/machinery/ship_weapon/energy/process()
 	process_heat()
 	//return if overloaded or venting
-	linked_overmap_ship_weapon.overheat_hud.filterprogress -= 1
-	if(linked_overmap_ship_weapon.overheat_hud.filterprogress < 1)
-		linked_overmap_ship_weapon.overheat_hud.filterprogress = 100
-	linked_overmap_ship_weapon.overheat_hud.set_offset(linked_overmap_ship_weapon.overheat_hud.filterprogress)
 	charge_rate = initial(charge_rate) * power_modifier
 	max_charge = initial(max_charge) * power_modifier
 	if(!static_charge)
@@ -288,6 +284,7 @@
 		return
 	cooling_amount = 0
 //	update_hud()
+	linked_overmap_ship_weapon.overheat_hud.set_offset(100-(((max_heat-heat)/(max_heat)) *100))
 	for(var/obj/machinery/cooling/cooler/C in cooling)
 		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
 			cooling_amount++
@@ -305,7 +302,7 @@
 			if(heat <= (max_heat/50))
 				weapon_state = STATE_NOTHING
 				icon_state = initial(icon_state)
-				linked_overmap_ship_weapon.overheat_hud.cut_overlay()
+//				linked_overmap_ship_weapon.overheat_hud.bar.icon_state = 7
 			else
 				return
 		if(STATE_VENTING)
@@ -349,6 +346,7 @@
 	playsound(src, overheat_sound, 100, 1)
 	do_sparks(4, FALSE, src)
 	weapon_state = STATE_OVERLOAD
+//	linked_overmap_ship_weapon.overheat_hud.bar.icon_state = 8
 	alignment = 0
 	freq = 0
 	say("WARNING! Critical heat density, emergency venting and shutdown initiated!")
