@@ -147,31 +147,12 @@
 	weapon_facing_flags = OSW_FACING_FRONT
 	firing_arc = 60
 	sort_priority = 8
-	heat = 80
 
 /datum/overmap_ship_weapon/burst_phaser/New()
 	.=..()
 	overheat_hud = new /atom/movable/screen/overheat()
 
-/datum/overmap_ship_weapon/burst_phaser/process()
-	overheat_hud.cut_overlays()
-	var/progress=null
-	switch(heat)
-		if(0 to 10)
-		if(11 to 34)
-			progress=("2")
-		if(35 to 49)
-			progress=("3")
-		if(50 to 64)
-			progress=("4")
-		if(65 to 89)
-			progress=("5")
-		if(90 to 95)
-			progress=("6")
-		if(96 to 100)
-			progress=("7")
-	var/image/progressbar = image('nsv13/icons/overmap/gui/overheat_gauge.dmi', progress)
-	overheat_hud.add_overlay(progressbar)
+
 
 /datum/overmap_ship_weapon/burst_phaser/on_swap_to(mob/user)
 	user.client.screen += overheat_hud

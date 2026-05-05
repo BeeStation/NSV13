@@ -190,6 +190,9 @@
 /obj/machinery/ship_weapon/energy/process()
 	process_heat()
 	//return if overloaded or venting
+	linked_overmap_ship_weapon.overheat_hud.filterprogress -= 1
+	if(linked_overmap_ship_weapon.overheat_hud.filterprogress < 1)
+		linked_overmap_ship_weapon.overheat_hud.filterprogress = 100
 	charge_rate = initial(charge_rate) * power_modifier
 	max_charge = initial(max_charge) * power_modifier
 	if(!static_charge)
@@ -283,12 +286,7 @@
 	if(!maintainable)
 		return
 	cooling_amount = 0
-	/*
-	if(!heat)
-		linked_overmap_ship_weapon.heat = 0
-	else
-		linked_overmap_ship_weapon.heat = (max_heat-heat)/(max_heat) *100
-		*/
+//	update_hud()
 	for(var/obj/machinery/cooling/cooler/C in cooling)
 		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
 			cooling_amount++
@@ -306,6 +304,7 @@
 			if(heat <= (max_heat/50))
 				weapon_state = STATE_NOTHING
 				icon_state = initial(icon_state)
+				linked_overmap_ship_weapon.overheat_hud.cut_overlay()
 			else
 				return
 		if(STATE_VENTING)
@@ -316,6 +315,29 @@
 			return
 	if(heat >= max_heat)
 		overload()
+
+/*/obj/machinery/ship_weapon/energy/proc/update_hud
+	linked_overmap_ship_weapon.overheat_hud.cut_overlay()
+	var/progress
+	switch(((max_heat-heat)/(max_heat) *100))
+		if(0 to 10)
+		if(11 to 34)
+			progress = ("2")
+		if(35 to 49)
+			progress = ("3")
+		if(50 to 64)
+			progress = ("4")
+		if(65 to 89)
+			progress = ("5")
+		if(90 to 95)
+			progress = ("6")
+		if(96 to 100)
+			progress = ("7")
+	if(overloaded)
+		progress = ("8")
+	linked_overmap_ship_weapon.overheat_hud.progressbar = mutable_appearance(icon_state = progress)
+	linked_overmap_ship_weapon.overheat_hud.add_overlay(progressbar)
+*/
 
 /obj/machinery/ship_weapon/energy/proc/overload() //! this is the second worst thing that can happen with an energy weapon - triggers when you go over max_heat, and both dumps hot water vapor into the room and wipes your freq and alignment stats. you really don't want to do this
 	if("[initial(icon_state)]_overheat" in icon_state_list)

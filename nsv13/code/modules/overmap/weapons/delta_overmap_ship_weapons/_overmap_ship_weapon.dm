@@ -127,9 +127,8 @@ Any flags related to this should start with OSW.
 	///AMS modes this weapon can fire in if autonomous but not fully autonomous.
 	var/permitted_ams_modes = list( "Anti-ship" = 1, "Anti-missile countermeasures" = 1 ) // Overwrite the list with a specific firing mode if you want to restrict its targets
 
-	var/atom/movable/screen/overheat_hud //tempature gauge for energy weapons
+	var/atom/movable/screen/overheat/overheat_hud //tempature gauge for energy weapons
 
-	var/heat //tempature tracker for hud updates
 
 //You can pass link target and weapon list calc override during new.
 /datum/overmap_ship_weapon/New(obj/structure/overmap/link_to, update_role_weapon_lists = TRUE, ...)

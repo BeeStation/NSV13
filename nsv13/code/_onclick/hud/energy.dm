@@ -5,14 +5,16 @@
 	icon_state = "gauge"
 	screen_loc = "WEST:64,CENTER-1:15"
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-	var/heat = 0
+	var/filterprogress = 50
 
 
 /atom/movable/screen/overheat/Initialize(mapload)
-	src.transform *= 4
-	cut_overlays()
-	add_overlay("8")
-
+	transform *= 4
+	cut_overlay()
+	var/image/progressbar = image('nsv13/icons/overmap/gui/overheat_gauge.dmi')
+	progressbar.filters += filter(type = alpha, y = filterprogress , flags = MASK_INVERSE , icon =  'icons/obj/doors/airlocks/mask_32x32_airlocks.dmi',  name = "progressbarmask")
+	//alpha_mask_filter, alpha_mask_filter(0 , 100, 'icons/obj/doors/airlocks/mask_32x32_airlocks.dmi')
+	add_overlay(progressbar)
 
 //	/atom/movable/screen/alien/plasma_display
 
