@@ -69,8 +69,8 @@
 
 /obj/structure/overmap/nanotrasen/solgov/vnc/starter
 	role = MAIN_OVERMAP
-	obj_integrity = 500
-	max_integrity = 500//you will eat the ROUNDS.
+	obj_integrity = 600
+	max_integrity = 600//you will eat the ROUNDS.
 	starting_system = "Staging" //Required for all player ships
 	armor = list("overmap_light" = 99, "overmap_medium" = 50, "overmap_heavy" = 25)
 
