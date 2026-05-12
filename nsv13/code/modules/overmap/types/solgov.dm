@@ -128,7 +128,7 @@
 	ai_fighter_type = list(/obj/structure/overmap/nanotrasen/solgov/ai/fighter)
 	shots_left = 10000 //Issa laser.
 	torpedo_type = /obj/item/projectile/guided_munition/torpedo/shredder/ai/vnc
-	torpedoes = 15
+	torpedoes = 10
 	can_resupply = TRUE
 	combat_dice_type = /datum/combat_dice/frigate
 
