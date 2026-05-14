@@ -4331,6 +4331,10 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=5";
+	location = "4"
+	},
 /turf/open/floor/carpet/ship,
 /area/hallway/nsv/deck1/frame1/central)
 "cZp" = (
@@ -8939,10 +8943,6 @@
 /obj/structure/cable{
 	icon_state = "4-8"
 	},
-/obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=4";
-	location = "3"
-	},
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
@@ -9187,10 +9187,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
-	},
-/obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=3";
-	location = "2"
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 10
@@ -14808,11 +14804,6 @@
 /obj/item/beacon{
 	name = "Transporter Beacon"
 	},
-/obj/effect/landmark/patrol_node{
-	name = "Evac patrol node";
-	id = "evac";
-	next_id = list("science","engineering","cargo")
-	},
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
@@ -18821,6 +18812,11 @@
 /obj/structure/cable{
 	icon_state = "1-4"
 	},
+/obj/effect/landmark/patrol_node{
+	name = "Evac patrol node";
+	id = "evac";
+	next_id = list("science","engineering","cargo")
+	},
 /turf/open/floor/carpet/ship,
 /area/hallway/secondary/exit/departure_lounge)
 "nAK" = (
@@ -21594,6 +21590,10 @@
 /obj/item/clothing/mask/gas,
 /turf/open/floor/engine,
 /area/maintenance/nsv/bunker)
+"pDT" = (
+/obj/item/radio/intercom/directional/north,
+/turf/open/floor/engine/airless,
+/area/nsv/hanger)
 "pEa" = (
 /obj/item/kirbyplants/random,
 /obj/structure/sign/poster/official/love_ian{
@@ -23244,6 +23244,19 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/fore)
+"qRR" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/item/radio/intercom/directional/north,
+/turf/open/floor/carpet/ship,
+/area/hallway/primary/port)
 "qUY" = (
 /obj/structure/closet,
 /obj/item/storage/toolbox/emergency,
@@ -23711,6 +23724,9 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
+/obj/machinery/camera/autoname{
+	dir = 8
+	},
 /turf/open/floor/plasteel,
 /area/crew_quarters/toilet/restrooms)
 "rrr" = (
@@ -23994,7 +24010,9 @@
 /turf/open/floor/circuit/green/anim,
 /area/engine/engineering/reactor_control)
 "rDV" = (
-/obj/machinery/light_switch/south,
+/obj/machinery/light_switch/south{
+	pixel_y = -10
+	},
 /turf/closed/wall/r_wall/ship,
 /area/crew_quarters/heads/hor)
 "rDW" = (
@@ -24688,6 +24706,22 @@
 /obj/item/clothing/ears/earmuffs,
 /turf/open/floor/plasteel,
 /area/quartermaster/qm)
+"sjk" = (
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
+	dir = 8
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=3";
+	location = "2"
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/primary/port)
 "sjO" = (
 /obj/effect/turf_decal/tile/purple/tile_side{
 	dir = 6
@@ -27571,6 +27605,13 @@
 	name = "nanoweave carpet (puce)"
 	},
 /area/nsv/weapons/fore)
+"usy" = (
+/obj/machinery/light_switch/north{
+	pixel_y = 1;
+	pixel_x = 20
+	},
+/turf/open/floor/durasteel/techfloor_grid,
+/area/nsv/hanger/notkmcstupidhanger/pilot)
 "usN" = (
 /obj/machinery/vending/wardrobe/medi_wardrobe,
 /obj/effect/turf_decal/tile/blue/flat_side{
@@ -30282,7 +30323,7 @@
 /obj/machinery/light,
 /obj/machinery/navbeacon{
 	codes_txt = "patrol;next_patrol=1";
-	location = "4"
+	location = "5"
 	},
 /turf/open/floor/carpet/ship,
 /area/hallway/primary/starboard)
@@ -32086,6 +32127,19 @@
 	},
 /turf/open/floor/plating,
 /area/maintenance/aft)
+"xWK" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=4";
+	location = "2"
+	},
+/turf/open/floor/carpet/ship,
+/area/hallway/upper/primary/port)
 "xXX" = (
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
@@ -32315,6 +32369,7 @@
 /area/engine/engineering)
 "yeH" = (
 /obj/structure/disposalpipe/segment,
+/obj/machinery/airalarm/directional/west,
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/crew_quarters/heads/hor)
 "yfQ" = (
@@ -50857,7 +50912,7 @@ coV
 coV
 vsd
 pzo
-dvg
+qRR
 gom
 qpI
 qpI
@@ -51463,7 +51518,7 @@ coV
 sLc
 coV
 oQh
-dvg
+sjk
 gom
 geU
 tPr
@@ -56718,7 +56773,7 @@ pVT
 wVe
 viN
 oEN
-uZF
+xWK
 gvT
 yhF
 iQt
@@ -60143,7 +60198,7 @@ bXe
 bXe
 hFz
 qeY
-gwr
+usy
 bXe
 gwr
 evf
@@ -62562,7 +62617,7 @@ keL
 wEM
 bWQ
 vcm
-oLI
+pDT
 oLI
 oLI
 oLI
