@@ -27,7 +27,7 @@
 	color = "#EE82EE"
 	smooth = SMOOTH_TRUE
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
-	canSmoothWith = list(/obj/structure/window/fulltile, /obj/structure/window/reinforced/fulltile, /obj/structure/window/reinforced/tinted/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile, /obj/structure/window/depleteduranium/fulltile)
+	canSmoothWith = list(/turf/closed/wall, /obj/machinery/door, /obj/structure/window/fulltile,/obj/structure/window/reinforced/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile, /obj/structure/falsewall)
 	icon_state = "rwindow"
 	icon = 'nsv13/icons/obj/window.dmi'
 
@@ -38,4 +38,4 @@
 	smooth = SMOOTH_TRUE
 	legacy_smooth = TRUE //Override /tg/ iconsmooths
 	icon = 'nsv13/icons/obj/grille.dmi'
-	canSmoothWith = list(/turf/closed/wall,/obj/machinery/door,/obj/structure/window/fulltile,/obj/structure/window/reinforced/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/falsewall)
+	canSmoothWith = list(/turf/closed/wall, /obj/machinery/door, /obj/structure/window/fulltile,/obj/structure/window/reinforced/fulltile, /obj/structure/window/plasma/fulltile, /obj/structure/window/plasma/reinforced/fulltile, /obj/structure/falsewall)
