@@ -136,6 +136,7 @@
 /obj/machinery/computer/ams
 	name = "AMS control console"
 	icon_screen = "ams"
+	desc = "The Anti-Missile System (AMS) is a computer system that can automatically target and fire upon threats to the ship, such as incoming missiles or enemy ships. It can be configured to use different modes, which determine how it selects targets and when it fires. The AMS is an essential part of the ship's defenses, especially against missile attacks."
 	circuit = /obj/item/circuitboard/computer/ams
 
 /obj/machinery/computer/ams/Destroy()

@@ -1,6 +1,7 @@
 //Standard munitions console
 /obj/machinery/computer/ship/munitions_computer
 	name = "munitions control computer"
+	desc = "This console allows you to control and monitor a linked ship weapon. From here, you can perform actions such as loading and unloading the weapon, chambering rounds, and toggling the safety. You can also link and unlink the console from a weapon using a multitool. Make sure to keep an eye on the ammo count and maintenance requirements of your weapon to ensure it operates effectively in combat."
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "munitions_console"
 	density = TRUE

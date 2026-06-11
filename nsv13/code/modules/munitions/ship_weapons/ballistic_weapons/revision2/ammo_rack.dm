@@ -7,6 +7,7 @@
 // Ammo rack control console
 /obj/machinery/computer/ammo_sorter
 	name = "ammo rack control console"
+	desc = "This console allows you to manage and control linked ammo racks. From here, you can monitor the status of each rack, unload them remotely, and rearrange their order. Make sure to keep an eye on the durability of your racks and perform maintenance as needed to prevent jams."
 	icon_screen = "ammorack"
 	circuit = /obj/item/circuitboard/computer/ammo_sorter
 	var/id = null

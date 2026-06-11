@@ -144,6 +144,8 @@
 	return FALSE
 
 /obj/machinery/computer/deckgun
+	name = "Deck Gun Control Console"
+	desc = "A control console for a deck gun. From here, you can monitor the status of the gun and its components, as well as perform actions such as loading shells and powder, and firing the gun. Ensure that the gun is properly loaded and maintained before attempting to fire, as misfires can be dangerous."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "gun_control"
 	icon_screen = "screen_guncontrol"
