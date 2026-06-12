@@ -145,7 +145,7 @@
 
 /obj/machinery/computer/deckgun
 	name = "Deck Gun Control Console"
-	desc = "A control console for a deck gun. From here, you can monitor the status of the gun and its components, as well as perform actions such as loading shells and powder, and firing the gun."
+	desc = "A control console for a deck gun."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "gun_control"
 	icon_screen = "screen_guncontrol"
