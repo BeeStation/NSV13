@@ -2421,7 +2421,7 @@
 
 /datum/supply_pack/critter/cat/exotic
 	name = "Exotic Cat Crate"
-	desc = "Commes with one of the exotic cats, collar and a toy."
+	desc = "Comes with one of the exotic cats, collar and a toy."
 	cost = 5500
 	contains = list(/obj/item/clothing/neck/petcollar,
 					/obj/item/toy/cattoy)
