@@ -124,7 +124,7 @@
 
 /datum/ams_mode/countermeasures
 	name = "Anti-missile countermeasures"
-	desc = "This mode will target oncoming missiles and attempt to counter them with the ship's own missile complement. Recommended for usage exclusively with ECM missiles."
+	desc = "This mode will target oncoming missiles and attempt to counter them with the ship's own missile complement."
 	max_range = 10
 
 //Only aims at locked targets because the previous code was horrendously processing intensive. Anything dangerous will have you locked anyways.
@@ -136,7 +136,7 @@
 /obj/machinery/computer/ams
 	name = "AMS control console"
 	icon_screen = "ams"
-	desc = "The Anti-Missile System (AMS) is a computer system that can automatically target and fire upon threats to the ship, such as incoming missiles or enemy ships. It can be configured to use different modes, which determine how it selects targets and when it fires. The AMS is an essential part of the ship's defenses, especially against missile attacks."
+	desc = "The Anti-Missile System (AMS) is a computer system that can automatically target and fire upon threats to the ship, such as incoming missiles or enemy ships. "
 	circuit = /obj/item/circuitboard/computer/ams
 
 /obj/machinery/computer/ams/Destroy()
