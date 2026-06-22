@@ -24,7 +24,7 @@
 //	add_overlay(progressbar)
 
 /atom/movable/screen/overheat/proc/set_offset(y)
-	bar.transition_filter("alpha_mask_filter", 0.1, list("y" = y), 0, 0,)
+	bar.transition_filter("alpha_mask_filter", 0, list("y" = y), 0, 0,)
 	//filters += filter(type = "alpha", y = y , flags = MASK_INVERSE , icon =  'nsv13/icons/overmap/gui/mask.dmi',  name = "progressbarmask")
 
 

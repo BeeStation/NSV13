@@ -185,7 +185,8 @@
 	if(!static_charge)
 		P.damage *= power_modifier
 	if(thermal)
-		P.damage += P.damage *0.6 * heat/max_heat
+		P.damage += P.damage *0.7 * heat/max_heat
+		P.transform *= 500*heat/max_heat
 
 /obj/machinery/ship_weapon/energy/process()
 	process_heat()
@@ -268,6 +269,8 @@
 
 
 /obj/machinery/ship_weapon/energy/after_fire()
+	if(maintainable)
+		linked_overmap_ship_weapon.overheat_hud.set_offset((100-(((max_heat-heat)/(max_heat)) *100)))
 	if(maint_state != MSTATE_CLOSED) //MSTATE_CLOSED
 		tesla_zap(src, 4, 1000) //Munitions Officer definitely had the best uniform
 		for(var/mob/living/carbon/C in orange(4, src))
@@ -283,10 +286,9 @@
 	if(!maintainable)
 		return
 	cooling_amount = 0
-//	update_hud()
+	linked_overmap_ship_weapon.overheat_hud.set_offset((100-(((max_heat-heat)/(max_heat)) *100)))
 	if(!linked_overmap_ship_weapon)
 		return
-	linked_overmap_ship_weapon.overheat_hud.set_offset((100-(((max_heat-heat)/(max_heat)) *100)))
 	for(var/obj/machinery/cooling/cooler/C in cooling)
 		if(!(C.machine_stat & (BROKEN|NOPOWER|MAINT)))
 			cooling_amount++
@@ -316,8 +318,9 @@
 	if(heat >= max_heat)
 		overload()
 
-/*/obj/machinery/ship_weapon/energy/proc/update_hud
-	linked_overmap_ship_weapon.overheat_hud.cut_overlay()
+///obj/machinery/ship_weapon/energy/proc/update_hud
+//	linked_overmap_ship_weapon.overheat_hud.set_offset((100-(((max_heat-heat)/(max_heat)) *100)))
+/*	linked_overmap_ship_weapon.overheat_hud.cut_overlay()
 	var/progress
 	switch(((max_heat-heat)/(max_heat) *100))
 		if(0 to 10)
