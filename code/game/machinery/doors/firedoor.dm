@@ -856,9 +856,6 @@
 /obj/structure/firelock_frame/window/update_icon()
 	return
 
-
-
-
 #undef CONSTRUCTION_COMPLETE
 #undef CONSTRUCTION_PANEL_OPEN
 #undef CONSTRUCTION_WIRES_EXPOSED

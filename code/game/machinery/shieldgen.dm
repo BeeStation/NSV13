@@ -16,6 +16,10 @@
 	setDir(pick(GLOB.cardinals))
 	air_update_turf(1)
 
+/obj/structure/emergency_shield/Destroy()
+	air_update_turf()
+	. = ..()
+
 /obj/structure/emergency_shield/Move()
 	var/turf/T = loc
 	. = ..()
@@ -536,6 +540,7 @@
 	req_access = list()
 	locked = FALSE
 	shield_range = 8
+	var/breachalert = 0
 	layer = WALL_OBJ_LAYER
 	wire_compatible = FALSE
 
@@ -549,7 +554,7 @@
 	desc = "A holofield generator designed for use in hangar bays."
 	circuit = /obj/item/circuitboard/machine/shieldwallgen/atmos/strong
 	shield_range = 20
-	active_power_usage = 1000
+	active_power_usage = 20000
 
 /obj/machinery/power/shieldwallgen/atmos/strong/roundstart
 	anchored = TRUE
@@ -614,9 +619,6 @@
 
 		turf = get_step(turf, direction)
 
-#undef SHIELD_NOTACTIVE
-#undef SHIELD_SETUPFIELDS
-#undef SHIELD_HASFIELDS
 
 //////////////Containment Field START
 /obj/machinery/shieldwall
@@ -709,9 +711,114 @@
 	light_color = "#61a3ff"
 	light_system = MOVABLE_LIGHT //for instant visual feedback regardless of lag
 	//Atmos shields suck more power
-	active_power_usage = 500
+	active_power_usage = 10000
 
 
 /obj/machinery/shieldwall/atmos/Initialize(mapload)
 	. = ..()
 	air_update_turf(TRUE)
+
+/obj/machinery/power/shieldwallgen/atmos/toggle()
+	if(!anchored)
+		return
+	if(!is_operational)
+		return
+	if(shieldstate)
+		visible_message("<span class= 'notice'>The [src.name] hums as it powers down.</span>", \
+			"If this message is ever seen, something is wrong.", \
+			"<span class= 'notice'>You hear heavy droning fade out.</span>")
+		playsound(src, 'sound/machines/synth_no.ogg', 50, TRUE, frequency = 6120)
+		shieldstate = SHIELD_NOTACTIVE
+		breachalert = 0
+		log_game("[src] was deactivated by wire pulse at [AREACOORD(src)]")
+	else
+		visible_message("<span class= 'notice'>The [src.name] beeps as it powers up.</span>", \
+			"If this message is ever seen, something is wrong.", \
+			"<span class= 'notice'>You hear heavy droning.</span>")
+		shieldstate = SHIELD_SETUPFIELDS
+		breachalert = 1
+		log_game("[src] was activated by wire pulse at [AREACOORD(src)]")
+
+/obj/machinery/shieldwall/atmos/drain_power(drain_amount)
+	if(needs_power && gen_primary)
+		gen_primary.use_power(drain_amount * 1)
+		if(gen_secondary) //using power may cause us to be destroyed
+			gen_secondary.use_power(drain_amount * 1)
+
+/obj/machinery/power/shieldwallgen/atmos/process()
+	if(shieldstate)
+		if(shieldstate == SHIELD_SETUPFIELDS)
+			fields = 0
+			for(var/direction in GLOB.cardinals)
+				if(setup_field(direction))
+					fields++
+			if(fields)
+				shieldstate = SHIELD_HASFIELDS
+		if(is_operational)	//I'm in the dark about this. my brain no work
+			use_power(active_power_usage)
+		else
+			visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", \
+				"If this message is ever seen, something is wrong.",
+				"<span class='hear'>You hear heavy droning fade out.</span>")
+			shieldstate = SHIELD_NOTACTIVE
+			log_game("[src] deactivated due to lack of power at [AREACOORD(src)]")
+			for(var/direction in GLOB.cardinals)
+				cleanup_field(direction)
+	else
+		for(var/direction in GLOB.cardinals)
+			cleanup_field(direction)
+	update_appearance()
+
+/obj/machinery/power/shieldwallgen/atmos/interact(mob/user)
+	. = ..()
+	if(.)
+		return
+	if(shocked && !(machine_stat & NOPOWER))
+		shock(user,50)
+		return
+	if(!anchored)
+		to_chat(user, "<span class='warning'>\The [src] needs to be firmly secured to the floor first!</span>")
+		return
+	if(locked && !issilicon(user))
+		to_chat(user, "<span class='warning'>The controls are locked!</span>")
+		return
+	if(!is_operational)
+		to_chat(user, "<span class='warning'>\The [src] needs to be powered!</span>")
+		return
+
+	if(shieldstate)
+		user.visible_message("[user] turned \the [src] off.", \
+			"<span class='notice'>You turn off \the [src].</span>", \
+			"<span class='italics'>You hear heavy droning fade out.</span>")
+		shieldstate = SHIELD_NOTACTIVE
+		breachalert = 0
+	else
+		user.visible_message("[user] turned \the [src] on.", \
+			"<span class='notice'>You turn on \the [src].</span>", \
+			"<span class='italics'>You hear heavy droning.</span>")
+		shieldstate = SHIELD_SETUPFIELDS
+		breachalert = 1
+	add_fingerprint(user)
+
+/obj/machinery/power/shieldwallgen/atmos/power_change()
+	if(powered(power_channel))
+		set_machine_stat(machine_stat & ~NOPOWER)
+		INVOKE_ASYNC(src, PROC_REF(latetoggle))
+	else
+		set_machine_stat(machine_stat | NOPOWER)
+
+
+/obj/machinery/power/shieldwallgen/atmos/proc/latetoggle()
+	if(machine_stat & NOPOWER || !breachalert)
+		return
+	else
+		rapidsetup()
+
+/obj/machinery/shieldwall/atmos/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
+	. = ..()
+	if(damage_type == BRUTE || damage_type == BURN)
+		drain_power(damage_amount*1000)
+
+#undef SHIELD_NOTACTIVE
+#undef SHIELD_SETUPFIELDS
+#undef SHIELD_HASFIELDS
