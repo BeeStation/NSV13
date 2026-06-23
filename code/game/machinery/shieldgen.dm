@@ -551,10 +551,10 @@
 
 /obj/machinery/power/shieldwallgen/atmos/strong //these are for ruins and large hangars, try to not use them on ships
 	name = "high power atmospheric barrier generator"
-	desc = "A holofield generator designed for use in hangar bays."
+	desc = "A barrier generator designed for use in hangar bays."
 	circuit = /obj/item/circuitboard/machine/shieldwallgen/atmos/strong
 	shield_range = 20
-	active_power_usage = 20000
+	active_power_usage = 10000
 
 /obj/machinery/power/shieldwallgen/atmos/strong/roundstart
 	anchored = TRUE
@@ -716,7 +716,7 @@
 	light_color = "#61a3ff"
 	light_system = MOVABLE_LIGHT //for instant visual feedback regardless of lag
 	//Atmos shields suck more power
-	active_power_usage = 10000
+	active_power_usage = 5000
 
 
 /obj/machinery/shieldwall/atmos/Initialize(mapload)
