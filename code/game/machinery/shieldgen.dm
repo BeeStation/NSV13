@@ -307,7 +307,7 @@
 	update_appearance()
 
 /obj/machinery/power/shieldwallgen/proc/rapidsetup()
-	if(is_operational & !shieldstate)
+	if(buffer & !shieldstate)
 		for(var/direction in GLOB.cardinals)
 			setup_field(direction)
 			fields++
@@ -754,7 +754,7 @@
 			gen_secondary.buffer -= drain_amount
 
 /obj/machinery/power/shieldwallgen/atmos/process()
-	if(is_operational)	//I'm in the dark about this. my brain no work
+	if(is_operational & buffer <= max_buffer )	//I'm in the dark about this. my brain no work
 		use_power(active_power_usage)
 		buffer = clamp(buffer + 11, 0, max_buffer)
 	if(shieldstate)
