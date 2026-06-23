@@ -240,6 +240,8 @@
 	var/shocked = FALSE
 	var/list/affecting_areas
 	var/fields = 0
+	var/buffer = 3000
+	var/max_buffer = 3000
 	var/obj/structure/cable/attached // the attached cable
 
 /obj/machinery/power/shieldwallgen/Initialize(mapload)
@@ -442,7 +444,6 @@
 	if(!powernet)
 		to_chat(user, "<span class='warning'>\The [src] needs to be powered by a wire!</span>")
 		return
-
 	if(shieldstate)
 		user.visible_message("[user] turned \the [src] off.", \
 			"<span class='notice'>You turn off \the [src].</span>", \
@@ -726,7 +727,7 @@
 /obj/machinery/power/shieldwallgen/atmos/toggle()
 	if(!anchored)
 		return
-	if(!is_operational)
+	if(buffer <= 0)
 		return
 	if(shieldstate)
 		visible_message("<span class= 'notice'>The [src.name] hums as it powers down.</span>", \
@@ -747,10 +748,15 @@
 /obj/machinery/shieldwall/atmos/drain_power(drain_amount)
 	if(needs_power && gen_primary)
 		gen_primary.use_power(drain_amount * 1)
+		gen_primary.buffer -= drain_amount
 		if(gen_secondary) //using power may cause us to be destroyed
 			gen_secondary.use_power(drain_amount * 1)
+			gen_secondary.buffer -= drain_amount
 
 /obj/machinery/power/shieldwallgen/atmos/process()
+	if(is_operational)	//I'm in the dark about this. my brain no work
+		use_power(active_power_usage)
+		buffer = clamp(buffer + 11, 0, max_buffer)
 	if(shieldstate)
 		if(shieldstate == SHIELD_SETUPFIELDS)
 			fields = 0
@@ -759,8 +765,7 @@
 					fields++
 			if(fields)
 				shieldstate = SHIELD_HASFIELDS
-		if(is_operational)	//I'm in the dark about this. my brain no work
-			use_power(active_power_usage)
+		if(buffer > 10)
 		else
 			visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", \
 				"If this message is ever seen, something is wrong.",
@@ -790,7 +795,9 @@
 	if(!is_operational)
 		to_chat(user, "<span class='warning'>\The [src] needs to be powered!</span>")
 		return
-
+	if(buffer <= 25)
+		to_chat(user, "<span class='warning'>\The [src] is completely depleted!</span>")
+		return
 	if(shieldstate)
 		user.visible_message("[user] turned \the [src] off.", \
 			"<span class='notice'>You turn off \the [src].</span>", \
@@ -823,6 +830,14 @@
 	. = ..()
 	if(damage_type == BRUTE || damage_type == BURN)
 		drain_power(damage_amount*1000)
+
+/obj/machinery/shieldwall/atmos/process()
+	if(needs_power)
+		if(!gen_primary || !gen_primary.shieldstate || !gen_secondary || !gen_secondary.shieldstate)
+			qdel(src)
+			return
+
+		drain_power(1)
 
 #undef SHIELD_NOTACTIVE
 #undef SHIELD_SETUPFIELDS
