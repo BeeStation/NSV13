@@ -710,6 +710,7 @@
 	icon = 'nsv13/icons/obj/smooth_structures/atmosshield.dmi'
 	icon_state = "atmosshield-3"
 	density = FALSE
+	use_power = NO_POWER_USE
 	CanAtmosPass = ATMOS_PASS_NO
 	CanAtmosPassVertical = 1
 	hardshield = FALSE
@@ -780,7 +781,14 @@
 	update_appearance()
 
 /obj/machinery/power/shieldwallgen/atmos/interact(mob/user)
-	. = ..()
+	if(interaction_flags_atom & INTERACT_ATOM_NO_FINGERPRINT_INTERACT)
+		add_hiddenprint(user)
+	else
+		add_fingerprint(user)
+	if(interaction_flags_atom & INTERACT_ATOM_UI_INTERACT)
+		return ui_interact(user)
+	if(interaction_flags_machine & INTERACT_MACHINE_SET_MACHINE)
+		user.set_machine(src)
 	if(.)
 		return
 	if(shocked && !(machine_stat & NOPOWER))
@@ -821,7 +829,7 @@
 
 
 /obj/machinery/power/shieldwallgen/atmos/proc/latetoggle()
-	if(machine_stat & NOPOWER || !breachalert)
+	if(!buffer || !breachalert)
 		return
 	else
 		rapidsetup()
