@@ -561,6 +561,11 @@
 	shieldstate = SHIELD_SETUPFIELDS
 	active_power_usage = 0
 
+/obj/machinery/power/shieldwallgen/ruin
+	anchored = TRUE
+	shieldstate = SHIELD_SETUPFIELDS
+	active_power_usage = 0
+
 /obj/machinery/power/shieldwallgen/atmos/ComponentInitialize()
 	. = ..()
 	AddComponent(/datum/component/simple_rotation, ROTATION_ALTCLICK | ROTATION_CLOCKWISE | ROTATION_COUNTERCLOCKWISE | ROTATION_VERBS, null, CALLBACK(src, PROC_REF(can_be_rotated)))
