@@ -449,7 +449,7 @@
 		to_chat(user, "<span class='warning'>\The [src] needs to be powered by a wire!</span>")
 		return
 	if(shieldstate)
-			visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", blind_message = "<span class='hear'>You hear heavy droning fade out.</span>")
+		visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", blind_message = "<span class='hear'>You hear heavy droning fade out.</span>")
 		shieldstate = SHIELD_NOTACTIVE
 	else
 		user.visible_message("[user] turned \the [src] on.", \
@@ -541,7 +541,7 @@
 	shield_range = 10
 	var/breachalert = FALSE
 	layer = WALL_OBJ_LAYER
-	hardshielding = FALSE
+	hardshielded = FALSE
 
 /obj/machinery/power/shieldwallgen/atmos/roundstart
 	anchored = TRUE
@@ -704,8 +704,8 @@
 			gen_secondary.add_load(drain_amount * 0.5)
 
 /obj/machinery/shieldwall/proc/block_singularity()
+	SIGNAL_HANDLER
 	if(hardshield)
-		SIGNAL_HANDLER
 		return SINGULARITY_TRY_MOVE_BLOCK
 
 
@@ -791,7 +791,7 @@
 		to_chat(user, "<span class='warning'>\The [src] is completely depleted!</span>")
 		return
 	if(shieldstate)
-			visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", blind_message = "<span class='hear'>You hear heavy droning fade out.</span>")
+		visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", blind_message = "<span class='hear'>You hear heavy droning fade out.</span>")
 		shieldstate = SHIELD_NOTACTIVE
 		breachalert = 0
 	else
