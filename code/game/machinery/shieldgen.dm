@@ -753,7 +753,7 @@
 /obj/machinery/power/shieldwallgen/atmos/process()
 	if(is_operational && buffer <= max_buffer )	//I'm in the dark about this. my brain no work
 		use_power(active_power_usage)
-		buffer = clamp(buffer + 11, 0, max_buffer)
+		buffer = clamp(buffer + (shield_range + 1), 0, max_buffer)
 	if(shieldstate)
 		if(shieldstate == SHIELD_SETUPFIELDS)
 			fields = 0
