@@ -219,6 +219,7 @@
 #define SHIELD_NOTACTIVE 0
 #define SHIELD_SETUPFIELDS 1
 #define SHIELD_HASFIELDS 2
+#define SHIELD_MIN_BUFFER 25
 
 /obj/machinery/power/shieldwallgen
 	name = "shield wall generator"
@@ -243,7 +244,7 @@
 	var/fields = 0
 	var/buffer = 3000
 	var/max_buffer = 3000
-	var/hardshielding = TRUE
+	var/hardshielded = TRUE
 
 /obj/machinery/power/shieldwallgen/Initialize(mapload)
 	. = ..()
@@ -296,9 +297,7 @@
 		if(!active_power_usage || surplus() >= active_power_usage)
 			add_load(active_power_usage)
 		else
-			visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", \
-				"If this message is ever seen, something is wrong.",
-				"<span class='hear'>You hear heavy droning fade out.</span>")
+			visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", blind_message = "<span class='hear'>You hear heavy droning fade out.</span>")
 			shieldstate = SHIELD_NOTACTIVE
 			log_game("[src] deactivated due to lack of power at [AREACOORD(src)]")
 			for(var/direction in GLOB.cardinals)
@@ -450,9 +449,7 @@
 		to_chat(user, "<span class='warning'>\The [src] needs to be powered by a wire!</span>")
 		return
 	if(shieldstate)
-		user.visible_message("[user] turned \the [src] off.", \
-			"<span class='notice'>You turn off \the [src].</span>", \
-			"<span class='italics'>You hear heavy droning fade out.</span>")
+			visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", blind_message = "<span class='hear'>You hear heavy droning fade out.</span>")
 		shieldstate = SHIELD_NOTACTIVE
 	else
 		user.visible_message("[user] turned \the [src] on.", \
@@ -467,18 +464,14 @@
 	if(!powernet)
 		return
 	if(shieldstate)
-		visible_message("<span class= 'notice'>The [src.name] hums as it powers down.</span>", \
-			"If this message is ever seen, something is wrong.", \
-			"<span class= 'notice'>You hear heavy droning fade out.</span>")
+		visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", blind_message = "<span class='hear'>You hear heavy droning fade out.</span>")
 		playsound(src, 'sound/machines/synth_no.ogg', 50, TRUE, frequency = 6120)
 		shieldstate = SHIELD_NOTACTIVE
-		log_game("[src] was deactivated by wire pulse at [AREACOORD(src)]")
+		log_game("[src] was deactivated by toggle at [AREACOORD(src)]")
 	else
-		visible_message("<span class= 'notice'>The [src.name] beeps as it powers up.</span>", \
-			"If this message is ever seen, something is wrong.", \
-			"<span class= 'notice'>You hear heavy droning.</span>")
+		visible_message("<span class= 'notice'>The [src.name] beeps as it powers up.</span>", blind_message = "<span class= 'notice'>You hear heavy droning.</span>")
 		shieldstate = SHIELD_SETUPFIELDS
-		log_game("[src] was activated by wire pulse at [AREACOORD(src)]")
+		log_game("[src] was activated by toggle at [AREACOORD(src)]")
 
 /obj/machinery/power/shieldwallgen/emag_act(mob/user)
 	..()
@@ -543,7 +536,7 @@
 	circuit = /obj/item/circuitboard/machine/shieldwallgen/atmos
 	anchored = FALSE
 	density = FALSE
-	req_access = list(24)
+	req_access = list(ACCESS_ATMOSPHERICS)
 	locked = TRUE
 	shield_range = 10
 	var/breachalert = FALSE
@@ -675,7 +668,7 @@
 			visible_message("<span class='danger'>\The [src] is suddenly occupying the same space as \the [victim]!</span>")
 			victim.investigate_log("has been gibbed by [src].", ADMIN_INVESTIGATE_TARGET)
 			victim.gib()
-	RegisterSignal(src, COMSIG_ATOM_SINGULARITY_TRY_MOVE, PROC_REF(block_singularity))
+		RegisterSignal(src, COMSIG_ATOM_SINGULARITY_TRY_MOVE, PROC_REF(block_singularity))
 
 /obj/machinery/shieldwall/Destroy()
 	gen_primary = null
@@ -711,8 +704,12 @@
 			gen_secondary.add_load(drain_amount * 0.5)
 
 /obj/machinery/shieldwall/proc/block_singularity()
-	SIGNAL_HANDLER
-	return SINGULARITY_TRY_MOVE_BLOCK
+	if(hardshield)
+		SIGNAL_HANDLER
+		return SINGULARITY_TRY_MOVE_BLOCK
+
+
+
 
 /obj/machinery/shieldwall/CanAllowThrough(atom/movable/mover, turf/target)
 	. = ..()
@@ -733,23 +730,19 @@
 /obj/machinery/power/shieldwallgen/atmos/toggle()
 	if(!anchored)
 		return
-	if(buffer <= 0)
+	if(buffer <= SHIELD_MIN_BUFFER)
 		return
 	if(shieldstate)
-		visible_message("<span class= 'notice'>The [src.name] hums as it powers down.</span>", \
-			"If this message is ever seen, something is wrong.", \
-			"<span class= 'notice'>You hear heavy droning fade out.</span>")
+		visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", blind_message = "<span class='hear'>You hear heavy droning fade out.</span>")
 		playsound(src, 'sound/machines/synth_no.ogg', 50, TRUE, frequency = 6120)
 		shieldstate = SHIELD_NOTACTIVE
 		breachalert = FALSE
-		log_game("[src] was deactivated by wire pulse at [AREACOORD(src)]")
+		log_game("[src] was deactivated by toggle at [AREACOORD(src)]")
 	else
-		visible_message("<span class= 'notice'>The [src.name] beeps as it powers up.</span>", \
-			"If this message is ever seen, something is wrong.", \
-			"<span class= 'notice'>You hear heavy droning.</span>")
+		visible_message("<span class= 'notice'>The [src.name] beeps as it powers up.</span>", blind_message = "<span class= 'notice'>You hear heavy droning.</span>")
 		shieldstate = SHIELD_SETUPFIELDS
 		breachalert = TRUE
-		log_game("[src] was activated by wire pulse at [AREACOORD(src)]")
+		log_game("[src] was activated by toggle at [AREACOORD(src)]")
 
 /obj/machinery/shieldwall/atmos/drain_power(drain_amount)
 	if(needs_power && gen_primary)
@@ -769,11 +762,8 @@
 					fields++
 			if(fields)
 				shieldstate = SHIELD_HASFIELDS
-		if(buffer > 10)
-		else
-			visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", \
-				"If this message is ever seen, something is wrong.",
-				"<span class='hear'>You hear heavy droning fade out.</span>")
+		if(buffer <= SHIELD_MIN_BUFFER)
+			visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", blind_message = "<span class='hear'>You hear heavy droning fade out.</span>")
 			shieldstate = SHIELD_NOTACTIVE
 			log_game("[src] deactivated due to lack of power at [AREACOORD(src)]")
 			for(var/direction in GLOB.cardinals)
@@ -797,13 +787,11 @@
 	if(!is_operational)
 		to_chat(user, "<span class='warning'>\The [src] needs to be powered!</span>")
 		return
-	if(buffer <= 25)
+	if(buffer <= SHIELD_MIN_BUFFER)
 		to_chat(user, "<span class='warning'>\The [src] is completely depleted!</span>")
 		return
 	if(shieldstate)
-		user.visible_message("[user] turned \the [src] off.", \
-			"<span class='notice'>You turn off \the [src].</span>", \
-			"<span class='italics'>You hear heavy droning fade out.</span>")
+			visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", blind_message = "<span class='hear'>You hear heavy droning fade out.</span>")
 		shieldstate = SHIELD_NOTACTIVE
 		breachalert = 0
 	else
