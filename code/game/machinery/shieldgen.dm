@@ -785,8 +785,6 @@
 
 /obj/machinery/power/shieldwallgen/atmos/interact(mob/user)
 	.=..()
-	if(.)
-		return
 	if(shocked && !(machine_stat & NOPOWER))
 		shock(user,50)
 		return

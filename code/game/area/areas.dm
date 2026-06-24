@@ -378,10 +378,11 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 					var/area/area2 = b
 					if(area2.fire)
 						break
-			if(eachshield.buffer && opening & eachshield.shieldstate > 0)
-				INVOKE_ASYNC(eachshield.toggle())
-			else if(eachshield.buffer & eachshield.shieldstate == 0)
-				INVOKE_ASYNC(eachshield.toggle())
+			if(eachshield.buffer)
+				if(opening && eachshield.shieldstate > 0)
+					INVOKE_ASYNC(eachshield.toggle())
+				else if(eachshield.buffer && eachshield.shieldstate == 0)
+					INVOKE_ASYNC(eachshield.toggle())
 
 /area/proc/shieldsup()
 	for(var/obj/machinery/power/shieldwallgen/atmos/shield in atmosshields)
