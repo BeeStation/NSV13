@@ -372,22 +372,21 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 
 /area/proc/ModifyAtmosshields(opening)
 	if(atmosshields)
-		for(var/eachshield in atmosshields)
-			var/obj/machinery/power/shieldwallgen/atmos/shield = eachshield
+		for(var/obj/machinery/power/shieldwallgen/atmos/eachshield in atmosshields)
 			if(opening)
-				for(var/b in shield.affecting_areas)
+				for(var/b in eachshield.affecting_areas)
 					var/area/area2 = b
 					if(area2.fire)
 						break
-			if(shield.is_operational & opening & shield.shieldstate > 0)
-				INVOKE_ASYNC(shield.toggle())
-			else if(shield.is_operational & shield.shieldstate == 0)
-				INVOKE_ASYNC(shield.toggle())
+			if(eachshield.buffer && opening & eachshield.shieldstate > 0)
+				INVOKE_ASYNC(eachshield.toggle())
+			else if(eachshield.buffer & eachshield.shieldstate == 0)
+				INVOKE_ASYNC(eachshield.toggle())
 
 /area/proc/shieldsup()
 	for(var/obj/machinery/power/shieldwallgen/atmos/shield in atmosshields)
 		shield.rapidsetup()
-		shield.breachalert = 1
+		shield.breachalert = TRUE
 
 /**
   * Generate an firealarm alert for this area

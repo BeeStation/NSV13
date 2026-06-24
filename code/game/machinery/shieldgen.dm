@@ -17,7 +17,7 @@
 	air_update_turf(1)
 
 /obj/structure/emergency_shield/Destroy()
-	air_update_turf()
+	air_update_turf(1)
 	. = ..()
 
 /obj/structure/emergency_shield/Move()
@@ -97,7 +97,7 @@
 
 /obj/machinery/shieldgen/proc/shields_up()
 	active = TRUE
-	update_appearance()
+	update_icon()
 	move_resist = INFINITY
 
 	for(var/turf/open/space/target_tile in RANGE_TURFS(shield_range, src))
@@ -108,7 +108,7 @@
 /obj/machinery/shieldgen/proc/shields_down()
 	active = FALSE
 	move_resist = initial(move_resist)
-	update_appearance()
+	update_icon()
 	QDEL_LIST(deployed_shields)
 
 /obj/machinery/shieldgen/process(delta_time)
@@ -307,11 +307,14 @@
 	update_appearance()
 
 /obj/machinery/power/shieldwallgen/proc/rapidsetup()
-	if(buffer & !shieldstate)
+	if(buffer && !shieldstate)
 		for(var/direction in GLOB.cardinals)
 			setup_field(direction)
 			fields++
-			shieldstate = SHIELD_HASFIELDS
+			if(fields)
+				shieldstate = SHIELD_HASFIELDS
+			else
+				shieldstate = FALSE
 
 /obj/machinery/power/shieldwallgen/update_icon_state()
 	if(shieldstate)
@@ -755,7 +758,7 @@
 			gen_secondary.buffer -= drain_amount
 
 /obj/machinery/power/shieldwallgen/atmos/process()
-	if(is_operational & buffer <= max_buffer )	//I'm in the dark about this. my brain no work
+	if(is_operational && buffer <= max_buffer )	//I'm in the dark about this. my brain no work
 		use_power(active_power_usage)
 		buffer = clamp(buffer + 11, 0, max_buffer)
 	if(shieldstate)
@@ -781,14 +784,7 @@
 	update_appearance()
 
 /obj/machinery/power/shieldwallgen/atmos/interact(mob/user)
-	if(interaction_flags_atom & INTERACT_ATOM_NO_FINGERPRINT_INTERACT)
-		add_hiddenprint(user)
-	else
-		add_fingerprint(user)
-	if(interaction_flags_atom & INTERACT_ATOM_UI_INTERACT)
-		return ui_interact(user)
-	if(interaction_flags_machine & INTERACT_MACHINE_SET_MACHINE)
-		user.set_machine(src)
+	.=..()
 	if(.)
 		return
 	if(shocked && !(machine_stat & NOPOWER))
