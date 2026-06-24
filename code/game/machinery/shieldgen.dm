@@ -84,6 +84,7 @@
 	var/locked = FALSE
 	var/shield_range = 4
 
+
 /obj/machinery/shieldgen/Initialize(mapload)
 	. = ..()
 	deployed_shields = list()
@@ -228,7 +229,7 @@
 	density = TRUE
 	req_access = list(ACCESS_TELEPORTER)
 	flags_1 = CONDUCT_1
-	use_power = IDLE_POWER_USE
+	use_power = NO_POWER_USE
 	idle_power_usage = 10
 	active_power_usage = 50
 	circuit = /obj/item/circuitboard/machine/shieldwallgen
@@ -242,11 +243,12 @@
 	var/fields = 0
 	var/buffer = 3000
 	var/max_buffer = 3000
-	var/obj/structure/cable/attached // the attached cable
+	var/hardshielding = TRUE
 
 /obj/machinery/power/shieldwallgen/Initialize(mapload)
 	. = ..()
-	RegisterSignal(src, COMSIG_ATOM_SINGULARITY_TRY_MOVE, PROC_REF(block_singularity_if_active))
+	if(hardshielded == TRUE)
+		RegisterSignal(src, COMSIG_ATOM_SINGULARITY_TRY_MOVE, PROC_REF(block_singularity_if_active))
 
 /obj/machinery/power/shieldwallgen/xenobiologyaccess //use in xenobiology containment
 	name = "xenobiology shield wall generator"
@@ -541,17 +543,16 @@
 	circuit = /obj/item/circuitboard/machine/shieldwallgen/atmos
 	anchored = FALSE
 	density = FALSE
-	req_access = list()
-	locked = FALSE
-	shield_range = 8
-	var/breachalert = 0
+	req_access = list(24)
+	locked = TRUE
+	shield_range = 10
+	var/breachalert = FALSE
 	layer = WALL_OBJ_LAYER
-	wire_compatible = FALSE
+	hardshielding = FALSE
 
 /obj/machinery/power/shieldwallgen/atmos/roundstart
 	anchored = TRUE
 	shieldstate = SHIELD_SETUPFIELDS
-	active_power_usage = 0
 
 /obj/machinery/power/shieldwallgen/atmos/strong //these are for ruins and large hangars, try to not use them on ships
 	name = "high power atmospheric barrier generator"
@@ -563,7 +564,6 @@
 /obj/machinery/power/shieldwallgen/atmos/strong/roundstart
 	anchored = TRUE
 	shieldstate = SHIELD_SETUPFIELDS
-	active_power_usage = 0
 
 /obj/machinery/power/shieldwallgen/ruin
 	anchored = TRUE
@@ -592,7 +592,7 @@
 	var/steps = 0
 	var/opposite_direction = turn(direction, 180)
 
-	for(var/i in 1 to shield_range) //checks out to 8 tiles away for another generator
+	for(var/i in 1 to shield_range) //checks out to 10 tiles away for another generator
 		turf = get_step(turf, direction)
 		generator = locate(/obj/machinery/power/shieldwallgen/atmos) in turf
 		if(generator)
@@ -644,6 +644,23 @@
 	var/hardshield = TRUE
 	var/obj/machinery/power/shieldwallgen/gen_primary
 	var/obj/machinery/power/shieldwallgen/gen_secondary
+
+//atmos blocking shieldwalls for shiptest use
+/obj/machinery/shieldwall/atmos
+	name = "atmospheric barrier"
+	desc = "An energy shield capable of blocking gas movement."
+	icon = 'nsv13/icons/obj/smooth_structures/atmosshield.dmi'
+	icon_state = "atmosshield-3"
+	density = FALSE
+	use_power = NO_POWER_USE
+	CanAtmosPass = ATMOS_PASS_NO
+	CanAtmosPassVertical = 0
+	hardshield = FALSE
+	layer = ABOVE_MOB_LAYER
+	light_color = "#61a3ff"
+	light_system = MOVABLE_LIGHT //for instant visual feedback regardless of lag
+	//Atmos shields suck more power
+	active_power_usage = 5000
 
 
 /obj/machinery/shieldwall/Initialize(mapload, obj/machinery/power/shieldwallgen/first_gen, obj/machinery/power/shieldwallgen/second_gen)
@@ -706,22 +723,7 @@
 			if(istype(mover, /obj/item/projectile))
 				return prob(10)
 
-//atmos blocking shieldwalls for shiptest use
-/obj/machinery/shieldwall/atmos
-	name = "atmospheric barrier"
-	desc = "An energy shield capable of blocking gas movement."
-	icon = 'nsv13/icons/obj/smooth_structures/atmosshield.dmi'
-	icon_state = "atmosshield-3"
-	density = FALSE
-	use_power = NO_POWER_USE
-	CanAtmosPass = ATMOS_PASS_NO
-	CanAtmosPassVertical = 1
-	hardshield = FALSE
-	layer = ABOVE_MOB_LAYER
-	light_color = "#61a3ff"
-	light_system = MOVABLE_LIGHT //for instant visual feedback regardless of lag
-	//Atmos shields suck more power
-	active_power_usage = 5000
+
 
 
 /obj/machinery/shieldwall/atmos/Initialize(mapload)
@@ -739,22 +741,20 @@
 			"<span class= 'notice'>You hear heavy droning fade out.</span>")
 		playsound(src, 'sound/machines/synth_no.ogg', 50, TRUE, frequency = 6120)
 		shieldstate = SHIELD_NOTACTIVE
-		breachalert = 0
+		breachalert = FALSE
 		log_game("[src] was deactivated by wire pulse at [AREACOORD(src)]")
 	else
 		visible_message("<span class= 'notice'>The [src.name] beeps as it powers up.</span>", \
 			"If this message is ever seen, something is wrong.", \
 			"<span class= 'notice'>You hear heavy droning.</span>")
 		shieldstate = SHIELD_SETUPFIELDS
-		breachalert = 1
+		breachalert = TRUE
 		log_game("[src] was activated by wire pulse at [AREACOORD(src)]")
 
 /obj/machinery/shieldwall/atmos/drain_power(drain_amount)
 	if(needs_power && gen_primary)
-		gen_primary.use_power(drain_amount * 1)
 		gen_primary.buffer -= drain_amount
 		if(gen_secondary) //using power may cause us to be destroyed
-			gen_secondary.use_power(drain_amount * 1)
 			gen_secondary.buffer -= drain_amount
 
 /obj/machinery/power/shieldwallgen/atmos/process()
@@ -784,7 +784,7 @@
 	update_appearance()
 
 /obj/machinery/power/shieldwallgen/atmos/interact(mob/user)
-	.=..()
+	add_fingerprint(user)
 	if(shocked && !(machine_stat & NOPOWER))
 		shock(user,50)
 		return
