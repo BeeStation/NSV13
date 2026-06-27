@@ -7,6 +7,7 @@
 // Ammo rack control console
 /obj/machinery/computer/ammo_sorter
 	name = "ammo rack control console"
+	desc = "This console allows you to manage and control linked ammo racks. From here, you can monitor the status of each rack, unload them remotely, and rearrange their order."
 	icon_screen = "ammorack"
 	circuit = /obj/item/circuitboard/computer/ammo_sorter
 	var/id = null
@@ -117,7 +118,7 @@
 // The ammo rack itself
 /obj/machinery/ammo_sorter
 	name = "Ammo Rack"
-	desc = "A machine that allows you to compartmentalise your ship's ammo stores, controlled by a central console. Drag and drop items onto it to load them."
+	desc = "A machine that allows you to compartmentalise the ship's ammo stores, controlled by a central console."
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "ammorack"
 	circuit = /obj/item/circuitboard/machine/ammo_sorter
