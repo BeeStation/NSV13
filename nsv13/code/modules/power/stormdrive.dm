@@ -227,7 +227,7 @@ Control Rods
 						to_chat(user, "<span class='notice'>You begin mounting the [I.name] to the reactor control coupling...</span>")
 						to_chat(user, "<span class='danger'>A blue glow envelopes your hands!</span>")
 						control_rod_installation = TRUE
-						empulse(3, 5)
+						empulse(src, 3, 5)
 						user.radiation += 250 * radiation_modifier
 						radiation_pulse(src, 1000 * radiation_modifier, 5)
 						playsound(src, 'sound/items/welder.ogg', 100, TRUE) //temp - find a better sound
@@ -239,7 +239,7 @@ Control Rods
 						control_rods += I
 						I.forceMove(src)
 						update_icon()
-						empulse(3, 5)
+						empulse(src, 3, 5)
 						user.radiation += 250 * radiation_modifier
 						radiation_pulse(src, 1000 * radiation_modifier, 5)
 						playsound(src, 'sound/items/welder.ogg', 100, TRUE) //temp - find a better sound
@@ -391,11 +391,12 @@ Control Rods
 						handle_control_rod_efficiency()
 						handle_control_rod_integrity()
 				if(REACTOR_STATE_RUNNING)
-					if(alert("[src] is not in maintenance mode! Manually inserting a control rod into an active nuclear reaction would probably be fatal.",name,"Continue","Reconsider") != "Continue" && Adjacent(usr))
+					if(alert("[src] is not in maintenance mode! Manually removing a control rod from an active nuclear reaction would probably be fatal.",name,"Continue","Reconsider") != "Continue" || !Adjacent(usr))
+						return
+					else
 						if(control_rods.len <= 0)
 							to_chat(usr, "<span class='notice'> [src] has no control rods mounted.</span>")
 							return
-					else
 						var/prot = 0
 						var/mob/living/carbon/human/H = usr
 						if(H.gloves)
@@ -409,7 +410,7 @@ Control Rods
 							var/obj/item/bodypart/affecting = H.get_bodypart("[(usr.active_hand_index % 2 == 0) ? "r" : "l" ]_arm")
 							if(affecting && affecting.receive_damage( 0, 20 )) // partially damage the hand
 								H.update_damage_overlays()
-							empulse(3, 5)
+							empulse(src, 3, 5)
 							H.radiation += (heat/2) * radiation_modifier
 							radiation_pulse(src, (heat * 2) * radiation_modifier, 5)
 							playsound(src, 'sound/items/welder.ogg', 100, TRUE) //temp - find a better sound
@@ -424,7 +425,7 @@ Control Rods
 							control_rod_installation = FALSE
 							if(affecting && affecting.receive_damage( 0, 20 )) //damage it even more
 								H.update_damage_overlays()
-							empulse(3, 5)
+							empulse(src, 3, 5)
 							H.radiation += (heat/2) * radiation_modifier
 							radiation_pulse(src, (heat * 2) * radiation_modifier, 5)
 							playsound(src, 'sound/items/welder.ogg', 100, TRUE) //temp - find a better sound

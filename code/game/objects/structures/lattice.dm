@@ -60,7 +60,7 @@
 	if(passed_mode == RCD_FLOORWALL)
 		to_chat(user, "<span class='notice'>You build a floor.</span>")
 		var/turf/T = src.loc
-		if(isspaceturf(T))
+		if(isspaceturf(T) || istype(T, /turf/open/openspace)) //NSV13: Also accounts for openspace.
 			T.PlaceOnTop(/turf/open/floor/plating, flags = CHANGETURF_INHERIT_AIR)
 			qdel(src)
 			return TRUE
