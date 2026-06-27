@@ -351,7 +351,10 @@
 				soot = 0
 				cut_overlays()
 				to_chat(user, "<span class='notice'>The [src] is spic and span!</span>")
-				moth.reagents.add_reagent(/datum/reagent/colorful_reagent/powder/black, 5)
+				if(moth.reagents)
+					moth.reagents.add_reagent(/datum/reagent/colorful_reagent/powder/black, 5)
+				else
+					moth.add_atom_colour("#404040", WASHABLE_COLOUR_PRIORITY)
 				if(dir == NORTH)
 					moth.forceMove(get_turf(src))
 				else

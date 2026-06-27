@@ -1508,8 +1508,8 @@ Seek a ship thich we'll station ourselves around
 		gunner = pilot
 	if(last_target) //Have we got a target?
 		var/obj/structure/overmap/OM = last_target
-		if(overmap_dist(last_target, src) > max(max_tracking_range, OM.sensor_profile) || istype(OM) && OM.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE) //Out of range - Give up the chase
-			if(istype(OM) && CHECK_BITFIELD(ai_flags, AI_FLAG_DESTROYER) && OM.z == z)
+		if(QDELETED(OM) || overmap_dist(last_target, src) > max(max_tracking_range, OM.sensor_profile) || (istype(OM) && (OM.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE))) //Out of range or destroyed - Give up the chase
+			if(istype(OM) && !QDELETED(OM) && CHECK_BITFIELD(ai_flags, AI_FLAG_DESTROYER) && OM.z == z)
 				patrol_target = get_turf(last_target)	//Destroyers are wary and will actively investigate when their target exits their sensor range. You might be able to use this to your advantage though!
 			if(fleet)
 				fleet.stop_reporting(last_target, src)
