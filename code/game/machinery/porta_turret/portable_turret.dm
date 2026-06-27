@@ -99,6 +99,8 @@
 		underlays += base
 	if(!has_cover)
 		INVOKE_ASYNC(src, PROC_REF(popUp))
+	//NSV13 Keep track of turrets on a ship
+	get_overmap()?.turrets_in_ship |= src
 
 /obj/machinery/porta_turret/proc/toggle_on(var/set_to)
 	var/current = on
@@ -186,6 +188,8 @@
 	QDEL_NULL(stored_gun)
 	QDEL_NULL(spark_system)
 	remove_control()
+	//NSV13 Keep track of turrets on a ship
+	get_overmap().turrets_in_ship -= src
 	return ..()
 
 

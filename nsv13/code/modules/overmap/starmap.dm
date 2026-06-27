@@ -2,7 +2,7 @@
 #define STARMAP 1
 
 /**
-	Starmap code largely copied from FT13's starmap, so credit to them! (And monster860...again)
+	Starmap code largely copied from FTL13's starmap, so credit to them! (And monster860...again)
 */
 
 /datum/asset/simple/starmap

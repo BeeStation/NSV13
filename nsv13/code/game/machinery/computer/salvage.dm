@@ -118,7 +118,7 @@
 				radio.talk_into(src, "EWAR scrambling equipment is starting up or shutting down. Try again later.", radio_channel)
 				return FALSE
 			if(SEND_SIGNAL(linked.active_boarding_target, COMSIG_SHIP_RELEASE_BOARDING))
-				radio.talk_into(src, "Target is mission critical. Cannot cancel EWAR scrambling on [linked.active_boarding_target].", radio_channel)
+				radio.talk_into(src, "Target is designated for capture. Cannot cancel EWAR scrambling on [linked.active_boarding_target].", radio_channel)
 				return FALSE // Something blocked this
 			if(alert("Are you sure? (ALL BOARDERS WILL BE KILLED)",name,"Release Hammerlock","Cancel") == "Cancel")
 				return FALSE

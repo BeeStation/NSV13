@@ -121,6 +121,9 @@
 	//Beacons
 	var/list/beacons_in_ship = list()
 
+	//Turrets
+	var/list/turrets_in_ship = list()
+
 	// Controlling equipment
 
 	/*
