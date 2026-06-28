@@ -203,6 +203,12 @@
 		FD.emergency_pressure_stop()
 	for(var/obj/machinery/door/firedoor/FD in src)
 		FD.emergency_pressure_stop()
+	var/area/A = get_area(src)
+	A.shieldsup()
+	var/area/A2 = get_area(T2)
+	A2.shieldsup()
+
+
 
 /turf/proc/handle_decompression_floor_rip()
 /turf/open/floor/handle_decompression_floor_rip(sum)

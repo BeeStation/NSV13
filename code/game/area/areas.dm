@@ -64,6 +64,7 @@
 	flags_1 = CAN_BE_DIRTY_1
 
 	var/list/firedoors
+	var/list/atmosshields
 	var/list/cameras
 	var/list/firealarms
 	var/firedoors_last_closed_on = 0
@@ -369,6 +370,25 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 				else if(!(D.density ^ opening))
 					INVOKE_ASYNC(D, (opening ? TYPE_PROC_REF(/obj/machinery/door/firedoor, open) : TYPE_PROC_REF(/obj/machinery/door/, close)))
 
+/area/proc/ModifyAtmosshields(opening)
+	if(atmosshields)
+		for(var/obj/machinery/power/shieldwallgen/atmos/eachshield in atmosshields)
+			if(opening)
+				for(var/b in eachshield.affecting_areas)
+					var/area/area2 = b
+					if(area2.fire)
+						break
+			if(eachshield.buffer)
+				if(opening && eachshield.shieldstate > 0)
+					INVOKE_ASYNC(eachshield.toggle())
+				else if(eachshield.buffer && eachshield.shieldstate == 0)
+					INVOKE_ASYNC(eachshield.toggle())
+
+/area/proc/shieldsup()
+	for(var/obj/machinery/power/shieldwallgen/atmos/shield in atmosshields)
+		shield.rapidsetup()
+		shield.breachalert = TRUE
+
 /**
   * Generate an firealarm alert for this area
   *
@@ -383,6 +403,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 	if (!fire)
 		set_fire_alarm_effect()
 		ModifyFiredoors(FALSE)
+		ModifyAtmosshields(FALSE)
 		START_PROCESSING(SSobj, src)
 		for(var/item in firealarms)
 			var/obj/machinery/firealarm/F = item
@@ -413,6 +434,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 	if (fire)
 		unset_fire_alarm_effects()
 		ModifyFiredoors(TRUE)
+		ModifyAtmosshields(TRUE)
 		STOP_PROCESSING(SSobj, src)
 		for(var/item in firealarms)
 			var/obj/machinery/firealarm/F = item
@@ -449,6 +471,7 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 /area/process()
 	if(firedoors_last_closed_on + 100 < world.time)	//every 10 seconds
 		ModifyFiredoors(FALSE)
+		ModifyAtmosshields(FALSE)
 
 /**
   * Close and lock a door passed into this proc
