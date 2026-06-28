@@ -144,8 +144,27 @@
 	ai_fire_delay = 0.5 SECONDS
 	used_nonphysical_ammo = OSW_AMMO_LIGHT
 	weapon_control_flags = OSW_CONTROL_PILOT|OSW_CONTROL_AI
-	weapon_firing_flags = OSW_ALWAYS_FIRES_FORWARD
+	weapon_facing_flags = OSW_FACING_FRONT
+	firing_arc = 60
 	sort_priority = 8
+
+/datum/overmap_ship_weapon/burst_phaser/New()
+	.=..()
+	overheat_hud = new /atom/movable/screen/overheat()
+
+
+
+/datum/overmap_ship_weapon/burst_phaser/on_swap_to(mob/user)
+	user.client.screen += overheat_hud
+	.=..()
+
+/datum/overmap_ship_weapon/burst_phaser/on_swap_from(mob/user)
+	user.client.screen -= overheat_hud
+	.=..()
+
+/datum/overmap_ship_weapon/burst_phaser/Destroy()
+	QDEL_NULL(overheat_hud)
+	.=..()
 
 /datum/overmap_ship_weapon/phaser // Big blue laser
 	name = "Phaser Banks"
@@ -165,6 +184,24 @@
 	if(target.mass <= MASS_TINY) //Alright fighter mains. I'm not THAT much of a bastard. Generally AIs will prefer to not use their MAC for flyswatting.
 		return FALSE
 	return TRUE
+
+/datum/overmap_ship_weapon/phaser/New()
+	.=..()
+	overheat_hud = new /atom/movable/screen/overheat()
+
+
+
+/datum/overmap_ship_weapon/phaser/on_swap_to(mob/user)
+	user.client.screen += overheat_hud
+	.=..()
+
+/datum/overmap_ship_weapon/phaser/on_swap_from(mob/user)
+	user.client.screen -= overheat_hud
+	.=..()
+
+/datum/overmap_ship_weapon/phaser/Destroy()
+	QDEL_NULL(overheat_hud)
+	.=..()
 
 /datum/overmap_ship_weapon/phaser_pd // Gauss laser
 	name = "Point-Defense Phasers"
@@ -467,8 +504,8 @@
 /datum/overmap_ship_weapon/laser_ams
 	name = "Laser Anti Missile System"
 	standard_projectile_type = /obj/item/projectile/beam/laser/point_defense
-	burst_size = 1
-	fire_delay = 0.35 SECONDS
+	burst_size = 2
+	fire_delay = 0.10 SECONDS //buffed because of energy weapon maintinence
 	optimal_range = 30
 	select_alert = "<span class='notice'>Laser target acquisition systems: online.</span>"
 	overmap_firing_sounds = list('nsv13/sound/effects/ship/burst_phaser.ogg', 'nsv13/sound/effects/ship/burst_phaser2.ogg')
@@ -477,6 +514,23 @@
 	weapon_control_flags = OSW_CONTROL_AUTONOMOUS
 	used_nonphysical_ammo = OSW_AMMO_LIGHT
 	sort_priority = 2
+
+/datum/overmap_ship_weapon/laser_ams/New()
+	.=..()
+	overheat_hud = new /atom/movable/screen/overheat()
+
+/datum/overmap_ship_weapon/laser_ams/on_swap_to(mob/user)
+	user.client.screen += overheat_hud
+	.=..()
+
+/datum/overmap_ship_weapon/laser_ams/on_swap_from(mob/user)
+	user.client.screen -= overheat_hud
+	.=..()
+
+/datum/overmap_ship_weapon/laser_ams/Destroy()
+	QDEL_NULL(overheat_hud)
+	.=..()
+
 
 /datum/overmap_ship_weapon/plasma_caster
 	name = "MPAC"

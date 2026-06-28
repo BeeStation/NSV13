@@ -982,6 +982,9 @@
 /obj/machinery/power/apc/auto_name/south,
 /turf/open/floor/carpet/ship/blue,
 /area/crew_quarters/cryopods)
+"aGh" = (
+/turf/open/floor/circuit/red/anim,
+/area/nsv/weapons/fore)
 "aHG" = (
 /obj/machinery/light,
 /turf/open/floor/carpet/ship,
@@ -1278,7 +1281,6 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
-/obj/structure/closet/emcloset,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -3577,6 +3579,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer4{
 	dir = 8
 	},
+/obj/machinery/cooling/cooler,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -4931,6 +4934,7 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
 	},
+/obj/machinery/cooling/storage,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -6193,10 +6197,17 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "esD" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
+/obj/structure/frame/machine{
+	icon = 'nsv13/icons/obj/energy_weapons.dmi';
+	icon_state = "phase_cannon_con0";
+	pixel_y = -32;
+	pixel_x = -32;
+	anchored = 1
 	},
-/turf/open/floor/circuit/green/anim,
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/turf/open/floor/circuit/red/anim,
 /area/nsv/weapons/fore)
 "esI" = (
 /obj/machinery/atmospherics/components/unary/outlet_injector/atmos{
@@ -7147,10 +7158,13 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/turf/open/floor/carpet/ship/beige_carpet{
-	color = "#CC8899";
-	name = "nanoweave carpet (puce)"
+/obj/machinery/ship_weapon/energy/laser_pd{
+	gun_id = 1
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/turf/open/floor/circuit/green/anim,
 /area/nsv/weapons/fore)
 "feb" = (
 /obj/structure/cable{
@@ -7869,8 +7883,8 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 8
+/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
+	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
@@ -9024,8 +9038,8 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/manifold/supply/hidden/layer2{
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
+	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
 	dir = 8
@@ -9884,12 +9898,16 @@
 /area/hallway/nsv/deck1/frame2/port)
 "gXb" = (
 /obj/structure/cable/yellow{
-	icon_state = "0-8"
+	icon_state = "1-4"
 	},
-/obj/machinery/ship_weapon/energy/laser_pd{
-	gun_id = 4
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/turf/open/floor/circuit/green/anim,
+/obj/machinery/cooling/storage,
+/turf/open/floor/carpet/ship/beige_carpet{
+	color = "#CC8899";
+	name = "nanoweave carpet (puce)"
+	},
 /area/nsv/weapons/fore)
 "gXf" = (
 /obj/structure/cable{
@@ -11320,7 +11338,6 @@
 /area/engine/atmos/port_atmos)
 "hYY" = (
 /obj/machinery/light,
-/obj/machinery/status_display/evac/south,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -12276,10 +12293,13 @@
 /obj/structure/cable/yellow{
 	icon_state = "2-4"
 	},
-/turf/open/floor/carpet/ship/beige_carpet{
-	color = "#CC8899";
-	name = "nanoweave carpet (puce)"
+/obj/machinery/ship_weapon/energy/laser_pd{
+	gun_id = 1
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/turf/open/floor/circuit/green/anim,
 /area/nsv/weapons/fore)
 "iJZ" = (
 /obj/item/fuel_rod,
@@ -13023,10 +13043,7 @@
 /obj/machinery/camera/autoname{
 	dir = 10
 	},
-/turf/open/floor/carpet/ship/beige_carpet{
-	color = "#CC8899";
-	name = "nanoweave carpet (puce)"
-	},
+/turf/open/floor/circuit/red/anim,
 /area/nsv/weapons/fore)
 "jgk" = (
 /turf/closed/wall/r_wall/ship,
@@ -18120,10 +18137,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/turf/open/floor/carpet/ship/beige_carpet{
-	color = "#CC8899";
-	name = "nanoweave carpet (puce)"
-	},
+/turf/open/floor/circuit/green/anim,
 /area/nsv/weapons/fore)
 "ncP" = (
 /obj/structure/cable{
@@ -18978,17 +18992,13 @@
 /turf/open/floor/plasteel/cult,
 /area/maintenance/starboard/aft)
 "nHH" = (
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
+/obj/structure/rack,
+/obj/item/ship_weapon/ammunition/naval_artillery/cannonball,
+/obj/machinery/status_display/evac/south,
+/turf/open/floor/carpet/ship/beige_carpet{
+	color = "#CC8899";
+	name = "nanoweave carpet (puce)"
 	},
-/obj/structure/frame/machine{
-	icon = 'nsv13/icons/obj/energy_weapons.dmi';
-	icon_state = "phase_cannon_con0";
-	pixel_y = -32;
-	pixel_x = -32;
-	anchored = 1
-	},
-/turf/open/floor/circuit/red/anim,
 /area/nsv/weapons/fore)
 "nId" = (
 /obj/structure/cable{
@@ -21033,13 +21043,14 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/engineering/reactor_control)
 "plP" = (
-/obj/machinery/ship_weapon/energy/laser_pd{
-	gun_id = 1
-	},
 /obj/structure/cable/yellow{
-	icon_state = "0-8"
+	icon_state = "4-8"
 	},
-/turf/open/floor/circuit/green/anim,
+/obj/machinery/cooling/cooler,
+/turf/open/floor/carpet/ship/beige_carpet{
+	color = "#CC8899";
+	name = "nanoweave carpet (puce)"
+	},
 /area/nsv/weapons/fore)
 "plQ" = (
 /obj/machinery/light_switch/north{
@@ -22793,10 +22804,13 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/turf/open/floor/carpet/ship/beige_carpet{
-	color = "#CC8899";
-	name = "nanoweave carpet (puce)"
+/obj/machinery/ship_weapon/energy/laser_pd{
+	gun_id = 1
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/turf/open/floor/circuit/green/anim,
 /area/nsv/weapons/fore)
 "qCz" = (
 /obj/structure/closet/crate,
@@ -23009,6 +23023,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/light,
+/obj/machinery/cooling/cooler,
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -23370,16 +23385,9 @@
 /area/storage/tools)
 "rdh" = (
 /obj/structure/cable/yellow{
-	icon_state = "0-8"
+	icon_state = "1-2"
 	},
-/obj/structure/frame/machine{
-	icon = 'nsv13/icons/obj/energy_weapons.dmi';
-	icon_state = "phase_cannon_con12";
-	pixel_y = -32;
-	pixel_x = -32;
-	anchored = 1
-	},
-/turf/open/floor/circuit/red/anim,
+/turf/open/floor/circuit/green/anim,
 /area/nsv/weapons/fore)
 "rfp" = (
 /obj/machinery/ecto_sniffer,
@@ -23960,10 +23968,13 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
 	},
-/turf/open/floor/carpet/ship/beige_carpet{
-	color = "#CC8899";
-	name = "nanoweave carpet (puce)"
+/obj/machinery/ship_weapon/energy/laser_pd{
+	gun_id = 1
 	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/turf/open/floor/circuit/green/anim,
 /area/nsv/weapons/fore)
 "rDT" = (
 /obj/structure/cable{
@@ -24083,13 +24094,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
 	},
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
-	dir = 1
-	},
-/turf/open/floor/carpet/ship/beige_carpet{
-	color = "#CC8899";
-	name = "nanoweave carpet (puce)"
-	},
+/turf/open/floor/circuit/green/anim,
 /area/nsv/weapons/fore)
 "rHg" = (
 /obj/machinery/holopad,
@@ -24524,7 +24529,13 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/turf/open/floor/circuit/red/anim,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/open/floor/carpet/ship/beige_carpet{
+	color = "#CC8899";
+	name = "nanoweave carpet (puce)"
+	},
 /area/nsv/weapons/fore)
 "scW" = (
 /obj/machinery/rnd/production/circuit_imprinter,
@@ -26299,9 +26310,12 @@
 /turf/open/floor/grass,
 /area/maintenance/fore/secondary)
 "tqm" = (
-/obj/structure/hull_plate,
-/turf/open/floor/engine/airless,
-/area/space/nearstation)
+/obj/machinery/cooling/cooler,
+/turf/open/floor/carpet/ship/beige_carpet{
+	color = "#CC8899";
+	name = "nanoweave carpet (puce)"
+	},
+/area/nsv/weapons/fore)
 "tqy" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -27127,25 +27141,17 @@
 /turf/open/floor/plating,
 /area/maintenance/starboard/aft)
 "tWo" = (
+/obj/structure/frame/machine{
+	icon = 'nsv13/icons/obj/energy_weapons.dmi';
+	icon_state = "phase_cannon_con12";
+	pixel_y = -32;
+	pixel_x = -32;
+	anchored = 1
+	},
 /obj/structure/cable/yellow{
-	icon_state = "4-8"
+	icon_state = "0-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4{
-	dir = 8
-	},
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/structure/sign/poster/official/report_crimes{
-	pixel_y = 28
-	},
-/turf/open/floor/carpet/ship/beige_carpet{
-	color = "#CC8899";
-	name = "nanoweave carpet (puce)"
-	},
+/turf/open/floor/circuit/red/anim,
 /area/nsv/weapons/fore)
 "tWt" = (
 /obj/structure/table/glass,
@@ -27586,10 +27592,7 @@
 /obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2{
 	dir = 1
 	},
-/turf/open/floor/carpet/ship/beige_carpet{
-	color = "#CC8899";
-	name = "nanoweave carpet (puce)"
-	},
+/turf/open/floor/circuit/green/anim,
 /area/nsv/weapons/fore)
 "uuM" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer2{
@@ -29517,12 +29520,10 @@
 /turf/open/floor/carpet/ship/purple_carpet,
 /area/crew_quarters/heads/hor)
 "vPB" = (
-/obj/machinery/ship_weapon/energy/laser_pd{
-	gun_id = 2
-	},
 /obj/structure/cable/yellow{
-	icon_state = "0-8"
+	icon_state = "4-8"
 	},
+/obj/machinery/cooling/storage,
 /turf/open/floor/circuit/green/anim,
 /area/nsv/weapons/fore)
 "vRf" = (
@@ -30491,8 +30492,12 @@
 /turf/open/floor/carpet/ship/orange_carpet,
 /area/engine/atmos/port_atmos)
 "wHQ" = (
-/obj/structure/rack,
-/obj/item/ship_weapon/ammunition/naval_artillery/cannonball,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/camera/autoname{
+	dir = 10
+	},
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
 	name = "nanoweave carpet (puce)"
@@ -30554,11 +30559,9 @@
 /area/ai_monitored/turret_protected/ai)
 "wKC" = (
 /obj/structure/cable/yellow{
-	icon_state = "0-8"
+	icon_state = "4-8"
 	},
-/obj/machinery/ship_weapon/energy/laser_pd{
-	gun_id = 3
-	},
+/obj/structure/disposalpipe/segment,
 /turf/open/floor/circuit/green/anim,
 /area/nsv/weapons/fore)
 "wKR" = (
@@ -31589,6 +31592,9 @@
 	},
 /obj/machinery/light{
 	dir = 1
+	},
+/obj/structure/sign/poster/official/report_crimes{
+	pixel_y = 28
 	},
 /turf/open/floor/carpet/ship/beige_carpet{
 	color = "#CC8899";
@@ -49375,7 +49381,7 @@ lfF
 qwl
 gNZ
 jng
-tqm
+lGb
 jfJ
 iKp
 bKw
@@ -61537,10 +61543,10 @@ qzq
 bwd
 lXg
 hqj
-xCa
-rvT
-xCa
-sQI
+vPB
+vPB
+vPB
+vPB
 hUL
 qbT
 bwd
@@ -61739,10 +61745,10 @@ rDW
 bwd
 epu
 hqj
-mgw
-mgw
-mgw
-esD
+xCa
+rvT
+xCa
+sQI
 hUL
 wwk
 bwd
@@ -61942,8 +61948,8 @@ bwd
 vYy
 grk
 rGA
-nUg
-rDP
+rdh
+rGA
 ncr
 hUL
 gtc
@@ -62143,12 +62149,12 @@ qzq
 bwd
 bwd
 fvW
-jSV
+sOW
 gkg
 jSV
 jSV
-wHQ
-bwd
+hUL
+nHH
 bwd
 oqd
 wEM
@@ -62346,11 +62352,11 @@ bwd
 bwd
 aRw
 plP
-kWY
-vPB
-jSV
+tqm
+plP
+plP
+hUL
 ifZ
-bwd
 bwd
 oqd
 wEM
@@ -62545,11 +62551,11 @@ xSG
 xSG
 xSG
 bwd
-bwd
-tWo
-mgw
-hUL
-mgw
+jAF
+hqj
+jSV
+kWY
+jSV
 jSV
 hYY
 bwd
@@ -62927,9 +62933,9 @@ oLI
 oLI
 oLI
 vcm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
 quY
 gCB
 ekx
@@ -62945,15 +62951,15 @@ mQt
 fjk
 ers
 qzq
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
 bwd
 bwd
 mMr
-igy
+wKC
 xHf
-igy
+wKC
 igy
 tjZ
 bwd
@@ -63129,9 +63135,9 @@ oLI
 oLI
 dqF
 vcm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
 quY
 nef
 sTC
@@ -63147,15 +63153,15 @@ muH
 oqI
 vik
 qzq
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
 bwd
 bwd
 xGT
-wKC
+jSV
 kWY
-gXb
+jSV
 jSV
 jAF
 bwd
@@ -63331,9 +63337,9 @@ oLI
 oLI
 oLI
 vcm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
 wuv
 wuv
 wuv
@@ -63349,16 +63355,16 @@ qzq
 cst
 jwM
 qzq
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
 bwd
 bwd
 cNI
-mgw
-hUL
-mgw
 jSV
+hUL
+jSV
+wHQ
 bwd
 bwd
 qWw
@@ -63533,9 +63539,9 @@ oLI
 oLI
 vcm
 vcm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
 wuv
 wuv
 wuv
@@ -63551,9 +63557,9 @@ wuv
 wuv
 wuv
 wuv
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
 bwd
 bwd
 xqS
@@ -63735,9 +63741,9 @@ oLI
 oLI
 vcm
 vcm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
 wuv
 wuv
 qGr
@@ -63753,9 +63759,9 @@ vLb
 skj
 wuv
 wuv
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
 bwd
 bwd
 eGs
@@ -63927,7 +63933,7 @@ lfF
 lfF
 lfF
 rle
-tqm
+lGb
 vcm
 oLI
 oLI
@@ -63937,9 +63943,9 @@ oLI
 oLI
 vcm
 jMR
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
 wuv
 cef
 aiP
@@ -63955,15 +63961,15 @@ gfN
 aiP
 cef
 wuv
-tqm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
+lGb
 bwd
 urG
-nHH
+jSV
 kWY
-rdh
+jSV
 uWD
 bwd
 oqd
@@ -64129,7 +64135,7 @@ lfF
 lfF
 lfF
 qwl
-tqm
+lGb
 vcm
 pGk
 oLI
@@ -64138,10 +64144,10 @@ oLI
 oLI
 oLI
 vcm
-tqm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
+lGb
 jMR
 cef
 xVa
@@ -64157,10 +64163,10 @@ dpu
 fsL
 cef
 jMR
-tqm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
+lGb
 bwd
 tga
 sbQ
@@ -64340,11 +64346,11 @@ njV
 njV
 njV
 vcm
-tqm
-tqm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
+lGb
+lGb
 cef
 ulY
 iVg
@@ -64358,16 +64364,16 @@ hzw
 hzw
 kXt
 cef
-tqm
-tqm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
+lGb
+lGb
 bwd
 iFO
-hUL
+esD
 jSV
-hUL
+tWo
 bwd
 bwd
 qWw
@@ -64534,7 +64540,7 @@ lfF
 lfF
 lfF
 rle
-tqm
+lGb
 vcm
 njV
 njV
@@ -64542,11 +64548,11 @@ njV
 njV
 njV
 vcm
-tqm
+lGb
 iTH
 iTH
 iTH
-tqm
+lGb
 cef
 cef
 cef
@@ -64560,14 +64566,14 @@ cef
 cef
 cef
 cef
-tqm
+lGb
 iTH
 iTH
 iTH
-tqm
+lGb
 bwd
 wQk
-hUL
+aGh
 jSV
 jgc
 bwd
@@ -64736,32 +64742,32 @@ ido
 lfF
 lfF
 rle
-tqm
+lGb
 tAD
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
 rzk
 lfF
 wEM
 wEM
 rle
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
 rzk
 wEM
 wEM
@@ -64938,14 +64944,14 @@ lfF
 lfF
 lfF
 qwl
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
 rzk
 lfF
 iSP
@@ -64972,7 +64978,7 @@ rle
 bwd
 dvV
 nUg
-ncr
+gXb
 bwd
 bwd
 qWw
@@ -65141,13 +65147,13 @@ lfF
 lfF
 lfF
 rle
-tqm
+lGb
 skc
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
 fGN
-tqm
+lGb
 rzk
 lfF
 iSP
@@ -65343,13 +65349,13 @@ lfF
 lfF
 lfF
 rle
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
 rzk
 lfF
 iSP
@@ -65545,13 +65551,13 @@ lfF
 lfF
 lfF
 qwl
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
+lGb
 mNh
 lfF
 lfF
@@ -65748,10 +65754,10 @@ lfF
 lfF
 lfF
 rle
-tqm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
+lGb
 lGb
 rzk
 lfF
@@ -65950,11 +65956,11 @@ lfF
 lfF
 lfF
 rle
-tqm
-tqm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
+lGb
+lGb
 rzk
 lfF
 lfF
@@ -66152,11 +66158,11 @@ lfF
 lfF
 lfF
 qwl
-tqm
-tqm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
+lGb
+lGb
 rzk
 lfF
 lfF
@@ -66355,10 +66361,10 @@ lfF
 lfF
 lfF
 rle
-tqm
 lGb
 lGb
-tqm
+lGb
+lGb
 rzk
 lfF
 lfF
@@ -66557,10 +66563,10 @@ lfF
 lfF
 lfF
 rle
-tqm
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
+lGb
 rzk
 lfF
 lfF
@@ -66760,9 +66766,9 @@ lfF
 lfF
 qwl
 lGb
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
 rzk
 lfF
 lfF
@@ -66962,9 +66968,9 @@ lfF
 lfF
 lfF
 rle
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
 rzk
 lfF
 lfF
@@ -67164,9 +67170,9 @@ lfF
 ido
 lfF
 rle
-tqm
-tqm
-tqm
+lGb
+lGb
+lGb
 rzk
 lfF
 lfF
@@ -67366,8 +67372,8 @@ lfF
 lfF
 lfF
 rle
-tqm
-tqm
+lGb
+lGb
 lGb
 rzk
 lfF
