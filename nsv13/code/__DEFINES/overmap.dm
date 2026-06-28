@@ -72,6 +72,7 @@ GLOBAL_LIST_INIT(overmap_impact_sounds, list('nsv13/sound/effects/ship/freespace
 //Ship mass
 #define MASS_TINY 1 //1 Player - Fighters
 #define MASS_SMALL 2 //2-5 Players - FoB/Mining Ship
+#define MASS_MEDIUM_SMALL 2.5 //10-20 Players - Small Solgov Capital Ships
 #define MASS_MEDIUM 3 //10-20 Players - Small Capital Ships
 #define MASS_MEDIUM_LARGE 5 //10-20 Players - Small Capital Ships
 #define MASS_LARGE 7 //20-40 Players - Medium Capital Ships
