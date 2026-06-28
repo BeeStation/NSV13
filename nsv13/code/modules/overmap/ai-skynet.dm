@@ -1502,17 +1502,14 @@ Seek a ship thich we'll station ourselves around
 		return	//Timeout.
 	choose_goal()
 	if(!pilot) //AI ships need a pilot so that they aren't hit by their own bullets. Projectiles.dm's can_hit needs a mob to be the firer, so here we are.
-		pilot = new /mob/living(get_turf(src))
+		pilot = new /mob/living/dummy_pilot(src)
+		pilot.RegisterSignal(src, COMSIG_PARENT_QDELETING, TYPE_PROC_REF(/mob/living/dummy_pilot, destroy_dummy_pilot), src)
 		pilot.overmap_ship = src
-		pilot.name = "Dummy AI pilot"
-		pilot.mouse_opacity = FALSE
-		pilot.alpha = FALSE
-		pilot.forceMove(src)
 		gunner = pilot
 	if(last_target) //Have we got a target?
 		var/obj/structure/overmap/OM = last_target
-		if(overmap_dist(last_target, src) > max(max_tracking_range, OM.sensor_profile) || istype(OM) && OM.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE) //Out of range - Give up the chase
-			if(istype(OM) && CHECK_BITFIELD(ai_flags, AI_FLAG_DESTROYER) && OM.z == z)
+		if(QDELETED(OM) || overmap_dist(last_target, src) > max(max_tracking_range, OM.sensor_profile) || (istype(OM) && (OM.is_sensor_visible(src) < SENSOR_VISIBILITY_TARGETABLE))) //Out of range or destroyed - Give up the chase
+			if(istype(OM) && !QDELETED(OM) && CHECK_BITFIELD(ai_flags, AI_FLAG_DESTROYER) && OM.z == z)
 				patrol_target = get_turf(last_target)	//Destroyers are wary and will actively investigate when their target exits their sensor range. You might be able to use this to your advantage though!
 			if(fleet)
 				fleet.stop_reporting(last_target, src)

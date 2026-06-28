@@ -796,6 +796,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	cut_overlay("rcs_left")
 	cut_overlay("rcs_right")
 	cut_overlay("thrust")
+
+	var/back_thrust = 0
+	if(last_thrust_forward > 0)
+		back_thrust = last_thrust_forward / forward_maxthrust
+	if(back_thrust)
+		add_overlay("thrust")
+
 	if(angle == desired_angle)
 		return //No RCS needed if we're already facing where we want to go
 	if(prob(20) && desired_angle)
@@ -804,7 +811,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 	left_thrusts.len = 8
 	var/list/right_thrusts = list()
 	right_thrusts.len = 8
-	var/back_thrust = 0
 	for(var/cdir in GLOB.cardinals)
 		left_thrusts[cdir] = 0
 		right_thrusts[cdir] = 0
@@ -812,8 +818,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		var/tdir = last_thrust_right > 0 ? WEST : EAST
 		left_thrusts[tdir] = abs(last_thrust_right) / side_maxthrust
 		right_thrusts[tdir] = abs(last_thrust_right) / side_maxthrust
-	if(last_thrust_forward > 0)
-		back_thrust = last_thrust_forward / forward_maxthrust
 	if(last_thrust_forward < 0)
 		left_thrusts[NORTH] = -last_thrust_forward / backward_maxthrust
 		right_thrusts[NORTH] = -last_thrust_forward / backward_maxthrust
@@ -831,8 +835,6 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			add_overlay("rcs_left")
 		if(right_thrust)
 			add_overlay("rcs_right")
-	if(back_thrust)
-		add_overlay("thrust")
 
 /obj/structure/overmap/proc/apply_damage_states()
 	if(!damage_states)
