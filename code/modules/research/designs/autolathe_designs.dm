@@ -554,7 +554,7 @@
 /datum/design/pillbottle
 	name = "Pill Bottle"
 	id = "pillbottle"
-	build_type = AUTOLATHE
+	build_type = AUTOLATHE | PROTOLATHE
 	materials = list(/datum/material/iron = 20, /datum/material/glass = 100)
 	build_path = /obj/item/storage/pill_bottle
 	category = list("initial", "Medical", "Medical Designs")
