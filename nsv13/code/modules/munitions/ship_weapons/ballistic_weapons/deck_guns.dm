@@ -144,6 +144,8 @@
 	return FALSE
 
 /obj/machinery/computer/deckgun
+	name = "Deck Gun Control Console"
+	desc = "A control console for a deck gun."
 	icon = 'nsv13/icons/obj/munitions/deck_gun.dmi'
 	icon_state = "gun_control"
 	icon_screen = "screen_guncontrol"
