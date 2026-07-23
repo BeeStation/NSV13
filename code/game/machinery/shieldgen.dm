@@ -216,10 +216,11 @@
 	icon_state = "shield[active ? "on" : "off"][(machine_stat & BROKEN) ? "br" : null]"
 	return ..()
 
+
 #define SHIELD_NOTACTIVE 0
 #define SHIELD_SETUPFIELDS 1
 #define SHIELD_HASFIELDS 2
-#define SHIELD_MIN_BUFFER 25
+#define SHIELD_MIN_POWER 75
 
 /obj/machinery/power/shieldwallgen
 	name = "shield wall generator"
@@ -233,6 +234,8 @@
 	use_power = NO_POWER_USE
 	idle_power_usage = 10
 	active_power_usage = 50
+	var/power = 0
+	var/maximum_stored_power = 500
 	circuit = /obj/item/circuitboard/machine/shieldwallgen
 	max_integrity = 300
 	var/shieldstate = SHIELD_NOTACTIVE
@@ -242,9 +245,9 @@
 	var/shocked = FALSE
 	var/list/affecting_areas
 	var/fields = 0
-	var/buffer = 3000
-	var/max_buffer = 3000
 	var/hardshielded = TRUE
+	var/cabled = 1
+	var/shieldwall_cost = 50
 
 /obj/machinery/power/shieldwallgen/Initialize(mapload)
 	. = ..()
@@ -285,7 +288,26 @@
 /obj/machinery/power/shieldwallgen/connect_to_shuttle(obj/docking_port/mobile/port, obj/docking_port/stationary/dock)
 	id = "[REF(port)][id]"
 
+/obj/machinery/power/shieldwallgen/proc/power()
+
+	if(cabled)
+		if(!anchored)
+			return
+		if(!powernet)
+			return
+		var/surplus = max(powernet.avail - powernet.load, 0)
+		var/avail_power = min(rand(50,200), surplus)
+		if(avail_power)
+			power += avail_power
+	else
+		use_power(active_power_usage, AREA_USAGE_ENVIRON)
+		power += active_power_usage+shieldwall_cost*(shield_range)
+
+/obj/machinery/power/shieldwallgen/proc/use_stored_power(amount)
+	power = CLAMP(power - amount, -50, maximum_stored_power)
+
 /obj/machinery/power/shieldwallgen/process()
+	power()
 	if(shieldstate)
 		if(shieldstate == SHIELD_SETUPFIELDS)
 			fields = 0
@@ -294,8 +316,8 @@
 					fields++
 			if(fields)
 				shieldstate = SHIELD_HASFIELDS
-		if(!active_power_usage || surplus() >= active_power_usage)
-			add_load(active_power_usage)
+		if(power >= SHIELD_MIN_POWER)
+			use_stored_power(active_power_usage)
 		else
 			visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", blind_message = "<span class='hear'>You hear heavy droning fade out.</span>")
 			shieldstate = SHIELD_NOTACTIVE
@@ -307,8 +329,11 @@
 			cleanup_field(direction)
 	update_appearance()
 
+
+
+
 /obj/machinery/power/shieldwallgen/proc/rapidsetup()
-	if(buffer && !shieldstate)
+	if(power && !shieldstate)
 		for(var/direction in GLOB.cardinals)
 			setup_field(direction)
 			fields++
@@ -538,10 +563,16 @@
 	density = FALSE
 	req_access = list(ACCESS_ATMOSPHERICS)
 	locked = TRUE
+	cabled = 0
 	shield_range = 10
 	var/breachalert = FALSE
 	layer = WALL_OBJ_LAYER
 	hardshielded = FALSE
+	power = 3000
+	maximum_stored_power = 3000
+	shieldwall_cost = 100
+
+
 
 /obj/machinery/power/shieldwallgen/atmos/roundstart
 	anchored = TRUE
@@ -552,7 +583,8 @@
 	desc = "A barrier generator designed for use in hangar bays."
 	circuit = /obj/item/circuitboard/machine/shieldwallgen/atmos/strong
 	shield_range = 20
-	active_power_usage = 10000
+	maximum_stored_power = 50000
+	active_power_usage = 5000
 
 /obj/machinery/power/shieldwallgen/atmos/strong/roundstart
 	anchored = TRUE
@@ -631,8 +663,6 @@
 	density = TRUE
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	light_range = 3
-	//default power usage
-	active_power_usage = 50
 	var/needs_power = FALSE
 	var/hardshield = TRUE
 	var/obj/machinery/power/shieldwallgen/gen_primary
@@ -652,8 +682,6 @@
 	layer = ABOVE_MOB_LAYER
 	light_color = "#61a3ff"
 	light_system = MOVABLE_LIGHT //for instant visual feedback regardless of lag
-	//Atmos shields suck more power
-	active_power_usage = 5000
 
 
 /obj/machinery/shieldwall/Initialize(mapload, obj/machinery/power/shieldwallgen/first_gen, obj/machinery/power/shieldwallgen/second_gen)
@@ -681,7 +709,7 @@
 			qdel(src)
 			return
 
-		drain_power(active_power_usage)
+		drain_power(gen_primary.shieldwall_cost)
 
 /obj/machinery/shieldwall/play_attack_sound(damage_amount, damage_type = BRUTE, damage_flag = 0)
 	switch(damage_type)
@@ -699,9 +727,9 @@
 /// succs power from the connected shield wall generator
 /obj/machinery/shieldwall/proc/drain_power(drain_amount)
 	if(needs_power && gen_primary)
-		gen_primary.add_load(drain_amount * 0.5)
+		gen_primary.use_stored_power(drain_amount*0.5)
 		if(gen_secondary) //using power may cause us to be destroyed
-			gen_secondary.add_load(drain_amount * 0.5)
+			gen_secondary.use_stored_power(drain_amount*0.5)
 
 /obj/machinery/shieldwall/proc/block_singularity()
 	SIGNAL_HANDLER
@@ -730,7 +758,7 @@
 /obj/machinery/power/shieldwallgen/atmos/toggle()
 	if(!anchored)
 		return
-	if(buffer <= SHIELD_MIN_BUFFER)
+	if(power <= SHIELD_MIN_POWER)
 		return
 	if(shieldstate)
 		visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", blind_message = "<span class='hear'>You hear heavy droning fade out.</span>")
@@ -744,16 +772,10 @@
 		breachalert = TRUE
 		log_game("[src] was activated by toggle at [AREACOORD(src)]")
 
-/obj/machinery/shieldwall/atmos/drain_power(drain_amount)
-	if(needs_power && gen_primary)
-		gen_primary.buffer -= drain_amount
-		if(gen_secondary) //using power may cause us to be destroyed
-			gen_secondary.buffer -= drain_amount
-
 /obj/machinery/power/shieldwallgen/atmos/process()
-	if(is_operational && buffer <= max_buffer )	//I'm in the dark about this. my brain no work
-		use_power(active_power_usage)
-		buffer = clamp(buffer + (shield_range + 1), 0, max_buffer)
+	power()
+	if(breachalert)
+		rapidsetup()
 	if(shieldstate)
 		if(shieldstate == SHIELD_SETUPFIELDS)
 			fields = 0
@@ -762,7 +784,9 @@
 					fields++
 			if(fields)
 				shieldstate = SHIELD_HASFIELDS
-		if(buffer <= SHIELD_MIN_BUFFER)
+		if(is_operational && power >= SHIELD_MIN_POWER)	//I'm in the dark about this. my brain no work
+			use_stored_power(active_power_usage)
+		if(power <= SHIELD_MIN_POWER)
 			visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", blind_message = "<span class='hear'>You hear heavy droning fade out.</span>")
 			shieldstate = SHIELD_NOTACTIVE
 			log_game("[src] deactivated due to lack of power at [AREACOORD(src)]")
@@ -781,25 +805,24 @@
 	if(!anchored)
 		to_chat(user, "<span class='warning'>\The [src] needs to be firmly secured to the floor first!</span>")
 		return
-	if(locked && !issilicon(user))
+	if(locked && !issiliconoradminghost(user))
 		to_chat(user, "<span class='warning'>The controls are locked!</span>")
 		return
 	if(!is_operational)
 		to_chat(user, "<span class='warning'>\The [src] needs to be powered!</span>")
 		return
-	if(buffer <= SHIELD_MIN_BUFFER)
+	if(power <= SHIELD_MIN_POWER)
 		to_chat(user, "<span class='warning'>\The [src] is completely depleted!</span>")
 		return
 	if(shieldstate)
 		visible_message("<span class='danger'>The [src.name] shuts down due to lack of power!</span>", blind_message = "<span class='hear'>You hear heavy droning fade out.</span>")
 		shieldstate = SHIELD_NOTACTIVE
-		breachalert = 0
 	else
 		user.visible_message("[user] turned \the [src] on.", \
 			"<span class='notice'>You turn on \the [src].</span>", \
 			"<span class='italics'>You hear heavy droning.</span>")
 		shieldstate = SHIELD_SETUPFIELDS
-		breachalert = 1
+		breachalert = TRUE
 	add_fingerprint(user)
 
 /obj/machinery/power/shieldwallgen/atmos/power_change()
@@ -811,7 +834,7 @@
 
 
 /obj/machinery/power/shieldwallgen/atmos/proc/latetoggle()
-	if(!buffer || !breachalert)
+	if(!power || !breachalert)
 		return
 	else
 		rapidsetup()
@@ -819,16 +842,12 @@
 /obj/machinery/shieldwall/atmos/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
 	. = ..()
 	if(damage_type == BRUTE || damage_type == BURN)
-		drain_power(damage_amount*1000)
+		drain_power(damage_amount*5000)
 
-/obj/machinery/shieldwall/atmos/process()
-	if(needs_power)
-		if(!gen_primary || !gen_primary.shieldstate || !gen_secondary || !gen_secondary.shieldstate)
-			qdel(src)
-			return
-
-		drain_power(1)
+/obj/machinery/power/shieldwallgen/atmos/use_stored_power(amount)
+	power = CLAMP(power - amount, -maximum_stored_power, maximum_stored_power)
 
 #undef SHIELD_NOTACTIVE
 #undef SHIELD_SETUPFIELDS
 #undef SHIELD_HASFIELDS
+#undef SHIELD_MIN_POWER
