@@ -420,7 +420,7 @@
 	if(. == SUCCESSFUL_UNFASTEN && anchored)
 		connect_to_network()
 
-/obj/machinery/power/shieldwallgen/setAnchored()
+/obj/machinery/power/shieldwallgen/setAnchored(anchorvalue)
 		.=..()
 		CalculateAffectingAreas()
 		UpdateAdjacencyFlags()
@@ -842,7 +842,7 @@
 /obj/machinery/shieldwall/atmos/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, attack_dir, armour_penetration = 0)
 	. = ..()
 	if(damage_type == BRUTE || damage_type == BURN)
-		drain_power(damage_amount*5000)
+		drain_power(damage_amount*2500)
 
 /obj/machinery/power/shieldwallgen/atmos/use_stored_power(amount)
 	power = CLAMP(power - amount, -maximum_stored_power, maximum_stored_power)
