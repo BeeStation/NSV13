@@ -420,11 +420,11 @@
 		connect_to_network()
 
 /obj/machinery/power/shieldwallgen/setAnchored(anchorvalue)
-		.=..()
-		if(anchorvalue = 0)
-			remove_from_areas()
-		CalculateAffectingAreas()
-		UpdateAdjacencyFlags()
+	.=..()
+	if(anchorvalue == 0)
+		remove_from_areas()
+	CalculateAffectingAreas()
+	UpdateAdjacencyFlags()
 
 /obj/machinery/power/shieldwallgen/attackby(obj/item/item, mob/user, params)
 	if(default_deconstruction_screwdriver(user, icon_state, icon_state, item))
