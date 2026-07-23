@@ -410,7 +410,6 @@
 		if(!silent)
 			to_chat(user, "<span class='warning'>Turn off the shield generator first!</span>")
 		return FAILED_UNFASTEN
-	remove_from_areas()
 	return ..()
 
 /obj/machinery/power/shieldwallgen/wrench_act(mob/living/user, obj/item/item)
@@ -422,6 +421,8 @@
 
 /obj/machinery/power/shieldwallgen/setAnchored(anchorvalue)
 		.=..()
+		if(anchorvalue = 0)
+			remove_from_areas()
 		CalculateAffectingAreas()
 		UpdateAdjacencyFlags()
 
