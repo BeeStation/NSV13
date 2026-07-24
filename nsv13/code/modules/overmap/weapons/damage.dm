@@ -26,7 +26,7 @@ Bullet reactions
 			var/damage_sound = pick('nsv13/sound/effects/ship/damage/shield_hit.ogg', 'nsv13/sound/effects/ship/damage/shield_hit2.ogg')
 			if(!impact_sound_cooldown)
 				new /obj/effect/temp_visual/overmap_shield_hit(src, src)
-				relay(damage_sound)
+				relay(damage_sound, channel = SSsounds.random_available_channel())
 				if(P.damage >= 15) //Flak begone
 					shake_everyone(5)
 				impact_sound_cooldown = TRUE
@@ -101,7 +101,7 @@ Bullet reactions
 /obj/structure/overmap/take_damage(damage_amount, damage_type = BRUTE, damage_flag = 0, sound_effect = 1, nsv_damagesound = TRUE)
 	var/damage_sound = pick(GLOB.overmap_impact_sounds)
 	if(nsv_damagesound && !impact_sound_cooldown && damage_sound)
-		relay(damage_sound)
+		relay(damage_sound, channel = SSsounds.random_available_channel())
 		if(damage_amount >= 15) //Flak begone
 			shake_everyone(5)
 		impact_sound_cooldown = TRUE

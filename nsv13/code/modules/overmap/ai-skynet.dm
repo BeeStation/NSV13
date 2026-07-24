@@ -423,7 +423,7 @@ Adding tasks is easy! Just define a datum for it.
 			'nsv13/sound/effects/ship/freespace2/m_stiletto.wav',
 			'nsv13/sound/effects/ship/freespace2/m_tsunami.wav',
 			'nsv13/sound/effects/ship/freespace2/m_wasp.wav'
-		) ) )
+		) ), channel = SSsounds.random_available_channel() )
 		return TRUE
 
 /obj/structure/overmap/proc/add_objective( objective )
@@ -630,9 +630,9 @@ Adding tasks is easy! Just define a datum for it.
 		player_string = " (Sent by [player_name])"
 
 	if(outbound)
-		relay('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', "<h3>Outbound hail to: [ship_name][player_string]</h3><hr><span class='danger'>[text]</span><br>")
+		relay('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', "<h3>Outbound hail to: [ship_name][player_string]</h3><hr><span class='danger'>[text]</span><br>", channel = CHANNEL_SHIP_ALERT)
 	else
-		relay('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', "<h1>Incoming hail from: [ship_name][player_string]</h1><hr><span class='userdanger'>[text]</span><br>")
+		relay('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', "<h1>Incoming hail from: [ship_name][player_string]</h1><hr><span class='userdanger'>[text]</span><br>", channel = CHANNEL_SHIP_ALERT)
 
 /proc/get_internet_sound(web_sound_input)
 	if(!web_sound_input)

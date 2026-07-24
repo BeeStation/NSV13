@@ -785,7 +785,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			movekey_delta_angle = 15
 			user_thrust_dir = direction - EAST
 
-//relay('nsv13/sound/effects/ship/rcs.ogg')
+//relay('nsv13/sound/effects/ship/rcs.ogg', channel = SSsounds.random_available_channel())
 
 // This is overly expensive, most of these checks are already ran in physics. TODO: optimize
 /obj/structure/overmap/update_icon() //Adds an rcs overlay
@@ -865,7 +865,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 		if(length(O.mobs_in_ship))
 			O.stop_relay(channel)
 
-/obj/structure/overmap/proc/relay_to_nearby(S, message, ignore_self=FALSE, sound_range=20, faction_check=FALSE) //Sends a sound + text message to nearby ships
+/obj/structure/overmap/proc/relay_to_nearby(S, message, ignore_self=FALSE, sound_range=20, faction_check=FALSE, channel) //Sends a sound + text message to nearby ships
 	for(var/obj/structure/overmap/ship as() in GLOB.overmap_objects) //Might be called in hyperspace or by fighters, so shouldn't use a system check.
 		if(ignore_self)
 			if(ship == src)
@@ -876,13 +876,13 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 			if(faction_check)
 				if(src.faction == ship.faction)
 					continue
-			ship.relay(S,message)
+			ship.relay(S,message, channel = channel)
 
 /obj/structure/overmap/proc/boost(direction)
 	if(world.time < next_maneuvre)
 		to_chat(pilot, "<span class='notice'>Engines on cooldown to prevent overheat</span>")
 		return FALSE
-	relay('nsv13/sound/effects/ship/afterburner.ogg', message="<span class='warning'>You feel the ship lurch suddenly.</span>", loop=FALSE)
+	relay('nsv13/sound/effects/ship/afterburner.ogg', message="<span class='warning'>You feel the ship lurch suddenly.</span>", loop=FALSE, channel = SSsounds.random_available_channel())
 	if(helm && prob(80))
 		var/sound = pick(GLOB.computer_beeps)
 		playsound(helm, sound, 100, 1)
@@ -921,7 +921,7 @@ Proc to spool up a new Z-level for a player ship and assign it a treadmill.
 
 /obj/structure/overmap/proc/railgun_bluespace_recoil(target)
 	next_maneuvre = world.time + 5 SECONDS //Set booster on cooldown
-	relay('nsv13/sound/effects/ship/afterburner.ogg', message="<span class='warning'>You feel as the ship gets suddenly pulled away!</span>", loop=FALSE)
+	relay('nsv13/sound/effects/ship/afterburner.ogg', message="<span class='warning'>You feel as the ship gets suddenly pulled away!</span>", loop=FALSE, channel = SSsounds.random_available_channel())
 	addtimer(CALLBACK(src, PROC_REF(reset_boost), forward_maxthrust, backward_maxthrust, side_maxthrust, max_angular_acceleration, speed_limit), 2 SECONDS)
 	var/direction = get_angle(src, target)
 	speed_limit += 10
