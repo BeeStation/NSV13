@@ -296,7 +296,7 @@ Bullet reactions
 	for(var/mob/M in orange(src, 3))
 		if(isliving(M) && (M.client?.prefs.toggles & PREFTOGGLE_SOUND_AMBIENCE) && M.can_hear_ambience())
 			to_chat(M, "<span class='userdanger'>You hear a loud creak coming from above you. Take cover!</span>")
-			SEND_SOUND(M, pick('nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg'))
+			SEND_SOUND(M, sound(pick('nsv13/sound/ambience/ship_damage/creak5.ogg','nsv13/sound/ambience/ship_damage/creak6.ogg'), channel = SSsounds.random_available_channel()))
 
 /obj/effect/temp_visual/explosion_telegraph/Destroy()
 	var/turf/T = get_turf(src)

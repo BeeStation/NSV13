@@ -381,7 +381,7 @@
 		result += "<span class='greentext'>The [special_role_text] was successful!</span>"
 	else
 		result += "<span class='redtext'>The [special_role_text] has failed!</span>"
-		SEND_SOUND(owner.current, 'sound/ambience/ambifailure.ogg')
+		SEND_SOUND(owner.current, sound('sound/ambience/ambifailure.ogg', channel = SSsounds.random_available_channel()))
 
 	return result.Join("<br>")
 

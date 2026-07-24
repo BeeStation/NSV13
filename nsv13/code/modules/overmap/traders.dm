@@ -445,7 +445,7 @@
 		account = (OM.faction == "nanotrasen") ? ACCOUNT_CAR : ACCOUNT_SYN
 	var/datum/bank_account/D = SSeconomy.get_dep_account(account)
 	if(!D || D.account_balance <= item.price)
-		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
+		SEND_SOUND(user, sound('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', channel = SSsounds.random_available_channel()))
 		to_chat(user, "<span class='boldnotice'>[pick(on_fail)]</span>")
 		return FALSE
 	D.adjust_money(-item.price)

@@ -7,7 +7,7 @@
 #define CHANNEL_HEARTBEAT 1019 //sound channel for heartbeats
 #define CHANNEL_AMBIENT_EFFECTS 1018
 #define CHANNEL_AMBIENT_MUSIC 1017
-#define CHANNEL_BUZZ 1017
+#define CHANNEL_BUZZ 1016
 #define CHANNEL_SHIP_ALERT 1015 //nsv13 - sound channel for looping ship alerts, EG general quarters
 #define CHANNEL_REACTOR_ALERT 1014 //nsv13 - sound channel for the nuclear storm drive meltdown sfx.
 #define CHANNEL_SHIP_FX 1013 //nsv13 - sound channel for general ship ambience / FX

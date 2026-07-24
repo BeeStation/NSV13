@@ -441,7 +441,7 @@ Adding tasks is easy! Just define a datum for it.
 /obj/structure/overmap/proc/deliver_package(var/mob/living/user, var/datum/overmap_objective/cargo/O)
 	if ( !O?.delivered_package )
 		var/obj/structure/overmap/MO = SSstar_system.find_main_overmap()
-		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
+		SEND_SOUND(user, sound('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', channel = SSsounds.random_available_channel()))
 		MO.hail( pick( list(
 			"Message received, we are delivering your package for transfer now.",
 			"Understood, delivering the cargo.",
@@ -543,7 +543,7 @@ Adding tasks is easy! Just define a datum for it.
 /obj/structure/overmap/proc/reject_unexpected_shipment( var/datum/freight_delivery_receipt/receipt )
 	if(receipt?.vessel)
 		if ( returns_rejected_cargo )
-			SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
+			SEND_SOUND(receipt.courier, sound('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', channel = SSsounds.random_available_channel()))
 			receipt.vessel.hail( pick( list(
 				"We're not expecting any shipments at this time. Please give us some time to arrange the return shipment.",
 				"We're not expecting any shipments, please don't send us your trash.",
@@ -552,7 +552,7 @@ Adding tasks is easy! Just define a datum for it.
 			) ), src)
 			addtimer(CALLBACK(src, PROC_REF(return_shipment), receipt), speed_cargo_return)
 		else
-			SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
+			SEND_SOUND(receipt.courier, sound('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', channel = SSsounds.random_available_channel()))
 			receipt.vessel.hail( pick( list(
 				"We're not expecting any shipments at this time. We hope you weren't attached to this.",
 				"We're not expecting any shipments, but our assistants could make use of this.",
@@ -563,7 +563,7 @@ Adding tasks is easy! Just define a datum for it.
 /obj/structure/overmap/proc/reject_incomplete_shipment( var/datum/freight_delivery_receipt/receipt )
 	if(receipt?.vessel)
 		// Won't check for returns_rejected_cargo if the station is actually expecting cargo, but the torp they receive is incorrect
-		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
+		SEND_SOUND(receipt.courier, sound('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', channel = SSsounds.random_available_channel()))
 		receipt.vessel.hail( pick( list(
 			"Some of the cargo contents are missing. We're sending the crates back, please double check your crates and try again.",
 			"We're not expecting this kind of shipment. We will return it as soon as we can.",
@@ -574,7 +574,7 @@ Adding tasks is easy! Just define a datum for it.
 
 /obj/structure/overmap/proc/approve_shipment( var/datum/freight_delivery_receipt/receipt )
 	if(receipt?.vessel)
-		SEND_SOUND(receipt.courier, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
+		SEND_SOUND(receipt.courier, sound('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', channel = SSsounds.random_available_channel()))
 		receipt.vessel.hail( "Thank you for delivering this cargo. We have marked the supply request as received.", src)
 		addtimer(CALLBACK(src, PROC_REF(return_approved_form), receipt), speed_cargo_return)
 		SSovermap_mode.update_reminder(objective=TRUE) // Completing any valid delivery resets the timer
