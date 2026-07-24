@@ -434,7 +434,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 	armor = list("melee" = 60, "bullet" = 60, "laser" = 60, "energy" = 30, "bomb" = 30, "bio" = 100, "rad" = 90, "fire" = 90, "acid" = 80, "overmap_light" = 5, "overmap_medium" = 0, "overmap_heavy" = 10)
 	sprite_size = 32
 	damage_states = FALSE //temp
-	max_integrity = 25 //shields.
+	max_integrity = 125 //shields, BUT the shield now precludes armor. 150 EHP excluding the shield. it's adminspawn anway.
 	max_angular_acceleration = 200
 	speed_limit = 10
 	pixel_w = -16
@@ -449,11 +449,10 @@ Been a mess since 2018, we'll fix it someday (probably)
 						/obj/item/fighter_component/canopy,
 						/obj/item/fighter_component/docking_computer,
 						/obj/item/fighter_component/battery,
-						/obj/item/fighter_component/primary/laser)   // no armor because >=3, you can still install it though because this thing is made of tissue paper
+						/obj/item/fighter_component/primary/laser,
+						/obj/item/fighter_component/armour_plating/tier6)   // no armor because shield generator, if you add armor you have to give up on the shields.
 
-/obj/structure/overmap/small_craft/combat/solgov/Initialize(mapload)
-	. = ..()
-	AddComponent(/datum/component/overmap_shields, 125, 125, 15) //inital integrity, max integrity, and recharge rate. bound to change most likely
+
 
 
 /obj/structure/overmap/small_craft/escapepod
@@ -1146,6 +1145,39 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	weight = 1.25
 	obj_integrity = 300
 	max_integrity = 300
+
+/obj/item/fighter_component/armour_plating/tier6
+	name = "Compact Shield Generator Array"
+	desc = "A rather heavy, and highly illegal shield generator, paired with a fine, lightly armored self-applicating emmiter mesh. simply looking at this has already doomed you to a life in prison."
+	icon_state = "shield"
+	tier = 6	//it's top tier solgov tech.
+	weight = 3.5
+	obj_integrity = 25
+	max_integrity = 25
+	var/datum/component/overmap_shields/overmap_shields
+
+
+/obj/item/fighter_component/armour_plating/tier6/on_install(obj/structure/overmap/target)
+	. = ..()
+	overmap_shields = target.AddComponent(/datum/component/overmap_shields, 125, 125, 15) //inital integrity, max integrity, and recharge rate. bound to change most likely
+	target.visible_message("<span class='warning'>The shield generator starts up, humming loudly.</span>")
+
+/obj/item/fighter_component/armour_plating/tier6/remove_from(obj/structure/overmap/target, due_to_damage)
+	..()
+	if(due_to_damage)
+		if(overmap_shields)
+			target.visible_message("<span class='warning'>The shield generator shuts down, melting into slag.</span>")
+			overmap_shields.set_stats(0, 0, 0)
+			overmap_shields.RemoveComponent()
+		return //We don't reset our health if the plating was destroyed due to hits, or the increase would be useless. It DOES get reset once we install new armor, though.
+	target.max_integrity = initial(target.max_integrity)
+	if(overmap_shields)
+		target.visible_message("<span class='warning'>The shield generator shuts down.</span>")
+		overmap_shields.set_stats(0, 0, 0)
+		overmap_shields.RemoveComponent()
+	//Remove any overheal.
+	target.obj_integrity = CLAMP(target.obj_integrity, 0, target.max_integrity)
+
 
 /obj/item/fighter_component/canopy
 	name = "glass canopy"
