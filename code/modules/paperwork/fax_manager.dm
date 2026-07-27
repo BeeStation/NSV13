@@ -133,7 +133,7 @@ GLOBAL_DATUM_INIT(fax_manager, /datum/fax_manager, new)
 	to_chat(GLOB.admins, msg)
 	for(var/client/admin in GLOB.admins)
 		if((admin.prefs.chat_toggles & CHAT_PRAYER) && (admin.prefs.toggles & PREFTOGGLE_SOUND_PRAYERS))
-			SEND_SOUND(admin, sound('sound/items/poster_being_created.ogg', channel = SSsounds.random_available_channel()))
+			SEND_SOUND(admin, sound('sound/items/poster_being_created.ogg', channel = CHANNEL_ADMIN()))
 
 // A special piece of paper for the administrator that will open the interface no matter what.
 /obj/item/paper/request/ui_status()

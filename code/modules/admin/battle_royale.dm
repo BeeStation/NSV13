@@ -288,7 +288,7 @@ GLOBAL_DATUM(battle_royale, /datum/battle_royale_controller)
 			player.make_me_an_observer(TRUE)
 		to_chat(world, "<span class='boldannounce'>Battle Royale: Force-starting game.</span>")
 		SSticker.start_immediately = TRUE
-	SEND_SOUND(world, sound('sound/misc/server-ready.ogg', channel = SSsounds.random_available_channel()))
+	SEND_SOUND(world, sound('sound/misc/server-ready.ogg', channel = CHANNEL_ADMIN()))
 	sleep(50)
 	//Clear all living mobs
 	to_chat(world, "<span class='boldannounce'>Battle Royale: Clearing world mobs.</span>")
