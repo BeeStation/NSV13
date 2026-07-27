@@ -1147,11 +1147,11 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	max_integrity = 300
 
 /obj/item/fighter_component/armour_plating/tier6
-	name = "Compact Shield Generator Array"
+	name = "compact shield generator array"
 	desc = "A rather heavy, and highly illegal shield generator, paired with a fine, lightly armored self-applicating emmiter mesh. simply looking at this has already doomed you to a life in prison."
 	icon_state = "shield"
 	tier = 6	//it's top tier solgov tech.
-	weight = 3.5
+	weight = 1.3
 	obj_integrity = 25
 	max_integrity = 25
 	var/datum/component/overmap_shields/overmap_shields
@@ -1160,7 +1160,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 /obj/item/fighter_component/armour_plating/tier6/on_install(obj/structure/overmap/target)
 	. = ..()
 	overmap_shields = target.AddComponent(/datum/component/overmap_shields, 125, 125, 15) //inital integrity, max integrity, and recharge rate. bound to change most likely
-	target.visible_message("<span class='warning'>The shield generator starts up, humming loudly.</span>")
+	target.audible_message("<span class='notice'>\The [src] starts up, humming loudly.</span>")
 
 /obj/item/fighter_component/armour_plating/tier6/remove_from(obj/structure/overmap/target, due_to_damage)
 	..()
