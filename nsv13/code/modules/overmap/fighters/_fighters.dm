@@ -1170,9 +1170,9 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	if(overmap_shields)
 		overmap_shields.set_stats(0, 0, 0)
 		if(due_to_damage)
-			target.visible_message("<span class='warning'>The [src] shuts down, melting into slag.</span>")
+			target.visible_message("<span class='warning'>\The [src] shuts down, melting into slag.</span>")
 			return //We don't reset our health if the plating was destroyed due to hits, or the increase would be useless. It DOES get reset once we install new armor, though.
-		target.visible_message("<span class='notice'>The [src] shuts down.</span>")
+		target.visible_message("<span class='notice'>\The [src] shuts down.</span>")
 
 
 /obj/item/fighter_component/canopy
