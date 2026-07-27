@@ -835,7 +835,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 	for(var/m in GLOB.player_list)
 		var/datum/asset/fuckywucky = get_asset_datum(/datum/asset/simple/fuckywucky)
 		fuckywucky.send(m)
-		SEND_SOUND(m, sound('sound/misc/fuckywucky.ogg', channel = CHANNEL_ADMIN()))
+		SEND_SOUND(m, sound('sound/misc/fuckywucky.ogg', channel = CHANNEL_ADMIN))
 		to_chat(m, "<img src='[SSassets.transport.get_asset_url("fuckywucky.png")]'>")
 
 	addtimer(CALLBACK(src, PROC_REF(restore_fucky_wucky)), 600)

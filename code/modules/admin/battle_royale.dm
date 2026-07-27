@@ -288,7 +288,7 @@ GLOBAL_DATUM(battle_royale, /datum/battle_royale_controller)
 			player.make_me_an_observer(TRUE)
 		to_chat(world, "<span class='boldannounce'>Battle Royale: Force-starting game.</span>")
 		SSticker.start_immediately = TRUE
-	SEND_SOUND(world, sound('sound/misc/server-ready.ogg', channel = CHANNEL_ADMIN()))
+	SEND_SOUND(world, sound('sound/misc/server-ready.ogg', channel = CHANNEL_ADMIN))
 	sleep(50)
 	//Clear all living mobs
 	to_chat(world, "<span class='boldannounce'>Battle Royale: Clearing world mobs.</span>")
@@ -346,7 +346,7 @@ GLOBAL_DATUM(battle_royale, /datum/battle_royale_controller)
 		players += H
 		to_chat(M, "<span class='notice'>You have been given knock and pacifism for 30 seconds.</span>")
 	new /obj/effect/pod_landingzone(spawn_turf, pod)
-	SEND_SOUND(world, sound('sound/misc/airraid.ogg', channel = SSsounds.random_available_channel()))
+	SEND_SOUND(world, sound('sound/misc/airraid.ogg', channel = CHANNEL_ADMIN))
 	to_chat(world, "<span class='boldannounce'>A 30 second grace period has been established. Good luck.</span>")
 	to_chat(world, "<span class='boldannounce'>WARNING: YOU WILL BE GIBBED IF YOU LEAVE THE STATION Z-LEVEL!</span>")
 	to_chat(world, "<span class='boldannounce'>[players.len] people remain...</span>")
