@@ -27,7 +27,7 @@
 		return FALSE
 
 	if(istype(A, /obj/structure/overmap) && !A.filter_data)
-		A.add_filter("target_outline", 1, list(type="outline", size=2, color=COLOR_RED_LIGHT))
+		A.add_filter("target_outline", 1, list(type="outline", size=2, color=rgb(255, 51, 51, A.alpha)))
 		addtimer(CALLBACK(A, TYPE_PROC_REF(/obj/structure/overmap, remove_target_outline)), 15 SECONDS)
 	else
 		new /obj/effect/temp_visual/overmap_order(tile, invisibility)
