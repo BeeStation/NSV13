@@ -19,6 +19,9 @@
 		//Von Neumann
 		#include "map_files\vonneumann\VNmk3.dmm"
 
+		//Dullahan
+		#include "map_files\Dullahan\dullahan.dmm"
+
 		//Gladius
 		#include "map_files\Gladius\Gladius1.dmm"
 		#include "map_files\Gladius\Gladius2.dmm"

@@ -201,3 +201,28 @@
 
 /obj/structure/overmap/nanotrasen/solgov/ai/apply_weapons()
 	apply_medium_ai_weapons()
+
+
+
+
+
+/obj/structure/overmap/nanotrasen/solgov/dullahan
+	name = "Dullahan class frigate"
+	desc = "A long-range SolGov gunboat, usually used for long-term missions."
+	icon = 'nsv13/icons/overmap/new/solgov/dullahan.dmi'
+	icon_state = "frigate"
+	mass = MASS_MEDIUM_SMALL
+	sprite_size = 64
+	// damage_states = TRUE
+	bound_width = 64
+	bound_height = 64
+	obj_integrity = 500
+	max_integrity = 500
+	armor = list("overmap_light" = 90, "overmap_medium" = 30, "overmap_heavy" = 10)
+
+/obj/structure/overmap/nanotrasen/solgov/dullahan/starter
+	role = MAIN_OVERMAP
+	obj_integrity = 700
+	max_integrity = 700
+	starting_system = "Staging"
+	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 25)
