@@ -203,9 +203,6 @@
 	apply_medium_ai_weapons()
 
 
-
-
-
 /obj/structure/overmap/nanotrasen/solgov/dullahan
 	name = "Dullahan class frigate"
 	desc = "A long-range SolGov gunboat, usually used for long-term missions."
