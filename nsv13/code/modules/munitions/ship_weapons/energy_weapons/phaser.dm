@@ -287,7 +287,8 @@
 	if(!maintainable)
 		return
 	cooling_amount = 0
-	linked_overmap_ship_weapon.overheat_hud.updatehud()
+	if(heat>0)
+		linked_overmap_ship_weapon.overheat_hud.updatehud()
 //	linked_overmap_ship_weapon.overheat_hud.set_offset((100-(((max_heat-heat)/(max_heat)) *100)))
 	if(!linked_overmap_ship_weapon)
 		return
