@@ -151,7 +151,7 @@
 /datum/overmap_ship_weapon/burst_phaser/New()
 	.=..()
 	overheat_hud = new /atom/movable/screen/overheat()
-
+	overheat_hud.weapon_datum = src
 
 
 /datum/overmap_ship_weapon/burst_phaser/on_swap_to(mob/user)
@@ -188,7 +188,7 @@
 /datum/overmap_ship_weapon/phaser/New()
 	.=..()
 	overheat_hud = new /atom/movable/screen/overheat()
-
+	overheat_hud.weapon_datum = src
 
 
 /datum/overmap_ship_weapon/phaser/on_swap_to(mob/user)

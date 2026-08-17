@@ -270,7 +270,8 @@
 
 /obj/machinery/ship_weapon/energy/after_fire()
 	if(maintainable)
-		linked_overmap_ship_weapon.overheat_hud.set_offset((100-(((max_heat-heat)/(max_heat)) *100)))
+		linked_overmap_ship_weapon.overheat_hud.updatehud()
+//		linked_overmap_ship_weapon.overheat_hud.set_offset((100-(((max_heat-heat)/(max_heat)) *100)))
 	if(maint_state != MSTATE_CLOSED) //MSTATE_CLOSED
 		tesla_zap(src, 4, 1000) //Munitions Officer definitely had the best uniform
 		for(var/mob/living/carbon/C in orange(4, src))
@@ -286,7 +287,8 @@
 	if(!maintainable)
 		return
 	cooling_amount = 0
-	linked_overmap_ship_weapon.overheat_hud.set_offset((100-(((max_heat-heat)/(max_heat)) *100)))
+	linked_overmap_ship_weapon.overheat_hud.updatehud()
+//	linked_overmap_ship_weapon.overheat_hud.set_offset((100-(((max_heat-heat)/(max_heat)) *100)))
 	if(!linked_overmap_ship_weapon)
 		return
 	for(var/obj/machinery/cooling/cooler/C in cooling)
