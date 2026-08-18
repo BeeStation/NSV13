@@ -330,9 +330,10 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 				qdel(src)
 				return
 
-	var/max_recommended_client = CONFIG_GET(number/client_max_build)
-	if(byond_build > max_recommended_client)
-		to_chat(src, "<span class='userdanger'>Your version of byond is over the maximum recommended version for clients (build [max_recommended_client]) and may be unstable.</span>")
+	var/max_recommended_build = CONFIG_GET(number/client_max_build)
+	var/max_recommended_version = CONFIG_GET(number/client_max_version)
+	if(byond_build > max_recommended_build || byond_version > max_recommended_version)
+		to_chat(src, "<span class='userdanger'>Your version of byond is over the maximum recommended version for clients ([max_recommended_version] build [max_recommended_build]) and may be unstable.</span>")
 		to_chat(src, "<span class='danger'>Please download an older version of byond. You can go to <a href=\"https://secure.byond.com/download/build\">BYOND's website</a> to download other versions.</span>")
 	if(SSinput.initialized)
 		set_macros()

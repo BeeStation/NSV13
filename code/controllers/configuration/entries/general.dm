@@ -440,6 +440,10 @@
 	config_entry_value = null
 	min_val = 0
 
+/datum/config_entry/number/client_max_version
+	config_entry_value = null
+	min_val = 0
+
 /datum/config_entry/number/minute_topic_limit
 	config_entry_value = null
 	min_val = 0

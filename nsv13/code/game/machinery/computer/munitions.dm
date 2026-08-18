@@ -1,6 +1,7 @@
 //Standard munitions console
 /obj/machinery/computer/ship/munitions_computer
 	name = "munitions control computer"
+	desc = "This console allows you to control and monitor a linked ship weapon."
 	icon = 'nsv13/icons/obj/munitions.dmi'
 	icon_state = "munitions_console"
 	density = TRUE
