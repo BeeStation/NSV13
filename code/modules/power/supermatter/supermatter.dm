@@ -522,7 +522,7 @@ GLOBAL_DATUM(main_supermatter_engine, /obj/machinery/power/supermatter_crystal)
 	visible_message("<span class='userdanger'>[src] is consumed by the singularity!</span>")
 	for(var/mob/M in GLOB.player_list)
 		if(M.get_virtual_z_level() == get_virtual_z_level())
-			SEND_SOUND(M, 'sound/effects/supermatter.ogg') //everyone goan know bout this
+			SEND_SOUND(M, sound('sound/effects/supermatter.ogg', channel = SSsounds.random_available_channel())) //everyone goan know bout this
 			to_chat(M, "<span class='boldannounce'>A horrible screeching fills your ears, and a wave of dread washes over you...</span>")
 	qdel(src)
 	return gain

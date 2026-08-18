@@ -107,5 +107,5 @@
 	else
 		repair_amount = CEILING(10 * tier - (them.mass - us.mass), 1) //Big ships can be slow to fix.
 	them.try_repair(repair_amount)
-	us.relay('sound/items/welder.ogg')
-	them.relay('sound/items/welder2.ogg')
+	us.relay('sound/items/welder.ogg', channel = SSsounds.random_available_channel())
+	them.relay('sound/items/welder2.ogg', channel = SSsounds.random_available_channel())

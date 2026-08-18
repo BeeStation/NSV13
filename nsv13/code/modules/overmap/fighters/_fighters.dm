@@ -225,7 +225,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		return
 	if(disruption && prob(min(95, disruption)))
 		to_chat(usr, "<span class='warning'>The controls buzz angrily!</span>")
-		relay('sound/machines/buzz-sigh.ogg')
+		relay('sound/machines/buzz-sigh.ogg', channel = SSsounds.random_available_channel())
 		return TRUE
 	var/atom/movable/target = locate(params["id"])
 	switch(action)
@@ -317,22 +317,22 @@ Been a mess since 2018, we'll fix it someday (probably)
 				return
 			to_chat(usr, "<span class='notice'>You [DC.docking_mode ? "disengage" : "engage"] [src]'s docking computer.</span>")
 			DC.docking_mode = !DC.docking_mode
-			relay('nsv13/sound/effects/fighters/switch.ogg')
+			relay('nsv13/sound/effects/fighters/switch.ogg', channel = SSsounds.random_available_channel())
 			return TRUE
 		if("brakes")
 			toggle_brakes()
-			relay('nsv13/sound/effects/fighters/switch.ogg')
+			relay('nsv13/sound/effects/fighters/switch.ogg', channel = SSsounds.random_available_channel())
 			return TRUE
 		if("inertial_dampeners")
 			toggle_inertia()
-			relay('nsv13/sound/effects/fighters/switch.ogg')
+			relay('nsv13/sound/effects/fighters/switch.ogg', channel = SSsounds.random_available_channel())
 			return TRUE
 		if("weapon_safety")
 			toggle_safety()
-			relay('nsv13/sound/effects/fighters/switch.ogg')
+			relay('nsv13/sound/effects/fighters/switch.ogg', channel = SSsounds.random_available_channel())
 			return TRUE
 		if("target_lock")
-			relay('nsv13/sound/effects/fighters/switch.ogg')
+			relay('nsv13/sound/effects/fighters/switch.ogg', channel = SSsounds.random_available_channel())
 			dump_locks()
 			return TRUE
 		if("mag_release")
@@ -352,7 +352,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 				to_chat(usr, "<span class='warning'>FTL unit not properly installed.</span>")
 				return
 			ftl.toggle()
-			relay('nsv13/sound/effects/fighters/switch.ogg')
+			relay('nsv13/sound/effects/fighters/switch.ogg', channel = SSsounds.random_available_channel())
 			. = TRUE
 		if("anchor_ftl")
 			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
@@ -364,7 +364,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 				ftl.anchored_to = new_target
 			else
 				to_chat(usr, "<span class='warning'>Unable to update telemetry. Ensure you are in proximity to a Seegson FTL drive.</span>")
-			relay('nsv13/sound/effects/fighters/switch.ogg')
+			relay('nsv13/sound/effects/fighters/switch.ogg', channel = SSsounds.random_available_channel())
 			. = TRUE
 		if("return_jump")
 			var/obj/item/fighter_component/ftl/ftl = loadout.get_slot(HARDPOINT_SLOT_FTL)
@@ -395,7 +395,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 			maintenance_mode = !maintenance_mode
 			return TRUE
 
-	relay('nsv13/sound/effects/fighters/switch.ogg')
+	relay('nsv13/sound/effects/fighters/switch.ogg', channel = SSsounds.random_available_channel())
 
 // Bypass the z level checks done by parent
 /obj/structure/overmap/small_craft/forceMove(atom/destination)
@@ -817,7 +817,7 @@ Been a mess since 2018, we'll fix it someday (probably)
 		if(A.obj_integrity <= 0)
 			loadout.remove_hardpoint(A, TRUE)
 			qdel(A) //There goes your armour!
-		relay(pick('nsv13/sound/effects/ship/freespace2/ding1.wav', 'nsv13/sound/effects/ship/freespace2/ding2.wav', 'nsv13/sound/effects/ship/freespace2/ding3.wav', 'nsv13/sound/effects/ship/freespace2/ding4.wav', 'nsv13/sound/effects/ship/freespace2/ding5.wav'))
+		relay(pick('nsv13/sound/effects/ship/freespace2/ding1.wav', 'nsv13/sound/effects/ship/freespace2/ding2.wav', 'nsv13/sound/effects/ship/freespace2/ding3.wav', 'nsv13/sound/effects/ship/freespace2/ding4.wav', 'nsv13/sound/effects/ship/freespace2/ding5.wav'), channel = SSsounds.random_available_channel())
 	else
 		. = ..()
 		if(obj_integrity <= 0)
@@ -831,14 +831,14 @@ Been a mess since 2018, we'll fix it someday (probably)
 				M.take_overall_damage(damage_amount/2)
 		return
 	if(prob(50))
-		relay('sound/effects/glasshit.ogg')
+		relay('sound/effects/glasshit.ogg', channel = SSsounds.random_available_channel())
 		C.take_damage(damage_amount/2, damage_type, damage_flag, sound_effect)
 		if(C.obj_integrity <= 0)
 			canopy_breach(C)
 
 /obj/structure/overmap/small_craft/proc/canopy_breach(obj/item/fighter_component/canopy/C)
 	set waitfor = FALSE
-	relay('nsv13/sound/effects/ship/cockpit_breach.ogg') //We're leaking air!
+	relay('nsv13/sound/effects/ship/cockpit_breach.ogg', channel = SSsounds.random_available_channel()) //We're leaking air!
 	loadout.remove_hardpoint(HARDPOINT_SLOT_CANOPY, TRUE)
 	qdel(C) //Pop off the canopy.
 	update_visuals()
@@ -1573,7 +1573,7 @@ due_to_damage: If the removal was caused voluntarily (FALSE), or if it was cause
 	next_process = world.time + 4 SECONDS
 	if(!fuel_line)
 		return //APU needs fuel to drink
-	F.relay('nsv13/sound/effects/fighters/apu_loop.ogg')
+	F.relay('nsv13/sound/effects/fighters/apu_loop.ogg', channel = SSsounds.random_available_channel())
 	var/obj/item/fighter_component/engine/engine = F.loadout.get_slot(HARDPOINT_SLOT_ENGINE)
 	F.use_fuel(2, TRUE) //APUs take fuel to run.
 	if(engine.active())
@@ -1718,7 +1718,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	if(!istype(F))
 		return FALSE
 	if(!ammo.len)
-		F.relay('sound/weapons/gun_dry_fire.ogg')
+		F.relay('sound/weapons/gun_dry_fire.ogg', channel = SSsounds.random_available_channel())
 		return FALSE
 	var/obj/item/ammo_casing/chambered = ammo[ammo.len]
 	. = chambered.projectile_type
@@ -1794,7 +1794,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 
 	if(B.charge < charge_to_fire)
-		F.relay('sound/weapons/gun_dry_fire.ogg')
+		F.relay('sound/weapons/gun_dry_fire.ogg', channel = SSsounds.random_available_channel())
 		return FALSE
 
 	B.charge -= charge_to_fire
@@ -1918,7 +1918,7 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	if(!istype(F))
 		return FALSE
 	if(!ammo.len)
-		F.relay('sound/weapons/gun_dry_fire.ogg')
+		F.relay('sound/weapons/gun_dry_fire.ogg', channel = SSsounds.random_available_channel())
 		return FALSE
 	var/obj/item/ship_weapon/ammunition/americagobrr = pick_n_take(ammo)
 	. = americagobrr.projectile_type //Pass torp back towards datum.

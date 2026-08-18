@@ -345,7 +345,7 @@ SUBSYSTEM_DEF(ticker)
 	SSdbcore.SetRoundStart()
 
 	to_chat(world, "<span class='notice'><B>Welcome to [station_name()], enjoy your stay!</B></span>")
-	SEND_SOUND(world, sound(SSstation.announcer.get_rand_welcome_sound()))
+	SEND_SOUND(world, sound(SSstation.announcer.get_rand_welcome_sound(), channel = SSsounds.random_available_channel()))
 
 	current_state = GAME_STATE_PLAYING
 	Master.SetRunLevel(RUNLEVEL_GAME)
@@ -503,7 +503,7 @@ SUBSYSTEM_DEF(ticker)
 		listclearnulls(queued_players)
 		for (var/mob/dead/new_player/NP in queued_players)
 			to_chat(NP, "<span class='userdanger'>The alive players limit has been released!<br><a href='?src=[REF(NP)];late_join=override'>[html_encode(">>Join Game<<")]</a></span>")
-			SEND_SOUND(NP, sound('sound/misc/notice1.ogg'))
+			SEND_SOUND(NP, sound('sound/misc/notice1.ogg', channel = SSsounds.random_available_channel()))
 			NP.LateChoices()
 		queued_players.len = 0
 		queue_delay = 0
@@ -518,7 +518,7 @@ SUBSYSTEM_DEF(ticker)
 			if(living_player_count() < hpc)
 				if(next_in_line && next_in_line.client)
 					to_chat(next_in_line, "<span class='userdanger'>A slot has opened! You have approximately 20 seconds to join. <a href='?src=[REF(next_in_line)];late_join=override'>\>\>Join Game\<\<</a></span>")
-					SEND_SOUND(next_in_line, sound('sound/misc/notice1.ogg'))
+					SEND_SOUND(next_in_line, sound('sound/misc/notice1.ogg', channel = SSsounds.random_available_channel()))
 					next_in_line.LateChoices()
 					return
 				queued_players -= next_in_line //Client disconnected, remove he

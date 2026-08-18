@@ -18,10 +18,10 @@
 				C.confused += 15
 				C.Jitter(20)
 			else
-				SEND_SOUND(C, sound('sound/effects/screech.ogg'))
+				SEND_SOUND(C, sound('sound/effects/screech.ogg', channel = SSsounds.random_available_channel()))
 
 		if(issilicon(M))
-			SEND_SOUND(M, sound('sound/weapons/flash.ogg'))
+			SEND_SOUND(M, sound('sound/weapons/flash.ogg', channel = SSsounds.random_available_channel()))
 			M.Paralyze(rand(75,150))
 
 	for(var/obj/machinery/light/L in range(4, user))

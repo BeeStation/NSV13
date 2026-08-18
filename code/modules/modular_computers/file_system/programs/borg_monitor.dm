@@ -80,10 +80,10 @@
 			to_chat(usr, "<br><br><span class='notice'>Message to [R] (as [sender_name]) -- \"[message]\"</span><br>")
 			computer.send_sound()
 			to_chat(R, "<br><br><span class='notice'>Message from [sender_name] -- \"[message]\"</span><br>")
-			SEND_SOUND(R, 'sound/machines/twobeep_high.ogg')
+			SEND_SOUND(R, sound('sound/machines/twobeep_high.ogg', channel = SSsounds.random_available_channel()))
 			if(R.connected_ai)
 				to_chat(R.connected_ai, "<br><br><span class='notice'>Message from [sender_name] to [R] -- \"[message]\"</span><br>")
-				SEND_SOUND(R.connected_ai, 'sound/machines/twobeep_high.ogg')
+				SEND_SOUND(R.connected_ai, sound('sound/machines/twobeep_high.ogg', channel = SSsounds.random_available_channel()))
 			R.logevent("Message from [sender_name] -- \"[message]\"")
 			usr.log_talk(message, LOG_PDA, tag="Cyborg Monitor Program: ID name \"[sender_name]\" to [R]")
 			return TRUE

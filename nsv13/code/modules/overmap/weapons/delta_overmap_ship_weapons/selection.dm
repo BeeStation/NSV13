@@ -99,7 +99,7 @@
 		old_weapon.on_swap_from()
 	on_swap_to()
 	if(overmap_select_sound && !no_sound && world.time > linked_overmap.switchsound_cooldown)
-		linked_overmap.relay(overmap_select_sound)
+		linked_overmap.relay(overmap_select_sound, channel = SSsounds.random_available_channel())
 		linked_overmap.switchsound_cooldown = world.time + 5 SECONDS
 	if(select_alert && !no_message && user)
 		to_chat(user, select_alert)
