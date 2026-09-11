@@ -328,7 +328,7 @@
 		if(OM.alpha >= 150)
 			if(OM == SSstar_system.find_main_overmap())
 				OM.hail(pick(traitor_taunts), name)
-				RegisterSignal(OM, COMSIG_SHIP_BOARDED, PROC_REF(handle_iff_change))
+				RegisterSignal(OM, COMSIG_SHIP_IFF_CHANGE, PROC_REF(handle_iff_change))
 			else
 				OM.hail(pick(taunts), name)
 			last_encounter_time = world.time

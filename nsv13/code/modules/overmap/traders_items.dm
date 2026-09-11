@@ -16,14 +16,18 @@
 	var/datum/trader/inhabited_trader = null
 
 /obj/structure/overmap/trader/try_hail(mob/living/user)
-	if(!isliving(user) || !allowed(user)) //Only cargo auth'd personnel can make purchases.
-		to_chat(user, "<span class='warning'>Warning: You cannot open a communications channel without appropriate requisitions access registered to your ID card.</span>")
+	if(!isliving(user))
 		return FALSE
 	if(inhabited_trader)
+		if(!allowed(user)) //Only cargo auth'd personnel can make purchases at traders.
+			to_chat(user, "<span class='warning'>Warning: You cannot open a communications channel without appropriate requisitions access registered to your ID card.</span>")
+			return FALSE
 		inhabited_trader.greeting = pick(inhabited_trader.greetings)
 		inhabited_trader.ui_interact(user)
 		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
 		to_chat(user, "<span class='boldnotice'>[pick(inhabited_trader.greetings)]</span>")
+	else
+		return ..()
 
 /obj/structure/overmap/trader/can_move()
 	//Nope!
@@ -58,6 +62,27 @@
 	if((datum_flags & DF_ISPROCESSING) && (!current_system || !current_system.occupying_z))
 		STOP_PROCESSING(SSphysics_processing, src)
 
+/datum/map_template/boarding/smalloutpost
+	name = "Crab class outpost (interior)"
+	mappath = "_maps/templates/boarding/syndicate/smalloutpost.dmm"
+
+/obj/structure/overmap/trader/syndicate/outpost
+	name = "Syndicate Outpost"
+	icon = 'nsv13/icons/overmap/smallstation.dmi'
+	icon_state = "outpost"
+	ai_controlled = TRUE
+	ai_behaviour = AI_GUARD
+	missiles = 4
+	armor = list("overmap_light" = 90, "overmap_medium" = 50, "overmap_heavy" = 40)
+	overmap_deletion_traits = DAMAGE_STARTS_COUNTDOWN //When it's been boarded, it can break
+	can_resupply = TRUE //Of course the station can supply
+	ai_flags = AI_FLAG_STATIONARY
+	combat_dice_type = /datum/combat_dice/civilian
+	area_type = /area/ruin/powered/nsv13/boarding_interior
+	possible_interior_maps = list(/datum/map_template/boarding/smalloutpost)
+
+/obj/structure/overmap/trader/syndicate/outpost/set_trader()
+	return //They're for boarding, not trading
 
 //General items:
 
