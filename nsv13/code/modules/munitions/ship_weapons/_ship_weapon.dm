@@ -49,6 +49,7 @@
 
 	var/malfunction_sound = 'sound/effects/alert.ogg'
 
+
 	//Various traits that probably won't change
 	var/maintainable = TRUE //Does the weapon require maintenance?
 	var/bang = TRUE //Is firing loud?
@@ -76,11 +77,7 @@
 	var/obj/item/ammo_box/magazine/magazine //Magazine if we have one
 	var/obj/chambered //Chambered round if we have one. Extrapolate ammo type from this
 	var/list/ammo = list() //All loaded ammo
-
-	// These variables only pertain to energy weapons, but need to be checked later in /proc/fire
-	var/charge = 0
-	var/charge_rate = 0 //How quickly do we charge?
-	var/charge_per_shot = 0 //How much power per shot do we have to use?
+	//energy weapon vars used to be here, they aren't anymore
 
 /**
  * Constructor for /obj/machinery/ship_weapon
@@ -577,13 +574,16 @@
 /**
  * Updates maintenance counter after firing if applicable.
  */
-/obj/machinery/ship_weapon/proc/after_fire()
-	//Count down towards maintenance
+/obj/machinery/ship_weapon/proc/maint_wear()
 	if(maintainable)
 		if(maint_req > 0)
 			maint_req --
 		else
 			weapon_malfunction()
+
+/obj/machinery/ship_weapon/proc/after_fire()
+	//Count down towards maintenance
+	maint_wear()
 	update()
 
 /**
