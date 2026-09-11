@@ -107,7 +107,7 @@
 			if(next_attack_tick < world.time)
 				next_attack_tick = world.time + rand(50, 100)
 				to_chat(world, "<span class='danger'>[pick("You hear the scratching of cogs.","You hear the clanging of pipes.","You feel your bones start to rust...")]</span>")
-				SEND_SOUND(world, 'sound/magic/clockwork/narsie_attack.ogg')
+				SEND_SOUND(world, sound('sound/magic/clockwork/narsie_attack.ogg', channel = SSsounds.random_available_channel()))
 				SpinAnimation(4, 0)
 				for(var/mob/living/M in GLOB.player_list)
 					shake_camera(M, 25, 6)

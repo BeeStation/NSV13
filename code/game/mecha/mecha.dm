@@ -205,7 +205,7 @@
 /obj/mecha/proc/restore_equipment()
 	equipment_disabled = 0
 	if(occupant)
-		SEND_SOUND(occupant, sound('sound/items/timer.ogg', volume=50))
+		SEND_SOUND(occupant, sound('sound/items/timer.ogg', volume=50, channel = SSsounds.random_available_channel()))
 		to_chat(occupant, "<span=notice>Equipment control unit has been rebooted successfuly.</span>")
 		occupant.update_mouse_pointer()
 
@@ -713,7 +713,7 @@
 /obj/mecha/proc/setInternalDamage(int_dam_flag)
 	internal_damage |= int_dam_flag
 	log_message("Internal damage of type [int_dam_flag].", LOG_MECHA)
-	SEND_SOUND(occupant, sound('sound/machines/warning-buzzer.ogg',wait=0))
+	SEND_SOUND(occupant, sound('sound/machines/warning-buzzer.ogg',wait=0, channel = SSsounds.random_available_channel()))
 	diag_hud_set_mechstat()
 	return
 
@@ -828,7 +828,7 @@
 	update_icon()
 	playsound(src, 'sound/machines/windowdoor.ogg', 50, 1)
 	if(!internal_damage)
-		SEND_SOUND(occupant, sound('sound/mecha/nominal.ogg',volume=50))
+		SEND_SOUND(occupant, sound('sound/mecha/nominal.ogg',volume=50, channel = SSsounds.random_available_channel()))
 	AI.cancel_camera()
 	AI.controlled_mech = src
 	AI.remote_control = src
@@ -969,7 +969,7 @@
 		setDir(dir_in)
 		playsound(src, 'sound/machines/windowdoor.ogg', 50, 1)
 		if(!internal_damage)
-			SEND_SOUND(occupant, sound('sound/mecha/nominal.ogg',volume=50))
+			SEND_SOUND(occupant, sound('sound/mecha/nominal.ogg',volume=50, channel = SSsounds.random_available_channel()))
 		return 1
 	else
 		return 0
@@ -1025,7 +1025,7 @@
 	setDir(dir_in)
 	log_message("[mmi_as_oc] moved in as pilot.", LOG_MECHA)
 	if(!internal_damage)
-		SEND_SOUND(occupant, sound('sound/mecha/nominal.ogg',volume=50))
+		SEND_SOUND(occupant, sound('sound/mecha/nominal.ogg',volume=50, channel = SSsounds.random_available_channel()))
 	GrantActions(brainmob)
 	return TRUE
 

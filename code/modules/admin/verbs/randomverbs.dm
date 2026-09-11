@@ -1125,7 +1125,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 			else
 				card.registered_account.account_balance = card.registered_account.account_balance - new_cost
 				card.registered_account.bank_card_talk("[new_cost] credits deducted from your account based on performance review.")
-			SEND_SOUND(target, 'sound/machines/buzz-sigh.ogg') //NSV13 end
+			SEND_SOUND(target, sound('sound/machines/buzz-sigh.ogg', channel = SSsounds.random_available_channel())) //NSV13 end
 		if(ADMIN_PUNISHMENT_LIGHTNING)
 			var/turf/T = get_step(get_step(target, NORTH), NORTH)
 			T.Beam(target, icon_state="lightning[rand(1,12)]", time = 5)

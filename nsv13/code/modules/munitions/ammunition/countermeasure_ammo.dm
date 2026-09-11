@@ -49,7 +49,7 @@
 	if(CD.obj_integrity <= 0) //check to see if the dispenser is broken
 		if(prob(85))
 			to_chat(usr, "<span class='warning'>Error detected in Countermeasure System! Process Aborted!</span>")
-			SEND_SOUND(usr, sound('sound/effects/alert.ogg', repeat = FALSE, wait = 0, volume = 100))
+			SEND_SOUND(usr, sound('sound/effects/alert.ogg', repeat = FALSE, wait = 0, volume = 100, channel = SSsounds.random_available_channel()))
 			return
 	CD.charges -= 1
 	for(var/I = 0, I < 3, I++) //launch three chaff

@@ -112,8 +112,8 @@
 		return "<span class='warning'>Fuel levels below minimum safe transfer level.</span>"
 	var/obj/item/fighter_component/fuel_tank/ourTank = us.loadout.get_slot(HARDPOINT_SLOT_FUEL)
 	var/obj/item/fighter_component/fuel_tank/theirTank = them.loadout.get_slot(HARDPOINT_SLOT_FUEL)
-	us.relay('nsv13/sound/effects/fighters/refuel.ogg')
-	them.relay('nsv13/sound/effects/fighters/refuel.ogg')
+	us.relay('nsv13/sound/effects/fighters/refuel.ogg', channel = SSsounds.random_available_channel())
+	them.relay('nsv13/sound/effects/fighters/refuel.ogg', channel = SSsounds.random_available_channel())
 	ourTank.reagents.trans_to(theirTank, transfer_amount)
 	return
 

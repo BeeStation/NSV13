@@ -93,7 +93,7 @@
 	app_mind.assigned_role = "Apprentice"
 	app_mind.special_role = "apprentice"
 	//
-	SEND_SOUND(M, sound('sound/effects/magic.ogg'))
+	SEND_SOUND(M, sound('sound/effects/magic.ogg', channel = SSsounds.random_available_channel()))
 
 ///////////BORGS AND OPERATIVES
 

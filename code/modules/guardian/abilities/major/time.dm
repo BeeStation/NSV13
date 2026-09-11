@@ -26,7 +26,7 @@
 		for(var/mob/living/simple_animal/hostile/guardian/GG in G.summoner.current.hasparasites())
 			immune += GG
 	for(var/mob/living/L in immune)
-		SEND_SOUND(L, sound('sound/magic/timeparadox2.ogg'))
+		SEND_SOUND(L, sound('sound/magic/timeparadox2.ogg', channel = SSsounds.random_available_channel()))
 		if(isturf(L.loc))
 			var/mob/living/simple_animal/hostile/illusion/doppelganger/E = new(L.loc)
 			E.set_lifetime(60)

@@ -252,7 +252,7 @@
 	if(!radio_silent)//Radios make small static noises now
 		var/mob/sender = loc
 		if(istype(sender) && sender.hears_radio())
-			var/sound/radio_sound = sound(pick("sound/effects/radio1.ogg", "sound/effects/radio2.ogg"), volume = 50)
+			var/sound/radio_sound = sound(pick("sound/effects/radio1.ogg", "sound/effects/radio2.ogg"), volume = 50, channel = SSsounds.random_available_channel())
 			radio_sound.frequency = get_rand_frequency()
 			SEND_SOUND(sender, radio_sound)
 

@@ -73,7 +73,7 @@
 			if(telegraph_message)
 				to_chat(player, telegraph_message)
 			if(telegraph_sound)
-				SEND_SOUND(player, sound(telegraph_sound))
+				SEND_SOUND(player, sound(telegraph_sound, channel = SSsounds.random_available_channel()))
 	addtimer(CALLBACK(src, PROC_REF(start)), telegraph_duration)
 
 /datum/weather/proc/start()
@@ -90,7 +90,7 @@
 			if(weather_message)
 				to_chat(player, weather_message)
 			if(weather_sound)
-				SEND_SOUND(player, sound(weather_sound))
+				SEND_SOUND(player, sound(weather_sound, channel = SSsounds.random_available_channel()))
 	addtimer(CALLBACK(src, PROC_REF(wind_down)), weather_duration)
 
 /datum/weather/proc/wind_down()
@@ -107,7 +107,7 @@
 			if(end_message)
 				to_chat(player, end_message)
 			if(end_sound)
-				SEND_SOUND(player, sound(end_sound))
+				SEND_SOUND(player, sound(end_sound, channel = SSsounds.random_available_channel()))
 	addtimer(CALLBACK(src, PROC_REF(end)), end_duration)
 
 /datum/weather/proc/end()

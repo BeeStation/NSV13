@@ -54,7 +54,7 @@ GLOBAL_DATUM_INIT(requests, /datum/request_manager, new)
 	request_for_client(C, REQUEST_PRAYER, message)
 	for(var/client/admin in GLOB.admins)
 		if(is_chaplain && admin.prefs.chat_toggles & CHAT_PRAYER && admin.prefs.toggles & PREFTOGGLE_SOUND_PRAYERS)
-			SEND_SOUND(admin, sound('sound/effects/pray.ogg'))
+			SEND_SOUND(admin, sound('sound/effects/pray.ogg', channel = SSsounds.random_available_channel()))
 
 /**
  * Creates a request for a Centcom message

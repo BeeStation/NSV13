@@ -54,7 +54,7 @@ SUBSYSTEM_DEF(star_system)
 			if(new_announcements)
 				for(var/mob/M in GLOB.player_list)
 					if(!isnewplayer(M) && M.can_hear() && (M.client.prefs.toggles & PREFTOGGLE_SOUND_ANNOUNCEMENTS))
-						SEND_SOUND(M, sound('sound/misc/notice2.ogg'))
+						SEND_SOUND(M, sound('sound/misc/notice2.ogg', channel = SSsounds.random_available_channel()))
 			next_combat_cycle = world.time + COMBAT_CYCLE_INTERVAL
 
 	for(var/datum/faction/F in factions)

@@ -210,7 +210,7 @@
 		if(!can_scrape_rune(rune, cultist))
 			return
 
-	SEND_SOUND(cultist, 'sound/items/sheath.ogg')
+	SEND_SOUND(cultist, sound('sound/items/sheath.ogg', channel = SSsounds.random_available_channel()))
 	if(!do_after(cultist, rune.erase_time, target = rune))
 		return
 

@@ -211,6 +211,6 @@
  */
 /datum/overmap_ship_weapon/proc/play_weapon_sound(local = FALSE)
 	if(!local)
-		linked_overmap.relay_to_nearby(pick(overmap_firing_sounds))
+		linked_overmap.relay_to_nearby(pick(overmap_firing_sounds), channel = SSsounds.random_available_channel())
 	else
-		linked_overmap.relay(pick(overmap_firing_sounds))
+		linked_overmap.relay(pick(overmap_firing_sounds), channel = SSsounds.random_available_channel())

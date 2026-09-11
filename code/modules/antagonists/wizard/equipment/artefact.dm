@@ -271,7 +271,7 @@
 	to_chat(M, "<span class='userdanger'>[user.p_theyre(TRUE)] your master now, assist [user.p_them()] even if it costs you your new life!</span>")
 
 	equip_roman_skeleton(M)
-	
+
 	log_combat(user, M, "used a necromantic stone to reanimate")
 
 	desc = "A shard capable of resurrecting humans as skeleton thralls[unlimited ? "." : ", [spooky_scaries.len]/3 active thralls."]"
@@ -333,7 +333,7 @@
 			GiveHint(target)
 		else if(istype(I, /obj/item/bikehorn))
 			to_chat(target, "<span class='userdanger'>HONK</span>")
-			SEND_SOUND(target, 'sound/items/airhorn.ogg')
+			SEND_SOUND(target, sound('sound/items/airhorn.ogg', channel = SSsounds.random_available_channel()))
 			target.adjustEarDamage(0,3)
 			GiveHint(target)
 		cooldown = world.time +cooldown_time
