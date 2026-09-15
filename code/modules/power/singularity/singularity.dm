@@ -308,9 +308,9 @@
 		var/obj/machinery/field/generator/G = locate(/obj/machinery/field/generator) in T
 		if(G?.active)
 			return 0
-	else if(locate(/obj/machinery/shieldwallgen) in T)
-		var/obj/machinery/shieldwallgen/S = locate(/obj/machinery/shieldwallgen) in T
-		if(S?.active)
+	else if(locate(/obj/machinery/power/shieldwallgen) in T)
+		var/obj/machinery/power/shieldwallgen/S = locate(/obj/machinery/power/shieldwallgen) in T
+		if(S?.shieldstate)
 			return 0
 	return 1
 
