@@ -155,7 +155,7 @@
 	id = "fightergun2"
 	display_name = "Advanced Fighter Weapons"
 	description = "Research into advanced ballistic fighter weapons."
-	design_ids = list("ordnance_launcher_tier2","fighter_missile_launcher_tier2", "heavy_cannon")
+	design_ids = list("ordnance_launcher_tier2","fighter_missile_launcher_tier2", "heavy_cannon", "jtag_system")
 	prereq_ids = list("fightergun1", "ballistic_weapons")
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	export_price = 2500
