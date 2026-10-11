@@ -2801,7 +2801,12 @@
 /turf/open/floor/plating,
 /area/engine/engineering/hangar)
 "ahe" = (
-/obj/structure/disposalpipe/junction,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer2,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden/layer4,
+/obj/structure/disposalpipe/junction/flip,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
 "ahf" = (
@@ -5156,13 +5161,6 @@
 /obj/machinery/computer/ship/viewscreen,
 /turf/open/floor/monotile/dark,
 /area/tcommsat/computer)
-"aoe" = (
-/obj/machinery/disposal/bin,
-/obj/structure/disposalpipe/trunk{
-	dir = 4
-	},
-/turf/open/floor/carpet/ship,
-/area/crew_quarters/dorms)
 "aok" = (
 /obj/machinery/firealarm/directional/west,
 /obj/machinery/atmospherics/pipe/simple/general/visible{
@@ -35609,9 +35607,10 @@
 /turf/open/floor/monotile/steel,
 /area/hallway/nsv/deck2/frame1/central)
 "bIx" = (
-/obj/item/kirbyplants{
-	icon_state = "plant-21"
+/obj/structure/disposalpipe/trunk{
+	dir = 8
 	},
+/obj/machinery/disposal/bin,
 /turf/open/floor/carpet/ship,
 /area/crew_quarters/dorms)
 "bIy" = (
@@ -95416,7 +95415,7 @@ bhD
 fXp
 lAs
 atz
-aoe
+aqy
 cPI
 aqy
 apc
@@ -95673,7 +95672,7 @@ qvd
 xEa
 aqy
 mXe
-ahe
+aln
 eot
 aln
 aln
@@ -95924,7 +95923,7 @@ bFP
 bMb
 bMc
 hFc
-afT
+ahe
 aLS
 asw
 ahl
