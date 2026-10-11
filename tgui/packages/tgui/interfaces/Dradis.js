@@ -15,6 +15,7 @@ export const DradisContent = (props, context) => {
       left: ship.x*scale_factor+'px',
       bottom: ship.y*scale_factor+'px',
       border: borderType,
+      outline: "1px solid "+ship.outline_color, // This one change took WAY too long.
       opacity: ship.opacity,
       transition: "all 0.5s ease-out",
     };

@@ -961,6 +961,7 @@ due_to_damage: Was this called voluntarily (FALSE) or due to damage / external c
 
 	if(component && istype(component))
 		component.remove_from(holder, due_to_damage)
+		SEND_SIGNAL(holder, COMSIG_FIGHTER_COMPONENT_DETACHED, component)
 
 /datum/component/ship_loadout/proc/dump_contents(slot)
 	var/obj/item/fighter_component/component = null
@@ -1923,6 +1924,74 @@ Utility modules can be either one of these types, just ensure you set its slot t
 	var/obj/item/ship_weapon/ammunition/americagobrr = pick_n_take(ammo)
 	. = americagobrr.projectile_type //Pass torp back towards datum.
 	qdel(americagobrr)
+
+/*
+	This is an EVIL use of a primary weapon type as a secondary because the OSW code can handle it and it is meant to be magfed.
+	(Would otherwise include copypasting what doesn't need to be copypasted.. Honestly fighter weapons could benefit
+	from using branching types differently, but I really do not want to scopecreep this)
+	If something in overmap weapon datums is changed so this is no longer supported, adjust this to use single easy printable charges instead.
+*/
+/obj/item/fighter_component/primary/active_jamming_pod
+	name = "J-TAG Active Jamming Pod"
+	desc = "A hybrid of a launcher, missile guidance controller,\
+			and jamming pod, the J-TAG launches high-velocity beacons designating targets for the integrated EWAR system,\
+			jamming point-defense and supporting missile tracking while the beacon remains within range.\
+			You could link up to two other J-TAG systems to this by letting them perform a proximity handshake, which would render them able to exchange data."
+	icon_state = "jtag_brick" //Codersprite :3
+	accepted_ammo = /obj/item/ammo_box/magazine/nsv/jtag
+	weight = 1 //1-2?
+	fire_delay = 5 SECONDS
+	slot = HARDPOINT_SLOT_SECONDARY
+	fighter_fire_mode = OSW_FIGHTER_SECONDARY_WEAPON
+	overmap_select_sound = 'nsv13/sound/effects/ship/pdc_start.ogg'
+	overmap_firing_sounds = list('nsv13/sound/effects/fighters/jtag_fire.ogg') //Guh that's quite quiet ingame.. JTAG-TODO
+	///Pods libked to this via multitool (max = 2 links)
+	var/linked_pods = list()
+	///Fighters linked via where the pods are attached
+	var/linked_fighters = list()
+
+/obj/item/fighter_component/primary/active_jamming_pod/examine(mob/user)
+	. = ..()
+	. += "Linked pods: <i>[length(linked_pods)] / 2</i>"
+	. += "Network-linked pods mounted: <i>[length(linked_fighters)]</i>"
+
+/obj/item/fighter_component/primary/active_jamming_pod/attackby(obj/item/I, mob/living/user, params)
+	if(!istype(I, /obj/item/fighter_component/primary/active_jamming_pod) || !user.Adjacent(src))
+		return ..()
+	. = TRUE
+	var/obj/item/fighter_component/primary/active_jamming_pod/to_link = I
+	if(locate(to_link) in linked_pods)
+		return
+	if(length(linked_pods) >= 2)
+		to_chat(user, "<span class='warning'>This can only create a network between at most three pods!</span>")
+		return
+	linked_pods += to_link
+	to_link.linked_pods += src
+	RegisterSignal(to_link, COMSIG_PARENT_QDELETING, PROC_REF(linked_pod_destroyed))
+	to_link.RegisterSignal(src, COMSIG_PARENT_QDELETING, PROC_REF(linked_pod_destroyed))
+	to_chat(user, "<span class='notice'>You link the two J-TAG controllers.</span>")
+
+///Reacts to a pod linked being destroyed and removes it from related lists / clears its list of us.
+/obj/item/fighter_component/primary/active_jamming_pod/proc/linked_pod_destroyed(obj/item/fighter_component/primary/active_jamming_pod/source)
+	SIGNAL_HANDLER
+	linked_pods -= source
+	source.linked_pods -= src
+	UnregisterSignal(source, COMSIG_PARENT_QDELETING)
+
+/obj/item/fighter_component/primary/active_jamming_pod/Destroy()
+	linked_pods = null
+	linked_fighters = null
+	return ..()
+
+/obj/item/fighter_component/primary/active_jamming_pod/on_install(obj/structure/overmap/target)
+	. = ..()
+	for(var/obj/item/fighter_component/primary/active_jamming_pod/linked_pod as anything in linked_pods)
+		linked_pod.linked_fighters += target
+
+/obj/item/fighter_component/primary/active_jamming_pod/remove_from(obj/structure/overmap/target)
+	for(var/obj/item/fighter_component/primary/active_jamming_pod/linked_pod as anything in linked_pods)
+		linked_pod.linked_fighters -= target
+	return ..()
 
 //Utility modules.
 

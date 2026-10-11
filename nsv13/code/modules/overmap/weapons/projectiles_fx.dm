@@ -750,3 +750,26 @@ Misc projectile types, effects, think of this as the special FX file.
 	icon = 'nsv13/goonstation/icons/hugeexplosion2.dmi'
 	icon_state = "explosion"
 	duration = 10
+
+//Fancy projectile that marks a target and leaves a datum that talks to the origin ships and some other things.
+/obj/item/projectile/bullet/jtag_beacon
+	name = "light J-TAG beacon"
+	icon = 'nsv13/icons/obj/projectiles_nsv.dmi'
+	icon_state = "jtag_l"
+	damage = 1
+	//Deliberately lacks a relay projectile.
+	speed = 0.4 //Fast.
+	flag = "overmap_light"
+	///Duration the JTAG beacon lasts after attaching.
+	var/duration = 90 SECONDS //TEMP?
+
+/obj/item/projectile/bullet/jtag_beacon/spec_overmap_hit(obj/structure/overmap/target)
+	if(!overmap_firer || QDELETED(overmap_firer))
+		return
+	target.AddComponent(/datum/component/attached_jtag_beacon, overmap_firer, duration) //One day I'll write actual overmap status effects but I don't have the energy for that much backend.
+
+/obj/item/projectile/bullet/jtag_beacon/enduring
+	name = "enduring J-TAG beacon"
+	icon_state = "jtag_e"
+	duration = 5 MINUTES //TEMP?
+	speed = 1.2 //powercell mass

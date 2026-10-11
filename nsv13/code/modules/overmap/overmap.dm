@@ -59,6 +59,8 @@
 	var/hullburn = 0
 	///Hullburn strength is what determines the damage per tick, the strongest damage usually goes. Which means, a weaker weapon could be used to lengthen the duration of a strong but short one.
 	var/hullburn_power = 0
+	///Variable that tracks whether this is marked by JTAG. Most of the stuff is on the component but I think the status check is going to get called enough (by sensors) for this to make sense.
+	var/jtag_beaconed = FALSE
 	var/disruption = 0	//Causes bad effects proportional to how significant. Most significant for AI ships (or fighters) hit by disruption weapons.
 
 	var/use_armour_quadrants = FALSE //Does the object use the armour quadrant system?
