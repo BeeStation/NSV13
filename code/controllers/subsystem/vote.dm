@@ -100,6 +100,11 @@ SUBSYSTEM_DEF(vote)
 					choices["Play a normal round"] += non_voters.len
 					if(choices["Play a normal round"] >= greatest_votes) //You need an absolute majority
 						greatest_votes = choices["Play a normal round"]
+				if("Recall Ship?") //NSV13 - Manual Recall vote
+					var/datum/star_system/target = SSstar_system.return_system
+					if(choices["Return to [target.name]"] >= greatest_votes)
+						choices["Return to [target.name]"] += 1 //Breakup tie if recall vote is tied.
+						greatest_votes = choices["Return to [target.name]"]
 	//get all options with that many votes and return them in a list
 	. = list()
 	if(greatest_votes)
@@ -183,6 +188,7 @@ SUBSYSTEM_DEF(vote)
 			if("Press On Or Return Home?") //NSV13 - Round extension vote
 				if(. == "Request Additional Objectives")
 					priority_announce("Additional Objectives") //TEMP
+					SSovermap_mode.last_autorecall_vote = world.time //Delay vote since we just had one. Only relevant for manual autorecall.
 					SSovermap_mode.round_extended = TRUE
 					SSovermap_mode.request_additional_objectives()
 					SSovermap_mode.already_ended = FALSE
@@ -194,6 +200,11 @@ SUBSYSTEM_DEF(vote)
 			if("hardmode") //NSV13 - harder gamemode
 				if(. == "Let's GO FOR IT")
 					SSovermap_mode.toggle_hardmode()
+			if("Recall Ship?") //NSV13 - Manual Recall vote
+				if(. != "Continue the Shift")
+					priority_announce("Recall triggered - Returning to [SSstar_system.return_system.name]")
+					var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+					OM.force_return_jump()
 	if(restart)
 		var/active_admins = FALSE
 		for(var/client/C in GLOB.admins+GLOB.deadmins)
@@ -267,6 +278,9 @@ SUBSYSTEM_DEF(vote)
 				choices.Add("Return to [target.name]", "Request Additional Objectives")
 			if("hardmode") //NSV13 - Hardmode vote
 				choices.Add("Let's GO FOR IT", "Play a normal round")
+			if("Recall Ship?") //NSV13 - ship recall vote - cannot be manually triggered via the interface. Button / Timer / Proccall only.
+				var/datum/star_system/target = SSstar_system.return_system
+				choices.Add("Return to [target.name]", "Continue the Shift")
 			if("custom")
 				question = stripped_input(usr,"What is the vote for?")
 				if(!question)
