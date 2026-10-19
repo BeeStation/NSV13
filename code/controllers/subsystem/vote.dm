@@ -100,11 +100,14 @@ SUBSYSTEM_DEF(vote)
 					choices["Play a normal round"] += non_voters.len
 					if(choices["Play a normal round"] >= greatest_votes) //You need an absolute majority
 						greatest_votes = choices["Play a normal round"]
-				if("Recall Ship?") //NSV13 - Manual Recall vote
-					var/datum/star_system/target = SSstar_system.return_system
-					if(choices["Return to [target.name]"] >= greatest_votes)
-						choices["Return to [target.name]"] += 1 //Breakup tie if recall vote is tied.
-						greatest_votes = choices["Return to [target.name]"]
+	//NSV13 - special overrides, and also manual recall vote
+	switch(mode)
+		if("Recall Ship?") //NSV13 - Manual Recall vote
+			var/datum/star_system/target = SSstar_system.return_system
+			if(choices["Return to [target.name]"] >= greatest_votes)
+				choices["Return to [target.name]"] += 1 //Breakup tie if recall vote is tied. Also breaks up zero-vote cases. Deliberately does not care about the default-vote config. Votes for this should be intentional.
+				greatest_votes = choices["Return to [target.name]"]
+	//NSV13 end.
 	//get all options with that many votes and return them in a list
 	. = list()
 	if(greatest_votes)
