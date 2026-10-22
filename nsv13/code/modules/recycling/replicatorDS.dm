@@ -13,7 +13,7 @@
 	/// The list of possible vocal choosen temperatures.
 	var/list/temperatures = list("cold", "warm", "hot", "extra hot", "well done")
 	/// The list of activator words, used to trigger the replicator to listen to whatever they are ordering.
-	var/list/activator = list("computer", "alexa", "google", "ai", "voice")
+	var/list/activator = list("computer", "alexa", "google", "ai", "voice",	"chat")
 	/// The list of currently Active Holographic Iguanas.
 	var/list/iguanas = list()
 	/// The how much biomass is gained when converting organic stuff into biomass.
