@@ -353,8 +353,40 @@
 			if(SSovermap_mode.already_ended)
 				return
 			SSovermap_mode.mode.check_completion()
-			if(SSovermap_mode.objectives_completed && SSovermap_mode.round_extended)
+			if(!CONFIG_GET(flag/omode_manual_autorecall) && SSovermap_mode.objectives_completed && SSovermap_mode.round_extended)
 				priority_announce("Auto-recall to Outpost 45 will occur once you are out of combat.", "[SSovermap_mode.mode.reminder_origin]")
+		if("requestAutorecall") //NSV13 - manual autorecall request
+			if(!authenticated(usr))
+				return
+			. = TRUE
+			//recheck because never trust the user.
+			var/obj/structure/overmap/main_ship = SSstar_system.find_main_overmap()
+			if(SSovermap_mode.already_ended || main_ship.ftl_drive?.lockout)
+				return
+			if(!SSovermap_mode.round_extended)
+				return
+			if(world.time - SSovermap_mode.last_autorecall_vote < CONFIG_GET(number/omode_manual_autorecall_vote_cooldown))
+				return
+			if(main_ship.ftl_drive && main_ship.ftl_drive.ftl_state == 4) //FTL_STATE_JUMPING magicnumbered due to being a define :(
+				return
+			if(CONFIG_GET(flag/omode_manual_autorecall_crit_lockout))
+				if(main_ship.structure_crit)
+					return
+				else if(world.time < SSovermap_mode.recall_hullcrit_strain_passed)
+					return
+			if(CONFIG_GET(flag/omode_manual_autorecall_hostile_lockout) && length(main_ship.current_system.enemies_in_system))
+				return
+			if(SSvote.mode)
+				return
+			SSovermap_mode.last_autorecall_vote = world.time
+			if(CONFIG_GET(flag/omode_manual_autorecall_captain_can_immediately_recall) && authenticated_as_non_silicon_captain(usr))
+				priority_announce("Captain credentials triggering recall override - Returning to [SSstar_system.return_system.name]")
+				log_game("[key_name(usr)] triggering ship recall.")
+				var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+				OM.force_return_jump()
+			else
+				SSvote.initiate_vote("Recall Ship?", "Naval Command patrol analysis (manual)", TRUE, TRUE)
+				log_game("[key_name(usr)] triggering ship recall vote.")
 
 /obj/machinery/computer/communications/ui_data(mob/user)
 	var/list/data = list(
@@ -477,6 +509,39 @@
 						objective_data["status"] = O.status
 						objectives[++objectives.len] = objective_data
 					data["objectives"] = objectives
+				//NSV13 - autorecall vote trigger support.
+				data["ship_recall_requestable"] = FALSE
+				if(CONFIG_GET(flag/omode_manual_autorecall))
+					var/obj/structure/overmap/main_ship = SSstar_system.find_main_overmap()
+					while(TRUE) //Mildly hacky but I don't want to go down the if(if(if())) line.
+						if(SSovermap_mode.already_ended || main_ship.ftl_drive?.lockout)
+							data["ship_recall_requestable"] = "DRIVE SYSTEM LOCKOUT"
+							break
+						if(!SSovermap_mode.round_extended)
+							data["ship_recall_requestable"] = "MAIN PATROL INCOMPLETE"
+							break
+						if(world.time - SSovermap_mode.last_autorecall_vote < CONFIG_GET(number/omode_manual_autorecall_vote_cooldown))
+							data["ship_recall_requestable"] = "CANNOT REQUEST SO SOON"
+							break
+						if(main_ship.ftl_drive && main_ship.ftl_drive.ftl_state == 4) //FTL_STATE_JUMPING magicnumbered due to being defined later :(
+							data["ship_recall_requestable"] = "CURRENTLY JUMPING"
+							break
+						if(CONFIG_GET(flag/omode_manual_autorecall_crit_lockout))
+							if(main_ship.structure_crit)
+								data["ship_recall_requestable"] = "STRUCTURE STRAIN CRITICAL"
+								break
+							else if(world.time < SSovermap_mode.recall_hullcrit_strain_passed)
+								data["ship_recall_requestable"] = "STRUCTURE STRAIN RECOVERING"
+								break
+						if(CONFIG_GET(flag/omode_manual_autorecall_hostile_lockout) && length(main_ship.current_system.enemies_in_system))
+							data["ship_recall_requestable"] = "CURRENT SYSTEM CONTESTED"
+							break
+						if(SSvote.mode)
+							data["ship_recall_requestable"] = "BANDWIDTH EXCEEDED"
+							break
+						data["ship_recall_requestable"] = "OKAY"
+						break
+				//NSV13 end.
 
 	return data
 

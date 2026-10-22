@@ -117,6 +117,8 @@
 		priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
 		structure_crit = FALSE
 		structure_crit_no_return = FALSE //Even override this
+		if(role == MAIN_OVERMAP)
+			SSovermap_mode.recall_hullcrit_strain_passed = world.time + CONFIG_GET(number/omode_manual_autorecall_crit_lockout_time)
 	if(use_armour_quadrants) //Full armour plates
 		armour_quadrants["forward_port"]["current_armour"] = armour_quadrants["forward_port"]["max_armour"]
 		armour_quadrants["forward_starboard"]["current_armour"] = armour_quadrants["forward_starboard"]["max_armour"]
@@ -148,6 +150,8 @@
 			stop_relay(channel=CHANNEL_SHIP_FX)
 			priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
 			structure_crit = FALSE
+			if(role == MAIN_OVERMAP)
+				SSovermap_mode.recall_hullcrit_strain_passed = world.time + CONFIG_GET(number/omode_manual_autorecall_crit_lockout_time)
 
 /**
  * Repairs a single armor quadrant of a ship.

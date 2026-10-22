@@ -91,6 +91,12 @@
 	msg += "Protect Command Roles From Traitor: [CONFIG_GET(flag/protect_heads_from_antagonist)]"
 	msg += "Enforce Human Authority: [CONFIG_GET(flag/enforce_human_authority)]"
 	msg += "Allow Latejoin Antagonists: [CONFIG_GET(flag/allow_latejoin_antagonists)]"
+	//NSV13 - expose info on how extended missions are handled to revision.
+	msg += "Extended Mission Manual Autorecall: [CONFIG_GET(flag/omode_manual_autorecall)]"
+	if(CONFIG_GET(flag/omode_manual_autorecall))
+		msg += "Extended Mission Captain Recall Override: [CONFIG_GET(flag/omode_manual_autorecall_captain_can_immediately_recall)]"
+		msg += "Extended Mission Ends When Objectives Complete: [CONFIG_GET(flag/omode_manual_autorecall_trigger_on_extended_mission_completion)]"
+	//NSV13 end.
 	msg += "Enforce Continuous Rounds: [length(CONFIG_GET(keyed_list/continuous))] of [config.modes.len] roundtypes"
 	msg += "Allow Midround Antagonists: [length(CONFIG_GET(keyed_list/midround_antag))] of [config.modes.len] roundtypes"
 	if(CONFIG_GET(flag/show_game_type_odds))

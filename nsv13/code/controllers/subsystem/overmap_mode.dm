@@ -57,6 +57,11 @@ SUBSYSTEM_DEF(overmap_mode)
 	///Have we already handed people the extended patrol achievement this round?
 	var/patrol_achievement_adv_granted = FALSE
 
+	///World.time of the last autorecall vote. Relevant for manual autorecall.
+	var/last_autorecall_vote = 0
+	///World.time at which the strain of hullcrit on the main ship will pass enough for long-range recalls to work. Relevant for manual autorecall.
+	var/recall_hullcrit_strain_passed = 0
+
 /datum/controller/subsystem/overmap_mode/Initialize(start_timeofday)
 	//Retrieve the list of modes
 	//Check our map for any white/black lists
@@ -227,6 +232,24 @@ SUBSYSTEM_DEF(overmap_mode)
 			mode.check_completion()
 			check_completion_timer += 10 MINUTES
 
+			if(CONFIG_GET(flag/omode_manual_autorecall) && round_extended && last_autorecall_vote + CONFIG_GET(number/omode_manual_autorecall_vote_interval) < world.time)
+				var/obj/structure/overmap/main_ship = SSstar_system.find_main_overmap()
+				while(TRUE)
+					if(SSovermap_mode.already_ended || main_ship.ftl_drive?.lockout)
+						break
+					if(CONFIG_GET(flag/omode_manual_autorecall_crit_lockout))
+						if(main_ship.structure_crit)
+							break
+						else if(world.time < SSovermap_mode.recall_hullcrit_strain_passed)
+							break
+					if(CONFIG_GET(flag/omode_manual_autorecall_hostile_lockout) && length(main_ship.current_system.enemies_in_system))
+						break
+					if(SSvote.mode)
+						break
+					last_autorecall_vote = world.time
+					SSvote.initiate_vote("Recall Ship?", "Naval Command patrol analysis (auto)", TRUE, TRUE)
+					break
+
 		if(!objective_reminder_override)
 			if(world.time >= next_objective_reminder)
 				mode.check_completion()
@@ -254,21 +277,34 @@ SUBSYSTEM_DEF(overmap_mode)
 						else // I don't know what happened but let's go around again
 							objective_reminder_stacks = 0
 				else
-					var/datum/star_system/S = SSstar_system.return_system
-					switch(objective_reminder_stacks) //Less Stacks Here, Prevent The Post-Round Stalling
-						if(1)
-							priority_announce("Auto-recall to [S.name] will occur in [(mode.objective_reminder_interval * 2) / 600] Minutes.", "[mode.reminder_origin]")
+					if(!CONFIG_GET(flag/omode_manual_autorecall))
+						var/datum/star_system/S = SSstar_system.return_system
+						switch(objective_reminder_stacks) //Less Stacks Here, Prevent The Post-Round Stalling
+							if(1)
+								priority_announce("Auto-recall to [S.name] will occur in [(mode.objective_reminder_interval * 2) / 600] Minutes.", "[mode.reminder_origin]")
 
-						if(2)
-							priority_announce("Auto-recall to [S.name] will occur in [(mode.objective_reminder_interval * 1) / 600] Minutes.", "[mode.reminder_origin]")
+							if(2)
+								priority_announce("Auto-recall to [S.name] will occur in [(mode.objective_reminder_interval * 1) / 600] Minutes.", "[mode.reminder_origin]")
 
-						else
-							var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
-							if(length(OM.current_system?.enemies_in_system))
-								priority_announce("Auto-recall to [S.name] will occur once you are out of combat.", "[mode.reminder_origin]")
-								return // Don't send them home while there are enemies to kill
-							priority_announce("Auto-recall to [S.name] activated, additional objective aborted.", "[mode.reminder_origin]")
-							mode.victory()
+							else
+								var/obj/structure/overmap/OM = SSstar_system.find_main_overmap()
+								if(length(OM.current_system?.enemies_in_system))
+									priority_announce("Auto-recall to [S.name] will occur once you are out of combat.", "[mode.reminder_origin]")
+									return // Don't send them home while there are enemies to kill
+								priority_announce("Auto-recall to [S.name] activated, additional objective aborted.", "[mode.reminder_origin]")
+								mode.victory()
+					else
+						if(CONFIG_GET(flag/omode_manual_autorecall_threat_scaling))
+							//Scales TE increasingly to encourage calling it quits /somewhen/, if the config is enabled. Stacks still reset by objective progress.
+							switch(objective_reminder_stacks)
+								if(1 to 3)
+									//Freebie for the first three.
+								if(4 to 6)
+									modify_threat_elevation(TE_THREAT_PER_HOUR / 6) //Another stack of TE for the next three.
+								if(7 to 9)
+									modify_threat_elevation(TE_THREAT_PER_HOUR / 3) //Doubled for the next three.
+								else
+									modify_threat_elevation(round((TE_THREAT_PER_HOUR / 6) * (3 + (objective_reminder_stacks - 10) * 0.3))) //After that, start scaling. 3x + 0.3x per trigger.
 
 /datum/controller/subsystem/overmap_mode/proc/start_reminder()
 	next_objective_reminder = world.time + mode.objective_reminder_interval
@@ -504,7 +540,8 @@ SUBSYSTEM_DEF(overmap_mode)
 				if(!living_mob.client)
 					continue
 				living_mob.client.give_award(achievement_type, living_mob)
-		victory()
+		if(!SSovermap_mode.round_extended || !CONFIG_GET(flag/omode_manual_autorecall) || CONFIG_GET(flag/omode_manual_autorecall_trigger_on_extended_mission_completion)) //During an extended round, with manual recall, do not turn off reminder timer.
+			victory()
 
 /datum/overmap_gamemode/proc/victory()
 	SSovermap_mode.objectives_completed = TRUE

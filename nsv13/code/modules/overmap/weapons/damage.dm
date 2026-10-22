@@ -263,11 +263,7 @@ Bullet reactions
 /obj/structure/overmap/proc/try_repair(amount)
 	if(amount < 0) //Underflow
 		return FALSE
-	var/withrepair = obj_integrity+amount
-	if(withrepair > max_integrity) //No overheal
-		obj_integrity = max_integrity
-	else
-		obj_integrity += amount
+	obj_integrity = min(obj_integrity + amount, max_integrity) //No overheal
 	if(structure_crit)
 		if(obj_integrity >= max_integrity * 0.2) //You need to repair a good chunk of her HP before you're getting outta this fucko.
 			if(structure_crit_no_return) //Too late.
@@ -275,6 +271,8 @@ Bullet reactions
 			stop_relay(channel=CHANNEL_SHIP_FX)
 			priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([src])")
 			structure_crit = FALSE
+			if(role == MAIN_OVERMAP)
+				SSovermap_mode.recall_hullcrit_strain_passed = world.time + CONFIG_GET(number/omode_manual_autorecall_crit_lockout_time)
 
 
 /obj/effect/temp_visual/explosion_telegraph
