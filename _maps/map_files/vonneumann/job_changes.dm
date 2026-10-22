@@ -14,7 +14,7 @@ MAP_REMOVE_JOB(chaplain)
 MAP_REMOVE_JOB(virologist)
 MAP_REMOVE_JOB(brig_phys)
 MAP_REMOVE_JOB(deputy)
-MAP_REMOVE_JOB(air_traffic_controller)
+//MAP_REMOVE_JOB(air_traffic_controller)   //re-added because people who enjoyed it badgered me about it
 /datum/job/bartender/New()
 	..()
 	MAP_JOB_CHECK
@@ -44,4 +44,4 @@ MAP_REMOVE_JOB(air_traffic_controller)
     cant_discount = TRUE
     surplus = 0
 
-#undef JOB_MODIFICATION_MAP_NAME
+

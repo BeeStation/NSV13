@@ -21,3 +21,5 @@
     MAP_JOB_CHECK
     total_positions = 12
     spawn_positions = 12
+
+#undef JOB_MODIFICATION_MAP_NAME
