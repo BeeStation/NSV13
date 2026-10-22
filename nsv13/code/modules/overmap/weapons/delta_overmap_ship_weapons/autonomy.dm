@@ -217,6 +217,8 @@
 		osw.autonomous_handling()
 
 	for(var/datum/ams_mode/amm in ams_modes)
+		if(jtag_beaconed) //Heavy jamming, skip ams controller weapons.
+			break	//I could be doing this check outside and return out of the proc, but this is the most obvious way. Replace with continue if you add exceptions.
 		if(!amm.enabled)
 			continue
 		if(!amm.able_to_operate(src))

@@ -183,6 +183,16 @@
 	category = list("Ship Components")
 	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
 
+/datum/design/jtag_system
+	name = "Fighter J-TAG Active Jamming System"
+	desc = "A somewhat heavy fighter secondary weapon / utility hybrid, enabling beacon-assisted proximity EWAR capabilities that support allied munitions and overwhelm defenses."
+	id = "jtag_system"
+	build_type = PROTOLATHE
+	materials = list(/datum/material/iron = 10000, /datum/material/copper = 10000, /datum/material/plasma = 4000, /datum/material/glass = 2000)
+	build_path = /obj/item/fighter_component/primary/active_jamming_pod
+	category = list("Ship Components")
+	departmental_flags = DEPARTMENTAL_FLAG_MUNITIONS
+
 /datum/design/refuel_kit
 	name = "Air to air refuel kit"
 	desc = "A kit that allows utility fighters to transfer fuel and power to another fighter."
