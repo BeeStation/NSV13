@@ -1180,7 +1180,7 @@
 	C.equip_to_slot_or_del(new /obj/item/clothing/glasses/monocle (), ITEM_SLOT_EYES)
 	C.revive(full_heal = TRUE)
 
-	SEND_SOUND(C, sound('sound/misc/capitialism.ogg'))
+	SEND_SOUND(C, sound('sound/misc/capitialism.ogg', channel = CHANNEL_AMBIENT_MUSIC))
 	C.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/knock ())
 	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 
@@ -1223,7 +1223,7 @@
 	C.equip_to_slot_or_del(new /obj/item/clothing/head/ushanka (), ITEM_SLOT_HEAD)
 	C.revive(full_heal = TRUE)
 
-	SEND_SOUND(C, sound('sound/misc/Russian_Anthem_chorus.ogg'))
+	SEND_SOUND(C, sound('sound/misc/Russian_Anthem_chorus.ogg', channel = CHANNEL_AMBIENT_MUSIC))
 	C.AddSpell(new /obj/effect/proc_holder/spell/aoe_turf/knock ())
 	RegisterSignal(C, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 

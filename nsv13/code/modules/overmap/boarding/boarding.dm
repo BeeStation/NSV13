@@ -109,7 +109,7 @@
 
 	switch(faction_selection)
 		if("syndicate")
-			relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
+			relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>", channel = SSsounds.random_available_channel())
 		else //No other special cases exist but this is a switch anyways to support them in the future (pirates have no tell)
 
 	var/obj/structure/closet/supplypod/toLaunch
@@ -164,7 +164,7 @@
 			message_admins("[ADMIN_LOOKUPFLW(H)] became a syndicate drop trooper.")
 			to_chat(H, "<span class='danger'>You are a syndicate drop trooper! Cripple [station_name()] to the best of your ability, by any means you see fit. You have been given some objectives to guide you in the pursuit of this goal.")
 			operatives += H
-		relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>")
+		relay('nsv13/sound/effects/ship/boarding_pod.ogg', "<span class='userdanger'>You can hear several tethers attaching to the ship.</span>", channel = SSsounds.random_available_channel())
 
 	else if(faction_selection == "pirate")
 		var/datum/map_template/spacepirate_boarding_pod/currentPod = new /datum/map_template/spacepirate_boarding_pod()

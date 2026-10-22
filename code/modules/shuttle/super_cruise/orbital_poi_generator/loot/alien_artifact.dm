@@ -480,7 +480,7 @@ GLOBAL_LIST_EMPTY(destabliization_exits)
 		return
 	if(world.time < next_use_time)
 		return
-	SEND_SOUND(world, 'sound/magic/repulse.ogg')
+	SEND_SOUND(world, sound('sound/magic/repulse.ogg', channel = SSsounds.random_available_channel()))
 	next_use_time = world.time + cooldown
 	var/turf/T = get_turf(pulser)
 	log_attack("[key_name_admin(pulser)] activated an insanity pulse at [COORD(T)]. [first_time ? " (Effects were unknown)" : " (Artifact had been activated before)"]")

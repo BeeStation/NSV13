@@ -225,7 +225,7 @@
 	if(I.tool_behaviour == TOOL_ANALYZER)
 		user.changeNext_move(CLICK_CD_MELEE)
 		to_chat(user, "<b>The analyzer beeps once, then reports:</b><br>")
-		SEND_SOUND(user, sound('sound/machines/ping.ogg'))
+		SEND_SOUND(user, sound('sound/machines/ping.ogg', channel = SSsounds.random_available_channel()))
 		if(overmind)
 			to_chat(user, "<b>Progress to Critical Mass:</b> <span class='notice'>[overmind.blobs_legit.len]/[overmind.blobwincount].</span>")
 			to_chat(user, chemeffectreport(user).Join("\n"))

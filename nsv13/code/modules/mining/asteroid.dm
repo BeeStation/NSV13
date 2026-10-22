@@ -295,7 +295,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 	var/obj/structure/overmap/asteroid/AS = input(usr, "Select target:", "Target") as null|anything in asteroids
 	if(!AS || !length(AS.core_composition))
 		return FALSE
-	linked.relay('nsv13/sound/effects/ship/tractor.ogg', "<span class='warning'>DANGER: Magnet has locked on to an asteroid. Vacate the asteroid cage immediately.</span>")
+	linked.relay('nsv13/sound/effects/ship/tractor.ogg', "<span class='warning'>DANGER: Magnet has locked on to an asteroid. Vacate the asteroid cage immediately.</span>", channel = CHANNEL_SHIP_FX)
 	cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, cooldown, FALSE), 1 MINUTES)
 	if(prob(20))
@@ -320,7 +320,7 @@ GLOBAL_LIST_EMPTY(asteroid_spawn_markers)		//handles mining asteroids, kind of s
 		return
 	cooldown = TRUE
 	addtimer(VARSET_CALLBACK(src, cooldown, FALSE), 1 MINUTES)
-	linked.relay('nsv13/sound/effects/ship/general_quarters.ogg', "<span class='warning'>DANGER: An asteroid is now being detached from [linked]. Vacate the asteroid cage immediately.</span>")
+	linked.relay('nsv13/sound/effects/ship/general_quarters.ogg', "<span class='warning'>DANGER: An asteroid is now being detached from [linked]. Vacate the asteroid cage immediately.</span>", channel = CHANNEL_SHIP_ALERT)
 	addtimer(CALLBACK(src, PROC_REF(push_away_asteroid)), 30 SECONDS)
 
 /obj/machinery/computer/ship/mineral_magnet/proc/push_away_asteroid()

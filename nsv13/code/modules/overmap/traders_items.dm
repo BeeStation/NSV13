@@ -22,7 +22,7 @@
 	if(inhabited_trader)
 		inhabited_trader.greeting = pick(inhabited_trader.greetings)
 		inhabited_trader.ui_interact(user)
-		SEND_SOUND(user, 'nsv13/sound/effects/ship/freespace2/computer/textdraw.wav')
+		SEND_SOUND(user, sound('nsv13/sound/effects/ship/freespace2/computer/textdraw.wav', channel = SSsounds.random_available_channel()))
 		to_chat(user, "<span class='boldnotice'>[pick(inhabited_trader.greetings)]</span>")
 
 /obj/structure/overmap/trader/can_move()

@@ -42,7 +42,7 @@
 	var/obj/item/fighter_component/battery/B = F.loadout.get_slot(HARDPOINT_SLOT_BATTERY)
 
 	if(B.charge < charge_to_fire)
-		F.relay('sound/weapons/gun_dry_fire.ogg')
+		F.relay('sound/weapons/gun_dry_fire.ogg', channel = SSsounds.random_available_channel())
 		return FALSE
 
 	B.charge -= charge_to_fire

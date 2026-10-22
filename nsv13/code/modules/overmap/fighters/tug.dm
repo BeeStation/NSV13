@@ -159,10 +159,10 @@
 	if(!ready)
 		return
 	canmove = FALSE
-	playsound(src.loc, 'nsv13/sound/effects/ship/fighter_launch.ogg', 100, FALSE)
+	playsound(src.loc, 'nsv13/sound/effects/ship/fighter_launch.ogg', 100, FALSE, channel = SSsounds.random_available_channel())
 	add_overlay("launcher_charge")
 	for(var/obj/structure/overmap/small_craft/target in contents)
-		target.relay('nsv13/sound/effects/ship/fighter_launch.ogg')
+		target.relay('nsv13/sound/effects/ship/fighter_launch.ogg', channel = SSsounds.random_available_channel())
 		ready = FALSE
 		addtimer(CALLBACK(src, PROC_REF(finish_launch)), 10 SECONDS)
 
@@ -195,7 +195,7 @@
 		target.angle = target.desired_angle
 		var/obj/structure/overmap/our_overmap = get_overmap()
 		if(our_overmap)
-			our_overmap.relay('nsv13/sound/effects/ship/fighter_launch_short.ogg')
+			our_overmap.relay('nsv13/sound/effects/ship/fighter_launch_short.ogg', channel = SSsounds.random_available_channel())
 		sleep(1 SECONDS)
 		density = TRUE
 		layer = stored_layer

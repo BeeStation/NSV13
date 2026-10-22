@@ -83,8 +83,8 @@ Called by add_sensor_profile_penalty if remove_in is used.
 	var/next_pulse = last_radar_pulse + RADAR_VISIBILITY_PENALTY
 	if(world.time < next_pulse)
 		return FALSE
-	relay('nsv13/sound/effects/ship/sensor_pulse_send.ogg')
-	relay_to_nearby('nsv13/sound/effects/ship/sensor_pulse_hit.ogg', ignore_self=TRUE, sound_range=255, faction_check=TRUE)
+	relay('nsv13/sound/effects/ship/sensor_pulse_send.ogg', channel = SSsounds.random_available_channel())
+	relay_to_nearby('nsv13/sound/effects/ship/sensor_pulse_hit.ogg', ignore_self=TRUE, sound_range=255, faction_check=TRUE, channel = SSsounds.random_available_channel())
 	last_radar_pulse = world.time
 	addtimer(VARSET_CALLBACK(src, max_tracking_range, max_tracking_range), RADAR_VISIBILITY_PENALTY)
 	max_tracking_range *= 2

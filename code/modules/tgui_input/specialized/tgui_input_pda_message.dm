@@ -179,7 +179,7 @@
 					playsound(src_console, 'sound/machines/terminal_success.ogg', 15, TRUE)
 				else
 					usr.balloon_alert(usr, "photo selected.")
-					SEND_SOUND(usr, 'sound/machines/terminal_success.ogg')
+					SEND_SOUND(usr, sound('sound/machines/terminal_success.ogg', channel = SSsounds.random_available_channel()))
 			else
 				if(src_console)
 					src_console.balloon_alert(usr, "no photo identified.")

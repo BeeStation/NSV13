@@ -14,7 +14,7 @@
 	to_chat(owner, "<b>Attacking dead bodies will allow me to gib them to restore health.</b>")
 	to_chat(owner, "<b>From the wizard's writings, he had been studying this station and its hierarchy.  From this, I know who leads the station, and will kill them so the station underlings see me as their new leader.</b>")
 	owner.announce_objectives()
-	SEND_SOUND(owner.current, sound('sound/magic/demon_attack1.ogg'))
+	SEND_SOUND(owner.current, sound('sound/magic/demon_attack1.ogg', channel = SSsounds.random_available_channel()))
 	owner.current.client?.tgui_panel?.give_antagonist_popup("Space Dragon",
 		"Once you were a space carp, until a powerful wizard transformed you. Use your new-found powers to complete your goals.")
 

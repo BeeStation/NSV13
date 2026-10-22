@@ -61,7 +61,7 @@
 		return
 	ftl_state = FTL_STATE_JUMPING
 	linked.begin_jump(target_system, force)
-	linked.relay('nsv13/sound/effects/ship/freespace2/computer/escape.wav')
+	linked.relay('nsv13/sound/effects/ship/freespace2/computer/escape.wav', channel = SSsounds.random_available_channel())
 	progress = 0
 
 /obj/item/fighter_component/ftl/proc/cancel_ftl()
