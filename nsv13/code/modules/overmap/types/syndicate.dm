@@ -137,7 +137,7 @@
 	new /datum/overmap_ship_weapon/flak(src)
 
 /datum/map_template/boarding/nuclear
-    name = "Thermonuclear destroyer (interior)"
+    name = "Hellfire destroyer (interior)"
     mappath = "_maps/templates/boarding/syndicate/nukefrigate.dmm"
 
 /obj/structure/overmap/syndicate/ai/conflagration
