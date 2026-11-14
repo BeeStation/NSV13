@@ -29,3 +29,27 @@
 /datum/config_entry/keyed_list/omode_min_pop
 	key_mode = KEY_MODE_TEXT
 	value_mode = VALUE_MODE_NUM
+
+/datum/config_entry/flag/omode_manual_autorecall
+
+/datum/config_entry/number/omode_manual_autorecall_vote_interval
+	config_entry_value = 1 HOURS
+	min_val = 5 MINUTES
+
+/datum/config_entry/number/omode_manual_autorecall_vote_cooldown
+	config_entry_value = 15 MINUTES
+	min_val = 5 MINUTES
+
+/datum/config_entry/flag/omode_manual_autorecall_crit_lockout
+
+/datum/config_entry/number/omode_manual_autorecall_crit_lockout_time
+	config_entry_value = 5 MINUTES
+	min_val = 0
+
+/datum/config_entry/flag/omode_manual_autorecall_hostile_lockout
+
+/datum/config_entry/flag/omode_manual_autorecall_threat_scaling
+
+/datum/config_entry/flag/omode_manual_autorecall_captain_can_immediately_recall
+
+/datum/config_entry/flag/omode_manual_autorecall_trigger_on_extended_mission_completion //This is a mouthful but it's just changing one # in the config, soo...

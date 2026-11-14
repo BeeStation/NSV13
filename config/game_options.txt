@@ -695,3 +695,31 @@ OMODE_MAX_POP PATROL 0
 OMODE_PROBABILITY SHAKEDOWN 5
 OMODE_MIN_POP SHAKEDOWN 0
 OMODE_MAX_POP SHAKEDOWN 10
+
+## NSV13 EXTENDED MISSION AUTORECALL
+## uncomment to disable automatic time- or completion-based recalls during extended missions, instead going through a vote that triggers both based on time aswell as with a button in the comms console.
+#OMODE_MANUAL_AUTORECALL
+
+## NSV13 - If it has been this long since the last autorecall vote, an automatic vote is triggered. In deciseconds.
+OMODE_MANUAL_AUTORECALL_VOTE_INTERVAL 36000
+
+## NSV13 - An autorecall vote can only be triggered this many minutes after the last one. In deciseconds.
+OMODE_MANUAL_AUTORECALL_VOTE_COOLDOWN 9000
+
+## NSV13 - If this flag is enabled, autorecall votes are not triggered while in hullcritical.
+OMODE_MANUAL_AUTORECALL_CRIT_LOCKOUT
+
+## NSV13 - Autorecall votes cannot be triggered for at least this many votes after leaving hullcritical. In deciseconds.
+OMODE_MANUAL_AUTORECALL_CRIT_LOCKOUT_TIME 3000
+
+## NSV13 - If this flag is enabled, autorecall votes cannot be triggered while hostiles are in-system.
+OMODE_MANUAL_AUTORECALL_HOSTILE_LOCKOUT
+
+## NSV13 - If this flag is enabled, manual autorecall will slowly amplify threat level scaling the longer no new progress is made (serving as a "soft" round end encouragement).
+OMODE_MANUAL_AUTORECALL_THREAT_SCALING
+
+## NSV13 - If this flag is enabled, being authed with captain-level credentials can trigger an immediate recall, as opposed to going through a vote.
+#OMODE_MANUAL_AUTORECALL_CAPTAIN_CAN_IMMEDIATELY_RECALL
+
+## NSV13 - If this flag is enabled, completing the extended mission set will still recall you. Intended as a "light" version of manual recalls.
+#OMODE_MANUAL_AUTORECALL_TRIGGER_ON_EXTENDED_MISSION_COMPLETION

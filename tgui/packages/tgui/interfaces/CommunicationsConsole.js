@@ -743,6 +743,25 @@ const PageObjectives = (props, context) => {
               );
             })}
           </Section>
+          {!!data.ship_recall_requestable && (
+            <Section title="Recall Request Control">
+              <Button.Confirm
+                icon="space-shuttle"
+                content="Request Direct FTL Recall"
+                color="default"
+                disabled={data.ship_recall_requestable !== "OKAY"}
+                tooltip={(
+                  data.ship_recall_requestable !== "OKAY" ? (
+                    "Cannot initiate recall request. Reason: " + data.ship_recall_requestable
+                  ) : (
+                    "Ship recall request available."
+                  )
+                )}
+                tooltipPosition="bottom-end"
+                onClick={() => act("requestAutorecall")}
+              />
+            </Section>
+          )}
         </>
       )}
     </Section>

@@ -95,6 +95,8 @@
 							OM.stop_relay(channel=CHANNEL_SHIP_FX)
 							priority_announce("Ship structural integrity restored to acceptable levels. ","Automated announcement ([apnw])")
 							OM.structure_crit = FALSE
+							if(OM.role == MAIN_OVERMAP)
+								SSovermap_mode.recall_hullcrit_strain_passed = world.time + CONFIG_GET(number/omode_manual_autorecall_crit_lockout_time)
 
 	else
 		armour_repair_amount = 0
