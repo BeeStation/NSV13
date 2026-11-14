@@ -13,7 +13,7 @@
 	action_icon_state = "knock"
 
 /obj/effect/proc_holder/spell/aoe_turf/knock/cast(list/targets,mob/user = usr)
-	SEND_SOUND(user, sound('sound/magic/knock.ogg'))
+	SEND_SOUND(user, sound('sound/magic/knock.ogg', channel = SSsounds.random_available_channel()))
 	for(var/turf/T in targets)
 		for(var/obj/machinery/door/door in T.contents)
 			INVOKE_ASYNC(src, PROC_REF(open_door), door)

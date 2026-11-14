@@ -270,7 +270,7 @@
 	if(!current_system)
 		return FALSE
 	for(var/obj/structure/overmap/OM in current_system.system_contents)
-		OM.relay('nsv13/sound/effects/ship/solgov_scan.ogg')
+		OM.relay('nsv13/sound/effects/ship/solgov_scan.ogg', channel = CHANNEL_SHIP_FX)
 	sleep(5 SECONDS)
 	for(var/obj/structure/overmap/shield_scan_target in current_system.system_contents)
 		if(istype(shield_scan_target, /obj/structure/overmap/nanotrasen/solgov))
@@ -278,7 +278,7 @@
 		//Ruh roh.... (Persona non gratas do not need to be scanned again.)
 		if((shield_scan_target.faction != shield_scan_target.name) && shield_scan_target.shields && shield_scan_target.shields.active && length(shield_scan_target.occupying_levels))
 			shield_scan_target.hail("Scans have detected that you are in posession of prohibited technology. \n Your IFF signature has been marked as 'persona non grata'. \n In accordance with SGC-reg #10124, your ship and lives are now forfeit. Evacuate all civilian personnel immediately and surrender yourselves.", name)
-			shield_scan_target.relay_to_nearby('nsv13/sound/effects/ship/solgov_scan_alert.ogg', ignore_self=FALSE)
+			shield_scan_target.relay_to_nearby('nsv13/sound/effects/ship/solgov_scan_alert.ogg', ignore_self=FALSE, channel = CHANNEL_IMPORTANT_SHIP_ALERT)
 			grant_oopsie_achievement(shield_scan_target)
 			addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(play_soundtrack_music), /datum/soundtrack_song/bee/mind_crawler, null, 120), 2 SECONDS)
 			shield_scan_target.faction = shield_scan_target.name

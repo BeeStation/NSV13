@@ -180,7 +180,7 @@
 	var/obj/structure/destructible/clockwork/massive/celestial_gateway/G = GLOB.celestial_gateway
 	if(G)
 		user.abstract_move(get_turf(G))
-		SEND_SOUND(user, sound('sound/magic/magic_missile.ogg'))
+		SEND_SOUND(user, sound('sound/magic/magic_missile.ogg', channel = SSsounds.random_available_channel()))
 		flash_color(user, flash_color = "#AF0AAF", flash_time = 25)
 	else
 		to_chat(user, "<span class='warning'>There is no Ark!</span>")
@@ -194,7 +194,7 @@
 /obj/effect/proc_holder/spell/targeted/eminence/station/cast(mob/living/user)
 	if(!is_station_level(user.z))
 		user.abstract_move(get_turf(pick(GLOB.generic_event_spawns)))
-		SEND_SOUND(user, sound('sound/magic/magic_missile.ogg'))
+		SEND_SOUND(user, sound('sound/magic/magic_missile.ogg', channel = SSsounds.random_available_channel()))
 		flash_color(user, flash_color = "#AF0AAF", flash_time = 25)
 	else
 		to_chat(user, "<span class='warning'>You're already on the station!</span>")
@@ -223,7 +223,7 @@
 		to_chat(user, "<span class='warning'>They are out of your reach!</span>")
 		return
 	user.forceMove(get_turf(T))
-	SEND_SOUND(user, sound('sound/magic/magic_missile.ogg'))
+	SEND_SOUND(user, sound('sound/magic/magic_missile.ogg', channel = SSsounds.random_available_channel()))
 	flash_color(user, flash_color = "#AF0AAF", flash_time = 25)
 
 //=====Mass Recall=====

@@ -78,7 +78,7 @@
 	var/delta = damage-quad["current_armour"]
 	quad["current_armour"] = max(quad["current_armour"] - damage, 0)
 	if(delta <= 0) //Woo! We absorbed the hit fully.
-		relay(ARMOUR_DING)
+		relay(ARMOUR_DING, channel = SSsounds.random_available_channel())
 		if(!impact_sound_cooldown)
 			if(damage >= 15) //Flak begone
 				shake_everyone(5)

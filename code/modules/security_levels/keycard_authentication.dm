@@ -198,9 +198,9 @@ GLOBAL_VAR_INIT(emergency_access, FALSE)
 		return
 	target.ftl_safety_override = !target.ftl_safety_override
 	if(target.ftl_safety_override) //Safety disengaged.
-		target.relay('nsv13/sound/misc/triple_boop_alert.ogg',"<h1 class='alert'>FTL Drive System Notice</h1><span class='alert'>FTL Drive Safeties disengaged. Drive reverting to manual control.</span><br>")
+		target.relay('nsv13/sound/misc/triple_boop_alert.ogg',"<h1 class='alert'>FTL Drive System Notice</h1><span class='alert'>FTL Drive Safeties disengaged. Drive reverting to manual control.</span><br>", channel = CHANNEL_IMPORTANT_SHIP_ALERT)
 	else //Safety reengaged.
-		target.relay('sound/misc/notice2.ogg', "<h1 class='alert'>FTL Drive System Notice</h1><span class='alert'>FTL Drive Safeties restored.</span><br>")
+		target.relay('sound/misc/notice2.ogg', "<h1 class='alert'>FTL Drive System Notice</h1><span class='alert'>FTL Drive Safeties restored.</span><br>", channel = CHANNEL_SHIP_ALERT)
 //NSV13 end.
 
 #undef KEYCARD_RED_ALERT

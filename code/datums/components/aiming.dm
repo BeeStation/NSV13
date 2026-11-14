@@ -103,7 +103,7 @@ Methods to alert the aimer about events (Surrendering/equipping an item/dropping
 		target.balloon_alert(user, "[target] equipped a gun!")
 	else
 		target.balloon_alert(user, "[target] equipped something!")
-	SEND_SOUND(user, 'sound/machines/chime.ogg')
+	SEND_SOUND(user, sound('sound/machines/chime.ogg', channel = SSsounds.random_available_channel()))
 	new /obj/effect/temp_visual/aiming/suspect_alert(get_turf(target))
 	COOLDOWN_START(src, notification_cooldown, 5 SECONDS)
 

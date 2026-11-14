@@ -41,7 +41,7 @@
 		deaf = max(deaf - 1, 0)
 		if(prob(damage / 20) && (damage > low_threshold))
 			adjustEarDamage(0, 4)
-			SEND_SOUND(C, sound('sound/weapons/flash_ring.ogg'))
+			SEND_SOUND(C, sound('sound/weapons/flash_ring.ogg', channel = SSsounds.random_available_channel()))
 			to_chat(C, "<span class='warning'>The ringing in your ears grows louder, blocking out any external noises for a moment.</span>")
 	else if((organ_flags & ORGAN_FAILING) && (deaf == 0))
 		deaf = 1	//stop being not deaf you deaf idiot

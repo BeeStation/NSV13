@@ -37,7 +37,7 @@
 	icon_state = "shadow_mend"
 
 /datum/status_effect/void_price/tick()
-	SEND_SOUND(owner, sound('sound/magic/summon_karp.ogg', volume = 25))
+	SEND_SOUND(owner, sound('sound/magic/summon_karp.ogg', volume = 25, , channel = SSsounds.random_available_channel()))
 	owner.adjustBruteLoss(3)
 
 /datum/status_effect/cyborg_power_regen

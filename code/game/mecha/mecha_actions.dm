@@ -213,7 +213,7 @@
 		chassis.balloon_alert(owner, "Zoom mode has been [chassis.zoom_mode ? "enabled" : "disabled"].")
 		if(chassis.zoom_mode)
 			owner.client.view_size.setTo(4.5)
-			SEND_SOUND(owner, sound('sound/mecha/imag_enh.ogg',volume=50))
+			SEND_SOUND(owner, sound('sound/mecha/imag_enh.ogg',volume=50, channel = SSsounds.random_available_channel()))
 		else
 			owner.client.view_size.resetToDefault() //Let's not let this stack shall we?
 		UpdateButtonIcon()

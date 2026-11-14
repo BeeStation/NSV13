@@ -96,7 +96,7 @@
 	if(next_noise > world.time)
 		return
 	var/yowie_sound = pickweight(yowie_sounds)
-	linked.relay(yowie_sound)
+	linked.relay(yowie_sound, channel = SSsounds.random_available_channel())
 	if(prob(1))
 		var/oops_reality_distortion = pick(/obj/effect/anomaly/stormdrive, /obj/effect/anomaly/stormdrive/sheer, /obj/effect/anomaly/bluespace)
 		var/list/possible_areas = linked.linked_areas.Copy() //we really should have a different space area for the NSV huh (and we even already have nearstation)

@@ -142,7 +142,7 @@
 				center = get_turf(locate(x+2,y,z))
 		OM.forceMove(get_turf(center)) //"Catch" them like an arrestor.
 		var/obj/structure/overmap/link = get_overmap()
-		link?.relay('nsv13/sound/effects/fighters/magcat.ogg')
+		link?.relay('nsv13/sound/effects/fighters/magcat.ogg', channel = SSsounds.random_available_channel())
 		shake_people(OM)
 		switch(dir) //Make sure theyre facing the right way so they dont FACEPLANT INTO THE WALL.
 			if(NORTH)
@@ -174,7 +174,7 @@
 	if(!mag_locked || !ready)
 		return
 	ready = FALSE
-	mag_locked.relay('nsv13/sound/effects/ship/fighter_launch.ogg')
+	mag_locked.relay('nsv13/sound/effects/ship/fighter_launch.ogg', channel = SSsounds.random_available_channel())
 	addtimer(CALLBACK(src, PROC_REF(finish_launch)), 10 SECONDS)
 
 /obj/structure/fighter_launcher/proc/abort_launch()
@@ -193,7 +193,7 @@
 	mag_locked.prime_launch() //Gets us ready to move at PACE.
 	var/obj/structure/overmap/our_overmap = get_overmap()
 	if(our_overmap)
-		our_overmap.relay('nsv13/sound/effects/ship/fighter_launch_short.ogg')
+		our_overmap.relay('nsv13/sound/effects/ship/fighter_launch_short.ogg', channel = SSsounds.random_available_channel())
 	spawn(0)
 		shake_people(mag_locked)
 	switch(dir) //Just handling north / south..FOR NOW!

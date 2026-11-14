@@ -34,5 +34,5 @@
 	var/datum/antagonist/teratoma/D = new
 	T.mind.add_antag_datum(D)
 	to_chat(T, "<span='notice'>You burst out from [user]'s chest!</span>")
-	SEND_SOUND(T, sound('sound/effects/blobattack.ogg'))
+	SEND_SOUND(T, sound('sound/effects/blobattack.ogg', channel = SSsounds.random_available_channel()))
 	return TRUE

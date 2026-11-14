@@ -405,7 +405,7 @@ That's it, ok bye!
 /obj/machinery/lazylift/master/proc/sound_effect(list/moblist, start = FALSE)
 	if(start)
 		for(var/mob/M as() in moblist)
-			SEND_SOUND(M, turbolift_start_sound)
+			SEND_SOUND(M, sound(turbolift_start_sound, channel = SSsounds.random_available_channel()))
 			shake_with_inertia(M, 2, 1)
 			if(!isliving(M))
 				continue

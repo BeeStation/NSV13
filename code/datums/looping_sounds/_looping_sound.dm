@@ -77,7 +77,7 @@
 		play(get_sound(starttime))
 
 /datum/looping_sound/proc/play(soundfile)
-	var/sound/S = sound(soundfile)
+	var/sound/S = sound(soundfile, channel = SSsounds.random_available_channel())
 	if(direct)
 		S.channel = SSsounds.random_available_channel()
 		S.volume = volume

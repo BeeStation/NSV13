@@ -380,7 +380,7 @@
 /datum/overmap_ship_weapon/pdc_mount/play_weapon_sound()
 	if(world.time > next_firetime + fire_delay + (1 SECONDS))
 		lastsound = pick(overmap_firing_sounds)
-	linked_overmap.relay(lastsound)
+	linked_overmap.relay(lastsound, channel = SSsounds.random_available_channel())
 
 /datum/overmap_ship_weapon/flak
 	name = "Flak cannon"

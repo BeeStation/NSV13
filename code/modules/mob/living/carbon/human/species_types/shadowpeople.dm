@@ -154,7 +154,7 @@
 			old_owner.set_species(/datum/species/shadow)
 			Insert(old_owner, HEART_SPECIAL_SHADOWIFY)
 			to_chat(owner, "<span class='userdanger'>You feel the shadows invade your skin, leaping into the center of your chest! You're alive!</span>")
-			SEND_SOUND(owner, sound('sound/effects/ghost.ogg'))
+			SEND_SOUND(owner, sound('sound/effects/ghost.ogg', channel = SSsounds.random_available_channel()))
 		owner.visible_message("<span class='warning'>[owner] staggers to [owner.p_their()] feet!</span>")
 		playsound(owner, 'sound/hallucinations/far_noise.ogg', 50, 1)
 		respawn_progress = 0

@@ -62,7 +62,7 @@
 	log_admin_private("[key_name(approved_by)] has approved interview #[id] for [owner_ckey][!owner ? "(DC)": ""].")
 	message_admins("<span class='adminnotice'>[key_name(approved_by)] has approved interview #[id] for [owner_ckey][!owner ? "(DC)": ""].</span>")
 	if (owner)
-		SEND_SOUND(owner, sound('sound/effects/adminhelp.ogg'))
+		SEND_SOUND(owner, sound('sound/effects/adminhelp.ogg', channel = SSsounds.random_available_channel()))
 		to_chat(owner, "<font color='red' size='4'><b>-- Interview Update --</b></font>" \
 			+ "\n<span class='adminsay'>Your interview was approved, you will now be reconnected in 5 seconds.</span>")
 		addtimer(CALLBACK(src, PROC_REF(reconnect_owner)), 5 SECONDS)
@@ -84,14 +84,14 @@
 	if(can_retry)
 		addtimer(CALLBACK(GLOB.interviews, TYPE_PROC_REF(/datum/interview_manager, release_from_cooldown), owner_ckey), 180 SECONDS)
 		if (owner)
-			SEND_SOUND(owner, sound('sound/effects/adminhelp.ogg'))
+			SEND_SOUND(owner, sound('sound/effects/adminhelp.ogg', channel = SSsounds.random_available_channel()))
 			to_chat(owner, "<font color='red' size='4'><b>-- Interview Update --</b></font>" \
 				+ "\n<span class='adminsay'>Unfortunately your interview was denied. Please try submitting another questionnaire." \
 				+ " You may do this in three minutes.</span>")
 	else
 		addtimer(CALLBACK(GLOB.interviews, TYPE_PROC_REF(/datum/interview_manager, give_the_boot), owner_ckey), 30 SECONDS)
 		if (owner)
-			SEND_SOUND(owner, sound('sound/effects/adminhelp.ogg'))
+			SEND_SOUND(owner, sound('sound/effects/adminhelp.ogg', channel = SSsounds.random_available_channel()))
 			to_chat(owner, "<font color='red' size='4'><b>-- Interview Update --</b></font>" \
 				+ "\n<span class='adminsay'>Unfortunately your interview was denied. You will be removed for the round's duration." \
 				+ " You will be kicked in 30 seconds.</span>")

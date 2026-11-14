@@ -100,7 +100,7 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 	if(GLOB.gateway_opening)
 		return
 	GLOB.gateway_opening = TRUE
-	var/s = sound('sound/magic/clockwork/ark_activation_sequence.ogg')
+	var/s = sound('sound/magic/clockwork/ark_activation_sequence.ogg', channel = SSsounds.random_available_channel())
 	icon_state = "clockwork_gateway_charging"
 	for(var/datum/mind/M in GLOB.servants_of_ratvar)
 		SEND_SOUND(M.current, s)
@@ -120,7 +120,7 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 		var/mob/living/servant = M.current
 		if(!servant)
 			continue
-		SEND_SOUND(servant, 'sound/machines/clockcult/ark_recall.ogg')
+		SEND_SOUND(servant, sound('sound/machines/clockcult/ark_recall.ogg', channel = SSsounds.random_available_channel()))
 
 /obj/structure/destructible/clockwork/massive/celestial_gateway/proc/announce_gateway()
 	activated = TRUE
@@ -132,7 +132,7 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 	@!$, [text2ratvar("PURGE ALL UNTRUTHS")] <&. the anomalies and destroy their source to prevent further damage to corporate property. This is \
 	not a drill.[grace_period ? " Estimated time of appearance: [grace_time/10] seconds. Use this time to prepare for an attack on [station_name()]." : ""]"\
 	,"Central Command Higher Dimensional Affairs", 'sound/magic/clockwork/ark_activation.ogg')
-	sound_to_playing_players(volume = 10, channel = CHANNEL_JUSTICAR_ARK, S = sound('sound/effects/clockcult_gateway_charging.ogg', TRUE))
+	sound_to_playing_players(volume = 10, channel = CHANNEL_JUSTICAR_ARK, S = sound('sound/effects/clockcult_gateway_charging.ogg', TRUE, channel = SSsounds.random_available_channel()))
 	GLOB.ratvar_arrival_tick = world.time + 6000 + grace_time
 
 /obj/structure/destructible/clockwork/massive/celestial_gateway/proc/mass_recall(add_overlay = FALSE)
@@ -150,7 +150,7 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 				servant_antag.forbearance = mutable_appearance('icons/effects/genetics.dmi', "servitude", -MUTATIONS_LAYER)
 				servant.add_overlay(servant_antag.forbearance)
 	for(var/mob/M in GLOB.player_list)
-		SEND_SOUND(M, 'sound/magic/clockwork/invoke_general.ogg')
+		SEND_SOUND(M, sound('sound/magic/clockwork/invoke_general.ogg'))
 
 /obj/structure/destructible/clockwork/massive/celestial_gateway/proc/begin_assault()
 	priority_announce("Space-time anomalies detected near the station. Source determined to be a temporal \
@@ -243,7 +243,7 @@ GLOBAL_VAR(cult_ratvar)
 	GLOB.cult_ratvar = src
 	. = ..()
 	desc = "[text2ratvar("That's Ratvar, the Clockwork Justicar. The great one has risen.")]"
-	SEND_SOUND(world, 'sound/effects/ratvar_reveal.ogg')
+	SEND_SOUND(world, sound('sound/effects/ratvar_reveal.ogg', channel = SSsounds.random_available_channel()))
 	to_chat(world, "<span class='ratvar'>The bluespace veil gives way to Ratvar, his light shall shine upon all mortals!</span>")
 	UnregisterSignal(src, COMSIG_ATOM_BSA_BEAM)
 	INVOKE_ASYNC(GLOBAL_PROC, GLOBAL_PROC_REF(trigger_clockcult_victory), src)
@@ -258,13 +258,13 @@ GLOBAL_VAR(cult_ratvar)
 			if(next_attack_tick < world.time)
 				next_attack_tick = world.time + rand(50, 100)
 				to_chat(world, "<span class='danger'>[pick("Reality shudders around you.","You hear the tearing of flesh.","The sound of bones cracking fills the air.")]</span>")
-				SEND_SOUND(world, 'sound/magic/clockwork/ratvar_attack.ogg')
+				SEND_SOUND(world, sound('sound/magic/clockwork/ratvar_attack.ogg', channel = SSsounds.random_available_channel()))
 				SpinAnimation(4, 0)
 				for(var/mob/living/M in GLOB.player_list)
 					shake_camera(M, 25, 6)
 					M.Knockdown(5 * delta_time)
 				if(prob(max(GLOB.servants_of_ratvar.len/2, 15)))
-					SEND_SOUND(world, 'sound/magic/demon_dies.ogg')
+					SEND_SOUND(world, ('sound/magic/demon_dies.ogg'))
 					to_chat(world, "<span class='ratvar'>You were a fool for underestimating me...</span>")
 					qdel(ratvar_target)
 					for(var/datum/mind/M as() in SSticker.mode?.cult)
