@@ -52,18 +52,18 @@
 /obj/structure/overmap/proc/drop_weapon_selection(mob/user)
 	if(controlled_weapon_datum[user])
 		var/datum/overmap_ship_weapon/dropping_weapon = controlled_weapon_datum[user]
-		dropping_weapon.on_swap_from()
+		dropping_weapon.on_swap_from(user)
 	controlled_weapons -= user
 	controlled_weapon_datum -= user
 
 /**
  * This unselects all weapons for all users.
  */
-/obj/structure/overmap/proc/drop_all_weapon_selection()
+/obj/structure/overmap/proc/drop_all_weapon_selection(mob/user)
 	for(var/key in controlled_weapon_datum)
 		var/datum/overmap_ship_weapon/dropping_weapon = controlled_weapon_datum[key]
 		if(dropping_weapon)
-			dropping_weapon.on_swap_from()
+			dropping_weapon.on_swap_from(user)
 	controlled_weapon_datum.Cut()
 	controlled_weapons.Cut()
 
@@ -96,8 +96,8 @@
 	if(old_weapon == src)
 		return TRUE //No changes being applied.
 	if(old_weapon)
-		old_weapon.on_swap_from()
-	on_swap_to()
+		old_weapon.on_swap_from(user)
+	on_swap_to(user)
 	if(overmap_select_sound && !no_sound && world.time > linked_overmap.switchsound_cooldown)
 		linked_overmap.relay(overmap_select_sound)
 		linked_overmap.switchsound_cooldown = world.time + 5 SECONDS
