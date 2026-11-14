@@ -10,3 +10,5 @@
 
 #define COMSIG_SHIP_RELEASE_BOARDING "release_boarding"
 	#define COMSIG_SHIP_BLOCKS_RELEASE_BOARDING 1
+
+#define COMSIG_FIGHTER_COMPONENT_DETACHED "fighter_component_detached" //! Signalled when any fighter equipment is unequipped, passing detached weapon.

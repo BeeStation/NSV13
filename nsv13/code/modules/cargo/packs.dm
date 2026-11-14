@@ -378,6 +378,38 @@
 					/obj/item/ammo_box/magazine/nsv/heavy_cannon)
 	crate_name = "Heavy cannon ammunition crate"
 
+/datum/supply_pack/munitions/jtag_light_beacons
+	name = "J-TAG Ammunition (Light)"
+	desc = "10 boxes of light J-TAG beacons. Launcher not included."
+	cost = 1000
+	contains = list(/obj/item/ammo_box/magazine/nsv/jtag,
+					/obj/item/ammo_box/magazine/nsv/jtag,
+					/obj/item/ammo_box/magazine/nsv/jtag,
+					/obj/item/ammo_box/magazine/nsv/jtag,
+					/obj/item/ammo_box/magazine/nsv/jtag,
+					/obj/item/ammo_box/magazine/nsv/jtag,
+					/obj/item/ammo_box/magazine/nsv/jtag,
+					/obj/item/ammo_box/magazine/nsv/jtag,
+					/obj/item/ammo_box/magazine/nsv/jtag,
+					/obj/item/ammo_box/magazine/nsv/jtag)
+	crate_name = "J-TAG ammunition crate"
+
+/datum/supply_pack/munitions/jtag_endurance_beacons
+	name = "J-TAG Ammunition (Endurance)"
+	desc = "10 boxes of high-lifetime J-TAG beacons. Launcher not included."
+	cost = 1000
+	contains = list(/obj/item/ammo_box/magazine/nsv/jtag/expanded_duration,
+					/obj/item/ammo_box/magazine/nsv/jtag/expanded_duration,
+					/obj/item/ammo_box/magazine/nsv/jtag/expanded_duration,
+					/obj/item/ammo_box/magazine/nsv/jtag/expanded_duration,
+					/obj/item/ammo_box/magazine/nsv/jtag/expanded_duration,
+					/obj/item/ammo_box/magazine/nsv/jtag/expanded_duration,
+					/obj/item/ammo_box/magazine/nsv/jtag/expanded_duration,
+					/obj/item/ammo_box/magazine/nsv/jtag/expanded_duration,
+					/obj/item/ammo_box/magazine/nsv/jtag/expanded_duration,
+					/obj/item/ammo_box/magazine/nsv/jtag/expanded_duration)
+	crate_name = "J-TAG ammunition crate"
+
 /datum/supply_pack/munitions/broadside_casings
 	name = "Empty Broadside Casings"
 	desc = "15 empty casings for broadside shells."

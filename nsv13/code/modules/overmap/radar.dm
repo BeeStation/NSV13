@@ -381,6 +381,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 		if(OM.z == linked.z && (sensor_visible >= SENSOR_VISIBILITY_FAINT || linked.target_painted[OM]))
 			var/inRange = (overmap_dist(linked, OM) <= max(sensor_range,OM.sensor_profile)) || OM.faction == linked.faction || linked.target_painted[OM]	//Allies broadcast encrypted IFF so we can see them anywhere, and we can always see enemies recieved over datalink
 			var/thecolour = "#FFFFFF"
+			var/outline_color = "#360"
 			var/filterType = showEnemies
 			if(istype(OM, /obj/structure/overmap/asteroid))
 				if(!show_asteroids)
@@ -406,6 +407,8 @@ Called by add_sensor_profile_penalty if remove_in is used.
 					thecolour = "#FF0000"
 					filterType = showEnemies
 					ship_count ++
+				if(OM.jtag_beaconed)
+					outline_color = "#f700ff"
 			var/thename = (inRange) ? OM.name : "UNKNOWN"
 			var/thefaction = ((OM.faction == "nanotrasen" || OM.faction == "syndicate") && inRange) ? OM.faction : "unaligned" //You runnin with the blues or reds? Obfuscate faction too :)
 			thecolour = (inRange) ? thecolour : "#a66300"
@@ -415,7 +418,7 @@ Called by add_sensor_profile_penalty if remove_in is used.
 			else
 				filterType *= 0.01 //Scale the number down to be an opacity figure for CSS
 			filterType = CLAMP(filterType, 0, 1)
-			blips[++blips.len] = list("x" = OM.x, "y" = OM.y, "colour" = thecolour, "name"=thename, opacity=filterType ,alignment = thefaction, "id"="\ref[OM]") //So now make a 2-d array that TGUI can iterate through. This is just a list within a list.
+			blips[++blips.len] = list("x" = OM.x, "y" = OM.y, "colour" = thecolour, "name"=thename, opacity=filterType ,alignment = thefaction, "id"="\ref[OM]", "outline_color" = outline_color) //So now make a 2-d array that TGUI can iterate through. This is just a list within a list.
 	if(ship_count > last_ship_count) //Play a tone if ship count changes
 		var/delta = ship_count - last_ship_count
 		last_ship_count = ship_count

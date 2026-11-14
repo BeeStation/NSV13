@@ -832,7 +832,14 @@
 		targetAngle = get_angle(src, homing_target)
 	var/angle = closer_angle_difference(Angle, targetAngle)
 	next_homing_process = world.time + homing_delay
-	setAngle(Angle + CLAMP(angle, -homing_turn_speed, homing_turn_speed))
+	//nsv13 - adjusted this to integrate overmap jtagging.
+	if(istype(homing_target, /obj/structure/overmap)) //Can't use isovermap() macro due to being defined later :(
+		var/obj/structure/overmap/overmap_target = homing_target
+		var/effective_turn_speed = overmap_target.jtag_beaconed ? round(homing_turn_speed * 1.5) : homing_turn_speed //major homing amp if JTAG supported.
+		setAngle(Angle + CLAMP(angle, -effective_turn_speed, effective_turn_speed))
+	else
+		setAngle(Angle + CLAMP(angle, -homing_turn_speed, homing_turn_speed))
+	//nsv13 end.
 
 /obj/item/projectile/proc/set_homing_target(atom/A)
 	if(!A || (!isturf(A) && !isturf(A.loc)))
